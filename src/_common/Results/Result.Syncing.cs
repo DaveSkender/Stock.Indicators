@@ -4,6 +4,8 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ResultUtility
 {
+    // TODO: this may be obsolete if Increment handles warmup better, see EMA Increment for example.
+
     // SYNCHRONIZING RESULTS - RESIZE TO MATCH OTHER
     /// <include file='./info.xml' path='info/type[@name="SyncResult"]/*' />
     ///
@@ -11,8 +13,8 @@ public static partial class ResultUtility
         this IEnumerable<TResultA> syncMe,
         IEnumerable<TResultB> toMatch,
         SyncType syncType = SyncType.FullMatch)
-        where TResultA : ISeries
-        where TResultB : ISeries
+        where TResultA : IResult
+        where TResultB : IResult
     {
         // initialize
         List<TResultA> syncMeList = syncMe.ToSortedList();

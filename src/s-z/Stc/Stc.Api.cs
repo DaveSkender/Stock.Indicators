@@ -21,7 +21,7 @@ public static partial class Indicator
         int cyclePeriods = 10,
         int fastPeriods = 23,
         int slowPeriods = 50) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcStc(cyclePeriods, fastPeriods, slowPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

@@ -6,7 +6,7 @@ using Tests.Common;
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
 
-internal sealed class MyQuote : Quote
+internal sealed class MyExtendedQuote : Quote
 {
     public bool MyProperty { get; set; }
     public decimal? MyClose { get; set; }
@@ -19,7 +19,7 @@ internal sealed class MyEma : ResultBase
     public double? Ema { get; set; }
 }
 
-internal sealed class MyGenericQuote : IQuote
+internal sealed class MyCustomQuote : IQuote
 {
     // required base properties
     DateTime ISeries.Date => CloseDate;
@@ -64,7 +64,7 @@ public class PublicClassTests
     public void DerivedQuoteClass()
     {
         // can use a derive Quote class
-        MyQuote myQuote = new()
+        MyExtendedQuote myQuote = new()
         {
             Date = DateTime.Now,
             MyProperty = true
@@ -81,8 +81,8 @@ public class PublicClassTests
 
         // can use a derive Quote class using Linq
 
-        IEnumerable<MyQuote> myHistory = quotes
-            .Select(x => new MyQuote
+        IEnumerable<MyExtendedQuote> myHistory = quotes
+            .Select(x => new MyExtendedQuote
             {
                 Date = x.Date,
                 MyClose = x.Close,
@@ -95,8 +95,8 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteClass()
     {
-        List<MyGenericQuote> myGenericHistory = TestData.GetDefault()
-            .Select(x => new MyGenericQuote
+        List<MyCustomQuote> myGenericHistory = TestData.GetDefault()
+            .Select(x => new MyCustomQuote
             {
                 CloseDate = x.Date,
                 Open = x.Open,
@@ -129,8 +129,8 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteAggregate()
     {
-        List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote
+        List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
+            .Select(x => new MyCustomQuote
             {
                 CloseDate = x.Date,
                 Open = x.Open,
@@ -157,8 +157,8 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteAggregateTimeSpan()
     {
-        List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote
+        List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
+            .Select(x => new MyCustomQuote
             {
                 CloseDate = x.Date,
                 Open = x.Open,

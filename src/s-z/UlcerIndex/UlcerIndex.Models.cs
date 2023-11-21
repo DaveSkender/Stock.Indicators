@@ -8,7 +8,10 @@ public sealed class UlcerIndexResult : ResultBase, IReusableResult
         Date = date;
     }
 
-    public double? UI { get; set; } // ulcer index
+    public double? UlcerIndex { get; set; } // ulcer index
 
-    double? IReusableResult.Value => UI;
+    double IReusableResult.Value => UlcerIndex.Null2NaN();
+
+    [Obsolete("Rename UI to UlcerIndex")]
+    public double? UI => UlcerIndex;
 }

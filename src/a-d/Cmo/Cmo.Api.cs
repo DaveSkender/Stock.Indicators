@@ -17,7 +17,7 @@ public static partial class Indicator
     public static IEnumerable<CmoResult> GetCmo(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcCmo(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

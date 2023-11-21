@@ -14,5 +14,5 @@ public sealed class CorrResult : ResultBase, IReusableResult
     public double? Correlation { get; set; }
     public double? RSquared { get; set; }
 
-    double? IReusableResult.Value => Correlation;
+    double IReusableResult.Value => Correlation.Null2NaN();
 }

@@ -21,7 +21,7 @@ public static partial class Indicator
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcAlma(lookbackPeriods, offset, sigma)
             .SyncIndex(results, SyncType.Prepend);
 

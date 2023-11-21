@@ -13,5 +13,5 @@ public sealed class ObvResult : ResultBase, IReusableResult
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public double? ObvSma { get; set; }
 
-    double? IReusableResult.Value => Obv;
+    double IReusableResult.Value => Obv;
 }

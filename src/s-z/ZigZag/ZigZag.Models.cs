@@ -13,7 +13,7 @@ public sealed class ZigZagResult : ResultBase, IReusableResult
     public decimal? RetraceHigh { get; set; } // zig zag retrace high line
     public decimal? RetraceLow { get; set; } // zig zag retrace low line
 
-    double? IReusableResult.Value => (double?)ZigZag;
+    double IReusableResult.Value => ZigZag.Null2NaN();
 }
 
 internal class ZigZagEval

@@ -46,7 +46,7 @@ public static partial class Indicator
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                r.UI = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
+                r.UlcerIndex = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
             }
         }
 

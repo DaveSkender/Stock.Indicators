@@ -15,5 +15,5 @@ public sealed class AdlResult : ResultBase, IReusableResult
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public double? AdlSma { get; set; }
 
-    double? IReusableResult.Value => Adl;
+    double IReusableResult.Value => Adl;
 }

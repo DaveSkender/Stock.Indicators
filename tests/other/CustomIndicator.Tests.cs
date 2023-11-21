@@ -15,7 +15,7 @@ public sealed class MyResult : ResultBase, IReusableResult
 
     public double? Sma { get; set; }
 
-    double? IReusableResult.Value => Sma;
+    double IReusableResult.Value => Sma.Null2NaN();
 }
 
 public static class CustomIndicator

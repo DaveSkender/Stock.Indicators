@@ -18,7 +18,7 @@ public static partial class ResultUtility
 
         resultsList
             .RemoveAll(match:
-                x => x.Value is null or (double and double.NaN));
+                x => double.IsNaN(x.Value));
 
         return resultsList.ToSortedList();
     }
@@ -26,14 +26,16 @@ public static partial class ResultUtility
     // CONVERT TO TUPLE (default with pruning)
     /// <include file='./info.xml' path='info/type[@name="TupleChain"]/*' />
     ///
+    // TODO: this can be obsolete, see related IReusableResult task
     public static Collection<(DateTime Date, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
         => reusable
-            .ToTuple()
+            .ToTuplePruned()
             .ToCollection();
 
-    internal static List<(DateTime Date, double Value)> ToTuple<TResult>(
+    // TODO: this can be osolete, see related IReusableResult task
+    internal static List<(DateTime Date, double Value)> ToTuplePruned<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
     {
@@ -41,21 +43,22 @@ public static partial class ResultUtility
         List<TResult> reList = reusable.ToList();
 
         // find first non-nulled
-        int first = reList.FindIndex(x => x.Value != null);
+        int first = reList.FindIndex(x => !double.IsNaN(x.Value));
 
         for (int i = first; i < reList.Count; i++)
         {
             IReusableResult? r = reList[i];
-            prices.Add(new(r.Date, r.Value.Null2NaN()));
+            prices.Add(new(r.Date, r.Value));
         }
 
         return prices.OrderBy(x => x.date).ToList();
     }
 
     // CONVERT TO TUPLE with non-nullable NaN value option and no pruning
-    /// <include file='./info.xml' path='info/type[@name="TupleNaN"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="TupleResult"]/*' />
     ///
-    public static Collection<(DateTime Date, double Value)> ToTupleNaN<TResult>(
+    // TODO: rename to ToResultTuple, simply.
+    public static Collection<(DateTime Date, double Value)> ToResultTuple<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
     {
@@ -66,15 +69,15 @@ public static partial class ResultUtility
 
         for (int i = 0; i < length; i++)
         {
-            IReusableResult r = reList[i];
-            results.Add(new(r.Date, r.Value.Null2NaN()));
+            TResult r = reList[i];
+            results.Add(new(r.Date, r.Value));
         }
 
         return results;
     }
 
-    public static (DateTime Date, double Value) ToTupleNaN<TResult>(
-        this TResult reusable)
+    public static (DateTime Date, double Value) ToResultTuple<TResult>(
+        this TResult result)
         where TResult : IReusableResult
-            => new(reusable.Date, reusable.Value.Null2NaN());
+            => new(result.Date, result.Value);
 }

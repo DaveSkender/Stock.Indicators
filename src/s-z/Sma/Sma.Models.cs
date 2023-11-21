@@ -10,7 +10,7 @@ public sealed class SmaResult : ResultBase, IReusableResult
 
     public double? Sma { get; set; }
 
-    double? IReusableResult.Value => Sma;
+    double IReusableResult.Value => Sma.Null2NaN();
 }
 
 [Serializable]
@@ -26,5 +26,5 @@ public sealed class SmaAnalysis : ResultBase, IReusableResult
     public double? Mse { get; set; } // mean square error
     public double? Mape { get; set; } // mean absolute percentage error
 
-    double? IReusableResult.Value => Sma;
+    double IReusableResult.Value => Sma.Null2NaN();
 }

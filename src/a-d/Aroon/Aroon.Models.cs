@@ -12,5 +12,5 @@ public sealed class AroonResult : ResultBase, IReusableResult
     public double? AroonDown { get; set; }
     public double? Oscillator { get; set; }
 
-    double? IReusableResult.Value => Oscillator;
+    double IReusableResult.Value => Oscillator.Null2NaN();
 }

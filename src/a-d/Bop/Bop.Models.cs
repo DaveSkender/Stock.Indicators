@@ -10,5 +10,5 @@ public sealed class BopResult : ResultBase, IReusableResult
 
     public double? Bop { get; set; }
 
-    double? IReusableResult.Value => Bop;
+    double IReusableResult.Value => Bop.Null2NaN();
 }

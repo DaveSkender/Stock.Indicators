@@ -29,10 +29,10 @@ public static partial class Indicator
         int? smaPeriods = null)
     {
         List<(DateTime Date, double Value)> tpListEval
-            = quotesEval.ToTuple();
+            = quotesEval.ToTuplePruned();
 
         List<(DateTime Date, double Value)> tpListBase
-            = quotesBase.ToTuple();
+            = quotesBase.ToTuplePruned();
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods)
             .SyncIndex(quotesEval, SyncType.Prepend);

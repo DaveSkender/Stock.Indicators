@@ -31,12 +31,12 @@ public class EmaStreamTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.CacheAndDeliverQuote(q);
+            provider.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.CacheAndDeliverQuote(q);
+                provider.Add(q);
             }
         }
 
@@ -119,7 +119,7 @@ public class EmaStreamTests : TestBase
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.CacheAndDeliverQuote(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
         // initialize observer
@@ -131,7 +131,7 @@ public class EmaStreamTests : TestBase
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
         {
-            provider.CacheAndDeliverQuote(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
         provider.EndTransmission();
@@ -169,7 +169,7 @@ public class EmaStreamTests : TestBase
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.CacheAndDeliverQuote(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
         // final results
@@ -260,7 +260,7 @@ public class EmaStreamTests : TestBase
 
         for (int i = 0; i <= 20; i++)
         {
-            provider.CacheAndDeliverQuote(quote);
+            provider.Add(quote);
         }
 
         observer.Unsubscribe();

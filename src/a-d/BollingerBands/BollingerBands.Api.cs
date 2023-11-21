@@ -19,7 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods = 20,
         double standardDeviations = 2) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcBollingerBands(lookbackPeriods, standardDeviations)
             .SyncIndex(results, SyncType.Prepend);
 

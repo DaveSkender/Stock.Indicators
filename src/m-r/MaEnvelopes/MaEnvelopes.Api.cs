@@ -21,7 +21,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType)
             .SyncIndex(results, SyncType.Prepend);
 

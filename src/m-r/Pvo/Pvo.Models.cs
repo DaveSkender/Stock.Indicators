@@ -12,5 +12,5 @@ public sealed class PvoResult : ResultBase, IReusableResult
     public double? Signal { get; set; }
     public double? Histogram { get; set; }
 
-    double? IReusableResult.Value => Pvo;
+    double IReusableResult.Value => Pvo.Null2NaN();
 }

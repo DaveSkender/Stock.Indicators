@@ -12,7 +12,7 @@
     <param name="reusable">Indicator results to evaluate.</param>
     <returns>Collection of non-nullable tuple time series of results, without null warmup periods.</returns>
   </type>
-  <type name="TupleNaN">
+  <type name="TupleResult">
     <summary>Converts results into a tuple collection with non-nullable NaN to replace null values. <para>
       See <see
           href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">

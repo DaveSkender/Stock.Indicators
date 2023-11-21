@@ -17,7 +17,7 @@ public static partial class Indicator
     public static IEnumerable<WmaResult> GetWma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcWma(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

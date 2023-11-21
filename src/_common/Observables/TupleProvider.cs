@@ -102,7 +102,7 @@ public class TupleProvider
         Act act, TResult result)
         where TResult : IReusableResult
         => CacheAndDeliverTuple(
-            (act, result.Date, result.Value.Null2NaN()));
+            (act, result.Date, result.Value));
 
     // cache and deliver
     internal Act CacheAndDeliverTuple(

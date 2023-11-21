@@ -49,7 +49,7 @@ public class Results : TestBase
 
         // default chainable NaN with pruning (internal)
         List<(DateTime Date, double Value)> chainableTuple = baseline
-            .ToTuple();
+            .ToTuplePruned();
 
         Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
         Assert.AreEqual(2, chainableTuple.Count(x => double.IsNaN(x.Value)));
@@ -65,7 +65,7 @@ public class Results : TestBase
 
         // with NaN option, no pruning
         Collection<(DateTime Date, double Value)> nanResults = baseline
-            .ToTupleNaN();
+            .ToResultTuple();
 
         Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));
         Assert.AreEqual(9, nanResults.Count);

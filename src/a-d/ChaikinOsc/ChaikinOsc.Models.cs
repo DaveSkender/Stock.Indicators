@@ -13,5 +13,5 @@ public sealed class ChaikinOscResult : ResultBase, IReusableResult
     public double? Adl { get; set; }
     public double? Oscillator { get; set; }
 
-    double? IReusableResult.Value => Oscillator;
+    double IReusableResult.Value => Oscillator.Null2NaN();
 }

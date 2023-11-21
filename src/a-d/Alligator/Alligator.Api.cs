@@ -33,7 +33,7 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,

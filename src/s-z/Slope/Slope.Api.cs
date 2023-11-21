@@ -17,7 +17,7 @@ public static partial class Indicator
     public static IEnumerable<SlopeResult> GetSlope(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcSlope(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

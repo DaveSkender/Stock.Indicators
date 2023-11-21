@@ -10,5 +10,5 @@ public sealed class DynamicResult : ResultBase, IReusableResult
 
     public double? Dynamic { get; set; }
 
-    double? IReusableResult.Value => Dynamic;
+    double IReusableResult.Value => Dynamic.Null2NaN();
 }

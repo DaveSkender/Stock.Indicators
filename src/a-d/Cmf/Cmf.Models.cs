@@ -12,5 +12,5 @@ public sealed class CmfResult : ResultBase, IReusableResult
     public double? MoneyFlowVolume { get; set; }
     public double? Cmf { get; set; }
 
-    double? IReusableResult.Value => Cmf;
+    double IReusableResult.Value => Cmf.Null2NaN();
 }

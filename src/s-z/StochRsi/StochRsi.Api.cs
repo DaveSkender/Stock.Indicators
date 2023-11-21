@@ -27,7 +27,7 @@ public static partial class Indicator
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcStochRsi(
                 rsiPeriods,
                 stochPeriods,

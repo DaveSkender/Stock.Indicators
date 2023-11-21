@@ -19,7 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int fastPeriods = 5,
         int slowPeriods = 34) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcAwesome(fastPeriods, slowPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

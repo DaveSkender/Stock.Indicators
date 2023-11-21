@@ -13,5 +13,5 @@ public sealed class AdxResult : ResultBase, IReusableResult
     public double? Adx { get; set; }
     public double? Adxr { get; set; }
 
-    double? IReusableResult.Value => Adx;
+    double IReusableResult.Value => Adx.Null2NaN();
 }

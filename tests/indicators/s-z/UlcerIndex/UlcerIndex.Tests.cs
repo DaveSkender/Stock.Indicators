@@ -16,11 +16,11 @@ public class UlcerIndexTests : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.UI != null));
+        Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
 
         // sample value
         UlcerIndexResult r = results[501];
-        Assert.AreEqual(5.7255, r.UI.Round(4));
+        Assert.AreEqual(5.7255, r.UlcerIndex.Round(4));
     }
 
     [TestMethod]
@@ -32,7 +32,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.UI != null));
+        Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
     }
 
     [TestMethod]
@@ -43,7 +43,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UlcerIndex is double and double.NaN));
     }
 
     [TestMethod]
@@ -55,7 +55,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.UI != null));
+        Assert.AreEqual(488, results.Count(x => x.UlcerIndex != null));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UlcerIndex is double and double.NaN));
     }
 
     [TestMethod]
@@ -109,7 +109,7 @@ public class UlcerIndexTests : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         UlcerIndexResult last = results.LastOrDefault();
-        Assert.AreEqual(5.7255, last.UI.Round(4));
+        Assert.AreEqual(5.7255, last.UlcerIndex.Round(4));
     }
 
     // bad lookback period

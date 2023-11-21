@@ -17,7 +17,7 @@ public static partial class Indicator
     public static IEnumerable<FisherTransformResult> GetFisherTransform(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcFisherTransform(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

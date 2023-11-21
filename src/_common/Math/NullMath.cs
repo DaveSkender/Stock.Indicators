@@ -32,6 +32,11 @@ public static class NullMath
         ? double.NaN
         : (double)value;
 
+    public static double Null2NaN(this decimal? value)
+        => (value is null)
+        ? double.NaN
+        : (double)value;
+
     public static double? NaN2Null(this double? value)
         => (value is double and double.NaN)
         ? null

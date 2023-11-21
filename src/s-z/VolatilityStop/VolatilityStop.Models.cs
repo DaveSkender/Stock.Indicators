@@ -15,5 +15,5 @@ public sealed class VolatilityStopResult : ResultBase, IReusableResult
     public double? UpperBand { get; set; }
     public double? LowerBand { get; set; }
 
-    double? IReusableResult.Value => Sar;
+    double IReusableResult.Value => Sar.Null2NaN();
 }

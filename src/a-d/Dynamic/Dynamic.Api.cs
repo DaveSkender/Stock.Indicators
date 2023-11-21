@@ -19,7 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods,
         double kFactor = 0.6) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcDynamic(lookbackPeriods, kFactor)
             .SyncIndex(results, SyncType.Prepend);
 

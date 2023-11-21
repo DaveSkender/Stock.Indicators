@@ -17,7 +17,7 @@ public static partial class Indicator
     public static IEnumerable<HmaResult> GetHma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcHma(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
 

@@ -19,7 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods,
         int? signalPeriods = null) => results
-            .ToTuple()
+            .ToTuplePruned()
             .CalcTrix(lookbackPeriods, signalPeriods)
             .SyncIndex(results, SyncType.Prepend);
 
