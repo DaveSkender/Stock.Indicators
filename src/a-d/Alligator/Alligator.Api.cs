@@ -33,17 +33,17 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,
                 teethPeriods,
                 teethOffset,
                 lipsPeriods,
-                lipsOffset)
-            .SyncIndex(results, SyncType.Prepend);
+                lipsOffset);
 
     // SERIES, from TUPLE
+    // TODO: is this variant still needed, or just an extra option (all indicators)
     public static IEnumerable<AlligatorResult> GetAlligator(
         this IEnumerable<(DateTime, double)> priceTuples,
         int jawPeriods = 13,

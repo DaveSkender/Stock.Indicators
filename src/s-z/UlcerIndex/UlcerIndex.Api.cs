@@ -17,9 +17,9 @@ public static partial class Indicator
     public static IEnumerable<UlcerIndexResult> GetUlcerIndex(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcUlcerIndex(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<UlcerIndexResult> GetUlcerIndex(

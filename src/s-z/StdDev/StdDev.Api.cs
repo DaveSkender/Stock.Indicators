@@ -19,9 +19,9 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods,
         int? smaPeriods = null) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcStdDev(lookbackPeriods, smaPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<StdDevResult> GetStdDev(

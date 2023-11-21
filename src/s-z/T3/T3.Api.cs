@@ -19,9 +19,9 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcT3(lookbackPeriods, volumeFactor)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<T3Result> GetT3(

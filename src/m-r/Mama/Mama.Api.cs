@@ -19,9 +19,9 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         double fastLimit = 0.5,
         double slowLimit = 0.05) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcMama(fastLimit, slowLimit)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<MamaResult> GetMama(

@@ -34,7 +34,7 @@ public static class CustomIndicator
         int lookbackPeriods) => results
             .ToTupleChainable()
             .CalcIndicator(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<MyResult> GetIndicator(

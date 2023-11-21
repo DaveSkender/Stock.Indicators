@@ -86,18 +86,6 @@ public class AlligatorTests : TestBase
     }
 
     [TestMethod]
-    public void Sync()
-    {
-        List<AlligatorResult> results = quotes
-            .GetSma(3)
-            .GetAlligator()
-            .ToList();
-
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Jaw != null));
-    }
-
-    [TestMethod]
     public void BadData()
     {
         List<AlligatorResult> r = badQuotes

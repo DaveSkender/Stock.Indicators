@@ -28,13 +28,12 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         List<(DateTime Date, double Value)> tpListA
-            = quotesA.ToTuplePruned();
+            = quotesA.ToTupleResult();
 
         List<(DateTime Date, double Value)> tpListB
-            = quotesB.ToTuplePruned();
+            = quotesB.ToTupleResult();
 
-        return CalcCorrelation(tpListA, tpListB, lookbackPeriods)
-            .SyncIndex(quotesA, SyncType.Prepend);
+        return CalcCorrelation(tpListA, tpListB, lookbackPeriods);
     }
 
     // SERIES, from TUPLE

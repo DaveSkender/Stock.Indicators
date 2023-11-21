@@ -17,9 +17,9 @@ public static partial class Indicator
     public static IEnumerable<SmmaResult> GetSmma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcSmma(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<SmmaResult> GetSmma(

@@ -19,9 +19,8 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods = 20,
         double standardDeviations = 2) => results
-            .ToTuplePruned()
-            .CalcBollingerBands(lookbackPeriods, standardDeviations)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcBollingerBands(lookbackPeriods, standardDeviations);
 
     // SERIES, from TUPLE
     public static IEnumerable<BollingerBandsResult> GetBollingerBands(

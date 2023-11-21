@@ -23,11 +23,11 @@ public static partial class Indicator
     // SERIES, from CHAIN
     public static IEnumerable<GatorResult> GetGator(
         this IEnumerable<IReusableResult> results) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .GetAlligator()
             .ToList()
             .CalcGator()
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<GatorResult> GetGator(

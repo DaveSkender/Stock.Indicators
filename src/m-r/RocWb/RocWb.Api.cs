@@ -21,9 +21,9 @@ public static partial class Indicator
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcRocWb(lookbackPeriods, emaPeriods, stdDevPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<RocWbResult> GetRocWb(

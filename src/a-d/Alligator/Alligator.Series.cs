@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (SERIES)
@@ -44,6 +46,7 @@ public static partial class Indicator
 
                 // calculate alligator's jaw
                 // first value: calculate SMA
+                // TODO: this should self heal
                 if (i + 1 == jawPeriods)
                 {
                     double sumMedianPrice = 0;
@@ -52,7 +55,7 @@ public static partial class Indicator
                         sumMedianPrice += pr[p];
                     }
 
-                    jawResult.Jaw = sumMedianPrice / jawPeriods;
+                    jawResult.Jaw = (sumMedianPrice / jawPeriods);
                 }
 
                 // remaining values: SMMA

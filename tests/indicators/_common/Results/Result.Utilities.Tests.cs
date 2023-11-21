@@ -1,6 +1,6 @@
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
+using System.Collections.ObjectModel;
 
 namespace Tests.Common;
 
@@ -49,7 +49,7 @@ public class Results : TestBase
 
         // default chainable NaN with pruning (internal)
         List<(DateTime Date, double Value)> chainableTuple = baseline
-            .ToTuplePruned();
+            .ToTupleResult();
 
         Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
         Assert.AreEqual(2, chainableTuple.Count(x => double.IsNaN(x.Value)));
@@ -64,8 +64,8 @@ public class Results : TestBase
         Assert.AreEqual(2, cnaNresults.Count(x => double.IsNaN(x.Value)));
 
         // with NaN option, no pruning
-        Collection<(DateTime Date, double Value)> nanResults = baseline
-            .ToResultTuple();
+        List<(DateTime Date, double Value)> nanResults = baseline
+            .ToTupleResult();
 
         Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));
         Assert.AreEqual(9, nanResults.Count);

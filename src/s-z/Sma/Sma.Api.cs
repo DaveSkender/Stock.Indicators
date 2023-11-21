@@ -18,9 +18,9 @@ public static partial class Indicator
     public static IEnumerable<SmaResult> GetSma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcSma(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<SmaResult> GetSma(
@@ -65,9 +65,9 @@ public static partial class Indicator
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcSmaAnalysis(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // ANALYSIS, from TUPLE
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(

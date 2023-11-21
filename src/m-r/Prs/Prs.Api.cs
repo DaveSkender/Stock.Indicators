@@ -29,13 +29,12 @@ public static partial class Indicator
         int? smaPeriods = null)
     {
         List<(DateTime Date, double Value)> tpListEval
-            = quotesEval.ToTuplePruned();
+            = quotesEval.ToTupleResult();
 
         List<(DateTime Date, double Value)> tpListBase
-            = quotesBase.ToTuplePruned();
+            = quotesBase.ToTupleResult();
 
-        return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods)
-            .SyncIndex(quotesEval, SyncType.Prepend);
+        return CalcPrs(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
     }
 
     // SERIES, from TUPLE

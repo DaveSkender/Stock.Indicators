@@ -19,9 +19,9 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int? lookbackPeriods = 20,
         double stdDeviations = 2) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcStdDevChannels(lookbackPeriods, stdDeviations)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<StdDevChannelsResult> GetStdDevChannels(

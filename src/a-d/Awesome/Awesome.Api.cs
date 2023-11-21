@@ -19,9 +19,8 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int fastPeriods = 5,
         int slowPeriods = 34) => results
-            .ToTuplePruned()
-            .CalcAwesome(fastPeriods, slowPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcAwesome(fastPeriods, slowPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<AwesomeResult> GetAwesome(

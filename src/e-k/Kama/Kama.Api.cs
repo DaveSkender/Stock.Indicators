@@ -20,9 +20,9 @@ public static partial class Indicator
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcKama(erPeriods, fastPeriods, slowPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<KamaResult> GetKama(

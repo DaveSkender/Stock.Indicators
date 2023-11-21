@@ -17,9 +17,9 @@ public static partial class Indicator
     public static IEnumerable<RsiResult> GetRsi(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcRsi(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<RsiResult> GetRsi(

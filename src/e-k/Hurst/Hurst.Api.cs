@@ -16,9 +16,9 @@ public static partial class Indicator
     public static IEnumerable<HurstResult> GetHurst(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuplePruned()
+            .ToTupleResult()
             .CalcHurst(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+;
 
     // SERIES, from TUPLE
     public static IEnumerable<HurstResult> GetHurst(

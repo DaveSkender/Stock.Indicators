@@ -31,13 +31,12 @@ public static partial class Indicator
         BetaType type = BetaType.Standard)
     {
         List<(DateTime Date, double Value)> tpListEval
-            = evalResults.ToTuplePruned();
+            = evalResults.ToTupleResult();
 
         List<(DateTime Date, double Value)> tpListMrkt
-            = mrktResults.ToTuplePruned();
+            = mrktResults.ToTupleResult();
 
-        return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type)
-            .SyncIndex(evalResults, SyncType.Prepend);
+        return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
     }
 
     // SERIES, from TUPLE

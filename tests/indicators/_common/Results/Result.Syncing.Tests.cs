@@ -36,7 +36,7 @@ public class Syncing : TestBase
         ];
 
         // prepend option
-        List<EmaResult> prepend = eval.SyncIndex(baseline, SyncType.Prepend).ToList();
+        List<EmaResult> prepend = eval.SyncSeries(baseline, SyncType.Prepend).ToList();
 
         Assert.AreEqual(9, prepend.Count);
         Assert.AreEqual(3, prepend.Count(x => x.Ema is null));
@@ -50,7 +50,7 @@ public class Syncing : TestBase
         }
 
         // append option
-        List<EmaResult> append = eval.SyncIndex(baseline, SyncType.AppendOnly).ToList();
+        List<EmaResult> append = eval.SyncSeries(baseline, SyncType.AppendOnly).ToList();
 
         Assert.AreEqual(10, append.Count);
         Assert.AreEqual(4, append.Count(x => x.Ema is null));
@@ -64,7 +64,7 @@ public class Syncing : TestBase
         }
 
         // remove option
-        List<EmaResult> remove = eval.SyncIndex(baseline, SyncType.RemoveOnly).ToList();
+        List<EmaResult> remove = eval.SyncSeries(baseline, SyncType.RemoveOnly).ToList();
 
         Assert.AreEqual(6, remove.Count);
         Assert.AreEqual(0, remove.Count(x => x.Ema is null));
@@ -72,7 +72,7 @@ public class Syncing : TestBase
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         // full option
-        List<EmaResult> fullmatch = eval.SyncIndex(baseline, SyncType.FullMatch).ToList();
+        List<EmaResult> fullmatch = eval.SyncSeries(baseline, SyncType.FullMatch).ToList();
 
         Assert.AreEqual(9, fullmatch.Count);
         Assert.AreEqual(3, fullmatch.Count(x => x.Ema is null));
@@ -91,14 +91,14 @@ public class Syncing : TestBase
         List<SmaResult> noBaseline = [];
         List<EmaResult> noEval = [];
 
-        IEnumerable<EmaResult> noBaseResults = eval.SyncIndex(noBaseline);
-        IEnumerable<EmaResult> noEvalResults = noEval.SyncIndex(baseline);
+        IEnumerable<EmaResult> noBaseResults = eval.SyncSeries(noBaseline);
+        IEnumerable<EmaResult> noEvalResults = noEval.SyncSeries(baseline);
 
         Assert.IsFalse(noBaseResults.Any());
         Assert.IsFalse(noEvalResults.Any());
 
         // bad sync type
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => eval.SyncIndex(baseline, (SyncType)int.MaxValue));
+            => eval.SyncSeries(baseline, (SyncType)int.MaxValue));
     }
 }

@@ -12,17 +12,6 @@
     <param name="reusable">Indicator results to evaluate.</param>
     <returns>Collection of non-nullable tuple time series of results, without null warmup periods.</returns>
   </type>
-  <type name="TupleResult">
-    <summary>Converts results into a tuple collection with non-nullable NaN to replace null values. <para>
-      See <see
-          href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-      documentation</see> for more information. </para>
-    </summary>
-    <typeparam name="TResult">Any reusable result type.</typeparam>
-    <param name="reusable">Indicator results to evaluate.</param>
-    <returns>Collection of tuple time series of
-      results with specified handline of nulls, without pruning.</returns>
-  </type>
   <type name="Prune">
     <summary> Removes the recommended quantity of results from the beginning of the results list
       using a reverse-engineering approach. <para> See <see
@@ -54,19 +43,19 @@
     <returns>Time series of indicator results,
       condensed.</returns>
   </type>
-  <type name="SyncResult">
+  <type name="SyncSeries">
     <summary>
-      Forces indicator results to have the same date-based records as another result baseline.
+      Forces a date series collection to have the same date-based records as another matched baseline.
       <para>
         This utility is undocumented.
       </para>
     </summary>
-    <typeparam name="TResultA">Any indicator result series type to be transformed.</typeparam>
-    <typeparam name="TResultB">Any indicator result series type to be matched.</typeparam>
-    <param name="syncMe">The indicator result series to be modified.</param>
-    <param name="toMatch">The indicator result series to compare for matching.</param>
+    <typeparam name="TSeriesA">Any series type to be transformed.</typeparam>
+    <typeparam name="TResultB">Any series type to be matched.</typeparam>
+    <param name="syncMe">The series to be modified.</param>
+    <param name="toMatch">The series to compare for matching.</param>
     <param name="syncType">Synchronization behavior  See options in SyncType enum.</param>
-    <returns>Indicator result series, synchronized to a comparator match.</returns>
+    <returns>Original date-based series, synchronized to a comparator match.</returns>
     <exception cref="ArgumentOutOfRangeException">
       Invalid parameter value provided.
     </exception>

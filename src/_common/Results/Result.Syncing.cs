@@ -4,25 +4,26 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ResultUtility
 {
-    // TODO: this may be obsolete if Increment handles warmup better, see EMA Increment for example.
+    // TODO: this may be obsolete, was renamed and kept, but possibly superfluous
+    // in any case, this isn't uniquly a ResultUtility anymore
 
     // SYNCHRONIZING RESULTS - RESIZE TO MATCH OTHER
     /// <include file='./info.xml' path='info/type[@name="SyncResult"]/*' />
     ///
-    public static IEnumerable<TResultA> SyncIndex<TResultA, TResultB>(
-        this IEnumerable<TResultA> syncMe,
-        IEnumerable<TResultB> toMatch,
+    public static IEnumerable<TSeriesA> SyncSeries<TSeriesA, TSeriesB>(
+        this IEnumerable<TSeriesA> syncMe,
+        IEnumerable<TSeriesB> toMatch,
         SyncType syncType = SyncType.FullMatch)
-        where TResultA : IResult
-        where TResultB : IResult
+        where TSeriesA : ISeries
+        where TSeriesB : ISeries
     {
         // initialize
-        List<TResultA> syncMeList = syncMe.ToSortedList();
-        List<TResultB> toMatchList = toMatch.ToSortedList();
+        List<TSeriesA> syncMeList = syncMe.ToSortedList();
+        List<TSeriesB> toMatchList = toMatch.ToSortedList();
 
         if (syncMeList.Count == 0 || toMatchList.Count == 0)
         {
-            return new List<TResultA>();
+            return new List<TSeriesA>();
         }
 
         bool prepend = false;
@@ -56,16 +57,16 @@ public static partial class ResultUtility
         // add plugs for missing values
         if (prepend || append)
         {
-            List<TResultA> toAppend = [];
+            List<TSeriesA> toAppend = [];
 
             for (int i = 0; i < toMatchList.Count; i++)
             {
-                TResultB? m = toMatchList[i];
-                TResultA? r = syncMeList.Find(m.Date);
+                TSeriesB? m = toMatchList[i];
+                TSeriesA? r = syncMeList.Find(m.Date);
 
                 if (r is null)
                 {
-                    TResultA? n = (TResultA?)Activator.CreateInstance(type, m.Date);
+                    TSeriesA? n = (TSeriesA?)Activator.CreateInstance(type, m.Date);
                     if (n != null)
                     {
                         toAppend.Add(n);
@@ -83,12 +84,12 @@ public static partial class ResultUtility
         // remove unmatched results
         if (remove)
         {
-            List<TResultA> toRemove = [];
+            List<TSeriesA> toRemove = [];
 
             for (int i = 0; i < syncMeList.Count; i++)
             {
-                TResultA? r = syncMeList[i];
-                TResultB? m = toMatchList.Find(r.Date);
+                TSeriesA? r = syncMeList[i];
+                TSeriesB? m = toMatchList.Find(r.Date);
 
                 if (m is null)
                 {
