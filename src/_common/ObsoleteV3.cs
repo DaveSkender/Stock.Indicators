@@ -38,4 +38,32 @@ public static partial class Indicator
 
         return results;
     }
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    public static IEnumerable<ObvResult> GetObv<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        int smaPeriods)
+        where TQuote : IQuote
+    {
+
+        List<ObvResult> results = quotes
+            .ToQuoteD()
+            .CalcObv();
+
+        // calculate moving average
+        for (int i = smaPeriods - 1; i < results.Count; i++)
+        {
+            ObvResult r = results[i];
+
+            double? sumSma = 0;
+            for (int p = i + 1 - smaPeriods; p <= i; p++)
+            {
+                sumSma += results[p].Obv;
+            }
+
+            r.ObvSma = sumSma / smaPeriods;
+        }
+        return results;
+    }
 }
