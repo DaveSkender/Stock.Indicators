@@ -187,9 +187,6 @@ public class IndicatorsStatic
     public object GetObv() => q.GetObv();
 
     [Benchmark]
-    public object GetObvWithSma() => q.GetObv(14);
-
-    [Benchmark]
     public object GetParabolicSar() => q.GetParabolicSar();
 
     [Benchmark]
