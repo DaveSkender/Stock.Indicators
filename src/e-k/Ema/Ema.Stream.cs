@@ -37,7 +37,8 @@ public partial class Ema : TupleInTupleOut
     // METHODS
 
     // handle quote arrival
-    public override void OnNext((Act, DateTime, double) value) => Increment(value);
+    public override void OnNext((Act, DateTime, double) value)
+        => Increment(value);
 
     // initialize and preload existing quote cache
     private void Initialize(int lookbackPeriods)

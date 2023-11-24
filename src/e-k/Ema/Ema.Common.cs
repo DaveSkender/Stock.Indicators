@@ -6,18 +6,6 @@ namespace Skender.Stock.Indicators;
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Ema
 {
-    // parameter validation
-    internal static void Validate(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for EMA.");
-        }
-    }
-
     // INCREMENT CALCULATIONS
 
     /// <include file='./info.xml' path='info/type[@name="increment-k"]/*' />
@@ -132,5 +120,17 @@ public partial class Ema
 
         // i == -1 when source value not found
         throw new InvalidOperationException("Basis not found.");
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for EMA.");
+        }
     }
 }

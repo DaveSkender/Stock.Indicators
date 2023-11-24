@@ -73,6 +73,8 @@ public static partial class Indicator
             {
                 vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
+
+            // TODO: update healing, without requiring specific indexing
             else if (i == fastPeriods + 1)
             {
                 double sum = 0;
@@ -89,6 +91,7 @@ public static partial class Indicator
             {
                 vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
+            // TODO: update healing, without requiring specific indexing
             else if (i == slowPeriods + 1)
             {
                 double sum = 0;
@@ -111,6 +114,7 @@ public static partial class Indicator
                     r.Signal = (r.Oscillator * kSignal)
                         + (results[i - 1].Signal * (1 - kSignal));
                 }
+                // TODO: update healing, without requiring specific indexing
                 else if (i == slowPeriods + signalPeriods)
                 {
                     double? sum = 0;

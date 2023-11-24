@@ -45,6 +45,7 @@ public static partial class Indicator
             }
 
             // initialization period
+            // TODO: update healing, without requiring specific indexing
             else
             {
                 sumRawFI += rawFI;

@@ -64,7 +64,8 @@ public static partial class Indicator
                 double hl = hH - lL;
 
                 // initialize last EMA values
-                if (i + 1 == lookbackPeriods)
+                // TODO: update healing, without requiring specific indexing
+                if (i == lookbackPeriods - 1)
                 {
                     lastSmEma1 = sm;
                     lastSmEma2 = lastSmEma1;
@@ -85,7 +86,8 @@ public static partial class Indicator
                 r.Smi = smi;
 
                 // initialize signal line
-                if (i + 1 == lookbackPeriods)
+                // TODO: update healing, without requiring specific indexing
+                if (i == lookbackPeriods - 1)
                 {
                     lastSignal = smi;
                 }

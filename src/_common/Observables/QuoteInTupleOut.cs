@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Skender.Stock.Indicators;
 
 // OBSERVE QUOTE SEND TUPLE (BOILERPLATE)
@@ -28,12 +26,10 @@ public abstract class QuoteInTupleOut<TQuote> : TupleProvider,
             ? QuoteSupplier.Subscribe(this)
             : throw new ArgumentNullException(nameof(QuoteSupplier));
 
-    [ExcludeFromCodeCoverage]
+    // TODO: add generic TResult hander, without override
     public virtual void OnNext((Act act, TQuote quote) value)
     {
         // » handle new quote with override in observer
-
-        // TODO: add generic TResult hander, without override
     }
 
     public virtual void OnCompleted() => Unsubscribe();

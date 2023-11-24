@@ -50,6 +50,8 @@ public static partial class Indicator
                 r.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
+
+            // TODO: update healing, without requiring specific indexing
             else if (i == lookbackPeriods)
             {
                 // initialize ATR

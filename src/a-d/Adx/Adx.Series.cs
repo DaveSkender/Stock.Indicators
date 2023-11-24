@@ -60,7 +60,6 @@ public static partial class Indicator
             prevClose = q.Close;
 
             // initialization period
-            // TODO: update healing, without requiring specific indexing
             if (i <= lookbackPeriods)
             {
                 sumTr += tr;
@@ -79,6 +78,7 @@ public static partial class Indicator
             double pdm;
             double mdm;
 
+            // TODO: update healing, without requiring specific indexing
             if (i == lookbackPeriods)
             {
                 trs = sumTr;
@@ -138,6 +138,7 @@ public static partial class Indicator
             }
 
             // ADX initialization period
+            // TODO: update healing, without requiring specific indexing
             else
             {
                 sumDx += dx;

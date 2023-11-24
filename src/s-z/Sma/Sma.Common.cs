@@ -6,18 +6,6 @@ namespace Skender.Stock.Indicators;
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
 public partial class Sma
 {
-    // parameter validation
-    internal static void Validate(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMA.");
-        }
-    }
-
     // INCREMENT CALCULATIONS
 
     /// <include file='./info.xml' path='info/type[@name="increment-array"]/*' />
@@ -126,6 +114,33 @@ public partial class Sma
         return r;
     }
 
+    private double Increment(DateTime newDate)
+    {
+        int i = TupleSupplier.ProtectedTuples
+            .FindIndex(x => x.Date == newDate);
+
+        // normal
+        if (i >= LookbackPeriods - 1)
+        {
+            double sum = 0;
+            for (int w = i - LookbackPeriods + 1; w <= i; w++)
+            {
+                sum += TupleSupplier.ProtectedTuples[w].Value;
+            }
+
+            return sum / LookbackPeriods;
+        }
+
+        // warmup periods
+        if (i >= 0)
+        {
+            return double.NaN;
+        }
+
+        // i == -1 when source value not found
+        throw new InvalidOperationException("Basis not found.");
+    }
+
     // TODO: refactor these as TResult to TupleProvider?
     // at a minimum, must mirror there.
     private SmaResult? GetOld(DateTime date)
@@ -152,30 +167,15 @@ public partial class Sma
 
     private void ResetHistory(int index) => throw new NotImplementedException();
 
-    private double Increment(DateTime newDate)
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
     {
-        int i = TupleSupplier.ProtectedTuples
-            .FindIndex(x => x.Date == newDate);
-
-        // normal
-        if (i >= LookbackPeriods - 1)
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
         {
-            double sum = 0;
-            for (int w = i - LookbackPeriods + 1; w <= i; w++)
-            {
-                sum += TupleSupplier.ProtectedTuples[w].Value;
-            }
-
-            return sum / LookbackPeriods;
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for SMA.");
         }
-
-        // warmup periods
-        if (i >= 0)
-        {
-            return double.NaN;
-        }
-
-        // i == -1 when source value not found
-        throw new InvalidOperationException("Basis not found.");
     }
 }

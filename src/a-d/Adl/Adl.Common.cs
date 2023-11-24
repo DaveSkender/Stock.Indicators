@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adl/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public partial class Adl
+public static class Adl
 {
     // increment calculation
     /// <include file='./info.xml' path='info/type[@name="increment"]/*' />

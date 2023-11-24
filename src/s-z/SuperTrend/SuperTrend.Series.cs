@@ -39,6 +39,7 @@ public static partial class Indicator
                 double? lowerEval = mid - (multiplier * atr);
 
                 // initial values
+                // TODO: update healing, without requiring specific indexing
                 if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= mid;

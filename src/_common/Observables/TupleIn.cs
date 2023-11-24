@@ -1,11 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Skender.Stock.Indicators;
 
 // OBSERVER of TUPLES (BOILERPLATE)
 
 public abstract class TupleObserver
-    : IObserver<(Act act, DateTime Date, double Value)>
+    : IObserver<(Act, DateTime, double)>
 {
     // fields
     private IDisposable? unsubscriber;
@@ -31,15 +29,8 @@ public abstract class TupleObserver
 
     public virtual void OnError(Exception error) => throw error;
 
-    [ExcludeFromCodeCoverage]
-    public virtual void OnNext((DateTime Date, double Value) value)
-    {
-        // » overrided with custom handler in instantiated class
-
-        // TODO: add generic TResult hander, without override
-
-    }
+    // TODO: add generic TResult hander, without override
+    public virtual void OnNext((Act, DateTime, double) value) => throw new NotImplementedException();
 
     public virtual void Unsubscribe() => unsubscriber?.Dispose();
-    public void OnNext((Act act, DateTime Date, double Value) value) => throw new NotImplementedException();
 }

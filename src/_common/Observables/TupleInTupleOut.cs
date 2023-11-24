@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Skender.Stock.Indicators;
 
 // TUPLE PROVIDER and OBSERVER (BOILERPLATE)
@@ -31,12 +29,10 @@ public abstract class TupleInTupleOut : TupleProvider,
 
     public virtual void OnError(Exception error) => throw error;
 
-    [ExcludeFromCodeCoverage]
+    // TODO: add generic TResult hander, without override
     public virtual void OnNext((Act, DateTime, double) value)
     {
-        // » overrided with custom handler in instantiated class
-
-        // TODO: add generic TResult hander, without override
+        // » handle new quote with override in observer
     }
 
     public virtual void Unsubscribe() => unsubscriber?.Dispose();

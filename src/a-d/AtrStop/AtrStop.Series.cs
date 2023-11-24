@@ -52,6 +52,7 @@ public static partial class Indicator
                 }
 
                 // initial values
+                // TODO: update healing, without requiring specific indexing
                 if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= p.Close;
