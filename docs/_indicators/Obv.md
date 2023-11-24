@@ -35,7 +35,7 @@ IEnumerable<ObvResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The first period OBV will have `0` value since there's not enough data to calculate.
+- The first period OBV will have a `0` value since there's not enough data to calculate.
 
 ### ObvResult
 

@@ -18,10 +18,6 @@ layout: indicator
 // usage
 IEnumerable<PrsResult> results =
   quotesEval.GetPrs(quotesBase);
-
-// usage with optional lookback period and SMA of PRS (shown above)
-IEnumerable<PrsResult> results =
-  quotesEval.GetPrs(quotesBase, lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
@@ -29,8 +25,6 @@ IEnumerable<PrsResult> results =
 **`quotesBase`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
 
 **`lookbackPeriods`** _`int`_ - Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 
 ### Historical quotes requirements
 
@@ -47,15 +41,13 @@ IEnumerable<PrsResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The `N` periods will have `null` values for `PrsPercent` and the first `S-1` periods will have `null` values for `Sma` since there's not enough data to calculate.
+- The `N` periods will have `null` values for `PrsPercent` since there's not enough data to calculate.
 
 ### PrResult
 
 **`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 
 **`Prs`** _`double`_ - Price Relative Strength compares `Eval` to `Base` histories
-
-**`PrsSma`** _`double`_ - Moving Average (SMA) of PRS over `S` periods
 
 **`PrsPercent`** _`double`_ - Percent change difference between `Eval` and `Base` over `N` periods
 

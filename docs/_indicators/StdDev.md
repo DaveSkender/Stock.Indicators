@@ -28,8 +28,6 @@ IEnumerable<StdDevResult> results =
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 1 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
-**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of `StdDev`.  Must be greater than 0, if specified.
-
 ### Historical quotes requirements
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
@@ -56,8 +54,6 @@ IEnumerable<StdDevResult>
 **`Mean`** _`double`_ - Mean value of price
 
 **`ZScore`** _`double`_ - Z-Score of current price (number of standard deviations from mean)
-
-**`StdDevSma`** _`double`_ - Moving average (SMA) of `StdDev` based on `smaPeriods` periods, if specified
 
 ### Utilities
 
