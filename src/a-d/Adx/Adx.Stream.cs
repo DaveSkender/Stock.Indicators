@@ -4,33 +4,38 @@ namespace Skender.Stock.Indicators;
 
 public partial class Adx
 {
-    // constructor
-    public Adx(
-        int lookbackPeriods)
+    // TBD: constructor
+    public Adx()
     {
-        ProtectedResults = [];
-        LookbackPeriods = lookbackPeriods;
+        Initialize();
     }
 
-    // PROPERTIES
+    // TBD: PROPERTIES
 
-    public IEnumerable<AdxResult> Results => ProtectedResults;
-    internal List<AdxResult> ProtectedResults { get; set; }
+    // STATIC METHODS
 
-    // configuration
-    private int LookbackPeriods { get; set; }
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for ADX.");
+        }
+    }
 
-    // carryover values
-    private double PrevHigh { get; set; }
-    private double PrevLow { get; set; }
-    private double PrevClose { get; set; }
+    // TBD: increment  calculation
+    internal static double Increment() => throw new NotImplementedException();
 
-    private double PrevTrs { get; set; }
-    private double PrevPdm { get; set; }
-    private double PrevMdm { get; set; }
-    private double PrevAdx { get; set; }
+    // NON-STATIC METHODS
 
-    // warmup values
-    private double SumTr { get; set; }
-    private double SumDx { get; set; }
+    // handle quote arrival
+    public virtual void OnNext((DateTime Date, double Value) value)
+    {
+    }
+
+    // TBD: initialize with existing quote cache
+    private void Initialize() => throw new NotImplementedException();
 }

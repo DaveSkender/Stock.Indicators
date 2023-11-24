@@ -29,40 +29,6 @@ public class IndicatorsStreaming
     // BENCHMARKS
 
     [Benchmark]
-    public object GetAdlSeries() => q.GetAdl();
-
-    [Benchmark]
-    public object GetAdlManual()
-    {
-        List<Quote> quoteList = q.ToSortedList();
-        Adl adl = new();
-
-        for (int i = 0; i < quoteList.Count; i++)
-        {
-            adl.Increment(quoteList[i]);
-        }
-
-        return adl.Results;
-    }
-
-    [Benchmark]
-    public object GetAdxSeries() => q.GetAdx(14);
-
-    [Benchmark]
-    public object GetAdxManual()
-    {
-        List<Quote> quoteList = q.ToSortedList();
-        Adx adx = new(14);
-
-        for (int i = 0; i < quoteList.Count; i++)
-        {
-            adx.Increment(quoteList[i]);
-        }
-
-        return adx.Results;
-    }
-
-    [Benchmark]
     public object GetEmaSeries() => q.GetEma(14);
 
     [Benchmark]

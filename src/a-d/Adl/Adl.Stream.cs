@@ -7,15 +7,9 @@ public partial class Adl
     // constructor
     public Adl()
     {
-        ProtectedResults = [];
-        PrevAdl = 0;
     }
 
     // PROPERTIES
 
-    public IEnumerable<AdlResult> Results => ProtectedResults;
-
-    internal List<AdlResult> ProtectedResults { get; set; }
-
-    private double PrevAdl { get; set; }
+    // TODO: ADL incomplete for streaming
 }

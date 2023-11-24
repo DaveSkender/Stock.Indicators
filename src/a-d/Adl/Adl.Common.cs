@@ -28,19 +28,4 @@ public partial class Adl
             Adl = adl
         };
     }
-
-    /// <include file='./info.xml' path='info/type[@name="increment-quote"]/*' />
-    ///
-    public AdlResult Increment<TQuote>(
-        TQuote quote)
-        where TQuote : IQuote
-    {
-        QuoteD q = quote.ToQuoteD();
-        AdlResult r = Increment(PrevAdl, q.High, q.Low, q.Close, q.Volume);
-        r.Date = q.Date;
-
-        ProtectedResults.Add(r);
-        PrevAdl = r.Adl;
-        return r;
-    }
 }

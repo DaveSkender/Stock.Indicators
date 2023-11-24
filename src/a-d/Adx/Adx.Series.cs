@@ -60,6 +60,7 @@ public static partial class Indicator
             prevClose = q.Close;
 
             // initialization period
+            // TODO: update healing, without requiring specific indexing
             if (i <= lookbackPeriods)
             {
                 sumTr += tr;
