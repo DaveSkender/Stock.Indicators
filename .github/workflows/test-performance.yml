@@ -31,6 +31,16 @@ jobs:
         working-directory: tests/performance
         run: dotnet run -c Release
 
-      - name: Publish summary
+      - name: Save test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-summaries
+          path: tests/performance/BenchmarkDotNet.Artifacts/results
+
+      - name: Publish series summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
-        run: cat Tests.Performance.IndicatorPerformance-report-github.md >$GITHUB_STEP_SUMMARY
+        run: cat Tests.Performance.IndicatorsStatic-report-github.md >$GITHUB_STEP_SUMMARY
+        
+      - name: Publish stream summary
+        working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
+        run: cat Tests.Performance.IndicatorsStreaming-report-github.md >>$GITHUB_STEP_SUMMARY
