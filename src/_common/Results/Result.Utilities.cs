@@ -29,19 +29,9 @@ public static partial class ResultUtility
     public static Collection<(DateTime Date, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
-    {
-        Collection<(DateTime date, double value)> tuples = [];
-        List<TResult> reList = reusable.ToSortedList();
-
-        // find first non-nulled
-        for (int i = 0; i < reList.Count; i++)
-        {
-            IReusableResult? r = reList[i];
-            tuples.Add(new(r.Date, r.Value));
-        }
-
-        return tuples;
-    }
+        => reusable
+            .ToTupleResult()
+            .ToSortedCollection();
 
     // CONVERT TO TUPLE with non-nullable NaN value option and no pruning
     internal static List<(DateTime Date, double Value)> ToTupleResult<TResult>(

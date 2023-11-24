@@ -14,8 +14,8 @@ public class StcTests : TestBase
         int fastPeriods = 12;
         int slowPeriods = 26;
 
-        List<StcResult> results =
-            quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods)
+        List<StcResult> results = quotes
+            .GetStc(cyclePeriods, fastPeriods, slowPeriods)
             .ToList();
 
         // proper quantities

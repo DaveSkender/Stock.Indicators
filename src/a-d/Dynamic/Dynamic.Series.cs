@@ -13,16 +13,10 @@ public static partial class Indicator
         MgDynamic.Validate(lookbackPeriods, kFactor);
 
         // initialize
-        int iStart = 1;
         int length = tpList.Count;
         List<DynamicResult> results = new(length);
 
-        if (length == 0)
-        {
-            return results;
-        }
-
-        double prevMD = tpList[0].Item2;
+        double prevDyn = double.NaN;
 
         // roll through quotes, to get preliminary data
         for (int i = 0; i < length; i++)
@@ -32,23 +26,20 @@ public static partial class Indicator
             DynamicResult r = new(date);
             results.Add(r);
 
-            // re-initialize if value is NaN
-            if (double.IsNaN(value) || prevMD == 0)
+            // re/initialize
+            if (double.IsNaN(prevDyn))
             {
-                prevMD = value;
-                iStart = i + lookbackPeriods;
+                prevDyn = value;
             }
+
+            // normal Dynamic
             else
             {
-                double md = prevMD + ((value - prevMD) /
-                    (kFactor * lookbackPeriods * Math.Pow(value / prevMD, 4)));
+                double dyn = prevDyn + ((value - prevDyn) /
+                   (kFactor * lookbackPeriods * Math.Pow(value / prevDyn, 4)));
 
-                if (i >= iStart)
-                {
-                    r.Dynamic = md.NaN2Null();
-                }
-
-                prevMD = md;
+                r.Dynamic = dyn.NaN2Null();
+                prevDyn = dyn;
             }
         }
 

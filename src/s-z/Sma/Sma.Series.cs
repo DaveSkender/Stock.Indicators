@@ -22,10 +22,10 @@ public static partial class Indicator
             SmaResult result = new(date);
             results.Add(result);
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double sumSma = 0;
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
                     (DateTime _, double pValue) = tpList[p];
                     sumSma += pValue;

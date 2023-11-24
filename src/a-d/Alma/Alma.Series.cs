@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<AlmaResult> CalcAlma(
-        this List<(DateTime, double)> tpList,
+        this List<(DateTime Date, double _)> tpList,
         int lookbackPeriods,
         double offset,
         double sigma)
@@ -33,14 +33,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < tpList.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
-
-            AlmaResult r = new(date);
+            AlmaResult r = new(tpList[i].Date);
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
             {
-                double? weightedSum = 0;
+                double weightedSum = 0;
                 int n = 0;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)

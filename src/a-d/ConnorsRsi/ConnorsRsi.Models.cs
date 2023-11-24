@@ -14,6 +14,6 @@ public sealed class ConnorsRsiResult : ResultBase, IReusableResult
     public double? ConnorsRsi { get; set; }
 
     // internal use only
-    internal int Streak { get; set; }
+    internal double Streak { get; set; }
     double IReusableResult.Value => ConnorsRsi.Null2NaN();
 }

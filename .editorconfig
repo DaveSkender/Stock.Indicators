@@ -75,9 +75,16 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 
 dotnet_code_quality_unused_parameters = all:suggestion
 
+dotnet_sort_system_directives_first = true
+
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
 dotnet_style_namespace_match_folder = false:silent
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion
 
 [*.cs]
 csharp_indent_labels = one_less_than_current

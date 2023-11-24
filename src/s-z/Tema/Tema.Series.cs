@@ -17,19 +17,9 @@ public static partial class Indicator
         List<TemaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
-        double? lastEma1 = 0;
-        double? lastEma2;
-        double? lastEma3;
-        int initPeriods = Math.Min(lookbackPeriods, length);
-
-        for (int i = 0; i < initPeriods; i++)
-        {
-            (DateTime _, double value) = tpList[i];
-            lastEma1 += value;
-        }
-
-        lastEma1 /= lookbackPeriods;
-        lastEma2 = lastEma3 = lastEma1;
+        double lastEma1 = double.NaN;
+        double lastEma2 = double.NaN;
+        double lastEma3 = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -39,22 +29,42 @@ public static partial class Indicator
             TemaResult r = new(date);
             results.Add(r);
 
-            if (i > lookbackPeriods - 1)
+            // skip incalculable periods
+            if (i < lookbackPeriods - 1)
             {
-                double? ema1 = lastEma1 + (k * (value - lastEma1));
-                double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
-                double? ema3 = lastEma3 + (k * (ema2 - lastEma3));
-
-                r.Tema = ((3 * ema1) - (3 * ema2) + ema3).NaN2Null();
-
-                lastEma1 = ema1;
-                lastEma2 = ema2;
-                lastEma3 = ema3;
+                continue;
             }
-            else if (i == lookbackPeriods - 1)
+
+            double ema1;
+            double ema2;
+            double ema3;
+
+            // when no prior EMA, reset as SMA
+            if (double.IsNaN(lastEma3))
             {
-                r.Tema = ((3 * lastEma1) - (3 * lastEma2) + lastEma3).NaN2Null();
+                double sum = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                {
+                    (DateTime _, double pValue) = tpList[p];
+                    sum += pValue;
+                }
+
+                ema1 = ema2 = ema3 = sum / lookbackPeriods;
             }
+
+            // normal TEMA
+            else
+            {
+                ema1 = lastEma1 + (k * (value - lastEma1));
+                ema2 = lastEma2 + (k * (ema1 - lastEma2));
+                ema3 = lastEma3 + (k * (ema2 - lastEma3));
+            }
+
+            r.Tema = ((3 * ema1) - (3 * ema2) + ema3).NaN2Null();
+
+            lastEma1 = ema1;
+            lastEma2 = ema2;
+            lastEma3 = ema3;
         }
 
         return results;

@@ -15,39 +15,45 @@ public static partial class Indicator
         // initialize
         int length = tpList.Count;
         List<SmmaResult> results = new(length);
-        double prevValue = double.NaN;
+        double prevSmma = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            double smma = double.NaN;
             (DateTime date, double value) = tpList[i];
 
             SmmaResult r = new(date);
             results.Add(r);
 
-            // calculate SMMA
-            if (i + 1 > lookbackPeriods)
+            // skip incalculable periods
+            if (i < lookbackPeriods - 1)
             {
-                smma = ((prevValue * (lookbackPeriods - 1)) + value) / lookbackPeriods;
-                r.Smma = smma.NaN2Null();
+                continue;
             }
 
-            // first SMMA calculated as simple SMA
-            else if (i + 1 == lookbackPeriods)
+            double smma;
+
+            // when no prior SMMA, reset as SMA
+            if (double.IsNaN(prevSmma))
             {
-                double sumClose = 0;
+                double sum = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     (DateTime _, double pValue) = tpList[p];
-                    sumClose += pValue;
+                    sum += pValue;
                 }
 
-                smma = sumClose / lookbackPeriods;
-                r.Smma = smma.NaN2Null();
+                smma = sum / lookbackPeriods;
             }
 
-            prevValue = smma;
+            // normal SMMA
+            else
+            {
+                smma = ((prevSmma * (lookbackPeriods - 1)) + value) / lookbackPeriods;
+            }
+
+            r.Smma = smma.NaN2Null();
+            prevSmma = smma;
         }
 
         return results;

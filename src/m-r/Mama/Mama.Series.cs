@@ -15,7 +15,8 @@ public static partial class Indicator
         int length = tpList.Count;
         List<MamaResult> results = new(length);
 
-        double sumPr = 0d;
+        double prevMama = double.NaN;
+        double prevFama = double.NaN;
 
         double[] pr = new double[length]; // price
         double[] sm = new double[length]; // smooth
@@ -45,7 +46,43 @@ public static partial class Indicator
             MamaResult r = new(date);
             results.Add(r);
 
-            if (i > 5)
+            // skip incalculable periods
+            if (i < 5)
+            {
+                continue;
+            }
+
+            double mama;
+            double fama;
+
+            // initialization
+            if (double.IsNaN(prevMama))
+            {
+                double sum = 0;
+                for (int p = i - 5; p <= i; p++)
+                {
+                    pd[p] = 0;
+                    sm[p] = 0;
+                    dt[p] = 0;
+
+                    i1[p] = 0;
+                    q1[p] = 0;
+                    i2[p] = 0;
+                    q2[p] = 0;
+
+                    re[p] = 0;
+                    im[p] = 0;
+
+                    ph[p] = 0;
+
+                    sum += pr[p];
+                }
+
+                mama = fama = sum / 6;
+            }
+
+            // normal MAMA
+            else
             {
                 double adj = (0.075 * pd[i - 1]) + 0.54;
 
@@ -78,13 +115,13 @@ public static partial class Indicator
                 // calculate period
                 pd[i] = im[i] != 0 && re[i] != 0
                     ? 2 * Math.PI / Math.Atan(im[i] / re[i])
-                    : 0d;
+                    : 0;
 
                 // adjust period to thresholds
                 pd[i] = (pd[i] > 1.5 * pd[i - 1]) ? 1.5 * pd[i - 1] : pd[i];
                 pd[i] = (pd[i] < 0.67 * pd[i - 1]) ? 0.67 * pd[i - 1] : pd[i];
-                pd[i] = (pd[i] < 6d) ? 6d : pd[i];
-                pd[i] = (pd[i] > 50d) ? 50d : pd[i];
+                pd[i] = (pd[i] < 6) ? 6 : pd[i];
+                pd[i] = (pd[i] > 50) ? 50 : pd[i];
 
                 // smooth the period
                 pd[i] = (0.2 * pd[i]) + (0.8 * pd[i - 1]);
@@ -93,41 +130,21 @@ public static partial class Indicator
                 ph[i] = (i1[i] != 0) ? Math.Atan(q1[i] / i1[i]) * 180 / Math.PI : 0;
 
                 // change in phase
-                double delta = Math.Max(ph[i - 1] - ph[i], 1d);
+                double delta = Math.Max(ph[i - 1] - ph[i], 1);
 
                 // adaptive alpha value
                 double alpha = Math.Max(fastLimit / delta, slowLimit);
 
                 // final indicators
-                r.Mama = ((alpha * pr[i]) + ((1d - alpha) * results[i - 1].Mama)).NaN2Null();
-                r.Fama = ((0.5d * alpha * r.Mama) + ((1d - (0.5d * alpha)) * results[i - 1].Fama)).NaN2Null();
+                mama = (alpha * pr[i]) + ((1d - alpha) * prevMama);
+                fama = (0.5 * alpha * mama) + ((1d - (0.5 * alpha)) * prevFama);
             }
 
-            // initialization period
-            else
-            {
-                sumPr += pr[i];
+            r.Mama = mama.NaN2Null();
+            r.Fama = fama.NaN2Null();
 
-                if (i == 5)
-                {
-                    r.Mama = (sumPr / 6d).NaN2Null();
-                    r.Fama = r.Mama;
-                }
-
-                pd[i] = 0;
-                sm[i] = 0;
-                dt[i] = 0;
-
-                i1[i] = 0;
-                q1[i] = 0;
-                i2[i] = 0;
-                q2[i] = 0;
-
-                re[i] = 0;
-                im[i] = 0;
-
-                ph[i] = 0;
-            }
+            prevMama = mama;
+            prevFama = fama;
         }
 
         return results;

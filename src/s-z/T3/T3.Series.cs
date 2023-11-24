@@ -16,36 +16,33 @@ public static partial class Indicator
         int length = tpList.Count;
         List<T3Result> results = new(length);
 
-        if (length == 0)
-        {
-            return results;
-        }
-
         double k = 2d / (lookbackPeriods + 1);
         double a = volumeFactor;
+
         double c1 = -a * a * a;
         double c2 = (3 * a * a) + (3 * a * a * a);
         double c3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
         double c4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
 
-        double? e1;
-        double? e2;
-        double? e3;
-        double? e4;
-        double? e5;
-        double? e6;
+        double e1 = double.NaN;
+        double e2 = double.NaN;
+        double e3 = double.NaN;
+        double e4 = double.NaN;
+        double e5 = double.NaN;
+        double e6 = double.NaN;
 
-        // add initial value
-        (DateTime date, double value) r0 = tpList[0];
-        e1 = e2 = e3 = e4 = e5 = e6 = r0.value;
-        results.Add(new T3Result(r0.date) { T3 = r0.value });
-
-        // roll through quotes
-        for (int i = 1; i < length; i++)
+        // roll through remaining quotes
+        for (int i = 0; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
             T3Result r = new(date);
             results.Add(r);
+
+            // re/seed values
+            if (double.IsNaN(e6))
+            {
+                e1 = e2 = e3 = e4 = e5 = e6 = value;
+            }
 
             // first smoothing
             e1 += k * (value - e1);

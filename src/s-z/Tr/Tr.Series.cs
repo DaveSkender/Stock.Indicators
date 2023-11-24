@@ -20,13 +20,13 @@ public static partial class Indicator
             TrResult r = new(q.Date);
             results.Add(r);
 
-            if (i is 0)
+            if (i == 0)
             {
                 prevClose = q.Close;
                 continue;
             }
 
-            r.Tr = Tr.Increment(prevClose, q.High, q.Low);
+            r.Tr = Tr.Increment(prevClose, q.High, q.Low).NaN2Null();
 
             prevClose = q.Close;
         }

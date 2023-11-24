@@ -65,16 +65,16 @@ public static class CustomIndicator
             MyResult result = new(date);
             results.Add(result);
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
-                double sumSma = 0;
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                double sum = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
                     (DateTime _, double pValue) = tpList[p];
-                    sumSma += pValue;
+                    sum += pValue;
                 }
 
-                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
+                result.Sma = (sum / lookbackPeriods).NaN2Null();
             }
         }
 
@@ -85,7 +85,7 @@ public static class CustomIndicator
 [TestClass]
 public class CustomIndicatorTests
 {
-    private static readonly CultureInfo EnglishCulture = new ("en-US", false);
+    private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
     internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
     internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();

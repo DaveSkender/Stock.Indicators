@@ -15,8 +15,8 @@ public class ConnorsRsiTests : TestBase
         int rankPeriods = 100;
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        List<ConnorsRsiResult> results1 =
-            quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
+        List<ConnorsRsiResult> results1 = quotes
+            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .ToList();
 
         // proper quantities

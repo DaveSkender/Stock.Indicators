@@ -15,35 +15,46 @@ public static partial class Indicator
         int length = tpList.Count;
         List<EmaResult> results = new(length);
 
-        double lastEma = 0;
+        double lastEma = double.NaN;
         double k = 2d / (lookbackPeriods + 1);
-        int initPeriods = Math.Min(lookbackPeriods, length);
-
-        for (int i = 0; i < initPeriods; i++)
-        {
-            (DateTime _, double value) = tpList[i];
-            lastEma += value;
-        }
-
-        lastEma /= lookbackPeriods;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
+
             EmaResult r = new(date);
             results.Add(r);
 
-            if (i + 1 > lookbackPeriods)
+            // skip incalculable periods
+            if (i < lookbackPeriods - 1)
             {
-                double ema = Ema.Increment(k, lastEma, value);
-                r.Ema = ema.NaN2Null();
-                lastEma = ema;
+                continue;
             }
-            else if (i == lookbackPeriods - 1)
+
+            double ema;
+
+            // when no prior EMA, reset as SMA
+            if (double.IsNaN(lastEma))
             {
-                r.Ema = lastEma.NaN2Null();
+                double sum = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                {
+                    (DateTime _, double pValue) = tpList[p];
+                    sum += pValue;
+                }
+
+                ema = sum / lookbackPeriods;
             }
+
+            // normal EMA
+            else
+            {
+                ema = Ema.Increment(k, lastEma, value);
+            }
+
+            r.Ema = ema.NaN2Null();
+            lastEma = ema;
         }
 
         return results;

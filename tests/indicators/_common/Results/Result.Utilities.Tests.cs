@@ -52,7 +52,7 @@ public class Results : TestBase
             .ToTupleResult();
 
         Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, chainableTuple.Count(x => double.IsNaN(x.Value)));
+        Assert.AreEqual(4, chainableTuple.Count(x => double.IsNaN(x.Value)));
 
         // PUBLIC VARIANT
 
@@ -61,7 +61,7 @@ public class Results : TestBase
             .ToTupleChainable();
 
         Assert.AreEqual(5, cnaNresults.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, cnaNresults.Count(x => double.IsNaN(x.Value)));
+        Assert.AreEqual(4, cnaNresults.Count(x => double.IsNaN(x.Value)));
 
         // with NaN option, no pruning
         List<(DateTime Date, double Value)> nanResults = baseline

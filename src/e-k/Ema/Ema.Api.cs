@@ -19,8 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcEma(lookbackPeriods)
-;
+            .CalcEma(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<EmaResult> GetEma(
@@ -37,7 +36,7 @@ public static partial class Indicator
         int lookbackPeriods)
         where TQuote : IQuote, new()
     {
-        var useObserver = provider
+        Use<TQuote> useObserver = provider
             .Use(CandlePart.Close);
 
         return new(useObserver, lookbackPeriods);

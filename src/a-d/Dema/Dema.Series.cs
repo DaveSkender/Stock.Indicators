@@ -16,18 +16,8 @@ public static partial class Indicator
         List<DemaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
-        double? lastEma1 = 0;
-        double? lastEma2;
-        int initPeriods = Math.Min(lookbackPeriods, length);
-
-        for (int i = 0; i < initPeriods; i++)
-        {
-            (DateTime _, double value) = tpList[i];
-            lastEma1 += value;
-        }
-
-        lastEma1 /= lookbackPeriods;
-        lastEma2 = lastEma1;
+        double lastEma1 = double.NaN;
+        double lastEma2 = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -37,20 +27,39 @@ public static partial class Indicator
             DemaResult r = new(date);
             results.Add(r);
 
-            if (i > lookbackPeriods - 1)
+            // skip incalculable periods
+            if (i < lookbackPeriods - 1)
             {
-                double? ema1 = lastEma1 + (k * (value - lastEma1));
-                double? ema2 = lastEma2 + (k * (ema1 - lastEma2));
-
-                r.Dema = ((2d * ema1) - ema2).NaN2Null();
-
-                lastEma1 = ema1;
-                lastEma2 = ema2;
+                continue;
             }
-            else if (i == lookbackPeriods - 1)
+
+            double ema1;
+            double ema2;
+
+            // when no prior EMA, reset as SMA
+            if (double.IsNaN(lastEma2))
             {
-                r.Dema = (2d * lastEma1) - lastEma2;
+                double sum = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                {
+                    (DateTime _, double pValue) = tpList[p];
+                    sum += pValue;
+                }
+
+                ema1 = ema2 = sum / lookbackPeriods;
             }
+
+            // normal DEMA
+            else
+            {
+                ema1 = lastEma1 + (k * (value - lastEma1));
+                ema2 = lastEma2 + (k * (ema1 - lastEma2));
+            }
+
+            r.Dema = ((2d * ema1) - ema2).NaN2Null();
+
+            lastEma1 = ema1;
+            lastEma2 = ema2;
         }
 
         return results;

@@ -22,6 +22,12 @@ public static partial class Indicator
         int length = qdList.Count;
         List<StochResult> results = new(length);
 
+        double[] o = new double[length]; // %K oscillator (initial)
+        double[] k = new double[length]; // %K oscillator (final)
+
+        double prevK = double.NaN;
+        double prevD = double.NaN;
+
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
@@ -30,14 +36,24 @@ public static partial class Indicator
             StochResult r = new(q.Date);
             results.Add(r);
 
-            if (i + 1 >= lookbackPeriods)
+            // initial %K oscillator
+            if (i >= lookbackPeriods - 1)
             {
                 double highHigh = double.MinValue;
                 double lowLow = double.MaxValue;
+                bool isViable = true;
 
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
                     QuoteD x = qdList[p];
+
+                    if (double.IsNaN(x.High)
+                     || double.IsNaN(x.Low)
+                     || double.IsNaN(x.Close))
+                    {
+                        isViable = false;
+                        break;
+                    }
 
                     if (x.High > highHigh)
                     {
@@ -50,118 +66,107 @@ public static partial class Indicator
                     }
                 }
 
-                r.Oscillator = lowLow != highHigh
-                    ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
-                    : 0;
-
-                // reclaim nulls from NaNs
-                r.Oscillator = r.Oscillator.NaN2Null();
+                o[i] = !isViable
+                     ? double.NaN
+                     : lowLow != highHigh
+                     ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
+                     : 0;
             }
-        }
+            else
+            {
+                o[i] = double.NaN;
+            }
 
-        // smooth the oscillator
-        if (smoothPeriods > 1)
-        {
-            results = SmoothOscillator(
-                results, length, lookbackPeriods, smoothPeriods, movingAverageType);
-        }
+            // final %K oscillator, keep original
+            if (smoothPeriods <= 1)
+            {
+                k[i] = o[i];
+            }
 
-        // handle insufficient length
-        if (length < lookbackPeriods - 1)
-        {
-            return results;
-        }
+            // final %K oscillator, if smoothed
+            else if (i >= smoothPeriods)
+            {
+                k[i] = double.NaN;
 
-        // signal (%D) and %J
-        int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
-        double? s = null;
+                if (movingAverageType is MaType.SMA)  // TODO: || double.IsNaN(prevK) to re/initialize SMMA?
+                {
+                    double sum = 0;
+                    for (int p = i - smoothPeriods + 1; p <= i; p++)
+                    {
+                        sum += o[p];
+                    }
 
-        for (int i = lookbackPeriods - 1; i < length; i++)
-        {
-            StochResult r = results[i];
+                    k[i] = sum / smoothPeriods;
+                }
 
-            // add signal
+                else if (movingAverageType is MaType.SMMA)
+                {
+                    // re/initialize
+                    if (double.IsNaN(prevK))
+                    {
+                        prevK = o[i];
+                    }
 
+                    k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
+                    prevK = k[i];
+                }
+                else
+                {
+                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
+                }
+            }
+            else
+            {
+                k[i] = double.NaN;
+            }
+
+            r.Oscillator = k[i].NaN2Null();
+
+
+            // %D signal line
             if (signalPeriods <= 1)
             {
                 r.Signal = r.Oscillator;
             }
-
-            // SMA case
-            else if (i + 1 >= signalIndex && movingAverageType is MaType.SMA)
+            else if (i >= signalPeriods)
             {
-                double? sumOsc = 0;
-                for (int p = i + 1 - signalPeriods; p <= i; p++)
+
+                // SMA case
+                if (movingAverageType is MaType.SMA)  // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
                 {
-                    StochResult x = results[p];
-                    sumOsc += x.Oscillator;
+                    double sum = 0;
+                    for (int p = i - signalPeriods + 1; p <= i; p++)
+                    {
+                        sum += k[p];
+                    }
+
+                    r.Signal = (sum / signalPeriods).NaN2Null();
                 }
 
-                r.Signal = sumOsc / signalPeriods;
+                // SMMA case
+                else if (movingAverageType is MaType.SMMA)
+                {
+                    // re/initialize
+                    if (double.IsNaN(prevD))
+                    {
+                        prevD = k[i];
+                    }
+
+                    double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
+                    r.Signal = d.NaN2Null();
+                    prevD = d;
+                }
+
+                else
+                {
+                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
+                }
             }
 
-            // SMMA case
-            else if (i >= lookbackPeriods - 1 && movingAverageType is MaType.SMMA)
-            {
-                s ??= results[i].Oscillator; // set initial or reset if null
-
-                s = ((s * (signalPeriods - 1)) + results[i].Oscillator) / signalPeriods;
-                r.Signal = s;
-            }
-
-            // %J
+            // %J profile
             r.PercentJ = (kFactor * r.Oscillator) - (dFactor * r.Signal);
+
         }
-
-        return results;
-    }
-
-    // internals
-    private static List<StochResult> SmoothOscillator(
-        List<StochResult> results,
-        int length,
-        int lookbackPeriods,
-        int smoothPeriods,
-        MaType movingAverageType)
-    {
-        // temporarily store interim smoothed oscillator
-        double?[] smooth = new double?[length]; // smoothed value
-
-        if (movingAverageType is MaType.SMA)
-        {
-            int smoothIndex = lookbackPeriods + smoothPeriods - 2;
-
-            for (int i = smoothIndex; i < length; i++)
-            {
-                double? sumOsc = 0;
-                for (int p = i + 1 - smoothPeriods; p <= i; p++)
-                {
-                    sumOsc += results[p].Oscillator;
-                }
-
-                smooth[i] = sumOsc / smoothPeriods;
-            }
-        }
-        else if (movingAverageType is MaType.SMMA)
-        {
-            // initialize with unsmoothed value
-            double? k = results[lookbackPeriods - 1].Oscillator;
-
-            for (int i = lookbackPeriods - 1; i < length; i++)
-            {
-                k ??= results[i].Oscillator; // reset if null
-
-                k = ((k * (smoothPeriods - 1)) + results[i].Oscillator) / smoothPeriods;
-                smooth[i] = k;
-            }
-        }
-
-        // replace oscillator
-        for (int i = 0; i < length; i++)
-        {
-            results[i].Oscillator = smooth[i];
-        }
-
         return results;
     }
 }

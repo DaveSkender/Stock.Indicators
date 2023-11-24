@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<TsiResult> CalcTsi(
-        this List<(DateTime, double)> tpList,
+        this List<(DateTime _, double price)> tpList,
         int lookbackPeriods,
         int smoothPeriods,
         int signalPeriods)
@@ -18,116 +18,122 @@ public static partial class Indicator
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
-        double sumS = 0;
-
         List<TsiResult> results = new(length);
 
         double[] c = new double[length]; // price change
         double[] cs1 = new double[length]; // smooth 1
         double[] cs2 = new double[length]; // smooth 2
-        double sumC = 0;
-        double sumC1 = 0;
 
         double[] a = new double[length]; // abs of price change
         double[] as1 = new double[length]; // smooth 1
         double[] as2 = new double[length]; // smooth 2
-        double sumA = 0;
-        double sumA1 = 0;
+
+        double prevSignal = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double price) = tpList[i];
 
+            // initialize
             TsiResult r = new(date);
             results.Add(r);
 
             // skip first period
             if (i == 0)
             {
+                a[i] = double.NaN;
+                c[i] = double.NaN;
+                cs1[i] = double.NaN;
+                as1[i] = double.NaN;
+                cs2[i] = double.NaN;
+                as2[i] = double.NaN;
                 continue;
             }
 
             // price change
-            c[i] = value - tpList[i - 1].Item2;
+            c[i] = price - tpList[i - 1].price;
             a[i] = Math.Abs(c[i]);
 
-            // smoothing
-            if (i > lookbackPeriods)
+            // re/initialize first smoothing
+            if (double.IsNaN(cs1[i - 1]) && i >= lookbackPeriods)
             {
-                // first smoothing
-                cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
-                as1[i] = ((a[i] - as1[i - 1]) * mult1) + as1[i - 1];
+                double sumC = 0;
+                double sumA = 0;
 
-                // second smoothing
-                if (i + 1 > lookbackPeriods + smoothPeriods)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
-                    as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
-
-                    double tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : double.NaN;
-                    r.Tsi = tsi.NaN2Null();
-
-                    // signal line
-                    if (signalPeriods > 0)
-                    {
-                        int startSignal = lookbackPeriods + smoothPeriods + signalPeriods - 1;
-
-                        if (i >= startSignal)
-                        {
-                            r.Signal = ((tsi - results[i - 1].Signal) * multS).NaN2Null()
-                                     + results[i - 1].Signal;
-                        }
-
-                        // initialize signal
-                        else if (i == startSignal - 1)
-                        {
-                            sumS += tsi;
-                            r.Signal = sumS / signalPeriods;
-                        }
-
-                        // warmup signal
-                        else
-                        {
-                            sumS += tsi;
-                        }
-                    }
+                    sumC += c[p];
+                    sumA += a[p];
                 }
 
-                // prepare second smoothing
-                else
-                {
-                    sumC1 += cs1[i];
-                    sumA1 += as1[i];
-
-                    // inialize second smoothing
-                    if (i + 1 == lookbackPeriods + smoothPeriods)
-                    {
-                        cs2[i] = sumC1 / smoothPeriods;
-                        as2[i] = sumA1 / smoothPeriods;
-
-                        double tsi = (as2[i] != 0) ? 100 * cs2[i] / as2[i] : double.NaN;
-                        r.Tsi = tsi;
-                        sumS = tsi;
-                    }
-                }
+                cs1[i] = sumC / lookbackPeriods;
+                as1[i] = sumA / lookbackPeriods;
             }
 
-            // prepare first smoothing
+            // normal first smoothing
             else
             {
-                sumC += c[i];
-                sumA += a[i];
+                cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
+                as1[i] = ((a[i] - as1[i - 1]) * mult1) + as1[i - 1];
+            }
 
-                // initialize first smoothing
-                if (i == lookbackPeriods)
+            // re/initialize second smoothing
+            if (double.IsNaN(cs2[i - 1]) && i >= smoothPeriods)
+            {
+                double sumCS = 0;
+                double sumAS = 0;
+
+                for (int p = i - smoothPeriods + 1; p <= i; p++)
                 {
-                    cs1[i] = sumC / lookbackPeriods;
-                    as1[i] = sumA / lookbackPeriods;
-
-                    sumC1 = cs1[i];
-                    sumA1 = as1[i];
+                    sumCS += cs1[p];
+                    sumAS += as1[p];
                 }
+
+                cs2[i] = sumCS / smoothPeriods;
+                as2[i] = sumAS / smoothPeriods;
+            }
+
+            // normal second smoothing
+            else
+            {
+                cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
+                as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
+            }
+
+            // true strength index
+            double tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : double.NaN;
+            r.Tsi = tsi.NaN2Null();
+
+            // signal line
+            if (signalPeriods > 1)
+            {
+                double signal;
+
+                // re/initialize signal
+                if (double.IsNaN(prevSignal) && i > signalPeriods)
+                {
+                    double sum = 0;
+                    for (int p = i - signalPeriods + 1; p <= i; p++)
+                    {
+                        sum += results[p].Tsi.Null2NaN();
+                    }
+
+                    signal = sum / signalPeriods;
+                }
+
+                // normal signal
+                else
+                {
+                    signal = ((tsi - prevSignal) * multS) + prevSignal;
+                }
+
+                r.Signal = signal.NaN2Null();
+                prevSignal = signal;
+            }
+            else if (signalPeriods == 1)
+            {
+                r.Signal = r.Tsi;
             }
         }
 

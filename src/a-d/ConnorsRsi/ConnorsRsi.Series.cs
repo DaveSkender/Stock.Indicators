@@ -20,8 +20,7 @@ public static partial class Indicator
 
         // RSI of streak
         List<(DateTime Date, double Streak)> bdStreak = results
-            .Remove(Math.Min(length, 1))
-            .Select(x => (x.Date, (double)x.Streak))
+            .Select(x => (x.Date, x.Streak))
             .ToList();
 
         List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
@@ -30,11 +29,11 @@ public static partial class Indicator
         for (int p = streakPeriods + 2; p < length; p++)
         {
             ConnorsRsiResult r = results[p];
-            RsiResult k = rsiStreak[p - 1];
+            RsiResult k = rsiStreak[p];
 
             r.RsiStreak = k.Rsi;
 
-            if (p + 1 >= startPeriod)
+            if (p >= startPeriod - 1)
             {
                 r.ConnorsRsi = (r.Rsi + r.RsiStreak + r.PercentRank) / 3;
             }
@@ -45,7 +44,7 @@ public static partial class Indicator
 
     // calculate baseline streak and rank
     private static List<ConnorsRsiResult> CalcStreak(
-        this List<(DateTime Date, double Streak)> tpList,
+        this List<(DateTime, double)> tpList,
         int rsiPeriods,
         int rankPeriods)
     {
@@ -56,13 +55,13 @@ public static partial class Indicator
         List<ConnorsRsiResult> results = new(length);
         double[] gain = new double[length];
 
-        double lastClose = double.NaN;
-        int streak = 0;
+        double prevPrice = double.NaN;
+        double streak = 0;
 
         // compose interim results
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            (DateTime date, double price) = tpList[i];
 
             ConnorsRsiResult r = new(date)
             {
@@ -73,16 +72,16 @@ public static partial class Indicator
             // bypass for first record
             if (i == 0)
             {
-                lastClose = value;
+                prevPrice = price;
                 continue;
             }
 
             // streak of up or down
-            if (value == lastClose)
+            if (double.IsNaN(price) || double.IsNaN(prevPrice))
             {
-                streak = 0;
+                streak = double.NaN;
             }
-            else if (value > lastClose)
+            else if (price > prevPrice)
             {
                 if (streak >= 0)
                 {
@@ -93,7 +92,7 @@ public static partial class Indicator
                     streak = 1;
                 }
             }
-            else // h.Value < lastClose
+            else if (price < prevPrice)
             {
                 if (streak <= 0)
                 {
@@ -104,28 +103,42 @@ public static partial class Indicator
                     streak = -1;
                 }
             }
+            else
+            {
+                streak = 0;
+            }
 
             r.Streak = streak;
 
             // percentile rank
-            gain[i] = (lastClose <= 0) ? double.NaN
-                    : (value - lastClose) / lastClose;
+            gain[i] = double.IsNaN(price) || double.IsNaN(prevPrice) || prevPrice <= 0
+                    ? double.NaN
+                    : (price - prevPrice) / prevPrice;
 
-            if (i + 1 > rankPeriods)
+            if (i > rankPeriods - 1 && !double.IsNaN(gain[i]))
             {
                 int qty = 0;
+                bool isViableRank = true;
                 for (int p = i - rankPeriods; p <= i; p++)
                 {
+                    // rank is not viable if there
+                    // are incalculable gain values
+                    if (double.IsNaN(gain[p]))
+                    {
+                        isViableRank = false;
+                        break;
+                    }
+
                     if (gain[p] < gain[i])
                     {
                         qty++;
                     }
                 }
 
-                r.PercentRank = 100 * qty / rankPeriods;
+                r.PercentRank = isViableRank ? 100 * qty / rankPeriods : null;
             }
 
-            lastClose = value;
+            prevPrice = price;
         }
 
         return results;
