@@ -39,6 +39,10 @@ jobs:
           -warnAsError
 
       - name: Test indicators
+        id: test-library
+        env:
+          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
@@ -49,6 +53,7 @@ jobs:
           --results-directory ./test-indicators
 
       - name: Test other items
+        id: test-other
         run: >
           dotnet test tests/other/Tests.Other.csproj
           --configuration Release
@@ -59,7 +64,7 @@ jobs:
 
       - name: Update tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
-        if: github.event_name == 'pull_request'
+        if: ${{ github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
