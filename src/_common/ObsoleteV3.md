@@ -10,13 +10,17 @@
 - **Deprecated internal signals**: several indicators were originally built with integrated but optional
   moving averages.  With more moving average chaining options, these are obsolete, so we've removed them
   for simplification.  These were persisted to avoid breaking your code; however, you will see a compiler
-  `Warnings` to help you identify areas to refactor.  Check for use in ADL, OBV, and others.
+  `Warnings` to help you identify areas to refactor.  Check for use in ADL, OBV, ROC, STDDEV, TRIX, and others.
   Future versions will not support the old API and will produce compiler `Errors`.
 
 ```csharp
 // To refactor, here's an example replacement for ADL:
 
-// old usage
+var results = quotes.GetAdl(10);
+var adlSma  = results.GetSma(5);
 
+// ref: old usage example
 
+var results = quotes
+  .GetAdl(lookbackPeriods: 10, smaPeriods: 5);
 ```

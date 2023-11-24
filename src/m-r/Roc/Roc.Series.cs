@@ -6,11 +6,10 @@ public static partial class Indicator
 {
     internal static List<RocResult> CalcRoc(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods,
-        int? smaPeriods)
+        int lookbackPeriods)
     {
         // check parameter arguments
-        Roc.Validate(lookbackPeriods, smaPeriods);
+        Roc.Validate(lookbackPeriods);
 
         // initialize
         List<RocResult> results = new(tpList.Count);
@@ -30,18 +29,6 @@ public static partial class Indicator
                 r.Momentum = (value - backValue).NaN2Null();
                 r.Roc = (backValue == 0) ? null
                     : (100d * r.Momentum / backValue).NaN2Null();
-            }
-
-            // optional SMA
-            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 1)
-            {
-                double? sumSma = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    sumSma += results[p].Roc;
-                }
-
-                r.RocSma = sumSma / smaPeriods;
             }
         }
 

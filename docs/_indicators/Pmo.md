@@ -22,9 +22,9 @@ IEnumerable<PmoResult> results =
 
 ## Parameters
 
-**`timePeriods`** _`int`_ - Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
+**`timePeriods`** _`int`_ - Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35.
 
-**`smoothPeriods`** _`int`_ - Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
+**`smoothPeriods`** _`int`_ - Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20.
 
 **`signalPeriods`** _`int`_ - Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
 

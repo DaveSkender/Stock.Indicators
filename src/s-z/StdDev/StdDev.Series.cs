@@ -6,11 +6,10 @@ public static partial class Indicator
 {
     internal static List<StdDevResult> CalcStdDev(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods,
-        int? smaPeriods)
+        int lookbackPeriods)
     {
         // check parameter arguments
-        StdDev.Validate(lookbackPeriods, smaPeriods);
+        StdDev.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -45,18 +44,6 @@ public static partial class Indicator
 
                 r.ZScore = (r.StdDev == 0) ? null
                     : (value - avg) / r.StdDev;
-            }
-
-            // optional SMA
-            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 2)
-            {
-                double? sumSma = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    sumSma += results[p].StdDev;
-                }
-
-                r.StdDevSma = (sumSma / smaPeriods).NaN2Null();
             }
         }
 

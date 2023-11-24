@@ -11,31 +11,26 @@ public class PrsTests : TestBase
     public void Standard()
     {
         int lookbackPeriods = 30;
-        int smaPeriods = 10;
 
-        List<PrsResult> results =
-            otherQuotes.GetPrs(quotes, lookbackPeriods, smaPeriods)
+        List<PrsResult> results = otherQuotes
+            .GetPrs(quotes, lookbackPeriods)
             .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Prs != null));
-        Assert.AreEqual(493, results.Count(x => x.PrsSma != null));
 
         // sample values
         PrsResult r1 = results[8];
         Assert.AreEqual(1.108340, r1.Prs.Round(6));
-        Assert.AreEqual(null, r1.PrsSma);
         Assert.AreEqual(null, r1.PrsPercent);
 
         PrsResult r2 = results[249];
         Assert.AreEqual(1.222373, r2.Prs.Round(6));
-        Assert.AreEqual(1.275808, r2.PrsSma.Round(6));
         Assert.AreEqual(-0.023089, r2.PrsPercent.Round(6));
 
         PrsResult r3 = results[501];
         Assert.AreEqual(1.356817, r3.Prs.Round(6));
-        Assert.AreEqual(1.343445, r3.PrsSma.Round(6));
         Assert.AreEqual(0.037082, r3.PrsPercent.Round(6));
     }
 
@@ -91,7 +86,7 @@ public class PrsTests : TestBase
     public void BadData()
     {
         List<PrsResult> r = badQuotes
-            .GetPrs(badQuotes, 15, 4)
+            .GetPrs(badQuotes, 15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
@@ -120,10 +115,6 @@ public class PrsTests : TestBase
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             otherQuotes.GetPrs(quotes, 0));
-
-        // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            otherQuotes.GetPrs(quotes, 14, 0));
 
         // insufficient quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>

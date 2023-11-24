@@ -29,26 +29,6 @@ public class AdlTests : TestBase
         Assert.AreEqual(3439986548.42, r2.Adl.Round(2));
     }
 
-    [Obsolete("Deprecated in v3.0.0", false)]
-    [TestMethod]
-    public void WithSma()
-    {
-        List<AdlResult> results = quotes
-            .GetAdl(20)
-            .ToList();
-
-        // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.AdlSma != null));
-
-        // sample value
-        AdlResult r = results[501];
-        Assert.AreEqual(0.8052, r.MoneyFlowMultiplier.Round(4));
-        Assert.AreEqual(118396116.25, r.MoneyFlowVolume.Round(2));
-        Assert.AreEqual(3439986548.42, r.Adl.Round(2));
-        Assert.AreEqual(3595352721.16, r.AdlSma.Round(2));
-    }
-
     [TestMethod]
     public void Chainor()
     {

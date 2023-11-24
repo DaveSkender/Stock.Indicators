@@ -8,26 +8,23 @@ public static partial class Indicator
     ///
     public static IEnumerable<RocResult> GetRoc<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int? smaPeriods = null)
+        int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToTuple(CandlePart.Close)
-            .CalcRoc(lookbackPeriods, smaPeriods);
+            .CalcRoc(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<RocResult> GetRoc(
         this IEnumerable<IReusableResult> results,
-        int lookbackPeriods,
-        int? smaPeriods = null) => results
+        int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcRoc(lookbackPeriods, smaPeriods)
+            .CalcRoc(lookbackPeriods)
 ;
 
     // SERIES, from TUPLE
     public static IEnumerable<RocResult> GetRoc(
         this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods,
-        int? smaPeriods = null) => priceTuples
+        int lookbackPeriods) => priceTuples
             .ToSortedList()
-            .CalcRoc(lookbackPeriods, smaPeriods);
+            .CalcRoc(lookbackPeriods);
 }

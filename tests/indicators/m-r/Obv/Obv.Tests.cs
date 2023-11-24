@@ -26,24 +26,6 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    [Obsolete("remove after v3")]
-    public void WithSma()
-    {
-        List<ObvResult> results = quotes
-            .GetObv(20)
-            .ToList();
-
-        // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.ObvSma != null));
-
-        // sample values
-        ObvResult r1 = results[501];
-        Assert.AreEqual(539843504, r1.Obv);
-        Assert.AreEqual(1016208844.40, r1.ObvSma);
-    }
-
-    [TestMethod]
     public void Chainor()
     {
         List<SmaResult> results = quotes

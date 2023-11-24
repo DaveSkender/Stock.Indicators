@@ -18,17 +18,11 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 // usage for Trix
 IEnumerable<TrixResult> results =
   quotes.GetTrix(lookbackPeriods);
-
-// usage for Trix with Signal Line (shown above)
-IEnumerable<TrixResult> results =
-  quotes.GetTrix(lookbackPeriods, signalPeriods);
 ```
 
 ## Parameters
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in each of the the exponential moving averages.  Must be greater than 0.
-
-**`signalPeriods`** _`int`_ - Optional.  Number of periods in the moving average of TRIX.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -56,8 +50,6 @@ IEnumerable<TrixResult>
 **`Ema3`** _`decimal`_ - 3 EMAs of the price
 
 **`Trix`** _`decimal`_ - Rate of Change of 3 EMAs
-
-**`Signal`** _`decimal`_ - SMA of `Trix` based on `signalPeriods` periods, if specified
 
 ### Utilities
 

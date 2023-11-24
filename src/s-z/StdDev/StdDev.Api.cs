@@ -8,26 +8,23 @@ public static partial class Indicator
     ///
     public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int? smaPeriods = null)
+        int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToTuple(CandlePart.Close)
-            .CalcStdDev(lookbackPeriods, smaPeriods);
+            .CalcStdDev(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<StdDevResult> GetStdDev(
         this IEnumerable<IReusableResult> results,
-        int lookbackPeriods,
-        int? smaPeriods = null) => results
+        int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcStdDev(lookbackPeriods, smaPeriods)
+            .CalcStdDev(lookbackPeriods)
 ;
 
     // SERIES, from TUPLE
     public static IEnumerable<StdDevResult> GetStdDev(
         this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods,
-        int? smaPeriods = null) => priceTuples
+        int lookbackPeriods) => priceTuples
             .ToSortedList()
-            .CalcStdDev(lookbackPeriods, smaPeriods);
+            .CalcStdDev(lookbackPeriods);
 }

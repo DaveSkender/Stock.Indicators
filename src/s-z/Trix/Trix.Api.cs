@@ -8,26 +8,22 @@ public static partial class Indicator
     ///
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
         this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int? signalPeriods = null)
+        int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToTuple(CandlePart.Close)
-            .CalcTrix(lookbackPeriods, signalPeriods);
+            .CalcTrix(lookbackPeriods);
 
     // SERIES, from CHAIN
     public static IEnumerable<TrixResult> GetTrix(
         this IEnumerable<IReusableResult> results,
-        int lookbackPeriods,
-        int? signalPeriods = null) => results
+        int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcTrix(lookbackPeriods, signalPeriods)
+            .CalcTrix(lookbackPeriods)
 ;
-
     // SERIES, from TUPLE
     public static IEnumerable<TrixResult> GetTrix(
         this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods,
-        int? signalPeriods = null) => priceTuples
+        int lookbackPeriods) => priceTuples
             .ToSortedList()
-            .CalcTrix(lookbackPeriods, signalPeriods);
+            .CalcTrix(lookbackPeriods);
 }

@@ -21,7 +21,7 @@ public static partial class Indicator
 
         // TODO: any perf tuning? maybe convert this directly to results list?
         List<(DateTime _, double Roc)> tpRoc = tpList
-            .CalcRoc(lookbackPeriods, null)
+            .CalcRoc(lookbackPeriods)
             .ToTupleResult();
 
         double[] rocSq = tpRoc

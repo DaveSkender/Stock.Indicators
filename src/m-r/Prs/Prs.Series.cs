@@ -7,11 +7,10 @@ public static partial class Indicator
     internal static List<PrsResult> CalcPrs(
         List<(DateTime, double)> tpListEval,
         List<(DateTime, double)> tpListBase,
-        int? lookbackPeriods = null,
-        int? smaPeriods = null)
+        int? lookbackPeriods = null)
     {
         // check parameter arguments
-        Prs.Validate(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
+        Prs.Validate(tpListEval, tpListBase, lookbackPeriods);
 
         // initialize
         List<PrsResult> results = new(tpListEval.Count);
@@ -34,7 +33,7 @@ public static partial class Indicator
             };
             results.Add(r);
 
-            if (lookbackPeriods != null && i + 1 > lookbackPeriods)
+            if (lookbackPeriods != null && i > lookbackPeriods - 1)
             {
                 (DateTime _, double boValue) = tpListBase[i - (int)lookbackPeriods];
                 (DateTime _, double eoValue) = tpListEval[i - (int)lookbackPeriods];
@@ -46,19 +45,6 @@ public static partial class Indicator
 
                     r.PrsPercent = (pctE - pctB).NaN2Null();
                 }
-            }
-
-            // optional moving average of PRS
-            if (smaPeriods != null && i + 1 >= smaPeriods)
-            {
-                double? sumRs = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    PrsResult d = results[p];
-                    sumRs += d.Prs;
-                }
-
-                r.PrsSma = (sumRs / smaPeriods).NaN2Null();
             }
         }
 

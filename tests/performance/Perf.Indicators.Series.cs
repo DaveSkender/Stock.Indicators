@@ -28,8 +28,7 @@ public class IndicatorsStatic
         nameof(GetBetaDown),
         nameof(GetBetaAll),
         nameof(GetCorrelation),
-        nameof(GetPrs),
-        nameof(GetPrsWithSma)
+        nameof(GetPrs)
     })]
     public static void SetupCompare()
     {
@@ -202,9 +201,6 @@ public class IndicatorsStatic
     public object GetPrs() => q.GetPrs(o);
 
     [Benchmark]
-    public object GetPrsWithSma() => q.GetPrs(o, null, 5);
-
-    [Benchmark]
     public object GetPvo() => q.GetPvo();
 
     [Benchmark]
@@ -218,9 +214,6 @@ public class IndicatorsStatic
 
     [Benchmark]
     public object GetRocWb() => q.GetRocWb(12, 3, 12);
-
-    [Benchmark]
-    public object GetRocWithSma() => q.GetRoc(20, 14);
 
     [Benchmark]
     public object GetRollingPivots() => q.GetRollingPivots(14, 1);
@@ -253,9 +246,6 @@ public class IndicatorsStatic
     public object GetStdDev() => q.GetStdDev(20);
 
     [Benchmark]
-    public object GetStdDevWithSma() => q.GetStdDev(20, 14);
-
-    [Benchmark]
     public object GetStdDevChannels() => q.GetStdDevChannels();
 
     [Benchmark]
@@ -281,9 +271,6 @@ public class IndicatorsStatic
 
     [Benchmark]
     public object GetTrix() => q.GetTrix(14);
-
-    [Benchmark]
-    public object GetTrixWithSma() => q.GetTrix(14, 5);
 
     [Benchmark]
     public object GetTsi() => q.GetTsi();
