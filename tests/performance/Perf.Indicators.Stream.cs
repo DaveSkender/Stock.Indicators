@@ -4,7 +4,7 @@ using Tests.Common;
 
 namespace Tests.Performance;
 
-public class IndicatorStream
+public class IndicatorStreamFull
 {
     /*
      dotnet build -c Release

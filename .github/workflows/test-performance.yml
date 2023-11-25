@@ -47,4 +47,4 @@ jobs:
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
         run: |
           echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY
-          cat Tests.Performance.IndicatorStream-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Tests.Performance.IndicatorStreamFull-report-github.md >> $GITHUB_STEP_SUMMARY
