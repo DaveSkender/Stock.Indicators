@@ -6,7 +6,7 @@ namespace Tests.Performance;
 
 // HELPERS, both public and private
 
-public class HelperPerformance
+public class Helpers
 {
     private static IEnumerable<Quote> h;
     private static IEnumerable<Quote> i;

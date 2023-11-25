@@ -4,7 +4,7 @@ using Tests.Common;
 
 namespace Tests.Performance;
 
-public class IndicatorsStatic
+public class IndicatorStatic
 {
     private static IEnumerable<Quote> q;
     private static IEnumerable<Quote> o;

@@ -29,7 +29,7 @@ jobs:
 
       - name: Benchmark indicators
         working-directory: tests/performance
-        run: dotnet run -c Release
+        run: dotnet run -c Release --filter *.GetEma
 
       - name: Save test results
         uses: actions/upload-artifact@v3
@@ -39,8 +39,12 @@ jobs:
 
       - name: Publish series summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
-        run: cat Tests.Performance.IndicatorsStatic-report-github.md >$GITHUB_STEP_SUMMARY
-        
+        run: |
+          echo "## Static indicators" >> $GITHUB_STEP_SUMMARY
+          cat Tests.Performance.IndicatorStatic-report-github.md >> $GITHUB_STEP_SUMMARY
+
       - name: Publish stream summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
-        run: cat Tests.Performance.IndicatorsStreaming-report-github.md >>$GITHUB_STEP_SUMMARY
+        run: |
+          echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY
+          cat Tests.Performance.IndicatorStream-report-github.md >> $GITHUB_STEP_SUMMARY

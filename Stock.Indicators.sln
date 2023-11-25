@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build-indicators.yml = .github\workflows\build-indicators.yml
 		gitversion.yml = gitversion.yml
+		.github\workflows\test-performance.yml = .github\workflows\test-performance.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observe.Streaming", "tests\observe\Observe.Streaming.csproj", "{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}"

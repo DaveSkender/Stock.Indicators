@@ -4,7 +4,7 @@ using Tests.Common;
 
 namespace Tests.Performance;
 
-public class IndicatorStream
+public class IndicatorStreamDirect
 {
     /*
      dotnet build -c Release
@@ -31,31 +31,26 @@ public class IndicatorStream
     [Benchmark]
     public object GetEma()
     {
-        QuoteProvider<Quote> provider = new();
-        Ema ema = provider.GetEma(14);
+        Ema ema = new(14);
 
         for (int i = 0; i < ql.Count; i++)
         {
             ema.Add(ql[i]);
         }
 
-        provider.EndTransmission();
         return ema.Results;
     }
 
     [Benchmark]
     public object GetSma()
     {
-        QuoteProvider<Quote> provider = new();
-        Sma observer = provider.GetSma(10);
+        Sma sma = new(10);
 
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.Add(ql[i]);
+            sma.Add(ql[i]);
         }
 
-        provider.EndTransmission();
-
-        return observer.Results;
+        return sma.Results;
     }
 }

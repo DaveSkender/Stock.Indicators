@@ -6,7 +6,7 @@ namespace Tests.Performance;
 
 // INTERNAL FUNCTIONS
 
-public class InternalsPerformance
+public class Internals
 {
     // standard deviation
 
