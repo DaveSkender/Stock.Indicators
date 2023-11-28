@@ -19,7 +19,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            SmaResult result = new(date);
+            SmaResult result = new() { Date = date };
             results.Add(result);
 
             if (i >= lookbackPeriods - 1)

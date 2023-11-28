@@ -3,24 +3,27 @@
 ## Breaking changes in v3
 
 - `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null`
-  for incalculable periods.  The standard results (e.g. `EmaResult.Ema` will still return null).
+  for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
 
 - `UlcerIndexResult` property `UI` was renamed to `UlcerIndex`
 
+- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal
+  utility, but were part of the public API since they were useful for custom indicator development.
+
 - **Deprecated internal signals**: several indicators were originally built with integrated but optional
-  moving averages.  With more moving average chaining options, these are obsolete, so we've removed them
-  for simplification.  These were persisted to avoid breaking your code; however, you will see a compiler
-  `Warnings` to help you identify areas to refactor.  Check for use in ADL, OBV, ROC, STDDEV, TRIX, and others.
+  moving averages, often by specifying an optional `smaPeriods` parameter.  With more moving average chaining options,
+  these are obsolete, so we've removed them for simplification.  These were persisted to avoid breaking your code;
+  however, you will see a compiler `Warnings` to help you identify areas to refactor.  Check for use in ADL, OBV, ROC, STDDEV, TRIX, and others.
   Future versions will not support the old API and will produce compiler `Errors`.
 
-```csharp
-// To refactor, here's an example replacement for ADL:
+  ```csharp
+  // To refactor, here's an example replacement for ADL:
 
-var results = quotes.GetAdl(10);
-var adlSma  = results.GetSma(5);
+  var results = quotes.GetAdl(10);
+  var adlSma  = results.GetSma(5);
 
-// ref: old usage example
+  // ref: old usage example
 
-var results = quotes
-  .GetAdl(lookbackPeriods: 10, smaPeriods: 5);
-```
+  var results = quotes
+    .GetAdl(lookbackPeriods: 10, smaPeriods: 5);
+  ```

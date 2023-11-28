@@ -32,11 +32,11 @@ public class IndicatorStreamFull
     public object GetEma()
     {
         QuoteProvider<Quote> provider = new();
-        Ema ema = provider.GetEma(14);
+        Ema<BasicData> ema = provider.GetEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {
-            ema.Add(ql[i]);
+            provider.Add(ql[i]);
         }
 
         provider.EndTransmission();
@@ -47,7 +47,7 @@ public class IndicatorStreamFull
     public object GetSma()
     {
         QuoteProvider<Quote> provider = new();
-        Sma observer = provider.GetSma(10);
+        Sma<BasicData> sma = provider.GetSma(10);
 
         for (int i = 0; i < ql.Count; i++)
         {
@@ -56,6 +56,6 @@ public class IndicatorStreamFull
 
         provider.EndTransmission();
 
-        return observer.Results;
+        return sma.Results;
     }
 }

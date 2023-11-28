@@ -40,12 +40,12 @@ public class QuoteStream
         // initialize our quote provider and a few subscribers
         QuoteProvider<Quote> provider = new();
 
-        Sma sma = provider.GetSma(3);
-        Ema ema = provider.GetEma(5);
-        Ema useChain = provider
+        Sma<BasicData> sma = provider.GetSma(3);
+        Ema<BasicData> ema = provider.GetEma(5);
+        Ema<BasicData> useChain = provider
             .Use(CandlePart.HL2)
             .GetEma(7);
-        Ema emaChain = provider
+        Ema<SmaResult> emaChain = provider
             .GetSma(4)
             .GetEma(4);
 

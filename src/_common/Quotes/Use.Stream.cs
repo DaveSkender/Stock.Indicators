@@ -1,9 +1,16 @@
 namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
-public class Use<TQuote> : QuoteInTupleOut<TQuote>
+
+// TODO: Get rid of TQuote modifier????????  We didn't need it before.
+public class Use<TQuote> : ChainProvider<BasicData>,
+    IObserver<(Act act, TQuote quote)>
     where TQuote : IQuote, new()
 {
+    // fields
+    private readonly IDisposable? unsubscriber;
+
+    // constructor, with provider
     public Use(
         QuoteProvider<TQuote> provider,
         CandlePart candlePart)
@@ -11,38 +18,97 @@ public class Use<TQuote> : QuoteInTupleOut<TQuote>
         QuoteSupplier = provider;
         CandlePartSelection = candlePart;
         Initialize();
+
+        // subscribe to quote provider
+        unsubscriber = provider != null
+         ? provider.Subscribe(this)
+         : throw new ArgumentNullException(nameof(provider));
     }
 
-    // PROPERTIES
+    // constructor, needs provider
+    public Use(CandlePart candlePart)
+    {
+        QuoteProvider<TQuote> provider = new();
 
-    public IEnumerable<(DateTime Date, double Value)> Results => ProtectedTuples;
+        QuoteSupplier = provider;
+        CandlePartSelection = candlePart;
+        Initialize();
+
+        // subscribe to quote provider
+        unsubscriber = provider.Subscribe(this);
+    }
+
+
+    private QuoteProvider<TQuote> QuoteSupplier { get; set; }
 
     private CandlePart CandlePartSelection { get; set; }
 
     // METHODS
 
-    // handle new arrival
-    public override void OnNext((Act act, TQuote quote) value)
+    // handle quote arrival
+    public virtual void OnNext((Act act, TQuote quote) value)
     {
-        (DateTime d, double v)
-            = value.quote.ToTuple(CandlePartSelection);
+        // candidate result
+        (DateTime d, double v) = value.quote.ToTuple(CandlePartSelection);
+        BasicData r = new() { Date = d, Value = v };
 
-        CacheAndDeliverTuple((value.act, d, v));
+        // save to cache
+        this.CacheWithAction(value.act, r);
+
+        // send to observers
+        NotifyObservers(value.act, r);
     }
 
-    // initialize and preload existing quote cache
+    public void OnCompleted() => Unsubscribe();
+
+    public void Unsubscribe() => unsubscriber?.Dispose();
+
+    // re/initialize my cache, from provider cache
     private void Initialize()
     {
-        List<(DateTime, double)> tuples = QuoteSupplier
-            .ProtectedQuotes
-            .ToTuple(CandlePartSelection);
+        ResetCache();  // clears my cache (and notifies my observers)
 
-        for (int i = 0; i < tuples.Count; i++)
+        // current provider cache
+        List<TQuote> quotes = QuoteSupplier.Cache;
+
+        // replay provider quotes
+        for (int i = 0; i < quotes.Count; i++)
         {
-            (DateTime date, double value) = tuples[i];
-            CacheAndDeliverTuple((Act.AddNew, date, value));
+            TQuote q = quotes[i];
+            OnNext((Act.AddNew, q));
         }
+    }
 
-        Subscribe();
+    // add one
+    public Act Add(TQuote quote)
+    {
+        (DateTime date, double value) = quote.ToTuple(CandlePart.Close);
+
+        // candidate result
+        BasicData r = new()
+        {
+            Date = date,
+            Value = value
+        };
+
+        // save to cache
+        Act act = this.CacheWithAnalysis(r);
+
+        // send to observers
+        NotifyObservers(act, r);
+
+        return act;
+    }
+
+    // add many
+    public void Add(IEnumerable<TQuote> quotes)
+    {
+        List<TQuote> added = quotes
+            .ToSortedList();
+
+        for (int i = 0; i < added.Count; i++)
+        {
+            Add(added[i]);
+        }
     }
 }

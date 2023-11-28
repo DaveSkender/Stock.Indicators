@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
-using System.Collections.ObjectModel;
 using Tests.Common;
 
 namespace Tests.Indicators;
@@ -20,7 +19,7 @@ public class SmaStreamTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma observer = provider
+        Sma<BasicData> observer = provider
             .GetSma(20);
 
         // fetch initial results
@@ -63,46 +62,46 @@ public class SmaStreamTests : TestBase
         provider.EndTransmission();
     }
 
-    [TestMethod]
-    public void Manual()
-    {
-        List<Quote> quotesList = quotes
-            .ToSortedList();
+    //[TestMethod]
+    //public void Manual()
+    //{
+    //    List<Quote> quotesList = quotes
+    //        .ToSortedList();
 
-        int length = quotesList.Count;
+    //    int length = quotesList.Count;
 
-        // initialize
-        Sma sma = new(14);
+    //    // initialize
+    //    Sma sma = new(14);
 
-        // roll through history
-        for (int i = 0; i < length; i++)
-        {
-            sma.Add(quotesList[i]);
-        }
+    //    // roll through history
+    //    for (int i = 0; i < length; i++)
+    //    {
+    //        sma.Add(quotesList[i]);
+    //    }
 
-        // results
-        List<SmaResult> resultList = sma.Results.ToList();
+    //    // results
+    //    List<SmaResult> resultList = sma.Results.ToList();
 
-        // time-series, for comparison
-        List<SmaResult> seriesList = quotes
-            .GetSma(14)
-            .ToList();
+    //    // time-series, for comparison
+    //    List<SmaResult> seriesList = quotes
+    //        .GetSma(14)
+    //        .ToList();
 
-        // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
-        {
-            SmaResult s = seriesList[i];
-            SmaResult r = resultList[i];
+    //    // assert, should equal series
+    //    for (int i = 0; i < seriesList.Count; i++)
+    //    {
+    //        SmaResult s = seriesList[i];
+    //        SmaResult r = resultList[i];
 
-            Assert.AreEqual(s.Date, r.Date);
-            Assert.AreEqual(s.Sma, r.Sma);
-        }
-    }
+    //        Assert.AreEqual(s.Date, r.Date);
+    //        Assert.AreEqual(s.Sma, r.Sma);
+    //    }
+    //}
 
     [TestMethod]
     public void Increment()
     {
-        double[] array = [1,2,3,4,5,6,7,8,9];
+        double[] array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
         double sma = Sma.Increment(array);
 
@@ -127,8 +126,8 @@ public class SmaStreamTests : TestBase
             provider.Add(quotesList[i]);
         }
 
-        // initialize EMA observer
-        Sma observer = provider
+        // initialize SMA observer
+        Sma<BasicData> observer = provider
             .Use(CandlePart.OC2)
             .GetSma(11);
 
@@ -168,7 +167,7 @@ public class SmaStreamTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize SMA observer
-        Sma observer = provider
+        Sma<BasicData> observer = provider
             .GetSma(10);
 
         // add duplicate to cover warmup
@@ -183,6 +182,5 @@ public class SmaStreamTests : TestBase
         provider.EndTransmission();
 
         Assert.AreEqual(1, observer.Results.Count());
-        Assert.AreEqual(1, observer.Tuples.Count());
     }
 }

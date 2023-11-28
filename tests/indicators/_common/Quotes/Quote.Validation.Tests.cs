@@ -7,7 +7,7 @@ namespace Tests.Common;
 public class QuoteValidationTests : TestBase
 {
     [TestMethod]
-    public void AreTheyEqual()
+    public void AreQuotesEqual()
     {
 
         Quote q1 = new()
@@ -38,6 +38,32 @@ public class QuoteValidationTests : TestBase
             Low = 1m,
             Close = 2m,
             Volume = 99
+        };
+
+        Assert.IsTrue(q1.IsEqual(q2));
+        Assert.IsFalse(q1.IsEqual(q3));
+    }
+
+    [TestMethod]
+    public void AreResultsEqual()
+    {
+
+        SmaResult q1 = new()
+        {
+            Date = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture),
+            Sma = 1d
+        };
+
+        SmaResult q2 = new()
+        {
+            Date = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture),
+            Sma = 1d
+        };
+
+        SmaResult q3 = new()
+        {
+            Date = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture),
+            Sma = 2d
         };
 
         Assert.IsTrue(q1.IsEqual(q2));

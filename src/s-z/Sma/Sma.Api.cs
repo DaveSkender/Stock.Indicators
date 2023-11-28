@@ -19,8 +19,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcSma(lookbackPeriods)
-;
+            .CalcSma(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<SmaResult> GetSma(
@@ -32,13 +31,13 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static Sma GetSma<TQuote>(
+    public static Sma<BasicData> GetSma<TQuote>(
         this QuoteProvider<TQuote> provider,
         int lookbackPeriods)
-        where TQuote:IQuote,new()
+        where TQuote : IQuote, new()
     {
         Use<TQuote> useObserver = provider
-            .Use<TQuote>(CandlePart.Close);
+            .Use(CandlePart.Close);
 
         return new(useObserver, lookbackPeriods);
     }
@@ -46,12 +45,14 @@ public static partial class Indicator
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static Sma GetSma(
-        this TupleProvider tupleProvider,
+    public static Sma<TResult> GetSma<TResult>(
+        this ChainProvider<TResult> chainProvider,
         int lookbackPeriods)
-        => new(tupleProvider, lookbackPeriods);
+        where TResult : IReusableResult, new()
+        => new(chainProvider, lookbackPeriods);
 
-    /// <include file='./info.xml' path='info/type[@name="Analysis"]/*' />
+
+    /// <include file='./info.xml' path='info/type[@name="analysis"]/*' />
     ///
     // ANALYSIS, from TQuote
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(
@@ -66,8 +67,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcSmaAnalysis(lookbackPeriods)
-;
+            .CalcSmaAnalysis(lookbackPeriods);
 
     // ANALYSIS, from TUPLE
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(

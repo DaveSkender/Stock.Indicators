@@ -57,4 +57,10 @@ public static partial class ResultUtility
         this TResult result)
         where TResult : IReusableResult
             => new(result.Date, result.Value);
+
+    // TODO: are these needed for custom indicators public API?
+    internal static (Act, DateTime, double) ToTupleResult<TResult>(
+        this TResult result, Act act)
+        where TResult : IReusableResult
+            => new(act, result.Date, result.Value);
 }

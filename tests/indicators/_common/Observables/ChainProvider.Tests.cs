@@ -5,7 +5,7 @@ using Tests.Common;
 namespace Tests.Indicators;
 
 [TestClass]
-public class TupleProviderTests : TestBase
+public class ChainProviderTests : TestBase
 {
     [TestMethod]
     public void Standard()
@@ -25,7 +25,7 @@ public class TupleProviderTests : TestBase
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.CacheAndDeliverQuote(quotesList[i]);
+            provider.CacheWithAnalysis(quotesList[i]);
         }
 
         // initialize Tuple-based observer
@@ -33,32 +33,31 @@ public class TupleProviderTests : TestBase
             .Use(CandlePart.Close);
 
         // fetch initial results
-        IEnumerable<(DateTime Date, double Value)> results
-            = observer.Results;
+        IEnumerable<BasicData> results = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.CacheAndDeliverQuote(q);
+            provider.Add(q);
         }
 
         // final results
-        List<(DateTime Date, double Value)> resultsList
+        List<BasicData> resultsList
             = results.ToList();
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
             (DateTime sDate, double sValue) = seriesList[i];
-            (DateTime rDate, double rValue) = resultsList[i];
+            BasicData r = resultsList[i];
 
-            Assert.AreEqual(sDate, rDate);
-            Assert.AreEqual(sValue, rValue);
+            Assert.AreEqual(sDate, r.Date);
+            Assert.AreEqual(sValue, r.Value);
         }
 
         // confirm public interface
-        Assert.AreEqual(observer.ProtectedTuples.Count, observer.Results.Count());
+        Assert.AreEqual(observer.Cache.Count, observer.Results.Count());
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -76,7 +75,7 @@ public class TupleProviderTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize EMA observer
-        Ema ema = provider
+        Ema<BasicData> ema = provider
             .Use(CandlePart.HL2)
             .GetEma(11);
 
@@ -143,10 +142,10 @@ public class TupleProviderTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            (DateTime date, double value) = observer.ProtectedTuples[i];
+            BasicData r = observer.Cache[i];
 
-            Assert.AreEqual(q.Date, date);
-            Assert.AreEqual((double)q.Close, value);
+            Assert.AreEqual(q.Date, r.Date);
+            Assert.AreEqual((double)q.Close, r.Value);
         }
 
         // close observations
@@ -157,19 +156,22 @@ public class TupleProviderTests : TestBase
     public void Overflow()
     {
         // initialize
-        TupleProvider tp = new();
+        QuoteProvider<Quote> provider = new();
+
+        Use<Quote> chainProvider = provider
+            .Use(CandlePart.Close);
 
         // add too many duplicates
         Assert.ThrowsException<OverflowException>(() =>
         {
-            DateTime d = DateTime.Now;
+            Quote q = new() { Date = DateTime.Now };
 
             for (int i = 0; i <= 101; i++)
             {
-                tp.Add((d, 12345));
+                chainProvider.Add(q);
             }
         });
 
-        Assert.AreEqual(1, tp.Tuples.Count());
+        Assert.AreEqual(1, chainProvider.Results.Count());
     }
 }

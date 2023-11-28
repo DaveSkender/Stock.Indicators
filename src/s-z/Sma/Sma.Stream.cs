@@ -2,62 +2,97 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public partial class Sma : TupleInTupleOut
+public class Sma<TResult> : ChainProvider<SmaResult>,
+    IObserver<(Act act, DateTime date, double price)>
+    where TResult : IReusableResult, new()
 {
+    // fields
+    private readonly IDisposable? unsubscriber;
+
     // constructor
     public Sma(
-        TupleProvider provider,
+        ChainProvider<TResult> provider,
         int lookbackPeriods)
     {
-        TupleSupplier = provider;
-        ProtectedResults = [];
+        ChainSupplier = provider;
+        LookbackPeriods = lookbackPeriods;
 
-        Initialize(lookbackPeriods);
-    }
+        Initialize();
 
-    // constructor for unmanaged flow
-    public Sma(
-        int lookbackPeriods)
-    {
-        ProtectedResults = [];
-
-        Initialize(lookbackPeriods);
+        // subscribe to chain provider
+        unsubscriber = provider != null
+         ? provider.Subscribe(this)
+         : throw new ArgumentNullException(nameof(provider));
     }
 
     // PROPERTIES
 
-    public IEnumerable<SmaResult> Results => ProtectedResults;
-    internal List<SmaResult> ProtectedResults { get; set; }
+    private ChainProvider<TResult> ChainSupplier { get; set; }
 
-    // configuration
     private int LookbackPeriods { get; set; }
 
     // METHODS
 
-    // handle quote arrival
-    public override void OnNext((Act , DateTime , double ) value)
-        => Increment(value);
-
-    // initialize and preload existing quote cache
-    private void Initialize(int lookbackPeriods)
+    // handle chain arrival
+    public virtual void OnNext((Act act, DateTime date, double price) value)
     {
-        // also usable for reinitialization
-
-        LookbackPeriods = lookbackPeriods;
-        ProtectedResults = [];
-
-        // TODO: should send delete instruction, see EMA, make like IResult
-        ProtectedTuples = [];
-
-        // add from upstream cache
-        List<(DateTime, double)> tuples = TupleSupplier.ProtectedTuples;
-
-        for (int i = 0; i < tuples.Count; i++)
+        // candidate result
+        SmaResult r = new()
         {
-            (DateTime date, double value) = tuples[i];
-            Increment((Act.AddNew, date, value));
+            Date = value.date,
+            Sma = Increment(value.date).NaN2Null()
+        };
+
+        // save to cache
+        this.CacheWithAction(value.act, r);
+
+        // send to observers
+        NotifyObservers(value.act, r);
+    }
+
+    private double Increment(DateTime newDate)
+    {
+        int i = ChainSupplier.Cache.FindIndex(newDate);
+
+        // normal
+        if (i >= LookbackPeriods - 1)
+        {
+            double sum = 0;
+            for (int w = i - LookbackPeriods + 1; w <= i; w++)
+            {
+                sum += ChainSupplier.Cache[w].Value;
+            }
+
+            return sum / LookbackPeriods;
         }
 
-        Subscribe();
+        // warmup periods
+        if (i >= 0)
+        {
+            return double.NaN;
+        }
+
+        // i == -1 when source value not found
+        throw new InvalidOperationException("Basis not found.");
+    }
+
+    public void OnCompleted() => Unsubscribe();
+
+    public void Unsubscribe() => unsubscriber?.Dispose();
+
+    // re/initialize my cache, from provider cache
+    private void Initialize()
+    {
+        ResetCache();  // clears my cache (and notifies my observers)
+
+        // current provider cache
+        List<TResult> inbound = ChainSupplier.Cache;
+
+        // replay provider quotes
+        for (int i = 0; i < inbound.Count; i++)
+        {
+            TResult r = inbound[i];
+            OnNext((Act.AddNew, r.Date, r.Value));
+        }
     }
 }

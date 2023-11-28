@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE PROVIDER
 
-public class QuoteProvider<TQuote>
-    : IObservable<(Act, TQuote)>
+public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
+    IObservable<(Act, TQuote)>
     where TQuote : IQuote, new()
 {
     // fields
@@ -13,18 +13,22 @@ public class QuoteProvider<TQuote>
     public QuoteProvider()
     {
         observers = [];
-        ProtectedQuotes = [];
+        Cache = [];
         LastArrival = new();
+        OverflowCount = 0;
     }
 
     // PROPERTIES
 
-    public IEnumerable<TQuote> Quotes => ProtectedQuotes;
+    public IEnumerable<TQuote> Quotes => Cache;
 
-    internal List<TQuote> ProtectedQuotes { get; private set; }
+    public IEnumerable<TQuote> Results => Cache;
 
-    private int OverflowCount { get; set; }
-    private TQuote LastArrival { get; set; }
+    public List<TQuote> Cache { get; set; }
+
+    public TQuote LastArrival { get; set; }
+
+    public int OverflowCount { get; set; }
 
     // METHODS
 
@@ -39,14 +43,14 @@ public class QuoteProvider<TQuote>
         return new Unsubscriber(observers, observer);
     }
 
-    // close all observations
+    // unsubscribe all observers
     public void EndTransmission()
     {
-        foreach (IObserver<(Act, TQuote)> observer in observers.ToArray())
+        foreach (IObserver<(Act, TQuote)> obs in observers.ToArray())
         {
-            if (observers.Contains(observer))
+            if (observers.Contains(obs))
             {
-                observer.OnCompleted();
+                obs.OnCompleted();
             }
         }
 
@@ -54,9 +58,13 @@ public class QuoteProvider<TQuote>
     }
 
     // add one
-    public Act Add(TQuote quote) => quote == null
-        ? throw new ArgumentNullException(nameof(quote), "Quote cannot be null.")
-        : CacheAndDeliverQuote(quote);
+    public Act Add(TQuote quote)
+    {
+        Act act = this.CacheWithAnalysis(quote);
+
+        NotifyObservers((act, quote));
+        return act;
+    }
 
     // add many
     public void Add(IEnumerable<TQuote> quotes)
@@ -66,111 +74,25 @@ public class QuoteProvider<TQuote>
 
         for (int i = 0; i < added.Count; i++)
         {
-            Act act = CacheAndDeliverQuote(added[i]);
+            Add(added[i]);
         }
     }
 
-    // cache and deliver
-    internal Act CacheAndDeliverQuote(TQuote quote)
+    // delete cache, gracefully
+    public void ResetCache()
     {
-        // check for overflow and repeat arrival
-        if (IsRepeat(quote))
+        int length = Cache.Count;
+
+        if (length > 0)
         {
-            // do not propogate
-            return Act.DoNothing;
-        }
-
-        // initialize
-        Act act = new();
-        int length = ProtectedQuotes.Count;
-
-        // handle scenarios
-
-        // first
-        if (length == 0)
-        {
-            act = Act.AddNew;
-
-            ProtectedQuotes.Add(quote);
-            NotifyObservers((act, quote));
-
-            return act;
-        }
-
-        TQuote last = ProtectedQuotes[length - 1];
-
-        // newer
-        if (quote.Date > last.Date)
-        {
-            act = Act.AddNew;
-            ProtectedQuotes.Add(quote);
-        }
-
-        // current
-        else if (quote.Date == last.Date)
-        {
-            act = Act.UpdateLast;
-            last = quote;
-        }
-
-        // late arrival
-        else
-        {
-            // find
-            int i = ProtectedQuotes
-                .FindIndex(x => x.Date == quote.Date);
-
-            // replace
-            if (i != -1)
+            // delete and deliver instruction,
+            // in reverse order to prevent recompositions
+            for (int i = length - 1; i > 0; i--)
             {
-                act = Act.UpdateOld;
-                ProtectedQuotes[i] = quote;
+                TQuote q = Cache[i];
+                Act act = this.CacheWithAction(Act.Delete, q);
+                NotifyObservers((act, q));
             }
-
-            // add missing
-            else
-            {
-                act = Act.AddOld;
-                ProtectedQuotes.Add(quote);
-
-                // re-sort cache
-                ProtectedQuotes = ProtectedQuotes
-                    .ToSortedList();
-            }
-        }
-
-        // let observer handle
-        NotifyObservers((act, quote));
-        return act;
-    }
-
-    // evaluate overflow condition
-    private bool IsRepeat(TQuote quote)
-    {
-        // check for overflow and repeat condition
-        // where same tuple continues (possible circular condition)
-
-        if (quote.IsEqual(LastArrival))
-        {
-            OverflowCount++;
-
-            if (OverflowCount > 100)
-            {
-                EndTransmission();
-
-                string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
-                           + "Check and remove circular chains or check your Quote provider."
-                           + "Provider terminated.";
-
-                throw new OverflowException(msg);
-            }
-            return true;
-        }
-        else
-        {
-            OverflowCount = 0;
-            LastArrival = quote;
-            return false;
         }
     }
 
@@ -191,6 +113,7 @@ public class QuoteProvider<TQuote>
         List<IObserver<(Act, TQuote)>> observers,
         IObserver<(Act, TQuote)> observer) : IDisposable
     {
+        // can't mutate and iterate on same list, make copy
         private readonly List<IObserver<(Act, TQuote)>> observers = observers;
         private readonly IObserver<(Act, TQuote)> observer = observer;
 

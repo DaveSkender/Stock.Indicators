@@ -76,7 +76,8 @@
         for more information.
       </para>
     </summary>
-    <param name="tupleProvider">Observable from chained indicator.</param>
+    <typeparam name="TResult">Provider output type.  See Guide for more information.</typeparam>
+    <param name="chainProvider">Observable from chained indicator.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
     <returns>Observable EMA instance.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>

@@ -1,15 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public interface IBasicData
+// TODO: is this serializable attribute even needed?
+// TODO: this "BasicData" name smells funny, especially if it's showing in stream modifiers
+[Serializable]
+public sealed class BasicData : ResultBase, IReusableResult
 {
-    public DateTime Date { get; }
-    public double Value { get; }
-}
-
-public class BasicData : ISeries, IBasicData, IReusableResult
-{
-    public DateTime Date { get; set; }
     public double Value { get; set; }
-
-    double IReusableResult.Value => Value;
 }
