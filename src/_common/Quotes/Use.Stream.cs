@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // USE (STREAMING)
 
 // TODO: Get rid of TQuote modifier????????  We didn't need it before.
-public class Use<TQuote> : ChainProvider<BasicData>,
+public class Use<TQuote> : ChainProvider, IChainProvider<BasicData>,
     IObserver<(Act act, TQuote quote)>
     where TQuote : IQuote, new()
 {
@@ -17,6 +17,10 @@ public class Use<TQuote> : ChainProvider<BasicData>,
     {
         QuoteSupplier = provider;
         CandlePartSelection = candlePart;
+
+        Cache = [];
+        LastArrival= new();
+
         Initialize();
 
         // subscribe to quote provider
@@ -25,25 +29,43 @@ public class Use<TQuote> : ChainProvider<BasicData>,
          : throw new ArgumentNullException(nameof(provider));
     }
 
-    // constructor, needs provider
-    public Use(CandlePart candlePart)
-    {
-        QuoteProvider<TQuote> provider = new();
+    // PROPERTIES
 
-        QuoteSupplier = provider;
-        CandlePartSelection = candlePart;
-        Initialize();
+    // common
 
-        // subscribe to quote provider
-        unsubscriber = provider.Subscribe(this);
-    }
+    public IEnumerable<BasicData> Results => Cache;
 
+    public List<BasicData> Cache { get; set; }  // TODO: why can't these be internal set?
+
+    public int OverflowCount { get ; set; }
+
+    public BasicData LastArrival { get; set; }
 
     private QuoteProvider<TQuote> QuoteSupplier { get; set; }
 
+    // unique
+
     private CandlePart CandlePartSelection { get; set; }
 
+
     // METHODS
+
+    // re/initialize cache, from provider
+    public void Initialize()
+    {
+        // clears cache (and notifies my observers)
+        this.ResetCache(observers);
+
+        // current provider cache
+        List<TQuote> quotes = QuoteSupplier.Cache;
+
+        // replay provider quotes
+        for (int i = 0; i < quotes.Count; i++)
+        {
+            TQuote q = quotes[i];
+            OnNext((Act.AddNew, q));
+        }
+    }
 
     // handle quote arrival
     public virtual void OnNext((Act act, TQuote quote) value)
@@ -62,53 +84,4 @@ public class Use<TQuote> : ChainProvider<BasicData>,
     public void OnCompleted() => Unsubscribe();
 
     public void Unsubscribe() => unsubscriber?.Dispose();
-
-    // re/initialize my cache, from provider cache
-    private void Initialize()
-    {
-        ResetCache();  // clears my cache (and notifies my observers)
-
-        // current provider cache
-        List<TQuote> quotes = QuoteSupplier.Cache;
-
-        // replay provider quotes
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            TQuote q = quotes[i];
-            OnNext((Act.AddNew, q));
-        }
-    }
-
-    // add one
-    public Act Add(TQuote quote)
-    {
-        (DateTime date, double value) = quote.ToTuple(CandlePart.Close);
-
-        // candidate result
-        BasicData r = new()
-        {
-            Date = date,
-            Value = value
-        };
-
-        // save to cache
-        Act act = this.CacheWithAnalysis(r);
-
-        // send to observers
-        NotifyObservers(act, r);
-
-        return act;
-    }
-
-    // add many
-    public void Add(IEnumerable<TQuote> quotes)
-    {
-        List<TQuote> added = quotes
-            .ToSortedList();
-
-        for (int i = 0; i < added.Count; i++)
-        {
-            Add(added[i]);
-        }
-    }
 }

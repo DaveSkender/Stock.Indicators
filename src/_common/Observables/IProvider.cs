@@ -1,5 +1,11 @@
 namespace Skender.Stock.Indicators;
 
+public interface IChainProvider<TResult> : IProvider<TResult>
+    where TResult : IReusableResult, new()
+{
+    internal new List<TResult> Cache { get; set; }
+}
+
 public interface IProvider<TSeries> : IResultCache<TSeries>
     where TSeries : ISeries, new()
 {
@@ -25,5 +31,5 @@ public interface IResultCache<TSeries>
 
     // METHODS
 
-    internal abstract void ResetCache();
+    void Initialize();
 }

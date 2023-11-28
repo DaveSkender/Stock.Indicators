@@ -16,6 +16,8 @@ public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
         Cache = [];
         LastArrival = new();
         OverflowCount = 0;
+
+        Initialize();
     }
 
     // PROPERTIES
@@ -31,6 +33,8 @@ public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
     public int OverflowCount { get; set; }
 
     // METHODS
+
+    public void Initialize() => ResetCache();
 
     // subscribe observer
     public IDisposable Subscribe(IObserver<(Act, TQuote)> observer)

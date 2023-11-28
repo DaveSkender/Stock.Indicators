@@ -8,6 +8,13 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Naming",
     "CA1716:Identifiers should not match keywords",
+    Justification = "Required name for System.IObservable (Microsoft bug)",
+    Scope = "member",
+    Target = "~M:Skender.Stock.Indicators.ChainProvider.OnError(System.Exception)")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
     Justification = "Not really an issue.",
     Scope = "member",
     Target = "~P:Skender.Stock.Indicators.ISeries.Date")]

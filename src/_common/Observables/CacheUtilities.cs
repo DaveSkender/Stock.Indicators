@@ -195,4 +195,39 @@ public static class CacheUtility
 
         return act;
     }
+
+
+    // delete cache, gracefully
+    public static void ResetCache<TResult>(
+        this IProvider<TResult> provider,
+        List<IObserver<(Act, DateTime, double)>> observers)
+        where TResult : IReusableResult, new()
+    {
+        int length = provider.Cache.Count;
+
+        if (length > 0)
+        {
+            // delete and deliver instruction,
+            // in reverse order to prevent recompositions
+            for (int i = length - 1; i > 0; i--)
+            {
+                TResult r = provider.Cache[i];
+                Act act = provider.CacheWithAction(Act.Delete, r);
+                observers.Notify((act, r.Date, r.Value));
+            }
+        }
+    }
+
+    internal static void Notify(
+        this List<IObserver<(Act, DateTime, double)>> observers,
+        (Act, DateTime, double) chainMessage)
+    {
+        List<IObserver<(Act, DateTime, double)>> obsList = [.. observers];
+
+        for (int i = 0; i < obsList.Count; i++)
+        {
+            IObserver<(Act, DateTime, double)> obs = obsList[i];
+            obs.OnNext(chainMessage);
+        }
+    }
 }
