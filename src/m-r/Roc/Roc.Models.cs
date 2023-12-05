@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class RocResult : ResultBase, IReusableResult
 {
-    public RocResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? Momentum { get; set; }
     public double? Roc { get; set; }
 

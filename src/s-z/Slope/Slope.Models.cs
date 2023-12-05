@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class SlopeResult : ResultBase, IReusableResult
 {
-    public SlopeResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? Slope { get; set; }
     public double? Intercept { get; set; }
     public double? StdDev { get; set; }

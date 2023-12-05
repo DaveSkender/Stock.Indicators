@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            StochResult r = new(q.Date);
+            StochResult r = new() { Date = q.Date };
             results.Add(r);
 
             // initial %K oscillator

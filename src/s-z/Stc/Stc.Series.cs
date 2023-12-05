@@ -34,7 +34,11 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             StochResult r = stochMacd[i];
-            results.Add(new StcResult(r.Date) { Stc = r.Oscillator });
+            results.Add(new StcResult()
+            {
+                Date = r.Date,
+                Stc = r.Oscillator
+            });
         }
 
         return results;

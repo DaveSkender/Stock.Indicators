@@ -25,7 +25,7 @@ public static partial class Indicator
         // initialize, add first records
         double prevPrice = tpList[0].Value;
 
-        results.Add(new CmoResult(tpList[0].Date));
+        results.Add(new CmoResult() { Date = tpList[0].Date });
         ticks.Add((null, double.NaN));
 
         // roll through remaining prices
@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             (DateTime date, double price) = tpList[i];
 
-            CmoResult r = new(date);
+            CmoResult r = new() { Date = date };
             results.Add(r);
 
             // determine tick direction and size

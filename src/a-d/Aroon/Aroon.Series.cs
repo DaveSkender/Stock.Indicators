@@ -19,7 +19,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AroonResult r = new(q.Date);
+            AroonResult r = new() { Date = q.Date };
             results.Add(r);
 
             // add aroons

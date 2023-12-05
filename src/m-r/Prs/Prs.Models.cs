@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class PrsResult : ResultBase, IReusableResult
 {
-    public PrsResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? Prs { get; set; }
     public double? PrsPercent { get; set; }
 

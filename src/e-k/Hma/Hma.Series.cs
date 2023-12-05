@@ -6,7 +6,7 @@ public static partial class Indicator
 {
     // calculate series
     internal static List<HmaResult> CalcHma(
-        this List<(DateTime, double)> tpList,
+        this List<(DateTime Date, double _)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -41,13 +41,14 @@ public static partial class Indicator
 
         List<HmaResult> results = tpList
             .Take(shiftQty)
-            .Select(x => new HmaResult(x.Item1))
+            .Select(x => new HmaResult() { Date = x.Date })
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
-            .Select(x => new HmaResult(x.Date)
+            .Select(x => new HmaResult()
             {
+                Date = x.Date,
                 Hma = x.Wma
             })
             .ToList();

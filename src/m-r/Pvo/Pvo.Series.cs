@@ -28,7 +28,7 @@ public static partial class Indicator
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
-            PvoResult r = new(date);
+            PvoResult r = new() { Date = date };
             results.Add(r);
 
             if (i >= slowPeriods - 1)

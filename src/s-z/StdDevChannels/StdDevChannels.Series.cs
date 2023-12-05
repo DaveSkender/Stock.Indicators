@@ -21,7 +21,7 @@ public static partial class Indicator
 
         int length = slopeResults.Count;
         List<StdDevChannelsResult> results = slopeResults
-            .Select(x => new StdDevChannelsResult(x.Date))
+            .Select(x => new StdDevChannelsResult() { Date = x.Date })
             .ToList();
 
         // roll through quotes in reverse

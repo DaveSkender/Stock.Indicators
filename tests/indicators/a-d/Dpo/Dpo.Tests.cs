@@ -29,8 +29,9 @@ public class DpoTests : TestBase
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult(date)
+            exp.Add(new DpoResult()
             {
+                Date = date,
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()
             });

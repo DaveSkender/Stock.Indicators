@@ -33,7 +33,11 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double roc) = tpRoc[i];
-            RocWbResult r = new(date) { Roc = roc.NaN2Null() };
+            RocWbResult r = new()
+            {
+                Date = date,
+                Roc = roc.NaN2Null()
+            };
             results.Add(r);
 
             // exponential moving average

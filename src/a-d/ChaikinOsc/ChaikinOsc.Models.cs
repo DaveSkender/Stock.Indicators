@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class ChaikinOscResult : ResultBase, IReusableResult
 {
-    public ChaikinOscResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? MoneyFlowMultiplier { get; set; }
     public double? MoneyFlowVolume { get; set; }
     public double? Adl { get; set; }

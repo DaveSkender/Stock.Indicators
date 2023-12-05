@@ -31,8 +31,9 @@ public static partial class Indicator
                 obv -= q.Volume;
             }
 
-            ObvResult r = new(q.Date)
+            ObvResult r = new()
             {
+                Date = q.Date,
                 Obv = obv
             };
             results.Add(r);

@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class StdDevResult : ResultBase, IReusableResult
 {
-    public StdDevResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? StdDev { get; set; }
     public double? Mean { get; set; }
     public double? ZScore { get; set; }

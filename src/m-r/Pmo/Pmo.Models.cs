@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class PmoResult : ResultBase, IReusableResult
 {
-    public PmoResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? Pmo { get; set; }
     public double? Signal { get; set; }
 

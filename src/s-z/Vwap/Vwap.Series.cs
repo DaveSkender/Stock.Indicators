@@ -34,7 +34,7 @@ public static partial class Indicator
             double? l = q.Low;
             double? c = q.Close;
 
-            VwapResult r = new(q.Date);
+            VwapResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (q.Date >= startDate)

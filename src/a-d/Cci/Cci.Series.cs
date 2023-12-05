@@ -22,7 +22,7 @@ public static partial class Indicator
             QuoteD q = qdList[i];
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
-            CciResult r = new(q.Date);
+            CciResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

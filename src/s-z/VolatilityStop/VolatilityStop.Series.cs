@@ -36,7 +36,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
             sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
-            results.Add(new VolatilityStopResult(date));
+            results.Add(new VolatilityStopResult() { Date = date });
         }
 
         // roll through quotes
@@ -47,10 +47,10 @@ public static partial class Indicator
             // average true range × multiplier constant
             double? arc = atrList[i - 1].Atr * multiplier;
 
-            VolatilityStopResult r = new(date)
+            VolatilityStopResult r = new()
             {
-                // stop and reverse threshold
-                Sar = isLong ? sic - arc : sic + arc
+                Date = date,
+                Sar = isLong ? sic - arc : sic + arc  // stop and reverse threshold
             };
             results.Add(r);
 

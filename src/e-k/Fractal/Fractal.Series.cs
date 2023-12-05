@@ -22,7 +22,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            FractalResult r = new(q.Date);
+            FractalResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i + 1 > leftSpan && i + 1 <= quotesList.Count - rightSpan)

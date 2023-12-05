@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KeltnerResult r = new(q.Date);
+            KeltnerResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

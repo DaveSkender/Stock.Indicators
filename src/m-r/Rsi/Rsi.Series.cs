@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            RsiResult r = new(date);
+            RsiResult r = new() { Date = date };
             results.Add(r);
 
             if (double.IsNaN(value) || double.IsNaN(prevValue))

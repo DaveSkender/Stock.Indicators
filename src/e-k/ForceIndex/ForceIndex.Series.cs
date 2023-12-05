@@ -24,7 +24,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ForceIndexResult r = new(q.Date);
+            ForceIndexResult r = new() { Date = q.Date };
             results.Add(r);
 
             // skip first period

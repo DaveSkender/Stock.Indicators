@@ -19,7 +19,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            UlcerIndexResult r = new(date);
+            UlcerIndexResult r = new() { Date = date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

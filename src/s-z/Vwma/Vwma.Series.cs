@@ -20,7 +20,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            VwmaResult r = new(q.Date);
+            VwmaResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

@@ -26,7 +26,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            UltimateResult r = new(q.Date);
+            UltimateResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i > 0)

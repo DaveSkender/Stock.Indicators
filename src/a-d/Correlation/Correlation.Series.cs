@@ -28,7 +28,7 @@ public static partial class Indicator
                     "Date sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
-            CorrResult r = new(aDate);
+            CorrResult r = new() { Date = aDate };
             results.Add(r);
 
             // calculate correlation

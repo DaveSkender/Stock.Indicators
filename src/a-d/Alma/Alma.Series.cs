@@ -33,7 +33,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < tpList.Count; i++)
         {
-            AlmaResult r = new(tpList[i].Date);
+            AlmaResult r = new() { Date = tpList[i].Date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

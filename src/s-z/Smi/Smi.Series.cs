@@ -37,7 +37,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SmiResult r = new(q.Date);
+            SmiResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

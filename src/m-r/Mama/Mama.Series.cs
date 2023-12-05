@@ -43,7 +43,7 @@ public static partial class Indicator
             (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
-            MamaResult r = new(date);
+            MamaResult r = new() { Date = date };
             results.Add(r);
 
             // skip incalculable periods

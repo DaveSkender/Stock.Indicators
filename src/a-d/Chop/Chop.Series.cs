@@ -26,7 +26,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
         {
-            ChopResult r = new(qdList[i].Date);
+            ChopResult r = new() { Date = qdList[i].Date };
             results.Add(r);
 
             if (i > 0)

@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class CorrResult : ResultBase, IReusableResult
 {
-    public CorrResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? VarianceA { get; set; }
     public double? VarianceB { get; set; }
     public double? Covariance { get; set; }

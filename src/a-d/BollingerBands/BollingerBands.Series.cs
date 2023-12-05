@@ -20,7 +20,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            BollingerBandsResult r = new(date);
+            BollingerBandsResult r = new() { Date = date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

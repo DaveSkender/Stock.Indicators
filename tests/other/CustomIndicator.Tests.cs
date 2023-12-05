@@ -8,11 +8,6 @@ namespace Tests.CustomIndicators;
 
 public sealed class MyResult : ResultBase, IReusableResult
 {
-    public MyResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? Sma { get; set; }
 
     double IReusableResult.Value => Sma.Null2NaN();
@@ -61,7 +56,7 @@ public static class CustomIndicator
         {
             (DateTime date, double _) = tpList[i];
 
-            MyResult result = new(date);
+            MyResult result = new() { Date = date };
             results.Add(result);
 
             if (i >= lookbackPeriods - 1)

@@ -38,7 +38,7 @@ public static partial class Indicator
         {
             QuoteD? q = qdList[i];
 
-            ParabolicSarResult r = new(q.Date);
+            ParabolicSarResult r = new() { Date = q.Date };
             results.Add(r);
 
             // skip first one

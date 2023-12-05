@@ -17,7 +17,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            TrResult r = new(q.Date);
+            TrResult r = new() { Date = q.Date };
             results.Add(r);
 
             if (i == 0)

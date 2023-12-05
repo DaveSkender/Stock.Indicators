@@ -2,11 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public sealed class MacdResult : ResultBase, IReusableResult
 {
-    public MacdResult(DateTime date)
-    {
-        Date = date;
-    }
-
     public double? Macd { get; set; }
     public double? Signal { get; set; }
     public double? Histogram { get; set; }
