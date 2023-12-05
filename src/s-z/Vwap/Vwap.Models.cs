@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class VwapResult : ResultBase, IReusableResult
 {
     public VwapResult(DateTime date)

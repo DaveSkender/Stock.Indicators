@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class AlligatorResult : ResultBase
 {
     public AlligatorResult(DateTime date)

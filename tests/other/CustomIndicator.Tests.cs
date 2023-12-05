@@ -33,8 +33,7 @@ public static class CustomIndicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleChainable()
-            .CalcIndicator(lookbackPeriods)
-;
+            .CalcIndicator(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<MyResult> GetIndicator(

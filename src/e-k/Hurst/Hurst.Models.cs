@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class HurstResult : ResultBase, IReusableResult
 {
     public HurstResult(DateTime date)

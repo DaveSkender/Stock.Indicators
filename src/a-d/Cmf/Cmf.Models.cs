@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class CmfResult : ResultBase, IReusableResult
 {
     public CmfResult(DateTime date)

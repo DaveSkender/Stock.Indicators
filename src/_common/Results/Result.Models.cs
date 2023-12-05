@@ -14,7 +14,6 @@ public interface IReusableResult : IResult
 }
 
 // base result
-[Serializable]
 public abstract class ResultBase : IResult
 {
     public DateTime Date { get; set; }

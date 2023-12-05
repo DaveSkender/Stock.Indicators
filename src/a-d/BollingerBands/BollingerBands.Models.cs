@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class BollingerBandsResult : ResultBase, IReusableResult
 {
     public BollingerBandsResult(DateTime date)

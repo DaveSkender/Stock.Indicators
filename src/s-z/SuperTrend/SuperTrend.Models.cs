@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class SuperTrendResult : ResultBase
 {
     public SuperTrendResult(DateTime date)

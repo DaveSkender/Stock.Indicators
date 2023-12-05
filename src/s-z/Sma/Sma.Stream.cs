@@ -69,11 +69,17 @@ public partial class Sma : ChainObserver<SmaResult>
         Act act = CacheChainorPerAction(value.act, r, sma);
 
         // send to observers
-        NotifyObservers(act, r);
-
-        // rebuild forward values, when needed
-        if (act != Act.AddNew)
+        if (act == Act.AddNew)
         {
+            NotifyObservers(act, r);
+        }
+
+        // rebuild cache from this point forward
+        else
+        {
+            // note: intuitively an update would be more proficient than delete and replay; however,
+            // given the chain reaction of observer rebuilds, delete and rebuild is the most humane.
+
             ClearCache(r.Date);
             RebuildCache(r.Date);
         }

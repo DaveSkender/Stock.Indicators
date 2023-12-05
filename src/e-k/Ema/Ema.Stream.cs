@@ -86,14 +86,17 @@ public partial class Ema : ChainObserver<EmaResult>
         Act act = CacheChainorPerAction(value.act, r, ema);
 
         // send to observers
-        NotifyObservers(act, r);
-
-        // TODO: use "update" approach, but maybe with pruning when not matched with supplier?
-        // but would need to handle differently here as it triggers on non-AddNew scenarios.
-
-        // rebuild forward values, when needed
-        if (act != Act.AddNew)
+        if (act == Act.AddNew)
         {
+            NotifyObservers(act, r);
+        }
+
+        // rebuild cache from this point forward
+        else
+        {
+            // note: intuitively an update would be more proficient than delete and replay; however,
+            // given the chain reaction of observer rebuilds, delete and rebuild is the most humane.
+
             ClearCache(r.Date);
             RebuildCache(r.Date);
         }

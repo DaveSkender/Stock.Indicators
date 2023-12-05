@@ -51,3 +51,5 @@ Items marked with &#128681; require special attention since they will not produc
   utility, but were part of the public API since they were useful for custom indicator development.  Internally,
   we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit
   warmup periods.
+
+- removed [`[Serializable]` attribute](https://learn.microsoft.com/en-us/dotnet/api/system.serializableattribute) from all base type classes as it is generally obsolete in modern .NET Core frameworks.

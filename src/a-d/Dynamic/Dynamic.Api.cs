@@ -20,8 +20,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double kFactor = 0.6) => results
             .ToTupleResult()
-            .CalcDynamic(lookbackPeriods, kFactor)
-;
+            .CalcDynamic(lookbackPeriods, kFactor);
 
     // SERIES, from TUPLE
     public static IEnumerable<DynamicResult> GetDynamic(

@@ -18,8 +18,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcRoc(lookbackPeriods)
-;
+            .CalcRoc(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<RocResult> GetRoc(

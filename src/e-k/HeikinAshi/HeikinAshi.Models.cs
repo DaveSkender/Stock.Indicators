@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class HeikinAshiResult : ResultBase, IQuote
 {
     public HeikinAshiResult(DateTime date)

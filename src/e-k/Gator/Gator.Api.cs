@@ -26,8 +26,7 @@ public static partial class Indicator
             .ToTupleResult()
             .GetAlligator()
             .ToList()
-            .CalcGator()
-;
+            .CalcGator();
 
     // SERIES, from TUPLE
     public static IEnumerable<GatorResult> GetGator(

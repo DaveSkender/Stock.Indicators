@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class AroonResult : ResultBase, IReusableResult
 {
     public AroonResult(DateTime date)

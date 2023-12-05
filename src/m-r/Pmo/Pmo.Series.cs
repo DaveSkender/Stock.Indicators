@@ -54,9 +54,7 @@ public static partial class Indicator
             }
             else
             {
-                // TODO: pretty sure these are the same formula, prefer the first
                 rocEma = prevRocEma + (smoothingConstant2 * (rc[i] - prevRocEma));
-                //rocEma = (rc[i] * smoothingMultiplier) + (prevRocEma * (1 - smoothingMultiplier));
             }
 
             re[i] = rocEma * 10;

@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class RollingPivotsResult : ResultBase, IPivotPoint
 {
     public decimal? R4 { get; set; }

@@ -42,30 +42,18 @@ public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
         NotifyObservers(value.act, r);
     }
 
-    // re/initialize cache, from provider
-    public override void Initialize()
-    {
-        ResetCache();  // clears my cache (and notifies my observers)
-
-        // replay from supplier cache
-        List<TQuote> quotes = QuoteSupplier.Cache;
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            OnNext((Act.AddNew, quotes[i]));
-        }
-    }
-
-    // delete cache, gracefully
-    internal override void ResetCache()
+    // delete cache between index values
+    // usually called from inherited ClearCache(fromDate)
+    internal override void ClearCache(int fromIndex, int toIndex)
     {
         // delete and deliver instruction,
         // in reverse order to prevent recompositions
-        for (int i = Cache.Count - 1; i > 0; i--)
+
+        for (int i = toIndex; i >= fromIndex; i--)
         {
             UseResult r = Cache[i];
             Act act = CacheChainorPerAction(Act.Delete, r, double.NaN);
-            NotifyObservers((act, r.Date, r.Value));
+            NotifyObservers(act, r);
         }
     }
 }

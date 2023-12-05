@@ -19,7 +19,6 @@ public static partial class Indicator
         double k = 2d / (emaPeriods + 1);
         double prevEma = double.NaN;
 
-        // TODO: any perf tuning? maybe convert this directly to results list?
         List<(DateTime _, double Roc)> tpRoc = tpList
             .CalcRoc(lookbackPeriods)
             .ToTupleResult();

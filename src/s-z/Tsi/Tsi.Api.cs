@@ -22,8 +22,7 @@ public static partial class Indicator
         int smoothPeriods = 13,
         int signalPeriods = 7) => results
             .ToTupleResult()
-            .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods)
-;
+            .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<TsiResult> GetTsi(

@@ -32,8 +32,7 @@ public static partial class Indicator
                 rsiPeriods,
                 stochPeriods,
                 signalPeriods,
-                smoothPeriods)
-;
+                smoothPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<StochRsiResult> GetStochRsi(

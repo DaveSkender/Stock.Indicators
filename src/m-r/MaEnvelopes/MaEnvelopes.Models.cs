@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class MaEnvelopeResult : ResultBase
 {
     public MaEnvelopeResult(DateTime date)

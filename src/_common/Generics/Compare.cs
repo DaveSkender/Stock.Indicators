@@ -4,8 +4,6 @@ namespace Skender.Stock.Indicators;
 
 public static class CompareUtility
 {
-    // TODO: Unused, since it's too expensive.  Consider alternative override of native Equals, IEquatable operator
-
     // equal tuples
     internal static bool IsEqual(
         this (DateTime date, double value) a,

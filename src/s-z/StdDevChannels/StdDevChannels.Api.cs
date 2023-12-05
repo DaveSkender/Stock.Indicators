@@ -20,8 +20,7 @@ public static partial class Indicator
         int? lookbackPeriods = 20,
         double stdDeviations = 2) => results
             .ToTupleResult()
-            .CalcStdDevChannels(lookbackPeriods, stdDeviations)
-;
+            .CalcStdDevChannels(lookbackPeriods, stdDeviations);
 
     // SERIES, from TUPLE
     public static IEnumerable<StdDevChannelsResult> GetStdDevChannels(

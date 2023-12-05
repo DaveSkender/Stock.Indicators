@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class EpmaResult : ResultBase, IReusableResult
 {
     public EpmaResult(DateTime date)

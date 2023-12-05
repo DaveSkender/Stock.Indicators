@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class ChandelierResult : ResultBase, IReusableResult
 {
     public ChandelierResult(DateTime date)

@@ -22,8 +22,7 @@ public static partial class Indicator
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA) => results
             .ToTupleResult()
-            .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType)
-;
+            .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 
     // SERIES, from TUPLE
     public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes(

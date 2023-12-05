@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public class GatorResult : ResultBase
 {
     public GatorResult(DateTime date)

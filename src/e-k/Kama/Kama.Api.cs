@@ -21,8 +21,7 @@ public static partial class Indicator
         int fastPeriods = 2,
         int slowPeriods = 30) => results
             .ToTupleResult()
-            .CalcKama(erPeriods, fastPeriods, slowPeriods)
-;
+            .CalcKama(erPeriods, fastPeriods, slowPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<KamaResult> GetKama(

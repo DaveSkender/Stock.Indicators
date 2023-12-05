@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed class TrixResult : ResultBase, IReusableResult
 {
     public TrixResult(DateTime date)

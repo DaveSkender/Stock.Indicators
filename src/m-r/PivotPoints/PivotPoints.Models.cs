@@ -13,7 +13,6 @@ internal interface IPivotPoint
     public decimal? S4 { get; set; }
 }
 
-[Serializable]
 public sealed class PivotPointsResult : ResultBase, IPivotPoint
 {
     public decimal? R4 { get; set; }

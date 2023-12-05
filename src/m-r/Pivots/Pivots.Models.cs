@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public class PivotsResult : ResultBase
 {
     public PivotsResult(DateTime date)

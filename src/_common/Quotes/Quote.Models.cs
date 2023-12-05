@@ -11,7 +11,6 @@ public interface IQuote : ISeries
     public decimal Volume { get; }
 }
 
-[Serializable]
 public class Quote : IQuote
 {
     public DateTime Date { get; set; }
@@ -22,7 +21,6 @@ public class Quote : IQuote
     public decimal Volume { get; set; }
 }
 
-[Serializable]
 internal class QuoteD
 {
     internal DateTime Date { get; set; }

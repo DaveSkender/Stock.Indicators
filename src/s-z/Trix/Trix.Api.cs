@@ -18,8 +18,7 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleResult()
-            .CalcTrix(lookbackPeriods)
-;
+            .CalcTrix(lookbackPeriods);
     // SERIES, from TUPLE
     public static IEnumerable<TrixResult> GetTrix(
         this IEnumerable<(DateTime, double)> priceTuples,
