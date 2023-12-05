@@ -17,30 +17,36 @@
     <returns>Time series of SMA values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
-  <type name="increment-array">
-    <summary>Get the next incremental Simple Moving Average (SMA) value. <para> See <see
-          href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-      documentation</see> for more information. </para>
-    </summary>
-    <param name="prices">Array of of historical price quotes in lookback window.</param>
-    <returns>SMA value of array prices.</returns>
-  </type>
 
-  <type name="chainee">
+  <type name="observer">
     <summary>
-      Chain from an observable streaming Simple Moving Average (SMA).
+      Establish an observable streaming Simple Moving Average (SMA) from a Quote provider.
       <para>
         See
         <see href="https://dotnet.StockIndicators.dev/indicators/Sma/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>
-    <param name="chainProvider">Observable from chained indicator.</param>
+    <param name="quoteProvider">Observable quote provider.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
     <returns>Observable SMA instance.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 
+  <type name="chainee">
+    <summary>
+      Establish an observable streaming Simple Moving Average (SMA) from a Chain provider.
+      <para>
+        See
+        <see href="https://dotnet.StockIndicators.dev/indicators/Sma/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        for more information.
+      </para>
+    </summary>
+    <param name="chainProvider">Observable source indicator.</param>
+    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
+    <returns>Observable SMA instance.</returns>
+    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
+  </type>
  
   <type name="analysis">
     <summary>

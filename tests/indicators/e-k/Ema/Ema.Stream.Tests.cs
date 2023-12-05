@@ -3,13 +3,12 @@ using Skender.Stock.Indicators;
 using Tests.Common;
 
 namespace Tests.Indicators;
-// TODO: standardize stream tests for EMA, SMA, ADL, ADX
 
 [TestClass]
 public class EmaStreamTests : TestBase
 {
     [TestMethod]
-    public void Standard()
+    public void Standard() // from quote provider
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -20,16 +19,22 @@ public class EmaStreamTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema<BasicData> observer = provider
+        Ema observer = provider
             .GetEma(20);
 
-        // fetch initial results
+        // fetch initial results (early)
         IEnumerable<EmaResult> results
             = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
         {
+            // skip one (add later)
+            if (i == 80)
+            {
+                continue;
+            }
+
             Quote q = quotesList[i];
             provider.Add(q);
 
@@ -39,6 +44,9 @@ public class EmaStreamTests : TestBase
                 provider.Add(q);
             }
         }
+
+        // late arrival
+        provider.Add(quotesList[80]);
 
         // final results
         List<EmaResult> streamList
@@ -64,54 +72,6 @@ public class EmaStreamTests : TestBase
     }
 
     [TestMethod]
-    public void Usee()
-    {
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
-        // time-series, for comparison
-        List<EmaResult> seriesEma = quotes
-            .Use(CandlePart.OC2)
-            .GetEma(11)
-            .ToList();
-
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // prefill quotes to provider
-        for (int i = 0; i < 50; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // initialize observer
-        List<EmaResult> streamEma = provider
-            .Use(CandlePart.OC2)
-            .GetEma(11)
-            .Cache;
-
-        // emulate adding quotes to provider
-        for (int i = 50; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        provider.EndTransmission();
-
-        // assert, should equal series
-        for (int i = 0; i < length; i++)
-        {
-            EmaResult s = seriesEma[i];
-            EmaResult r = streamEma[i];
-
-            Assert.AreEqual(s.Date, r.Date);
-            Assert.AreEqual(s.Ema, r.Ema);
-        }
-    }
-
-    [TestMethod]
     public void Chainor()
     {
         int emaPeriods = 20;
@@ -126,7 +86,7 @@ public class EmaStreamTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma<EmaResult> observer = provider
+        Sma observer = provider
             .GetEma(emaPeriods)
             .GetSma(smaPeriods);
 
@@ -138,7 +98,7 @@ public class EmaStreamTests : TestBase
 
         // final results
         List<SmaResult> streamList
-            = observer.Results.ToList();
+            = [.. observer.Results];
 
         // time-series, for comparison
         List<SmaResult> seriesList = quotes
@@ -175,7 +135,7 @@ public class EmaStreamTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema<SmaResult> observer = provider
+        Ema observer = provider
             .GetSma(smaPeriods)
             .GetEma(emaPeriods);
 
@@ -187,7 +147,7 @@ public class EmaStreamTests : TestBase
 
         // final results
         List<EmaResult> streamList
-            = observer.Results.ToList();
+            = [.. observer.Results];
 
         // time-series, for comparison
         List<EmaResult> seriesList = quotes
@@ -215,8 +175,8 @@ public class EmaStreamTests : TestBase
         // setup quote provider
         QuoteProvider<Quote> provider = new();
 
-        // initialize SMA observer
-        Ema<BasicData> observer = provider
+        // initialize observer
+        Ema observer = provider
             .GetEma(10);
 
         // add duplicate to cover warmup
@@ -231,6 +191,6 @@ public class EmaStreamTests : TestBase
         provider.EndTransmission();
 
         Assert.AreEqual(1, observer.Results.Count());
+        Assert.AreEqual(1, observer.Chain.Count);
     }
-
 }

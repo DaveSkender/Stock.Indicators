@@ -14,7 +14,7 @@ public class QuoteProviderTests : TestBase
 
         int length = quotes.Count();
 
-        // add base quotes
+        // add base quotes (batch)
         QuoteProvider<Quote> provider = new();
         provider.Add(quotesList.Take(200));
 
@@ -31,10 +31,11 @@ public class QuoteProviderTests : TestBase
             Quote o = quotesList[i];
             Quote q = provider.Cache[i];
 
-            Assert.AreEqual(o, q);
+            Assert.AreEqual(o, q);  // same ref
         }
 
-        // confirm public interface
+        // confirm public interfaces
+        Assert.AreEqual(provider.Cache.Count, provider.Results.Count());
         Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count());
 
         // close observations
@@ -108,7 +109,7 @@ public class QuoteProviderTests : TestBase
             }
         });
 
-        Assert.AreEqual(1, provider.Quotes.Count());
+        Assert.AreEqual(1, provider.Results.Count());
 
         provider.EndTransmission();
     }
@@ -119,7 +120,7 @@ public class QuoteProviderTests : TestBase
         // null quote added
         QuoteProvider<Quote> provider = new();
 
-        // overflow
+        // overflow, with undefined values
         Assert.ThrowsException<OverflowException>(() =>
         {
             DateTime date = DateTime.Now;

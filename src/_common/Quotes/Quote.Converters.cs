@@ -101,21 +101,21 @@ public static partial class QuoteUtility
         };
 
     // convert TQuote element to basic double class
-    internal static BasicData ToBasicData<TQuote>(
+    internal static BasicResult ToBasicData<TQuote>(
         this TQuote q,
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch
         {
-            CandlePart.Open => new BasicData { Date = q.Date, Value = (double)q.Open },
-            CandlePart.High => new BasicData { Date = q.Date, Value = (double)q.High },
-            CandlePart.Low => new BasicData { Date = q.Date, Value = (double)q.Low },
-            CandlePart.Close => new BasicData { Date = q.Date, Value = (double)q.Close },
-            CandlePart.Volume => new BasicData { Date = q.Date, Value = (double)q.Volume },
-            CandlePart.HL2 => new BasicData { Date = q.Date, Value = (double)(q.High + q.Low) / 2 },
-            CandlePart.HLC3 => new BasicData { Date = q.Date, Value = (double)(q.High + q.Low + q.Close) / 3 },
-            CandlePart.OC2 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.Close) / 2 },
-            CandlePart.OHL3 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low) / 3 },
-            CandlePart.OHLC4 => new BasicData { Date = q.Date, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
+            CandlePart.Open => new BasicResult { Date = q.Date, Value = (double)q.Open },
+            CandlePart.High => new BasicResult { Date = q.Date, Value = (double)q.High },
+            CandlePart.Low => new BasicResult { Date = q.Date, Value = (double)q.Low },
+            CandlePart.Close => new BasicResult { Date = q.Date, Value = (double)q.Close },
+            CandlePart.Volume => new BasicResult { Date = q.Date, Value = (double)q.Volume },
+            CandlePart.HL2 => new BasicResult { Date = q.Date, Value = (double)(q.High + q.Low) / 2 },
+            CandlePart.HLC3 => new BasicResult { Date = q.Date, Value = (double)(q.High + q.Low + q.Close) / 3 },
+            CandlePart.OC2 => new BasicResult { Date = q.Date, Value = (double)(q.Open + q.Close) / 2 },
+            CandlePart.OHL3 => new BasicResult { Date = q.Date, Value = (double)(q.Open + q.High + q.Low) / 3 },
+            CandlePart.OHLC4 => new BasicResult { Date = q.Date, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
             _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 

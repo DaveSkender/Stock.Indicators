@@ -31,26 +31,24 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static Sma<BasicData> GetSma<TQuote>(
-        this QuoteProvider<TQuote> provider,
+    public static Sma GetSma<TQuote>(
+        this QuoteProvider<TQuote> quoteProvider,
         int lookbackPeriods)
         where TQuote : IQuote, new()
     {
-        Use<TQuote> useObserver = provider
+        Use<TQuote> chainProvider = quoteProvider
             .Use(CandlePart.Close);
 
-        return new(useObserver, lookbackPeriods);
+        return new(chainProvider, lookbackPeriods);
     }
 
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static Sma<TResult> GetSma<TResult>(
-        this ChainProvider<TResult> chainProvider,
+    public static Sma GetSma(
+        this ChainProvider chainProvider,
         int lookbackPeriods)
-        where TResult : IReusableResult, new()
         => new(chainProvider, lookbackPeriods);
-
 
     /// <include file='./info.xml' path='info/type[@name="analysis"]/*' />
     ///

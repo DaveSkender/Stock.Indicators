@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE PROVIDER
 
-public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
-    IObservable<(Act, TQuote)>
+public class QuoteProvider<TQuote> : SeriesCache<TQuote>,
+    IObservable<(Act act, TQuote quote)>
     where TQuote : IQuote, new()
 {
     // fields
@@ -13,9 +13,6 @@ public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
     public QuoteProvider()
     {
         observers = [];
-        Cache = [];
-        LastArrival = new();
-        OverflowCount = 0;
 
         Initialize();
     }
@@ -24,50 +21,30 @@ public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
 
     public IEnumerable<TQuote> Quotes => Cache;
 
-    public IEnumerable<TQuote> Results => Cache;
-
-    public List<TQuote> Cache { get; set; }
-
-    public TQuote LastArrival { get; set; }
-
-    public int OverflowCount { get; set; }
-
     // METHODS
-
-    public void Initialize() => ResetCache();
-
-    // subscribe observer
-    public IDisposable Subscribe(IObserver<(Act, TQuote)> observer)
-    {
-        if (!observers.Contains(observer))
-        {
-            observers.Add(observer);
-        }
-
-        return new Unsubscriber(observers, observer);
-    }
-
-    // unsubscribe all observers
-    public void EndTransmission()
-    {
-        foreach (IObserver<(Act, TQuote)> obs in observers.ToArray())
-        {
-            if (observers.Contains(obs))
-            {
-                obs.OnCompleted();
-            }
-        }
-
-        observers.Clear();
-    }
 
     // add one
     public Act Add(TQuote quote)
     {
-        Act act = this.CacheWithAnalysis(quote);
+        try
+        {
+            Act act = CacheWithAnalysis(quote);
 
-        NotifyObservers((act, quote));
-        return act;
+            NotifyObservers((act, quote));
+
+            return act;
+        }
+        catch (OverflowException ox)
+        {
+            EndTransmission();
+
+            string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
+                        + "Check and remove circular chains or check your Quote provider."
+                        + "Provider terminated.";
+
+            throw new OverflowException(msg, ox);
+        }
+
     }
 
     // add many
@@ -82,33 +59,52 @@ public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
         }
     }
 
-    // delete cache, gracefully
-    public void ResetCache()
-    {
-        int length = Cache.Count;
+    // re/initialize is graceful erase only for quote provider
+    public void Initialize() => ResetCache();
 
-        if (length > 0)
+    // subscribe observer
+    public IDisposable Subscribe(IObserver<(Act, TQuote)> observer)
+    {
+        if (!observers.Contains(observer))
         {
-            // delete and deliver instruction,
-            // in reverse order to prevent recompositions
-            for (int i = length - 1; i > 0; i--)
+            observers.Add(observer);
+        }
+
+        return new Unsubscriber(observers, observer);
+    }
+
+    // unsubscribe all observers
+    public override void EndTransmission()
+    {
+        foreach (IObserver<(Act, TQuote)> obs in observers.ToArray())
+        {
+            if (observers.Contains(obs))
             {
-                TQuote q = Cache[i];
-                Act act = this.CacheWithAction(Act.Delete, q);
-                NotifyObservers((act, q));
+                obs.OnCompleted();
             }
         }
+
+        observers.Clear();
     }
 
     // notify observers
-    private void NotifyObservers((Act, TQuote) value)
+    private void NotifyObservers((Act act, TQuote quote) value)
     {
+        // convert to internal non-generic quote
+        // for transmission
+
+        if (value.quote is not TQuote q)
+        {
+            throw new ArgumentNullException(nameof(value), "External quote provided was null.");
+        }
+
+        (Act act, TQuote q) quoteMessage = (value.act, q);
         List<IObserver<(Act, TQuote)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
             IObserver<(Act, TQuote)> obs = obsList[i];
-            obs.OnNext(value);
+            obs.OnNext(quoteMessage);
         }
     }
 
@@ -129,5 +125,22 @@ public sealed class QuoteProvider<TQuote> : IProvider<TQuote>,
                 observers.Remove(observer);
             }
         }
+    }
+
+    // delete cache, gracefully
+    private void ResetCache()
+    {
+        // delete and deliver instruction,
+        // in reverse order to prevent recompositions
+        for (int i = Cache.Count - 1; i > 0; i--)
+        {
+            TQuote q = Cache[i];
+            Act act = CacheResultPerAction(Act.Delete, q);
+            NotifyObservers((act, q));
+        }
+
+        // note: there is no auto-rebuild option since the
+        // quote provider is a top level external entry point.
+        // The using system will need to handle resupply with Add().
     }
 }

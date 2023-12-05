@@ -1,21 +1,25 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM INDICATOR CHAINOR
+// CHAIN PROVIDER
 
-public abstract class ChainProvider : IObservable<(Act, DateTime, double)>
+public abstract class ChainProvider :
+    IObservable<(Act act, DateTime date, double price)>
 {
     // fields
-    internal readonly List<IObserver<(Act, DateTime, double)>> observers;
+    private readonly List<IObserver<(Act, DateTime, double)>> observers;
 
     // constructor
     internal ChainProvider()
     {
         observers = [];
+        Chain = [];
     }
 
-    // METHODS
+    // PROPERTIES
 
-    public virtual void OnError(Exception error) => throw error;
+    internal List<(DateTime Date, double Value)> Chain;
+
+    // METHODS
 
     // subscribe observer
     public IDisposable Subscribe(IObserver<(Act, DateTime, double)> observer)
@@ -29,7 +33,7 @@ public abstract class ChainProvider : IObservable<(Act, DateTime, double)>
     }
 
     // unsubscribe all observers
-    public void EndTransmission()
+    public virtual void EndTransmission()
     {
         foreach (IObserver<(Act, DateTime, double)> obs in observers.ToArray())
         {
@@ -44,14 +48,19 @@ public abstract class ChainProvider : IObservable<(Act, DateTime, double)>
 
     // notify observers
     internal void NotifyObservers((Act, DateTime, double) chainMessage)
-        => observers.Notify(chainMessage);
+    {
+        List<IObserver<(Act, DateTime, double)>> obsList = [.. observers];
+
+        for (int i = 0; i < obsList.Count; i++)
+        {
+            IObserver<(Act, DateTime, double)> obs = obsList[i];
+            obs.OnNext(chainMessage);
+        }
+    }
 
     // notify observers (helper, for IReusableResult)
     internal void NotifyObservers(Act act, IReusableResult r)
-    {
-        (Act, DateTime, double) chainMessage = (act, r.Date, r.Value);
-        observers.Notify(chainMessage);
-    }
+        => NotifyObservers((act, r.Date, r.Value));
 
     // unsubscriber
     private class Unsubscriber(

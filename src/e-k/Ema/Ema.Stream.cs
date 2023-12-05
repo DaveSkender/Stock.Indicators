@@ -2,19 +2,14 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public class Ema<TResult> : ChainProvider<EmaResult>,
-    IObserver<(Act act, DateTime date, double price)>
-    where TResult : IReusableResult, new()
+public partial class Ema : ChainObserver<EmaResult>
 {
-    // fields
-    private readonly IDisposable? unsubscriber;
-
     // constructor
     public Ema(
-        ChainProvider<TResult> provider,
+        ChainProvider provider,
         int lookbackPeriods)
+        : base(provider)
     {
-        ChainSupplier = provider;
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
@@ -22,13 +17,13 @@ public class Ema<TResult> : ChainProvider<EmaResult>,
 
         // subscribe to provider
         unsubscriber = provider != null
-         ? provider.Subscribe(this)
-         : throw new ArgumentNullException(nameof(provider));
+           ? provider.Subscribe(this)
+           : throw new ArgumentNullException(nameof(provider));
     }
 
     // PROPERTIES
 
-    private ChainProvider<TResult> ChainSupplier { get; set; }
+    // common
 
     private int LookbackPeriods { get; set; }
     private double K { get; set; }
@@ -36,73 +31,86 @@ public class Ema<TResult> : ChainProvider<EmaResult>,
     // METHODS
 
     // handle chain arrival
-    public virtual void OnNext((Act act, DateTime date, double price) value)
+    public override void OnNext((Act act, DateTime date, double price) value)
     {
+        // determine incremental value
+        double ema;
+
+        int i = ChainSupplier.Chain.FindIndex(value.date);
+
+        // source unexpectedly not found
+        if (i == -1)
+        {
+            throw new InvalidOperationException("Matching source history not found.");
+        }
+
+        // normal
+        else if (i >= LookbackPeriods - 1)
+        {
+            IReusableResult last = Cache[i - 1];  // prior EMA
+
+            // normal
+            if (!double.IsNaN(last.Value))
+            {
+                ema = Increment(K, last.Value, value.price);
+            }
+
+            // set first value (normal) or reset
+            // when prior EMA was incalculable
+            else
+            {
+                double sum = 0;
+                for (int w = i - LookbackPeriods + 1; w <= i; w++)
+                {
+                    sum += ChainSupplier.Chain[w].Value;
+                }
+
+                ema = sum / LookbackPeriods;
+            }
+        }
+
+        // warmup periods are never calculable
+        else
+        {
+            ema = double.NaN;
+        }
+
         // candidate result
         EmaResult r = new()
         {
             Date = value.date,
-            Ema = Increment(value.date, value.price).NaN2Null()
+            Ema = ema.NaN2Null()
         };
 
         // save to cache
-        this.CacheWithAction(value.act, r);
+        Act act = CacheChainorPerAction(value.act, r, ema);
 
         // send to observers
-        NotifyObservers(value.act, r);
+        NotifyObservers(act, r);
+
+        // TODO: use "update" approach, but maybe with pruning when not matched with supplier?
+        // but would need to handle differently here as it triggers on non-AddNew scenarios.
+
+        // rebuild forward values, when needed
+        if (act != Act.AddNew)
+        {
+            ClearCache(r.Date);
+            RebuildCache(r.Date);
+        }
     }
 
-    private double Increment(DateTime newDate, double newPrice)
+    // delete cache between index values
+    // usually called from inherited ClearCache(fromDate)
+    internal override void ClearCache(int fromIndex, int toIndex)
     {
-        int i = ChainSupplier.Cache.FindIndex(newDate);
+        // delete and deliver instruction,
+        // in reverse order to prevent recompositions
 
-        // warmup periods (normal)
-        if (i >= 0 && i < LookbackPeriods - 1)
+        for (int i = toIndex; i >= fromIndex; i--)
         {
-            return double.NaN;
-        }
-
-        IReusableResult last = Cache[i - 1];
-
-        // normal
-        if (!double.IsNaN(last.Value))
-        {
-            return Ema.Increment(K, last.Value, newPrice);
-        }
-
-        // set first value (normal) or reset (offset warmup case)
-        if (i >= LookbackPeriods - 1 && double.IsNaN(last.Value))
-        {
-            double sum = 0;
-            for (int w = i - LookbackPeriods + 1; w <= i; w++)
-            {
-                sum += ChainSupplier.Cache[w].Value;
-            }
-
-            return sum / LookbackPeriods;
-        }
-
-        // i == -1 when source value not found
-        throw new InvalidOperationException("Basis not found.");
-    }
-
-    public void OnCompleted() => Unsubscribe();
-
-    public void Unsubscribe() => unsubscriber?.Dispose();
-
-    // re/initialize my cache, from provider cache
-    private void Initialize()
-    {
-        ResetCache();  // clears my cache (and notifies my observers)
-
-        // current provider cache
-        List<TResult> inbound = ChainSupplier.Cache;
-
-        // replay provider quotes
-        for (int i = 0; i < inbound.Count; i++)
-        {
-            TResult r = inbound[i];
-            OnNext((Act.AddNew, r.Date, r.Value));
+            EmaResult r = Cache[i];
+            Act act = CacheChainorPerAction(Act.Delete, r, double.NaN);
+            NotifyObservers(act, r);
         }
     }
 }

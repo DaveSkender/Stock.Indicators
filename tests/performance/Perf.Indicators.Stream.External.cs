@@ -33,7 +33,7 @@ public class IndicatorStreamExternal
     public object GetFoo()
     {
         QuoteProvider<Quote> provider = new();
-        Ema<BasicData> ema = provider.GetEma(14);
+        Ema ema = provider.GetEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Ema/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
 
-public static class Ema
+public partial class Ema
 {
     // INCREMENT CALCULATIONS
 
@@ -25,7 +25,7 @@ public static class Ema
         double newPrice)
     {
         double k = 2d / (lookbackPeriods + 1);
-        return Ema.Increment(k, lastEma, newPrice);
+        return Increment(k, lastEma, newPrice);
     }
 
     // parameter validation

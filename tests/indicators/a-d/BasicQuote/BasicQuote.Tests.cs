@@ -11,31 +11,31 @@ public class BaseQuoteTests : TestBase
     public void Standard()
     {
         // compose basic data
-        List<BasicData> o = quotes.GetBaseQuote(CandlePart.Open).ToList();
-        List<BasicData> h = quotes.GetBaseQuote(CandlePart.High).ToList();
-        List<BasicData> l = quotes.GetBaseQuote(CandlePart.Low).ToList();
-        List<BasicData> c = quotes.GetBaseQuote(CandlePart.Close).ToList();
-        List<BasicData> v = quotes.GetBaseQuote(CandlePart.Volume).ToList();
-        List<BasicData> hl = quotes.GetBaseQuote(CandlePart.HL2).ToList();
-        List<BasicData> hlc = quotes.GetBaseQuote(CandlePart.HLC3).ToList();
-        List<BasicData> oc = quotes.GetBaseQuote(CandlePart.OC2).ToList();
-        List<BasicData> ohl = quotes.GetBaseQuote(CandlePart.OHL3).ToList();
-        List<BasicData> ohlc = quotes.GetBaseQuote(CandlePart.OHLC4).ToList();
+        List<BasicResult> o = quotes.GetBaseQuote(CandlePart.Open).ToList();
+        List<BasicResult> h = quotes.GetBaseQuote(CandlePart.High).ToList();
+        List<BasicResult> l = quotes.GetBaseQuote(CandlePart.Low).ToList();
+        List<BasicResult> c = quotes.GetBaseQuote(CandlePart.Close).ToList();
+        List<BasicResult> v = quotes.GetBaseQuote(CandlePart.Volume).ToList();
+        List<BasicResult> hl = quotes.GetBaseQuote(CandlePart.HL2).ToList();
+        List<BasicResult> hlc = quotes.GetBaseQuote(CandlePart.HLC3).ToList();
+        List<BasicResult> oc = quotes.GetBaseQuote(CandlePart.OC2).ToList();
+        List<BasicResult> ohl = quotes.GetBaseQuote(CandlePart.OHL3).ToList();
+        List<BasicResult> ohlc = quotes.GetBaseQuote(CandlePart.OHLC4).ToList();
 
         // proper quantities
         Assert.AreEqual(502, c.Count);
 
         // samples
-        BasicData ro = o[501];
-        BasicData rh = h[501];
-        BasicData rl = l[501];
-        BasicData rc = c[501];
-        BasicData rv = v[501];
-        BasicData rhl = hl[501];
-        BasicData rhlc = hlc[501];
-        BasicData roc = oc[501];
-        BasicData rohl = ohl[501];
-        BasicData rohlc = ohlc[501];
+        BasicResult ro = o[501];
+        BasicResult rh = h[501];
+        BasicResult rl = l[501];
+        BasicResult rc = c[501];
+        BasicResult rv = v[501];
+        BasicResult rhl = hl[501];
+        BasicResult rhlc = hlc[501];
+        BasicResult roc = oc[501];
+        BasicResult rohl = ohl[501];
+        BasicResult rohlc = ohlc[501];
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);

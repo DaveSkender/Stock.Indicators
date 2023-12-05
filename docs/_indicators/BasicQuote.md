@@ -12,7 +12,7 @@ Returns a basic quote transform (e.g. HL2, OHL3, etc.) and isolation of individu
 
 ```csharp
 // usage
-IEnumerable<BasicData> results =
+IEnumerable<BasicResult> results =
   quotes.GetBaseQuote(candlePart);
 ```
 
@@ -31,14 +31,14 @@ You must have at least 1 period of `quotes`.
 ## Response
 
 ```csharp
-IEnumerable<BasicData>
+IEnumerable<BasicResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### BasicData
+### BasicResult
 
 **`Date`** _`DateTime`_ - Date from evaluated `TQuote`
 

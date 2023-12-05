@@ -1,14 +1,21 @@
 # v3 migration guide
 
-## Breaking changes in v3
+We've discontinued all bridge features for v1 backwards compatiblity.
+Correct all Warnings from this library before migrating from v2 to v3.
+If you are still using v1, migrate to v2 first, to ease the transition to v3.
 
-- `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null`
-  for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
+Where possible, we've added bridge features to ease transition from v2 to v3.
+You will see supporting migration Warning in your compiler with additional instructions for [deprecated changes](#deprecation-changes).
+
+In addition there are [breaking changes](#breaking-changes) that will require your attention.
+
+## Deprecation changes
+
+See your compiler `Warning` to identify these in your code.
+
+- `Use()` method parameter `candlePart` is now required and no longer defaults to `CandlePart.Close`.
 
 - `UlcerIndexResult` property `UI` was renamed to `UlcerIndex`
-
-- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal
-  utility, but were part of the public API since they were useful for custom indicator development.
 
 - **Deprecated internal signals**: several indicators were originally built with integrated but optional
   moving averages, often by specifying an optional `smaPeriods` parameter.  With more moving average chaining options,
@@ -27,3 +34,20 @@
   var results = quotes
     .GetAdl(lookbackPeriods: 10, smaPeriods: 5);
   ```
+
+## Breaking changes
+
+Not all, but some of these will be shown as compiler `Errors` in your code.
+Items marked with &#128681; require special attention since they will not produce compiler Errors or Warings.
+
+- all backwards compatible v1 accomodations removed.
+
+- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null`
+  for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
+
+- `BasicData` class was renamed to `BasicResult` for consistency with other return types.
+
+- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal
+  utility, but were part of the public API since they were useful for custom indicator development.  Internally,
+  we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit
+  warmup periods.

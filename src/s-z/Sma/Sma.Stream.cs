@@ -2,97 +2,95 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public class Sma<TResult> : ChainProvider<SmaResult>,
-    IObserver<(Act act, DateTime date, double price)>
-    where TResult : IReusableResult, new()
+public partial class Sma : ChainObserver<SmaResult>
 {
-    // fields
-    private readonly IDisposable? unsubscriber;
-
     // constructor
     public Sma(
-        ChainProvider<TResult> provider,
+        ChainProvider provider,
         int lookbackPeriods)
+        : base(provider)
     {
-        ChainSupplier = provider;
         LookbackPeriods = lookbackPeriods;
 
         Initialize();
 
         // subscribe to chain provider
         unsubscriber = provider != null
-         ? provider.Subscribe(this)
-         : throw new ArgumentNullException(nameof(provider));
+           ? provider.Subscribe(this)
+           : throw new ArgumentNullException(nameof(provider));
     }
 
     // PROPERTIES
-
-    private ChainProvider<TResult> ChainSupplier { get; set; }
 
     private int LookbackPeriods { get; set; }
 
     // METHODS
 
     // handle chain arrival
-    public virtual void OnNext((Act act, DateTime date, double price) value)
+    public override void OnNext((Act act, DateTime date, double price) value)
     {
-        // candidate result
-        SmaResult r = new()
+        // determine incremental value
+        double sma;
+
+        int i = ChainSupplier.Chain.FindIndex(value.date);
+
+        // source unexpectedly not found
+        if (i == -1)
         {
-            Date = value.date,
-            Sma = Increment(value.date).NaN2Null()
-        };
-
-        // save to cache
-        this.CacheWithAction(value.act, r);
-
-        // send to observers
-        NotifyObservers(value.act, r);
-    }
-
-    private double Increment(DateTime newDate)
-    {
-        int i = ChainSupplier.Cache.FindIndex(newDate);
+            throw new InvalidOperationException("Matching source history not found.");
+        }
 
         // normal
-        if (i >= LookbackPeriods - 1)
+        else if (i >= LookbackPeriods - 1)
         {
             double sum = 0;
             for (int w = i - LookbackPeriods + 1; w <= i; w++)
             {
-                sum += ChainSupplier.Cache[w].Value;
+                sum += ChainSupplier.Chain[w].Value;
             }
 
-            return sum / LookbackPeriods;
+            sma = sum / LookbackPeriods;
         }
 
-        // warmup periods
-        if (i >= 0)
+        // warmup periods are never calculable
+        else
         {
-            return double.NaN;
+            sma = double.NaN;
         }
 
-        // i == -1 when source value not found
-        throw new InvalidOperationException("Basis not found.");
+        // candidate result
+        SmaResult r = new()
+        {
+            Date = value.date,
+            Sma = sma.NaN2Null()
+        };
+
+        // save to cache
+        Act act = CacheChainorPerAction(value.act, r, sma);
+
+        // send to observers
+        NotifyObservers(act, r);
+
+        // rebuild forward values, when needed
+        if (act != Act.AddNew)
+        {
+            ClearCache(r.Date);
+            RebuildCache(r.Date);
+        }
     }
 
-    public void OnCompleted() => Unsubscribe();
-
-    public void Unsubscribe() => unsubscriber?.Dispose();
-
-    // re/initialize my cache, from provider cache
-    private void Initialize()
+    // delete cache between index values
+    // usually called from inherited ClearCache(fromDate)
+    internal override void ClearCache(int fromIndex, int toIndex)
     {
-        ResetCache();  // clears my cache (and notifies my observers)
+        // delete and deliver instruction,
+        // in reverse order to prevent recompositions
 
-        // current provider cache
-        List<TResult> inbound = ChainSupplier.Cache;
-
-        // replay provider quotes
-        for (int i = 0; i < inbound.Count; i++)
+        for (int i = toIndex; i >= fromIndex; i--)
         {
-            TResult r = inbound[i];
-            OnNext((Act.AddNew, r.Date, r.Value));
+            SmaResult r = Cache[i];
+            Act act = CacheChainorPerAction(Act.Delete, r, double.NaN);
+            NotifyObservers(act, r);
         }
     }
 }

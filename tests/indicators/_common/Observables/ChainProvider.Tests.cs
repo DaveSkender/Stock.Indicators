@@ -15,25 +15,21 @@ public class ChainProviderTests : TestBase
 
         int length = quotesList.Count;
 
-        // time-series, for comparison
-        List<(DateTime Date, double Value)> seriesList = quotes
-            .ToTuple(CandlePart.Close);
-
         // setup quote provider
         QuoteProvider<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
         {
-            provider.CacheWithAnalysis(quotesList[i]);
+            provider.Add(quotesList[i]);
         }
 
-        // initialize Tuple-based observer
+        // initialize observer
         Use<Quote> observer = provider
             .Use(CandlePart.Close);
 
         // fetch initial results
-        IEnumerable<BasicData> results = observer.Results;
+        IEnumerable<UseResult> results = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
@@ -43,21 +39,28 @@ public class ChainProviderTests : TestBase
         }
 
         // final results
-        List<BasicData> resultsList
+        List<UseResult> resultsList
             = results.ToList();
+
+        // time-series, for comparison
+        List<(DateTime, double)> seriesList = quotes
+            .ToTuple(CandlePart.Close);
 
         // assert, should equal series
         for (int i = 0; i < seriesList.Count; i++)
         {
-            (DateTime sDate, double sValue) = seriesList[i];
-            BasicData r = resultsList[i];
+            (DateTime date, double value) = seriesList[i];
+            UseResult r = resultsList[i];
 
-            Assert.AreEqual(sDate, r.Date);
-            Assert.AreEqual(sValue, r.Value);
+            Assert.AreEqual(date, r.Date);
+            Assert.AreEqual(value, r.Value);
         }
 
         // confirm public interface
         Assert.AreEqual(observer.Cache.Count, observer.Results.Count());
+
+        // confirm chain cache length (more tests in Chainor)
+        Assert.AreEqual(observer.Cache.Count, observer.Chain.Count);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -74,8 +77,8 @@ public class ChainProviderTests : TestBase
         // setup quote provider
         QuoteProvider<Quote> provider = new();
 
-        // initialize EMA observer
-        Ema<BasicData> ema = provider
+        // initialize observer
+        Ema ema = provider
             .Use(CandlePart.HL2)
             .GetEma(11);
 
@@ -87,25 +90,31 @@ public class ChainProviderTests : TestBase
 
         provider.EndTransmission();
 
+        // stream results
+        List<EmaResult> streamEma = ema
+            .Results
+            .ToList();
+
         // time-series, for comparison
         List<EmaResult> staticEma = quotes
             .Use(CandlePart.HL2)
             .GetEma(11)
             .ToList();
 
-        // stream results
-        List<EmaResult> streamEma = ema
-            .Results
-            .ToList();
-
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            EmaResult e = staticEma[i];
+            EmaResult s = staticEma[i];
             EmaResult r = streamEma[i];
+            (DateTime date, double value) = ema.Chain[i];
 
-            Assert.AreEqual(e.Date, r.Date);
-            Assert.AreEqual(e.Ema, r.Ema);
+            // compare series
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Ema, r.Ema);
+
+            // compare chain cache
+            Assert.AreEqual(r.Date, date);
+            Assert.AreEqual(r.Ema.Null2NaN(), value);
         }
     }
 
@@ -126,6 +135,7 @@ public class ChainProviderTests : TestBase
         // emulate incremental quotes
         for (int i = 0; i < length; i++)
         {
+            // skip one
             if (i == 100)
             {
                 continue;
@@ -142,10 +152,16 @@ public class ChainProviderTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            BasicData r = observer.Cache[i];
+            UseResult r = observer.Cache[i];
+            (DateTime Date, double Value) = observer.Chain[i];
 
+            // compare quote to result cache
             Assert.AreEqual(q.Date, r.Date);
             Assert.AreEqual((double)q.Close, r.Value);
+
+            // compare result to chain cache
+            Assert.AreEqual(r.Date, Date);
+            Assert.AreEqual(r.Value, Value);
         }
 
         // close observations
@@ -168,10 +184,11 @@ public class ChainProviderTests : TestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                chainProvider.Add(q);
+                provider.Add(q);
             }
         });
 
         Assert.AreEqual(1, chainProvider.Results.Count());
+        Assert.AreEqual(1, chainProvider.Chain.Count);
     }
 }

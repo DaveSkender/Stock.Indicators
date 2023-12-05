@@ -5,32 +5,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Sma/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
 
-public static class Sma
+public partial class Sma
 {
-
-    // INCREMENT CALCULATIONS
-
-    /// <include file='./info.xml' path='info/type[@name="increment-array"]/*' />
-    ///
-    public static double Increment(
-      double[] prices)
-    {
-        if (prices is null || prices.Length == 0)
-        {
-            return double.NaN;
-        }
-
-        int length = prices.Length;
-
-        double sum = 0;
-        for (int i = 0; i < length; i++)
-        {
-            sum += prices[i];
-        }
-
-        return sum / length;
-    }
-
     // parameter validation
     internal static void Validate(
         int lookbackPeriods)

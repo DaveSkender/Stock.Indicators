@@ -22,4 +22,15 @@ public static class Seeking
         where TSeries : ISeries => series == null
             ? -1
             : series.FindIndex(x => x.Date == lookupDate);
+
+    // FIND INDEX by DATE
+    /// <include file='./info.xml' path='info/type[@name="FindIndexChain"]/*' />
+    ///
+    public static int FindIndex(
+        this List<(DateTime Date, double Value)> tuple,
+        DateTime lookupDate)
+        => tuple == null
+            ? -1
+            : tuple.FindIndex(x => x.Date == lookupDate);
+
 }

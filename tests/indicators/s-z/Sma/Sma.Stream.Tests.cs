@@ -8,7 +8,7 @@ namespace Tests.Indicators;
 public class SmaStreamTests : TestBase
 {
     [TestMethod]
-    public void Standard()
+    public void Standard() // from quote provider
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -19,16 +19,22 @@ public class SmaStreamTests : TestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma<BasicData> observer = provider
+        Sma observer = provider
             .GetSma(20);
 
-        // fetch initial results
+        // fetch initial results (early)
         IEnumerable<SmaResult> results
             = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
         {
+            // skip one (add later)
+            if (i == 80)
+            {
+                continue;
+            }
+
             Quote q = quotesList[i];
             provider.Add(q);
 
@@ -39,8 +45,11 @@ public class SmaStreamTests : TestBase
             }
         }
 
+        // late arrival
+        provider.Add(quotesList[80]);
+
         // final results
-        List<SmaResult> resultsList
+        List<SmaResult> streamList
             = results.ToList();
 
         // time-series, for comparison
@@ -52,7 +61,7 @@ public class SmaStreamTests : TestBase
         for (int i = 0; i < seriesList.Count; i++)
         {
             SmaResult s = seriesList[i];
-            SmaResult r = resultsList[i];
+            SmaResult r = streamList[i];
 
             Assert.AreEqual(s.Date, r.Date);
             Assert.AreEqual(s.Sma, r.Sma);
@@ -62,55 +71,57 @@ public class SmaStreamTests : TestBase
         provider.EndTransmission();
     }
 
-    //[TestMethod]
-    //public void Manual()
-    //{
-    //    List<Quote> quotesList = quotes
-    //        .ToSortedList();
-
-    //    int length = quotesList.Count;
-
-    //    // initialize
-    //    Sma sma = new(14);
-
-    //    // roll through history
-    //    for (int i = 0; i < length; i++)
-    //    {
-    //        sma.Add(quotesList[i]);
-    //    }
-
-    //    // results
-    //    List<SmaResult> resultList = sma.Results.ToList();
-
-    //    // time-series, for comparison
-    //    List<SmaResult> seriesList = quotes
-    //        .GetSma(14)
-    //        .ToList();
-
-    //    // assert, should equal series
-    //    for (int i = 0; i < seriesList.Count; i++)
-    //    {
-    //        SmaResult s = seriesList[i];
-    //        SmaResult r = resultList[i];
-
-    //        Assert.AreEqual(s.Date, r.Date);
-    //        Assert.AreEqual(s.Sma, r.Sma);
-    //    }
-    //}
-
     [TestMethod]
-    public void Increment()
+    public void Chainor()
     {
-        double[] array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        int emaPeriods = 12;
+        int smaPeriods = 8;
 
-        double sma = Sma.Increment(array);
+        List<Quote> quotesList = quotes
+            .ToSortedList();
 
-        Assert.AreEqual(5d, sma);
-        Assert.AreEqual(array.Average(), sma);
+        int length = quotesList.Count;
+
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize observer
+        Ema observer = provider
+            .GetSma(smaPeriods)
+            .GetEma(emaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        // final results
+        List<EmaResult> streamList
+            = [.. observer.Results];
+
+        // time-series, for comparison
+        List<EmaResult> seriesList = quotes
+            .GetSma(smaPeriods)
+            .GetEma(emaPeriods)
+            .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            EmaResult s = seriesList[i];
+            EmaResult r = streamList[i];
+
+            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.Ema, r.Ema);
+        }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 
     [TestMethod]
-    public void Usee()
+    public void Chainee()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -126,8 +137,8 @@ public class SmaStreamTests : TestBase
             provider.Add(quotesList[i]);
         }
 
-        // initialize SMA observer
-        Sma<BasicData> observer = provider
+        // initialize observer
+        Sma observer = provider
             .Use(CandlePart.OC2)
             .GetSma(11);
 
@@ -139,9 +150,8 @@ public class SmaStreamTests : TestBase
 
         provider.EndTransmission();
 
-        List<SmaResult> streamSma = observer
-            .Results
-            .ToList();
+        List<SmaResult> streamSma =
+            [.. observer.Results];
 
         // time-series, for comparison
         List<SmaResult> staticSma = quotes
@@ -166,8 +176,8 @@ public class SmaStreamTests : TestBase
         // setup quote provider
         QuoteProvider<Quote> provider = new();
 
-        // initialize SMA observer
-        Sma<BasicData> observer = provider
+        // initialize observer
+        Sma observer = provider
             .GetSma(10);
 
         // add duplicate to cover warmup
@@ -182,5 +192,6 @@ public class SmaStreamTests : TestBase
         provider.EndTransmission();
 
         Assert.AreEqual(1, observer.Results.Count());
+        Assert.AreEqual(1, observer.Chain.Count);
     }
 }
