@@ -40,14 +40,14 @@ public class QuoteStream
         // initialize our quote provider and a few subscribers
         QuoteProvider<Quote> provider = new();
 
-        Sma sma = provider.GetSma(3);
-        Ema ema = provider.GetEma(5);
+        Sma sma = provider.AttachSma(3);
+        Ema ema = provider.AttachEma(5);
         Ema useChain = provider
             .Use(CandlePart.HL2)
-            .GetEma(7);
+            .AttachEma(7);
         Ema emaChain = provider
-            .GetSma(4)
-            .GetEma(4);
+            .AttachSma(4)
+            .AttachEma(4);
 
         // connect to Alpaca websocket
         SecretKey secretKey = new(alpacaApiKey, alpacaSecret);

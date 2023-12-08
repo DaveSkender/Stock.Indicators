@@ -80,7 +80,7 @@ public class ChainProviderTests : TestBase
         // initialize observer
         Ema ema = provider
             .Use(CandlePart.HL2)
-            .GetEma(11);
+            .AttachEma(11);
 
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)

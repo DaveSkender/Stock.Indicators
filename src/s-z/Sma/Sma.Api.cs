@@ -31,7 +31,7 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static Sma GetSma<TQuote>(
+    public static Sma AttachSma<TQuote>(
         this QuoteProvider<TQuote> quoteProvider,
         int lookbackPeriods)
         where TQuote : IQuote, new()
@@ -45,7 +45,7 @@ public static partial class Indicator
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static Sma GetSma(
+    public static Sma AttachSma(
         this ChainProvider chainProvider,
         int lookbackPeriods)
         => new(chainProvider, lookbackPeriods);

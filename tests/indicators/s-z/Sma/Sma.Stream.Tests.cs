@@ -20,7 +20,7 @@ public class SmaStreamTests : TestBase
 
         // initialize observer
         Sma observer = provider
-            .GetSma(20);
+            .AttachSma(20);
 
         // fetch initial results (early)
         IEnumerable<SmaResult> results
@@ -87,8 +87,8 @@ public class SmaStreamTests : TestBase
 
         // initialize observer
         Ema observer = provider
-            .GetSma(smaPeriods)
-            .GetEma(emaPeriods);
+            .AttachSma(smaPeriods)
+            .AttachEma(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -140,7 +140,7 @@ public class SmaStreamTests : TestBase
         // initialize observer
         Sma observer = provider
             .Use(CandlePart.OC2)
-            .GetSma(11);
+            .AttachSma(11);
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
@@ -178,7 +178,7 @@ public class SmaStreamTests : TestBase
 
         // initialize observer
         Sma observer = provider
-            .GetSma(10);
+            .AttachSma(10);
 
         // add duplicate to cover warmup
         Quote quote = quotes.Last();

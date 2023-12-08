@@ -31,7 +31,7 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static Ema GetEma<TQuote>(
+    public static Ema AttachEma<TQuote>(
         this QuoteProvider<TQuote> quoteProvider,
         int lookbackPeriods)
         where TQuote : IQuote, new()
@@ -45,7 +45,7 @@ public static partial class Indicator
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static Ema GetEma(
+    public static Ema AttachEma(
         this ChainProvider chainProvider,
         int lookbackPeriods)
         => new(chainProvider, lookbackPeriods);

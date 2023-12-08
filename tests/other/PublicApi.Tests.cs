@@ -47,7 +47,7 @@ public class PublicClassTests
 
         quotes.Validate();
         quotes.GetSma(6);
-        quotes.GetSma(5);
+        quotes.GetEma(5);
     }
 
     [TestMethod]
@@ -244,5 +244,85 @@ public class PublicClassTests
 
         EmaResult r = emaResults.Find(findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+    }
+
+
+    [TestMethod]
+    public void StreamAll() // from quote provider
+    {
+        /****************************************************** 
+         * Attaches all stream observers to one Quote provider
+         * for a full sprectrum stream collective.
+         * 
+         * Currently, it does not include any [direct] chains;
+         * however, under the hood many of these are streaming
+         * through an underlying Use<TQuote> converter.
+         * 
+         * This test covers most of the unusual test cases, like:
+         * 
+         *  - out of order quotes (late arrivals)
+         *  - duplicates, but not to an overflow situation
+         *  
+         *  TODO: add all indicators to test, when available
+         *  
+         ******************************************************/
+
+        // source quotes (out of order, messy use case)
+        List<Quote> quotesList = TestData.GetDefault().ToList();
+
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize observers, get static results for comparison (later)
+        Ema observeEma = provider.AttachEma(20);
+        List<EmaResult> staticEma = quotesList.GetEma(20).ToList();
+
+        Sma observeSma = provider.AttachSma(20);
+        List<SmaResult> staticSma = quotesList.GetSma(20).ToList();
+
+        // emulate adding quotes to provider
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            // skip one (add later)
+            if (i == 80)
+            {
+                continue;
+            }
+
+            Quote q = quotesList[i];
+            provider.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105)
+            {
+                provider.Add(q);
+            }
+        }
+
+        // late arrival
+        provider.Add(quotesList[80]);
+
+        // end all observations
+        provider.EndTransmission();
+
+        // final results should persist in scope
+        List<EmaResult> streamEma = observeEma.Results.ToList();
+        List<SmaResult> streamSma = observeSma.Results.ToList();
+
+        // assert, should equal static series
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            EmaResult sEma = staticEma[i];
+            EmaResult rEma = streamEma[i];
+
+            Assert.AreEqual(sEma.Date, rEma.Date);
+            Assert.AreEqual(sEma.Ema, rEma.Ema);
+
+            SmaResult sSma = staticSma[i];
+            SmaResult rSma = streamSma[i];
+
+            Assert.AreEqual(sSma.Date, rSma.Date);
+            Assert.AreEqual(sSma.Sma, rSma.Sma);
+        }
     }
 }

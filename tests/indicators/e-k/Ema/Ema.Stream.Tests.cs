@@ -20,7 +20,7 @@ public class EmaStreamTests : TestBase
 
         // initialize observer
         Ema observer = provider
-            .GetEma(20);
+            .AttachEma(20);
 
         // fetch initial results (early)
         IEnumerable<EmaResult> results
@@ -87,8 +87,8 @@ public class EmaStreamTests : TestBase
 
         // initialize observer
         Sma observer = provider
-            .GetEma(emaPeriods)
-            .GetSma(smaPeriods);
+            .AttachEma(emaPeriods)
+            .AttachSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -136,8 +136,8 @@ public class EmaStreamTests : TestBase
 
         // initialize observer
         Ema observer = provider
-            .GetSma(smaPeriods)
-            .GetEma(emaPeriods);
+            .AttachSma(smaPeriods)
+            .AttachEma(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -177,7 +177,7 @@ public class EmaStreamTests : TestBase
 
         // initialize observer
         Ema observer = provider
-            .GetEma(10);
+            .AttachEma(10);
 
         // add duplicate to cover warmup
         Quote quote = quotes.Last();
