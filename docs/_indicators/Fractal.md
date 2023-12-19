@@ -15,7 +15,7 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<FractalResult> results =
   quotes.GetFractal(windowSpan);
 ```

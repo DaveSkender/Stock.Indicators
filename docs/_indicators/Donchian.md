@@ -16,7 +16,7 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<DonchianResult> results =
   quotes.GetDonchian(lookbackPeriods);
 ```

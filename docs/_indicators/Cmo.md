@@ -15,7 +15,7 @@ Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investope
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<CmoResult> results =
   quotes.GetCmo(lookbackPeriods);
 ```

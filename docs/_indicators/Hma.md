@@ -15,7 +15,7 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<HmaResult> results =
   quotes.GetHma(lookbackPeriods);
 ```

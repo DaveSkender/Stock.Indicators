@@ -15,7 +15,7 @@ Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<CorrResult> results =
   quotesA.GetCorrelation(quotesB, lookbackPeriods);
 ```

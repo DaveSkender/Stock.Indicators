@@ -15,7 +15,7 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ConnorsRsiResult> results =
   quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 ```

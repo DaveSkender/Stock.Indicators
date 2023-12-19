@@ -15,7 +15,7 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<HtlResult> results =
   quotes.GetHtTrendline();
 ```

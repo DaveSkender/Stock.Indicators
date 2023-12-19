@@ -15,7 +15,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<BollingerBandsResult> results =
   quotes.GetBollingerBands(lookbackPeriods, standardDeviations);
 ```
