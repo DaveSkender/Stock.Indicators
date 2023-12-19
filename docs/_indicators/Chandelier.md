@@ -16,7 +16,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ChandelierResult> results =
   quotes.GetChandelier(lookbackPeriods, multiplier, type);
 ```

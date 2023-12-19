@@ -15,7 +15,7 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage (standard)
+// C# usage syntax (standard)
 IEnumerable<StochResult> results =
   quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 

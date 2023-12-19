@@ -15,7 +15,7 @@ Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) ind
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<MamaResult> results =
   quotes.GetMama(fastLimit, slowLimit);
 ```

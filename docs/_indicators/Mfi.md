@@ -15,7 +15,7 @@ Created by Quong and Soudack, the [Money Flow Index](https://en.wikipedia.org/wi
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<MfiResult> results =
   quotes.GetMfi(lookbackPeriods);
 ```

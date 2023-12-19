@@ -15,7 +15,7 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<FisherTransformResult> results =
   quotes.GetFisherTransform(lookbackPeriods);
 ```

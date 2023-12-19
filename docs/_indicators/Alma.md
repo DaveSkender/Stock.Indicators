@@ -15,7 +15,7 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA]({{site.github.repos
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AlmaResult> results =
   quotes.GetAlma(lookbackPeriods, offset, sigma);
 ```

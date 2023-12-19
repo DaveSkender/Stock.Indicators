@@ -15,7 +15,7 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// standard usage
+// C# usage syntax
 IEnumerable<AtrResult> results =
   quotes.GetAtr(lookbackPeriods);
 
