@@ -15,7 +15,7 @@ Volume Weighted Moving Average is the volume adjusted average price over a lookb
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// legacy usage
+// C# usage syntax
 IEnumerable<VwmaResult> results =
   quotes.GetVwma(lookbackPeriods);
 ```

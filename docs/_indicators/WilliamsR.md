@@ -15,7 +15,7 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<WilliamsResult> results =
   quotes.GetWilliamsR(lookbackPeriods);
 ```

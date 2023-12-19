@@ -15,7 +15,7 @@ Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average D
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AdxResult> results =
   quotes.GetAdx(lookbackPeriods);
 ```

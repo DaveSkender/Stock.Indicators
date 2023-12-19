@@ -15,7 +15,7 @@ Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](ht
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<StarcBandsResult> results =
   quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods);
 ```

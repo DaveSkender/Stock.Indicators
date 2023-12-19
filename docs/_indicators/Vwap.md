@@ -15,7 +15,7 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<VwapResult> results =
   quotes.GetVwap();
 

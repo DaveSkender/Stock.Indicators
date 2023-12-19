@@ -15,7 +15,7 @@ Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage (with Close price)
+// C# usage syntax (with Close price)
 IEnumerable<DynamicResult> results =
   quotes.GetDynamic(lookbackPeriods, kFactor);
 ```

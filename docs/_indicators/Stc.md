@@ -15,7 +15,7 @@ Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/ar
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<StcResult> results =
   quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods);
 ```

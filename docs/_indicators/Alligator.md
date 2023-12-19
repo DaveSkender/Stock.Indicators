@@ -15,7 +15,7 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AlligatorResult> results =
   quotes.GetAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
 ```
