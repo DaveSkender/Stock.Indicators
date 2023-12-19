@@ -15,7 +15,7 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<PvoResult> results =
   quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods);
 ```

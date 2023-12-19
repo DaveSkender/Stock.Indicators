@@ -15,7 +15,7 @@ Created by Oliver Seban, the SuperTrend indicator attempts to determine the prim
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<SuperTrendResult> results =
   quotes.GetSuperTrend(lookbackPeriods, multiplier);
 ```

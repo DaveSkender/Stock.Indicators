@@ -15,7 +15,7 @@ Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<VortexResult> results =
   quotes.GetVortex(lookbackPeriods);
 ```
