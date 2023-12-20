@@ -16,7 +16,7 @@ public static partial class Indicator
     // SERIES, from CHAIN
     public static IEnumerable<RsiResult> GetRsi(
         this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
+        int lookbackPeriods = 14) => results
             .ToTuple()
             .CalcRsi(lookbackPeriods)
             .SyncIndex(results, SyncType.Prepend);
@@ -24,7 +24,7 @@ public static partial class Indicator
     // SERIES, from TUPLE
     public static IEnumerable<RsiResult> GetRsi(
         this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
+        int lookbackPeriods = 14) => priceTuples
             .ToSortedList()
             .CalcRsi(lookbackPeriods);
 }
