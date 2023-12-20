@@ -15,7 +15,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<UltimateResult> results =
   quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);
 ```

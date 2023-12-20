@@ -15,7 +15,7 @@ The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<HurstResult> results =
   quotes.GetHurst(lookbackPeriods);
 ```

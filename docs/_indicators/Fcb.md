@@ -15,7 +15,7 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<FcbResult> results =
   quotes.GetFcb(windowSpan);
 ```

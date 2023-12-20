@@ -15,7 +15,7 @@ layout: indicator
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage (with Close price)
+// C# usage syntax (with Close price)
 IEnumerable<SmaResult> results =
   quotes.GetSma(lookbackPeriods);
 ```
@@ -61,7 +61,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 This indicator has an extended version with more analysis.
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumberable<SmaAnalysis> analysis =
   results.GetSmaAnalysis();
 ```

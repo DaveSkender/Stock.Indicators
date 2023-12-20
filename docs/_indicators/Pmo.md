@@ -15,7 +15,7 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<PmoResult> results =
   quotes.GetPmo(timePeriods, smoothPeriods, signalPeriods);
 ```

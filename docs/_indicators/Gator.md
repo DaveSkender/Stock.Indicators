@@ -15,7 +15,7 @@ Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<GatorResult> results =
   quotes.GetGator();
 

@@ -15,7 +15,7 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<KamaResult> results =
   quotes.GetKama(erPeriods, fastPeriods, slowPeriods);
 ```
