@@ -46,7 +46,7 @@ public static partial class QuoteUtility
         where TQuote : IQuote
     {
         // handle no quotes scenario
-        if (quotes == null || !quotes.Any())
+        if (quotes == null)
         {
             return new List<Quote>();
         }
