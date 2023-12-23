@@ -15,7 +15,7 @@ Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=tec
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AroonResult> results =
   quotes.GetAroon(lookbackPeriods);
 ```

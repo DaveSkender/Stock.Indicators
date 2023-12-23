@@ -16,7 +16,7 @@ layout: indicator
 ![image]({{site.baseurl}}/assets/charts/Slope.png)
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<SlopeResult> results =
   quotes.GetSlope(lookbackPeriods);
 ```

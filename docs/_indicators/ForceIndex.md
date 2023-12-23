@@ -15,7 +15,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ForceIndexResult> results =
   quotes.GetForceIndex(lookbackPeriods);
 ```

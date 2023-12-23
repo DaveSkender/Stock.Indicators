@@ -15,7 +15,7 @@ Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<EpmaResult> results =
   quotes.GetEpma(lookbackPeriods);
 ```

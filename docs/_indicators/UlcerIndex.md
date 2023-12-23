@@ -15,7 +15,7 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<UlcerIndexResult> results =
   quotes.GetUlcerIndex(lookbackPeriods);
 ```

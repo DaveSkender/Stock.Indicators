@@ -16,7 +16,7 @@ Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility band
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<RocWbResult> results =
   quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```

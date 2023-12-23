@@ -15,7 +15,7 @@ Standard Deviation Channels are prices ranges based on an linear regression cent
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<StdDevChannelsResult> results =
   quotes.GetStdDevChannels(lookbackPeriods, stdDeviations);
 ```

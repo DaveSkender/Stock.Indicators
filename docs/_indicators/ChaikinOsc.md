@@ -15,7 +15,7 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ChaikinOscResult> results =
   quotes.GetChaikinOsc(fastPeriods, slowPeriods);
 ```

@@ -15,7 +15,7 @@ layout: indicator
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<RocResult> results =
   quotes.GetRoc(lookbackPeriods);
 

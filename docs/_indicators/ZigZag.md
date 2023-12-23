@@ -15,7 +15,7 @@ layout: indicator
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ZigZagResult> results =
   quotes.GetZigZag(endType, percentChange);
 ```
