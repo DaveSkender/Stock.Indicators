@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # TODO: update run title and output summary
+      # with semantic version
+    
       - name: Checkout repository
         uses: actions/checkout@v4
 
