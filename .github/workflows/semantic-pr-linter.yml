@@ -48,13 +48,13 @@ jobs:
         with:
           header: pr-title-lint-error
           message: >
-            ### Hey there and thank you for opening this pull request! 👋🏼
+            #### Hey there and thank you for opening this pull request! 👋🏼
 
             It looks like your proposed title needs to be adjusted.
 
-            >:warning: ${{ steps.lint_pr_title.outputs.error_message }}
+            >🚩 ${{ steps.lint_pr_title.outputs.error_message }}
 
-            ### Pull request title naming convention
+            #### Pull request title naming convention
 
             Our PR title name taxonomy is `type: Subject`, where **type** is typically
             *feat*, *fix*, or *chore* and **subject** is a noun that starts with a capitalized letter.
