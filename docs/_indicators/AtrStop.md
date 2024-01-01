@@ -15,7 +15,7 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AtrStopResult> results =
   quotes.GetAtrStop(lookbackPeriods, multiplier, endType);
 ```

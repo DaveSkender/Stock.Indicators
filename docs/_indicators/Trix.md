@@ -15,7 +15,7 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage for Trix
+// C# usage syntax for Trix
 IEnumerable<TrixResult> results =
   quotes.GetTrix(lookbackPeriods);
 

@@ -16,7 +16,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<TsiResult> results =
   quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 ```

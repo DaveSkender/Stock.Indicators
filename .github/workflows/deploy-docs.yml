@@ -58,4 +58,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
           directory: docs/_site
-          wranglerVersion: '3'
+          wranglerVersion: 'latest'

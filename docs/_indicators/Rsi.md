@@ -15,7 +15,7 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<RsiResult> results =
   quotes.GetRsi(lookbackPeriods);
 ```

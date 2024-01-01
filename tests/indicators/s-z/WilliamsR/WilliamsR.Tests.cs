@@ -24,6 +24,18 @@ public class WilliamsRTests : TestBase
 
         WilliamsResult r2 = results[501];
         Assert.AreEqual(-52.0121, r2.WilliamsR.Round(4));
+
+        // test boundary condition
+        for (int i = 0; i < results.Count; i++)
+        {
+            WilliamsResult r = results[i];
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
     }
 
     [TestMethod]
@@ -41,12 +53,15 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void BadData()
     {
-        List<WilliamsResult> r = badQuotes
+        List<Quote> quotes = badQuotes
+            .ToSortedList();
+
+        List<WilliamsResult> results = badQuotes
             .GetWilliamsR(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.WilliamsR is double and double.NaN));
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(0, results.Count(x => x.WilliamsR is double and double.NaN));
     }
 
     [TestMethod]
@@ -78,6 +93,61 @@ public class WilliamsRTests : TestBase
 
         WilliamsResult last = results.LastOrDefault();
         Assert.AreEqual(-52.0121, last.WilliamsR.Round(4));
+    }
+
+    [TestMethod]
+    public void Boundary()
+    {
+        List<WilliamsResult> results = TestData
+            .GetRandom(2500)
+            .GetWilliamsR(14)
+            .ToList();
+
+        // analyze boundary
+        for (int i = 0; i < results.Count; i++)
+        {
+            WilliamsResult r = results[i];
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
+    }
+
+    [TestMethod]
+    public async Task Issue1127()
+    {
+        // initialize
+        IEnumerable<Quote> quotes = await FeedData
+            .GetQuotes("A", 365 * 3)
+            .ConfigureAwait(false);
+
+        List<Quote> quotesList = quotes.ToList();
+        int length = quotesList.Count;
+
+        // get indicators
+        List<WilliamsResult> resultsList = quotes
+            .GetWilliamsR(14)
+            .ToList();
+
+        Console.WriteLine($"%R from {length} quotes.");
+
+        // analyze boundary
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotesList[i];
+            WilliamsResult r = resultsList[i];
+
+            Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
     }
 
     // bad lookback period

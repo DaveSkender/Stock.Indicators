@@ -15,7 +15,7 @@ The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese pri
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<RenkoResult> results =
   quotes.GetRenko(brickSize, endType);
 ```
@@ -93,7 +93,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## ATR Variant
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<RenkoResult> results =
   quotes.GetRenkoAtr(atrPeriods, endType);
 ```

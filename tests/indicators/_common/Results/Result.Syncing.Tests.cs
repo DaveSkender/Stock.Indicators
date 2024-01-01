@@ -10,8 +10,8 @@ public class Syncing : TestBase
     public void SyncIndex()
     {
         // baseline for comparison
-        List<SmaResult> baseline = new()
-        {
+        List<SmaResult> baseline =
+        [
             new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
             new SmaResult(DateTime.Parse("1/3/2000", EnglishCulture)) { Sma = 3 },
@@ -21,11 +21,11 @@ public class Syncing : TestBase
             new SmaResult(DateTime.Parse("1/7/2000", EnglishCulture)) { Sma = 7 },
             new SmaResult(DateTime.Parse("1/8/2000", EnglishCulture)) { Sma = double.NaN },
             new SmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Sma = null },
-        };
+        ];
 
         // to be synced
-        List<EmaResult> eval = new()
-        {
+        List<EmaResult> eval =
+        [
             new EmaResult(DateTime.Parse("1/3/2000", EnglishCulture)) { Ema = 3 },
             new EmaResult(DateTime.Parse("1/4/2000", EnglishCulture)) { Ema = 4 },
             new EmaResult(DateTime.Parse("1/5/2000", EnglishCulture)) { Ema = 5 },
@@ -33,7 +33,7 @@ public class Syncing : TestBase
             new EmaResult(DateTime.Parse("1/7/2000", EnglishCulture)) { Ema = 7 },
             new EmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Ema = double.NaN },
             new EmaResult(DateTime.Parse("1/10/2000", EnglishCulture)) { Ema = null },
-        };
+        ];
 
         // prepend option
         List<EmaResult> prepend = eval.SyncIndex(baseline, SyncType.Prepend).ToList();
@@ -88,8 +88,8 @@ public class Syncing : TestBase
         }
 
         // no results
-        List<SmaResult> noBaseline = new();
-        List<EmaResult> noEval = new();
+        List<SmaResult> noBaseline = [];
+        List<EmaResult> noEval = [];
 
         IEnumerable<EmaResult> noBaseResults = eval.SyncIndex(noBaseline);
         IEnumerable<EmaResult> noEvalResults = noEval.SyncIndex(baseline);

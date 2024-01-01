@@ -15,7 +15,7 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AdlResult> results =
   quotes.GetAdl();
 
