@@ -40,7 +40,7 @@ jobs:
         with:
           header: pr-title-lint-error
           message: >
-            Hey there and thank you for opening this pull request! 👋🏼
+            ### Hey there and thank you for opening this pull request! 👋🏼
 
             We require pull request titles to follow the
             [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
