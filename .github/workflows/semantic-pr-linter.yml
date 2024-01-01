@@ -28,7 +28,7 @@ jobs:
           # If `subjectPattern` is configured, you can use this property to override
           # the default error message that is shown when the pattern doesn't match.
           # The variables `subject` and `title` can be used within the message.
-          subjectPatternError: |
+          subjectPatternError: >
             The subject "{subject}" found in the pull request title "{title}"
             didn't match the configured pattern. Please ensure that the subject
             starts with an uppercase character.
@@ -39,18 +39,14 @@ jobs:
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
         with:
           header: pr-title-lint-error
-          message: |
+          message: >
             Hey there and thank you for opening this pull request! 👋🏼
 
             We require pull request titles to follow the
             [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
             and it looks like your proposed title needs to be adjusted.
 
-            Details:
-
-            ```
-            ${{ steps.lint_pr_title.outputs.error_message }}
-            ```
+            >${{ steps.lint_pr_title.outputs.error_message }}
 
       # Delete a previous comment when the issue has been resolved
       - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
