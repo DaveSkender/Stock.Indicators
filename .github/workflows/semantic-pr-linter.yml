@@ -56,9 +56,10 @@ jobs:
 
             ### Pull request title naming convention
 
-            Our PR title name taxonomy is `[type]: [Subject]`, where `[type]` is typically
-            $feat$, $fix$, or $chore$ and `[subject]` is a *noun* that starts with a capitalized letter.
-            The $chore$ type usually starts with an action *verb*.  Examples:
+            Our PR title name taxonomy is `type: Subject`, where **type** is typically
+            *feat*, *fix*, or *chore* and **subject** is a noun that starts with a capitalized letter.
+            The *chore* type usually has a subject that starts with an action verb like *Add* or *Update*.
+            Examples:
 
             ```
 
