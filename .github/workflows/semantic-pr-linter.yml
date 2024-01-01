@@ -52,7 +52,7 @@ jobs:
 
             It looks like your proposed title needs to be adjusted.
 
-            >${{ steps.lint_pr_title.outputs.error_message }}
+            >:warning: ${{ steps.lint_pr_title.outputs.error_message }}
 
             ### Pull request title naming convention
 
