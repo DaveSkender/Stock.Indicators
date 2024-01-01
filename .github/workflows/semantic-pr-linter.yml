@@ -25,7 +25,13 @@ jobs:
           # We enforce that the subject starts with an uppercase character.
           subjectPattern: ^([A-Z]).+$
 
-
+          # If `subjectPattern` is configured, you can use this property to override
+          # the default error message that is shown when the pattern doesn't match.
+          # The variables `subject` and `title` can be used within the message.
+          subjectPatternError: >
+            The subject "**{subject}**" found in the pull request title "*{title}*"
+            didn't match the configured pattern. Please ensure that the subject
+            starts with an uppercase character.
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
@@ -33,7 +39,7 @@ jobs:
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
         with:
           header: pr-title-lint-error
-          message: |
+          message: >
             ### Hey there and thank you for opening this pull request! 👋🏼
 
             We require pull request titles to follow the
