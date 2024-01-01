@@ -33,6 +33,14 @@ jobs:
             didn't match the configured pattern. Please ensure that the subject
             starts with an uppercase character.
 
+          # If the PR contains one of these newline-delimited labels, the
+          # validation is skipped. If you want to rerun the validation when
+          # labels change, you might want to use the `labeled` and `unlabeled`
+          # event triggers in your workflow.
+          ignoreLabels: |
+            bot
+            ignore-semantic-pull-request
+
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
         # condition you can continue the execution with the populated error message.
@@ -42,9 +50,11 @@ jobs:
           message: >
             ### Hey there and thank you for opening this pull request! 👋🏼
 
-            We require pull request titles to follow the
-            [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/)
-            and it looks like your proposed title needs to be adjusted.
+            It looks like your proposed title needs to be adjusted. Our PR title follows the
+            [Conventional Commits specification](https://www.conventionalcommits.org) and uses
+            a naming convention of `[type]: [Subject]`, where **type** is typically `feat`, `fix`,
+            or `chore` and the **subject** starts with a capitalized letter (e.g. `feat: Big next thing` or
+            `fix: Divide by zero bug`, or `chore: Update docs`).
 
             >${{ steps.lint_pr_title.outputs.error_message }}
 
