@@ -15,7 +15,7 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<VolatilityStopResult> results =
   quotes.GetVolatilityStop(lookbackPeriods, multiplier);
 ```

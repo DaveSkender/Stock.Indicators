@@ -14,7 +14,7 @@ Created by E.W. Dreiss, the Choppiness Index measures the trendiness or choppine
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ChopResult> results =
   quotes.GetChop(lookbackPeriods);
 ```

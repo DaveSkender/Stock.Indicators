@@ -15,7 +15,7 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ObvResult> results =
   quotes.GetObv();
 
