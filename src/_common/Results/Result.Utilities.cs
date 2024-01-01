@@ -35,7 +35,7 @@ public static partial class ResultUtility
     internal static List<(DateTime Date, double Value)> ToTuple(
         this IEnumerable<IReusableResult> reusable)
     {
-        List<(DateTime date, double value)> prices = new();
+        List<(DateTime date, double value)> prices = [];
         List<IReusableResult> reList = reusable.ToList();
 
         // find first non-nulled
@@ -59,7 +59,7 @@ public static partial class ResultUtility
         List<IReusableResult> reList = reusable.ToSortedList();
         int length = reList.Count;
 
-        Collection<(DateTime Date, double Value)> results = new();
+        Collection<(DateTime Date, double Value)> results = [];
 
         for (int i = 0; i < length; i++)
         {

@@ -15,7 +15,7 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<KeltnerResult> results =
   quotes.GetKeltner(emaPeriods, multiplier, atrPeriods);
 ```

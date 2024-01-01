@@ -15,7 +15,7 @@ type: candlestick-pattern
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<CandleResult> results =
   quotes.GetMarubozu(minBodyPercent);
 ```

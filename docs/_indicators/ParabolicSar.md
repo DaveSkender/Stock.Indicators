@@ -15,7 +15,7 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage (standard)
+// C# usage syntax (standard)
 IEnumerable<ParabolicSarResult> results =
   quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);
 

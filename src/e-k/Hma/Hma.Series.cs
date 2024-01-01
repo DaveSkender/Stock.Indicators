@@ -13,7 +13,7 @@ public static partial class Indicator
 
         // initialize
         int shiftQty = lookbackPeriods - 1;
-        List<(DateTime, double)> synthHistory = new();
+        List<(DateTime, double)> synthHistory = [];
 
         List<WmaResult> wmaN1 = tpList.GetWma(lookbackPeriods).ToList();
         List<WmaResult> wmaN2 = tpList.GetWma(lookbackPeriods / 2).ToList();

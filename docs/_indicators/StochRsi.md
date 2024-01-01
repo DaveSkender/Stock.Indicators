@@ -16,7 +16,7 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<StochRsiResult> results =
   quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```

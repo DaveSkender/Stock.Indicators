@@ -15,7 +15,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<CciResult> results =
   quotes.GetCci(lookbackPeriods);
 ```

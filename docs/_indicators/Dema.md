@@ -17,7 +17,7 @@ Created by Patrick G. Mulloy, the [Double exponential moving average](https://en
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<DemaResult> results =
   quotes.GetDema(lookbackPeriods);
 ```

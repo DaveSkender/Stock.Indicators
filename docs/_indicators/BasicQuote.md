@@ -11,7 +11,7 @@ layout: indicator
 Returns a basic quote transform (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<BasicData> results =
   quotes.GetBaseQuote(candlePart);
 ```

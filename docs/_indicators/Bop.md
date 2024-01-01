@@ -15,7 +15,7 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<BopResult> results =
   quotes.GetBop(smoothPeriods);
 ```

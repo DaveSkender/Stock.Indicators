@@ -15,7 +15,7 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<AwesomeResult> results =
   quotes.GetAwesome(fastPeriods, slowPeriods);
 ```

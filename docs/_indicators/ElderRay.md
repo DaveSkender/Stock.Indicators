@@ -15,7 +15,7 @@ Created by Alexander Elder, the [Elder-ray Index](https://www.investopedia.com/t
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
 
 ```csharp
-// usage
+// C# usage syntax
 IEnumerable<ElderRayResult> results =
   quotes.GetElderRay(lookbackPeriods);
 ```
