@@ -61,9 +61,11 @@ jobs:
             The $chore$ type usually starts with an action *verb*.  Examples:
 
             ```
-            
+
             feat: Admin portal login
+
             fix: Divide by zero bug in SMA
+
             chore: Update user docs
 
             ```
