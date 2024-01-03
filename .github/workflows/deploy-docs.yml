@@ -3,7 +3,7 @@ name: Deploy website
 on: [workflow_dispatch]
 
 concurrency:
-  group: cloudflare-pages
+  group: docs-website
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: cloudflare-pages
+      name: docs-website
 
     steps:
       - name: Checkout source

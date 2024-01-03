@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   main:
-    name: Validate PR title
+    name: validate PR title
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v5
@@ -52,12 +52,12 @@ jobs:
 
             It looks like your proposed **_Pull request title_** needs to be adjusted.
 
-            >🚩 **ERROR:** ${{ steps.lint_pr_title.outputs.error_message }}
+            >🚩 **Error** » ${{ steps.lint_pr_title.outputs.error_message }}
 
             #### Pull request title naming convention
 
             Our PR title name taxonomy is `type: Subject`, where **type** is typically
-            *feat*, *fix*, or *chore* and **subject** is a noun that starts with a capitalized letter.
+            *feat*, *fix*, or *chore*, and **subject** is a phrase (proper noun) that starts with a capitalized letter.
             The *chore* type usually has a subject that starts with an action verb like *Add* or *Update*.
             Examples: `feat: Admin portal login`, `fix: Divide by zero bug in SMA`, and `chore: Update user docs`.
             See the [Conventional Commits specification](https://www.conventionalcommits.org) for more information.
