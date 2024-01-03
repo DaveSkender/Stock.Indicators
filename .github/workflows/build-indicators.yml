@@ -62,7 +62,7 @@ jobs:
           --logger trx
           --results-directory ./test-other
 
-      - name: Update tests summary
+      - name: Post tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
         if: ${{ github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
         with:
@@ -73,7 +73,7 @@ jobs:
           coverage-type: cobertura
           coverage-threshold: 95
 
-      - name: Run codacy-coverage-reporter
+      - name: Post coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
