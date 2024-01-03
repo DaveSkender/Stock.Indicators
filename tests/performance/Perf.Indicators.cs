@@ -61,16 +61,16 @@ public class IndicatorPerformance
     public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
-    public object GetBeta() => Indicator.GetBeta(h, ho, 20, BetaType.Standard);
+    public object GetBeta() => h.GetBeta(ho, 20);
 
     [Benchmark]
-    public object GetBetaUp() => Indicator.GetBeta(h, ho, 20, BetaType.Up);
+    public object GetBetaUp() => h.GetBeta(ho, 20, BetaType.Up);
 
     [Benchmark]
-    public object GetBetaDown() => Indicator.GetBeta(h, ho, 20, BetaType.Down);
+    public object GetBetaDown() => h.GetBeta(ho, 20, BetaType.Down);
 
     [Benchmark]
-    public object GetBetaAll() => Indicator.GetBeta(h, ho, 20, BetaType.All);
+    public object GetBetaAll() => h.GetBeta(ho, 20, BetaType.All);
 
     [Benchmark]
     public object GetBollingerBands() => h.GetBollingerBands();
@@ -141,7 +141,7 @@ public class IndicatorPerformance
     public object GetFcb() => h.GetFcb(14);
 
     [Benchmark]
-    public object GetFisherTransform() => h.GetFisherTransform(10);
+    public object GetFisherTransform() => h.GetFisherTransform();
 
     [Benchmark]
     public object GetForceIndex() => h.GetForceIndex(13);
@@ -183,7 +183,7 @@ public class IndicatorPerformance
     public object GetMacd() => h.GetMacd();
 
     [Benchmark]
-    public object GetMaEnvelopes() => h.GetMaEnvelopes(20, 2.5, MaType.SMA);
+    public object GetMaEnvelopes() => h.GetMaEnvelopes(20);
 
     [Benchmark]
     public object GetMama() => h.GetMama();
@@ -204,7 +204,7 @@ public class IndicatorPerformance
     public object GetParabolicSar() => h.GetParabolicSar();
 
     [Benchmark]
-    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
+    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month);
 
     [Benchmark]
     public object GetPivots() => h.GetPivots();
@@ -252,7 +252,7 @@ public class IndicatorPerformance
     public object GetSmaAnalysis() => h.GetSmaAnalysis(10);
 
     [Benchmark]
-    public object GetSmi() => h.GetSmi(5, 20, 5, 3);
+    public object GetSmi() => h.GetSmi(5, 20, 5);
 
     [Benchmark]
     public object GetSmma() => h.GetSmma(10);
