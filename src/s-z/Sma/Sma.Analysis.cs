@@ -8,7 +8,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // initialize
-        List<SmaAnalysis>? results = tpList
+        List<SmaAnalysis> results = tpList
             .CalcSma(lookbackPeriods)
             .Select(x => new SmaAnalysis(x.Date) { Sma = x.Sma })
             .ToList();
