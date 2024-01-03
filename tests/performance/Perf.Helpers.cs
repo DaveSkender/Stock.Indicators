@@ -23,17 +23,14 @@ public class HelperPerformance
     public object ToListQuoteD() => h.ToQuoteD();
 
     [Benchmark]
-    public object ToTupleClose() => h.ToTuple(CandlePart.Close);
-
-    [Benchmark]
-    public object ToTupleOHLC4() => h.ToTuple(CandlePart.OHLC4);
-
-    [Benchmark]
-    public object ToCandleResults() => h.ToCandleResults();
-
-    [Benchmark]
     public object Validate() => h.Validate();
 
     [Benchmark]
     public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
+
+    [Benchmark]
+    public object ToTuple() => h.ToTuple(CandlePart.Close);
+
+    [Benchmark]
+    public object ToCandleResults() => h.ToCandleResults();
 }
