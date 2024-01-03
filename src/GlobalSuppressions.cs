@@ -21,6 +21,12 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "member",
     Target = "~P:Skender.Stock.Indicators.IBasicData.Date")]
 
+[assembly: SuppressMessage("Naming",
+    "CA1720:Identifier contains type name"
+    , Justification = "Not really an issue.",
+    Scope = "type",
+    Target = "~T:Skender.Stock.Indicators.ChandelierType")]
+
 [assembly: SuppressMessage(
     "Naming",
     "CA1720:Identifier contains type name",

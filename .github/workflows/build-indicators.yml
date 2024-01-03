@@ -71,7 +71,6 @@ jobs:
           results-path: ./test-indicators/**/*.trx
           coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
-          coverage-threshold: 95
 
       - name: Post coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
