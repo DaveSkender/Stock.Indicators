@@ -1,5 +1,3 @@
-using Skender.Stock.Indicators;
-
 namespace Tests.Common;
 
 // IMPORT TEST DATA

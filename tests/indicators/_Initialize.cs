@@ -1,7 +1,5 @@
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
 
 // GLOBALS & INITIALIZATION OF TEST DATA
 

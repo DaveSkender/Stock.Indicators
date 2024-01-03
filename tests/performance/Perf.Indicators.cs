@@ -1,7 +1,3 @@
-using BenchmarkDotNet.Attributes;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Performance;
 
 public class IndicatorPerformance
@@ -19,8 +15,8 @@ public class IndicatorPerformance
         hList = h.ToList();
     }
 
-    [GlobalSetup(Targets = new[]
-    {
+    [GlobalSetup(Targets =
+    [
         nameof(GetBeta),
         nameof(GetBetaUp),
         nameof(GetBetaDown),
@@ -28,7 +24,7 @@ public class IndicatorPerformance
         nameof(GetCorrelation),
         nameof(GetPrs),
         nameof(GetPrsWithSma)
-    })]
+    ])]
     public static void SetupCompare()
     {
         h = TestData.GetDefault();
