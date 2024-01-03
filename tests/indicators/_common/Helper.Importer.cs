@@ -29,7 +29,9 @@ internal static class Importer
     }
 
     internal static decimal ToDecimal(this string value)
-        => decimal.TryParse(value, out decimal d) ? d : d;
+        => decimal.TryParse(value, out decimal d) ? d
+            : throw new NotFiniteNumberException(
+                $"Cannot convert `{value}`,  it is not a number.");
 
     internal static decimal? ToDecimalNull(this string value)
         => decimal.TryParse(value, out decimal d) ? d : null;

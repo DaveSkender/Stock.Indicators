@@ -45,12 +45,6 @@ public static partial class QuoteUtility
         TimeSpan timeSpan)
         where TQuote : IQuote
     {
-        // handle no quotes scenario
-        if (quotes == null)
-        {
-            return new List<Quote>();
-        }
-
         if (timeSpan <= TimeSpan.Zero)
         {
             throw new ArgumentOutOfRangeException(nameof(timeSpan), timeSpan,

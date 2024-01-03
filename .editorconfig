@@ -17,6 +17,8 @@ csharp_indent_block_contents = true
 
 # IDE0161 Convert to file-scoped namespace
 csharp_style_namespace_declarations = file_scoped:suggestion
+csharp_using_directive_placement = outside_namespace:warning
+dotnet_style_namespace_match_folder = false:none
 
 # CA1051: Do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = silent
@@ -50,7 +52,6 @@ dotnet_diagnostic.SA1117.severity = none
 
 # SA1118: Parameter should not span multiple lines
 dotnet_diagnostic.SA1118.severity = silent
-csharp_using_directive_placement = outside_namespace:warning
 
 # SA1202: Elements should be ordered by access
 dotnet_diagnostic.SA1202.severity = silent
@@ -138,6 +139,8 @@ csharp_style_prefer_primary_constructors = true:suggestion
 
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity = none
+dotnet_diagnostic.IDE0077.severity = warning
+dotnet_diagnostic.IDE0100.severity = suggestion
 
 [*.{cs,vb}]
 tab_width = 4
@@ -217,6 +220,5 @@ dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:silent
 dotnet_style_qualification_for_method = false:silent
 dotnet_style_qualification_for_event = false:silent
-dotnet_style_namespace_match_folder = false:silent
 dotnet_style_allow_multiple_blank_lines_experimental = false:suggestion
 dotnet_style_allow_statement_immediately_after_block_experimental = false:suggestion
