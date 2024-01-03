@@ -16,3 +16,9 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Required for BenchmarkDotNet",
     Scope = "member",
     Target = "~F:Tests.Performance.InternalsPerformance.Periods")]
+
+[assembly: SuppressMessage("Design",
+    "CA1051:Do not declare visible instance fields",
+    Justification = "Required for BenchmarkDotNet",
+    Scope = "member",
+    Target = "~F:Tests.Performance.InternalsPerformance.Periods")]
