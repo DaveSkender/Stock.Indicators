@@ -10,8 +10,8 @@ public class QuoteProvider : IObservable<Quote>
     // initialize
     public QuoteProvider()
     {
-        observers = new();
-        ProtectedQuotes = new();
+        observers = [];
+        ProtectedQuotes = [];
     }
 
     // properties
