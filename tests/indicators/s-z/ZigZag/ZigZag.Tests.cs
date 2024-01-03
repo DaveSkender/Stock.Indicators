@@ -1,7 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using Skender.Stock.Indicators;
-using Tests.Common;
 
 namespace Tests.Indicators;
 

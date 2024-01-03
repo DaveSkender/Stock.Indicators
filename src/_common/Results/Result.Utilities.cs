@@ -18,7 +18,7 @@ public static partial class ResultUtility
 
         resultsList
             .RemoveAll(match:
-                x => x.Value is null or (double and double.NaN));
+                x => x.Value is null or (not null and double.NaN));
 
         return resultsList.ToSortedList();
     }
@@ -45,7 +45,7 @@ public static partial class ResultUtility
 
         for (int i = first; i < reList.Count; i++)
         {
-            IReusableResult? r = reList[i];
+            IReusableResult r = reList[i];
             prices.Add(new(r.Date, r.Value.Null2NaN()));
         }
 

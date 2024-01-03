@@ -11,8 +11,8 @@ public abstract class ChainProvider
     // initialize
     protected ChainProvider()
     {
-        observers = new();
-        ProtectedChain = new();
+        observers = [];
+        ProtectedChain = [];
         Warmup = true;
     }
 

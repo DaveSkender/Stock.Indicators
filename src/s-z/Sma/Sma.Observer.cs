@@ -9,7 +9,7 @@ public class SmaObserver : ChainProvider
         int lookbackPeriods)
     {
         Supplier = provider;
-        ProtectedResults = new();
+        ProtectedResults = [];
 
         LookbackPeriods = lookbackPeriods;
 
@@ -65,17 +65,12 @@ public class SmaObserver : ChainProvider
     // add new tuple quote
     internal void Add((DateTime Date, double Value) tp)
     {
-        if (Supplier == null)
-        {
-            throw new ArgumentNullException(nameof(Supplier), "Could not find data source.");
-        }
-
         // candidate result
         SmaResult r = new(tp.Date);
 
         // initialize
         int lengthRes = ProtectedResults.Count;
-        int lengthSrc = Supplier.ProtectedTuples.Count;
+        int lengthSrc = Supplier!.ProtectedTuples.Count;  // merge fix, okay to replace
 
         // handle first value
         if (lengthRes == 0)

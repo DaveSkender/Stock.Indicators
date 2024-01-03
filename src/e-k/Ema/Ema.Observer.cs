@@ -9,7 +9,7 @@ public class EmaObserver : ChainProvider
         int lookbackPeriods)
     {
         Supplier = provider;
-        ProtectedResults = new();
+        ProtectedResults = [];
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);

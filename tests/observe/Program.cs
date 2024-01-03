@@ -7,7 +7,7 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        if (args.Any())
+        if (args.Length != 0)
         {
             Console.WriteLine(args);
         }
@@ -56,10 +56,8 @@ public class QuoteStream
 
         await client.ConnectAndAuthenticateAsync();
 
-        AutoResetEvent[] waitObjects = new[]  // todo: is this needed?
-        {
-            new AutoResetEvent(false)
-        };
+        // todo: is this needed?
+        AutoResetEvent[] waitObjects = [new AutoResetEvent(false)];
 
         IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);

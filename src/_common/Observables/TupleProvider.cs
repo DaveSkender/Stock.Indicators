@@ -11,8 +11,8 @@ public abstract class TupleProvider
     // initialize
     protected TupleProvider()
     {
-        observers = new();
-        ProtectedTuples = new();
+        observers = [];
+        ProtectedTuples = [];
     }
 
     // properties
