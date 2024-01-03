@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Tests.Other")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
+[assembly: InternalsVisibleTo("Observe.Streaming")]
 namespace Tests.Common;
 
 [TestClass]

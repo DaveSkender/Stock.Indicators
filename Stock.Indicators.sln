@@ -24,6 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9
 		.github\build.main.yml = .github\build.main.yml
 		.github\workflows\build.yml = .github\workflows\build.yml
 		.github\dependabot.yml = .github\dependabot.yml
+		gitversion.yml = gitversion.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observe.Streaming", "tests\observe\Observe.Streaming.csproj", "{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}"
+	ProjectSection(ProjectDependencies) = postProject
+		{11CD6C7E-871F-4903-AEAD-58E034C6521D} = {11CD6C7E-871F-4903-AEAD-58E034C6521D}
+		{8D0F1781-EDA3-4C51-B05D-D33FF1156E49} = {8D0F1781-EDA3-4C51-B05D-D33FF1156E49}
 	EndProjectSection
 EndProject
 Global
@@ -48,6 +55,10 @@ Global
 		{3BD4837B-D197-41FD-A286-A3256D0770E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD4837B-D197-41FD-A286-A3256D0770E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BD4837B-D197-41FD-A286-A3256D0770E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
