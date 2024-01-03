@@ -1,7 +1,5 @@
 using System.Net.Sockets;
 using Alpaca.Markets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
 

@@ -1,6 +1,4 @@
 using System.Collections.ObjectModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
 
 namespace Tests.Common;
 

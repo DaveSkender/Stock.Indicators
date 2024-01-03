@@ -1,8 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
 
 namespace Tests.CustomIndicators;
 
@@ -201,7 +198,7 @@ public class CustomIndicatorTests
             .ToList();
 
         Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]
@@ -211,7 +208,7 @@ public class CustomIndicatorTests
             .GetIndicator(50)
             .ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]
@@ -222,7 +219,7 @@ public class CustomIndicatorTests
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]

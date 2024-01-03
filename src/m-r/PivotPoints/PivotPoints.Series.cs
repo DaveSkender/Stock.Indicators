@@ -188,7 +188,7 @@ public static partial class Indicator
     }
 
     // pivot type lookup
-    internal static TPivotPoint? GetPivotPoint<TPivotPoint>(
+    internal static TPivotPoint GetPivotPoint<TPivotPoint>(
         PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
         => pointType switch
