@@ -18,7 +18,7 @@
     </summary>
     <param name="reusable">Indicator results to evaluate.</param>
     <returns>Collection of tuple time series of
-      results with specified handline of nulls, without pruning.</returns>
+      results with specified handling of nulls, without pruning.</returns>
   </type>
   <type name="Prune">
     <summary> Removes the recommended quantity of results from the beginning of the results list

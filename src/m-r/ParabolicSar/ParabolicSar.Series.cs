@@ -35,7 +35,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            QuoteD? q = qdList[i];
+            QuoteD q = qdList[i];
 
             ParabolicSarResult r = new(q.Date);
             results.Add(r);

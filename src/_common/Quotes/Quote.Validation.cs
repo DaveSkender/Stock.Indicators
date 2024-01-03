@@ -17,10 +17,8 @@ public static partial class QuoteUtility
 
         // check for duplicates
         DateTime lastDate = DateTime.MinValue;
-        for (int i = 0; i < quotesList.Count; i++)
+        foreach (var q in quotesList)
         {
-            TQuote q = quotesList[i];
-
             if (lastDate == q.Date)
             {
                 throw new InvalidQuotesException(

@@ -1,7 +1,4 @@
 using System.Globalization;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
 
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
