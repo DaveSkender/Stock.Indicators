@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteAggregateTests : TestBase
+public class QuoteHistory : TestBase
 {
     [TestMethod]
     public void Aggregate()

@@ -44,23 +44,3 @@ using System.Diagnostics.CodeAnalysis;
     "StyleCop.CSharp.SpacingRules",
     "SA1010:Opening square brackets should be spaced correctly",
     Justification = "Invalid for new C# 12 [ collection ] syntax.")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1725:Parameter names should match base declaration",
-    Justification = "The microsoft OnError implementation uses reserved word Error",
-    Scope = "member",
-    Target = "~M:Skender.Stock.Indicators.QuoteObserver.OnError(System.Exception)")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "The microsoft OnError implementation uses reserved word Error",
-    Scope = "member",
-    Target = "~M:Skender.Stock.Indicators.QuoteObserver.OnError(System.Exception)")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "The microsoft OnError implementation uses reserved word Error",
-    Scope = "member", Target = "~M:Skender.Stock.Indicators.TupleObserver.OnError(System.Exception)")]

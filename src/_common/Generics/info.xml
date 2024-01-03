@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
-  <type name="FindSeries">
+  <type name="Find">
     <summary> Finds time series values on a specific date.
       <para>
         See <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see> for more information.
@@ -10,21 +10,8 @@
     <typeparam name="TSeries">Any series type.</typeparam>
     <param name="series">Time series to evaluate.</param>
     <param name="lookupDate">Exact date to lookup.</param>
-    <returns>First record in the series on the date specified.</returns>
-  </type>
-  <type name="FindIndex">
-    <summary>
-      Finds time series index on a specific date.
-      <para>
-        See <see href="https://dotnet.StockIndicators.dev/utilities/#find-indicator-result-by-date?utm_source=library">documentation</see> for more information.
-      </para>
-    </summary>
-    <typeparam name="TSeries">Any series type.</typeparam>
-    <param name="series">Time series to evaluate.</param>
-    <param name="lookupDate">Exact date to lookup.</param>
-    <returns>
-      First index in the series of the date specified or -1 if not found.
-    </returns>
+    <returns>First
+      record in the series on the date specified.</returns>
   </type>
   <type name="Prune">
     <summary> Removes a specific quantity from the beginning of the time series list.
