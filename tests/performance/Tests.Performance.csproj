@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.11" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.11"/>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
