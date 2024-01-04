@@ -13,11 +13,10 @@ jobs:
 
     steps:
 
-      # TODO: update run title and output summary
-      # with semantic version
-
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
