@@ -59,6 +59,6 @@ jobs:
 
       - name: Publish summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
-        run: |
+        run: >
           { echo "Package v$COMPOSED_VERSION" } >> $GITHUB_STEP_SUMMARY
           cat Tests.Performance.IndicatorPerformance-report-github.md >> $GITHUB_STEP_SUMMARY
