@@ -1,10 +1,6 @@
-using BenchmarkDotNet.Attributes;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Performance;
 
-public class IndicatorStatic
+public class IndicatorStaticTests
 {
     private static IEnumerable<Quote> q;
     private static IEnumerable<Quote> o;

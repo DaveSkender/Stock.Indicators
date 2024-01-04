@@ -1,10 +1,6 @@
-using BenchmarkDotNet.Attributes;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Performance;
 
-public class IndicatorStreamFull
+public class IndicatorStreamTests
 {
     /*
      dotnet build -c Release

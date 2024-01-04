@@ -10,3 +10,5 @@ no-bump-message: '\+semver:\s?(none|skip)'
 branches:
   pull-request:
     tag: preview.
+  feature:
+    tag: preview.
