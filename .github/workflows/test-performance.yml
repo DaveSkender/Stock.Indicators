@@ -31,15 +31,6 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
 
-      - name: Compose version
-        id: compose
-        run: |
-          COMPOSED_VERSION=$GITVERSION_MAJORMINORPATCH${{ inputs.preview && '-preview-' || '' }}${{ inputs.preview && github.run_id || '' }}
-          echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
-          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
-          echo "Composed version is:"
-          echo $COMPOSED_VERSION
-
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
@@ -55,10 +46,10 @@ jobs:
 
       - name: Benchmark indicators
         working-directory: tests/performance
-        run: dotnet run -c Release --filter *.GetEma
+        run: dotnet run -c Release
 
       - name: Publish summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
-        run: >
-          { echo "Package v$COMPOSED_VERSION" } >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "Package v$GITVERSION_FULLSEMVER" >> $GITHUB_STEP_SUMMARY
           cat Tests.Performance.IndicatorPerformance-report-github.md >> $GITHUB_STEP_SUMMARY
