@@ -24,10 +24,12 @@ public static class Candlesticks
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<CandleProperties> candlesList = quotes
+        List<CandleProperties> candlesList =
+        [
+          .. quotes
             .Select(x => x.ToCandle())
             .OrderBy(x => x.Date)
-            .ToList();
+        ];
 
         // validate
         return candlesList;
@@ -38,14 +40,16 @@ public static class Candlesticks
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<CandleResult> candlesList = quotes
+        List<CandleResult> candlesList =
+        [
+          .. quotes
             .Select(x => new CandleResult(x.Date)
             {
                 Match = Match.None,
                 Candle = x.ToCandle()
             })
             .OrderBy(x => x.Date)
-            .ToList();
+        ];
 
         // validate
         return candlesList;
