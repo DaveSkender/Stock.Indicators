@@ -158,7 +158,9 @@ jobs:
         uses: ncipollo/release-action@v1
         if: inputs.environment == 'nuget'
         with:
-          body: "We’ve released a new Stock Indicators for .NET NuGet package.  See [Skender.Stock.Indicators @ NuGet.org](${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}) for more information."
+          body: |
+            We’ve released a new Stock Indicators for .NET NuGet package.
+            See [Skender.Stock.Indicators @ NuGet.org](${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}) for more information.
           generateReleaseNotes: true
           draft: true
           makeLatest: ${{ !inputs.preview }}
