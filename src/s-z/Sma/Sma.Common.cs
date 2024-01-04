@@ -7,6 +7,10 @@ namespace Skender.Stock.Indicators;
 
 public partial class Sma
 {
+    // string label
+    public override string ToString()
+        => $"SMA({LookbackPeriods})";
+
     // parameter validation
     internal static void Validate(
         int lookbackPeriods)

@@ -28,6 +28,10 @@ public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
 
     // METHODS
 
+    // string label
+    public override string ToString()
+        => $"USE({Enum.GetName(typeof(CandlePart), CandlePartSelection)})";
+
     // handle quote arrival
     public override void OnNext((Act act, TQuote quote) value)
     {

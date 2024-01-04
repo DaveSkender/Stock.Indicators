@@ -23,6 +23,10 @@ public class QuoteProvider<TQuote> : SeriesCache<TQuote>,
 
     // METHODS
 
+    // string label
+    public override string ToString()
+        => $"Quote Provider ({Cache.Count} items)";
+
     // add one
     public Act Add(TQuote quote)
     {

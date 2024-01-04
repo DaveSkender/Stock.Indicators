@@ -32,6 +32,9 @@ public abstract class SeriesCache<TSeries> : ChainProvider
 
     // METHODS
 
+    // add a nicely formatted label to end indicatores, e.g. EMA(10)
+    public abstract override string ToString();
+
     // Overload for non-chainable cachors that do not store chain values.
     internal Act CacheWithAnalysis(TSeries r) => CacheWithAnalysis(r, double.NaN);
 

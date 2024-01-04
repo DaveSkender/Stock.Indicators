@@ -7,6 +7,10 @@ namespace Skender.Stock.Indicators;
 
 public partial class Ema
 {
+    // string label
+    public override string ToString()
+        => $"EMA({LookbackPeriods})";
+
     // INCREMENT CALCULATIONS
 
     /// <include file='./info.xml' path='info/type[@name="increment-k"]/*' />
