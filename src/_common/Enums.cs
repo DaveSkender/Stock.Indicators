@@ -50,6 +50,13 @@ public enum MaType
     WMA
 }
 
+public enum OutType
+{
+    FixedWidth,
+    CSV,
+    JSON
+}
+
 public enum PeriodSize
 {
     Month,

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Skender.Stock.Indicators;
 
 // RESULT MODELS
@@ -10,5 +12,6 @@ public interface IReusableResult : ISeries
 [Serializable]
 public abstract class ResultBase : ISeries
 {
+    [JsonPropertyOrder(-1)]
     public DateTime Date { get; set; }
 }
