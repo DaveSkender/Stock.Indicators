@@ -7,9 +7,9 @@ on:
         description: Deployment environment
         type: choice
         options:
-          - azure-artifacts
-          - nuget
-        default: azure-artifacts
+          - staging
+          - nuget.org
+        default: staging
         required: true
       preview:
         description: Append preview suffix
@@ -18,8 +18,8 @@ on:
         required: true
 
 concurrency:
-  group: nuget-deployer
-  cancel-in-progress: false
+  group: package-deployer
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -140,15 +140,15 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Publish to Azure Artifacts
-        if: inputs.environment == 'azure-artifacts'
+      - name: Publish to Azure Artifacts (staging)
+        if: inputs.environment == 'staging'
         run: |
           dotnet new nugetconfig --force
           nuget sources Add -Name "AzureArtifacts" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive -ConfigFile nuget.config
           nuget push NuGet/*.nupkg -src AzureArtifacts -ApiKey AZ -NonInteractive -ConfigFile nuget.config
 
       - name: Publish to NuGet.org
-        if: inputs.environment == 'nuget'
+        if: inputs.environment == 'nuget.org'
         run: |
           dotnet new nugetconfig --force
           nuget setApiKey ${{ secrets.NUGET_TOKEN }} -src nuget -ConfigFile nuget.config
@@ -156,7 +156,7 @@ jobs:
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
-        if: inputs.environment == 'nuget'
+        if: inputs.environment == 'nuget.org'
         with:
           body: |
             We’ve released a new Stock Indicators for .NET NuGet package.
