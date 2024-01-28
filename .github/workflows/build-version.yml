@@ -38,5 +38,9 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: "Does this post? ${{ steps.gitversion.outputs.majorMinorPatch }}"
+              body: "Does this post? |
+                ${{ steps.gitversion.outputs.majorMinorPatch }}
+                ${{ steps.gitversion.outputs.commitsSinceVersionSourcePadded }}
+                ${{ steps.gitversion.outputs.preReleaseNumber }}
+                "
             })
