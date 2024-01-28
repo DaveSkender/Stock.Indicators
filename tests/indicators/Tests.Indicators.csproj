@@ -32,6 +32,9 @@
     <None Update="a-d\Adx\issue859quotes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="s-z\WilliamsR\issue1127quotes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="_common\data\bad.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
