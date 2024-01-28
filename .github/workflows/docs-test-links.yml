@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Ruby
         uses: ruby/setup-ruby@v1
