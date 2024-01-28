@@ -3,7 +3,7 @@ using System.Globalization;
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
 
-internal sealed class MyQuote : Quote
+internal sealed record MyQuote : Quote
 {
     public bool MyProperty { get; set; }
     public decimal? MyClose { get; set; }
