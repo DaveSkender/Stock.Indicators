@@ -3,7 +3,9 @@
 root = false
 
 # Be careful of automatically added values from IDE.
-# Add a "# [initials] yyyy-MM-dd" postmark to differentiate human intent.
+# Add between "# HUMANS markers to differentiate intent.
 
 [*.cs]
-dotnet_diagnostic.CS1591.severity = suggestion # DS 2024-01-28
+#HUMANS
+dotnet_diagnostic.CS1591.severity=suggestion
+#ENDHUMANS
