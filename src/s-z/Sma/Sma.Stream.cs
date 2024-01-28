@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public partial class Sma : ChainObserver<SmaResult>
+public partial class Sma : ChainObserver<SmaResult>, ISma
 {
     // constructor
     public Sma(
@@ -10,6 +10,8 @@ public partial class Sma : ChainObserver<SmaResult>
         int lookbackPeriods)
         : base(provider)
     {
+        Validate(lookbackPeriods);
+
         LookbackPeriods = lookbackPeriods;
 
         Initialize();
@@ -22,7 +24,7 @@ public partial class Sma : ChainObserver<SmaResult>
 
     // PROPERTIES
 
-    private int LookbackPeriods { get; set; }
+    public int LookbackPeriods { get; private set; }
 
     // METHODS
 

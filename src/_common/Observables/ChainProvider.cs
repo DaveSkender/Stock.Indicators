@@ -2,8 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CHAIN PROVIDER
 
-public abstract class ChainProvider :
-    IObservable<(Act act, DateTime date, double price)>
+public abstract class ChainProvider : IChainProvider
 {
     // fields
     private readonly List<IObserver<(Act, DateTime, double)>> observers;

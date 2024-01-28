@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public partial class Ema : ChainObserver<EmaResult>
+public partial class Ema : ChainObserver<EmaResult>, IEma
 {
     // constructor
     public Ema(
@@ -10,6 +10,8 @@ public partial class Ema : ChainObserver<EmaResult>
         int lookbackPeriods)
         : base(provider)
     {
+        Validate(lookbackPeriods);
+
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
@@ -25,8 +27,8 @@ public partial class Ema : ChainObserver<EmaResult>
 
     // common
 
-    private int LookbackPeriods { get; set; }
-    private double K { get; set; }
+    public int LookbackPeriods { get; private set; }
+    public double K { get; private set; }
 
     // METHODS
 

@@ -1,8 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public abstract class ChainObserver<TResult> : SeriesCache<TResult>,
-    IObserver<(Act act, DateTime date, double price)>
-    where TResult : ISeries, new()
+// CHAIN OBSERVER
+
+public abstract class ChainObserver<TResult>
+    : SeriesCache<TResult>, IChainObserver<TResult>
+    where TResult : IResult, new()
 {
     internal IDisposable? unsubscriber;
 

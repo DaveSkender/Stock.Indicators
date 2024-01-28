@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE PROVIDER
 
-public class QuoteProvider<TQuote> : SeriesCache<TQuote>,
-    IObservable<(Act act, TQuote quote)>
+public class QuoteProvider<TQuote>
+    : SeriesCache<TQuote>, IQuoteProvider<TQuote>
     where TQuote : IQuote, new()
 {
     // fields

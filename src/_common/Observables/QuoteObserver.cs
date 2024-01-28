@@ -1,7 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public abstract class QuoteObserver<TQuote, TResult> : SeriesCache<TResult>,
-    IObserver<(Act act, TQuote quote)>
+// QUOTE OBSERVER
+
+public abstract class QuoteObserver<TQuote, TResult>
+    : SeriesCache<TResult>, IQuoteObserver<TQuote, TResult>
     where TQuote : IQuote, new()
     where TResult : IResult, new()
 {

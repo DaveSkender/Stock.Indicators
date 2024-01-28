@@ -5,6 +5,6 @@ To get connected to the WebSocket in this console test project, you have to add 
 Run the following command line items to set, after replacing the secret and key values.
 
 ```bash
-setx AlpacaApiKey "ALPACA_API_KEY"
-setx AlpacaSecret "ALPACA_SECRET"
+setx ALPACA_KEY "MY_ALPACA_KEY"
+setx ALPACA_SECRET "MY_ALPACA_SECRET"
 ```

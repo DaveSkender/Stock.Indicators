@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // base result or series cache
-public abstract class SeriesCache<TSeries> : ChainProvider
+public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries>
     where TSeries : ISeries, new()
 {
     // fields

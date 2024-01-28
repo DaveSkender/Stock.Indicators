@@ -22,6 +22,23 @@ public class QuoteStream
     private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
     private readonly string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
 
+    internal QuoteStream()
+    {
+        if (string.IsNullOrEmpty(alpacaApiKey))
+        {
+            throw new ArgumentNullException(
+                alpacaApiKey,
+                $"API KEY missing, use `setx ALPACA_KEY \"MY_ALPACA_KEY\"` to set.");
+        }
+
+        if (string.IsNullOrEmpty(alpacaSecret))
+        {
+            throw new ArgumentNullException(
+                alpacaSecret,
+                $"API SECRET missing, use `setx ALPACA_SECRET \"MY_ALPACA_SECRET\"` to set.");
+        }
+    }
+
     public async Task SubscribeToQuotes(string symbol)
     {
         Console.WriteLine("Press any key to exit the process...");

@@ -16,3 +16,10 @@ public sealed class SmaAnalysis : ResultBase, IReusableResult
 
     double IReusableResult.Value => Sma.Null2NaN();
 }
+
+public interface ISma :
+    IChainObserver<SmaResult>,
+    IChainProvider
+{
+    int LookbackPeriods { get; }
+}

@@ -4,11 +4,11 @@ namespace Skender.Stock.Indicators;
 
 public interface IQuote : ISeries
 {
-    public decimal Open { get; }
-    public decimal High { get; }
-    public decimal Low { get; }
-    public decimal Close { get; }
-    public decimal Volume { get; }
+    decimal Open { get; }
+    decimal High { get; }
+    decimal Low { get; }
+    decimal Close { get; }
+    decimal Volume { get; }
 }
 
 public class Quote : IQuote

@@ -25,12 +25,12 @@ We use an external API quote source for our **streaming** and **quote API** exam
 [get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/),
 then set your local environment variables.
 
-Run the following command line items to set, after replacing the `ALPACA_API_KEY` and `ALPACA_SECRET` values.
+Run the following command line items to set, after replacing the `MY_ALPACA_KEY` and `MY_ALPACA_SECRET` values.
 
 ```bash
 # use your own keys
-setx AlpacaApiKey "ALPACA_API_KEY"
-setx AlpacaSecret "ALPACA_SECRET"
+setx ALPACA_KEY "MY_ALPACA_KEY"
+setx ALPACA_SECRET "MY_ALPACA_SECRET"
 ```
 
 ## Get and run the sample projects
