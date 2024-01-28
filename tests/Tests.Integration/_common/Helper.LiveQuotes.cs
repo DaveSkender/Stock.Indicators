@@ -1,4 +1,5 @@
 using Alpaca.Markets;
+using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
 
@@ -24,8 +25,8 @@ internal class FeedData
          ****************************************************/
 
         // get and validate keys
-        string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
-        string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
+        string? alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
+        string? alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
 
         if (string.IsNullOrEmpty(alpacaApiKey) || string.IsNullOrEmpty(alpacaSecret))
         {
