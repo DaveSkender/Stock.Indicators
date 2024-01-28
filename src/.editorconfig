@@ -1,0 +1,9 @@
+# See ROOT for primary .editorconfig
+# This is only for minor SRC overrides.
+root = false
+
+# Be careful of automatically added values from IDE.
+# Add a "# [initials] yyyy-MM-dd" postmark to differentiate human intent.
+
+[*.cs]
+dotnet_diagnostic.CS1591.severity = suggestion # DS 2024-01-28
