@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class MfiTests : TestBase
+public class MfiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<MfiResult> results = quotes
             .GetMfi(14)
@@ -56,7 +56,7 @@ public class MfiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<MfiResult> r = badQuotes
             .GetMfi(15)
@@ -67,7 +67,7 @@ public class MfiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<MfiResult> r0 = noquotes
             .GetMfi()

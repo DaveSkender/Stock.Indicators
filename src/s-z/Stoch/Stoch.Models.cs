@@ -2,8 +2,9 @@ namespace Skender.Stock.Indicators;
 
 /// <include file='./info.xml' path='info/type[@name="Results"]/*' />
 ///
-public sealed class StochResult : ResultBase, IReusableResult
+public sealed record class StochResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Oscillator { get; set; }
     public double? Signal { get; set; }
     public double? PercentJ { get; set; }

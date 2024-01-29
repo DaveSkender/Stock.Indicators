@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class PrsTests : TestBase
+public class PrsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int lookbackPeriods = 30;
 
@@ -79,7 +79,7 @@ public class PrsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<PrsResult> r = badQuotes
             .GetPrs(badQuotes, 15)
@@ -90,7 +90,7 @@ public class PrsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<PrsResult> r0 = noquotes
             .GetPrs(noquotes)

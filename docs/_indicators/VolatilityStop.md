@@ -47,7 +47,7 @@ IEnumerable<VolatilityStopResult>
 
 ### VolatilityStopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Sar`** _`double`_ - Stop and Reverse value contains both Upper and Lower segments
 

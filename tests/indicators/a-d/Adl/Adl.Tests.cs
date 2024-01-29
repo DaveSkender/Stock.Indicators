@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class AdlTests : TestBase
+public class AdlTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<AdlResult> results = quotes
             .GetAdl()
@@ -41,7 +41,7 @@ public class AdlTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AdlResult> r = badQuotes
             .GetAdl()
@@ -72,7 +72,7 @@ public class AdlTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AdlResult> r0 = noquotes
             .GetAdl()

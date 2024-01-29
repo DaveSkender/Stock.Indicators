@@ -45,7 +45,7 @@ IEnumerable<EmaResult>
 
 ### EmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Ema`** _`double`_ - Exponential moving average
 

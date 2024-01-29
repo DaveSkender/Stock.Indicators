@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class ParabolicSarResult : ResultBase, IReusableResult
+public sealed record class ParabolicSarResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Sar { get; set; }
     public bool? IsReversal { get; set; }
 

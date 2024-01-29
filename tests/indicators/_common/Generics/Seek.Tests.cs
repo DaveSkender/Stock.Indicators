@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class Seeking : TestBase
+public class Seeking : SeriesTestBase
 {
     [TestMethod]
     public void FindSeries()

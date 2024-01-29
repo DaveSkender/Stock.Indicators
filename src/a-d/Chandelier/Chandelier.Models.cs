@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class ChandelierResult : ResultBase, IReusableResult
+public sealed record class ChandelierResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? ChandelierExit { get; set; }
 
     double IReusableResult.Value => ChandelierExit.Null2NaN();

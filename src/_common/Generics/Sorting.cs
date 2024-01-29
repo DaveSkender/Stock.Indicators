@@ -10,13 +10,13 @@ public static class Sorting
         this IEnumerable<TSeries> series)
         where TSeries : ISeries
         => series
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .ToCollection();
 
     internal static List<TSeries> ToSortedList<TSeries>(
         this IEnumerable<TSeries> series)
         where TSeries : ISeries
         => series
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .ToList();
 }

@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class SlopeResult : ResultBase, IReusableResult
+public sealed record class SlopeResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Slope { get; set; }
     public double? Intercept { get; set; }
     public double? StdDev { get; set; }

@@ -7,20 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
     "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1716:Identifiers should not match keywords",
-    Justification = "Not really an issue.",
-    Scope = "member",
-    Target = "~P:Skender.Stock.Indicators.Quote.Date")]
-
-[assembly: SuppressMessage(
-    "Naming",
     "CA1720:Identifier contains type name",
     Justification = "Not really an issue.",
     Scope = "member",

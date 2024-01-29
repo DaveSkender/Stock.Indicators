@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ObvTests : TestBase
+public class ObvTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<ObvResult> results = quotes
             .GetObv()
@@ -34,7 +34,7 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ObvResult> r = badQuotes
             .GetObv()
@@ -55,7 +55,7 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ObvResult> r0 = noquotes
             .GetObv()

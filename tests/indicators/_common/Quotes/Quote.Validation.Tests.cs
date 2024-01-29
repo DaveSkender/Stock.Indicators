@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteValidationTests : TestBase
+public class QuoteValidationTests : TestQuoteBase
 {
     [TestMethod]
     public void Validate()
@@ -15,10 +15,10 @@ public class QuoteValidationTests : TestBase
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h[501].Date);
+        Assert.AreEqual(lastDate, h[501].TickDate);
 
         DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[20].Date);
+        Assert.AreEqual(spotDate, h[20].TickDate);
     }
 
     [TestMethod]
@@ -31,7 +31,7 @@ public class QuoteValidationTests : TestBase
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h[5284].Date);
+        Assert.AreEqual(lastDate, h[5284].TickDate);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class QuoteValidationTests : TestBase
 
         for (int i = 1; i < r1.Count; i++)
         {
-            Assert.IsTrue(r1[i].Date >= r1[i - 1].Date);
+            Assert.IsTrue(r1[i].TickDate >= r1[i - 1].TickDate);
         }
 
         // should be 50 results and no index corruption
@@ -60,7 +60,7 @@ public class QuoteValidationTests : TestBase
 
         for (int i = 1; i < r2.Count; i++)
         {
-            Assert.IsTrue(r2[i].Date >= r2[i - 1].Date);
+            Assert.IsTrue(r2[i].TickDate >= r2[i - 1].TickDate);
         }
 
         // should be original 200 periods and no index corruption, after temp mods
@@ -68,7 +68,7 @@ public class QuoteValidationTests : TestBase
 
         for (int i = 1; i < h.Count; i++)
         {
-            Assert.IsTrue(h[i].Date >= h[i - 1].Date);
+            Assert.IsTrue(h[i].TickDate >= h[i - 1].TickDate);
         }
     }
 
@@ -79,11 +79,11 @@ public class QuoteValidationTests : TestBase
     {
         List<Quote> badHistory =
         [
-            new Quote { Date = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", EnglishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
-            new Quote { Date = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", EnglishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
-            new Quote { Date = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", EnglishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
-            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
-            new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
+            new Quote { TickDate = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", EnglishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
+            new Quote { TickDate = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", EnglishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
+            new Quote { TickDate = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", EnglishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
+            new Quote { TickDate = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
+            new Quote { TickDate = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
         ];
 
         badHistory.Validate();

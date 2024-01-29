@@ -1,13 +1,10 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteProviderTests : TestBase
+public class QuoteProviderTests : StreamTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void QuoteObserver()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -75,7 +72,7 @@ public class QuoteProviderTests : TestBase
             Quote o = quotesList[i];
             Quote q = provider.Cache[i];
 
-            bool areEqual = o.IsEqual(q);
+            bool areEqual = Equals(o, q);
 
             Assert.IsTrue(areEqual);
         }
@@ -99,7 +96,7 @@ public class QuoteProviderTests : TestBase
                 // use newly defined quote each time
                 provider.Add(new Quote()
                 {
-                    Date = date,
+                    TickDate = date,
                     Open = 2,
                     High = 4,
                     Low = 1,
@@ -127,7 +124,7 @@ public class QuoteProviderTests : TestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.Add(new Quote() { Date = date });
+                provider.Add(new Quote() { TickDate = date });
             }
         });
 

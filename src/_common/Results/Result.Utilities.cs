@@ -26,7 +26,7 @@ public static partial class ResultUtility
     // CONVERT TO TUPLE (default with pruning)
     /// <include file='./info.xml' path='info/type[@name="TupleChain"]/*' />
     ///
-    public static Collection<(DateTime Date, double Value)> ToTupleChainable<TResult>(
+    public static Collection<(DateTime TickDate, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
         => reusable
@@ -34,7 +34,7 @@ public static partial class ResultUtility
             .ToSortedCollection();
 
     // CONVERT TO TUPLE with non-nullable NaN value option and no pruning
-    internal static List<(DateTime Date, double Value)> ToTupleResult<TResult>(
+    internal static List<(DateTime TickDate, double Value)> ToTupleResult<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
     {
@@ -46,21 +46,21 @@ public static partial class ResultUtility
         for (int i = 0; i < length; i++)
         {
             TResult r = reList[i];
-            results.Add(new(r.Date, r.Value));
+            results.Add(new(r.TickDate, r.Value));
         }
 
         return results;
     }
 
     // TODO: are these needed for custom indicators public API?
-    internal static (DateTime Date, double Value) ToTupleResult<TResult>(
+    internal static (DateTime TickDate, double Value) ToTupleResult<TResult>(
         this TResult result)
         where TResult : IReusableResult
-            => new(result.Date, result.Value);
+            => new(result.TickDate, result.Value);
 
     // TODO: are these needed for custom indicators public API?
     internal static (Act, DateTime, double) ToTupleResult<TResult>(
         this TResult result, Act act)
         where TResult : IReusableResult
-            => new(act, result.Date, result.Value);
+            => new(act, result.TickDate, result.Value);
 }

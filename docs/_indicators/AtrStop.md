@@ -55,7 +55,7 @@ IEnumerable<AtrStopResult>
 
 ### AtrStopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`AtrStop`** _`decimal`_ - ATR Trailing Stop line contains both Upper and Lower segments
 

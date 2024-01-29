@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StochRsiTests : TestBase
+public class StochRsiTests : SeriesTestBase
 {
     [TestMethod]
     public void FastRsi()
@@ -126,7 +126,7 @@ public class StochRsiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StochRsiResult> r = badQuotes
             .GetStochRsi(15, 20, 3, 2)
@@ -137,7 +137,7 @@ public class StochRsiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StochRsiResult> r0 = noquotes
             .GetStochRsi(10, 20, 3)

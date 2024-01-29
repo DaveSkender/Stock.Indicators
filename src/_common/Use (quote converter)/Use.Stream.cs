@@ -37,7 +37,7 @@ public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
     {
         // candidate result
         (DateTime d, double v) = value.quote.ToTuple(CandlePartSelection);
-        UseResult r = new() { Date = d, Value = v };
+        UseResult r = new() { TickDate = d, Value = v };
 
         // save to cache
         CacheChainorPerAction(value.act, r, v);

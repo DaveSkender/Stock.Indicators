@@ -8,13 +8,13 @@ public static partial class Indicator
       => results
         .Select(x => new Quote
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Open = x.Open,
             High = x.High,
             Low = x.Low,
             Close = x.Close,
             Volume = x.Volume
         })
-        .OrderBy(x => x.Date)
+        .OrderBy(x => x.TickDate)
         .ToList();
 }

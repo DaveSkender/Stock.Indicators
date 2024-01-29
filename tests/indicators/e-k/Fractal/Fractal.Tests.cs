@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class FractalTests : TestBase
+public class FractalTests : SeriesTestBase
 {
     [TestMethod]
     public void StandardSpan2()
@@ -80,7 +80,7 @@ public class FractalTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<FractalResult> r = badQuotes
             .GetFractal()
@@ -90,7 +90,7 @@ public class FractalTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<FractalResult> r0 = noquotes
             .GetFractal()

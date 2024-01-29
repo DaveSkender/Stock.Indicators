@@ -45,7 +45,7 @@ IEnumerable<RsiResult>
 
 ### RsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Rsi`** _`double`_ - Relative Strength Index
 

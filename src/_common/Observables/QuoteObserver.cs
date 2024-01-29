@@ -9,7 +9,7 @@ public abstract class QuoteObserver<TQuote, TResult>
 {
     internal IDisposable? unsubscriber;
 
-    internal QuoteObserver(QuoteProvider<TQuote> provider)
+    private protected QuoteObserver(QuoteProvider<TQuote> provider)
     {
         QuoteSupplier = provider;
     }
@@ -42,7 +42,7 @@ public abstract class QuoteObserver<TQuote, TResult>
         }
 
         // rebuild from date
-        DateTime fromDate = QuoteSupplier.Cache[0].Date;
+        DateTime fromDate = QuoteSupplier.Cache[0].TickDate;
         RebuildCache(fromDate);
     }
 
@@ -75,7 +75,7 @@ public abstract class QuoteObserver<TQuote, TResult>
         }
 
         // reset from date
-        DateTime fromDate = Cache[0].Date;
+        DateTime fromDate = Cache[0].TickDate;
         ClearCache(fromDate);
     }
 

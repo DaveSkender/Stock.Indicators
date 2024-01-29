@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class ElderRayResult : ResultBase, IReusableResult
+public sealed record class ElderRayResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Ema { get; set; }
     public double? BullPower { get; set; }
     public double? BearPower { get; set; }

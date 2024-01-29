@@ -1,14 +1,10 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Indicators;
 
 [TestClass]
-public class ChainProviderTests : TestBase
+public class ChainProviderTests : StreamTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void QuoteObserver()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -52,7 +48,7 @@ public class ChainProviderTests : TestBase
             (DateTime date, double value) = seriesList[i];
             UseResult r = resultsList[i];
 
-            Assert.AreEqual(date, r.Date);
+            Assert.AreEqual(date, r.TickDate);
             Assert.AreEqual(value, r.Value);
         }
 
@@ -109,11 +105,11 @@ public class ChainProviderTests : TestBase
             (DateTime date, double value) = ema.Chain[i];
 
             // compare series
-            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.TickDate, r.TickDate);
             Assert.AreEqual(s.Ema, r.Ema);
 
             // compare chain cache
-            Assert.AreEqual(r.Date, date);
+            Assert.AreEqual(r.TickDate, date);
             Assert.AreEqual(r.Ema.Null2NaN(), value);
         }
     }
@@ -153,14 +149,14 @@ public class ChainProviderTests : TestBase
         {
             Quote q = quotesList[i];
             UseResult r = observer.Cache[i];
-            (DateTime Date, double Value) = observer.Chain[i];
+            (DateTime TickDate, double Value) = observer.Chain[i];
 
             // compare quote to result cache
-            Assert.AreEqual(q.Date, r.Date);
+            Assert.AreEqual(q.TickDate, r.TickDate);
             Assert.AreEqual((double)q.Close, r.Value);
 
             // compare result to chain cache
-            Assert.AreEqual(r.Date, Date);
+            Assert.AreEqual(r.TickDate, TickDate);
             Assert.AreEqual(r.Value, Value);
         }
 
@@ -180,7 +176,7 @@ public class ChainProviderTests : TestBase
         // add too many duplicates
         Assert.ThrowsException<OverflowException>(() =>
         {
-            Quote q = new() { Date = DateTime.Now };
+            Quote q = new() { TickDate = DateTime.Now };
 
             for (int i = 0; i <= 101; i++)
             {

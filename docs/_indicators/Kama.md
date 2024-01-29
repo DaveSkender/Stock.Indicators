@@ -49,7 +49,7 @@ IEnumerable<KamaResult>
 
 ### KamaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`ER`** _`double`_ - Efficiency Ratio is the fractal efficiency of price changes
 

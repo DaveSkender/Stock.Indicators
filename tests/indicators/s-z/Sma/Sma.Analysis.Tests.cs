@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class SmaExtendedTests : TestBase
+public class SmaExtendedTests : SeriesTestBase
 {
     [TestMethod]
     public void Analysis()
@@ -70,7 +70,7 @@ public class SmaExtendedTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<SmaAnalysis> r = badQuotes
             .GetSmaAnalysis(15)
@@ -81,7 +81,7 @@ public class SmaExtendedTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<SmaAnalysis> r0 = noquotes
             .GetSmaAnalysis(6)

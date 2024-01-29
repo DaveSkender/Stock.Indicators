@@ -16,10 +16,10 @@ public static class Vwap
         }
 
         // check parameter arguments (intentionally after quotes check)
-        if (startDate < quotesList[0].Date)
+        if (startDate < quotesList[0].TickDate)
         {
             throw new ArgumentOutOfRangeException(nameof(startDate), startDate,
-                "Start Date must be within the quotes range for VWAP.");
+                "Start TickDate must be within the quotes range for VWAP.");
         }
     }
 

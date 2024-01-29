@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class AdxSeriesTests : TestBase
+public class AdxSeriesTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<AdxResult> results = quotes
             .GetAdx(14)
@@ -57,7 +57,7 @@ public class AdxSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AdxResult> r = badQuotes
             .GetAdx(20)
@@ -78,7 +78,7 @@ public class AdxSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AdxResult> r0 = noquotes
             .GetAdx(5)
@@ -99,7 +99,7 @@ public class AdxSeriesTests : TestBase
         IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(x => x.TickDate);
 
         List<AdxResult> r = test859.GetAdx(14).ToList();
 

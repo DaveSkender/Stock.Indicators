@@ -35,7 +35,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double value) = tpList[i];
-            T3Result r = new() { Date = date };
+            T3Result r = new() { TickDate = date };
             results.Add(r);
 
             // re/seed values

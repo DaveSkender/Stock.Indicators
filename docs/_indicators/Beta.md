@@ -61,7 +61,7 @@ IEnumerable<BetaResult>
 
 ### BetaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Beta`** _`double`_ - Beta coefficient based
 

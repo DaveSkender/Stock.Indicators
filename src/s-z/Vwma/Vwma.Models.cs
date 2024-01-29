@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class VwmaResult : ResultBase, IReusableResult
+public sealed record class VwmaResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Vwma { get; set; }
 
     double IReusableResult.Value => Vwma.Null2NaN();

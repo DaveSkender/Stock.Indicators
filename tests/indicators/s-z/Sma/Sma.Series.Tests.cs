@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class SmaSeriesTests : TestBase
+public class SmaSeriesTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<SmaResult> results = quotes
             .GetSma(20)
@@ -62,7 +62,7 @@ public class SmaSeriesTests : TestBase
         Assert.AreEqual(157958070.8, r290.Sma);
 
         SmaResult r501 = results[501];
-        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.Date);
+        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.TickDate);
         Assert.AreEqual(163695200, r501.Sma);
     }
 
@@ -100,7 +100,7 @@ public class SmaSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<SmaResult> r = badQuotes
             .GetSma(15)
@@ -111,7 +111,7 @@ public class SmaSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<SmaResult> r0 = noquotes
             .GetSma(5)
@@ -137,6 +137,40 @@ public class SmaSeriesTests : TestBase
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
         Assert.AreEqual(251.8600, results.LastOrDefault().Sma.Round(4));
+    }
+
+    [TestMethod]
+    public override void Equality()
+    {
+        SmaResult r1 = new()
+        {
+            TickDate = evalDate,
+            Sma = 1d
+        };
+
+        SmaResult r2 = new()
+        {
+            TickDate = evalDate,
+            Sma = 1d
+        };
+
+        SmaResult r3 = new()
+        {
+            TickDate = evalDate,
+            Sma = 2d
+        };
+
+        Assert.IsTrue(Equals(r1, r2));
+        Assert.IsFalse(Equals(r1, r3));
+
+        Assert.IsTrue(r1.Equals(r2));
+        Assert.IsFalse(r1.Equals(r3));
+
+        Assert.IsTrue(r1 == r2);
+        Assert.IsFalse(r1 == r3);
+
+        Assert.IsFalse(r1 != r2);
+        Assert.IsTrue(r1 != r3);
     }
 
     // bad lookback period

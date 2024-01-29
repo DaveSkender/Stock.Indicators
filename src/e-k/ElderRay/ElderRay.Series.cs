@@ -17,7 +17,7 @@ public static partial class Indicator
             .CalcEma(lookbackPeriods)
             .Select(x => new ElderRayResult()
             {
-                Date = x.Date,
+                TickDate = x.TickDate,
                 Ema = x.Ema
             })
             .ToList();

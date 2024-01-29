@@ -28,7 +28,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            VortexResult r = new() { Date = q.Date };
+            VortexResult r = new() { TickDate = q.TickDate };
             results.Add(r);
 
             // skip first period

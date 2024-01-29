@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class FcbTests : TestBase
+public class FcbTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<FcbResult> results = quotes
             .GetFcb(2)
@@ -42,7 +42,7 @@ public class FcbTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<FcbResult> r = badQuotes
             .GetFcb()
@@ -52,7 +52,7 @@ public class FcbTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<FcbResult> r0 = noquotes
             .GetFcb()

@@ -26,7 +26,7 @@ public static partial class Indicator
 
             CmfResult r = new()
             {
-                Date = adl.Date,
+                TickDate = adl.TickDate,
                 MoneyFlowMultiplier = adl.MoneyFlowMultiplier,
                 MoneyFlowVolume = adl.MoneyFlowVolume
             };

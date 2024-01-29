@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class BollingerBandsResult : ResultBase, IReusableResult
+public sealed record class BollingerBandsResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Sma { get; set; }
     public double? UpperBand { get; set; }
     public double? LowerBand { get; set; }

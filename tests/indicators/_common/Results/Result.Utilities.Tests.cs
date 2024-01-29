@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class Results : TestBase
+public class Results : SeriesTestBase
 {
     [TestMethod]
     public void Condense()
@@ -34,19 +34,19 @@ public class Results : TestBase
         // baseline for comparison
         List<SmaResult> baseline =
         [
-            new SmaResult() { Date = DateTime.Parse("1/1/2000", EnglishCulture), Sma = null },
-            new SmaResult() { Date = DateTime.Parse("1/2/2000", EnglishCulture), Sma = null },
-            new SmaResult() { Date = DateTime.Parse("1/3/2000", EnglishCulture), Sma = 3 },
-            new SmaResult() { Date = DateTime.Parse("1/4/2000", EnglishCulture), Sma = 4 },
-            new SmaResult() { Date = DateTime.Parse("1/5/2000", EnglishCulture), Sma = 5 },
-            new SmaResult() { Date = DateTime.Parse("1/6/2000", EnglishCulture), Sma = 6 },
-            new SmaResult() { Date = DateTime.Parse("1/7/2000", EnglishCulture), Sma = 7 },
-            new SmaResult() { Date = DateTime.Parse("1/8/2000", EnglishCulture), Sma = double.NaN },
-            new SmaResult() { Date = DateTime.Parse("1/9/2000", EnglishCulture), Sma = null }
+            new SmaResult() { TickDate = DateTime.Parse("1/1/2000", EnglishCulture), Sma = null },
+            new SmaResult() { TickDate = DateTime.Parse("1/2/2000", EnglishCulture), Sma = null },
+            new SmaResult() { TickDate = DateTime.Parse("1/3/2000", EnglishCulture), Sma = 3 },
+            new SmaResult() { TickDate = DateTime.Parse("1/4/2000", EnglishCulture), Sma = 4 },
+            new SmaResult() { TickDate = DateTime.Parse("1/5/2000", EnglishCulture), Sma = 5 },
+            new SmaResult() { TickDate = DateTime.Parse("1/6/2000", EnglishCulture), Sma = 6 },
+            new SmaResult() { TickDate = DateTime.Parse("1/7/2000", EnglishCulture), Sma = 7 },
+            new SmaResult() { TickDate = DateTime.Parse("1/8/2000", EnglishCulture), Sma = double.NaN },
+            new SmaResult() { TickDate = DateTime.Parse("1/9/2000", EnglishCulture), Sma = null }
         ];
 
         // default chainable NaN with pruning (internal)
-        List<(DateTime Date, double Value)> chainableTuple = baseline
+        List<(DateTime TickDate, double Value)> chainableTuple = baseline
             .ToTupleResult();
 
         Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
@@ -55,14 +55,14 @@ public class Results : TestBase
         // PUBLIC VARIANT
 
         // default chainable NaN with pruning
-        Collection<(DateTime Date, double Value)> cnaNresults = baseline
+        Collection<(DateTime TickDate, double Value)> cnaNresults = baseline
             .ToTupleChainable();
 
         Assert.AreEqual(5, cnaNresults.Count(x => !double.IsNaN(x.Value)));
         Assert.AreEqual(4, cnaNresults.Count(x => double.IsNaN(x.Value)));
 
         // with NaN option, no pruning
-        List<(DateTime Date, double Value)> nanResults = baseline
+        List<(DateTime TickDate, double Value)> nanResults = baseline
             .ToTupleResult();
 
         Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));

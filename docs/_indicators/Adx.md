@@ -45,7 +45,7 @@ IEnumerable<AdxResult>
 
 ### AdxResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Pdi`** _`double`_ - Plus Directional Index (+DI)
 

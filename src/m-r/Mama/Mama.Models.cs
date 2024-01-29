@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class MamaResult : ResultBase, IReusableResult
+public sealed record class MamaResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Mama { get; set; }
     public double? Fama { get; set; }
 

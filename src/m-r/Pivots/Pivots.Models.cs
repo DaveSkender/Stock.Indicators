@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public class PivotsResult : ResultBase
+public class PivotsResult : IResult
 {
+    public DateTime TickDate { get; set; }
     public decimal? HighPoint { get; set; }
     public decimal? LowPoint { get; set; }
     public decimal? HighLine { get; set; }

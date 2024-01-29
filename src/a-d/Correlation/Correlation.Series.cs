@@ -25,10 +25,10 @@ public static partial class Indicator
             if (aDate != bDate)
             {
                 throw new InvalidQuotesException(nameof(tpListA), aDate,
-                    "Date sequence does not match.  Correlation requires matching dates in provided histories.");
+                    "TickDate sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
-            CorrResult r = new() { Date = aDate };
+            CorrResult r = new() { TickDate = aDate };
             results.Add(r);
 
             // calculate correlation

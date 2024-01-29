@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class KlingerTests : TestBase
+public class KlingerTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<KvoResult> results =
             quotes.GetKvo(34, 55, 13)
@@ -58,7 +58,7 @@ public class KlingerTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<KvoResult> r = badQuotes
             .GetKvo()
@@ -69,7 +69,7 @@ public class KlingerTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<KvoResult> r0 = noquotes
             .GetKvo()

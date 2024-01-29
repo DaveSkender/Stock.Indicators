@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class UlcerIndexResult : ResultBase, IReusableResult
+public sealed record class UlcerIndexResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? UlcerIndex { get; set; } // ulcer index
 
     double IReusableResult.Value => UlcerIndex.Null2NaN();

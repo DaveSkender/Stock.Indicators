@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class UlcerIndexTests : TestBase
+public class UlcerIndexTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<UlcerIndexResult> results = quotes
             .GetUlcerIndex(14)
@@ -67,7 +67,7 @@ public class UlcerIndexTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<UlcerIndexResult> r = badQuotes
             .GetUlcerIndex(15)
@@ -78,7 +78,7 @@ public class UlcerIndexTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<UlcerIndexResult> r0 = noquotes
             .GetUlcerIndex()

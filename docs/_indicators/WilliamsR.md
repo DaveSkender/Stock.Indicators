@@ -43,7 +43,7 @@ IEnumerable<WilliamsResult>
 
 ### WilliamsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`WilliamsR`** _`double`_ - Oscillator over prior `N` lookback periods
 

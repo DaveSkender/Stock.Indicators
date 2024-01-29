@@ -43,7 +43,7 @@ IEnumerable<WmaResult>
 
 ### WmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Wma`** _`double`_ - Weighted moving average
 

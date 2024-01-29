@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class VolatilityStopResult : ResultBase, IReusableResult
+public sealed record class VolatilityStopResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Sar { get; set; }
     public bool? IsStop { get; set; }
 

@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class ConnorsRsiResult : ResultBase, IReusableResult
+public sealed record class ConnorsRsiResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Rsi { get; set; }
     public double? RsiStreak { get; set; }
     public double? PercentRank { get; set; }

@@ -43,7 +43,7 @@ IEnumerable<RocResult>
 
 ### RocResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Momentum`** _`double`_ - Raw change in price over `N` periods
 

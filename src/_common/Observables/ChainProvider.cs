@@ -8,7 +8,7 @@ public abstract class ChainProvider : IChainProvider
     private readonly List<IObserver<(Act, DateTime, double)>> observers;
 
     // constructor
-    internal ChainProvider()
+    private protected ChainProvider()
     {
         observers = [];
         Chain = [];
@@ -16,7 +16,7 @@ public abstract class ChainProvider : IChainProvider
 
     // PROPERTIES
 
-    internal List<(DateTime Date, double Value)> Chain;
+    internal List<(DateTime TickDate, double Value)> Chain;
 
     // METHODS
 
@@ -59,7 +59,7 @@ public abstract class ChainProvider : IChainProvider
 
     // notify observers (helper, for IReusableResult)
     internal void NotifyObservers(Act act, IReusableResult r)
-        => NotifyObservers((act, r.Date, r.Value));
+        => NotifyObservers((act, r.TickDate, r.Value));
 
     // unsubscriber
     private class Unsubscriber(

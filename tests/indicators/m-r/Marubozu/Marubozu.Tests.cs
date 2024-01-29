@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class MarubozuTests : TestBase
+public class MarubozuTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<CandleResult> results = quotes
             .GetMarubozu(95)
@@ -41,7 +41,7 @@ public class MarubozuTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<CandleResult> r = badQuotes
             .GetMarubozu()
@@ -51,7 +51,7 @@ public class MarubozuTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<CandleResult> r0 = noquotes
             .GetMarubozu()

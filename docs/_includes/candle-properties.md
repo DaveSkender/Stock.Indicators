@@ -2,7 +2,7 @@
 
 | name | type | notes
 | -- |-- |--
-| `Date` | DateTime | Date
+| `TickDate` | DateTime | TickDate
 | `Open` | decimal | Open price
 | `High` | decimal | High price
 | `Low` | decimal | Low price

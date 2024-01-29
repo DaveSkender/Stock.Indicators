@@ -25,7 +25,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            MfiResult r = new() { Date = q.Date };
+            MfiResult r = new() { TickDate = q.TickDate };
             results.Add(r);
 
             // true price

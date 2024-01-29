@@ -20,7 +20,7 @@ public static partial class Indicator
             return results;
         }
 
-        startDate ??= qdList[0].Date;
+        startDate ??= qdList[0].TickDate;
 
         double? cumVolume = 0;
         double? cumVolumeTP = 0;
@@ -34,10 +34,10 @@ public static partial class Indicator
             double? l = q.Low;
             double? c = q.Close;
 
-            VwapResult r = new() { Date = q.Date };
+            VwapResult r = new() { TickDate = q.TickDate };
             results.Add(r);
 
-            if (q.Date >= startDate)
+            if (q.TickDate >= startDate)
             {
                 cumVolume += v;
                 cumVolumeTP += v * (h + l + c) / 3;

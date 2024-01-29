@@ -17,7 +17,7 @@ public static partial class Indicator
             QuoteD q = qdList[i];
 
             AdlResult r = Adl.Increment(prevAdl, q.High, q.Low, q.Close, q.Volume);
-            r.Date = q.Date;
+            r.TickDate = q.TickDate;
             results.Add(r);
 
             prevAdl = r.Adl;

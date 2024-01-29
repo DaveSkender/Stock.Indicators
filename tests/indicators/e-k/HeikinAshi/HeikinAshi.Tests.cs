@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class HeikinAshiTests : TestBase
+public class HeikinAshiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<HeikinAshiResult> results = quotes
             .GetHeikinAshi()
@@ -46,7 +46,7 @@ public class HeikinAshiTests : TestBase
             HeikinAshiResult r = results[i];
             Quote q = haQuotes[i];
 
-            Assert.AreEqual(r.Date, q.Date);
+            Assert.AreEqual(r.TickDate, q.TickDate);
             Assert.AreEqual(r.Open, q.Open);
             Assert.AreEqual(r.High, q.High);
             Assert.AreEqual(r.Low, q.Low);
@@ -56,7 +56,7 @@ public class HeikinAshiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<HeikinAshiResult> r = badQuotes
             .GetHeikinAshi()
@@ -66,7 +66,7 @@ public class HeikinAshiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<HeikinAshiResult> r0 = noquotes
             .GetHeikinAshi()

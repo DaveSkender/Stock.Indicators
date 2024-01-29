@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class DemaTests : TestBase
+public class DemaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<DemaResult> results = quotes
             .GetDema(20)
@@ -76,7 +76,7 @@ public class DemaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<DemaResult> r = badQuotes
             .GetDema(15)
@@ -87,7 +87,7 @@ public class DemaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<DemaResult> r0 = noquotes
             .GetDema(5)

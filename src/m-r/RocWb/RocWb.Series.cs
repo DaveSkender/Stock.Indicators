@@ -35,7 +35,7 @@ public static partial class Indicator
             (DateTime date, double roc) = tpRoc[i];
             RocWbResult r = new()
             {
-                Date = date,
+                TickDate = date,
                 Roc = roc.NaN2Null()
             };
             results.Add(r);

@@ -45,7 +45,7 @@ IEnumerable<PrsResult>
 
 ### PrResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Prs`** _`double`_ - Price Relative Strength compares `Eval` to `Base` histories
 

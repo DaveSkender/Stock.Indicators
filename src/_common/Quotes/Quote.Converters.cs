@@ -24,7 +24,7 @@ public static partial class QuoteUtility
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote => quotes
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .Select(x => x.ToTuple(candlePart))
             .ToList();
 
@@ -48,7 +48,7 @@ public static partial class QuoteUtility
         this TQuote quote)
         where TQuote : IQuote => new()
         {
-            Date = quote.Date,
+            TickDate = quote.TickDate,
             Open = (double)quote.Open,
             High = (double)quote.High,
             Low = (double)quote.Low,
@@ -61,21 +61,21 @@ public static partial class QuoteUtility
         where TQuote : IQuote => quotes
             .Select(x => new QuoteD
             {
-                Date = x.Date,
+                TickDate = x.TickDate,
                 Open = (double)x.Open,
                 High = (double)x.High,
                 Low = (double)x.Low,
                 Close = (double)x.Close,
                 Volume = (double)x.Volume
             })
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .ToList();
 
     // convert quoteD list to tuples
     internal static List<(DateTime, double)> ToTuple(
         this List<QuoteD> qdList,
         CandlePart candlePart) => qdList
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .Select(x => x.ToTuple(candlePart))
             .ToList();
 
@@ -87,16 +87,16 @@ public static partial class QuoteUtility
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch
         {
-            CandlePart.Open => (q.Date, (double)q.Open),
-            CandlePart.High => (q.Date, (double)q.High),
-            CandlePart.Low => (q.Date, (double)q.Low),
-            CandlePart.Close => (q.Date, (double)q.Close),
-            CandlePart.Volume => (q.Date, (double)q.Volume),
-            CandlePart.HL2 => (q.Date, (double)(q.High + q.Low) / 2),
-            CandlePart.HLC3 => (q.Date, (double)(q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => (q.Date, (double)(q.Open + q.Close) / 2),
-            CandlePart.OHL3 => (q.Date, (double)(q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => (q.Date, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+            CandlePart.Open => (q.TickDate, (double)q.Open),
+            CandlePart.High => (q.TickDate, (double)q.High),
+            CandlePart.Low => (q.TickDate, (double)q.Low),
+            CandlePart.Close => (q.TickDate, (double)q.Close),
+            CandlePart.Volume => (q.TickDate, (double)q.Volume),
+            CandlePart.HL2 => (q.TickDate, (double)(q.High + q.Low) / 2),
+            CandlePart.HLC3 => (q.TickDate, (double)(q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => (q.TickDate, (double)(q.Open + q.Close) / 2),
+            CandlePart.OHL3 => (q.TickDate, (double)(q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => (q.TickDate, (double)(q.Open + q.High + q.Low + q.Close) / 4),
             _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 
@@ -106,16 +106,16 @@ public static partial class QuoteUtility
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch
         {
-            CandlePart.Open => new BasicResult { Date = q.Date, Value = (double)q.Open },
-            CandlePart.High => new BasicResult { Date = q.Date, Value = (double)q.High },
-            CandlePart.Low => new BasicResult { Date = q.Date, Value = (double)q.Low },
-            CandlePart.Close => new BasicResult { Date = q.Date, Value = (double)q.Close },
-            CandlePart.Volume => new BasicResult { Date = q.Date, Value = (double)q.Volume },
-            CandlePart.HL2 => new BasicResult { Date = q.Date, Value = (double)(q.High + q.Low) / 2 },
-            CandlePart.HLC3 => new BasicResult { Date = q.Date, Value = (double)(q.High + q.Low + q.Close) / 3 },
-            CandlePart.OC2 => new BasicResult { Date = q.Date, Value = (double)(q.Open + q.Close) / 2 },
-            CandlePart.OHL3 => new BasicResult { Date = q.Date, Value = (double)(q.Open + q.High + q.Low) / 3 },
-            CandlePart.OHLC4 => new BasicResult { Date = q.Date, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
+            CandlePart.Open => new BasicResult { TickDate = q.TickDate, Value = (double)q.Open },
+            CandlePart.High => new BasicResult { TickDate = q.TickDate, Value = (double)q.High },
+            CandlePart.Low => new BasicResult { TickDate = q.TickDate, Value = (double)q.Low },
+            CandlePart.Close => new BasicResult { TickDate = q.TickDate, Value = (double)q.Close },
+            CandlePart.Volume => new BasicResult { TickDate = q.TickDate, Value = (double)q.Volume },
+            CandlePart.HL2 => new BasicResult { TickDate = q.TickDate, Value = (double)(q.High + q.Low) / 2 },
+            CandlePart.HLC3 => new BasicResult { TickDate = q.TickDate, Value = (double)(q.High + q.Low + q.Close) / 3 },
+            CandlePart.OC2 => new BasicResult { TickDate = q.TickDate, Value = (double)(q.Open + q.Close) / 2 },
+            CandlePart.OHL3 => new BasicResult { TickDate = q.TickDate, Value = (double)(q.Open + q.High + q.Low) / 3 },
+            CandlePart.OHLC4 => new BasicResult { TickDate = q.TickDate, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
             _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 
@@ -124,16 +124,16 @@ public static partial class QuoteUtility
         this QuoteD q,
         CandlePart candlePart) => candlePart switch
         {
-            CandlePart.Open => (q.Date, q.Open),
-            CandlePart.High => (q.Date, q.High),
-            CandlePart.Low => (q.Date, q.Low),
-            CandlePart.Close => (q.Date, q.Close),
-            CandlePart.Volume => (q.Date, q.Volume),
-            CandlePart.HL2 => (q.Date, (q.High + q.Low) / 2),
-            CandlePart.HLC3 => (q.Date, (q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => (q.Date, (q.Open + q.Close) / 2),
-            CandlePart.OHL3 => (q.Date, (q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => (q.Date, (q.Open + q.High + q.Low + q.Close) / 4),
+            CandlePart.Open => (q.TickDate, q.Open),
+            CandlePart.High => (q.TickDate, q.High),
+            CandlePart.Low => (q.TickDate, q.Low),
+            CandlePart.Close => (q.TickDate, q.Close),
+            CandlePart.Volume => (q.TickDate, q.Volume),
+            CandlePart.HL2 => (q.TickDate, (q.High + q.Low) / 2),
+            CandlePart.HLC3 => (q.TickDate, (q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => (q.TickDate, (q.Open + q.Close) / 2),
+            CandlePart.OHL3 => (q.TickDate, (q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => (q.TickDate, (q.Open + q.High + q.Low + q.Close) / 4),
             _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 }

@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class MacdResult : ResultBase, IReusableResult
+public sealed record class MacdResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Macd { get; set; }
     public double? Signal { get; set; }
     public double? Histogram { get; set; }

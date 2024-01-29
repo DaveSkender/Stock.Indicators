@@ -10,7 +10,7 @@ public static partial class Indicator
         CandlePart candlePart)
         where TQuote : IQuote => quotes
             .Select(q => q.ToBasicData(candlePart))
-            .OrderBy(x => x.Date);
+            .OrderBy(x => x.TickDate);
 
     // BASE QUOTE (default to Close)
     /// <include file='./info.xml' path='info/type[@name="default-close"]/*' />
@@ -19,5 +19,5 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
             .Select(q => q.ToBasicData(CandlePart.Close))
-            .OrderBy(x => x.Date);
+            .OrderBy(x => x.TickDate);
 }

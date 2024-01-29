@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class PvoTests : TestBase
+public class PvoTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int fastPeriods = 12;
         int slowPeriods = 26;
@@ -60,7 +60,7 @@ public class PvoTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<PvoResult> r = badQuotes
             .GetPvo(10, 20, 5)
@@ -71,7 +71,7 @@ public class PvoTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<PvoResult> r0 = noquotes
             .GetPvo()

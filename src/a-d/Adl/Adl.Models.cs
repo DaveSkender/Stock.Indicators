@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class AdlResult : ResultBase, IReusableResult
+public sealed record class AdlResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? MoneyFlowMultiplier { get; set; }
     public double? MoneyFlowVolume { get; set; }
     public double Adl { get; set; }

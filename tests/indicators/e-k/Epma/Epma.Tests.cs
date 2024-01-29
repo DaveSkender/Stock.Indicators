@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class EpmaTests : TestBase
+public class EpmaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<EpmaResult> results = quotes
             .GetEpma(20)
@@ -79,7 +79,7 @@ public class EpmaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<EpmaResult> r = badQuotes
             .GetEpma(15)
@@ -90,7 +90,7 @@ public class EpmaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<EpmaResult> r0 = noquotes
             .GetEpma(5)

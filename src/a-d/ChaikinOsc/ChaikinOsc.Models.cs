@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class ChaikinOscResult : ResultBase, IReusableResult
+public sealed record class ChaikinOscResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? MoneyFlowMultiplier { get; set; }
     public double? MoneyFlowVolume { get; set; }
     public double? Adl { get; set; }

@@ -8,7 +8,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
     private readonly bool isChainor;
 
     // constructor
-    internal SeriesCache()
+    private protected SeriesCache()
     {
         Cache = [];
         LastArrival = new();
@@ -73,7 +73,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
 
         // REPEAT AND OVERFLOW PROTECTION
 
-        if (r.Date == LastArrival.Date)
+        if (r.TickDate == LastArrival.TickDate)
         {
             // note: we have a better IsEqual() comparison method below,
             // but it is too expensive as an initial quick evaluation.
@@ -93,7 +93,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             }
 
             // aggressive property value comparison
-            if (r.IsEqual(LastArrival))
+            if (Equals(r, LastArrival))
             {
                 // to prevent propogation
                 // of identical cache entry
@@ -129,7 +129,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
         ISeries last = cache[length - 1];
 
         // newer
-        if (r.Date > last.Date)
+        if (r.TickDate > last.TickDate)
         {
             act = Act.AddNew;
         }
@@ -139,7 +139,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
         {
             // seek duplicate
             int foundIndex = cache
-                .FindIndex(x => x.Date == r.Date);
+                .FindIndex(x => x.TickDate == r.TickDate);
 
             // replace duplicate
             act = foundIndex == -1 ? Act.AddOld : Act.UpdateOld;
@@ -165,7 +165,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
          *
          * This performs the actual modification to the cache.
          * If the indicator is also a chain provider, also add to the
-         * standard observable tuple format.  Date and value parity
+         * standard observable tuple format.  TickDate and value parity
          * must be maintained between these two cache and chain repos.
          *
          * Historically, we've had trouble simply reusing the cache
@@ -177,9 +177,9 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
          */
 
         List<TSeries> cache = Cache;
-        List<(DateTime Date, double Value)> chain = Chain;
+        List<(DateTime TickDate, double Value)> chain = Chain;
 
-        (DateTime Date, double) t = (r.Date, value);
+        (DateTime TickDate, double) t = (r.TickDate, value);
 
         // execute action
         switch (act)
@@ -198,7 +198,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             case Act.AddOld:
 
                 // find
-                int ao = Cache.FindIndex(x => x.Date > r.Date);
+                int ao = Cache.FindIndex(x => x.TickDate > r.TickDate);
 
                 // insert
                 if (ao != -1)
@@ -222,7 +222,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             case Act.UpdateOld:
 
                 // find
-                int uo = Cache.FindIndex(r.Date);
+                int uo = Cache.FindIndex(r.TickDate);
 
                 // replace
                 if (uo != -1)
@@ -246,7 +246,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             case Act.Delete:
 
                 // find
-                int d = cache.FindIndex(r.Date);
+                int d = cache.FindIndex(r.TickDate);
 
                 // delete
                 if (d != -1)

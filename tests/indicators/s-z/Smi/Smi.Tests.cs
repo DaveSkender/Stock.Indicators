@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class SmiTests : TestBase
+public class SmiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<SmiResult> results = quotes
             .GetSmi(14, 20, 5, 3)
@@ -94,7 +94,7 @@ public class SmiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<SmiResult> r = badQuotes
             .GetSmi(5, 5, 1, 5)
@@ -105,7 +105,7 @@ public class SmiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<SmiResult> r0 = noquotes
             .GetSmi(5, 5, 2)

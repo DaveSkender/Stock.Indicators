@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class RollingPivotsTests : TestBase
+public class RollingPivotsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int windowPeriods = 11;
         int offsetPeriods = 9;
@@ -374,7 +374,7 @@ public class RollingPivotsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<RollingPivotsResult> r = badQuotes
             .GetRollingPivots(5, 5)
@@ -384,7 +384,7 @@ public class RollingPivotsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<RollingPivotsResult> r0 = noquotes
             .GetRollingPivots(5, 2)

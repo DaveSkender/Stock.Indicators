@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class BetaResult : ResultBase, IReusableResult
+public sealed record class BetaResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Beta { get; set; }
     public double? BetaUp { get; set; }
     public double? BetaDown { get; set; }

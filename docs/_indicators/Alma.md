@@ -47,7 +47,7 @@ IEnumerable<AlmaResult>
 
 ### AlmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Alma`** _`double`_ - Arnaud Legoux Moving Average
 

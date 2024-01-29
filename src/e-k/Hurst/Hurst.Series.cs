@@ -20,7 +20,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            HurstResult r = new() { Date = date };
+            HurstResult r = new() { TickDate = date };
             results.Add(r);
 
             if (i + 1 > lookbackPeriods)

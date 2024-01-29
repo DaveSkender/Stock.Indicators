@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class TrTests : TestBase
+public class TrTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<TrResult> results = quotes
             .GetTr()
@@ -55,13 +55,13 @@ public class TrTests : TestBase
             SmmaResult r = results[i];
             AtrResult a = atrResults[i];
 
-            Assert.AreEqual(a.Date, r.Date);
+            Assert.AreEqual(a.TickDate, r.TickDate);
             Assert.AreEqual(a.Atr, r.Smma);
         }
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<TrResult> r = badQuotes
             .GetTr()
@@ -72,7 +72,7 @@ public class TrTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<TrResult> r0 = noquotes
             .GetTr()

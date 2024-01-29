@@ -15,7 +15,7 @@ public static partial class Indicator
         return qdList.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
             .Select(s => new WilliamsResult()
             {
-                Date = s.Date,
+                TickDate = s.TickDate,
                 WilliamsR = s.Oscillator - 100
             })
             .ToList();

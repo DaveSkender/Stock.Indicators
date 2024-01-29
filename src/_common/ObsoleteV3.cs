@@ -197,7 +197,7 @@ public static partial class Indicator
     // v3.0.0
     [ExcludeFromCodeCoverage]
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
-    public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
+    public static IEnumerable<(DateTime TickDate, double Value)> Use<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
         => quotes.Select(x => x.ToTuple(CandlePart.Close));
@@ -206,7 +206,8 @@ public static partial class Indicator
 // v3.0.0
 [ExcludeFromCodeCoverage]
 [Obsolete("Rename `BasicData` to `BasicResult`", true)]
-public sealed class BasicData : ResultBase, IReusableResult
+public sealed class BasicData : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double Value { get; set; }
 }

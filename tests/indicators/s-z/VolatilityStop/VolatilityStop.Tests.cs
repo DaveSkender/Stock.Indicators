@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class VolatilityStopTests : TestBase
+public class VolatilityStopTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<VolatilityStopResult> results =
             quotes.GetVolatilityStop(14, 3)
@@ -74,7 +74,7 @@ public class VolatilityStopTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<VolatilityStopResult> r = badQuotes
             .GetVolatilityStop()
@@ -85,7 +85,7 @@ public class VolatilityStopTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<VolatilityStopResult> r0 = noquotes
             .GetVolatilityStop()

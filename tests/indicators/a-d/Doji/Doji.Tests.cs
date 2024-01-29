@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class DojiTests : TestBase
+public class DojiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<CandleResult> results = quotes
             .GetDoji(0.1)
@@ -41,7 +41,7 @@ public class DojiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<CandleResult> r = badQuotes
             .GetDoji()
@@ -51,7 +51,7 @@ public class DojiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<CandleResult> r0 = noquotes
             .GetDoji()

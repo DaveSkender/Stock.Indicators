@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class UltimateTests : TestBase
+public class UltimateTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<UltimateResult> results = quotes
             .GetUltimate(7, 14, 28)
@@ -38,7 +38,7 @@ public class UltimateTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<UltimateResult> r = badQuotes
             .GetUltimate(1, 2, 3)
@@ -49,7 +49,7 @@ public class UltimateTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<UltimateResult> r0 = noquotes
             .GetUltimate()

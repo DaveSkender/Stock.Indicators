@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class FisherTransformTests : TestBase
+public class FisherTransformTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<FisherTransformResult> results = quotes
             .GetFisherTransform(10)
@@ -94,7 +94,7 @@ public class FisherTransformTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<FisherTransformResult> r = badQuotes
             .GetFisherTransform(9)
@@ -105,7 +105,7 @@ public class FisherTransformTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<FisherTransformResult> r0 = noquotes
             .GetFisherTransform()

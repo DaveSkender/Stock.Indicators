@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class SlopeTests : TestBase
+public class SlopeTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<SlopeResult> results = quotes
             .GetSlope(20)
@@ -87,7 +87,7 @@ public class SlopeTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<SlopeResult> r = badQuotes
             .GetSlope(15)
@@ -108,7 +108,7 @@ public class SlopeTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<SlopeResult> r0 = noquotes
             .GetSlope(5)

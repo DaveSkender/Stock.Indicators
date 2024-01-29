@@ -47,7 +47,7 @@ IEnumerable<SuperTrendResult>
 
 ### SuperTrendResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`SuperTrend`** _`decimal`_ - SuperTrend line contains both Upper and Lower segments
 

@@ -25,7 +25,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SuperTrendResult r = new() { Date = q.Date };
+            SuperTrendResult r = new() { TickDate = q.TickDate };
             results.Add(r);
 
             if (i >= lookbackPeriods)

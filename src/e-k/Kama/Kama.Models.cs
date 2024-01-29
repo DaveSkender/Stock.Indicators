@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class KamaResult : ResultBase, IReusableResult
+public sealed record class KamaResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? ER { get; set; }
     public double? Kama { get; set; }
 

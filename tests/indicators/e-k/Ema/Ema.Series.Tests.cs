@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class EmaSeriesTests : TestBase
+public class EmaSeriesTests : SeriesTestBase
 {
     [TestMethod]
     public void Increment()
@@ -12,7 +12,7 @@ public class EmaSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<EmaResult> results = quotes
             .GetEma(20)
@@ -137,7 +137,7 @@ public class EmaSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<EmaResult> r = badQuotes
             .GetEma(15)
@@ -148,7 +148,7 @@ public class EmaSeriesTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<EmaResult> r0 = noquotes
             .GetEma(10)

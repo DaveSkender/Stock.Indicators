@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class CmfResult : ResultBase, IReusableResult
+public sealed record class CmfResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? MoneyFlowMultiplier { get; set; }
     public double? MoneyFlowVolume { get; set; }
     public double? Cmf { get; set; }

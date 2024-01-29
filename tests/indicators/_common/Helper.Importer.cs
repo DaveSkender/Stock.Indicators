@@ -49,7 +49,7 @@ internal static class Importer
         switch (position)
         {
             case "D":
-                quote.Date = Convert.ToDateTime(value, EnglishCulture);
+                quote.TickDate = Convert.ToDateTime(value, EnglishCulture);
                 break;
             case "O":
                 quote.Open = Convert.ToDecimal(value, EnglishCulture);

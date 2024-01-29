@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class DpoResult : ResultBase, IReusableResult
+public sealed record class DpoResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Sma { get; set; }
     public double? Dpo { get; set; }
 

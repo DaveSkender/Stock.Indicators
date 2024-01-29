@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ChopTests : TestBase
+public class ChopTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<ChopResult> results = quotes
             .GetChop(14)
@@ -54,7 +54,7 @@ public class ChopTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ChopResult> r = badQuotes
             .GetChop(20)
@@ -65,7 +65,7 @@ public class ChopTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ChopResult> r0 = noquotes
             .GetChop()

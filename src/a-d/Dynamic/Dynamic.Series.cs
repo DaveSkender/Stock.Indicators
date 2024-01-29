@@ -23,7 +23,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            DynamicResult r = new() { Date = date };
+            DynamicResult r = new() { TickDate = date };
             results.Add(r);
 
             // re/initialize

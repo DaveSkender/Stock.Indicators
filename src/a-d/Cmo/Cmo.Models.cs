@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class CmoResult : ResultBase, IReusableResult
+public sealed record class CmoResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Cmo { get; set; }
 
     double IReusableResult.Value => Cmo.Null2NaN();

@@ -23,7 +23,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            EmaResult r = new() { Date = date };
+            EmaResult r = new() { TickDate = date };
             results.Add(r);
 
             // skip incalculable periods

@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class VortexTests : TestBase
+public class VortexTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<VortexResult> results = quotes
             .GetVortex(14)
@@ -37,7 +37,7 @@ public class VortexTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<VortexResult> r = badQuotes
             .GetVortex(20)
@@ -48,7 +48,7 @@ public class VortexTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<VortexResult> r0 = noquotes
             .GetVortex(5)

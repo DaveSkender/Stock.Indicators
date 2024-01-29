@@ -45,7 +45,7 @@ IEnumerable<AwesomeResult>
 
 ### AwesomeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Oscillator`** _`double`_ - Awesome Oscillator
 

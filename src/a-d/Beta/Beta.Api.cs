@@ -30,10 +30,10 @@ public static partial class Indicator
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
     {
-        List<(DateTime Date, double Value)> tpListEval
+        List<(DateTime TickDate, double Value)> tpListEval
             = evalResults.ToTupleResult();
 
-        List<(DateTime Date, double Value)> tpListMrkt
+        List<(DateTime TickDate, double Value)> tpListMrkt
             = mrktResults.ToTupleResult();
 
         return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);

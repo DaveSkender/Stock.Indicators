@@ -1,6 +1,6 @@
 ### CandleResult
 
-**`Date`** _`DateTime`_ - Date
+**`TickDate`** _`DateTime`_ - TickDate
 
 **`Price`** _`decimal`_ - Price of the most relevant OHLC candle element when a signal is present
 

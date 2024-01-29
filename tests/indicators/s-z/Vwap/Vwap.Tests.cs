@@ -1,14 +1,14 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class VwapTests : TestBase
+public class VwapTests : SeriesTestBase
 {
     private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
-        .OrderBy(x => x.Date)
+        .OrderBy(x => x.TickDate)
         .Take(391);
 
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<VwapResult> results = intraday.GetVwap()
             .ToList();
@@ -72,7 +72,7 @@ public class VwapTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<VwapResult> r = badQuotes
             .GetVwap()
@@ -83,7 +83,7 @@ public class VwapTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<VwapResult> r0 = noquotes
             .GetVwap()

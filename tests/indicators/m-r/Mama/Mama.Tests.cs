@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class MamaTests : TestBase
+public class MamaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         double fastLimit = 0.5;
         double slowLimit = 0.05;
@@ -95,7 +95,7 @@ public class MamaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<MamaResult> r = badQuotes
             .GetMama()
@@ -106,7 +106,7 @@ public class MamaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<MamaResult> r0 = noquotes
             .GetMama()

@@ -11,7 +11,7 @@ public static class Candlesticks
         this TQuote quote)
         where TQuote : IQuote => new()
         {
-            Date = quote.Date,
+            TickDate = quote.TickDate,
             Open = quote.Open,
             High = quote.High,
             Low = quote.Low,
@@ -28,7 +28,7 @@ public static class Candlesticks
         [
           .. quotes
             .Select(x => x.ToCandle())
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
         ];
 
         // validate
@@ -43,12 +43,13 @@ public static class Candlesticks
         List<CandleResult> candlesList =
         [
           .. quotes
-            .Select(x => new CandleResult(x.Date)
-            {
-                Match = Match.None,
-                Candle = x.ToCandle()
-            })
-            .OrderBy(x => x.Date)
+            .Select(x => new CandleResult(
+                x.TickDate,
+                Match.None)
+                {
+                    Candle = x.ToCandle()
+                })
+            .OrderBy(x => x.TickDate)
         ];
 
         // validate

@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class HmaResult : ResultBase, IReusableResult
+public sealed record class HmaResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Hma { get; set; }
 
     double IReusableResult.Value => Hma.Null2NaN();

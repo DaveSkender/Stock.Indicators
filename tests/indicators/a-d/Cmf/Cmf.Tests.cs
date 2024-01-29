@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class CmfTests : TestBase
+public class CmfTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<CmfResult> results = quotes
             .GetCmf(20)
@@ -44,7 +44,7 @@ public class CmfTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<CmfResult> r = badQuotes
             .GetCmf(15)
@@ -65,7 +65,7 @@ public class CmfTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<CmfResult> r0 = noquotes
             .GetCmf()

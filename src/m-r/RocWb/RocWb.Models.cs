@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class RocWbResult : ResultBase, IReusableResult
+public sealed record class RocWbResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Roc { get; set; }
     public double? RocEma { get; set; }
     public double? UpperBand { get; set; }

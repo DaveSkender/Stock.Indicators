@@ -1,14 +1,10 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Indicators;
 
 [TestClass]
-public class SmaStreamTests : TestBase
+public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Standard() // from quote provider
+    public override void QuoteObserver()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -63,7 +59,7 @@ public class SmaStreamTests : TestBase
             SmaResult s = seriesList[i];
             SmaResult r = streamList[i];
 
-            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.TickDate, r.TickDate);
             Assert.AreEqual(s.Sma, r.Sma);
         }
 
@@ -112,7 +108,7 @@ public class SmaStreamTests : TestBase
             EmaResult s = seriesList[i];
             EmaResult r = streamList[i];
 
-            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.TickDate, r.TickDate);
             Assert.AreEqual(s.Ema, r.Ema);
         }
 
@@ -165,13 +161,13 @@ public class SmaStreamTests : TestBase
             SmaResult s = staticSma[i];
             SmaResult r = streamSma[i];
 
-            Assert.AreEqual(s.Date, r.Date);
+            Assert.AreEqual(s.TickDate, r.TickDate);
             Assert.AreEqual(s.Sma, r.Sma);
         }
     }
 
     [TestMethod]
-    public void Duplicates()
+    public override void Duplicates()
     {
         // setup quote provider
         QuoteProvider<Quote> provider = new();

@@ -49,7 +49,7 @@ IEnumerable<PmoResult>
 
 ### PmoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Pmo`** _`double`_ - Price Momentum Oscillator
 

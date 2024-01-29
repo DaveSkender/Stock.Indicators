@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class FisherTransformResult : ResultBase, IReusableResult
+public sealed record class FisherTransformResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Fisher { get; set; }
     public double? Trigger { get; set; }
 

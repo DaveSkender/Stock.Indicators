@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class AdxResult : ResultBase, IReusableResult
+public sealed record class AdxResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Pdi { get; set; }
     public double? Mdi { get; set; }
     public double? Adx { get; set; }

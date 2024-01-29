@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StdDevChannelsTests : TestBase
+public class StdDevChannelsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int lookbackPeriods = 20;
         double standardDeviations = 2;
@@ -133,7 +133,7 @@ public class StdDevChannelsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StdDevChannelsResult> r = badQuotes
             .GetStdDevChannels()
@@ -144,7 +144,7 @@ public class StdDevChannelsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StdDevChannelsResult> r0 = noquotes
             .GetStdDevChannels()

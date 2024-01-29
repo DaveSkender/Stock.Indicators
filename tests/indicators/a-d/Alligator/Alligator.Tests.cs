@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class AlligatorTests : TestBase
+public class AlligatorTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<AlligatorResult> results = quotes
             .GetAlligator()
@@ -82,7 +82,7 @@ public class AlligatorTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AlligatorResult> r = badQuotes
             .GetAlligator(3, 3, 2, 1, 1, 1)
@@ -93,7 +93,7 @@ public class AlligatorTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AlligatorResult> r0 = noquotes
             .GetAlligator()
@@ -138,6 +138,31 @@ public class AlligatorTests : TestBase
         Assert.AreEqual(260.98953, last.Jaw.Round(5));
         Assert.AreEqual(253.53576, last.Teeth.Round(5));
         Assert.AreEqual(244.29591, last.Lips.Round(5));
+    }
+
+    [TestMethod]
+    public override void Equality()
+    {
+        AlligatorResult r1 = new()
+        {
+            TickDate = evalDate,
+            Jaw = 1d
+        };
+
+        AlligatorResult r2 = new()
+        {
+            TickDate = evalDate,
+            Jaw = 1d
+        };
+
+        AlligatorResult r3 = new()
+        {
+            TickDate = evalDate,
+            Jaw = 2d
+        };
+
+        Assert.IsTrue(Equals(r1, r2));
+        Assert.IsFalse(Equals(r1, r3));
     }
 
     [TestMethod]

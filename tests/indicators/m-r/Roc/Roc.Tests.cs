@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class RocTests : TestBase
+public class RocTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<RocResult> results = quotes
             .GetRoc(20)
@@ -77,7 +77,7 @@ public class RocTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<RocResult> r = badQuotes
             .GetRoc(35)
@@ -88,7 +88,7 @@ public class RocTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<RocResult> r0 = noquotes
             .GetRoc(5)

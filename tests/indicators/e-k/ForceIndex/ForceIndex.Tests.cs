@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ForceIndexTests : TestBase
+public class ForceIndexTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<ForceIndexResult> r = quotes.GetForceIndex(13).ToList();
 
@@ -35,7 +35,7 @@ public class ForceIndexTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ForceIndexResult> r = badQuotes
             .GetForceIndex(2)
@@ -46,7 +46,7 @@ public class ForceIndexTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ForceIndexResult> r0 = noquotes
             .GetForceIndex(5)

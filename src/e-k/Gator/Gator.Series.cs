@@ -10,7 +10,7 @@ public static partial class Indicator
         List<GatorResult> results = alligator
         .Select(x => new GatorResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Upper = NullMath.Abs(x.Jaw - x.Teeth),
             Lower = -NullMath.Abs(x.Teeth - x.Lips)
         })

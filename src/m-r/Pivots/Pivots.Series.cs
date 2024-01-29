@@ -22,7 +22,7 @@ public static partial class Indicator
             .CalcFractal(leftSpan, rightSpan, endType)
             .Select(x => new PivotsResult()
             {
-                Date = x.Date,
+                TickDate = x.TickDate,
                 HighPoint = x.FractalBear,
                 LowPoint = x.FractalBull
             })

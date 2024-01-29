@@ -49,7 +49,7 @@ IEnumerable<StcResult>
 
 ### StcResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Stc`** _`double`_ - Schaff Trend Cycle
 

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
-public class CandleProperties : Quote
+public record CandleProperties : Quote
 {
     // raw sizes
     public decimal? Size => High - Low;
@@ -20,15 +20,18 @@ public class CandleProperties : Quote
     public bool IsBearish => Close < Open;
 }
 
-public class CandleResult : ResultBase
+
+
+public record class CandleResult : IResult
 {
-    public CandleResult(DateTime date)
+    public CandleResult(DateTime date, Match match)
     {
-        Date = date;
-        Candle = new CandleProperties();
+        TickDate = date;
+        Match = match;
     }
 
+    public DateTime TickDate { get; private set; }
     public decimal? Price { get; set; }
     public Match Match { get; set; }
-    public CandleProperties Candle { get; set; }
+    public CandleProperties Candle { get; set; } = new CandleProperties();
 }

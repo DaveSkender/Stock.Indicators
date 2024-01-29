@@ -37,7 +37,7 @@ public static partial class Indicator
 
             HeikinAshiResult r = new()
             {
-                Date = q.Date,
+                TickDate = q.TickDate,
                 Open = open,
                 High = high,
                 Low = low,

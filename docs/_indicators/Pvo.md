@@ -49,7 +49,7 @@ IEnumerable<PvoResult>
 
 ### PvoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Pvo`** _`double`_ - Normalized difference between two Volume moving averages
 

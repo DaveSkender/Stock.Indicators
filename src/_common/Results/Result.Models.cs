@@ -11,9 +11,3 @@ public interface IReusableResult : IResult
 {
     double Value { get; }
 }
-
-// base result
-public abstract class ResultBase : IResult
-{
-    public DateTime Date { get; set; }
-}

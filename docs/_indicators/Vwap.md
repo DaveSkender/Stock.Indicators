@@ -48,7 +48,7 @@ IEnumerable<VwapResult>
 
 ### VwapResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Vwap`** _`double`_ - Volume Weighted Average Price
 

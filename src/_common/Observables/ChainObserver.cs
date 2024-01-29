@@ -8,7 +8,7 @@ public abstract class ChainObserver<TResult>
 {
     internal IDisposable? unsubscriber;
 
-    internal ChainObserver(ChainProvider provider)
+    private protected ChainObserver(ChainProvider provider)
     {
         ChainSupplier = provider;
     }
@@ -41,7 +41,7 @@ public abstract class ChainObserver<TResult>
         }
 
         // rebuild from date
-        DateTime fromDate = ChainSupplier.Chain[0].Date;
+        DateTime fromDate = ChainSupplier.Chain[0].TickDate;
         RebuildCache(fromDate);
     }
 
@@ -74,7 +74,7 @@ public abstract class ChainObserver<TResult>
         }
 
         // reset from date
-        DateTime fromDate = Chain[0].Date;
+        DateTime fromDate = Chain[0].TickDate;
         ClearCache(fromDate);
     }
 

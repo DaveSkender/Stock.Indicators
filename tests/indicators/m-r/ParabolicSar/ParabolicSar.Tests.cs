@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ParabolicSarTests : TestBase
+public class ParabolicSarTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
@@ -92,7 +92,7 @@ public class ParabolicSarTests : TestBase
         double maxAccelerationFactor = 0.2;
 
         IEnumerable<Quote> insufficientQuotes = TestData.GetDefault()
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .Take(10);
 
         List<ParabolicSarResult> results =
@@ -107,7 +107,7 @@ public class ParabolicSarTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ParabolicSarResult> r = badQuotes
             .GetParabolicSar(0.2, 0.2, 0.2)
@@ -118,7 +118,7 @@ public class ParabolicSarTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ParabolicSarResult> r0 = noquotes
             .GetParabolicSar()

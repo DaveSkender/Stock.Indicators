@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class PrsResult : ResultBase, IReusableResult
+public sealed record class PrsResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Prs { get; set; }
     public double? PrsPercent { get; set; }
 

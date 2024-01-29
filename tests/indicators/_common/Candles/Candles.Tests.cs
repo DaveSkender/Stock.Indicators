@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class Candles : TestBase
+public class Candles : SeriesTestBase
 {
     [TestMethod]
     public void SortCandles()
@@ -16,13 +16,13 @@ public class Candles : TestBase
 
         // sample values
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, candles[0].Date);
+        Assert.AreEqual(firstDate, candles[0].TickDate);
 
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, candles.LastOrDefault().Date);
+        Assert.AreEqual(lastDate, candles.LastOrDefault().TickDate);
 
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, candles[50].Date);
+        Assert.AreEqual(spotDate, candles[50].TickDate);
     }
 
     [TestMethod]

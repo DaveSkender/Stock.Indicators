@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StcTests : TestBase
+public class StcTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int cyclePeriods = 9;
         int fastPeriods = 12;
@@ -83,7 +83,7 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StcResult> r = badQuotes
             .GetStc(10, 23, 50)
@@ -94,7 +94,7 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StcResult> r0 = noquotes
             .GetStc()

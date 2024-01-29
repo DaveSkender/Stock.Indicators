@@ -47,7 +47,7 @@ public static partial class Indicator
         => tpList.GetAlma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Alma,
             UpperEnvelope = x.Alma + (x.Alma * offsetRatio),
             LowerEnvelope = x.Alma - (x.Alma * offsetRatio)
@@ -60,7 +60,7 @@ public static partial class Indicator
         => tpList.GetDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Dema,
             UpperEnvelope = x.Dema + (x.Dema * offsetRatio),
             LowerEnvelope = x.Dema - (x.Dema * offsetRatio)
@@ -73,7 +73,7 @@ public static partial class Indicator
         => tpList.GetEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Ema,
             UpperEnvelope = x.Ema + (x.Ema * offsetRatio),
             LowerEnvelope = x.Ema - (x.Ema * offsetRatio)
@@ -86,7 +86,7 @@ public static partial class Indicator
         => tpList.GetEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Epma,
             UpperEnvelope = x.Epma + (x.Epma * offsetRatio),
             LowerEnvelope = x.Epma - (x.Epma * offsetRatio)
@@ -99,7 +99,7 @@ public static partial class Indicator
         => tpList.GetHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Hma,
             UpperEnvelope = x.Hma + (x.Hma * offsetRatio),
             LowerEnvelope = x.Hma - (x.Hma * offsetRatio)
@@ -112,7 +112,7 @@ public static partial class Indicator
         => tpList.GetSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Sma,
             UpperEnvelope = x.Sma + (x.Sma * offsetRatio),
             LowerEnvelope = x.Sma - (x.Sma * offsetRatio)
@@ -125,7 +125,7 @@ public static partial class Indicator
         => tpList.GetSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Smma,
             UpperEnvelope = x.Smma + (x.Smma * offsetRatio),
             LowerEnvelope = x.Smma - (x.Smma * offsetRatio)
@@ -138,7 +138,7 @@ public static partial class Indicator
         => tpList.GetTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Tema,
             UpperEnvelope = x.Tema + (x.Tema * offsetRatio),
             LowerEnvelope = x.Tema - (x.Tema * offsetRatio)
@@ -151,7 +151,7 @@ public static partial class Indicator
         => tpList.GetWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult()
         {
-            Date = x.Date,
+            TickDate = x.TickDate,
             Centerline = x.Wma,
             UpperEnvelope = x.Wma + (x.Wma * offsetRatio),
             LowerEnvelope = x.Wma - (x.Wma * offsetRatio)

@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class Pruning : TestBase
+public class Pruning : SeriesTestBase
 {
     [TestMethod]
     public void Remove()

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace Tests.Indicators;
 
 [TestClass]
-public class ZigZagTests : TestBase
+public class ZigZagTests : SeriesTestBase
 {
     [TestMethod]
     public void StandardClose()
@@ -155,7 +155,7 @@ public class ZigZagTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ZigZagResult> r1 = badQuotes
             .GetZigZag(EndType.Close)
@@ -171,7 +171,7 @@ public class ZigZagTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ZigZagResult> r0 = noquotes
             .GetZigZag()
@@ -205,7 +205,7 @@ public class ZigZagTests : TestBase
 
         List<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.TickDate)
             .ToList();
 
         List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();

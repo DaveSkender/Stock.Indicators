@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class HtTrendlineTests : TestBase
+public class HtTrendlineTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<HtlResult> results = quotes
             .GetHtTrendline()
@@ -105,7 +105,7 @@ public class HtTrendlineTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<HtlResult> r = badQuotes
             .GetHtTrendline()
@@ -144,7 +144,7 @@ public class HtTrendlineTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<HtlResult> r0 = noquotes
             .GetHtTrendline()

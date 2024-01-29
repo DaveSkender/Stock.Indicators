@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class WmaTests : TestBase
+public class WmaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<WmaResult> results = quotes
             .GetWma(20)
@@ -87,13 +87,13 @@ public class WmaTests : TestBase
             WmaResult s = standard[i];
             WmaResult c = results[i];
 
-            Assert.AreEqual(s.Date, c.Date);
+            Assert.AreEqual(s.TickDate, c.TickDate);
             Assert.AreEqual(s.Wma, c.Wma);
         }
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<WmaResult> r = badQuotes
             .GetWma(15)
@@ -104,7 +104,7 @@ public class WmaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<WmaResult> r0 = noquotes
             .GetWma(5)

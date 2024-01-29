@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class SmiResult : ResultBase, IReusableResult
+public sealed record class SmiResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Smi { get; set; }
     public double? Signal { get; set; }
 

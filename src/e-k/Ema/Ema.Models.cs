@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class EmaResult : ResultBase, IReusableResult
+public sealed record class EmaResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Ema { get; internal set; }
 
     double IReusableResult.Value => Ema.Null2NaN();

@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class WilliamsRTests : TestBase
+public class WilliamsRTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<WilliamsResult> results = quotes
             .GetWilliamsR(14)
@@ -47,7 +47,7 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<Quote> quotes = badQuotes
             .ToSortedList();
@@ -61,7 +61,7 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<WilliamsResult> r0 = noquotes
             .GetWilliamsR()
@@ -119,7 +119,7 @@ public class WilliamsRTests : TestBase
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(x => x.TickDate);
 
         List<Quote> quotesList = test1127.ToList();
         int length = quotesList.Count;
@@ -137,7 +137,7 @@ public class WilliamsRTests : TestBase
             Quote q = quotesList[i];
             WilliamsResult r = resultsList[i];
 
-            Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
+            Console.WriteLine($"{q.TickDate:s} {r.WilliamsR}");
 
             if (r.WilliamsR is not null)
             {

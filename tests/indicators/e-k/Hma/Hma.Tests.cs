@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class HmaTests : TestBase
+public class HmaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<HmaResult> results = quotes
             .GetHma(20)
@@ -70,7 +70,7 @@ public class HmaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<HmaResult> r = badQuotes
             .GetHma(15)
@@ -81,7 +81,7 @@ public class HmaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<HmaResult> r0 = noquotes
             .GetHma(5)

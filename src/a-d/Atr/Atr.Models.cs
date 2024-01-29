@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed class AtrResult : ResultBase, IReusableResult
+public sealed record class AtrResult : IReusableResult
 {
+    public DateTime TickDate { get; set; }
     public double? Tr { get; set; }
     public double? Atr { get; set; }
     public double? Atrp { get; set; }

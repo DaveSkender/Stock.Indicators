@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class BaseQuoteTests : TestBase
+public class BaseQuoteTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         // compose basic data
         List<BasicResult> o = quotes.GetBaseQuote(CandlePart.Open).ToList();
@@ -35,7 +35,7 @@ public class BaseQuoteTests : TestBase
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, rc.Date);
+        Assert.AreEqual(lastDate, rc.TickDate);
 
         // last values should be correct
         Assert.AreEqual(244.92, ro.Value);
@@ -53,7 +53,7 @@ public class BaseQuoteTests : TestBase
     [TestMethod]
     public void Use()
     {
-        List<(DateTime Date, double Value)> results = quotes
+        List<(DateTime TickDate, double Value)> results = quotes
             .Use(CandlePart.Close)
             .ToList();
 

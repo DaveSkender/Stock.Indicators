@@ -55,7 +55,7 @@ internal class RandomGbm : List<Quote>
 
         Quote quote = new()
         {
-            Date = timestamp,
+            TickDate = timestamp,
             Open = (decimal)open,
             High = (decimal)high,
             Low = (decimal)low,

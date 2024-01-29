@@ -3,28 +3,25 @@ using System.Globalization;
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
 
-internal sealed class MyExtendedQuote : Quote
+internal sealed record MyExtendedQuote : Quote
 {
     public bool MyProperty { get; set; }
     public decimal? MyClose { get; set; }
 }
 
-internal sealed class MyEma : ResultBase
+internal sealed class MyEma : IResult
 {
+    public DateTime TickDate { get; set; }
     public int Id { get; set; }
     public bool MyProperty { get; set; }
     public double? Ema { get; set; }
 }
 
-internal sealed class MyCustomQuote : IQuote
+internal sealed class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
 {
-    // required base properties
-    DateTime ISeries.Date => CloseDate;
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
+    // redirect inherited base properties
+    DateTime ISeries.TickDate => CloseDate;
     decimal IQuote.Close => CloseValue;
-    public decimal Volume { get; set; }
 
     // custom properties
     public int MyOtherProperty { get; set; }
@@ -36,6 +33,8 @@ internal sealed class MyCustomQuote : IQuote
 public class PublicClassTests
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);
+    internal static readonly DateTime evalDate
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
 
     [TestMethod]
     public void ValidateHistory()
@@ -54,7 +53,7 @@ public class PublicClassTests
         IEnumerable<Quote> h = quotes.Validate();
 
         Quote f = h.FirstOrDefault();
-        Console.WriteLine($"Date:{f.Date},Close:{f.Close}");
+        Console.WriteLine($"Date:{f.TickDate},Close:{f.Close}");
     }
 
     [TestMethod]
@@ -63,7 +62,7 @@ public class PublicClassTests
         // can use a derive Quote class
         MyExtendedQuote myQuote = new()
         {
-            Date = DateTime.Now,
+            TickDate = DateTime.Now,
             MyProperty = true
         };
 
@@ -81,7 +80,7 @@ public class PublicClassTests
         IEnumerable<MyExtendedQuote> myHistory = quotes
             .Select(x => new MyExtendedQuote
             {
-                Date = x.Date,
+                TickDate = x.TickDate,
                 MyClose = x.Close,
                 MyProperty = false
             });
@@ -95,7 +94,7 @@ public class PublicClassTests
         List<MyCustomQuote> myGenericHistory = TestData.GetDefault()
             .Select(x => new MyCustomQuote
             {
-                CloseDate = x.Date,
+                CloseDate = x.TickDate,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -124,12 +123,58 @@ public class PublicClassTests
     }
 
     [TestMethod]
+    public void EqualCustomQuotes()
+    {
+        MyCustomQuote q1 = new()
+        {
+            TickDate = evalDate,
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            Close = 1m,
+            Volume = 100
+        };
+
+        MyCustomQuote q2 = new()
+        {
+            TickDate = evalDate,
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            Close = 1m,
+            Volume = 100
+        };
+
+        MyCustomQuote q3 = new()
+        {
+            TickDate = evalDate,
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            Close = 2m,
+            Volume = 99
+        };
+
+        Assert.IsTrue(Equals(q1, q2));
+        Assert.IsFalse(Equals(q1, q3));
+
+        Assert.IsTrue(q1.Equals(q2));
+        Assert.IsFalse(q1.Equals(q3));
+
+        Assert.IsTrue(q1 == q2);
+        Assert.IsFalse(q1 == q3);
+
+        Assert.IsFalse(q1 != q2);
+        Assert.IsTrue(q1 != q3);
+    }
+
+    [TestMethod]
     public void CustomQuoteAggregate()
     {
         List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
             .Select(x => new MyCustomQuote
             {
-                CloseDate = x.Date,
+                CloseDate = x.TickDate,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -157,7 +202,7 @@ public class PublicClassTests
         List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
             .Select(x => new MyCustomQuote
             {
-                CloseDate = x.Date,
+                CloseDate = x.TickDate,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -185,7 +230,7 @@ public class PublicClassTests
         // can use a derive Indicator class
         MyEma myIndicator = new()
         {
-            Date = DateTime.Now,
+            TickDate = DateTime.Now,
             Ema = 123.456,
             MyProperty = false
         };
@@ -205,7 +250,7 @@ public class PublicClassTests
             .Where(x => x.Ema != null)
             .Select(x => new MyEma
             {
-                Date = x.Date,
+                TickDate = x.TickDate,
                 Ema = x.Ema,
                 MyProperty = false
             });
@@ -226,7 +271,7 @@ public class PublicClassTests
             .Select(x => new MyEma
             {
                 Id = 12345,
-                Date = x.Date,
+                TickDate = x.TickDate,
                 Ema = x.Ema,
                 MyProperty = false
             });
@@ -247,21 +292,21 @@ public class PublicClassTests
     [TestMethod]
     public void StreamAll() // from quote provider
     {
-        /****************************************************** 
+        /******************************************************
          * Attaches all stream observers to one Quote provider
          * for a full sprectrum stream collective.
-         * 
+         *
          * Currently, it does not include any [direct] chains;
          * however, under the hood many of these are streaming
          * through an underlying Use<TQuote> converter.
-         * 
+         *
          * This test covers most of the unusual test cases, like:
-         * 
+         *
          *  - out of order quotes (late arrivals)
          *  - duplicates, but not to an overflow situation
-         *  
+         *
          *  TODO: add all indicators to test, when available
-         *  
+         *
          ******************************************************/
 
         // source quotes (out of order, messy use case)
@@ -312,13 +357,13 @@ public class PublicClassTests
             EmaResult sEma = staticEma[i];
             EmaResult rEma = streamEma[i];
 
-            Assert.AreEqual(sEma.Date, rEma.Date);
+            Assert.AreEqual(sEma.TickDate, rEma.TickDate);
             Assert.AreEqual(sEma.Ema, rEma.Ema);
 
             SmaResult sSma = staticSma[i];
             SmaResult rSma = streamSma[i];
 
-            Assert.AreEqual(sSma.Date, rSma.Date);
+            Assert.AreEqual(sSma.TickDate, rSma.TickDate);
             Assert.AreEqual(sSma.Sma, rSma.Sma);
         }
     }

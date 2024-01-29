@@ -49,7 +49,7 @@ IEnumerable<KeltnerResult>
 
 ### KeltnerResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`UpperBand`** _`double`_ - Upper band of Keltner Channel
 

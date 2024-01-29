@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class HurstTests : TestBase
+public class HurstTests : SeriesTestBase
 {
     [TestMethod]
     public void StandardLong()
@@ -69,7 +69,7 @@ public class HurstTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<HurstResult> r = badQuotes
             .GetHurst(150)
@@ -80,7 +80,7 @@ public class HurstTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<HurstResult> r0 = noquotes
             .GetHurst()

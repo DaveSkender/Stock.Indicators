@@ -25,7 +25,7 @@ public static partial class Indicator
             h0 = quotesList[0];
         }
 
-        int windowId = GetWindowNumber(h0.Date, windowSize);
+        int windowId = GetWindowNumber(h0.TickDate, windowSize);
 
         int windowEval;
         bool firstWindow = true;
@@ -42,11 +42,11 @@ public static partial class Indicator
 
             PivotPointsResult r = new()
             {
-                Date = q.Date
+                TickDate = q.TickDate
             };
 
             // new window evaluation
-            windowEval = GetWindowNumber(q.Date, windowSize);
+            windowEval = GetWindowNumber(q.TickDate, windowSize);
 
             if (windowEval != windowId)
             {

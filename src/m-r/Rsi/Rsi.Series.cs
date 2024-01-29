@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<RsiResult> CalcRsi(
-        this List<(DateTime Date, double Value)> tpList,
+        this List<(DateTime TickDate, double Value)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            RsiResult r = new() { Date = date };
+            RsiResult r = new() { TickDate = date };
             results.Add(r);
 
             if (double.IsNaN(value) || double.IsNaN(prevValue))

@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class AtrStopTests : TestBase
+public class AtrStopTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int lookbackPeriods = 21;
         double multiplier = 3;
@@ -96,7 +96,7 @@ public class AtrStopTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AtrStopResult> r = badQuotes
             .GetAtrStop(7)
@@ -106,7 +106,7 @@ public class AtrStopTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AtrStopResult> r0 = noquotes
             .GetAtrStop()

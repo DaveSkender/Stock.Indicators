@@ -47,7 +47,7 @@ IEnumerable<TemaResult>
 
 ### TemaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Tema`** _`double`_ - Triple exponential moving average
 

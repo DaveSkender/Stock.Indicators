@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class RsiTests : TestBase
+public class RsiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<RsiResult> results = quotes
             .GetRsi(14)
@@ -117,7 +117,7 @@ public class RsiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<RsiResult> r = badQuotes
             .GetRsi(20)
@@ -128,7 +128,7 @@ public class RsiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<RsiResult> r0 = noquotes
             .GetRsi()

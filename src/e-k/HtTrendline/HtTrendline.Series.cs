@@ -36,7 +36,7 @@ public static partial class Indicator
             (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
-            HtlResult r = new() { Date = date };
+            HtlResult r = new() { TickDate = date };
             results.Add(r);
 
             if (i > 5)

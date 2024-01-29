@@ -46,7 +46,7 @@ IEnumerable<GatorResult>
 
 ### GatorResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Upper`** _`double`_ - Absolute value of Alligator `Jaw-Teeth`
 

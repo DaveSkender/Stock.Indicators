@@ -43,7 +43,7 @@ IEnumerable<DpoResult>
 
 ### DpoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
 

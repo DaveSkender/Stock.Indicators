@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ChandelierTests : TestBase
+public class ChandelierTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int lookbackPeriods = 22;
 
@@ -45,7 +45,7 @@ public class ChandelierTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ChandelierResult> r = badQuotes
             .GetChandelier(15, 2)
@@ -56,7 +56,7 @@ public class ChandelierTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ChandelierResult> r0 = noquotes
             .GetChandelier()

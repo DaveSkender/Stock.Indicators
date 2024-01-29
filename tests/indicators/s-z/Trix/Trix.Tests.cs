@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class TrixTests : TestBase
+public class TrixTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<TrixResult> results = quotes
             .GetTrix(20)
@@ -81,7 +81,7 @@ public class TrixTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<TrixResult> r = badQuotes
             .GetTrix(15)
@@ -92,7 +92,7 @@ public class TrixTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<TrixResult> r0 = noquotes
             .GetTrix(5)

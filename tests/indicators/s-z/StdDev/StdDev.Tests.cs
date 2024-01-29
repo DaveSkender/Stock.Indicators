@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StdDevTests : TestBase
+public class StdDevTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<StdDevResult> results = quotes
             .GetStdDev(10)
@@ -85,7 +85,7 @@ public class StdDevTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StdDevResult> r = badQuotes
             .GetStdDev(15)
@@ -106,7 +106,7 @@ public class StdDevTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StdDevResult> r0 = noquotes
             .GetStdDev(10)
