@@ -12,6 +12,7 @@ public interface IQuote : ISeries, IEquatable<IQuote>
 
     // CS0567 C# Interfaces cannot contain conversion,
     // equality, or inequality operators (i.e. == or !=)
+    // and cannot be inforces here
 }
 
 public record class Quote : IQuote
@@ -77,7 +78,8 @@ public abstract class EquatableQuote<TQuote>()
             && (Volume == other.Volume);
     }
 
-    public static bool operator ==(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
+    public static bool operator ==(this, other)
+      // ==(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
     {
         if (lhs is null)
         {
@@ -94,11 +96,13 @@ public abstract class EquatableQuote<TQuote>()
         return lhs.Equals(rhs);
     }
 
-    public static bool operator !=(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
+    public static bool operator !=(this, other)
+        // !=(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
         => !(lhs == rhs);
 
     public override int GetHashCode()
-        => (TickDate, Open, High, Low, Close, Volume).GetHashCode();
+        => throw new ApplicationException("this class does not support GetHashCode");
+        //=> (TickDate, Open, High, Low, Close, Volume).GetHashCode();
 }
 
 internal class QuoteD
