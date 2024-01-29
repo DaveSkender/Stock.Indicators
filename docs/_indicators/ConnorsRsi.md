@@ -49,7 +49,7 @@ IEnumerable<ConnorsRsiResult>
 
 ### ConnorsRsiResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Rsi`** _`double`_ - `RSI(R)` of the price.
 

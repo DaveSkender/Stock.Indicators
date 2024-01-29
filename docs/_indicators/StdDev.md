@@ -47,7 +47,7 @@ IEnumerable<StdDevResult>
 
 ### StdDevResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`StdDev`** _`double`_ - Standard Deviation of price
 

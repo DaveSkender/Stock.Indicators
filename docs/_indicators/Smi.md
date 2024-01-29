@@ -52,7 +52,7 @@ IEnumerable<SmiResult>
 
 ### SmiResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Smi`** _`double`_ - Stochastic Momentum Index (SMI)
 

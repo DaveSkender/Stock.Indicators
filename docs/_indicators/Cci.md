@@ -43,7 +43,7 @@ IEnumerable<CciResult>
 
 ### CciResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Cci`** _`double`_ - Commodity Channel Index
 

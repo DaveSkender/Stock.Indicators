@@ -53,7 +53,7 @@ IEnumerable<AtrResult>
 
 ### AtrResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tr`** _`double`_ - True Range for current period
 

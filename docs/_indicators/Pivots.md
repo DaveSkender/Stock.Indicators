@@ -59,7 +59,7 @@ IEnumerable<PivotsResult>
 
 ### PivotsResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`HighPoint`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
 

@@ -44,7 +44,7 @@ IEnumerable<DonchianResult>
 
 ### DonchianResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - Upper line is the highest High over `N` periods
 

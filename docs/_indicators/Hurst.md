@@ -43,7 +43,7 @@ IEnumerable<HurstResult>
 
 ### HurstResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`HurstExponent`** _`double`_ - Hurst Exponent (`H`)
 

@@ -73,7 +73,7 @@ IEnumerable<MaEnvelopeResult>
 
 ### MaEnvelopeResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Centerline`** _`double`_ - Moving average
 

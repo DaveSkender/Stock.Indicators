@@ -45,7 +45,7 @@ IEnumerable<FcbResult>
 
 ### FcbResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - FCB upper band
 

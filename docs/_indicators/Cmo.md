@@ -43,7 +43,7 @@ IEnumerable<CmoResult>
 
 ### CmoResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Cmo`** _`double`_ - Chande Momentum Oscillator
 

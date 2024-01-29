@@ -47,7 +47,7 @@ IEnumerable<MamaResult>
 
 ### MamaResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Mama`** _`decimal`_ - MESA adaptive moving average (MAMA)
 

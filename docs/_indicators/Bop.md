@@ -43,7 +43,7 @@ IEnumerable<BopResult>
 
 ### BopResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Bop`** _`double`_ - Balance of Power
 

@@ -55,7 +55,7 @@ IEnumerable<AlligatorResult>
 
 ### AlligatorResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Jaw`** _`double`_ - Alligator's Jaw
 

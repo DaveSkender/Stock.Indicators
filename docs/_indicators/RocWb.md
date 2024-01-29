@@ -48,7 +48,7 @@ IEnumerable<RocWbResult>
 
 ### RocWbResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Roc`** _`double`_ - Rate of Change over `N` lookback periods (%, not decimal)
 

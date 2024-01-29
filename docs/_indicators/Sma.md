@@ -43,7 +43,7 @@ IEnumerable<SmaResult>
 
 ### SmaResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average
 
@@ -68,7 +68,7 @@ IEnumberable<SmaAnalysis> analysis =
 
 ### SmaAnalysis
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`decimal`_ - Simple moving average
 

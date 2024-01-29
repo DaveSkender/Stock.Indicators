@@ -45,7 +45,7 @@ IEnumerable<CorrResult>
 
 ### CorrResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`VarianceA`** _`double`_ - Variance of A
 

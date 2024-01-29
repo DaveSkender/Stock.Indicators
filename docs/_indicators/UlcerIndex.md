@@ -43,7 +43,7 @@ IEnumerable<UlcerIndexResult>
 
 ### UlcerIndexResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UI`** _`double`_ - Ulcer Index
 

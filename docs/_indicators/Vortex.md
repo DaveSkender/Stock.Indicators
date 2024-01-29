@@ -43,7 +43,7 @@ IEnumerable<VortexResult>
 
 ### VortexResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Pvi`** _`double`_ - Positive Vortex Indicator (VI+)
 

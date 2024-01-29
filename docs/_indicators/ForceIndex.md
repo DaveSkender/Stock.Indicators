@@ -45,7 +45,7 @@ IEnumerable<ForceIndexResult>
 
 ### ForceIndexResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ForceIndex`** _`double`_ - Force Index
 

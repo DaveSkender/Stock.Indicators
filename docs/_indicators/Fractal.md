@@ -55,7 +55,7 @@ IEnumerable<FractalResult>
 
 ### FractalResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`FractalBear`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
 

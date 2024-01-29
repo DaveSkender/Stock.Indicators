@@ -72,7 +72,7 @@ IEnumerable<PivotPointsResult>
 
 ### PivotPointsResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`R3`** _`decimal`_ - Resistance level 3
 

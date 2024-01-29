@@ -43,7 +43,7 @@ IEnumerable<CmfResult>
 
 ### CmfResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
 

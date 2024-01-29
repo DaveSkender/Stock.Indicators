@@ -40,7 +40,7 @@ IEnumerable<HeikinAshiResult>
 
 ### HeikinAshiResult
 
-**`TickDate`** _`DateTime`_ - TickDate from evaluated `TQuote`
+**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Open`** _`decimal`_ - Modified open price
 
