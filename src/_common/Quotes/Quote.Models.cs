@@ -28,12 +28,8 @@ public record class Quote : IQuote
       => base.Equals(other);
 }
 
-public abstract class EquatableQuote<TQuote>()
-    where TQuote : IQuote
+public abstract class EquatableQuote : IQuote
 {
-    // IMPORTANT: this does not override the general Equals(objA, objB),
-    // so don't use it for equality comparison.
-
     public virtual DateTime TickDate { get; set; }
     public virtual decimal Open { get; set; }
     public virtual decimal High { get; set; }
@@ -42,14 +38,10 @@ public abstract class EquatableQuote<TQuote>()
     public virtual decimal Volume { get; set; }
 
     public override bool Equals(object? obj)
-        => this.Equals(obj);
+        => this.Equals(obj as IQuote);
 
     public bool Equals(IQuote? other)
-        => Equals(other);
-
-    public bool Equals(TQuote? other)
     {
-
         if (other is null)
         {
             return false;
@@ -68,8 +60,6 @@ public abstract class EquatableQuote<TQuote>()
         }
 
         // Return true if the fields match.
-        // Note that the base class is not invoked because it is
-        // System.Object, which defines Equals as reference equality.
         return (TickDate == other.TickDate)
             && (Open == other.Open)
             && (High == other.High)
@@ -79,7 +69,7 @@ public abstract class EquatableQuote<TQuote>()
     }
 
     public static bool operator
-        ==(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
+        ==(EquatableQuote lhs, EquatableQuote rhs)
     {
         if (lhs is null)
         {
@@ -92,12 +82,13 @@ public abstract class EquatableQuote<TQuote>()
             // Only the left side is null.
             return false;
         }
+
         // Equals handles the case of null on right side.
         return lhs.Equals(rhs);
     }
 
     public static bool operator
-        !=(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
+        !=(EquatableQuote lhs, EquatableQuote rhs)
           => !(lhs == rhs);
 
     public override int GetHashCode()
