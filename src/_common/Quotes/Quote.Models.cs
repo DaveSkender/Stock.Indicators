@@ -25,7 +25,7 @@ public record class Quote : IQuote
     public decimal Volume { get; set; }
 
     public bool Equals(IQuote? other)
-    => base.Equals(other);
+      => base.Equals(other);
 }
 
 public abstract class EquatableQuote<TQuote>()
@@ -78,8 +78,8 @@ public abstract class EquatableQuote<TQuote>()
             && (Volume == other.Volume);
     }
 
-    public static bool operator ==(this, other)
-      // ==(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
+    public static bool operator
+        ==(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
     {
         if (lhs is null)
         {
@@ -96,13 +96,13 @@ public abstract class EquatableQuote<TQuote>()
         return lhs.Equals(rhs);
     }
 
-    public static bool operator !=(this, other)
-        // !=(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
-        => !(lhs == rhs);
+    public static bool operator
+        !=(EquatableQuote<TQuote> lhs, EquatableQuote<TQuote> rhs)
+          => !(lhs == rhs);
 
     public override int GetHashCode()
-        => throw new ApplicationException("this class does not support GetHashCode");
-        //=> (TickDate, Open, High, Low, Close, Volume).GetHashCode();
+        => HashCode.Combine(
+            TickDate, Open, High, Low, Close, Volume);
 }
 
 internal class QuoteD

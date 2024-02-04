@@ -42,6 +42,8 @@ Items marked with &#128681; require special attention since they will not produc
 
 - all backwards compatible v1 accomodations removed.
 
+- no longer supporting .NET Standard 2.0 for older .NET Framework compatibility.
+
 - &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null`
   for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
 

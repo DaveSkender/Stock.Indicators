@@ -17,7 +17,8 @@ internal sealed class MyEma : IResult
     public double? Ema { get; set; }
 }
 
-internal sealed class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
+internal sealed class MyCustomQuote
+    : EquatableQuote<MyCustomQuote>, IQuote
 {
     // redirect inherited base properties
     DateTime ISeries.TickDate => CloseDate;

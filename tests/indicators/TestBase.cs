@@ -38,6 +38,8 @@ public abstract class SeriesTestBase : TestQuoteBase
     internal readonly DateTime evalDate
         = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
 
+    // TODO: once caught up, make these abstract instead of virtual
+
     [TestMethod]
     public virtual void Standard()
     {
