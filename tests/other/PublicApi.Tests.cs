@@ -17,7 +17,8 @@ internal sealed class MyEma : IResult
     public double? Ema { get; set; }
 }
 
-internal sealed class MyCustomQuote: EquatableQuote, IQuote
+internal sealed class MyCustomQuote
+    : EquatableQuote, IQuote
 {
     // override, redirect required properties
     public override DateTime TickDate => CloseDate;
