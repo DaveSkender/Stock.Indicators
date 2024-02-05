@@ -41,7 +41,7 @@ public abstract class ChainObserver<TResult>
         }
 
         // rebuild from date
-        DateTime fromDate = ChainSupplier.Chain[0].TickDate;
+        DateTime fromDate = ChainSupplier.Chain[0].Timestamp;
         RebuildCache(fromDate);
     }
 
@@ -74,7 +74,7 @@ public abstract class ChainObserver<TResult>
         }
 
         // reset from date
-        DateTime fromDate = Chain[0].TickDate;
+        DateTime fromDate = Chain[0].Timestamp;
         ClearCache(fromDate);
     }
 

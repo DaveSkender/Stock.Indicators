@@ -7,7 +7,7 @@ public static partial class Indicator
     // SERIES, from Quotes
     /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
     ///
-    public static IEnumerable<(DateTime TickDate, double Value)> Use<TQuote>(
+    public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote

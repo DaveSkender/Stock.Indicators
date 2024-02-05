@@ -85,7 +85,7 @@ public static partial class Indicator
         }
 
         // add first point to results
-        ZigZagResult firstResult = new() { TickDate = q0.TickDate };
+        ZigZagResult firstResult = new() { Timestamp = q0.Timestamp };
         results.Add(firstResult);
 
         // find and draw lines
@@ -196,7 +196,7 @@ public static partial class Indicator
 
                 ZigZagResult result = new()
                 {
-                    TickDate = q.TickDate,
+                    Timestamp = q.Timestamp,
                     ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
                         lastPoint.Value + (increment * (index - lastPoint.Index)) : null,
                     PointType = (index == nextPoint.Index) ? nextPoint.PointType : null

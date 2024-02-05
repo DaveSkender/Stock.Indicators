@@ -44,7 +44,7 @@ IEnumerable<FisherTransformResult>
 
 ### FisherTransformResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Fisher`** _`double`_ - Fisher Transform
 

@@ -47,7 +47,7 @@ IEnumerable<UltimateResult>
 
 ### UltimateResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ultimate`** _`double`_ - Ultimate Oscillator
 

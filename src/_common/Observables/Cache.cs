@@ -73,7 +73,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
 
         // REPEAT AND OVERFLOW PROTECTION
 
-        if (r.TickDate == LastArrival.TickDate)
+        if (r.Timestamp == LastArrival.Timestamp)
         {
             // note: we have a better IsEqual() comparison method below,
             // but it is too expensive as an initial quick evaluation.
@@ -129,7 +129,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
         ISeries last = cache[length - 1];
 
         // newer
-        if (r.TickDate > last.TickDate)
+        if (r.Timestamp > last.Timestamp)
         {
             act = Act.AddNew;
         }
@@ -139,7 +139,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
         {
             // seek duplicate
             int foundIndex = cache
-                .FindIndex(x => x.TickDate == r.TickDate);
+                .FindIndex(x => x.Timestamp == r.Timestamp);
 
             // replace duplicate
             act = foundIndex == -1 ? Act.AddOld : Act.UpdateOld;
@@ -165,7 +165,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
          *
          * This performs the actual modification to the cache.
          * If the indicator is also a chain provider, also add to the
-         * standard observable tuple format.  TickDate and value parity
+         * standard observable tuple format.  Timestamp and value parity
          * must be maintained between these two cache and chain repos.
          *
          * Historically, we've had trouble simply reusing the cache
@@ -177,9 +177,9 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
          */
 
         List<TSeries> cache = Cache;
-        List<(DateTime TickDate, double Value)> chain = Chain;
+        List<(DateTime Timestamp, double Value)> chain = Chain;
 
-        (DateTime TickDate, double) t = (r.TickDate, value);
+        (DateTime Timestamp, double) t = (r.Timestamp, value);
 
         // execute action
         switch (act)
@@ -198,7 +198,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             case Act.AddOld:
 
                 // find
-                int ao = Cache.FindIndex(x => x.TickDate > r.TickDate);
+                int ao = Cache.FindIndex(x => x.Timestamp > r.Timestamp);
 
                 // insert
                 if (ao != -1)
@@ -222,7 +222,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             case Act.UpdateOld:
 
                 // find
-                int uo = Cache.FindIndex(r.TickDate);
+                int uo = Cache.FindIndex(r.Timestamp);
 
                 // replace
                 if (uo != -1)
@@ -246,7 +246,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             case Act.Delete:
 
                 // find
-                int d = cache.FindIndex(r.TickDate);
+                int d = cache.FindIndex(r.Timestamp);
 
                 // delete
                 if (d != -1)

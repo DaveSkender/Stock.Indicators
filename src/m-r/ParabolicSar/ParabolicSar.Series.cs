@@ -38,7 +38,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ParabolicSarResult r = new() { TickDate = q.TickDate };
+            ParabolicSarResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // skip first one
@@ -144,7 +144,7 @@ public static partial class Indicator
         // remove first trendline since it is an invalid guess
         ParabolicSarResult? firstReversal = results
             .Where(x => x.IsReversal == true)
-            .OrderBy(x => x.TickDate)
+            .OrderBy(x => x.Timestamp)
             .FirstOrDefault();
 
         int cutIndex = (firstReversal != null)

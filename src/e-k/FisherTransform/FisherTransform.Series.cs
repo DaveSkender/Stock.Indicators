@@ -32,7 +32,7 @@ public static partial class Indicator
                 maxPrice = Math.Max(pr[p], maxPrice);
             }
 
-            FisherTransformResult r = new() { TickDate = date };
+            FisherTransformResult r = new() { Timestamp = date };
             results.Add(r);
 
             if (i > 0)

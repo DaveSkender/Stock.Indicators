@@ -47,7 +47,7 @@ IEnumerable<SlopeResult>
 
 ### SlopeResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Slope`** _`double`_ - Slope `m` of the best-fit line of price
 

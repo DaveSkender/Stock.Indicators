@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<AlligatorResult> CalcAlligator(
-        this List<(DateTime TickDate, double Value)> tpList,
+        this List<(DateTime Timestamp, double Value)> tpList,
         int jawPeriods,
         int jawOffset,
         int teethPeriods,
@@ -27,7 +27,7 @@ public static partial class Indicator
 
         List<AlligatorResult> results =
             tpList
-            .Select(x => new AlligatorResult { TickDate = x.TickDate })
+            .Select(x => new AlligatorResult { Timestamp = x.Timestamp })
             .ToList();
 
         // roll through quotes

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class StdDevResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public double? StdDev { get; set; }
     public double? Mean { get; set; }
     public double? ZScore { get; set; }

@@ -27,10 +27,10 @@ public static partial class Indicator
         IEnumerable<IReusableResult> quotesB,
         int lookbackPeriods)
     {
-        List<(DateTime TickDate, double Value)> tpListA
+        List<(DateTime Timestamp, double Value)> tpListA
             = quotesA.ToTupleResult();
 
-        List<(DateTime TickDate, double Value)> tpListB
+        List<(DateTime Timestamp, double Value)> tpListB
             = quotesB.ToTupleResult();
 
         return CalcCorrelation(tpListA, tpListB, lookbackPeriods);

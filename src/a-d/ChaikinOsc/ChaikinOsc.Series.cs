@@ -16,7 +16,7 @@ public static partial class Indicator
         List<ChaikinOscResult> results = qdList.CalcAdl()
             .Select(r => new ChaikinOscResult
             {
-                TickDate = r.TickDate,
+                Timestamp = r.Timestamp,
                 MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                 MoneyFlowVolume = r.MoneyFlowVolume,
                 Adl = r.Adl
@@ -24,9 +24,9 @@ public static partial class Indicator
             .ToList();
 
         // EMA of ADL
-        List<(DateTime TickDate, double)> tpAdl = results
+        List<(DateTime Timestamp, double)> tpAdl = results
             .Select(x => (
-                x.TickDate, (double)(x.Adl ?? double.NaN)))
+                x.Timestamp, (double)(x.Adl ?? double.NaN)))
             .ToList();
 
         List<EmaResult> adlEmaSlow = tpAdl.CalcEma(slowPeriods);

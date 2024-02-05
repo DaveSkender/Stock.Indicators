@@ -42,7 +42,7 @@ public abstract class QuoteObserver<TQuote, TResult>
         }
 
         // rebuild from date
-        DateTime fromDate = QuoteSupplier.Cache[0].TickDate;
+        DateTime fromDate = QuoteSupplier.Cache[0].Timestamp;
         RebuildCache(fromDate);
     }
 
@@ -75,7 +75,7 @@ public abstract class QuoteObserver<TQuote, TResult>
         }
 
         // reset from date
-        DateTime fromDate = Cache[0].TickDate;
+        DateTime fromDate = Cache[0].Timestamp;
         ClearCache(fromDate);
     }
 

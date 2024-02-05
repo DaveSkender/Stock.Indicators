@@ -36,7 +36,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
             sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
-            results.Add(new VolatilityStopResult { TickDate = date });
+            results.Add(new VolatilityStopResult { Timestamp = date });
         }
 
         // roll through quotes
@@ -49,7 +49,7 @@ public static partial class Indicator
 
             VolatilityStopResult r = new()
             {
-                TickDate = date,
+                Timestamp = date,
                 Sar = isLong ? sic - arc : sic + arc  // stop and reverse threshold
             };
             results.Add(r);
@@ -85,7 +85,7 @@ public static partial class Indicator
         // remove first trend to stop, since it is a guess
         VolatilityStopResult? firstStop = results
             .Where(x => x.IsStop == true)
-            .OrderBy(x => x.TickDate)
+            .OrderBy(x => x.Timestamp)
             .FirstOrDefault();
 
         if (firstStop != null)

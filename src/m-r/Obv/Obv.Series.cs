@@ -33,7 +33,7 @@ public static partial class Indicator
 
             ObvResult r = new()
             {
-                TickDate = q.TickDate,
+                Timestamp = q.Timestamp,
                 Obv = obv
             };
             results.Add(r);

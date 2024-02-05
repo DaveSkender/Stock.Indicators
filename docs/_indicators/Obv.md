@@ -39,7 +39,7 @@ IEnumerable<ObvResult>
 
 ### ObvResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Obv`** _`double`_ - On-balance Volume
 

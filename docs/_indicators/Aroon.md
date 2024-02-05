@@ -43,7 +43,7 @@ IEnumerable<AroonResult>
 
 ### AroonResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`AroonUp`** _`double`_ - Based on last High price
 

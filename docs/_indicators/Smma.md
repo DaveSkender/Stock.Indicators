@@ -45,7 +45,7 @@ IEnumerable<SmmaResult>
 
 ### SmmaResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Smma`** _`double`_ - Smoothed moving average
 

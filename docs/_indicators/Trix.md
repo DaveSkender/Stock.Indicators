@@ -45,7 +45,7 @@ IEnumerable<TrixResult>
 
 ### TrixResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ema3`** _`decimal`_ - 3 EMAs of the price
 

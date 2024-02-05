@@ -45,7 +45,7 @@ IEnumerable<BollingerBandsResult>
 
 ### BollingerBandsResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average (SMA) of price (center line)
 

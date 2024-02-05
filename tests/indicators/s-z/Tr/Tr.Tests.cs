@@ -55,7 +55,7 @@ public class TrTests : SeriesTestBase
             SmmaResult r = results[i];
             AtrResult a = atrResults[i];
 
-            Assert.AreEqual(a.TickDate, r.TickDate);
+            Assert.AreEqual(a.Timestamp, r.Timestamp);
             Assert.AreEqual(a.Atr, r.Smma);
         }
     }

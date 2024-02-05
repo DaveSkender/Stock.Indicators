@@ -36,7 +36,7 @@ public static partial class Indicator
             (DateTime date, double price) = tpList[i];
 
             // initialize
-            TsiResult r = new() { TickDate = date };
+            TsiResult r = new() { Timestamp = date };
             results.Add(r);
 
             // skip first period

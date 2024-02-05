@@ -22,7 +22,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            SmmaResult r = new() { TickDate = date };
+            SmmaResult r = new() { Timestamp = date };
             results.Add(r);
 
             // skip incalculable periods

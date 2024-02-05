@@ -59,7 +59,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             SmaResult s = seriesList[i];
             SmaResult r = streamList[i];
 
-            Assert.AreEqual(s.TickDate, r.TickDate);
+            Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Sma, r.Sma);
         }
 
@@ -108,7 +108,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             EmaResult s = seriesList[i];
             EmaResult r = streamList[i];
 
-            Assert.AreEqual(s.TickDate, r.TickDate);
+            Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Ema, r.Ema);
         }
 
@@ -161,7 +161,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             SmaResult s = staticSma[i];
             SmaResult r = streamSma[i];
 
-            Assert.AreEqual(s.TickDate, r.TickDate);
+            Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Sma, r.Sma);
         }
     }

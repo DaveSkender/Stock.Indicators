@@ -49,7 +49,7 @@ IEnumerable<StarcBandsResult>
 
 ### StarcBandsResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - Upper STARC band
 

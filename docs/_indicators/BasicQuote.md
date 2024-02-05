@@ -40,7 +40,7 @@ IEnumerable<BasicResult>
 
 ### BasicResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Value`** _`double`_ - Price of `CandlePart` option
 

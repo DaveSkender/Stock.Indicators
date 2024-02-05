@@ -87,7 +87,7 @@ public class WmaTests : SeriesTestBase
             WmaResult s = standard[i];
             WmaResult c = results[i];
 
-            Assert.AreEqual(s.TickDate, c.TickDate);
+            Assert.AreEqual(s.Timestamp, c.Timestamp);
             Assert.AreEqual(s.Wma, c.Wma);
         }
     }

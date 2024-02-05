@@ -42,7 +42,7 @@ IEnumerable<HtlResult>
 
 ### HtlResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`DcPeriods`** _`int`_ - Dominant cycle periods (smoothed)
 

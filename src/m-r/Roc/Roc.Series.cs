@@ -19,7 +19,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            RocResult r = new() { TickDate = date };
+            RocResult r = new() { Timestamp = date };
             results.Add(r);
 
             if (i + 1 > lookbackPeriods)

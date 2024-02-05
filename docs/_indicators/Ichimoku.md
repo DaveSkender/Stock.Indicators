@@ -63,7 +63,7 @@ IEnumerable<IchimokuResult>
 
 ### IchimokuResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`TenkanSen`** _`decimal`_ - Conversion / signal line
 

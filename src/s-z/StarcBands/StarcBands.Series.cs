@@ -21,7 +21,7 @@ public static partial class Indicator
             .CalcSma(smaPeriods)
             .Select(x => new StarcBandsResult
             {
-                TickDate = x.TickDate,
+                Timestamp = x.Timestamp,
                 Centerline = x.Sma
             })
             .ToList();

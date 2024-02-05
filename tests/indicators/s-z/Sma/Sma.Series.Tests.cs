@@ -62,7 +62,7 @@ public class SmaSeriesTests : SeriesTestBase
         Assert.AreEqual(157958070.8, r290.Sma);
 
         SmaResult r501 = results[501];
-        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.TickDate);
+        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.Timestamp);
         Assert.AreEqual(163695200, r501.Sma);
     }
 
@@ -144,19 +144,19 @@ public class SmaSeriesTests : SeriesTestBase
     {
         SmaResult r1 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Sma = 1d
         };
 
         SmaResult r2 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Sma = 1d
         };
 
         SmaResult r3 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Sma = 2d
         };
 

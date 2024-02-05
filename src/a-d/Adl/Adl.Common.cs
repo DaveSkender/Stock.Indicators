@@ -23,7 +23,7 @@ public static class Adl
 
         return new AdlResult
         {
-            TickDate = DateTime.MinValue,
+            Timestamp = DateTime.MinValue,
             MoneyFlowMultiplier = mfm,
             MoneyFlowVolume = mfv,
             Adl = adl

@@ -49,6 +49,10 @@ Items marked with &#128681; require special attention since they will not produc
 
 - Result classes were changes to `record` class types.  This will only impact rare cases where result classes are used for base inheritance.
 
+- Quote class (built-in) was changed to `record` class type.
+
+- `Date` property was widely renamed to `Timestamp` to avoid conflict with C# reserved name.
+
 - `IQuote` customization now has to be `IEquatable<T>` type to support streaming operations.  See [the Guide](/guide) for more information.
 
 - `BasicData` class was renamed to `BasicResult` for consistency with other return types.

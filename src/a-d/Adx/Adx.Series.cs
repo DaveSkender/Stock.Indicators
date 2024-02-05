@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AdxResult r = new() { TickDate = q.TickDate };
+            AdxResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // skip first period

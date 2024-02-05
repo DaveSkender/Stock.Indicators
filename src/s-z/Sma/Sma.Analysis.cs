@@ -12,7 +12,7 @@ public static partial class Indicator
             .CalcSma(lookbackPeriods)
             .Select(x => new SmaAnalysis
             {
-                TickDate = x.TickDate,
+                Timestamp = x.Timestamp,
                 Sma = x.Sma
             })
             .ToList();

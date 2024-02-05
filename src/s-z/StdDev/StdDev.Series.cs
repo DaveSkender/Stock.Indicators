@@ -20,7 +20,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            StdDevResult r = new() { TickDate = date };
+            StdDevResult r = new() { Timestamp = date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)

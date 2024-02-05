@@ -99,7 +99,7 @@ public class AdxSeriesTests : SeriesTestBase
         IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.TickDate);
+            .OrderByDescending(x => x.Timestamp);
 
         List<AdxResult> r = test859.GetAdx(14).ToList();
 

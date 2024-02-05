@@ -96,7 +96,7 @@ public class QuoteProviderTests : StreamTestBase
                 // use newly defined quote each time
                 provider.Add(new Quote()
                 {
-                    TickDate = date,
+                    Timestamp = date,
                     Open = 2,
                     High = 4,
                     Low = 1,
@@ -124,7 +124,7 @@ public class QuoteProviderTests : StreamTestBase
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.Add(new Quote() { TickDate = date });
+                provider.Add(new Quote() { Timestamp = date });
             }
         });
 

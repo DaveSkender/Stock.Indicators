@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class HtlResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public int? DcPeriods { get; set; }
     public double? Trendline { get; set; }
     public double? SmoothPrice { get; set; }

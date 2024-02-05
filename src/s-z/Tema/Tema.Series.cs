@@ -26,7 +26,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            TemaResult r = new() { TickDate = date };
+            TemaResult r = new() { Timestamp = date };
             results.Add(r);
 
             // skip incalculable periods

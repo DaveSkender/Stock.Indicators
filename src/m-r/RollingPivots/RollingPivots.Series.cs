@@ -25,7 +25,7 @@ public static partial class Indicator
 
             RollingPivotsResult r = new()
             {
-                TickDate = q.TickDate
+                Timestamp = q.Timestamp
             };
 
             if (i >= windowPeriods + offsetPeriods)

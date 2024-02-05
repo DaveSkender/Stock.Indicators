@@ -20,7 +20,7 @@ public interface IQuote : ISeries, IEquatable<IQuote>
 /// </summary>
 public record class Quote : IQuote
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
@@ -35,7 +35,7 @@ public record class Quote : IQuote
 
 public abstract class EquatableQuote : IQuote
 {
-    public virtual DateTime TickDate { get; set; }
+    public virtual DateTime Timestamp { get; set; }
     public virtual decimal Open { get; set; }
     public virtual decimal High { get; set; }
     public virtual decimal Low { get; set; }
@@ -65,7 +65,7 @@ public abstract class EquatableQuote : IQuote
         }
 
         // deep compare
-        return TickDate == other.TickDate
+        return Timestamp == other.Timestamp
             && Open == other.Open
             && High == other.High
             && Low == other.Low
@@ -100,12 +100,12 @@ public abstract class EquatableQuote : IQuote
 
     public override int GetHashCode()
     => HashCode.Combine(
-            TickDate, Open, High, Low, Close, Volume);
+            Timestamp, Open, High, Low, Close, Volume);
 }
 
 internal class QuoteD
 {
-    internal DateTime TickDate { get; set; }
+    internal DateTime Timestamp { get; set; }
     internal double Open { get; set; }
     internal double High { get; set; }
     internal double Low { get; set; }

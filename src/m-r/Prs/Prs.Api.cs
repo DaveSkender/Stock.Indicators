@@ -26,10 +26,10 @@ public static partial class Indicator
         IEnumerable<IReusableResult> quotesBase,
         int? lookbackPeriods = null)
     {
-        List<(DateTime TickDate, double Value)> tpListEval
+        List<(DateTime Timestamp, double Value)> tpListEval
             = quotesEval.ToTupleResult();
 
-        List<(DateTime TickDate, double Value)> tpListBase
+        List<(DateTime Timestamp, double Value)> tpListBase
             = quotesBase.ToTupleResult();
 
         return CalcPrs(tpListEval, tpListBase, lookbackPeriods);

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class ChaikinOscResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public double? MoneyFlowMultiplier { get; set; }
     public double? MoneyFlowVolume { get; set; }
     public double? Adl { get; set; }

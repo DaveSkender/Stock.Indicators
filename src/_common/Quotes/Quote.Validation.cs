@@ -19,13 +19,13 @@ public static partial class QuoteUtility
         DateTime lastDate = DateTime.MinValue;
         foreach (var q in quotesList)
         {
-            if (lastDate == q.TickDate)
+            if (lastDate == q.Timestamp)
             {
                 throw new InvalidQuotesException(
-                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.TickDate));
+                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Timestamp));
             }
 
-            lastDate = q.TickDate;
+            lastDate = q.Timestamp;
         }
 
         return quotesList;

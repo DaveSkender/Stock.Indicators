@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public class GatorResult : IResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public double? Upper { get; set; }
     public double? Lower { get; set; }
 

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class RenkoResult : IResult, IQuote
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }

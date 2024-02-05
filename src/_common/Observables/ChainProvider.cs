@@ -16,7 +16,7 @@ public abstract class ChainProvider : IChainProvider
 
     // PROPERTIES
 
-    internal List<(DateTime TickDate, double Value)> Chain;
+    internal List<(DateTime Timestamp, double Value)> Chain;
 
     // METHODS
 
@@ -59,7 +59,7 @@ public abstract class ChainProvider : IChainProvider
 
     // notify observers (helper, for IReusableResult)
     internal void NotifyObservers(Act act, IReusableResult r)
-        => NotifyObservers((act, r.TickDate, r.Value));
+        => NotifyObservers((act, r.Timestamp, r.Value));
 
     // unsubscriber
     private class Unsubscriber(

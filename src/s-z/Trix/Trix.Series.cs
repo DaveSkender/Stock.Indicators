@@ -25,7 +25,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            TrixResult r = new() { TickDate = date };
+            TrixResult r = new() { Timestamp = date };
             results.Add(r);
 
             // skip incalculable periods

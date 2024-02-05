@@ -119,7 +119,7 @@ public class WilliamsRTests : SeriesTestBase
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.TickDate);
+            .OrderByDescending(x => x.Timestamp);
 
         List<Quote> quotesList = test1127.ToList();
         int length = quotesList.Count;
@@ -137,7 +137,7 @@ public class WilliamsRTests : SeriesTestBase
             Quote q = quotesList[i];
             WilliamsResult r = resultsList[i];
 
-            Console.WriteLine($"{q.TickDate:s} {r.WilliamsR}");
+            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 
             if (r.WilliamsR is not null)
             {

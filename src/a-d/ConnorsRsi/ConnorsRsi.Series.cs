@@ -19,8 +19,8 @@ public static partial class Indicator
         int length = results.Count;
 
         // RSI of streak
-        List<(DateTime TickDate, double Streak)> bdStreak = results
-            .Select(x => (x.TickDate, x.Streak))
+        List<(DateTime Timestamp, double Streak)> bdStreak = results
+            .Select(x => (x.Timestamp, x.Streak))
             .ToList();
 
         List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
@@ -65,7 +65,7 @@ public static partial class Indicator
 
             ConnorsRsiResult r = new()
             {
-                TickDate = date,
+                Timestamp = date,
                 Rsi = rsiResults[i].Rsi
             };
             results.Add(r);

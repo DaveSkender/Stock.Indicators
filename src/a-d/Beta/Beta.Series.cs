@@ -36,7 +36,7 @@ public static partial class Indicator
             if (eDate != mDate)
             {
                 throw new InvalidQuotesException(nameof(tpListEval), eDate,
-                    "TickDate sequence does not match.  Beta requires matching dates in provided quotes.");
+                    "Timestamp sequence does not match.  Beta requires matching dates in provided quotes.");
             }
 
             evalReturns[i] = prevE != 0 ? (eValue / prevE) - 1d : 0;
@@ -53,7 +53,7 @@ public static partial class Indicator
 
             BetaResult r = new()
             {
-                TickDate = date,
+                Timestamp = date,
                 ReturnsEval = evalReturns[i],
                 ReturnsMrkt = mrktReturns[i]
             };
@@ -107,7 +107,7 @@ public static partial class Indicator
         // note: BetaType.All is ineligible for this method
 
         // initialize
-        CorrResult c = new() { TickDate = r.TickDate };
+        CorrResult c = new() { Timestamp = r.Timestamp };
 
         List<double> dataA = new(lookbackPeriods);
         List<double> dataB = new(lookbackPeriods);

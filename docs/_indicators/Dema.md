@@ -47,7 +47,7 @@ IEnumerable<DemaResult>
 
 ### DemaResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Dema`** _`double`_ - Double exponential moving average
 

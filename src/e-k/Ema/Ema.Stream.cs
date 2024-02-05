@@ -80,7 +80,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
         // candidate result
         EmaResult r = new()
         {
-            TickDate = value.date,
+            Timestamp = value.date,
             Ema = ema.NaN2Null()
         };
 
@@ -99,8 +99,8 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
             // note: intuitively an update would be more proficient than delete and replay; however,
             // given the chain reaction of observer rebuilds, delete and rebuild is the most humane.
 
-            ClearCache(r.TickDate);
-            RebuildCache(r.TickDate);
+            ClearCache(r.Timestamp);
+            RebuildCache(r.Timestamp);
         }
     }
 

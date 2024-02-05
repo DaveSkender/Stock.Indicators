@@ -25,7 +25,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ChandelierResult r = new() { TickDate = q.TickDate };
+            ChandelierResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // add exit values

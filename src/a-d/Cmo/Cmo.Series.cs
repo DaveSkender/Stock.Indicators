@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<CmoResult> CalcCmo(
-        this List<(DateTime TickDate, double Value)> tpList,
+        this List<(DateTime Timestamp, double Value)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -25,7 +25,7 @@ public static partial class Indicator
         // initialize, add first records
         double prevPrice = tpList[0].Value;
 
-        results.Add(new CmoResult { TickDate = tpList[0].TickDate });
+        results.Add(new CmoResult { Timestamp = tpList[0].Timestamp });
         ticks.Add((null, double.NaN));
 
         // roll through remaining prices
@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             (DateTime date, double price) = tpList[i];
 
-            CmoResult r = new() { TickDate = date };
+            CmoResult r = new() { Timestamp = date };
             results.Add(r);
 
             // determine tick direction and size

@@ -35,7 +35,7 @@ public class BaseQuoteTests : SeriesTestBase
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, rc.TickDate);
+        Assert.AreEqual(lastDate, rc.Timestamp);
 
         // last values should be correct
         Assert.AreEqual(244.92, ro.Value);
@@ -53,7 +53,7 @@ public class BaseQuoteTests : SeriesTestBase
     [TestMethod]
     public void Use()
     {
-        List<(DateTime TickDate, double Value)> results = quotes
+        List<(DateTime Timestamp, double Value)> results = quotes
             .Use(CandlePart.Close)
             .ToList();
 

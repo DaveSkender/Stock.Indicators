@@ -22,7 +22,7 @@ public static partial class Indicator
           .CalcMacd(fastPeriods, slowPeriods, 1)
           .Select(x => new QuoteD
           {
-              TickDate = x.TickDate,
+              Timestamp = x.Timestamp,
               High = x.Macd.Null2NaN(),
               Low = x.Macd.Null2NaN(),
               Close = x.Macd.Null2NaN()
@@ -36,7 +36,7 @@ public static partial class Indicator
             StochResult r = stochMacd[i];
             results.Add(new StcResult
             {
-                TickDate = r.TickDate,
+                Timestamp = r.Timestamp,
                 Stc = r.Oscillator
             });
         }

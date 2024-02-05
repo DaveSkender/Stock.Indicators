@@ -34,7 +34,7 @@ var results = quotes
 
 ### Sort quotes
 
-`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `TickDate`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Timestamp`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
 
 ### Resize quote history
 
@@ -150,9 +150,9 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Using tuple results
 
-`results.ToTupleCollection()` converts results to a simpler `(DateTime TickDate, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
+`results.ToTupleCollection()` converts results to a simpler `(DateTime Timestamp, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
 
-`results.ToTupleNaN()` converts results to simpler `(DateTime TickDate, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
+`results.ToTupleNaN()` converts results to simpler `(DateTime Timestamp, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
 
 `results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
 
@@ -160,7 +160,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Sort results
 
-`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `TickDate`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 

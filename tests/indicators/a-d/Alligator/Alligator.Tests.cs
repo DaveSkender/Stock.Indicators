@@ -145,19 +145,19 @@ public class AlligatorTests : SeriesTestBase
     {
         AlligatorResult r1 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Jaw = 1d
         };
 
         AlligatorResult r2 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Jaw = 1d
         };
 
         AlligatorResult r3 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Jaw = 2d
         };
 

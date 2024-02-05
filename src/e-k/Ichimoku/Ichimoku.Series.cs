@@ -33,7 +33,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            IchimokuResult r = new() { TickDate = q.TickDate };
+            IchimokuResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // tenkan-sen conversion line

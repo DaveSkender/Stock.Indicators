@@ -43,7 +43,7 @@ IEnumerable<VwmaResult>
 
 ### VwmaResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Vwma`** _`double`_ - Volume Weighted Moving Average
 

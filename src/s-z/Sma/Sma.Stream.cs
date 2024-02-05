@@ -63,7 +63,7 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
         // candidate result
         SmaResult r = new()
         {
-            TickDate = value.date,
+            Timestamp = value.date,
             Sma = sma.NaN2Null()
         };
 
@@ -82,8 +82,8 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
             // note: intuitively an update would be more proficient than delete and replay; however,
             // given the chain reaction of observer rebuilds, delete and rebuild is the most humane.
 
-            ClearCache(r.TickDate);
-            RebuildCache(r.TickDate);
+            ClearCache(r.Timestamp);
+            RebuildCache(r.Timestamp);
         }
     }
 

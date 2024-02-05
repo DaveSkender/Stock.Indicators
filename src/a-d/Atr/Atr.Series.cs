@@ -25,7 +25,7 @@ public static partial class Indicator
             double lmpc;
             QuoteD q = qdList[i];
 
-            AtrResult r = new() { TickDate = q.TickDate };
+            AtrResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             if (i > 0)

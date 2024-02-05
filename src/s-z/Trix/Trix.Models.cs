@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class TrixResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public double? Ema3 { get; set; }
     public double? Trix { get; set; }
 

@@ -11,7 +11,7 @@ public class QuoteEqualityTests : TestQuoteBase
     {
         Quote q1 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -21,7 +21,7 @@ public class QuoteEqualityTests : TestQuoteBase
 
         Quote q2 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -31,7 +31,7 @@ public class QuoteEqualityTests : TestQuoteBase
 
         Quote q3 = new()
         {
-            TickDate = evalDate,
+            Timestamp = evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,

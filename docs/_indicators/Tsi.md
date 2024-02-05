@@ -51,7 +51,7 @@ IEnumerable<TsiResult>
 
 ### TsiResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tsi`** _`double`_ - True Strength Index
 

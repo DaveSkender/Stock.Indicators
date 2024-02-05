@@ -48,7 +48,7 @@ public class ChainProviderTests : StreamTestBase
             (DateTime date, double value) = seriesList[i];
             UseResult r = resultsList[i];
 
-            Assert.AreEqual(date, r.TickDate);
+            Assert.AreEqual(date, r.Timestamp);
             Assert.AreEqual(value, r.Value);
         }
 
@@ -105,11 +105,11 @@ public class ChainProviderTests : StreamTestBase
             (DateTime date, double value) = ema.Chain[i];
 
             // compare series
-            Assert.AreEqual(s.TickDate, r.TickDate);
+            Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Ema, r.Ema);
 
             // compare chain cache
-            Assert.AreEqual(r.TickDate, date);
+            Assert.AreEqual(r.Timestamp, date);
             Assert.AreEqual(r.Ema.Null2NaN(), value);
         }
     }
@@ -149,14 +149,14 @@ public class ChainProviderTests : StreamTestBase
         {
             Quote q = quotesList[i];
             UseResult r = observer.Cache[i];
-            (DateTime TickDate, double Value) = observer.Chain[i];
+            (DateTime Timestamp, double Value) = observer.Chain[i];
 
             // compare quote to result cache
-            Assert.AreEqual(q.TickDate, r.TickDate);
+            Assert.AreEqual(q.Timestamp, r.Timestamp);
             Assert.AreEqual((double)q.Close, r.Value);
 
             // compare result to chain cache
-            Assert.AreEqual(r.TickDate, TickDate);
+            Assert.AreEqual(r.Timestamp, Timestamp);
             Assert.AreEqual(r.Value, Value);
         }
 
@@ -176,7 +176,7 @@ public class ChainProviderTests : StreamTestBase
         // add too many duplicates
         Assert.ThrowsException<OverflowException>(() =>
         {
-            Quote q = new() { TickDate = DateTime.Now };
+            Quote q = new() { Timestamp = DateTime.Now };
 
             for (int i = 0; i <= 101; i++)
             {

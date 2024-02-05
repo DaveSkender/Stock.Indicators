@@ -26,7 +26,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            UltimateResult r = new() { TickDate = q.TickDate };
+            UltimateResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             if (i > 0)

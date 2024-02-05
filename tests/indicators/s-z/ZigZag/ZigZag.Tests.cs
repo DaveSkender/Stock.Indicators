@@ -205,7 +205,7 @@ public class ZigZagTests : SeriesTestBase
 
         List<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.TickDate)
+            .OrderBy(x => x.Timestamp)
             .ToList();
 
         List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();

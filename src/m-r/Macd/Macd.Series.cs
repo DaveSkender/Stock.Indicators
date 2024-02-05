@@ -30,7 +30,7 @@ public static partial class Indicator
 
             MacdResult r = new()
             {
-                TickDate = date,
+                Timestamp = date,
                 FastEma = df.Ema,
                 SlowEma = ds.Ema
             };

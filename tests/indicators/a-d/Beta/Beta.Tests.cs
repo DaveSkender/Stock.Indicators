@@ -253,28 +253,28 @@ public class BetaTests : SeriesTestBase
     {
         List<Quote> quoteA =
         [
-            new Quote { TickDate = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/4/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/5/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/6/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
+            new Quote { Timestamp = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/4/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/5/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/6/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
         ];
 
         List<Quote> quoteB =
         [
-            new Quote { TickDate = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("2/4/2020", EnglishCulture), Close = 1234 }, // abberrant
-            new Quote { TickDate = DateTime.Parse("1/5/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/6/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
-            new Quote { TickDate = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
+            new Quote { Timestamp = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("2/4/2020", EnglishCulture), Close = 1234 }, // abberrant
+            new Quote { Timestamp = DateTime.Parse("1/5/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/6/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
+            new Quote { Timestamp = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
         ];
 
         Assert.ThrowsException<InvalidQuotesException>(()

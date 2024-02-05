@@ -45,7 +45,7 @@ IEnumerable<ElderRayResult>
 
 ### ElderRayResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Ema`** _`double`_ - Exponential moving average
 

@@ -4,7 +4,7 @@ namespace Tests.Indicators;
 public class VwapTests : SeriesTestBase
 {
     private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
-        .OrderBy(x => x.TickDate)
+        .OrderBy(x => x.Timestamp)
         .Take(391);
 
     [TestMethod]

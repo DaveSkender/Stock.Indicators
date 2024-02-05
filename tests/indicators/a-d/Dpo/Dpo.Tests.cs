@@ -21,13 +21,13 @@ public class DpoTests : SeriesTestBase
 
             qot.Add(new Quote
             {
-                TickDate = date,
+                Timestamp = date,
                 Close = csv[5].ToDecimal()
             });
 
             exp.Add(new DpoResult()
             {
-                TickDate = date,
+                Timestamp = date,
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()
             });
@@ -46,7 +46,7 @@ public class DpoTests : SeriesTestBase
             DpoResult e = exp[i];
             DpoResult a = act[i];
 
-            Assert.AreEqual(e.TickDate, a.TickDate);
+            Assert.AreEqual(e.Timestamp, a.Timestamp);
             Assert.AreEqual(e.Sma, a.Sma.Round(5), $"at index {i}");
             Assert.AreEqual(e.Dpo, a.Dpo.Round(5), $"at index {i}");
         }

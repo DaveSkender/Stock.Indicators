@@ -68,7 +68,7 @@ IEnumerable<StochResult>
 
 ### StochResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator` or `K`** _`double`_ - %K Oscillator
 

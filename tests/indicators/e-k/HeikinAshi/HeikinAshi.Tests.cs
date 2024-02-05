@@ -46,7 +46,7 @@ public class HeikinAshiTests : SeriesTestBase
             HeikinAshiResult r = results[i];
             Quote q = haQuotes[i];
 
-            Assert.AreEqual(r.TickDate, q.TickDate);
+            Assert.AreEqual(r.Timestamp, q.Timestamp);
             Assert.AreEqual(r.Open, q.Open);
             Assert.AreEqual(r.High, q.High);
             Assert.AreEqual(r.Low, q.Low);

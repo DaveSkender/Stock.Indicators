@@ -17,15 +17,15 @@ public class QuoteUtilityTests : TestQuoteBase
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].TickDate);
+        Assert.AreEqual(firstDate, h[0].Timestamp);
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().TickDate);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].TickDate);
+        Assert.AreEqual(spotDate, h[50].Timestamp);
     }
 
     [TestMethod]
@@ -40,15 +40,15 @@ public class QuoteUtilityTests : TestQuoteBase
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].TickDate);
+        Assert.AreEqual(firstDate, h[0].Timestamp);
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().TickDate);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].TickDate);
+        Assert.AreEqual(spotDate, h[50].Timestamp);
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class QuoteUtilityTests : TestQuoteBase
 
         Quote q = new()
         {
-            TickDate = d,
+            Timestamp = d,
             Open = o,
             High = h,
             Low = l,
@@ -121,7 +121,7 @@ public class QuoteUtilityTests : TestQuoteBase
     public void ToTupleCollection()
     {
         Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.TickDate)
+            .OrderBy(x => x.Timestamp)
             .ToTupleCollection(CandlePart.Close);
 
         Assert.IsNotNull(collection);
@@ -133,7 +133,7 @@ public class QuoteUtilityTests : TestQuoteBase
     public void ToSortedList()
     {
         Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.TickDate)
+            .OrderBy(x => x.Timestamp)
             .ToTuple(CandlePart.Close)
             .ToSortedCollection();
 
@@ -160,7 +160,7 @@ public class QuoteUtilityTests : TestQuoteBase
 
         Quote q = new()
         {
-            TickDate = d,
+            Timestamp = d,
             Open = o,
             High = h,
             Low = l,
@@ -222,7 +222,7 @@ public class QuoteUtilityTests : TestQuoteBase
 
         QuoteD q = new()
         {
-            TickDate = d,
+            Timestamp = d,
             Open = o,
             High = h,
             Low = l,

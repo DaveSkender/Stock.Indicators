@@ -23,7 +23,7 @@ public static partial class Indicator
             (DateTime date, double value) = tpList[i];
             pr[i] = value;
 
-            AwesomeResult r = new() { TickDate = date };
+            AwesomeResult r = new() { Timestamp = date };
             results.Add(r);
 
             if (i + 1 >= slowPeriods)

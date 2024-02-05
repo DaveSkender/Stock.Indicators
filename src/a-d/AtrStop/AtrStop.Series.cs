@@ -26,7 +26,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AtrStopResult r = new() { TickDate = q.TickDate };
+            AtrStopResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             if (i >= lookbackPeriods)

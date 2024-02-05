@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class PvoResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public double? Pvo { get; set; }
     public double? Signal { get; set; }
     public double? Histogram { get; set; }

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class BollingerBandsResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public double? Sma { get; set; }
     public double? UpperBand { get; set; }
     public double? LowerBand { get; set; }

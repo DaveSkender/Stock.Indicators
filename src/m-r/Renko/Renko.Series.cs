@@ -37,7 +37,7 @@ public static partial class Indicator
 
         RenkoResult lastBrick = new()
         {
-            TickDate = q0.TickDate,
+            Timestamp = q0.Timestamp,
             Open = baseline,
             Close = baseline
         };
@@ -86,7 +86,7 @@ public static partial class Indicator
 
                 RenkoResult r = new()
                 {
-                    TickDate = q.TickDate,
+                    Timestamp = q.Timestamp,
                     Open = baseline,
                     High = h,
                     Low = l,

@@ -99,7 +99,7 @@ public class QuoteStream
             // add to our provider
             provider.Add(new Quote
             {
-                TickDate = q.TimeUtc,
+                Timestamp = q.TimeUtc,
                 Open = q.Open,
                 High = q.High,
                 Low = q.Low,

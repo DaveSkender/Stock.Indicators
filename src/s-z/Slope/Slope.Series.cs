@@ -21,7 +21,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            SlopeResult r = new() { TickDate = date };
+            SlopeResult r = new() { Timestamp = date };
             results.Add(r);
 
             // skip initialization period

@@ -92,7 +92,7 @@ public class ParabolicSarTests : SeriesTestBase
         double maxAccelerationFactor = 0.2;
 
         IEnumerable<Quote> insufficientQuotes = TestData.GetDefault()
-            .OrderBy(x => x.TickDate)
+            .OrderBy(x => x.Timestamp)
             .Take(10);
 
         List<ParabolicSarResult> results =

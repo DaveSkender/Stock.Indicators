@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public sealed record class ZigZagResult : IReusableResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public decimal? ZigZag { get; set; } // zig zag line
     public string? PointType { get; set; } // indicates a specific point and type e.g. H or L
     public decimal? RetraceHigh { get; set; } // zig zag retrace high line

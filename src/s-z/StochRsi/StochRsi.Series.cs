@@ -23,7 +23,7 @@ public static partial class Indicator
         for (int i = 0; i < initPeriods; i++)
         {
             (DateTime date, double _) = tpList[i];
-            results.Add(new StochRsiResult { TickDate = date });
+            results.Add(new StochRsiResult { Timestamp = date });
         }
 
         // get Stochastic of RSI
@@ -33,7 +33,7 @@ public static partial class Indicator
             .Remove(Math.Min(rsiPeriods, length))
             .Select(x => new QuoteD
             {
-                TickDate = x.TickDate,
+                Timestamp = x.Timestamp,
                 High = x.Rsi.Null2NaN(),
                 Low = x.Rsi.Null2NaN(),
                 Close = x.Rsi.Null2NaN()
@@ -51,7 +51,7 @@ public static partial class Indicator
             StochResult r = stoResults[i - rsiPeriods];
             results.Add(new StochRsiResult
             {
-                TickDate = r.TickDate,
+                Timestamp = r.Timestamp,
                 StochRsi = r.Oscillator,
                 Signal = r.Signal
             });

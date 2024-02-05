@@ -26,11 +26,11 @@ public record class CandleResult : IResult
 {
     public CandleResult(DateTime date, Match match)
     {
-        TickDate = date;
+        Timestamp = date;
         Match = match;
     }
 
-    public DateTime TickDate { get; private set; }
+    public DateTime Timestamp { get; private set; }
     public decimal? Price { get; set; }
     public Match Match { get; set; }
     public CandleProperties Candle { get; set; } = new CandleProperties();

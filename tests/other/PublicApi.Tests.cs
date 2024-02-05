@@ -11,7 +11,7 @@ internal sealed record MyExtendedQuote : Quote
 
 internal sealed class MyEma : IResult
 {
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public int Id { get; set; }
     public bool MyProperty { get; set; }
     public double? Ema { get; set; }
@@ -21,7 +21,7 @@ internal sealed class MyCustomQuote
     : EquatableQuote, IQuote
 {
     // override, redirect required properties
-    public override DateTime TickDate => CloseDate;
+    public override DateTime Timestamp => CloseDate;
     public override decimal Close => CloseValue;
 
     // custom properties
@@ -54,7 +54,7 @@ public class PublicClassTests
         IEnumerable<Quote> h = quotes.Validate();
 
         Quote f = h.FirstOrDefault();
-        Console.WriteLine($"Date:{f.TickDate},Close:{f.Close}");
+        Console.WriteLine($"Date:{f.Timestamp},Close:{f.Close}");
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class PublicClassTests
         // can use a derive Quote class
         MyExtendedQuote myQuote = new()
         {
-            TickDate = DateTime.Now,
+            Timestamp = DateTime.Now,
             MyProperty = true
         };
 
@@ -81,7 +81,7 @@ public class PublicClassTests
         IEnumerable<MyExtendedQuote> myHistory = quotes
             .Select(x => new MyExtendedQuote
             {
-                TickDate = x.TickDate,
+                Timestamp = x.Timestamp,
                 MyClose = x.Close,
                 MyProperty = false
             });
@@ -95,7 +95,7 @@ public class PublicClassTests
         List<MyCustomQuote> myGenericHistory = TestData.GetDefault()
             .Select(x => new MyCustomQuote
             {
-                CloseDate = x.TickDate,
+                CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -175,7 +175,7 @@ public class PublicClassTests
         List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
             .Select(x => new MyCustomQuote
             {
-                CloseDate = x.TickDate,
+                CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -203,7 +203,7 @@ public class PublicClassTests
         List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
             .Select(x => new MyCustomQuote
             {
-                CloseDate = x.TickDate,
+                CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -231,7 +231,7 @@ public class PublicClassTests
         // can use a derive Indicator class
         MyEma myIndicator = new()
         {
-            TickDate = DateTime.Now,
+            Timestamp = DateTime.Now,
             Ema = 123.456,
             MyProperty = false
         };
@@ -251,7 +251,7 @@ public class PublicClassTests
             .Where(x => x.Ema != null)
             .Select(x => new MyEma
             {
-                TickDate = x.TickDate,
+                Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
             });
@@ -272,7 +272,7 @@ public class PublicClassTests
             .Select(x => new MyEma
             {
                 Id = 12345,
-                TickDate = x.TickDate,
+                Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
             });
@@ -358,13 +358,13 @@ public class PublicClassTests
             EmaResult sEma = staticEma[i];
             EmaResult rEma = streamEma[i];
 
-            Assert.AreEqual(sEma.TickDate, rEma.TickDate);
+            Assert.AreEqual(sEma.Timestamp, rEma.Timestamp);
             Assert.AreEqual(sEma.Ema, rEma.Ema);
 
             SmaResult sSma = staticSma[i];
             SmaResult rSma = streamSma[i];
 
-            Assert.AreEqual(sSma.TickDate, rSma.TickDate);
+            Assert.AreEqual(sSma.Timestamp, rSma.Timestamp);
             Assert.AreEqual(sSma.Sma, rSma.Sma);
         }
     }

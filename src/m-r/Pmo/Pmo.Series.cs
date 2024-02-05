@@ -33,7 +33,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double price) = tpList[i];
-            PmoResult r = new() { TickDate = date };
+            PmoResult r = new() { Timestamp = date };
             results.Add(r);
 
             // rate of change (ROC)

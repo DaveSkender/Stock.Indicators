@@ -16,13 +16,13 @@ public class Candles : SeriesTestBase
 
         // sample values
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, candles[0].TickDate);
+        Assert.AreEqual(firstDate, candles[0].Timestamp);
 
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, candles.LastOrDefault().TickDate);
+        Assert.AreEqual(lastDate, candles.LastOrDefault().Timestamp);
 
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, candles[50].TickDate);
+        Assert.AreEqual(spotDate, candles[50].Timestamp);
     }
 
     [TestMethod]

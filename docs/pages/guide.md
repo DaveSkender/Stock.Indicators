@@ -66,7 +66,7 @@ IEnumerable<SmaResult> results = quotes
 // use results as needed for your use case (example only)
 foreach (SmaResult r in results)
 {
-    Console.WriteLine($"SMA on {r.TickDate:d} was ${r.Sma:N4}");
+    Console.WriteLine($"SMA on {r.Timestamp:d} was ${r.Sma:N4}");
 }
 ```
 
@@ -93,7 +93,7 @@ You must provide historical price quotes to the library in the standard OHLCV `I
 
 | name | type | notes
 | -- |-- |--
-| `TickDate` | DateTime | Close date
+| `Timestamp` | DateTime | Close date
 | `Open` | decimal | Open price
 | `High` | decimal | High price
 | `Low` | decimal | Low price
@@ -128,7 +128,7 @@ using Skender.Stock.Indicators;
 public record class MyCustomQuote : IQuote
 {
     // required base properties
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
@@ -152,7 +152,7 @@ public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
     // however, if you prefer to explicitly define for clarity,
     // use the override keyword (optional)
 
-    public override DateTime TickDate { get; set; }
+    public override DateTime Timestamp { get; set; }
     public override decimal Open { get; set; }
     public override decimal High { get; set; }
     public override decimal Low { get; set; }
@@ -169,7 +169,7 @@ public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
 public class MyCustomQuote : IQuote
 {
     // required base properties
-    public DateTime TickDate { get; set; }
+    public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
@@ -187,7 +187,7 @@ public class MyCustomQuote : IQuote
     public static bool operator !=( ... ) { ... }
     public override int GetHashCode()
       => HashCode.Combine(
-         TickDate, Open, High, Low, Close, Volume);
+         Timestamp, Open, High, Low, Close, Volume);
 }
 ```
 
@@ -202,7 +202,7 @@ IEnumerable<SmaResult> results = myQuotes.GetSma(20);
 
 #### Using custom quote property names
 
-If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `TickDate`, it could be represented like this:
+If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `Timestamp`, it could be represented like this:
 
 ```csharp
 // if using record type
@@ -210,7 +210,7 @@ public record class MyCustomQuote : IQuote
 {
     // redirect required base properties
     // with your custom properties
-    public DateTime TickDate => CloseDate;
+    public DateTime Timestamp => CloseDate;
     public decimal Volume => Vol;
 
     // custom properties
@@ -226,7 +226,7 @@ public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
 {
     // override inherited, required base properties
     // with your custom properties
-    public override DateTime TickDate => CloseDate;
+    public override DateTime Timestamp => CloseDate;
     public override decimal Volume => Vol;
 
     // custom properties
@@ -236,7 +236,7 @@ public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
 }
 ```
 
-Note the use of explicit interface (property declaration is `ISeries.TickDate`), this is because having two properties that expose the same information can be confusing, this way `TickDate` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `TickDate` property will be hidden, avoiding confusion.
+Note the use of explicit interface (property declaration is `ISeries.Timestamp`), this is because having two properties that expose the same information can be confusing, this way `Timestamp` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Timestamp` property will be hidden, avoiding confusion.
 
 For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 

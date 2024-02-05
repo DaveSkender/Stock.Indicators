@@ -35,7 +35,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KvoResult r = new() { TickDate = q.TickDate };
+            KvoResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // trend basis comparator

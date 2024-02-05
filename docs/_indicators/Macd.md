@@ -49,7 +49,7 @@ IEnumerable<MacdResult>
 
 ### MacdResult
 
-**`TickDate`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Macd`** _`double`_ - The MACD line is the difference between slow and fast moving averages (`MACD = FastEma - SlowEma`)
 

@@ -27,7 +27,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            KamaResult r = new() { TickDate = date };
+            KamaResult r = new() { Timestamp = date };
             results.Add(r);
 
             // skip incalculable periods
