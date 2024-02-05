@@ -36,7 +36,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
             sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
-            results.Add(new VolatilityStopResult() { TickDate = date });
+            results.Add(new VolatilityStopResult { TickDate = date });
         }
 
         // roll through quotes

@@ -25,7 +25,7 @@ public static partial class Indicator
         // initialize, add first records
         double prevPrice = tpList[0].Value;
 
-        results.Add(new CmoResult() { TickDate = tpList[0].TickDate });
+        results.Add(new CmoResult { TickDate = tpList[0].TickDate });
         ticks.Add((null, double.NaN));
 
         // roll through remaining prices

@@ -27,7 +27,7 @@ public static partial class Indicator
 
         List<AlligatorResult> results =
             tpList
-            .Select(x => new AlligatorResult() { TickDate = x.TickDate })
+            .Select(x => new AlligatorResult { TickDate = x.TickDate })
             .ToList();
 
         // roll through quotes

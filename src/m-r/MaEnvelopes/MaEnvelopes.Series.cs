@@ -45,7 +45,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetAlma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             TickDate = x.TickDate,
             Centerline = x.Alma,

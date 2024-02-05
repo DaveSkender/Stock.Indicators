@@ -20,7 +20,7 @@ public static partial class Indicator
         List<PivotsResult> results
            = quotesList
             .CalcFractal(leftSpan, rightSpan, endType)
-            .Select(x => new PivotsResult()
+            .Select(x => new PivotsResult
             {
                 TickDate = x.TickDate,
                 HighPoint = x.FractalBear,
