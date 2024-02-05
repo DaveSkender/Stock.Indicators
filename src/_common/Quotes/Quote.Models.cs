@@ -12,9 +12,12 @@ public interface IQuote : ISeries, IEquatable<IQuote>
 
     // CS0567 C# Interfaces cannot contain conversion,
     // equality, or inequality operators (i.e. == or !=)
-    // and cannot be inforces here
+    // and cannot be inforced here
 }
 
+/// <summary>
+/// Built-in Quote type.
+/// </summary>
 public record class Quote : IQuote
 {
     public DateTime TickDate { get; set; }
@@ -24,6 +27,8 @@ public record class Quote : IQuote
     public decimal Close { get; set; }
     public decimal Volume { get; set; }
 
+    // this is only an appropriate
+    // implementation for record types
     public bool Equals(IQuote? other)
       => base.Equals(other);
 }
@@ -38,7 +43,7 @@ public abstract class EquatableQuote : IQuote
     public virtual decimal Volume { get; set; }
 
     public override bool Equals(object? obj)
-        => this.Equals(obj as IQuote);
+        => Equals(obj as IQuote);
 
     public bool Equals(IQuote? other)
     {
@@ -47,25 +52,25 @@ public abstract class EquatableQuote : IQuote
             return false;
         }
 
-        // Optimization for a common success case.
+        // same object reference
         if (ReferenceEquals(this, other))
         {
             return true;
         }
 
-        // If run-time types are not exactly the same, return false.
+        // mismatch object types
         if (GetType() != other.GetType())
         {
             return false;
         }
 
-        // Return true if the fields match.
-        return (TickDate == other.TickDate)
-            && (Open == other.Open)
-            && (High == other.High)
-            && (Low == other.Low)
-            && (Close == other.Close)
-            && (Volume == other.Volume);
+        // deep compare
+        return TickDate == other.TickDate
+            && Open == other.Open
+            && High == other.High
+            && Low == other.Low
+            && Close == other.Close
+            && Volume == other.Volume;
     }
 
     public static bool operator
@@ -75,24 +80,26 @@ public abstract class EquatableQuote : IQuote
         {
             if (rhs is null)
             {
-                // null == null = true.
+                // null == null = true
                 return true;
             }
 
-            // Only the left side is null.
+            // left side is null
             return false;
         }
 
-        // Equals handles the case of null on right side.
+        // null on right side also handled
         return lhs.Equals(rhs);
     }
 
     public static bool operator
         !=(EquatableQuote lhs, EquatableQuote rhs)
-          => !(lhs == rhs);
+    {
+        return !(lhs == rhs);
+    }
 
     public override int GetHashCode()
-        => HashCode.Combine(
+    => HashCode.Combine(
             TickDate, Open, High, Low, Close, Volume);
 }
 

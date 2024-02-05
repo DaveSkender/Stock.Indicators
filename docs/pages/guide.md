@@ -185,7 +185,9 @@ public class MyCustomQuote : IQuote
     public bool Equals(MyCustomQuote? other) { ... }
     public static bool operator ==( ... ) { ... }
     public static bool operator !=( ... ) { ... }
-    public override int GetHashCode() { ... }
+    public override int GetHashCode()
+      => HashCode.Combine(
+         TickDate, Open, High, Low, Close, Volume);
 }
 ```
 
@@ -203,12 +205,29 @@ IEnumerable<SmaResult> results = myQuotes.GetSma(20);
 If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `TickDate`, it could be represented like this:
 
 ```csharp
-public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote // + ISeries
+// if using record type
+public record class MyCustomQuote : IQuote
 {
-    // required base properties
-    DateTime ISeries.TickDate => CloseDate;
-    public override decimal Open { get; set; }  // optional
-    decimal IQuote.Volume => Vol;
+    // redirect required base properties
+    // with your custom properties
+    public DateTime TickDate => CloseDate;
+    public decimal Volume => Vol;
+
+    // custom properties
+    public int MyOtherProperty { get; set; }
+    public DateTime CloseDate { get; set; }
+    public decimal Vol { get; set; }
+}
+```
+
+```csharp
+// if using inherited equatable class type
+public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
+{
+    // override inherited, required base properties
+    // with your custom properties
+    public override DateTime TickDate => CloseDate;
+    public override decimal Volume => Vol;
 
     // custom properties
     public int MyOtherProperty { get; set; }

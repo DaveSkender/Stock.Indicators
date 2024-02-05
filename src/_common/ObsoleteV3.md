@@ -49,6 +49,8 @@ Items marked with &#128681; require special attention since they will not produc
 
 - Result classes were changes to `record` class types.  This will only impact rare cases where result classes are used for base inheritance.
 
+- `IQuote` customization now has to be `IEquatable<T>` type to support streaming operations.  See [the Guide](/guide) for more information.
+
 - `BasicData` class was renamed to `BasicResult` for consistency with other return types.
 
 - `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal

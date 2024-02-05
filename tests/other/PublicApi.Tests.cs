@@ -17,12 +17,11 @@ internal sealed class MyEma : IResult
     public double? Ema { get; set; }
 }
 
-internal class MyCustomQuote
-    : EquatableQuote, IQuote
+internal sealed class MyCustomQuote: EquatableQuote, IQuote
 {
-    // redirect inherited base properties
-    DateTime ISeries.TickDate => CloseDate;
-    decimal IQuote.Close => CloseValue;
+    // override, redirect required properties
+    public override DateTime TickDate => CloseDate;
+    public override decimal Close => CloseValue;
 
     // custom properties
     public int MyOtherProperty { get; set; }
@@ -128,31 +127,31 @@ public class PublicClassTests
     {
         MyCustomQuote q1 = new()
         {
-            TickDate = evalDate,
+            CloseDate = evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
-            Close = 1m,
+            CloseValue = 1m,
             Volume = 100
         };
 
         MyCustomQuote q2 = new()
         {
-            TickDate = evalDate,
+            CloseDate = evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
-            Close = 1m,
+            CloseValue = 1m,
             Volume = 100
         };
 
         MyCustomQuote q3 = new()
         {
-            TickDate = evalDate,
+            CloseDate = evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
-            Close = 2m,
+            CloseValue = 2m,
             Volume = 99
         };
 

@@ -93,7 +93,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             }
 
             // aggressive property value comparison
-            if (Equals(r, LastArrival))
+            if (r.Equals(LastArrival))
             {
                 // to prevent propogation
                 // of identical cache entry
