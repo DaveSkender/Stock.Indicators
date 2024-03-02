@@ -15,6 +15,13 @@ public static partial class Indicator
         decimal prevOpen = decimal.MinValue;
         decimal prevClose = decimal.MinValue;
 
+        if (length > 0)
+        {
+            TQuote q = quotesList[0];
+            prevOpen = q.Open;
+            prevClose = q.Close;
+        }
+
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
@@ -24,8 +31,7 @@ public static partial class Indicator
             decimal close = (q.Open + q.High + q.Low + q.Close) / 4;
 
             // open
-            decimal open = (prevOpen == decimal.MinValue) ? (q.Open + q.Close) / 2
-                : (prevOpen + prevClose) / 2;
+            decimal open = (prevOpen + prevClose) / 2;
 
             // high
             decimal[] arrH = [q.High, open, close];
