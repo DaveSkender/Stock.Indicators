@@ -27,6 +27,17 @@ jobs:
           ruby-version: 3.1.3
           bundler-cache: false
 
+      - name: Define tag
+        id: tag
+        run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+      - name: Replace cache markers
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "YYYY.MM.DD"
+          replace: "${{ steps.tag.outputs.version }}"
+          regex: false
+
       - name: Install GEMs
         working-directory: docs
         env:
