@@ -47,7 +47,6 @@ exclude:
   [
     "*.cs",
     "*.csproj",
-    "*.json",
     "*.lock",
     "*.yml",
     "*.pptx",
