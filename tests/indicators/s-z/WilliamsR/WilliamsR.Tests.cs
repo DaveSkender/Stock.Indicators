@@ -112,6 +112,41 @@ public class WilliamsRTests : TestBase
         }
     }
 
+    [TestMethod]
+    public void Issue1127()
+    {
+        // initialize
+        IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
+            .Skip(1)
+            .Select(Importer.QuoteFromCsv)
+            .OrderByDescending(x => x.Date);
+
+        List<Quote> quotesList = test1127.ToList();
+        int length = quotesList.Count;
+
+        // get indicators
+        List<WilliamsResult> resultsList = test1127
+            .GetWilliamsR(14)
+            .ToList();
+
+        Console.WriteLine($"%R from {length} quotes.");
+
+        // analyze boundary
+        for (int i = 0; i < length; i++)
+        {
+            Quote q = quotesList[i];
+            WilliamsResult r = resultsList[i];
+
+            Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
+
+            if (r.WilliamsR is not null)
+            {
+                Assert.IsTrue(r.WilliamsR <= 0);
+                Assert.IsTrue(r.WilliamsR >= -100);
+            }
+        }
+    }
+
     // bad lookback period
     [TestMethod]
     public void Exceptions()
