@@ -119,7 +119,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 ## Versioning
 
-We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).
+We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the build.
 
 Type | Format | Description
 ------------ | ------ | -----------
