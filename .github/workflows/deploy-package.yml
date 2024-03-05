@@ -57,6 +57,14 @@ jobs:
           echo "Composed version is:"
           echo $COMPOSED_VERSION
 
+      - name: Update release notes URL
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          include: "src/**/*.csproj"
+          find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
+          replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
+          regex: false
+
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
@@ -67,7 +75,7 @@ jobs:
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
-          --property:Version=$COMPOSED_VERSION
+          --property:Version=${{ steps.compose.outputs.version }}
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -78,7 +86,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion=$COMPOSED_VERSION
+          -p:PackageVersion=${{ steps.compose.outputs.version }}
 
       - name: Save NuGet package
         uses: actions/upload-artifact@v3
@@ -95,7 +103,7 @@ jobs:
             echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
             echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed    | $COMPOSED_VERSION                               |"
+            echo "| Composed    | ${{ steps.compose.outputs.COMPOSED_VERSION }}   |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
