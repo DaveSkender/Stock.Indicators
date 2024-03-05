@@ -51,7 +51,7 @@ jobs:
       - name: Compose version
         id: compose
         run: |
-          COMPOSED_VERSION=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}
+          COMPOSED_VERSION=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || inputs.preview && github.run_number || '' }}
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
 
