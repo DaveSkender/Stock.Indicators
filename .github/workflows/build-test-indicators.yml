@@ -41,7 +41,7 @@ jobs:
       - name: Temporary
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          include: "src/**/*.csproj"
+          include: "**/*.csproj"
           find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
           replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
           regex: false
