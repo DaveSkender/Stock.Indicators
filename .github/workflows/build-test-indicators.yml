@@ -34,14 +34,13 @@ jobs:
       - name: Compose version
         id: compose
         run: |
-          COMPOSED_VERSION=${{ 'DEVTEST' }}
+          COMPOSED_VERSION=${{ '0.0.0-devtest' }}
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
 
       - name: Temporary
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          include: "**/*.csproj"
           find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
           replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
           regex: false
@@ -50,6 +49,7 @@ jobs:
         run: >
           dotnet build
           --configuration Release
+          --property:Version=${{ steps.compose.outputs.version }}
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
