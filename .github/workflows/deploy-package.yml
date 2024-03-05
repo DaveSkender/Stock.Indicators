@@ -54,13 +54,10 @@ jobs:
           COMPOSED_VERSION=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
-          echo "Composed version is:"
-          echo $COMPOSED_VERSION
 
       - name: Update release notes URL
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          include: "src/**/*.csproj"
           find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
           replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
           regex: false
