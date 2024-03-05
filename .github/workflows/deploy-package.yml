@@ -60,9 +60,9 @@ jobs:
       - name: Update release notes URL
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          include: "**/*.csproj"
-          find: "https://github.com/DaveSkender/Stock.Indicators/releases"
-          replace: "https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}"
+          include: "src/**/*.csproj"
+          find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
+          replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
           regex: false
 
       - name: Install .NET SDK
