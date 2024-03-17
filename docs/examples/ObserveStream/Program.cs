@@ -49,7 +49,7 @@ internal class Program
             .GetEma(7);
 
         // connect to Alpaca WebSocket
-        SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
+        SecretKey secretKey = new(ALPACA_KEY, ALPACA_SECRET);
 
         IAlpacaCryptoStreamingClient client
             = Environments
