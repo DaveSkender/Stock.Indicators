@@ -19,13 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Other", "tests\other\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Performance", "tests\performance\Tests.Performance.csproj", "{3BD4837B-D197-41FD-A286-A3256D0770E1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9-4165-4823-9526-0CFAACCF1ACC}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-indicators.yml = .github\workflows\build-indicators.yml
-		gitversion.yml = gitversion.yml
-		.github\workflows\test-performance.yml = .github\workflows\test-performance.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observe.Streaming", "tests\observe\Observe.Streaming.csproj", "{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}"
 	ProjectSection(ProjectDependencies) = postProject
 		{11CD6C7E-871F-4903-AEAD-58E034C6521D} = {11CD6C7E-871F-4903-AEAD-58E034C6521D}

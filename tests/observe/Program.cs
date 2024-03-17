@@ -19,22 +19,22 @@ internal class Program
 
 public class QuoteStream
 {
-    private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
-    private readonly string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
+    private readonly string ALPACA_KEY = Environment.GetEnvironmentVariable("ALPACA_KEY");
+    private readonly string ALPACA_SECRET = Environment.GetEnvironmentVariable("ALPACA_SECRET");
 
     internal QuoteStream()
     {
-        if (string.IsNullOrEmpty(alpacaApiKey))
+        if (string.IsNullOrEmpty(ALPACA_KEY))
         {
             throw new ArgumentNullException(
-                alpacaApiKey,
+                ALPACA_KEY,
                 $"API KEY missing, use `setx ALPACA_KEY \"MY_ALPACA_KEY\"` to set.");
         }
 
-        if (string.IsNullOrEmpty(alpacaSecret))
+        if (string.IsNullOrEmpty(ALPACA_SECRET))
         {
             throw new ArgumentNullException(
-                alpacaSecret,
+                ALPACA_SECRET,
                 $"API SECRET missing, use `setx ALPACA_SECRET \"MY_ALPACA_SECRET\"` to set.");
         }
     }
@@ -44,14 +44,14 @@ public class QuoteStream
         Console.WriteLine("Press any key to exit the process...");
         Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
 
-        if (string.IsNullOrEmpty(alpacaApiKey))
+        if (string.IsNullOrEmpty(ALPACA_KEY))
         {
-            throw new ArgumentNullException(alpacaApiKey);
+            throw new ArgumentNullException(ALPACA_KEY);
         }
 
-        if (string.IsNullOrEmpty(alpacaSecret))
+        if (string.IsNullOrEmpty(ALPACA_SECRET))
         {
-            throw new ArgumentNullException(alpacaSecret);
+            throw new ArgumentNullException(ALPACA_SECRET);
         }
 
         // initialize our quote provider and a few subscribers
@@ -67,7 +67,7 @@ public class QuoteStream
             .AttachEma(4);
 
         // connect to Alpaca websocket
-        SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
+        SecretKey secretKey = new(ALPACA_KEY, ALPACA_SECRET);
 
         IAlpacaCryptoStreamingClient client
             = Environments

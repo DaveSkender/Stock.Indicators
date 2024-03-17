@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public sealed record class T3Result : IReusableResult
 {
     public DateTime Timestamp { get; set; }

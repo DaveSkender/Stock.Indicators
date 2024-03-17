@@ -2,6 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
+[Serializable]
 public record CandleProperties : Quote
 {
     // raw sizes
@@ -20,8 +21,7 @@ public record CandleProperties : Quote
     public bool IsBearish => Close < Open;
 }
 
-
-
+[Serializable]
 public record class CandleResult : IResult
 {
     public CandleResult(DateTime date, Match match)

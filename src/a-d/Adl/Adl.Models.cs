@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public sealed record class AdlResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }

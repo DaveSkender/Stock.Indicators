@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public sealed record class AlligatorResult : IResult
 {
     public DateTime Timestamp { get; set; }
