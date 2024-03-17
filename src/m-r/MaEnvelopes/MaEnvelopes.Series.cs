@@ -58,7 +58,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetDema(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Dema,
@@ -71,7 +71,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetEma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Ema,
@@ -84,7 +84,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetEpma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Epma,
@@ -97,7 +97,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetHma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Hma,
@@ -110,7 +110,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetSma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Sma,
@@ -123,7 +123,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetSmma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Smma,
@@ -136,7 +136,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetTema(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Tema,
@@ -149,7 +149,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetWma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult()
+        .Select(x => new MaEnvelopeResult
         {
             Timestamp = x.Timestamp,
             Centerline = x.Wma,

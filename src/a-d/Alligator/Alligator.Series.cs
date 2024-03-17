@@ -33,8 +33,6 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime _, double value) = tpList[i];
-
             // only calculate jaw if the array offset is still in valid range
             if (i + jawOffset < length)
             {
