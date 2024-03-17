@@ -37,9 +37,7 @@ public static partial class QuoteUtility
 
     internal static List<(DateTime, double)> ToSortedList(
         this IEnumerable<(DateTime date, double value)> tuples)
-        => tuples
-            .OrderBy(x => x.date)
-            .ToList();
+        => [.. tuples.OrderBy(x => x.date)];
 
     // DOUBLE QUOTES
 
@@ -58,7 +56,7 @@ public static partial class QuoteUtility
 
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
+        where TQuote : IQuote => [.. quotes
             .Select(x => new QuoteD
             {
                 Timestamp = x.Timestamp,
@@ -68,8 +66,7 @@ public static partial class QuoteUtility
                 Close = (double)x.Close,
                 Volume = (double)x.Volume
             })
-            .OrderBy(x => x.Timestamp)
-            .ToList();
+            .OrderBy(x => x.Timestamp)];
 
     // convert quoteD list to tuples
     internal static List<(DateTime, double)> ToTuple(

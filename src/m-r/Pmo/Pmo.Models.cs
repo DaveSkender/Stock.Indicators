@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed record class PmoResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }

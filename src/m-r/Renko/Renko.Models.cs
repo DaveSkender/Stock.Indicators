@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed record class RenkoResult : IResult, IQuote
 {
     public DateTime Timestamp { get; set; }

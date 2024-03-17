@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed record class ChopResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }

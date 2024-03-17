@@ -70,7 +70,7 @@ public enum Act
 {
     AddNew,
     AddOld,
-    UpdateOld,
+    Update,
     Delete,
     DoNothing
 }

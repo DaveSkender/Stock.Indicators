@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed record class IchimokuResult : IResult
 {
     public DateTime Timestamp { get; set; }

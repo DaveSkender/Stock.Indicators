@@ -2,7 +2,6 @@ namespace Skender.Stock.Indicators;
 
 /// <include file='./info.xml' path='info/type[@name="Results"]/*' />
 ///
-[Serializable]
 public sealed record class StochResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }

@@ -1,6 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
 public sealed record class SmaResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
@@ -9,7 +8,6 @@ public sealed record class SmaResult : IReusableResult
     double IReusableResult.Value => Sma.Null2NaN();
 }
 
-[Serializable]
 public sealed record class SmaAnalysis : IReusableResult
 {
     public DateTime Timestamp { get; set; }

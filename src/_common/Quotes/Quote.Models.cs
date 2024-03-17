@@ -18,7 +18,6 @@ public interface IQuote : ISeries, IEquatable<IQuote>
 /// <summary>
 /// Built-in Quote type.
 /// </summary>
-[Serializable]
 public record class Quote : IQuote
 {
     public DateTime Timestamp { get; set; }
@@ -104,7 +103,6 @@ public abstract class EquatableQuote : IQuote
             Timestamp, Open, High, Low, Close, Volume);
 }
 
-[Serializable]
 internal class QuoteD
 {
     internal DateTime Timestamp { get; set; }

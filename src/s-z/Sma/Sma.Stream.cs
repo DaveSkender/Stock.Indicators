@@ -29,7 +29,7 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
     // METHODS
 
     // handle chain arrival
-    public override void OnNext((Act act, DateTime date, double price) value)
+    internal override void OnNextAdd((Act act, DateTime date, double price) value)
     {
         // determine incremental value
         double sma;
@@ -71,20 +71,7 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
         Act act = CacheChainorPerAction(value.act, r, sma);
 
         // send to observers
-        if (act == Act.AddNew)
-        {
-            NotifyObservers(act, r);
-        }
-
-        // rebuild cache from this point forward
-        else
-        {
-            // note: intuitively an update would be more proficient than delete and replay; however,
-            // given the chain reaction of observer rebuilds, delete and rebuild is the most humane.
-
-            ClearCache(r.Timestamp);
-            RebuildCache(r.Timestamp);
-        }
+        NotifyObservers(act, r);
     }
 
     // delete cache between index values
