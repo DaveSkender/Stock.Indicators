@@ -4,16 +4,14 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Alpaca.Markets" Version="7.0.0" />
+    <PackageReference Include="Alpaca.Markets" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
-    <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 
 </Project>

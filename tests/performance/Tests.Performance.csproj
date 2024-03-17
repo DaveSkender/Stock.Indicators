@@ -31,6 +31,9 @@
     <None Update="helpers\data\intraday.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="helpers\data\longest.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="helpers\data\longish.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
