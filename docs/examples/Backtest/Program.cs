@@ -1,5 +1,5 @@
 using System.Collections.ObjectModel;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Skender.Stock.Indicators;
 
 namespace Backtest;
@@ -23,8 +23,7 @@ public static class Program
          */
 
         // fetch historical quotes from data provider
-        List<Quote> quotesList = [.. GetQuotesFromFeed()
-];
+        List<Quote> quotesList = [.. GetQuotesFromFeed()];
 
         // calculate Stochastic RSI
         List<StochRsiResult> resultsList =
@@ -44,6 +43,7 @@ public static class Program
         for (int i = 1; i < quotesList.Count; i++)
         {
             Quote q = quotesList[i];
+
             StochRsiResult e = resultsList[i]; // evaluation period
             StochRsiResult l = resultsList[i - 1]; // last (prior) period
             string cross = string.Empty;
@@ -112,7 +112,8 @@ public static class Program
 
         string json = File.ReadAllText("quotes.data.json");
 
-        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
+        Collection<Quote> quotes = JsonSerializer
+            .Deserialize<IReadOnlyCollection<Quote>>(json)
             .ToSortedCollection();
 
         return quotes;
