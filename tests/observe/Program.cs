@@ -1,7 +1,7 @@
 using Alpaca.Markets;
 using Skender.Stock.Indicators;
 
-namespace ObserveAlpaca;
+namespace ObserveStreaming;
 
 internal class Program
 {

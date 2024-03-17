@@ -10,7 +10,7 @@ public class LibraryInternals
     private double[] values;
 
     // standard deviation
-    [GlobalSetup(Targets = new[] { nameof(StdDev) })]
+    [GlobalSetup(Targets = [nameof(StdDev)])]
     public void Setup()
         => values = TestData.GetLongish(Periods)
             .Select(x => (double)x.Close)
