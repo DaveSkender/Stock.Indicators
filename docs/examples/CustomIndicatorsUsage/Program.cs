@@ -3,7 +3,7 @@ using System.Text.Json;
 using Custom.Stock.Indicators;
 using Skender.Stock.Indicators;
 
-namespace ConsoleApp;
+namespace CustomIndicatorsUsage;
 
 // USE CUSTOM INDICATORS exactly the same as
 // other indicators in the library

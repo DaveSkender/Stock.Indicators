@@ -23,7 +23,7 @@ public static class Program
          */
 
         // fetch historical quotes from data provider
-        List<Quote> quotesList = GetQuotesFromFeed().ToList();
+        List<Quote> quotesList = [.. GetQuotesFromFeed()];
 
         // calculate Stochastic RSI
         List<StochRsiResult> resultsList =
@@ -43,9 +43,6 @@ public static class Program
         for (int i = 1; i < quotesList.Count; i++)
         {
             Quote q = quotesList[i];
-
-            //TODO: why isn't this working?
-            Console.WriteLine($"{q.Date:d} {q.Close:N2}");
 
             StochRsiResult e = resultsList[i]; // evaluation period
             StochRsiResult l = resultsList[i - 1]; // last (prior) period
