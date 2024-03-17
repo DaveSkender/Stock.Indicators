@@ -1,7 +1,7 @@
 using Alpaca.Markets;
 using Skender.Stock.Indicators;
 
-namespace ObserveAlpaca;
+namespace ObserveStreaming;
 
 internal class Program
 {
@@ -19,20 +19,37 @@ internal class Program
 
 public class QuoteStream
 {
-    private readonly string? alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-    private readonly string? alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+    private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
+    private readonly string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
+
+    internal QuoteStream()
+    {
+        if (string.IsNullOrEmpty(alpacaApiKey))
+        {
+            throw new ArgumentNullException(
+                alpacaApiKey,
+                $"API KEY missing, use `setx ALPACA_KEY \"MY_ALPACA_KEY\"` to set.");
+        }
+
+        if (string.IsNullOrEmpty(alpacaSecret))
+        {
+            throw new ArgumentNullException(
+                alpacaSecret,
+                $"API SECRET missing, use `setx ALPACA_SECRET \"MY_ALPACA_SECRET\"` to set.");
+        }
+    }
 
     public async Task SubscribeToQuotes(string symbol)
     {
-        Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
         Console.WriteLine("Press any key to exit the process...");
+        Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
 
-        if (alpacaApiKey == null)
+        if (string.IsNullOrEmpty(alpacaApiKey))
         {
             throw new ArgumentNullException(alpacaApiKey);
         }
 
-        if (alpacaSecret == null)
+        if (string.IsNullOrEmpty(alpacaSecret))
         {
             throw new ArgumentNullException(alpacaSecret);
         }
@@ -56,12 +73,24 @@ public class QuoteStream
 
         await client.ConnectAndAuthenticateAsync();
 
-        // todo: is this needed?
+        // TODO: is this needed?
         AutoResetEvent[] waitObjects = [new AutoResetEvent(false)];
 
         IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);
 
+        await client.SubscribeAsync(quoteSubscription);
+
+        // console display header
+        Console.WriteLine("A new quote will be shown when they arrive every minute.");
+        Console.WriteLine("PLEASE WAIT > 8 MINUTES BEFORE EXITING TO SEE ALL 4 INDICATORS CALCULATED.");
+        Console.WriteLine("Press any key to EXIT the process and to see results.");
+        Console.WriteLine();
+
+        Console.WriteLine("Date                   Close price      SMA(3)      EMA(5)  EMA(7,HL2)  SMA/EMA(8)");
+        Console.WriteLine("----------------------------------------------------------------------------------");
+
+        // handle new quotes
         quoteSubscription.Received += (q) =>
         {
             // add to our provider
@@ -83,33 +112,11 @@ public class QuoteStream
         // to stop watching on key press
         Console.ReadKey();
 
+        // end observation
         provider.EndTransmission();
+
+        // close WebSocket
         await client.UnsubscribeAsync(quoteSubscription);
         await client.DisconnectAsync();
-
-        Console.WriteLine("-- QUOTES STORED (last 10 only) --");
-        foreach (Quote? pt in provider.Quotes.TakeLast(10))
-        {
-            Console.WriteLine($"{symbol} {pt.Date:s} ${pt.Close:N2}");
-        }
-
-        // show last 3 results for indicator results
-        Console.WriteLine("-- EMA(14,CLOSE) RESULTS (last 3 only) --");
-        foreach (EmaResult? e in ema.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
-        }
-
-        Console.WriteLine("-- EMA(10,HL2) CHAINED (last 3 only) --");
-        foreach (EmaResult? e in emaChain.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {e.Date:s} ${e.Ema:N2}");
-        }
-
-        Console.WriteLine("-- SMA(5) RESULTS (last 3 only) --");
-        foreach (SmaResult? s in sma.Results.TakeLast(3))
-        {
-            Console.WriteLine($"{symbol} {s.Date:s} ${s.Sma:N2}");
-        }
     }
 }

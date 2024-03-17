@@ -30,6 +30,13 @@ internal static class TestData
             .Take(days)
             .ToList();
 
+    // LONGEST DATA ~62 years of S&P 500 daily data
+    internal static IEnumerable<Quote> GetLongest()
+        => File.ReadAllLines("helpers/data/longest.csv")
+            .Skip(1)
+            .Select(Importer.QuoteFromCsv)
+            .ToList();
+
     // LONGISH DATA ~20 years of S&P 500 daily data
     internal static IEnumerable<Quote> GetLongish(int days = 5285)
         => File.ReadAllLines("helpers/data/longish.csv")
