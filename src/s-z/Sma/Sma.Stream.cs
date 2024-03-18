@@ -14,7 +14,7 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
 
         LookbackPeriods = lookbackPeriods;
 
-        Initialize();
+        RebuildCache();
 
         // subscribe to chain provider
         unsubscriber = provider != null
@@ -29,35 +29,50 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
     // METHODS
 
     // handle chain arrival
-    internal override void OnNextAdd((Act act, DateTime date, double price) value)
+    public override void OnNext((Act act, DateTime date, double price) value)
     {
-        // determine incremental value
+        int i;
         double sma;
 
-        int i = ChainSupplier.Chain.FindIndex(value.date);
+        List<(DateTime _, double value)> supplier = ChainSupplier.Chain;
 
-        // source unexpectedly not found
-        if (i == -1)
+        // handle deletes
+        if (value.act == Act.Delete)
         {
-            throw new InvalidOperationException("Matching source history not found.");
+            i = Cache.FindIndex(value.date);
+            sma = Cache[i].Sma.Null2NaN();
         }
 
-        // normal
-        else if (i >= LookbackPeriods - 1)
-        {
-            double sum = 0;
-            for (int w = i - LookbackPeriods + 1; w <= i; w++)
-            {
-                sum += ChainSupplier.Chain[w].Value;
-            }
-
-            sma = sum / LookbackPeriods;
-        }
-
-        // warmup periods are never calculable
+        // handle new values
         else
         {
-            sma = double.NaN;
+            // calculate incremental value
+            i = supplier.FindIndex(value.date);
+
+            // source unexpectedly not found
+            if (i == -1)
+            {
+                throw new InvalidOperationException(
+                    "Matching source history not found on arrival.");
+            }
+
+            // normal
+            else if (i >= LookbackPeriods - 1)
+            {
+                double sum = 0;
+                for (int w = i - LookbackPeriods + 1; w <= i; w++)
+                {
+                    sum += supplier[w].value;
+                }
+
+                sma = sum / LookbackPeriods;
+            }
+
+            // warmup periods are never calculable
+            else
+            {
+                sma = double.NaN;
+            }
         }
 
         // candidate result
@@ -72,6 +87,15 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
 
         // send to observers
         NotifyObservers(act, r);
+
+        // update forward values
+        if (act != Act.AddNew && i < supplier.Count - 1)
+        {
+            // cascade updates gracefully
+            int next = act == Act.Delete ? i : i + 1;
+            (DateTime d, double v) = supplier[next];
+            OnNext((Act.Update, d, v));
+        }
     }
 
     // delete cache between index values

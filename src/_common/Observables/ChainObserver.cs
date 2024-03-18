@@ -19,8 +19,6 @@ public abstract class ChainObserver<TResult>
 
     // METHODS
 
-    // standard observer properties
-
     public abstract void OnNext((Act act, DateTime date, double price) value);
 
     public void OnError(Exception error) => throw error;
@@ -30,69 +28,50 @@ public abstract class ChainObserver<TResult>
     public void Unsubscribe() => unsubscriber?.Dispose();
 
     // re/initialize my cache, from provider cache
-    public void Initialize()
+    public void RebuildCache()
     {
-        ClearCache();  // delete cache entries
-
         // nothing to do
         if (ChainSupplier.Chain.Count == 0)
         {
             return;
         }
 
-        // rebuild from date
-        DateTime fromDate = ChainSupplier.Chain[0].Timestamp;
-        RebuildCache(fromDate);
+        // rebuild
+        RebuildCache(0);
     }
 
-    // replay from supplier cache
-    internal void RebuildCache(DateTime fromDate)
-    {
-        int startIndex = ChainSupplier.Chain.FindIndex(fromDate);
+    // replay from supplier cache, from date
+    public void RebuildCache(DateTime fromTimestamp)
+        => RebuildCache(fromTimestamp, 0);
 
-        if (startIndex == -1)
+    internal override void RebuildCache(
+        DateTime fromTimestamp, int offset = 0)
+    {
+        int fromIndex = ChainSupplier.Chain.FindIndex(fromTimestamp);
+
+        if (fromIndex == -1)
         {
-            throw new InvalidOperationException("Cache rebuild starting target not found.");
+            throw new InvalidOperationException(
+                "Cache rebuild starting target not found.");
         }
 
-        for (int i = startIndex; i < ChainSupplier.Chain.Count; i++)
+        RebuildCache(fromIndex, offset);
+    }
+
+    // replay from supplier cache, from index
+    internal override void RebuildCache(
+        int fromIndex, int offset = 0)
+    {
+        int firstIndex = fromIndex + offset;
+
+        // clear forward values
+        ClearCache(firstIndex);
+
+        // replay from source
+        for (int i = firstIndex; i < ChainSupplier.Chain.Count; i++)
         {
             (DateTime date, double value) = ChainSupplier.Chain[i];
             OnNext((Act.AddNew, date, value));
         }
     }
-
-    // delete cache entries, gracefully (and optionally, notifies observers)
-    internal void ClearCache()
-    {
-        // nothing to do
-        if (Cache.Count == 0)
-        {
-            Cache = [];
-            Chain = [];
-            return;
-        }
-
-        // reset from date
-        DateTime fromDate = Chain[0].Timestamp;
-        ClearCache(fromDate);
-    }
-
-    // delete cache entries after fromDate (inclusive)
-    internal void ClearCache(DateTime fromDate)
-    {
-        // index range
-        int s = Cache.FindIndex(fromDate);
-        int e = Cache.Count - 1;
-
-        if (s == -1)
-        {
-            throw new InvalidOperationException("Cache clear starting target not found.");
-        }
-
-        ClearCache(s, e);
-    }
-
-    // delete cache entries between index range values (implemented in inheritor)
-    internal abstract void ClearCache(int fromIndex, int toIndex);
 }

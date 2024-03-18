@@ -13,7 +13,7 @@ public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
     {
         CandlePartSelection = candlePart;
 
-        Initialize();
+        RebuildCache();
 
         // subscribe to quote provider
         unsubscriber = provider is null

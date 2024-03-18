@@ -1,7 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 // base result or series cache
-public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries>
+/// <inheritdoc />
+public abstract class SeriesCache<TSeries>
+    : ChainProvider, IStreamCache<TSeries>
     where TSeries : ISeries, new()
 {
     // fields
@@ -17,7 +19,8 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
         Type? reuseType = typeof(TSeries)
             .GetInterface("IReusableResult");
 
-        isChainor = reuseType != null && reuseType.Name == "IReusableResult";
+        isChainor = reuseType != null
+            && reuseType.Name == "IReusableResult";
     }
 
     // PROPERTIES
@@ -32,18 +35,90 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
 
     // METHODS
 
-    // add a nicely formatted label to end indicatores, e.g. EMA(10)
+    /// <inheritdoc cref="IStreamCache{TSeries}.ToString"/>
     public abstract override string ToString();
 
-    // Overload for non-chainable cachors that do not store chain values.
+    /// <summary>
+    /// Deletes all cache and chain records, gracefully
+    /// </summary>
+    public void ClearCache()
+    {
+        // nothing to do
+        if (Cache.Count == 0)
+        {
+            Cache = [];
+            Chain = [];
+            return;
+        }
+
+        // reset all
+        ClearCache(0);
+    }
+
+    /// <summary>
+    /// Deletes all cache entries after `fromDate` (inclusive)
+    /// </summary>
+    /// <param name="fromTimestamp">From date, inclusive</param>
+    /// <exception cref="InvalidOperationException">
+    /// `fromDate` not found
+    /// </exception>
+    public void ClearCache(DateTime fromTimestamp)
+    {
+        int s = Cache.FindIndex(fromTimestamp);  // start of range
+
+        if (s == -1)
+        {
+            throw new InvalidOperationException(
+                "Cache clear starting target not found.");
+        }
+
+        ClearCache(s);
+    }
+
+    /// <summary>
+    /// Deletes all cache entries after `fromIndex` (inclusive)
+    /// </summary>
+    /// <param name="fromIndex">From index, inclusive</param>
+    internal void ClearCache(int fromIndex) => ClearCache(fromIndex, toIndex: Cache.Count - 1);
+
+    /// <summary>
+    /// Deletes cache and chain entries between index range values, inclusively.
+    /// It is implemented in inheriting classes due to unique requirements.
+    /// </summary>
+    /// <param name="fromIndex">First element to delete</param>
+    /// <param name="toIndex">Last element to delete</param>
+    internal abstract void ClearCache(int fromIndex, int toIndex);
+
+    /// <summary>
+    /// Replay from supplier cache start date, inclusive
+    /// </summary>
+    /// <param name="fromTimestamp">First element to rebuild</param>
+    /// <param name="offset">Offset start index</param>
+    /// <exception cref="InvalidOperationException"></exception>
+    internal abstract void RebuildCache(DateTime fromTimestamp, int offset = 0);
+
+    /// <summary>
+    /// Replay from supplier cache index, inclusive
+    /// </summary>
+    /// <param name="fromIndex">First element to rebuild</param>
+    /// <param name="offset">Offset start index</param>
+    internal abstract void RebuildCache(int fromIndex, int offset = 0);
+
+    /// <summary>
+    /// Overload for non-chainable cachors that do not store chain values.
+    /// </summary>
+    /// <param name="r"></param>
+    /// <returns cref="Act">Action taken</returns>
     internal Act CacheWithAnalysis(TSeries r) => CacheWithAnalysis(r, double.NaN);
 
     /// <summary>
-    /// Analyze and cache new arrival, after determining best instruction.
+    /// Analyze and ADD new arrival to cache, after determining best instruction.
     /// </summary>
-    /// <param name="r">Fully formed cache IReusableResult object.</param>
+    /// <param name="r" cref="ISeries">
+    ///   Fully formed cacheable time-series object.
+    /// </param>
     /// <param name="value">Meaningful chain observable value.  Unused if not a Chainor.</param>
-    /// <returns></returns>
+    /// <returns cref="Act">Action taken</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
     internal Act CacheWithAnalysis(TSeries r, double value)
@@ -68,7 +143,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
         {
             throw new ArgumentNullException(
                 nameof(r),
-                "Unexpected null TSeries in Cache analyzer.");
+                "Unexpected null TSeries in Cache add analyzer.");
         }
 
         // REPEAT AND OVERFLOW PROTECTION
@@ -93,6 +168,7 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             }
 
             // aggressive property value comparison
+            // TODO: not handling add-back after delete, registers as dup
             if (r.Equals(LastArrival))
             {
                 // to prevent propogation
@@ -142,13 +218,80 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
                 .FindIndex(x => x.Timestamp == r.Timestamp);
 
             // replace duplicate
-            act = foundIndex == -1 ? Act.AddOld : Act.UpdateOld;
+            act = foundIndex == -1 ? Act.AddOld : Act.Update;
         }
 
         // perform actual update, return final action
         return ModifyPerAction(act, r, value);
     }
 
+    /// <summary>
+    /// Analyze and DELETE new arrivals from cache, after determining best instruction.
+    /// </summary>
+    /// <param name="r" cref="ISeries">
+    ///   Fully formed cacheable time-series object.
+    /// </param>
+    /// <returns cref="Act">Action taken</returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    internal Act PurgeWithAnalysis(TSeries r)
+    {
+        // null TSeries is not expected
+        if (r == null)
+        {
+            throw new ArgumentNullException(
+                nameof(r),
+                "Unexpected null TSeries in Cache purge analyzer.");
+        }
+
+        // REPEAT AND OVERFLOW PROTECTION
+
+        if (r.Timestamp == LastArrival.Timestamp)
+        {
+            // note: we have a better IsEqual() comparison method below,
+            // but it is too expensive as an initial quick evaluation.
+
+            OverflowCount++;
+
+            if (OverflowCount > 100)
+            {
+                string msg = "A repeated stream update exceeded the 100 attempt threshold. "
+                           + "Check and remove circular chains or check your stream provider."
+                           + "Provider terminated.";
+
+                // note: if provider, catch overflow exception in parent observable,
+                // where it will EndTransmission(); and then throw to user.
+
+                throw new OverflowException(msg);
+            }
+
+            // note: aggressive property value comparison is often
+            // not possible for deletes due to an inability to re-calculate prior values
+            // TODO: not handling add-back after delete, registers as dup
+        }
+        else
+        {
+            OverflowCount = 0;
+            LastArrival = r;
+        }
+
+        // determine if record exists
+        int foundIndex = Cache
+            .FindIndex(x => x.Timestamp == r.Timestamp);
+
+        // not found
+        if (foundIndex == -1)
+        {
+            return Act.DoNothing;
+        }
+
+        TSeries t = Cache[foundIndex];
+
+        // delete if full match
+        return t.Equals(r)
+            ? ModifyPerAction(Act.Delete, t, double.NaN)
+            : Act.DoNothing;
+    }
 
     // overload for chainable cachors
     internal Act CacheChainorPerAction(Act act, TSeries r, double value)
@@ -214,12 +357,13 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
                 // failure to find should never happen
                 else
                 {
-                    throw new InvalidOperationException("Cache insert target not found.");
+                    throw new InvalidOperationException(
+                        "Cache insert target not found.");
                 }
 
                 break;
 
-            case Act.UpdateOld:
+            case Act.Update:
 
                 // find
                 int uo = Cache.FindIndex(r.Timestamp);
@@ -238,7 +382,8 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
                 // failure to find should never happen
                 else
                 {
-                    throw new InvalidOperationException("Cache update target not found.");
+                    throw new InvalidOperationException(
+                        "Cache update target not found.");
                 }
 
                 break;
@@ -262,7 +407,8 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
                 // failure to find should never happen
                 else
                 {
-                    throw new InvalidOperationException("Cache delete target not found.");
+                    throw new InvalidOperationException(
+                        "Cache delete target not found.");
                 }
 
                 break;
@@ -274,9 +420,10 @@ public abstract class SeriesCache<TSeries> : ChainProvider, IStreamCache<TSeries
             // should never get here
             default:
 
-                throw new InvalidOperationException("Undefined cache action.");
+                throw new InvalidOperationException(
+                    "Undefined cache action.");
         }
 
         return act;
     }
-};
+}

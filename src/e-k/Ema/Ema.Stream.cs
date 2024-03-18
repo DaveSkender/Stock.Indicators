@@ -15,7 +15,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        Initialize();
+        RebuildCache();
 
         // subscribe to provider
         unsubscriber = provider != null
@@ -25,8 +25,6 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
 
     // PROPERTIES
 
-    // common
-
     public int LookbackPeriods { get; private set; }
     public double K { get; private set; }
 
@@ -35,46 +33,60 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
     // handle chain arrival
     public override void OnNext((Act act, DateTime date, double price) value)
     {
-        // determine incremental value
+        int i;
         double ema;
 
-        int i = ChainSupplier.Chain.FindIndex(value.date);
+        List<(DateTime _, double value)> supplier = ChainSupplier.Chain;
 
-        // source unexpectedly not found
-        if (i == -1)
+        // handle deletes
+        if (value.act == Act.Delete)
         {
-            throw new InvalidOperationException("Matching source history not found.");
+            i = Cache.FindIndex(value.date);
+            ema = Cache[i].Ema.Null2NaN();
         }
 
-        // normal
-        else if (i >= LookbackPeriods - 1)
-        {
-            IReusableResult last = Cache[i - 1];  // prior EMA
-
-            // normal
-            if (!double.IsNaN(last.Value))
-            {
-                ema = Increment(K, last.Value, value.price);
-            }
-
-            // set first value (normal) or reset
-            // when prior EMA was incalculable
-            else
-            {
-                double sum = 0;
-                for (int w = i - LookbackPeriods + 1; w <= i; w++)
-                {
-                    sum += ChainSupplier.Chain[w].Value;
-                }
-
-                ema = sum / LookbackPeriods;
-            }
-        }
-
-        // warmup periods are never calculable
+        // handle new values
         else
         {
-            ema = double.NaN;
+            i = supplier.FindIndex(value.date);
+
+            // source unexpectedly not found
+            if (i == -1)
+            {
+                throw new InvalidOperationException(
+                    "Matching source history not found on arrival.");
+            }
+
+            // normal
+            else if (i >= LookbackPeriods - 1)
+            {
+                IReusableResult last = Cache[i - 1];  // prior EMA
+
+                // normal
+                if (!double.IsNaN(last.Value))
+                {
+                    ema = Increment(K, last.Value, value.price);
+                }
+
+                // set first value (normal) or reset
+                // when prior EMA was incalculable
+                else
+                {
+                    double sum = 0;
+                    for (int w = i - LookbackPeriods + 1; w <= i; w++)
+                    {
+                        sum += supplier[w].value;
+                    }
+
+                    ema = sum / LookbackPeriods;
+                }
+            }
+
+            // warmup periods are never calculable
+            else
+            {
+                ema = double.NaN;
+            }
         }
 
         // candidate result
@@ -88,19 +100,15 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
         Act act = CacheChainorPerAction(value.act, r, ema);
 
         // send to observers
-        if (act == Act.AddNew)
-        {
-            NotifyObservers(act, r);
-        }
+        NotifyObservers(act, r);
 
-        // rebuild cache from this point forward
-        else
+        // update forward values
+        if (act != Act.AddNew && i < supplier.Count - 1)
         {
-            // note: intuitively an update would be more proficient than delete and replay; however,
-            // given the chain reaction of observer rebuilds, delete and rebuild is the most humane.
-
-            ClearCache(r.Timestamp);
-            RebuildCache(r.Timestamp);
+            // cascade updates gracefully
+            int next = act == Act.Delete ? i : i + 1;
+            (DateTime d, double v) = supplier[next];
+            OnNext((Act.Update, d, v));
         }
     }
 

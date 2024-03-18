@@ -44,12 +44,16 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         // late arrival
         provider.Add(quotesList[80]);
 
+        // delete
+        provider.Delete(quotesList[400]);
+        quotesList.RemoveAt(400);
+
         // final results
         List<SmaResult> streamList
             = results.ToList();
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotes
+        List<SmaResult> seriesList = quotesList
             .GetSma(20)
             .ToList();
 
@@ -92,12 +96,16 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             provider.Add(quotesList[i]);
         }
 
+        // delete
+        provider.Delete(quotesList[400]);
+        quotesList.RemoveAt(400);
+
         // final results
         List<EmaResult> streamList
             = [.. observer.Results];
 
         // time-series, for comparison
-        List<EmaResult> seriesList = quotes
+        List<EmaResult> seriesList = quotesList
             .GetSma(smaPeriods)
             .GetEma(emaPeriods)
             .ToList();

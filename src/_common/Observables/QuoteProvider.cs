@@ -48,7 +48,6 @@ public class QuoteProvider<TQuote>
 
             throw new OverflowException(msg, ox);
         }
-
     }
 
     // add many
@@ -63,8 +62,30 @@ public class QuoteProvider<TQuote>
         }
     }
 
+    // delete one
+    public Act Delete(TQuote quote)
+    {
+        try
+        {
+            Act act = PurgeWithAnalysis(quote);
+            NotifyObservers((act, quote));
+            return act;
+        }
+        catch (OverflowException ox)
+        {
+            EndTransmission();
+
+            string msg = "A repeated Quote delete exceeded the 100 attempt threshold. "
+                        + "Check and remove circular chains or check your Quote provider."
+                        + "Provider terminated.";
+
+            throw new OverflowException(msg, ox);
+        }
+
+    }
+
     // re/initialize is graceful erase only for quote provider
-    public void Initialize() => ResetCache();
+    public void Initialize() => ClearCache();
 
     // subscribe observer
     public IDisposable Subscribe(IObserver<(Act, TQuote)> observer)
@@ -91,18 +112,39 @@ public class QuoteProvider<TQuote>
         observers.Clear();
     }
 
-    // notify observers
-    private void NotifyObservers((Act act, TQuote quote) value)
+    // delete cache, gracefully
+    internal override void ClearCache(int fromIndex, int toIndex)
     {
-        // convert to internal non-generic quote
-        // for transmission
-
-        if (value.quote is not TQuote q)
+        // delete and deliver instruction,
+        // in reverse order to prevent recompositions
+        for (int i = Cache.Count - 1; i > 0; i--)
         {
-            throw new ArgumentNullException(nameof(value), "External quote provided was null.");
+            TQuote q = Cache[i];
+            Act act = CacheResultPerAction(Act.Delete, q);
+            NotifyObservers((act, q));
         }
 
-        (Act act, TQuote q) quoteMessage = (value.act, q);
+        // note: there is no auto-rebuild option since the
+        // quote provider is a top level external entry point.
+        // The using system will need to handle resupply with Add().
+    }
+
+    internal override void RebuildCache(DateTime fromDate, int offset)
+        => throw new InvalidOperationException();
+
+    internal override void RebuildCache(int fromIndex, int offset)
+        => throw new InvalidOperationException();
+
+    // notify observers
+    private void NotifyObservers((Act act, TQuote quote) quoteMessage)
+    {
+        // do not propogate "do nothing" acts
+        if (quoteMessage.act == Act.DoNothing)
+        {
+            return;
+        }
+
+        // send to subscribers
         List<IObserver<(Act, TQuote)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
@@ -129,22 +171,5 @@ public class QuoteProvider<TQuote>
                 observers.Remove(observer);
             }
         }
-    }
-
-    // delete cache, gracefully
-    private void ResetCache()
-    {
-        // delete and deliver instruction,
-        // in reverse order to prevent recompositions
-        for (int i = Cache.Count - 1; i > 0; i--)
-        {
-            TQuote q = Cache[i];
-            Act act = CacheResultPerAction(Act.Delete, q);
-            NotifyObservers((act, q));
-        }
-
-        // note: there is no auto-rebuild option since the
-        // quote provider is a top level external entry point.
-        // The using system will need to handle resupply with Add().
     }
 }

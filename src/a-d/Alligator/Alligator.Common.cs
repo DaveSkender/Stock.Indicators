@@ -2,8 +2,12 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (COMMON)
 
-public static class Alligator
+public partial class Alligator
 {
+    // string label
+    public override string ToString()
+        => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
+
     // parameter validation
     internal static void Validate(
         int jawPeriods,

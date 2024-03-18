@@ -45,8 +45,8 @@ public class QuoteEqualityTests : TestQuoteBase
         Assert.IsTrue(q1.Equals(q2));
         Assert.IsFalse(q1.Equals(q3));
 
-        Assert.IsTrue(q1==q2);
-        Assert.IsFalse(q1==q3);
+        Assert.IsTrue(q1 == q2);
+        Assert.IsFalse(q1 == q3);
 
         Assert.IsFalse(q1 != q2);
         Assert.IsTrue(q1 != q3);

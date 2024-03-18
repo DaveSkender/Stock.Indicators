@@ -46,8 +46,15 @@ public abstract class ChainProvider : IChainProvider
     }
 
     // notify observers
-    internal void NotifyObservers((Act, DateTime, double) chainMessage)
+    internal void NotifyObservers((Act act, DateTime, double) chainMessage)
     {
+        // do not propogate "do nothing" acts
+        if (chainMessage.act == Act.DoNothing)
+        {
+            return;
+        }
+
+        // send to subscribers
         List<IObserver<(Act, DateTime, double)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)

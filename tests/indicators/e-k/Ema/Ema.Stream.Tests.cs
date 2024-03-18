@@ -4,7 +4,7 @@ namespace Tests.Indicators;
 public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
-    public void Standard() // from quote provider
+    public override void QuoteObserver()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -44,12 +44,16 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         // late arrival
         provider.Add(quotesList[80]);
 
+        // delete
+        provider.Delete(quotesList[400]);
+        quotesList.RemoveAt(400);
+
         // final results
         List<EmaResult> streamList
             = results.ToList();
 
         // time-series, for comparison
-        List<EmaResult> seriesList = quotes
+        List<EmaResult> seriesList = quotesList
             .GetEma(20)
             .ToList();
 
@@ -86,18 +90,38 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             .AttachEma(emaPeriods)
             .AttachSma(smaPeriods);
 
-        // emulate quote stream
+        // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            // skip one (add later)
+            if (i == 80)
+            {
+                continue;
+            }
+
+            Quote q = quotesList[i];
+            provider.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105)
+            {
+                provider.Add(q);
+            }
         }
+
+        // late arrival
+        provider.Add(quotesList[80]);
+
+        // delete
+        provider.Delete(quotesList[400]);
+        quotesList.RemoveAt(400);
 
         // final results
         List<SmaResult> streamList
             = [.. observer.Results];
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotes
+        List<SmaResult> seriesList = quotesList
             .GetEma(emaPeriods)
             .GetSma(smaPeriods)
             .ToList();

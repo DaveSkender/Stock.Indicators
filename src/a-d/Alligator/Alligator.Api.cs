@@ -60,4 +60,46 @@ public static partial class Indicator
                 teethOffset,
                 lipsPeriods,
                 lipsOffset);
+
+    // OBSERVER, from Quote Provider
+    public static Alligator AttachAlligator<TQuote>(
+        this QuoteProvider<TQuote> quoteProvider,
+        int jawPeriods,
+        int jawOffset,
+        int teethPeriods,
+        int teethOffset,
+        int lipsPeriods,
+        int lipsOffset)
+        where TQuote : IQuote, new()
+    {
+        Use<TQuote> chainProvider = quoteProvider
+            .Use(CandlePart.HL2);
+
+        return new(
+            chainProvider,
+            jawPeriods,
+            jawOffset,
+            teethPeriods,
+            teethOffset,
+            lipsPeriods,
+            lipsOffset);
+    }
+
+    // OBSERVER, from Chain Provider
+    public static Alligator AttachAlligator(
+        this ChainProvider chainProvider,
+        int jawPeriods,
+        int jawOffset,
+        int teethPeriods,
+        int teethOffset,
+        int lipsPeriods,
+        int lipsOffset)
+        => new(
+            chainProvider,
+            jawPeriods,
+            jawOffset,
+            teethPeriods,
+            teethOffset,
+            lipsPeriods,
+            lipsOffset);
 }

@@ -46,9 +46,9 @@ public static class Candlesticks
             .Select(x => new CandleResult(
                 x.Timestamp,
                 Match.None)
-                {
-                    Candle = x.ToCandle()
-                })
+            {
+                Candle = x.ToCandle()
+            })
             .OrderBy(x => x.Timestamp)
         ];
 
