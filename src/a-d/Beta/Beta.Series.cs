@@ -50,8 +50,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpListEval[i];
 
-            BetaResult r = new(date)
-            {
+            BetaResult r = new(date) {
                 ReturnsEval = evalReturns[i],
                 ReturnsMrkt = mrktReturns[i]
             };

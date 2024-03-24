@@ -90,11 +90,13 @@ dotnet_style_object_initializer = true:suggestion
 dotnet_style_prefer_collection_expression = true:suggestion
 
 [*.cs]
+# ref: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
+
 csharp_indent_labels = one_less_than_current
 csharp_using_directive_placement = outside_namespace:warning
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_static_local_function = true:suggestion
-csharp_prefer_braces = true:suggestion
+
 csharp_style_namespace_declarations = file_scoped:suggestion
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
@@ -117,6 +119,22 @@ csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 
+# braces
+csharp_prefer_braces = true:suggestion
+
+csharp_new_line_before_open_brace = methods, properties, control_blocks, types
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = false
+csharp_new_line_before_members_in_anonymous_types = false
+csharp_new_line_between_query_expression_clauses = false
+
+# braces overrides
+csharp_type_declaration_braces = next_line
+csharp_empty_block_style = together_same_line
+
+# diagnostic analyzers
 dotnet_diagnostic.CA1303.severity = none
 dotnet_diagnostic.CS1591.severity = silent
 dotnet_diagnostic.IDE0058.severity = none

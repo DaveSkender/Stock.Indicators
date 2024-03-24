@@ -13,8 +13,7 @@ public static partial class Indicator
 
         // money flow
         List<ChaikinOscResult> results = qdList.CalcAdl(null)
-            .Select(r => new ChaikinOscResult(r.Date)
-            {
+            .Select(r => new ChaikinOscResult(r.Date) {
                 MoneyFlowMultiplier = r.MoneyFlowMultiplier,
                 MoneyFlowVolume = r.MoneyFlowVolume,
                 Adl = r.Adl

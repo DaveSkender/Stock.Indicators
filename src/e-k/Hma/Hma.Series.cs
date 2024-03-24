@@ -45,8 +45,7 @@ public static partial class Indicator
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
-            .Select(x => new HmaResult(x.Date)
-            {
+            .Select(x => new HmaResult(x.Date) {
                 Hma = x.Wma
             })
             .ToList();

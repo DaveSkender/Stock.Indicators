@@ -30,8 +30,7 @@ public static partial class Indicator
             tpList
             .CalcRsi(rsiPeriods)
             .Remove(Math.Min(rsiPeriods, length))
-            .Select(x => new QuoteD
-            {
+            .Select(x => new QuoteD {
                 Date = x.Date,
                 High = x.Rsi.Null2NaN(),
                 Low = x.Rsi.Null2NaN(),
@@ -48,8 +47,7 @@ public static partial class Indicator
         for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
         {
             StochResult r = stoResults[i - rsiPeriods];
-            results.Add(new StochRsiResult(r.Date)
-            {
+            results.Add(new StochRsiResult(r.Date) {
                 StochRsi = r.Oscillator,
                 Signal = r.Signal
             });
