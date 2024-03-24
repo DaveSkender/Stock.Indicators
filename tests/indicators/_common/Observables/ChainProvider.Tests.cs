@@ -174,8 +174,7 @@ public class ChainProviderTests : StreamTestBase
             .Use(CandlePart.Close);
 
         // add too many duplicates
-        Assert.ThrowsException<OverflowException>(() =>
-        {
+        Assert.ThrowsException<OverflowException>(() => {
             Quote q = new() { Timestamp = DateTime.Now };
 
             for (int i = 0; i <= 101; i++)

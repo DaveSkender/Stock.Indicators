@@ -21,8 +21,7 @@ public static class Adl
         double mfv = mfm * volume;
         double adl = mfv + prevAdl;
 
-        return new AdlResult
-        {
+        return new AdlResult {
             Timestamp = DateTime.MinValue,
             MoneyFlowMultiplier = mfm,
             MoneyFlowVolume = mfv,

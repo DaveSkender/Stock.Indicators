@@ -6,8 +6,7 @@ public static partial class Indicator
     public static IEnumerable<Quote> ToQuotes(
     this IEnumerable<HeikinAshiResult> results)
       => results
-        .Select(x => new Quote
-        {
+        .Select(x => new Quote {
             Timestamp = x.Timestamp,
             Open = x.Open,
             High = x.High,

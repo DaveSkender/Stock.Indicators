@@ -63,8 +63,7 @@ public static partial class Indicator
         {
             (DateTime date, double price) = tpList[i];
 
-            ConnorsRsiResult r = new()
-            {
+            ConnorsRsiResult r = new() {
                 Timestamp = date,
                 Rsi = rsiResults[i].Rsi
             };

@@ -44,8 +44,7 @@ public static partial class QuoteUtility
     // convert to quotes in double precision
     internal static QuoteD ToQuoteD<TQuote>(
         this TQuote quote)
-        where TQuote : IQuote => new()
-        {
+        where TQuote : IQuote => new() {
             Timestamp = quote.Timestamp,
             Open = (double)quote.Open,
             High = (double)quote.High,
@@ -57,8 +56,7 @@ public static partial class QuoteUtility
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => [.. quotes
-            .Select(x => new QuoteD
-            {
+            .Select(x => new QuoteD {
                 Timestamp = x.Timestamp,
                 Open = (double)x.Open,
                 High = (double)x.High,
@@ -82,8 +80,7 @@ public static partial class QuoteUtility
     internal static (DateTime date, double value) ToTuple<TQuote>(
         this TQuote q,
         CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch
-        {
+        where TQuote : IQuote => candlePart switch {
             CandlePart.Open => (q.Timestamp, (double)q.Open),
             CandlePart.High => (q.Timestamp, (double)q.High),
             CandlePart.Low => (q.Timestamp, (double)q.Low),
@@ -101,8 +98,7 @@ public static partial class QuoteUtility
     internal static BasicResult ToBasicData<TQuote>(
         this TQuote q,
         CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch
-        {
+        where TQuote : IQuote => candlePart switch {
             CandlePart.Open => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.Open },
             CandlePart.High => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.High },
             CandlePart.Low => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.Low },
@@ -119,8 +115,7 @@ public static partial class QuoteUtility
     // convert quoteD element to basic tuple
     internal static (DateTime, double) ToTuple(
         this QuoteD q,
-        CandlePart candlePart) => candlePart switch
-        {
+        CandlePart candlePart) => candlePart switch {
             CandlePart.Open => (q.Timestamp, q.Open),
             CandlePart.High => (q.Timestamp, q.High),
             CandlePart.Low => (q.Timestamp, q.Low),

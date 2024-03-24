@@ -24,8 +24,7 @@ public static partial class Indicator
         {
             AdlResult adl = adlResults[i];
 
-            CmfResult r = new()
-            {
+            CmfResult r = new() {
                 Timestamp = adl.Timestamp,
                 MoneyFlowMultiplier = adl.MoneyFlowMultiplier,
                 MoneyFlowVolume = adl.MoneyFlowVolume

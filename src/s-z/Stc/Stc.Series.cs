@@ -20,8 +20,7 @@ public static partial class Indicator
         // get stochastic of macd
         List<StochResult> stochMacd = tpList
           .CalcMacd(fastPeriods, slowPeriods, 1)
-          .Select(x => new QuoteD
-          {
+          .Select(x => new QuoteD {
               Timestamp = x.Timestamp,
               High = x.Macd.Null2NaN(),
               Low = x.Macd.Null2NaN(),
@@ -34,8 +33,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             StochResult r = stochMacd[i];
-            results.Add(new StcResult
-            {
+            results.Add(new StcResult {
                 Timestamp = r.Timestamp,
                 Stc = r.Oscillator
             });

@@ -41,8 +41,7 @@ public static partial class Indicator
             decimal[] arrL = [q.Low, open, close];
             decimal low = arrL.Min();
 
-            HeikinAshiResult r = new()
-            {
+            HeikinAshiResult r = new() {
                 Timestamp = q.Timestamp,
                 Open = open,
                 High = high,

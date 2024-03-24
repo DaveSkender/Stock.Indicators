@@ -9,8 +9,7 @@ public class QuoteEqualityTests : TestQuoteBase
     [TestMethod]
     public void EqualQuotes()
     {
-        Quote q1 = new()
-        {
+        Quote q1 = new() {
             Timestamp = evalDate,
             Open = 1m,
             High = 1m,
@@ -19,8 +18,7 @@ public class QuoteEqualityTests : TestQuoteBase
             Volume = 100
         };
 
-        Quote q2 = new()
-        {
+        Quote q2 = new() {
             Timestamp = evalDate,
             Open = 1m,
             High = 1m,
@@ -29,8 +27,7 @@ public class QuoteEqualityTests : TestQuoteBase
             Volume = 100
         };
 
-        Quote q3 = new()
-        {
+        Quote q3 = new() {
             Timestamp = evalDate,
             Open = 1m,
             High = 1m,

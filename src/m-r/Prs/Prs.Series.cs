@@ -27,8 +27,7 @@ public static partial class Indicator
                     "Timestamp sequence does not match.  Price Relative requires matching dates in provided histories.");
             }
 
-            PrsResult r = new()
-            {
+            PrsResult r = new() {
                 Timestamp = eDate,
                 Prs = (bValue == 0) ? null : (eValue / bValue).NaN2Null() // relative strength ratio
             };

@@ -40,8 +40,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            PivotPointsResult r = new()
-            {
+            PivotPointsResult r = new() {
                 Timestamp = q.Timestamp
             };
 
@@ -105,8 +104,7 @@ public static partial class Indicator
     {
         decimal pp = (high + low + close) / 3;
 
-        return new TPivotPoint
-        {
+        return new TPivotPoint {
             PP = pp,
             S1 = (pp * 2) - high,
             S2 = pp - (high - low),
@@ -120,8 +118,7 @@ public static partial class Indicator
     internal static TPivotPoint GetPivotPointCamarilla<TPivotPoint>(
         decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
-        => new()
-        {
+        => new() {
             PP = close,
             S1 = close - (1.1m / 12 * (high - low)),
             S2 = close - (1.1m / 6 * (high - low)),
@@ -143,8 +140,7 @@ public static partial class Indicator
             ? (2 * high) + low + close
             : high + low + (2 * close);
 
-        return new TPivotPoint
-        {
+        return new TPivotPoint {
             PP = x / 4,
             S1 = (x / 2) - high,
             R1 = (x / 2) - low
@@ -157,8 +153,7 @@ public static partial class Indicator
     {
         decimal pp = (high + low + close) / 3;
 
-        return new TPivotPoint
-        {
+        return new TPivotPoint {
             PP = pp,
             S1 = pp - (0.382m * (high - low)),
             S2 = pp - (0.618m * (high - low)),
@@ -175,8 +170,7 @@ public static partial class Indicator
     {
         decimal pp = (high + low + (2 * currentOpen)) / 4;
 
-        return new TPivotPoint
-        {
+        return new TPivotPoint {
             PP = pp,
             S1 = (pp * 2) - high,
             S2 = pp - high + low,
@@ -191,8 +185,7 @@ public static partial class Indicator
     internal static TPivotPoint GetPivotPoint<TPivotPoint>(
         PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
-        => pointType switch
-        {
+        => pointType switch {
             PivotPointType.Standard => GetPivotPointStandard<TPivotPoint>(high, low, close),
             PivotPointType.Camarilla => GetPivotPointCamarilla<TPivotPoint>(high, low, close),
             PivotPointType.Demark => GetPivotPointDemark<TPivotPoint>(open, high, low, close),
@@ -203,8 +196,7 @@ public static partial class Indicator
 
     // window size lookup
     private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
-        => windowSize switch
-        {
+        => windowSize switch {
             PeriodSize.Month => d.Month,
             PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
             PeriodSize.Day => d.Day,

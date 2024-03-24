@@ -31,8 +31,7 @@ public static partial class Indicator
                 obv -= q.Volume;
             }
 
-            ObvResult r = new()
-            {
+            ObvResult r = new() {
                 Timestamp = q.Timestamp,
                 Obv = obv
             };

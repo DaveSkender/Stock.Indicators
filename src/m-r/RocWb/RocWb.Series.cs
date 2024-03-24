@@ -33,8 +33,7 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             (DateTime date, double roc) = tpRoc[i];
-            RocWbResult r = new()
-            {
+            RocWbResult r = new() {
                 Timestamp = date,
                 Roc = roc.NaN2Null()
             };
