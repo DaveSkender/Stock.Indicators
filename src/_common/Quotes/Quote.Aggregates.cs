@@ -27,8 +27,6 @@ public static partial class QuoteUtility
             .GroupBy(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
             .Select(x => new Quote {
                 Timestamp = x.Key,
-                Date = x.Key,
-                Date = x.Key,
                 Open = x.First().Open,
                 High = x.Max(t => t.High),
                 Low = x.Min(t => t.Low),
@@ -52,12 +50,12 @@ public static partial class QuoteUtility
                 "Quotes Aggregation must use a usable new size value (see documentation for options).");
         }
 
+        // return aggregation
+        return quotes
             .OrderBy(x => x.Timestamp)
             .GroupBy(x => x.Timestamp.RoundDown(timeSpan))
             .Select(x => new Quote {
                 Timestamp = x.Key,
-            {
-                Date = x.Key,
                 Open = x.First().Open,
                 High = x.Max(t => t.High),
                 Low = x.Min(t => t.Low),
