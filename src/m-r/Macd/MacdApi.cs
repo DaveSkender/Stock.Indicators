@@ -21,9 +21,8 @@ public static partial class Indicator
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9) => results
-            .ToTuple()
-            .CalcMacd(fastPeriods, slowPeriods, signalPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<MacdResult> GetMacd(

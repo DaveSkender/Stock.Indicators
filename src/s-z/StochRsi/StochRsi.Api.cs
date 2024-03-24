@@ -27,13 +27,12 @@ public static partial class Indicator
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods) => results
-            .ToTuple()
+            .ToTupleResult()
             .CalcStochRsi(
                 rsiPeriods,
                 stochPeriods,
                 signalPeriods,
-                smoothPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+                smoothPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<StochRsiResult> GetStochRsi(

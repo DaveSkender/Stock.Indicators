@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteUtilityTests : TestBase
+public class QuoteUtilityTests : TestQuoteBase
 {
     [TestMethod]
     public void QuoteToSortedCollection()
@@ -17,15 +17,15 @@ public class QuoteUtilityTests : TestBase
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].Date);
+        Assert.AreEqual(firstDate, h[0].Timestamp);
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].Date);
+        Assert.AreEqual(spotDate, h[50].Timestamp);
     }
 
     [TestMethod]
@@ -40,15 +40,15 @@ public class QuoteUtilityTests : TestBase
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].Date);
+        Assert.AreEqual(firstDate, h[0].Timestamp);
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].Date);
+        Assert.AreEqual(spotDate, h[50].Timestamp);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class QuoteUtilityTests : TestBase
         decimal ohlc4 = (o + h + l + c) / 4m;
 
         Quote q = new() {
-            Date = d,
+            Timestamp = d,
             Open = o,
             High = h,
             Low = l,
@@ -120,7 +120,7 @@ public class QuoteUtilityTests : TestBase
     public void ToTupleCollection()
     {
         Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .ToTupleCollection(CandlePart.Close);
 
         Assert.IsNotNull(collection);
@@ -132,7 +132,7 @@ public class QuoteUtilityTests : TestBase
     public void ToSortedList()
     {
         Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .ToTuple(CandlePart.Close)
             .ToSortedCollection();
 
@@ -158,7 +158,7 @@ public class QuoteUtilityTests : TestBase
         decimal ohlc4 = (o + h + l + c) / 4m;
 
         Quote q = new() {
-            Date = d,
+            Timestamp = d,
             Open = o,
             High = h,
             Low = l,
@@ -219,7 +219,7 @@ public class QuoteUtilityTests : TestBase
         double ohlc4 = (o + h + l + c) / 4;
 
         QuoteD q = new() {
-            Date = d,
+            Timestamp = d,
             Open = o,
             High = h,
             Low = l,

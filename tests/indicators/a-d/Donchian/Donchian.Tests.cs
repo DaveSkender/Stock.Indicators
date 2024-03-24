@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class DonchianTests : TestBase
+public class DonchianTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<DonchianResult> results = quotes
             .GetDonchian(20)
@@ -50,7 +50,7 @@ public class DonchianTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<DonchianResult> r = badQuotes
             .GetDonchian(15)
@@ -60,7 +60,7 @@ public class DonchianTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<DonchianResult> r0 = noquotes
             .GetDonchian()

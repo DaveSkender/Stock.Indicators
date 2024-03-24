@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ElderRayTests : TestBase
+public class ElderRayTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<ElderRayResult> results = quotes
             .GetElderRay(13)
@@ -60,7 +60,7 @@ public class ElderRayTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ElderRayResult> r = badQuotes
             .GetElderRay()
@@ -71,7 +71,7 @@ public class ElderRayTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ElderRayResult> r0 = noquotes
             .GetElderRay()

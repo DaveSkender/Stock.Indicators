@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // SUPERTREND (SERIES)
+
 public static partial class Indicator
 {
     internal static List<SuperTrendResult> CalcSuperTrend(
@@ -9,7 +10,7 @@ public static partial class Indicator
         double multiplier)
     {
         // check parameter arguments
-        ValidateSuperTrend(lookbackPeriods, multiplier);
+        SuperTrend.Validate(lookbackPeriods, multiplier);
 
         // initialize
         List<SuperTrendResult> results = new(qdList.Count);
@@ -24,7 +25,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SuperTrendResult r = new(q.Date);
+            SuperTrendResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             if (i >= lookbackPeriods)
@@ -38,6 +39,7 @@ public static partial class Indicator
                 double? lowerEval = mid - (multiplier * atr);
 
                 // initial values
+                // TODO: update healing, without requiring specific indexing
                 if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= mid;
@@ -75,24 +77,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateSuperTrend(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for SuperTrend.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for SuperTrend.");
-        }
     }
 }

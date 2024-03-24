@@ -1,15 +1,16 @@
 namespace Skender.Stock.Indicators;
 
 // HULL MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
     internal static List<HmaResult> CalcHma(
-        this List<(DateTime, double)> tpList,
+        this List<(DateTime Timestamp, double _)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateHma(lookbackPeriods);
+        Hma.Validate(lookbackPeriods);
 
         // initialize
         int shiftQty = lookbackPeriods - 1;
@@ -40,12 +41,13 @@ public static partial class Indicator
 
         List<HmaResult> results = tpList
             .Take(shiftQty)
-            .Select(x => new HmaResult(x.Item1))
+            .Select(x => new HmaResult { Timestamp = x.Timestamp })
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
-            .Select(x => new HmaResult(x.Date) {
+            .Select(x => new HmaResult {
+                Timestamp = x.Timestamp,
                 Hma = x.Wma
             })
             .ToList();
@@ -54,17 +56,5 @@ public static partial class Indicator
         results.AddRange(hmaResults);
 
         return results.ToSortedList();
-    }
-
-    // parameter validation
-    private static void ValidateHma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for HMA.");
-        }
     }
 }

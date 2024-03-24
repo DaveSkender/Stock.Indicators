@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // MARUBOZU (SERIES)
+
 public static partial class Indicator
 {
     /// <include file='./info.xml' path='info/*' />
@@ -11,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateMarubozu(minBodyPercent);
+        Marubozu.Validate(minBodyPercent);
 
         // initialize
         List<CandleResult> results = quotes.ToCandleResults();
@@ -32,23 +33,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateMarubozu(
-        double minBodyPercent)
-    {
-        // check parameter arguments
-        if (minBodyPercent > 100)
-        {
-            throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
-                "Minimum Body Percent must be less than 100 for Marubozu (<=100%).");
-        }
-
-        if (minBodyPercent < 80)
-        {
-            throw new ArgumentOutOfRangeException(nameof(minBodyPercent), minBodyPercent,
-                "Minimum Body Percent must at least 80 (80%) for Marubozu and is usually greater than 90 (90%).");
-        }
     }
 }

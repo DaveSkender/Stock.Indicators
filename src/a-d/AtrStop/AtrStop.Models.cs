@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AtrStopResult : ResultBase
+public sealed record class AtrStopResult : IResult
 {
-    public AtrStopResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public decimal? AtrStop { get; set; }
     public decimal? BuyStop { get; set; }
     public decimal? SellStop { get; set; }

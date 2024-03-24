@@ -21,9 +21,8 @@ public static partial class Indicator
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7) => results
-            .ToTuple()
-            .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<TsiResult> GetTsi(

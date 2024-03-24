@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class KeltnerTests : TestBase
+public class KeltnerTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int emaPeriods = 20;
         int multiplier = 2;
@@ -38,7 +38,7 @@ public class KeltnerTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<KeltnerResult> r = badQuotes
             .GetKeltner(10, 3, 15)
@@ -49,7 +49,7 @@ public class KeltnerTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<KeltnerResult> r0 = noquotes
             .GetKeltner()

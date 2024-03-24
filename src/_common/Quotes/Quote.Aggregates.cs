@@ -23,10 +23,10 @@ public static partial class QuoteUtility
         else // month
         {
             return quotes
-            .OrderBy(x => x.Date)
-            .GroupBy(x => new DateTime(x.Date.Year, x.Date.Month, 1))
+            .OrderBy(x => x.Timestamp)
+            .GroupBy(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
             .Select(x => new Quote {
-                Date = x.Key,
+                Timestamp = x.Key,
                 Open = x.First().Open,
                 High = x.Max(t => t.High),
                 Low = x.Min(t => t.Low),
@@ -52,10 +52,10 @@ public static partial class QuoteUtility
 
         // return aggregation
         return quotes
-            .OrderBy(x => x.Date)
-            .GroupBy(x => x.Date.RoundDown(timeSpan))
+            .OrderBy(x => x.Timestamp)
+            .GroupBy(x => x.Timestamp.RoundDown(timeSpan))
             .Select(x => new Quote {
-                Date = x.Key,
+                Timestamp = x.Key,
                 Open = x.First().Open,
                 High = x.Max(t => t.High),
                 Low = x.Min(t => t.Low),

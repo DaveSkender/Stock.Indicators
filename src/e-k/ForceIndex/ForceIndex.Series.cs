@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // FORCE INDEX (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ForceIndexResult> CalcForceIndex(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateForceIndex(lookbackPeriods);
+        ForceIndex.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -23,7 +24,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ForceIndexResult r = new(q.Date);
+            ForceIndexResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // skip first period
@@ -44,6 +45,7 @@ public static partial class Indicator
             }
 
             // initialization period
+            // TODO: update healing, without requiring specific indexing
             else
             {
                 sumRawFI += rawFI;
@@ -59,17 +61,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateForceIndex(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Force Index.");
-        }
     }
 }

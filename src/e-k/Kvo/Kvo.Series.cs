@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // KLINGER VOLUME OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<KvoResult> CalcKvo(
@@ -10,7 +11,7 @@ public static partial class Indicator
         int signalPeriods)
     {
         // check parameter arguments
-        ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
+        Kvo.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -34,7 +35,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KvoResult r = new(q.Date);
+            KvoResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // trend basis comparator
@@ -72,6 +73,8 @@ public static partial class Indicator
             {
                 vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
+
+            // TODO: update healing, without requiring specific indexing
             else if (i == fastPeriods + 1)
             {
                 double sum = 0;
@@ -88,6 +91,7 @@ public static partial class Indicator
             {
                 vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
+            // TODO: update healing, without requiring specific indexing
             else if (i == slowPeriods + 1)
             {
                 double sum = 0;
@@ -110,6 +114,7 @@ public static partial class Indicator
                     r.Signal = (r.Oscillator * kSignal)
                         + (results[i - 1].Signal * (1 - kSignal));
                 }
+                // TODO: update healing, without requiring specific indexing
                 else if (i == slowPeriods + signalPeriods)
                 {
                     double? sum = 0;
@@ -124,31 +129,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateKlinger(
-        int fastPeriods,
-        int slowPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (fastPeriods <= 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast (short) Periods must be greater than 2 for Klinger Oscillator.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow (long) Periods must be greater than Fast Periods for Klinger Oscillator.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal Periods must be greater than 0 for Klinger Oscillator.");
-        }
     }
 }

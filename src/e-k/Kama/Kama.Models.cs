@@ -1,15 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class KamaResult : ResultBase, IReusableResult
+public sealed record class KamaResult : IReusableResult
 {
-    public KamaResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? ER { get; set; }
     public double? Kama { get; set; }
 
-    double? IReusableResult.Value => Kama;
+    double IReusableResult.Value => Kama.Null2NaN();
 }

@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class KeltnerResult : ResultBase
+public sealed record class KeltnerResult : IResult
 {
-    public KeltnerResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? UpperBand { get; set; }
     public double? Centerline { get; set; }
     public double? LowerBand { get; set; }

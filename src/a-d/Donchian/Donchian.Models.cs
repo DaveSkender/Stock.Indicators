@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class DonchianResult : ResultBase
+public sealed record class DonchianResult : IResult
 {
-    public DonchianResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public decimal? UpperBand { get; set; }
     public decimal? Centerline { get; set; }
     public decimal? LowerBand { get; set; }

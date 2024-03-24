@@ -43,7 +43,7 @@ IEnumerable<MfiResult>
 
 ### MfiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Mfi`** _`decimal`_ - Money Flow Index
 

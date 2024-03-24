@@ -1,14 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class TrResult : ResultBase, IReusableResult
+public sealed record class TrResult : IReusableResult
 {
-    public TrResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Tr { get; set; }
 
-    double? IReusableResult.Value => Tr;
+    double IReusableResult.Value => Tr.Null2NaN();
 }

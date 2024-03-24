@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class T3Tests : TestBase
+public class T3Tests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<T3Result> results = quotes
             .GetT3(5, 0.7)
@@ -81,7 +81,7 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<T3Result> r = badQuotes
             .GetT3()
@@ -92,7 +92,7 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<T3Result> r0 = noquotes
             .GetT3()

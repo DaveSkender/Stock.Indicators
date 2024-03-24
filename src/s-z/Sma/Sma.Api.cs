@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/type[@name="Main"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
     ///
     public static IEnumerable<SmaResult> GetSma<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -18,9 +18,8 @@ public static partial class Indicator
     public static IEnumerable<SmaResult> GetSma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
-            .CalcSma(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcSma(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<SmaResult> GetSma(
@@ -32,25 +31,26 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static SmaObserver GetSma(
-        this QuoteProvider provider,
+    public static Sma AttachSma<TQuote>(
+        this QuoteProvider<TQuote> quoteProvider,
         int lookbackPeriods)
+        where TQuote : IQuote, new()
     {
-        UseObserver useObserver = provider
+        Use<TQuote> chainProvider = quoteProvider
             .Use(CandlePart.Close);
 
-        return new(useObserver, lookbackPeriods);
+        return new(chainProvider, lookbackPeriods);
     }
 
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static SmaObserver GetSma(
-        this TupleProvider tupleProvider,
+    public static Sma AttachSma(
+        this ChainProvider chainProvider,
         int lookbackPeriods)
-        => new(tupleProvider, lookbackPeriods);
+        => new(chainProvider, lookbackPeriods);
 
-    /// <include file='./info.xml' path='info/type[@name="Analysis"]/*' />
+    /// <include file='./info.xml' path='info/type[@name="analysis"]/*' />
     ///
     // ANALYSIS, from TQuote
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(
@@ -64,9 +64,8 @@ public static partial class Indicator
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
-            .CalcSmaAnalysis(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcSmaAnalysis(lookbackPeriods);
 
     // ANALYSIS, from TUPLE
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis(

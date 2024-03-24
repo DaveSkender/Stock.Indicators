@@ -2,13 +2,12 @@ namespace Skender.Stock.Indicators;
 
 // RESULT MODELS
 
-public interface IReusableResult : ISeries
-{
-    public double? Value { get; }
-}
+// Cosmetic alias for ISeries,
+// to clarify indicator use intention (readability)
+public interface IResult : ISeries;
 
-[Serializable]
-public abstract class ResultBase : ISeries
+// result that can provide a single chainable value
+public interface IReusableResult : IResult
 {
-    public DateTime Date { get; set; }
+    double Value { get; }
 }

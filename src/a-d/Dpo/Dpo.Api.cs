@@ -17,9 +17,8 @@ public static partial class Indicator
     public static IEnumerable<DpoResult> GetDpo(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
-            .CalcDpo(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcDpo(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<DpoResult> GetDpo(

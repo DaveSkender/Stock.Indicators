@@ -21,9 +21,8 @@ public static partial class Indicator
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100) => results
-            .ToTuple()
-            .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<ConnorsRsiResult> GetConnorsRsi(

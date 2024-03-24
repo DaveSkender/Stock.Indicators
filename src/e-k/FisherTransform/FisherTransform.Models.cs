@@ -1,15 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class FisherTransformResult : ResultBase, IReusableResult
+public sealed record class FisherTransformResult : IReusableResult
 {
-    public FisherTransformResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Fisher { get; set; }
     public double? Trigger { get; set; }
 
-    double? IReusableResult.Value => Fisher;
+    double IReusableResult.Value => Fisher.Null2NaN();
 }

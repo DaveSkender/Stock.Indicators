@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // PIVOT POINTS (SERIES)
+
 public static partial class Indicator
 {
     internal static List<PivotPointsResult> CalcPivotPoints<TQuote>(
@@ -24,7 +25,7 @@ public static partial class Indicator
             h0 = quotesList[0];
         }
 
-        int windowId = GetWindowNumber(h0.Date, windowSize);
+        int windowId = GetWindowNumber(h0.Timestamp, windowSize);
 
         int windowEval;
         bool firstWindow = true;
@@ -40,11 +41,11 @@ public static partial class Indicator
             TQuote q = quotesList[i];
 
             PivotPointsResult r = new() {
-                Date = q.Date
+                Timestamp = q.Timestamp
             };
 
             // new window evaluation
-            windowEval = GetWindowNumber(q.Date, windowSize);
+            windowEval = GetWindowNumber(q.Timestamp, windowSize);
 
             if (windowEval != windowId)
             {
@@ -133,20 +134,11 @@ public static partial class Indicator
         decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal? x;
-
-        if (close < open)
-        {
-            x = high + (2 * low) + close;
-        }
-        else if (close > open)
-        {
-            x = (2 * high) + low + close;
-        }
-        else // close == open
-        {
-            x = high + low + (2 * close);
-        }
+        decimal x = close < open
+            ? high + (2 * low) + close
+            : close > open
+            ? (2 * high) + low + close
+            : high + low + (2 * close);
 
         return new TPivotPoint {
             PP = x / 4,

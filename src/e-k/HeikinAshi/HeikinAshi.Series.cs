@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // HEIKIN-ASHI (SERIES)
+
 public static partial class Indicator
 {
     internal static List<HeikinAshiResult> CalcHeikinAshi<TQuote>(
@@ -40,7 +41,8 @@ public static partial class Indicator
             decimal[] arrL = [q.Low, open, close];
             decimal low = arrL.Min();
 
-            HeikinAshiResult r = new(q.Date) {
+            HeikinAshiResult r = new() {
+                Timestamp = q.Timestamp,
                 Open = open,
                 High = high,
                 Low = low,

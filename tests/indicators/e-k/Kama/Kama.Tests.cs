@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class KamaTests : TestBase
+public class KamaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int erPeriods = 10;
         int fastPeriods = 2;
@@ -97,7 +97,7 @@ public class KamaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<KamaResult> r = badQuotes
             .GetKama()
@@ -108,7 +108,7 @@ public class KamaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<KamaResult> r0 = noquotes
             .GetKama()

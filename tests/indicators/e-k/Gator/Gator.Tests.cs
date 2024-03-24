@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class GatorTests : TestBase
+public class GatorTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<GatorResult> results = quotes
             .GetGator()
@@ -180,7 +180,7 @@ public class GatorTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<GatorResult> r = badQuotes
             .GetGator()
@@ -191,7 +191,7 @@ public class GatorTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<GatorResult> r0 = noquotes
             .GetGator()

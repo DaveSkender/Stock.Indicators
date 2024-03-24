@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StarcBandsTests : TestBase
+public class StarcBandsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int smaPeriods = 20;
         int multiplier = 2;
@@ -48,7 +48,7 @@ public class StarcBandsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StarcBandsResult> r = badQuotes
             .GetStarcBands(10, 3, 15)
@@ -59,7 +59,7 @@ public class StarcBandsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StarcBandsResult> r0 = noquotes
             .GetStarcBands(10)

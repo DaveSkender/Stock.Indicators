@@ -1,16 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AroonResult : ResultBase, IReusableResult
+public sealed record class AroonResult : IReusableResult
 {
-    public AroonResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? AroonUp { get; set; }
     public double? AroonDown { get; set; }
     public double? Oscillator { get; set; }
 
-    double? IReusableResult.Value => Oscillator;
+    double IReusableResult.Value => Oscillator.Null2NaN();
 }

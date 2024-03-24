@@ -17,9 +17,8 @@ public static partial class Indicator
     public static IEnumerable<TemaResult> GetTema(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
-            .CalcTema(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcTema(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<TemaResult> GetTema(

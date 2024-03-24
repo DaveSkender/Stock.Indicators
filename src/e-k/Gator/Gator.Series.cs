@@ -1,13 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 // GATOR OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<GatorResult> CalcGator(
         this List<AlligatorResult> alligator)
     {
         List<GatorResult> results = alligator
-        .Select(x => new GatorResult(x.Date) {
+        .Select(x => new GatorResult {
+            Timestamp = x.Timestamp,
             Upper = NullMath.Abs(x.Jaw - x.Teeth),
             Lower = -NullMath.Abs(x.Teeth - x.Lips)
         })

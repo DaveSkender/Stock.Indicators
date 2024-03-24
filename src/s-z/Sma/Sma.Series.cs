@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<SmaResult> CalcSma(
@@ -8,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        SmaObserver.Validate(lookbackPeriods);
+        Sma.Validate(lookbackPeriods);
 
         // initialize
         List<SmaResult> results = new(tpList.Count);
@@ -18,12 +19,20 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            SmaResult result = new(date);
+            SmaResult result = new() { Timestamp = date };
             results.Add(result);
 
-            result.Sma = SmaObserver
-                .Increment(tpList, i, lookbackPeriods)
-                .NaN2Null();
+            if (i >= lookbackPeriods - 1)
+            {
+                double sumSma = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                {
+                    (DateTime _, double pValue) = tpList[p];
+                    sumSma += pValue;
+                }
+
+                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
+            }
         }
 
         return results;

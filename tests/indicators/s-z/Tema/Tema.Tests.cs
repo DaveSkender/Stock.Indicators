@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class TemaTests : TestBase
+public class TemaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<TemaResult> results = quotes
             .GetTema(20)
@@ -76,7 +76,7 @@ public class TemaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<TemaResult> r = badQuotes
             .GetTema(15)
@@ -87,7 +87,7 @@ public class TemaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<TemaResult> r0 = noquotes
             .GetTema(5)

@@ -1,14 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class DynamicResult : ResultBase, IReusableResult
+public sealed record class DynamicResult : IReusableResult
 {
-    public DynamicResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Dynamic { get; set; }
 
-    double? IReusableResult.Value => Dynamic;
+    double IReusableResult.Value => Dynamic.Null2NaN();
 }

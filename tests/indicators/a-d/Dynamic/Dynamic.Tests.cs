@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class McGinleyDynamicTests : TestBase
+public class McGinleyDynamicTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<DynamicResult> results = quotes
             .GetDynamic(14)
@@ -77,7 +77,7 @@ public class McGinleyDynamicTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<DynamicResult> r = badQuotes
             .GetDynamic(15)
@@ -88,7 +88,7 @@ public class McGinleyDynamicTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<DynamicResult> r0 = noquotes
             .GetDynamic(14)

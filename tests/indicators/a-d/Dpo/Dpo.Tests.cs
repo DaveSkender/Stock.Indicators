@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class DpoTests : TestBase
+public class DpoTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         // get expected data
         List<Quote> qot = [];
@@ -20,11 +20,12 @@ public class DpoTests : TestBase
             DateTime date = Convert.ToDateTime(csv[1], EnglishCulture);
 
             qot.Add(new Quote {
-                Date = date,
+                Timestamp = date,
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult(date) {
+            exp.Add(new DpoResult() {
+                Timestamp = date,
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()
             });
@@ -43,7 +44,7 @@ public class DpoTests : TestBase
             DpoResult e = exp[i];
             DpoResult a = act[i];
 
-            Assert.AreEqual(e.Date, a.Date);
+            Assert.AreEqual(e.Timestamp, a.Timestamp);
             Assert.AreEqual(e.Sma, a.Sma.Round(5), $"at index {i}");
             Assert.AreEqual(e.Dpo, a.Dpo.Round(5), $"at index {i}");
         }
@@ -97,7 +98,7 @@ public class DpoTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<DpoResult> r = badQuotes
             .GetDpo(5)
@@ -108,7 +109,7 @@ public class DpoTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<DpoResult> r0 = noquotes
             .GetDpo(5)

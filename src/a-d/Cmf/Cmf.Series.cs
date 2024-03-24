@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // CHAIKIN MONEY FLOW (SERIES)
+
 public static partial class Indicator
 {
     internal static List<CmfResult> CalcCmf(
@@ -11,19 +12,20 @@ public static partial class Indicator
         List<(DateTime, double)> tpList = qdList.ToTuple(CandlePart.Volume);
 
         // check parameter arguments
-        ValidateCmf(lookbackPeriods);
+        Cmf.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
         List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = qdList.CalcAdl(null).ToList();
+        List<AdlResult> adlResults = [.. qdList.CalcAdl()];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             AdlResult adl = adlResults[i];
 
-            CmfResult r = new(adl.Date) {
+            CmfResult r = new() {
+                Timestamp = adl.Timestamp,
                 MoneyFlowMultiplier = adl.MoneyFlowMultiplier,
                 MoneyFlowVolume = adl.MoneyFlowVolume
             };
@@ -54,17 +56,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateCmf(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Chaikin Money Flow.");
-        }
     }
 }

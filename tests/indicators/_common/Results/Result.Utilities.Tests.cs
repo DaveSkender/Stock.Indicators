@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class Results : TestBase
+public class Results : SeriesTestBase
 {
     [TestMethod]
     public void Condense()
@@ -34,36 +34,36 @@ public class Results : TestBase
         // baseline for comparison
         List<SmaResult> baseline =
         [
-            new SmaResult(DateTime.Parse("1/1/2000", EnglishCulture)) { Sma = null },
-            new SmaResult(DateTime.Parse("1/2/2000", EnglishCulture)) { Sma = null },
-            new SmaResult(DateTime.Parse("1/3/2000", EnglishCulture)) { Sma = 3 },
-            new SmaResult(DateTime.Parse("1/4/2000", EnglishCulture)) { Sma = 4 },
-            new SmaResult(DateTime.Parse("1/5/2000", EnglishCulture)) { Sma = 5 },
-            new SmaResult(DateTime.Parse("1/6/2000", EnglishCulture)) { Sma = 6 },
-            new SmaResult(DateTime.Parse("1/7/2000", EnglishCulture)) { Sma = 7 },
-            new SmaResult(DateTime.Parse("1/8/2000", EnglishCulture)) { Sma = double.NaN },
-            new SmaResult(DateTime.Parse("1/9/2000", EnglishCulture)) { Sma = null },
+            new SmaResult() { Timestamp = DateTime.Parse("1/1/2000", EnglishCulture), Sma = null },
+            new SmaResult() { Timestamp = DateTime.Parse("1/2/2000", EnglishCulture), Sma = null },
+            new SmaResult() { Timestamp = DateTime.Parse("1/3/2000", EnglishCulture), Sma = 3 },
+            new SmaResult() { Timestamp = DateTime.Parse("1/4/2000", EnglishCulture), Sma = 4 },
+            new SmaResult() { Timestamp = DateTime.Parse("1/5/2000", EnglishCulture), Sma = 5 },
+            new SmaResult() { Timestamp = DateTime.Parse("1/6/2000", EnglishCulture), Sma = 6 },
+            new SmaResult() { Timestamp = DateTime.Parse("1/7/2000", EnglishCulture), Sma = 7 },
+            new SmaResult() { Timestamp = DateTime.Parse("1/8/2000", EnglishCulture), Sma = double.NaN },
+            new SmaResult() { Timestamp = DateTime.Parse("1/9/2000", EnglishCulture), Sma = null }
         ];
 
         // default chainable NaN with pruning (internal)
-        List<(DateTime Date, double Value)> chainableTuple = baseline
-            .ToTuple();
+        List<(DateTime Timestamp, double Value)> chainableTuple = baseline
+            .ToTupleResult();
 
         Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, chainableTuple.Count(x => double.IsNaN(x.Value)));
+        Assert.AreEqual(4, chainableTuple.Count(x => double.IsNaN(x.Value)));
 
         // PUBLIC VARIANT
 
         // default chainable NaN with pruning
-        Collection<(DateTime Date, double Value)> cnaNresults = baseline
+        Collection<(DateTime Timestamp, double Value)> cnaNresults = baseline
             .ToTupleChainable();
 
         Assert.AreEqual(5, cnaNresults.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, cnaNresults.Count(x => double.IsNaN(x.Value)));
+        Assert.AreEqual(4, cnaNresults.Count(x => double.IsNaN(x.Value)));
 
         // with NaN option, no pruning
-        Collection<(DateTime Date, double Value)> nanResults = baseline
-            .ToTupleNaN();
+        List<(DateTime Timestamp, double Value)> nanResults = baseline
+            .ToTupleResult();
 
         Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));
         Assert.AreEqual(9, nanResults.Count);

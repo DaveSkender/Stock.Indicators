@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // VOLATILITY SYSTEM/STOP (SERIES)
+
 public static partial class Indicator
 {
     internal static List<VolatilityStopResult> CalcVolatilityStop(
@@ -13,7 +14,7 @@ public static partial class Indicator
             .ToTuple(CandlePart.Close);
 
         // check parameter arguments
-        ValidateVolatilityStop(lookbackPeriods, multiplier);
+        VolatilityStop.Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = tpList.Count;
@@ -35,7 +36,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
             sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
-            results.Add(new VolatilityStopResult(date));
+            results.Add(new VolatilityStopResult { Timestamp = date });
         }
 
         // roll through quotes
@@ -46,9 +47,9 @@ public static partial class Indicator
             // average true range × multiplier constant
             double? arc = atrList[i - 1].Atr * multiplier;
 
-            VolatilityStopResult r = new(date) {
-                // stop and reverse threshold
-                Sar = isLong ? sic - arc : sic + arc
+            VolatilityStopResult r = new() {
+                Timestamp = date,
+                Sar = isLong ? sic - arc : sic + arc  // stop and reverse threshold
             };
             results.Add(r);
 
@@ -83,7 +84,7 @@ public static partial class Indicator
         // remove first trend to stop, since it is a guess
         VolatilityStopResult? firstStop = results
             .Where(x => x.IsStop == true)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .FirstOrDefault();
 
         if (firstStop != null)
@@ -101,24 +102,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateVolatilityStop(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Volatility Stop.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "ATR Multiplier must be greater than 0 for Volatility Stop.");
-        }
     }
 }

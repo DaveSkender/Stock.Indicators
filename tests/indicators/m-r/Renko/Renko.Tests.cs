@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class RenkoTests : TestBase
+public class RenkoTests : SeriesTestBase
 {
     [TestMethod]
     public void StandardClose()
@@ -116,7 +116,7 @@ public class RenkoTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<RenkoResult> r = badQuotes
             .GetRenko(100m)
@@ -126,7 +126,7 @@ public class RenkoTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<RenkoResult> r0 = noquotes
             .GetRenko(0.01m)

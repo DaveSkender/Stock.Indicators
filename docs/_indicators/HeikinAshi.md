@@ -39,7 +39,7 @@ IEnumerable<HeikinAshiResult>
 
 ### HeikinAshiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Open`** _`decimal`_ - Modified open price
 

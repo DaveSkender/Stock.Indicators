@@ -10,7 +10,7 @@ public static class Candlesticks
     public static CandleProperties ToCandle<TQuote>(
         this TQuote quote)
         where TQuote : IQuote => new() {
-            Date = quote.Date,
+            Timestamp = quote.Timestamp,
             Open = quote.Open,
             High = quote.High,
             Low = quote.Low,
@@ -23,10 +23,12 @@ public static class Candlesticks
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<CandleProperties> candlesList = quotes
+        List<CandleProperties> candlesList =
+        [
+          .. quotes
             .Select(x => x.ToCandle())
-            .OrderBy(x => x.Date)
-            .ToList();
+            .OrderBy(x => x.Timestamp)
+        ];
 
         // validate
         return candlesList;
@@ -37,13 +39,16 @@ public static class Candlesticks
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
-        List<CandleResult> candlesList = quotes
-            .Select(x => new CandleResult(x.Date) {
-                Match = Match.None,
+        List<CandleResult> candlesList =
+        [
+          .. quotes
+            .Select(x => new CandleResult(
+                x.Timestamp,
+                Match.None) {
                 Candle = x.ToCandle()
             })
-            .OrderBy(x => x.Date)
-            .ToList();
+            .OrderBy(x => x.Timestamp)
+        ];
 
         // validate
         return candlesList;

@@ -25,7 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observe.Streaming", "tests\
 		{8D0F1781-EDA3-4C51-B05D-D33FF1156E49} = {8D0F1781-EDA3-4C51-B05D-D33FF1156E49}
 	EndProjectSection
 EndProject
-
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

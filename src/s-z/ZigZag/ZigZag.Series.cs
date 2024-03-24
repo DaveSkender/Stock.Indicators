@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ZIG ZAG (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ZigZagResult> CalcZigZag<TQuote>(
@@ -10,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateZigZag(percentChange);
+        ZigZag.Validate(percentChange);
 
         // initialize
         int length = quotesList.Count;
@@ -81,7 +82,7 @@ public static partial class Indicator
         }
 
         // add first point to results
-        ZigZagResult firstResult = new(q0.Date);
+        ZigZagResult firstResult = new() { Timestamp = q0.Timestamp };
         results.Add(firstResult);
 
         // find and draw lines
@@ -189,7 +190,8 @@ public static partial class Indicator
                 TQuote q = quotesList[i];
                 int index = i + 1;
 
-                ZigZagResult result = new(q.Date) {
+                ZigZagResult result = new() {
+                    Timestamp = q.Timestamp,
                     ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
                         lastPoint.Value + (increment * (index - lastPoint.Index)) : null,
                     PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
@@ -296,17 +298,5 @@ public static partial class Indicator
         }
 
         return eval;
-    }
-
-    // parameter validation
-    private static void ValidateZigZag(
-        decimal percentChange)
-    {
-        // check parameter arguments
-        if (percentChange <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(percentChange), percentChange,
-                "Percent change must be greater than 0 for ZIGZAG.");
-        }
     }
 }

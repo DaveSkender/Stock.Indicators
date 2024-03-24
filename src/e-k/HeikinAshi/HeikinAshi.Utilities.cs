@@ -7,13 +7,13 @@ public static partial class Indicator
     this IEnumerable<HeikinAshiResult> results)
       => results
         .Select(x => new Quote {
-            Date = x.Date,
+            Timestamp = x.Timestamp,
             Open = x.Open,
             High = x.High,
             Low = x.Low,
             Close = x.Close,
             Volume = x.Volume
         })
-        .OrderBy(x => x.Date)
+        .OrderBy(x => x.Timestamp)
         .ToList();
 }

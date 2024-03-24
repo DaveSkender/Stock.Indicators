@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class FractalResult : ResultBase
+public sealed record class FractalResult : IResult
 {
-    public FractalResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public decimal? FractalBear { get; set; }
     public decimal? FractalBull { get; set; }
 }

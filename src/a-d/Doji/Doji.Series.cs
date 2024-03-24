@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // DOJI (SERIES)
+
 public static partial class Indicator
 {
     /// <include file='./info.xml' path='info/*' />
@@ -11,7 +12,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateDoji(maxPriceChangePercent);
+        Doji.Validate(maxPriceChangePercent);
 
         // initialize
         List<CandleResult> results = quotes.ToCandleResults();
@@ -33,17 +34,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateDoji(
-        double maxPriceChangePercent)
-    {
-        // check parameter arguments
-        if (maxPriceChangePercent is < 0 or > 0.5)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxPriceChangePercent), maxPriceChangePercent,
-                "Maximum Percent Change must be between 0 and 0.5 for Doji (0% to 0.5%).");
-        }
     }
 }

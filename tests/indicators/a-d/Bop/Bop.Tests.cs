@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class BopTests : TestBase
+public class BopTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<BopResult> results = quotes
             .GetBop(14)
@@ -53,7 +53,7 @@ public class BopTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<BopResult> r = badQuotes
             .GetBop()
@@ -64,7 +64,7 @@ public class BopTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<BopResult> r0 = noquotes
             .GetBop()

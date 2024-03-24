@@ -1,14 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class VwapResult : ResultBase, IReusableResult
+public sealed record class VwapResult : IReusableResult
 {
-    public VwapResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Vwap { get; set; }
 
-    double? IReusableResult.Value => Vwap;
+    double IReusableResult.Value => Vwap.Null2NaN();
 }

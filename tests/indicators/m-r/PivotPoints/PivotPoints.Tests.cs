@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class PivotPointsTests : TestBase
+public class PivotPointsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
@@ -378,7 +378,7 @@ public class PivotPointsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<PivotPointsResult> r = badQuotes
             .GetPivotPoints(PeriodSize.Week)
@@ -388,7 +388,7 @@ public class PivotPointsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<PivotPointsResult> r0 = noquotes
             .GetPivotPoints(PeriodSize.Week)

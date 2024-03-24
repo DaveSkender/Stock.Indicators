@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class Alma : TestBase
+public class Alma : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int lookbackPeriods = 10;
         double offset = 0.85;
@@ -105,7 +105,7 @@ public class Alma : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AlmaResult> r = badQuotes
             .GetAlma(14, 0.5, 3)
@@ -116,7 +116,7 @@ public class Alma : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AlmaResult> r0 = noquotes
             .GetAlma()

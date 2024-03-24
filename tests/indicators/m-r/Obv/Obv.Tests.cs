@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ObvTests : TestBase
+public class ObvTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<ObvResult> results = quotes
             .GetObv()
@@ -12,33 +12,13 @@ public class ObvTests : TestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
         Assert.AreEqual(1780918888, r1.Obv);
-        Assert.AreEqual(null, r1.ObvSma);
 
         ObvResult r2 = results[501];
         Assert.AreEqual(539843504, r2.Obv);
-        Assert.AreEqual(null, r2.ObvSma);
-    }
-
-    [TestMethod]
-    public void WithSma()
-    {
-        List<ObvResult> results = quotes
-            .GetObv(20)
-            .ToList();
-
-        // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
-
-        // sample values
-        ObvResult r1 = results[501];
-        Assert.AreEqual(539843504, r1.Obv);
-        Assert.AreEqual(1016208844.40, r1.ObvSma);
     }
 
     [TestMethod]
@@ -54,7 +34,7 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ObvResult> r = badQuotes
             .GetObv()
@@ -75,7 +55,7 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ObvResult> r0 = noquotes
             .GetObv()
@@ -92,6 +72,7 @@ public class ObvTests : TestBase
 
     // bad SMA period
     [TestMethod]
+    [Obsolete("remove after v3")]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => quotes.GetObv(0));

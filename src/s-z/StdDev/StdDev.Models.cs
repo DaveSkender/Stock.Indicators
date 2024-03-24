@@ -1,17 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class StdDevResult : ResultBase, IReusableResult
+public sealed record class StdDevResult : IReusableResult
 {
-    public StdDevResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? StdDev { get; set; }
     public double? Mean { get; set; }
     public double? ZScore { get; set; }
+
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average signal.", false)]
     public double? StdDevSma { get; set; }
 
-    double? IReusableResult.Value => StdDev;
+    double IReusableResult.Value => StdDev.Null2NaN();
 }

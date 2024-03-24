@@ -1,14 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class HurstResult : ResultBase, IReusableResult
+public sealed record class HurstResult : IReusableResult
 {
-    public HurstResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? HurstExponent { get; set; }
 
-    double? IReusableResult.Value => HurstExponent;
+    double IReusableResult.Value => HurstExponent.Null2NaN();
 }

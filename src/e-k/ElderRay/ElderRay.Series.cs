@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // ELDER-RAY (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ElderRayResult> CalcElderRay(
@@ -8,13 +9,14 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateElderRay(lookbackPeriods);
+        ElderRay.Validate(lookbackPeriods);
 
         // initialize with EMA
         List<ElderRayResult> results = qdList
             .ToTuple(CandlePart.Close)
             .CalcEma(lookbackPeriods)
-            .Select(x => new ElderRayResult(x.Date) {
+            .Select(x => new ElderRayResult {
+                Timestamp = x.Timestamp,
                 Ema = x.Ema
             })
             .ToList();
@@ -30,17 +32,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateElderRay(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Elder-ray Index.");
-        }
     }
 }

@@ -1,14 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class HmaResult : ResultBase, IReusableResult
+public sealed record class HmaResult : IReusableResult
 {
-    public HmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Hma { get; set; }
 
-    double? IReusableResult.Value => Hma;
+    double IReusableResult.Value => Hma.Null2NaN();
 }

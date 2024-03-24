@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // PARABOLIC SAR (SERIES)
+
 public static partial class Indicator
 {
     internal static List<ParabolicSarResult> CalcParabolicSar(
@@ -10,7 +11,7 @@ public static partial class Indicator
         double initialFactor)
     {
         // check parameter arguments
-        ValidateParabolicSar(
+        ParabolicSar.Validate(
             accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize
@@ -37,7 +38,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ParabolicSarResult r = new(q.Date);
+            ParabolicSarResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
             // skip first one
@@ -143,7 +144,7 @@ public static partial class Indicator
         // remove first trendline since it is an invalid guess
         ParabolicSarResult? firstReversal = results
             .Where(x => x.IsReversal == true)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .FirstOrDefault();
 
         int cutIndex = (firstReversal != null)
@@ -158,41 +159,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateParabolicSar(
-        double accelerationStep,
-        double maxAccelerationFactor,
-        double initialFactor)
-    {
-        // check parameter arguments
-        if (accelerationStep <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep,
-                "Acceleration Step must be greater than 0 for Parabolic SAR.");
-        }
-
-        if (maxAccelerationFactor <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxAccelerationFactor), maxAccelerationFactor,
-                "Max Acceleration Factor must be greater than 0 for Parabolic SAR.");
-        }
-
-        if (accelerationStep > maxAccelerationFactor)
-        {
-            string message = string.Format(
-                EnglishCulture,
-                "Acceleration Step cannot be larger than the Max Acceleration Factor ({0}) for Parabolic SAR.",
-                maxAccelerationFactor);
-
-            throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);
-        }
-
-        if (initialFactor <= 0 || initialFactor > maxAccelerationFactor)
-        {
-            throw new ArgumentOutOfRangeException(nameof(initialFactor), initialFactor,
-                "Initial Factor must be greater than 0 and not larger than Max Acceleration Factor for Parabolic SAR.");
-        }
     }
 }

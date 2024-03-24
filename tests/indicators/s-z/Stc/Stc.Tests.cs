@@ -1,23 +1,18 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StcTests : TestBase
+public class StcTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int cyclePeriods = 9;
         int fastPeriods = 12;
         int slowPeriods = 26;
 
-        List<StcResult> results =
-            quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods)
+        List<StcResult> results = quotes
+            .GetStc(cyclePeriods, fastPeriods, slowPeriods)
             .ToList();
-
-        foreach (StcResult r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.Stc:N4}");
-        }
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -88,7 +83,7 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StcResult> r = badQuotes
             .GetStc(10, 23, 50)
@@ -99,7 +94,7 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StcResult> r0 = noquotes
             .GetStc()

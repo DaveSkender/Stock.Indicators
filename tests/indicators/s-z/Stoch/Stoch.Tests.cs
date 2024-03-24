@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class StochTests : TestBase
+public class StochTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard() // Slow
+    public override void Standard() // Slow
     {
         int lookbackPeriods = 14;
         int signalPeriods = 3;
@@ -187,7 +187,7 @@ public class StochTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<StochResult> r = badQuotes
             .GetStoch(15)
@@ -198,7 +198,7 @@ public class StochTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<StochResult> r0 = noquotes
             .GetStoch()

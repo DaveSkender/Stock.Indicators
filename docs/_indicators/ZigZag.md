@@ -57,7 +57,7 @@ IEnumerable<ZigZagResult>
 
 ### ZigZagResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ZigZag`** _`decimal`_ - Zig Zag line for `percentChange`
 

@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class CorrelationTests : TestBase
+public class CorrelationTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<CorrResult> results =
             quotes.GetCorrelation(otherQuotes, 20)
@@ -82,7 +82,7 @@ public class CorrelationTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<CorrResult> r = badQuotes
             .GetCorrelation(badQuotes, 15)
@@ -103,7 +103,7 @@ public class CorrelationTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<CorrResult> r0 = noquotes
             .GetCorrelation(noquotes, 10)

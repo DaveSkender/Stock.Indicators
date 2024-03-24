@@ -1,7 +1,7 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class MaEnvelopesTests : TestBase
+public class MaEnvelopesTests : SeriesTestBase
 {
     [TestMethod]
     public void Alma()
@@ -281,7 +281,7 @@ public class MaEnvelopesTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<MaEnvelopeResult> a = badQuotes
             .GetMaEnvelopes(5, 2.5, MaType.ALMA)

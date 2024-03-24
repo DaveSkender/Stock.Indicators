@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class AwesomeTests : TestBase
+public class AwesomeTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<AwesomeResult> results = quotes
             .GetAwesome(5, 34)
@@ -80,7 +80,7 @@ public class AwesomeTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AwesomeResult> r = badQuotes
             .GetAwesome()
@@ -91,7 +91,7 @@ public class AwesomeTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AwesomeResult> r0 = noquotes
             .GetAwesome()

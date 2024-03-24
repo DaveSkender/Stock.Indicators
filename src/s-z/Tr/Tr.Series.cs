@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -16,19 +17,16 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            TrResult r = new(q.Date);
+            TrResult r = new() { Timestamp = q.Timestamp };
             results.Add(r);
 
-            if (i is 0)
+            if (i == 0)
             {
                 prevClose = q.Close;
                 continue;
             }
 
-            double hmpc = Math.Abs(q.High - prevClose);
-            double lmpc = Math.Abs(q.Low - prevClose);
-
-            r.Tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
+            r.Tr = Tr.Increment(prevClose, q.High, q.Low).NaN2Null();
 
             prevClose = q.Close;
         }

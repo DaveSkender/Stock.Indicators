@@ -19,9 +19,8 @@ public static partial class Indicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods,
         double kFactor = 0.6) => results
-            .ToTuple()
-            .CalcDynamic(lookbackPeriods, kFactor)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcDynamic(lookbackPeriods, kFactor);
 
     // SERIES, from TUPLE
     public static IEnumerable<DynamicResult> GetDynamic(

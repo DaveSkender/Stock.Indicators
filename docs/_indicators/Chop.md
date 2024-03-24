@@ -42,7 +42,7 @@ IEnumerable<ChopResult>
 
 ### ChopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Chop`** _`double`_ - Choppiness Index
 

@@ -33,17 +33,17 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3) => results
-            .ToTuple()
+            .ToTupleResult()
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,
                 teethPeriods,
                 teethOffset,
                 lipsPeriods,
-                lipsOffset)
-            .SyncIndex(results, SyncType.Prepend);
+                lipsOffset);
 
     // SERIES, from TUPLE
+    // TODO: is this variant still needed, or just an extra option (all indicators)
     public static IEnumerable<AlligatorResult> GetAlligator(
         this IEnumerable<(DateTime, double)> priceTuples,
         int jawPeriods = 13,
@@ -60,4 +60,46 @@ public static partial class Indicator
                 teethOffset,
                 lipsPeriods,
                 lipsOffset);
+
+    // OBSERVER, from Quote Provider
+    public static Alligator AttachAlligator<TQuote>(
+        this QuoteProvider<TQuote> quoteProvider,
+        int jawPeriods,
+        int jawOffset,
+        int teethPeriods,
+        int teethOffset,
+        int lipsPeriods,
+        int lipsOffset)
+        where TQuote : IQuote, new()
+    {
+        Use<TQuote> chainProvider = quoteProvider
+            .Use(CandlePart.HL2);
+
+        return new(
+            chainProvider,
+            jawPeriods,
+            jawOffset,
+            teethPeriods,
+            teethOffset,
+            lipsPeriods,
+            lipsOffset);
+    }
+
+    // OBSERVER, from Chain Provider
+    public static Alligator AttachAlligator(
+        this ChainProvider chainProvider,
+        int jawPeriods,
+        int jawOffset,
+        int teethPeriods,
+        int teethOffset,
+        int lipsPeriods,
+        int lipsOffset)
+        => new(
+            chainProvider,
+            jawPeriods,
+            jawOffset,
+            teethPeriods,
+            teethOffset,
+            lipsPeriods,
+            lipsOffset);
 }

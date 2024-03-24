@@ -3,16 +3,12 @@ using System.Globalization;
 
 namespace Tests.CustomIndicators;
 
-public sealed class MyResult : ResultBase, IReusableResult
+public sealed class MyResult : IReusableResult
 {
-    public MyResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Sma { get; set; }
 
-    double? IReusableResult.Value => Sma;
+    double IReusableResult.Value => Sma.Null2NaN();
 }
 
 public static class CustomIndicator
@@ -30,8 +26,7 @@ public static class CustomIndicator
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
             .ToTupleChainable()
-            .CalcIndicator(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .CalcIndicator(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<MyResult> GetIndicator(
@@ -59,19 +54,19 @@ public static class CustomIndicator
         {
             (DateTime date, double _) = tpList[i];
 
-            MyResult result = new(date);
+            MyResult result = new() { Timestamp = date };
             results.Add(result);
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
-                double sumSma = 0;
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                double sum = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
                     (DateTime _, double pValue) = tpList[p];
-                    sumSma += pValue;
+                    sum += pValue;
                 }
 
-                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
+                result.Sma = (sum / lookbackPeriods).NaN2Null();
             }
         }
 
@@ -157,7 +152,7 @@ public class CustomIndicatorTests
         Assert.AreEqual(157958070.8, r290.Sma);
 
         MyResult r501 = results[501];
-        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.Date);
+        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.Timestamp);
         Assert.AreEqual(163695200, r501.Sma);
     }
 
@@ -185,15 +180,15 @@ public class CustomIndicatorTests
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(firstDate, h[0].Date);
+        Assert.AreEqual(firstDate, h[0].Timestamp);
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Date);
+        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(spotDate, h[50].Date);
+        Assert.AreEqual(spotDate, h[50].Timestamp);
     }
 
     [TestMethod]

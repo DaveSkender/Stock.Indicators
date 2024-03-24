@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class IchimokuTests : TestBase
+public class IchimokuTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int tenkanPeriods = 9;
         int kijunPeriods = 26;
@@ -63,7 +63,7 @@ public class IchimokuTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<IchimokuResult> r = badQuotes
             .GetIchimoku()
@@ -73,7 +73,7 @@ public class IchimokuTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<IchimokuResult> r0 = noquotes
             .GetIchimoku()

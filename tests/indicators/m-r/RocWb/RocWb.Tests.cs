@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class RocWbTests : TestBase
+public class RocWbTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<RocWbResult> results = quotes
             .GetRocWb(20, 3, 20)
@@ -115,7 +115,7 @@ public class RocWbTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<RocWbResult> r = badQuotes
             .GetRocWb(35, 3, 35)
@@ -126,7 +126,7 @@ public class RocWbTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<RocWbResult> r0 = noquotes
             .GetRocWb(5, 3, 2)

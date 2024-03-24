@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class PivotsTests : TestBase
+public class PivotsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<PivotsResult> results = quotes
             .GetPivots(4, 4, 20, EndType.HighLow)
@@ -86,7 +86,7 @@ public class PivotsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<PivotsResult> r = badQuotes
             .GetPivots()
@@ -96,7 +96,7 @@ public class PivotsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<PivotsResult> r0 = noquotes
             .GetPivots()

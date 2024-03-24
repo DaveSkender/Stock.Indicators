@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class AtrTests : TestBase
+public class AtrTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<AtrResult> results = quotes
             .GetAtr(14)
@@ -54,7 +54,7 @@ public class AtrTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AtrResult> r = badQuotes
             .GetAtr(20)
@@ -65,7 +65,7 @@ public class AtrTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AtrResult> r0 = noquotes
             .GetAtr()

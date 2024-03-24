@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class CciTests : TestBase
+public class CciTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<CciResult> results = quotes
             .GetCci(20)
@@ -32,7 +32,7 @@ public class CciTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<CciResult> r = badQuotes
             .GetCci(15)
@@ -43,7 +43,7 @@ public class CciTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<CciResult> r0 = noquotes
             .GetCci()

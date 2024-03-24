@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class FcbResult : ResultBase
+public sealed record class FcbResult : IResult
 {
-    public FcbResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public decimal? UpperBand { get; set; }
     public decimal? LowerBand { get; set; }
 }

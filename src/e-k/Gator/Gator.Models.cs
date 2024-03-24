@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public class GatorResult : ResultBase
+public class GatorResult : IResult
 {
-    public GatorResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Upper { get; set; }
     public double? Lower { get; set; }
 

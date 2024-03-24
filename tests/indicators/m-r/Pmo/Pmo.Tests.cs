@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class PmoTests : TestBase
+public class PmoTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<PmoResult> results = quotes
             .GetPmo(35, 20, 10)
@@ -73,7 +73,7 @@ public class PmoTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<PmoResult> r = badQuotes
             .GetPmo(25, 15, 5)
@@ -84,7 +84,7 @@ public class PmoTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<PmoResult> r0 = noquotes
             .GetPmo()

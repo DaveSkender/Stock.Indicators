@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class TsiTests : TestBase
+public class TsiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<TsiResult> results = quotes
             .GetTsi(25, 13, 7)
@@ -89,7 +89,7 @@ public class TsiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<TsiResult> r = badQuotes
             .GetTsi()
@@ -110,7 +110,7 @@ public class TsiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<TsiResult> r0 = noquotes
             .GetTsi()

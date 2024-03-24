@@ -47,7 +47,7 @@ IEnumerable<StdDevChannelsResult>
 
 ### StdDevChannelsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Centerline`** _`double`_ - Linear regression line (center line)
 

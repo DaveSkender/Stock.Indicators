@@ -66,10 +66,11 @@ public enum PeriodSize
     OneMinute
 }
 
-public enum SyncType
+public enum Act
 {
-    Prepend,
-    AppendOnly,
-    RemoveOnly,
-    FullMatch
+    AddNew,
+    AddOld,
+    Update,
+    Delete,
+    DoNothing
 }

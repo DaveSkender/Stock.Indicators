@@ -17,9 +17,8 @@ public static partial class Indicator
     public static IEnumerable<EpmaResult> GetEpma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
-            .CalcEpma(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcEpma(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<EpmaResult> GetEpma(

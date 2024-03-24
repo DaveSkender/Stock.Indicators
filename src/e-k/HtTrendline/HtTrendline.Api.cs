@@ -15,9 +15,8 @@ public static partial class Indicator
     // SERIES, from CHAIN
     public static IEnumerable<HtlResult> GetHtTrendline(
         this IEnumerable<IReusableResult> results) => results
-            .ToTuple()
-            .CalcHtTrendline()
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcHtTrendline();
 
     // SERIES, from TUPLE
     public static IEnumerable<HtlResult> GetHtTrendline(

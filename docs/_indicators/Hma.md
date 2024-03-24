@@ -43,7 +43,7 @@ IEnumerable<HmaResult>
 
 ### HmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Hma`** _`double`_ - Hull moving average
 

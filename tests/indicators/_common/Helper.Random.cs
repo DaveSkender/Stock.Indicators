@@ -54,7 +54,7 @@ internal class RandomGbm : List<Quote>
         double volume = Price(seed * 10, volatility * 2, drift: 0);
 
         Quote quote = new() {
-            Date = timestamp,
+            Timestamp = timestamp,
             Open = (decimal)open,
             High = (decimal)high,
             Low = (decimal)low,

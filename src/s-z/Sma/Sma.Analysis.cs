@@ -10,7 +10,10 @@ public static partial class Indicator
         // initialize
         List<SmaAnalysis> results = tpList
             .CalcSma(lookbackPeriods)
-            .Select(x => new SmaAnalysis(x.Date) { Sma = x.Sma })
+            .Select(x => new SmaAnalysis {
+                Timestamp = x.Timestamp,
+                Sma = x.Sma
+            })
             .ToList();
 
         // roll through quotes

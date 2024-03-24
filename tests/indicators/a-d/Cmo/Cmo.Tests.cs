@@ -1,19 +1,14 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class CmoTests : TestBase
+public class CmoTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<CmoResult> results = quotes
             .GetCmo(14)
             .ToList();
-
-        foreach (CmoResult r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.Cmo:N4}");
-        }
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -81,7 +76,7 @@ public class CmoTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<CmoResult> r = badQuotes
             .GetCmo(35)
@@ -92,7 +87,7 @@ public class CmoTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<CmoResult> r0 = noquotes
             .GetCmo(5)

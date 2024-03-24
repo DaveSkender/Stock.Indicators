@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class StdDevChannelsResult : ResultBase
+public sealed record class StdDevChannelsResult : IResult
 {
-    public StdDevChannelsResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Centerline { get; set; }
     public double? UpperChannel { get; set; }
     public double? LowerChannel { get; set; }

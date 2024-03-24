@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE ENVELOPES (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
@@ -12,7 +13,7 @@ public static partial class Indicator
     {
         // check parameter arguments
         // note: most validations are done in variant methods
-        ValidateMaEnvelopes(percentOffset);
+        MaEnvelopes.Validate(percentOffset);
 
         // initialize
         double offsetRatio = percentOffset / 100d;
@@ -43,7 +44,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetAlma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Alma,
             UpperEnvelope = x.Alma + (x.Alma * offsetRatio),
             LowerEnvelope = x.Alma - (x.Alma * offsetRatio)
@@ -54,7 +56,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetDema(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Dema,
             UpperEnvelope = x.Dema + (x.Dema * offsetRatio),
             LowerEnvelope = x.Dema - (x.Dema * offsetRatio)
@@ -65,7 +68,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetEma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Ema,
             UpperEnvelope = x.Ema + (x.Ema * offsetRatio),
             LowerEnvelope = x.Ema - (x.Ema * offsetRatio)
@@ -76,7 +80,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetEpma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Epma,
             UpperEnvelope = x.Epma + (x.Epma * offsetRatio),
             LowerEnvelope = x.Epma - (x.Epma * offsetRatio)
@@ -87,7 +92,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetHma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Hma,
             UpperEnvelope = x.Hma + (x.Hma * offsetRatio),
             LowerEnvelope = x.Hma - (x.Hma * offsetRatio)
@@ -98,7 +104,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetSma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Sma,
             UpperEnvelope = x.Sma + (x.Sma * offsetRatio),
             LowerEnvelope = x.Sma - (x.Sma * offsetRatio)
@@ -109,7 +116,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetSmma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Smma,
             UpperEnvelope = x.Smma + (x.Smma * offsetRatio),
             LowerEnvelope = x.Smma - (x.Smma * offsetRatio)
@@ -120,7 +128,8 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetTema(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Tema,
             UpperEnvelope = x.Tema + (x.Tema * offsetRatio),
             LowerEnvelope = x.Tema - (x.Tema * offsetRatio)
@@ -131,21 +140,10 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         => tpList.GetWma(lookbackPeriods)
-        .Select(x => new MaEnvelopeResult(x.Date) {
+        .Select(x => new MaEnvelopeResult {
+            Timestamp = x.Timestamp,
             Centerline = x.Wma,
             UpperEnvelope = x.Wma + (x.Wma * offsetRatio),
             LowerEnvelope = x.Wma - (x.Wma * offsetRatio)
         });
-
-    // parameter validation
-    private static void ValidateMaEnvelopes(
-        double percentOffset)
-    {
-        // check parameter arguments
-        if (percentOffset <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(percentOffset), percentOffset,
-                "Percent Offset must be greater than 0 for Moving Average Envelopes.");
-        }
-    }
 }

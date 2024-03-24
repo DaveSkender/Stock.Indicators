@@ -18,9 +18,8 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma(
         this IEnumerable<IReusableResult> results,
         int lookbackPeriods) => results
-            .ToTuple()
-            .CalcEma(lookbackPeriods)
-            .SyncIndex(results, SyncType.Prepend);
+            .ToTupleResult()
+            .CalcEma(lookbackPeriods);
 
     // SERIES, from TUPLE
     public static IEnumerable<EmaResult> GetEma(
@@ -32,21 +31,22 @@ public static partial class Indicator
     // OBSERVER, from Quote Provider
     /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
     ///
-    public static EmaObserver GetEma(
-        this QuoteProvider provider,
+    public static Ema AttachEma<TQuote>(
+        this QuoteProvider<TQuote> quoteProvider,
         int lookbackPeriods)
+        where TQuote : IQuote, new()
     {
-        UseObserver useObserver = provider
+        Use<TQuote> chainProvider = quoteProvider
             .Use(CandlePart.Close);
 
-        return new(useObserver, lookbackPeriods);
+        return new(chainProvider, lookbackPeriods);
     }
 
     // OBSERVER, from Chain Provider
     /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
     ///
-    public static EmaObserver GetEma(
-        this TupleProvider tupleProvider,
+    public static Ema AttachEma(
+        this ChainProvider chainProvider,
         int lookbackPeriods)
-        => new(tupleProvider, lookbackPeriods);
+        => new(chainProvider, lookbackPeriods);
 }

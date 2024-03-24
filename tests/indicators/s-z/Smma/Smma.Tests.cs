@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class SmmaTests : TestBase
+public class SmmaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<SmmaResult> results = quotes
             .GetSmma(20)
@@ -74,7 +74,7 @@ public class SmmaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<SmmaResult> r = badQuotes
             .GetSmma(15)
@@ -85,7 +85,7 @@ public class SmmaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<SmmaResult> r0 = noquotes
             .GetSmma(5)

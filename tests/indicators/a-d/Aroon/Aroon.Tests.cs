@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class Aroon : TestBase
+public class Aroon : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<AroonResult> results = quotes
             .GetAroon(25)
@@ -56,7 +56,7 @@ public class Aroon : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<AroonResult> r = badQuotes
             .GetAroon(20)
@@ -67,7 +67,7 @@ public class Aroon : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<AroonResult> r0 = noquotes
             .GetAroon()

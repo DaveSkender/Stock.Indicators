@@ -1,18 +1,18 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ConnorsRsiTests : TestBase
+public class ConnorsRsiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int rsiPeriods = 3;
         int streakPeriods = 2;
         int rankPeriods = 100;
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        List<ConnorsRsiResult> results1 =
-            quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
+        List<ConnorsRsiResult> results1 = quotes
+            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .ToList();
 
         // proper quantities
@@ -83,7 +83,7 @@ public class ConnorsRsiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ConnorsRsiResult> r = badQuotes
             .GetConnorsRsi(4, 3, 25)
@@ -94,7 +94,7 @@ public class ConnorsRsiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ConnorsRsiResult> r0 = noquotes
             .GetConnorsRsi()

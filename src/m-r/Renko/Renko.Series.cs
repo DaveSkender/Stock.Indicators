@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // RENKO CHART - STANDARD (SERIES)
+
 public static partial class Indicator
 {
     internal static List<RenkoResult> CalcRenko<TQuote>(
@@ -10,7 +11,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateRenko(brickSize);
+        Renko.Validate(brickSize);
 
         // initialize
         int length = quotesList.Count;
@@ -34,7 +35,8 @@ public static partial class Indicator
         decimal l = decimal.MaxValue;
         decimal v = 0;
 
-        RenkoResult lastBrick = new(q0.Date) {
+        RenkoResult lastBrick = new() {
+            Timestamp = q0.Timestamp,
             Open = baseline,
             Close = baseline
         };
@@ -81,7 +83,8 @@ public static partial class Indicator
                     c = baseline - brickSize;
                 }
 
-                RenkoResult r = new(q.Date) {
+                RenkoResult r = new() {
+                    Timestamp = q.Timestamp,
                     Open = baseline,
                     High = h,
                     Low = l,
@@ -140,17 +143,5 @@ public static partial class Indicator
         }
 
         return bricks;
-    }
-
-    // parameter validation
-    private static void ValidateRenko(
-        decimal brickSize)
-    {
-        // check parameter arguments
-        if (brickSize <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(brickSize), brickSize,
-                "Brick size must be greater than 0 for Renko Charts.");
-        }
     }
 }

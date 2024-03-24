@@ -18,7 +18,7 @@ public static partial class ResultUtility
 
         resultsList
             .RemoveAll(match:
-                x => x.Value is null or (not null and double.NaN));
+                x => double.IsNaN(x.Value));
 
         return resultsList.ToSortedList();
     }
@@ -26,50 +26,41 @@ public static partial class ResultUtility
     // CONVERT TO TUPLE (default with pruning)
     /// <include file='./info.xml' path='info/type[@name="TupleChain"]/*' />
     ///
-    public static Collection<(DateTime Date, double Value)> ToTupleChainable<TResult>(
+    public static Collection<(DateTime Timestamp, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
         => reusable
-            .ToTuple()
-            .ToCollection();
-
-    internal static List<(DateTime Date, double Value)> ToTuple<TResult>(
-        this IEnumerable<TResult> reusable)
-        where TResult : IReusableResult
-    {
-        List<(DateTime date, double value)> prices = [];
-        List<TResult> reList = reusable.ToList();
-
-        // find first non-nulled
-        int first = reList.FindIndex(x => x.Value != null);
-
-        for (int i = first; i < reList.Count; i++)
-        {
-            IReusableResult r = reList[i];
-            prices.Add(new(r.Date, r.Value.Null2NaN()));
-        }
-
-        return prices.OrderBy(x => x.date).ToList();
-    }
+            .ToTupleResult()
+            .ToSortedCollection();
 
     // CONVERT TO TUPLE with non-nullable NaN value option and no pruning
-    /// <include file='./info.xml' path='info/type[@name="TupleNaN"]/*' />
-    ///
-    public static Collection<(DateTime Date, double Value)> ToTupleNaN<TResult>(
+    internal static List<(DateTime Timestamp, double Value)> ToTupleResult<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusableResult
     {
         List<TResult> reList = reusable.ToSortedList();
         int length = reList.Count;
 
-        Collection<(DateTime Date, double Value)> results = [];
+        List<(DateTime, double)> results = [];
 
         for (int i = 0; i < length; i++)
         {
-            IReusableResult r = reList[i];
-            results.Add(new(r.Date, r.Value.Null2NaN()));
+            TResult r = reList[i];
+            results.Add(new(r.Timestamp, r.Value));
         }
 
         return results;
     }
+
+    // TODO: are these needed for custom indicators public API?
+    internal static (DateTime Timestamp, double Value) ToTupleResult<TResult>(
+        this TResult result)
+        where TResult : IReusableResult
+            => new(result.Timestamp, result.Value);
+
+    // TODO: are these needed for custom indicators public API?
+    internal static (Act, DateTime, double) ToTupleResult<TResult>(
+        this TResult result, Act act)
+        where TResult : IReusableResult
+            => new(act, result.Timestamp, result.Value);
 }

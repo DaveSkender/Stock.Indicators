@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class MacdTests : TestBase
+public class MacdTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int fastPeriods = 12;
         int slowPeriods = 26;
@@ -91,7 +91,7 @@ public class MacdTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<MacdResult> r = badQuotes
             .GetMacd(10, 20, 5)
@@ -102,7 +102,7 @@ public class MacdTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<MacdResult> r0 = noquotes
             .GetMacd()

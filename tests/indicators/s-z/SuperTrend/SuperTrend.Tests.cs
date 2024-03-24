@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class SuperTrendTests : TestBase
+public class SuperTrendTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int lookbackPeriods = 14;
         double multiplier = 3;
@@ -65,7 +65,7 @@ public class SuperTrendTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<SuperTrendResult> r = badQuotes
             .GetSuperTrend(7)
@@ -75,7 +75,7 @@ public class SuperTrendTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<SuperTrendResult> r0 = noquotes
             .GetSuperTrend()

@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class StarcBandsResult : ResultBase
+public sealed record class StarcBandsResult : IResult
 {
-    public StarcBandsResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? UpperBand { get; set; }
     public double? Centerline { get; set; }
     public double? LowerBand { get; set; }

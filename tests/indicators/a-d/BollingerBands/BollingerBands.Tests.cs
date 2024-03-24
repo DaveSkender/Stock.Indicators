@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class BollingerBandsTests : TestBase
+public class BollingerBandsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<BollingerBandsResult> results =
             quotes.GetBollingerBands(20, 2)
@@ -85,7 +85,7 @@ public class BollingerBandsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<BollingerBandsResult> r = badQuotes
             .GetBollingerBands(15, 3)
@@ -96,7 +96,7 @@ public class BollingerBandsTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<BollingerBandsResult> r0 = noquotes
             .GetBollingerBands()

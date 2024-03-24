@@ -53,7 +53,7 @@ IEnumerable<DynamicResult>
 
 ### DynamicResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Dynamic`** _`double`_ - McGinley Dynamic
 

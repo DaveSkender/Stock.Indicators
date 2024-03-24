@@ -1,13 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class BetaResult : ResultBase, IReusableResult
+public sealed record class BetaResult : IReusableResult
 {
-    public BetaResult(DateTime date)
-    {
-        Date = date;
-    }
-
+    public DateTime Timestamp { get; set; }
     public double? Beta { get; set; }
     public double? BetaUp { get; set; }
     public double? BetaDown { get; set; }
@@ -16,7 +11,7 @@ public sealed class BetaResult : ResultBase, IReusableResult
     public double? ReturnsEval { get; set; }
     public double? ReturnsMrkt { get; set; }
 
-    double? IReusableResult.Value => Beta;
+    double IReusableResult.Value => Beta.Null2NaN();
 }
 
 public enum BetaType

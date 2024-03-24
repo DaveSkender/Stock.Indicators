@@ -3,28 +3,26 @@ using System.Globalization;
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
 
-internal sealed class MyQuote : Quote
+internal sealed record MyExtendedQuote : Quote
 {
     public bool MyProperty { get; set; }
     public decimal? MyClose { get; set; }
 }
 
-internal sealed class MyEma : ResultBase
+internal sealed class MyEma : IResult
 {
+    public DateTime Timestamp { get; set; }
     public int Id { get; set; }
     public bool MyProperty { get; set; }
     public double? Ema { get; set; }
 }
 
-internal sealed class MyGenericQuote : IQuote
+internal sealed class MyCustomQuote
+    : EquatableQuote, IQuote
 {
-    // required base properties
-    DateTime ISeries.Date => CloseDate;
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    decimal IQuote.Close => CloseValue;
-    public decimal Volume { get; set; }
+    // override, redirect required properties
+    public override DateTime Timestamp => CloseDate;
+    public override decimal Close => CloseValue;
 
     // custom properties
     public int MyOtherProperty { get; set; }
@@ -36,6 +34,8 @@ internal sealed class MyGenericQuote : IQuote
 public class PublicClassTests
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);
+    internal static readonly DateTime evalDate
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
 
     [TestMethod]
     public void ValidateHistory()
@@ -44,7 +44,7 @@ public class PublicClassTests
 
         quotes.Validate();
         quotes.GetSma(6);
-        quotes.GetSma(5);
+        quotes.GetEma(5);
     }
 
     [TestMethod]
@@ -54,15 +54,15 @@ public class PublicClassTests
         IEnumerable<Quote> h = quotes.Validate();
 
         Quote f = h.FirstOrDefault();
-        Console.WriteLine("Date:{0},Close:{1}", f.Date, f.Close);
+        Console.WriteLine($"Date:{f.Timestamp},Close:{f.Close}");
     }
 
     [TestMethod]
     public void DerivedQuoteClass()
     {
         // can use a derive Quote class
-        MyQuote myQuote = new() {
-            Date = DateTime.Now,
+        MyExtendedQuote myQuote = new() {
+            Timestamp = DateTime.Now,
             MyProperty = true
         };
 
@@ -77,9 +77,9 @@ public class PublicClassTests
 
         // can use a derive Quote class using Linq
 
-        IEnumerable<MyQuote> myHistory = quotes
-            .Select(x => new MyQuote {
-                Date = x.Date,
+        IEnumerable<MyExtendedQuote> myHistory = quotes
+            .Select(x => new MyExtendedQuote {
+                Timestamp = x.Timestamp,
                 MyClose = x.Close,
                 MyProperty = false
             });
@@ -90,9 +90,9 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteClass()
     {
-        List<MyGenericQuote> myGenericHistory = TestData.GetDefault()
-            .Select(x => new MyGenericQuote {
-                CloseDate = x.Date,
+        List<MyCustomQuote> myGenericHistory = TestData.GetDefault()
+            .Select(x => new MyCustomQuote {
+                CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -121,11 +121,54 @@ public class PublicClassTests
     }
 
     [TestMethod]
+    public void EqualCustomQuotes()
+    {
+        MyCustomQuote q1 = new() {
+            CloseDate = evalDate,
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            CloseValue = 1m,
+            Volume = 100
+        };
+
+        MyCustomQuote q2 = new() {
+            CloseDate = evalDate,
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            CloseValue = 1m,
+            Volume = 100
+        };
+
+        MyCustomQuote q3 = new() {
+            CloseDate = evalDate,
+            Open = 1m,
+            High = 1m,
+            Low = 1m,
+            CloseValue = 2m,
+            Volume = 99
+        };
+
+        Assert.IsTrue(Equals(q1, q2));
+        Assert.IsFalse(Equals(q1, q3));
+
+        Assert.IsTrue(q1.Equals(q2));
+        Assert.IsFalse(q1.Equals(q3));
+
+        Assert.IsTrue(q1 == q2);
+        Assert.IsFalse(q1 == q3);
+
+        Assert.IsFalse(q1 != q2);
+        Assert.IsTrue(q1 != q3);
+    }
+
+    [TestMethod]
     public void CustomQuoteAggregate()
     {
-        List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote {
-                CloseDate = x.Date,
+        List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
+            .Select(x => new MyCustomQuote {
+                CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -150,9 +193,9 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteAggregateTimeSpan()
     {
-        List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote {
-                CloseDate = x.Date,
+        List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
+            .Select(x => new MyCustomQuote {
+                CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
                 Low = x.Low,
@@ -175,11 +218,11 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void CustomIndicatorClass()
+    public void CustomResultClass()
     {
         // can use a derive Indicator class
         MyEma myIndicator = new() {
-            Date = DateTime.Now,
+            Timestamp = DateTime.Now,
             Ema = 123.456,
             MyProperty = false
         };
@@ -188,7 +231,7 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void CustomIndicatorClassLinq()
+    public void CustomResultClassLinq()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
@@ -198,7 +241,7 @@ public class PublicClassTests
         IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
             .Select(x => new MyEma {
-                Date = x.Date,
+                Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
             });
@@ -207,7 +250,7 @@ public class PublicClassTests
     }
 
     [TestMethod]
-    public void CustomIndicatorClassFind()
+    public void CustomResultClassFind()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
@@ -218,7 +261,7 @@ public class PublicClassTests
             .Where(x => x.Ema != null)
             .Select(x => new MyEma {
                 Id = 12345,
-                Date = x.Date,
+                Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
             });
@@ -233,5 +276,85 @@ public class PublicClassTests
 
         EmaResult r = emaResults.Find(findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
+    }
+
+
+    [TestMethod]
+    public void StreamAll() // from quote provider
+    {
+        /******************************************************
+         * Attaches all stream observers to one Quote provider
+         * for a full sprectrum stream collective.
+         *
+         * Currently, it does not include any [direct] chains;
+         * however, under the hood many of these are streaming
+         * through an underlying Use<TQuote> converter.
+         *
+         * This test covers most of the unusual test cases, like:
+         *
+         *  - out of order quotes (late arrivals)
+         *  - duplicates, but not to an overflow situation
+         *
+         *  TODO: add all indicators to test, when available
+         *
+         ******************************************************/
+
+        // source quotes (out of order, messy use case)
+        List<Quote> quotesList = TestData.GetDefault().ToList();
+
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize observers, get static results for comparison (later)
+        Ema observeEma = provider.AttachEma(20);
+        List<EmaResult> staticEma = quotesList.GetEma(20).ToList();
+
+        Sma observeSma = provider.AttachSma(20);
+        List<SmaResult> staticSma = quotesList.GetSma(20).ToList();
+
+        // emulate adding quotes to provider
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            // skip one (add later)
+            if (i == 80)
+            {
+                continue;
+            }
+
+            Quote q = quotesList[i];
+            provider.Add(q);
+
+            // resend duplicate quotes
+            if (i is > 100 and < 105)
+            {
+                provider.Add(q);
+            }
+        }
+
+        // late arrival
+        provider.Add(quotesList[80]);
+
+        // end all observations
+        provider.EndTransmission();
+
+        // final results should persist in scope
+        List<EmaResult> streamEma = observeEma.Results.ToList();
+        List<SmaResult> streamSma = observeSma.Results.ToList();
+
+        // assert, should equal static series
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            EmaResult sEma = staticEma[i];
+            EmaResult rEma = streamEma[i];
+
+            Assert.AreEqual(sEma.Timestamp, rEma.Timestamp);
+            Assert.AreEqual(sEma.Ema, rEma.Ema);
+
+            SmaResult sSma = staticSma[i];
+            SmaResult rSma = streamSma[i];
+
+            Assert.AreEqual(sSma.Timestamp, rSma.Timestamp);
+            Assert.AreEqual(sSma.Sma, rSma.Sma);
+        }
     }
 }

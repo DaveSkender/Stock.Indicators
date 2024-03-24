@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // BOLLINGER BANDS (SERIES)
+
 public static partial class Indicator
 {
     internal static List<BollingerBandsResult> CalcBollingerBands(
@@ -9,7 +10,7 @@ public static partial class Indicator
         double standardDeviations)
     {
         // check parameter arguments
-        ValidateBollingerBands(lookbackPeriods, standardDeviations);
+        BollingerBands.Validate(lookbackPeriods, standardDeviations);
 
         // initialize
         List<BollingerBandsResult> results = new(tpList.Count);
@@ -19,7 +20,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            BollingerBandsResult r = new(date);
+            BollingerBandsResult r = new() { Timestamp = date };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
@@ -52,24 +53,5 @@ public static partial class Indicator
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateBollingerBands(
-        int lookbackPeriods,
-        double standardDeviations)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Bollinger Bands.");
-        }
-
-        if (standardDeviations <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(standardDeviations), standardDeviations,
-                "Standard Deviations must be greater than 0 for Bollinger Bands.");
-        }
     }
 }

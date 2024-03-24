@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class VwmaTests : TestBase
+public class VwmaTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<VwmaResult> results = quotes
             .GetVwma(10)
@@ -38,7 +38,7 @@ public class VwmaTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<VwmaResult> r = badQuotes
             .GetVwma(15)
@@ -49,7 +49,7 @@ public class VwmaTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<VwmaResult> r0 = noquotes
             .GetVwma(4)

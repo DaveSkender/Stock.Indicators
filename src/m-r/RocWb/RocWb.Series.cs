@@ -10,98 +10,72 @@ public static partial class Indicator
         int stdDevPeriods)
     {
         // check parameter arguments
-        ValidateRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
+        RocWb.Validate(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // initialize
-        List<RocWbResult> results = tpList
-            .CalcRoc(lookbackPeriods, null)
-            .Select(x => new RocWbResult(x.Date) {
-                Roc = x.Roc
-            })
-            .ToList();
+        int length = tpList.Count;
+        List<RocWbResult> results = new(length);
 
         double k = 2d / (emaPeriods + 1);
-        double? lastEma = 0;
+        double prevEma = double.NaN;
 
-        int length = results.Count;
+        List<(DateTime _, double Roc)> tpRoc = tpList
+            .CalcRoc(lookbackPeriods)
+            .ToTupleResult();
 
-        if (length > lookbackPeriods)
-        {
-            int initPeriods = Math.Min(lookbackPeriods + emaPeriods, length);
-
-            for (int i = lookbackPeriods; i < initPeriods; i++)
-            {
-                lastEma += results[i].Roc;
-            }
-
-            lastEma /= emaPeriods;
-        }
-
-        double?[] rocSq = results
+        double[] rocSq = tpRoc
             .Select(x => x.Roc * x.Roc)
             .ToArray();
 
+        double[] ema = new double[length];
+
         // roll through quotes
-        for (int i = lookbackPeriods; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
-            RocWbResult r = results[i];
+            (DateTime date, double roc) = tpRoc[i];
+            RocWbResult r = new() {
+                Timestamp = date,
+                Roc = roc.NaN2Null()
+            };
+            results.Add(r);
 
             // exponential moving average
-            if (i + 1 > lookbackPeriods + emaPeriods)
+            if (double.IsNaN(prevEma) && i >= emaPeriods)
             {
-                r.RocEma = lastEma + (k * (r.Roc - lastEma));
-                lastEma = r.RocEma;
+                double sum = 0;
+                for (int p = i - emaPeriods + 1; p <= i; p++)
+                {
+                    sum += tpRoc[p].Roc;
+                }
+
+                ema[i] = sum / emaPeriods;
             }
-            else if (i + 1 == lookbackPeriods + emaPeriods)
+
+            // normal EMA
+            else
             {
-                r.RocEma = lastEma;
+                ema[i] = Ema.Increment(k, prevEma, roc);
             }
+
+            r.RocEma = ema[i].NaN2Null();
+            prevEma = ema[i];
 
             // ROC deviation
-            if (i + 1 >= lookbackPeriods + stdDevPeriods)
+            if (i >= stdDevPeriods)
             {
-                double? sumSq = 0;
+                double sum = 0;
                 for (int p = i - stdDevPeriods + 1; p <= i; p++)
                 {
-                    sumSq += rocSq[p];
+                    sum += rocSq[p];
                 }
 
-                if (sumSq is not null)
-                {
-                    double? rocDev = Math.Sqrt((double)sumSq / stdDevPeriods);
+                double? rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
 
-                    r.UpperBand = rocDev;
-                    r.LowerBand = -rocDev;
-                }
+                r.UpperBand = rocDev;
+                r.LowerBand = -rocDev;
             }
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateRocWb(
-        int lookbackPeriods,
-        int emaPeriods,
-        int stdDevPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for ROC with Bands.");
-        }
-
-        if (emaPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(emaPeriods), emaPeriods,
-                "EMA periods must be greater than 0 for ROC.");
-        }
-
-        if (stdDevPeriods <= 0 || stdDevPeriods > lookbackPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(stdDevPeriods), stdDevPeriods,
-                "Standard Deviation periods must be greater than 0 and less than lookback period for ROC with Bands.");
-        }
     }
 }

@@ -1,15 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (SERIES)
+
 public static partial class Indicator
 {
     internal static List<RocResult> CalcRoc(
         this List<(DateTime, double)> tpList,
-        int lookbackPeriods,
-        int? smaPeriods)
+        int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateRoc(lookbackPeriods, smaPeriods);
+        Roc.Validate(lookbackPeriods);
 
         // initialize
         List<RocResult> results = new(tpList.Count);
@@ -19,7 +19,7 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            RocResult r = new(date);
+            RocResult r = new() { Timestamp = date };
             results.Add(r);
 
             if (i + 1 > lookbackPeriods)
@@ -30,39 +30,8 @@ public static partial class Indicator
                 r.Roc = (backValue == 0) ? null
                     : (100d * r.Momentum / backValue).NaN2Null();
             }
-
-            // optional SMA
-            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 1)
-            {
-                double? sumSma = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    sumSma += results[p].Roc;
-                }
-
-                r.RocSma = sumSma / smaPeriods;
-            }
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateRoc(
-        int lookbackPeriods,
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for ROC.");
-        }
-
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for ROC.");
-        }
     }
 }

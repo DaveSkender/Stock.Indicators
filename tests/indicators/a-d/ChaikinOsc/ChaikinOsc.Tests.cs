@@ -1,10 +1,10 @@
 namespace Tests.Indicators;
 
 [TestClass]
-public class ChaikinOscTests : TestBase
+public class ChaikinOscTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int fastPeriods = 3;
         int slowPeriods = 10;
@@ -38,7 +38,7 @@ public class ChaikinOscTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
         List<ChaikinOscResult> r = badQuotes
             .GetChaikinOsc(5, 15)
@@ -49,7 +49,7 @@ public class ChaikinOscTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
         List<ChaikinOscResult> r0 = noquotes
             .GetChaikinOsc()
