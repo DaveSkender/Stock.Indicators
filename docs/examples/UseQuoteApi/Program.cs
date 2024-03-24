@@ -80,25 +80,25 @@ internal class Program
          ************************************************************/
 
         // get and validate keys, see README.md
-        string alpacaApiKey = Environment.GetEnvironmentVariable("AlpacaApiKey");
-        string alpacaSecret = Environment.GetEnvironmentVariable("AlpacaSecret");
+        string ALPACA_KEY = Environment.GetEnvironmentVariable("ALPACA_KEY");
+        string ALPACA_SECRET = Environment.GetEnvironmentVariable("ALPACA_SECRET");
 
-        if (string.IsNullOrEmpty(alpacaApiKey))
+        if (string.IsNullOrEmpty(ALPACA_KEY))
         {
             throw new ArgumentNullException(
-                alpacaApiKey,
-                $"API KEY missing, use `setx AlpacaApiKey \"ALPACA_API_KEY\"` to set.");
+                ALPACA_KEY,
+                $"API KEY missing, use `setx ALPACA_KEY \"MY-ALPACA-KEY\"` to set.");
         }
 
-        if (string.IsNullOrEmpty(alpacaSecret))
+        if (string.IsNullOrEmpty(ALPACA_SECRET))
         {
             throw new ArgumentNullException(
-                alpacaSecret,
-                $"API SECRET missing, use `setx AlpacaApiSecret \"ALPACA_SECRET\"` to set.");
+                ALPACA_SECRET,
+                $"API SECRET missing, use `setx AlpacaApiSecret \"MY-ALPACA-SECRET\"` to set.");
         }
 
         // connect to Alpaca REST API
-        SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
+        SecretKey secretKey = new(ALPACA_KEY, ALPACA_SECRET);
 
         IAlpacaDataClient client = Environments.Paper.GetAlpacaDataClient(secretKey);
 

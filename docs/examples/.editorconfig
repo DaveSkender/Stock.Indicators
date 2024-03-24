@@ -1,0 +1,38 @@
+# top-most EditorConfig file
+root = true
+
+# global baselines
+[*]
+charset = utf-8
+end_of_line = lf
+
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+line_length = 150
+max_line_length = 150
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{csproj,props,targets}]
+indent_style = space
+indent_size = 2
+
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*.{cs,vb}]
+tab_width = 4
+indent_size = 4
+end_of_line = lf
+
+#### Naming styles ####
+
+# Naming styles
+
+dotnet_style_namespace_match_folder = false:none
+
+[*.cs]
+dotnet_diagnostic.IDE0058.severity = none
