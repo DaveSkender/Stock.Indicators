@@ -9,8 +9,7 @@ public static class Candlesticks
 
     public static CandleProperties ToCandle<TQuote>(
         this TQuote quote)
-        where TQuote : IQuote => new()
-        {
+        where TQuote : IQuote => new() {
             Timestamp = quote.Timestamp,
             Open = quote.Open,
             High = quote.High,
@@ -45,8 +44,7 @@ public static class Candlesticks
           .. quotes
             .Select(x => new CandleResult(
                 x.Timestamp,
-                Match.None)
-            {
+                Match.None) {
                 Candle = x.ToCandle()
             })
             .OrderBy(x => x.Timestamp)

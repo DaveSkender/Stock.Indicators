@@ -158,8 +158,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
         }
 
         // candidate result
-        AlligatorResult r = new()
-        {
+        AlligatorResult r = new() {
             Timestamp = value.date,
             Jaw = jaw.NaN2Null(),
             Lips = lips.NaN2Null(),

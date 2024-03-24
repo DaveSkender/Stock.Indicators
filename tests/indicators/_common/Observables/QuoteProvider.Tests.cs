@@ -88,14 +88,12 @@ public class QuoteProviderTests : StreamTestBase
         QuoteProvider<Quote> provider = new();
         DateTime date = DateTime.Now;
 
-        Assert.ThrowsException<OverflowException>(() =>
-        {
+        Assert.ThrowsException<OverflowException>(() => {
             // add too many duplicates
             for (int i = 0; i <= 101; i++)
             {
                 // use newly defined quote each time
-                provider.Add(new Quote()
-                {
+                provider.Add(new Quote() {
                     Timestamp = date,
                     Open = 2,
                     High = 4,
@@ -118,8 +116,7 @@ public class QuoteProviderTests : StreamTestBase
         QuoteProvider<Quote> provider = new();
 
         // overflow, with undefined values
-        Assert.ThrowsException<OverflowException>(() =>
-        {
+        Assert.ThrowsException<OverflowException>(() => {
             DateTime date = DateTime.Now;
 
             for (int i = 0; i <= 101; i++)
@@ -129,8 +126,7 @@ public class QuoteProviderTests : StreamTestBase
         });
 
         // null quote
-        Assert.ThrowsException<ArgumentNullException>(() =>
-        {
+        Assert.ThrowsException<ArgumentNullException>(() => {
             Quote quote = null;
             provider.Add(quote);
         });

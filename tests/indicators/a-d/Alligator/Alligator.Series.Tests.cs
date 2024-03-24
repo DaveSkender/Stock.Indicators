@@ -143,20 +143,17 @@ public class AlligatorSeriesTests : SeriesTestBase
     [TestMethod]
     public override void Equality()
     {
-        AlligatorResult r1 = new()
-        {
+        AlligatorResult r1 = new() {
             Timestamp = evalDate,
             Jaw = 1d
         };
 
-        AlligatorResult r2 = new()
-        {
+        AlligatorResult r2 = new() {
             Timestamp = evalDate,
             Jaw = 1d
         };
 
-        AlligatorResult r3 = new()
-        {
+        AlligatorResult r3 = new() {
             Timestamp = evalDate,
             Jaw = 2d
         };

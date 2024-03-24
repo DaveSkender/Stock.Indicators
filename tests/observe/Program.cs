@@ -94,11 +94,9 @@ public class QuoteStream
         Console.WriteLine("----------------------------------------------------------------------------------");
 
         // handle new quotes
-        quoteSubscription.Received += (q) =>
-        {
+        quoteSubscription.Received += (q) => {
             // add to our provider
-            provider.Add(new Quote
-            {
+            provider.Add(new Quote {
                 Timestamp = q.TimeUtc,
                 Open = q.Open,
                 High = q.High,

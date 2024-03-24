@@ -19,8 +19,7 @@ public static partial class Indicator
         List<StarcBandsResult> results = qdList
             .ToTuple(CandlePart.Close)
             .CalcSma(smaPeriods)
-            .Select(x => new StarcBandsResult
-            {
+            .Select(x => new StarcBandsResult {
                 Timestamp = x.Timestamp,
                 Centerline = x.Sma
             })

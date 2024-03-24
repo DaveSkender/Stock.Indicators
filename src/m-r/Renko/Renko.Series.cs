@@ -35,8 +35,7 @@ public static partial class Indicator
         decimal l = decimal.MaxValue;
         decimal v = 0;
 
-        RenkoResult lastBrick = new()
-        {
+        RenkoResult lastBrick = new() {
             Timestamp = q0.Timestamp,
             Open = baseline,
             Close = baseline
@@ -84,8 +83,7 @@ public static partial class Indicator
                     c = baseline - brickSize;
                 }
 
-                RenkoResult r = new()
-                {
+                RenkoResult r = new() {
                     Timestamp = q.Timestamp,
                     Open = baseline,
                     High = h,

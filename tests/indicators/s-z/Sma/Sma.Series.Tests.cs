@@ -142,20 +142,17 @@ public class SmaSeriesTests : SeriesTestBase
     [TestMethod]
     public override void Equality()
     {
-        SmaResult r1 = new()
-        {
+        SmaResult r1 = new() {
             Timestamp = evalDate,
             Sma = 1d
         };
 
-        SmaResult r2 = new()
-        {
+        SmaResult r2 = new() {
             Timestamp = evalDate,
             Sma = 1d
         };
 
-        SmaResult r3 = new()
-        {
+        SmaResult r3 = new() {
             Timestamp = evalDate,
             Sma = 2d
         };

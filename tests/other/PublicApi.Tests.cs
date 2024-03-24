@@ -61,8 +61,7 @@ public class PublicClassTests
     public void DerivedQuoteClass()
     {
         // can use a derive Quote class
-        MyExtendedQuote myQuote = new()
-        {
+        MyExtendedQuote myQuote = new() {
             Timestamp = DateTime.Now,
             MyProperty = true
         };
@@ -79,8 +78,7 @@ public class PublicClassTests
         // can use a derive Quote class using Linq
 
         IEnumerable<MyExtendedQuote> myHistory = quotes
-            .Select(x => new MyExtendedQuote
-            {
+            .Select(x => new MyExtendedQuote {
                 Timestamp = x.Timestamp,
                 MyClose = x.Close,
                 MyProperty = false
@@ -93,8 +91,7 @@ public class PublicClassTests
     public void CustomQuoteClass()
     {
         List<MyCustomQuote> myGenericHistory = TestData.GetDefault()
-            .Select(x => new MyCustomQuote
-            {
+            .Select(x => new MyCustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
@@ -126,8 +123,7 @@ public class PublicClassTests
     [TestMethod]
     public void EqualCustomQuotes()
     {
-        MyCustomQuote q1 = new()
-        {
+        MyCustomQuote q1 = new() {
             CloseDate = evalDate,
             Open = 1m,
             High = 1m,
@@ -136,8 +132,7 @@ public class PublicClassTests
             Volume = 100
         };
 
-        MyCustomQuote q2 = new()
-        {
+        MyCustomQuote q2 = new() {
             CloseDate = evalDate,
             Open = 1m,
             High = 1m,
@@ -146,8 +141,7 @@ public class PublicClassTests
             Volume = 100
         };
 
-        MyCustomQuote q3 = new()
-        {
+        MyCustomQuote q3 = new() {
             CloseDate = evalDate,
             Open = 1m,
             High = 1m,
@@ -173,8 +167,7 @@ public class PublicClassTests
     public void CustomQuoteAggregate()
     {
         List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyCustomQuote
-            {
+            .Select(x => new MyCustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
@@ -201,8 +194,7 @@ public class PublicClassTests
     public void CustomQuoteAggregateTimeSpan()
     {
         List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyCustomQuote
-            {
+            .Select(x => new MyCustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
                 High = x.High,
@@ -229,8 +221,7 @@ public class PublicClassTests
     public void CustomResultClass()
     {
         // can use a derive Indicator class
-        MyEma myIndicator = new()
-        {
+        MyEma myIndicator = new() {
             Timestamp = DateTime.Now,
             Ema = 123.456,
             MyProperty = false
@@ -249,8 +240,7 @@ public class PublicClassTests
 
         IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
-            .Select(x => new MyEma
-            {
+            .Select(x => new MyEma {
                 Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
@@ -269,8 +259,7 @@ public class PublicClassTests
 
         IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
-            .Select(x => new MyEma
-            {
+            .Select(x => new MyEma {
                 Id = 12345,
                 Timestamp = x.Timestamp,
                 Ema = x.Ema,

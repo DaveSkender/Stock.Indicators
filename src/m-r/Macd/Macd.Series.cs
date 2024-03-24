@@ -28,8 +28,7 @@ public static partial class Indicator
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
-            MacdResult r = new()
-            {
+            MacdResult r = new() {
                 Timestamp = date,
                 FastEma = df.Ema,
                 SlowEma = ds.Ema

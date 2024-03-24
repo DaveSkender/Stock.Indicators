@@ -19,14 +19,12 @@ public class DpoTests : SeriesTestBase
             string[] csv = csvData[i].Split(",");
             DateTime date = Convert.ToDateTime(csv[1], EnglishCulture);
 
-            qot.Add(new Quote
-            {
+            qot.Add(new Quote {
                 Timestamp = date,
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult()
-            {
+            exp.Add(new DpoResult() {
                 Timestamp = date,
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()

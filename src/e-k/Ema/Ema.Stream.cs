@@ -90,8 +90,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
         }
 
         // candidate result
-        EmaResult r = new()
-        {
+        EmaResult r = new() {
             Timestamp = value.date,
             Ema = ema.NaN2Null()
         };

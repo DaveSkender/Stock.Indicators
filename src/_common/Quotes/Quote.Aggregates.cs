@@ -25,8 +25,7 @@ public static partial class QuoteUtility
             return quotes
             .OrderBy(x => x.Timestamp)
             .GroupBy(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
-            .Select(x => new Quote
-            {
+            .Select(x => new Quote {
                 Timestamp = x.Key,
                 Open = x.First().Open,
                 High = x.Max(t => t.High),
@@ -55,8 +54,7 @@ public static partial class QuoteUtility
         return quotes
             .OrderBy(x => x.Timestamp)
             .GroupBy(x => x.Timestamp.RoundDown(timeSpan))
-            .Select(x => new Quote
-            {
+            .Select(x => new Quote {
                 Timestamp = x.Key,
                 Open = x.First().Open,
                 High = x.Max(t => t.High),

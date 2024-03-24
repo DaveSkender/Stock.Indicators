@@ -76,8 +76,7 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
         }
 
         // candidate result
-        SmaResult r = new()
-        {
+        SmaResult r = new() {
             Timestamp = value.date,
             Sma = sma.NaN2Null()
         };
