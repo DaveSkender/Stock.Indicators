@@ -97,8 +97,7 @@ public static class Numerix
 
     // PERIOD-SIZE to TIMESPAN CONVERSION
     internal static TimeSpan ToTimeSpan(this PeriodSize periodSize)
-        => periodSize switch
-        {
+        => periodSize switch {
             PeriodSize.OneMinute => TimeSpan.FromMinutes(1),
             PeriodSize.TwoMinutes => TimeSpan.FromMinutes(2),
             PeriodSize.ThreeMinutes => TimeSpan.FromMinutes(3),
