@@ -22,8 +22,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            RollingPivotsResult r = new()
-            {
+            RollingPivotsResult r = new() {
                 Date = q.Date
             };
 
