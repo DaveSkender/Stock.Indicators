@@ -23,8 +23,7 @@ public static partial class Indicator
             double mfv = mfm * q.Volume;
             double adl = mfv + prevAdl;
 
-            AdlResult r = new(q.Date)
-            {
+            AdlResult r = new(q.Date) {
                 MoneyFlowMultiplier = mfm,
                 MoneyFlowVolume = mfv,
                 Adl = adl

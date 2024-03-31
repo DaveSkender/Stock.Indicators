@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using Custom.Stock.Indicators;
-using Newtonsoft.Json;
 using Skender.Stock.Indicators;
 
-namespace ConsoleApp;
+namespace CustomIndicatorsUsage;
 
 // USE CUSTOM INDICATORS exactly the same as
 // other indicators in the library
@@ -67,7 +67,8 @@ public static class Program
 
         string json = File.ReadAllText("quotes.data.json");
 
-        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
+        Collection<Quote> quotes = JsonSerializer
+            .Deserialize<IReadOnlyCollection<Quote>>(json)
             .ToSortedCollection();
 
         return quotes;
