@@ -46,8 +46,7 @@ public static partial class Indicator
             // average true range × multiplier constant
             double? arc = atrList[i - 1].Atr * multiplier;
 
-            VolatilityStopResult r = new(date)
-            {
+            VolatilityStopResult r = new(date) {
                 // stop and reverse threshold
                 Sar = isLong ? sic - arc : sic + arc
             };
