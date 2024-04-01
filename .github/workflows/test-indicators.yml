@@ -15,10 +15,20 @@ jobs:
   test:
     name: unit tests
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
         dotnet-version: ["2.0.x", "3.x", "6.x", "8.x"]
+
+    env:
+
+      # identifying primary configuration so only one reports coverage
+      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.x' }}
+
+      # .NET SDK versions in the matrix that support `ga` quality spec
+      #   versions before 5.x do not support it
+      SUPPORT_GA: ${{ contains(fromJson('["6.x", "8.x"]'), matrix.dotnet-version) }}
 
     steps:
 
@@ -27,17 +37,16 @@ jobs:
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
-        if: ${{ contains(fromJson('["6.x", "8.x"]'), matrix.dotnet-version) }}
+        if:  env.SUPPORT_GA
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
 
       - name: Setup .NET SDK (older)
         uses: actions/setup-dotnet@v4
-        if: ${{ contains(fromJson('["2.0.x", "3.x"]'), matrix.dotnet-version) }}
+        if: !env.SUPPORT_GA
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-          # older SDK do not support 'ga'
 
       - name: Build solution
         run: >
@@ -47,7 +56,6 @@ jobs:
           -warnAsError
 
       - name: Test indicators
-        id: test-library
         env:
           ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
           ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
@@ -60,8 +68,10 @@ jobs:
           --collect:"XPlat Code Coverage"
           --results-directory ./test-indicators
 
+      # the remaining steps are only needed from one primary instance
+
       - name: Test other items
-        id: test-other
+        if: env.IS_PRIMARY
         run: >
           dotnet test tests/other/Tests.Other.csproj
           --configuration Release
@@ -72,7 +82,7 @@ jobs:
 
       - name: Post tests summary
         uses: bibipkins/dotnet-test-reporter@v1.4.1
-        if: ${{ matrix.dotnet-version == '8.x' && matrix.os == 'ubuntu-latest' &&  github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
+        if: env.IS_PRIMARY && always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
@@ -82,7 +92,7 @@ jobs:
 
       - name: Post coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: ${{ matrix.dotnet-version == '8.x' && matrix.os == 'ubuntu-latest' }}
+        if: env.IS_PRIMARY
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml

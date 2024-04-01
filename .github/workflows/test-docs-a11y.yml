@@ -58,5 +58,5 @@ jobs:
             --sitemap-exclude "/*.pdf"
 
       - name: Kill site (failsafe)
-        if: success() || failure()
+        if: always()
         run: pkill -f jekyll

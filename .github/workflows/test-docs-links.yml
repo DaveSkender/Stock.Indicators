@@ -73,5 +73,5 @@ jobs:
             --ignore-urls "/fonts.gstatic.com/"
 
       - name: Kill site (failsafe)
-        if: success() || failure()
+        if: always()
         run: pkill -f jekyll
