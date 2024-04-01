@@ -1,4 +1,4 @@
-name: "Lint PR"
+name: "Pull request"
 
 on:
   pull_request_target:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   main:
-    name: validate PR title
+    name: lint PR title
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v5
