@@ -7,14 +7,14 @@ on:
   pull_request:
     branches: ["main"]
 
-permissions:
-  contents: read
-  pull-requests: write
-
 jobs:
   test:
     name: unit tests
     runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      pull-requests: write
 
     strategy:
       matrix:
@@ -38,7 +38,7 @@ jobs:
       - name: Setup .NET
         id: dotnet-new
         uses: actions/setup-dotnet@v4
-        if:  ${{ env.SUPPORT_GA }}
+        if:  env.SUPPORT_GA
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
@@ -72,7 +72,7 @@ jobs:
       # the remaining steps are only needed from one primary instance
 
       - name: Test other items
-        if: ${{ env.IS_PRIMARY }}
+        if: env.IS_PRIMARY
         run: >
           dotnet test tests/other/Tests.Other.csproj
           --configuration Release
@@ -83,7 +83,7 @@ jobs:
 
       - name: Post test summary
         uses: bibipkins/dotnet-test-reporter@v1.4.1
-        if: ${{ env.IS_PRIMARY && always() }}
+        if: env.IS_PRIMARY && always()
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
@@ -93,7 +93,7 @@ jobs:
 
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: ${{ env.IS_PRIMARY }}
+        if: env.IS_PRIMARY
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml
