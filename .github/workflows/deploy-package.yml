@@ -29,7 +29,7 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -62,7 +62,7 @@ jobs:
           replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
           regex: false
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"
@@ -85,7 +85,7 @@ jobs:
           --output NuGet
           -p:PackageVersion=${{ steps.compose.outputs.version }}
 
-      - name: Save NuGet package
+      - name: Save package
         uses: actions/upload-artifact@v3
         with:
           name: packages
@@ -127,7 +127,7 @@ jobs:
             echo "| Version ID      | ${{ needs.build.outputs.version }} |"
           } >> $GITHUB_STEP_SUMMARY
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"
@@ -139,7 +139,7 @@ jobs:
           nuget-api-key: ${{ secrets.NUGET_TOKEN }}
           nuget-version: '6.x'
 
-      - name: Download NuGet package
+      - name: Download package
         uses: actions/download-artifact@v3
         with:
           name: packages

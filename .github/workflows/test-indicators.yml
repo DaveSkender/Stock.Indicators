@@ -32,23 +32,23 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         if:  env.SUPPORT_GA
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
 
-      - name: Setup .NET SDK (older)
+      - name: Setup .NET (older)
         uses: actions/setup-dotnet@v4
         if: !env.SUPPORT_GA
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Build solution
+      - name: Build library
         run: >
           dotnet build
           --configuration Release
