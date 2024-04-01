@@ -33,9 +33,18 @@ jobs:
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
+        if: ${{ contains(fromJson('["6.x", "8.x"]'), matrix.dotnet-version) }}
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
+          cache: true
+
+      - name: Install .NET SDK (older)
+        uses: actions/setup-dotnet@v4
+        if: ${{ contains(fromJson('["2.0.x", "3.x"]'), matrix.dotnet-version) }}
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          # older SDK do not support 'ga'
           cache: true
 
       - name: Build solution
@@ -70,12 +79,12 @@ jobs:
           --results-directory ./test-other
 
       - name: Post tests summary
-        uses: bibipkins/dotnet-test-reporter@v1.3.3
+        uses: bibipkins/dotnet-test-reporter@v1.4.1
         if: ${{ matrix.dotnet-version == '8.x' &&  github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
-          results-path: ./test-indicators/**/*.trx
+          results-path:  ./test-indicators/**/*.trx
           coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
 
@@ -85,5 +94,3 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml
-          # or a comma-separated list for multiple reports
-          # coverage-reports: <PATH_TO_REPORT>, <PATH_TO_REPORT>
