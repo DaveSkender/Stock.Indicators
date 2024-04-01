@@ -22,11 +22,7 @@ jobs:
     steps:
 
       - name: Clean workspace
-        run: |
-          rm -rf ./test-indicators/* || true
-          rm -rf ./test-indicators/.??* || true
-          rm -rf ./NuGet/* || true
-          rm -rf ./NuGet/.??* || true
+        uses: AutoModality/action-clean@v1
 
       - name: Checkout repository
         uses: actions/checkout@v4
