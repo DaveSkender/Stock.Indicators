@@ -7,11 +7,17 @@ on:
   pull_request:
     branches: ["main"]
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   test:
     name: unit tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ["2.0.x", "3.x", "6.x", "8.x"]
 
     steps:
 
@@ -28,8 +34,9 @@ jobs:
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "8.x"
+          dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
+          cache: true
 
       - name: Build solution
         run: >
@@ -64,7 +71,7 @@ jobs:
 
       - name: Post tests summary
         uses: bibipkins/dotnet-test-reporter@v1.3.3
-        if: ${{ github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
+        if: ${{ matrix.dotnet-version == '8.x' &&  github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
@@ -74,6 +81,7 @@ jobs:
 
       - name: Post coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
+        if: ${{ matrix.dotnet-version == '8.x' }}
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml
