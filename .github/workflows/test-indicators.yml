@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["2.0.x", "3.x", "6.x", "8.x"]
+        dotnet-version: ["2.0.x", "6.x", "8.x"]
 
     env:
 
@@ -32,12 +32,19 @@ jobs:
 
     steps:
 
+      - name: Show parameters
+        run: |
+          echo "OS"       : ${{ matrix.os }}"
+          echo ".NET SDK" : ${{ matrix.dotnet-version }}"
+          echo "PRIMARY   : ${{ env.IS_PRIMARY }}"
+          echo "SUPPORT_GA: ${{ env.SUPPORT_GA }}"
+
       - name: Checkout source
         uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
-        if:  env.SUPPORT_GA == true
+        if:  ${{ env.SUPPORT_GA == true }}
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
