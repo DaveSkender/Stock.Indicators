@@ -1,6 +1,6 @@
 name: Deploy website
 
-on: [workflow_dispatch]
+on: workflow_dispatch
 
 concurrency:
   group: docs-website

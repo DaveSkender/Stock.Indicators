@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    name: build projects
+    name: build only
     runs-on: ubuntu-latest
 
     steps:

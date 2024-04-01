@@ -18,7 +18,7 @@ on:
         required: true
 
 concurrency:
-  group: package-deployer
+  group: ${{ inputs.environment }}
   cancel-in-progress: true
 
 jobs:

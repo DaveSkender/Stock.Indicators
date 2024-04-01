@@ -1,4 +1,4 @@
-name: Indicators
+name: indicators
 
 on:
   push:
