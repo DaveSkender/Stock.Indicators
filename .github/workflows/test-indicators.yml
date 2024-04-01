@@ -80,7 +80,7 @@ jobs:
           --logger trx
           --results-directory ./test-other
 
-      - name: Post tests summary
+      - name: Post test summary
         uses: bibipkins/dotnet-test-reporter@v1.4.1
         if: env.IS_PRIMARY && always()
         with:
@@ -90,7 +90,7 @@ jobs:
           coverage-path: ./test-indicators/**/coverage.cobertura.xml
           coverage-type: cobertura
 
-      - name: Post coverage to Codacy
+      - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         if: env.IS_PRIMARY
         with:
