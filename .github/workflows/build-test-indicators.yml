@@ -31,21 +31,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install .NET SDK
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         if: ${{ contains(fromJson('["6.x", "8.x"]'), matrix.dotnet-version) }}
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: "ga"
-          cache: true
 
-      - name: Install .NET SDK (older)
+      - name: Setup .NET SDK (older)
         uses: actions/setup-dotnet@v4
         if: ${{ contains(fromJson('["2.0.x", "3.x"]'), matrix.dotnet-version) }}
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           # older SDK do not support 'ga'
-          cache: true
 
       - name: Build solution
         run: >
