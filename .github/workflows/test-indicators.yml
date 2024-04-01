@@ -45,7 +45,7 @@ jobs:
 
       - name: Setup .NET (older)
         uses: actions/setup-dotnet@v4
-        if: ${{ steps.dotnet-new.conclusion.skipped }}
+        if: env.SUPPORT_GA == 'false'
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
