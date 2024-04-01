@@ -72,7 +72,7 @@ jobs:
 
       - name: Post tests summary
         uses: bibipkins/dotnet-test-reporter@v1.4.1
-        if: ${{ matrix.dotnet-version == '8.x' &&  github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
+        if: ${{ matrix.dotnet-version == '8.x' && matrix.os == 'ubuntu-latest' &&  github.event_name == 'pull_request' && (success() || (failure() && (steps.test-library.conclusion == 'failure' || steps.test-other.conclusion == 'failure'))) }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: ""
@@ -82,7 +82,7 @@ jobs:
 
       - name: Post coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: ${{ matrix.dotnet-version == '8.x' }}
+        if: ${{ matrix.dotnet-version == '8.x' && matrix.os == 'ubuntu-latest' }}
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml
