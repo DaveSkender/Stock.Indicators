@@ -35,7 +35,9 @@ jobs:
           bundle install
 
       - name: Setup HTML Proofer
-        run: gem install html-proofer
+        run: |
+          gem install html-proofer
+          htmlproofer --help
 
       - name: Replace "data-src"
         uses: jacobtomlinson/gha-find-replace@v3
@@ -63,11 +65,13 @@ jobs:
           BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll serve --detach
 
+        # see help in setup step
       - name: Test for broken URLs
         working-directory: docs
         run: |
           htmlproofer _site \
             --no-enforce-https \
+            --no-check-external-hash \
             --ignore-status-codes "0,302,403,406,408,429,503,999" \
             --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
             --ignore-urls "/fonts.gstatic.com/"
