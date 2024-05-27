@@ -32,7 +32,6 @@ public class QuoteProviderTests : StreamTestBase
         }
 
         // confirm public interfaces
-        Assert.AreEqual(provider.Cache.Count, provider.Results.Count());
         Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count());
 
         // close observations
@@ -104,7 +103,7 @@ public class QuoteProviderTests : StreamTestBase
             }
         });
 
-        Assert.AreEqual(1, provider.Results.Count());
+        Assert.AreEqual(1, provider.Quotes.Count());
 
         provider.EndTransmission();
     }

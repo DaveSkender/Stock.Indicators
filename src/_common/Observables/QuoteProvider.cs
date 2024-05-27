@@ -3,23 +3,20 @@ namespace Skender.Stock.Indicators;
 // QUOTE PROVIDER
 
 public class QuoteProvider<TQuote>
-    : SeriesCache<TQuote>, IQuoteProvider<TQuote>
+    : QuoteCache<TQuote>, IQuoteProvider
     where TQuote : IQuote, new()
 {
     // fields
-    private readonly List<IObserver<(Act, TQuote)>> observers;
+    private readonly List<IObserver<(Act, IQuote)>> observers;
 
     // constructor
     public QuoteProvider()
     {
         observers = [];
+        Cache = [];
 
         Initialize();
     }
-
-    // PROPERTIES
-
-    public IEnumerable<TQuote> Quotes => Cache;
 
     // METHODS
 
@@ -27,7 +24,10 @@ public class QuoteProvider<TQuote>
     public override string ToString()
         => $"Quote Provider ({Cache.Count} items)";
 
-    // add one
+    /// <summary>
+    /// Add a single quote.  We'll determine if it's new or an update.
+    /// </summary>
+    /// <param name="quote">Quote to add or update</param>
     public Act Add(TQuote quote)
     {
         try
@@ -62,7 +62,11 @@ public class QuoteProvider<TQuote>
         }
     }
 
-    // delete one
+    /// <summary>
+    /// Delete a quote.  We'll double-check that it exists in the
+    /// cache before propogating the event to subscribers.
+    /// </summary>
+    /// <param name="quote">Quote to delete</param>
     public Act Delete(TQuote quote)
     {
         try
@@ -88,7 +92,7 @@ public class QuoteProvider<TQuote>
     public void Initialize() => ClearCache();
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(Act, TQuote)> observer)
+    public IDisposable Subscribe(IObserver<(Act, IQuote)> observer)
     {
         if (!observers.Contains(observer))
         {
@@ -101,7 +105,7 @@ public class QuoteProvider<TQuote>
     // unsubscribe all observers
     public override void EndTransmission()
     {
-        foreach (IObserver<(Act, TQuote)> obs in observers.ToArray())
+        foreach (IObserver<(Act, IQuote)> obs in observers.ToArray())
         {
             if (observers.Contains(obs))
             {
@@ -136,7 +140,7 @@ public class QuoteProvider<TQuote>
         => throw new InvalidOperationException();
 
     // notify observers
-    private void NotifyObservers((Act act, TQuote quote) quoteMessage)
+    private void NotifyObservers((Act act, IQuote quote) quoteMessage)
     {
         // do not propogate "do nothing" acts
         if (quoteMessage.act == Act.DoNothing)
@@ -145,23 +149,23 @@ public class QuoteProvider<TQuote>
         }
 
         // send to subscribers
-        List<IObserver<(Act, TQuote)>> obsList = [.. observers];
+        List<IObserver<(Act, IQuote)>> obsList = [.. observers];
 
         for (int i = 0; i < obsList.Count; i++)
         {
-            IObserver<(Act, TQuote)> obs = obsList[i];
+            IObserver<(Act, IQuote)> obs = obsList[i];
             obs.OnNext(quoteMessage);
         }
     }
 
     // unsubscriber
     private class Unsubscriber(
-        List<IObserver<(Act, TQuote)>> observers,
-        IObserver<(Act, TQuote)> observer) : IDisposable
+        List<IObserver<(Act, IQuote)>> observers,
+        IObserver<(Act, IQuote)> observer) : IDisposable
     {
         // can't mutate and iterate on same list, make copy
-        private readonly List<IObserver<(Act, TQuote)>> observers = observers;
-        private readonly IObserver<(Act, TQuote)> observer = observer;
+        private readonly List<IObserver<(Act, IQuote)>> observers = observers;
+        private readonly IObserver<(Act, IQuote)> observer = observer;
 
         // remove single observer
         public void Dispose()

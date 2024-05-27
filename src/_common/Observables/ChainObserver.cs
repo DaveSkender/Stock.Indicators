@@ -3,12 +3,14 @@ namespace Skender.Stock.Indicators;
 // CHAIN OBSERVER
 
 public abstract class ChainObserver<TResult>
-    : SeriesCache<TResult>, IChainObserver<TResult>
+    : ResultCache<TResult>, IChainObserver<TResult>
     where TResult : IResult, new()
 {
     internal IDisposable? unsubscriber;
 
-    private protected ChainObserver(ChainProvider provider)
+    private protected ChainObserver(
+        ChainProvider provider,
+        bool isChainor) : base(isChainor)
     {
         ChainSupplier = provider;
     }

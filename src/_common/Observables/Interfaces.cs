@@ -2,30 +2,14 @@ namespace Skender.Stock.Indicators;
 
 // PUBLIC INTERFACES ONLY *****
 // Reminder: do not add non-public elements here for internal templating.
+// Conversly, non-public members should be defined as internal or private.
 
 /// <summary>
 /// Observable provider incremental quotes from external feed sources.
 /// </summary>
-/// <typeparam name="TQuote" cref="IQuote">
-///   Quote based on IQuote interface
-/// </typeparam>
-public interface IQuoteProvider<TQuote>
-    : IStreamCache<TQuote>, IObservable<(Act act, TQuote quote)>
-    where TQuote : IQuote
+public interface IQuoteProvider
+    : IObservable<(Act act, IQuote quote)>
 {
-    /// <summary>
-    /// Add a single quote.  We'll determine if it's new or an update.
-    /// </summary>
-    /// <param name="quote">Quote to add or update</param>
-    Act Add(TQuote quote);
-
-    /// <summary>
-    /// Delete a quote.  We'll double-check that it exists in the
-    /// cache before propogating the event to subscribers.
-    /// </summary>
-    /// <param name="quote">Quote to delete</param>
-    Act Delete(TQuote quote);
-
     /// <summary>
     /// Terminates all subscriber connections gracefully.
     /// </summary>
@@ -47,10 +31,9 @@ public interface IChainProvider
 /// <summary>
 /// Observer of incremental quotes from external feed sources.
 /// </summary>
-/// <typeparam name="TQuote"></typeparam>
-public interface IQuoteObserver<TQuote>
-    : IObserver<(Act act, TQuote quote)>
-    where TQuote : IQuote
+public interface IQuoteObserver<TResult>
+    : IStreamCache<TResult>, IObserver<(Act act, IQuote quote)>
+    where TResult : IResult
 {
     /// <summary>
     /// Unsubscribe from the data provider
@@ -67,7 +50,10 @@ public interface IQuoteObserver<TQuote>
     /// Reset and rebuild the results cache from a point in time.
     /// Use RebuildCache() without arguments to reset the entire cache.
     /// </summary>
-    /// <param name="fromTimestamp"></param>
+    /// <param name="fromTimestamp">
+    ///   All periods (inclusive) after this DateTime will
+    ///   be removed and recalculated.
+    /// </param>
     void RebuildCache(DateTime fromTimestamp);
 }
 
@@ -94,7 +80,10 @@ public interface IChainObserver<TResult>
     /// Reset and rebuild the results cache from a point in time.
     /// Use RebuildCache() without arguments to reset the entire cache.
     /// </summary>
-    /// <param name="fromTimestamp"></param>
+    /// <param name="fromTimestamp">
+    ///   All periods (inclusive) after this DateTime will
+    ///   be removed and recalculated.
+    /// </param>
     void RebuildCache(DateTime fromTimestamp);
 }
 
@@ -105,12 +94,6 @@ public interface IChainObserver<TResult>
 public interface IStreamCache<TSeries>
     where TSeries : ISeries
 {
-    /// <summary>
-    /// Read-only quote or indicator time-series values.
-    /// They are automatically updated.
-    /// </summary>
-    IEnumerable<TSeries> Results { get; }
-
     /// <summary>
     /// Returns a short formatted label with parameter values, e.g. EMA(10)
     /// </summary>
@@ -127,6 +110,8 @@ public interface IStreamCache<TSeries>
     /// Deletes cached time-series records from point in time, without restore.
     /// Subscribed indicators' caches will also be deleted accordingly.
     /// </summary>
-    /// <param name="fromTimestamp"></param>
+    /// <param name="fromTimestamp">
+    ///   All periods (inclusive) after this DateTime will be removed.
+    /// </param>
     void ClearCache(DateTime fromTimestamp);
 }

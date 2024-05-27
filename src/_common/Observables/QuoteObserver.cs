@@ -3,13 +3,15 @@ namespace Skender.Stock.Indicators;
 // QUOTE OBSERVER
 
 public abstract class QuoteObserver<TQuote, TResult>
-    : SeriesCache<TResult>, IQuoteObserver<TQuote>
+    : ResultCache<TResult>, IQuoteObserver<TResult>
     where TQuote : IQuote, new()
     where TResult : IResult, new()
 {
     internal IDisposable? unsubscriber;
 
-    private protected QuoteObserver(QuoteProvider<TQuote> provider)
+    internal QuoteObserver(
+        QuoteProvider<TQuote> provider,
+        bool isChainor) : base(isChainor)
     {
         QuoteSupplier = provider;
     }
@@ -22,7 +24,7 @@ public abstract class QuoteObserver<TQuote, TResult>
 
     // standard observer properties
 
-    public abstract void OnNext((Act act, TQuote quote) value);
+    public abstract void OnNext((Act act, IQuote quote) value);
 
     public void OnError(Exception error) => throw error;
 

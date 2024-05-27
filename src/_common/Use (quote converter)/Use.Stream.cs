@@ -9,7 +9,7 @@ public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
     public Use(
         QuoteProvider<TQuote> provider,
         CandlePart candlePart) :
-        base(provider)
+        base(provider, isChainor: true)
     {
         CandlePartSelection = candlePart;
 
@@ -33,7 +33,7 @@ public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
         => $"USE({Enum.GetName(typeof(CandlePart), CandlePartSelection)})";
 
     // handle quote arrival
-    public override void OnNext((Act act, TQuote quote) value)
+    public override void OnNext((Act act, IQuote quote) value)
     {
         // candidate result
         (DateTime d, double v) = value.quote.ToTuple(CandlePartSelection);

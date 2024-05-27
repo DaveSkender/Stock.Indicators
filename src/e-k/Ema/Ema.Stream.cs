@@ -8,7 +8,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
     public Ema(
         ChainProvider provider,
         int lookbackPeriods)
-        : base(provider)
+        : base(provider, isChainor: true)
     {
         Validate(lookbackPeriods);
 

@@ -1,6 +1,6 @@
 # v3 migration guide
 
-We've discontinued all bridge features for v1 backwards compatiblity.
+We've discontinued all bridge features for v1 backwards compatibility.
 Correct all Warnings from this library before migrating from v2 to v3.
 If you are still using v1, migrate to v2 first, to ease the transition to v3.
 
@@ -38,9 +38,9 @@ See your compiler `Warning` to identify these in your code.
 ## Breaking changes
 
 Not all, but some of these will be shown as compiler `Errors` in your code.
-Items marked with &#128681; require special attention since they will not produce compiler Errors or Warings.
+Items marked with &#128681; require special attention since they will not produce compiler Errors or Warnings.
 
-- all backwards compatible v1 accomodations removed.
+- all backwards compatible v1 accommodations removed.
 
 - no longer supporting .NET Standard 2.0 for older .NET Framework compatibility.
 

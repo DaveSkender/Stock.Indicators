@@ -1,8 +1,30 @@
 namespace Skender.Stock.Indicators;
 
+// base cache for Quotes
+public abstract class QuoteCache<TQuote>
+    : StreamCache<TQuote>
+    where TQuote : IQuote, new()
+{
+    internal QuoteCache()
+        : base(isChainor: false) { }
+
+    public IEnumerable<TQuote> Quotes => Cache;
+}
+
+// base cache for Indicator results
+public abstract class ResultCache<TResult>
+    : StreamCache<TResult>
+    where TResult : IResult, new()
+{
+    internal ResultCache(bool isChainor)
+        : base(isChainor) { }
+
+    public IEnumerable<TResult> Results => Cache;
+}
+
 // base result or series cache
-/// <inheritdoc />
-public abstract class SeriesCache<TSeries>
+/// <inheritdoc cref="IStreamCache{TSeris}"/>
+public abstract class StreamCache<TSeries>
     : ChainProvider, IStreamCache<TSeries>
     where TSeries : ISeries, new()
 {
@@ -10,22 +32,15 @@ public abstract class SeriesCache<TSeries>
     private readonly bool isChainor;
 
     // constructor
-    private protected SeriesCache()
+    protected internal StreamCache(bool isChainor)
     {
         Cache = [];
         LastArrival = new();
         OverflowCount = 0;
-
-        Type? reuseType = typeof(TSeries)
-            .GetInterface("IReusableResult");
-
-        isChainor = reuseType != null
-            && reuseType.Name == "IReusableResult";
+        this.isChainor = isChainor;
     }
 
     // PROPERTIES
-
-    public IEnumerable<TSeries> Results => Cache;
 
     internal List<TSeries> Cache { get; set; }
 

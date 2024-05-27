@@ -8,7 +8,7 @@ public partial class Sma : ChainObserver<SmaResult>, ISma
     public Sma(
         ChainProvider provider,
         int lookbackPeriods)
-        : base(provider)
+        : base(provider, isChainor: true)
     {
         Validate(lookbackPeriods);
 

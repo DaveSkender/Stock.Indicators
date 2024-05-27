@@ -11,7 +11,8 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
         int teethOffset,
         int lipsPeriods,
         int lipsOffset)
-        : base(provider)
+        : base(provider,
+            isChainor: false)
     {
         Validate(
             jawPeriods,
