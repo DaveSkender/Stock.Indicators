@@ -62,7 +62,7 @@ jobs:
             with an action verb like *Add* or *Update*. Examples:
 
             - _feat: Admin portal login_
-            - _fix: Divide by zero bug in SMA_
+            - _fix: Divide by zero in X calculation_
             - _chore: Update packages_
             - _docs: Improve setup guidance_
 

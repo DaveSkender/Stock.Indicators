@@ -25,7 +25,6 @@ jobs:
         with:
           working-directory: docs
           ruby-version: 3.2
-          bundler-cache: false
 
       - name: Define tag
         id: tag
