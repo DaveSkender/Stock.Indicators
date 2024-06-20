@@ -64,13 +64,22 @@ jobs:
           echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
 
-      - name: Generate Release Notes
+      - name: Get latest non-draft release tag
+        id: get_last_tag
+        run: echo "last_tag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+
+      - name: Generate release notes
         id: notes
         run: |
-          echo "release_notes=## Release Notes" > "$GITHUB_OUTPUT"
-          git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chore)).*$' >> "$GITHUB_OUTPUT"
-          echo >> "$GITHUB_OUTPUT"
-          echo "[more on GitHub](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}) →" >> "$GITHUB_OUTPUT"
+          last_tag=${{ env.last_tag }}
+          release_notes=$(git log $last_tag..HEAD --pretty=format:"- %h %s (%an)" --grep='^(?!.*(docs|chore)).*$')
+          echo "## Release Notes" > $GITHUB_OUTPUT
+          echo "release_notes=$release_notes" >> $GITHUB_OUTPUT
+          echo >> $GITHUB_OUTPUT
+          echo "[more on GitHub](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}) →" >> $GITHUB_OUTPUT
+
+      - name: Output release notes
+        run: echo "${{ steps.notes.outputs.release_notes }}"
 
       - name: Build library
         run: >
@@ -86,9 +95,9 @@ jobs:
           --configuration Release
           --no-build
           --include-symbols
+          --property:PackageVersion=${{ steps.compose.outputs.version }}
+          --property:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
           --output NuGet
-          -p:PackageVersion=${{ steps.compose.outputs.version }}
-          -p:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
 
       - name: Save package
         uses: actions/upload-artifact@v4
