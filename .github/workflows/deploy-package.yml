@@ -37,6 +37,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.x"
+          dotnet-quality: "ga"
+
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v1.1.1
         with:
@@ -66,15 +72,6 @@ jobs:
           echo >> release_notes.md
           echo "[more on GitHub >>](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }})" >> release_notes.md
           echo "::set-output name=release_notes::$(cat release_notes.md)"
-
-      - name: Pack NuGet package
-        run: dotnet pack --configuration Release --output . --no-build /p:PackageReleaseNotes="$(cat release_notes.md)"
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.x"
-          dotnet-quality: "ga"
 
       - name: Build library
         run: >
