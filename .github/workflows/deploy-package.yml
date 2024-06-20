@@ -82,11 +82,11 @@ jobs:
       - name: Add release notes to project
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "<PackageReleaseNotes></PackageReleaseNotes>"
+          find: <PackageReleaseNotes></PackageReleaseNotes>
           replace: >
-            "<PackageReleaseNotes>
-             ${{ steps.notes.outputs.release_notes }}
-             </PackageReleaseNotes>"
+            <PackageReleaseNotes>
+            ${{ steps.notes.outputs.release_notes }}
+            </PackageReleaseNotes>
           include: "src/*.csproj"
           regex: false
 
