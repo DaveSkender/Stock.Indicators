@@ -67,7 +67,7 @@ jobs:
       - name: Generate release notes
         id: notes
         run: |
-          release_notes=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %%s" | grep -vE '(docs:|chore:|ci:|merge)')
+          release_notes=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %s" | grep -vE '(docs:|chore:|ci:|merge)')
 
           echo "## Release notes" > release_notes.md
           echo "" >> release_notes.md
@@ -96,9 +96,9 @@ jobs:
           --configuration Release
           --no-build
           --include-symbols
-          --property:PackageVersion=${{ steps.compose.outputs.version }}
-          --property:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
           --output NuGet
+          -p:PackageVersion=${{ steps.compose.outputs.version }}
+          -p:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
 
       - name: Save package
         uses: actions/upload-artifact@v4
