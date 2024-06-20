@@ -79,8 +79,16 @@ jobs:
           cat release_notes.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Output release notes
-        run: echo "${{ steps.notes.outputs.release_notes }}"
+      - name: Add release notes to project
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "<PackageReleaseNotes></PackageReleaseNotes>"
+          replace: >
+            "<PackageReleaseNotes>
+             ${{ steps.notes.outputs.release_notes }}
+             </PackageReleaseNotes>"
+          include: "src/*.csproj"
+          regex: false
 
       - name: Build library
         run: >
@@ -98,7 +106,6 @@ jobs:
           --include-symbols
           --output NuGet
           -p:PackageVersion=${{ steps.compose.outputs.version }}
-          -p:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
 
       - name: Save package
         uses: actions/upload-artifact@v4
