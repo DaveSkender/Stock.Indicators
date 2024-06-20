@@ -66,13 +66,13 @@ jobs:
 
       - name: Get latest non-draft release tag
         id: get_last_tag
-        run: echo "last_tag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+        run: echo "LAST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
 
       - name: Generate release notes
         id: notes
         run: |
-          last_tag=${{ env.last_tag }}
-          release_notes=$(git log $last_tag..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chores)).*$')
+          last_tag=${{ env.LAST_TAG }}
+          release_notes=$(git log $last_tag..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs)).*$')
 
           echo "## Release notes" > release_notes.md
           echo "" >> release_notes.md
@@ -115,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: project
-          path: /**/*.csproj
+          path: src/Indicators.csproj
 
       - name: Summary output
         run: |
