@@ -61,17 +61,16 @@ jobs:
         id: compose
         run: |
           COMPOSED_VERSION=${{ steps.gitversion.outputs.majorMinorPatch }}${{ '-TESTONLY' }}
-          echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
-          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
+          echo "version=$COMPOSED_VERSION" >> $GITHUB_OUTPUT
+          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> $GITHUB_ENV
 
       - name: Generate Release Notes
         id: notes
         run: |
-          echo "## Release Notes" > release_notes.md
-          git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chore)).*$' >> release-notes.md
-          echo >> release_notes.md
-          echo "[more on GitHub](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }})" >> release_notes.md
-          echo "name=release_notes::$(cat release_notes.md)" >> "$GITHUB_OUTPUT"
+          echo "## Release Notes" > $GITHUB_OUTPUT
+          git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chore)).*$' >> $GITHUB_OUTPUT
+          echo >> $GITHUB_OUTPUT
+          echo "[more on GitHub](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}) →" >> $GITHUB_OUTPUT
 
       - name: Build library
         run: >
