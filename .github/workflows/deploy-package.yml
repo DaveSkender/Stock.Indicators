@@ -68,8 +68,7 @@ jobs:
         id: notes
         run: |
           echo "## Release Notes" > release_notes.md
-          git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %s (%an)" > release-notes.md
-          git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chore)).*$' > release-notes.md
+          git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chore)).*$' >> release-notes.md
           echo >> release_notes.md
           echo "[more on GitHub >>](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }})" >> release_notes.md
           echo "name=release_notes::$(cat release_notes.md)" >> $GITHUB_OUTPUT
