@@ -88,7 +88,6 @@ jobs:
           --configuration Release
           --property:Version=${{ steps.compose.outputs.version }}
           --property:ContinuousIntegrationBuild=true
-          -p:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
           -warnAsError
 
       - name: Pack for NuGet
@@ -99,6 +98,7 @@ jobs:
           --include-symbols
           --output NuGet
           -p:PackageVersion=${{ steps.compose.outputs.version }}
+          -p:PackageReleaseNotes="${{ steps.notes.outputs.release_notes }}"
 
       - name: Save package
         uses: actions/upload-artifact@v4
