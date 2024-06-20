@@ -71,7 +71,7 @@ jobs:
           git log -1 --pretty=format:"%s" >> release_notes.md
           echo >> release_notes.md
           echo "[more on GitHub >>](https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }})" >> release_notes.md
-          echo "::set-output name=release_notes::$(cat release_notes.md)"
+          echo "name=release_notes::$(cat release_notes.md)" >> $GITHUB_OUTPUT
 
       - name: Build library
         run: >
@@ -92,7 +92,7 @@ jobs:
           -p:PackageReleaseNotes="$(cat release_notes.md)"
 
       - name: Save package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: packages
           path: NuGet
