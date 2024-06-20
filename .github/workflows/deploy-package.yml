@@ -64,15 +64,10 @@ jobs:
           echo "version=$composed_version" >> "$GITHUB_OUTPUT"
           echo "COMPOSED_VERSION=$composed_version" >> "$GITHUB_ENV"
 
-      - name: Get latest non-draft release tag
-        id: get_last_tag
-        run: echo "LAST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
-
       - name: Generate release notes
         id: notes
         run: |
-          last_tag=${{ env.LAST_TAG }}
-          release_notes=$(git log $last_tag..HEAD --pretty=format:"- %h %s" --grep='^(?!.*(docs|chores)).*$')
+          release_notes=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s"  | grep -vE '(docs:|chore:|ci:|merge)')
 
           echo "## Release notes" > release_notes.md
           echo "" >> release_notes.md
