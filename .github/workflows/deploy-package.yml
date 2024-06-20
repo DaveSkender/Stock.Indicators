@@ -67,7 +67,7 @@ jobs:
       - name: Generate release notes
         id: notes
         run: |
-          release_notes=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %h %s"  | grep -vE '(docs:|chore:|ci:|merge)')
+          release_notes=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:"- %%s" | grep -vE '(docs:|chore:|ci:|merge)')
 
           echo "## Release notes" > release_notes.md
           echo "" >> release_notes.md
