@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class ZigZagResult : IReusableResult
+public record struct ZigZagResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public decimal? ZigZag { get; set; } // zig zag line
@@ -8,7 +8,8 @@ public sealed record class ZigZagResult : IReusableResult
     public decimal? RetraceHigh { get; set; } // zig zag retrace high line
     public decimal? RetraceLow { get; set; } // zig zag retrace low line
 
-    double IReusableResult.Value => ZigZag.Null2NaN();
+    readonly double IReusableResult.Value
+        => ZigZag.Null2NaN();
 }
 
 internal class ZigZagEval

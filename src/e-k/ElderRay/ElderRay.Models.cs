@@ -1,11 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class ElderRayResult : IReusableResult
+public record struct ElderRayResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public double? Ema { get; set; }
     public double? BullPower { get; set; }
     public double? BearPower { get; set; }
 
-    double IReusableResult.Value => (BullPower + BearPower).Null2NaN();
+    readonly double IReusableResult.Value
+        => (BullPower + BearPower).Null2NaN();
 }

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class AlligatorResult : IResult
+public record struct AlligatorResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public double? Jaw { get; set; }
@@ -8,8 +8,7 @@ public sealed record class AlligatorResult : IResult
     public double? Lips { get; set; }
 }
 
-public interface IAlligator :
-    IChainObserver<AlligatorResult>
+public interface IAlligator : IStreamObserver
 {
     int JawPeriods { get; }
     int JawOffset { get; }

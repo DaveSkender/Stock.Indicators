@@ -57,14 +57,14 @@ public class QuoteStream
         // initialize our quote provider and a few subscribers
         QuoteProvider<Quote> provider = new();
 
-        Sma sma = provider.AttachSma(3);
-        Ema ema = provider.AttachEma(5);
-        Ema useChain = provider
+        Sma<Quote> sma = provider.ToSma(3);
+        Ema<Quote> ema = provider.ToEma(5);
+        Ema<QuotePart> useChain = provider
             .Use(CandlePart.HL2)
-            .AttachEma(7);
-        Ema emaChain = provider
-            .AttachSma(4)
-            .AttachEma(4);
+            .ToEma(7);
+        Ema<SmaResult> emaChain = provider
+            .ToSma(4)
+            .ToEma(4);
 
         // connect to Alpaca websocket
         SecretKey secretKey = new(ALPACA_KEY, ALPACA_SECRET);
@@ -108,10 +108,10 @@ public class QuoteStream
             // display live results
             string liveMessage = $"{q.TimeUtc:u}    ${q.Close:N2}";
 
-            SmaResult s = sma.Results.Last();
-            EmaResult e = ema.Results.Last();
-            EmaResult u = useChain.Results.Last();
-            EmaResult c = emaChain.Results.Last();
+            SmaResult s = sma.Results[^1];
+            EmaResult e = ema.Results[^1];
+            EmaResult u = useChain.Results[^1];
+            EmaResult c = emaChain.Results[^1];
 
             if (s.Sma is not null)
             {

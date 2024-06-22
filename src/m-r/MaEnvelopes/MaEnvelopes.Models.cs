@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class MaEnvelopeResult : IResult
+public record struct MaEnvelopeResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public double? Centerline { get; set; }

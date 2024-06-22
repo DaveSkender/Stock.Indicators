@@ -1,27 +1,35 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class SmaResult : IReusableResult
+public record struct SmaResult(
+    DateTime Timestamp,
+    double? Sma = default)
+     : IReusableResult
 {
-    public DateTime Timestamp { get; set; }
-    public double? Sma { get; set; }
-
-    double IReusableResult.Value => Sma.Null2NaN();
+    readonly double IReusableResult.Value
+        => Sma.Null2NaN();
 }
 
-public sealed record class SmaAnalysis : IReusableResult
+/// <summary>
+/// SMA with extended analysis.
+/// </summary>
+/// <param name="Timestamp">Timestamp</param>
+/// <param name="Sma">Simple moving average</param>
+/// <param name="Mad">Mean absolute deviation</param>
+/// <param name="Mse">Mean square error</param>
+/// <param name="Mape">Mean absolute percentage error</param>
+public record struct SmaAnalysis(
+    DateTime Timestamp,
+    double? Sma,
+    double? Mad,
+    double? Mse,
+    double? Mape)
+    : IReusableResult
 {
-    public DateTime Timestamp { get; set; }
-    public double? Sma { get; set; } // simple moving average
-    public double? Mad { get; set; } // mean absolute deviation
-    public double? Mse { get; set; } // mean square error
-    public double? Mape { get; set; } // mean absolute percentage error
-
-    double IReusableResult.Value => Sma.Null2NaN();
+    readonly double IReusableResult.Value
+        => Sma.Null2NaN();
 }
 
-public interface ISma :
-    IChainObserver<SmaResult>,
-    IChainProvider
+public interface ISma : IStreamObserver
 {
     int LookbackPeriods { get; }
 }

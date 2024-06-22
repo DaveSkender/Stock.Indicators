@@ -5,12 +5,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Sma/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
 
-public partial class Sma
+public static class SmaUtilities
 {
-    // string label
-    public override string ToString()
-        => $"SMA({LookbackPeriods})";
-
     // parameter validation
     internal static void Validate(
         int lookbackPeriods)

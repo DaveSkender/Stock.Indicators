@@ -8,15 +8,15 @@ public class Results : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<AdxResult> x = quotes
+        List<AdxResult> results = quotes
             .GetAdx(14)
             .ToList();
 
         // make a few more in the middle null and NaN
-        x[249].Adx = null;
-        x[345].Adx = double.NaN;
+        results[249] = results[249] with { Adx = null };
+        results[345] = results[345] with { Adx = double.NaN };
 
-        List<AdxResult> r = x.Condense().ToList();
+        List<AdxResult> r = results.Condense().ToList();
 
         // proper quantities
         Assert.AreEqual(473, r.Count);

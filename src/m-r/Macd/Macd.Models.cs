@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class MacdResult : IReusableResult
+public record struct MacdResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public double? Macd { get; set; }
@@ -11,5 +11,6 @@ public sealed record class MacdResult : IReusableResult
     public double? FastEma { get; set; }
     public double? SlowEma { get; set; }
 
-    double IReusableResult.Value => Macd.Null2NaN();
+    readonly double IReusableResult.Value
+        => Macd.Null2NaN();
 }

@@ -3,22 +3,13 @@ namespace Skender.Stock.Indicators;
 // TILLSON T3 MOVING AVERAGE (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<T3Result> GetT3<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<T3Result> GetT3<T>(
+        this IEnumerable<T> results,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcT3(lookbackPeriods, volumeFactor);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<T3Result> GetT3(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods = 5,
-        double volumeFactor = 0.7) => results
+        where T:IReusableResult
+        => results
             .ToTupleResult()
             .CalcT3(lookbackPeriods, volumeFactor);
 

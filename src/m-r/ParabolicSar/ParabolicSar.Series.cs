@@ -142,14 +142,7 @@ public static partial class Indicator
         }
 
         // remove first trendline since it is an invalid guess
-        ParabolicSarResult? firstReversal = results
-            .Where(x => x.IsReversal == true)
-            .OrderBy(x => x.Timestamp)
-            .FirstOrDefault();
-
-        int cutIndex = (firstReversal != null)
-            ? results.IndexOf(firstReversal)
-            : length - 1;
+        int cutIndex = results.FindIndex(x => x.IsReversal is true);
 
         for (int d = 0; d <= cutIndex; d++)
         {

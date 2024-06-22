@@ -13,7 +13,7 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<PivotPointsResult> results = new(length);
-        PivotPointsResult? windowPoint = new();
+        PivotPointsResult windowPoint = new();
         TQuote h0;
 
         if (length == 0)
@@ -71,19 +71,19 @@ public static partial class Indicator
             if (!firstWindow)
             {
                 // pivot point
-                r.PP = windowPoint?.PP;
+                r.PP = windowPoint.PP;
 
                 // support
-                r.S1 = windowPoint?.S1;
-                r.S2 = windowPoint?.S2;
-                r.S3 = windowPoint?.S3;
-                r.S4 = windowPoint?.S4;
+                r.S1 = windowPoint.S1;
+                r.S2 = windowPoint.S2;
+                r.S3 = windowPoint.S3;
+                r.S4 = windowPoint.S4;
 
                 // resistance
-                r.R1 = windowPoint?.R1;
-                r.R2 = windowPoint?.R2;
-                r.R3 = windowPoint?.R3;
-                r.R4 = windowPoint?.R4;
+                r.R1 = windowPoint.R1;
+                r.R2 = windowPoint.R2;
+                r.R3 = windowPoint.R3;
+                r.R4 = windowPoint.R4;
             }
 
             results.Add(r);

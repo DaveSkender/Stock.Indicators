@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class StarcBandsResult : IResult
+public record struct StarcBandsResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public double? UpperBand { get; set; }

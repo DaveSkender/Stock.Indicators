@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class AtrStopResult : IResult
+public record struct AtrStopResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public decimal? AtrStop { get; set; }

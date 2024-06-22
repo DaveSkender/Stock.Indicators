@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class ConnorsRsiResult : IReusableResult
+public record struct ConnorsRsiResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public double? Rsi { get; set; }
@@ -10,5 +10,7 @@ public sealed record class ConnorsRsiResult : IReusableResult
 
     // internal use only
     internal double Streak { get; set; }
-    double IReusableResult.Value => ConnorsRsi.Null2NaN();
+
+    readonly double IReusableResult.Value
+        => ConnorsRsi.Null2NaN();
 }

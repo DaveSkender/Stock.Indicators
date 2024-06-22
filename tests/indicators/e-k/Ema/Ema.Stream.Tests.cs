@@ -15,8 +15,8 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema observer = provider
-            .AttachEma(20);
+        Ema<Quote> observer = provider
+            .ToEma(20);
 
         // fetch initial results (early)
         IEnumerable<EmaResult> results
@@ -86,9 +86,9 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma observer = provider
-            .AttachEma(emaPeriods)
-            .AttachSma(smaPeriods);
+        Sma<EmaResult> observer = provider
+            .ToEma(emaPeriods)
+            .ToSma(smaPeriods);
 
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
@@ -155,9 +155,9 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema observer = provider
-            .AttachSma(smaPeriods)
-            .AttachEma(emaPeriods);
+        Ema<SmaResult> observer = provider
+            .ToSma(smaPeriods)
+            .ToEma(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -196,8 +196,8 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema observer = provider
-            .AttachEma(10);
+        Ema<Quote> observer = provider
+            .ToEma<Quote>(10);
 
         // add duplicate to cover warmup
         Quote quote = quotes.Last();
@@ -210,7 +210,7 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         observer.Unsubscribe();
         provider.EndTransmission();
 
-        Assert.AreEqual(1, observer.Results.Count());
-        Assert.AreEqual(1, observer.Chain.Count);
+        Assert.AreEqual(1, observer.Results.Count);
+        Assert.AreEqual(1, provider.Results.Count);
     }
 }

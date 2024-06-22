@@ -3,12 +3,6 @@ using System.Globalization;
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
 
-internal sealed record MyExtendedQuote : Quote
-{
-    public bool MyProperty { get; set; }
-    public decimal? MyClose { get; set; }
-}
-
 internal sealed class MyEma : IResult
 {
     public DateTime Timestamp { get; set; }
@@ -17,17 +11,23 @@ internal sealed class MyEma : IResult
     public double? Ema { get; set; }
 }
 
-internal sealed class MyCustomQuote
-    : EquatableQuote, IQuote
+internal sealed class MyCustomQuote : IQuote
 {
     // override, redirect required properties
-    public override DateTime Timestamp => CloseDate;
-    public override decimal Close => CloseValue;
+    DateTime ISeries.Timestamp => CloseDate;
+    decimal IQuote.Close => CloseValue;
 
     // custom properties
     public int MyOtherProperty { get; set; }
     public DateTime CloseDate { get; set; }
     public decimal CloseValue { get; set; }
+
+    // required base properties
+    public decimal Open { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Volume { get; set; }
+    public double Value { get; set; }
 }
 
 [TestClass]
@@ -55,36 +55,6 @@ public class PublicClassTests
 
         Quote f = h.FirstOrDefault();
         Console.WriteLine($"Date:{f.Timestamp},Close:{f.Close}");
-    }
-
-    [TestMethod]
-    public void DerivedQuoteClass()
-    {
-        // can use a derive Quote class
-        MyExtendedQuote myQuote = new() {
-            Timestamp = DateTime.Now,
-            MyProperty = true
-        };
-
-        Assert.AreEqual(true, myQuote.MyProperty);
-    }
-
-    [TestMethod]
-    public void DerivedQuoteClassLinq()
-    {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
-        quotes = quotes.Validate();
-
-        // can use a derive Quote class using Linq
-
-        IEnumerable<MyExtendedQuote> myHistory = quotes
-            .Select(x => new MyExtendedQuote {
-                Timestamp = x.Timestamp,
-                MyClose = x.Close,
-                MyProperty = false
-            });
-
-        Assert.IsTrue(myHistory.Any());
     }
 
     [TestMethod]
@@ -306,10 +276,10 @@ public class PublicClassTests
         QuoteProvider<Quote> provider = new();
 
         // initialize observers, get static results for comparison (later)
-        Ema observeEma = provider.AttachEma(20);
+        Ema<Quote> observeEma = provider.ToEma(20);
         List<EmaResult> staticEma = quotesList.GetEma(20).ToList();
 
-        Sma observeSma = provider.AttachSma(20);
+        Sma<Quote> observeSma = provider.ToSma(20);
         List<SmaResult> staticSma = quotesList.GetSma(20).ToList();
 
         // emulate adding quotes to provider

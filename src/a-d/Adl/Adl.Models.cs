@@ -1,14 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class AdlResult : IReusableResult
+public record struct AdlResult
+(
+    DateTime Timestamp,
+    double Adl,
+    double? MoneyFlowMultiplier = default,
+    double? MoneyFlowVolume = default)
+    : IReusableResult
 {
-    public DateTime Timestamp { get; set; }
-    public double? MoneyFlowMultiplier { get; set; }
-    public double? MoneyFlowVolume { get; set; }
-    public double Adl { get; set; }
+    readonly double IReusableResult.Value => Adl;
+}
 
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
-    public double? AdlSma { get; set; }
-
-    double IReusableResult.Value => Adl;
+public interface IAdl : IStreamObserver
+{
+    // no public parameters
 }

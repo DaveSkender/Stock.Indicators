@@ -3,24 +3,14 @@ namespace Skender.Stock.Indicators;
 // SCHAFF TREND CYCLE (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<StcResult> GetStc<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<StcResult> GetStc<T>(
+        this IEnumerable<T> results,
         int cyclePeriods = 10,
         int fastPeriods = 23,
         int slowPeriods = 50)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcStc(cyclePeriods, fastPeriods, slowPeriods);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<StcResult> GetStc(
-        this IEnumerable<IReusableResult> results,
-        int cyclePeriods = 10,
-        int fastPeriods = 23,
-        int slowPeriods = 50) => results
+        where T: IReusableResult
+        => results
             .ToTupleResult()
             .CalcStc(cyclePeriods, fastPeriods, slowPeriods);
 

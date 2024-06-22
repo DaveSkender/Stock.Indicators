@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class ChopResult : IReusableResult
+public record struct ChopResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public double? Chop { get; set; }
 
-    double IReusableResult.Value => Chop.Null2NaN();
+    readonly double IReusableResult.Value
+        => Chop.Null2NaN();
 }

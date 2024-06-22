@@ -3,24 +3,14 @@ namespace Skender.Stock.Indicators;
 // TRUE STRENGTH INDEX (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<TsiResult> GetTsi<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<TsiResult> GetTsi<T>(
+        this IEnumerable<T> results,
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<TsiResult> GetTsi(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods = 25,
-        int smoothPeriods = 13,
-        int signalPeriods = 7) => results
+        where T : IReusableResult
+        => results
             .ToTupleResult()
             .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 

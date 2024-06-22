@@ -15,11 +15,11 @@ public static partial class Indicator
             .ToQuoteD()
             .CalcAtr(atrPeriods);
 
-        double? atr = atrResults.LastOrDefault()?.Atr;
-        decimal brickSize = (atr == null) ? 0 : (decimal)atr;
+        AtrResult last = atrResults.LastOrDefault();
+        decimal brickSize = (decimal?)last.Atr ?? 0;
 
-        return brickSize is 0 ?
-            []
+        return brickSize is 0
+          ? []
           : quotesList.CalcRenko(brickSize, endType);
     }
 }

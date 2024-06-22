@@ -14,8 +14,12 @@ In addition there are [breaking changes](#breaking-changes) that will require yo
 See your compiler `Warning` to identify these in your code.
 
 - `Use()` method parameter `candlePart` is now required and no longer defaults to `CandlePart.Close`.
+- `Use()` now returns a chainable `QuotePart` instead of a tuple.  These also replace the redundant `GetBaseQuote()` and `BaseQuote` items, respectively.
+
 
 - `UlcerIndexResult` property `UI` was renamed to `UlcerIndex`
+
+- **Deprecated 'GetX' tuple interfaces**.
 
 - **Deprecated internal signals**: several indicators were originally built with integrated but optional
   moving averages, often by specifying an optional `smaPeriods` parameter.  With more moving average chaining options,
@@ -40,24 +44,20 @@ See your compiler `Warning` to identify these in your code.
 Not all, but some of these will be shown as compiler `Errors` in your code.
 Items marked with &#128681; require special attention since they will not produce compiler Errors or Warnings.
 
-- all backwards compatible v1 accommodations removed.
+- all v1 backwards compatibility accommodations were removed.
 
 - no longer supporting .NET Standard 2.0 for older .NET Framework compatibility.
 
-- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null`
-  for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
+- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
 
 - Result classes were changes to `record` class types.  This will only impact rare cases where result classes are used for base inheritance.
 
 - Quote class (built-in) was changed to `record` class type.
 
-- `Date` property was widely renamed to `Timestamp` to avoid conflict with C# reserved name.
+  - `Date` property was widely renamed to `Timestamp` to avoid conflict with C# reserved name.
 
-- `IQuote` customization now has to be `IEquatable<T>` type to support streaming operations.  See [the Guide](/guide) for more information.
+- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusableResult` interface, to support streaming operations.  The simplest way to fix is to change your `TQuote` from a regular `class` to a `record class`.  See [the Guide](/guide) for more information.
 
 - `BasicData` class was renamed to `BasicResult` for consistency with other return types.
 
-- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal
-  utility, but were part of the public API since they were useful for custom indicator development.  Internally,
-  we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit
-  warmup periods.
+- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal utility, but were part of the public API since they were useful for custom indicator development.  Internally, we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit warmup periods.

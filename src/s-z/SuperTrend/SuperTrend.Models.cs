@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class SuperTrendResult : IResult
+public record struct SuperTrendResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public decimal? SuperTrend { get; set; }

@@ -3,20 +3,12 @@ namespace Skender.Stock.Indicators;
 // FISHER TRANSFORM (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<FisherTransformResult> GetFisherTransform<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods = 10)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.HL2)
-            .CalcFisherTransform(lookbackPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<FisherTransformResult> GetFisherTransform(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
+    public static IEnumerable<FisherTransformResult> GetFisherTransform<T>(
+        this IEnumerable<T> results,
+        int lookbackPeriods = 10)
+        where T: IReusableResult
+        => results
             .ToTupleResult()
             .CalcFisherTransform(lookbackPeriods);
 

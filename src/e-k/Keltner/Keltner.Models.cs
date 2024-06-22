@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class KeltnerResult : IResult
+public record struct KeltnerResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public double? UpperBand { get; set; }

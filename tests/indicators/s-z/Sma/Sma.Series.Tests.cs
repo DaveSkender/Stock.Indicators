@@ -79,17 +79,6 @@ public class SmaSeriesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<SmaResult> r = tupleNanny
-            .GetSma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void NaN()
     {
         List<SmaResult> r = TestData.GetBtcUsdNan()

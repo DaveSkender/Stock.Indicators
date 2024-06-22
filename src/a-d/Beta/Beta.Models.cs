@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class BetaResult : IReusableResult
+public record struct BetaResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public double? Beta { get; set; }
@@ -11,7 +11,8 @@ public sealed record class BetaResult : IReusableResult
     public double? ReturnsEval { get; set; }
     public double? ReturnsMrkt { get; set; }
 
-    double IReusableResult.Value => Beta.Null2NaN();
+    readonly double IReusableResult.Value
+        => Beta.Null2NaN();
 }
 
 public enum BetaType

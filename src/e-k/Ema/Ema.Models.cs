@@ -1,16 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class EmaResult : IReusableResult
+public record struct EmaResult(
+    DateTime Timestamp,
+    double? Ema = default)
+    : IReusableResult
 {
-    public DateTime Timestamp { get; set; }
-    public double? Ema { get; internal set; }
-
-    double IReusableResult.Value => Ema.Null2NaN();
+    readonly double IReusableResult.Value
+        => Ema.Null2NaN();
 }
 
-public interface IEma :
-    IChainObserver<EmaResult>,
-    IChainProvider
+public interface IEma : IStreamObserver
 {
     int LookbackPeriods { get; }
     double K { get; }

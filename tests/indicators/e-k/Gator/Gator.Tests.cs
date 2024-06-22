@@ -157,17 +157,6 @@ public class GatorTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<GatorResult> r = tupleNanny
-            .GetGator()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<GatorResult> results = quotes

@@ -113,7 +113,7 @@ public class QuoteUtilityTests : TestQuoteBase
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToBasicData((CandlePart)999));
+            => q.ToQuotePart((CandlePart)999));
     }
 
     [TestMethod]
@@ -168,38 +168,38 @@ public class QuoteUtilityTests : TestQuoteBase
 
         Assert.AreEqual(
             NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Open).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.Open).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.High).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.High).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Low).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.Low).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Close).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.Close).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.Volume).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.Volume).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.HL2).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.HL2).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.HLC3).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.HLC3).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.OC2).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.OC2).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.OHL3).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.OHL3).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToBasicData(CandlePart.OHLC4).Value, 10));
+            NullMath.Round(q.ToQuotePart(CandlePart.OHLC4).Value, 10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToBasicData((CandlePart)999));
+            => q.ToQuotePart((CandlePart)999));
     }
 
     [TestMethod]

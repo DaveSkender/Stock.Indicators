@@ -3,36 +3,24 @@ using System.Globalization;
 
 namespace Tests.CustomIndicators;
 
-public sealed class MyResult : IReusableResult
+public record struct MyResult : IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public double? Sma { get; set; }
 
-    double IReusableResult.Value => Sma.Null2NaN();
+    readonly double IReusableResult.Value
+        => Sma.Null2NaN();
 }
 
 public static class CustomIndicator
 {
-    // SERIES, from TQuote
-    public static IEnumerable<MyResult> GetIndicator<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote => quotes
-            .ToTupleCollection(CandlePart.Close)
-            .CalcIndicator(lookbackPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<MyResult> GetIndicator(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
+    public static IEnumerable<MyResult> GetIndicator<T>(
+        this IEnumerable<T> results,
+        int lookbackPeriods)
+        where T : IReusableResult
+        => results
             .ToTupleChainable()
-            .CalcIndicator(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<MyResult> GetIndicator(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
-            .ToSortedCollection()
             .CalcIndicator(lookbackPeriods);
 
     internal static List<MyResult> CalcIndicator(
@@ -189,17 +177,6 @@ public class CustomIndicatorTests
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
         Assert.AreEqual(spotDate, h[50].Timestamp);
-    }
-
-    [TestMethod]
-    public void TupleNaN()
-    {
-        List<MyResult> r = tupleNanny
-            .GetIndicator(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]

@@ -4,12 +4,15 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
+    // TODO: discontinue converting to Tuple,
+    // everywhere.  It's unneeded overhead; use IReusableResult.
+
     internal static List<SmaResult> CalcSma(
         this List<(DateTime, double)> tpList,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Sma.Validate(lookbackPeriods);
+        SmaUtilities.Validate(lookbackPeriods);
 
         // initialize
         List<SmaResult> results = new(tpList.Count);
@@ -19,8 +22,7 @@ public static partial class Indicator
         {
             (DateTime date, double _) = tpList[i];
 
-            SmaResult result = new() { Timestamp = date };
-            results.Add(result);
+            double sma;
 
             if (i >= lookbackPeriods - 1)
             {
@@ -31,8 +33,18 @@ public static partial class Indicator
                     sumSma += pValue;
                 }
 
-                result.Sma = (sumSma / lookbackPeriods).NaN2Null();
+                sma = sumSma / lookbackPeriods;
             }
+            else
+            {
+                sma = double.NaN;
+            }
+
+            SmaResult result = new(
+                Timestamp: date,
+                Sma: sma.NaN2Null());
+
+            results.Add(result);
         }
 
         return results;

@@ -25,7 +25,7 @@ public class ChainProviderTests : StreamTestBase
             .Use(CandlePart.Close);
 
         // fetch initial results
-        IEnumerable<UseResult> results = observer.Results;
+        IEnumerable<QuotePart> results = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
@@ -35,7 +35,7 @@ public class ChainProviderTests : StreamTestBase
         }
 
         // final results
-        List<UseResult> resultsList
+        List<QuotePart> resultsList
             = results.ToList();
 
         // time-series, for comparison
@@ -46,17 +46,17 @@ public class ChainProviderTests : StreamTestBase
         for (int i = 0; i < seriesList.Count; i++)
         {
             (DateTime date, double value) = seriesList[i];
-            UseResult r = resultsList[i];
+            QuotePart r = resultsList[i];
 
             Assert.AreEqual(date, r.Timestamp);
             Assert.AreEqual(value, r.Value);
         }
 
         // confirm public interface
-        Assert.AreEqual(observer.Cache.Count, observer.Results.Count());
+        Assert.AreEqual(observer.Cache.Count, observer.Results.Count);
 
-        // confirm chain cache length (more tests in Chainor)
-        Assert.AreEqual(observer.Cache.Count, observer.Chain.Count);
+        // confirm same length as provider cache
+        Assert.AreEqual(observer.Cache.Count, provider.Results.Count);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -74,9 +74,9 @@ public class ChainProviderTests : StreamTestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema ema = provider
+        Ema<QuotePart> ema = provider
             .Use(CandlePart.HL2)
-            .AttachEma(11);
+            .ToEma(11);
 
         // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
@@ -93,7 +93,7 @@ public class ChainProviderTests : StreamTestBase
 
         // time-series, for comparison
         List<EmaResult> staticEma = quotes
-            .Use(CandlePart.HL2)
+            .Use<Quote>(CandlePart.HL2)
             .GetEma(11)
             .ToList();
 
@@ -102,15 +102,11 @@ public class ChainProviderTests : StreamTestBase
         {
             EmaResult s = staticEma[i];
             EmaResult r = streamEma[i];
-            (DateTime date, double value) = ema.Chain[i];
+            QuotePart e = ema.Provider.Results[i];
 
             // compare series
             Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Ema, r.Ema);
-
-            // compare chain cache
-            Assert.AreEqual(r.Timestamp, date);
-            Assert.AreEqual(r.Ema.Null2NaN(), value);
         }
     }
 
@@ -148,16 +144,11 @@ public class ChainProviderTests : StreamTestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            UseResult r = observer.Cache[i];
-            (DateTime Timestamp, double Value) = observer.Chain[i];
+            QuotePart r = observer.Cache[i];
 
             // compare quote to result cache
             Assert.AreEqual(q.Timestamp, r.Timestamp);
             Assert.AreEqual((double)q.Close, r.Value);
-
-            // compare result to chain cache
-            Assert.AreEqual(r.Timestamp, Timestamp);
-            Assert.AreEqual(r.Value, Value);
         }
 
         // close observations
@@ -183,7 +174,7 @@ public class ChainProviderTests : StreamTestBase
             }
         });
 
-        Assert.AreEqual(1, chainProvider.Results.Count());
-        Assert.AreEqual(1, chainProvider.Chain.Count);
+        Assert.AreEqual(1, provider.Results.Count);
+        Assert.AreEqual(1, chainProvider.Results.Count);
     }
 }

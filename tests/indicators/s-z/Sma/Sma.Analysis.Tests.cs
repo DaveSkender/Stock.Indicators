@@ -35,17 +35,6 @@ public class SmaExtendedTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<SmaAnalysis> r = tupleNanny
-            .GetSmaAnalysis(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mse is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<SmaAnalysis> results = quotes

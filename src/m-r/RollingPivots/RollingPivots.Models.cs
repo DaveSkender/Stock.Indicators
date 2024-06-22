@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class RollingPivotsResult : IResult, IPivotPoint
+public record struct RollingPivotsResult : IResult, IPivotPoint
 {
     public DateTime Timestamp { get; set; }
     public decimal? R4 { get; set; }

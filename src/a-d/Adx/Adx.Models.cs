@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class AdxResult : IReusableResult
+public record struct AdxResult(
+    DateTime Timestamp,
+    double? Pdi = default,
+    double? Mdi = default,
+    double? Adx = default,
+    double? Adxr = default)
+: IReusableResult
 {
-    public DateTime Timestamp { get; set; }
-    public double? Pdi { get; set; }
-    public double? Mdi { get; set; }
-    public double? Adx { get; set; }
-    public double? Adxr { get; set; }
-
-    double IReusableResult.Value => Adx.Null2NaN();
+    readonly double IReusableResult.Value
+        => Adx.Null2NaN();
 }

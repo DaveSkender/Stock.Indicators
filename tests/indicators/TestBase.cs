@@ -14,23 +14,50 @@ public abstract class TestQuoteBase
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);
 
-    internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
-    internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();
-    internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
-    internal static readonly IEnumerable<Quote> bigQuotes = TestData.GetTooBig();
-    internal static readonly IEnumerable<Quote> maxQuotes = TestData.GetMax();
-    internal static readonly IEnumerable<Quote> longishQuotes = TestData.GetLongish();
-    internal static readonly IEnumerable<Quote> longestQuotes = TestData.GetLongest();
-    internal static readonly IEnumerable<Quote> mismatchQuotes = TestData.GetMismatch();
-    internal static readonly IEnumerable<Quote> noquotes = new List<Quote>();
-    internal static readonly IEnumerable<Quote> onequote = TestData.GetDefault(1);
-    internal static readonly IEnumerable<Quote> randomQuotes = TestData.GetRandom(1000);
-    internal static readonly IEnumerable<Quote> zeroesQuotes = TestData.GetZeros();
-    internal static readonly IEnumerable<(DateTime, double)> tupleNanny = TestData.GetTupleNaN();
+    internal static IEnumerable<Quote> quotes = [];
+    internal static IEnumerable<Quote> otherQuotes = [];
+    internal static IEnumerable<Quote> badQuotes = [];
+    internal static IEnumerable<Quote> bigQuotes = [];
+    internal static IEnumerable<Quote> maxQuotes = [];
+    internal static IEnumerable<Quote> longishQuotes = [];
+    internal static IEnumerable<Quote> longestQuotes = [];
+    internal static IEnumerable<Quote> mismatchQuotes = [];
+    internal static IEnumerable<Quote> noquotes = [];
+    internal static IEnumerable<Quote> onequote = [];
+    internal static IEnumerable<Quote> randomQuotes = [];
+    internal static IEnumerable<Quote> zeroesQuotes = [];
+    internal static IEnumerable<(DateTime, double)> tupleNanny = [];
+
+    internal TestQuoteBase()
+    {
+        try
+        {
+            quotes = TestData.GetDefault();
+            otherQuotes = TestData.GetCompare();
+            badQuotes = TestData.GetBad();
+            bigQuotes = TestData.GetTooBig();
+            maxQuotes = TestData.GetMax();
+            longishQuotes = TestData.GetLongish();
+            longestQuotes = TestData.GetLongest();
+            mismatchQuotes = TestData.GetMismatch();
+            noquotes = new List<Quote>();
+            onequote = TestData.GetDefault(1);
+            randomQuotes = TestData.GetRandom(1000);
+            zeroesQuotes = TestData.GetZeros();
+            tupleNanny = TestData.GetTupleNaN();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Test data failed to load.");
+            Console.WriteLine(ex);
+            throw;
+        }
+    }
 }
 
 /// <summary>
 /// Base tests that all static indicators (series) should have.
+/// You'll get a placeholder result where not implemented.
 /// </summary>
 [TestClass]
 public abstract class SeriesTestBase : TestQuoteBase
@@ -42,50 +69,40 @@ public abstract class SeriesTestBase : TestQuoteBase
 
     [TestMethod]
     public virtual void Standard()
-    {
-        Assert.Inconclusive();
-    }
+        => Assert.Inconclusive("Test not implemented");
 
     [TestMethod]
     public virtual void BadData()
-    {
-        Assert.Inconclusive();
-    }
+        => Assert.Inconclusive("Test not implemented");
 
     [TestMethod]
     public virtual void NoQuotes()
-    {
-        Assert.Inconclusive();
-    }
+        => Assert.Inconclusive("Test not implemented");
 
     [TestMethod]
     public virtual void Equality()
-    {
-        Assert.Inconclusive();
-    }
+        => Assert.Inconclusive("Test not implemented");
 }
 
 /// <summary>
 /// Base tests that all streamed indicators should have.
+/// You'll get a placeholder result where not implemented.
 /// </summary>
 [TestClass]
 public abstract class StreamTestBase : TestQuoteBase
 {
     [TestMethod]
     public virtual void QuoteObserver()
-    {
-        Assert.Inconclusive();
-    }
+        => Assert.Inconclusive("Test not implemented");
 
     [TestMethod]
     public virtual void Duplicates()
-    {
-        Assert.Inconclusive();
-    }
+        => Assert.Inconclusive("Test not implemented");
 }
 
 /// <summary>
-/// Additional tests all stream chainee indicators should have.
+/// Add this to stream chainee indicator tests.
+/// You'll get a placeholder result where not implemented.
 /// </summary>
 public interface ITestChainObserver
 {
@@ -94,7 +111,8 @@ public interface ITestChainObserver
 }
 
 /// <summary>
-/// Additional tests all stream chainor indicators should have.
+/// Add this to all stream chainor indicator tests.
+/// You'll get a placeholder result where not implemented.
 /// </summary>
 public interface ITestChainProvider
 {

@@ -6,7 +6,7 @@ public class EmaSeriesTests : SeriesTestBase
     [TestMethod]
     public void Increment()
     {
-        double ema = Ema.Increment(20, 217.5693, 222.10);
+        double ema = EmaUtilities.Increment(20, 217.5693, 222.10);
 
         Assert.AreEqual(218.0008, ema.Round(4));
     }
@@ -70,17 +70,6 @@ public class EmaSeriesTests : SeriesTestBase
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
         Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
-    }
-
-    [TestMethod]
-    public void TupleNaN()
-    {
-        List<EmaResult> r = tupleNanny
-            .GetEma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
     }
 
     [TestMethod]

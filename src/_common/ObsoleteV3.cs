@@ -7,192 +7,67 @@ public static partial class Indicator
 {
     // 3.0.0
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use alternate 'GetX' variant.", false)]
+    public static IEnumerable<AlligatorResult> GetAlligator(
+        this IEnumerable<(DateTime, double)> priceTuples,
+        int jawPeriods = 13,
+        int jawOffset = 8,
+        int teethPeriods = 8,
+        int teethOffset = 5,
+        int lipsPeriods = 5,
+        int lipsOffset = 3)
+        => priceTuples.ToSortedList().CalcAlligator(
+            jawPeriods, jawOffset,
+            teethPeriods, teethOffset,
+            lipsPeriods, lipsOffset);
+
+    // 3.0.0
+    [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int smaPeriods)
+        this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
-    {
-        // check parameter arguments
-        if (smaPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for ADL.");
-        }
+        => quotes.ToQuoteD().CalcAdl();
 
-        // add SMA
-        List<AdlResult> results = quotes
-            .ToQuoteD()
-            .CalcAdl();
-
-        List<SmaResult> sma = results
-            .GetSma(smaPeriods)
-            .ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            results[i].AdlSma = sma[i].Sma;
-        }
-
-        return results;
-    }
-
+    // 3.0.0
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public static IEnumerable<ObvResult> GetObv<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int smaPeriods)
+        this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
-    {
-        // check parameter arguments
-        if (smaPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for OBV.");
-        }
-
-        List<ObvResult> results = quotes
-            .ToQuoteD()
-            .CalcObv();
-
-        List<SmaResult> sma = results
-            .GetSma(smaPeriods)
-            .ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            results[i].ObvSma = sma[i].Sma;
-        }
-
-        return results;
-    }
+        => quotes.ToQuoteD().CalcObv();
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public static IEnumerable<PrsResult> GetPrs<TQuote>(
-        this IEnumerable<TQuote> quotesEval,
-        IEnumerable<TQuote> quotesBase,
-        int lookbackPeriods,
-        int smaPeriods)
+        this IEnumerable<TQuote> quotesEval, IEnumerable<TQuote> quotesBase, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-    {
-        if (smaPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for PRS.");
-        }
-
-        List<(DateTime, double)> tpListBase = quotesBase
-            .ToTuple(CandlePart.Close);
-        List<(DateTime, double)> tpListEval = quotesEval
-            .ToTuple(CandlePart.Close);
-
-        List<PrsResult> results = [.. CalcPrs(tpListEval, tpListBase, lookbackPeriods)];
-        List<SmaResult> sma = results.GetSma(smaPeriods).ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            results[i].PrsSma = sma[i].Sma;
-        }
-
-        return results;
-    }
+        => quotesEval.ToTuple(CandlePart.Close).GetPrs(quotesBase.ToTuple(CandlePart.Close), lookbackPeriods);
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public static IEnumerable<RocResult> GetRoc<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int smaPeriods)
+        this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-    {
-        if (smaPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for ROC.");
-        }
-
-        List<RocResult> results = quotes
-            .ToTuple(CandlePart.Close)
-            .CalcRoc(lookbackPeriods);
-
-        List<SmaResult> sma = results
-            .GetSma(smaPeriods)
-            .ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            results[i].RocSma = sma[i].Sma;
-        }
-
-        return results;
-    }
+        => quotes.ToTuple(CandlePart.Close).GetRoc(lookbackPeriods);
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int smaPeriods)
+        this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-    {
-        if (smaPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for Standard Deviation.");
-        }
-
-        List<StdDevResult> results = quotes
-            .ToTuple(CandlePart.Close)
-            .CalcStdDev(lookbackPeriods);
-
-        List<SmaResult> sma = results
-            .GetSma(smaPeriods)
-            .ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            results[i].StdDevSma = sma[i].Sma;
-        }
-
-        return results;
-    }
+        => quotes.ToTuple(CandlePart.Close).CalcStdDev(lookbackPeriods);
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int smaPeriods)
+        this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-    {
-        // check parameter arguments
-        if (smaPeriods is <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for TRIX.");
-        }
-
-        // add SMA
-        List<TrixResult> results = quotes
-            .ToTuple(CandlePart.Close)
-            .CalcTrix(lookbackPeriods);
-
-        List<SmaResult> sma = results
-            .GetSma(smaPeriods)
-            .ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            results[i].Signal = sma[i].Sma;
-        }
-
-        return results;
-    }
+        => quotes.ToTuple(CandlePart.Close).CalcTrix(lookbackPeriods);
 
     // v3.0.0
     [ExcludeFromCodeCoverage]

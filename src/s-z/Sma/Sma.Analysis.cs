@@ -37,14 +37,18 @@ public static partial class Indicator
                     : Math.Abs(value - sma) / value;
             }
 
-            // mean absolute deviation
-            r.Mad = (sumMad / lookbackPeriods).NaN2Null();
+            results[i] = r with {
 
-            // mean squared error
-            r.Mse = (sumMse / lookbackPeriods).NaN2Null();
+                // mean absolute deviation
+                Mad = (sumMad / lookbackPeriods).NaN2Null(),
 
-            // mean absolute percent error
-            r.Mape = (sumMape / lookbackPeriods).NaN2Null();
+                // mean squared error
+                Mse = (sumMse / lookbackPeriods).NaN2Null(),
+
+                // mean absolute percent error
+                Mape = (sumMape / lookbackPeriods).NaN2Null()
+
+            };
         }
 
         return results;

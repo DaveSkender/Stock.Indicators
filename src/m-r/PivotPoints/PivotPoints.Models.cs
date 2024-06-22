@@ -13,7 +13,7 @@ internal interface IPivotPoint
     public decimal? S4 { get; set; }
 }
 
-public sealed record class PivotPointsResult : IResult, IPivotPoint
+public record struct PivotPointsResult : IResult, IPivotPoint
 {
     public DateTime Timestamp { get; set; }
     public decimal? R4 { get; set; }

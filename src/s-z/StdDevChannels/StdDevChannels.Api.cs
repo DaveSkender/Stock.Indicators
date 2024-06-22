@@ -3,22 +3,13 @@ namespace Skender.Stock.Indicators;
 // STANDARD DEVIATION CHANNELS (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<T>(
+        this IEnumerable<T> results,
         int? lookbackPeriods = 20,
         double stdDeviations = 2)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcStdDevChannels(lookbackPeriods, stdDeviations);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<StdDevChannelsResult> GetStdDevChannels(
-        this IEnumerable<IReusableResult> results,
-        int? lookbackPeriods = 20,
-        double stdDeviations = 2) => results
+        where T: IReusableResult
+        => results
             .ToTupleResult()
             .CalcStdDevChannels(lookbackPeriods, stdDeviations);
 

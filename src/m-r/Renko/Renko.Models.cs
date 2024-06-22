@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class RenkoResult : IResult, IQuote
+public record struct RenkoResult : IQuote, IReusableResult
 {
     public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
@@ -11,6 +11,6 @@ public sealed record class RenkoResult : IResult, IQuote
 
     public bool IsUp { get; set; }
 
-    public bool Equals(IQuote? other)
-    => base.Equals(other);
+    readonly double IReusableResult.Value
+        => (double)Close;
 }

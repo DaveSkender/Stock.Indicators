@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class DonchianResult : IResult
+public record struct DonchianResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public decimal? UpperBand { get; set; }

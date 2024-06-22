@@ -5,12 +5,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Ema/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
 
-public partial class Ema
+public static class EmaUtilities
 {
-    // string label
-    public override string ToString()
-        => $"EMA({LookbackPeriods})";
-
     // INCREMENT CALCULATIONS
 
     /// <include file='./info.xml' path='info/type[@name="increment-k"]/*' />

@@ -28,7 +28,7 @@ public class IndicatorStreamTests
     public object GetEma()
     {
         QuoteProvider<Quote> provider = new();
-        Ema ema = provider.AttachEma(14);
+        Ema<Quote> ema = provider.ToEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {
@@ -43,7 +43,7 @@ public class IndicatorStreamTests
     public object GetSma()
     {
         QuoteProvider<Quote> provider = new();
-        Sma sma = provider.AttachSma(10);
+        Sma<Quote> sma = provider.ToSma(10);
 
         for (int i = 0; i < ql.Count; i++)
         {

@@ -54,7 +54,7 @@ public static partial class Indicator
             // normal EMA
             else
             {
-                ema[i] = Ema.Increment(k, prevEma, roc);
+                ema[i] = EmaUtilities.Increment(k, prevEma, roc);
             }
 
             r.RocEma = ema[i].NaN2Null();

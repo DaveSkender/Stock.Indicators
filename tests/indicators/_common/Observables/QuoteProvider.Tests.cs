@@ -32,7 +32,7 @@ public class QuoteProviderTests : StreamTestBase
         }
 
         // confirm public interfaces
-        Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count());
+        Assert.AreEqual(provider.Cache.Count, provider.Results.Count);
 
         // close observations
         provider.EndTransmission();
@@ -103,7 +103,7 @@ public class QuoteProviderTests : StreamTestBase
             }
         });
 
-        Assert.AreEqual(1, provider.Quotes.Count());
+        Assert.AreEqual(1, provider.Results.Count);
 
         provider.EndTransmission();
     }
@@ -122,12 +122,6 @@ public class QuoteProviderTests : StreamTestBase
             {
                 provider.Add(new Quote() { Timestamp = date });
             }
-        });
-
-        // null quote
-        Assert.ThrowsException<ArgumentNullException>(() => {
-            Quote quote = null;
-            provider.Add(quote);
         });
 
         // close observations

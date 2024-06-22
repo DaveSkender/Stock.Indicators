@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class FractalResult : IResult
+public record struct FractalResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public decimal? FractalBear { get; set; }

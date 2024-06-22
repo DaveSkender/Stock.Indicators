@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // check parameter arguments
-        Ema.Validate(lookbackPeriods);
+        EmaUtilities.Validate(lookbackPeriods);
 
         // initialize
         int length = tpList.Count;
@@ -23,12 +23,10 @@ public static partial class Indicator
         {
             (DateTime date, double value) = tpList[i];
 
-            EmaResult r = new() { Timestamp = date };
-            results.Add(r);
-
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new EmaResult(Timestamp: date));
                 continue;
             }
 
@@ -50,10 +48,12 @@ public static partial class Indicator
             // normal EMA
             else
             {
-                ema = Ema.Increment(k, lastEma, value);
+                ema = EmaUtilities.Increment(k, lastEma, value);
             }
 
-            r.Ema = ema.NaN2Null();
+            EmaResult r = new(Timestamp: date, Ema: ema.NaN2Null());
+            results.Add(r);
+
             lastEma = ema;
         }
 

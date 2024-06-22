@@ -21,36 +21,20 @@ public static class Candlesticks
     // convert/sort quotes into candles list
     public static IEnumerable<CandleProperties> ToCandles<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        List<CandleProperties> candlesList =
-        [
-          .. quotes
+        where TQuote : IQuote => quotes
             .Select(x => x.ToCandle())
             .OrderBy(x => x.Timestamp)
-        ];
-
-        // validate
-        return candlesList;
-    }
+            .ToList();
 
     // convert/sort quotes into candle results
     internal static List<CandleResult> ToCandleResults<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote
-    {
-        List<CandleResult> candlesList =
-        [
-          .. quotes
-            .Select(x => new CandleResult(
-                x.Timestamp,
-                Match.None) {
-                Candle = x.ToCandle()
+        where TQuote : IQuote => quotes
+            .Select(q => new CandleResult() {
+                Timestamp = q.Timestamp,
+                Match = Match.None,
+                Candle = q.ToCandle()
             })
-            .OrderBy(x => x.Timestamp)
-        ];
-
-        // validate
-        return candlesList;
-    }
+            .OrderBy(c => c.Timestamp)
+            .ToList();
 }

@@ -3,24 +3,14 @@ namespace Skender.Stock.Indicators;
 // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<MacdResult> GetMacd<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<MacdResult> GetMacd<T>(
+        this IEnumerable<T> results,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<MacdResult> GetMacd(
-        this IEnumerable<IReusableResult> results,
-        int fastPeriods = 12,
-        int slowPeriods = 26,
-        int signalPeriods = 9) => results
+        where T : IReusableResult
+        => results
             .ToTupleResult()
             .CalcMacd(fastPeriods, slowPeriods, signalPeriods);
 

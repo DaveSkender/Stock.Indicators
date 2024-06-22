@@ -15,8 +15,8 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma observer = provider
-            .AttachSma(20);
+        Sma<Quote> observer = provider
+            .ToSma<Quote>(20);
 
         // fetch initial results (early)
         IEnumerable<SmaResult> results
@@ -53,8 +53,8 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             = results.ToList();
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotesList
-            .GetSma(20)
+        var seriesList = quotesList
+            .GetSma<Quote>(20)
             .ToList();
 
         // assert, should equal series
@@ -86,9 +86,9 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema observer = provider
-            .AttachSma(smaPeriods)
-            .AttachEma(emaPeriods);
+        Ema<SmaResult> observer = provider
+            .ToSma(smaPeriods)
+            .ToEma(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
@@ -142,9 +142,9 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         }
 
         // initialize observer
-        Sma observer = provider
+        Sma<QuotePart> observer = provider
             .Use(CandlePart.OC2)
-            .AttachSma(11);
+            .ToSma(11);
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
@@ -181,8 +181,8 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma observer = provider
-            .AttachSma(10);
+        Sma<Quote> observer = provider
+            .ToSma<Quote>(10);
 
         // add duplicate to cover warmup
         Quote quote = quotes.Last();
@@ -195,7 +195,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         observer.Unsubscribe();
         provider.EndTransmission();
 
-        Assert.AreEqual(1, observer.Results.Count());
-        Assert.AreEqual(1, observer.Chain.Count);
+        Assert.AreEqual(1, observer.Results.Count);
+        Assert.AreEqual(1, provider.Results.Count);
     }
 }

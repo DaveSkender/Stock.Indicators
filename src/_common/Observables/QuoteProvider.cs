@@ -1,56 +1,46 @@
 namespace Skender.Stock.Indicators;
 
-// QUOTE PROVIDER
-
-public class QuoteProvider<TQuote>
-    : QuoteCache<TQuote>, IQuoteProvider
-    where TQuote : IQuote, new()
+/// <summary>
+/// Quote provider, using generic IQuote interface type.
+/// </summary>
+/// <typeparam name="TQuote" cref="IQuote">
+///   OHLCV price quote with value-based equality comparer
+/// </typeparam>
+public class QuoteProvider<TQuote> : AbstractQuoteProvider<TQuote>
+    where TQuote : struct, IQuote, IReusableResult
 {
-    // fields
-    private readonly List<IObserver<(Act, IQuote)>> observers;
-
-    // constructor
-    public QuoteProvider()
-    {
-        observers = [];
-        Cache = [];
-
-        Initialize();
-    }
-
-    // METHODS
-
-    // string label
-    public override string ToString()
-        => $"Quote Provider ({Cache.Count} items)";
-
     /// <summary>
-    /// Add a single quote.  We'll determine if it's new or an update.
+    /// Add a single quote.
+    /// We'll determine if it's new or an update.
     /// </summary>
-    /// <param name="quote">Quote to add or update</param>
+    /// <param name="quote" cref="IQuote">
+    /// Quote to add or update
+    /// </param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
     public Act Add(TQuote quote)
     {
         try
         {
             Act act = CacheWithAnalysis(quote);
 
-            NotifyObservers((act, quote));
+            NotifyObservers(act, quote);
 
             return act;
         }
-        catch (OverflowException ox)
+        catch (OverflowException)
         {
             EndTransmission();
-
-            string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
-                        + "Check and remove circular chains or check your Quote provider."
-                        + "Provider terminated.";
-
-            throw new OverflowException(msg, ox);
+            throw;
         }
     }
 
-    // add many
+    /// <summary>
+    /// Add a batch of quotes.
+    /// We'll determine if they're new or updated.
+    /// </summary>
+    /// <param name="quotes" cref="IQuote">
+    ///   Batch of quotes to add or update
+    /// </param>
     public void Add(IEnumerable<TQuote> quotes)
     {
         List<TQuote> added = quotes
@@ -67,113 +57,19 @@ public class QuoteProvider<TQuote>
     /// cache before propogating the event to subscribers.
     /// </summary>
     /// <param name="quote">Quote to delete</param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
     public Act Delete(TQuote quote)
     {
         try
         {
             Act act = PurgeWithAnalysis(quote);
-            NotifyObservers((act, quote));
+            NotifyObservers(act, quote);
             return act;
         }
-        catch (OverflowException ox)
+        catch (OverflowException)
         {
             EndTransmission();
-
-            string msg = "A repeated Quote delete exceeded the 100 attempt threshold. "
-                        + "Check and remove circular chains or check your Quote provider."
-                        + "Provider terminated.";
-
-            throw new OverflowException(msg, ox);
-        }
-
-    }
-
-    // re/initialize is graceful erase only for quote provider
-    public void Initialize() => ClearCache();
-
-    // subscribe observer
-    public IDisposable Subscribe(IObserver<(Act, IQuote)> observer)
-    {
-        if (!observers.Contains(observer))
-        {
-            observers.Add(observer);
-        }
-
-        return new Unsubscriber(observers, observer);
-    }
-
-    // unsubscribe all observers
-    public override void EndTransmission()
-    {
-        foreach (IObserver<(Act, IQuote)> obs in observers.ToArray())
-        {
-            if (observers.Contains(obs))
-            {
-                obs.OnCompleted();
-            }
-        }
-
-        observers.Clear();
-    }
-
-    // delete cache, gracefully
-    internal override void ClearCache(int fromIndex, int toIndex)
-    {
-        // delete and deliver instruction,
-        // in reverse order to prevent recompositions
-        for (int i = Cache.Count - 1; i > 0; i--)
-        {
-            TQuote q = Cache[i];
-            Act act = CacheResultPerAction(Act.Delete, q);
-            NotifyObservers((act, q));
-        }
-
-        // note: there is no auto-rebuild option since the
-        // quote provider is a top level external entry point.
-        // The using system will need to handle resupply with Add().
-    }
-
-    internal override void RebuildCache(DateTime fromDate, int offset)
-        => throw new InvalidOperationException();
-
-    internal override void RebuildCache(int fromIndex, int offset)
-        => throw new InvalidOperationException();
-
-    // notify observers
-    private void NotifyObservers((Act act, IQuote quote) quoteMessage)
-    {
-        // do not propogate "do nothing" acts
-        if (quoteMessage.act == Act.DoNothing)
-        {
-            return;
-        }
-
-        // send to subscribers
-        List<IObserver<(Act, IQuote)>> obsList = [.. observers];
-
-        for (int i = 0; i < obsList.Count; i++)
-        {
-            IObserver<(Act, IQuote)> obs = obsList[i];
-            obs.OnNext(quoteMessage);
-        }
-    }
-
-    // unsubscriber
-    private class Unsubscriber(
-        List<IObserver<(Act, IQuote)>> observers,
-        IObserver<(Act, IQuote)> observer) : IDisposable
-    {
-        // can't mutate and iterate on same list, make copy
-        private readonly List<IObserver<(Act, IQuote)>> observers = observers;
-        private readonly IObserver<(Act, IQuote)> observer = observer;
-
-        // remove single observer
-        public void Dispose()
-        {
-            if (observer != null && observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
+            throw;
         }
     }
 }

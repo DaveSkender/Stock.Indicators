@@ -2,15 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public partial class Ema : ChainObserver<EmaResult>, IEma
+public class Ema<TIn>
+    : AbstractChainInChainOut<TIn, EmaResult>, IEma
+    where TIn : struct, IReusableResult
 {
     // constructor
     public Ema(
-        ChainProvider provider,
+        IChainProvider<TIn> provider,
         int lookbackPeriods)
-        : base(provider, isChainor: true)
+        : base(provider)
     {
-        Validate(lookbackPeriods);
+        EmaUtilities.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
@@ -18,7 +20,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
         RebuildCache();
 
         // subscribe to provider
-        unsubscriber = provider != null
+        Subscription = provider != null
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
@@ -30,25 +32,27 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
 
     // METHODS
 
+    // string label
+    public override string ToString()
+        => $"EMA({LookbackPeriods})";
+
     // handle chain arrival
-    public override void OnNext((Act act, DateTime date, double price) value)
+    internal override void OnNextArrival(Act act, IReusableResult inbound)
     {
         int i;
         double ema;
 
-        List<(DateTime _, double value)> supplier = ChainSupplier.Chain;
-
         // handle deletes
-        if (value.act == Act.Delete)
+        if (act is Act.Delete)
         {
-            i = Cache.FindIndex(value.date);
+            i = Cache.FindIndex(inbound.Timestamp);
             ema = Cache[i].Ema.Null2NaN();
         }
 
         // handle new values
         else
         {
-            i = supplier.FindIndex(value.date);
+            i = Provider.FindIndex(inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -65,7 +69,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
                 // normal
                 if (!double.IsNaN(last.Value))
                 {
-                    ema = Increment(K, last.Value, value.price);
+                    ema = EmaUtilities.Increment(K, last.Value, inbound.Value);
                 }
 
                 // set first value (normal) or reset
@@ -75,7 +79,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
                     double sum = 0;
                     for (int w = i - LookbackPeriods + 1; w <= i; w++)
                     {
-                        sum += supplier[w].value;
+                        sum += Provider.Results[w].Value;
                     }
 
                     ema = sum / LookbackPeriods;
@@ -90,39 +94,22 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
         }
 
         // candidate result
-        EmaResult r = new() {
-            Timestamp = value.date,
-            Ema = ema.NaN2Null()
-        };
+        EmaResult r = new(
+            Timestamp: inbound.Timestamp,
+            Ema: ema.NaN2Null());
 
         // save to cache
-        Act act = CacheChainorPerAction(value.act, r, ema);
+        act = ModifyCache(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
-        // update forward values
-        if (act != Act.AddNew && i < supplier.Count - 1)
+        // cascade update forward values (recursively)
+        if (act != Act.AddNew && i < ProviderCache.Count - 1)
         {
-            // cascade updates gracefully
             int next = act == Act.Delete ? i : i + 1;
-            (DateTime d, double v) = supplier[next];
-            OnNext((Act.Update, d, v));
-        }
-    }
-
-    // delete cache between index values
-    // usually called from inherited ClearCache(fromDate)
-    internal override void ClearCache(int fromIndex, int toIndex)
-    {
-        // delete and deliver instruction,
-        // in reverse order to prevent recompositions
-
-        for (int i = toIndex; i >= fromIndex; i--)
-        {
-            EmaResult r = Cache[i];
-            Act act = CacheChainorPerAction(Act.Delete, r, double.NaN);
-            NotifyObservers(act, r);
+            TIn value = ProviderCache[next];
+            OnNextArrival(Act.Update, value);
         }
     }
 }

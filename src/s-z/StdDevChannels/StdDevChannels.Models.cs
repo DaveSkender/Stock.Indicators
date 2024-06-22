@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class StdDevChannelsResult : IResult
+public record struct StdDevChannelsResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public double? Centerline { get; set; }

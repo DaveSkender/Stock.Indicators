@@ -1,20 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
+public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
+    where TIn : struct, IReusableResult
 {
     // constructor
     public Alligator(
-        ChainProvider provider,
+        IChainProvider<TIn> provider,
         int jawPeriods,
         int jawOffset,
         int teethPeriods,
         int teethOffset,
         int lipsPeriods,
         int lipsOffset)
-        : base(provider,
-            isChainor: false)
+        : base(provider)
     {
-        Validate(
+        Alligator.Validate(
             jawPeriods,
             jawOffset,
             teethPeriods,
@@ -32,7 +32,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
         RebuildCache();
 
         // subscribe to provider
-        unsubscriber = provider != null
+        Subscription = provider != null
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
@@ -48,20 +48,22 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
 
     // METHODS
 
+    // string label
+    public override string ToString()
+        => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
+
     // handle chain arrival
-    public override void OnNext((Act act, DateTime date, double price) value)
+    internal override void OnNextArrival(Act act, IReusableResult inbound)
     {
         int i;
         double jaw = double.NaN;
         double lips = double.NaN;
         double teeth = double.NaN;
 
-        List<(DateTime _, double value)> supplier = ChainSupplier.Chain;
-
         // handle deletes
-        if (value.act == Act.Delete)
+        if (act == Act.Delete)
         {
-            i = Cache.FindIndex(value.date);
+            i = Cache.FindIndex(inbound.Timestamp);
             AlligatorResult alligator = Cache[i];
             jaw = alligator.Jaw.Null2NaN();
             lips = alligator.Lips.Null2NaN();
@@ -72,7 +74,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
         else
         {
 
-            i = ChainSupplier.Chain.FindIndex(value.date);
+            i = Provider.FindIndex(inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -92,7 +94,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
                     double sum = 0;
                     for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                     {
-                        sum += ChainSupplier.Chain[p].Value;
+                        sum += ProviderCache[p].Value;
                     }
 
                     jaw = sum / JawPeriods;
@@ -101,7 +103,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ChainSupplier.Chain[i - JawOffset].Value;
+                    double newVal = ProviderCache[i - JawOffset].Value;
                     jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
                 }
             }
@@ -118,7 +120,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
                     for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                     {
 
-                        sum += ChainSupplier.Chain[p].Value;
+                        sum += ProviderCache[p].Value;
                     }
 
                     teeth = sum / TeethPeriods;
@@ -127,7 +129,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ChainSupplier.Chain[i - TeethOffset].Value;
+                    double newVal = ProviderCache[i - TeethOffset].Value;
                     teeth = ((prevTeeth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
                 }
             }
@@ -143,7 +145,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
                     double sum = 0;
                     for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                     {
-                        sum += ChainSupplier.Chain[p].Value;
+                        sum += ProviderCache[p].Value;
                     }
 
                     lips = sum / LipsPeriods;
@@ -152,7 +154,7 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ChainSupplier.Chain[i - LipsOffset].Value;
+                    double newVal = ProviderCache[i - LipsOffset].Value;
                     lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
                 }
             }
@@ -160,38 +162,23 @@ public partial class Alligator : ChainObserver<AlligatorResult>, IAlligator
 
         // candidate result
         AlligatorResult r = new() {
-            Timestamp = value.date,
+            Timestamp = inbound.Timestamp,
             Jaw = jaw.NaN2Null(),
             Lips = lips.NaN2Null(),
             Teeth = teeth.NaN2Null()
         };
 
         // save to cache
-        Act act = CacheResultPerAction(value.act, r);
+        act = ModifyCache(act, r);
 
         // note: this indicator is not observable (no notification)
 
-        // update forward values
-        if (act != Act.AddNew && i < supplier.Count - 1)
+        // cascade update forward values (recursively)
+        if (act != Act.AddNew && i < ProviderCache.Count - 1)
         {
-            // cascade updates gracefully
             int next = act == Act.Delete ? i : i + 1;
-            (DateTime d, double v) = supplier[next];
-            OnNext((Act.Update, d, v));
-        }
-    }
-
-    // delete cache between index values
-    // usually called from inherited ClearCache(fromDate)
-    internal override void ClearCache(int fromIndex, int toIndex)
-    {
-        // delete and deliver instruction,
-        // in reverse order to prevent recompositions
-
-        for (int i = toIndex; i >= fromIndex; i--)
-        {
-            AlligatorResult r = Cache[i];
-            Act act = CacheResultPerAction(Act.Delete, r);
+            TIn value = ProviderCache[next];
+            OnNextArrival(Act.Update, value);
         }
     }
 }

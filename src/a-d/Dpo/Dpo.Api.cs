@@ -3,27 +3,12 @@ namespace Skender.Stock.Indicators;
 // DETRENDED PRICE OSCILLATOR (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<DpoResult> GetDpo<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcDpo(lookbackPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<DpoResult> GetDpo(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
-            .ToTupleResult()
-            .CalcDpo(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<DpoResult> GetDpo(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
+    public static IEnumerable<DpoResult> GetDpo<T>(
+        this IEnumerable<T> results,
+        int lookbackPeriods)
+        where T : IReusableResult
+        => results
             .ToSortedList()
             .CalcDpo(lookbackPeriods);
 }

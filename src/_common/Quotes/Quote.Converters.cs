@@ -20,6 +20,15 @@ public static partial class QuoteUtility
             .ToTuple(candlePart)
             .ToCollection();
 
+    internal static Quote ToQuote<TQuote>(this TQuote quote)
+        where TQuote : IQuote => new(
+            Timestamp: quote.Timestamp,
+            Open: quote.Open,
+            High: quote.High,
+            Low: quote.Low,
+            Close: quote.Close,
+            Volume: quote.Volume);
+
     internal static List<(DateTime, double)> ToTuple<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
@@ -44,27 +53,26 @@ public static partial class QuoteUtility
     // convert to quotes in double precision
     internal static QuoteD ToQuoteD<TQuote>(
         this TQuote quote)
-        where TQuote : IQuote => new() {
-            Timestamp = quote.Timestamp,
-            Open = (double)quote.Open,
-            High = (double)quote.High,
-            Low = (double)quote.Low,
-            Close = (double)quote.Close,
-            Volume = (double)quote.Volume
-        };
+        where TQuote : IQuote => new(
+            Timestamp: quote.Timestamp,
+            Open: (double)quote.Open,
+            High: (double)quote.High,
+            Low: (double)quote.Low,
+            Close: (double)quote.Close,
+            Volume: (double)quote.Volume);
 
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => [.. quotes
-            .Select(x => new QuoteD {
-                Timestamp = x.Timestamp,
-                Open = (double)x.Open,
-                High = (double)x.High,
-                Low = (double)x.Low,
-                Close = (double)x.Close,
-                Volume = (double)x.Volume
-            })
-            .OrderBy(x => x.Timestamp)];
+        where TQuote : IQuote => quotes
+            .Select(x => new QuoteD(
+                Timestamp: x.Timestamp,
+                Open: (double)x.Open,
+                High: (double)x.High,
+                Low: (double)x.Low,
+                Close: (double)x.Close,
+                Volume: (double)x.Volume))
+            .OrderBy(x => x.Timestamp)
+            .ToList();
 
     // convert quoteD list to tuples
     internal static List<(DateTime, double)> ToTuple(
@@ -95,20 +103,20 @@ public static partial class QuoteUtility
         };
 
     // convert TQuote element to basic double class
-    internal static BasicResult ToBasicData<TQuote>(
+    internal static QuotePart ToQuotePart<TQuote>(
         this TQuote q,
         CandlePart candlePart)
         where TQuote : IQuote => candlePart switch {
-            CandlePart.Open => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.Open },
-            CandlePart.High => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.High },
-            CandlePart.Low => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.Low },
-            CandlePart.Close => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.Close },
-            CandlePart.Volume => new BasicResult { Timestamp = q.Timestamp, Value = (double)q.Volume },
-            CandlePart.HL2 => new BasicResult { Timestamp = q.Timestamp, Value = (double)(q.High + q.Low) / 2 },
-            CandlePart.HLC3 => new BasicResult { Timestamp = q.Timestamp, Value = (double)(q.High + q.Low + q.Close) / 3 },
-            CandlePart.OC2 => new BasicResult { Timestamp = q.Timestamp, Value = (double)(q.Open + q.Close) / 2 },
-            CandlePart.OHL3 => new BasicResult { Timestamp = q.Timestamp, Value = (double)(q.Open + q.High + q.Low) / 3 },
-            CandlePart.OHLC4 => new BasicResult { Timestamp = q.Timestamp, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
+            CandlePart.Open => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Open },
+            CandlePart.High => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.High },
+            CandlePart.Low => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Low },
+            CandlePart.Close => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Close },
+            CandlePart.Volume => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Volume },
+            CandlePart.HL2 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.High + q.Low) / 2 },
+            CandlePart.HLC3 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.High + q.Low + q.Close) / 3 },
+            CandlePart.OC2 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.Open + q.Close) / 2 },
+            CandlePart.OHL3 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.Open + q.High + q.Low) / 3 },
+            CandlePart.OHLC4 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
             _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 

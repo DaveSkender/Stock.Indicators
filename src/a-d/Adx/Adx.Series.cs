@@ -33,15 +33,14 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AdxResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
-
             // skip first period
             if (i == 0)
             {
                 prevHigh = q.High;
                 prevLow = q.Low;
                 prevClose = q.Close;
+
+                results.Add(new AdxResult(Timestamp: q.Timestamp));
                 continue;
             }
 
@@ -70,6 +69,7 @@ public static partial class Indicator
             // skip DM initialization period
             if (i < lookbackPeriods)
             {
+                results.Add(new AdxResult(Timestamp: q.Timestamp));
                 continue;
             }
 
@@ -98,15 +98,13 @@ public static partial class Indicator
 
             if (trs is 0)
             {
+                results.Add(new AdxResult(Timestamp: q.Timestamp));
                 continue;
             }
 
             // directional increments
             double pdi = 100 * pdm / trs;
             double mdi = 100 * mdm / trs;
-
-            r.Pdi = pdi;
-            r.Mdi = mdi;
 
             // calculate ADX
             double dx = (pdi == mdi)
@@ -115,16 +113,16 @@ public static partial class Indicator
                 ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
                 : double.NaN;
 
-            double adx;
+            double adx = double.NaN;
+            double adxr = double.NaN;
 
             if (i > (2 * lookbackPeriods) - 1)
             {
                 adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
-                r.Adx = adx.NaN2Null();
 
-                double? priorAdx = results[i + 1 - lookbackPeriods].Adx;
+                double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
 
-                r.Adxr = (adx + priorAdx).NaN2Null() / 2;
+                adxr = (adx + priorAdx) / 2;
                 prevAdx = adx;
             }
 
@@ -133,7 +131,6 @@ public static partial class Indicator
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;
-                r.Adx = adx.NaN2Null();
                 prevAdx = adx;
             }
 
@@ -143,6 +140,15 @@ public static partial class Indicator
             {
                 sumDx += dx;
             }
+
+            AdxResult r = new(
+                Timestamp: q.Timestamp,
+                Pdi: pdi,
+                Mdi: mdi,
+                Adx: adx.NaN2Null(),
+                Adxr: adxr.NaN2Null());
+
+            results.Add(r);
         }
 
         return results;

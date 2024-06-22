@@ -44,25 +44,17 @@ public class AlligatorSeriesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
-    {
-        List<AlligatorResult> results = quotes
-            .Use(CandlePart.HL2)
-            .GetAlligator()
-            .ToList();
-
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
-
-        AlligatorResult last = results.LastOrDefault();
-        Assert.AreEqual(244.29591, last.Lips.Round(5));
-    }
-
-    [TestMethod]
     public void TupleNaN()
     {
         List<AlligatorResult> r = tupleNanny
-            .GetAlligator()
+            .ToList()
+            .CalcAlligator(
+                jawPeriods: 13,
+                jawOffset: 8,
+                teethPeriods: 8,
+                teethOffset: 5,
+                lipsPeriods: 5,
+                lipsOffset: 3)
             .ToList();
 
         Assert.AreEqual(200, r.Count);

@@ -125,6 +125,8 @@ IEnumerable<SmaResult> results = quotes.GetSma(20);
 // find result on a specific date
 DateTime lookupDate = [..] // the date you want to find
 SmaResult result = results.Find(lookupDate);
+
+// throws 'InvalidOperationException' when not found
 ```
 
 ### Remove warmup periods

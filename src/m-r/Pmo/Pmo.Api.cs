@@ -3,24 +3,14 @@ namespace Skender.Stock.Indicators;
 // PRICE MOMENTUM OSCILLATOR (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<PmoResult> GetPmo<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<PmoResult> GetPmo<T>(
+        this IEnumerable<T> results,
         int timePeriods = 35,
         int smoothPeriods = 20,
         int signalPeriods = 10)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<PmoResult> GetPmo(
-        this IEnumerable<IReusableResult> results,
-        int timePeriods = 35,
-        int smoothPeriods = 20,
-        int signalPeriods = 10) => results
+        where T : IReusableResult
+        => results
             .ToTupleResult()
             .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
 

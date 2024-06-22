@@ -3,24 +3,14 @@ namespace Skender.Stock.Indicators;
 // ARNAUD LEGOUX MOVING AVERAGE (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<AlmaResult> GetAlma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<AlmaResult> GetAlma<T>(
+        this IEnumerable<T> results,
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcAlma(lookbackPeriods, offset, sigma);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<AlmaResult> GetAlma(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods = 9,
-        double offset = 0.85,
-        double sigma = 6) => results
+        where T: IReusableResult
+        => results
             .ToTupleResult()
             .CalcAlma(lookbackPeriods, offset, sigma);
 

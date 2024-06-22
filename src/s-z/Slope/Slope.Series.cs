@@ -80,11 +80,11 @@ public static partial class Indicator
         // add last Line (y = mx + b)
         if (length >= lookbackPeriods)
         {
-            SlopeResult? last = results.LastOrDefault();
+            SlopeResult last = results.LastOrDefault();
             for (int p = length - lookbackPeriods; p < length; p++)
             {
                 SlopeResult d = results[p];
-                d.Line = (decimal?)((last?.Slope * (p + 1)) + last?.Intercept).NaN2Null();
+                d.Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept).NaN2Null();
             }
         }
 

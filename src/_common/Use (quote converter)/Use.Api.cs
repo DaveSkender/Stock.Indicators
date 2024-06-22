@@ -5,18 +5,16 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from Quotes
-    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
-    ///
-    public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
+    public static IEnumerable<QuotePart> Use<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote
-        => quotes.Select(x => x.ToTuple(candlePart));
+        => quotes.Select(q => q.ToQuotePart(candlePart));
 
     // OBSERVER, from Quote Provider
     public static Use<TQuote> Use<TQuote>(
-        this QuoteProvider<TQuote> quoteProvider,
+        this IQuoteProvider<TQuote> quoteProvider,
         CandlePart candlePart)
-        where TQuote : IQuote, new()
+        where TQuote : struct, IQuote
         => new(quoteProvider, candlePart);
 }

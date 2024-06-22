@@ -47,7 +47,7 @@ public static partial class Indicator
             {
                 IchimokuResult skq = results[i - senkouOffset];
 
-                if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
+                if (skq.TenkanSen != null && skq.KijunSen != null)
                 {
                     r.SenkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
                 }

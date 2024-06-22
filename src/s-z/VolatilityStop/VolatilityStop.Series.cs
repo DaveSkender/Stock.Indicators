@@ -82,23 +82,15 @@ public static partial class Indicator
         }
 
         // remove first trend to stop, since it is a guess
-        VolatilityStopResult? firstStop = results
-            .Where(x => x.IsStop == true)
-            .OrderBy(x => x.Timestamp)
-            .FirstOrDefault();
+        int cutIndex = results.FindIndex(x => x.IsStop is true);
 
-        if (firstStop != null)
+        for (int d = 0; d <= cutIndex; d++)
         {
-            int cutIndex = results.IndexOf(firstStop);
-
-            for (int d = 0; d <= cutIndex; d++)
-            {
-                VolatilityStopResult r = results[d];
-                r.Sar = null;
-                r.UpperBand = null;
-                r.LowerBand = null;
-                r.IsStop = null;
-            }
+            VolatilityStopResult r = results[d];
+            r.Sar = null;
+            r.UpperBand = null;
+            r.LowerBand = null;
+            r.IsStop = null;
         }
 
         return results;

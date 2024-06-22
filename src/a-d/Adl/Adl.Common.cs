@@ -5,12 +5,25 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adl/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public static class Adl
+public static partial class Adl
 {
     // increment calculation
-    /// <include file='./info.xml' path='info/type[@name="increment"]/*' />
-    ///
+    /// <summary>Get the next incremental Accumulation/Distribution Line(ADL) value.
+    /// <para>
+    /// See
+    /// <see href="https://dotnet.StockIndicators.dev/indicators/Adl/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded"> documentation</see>
+    /// for more information.
+    /// </para>
+    /// </summary>
+    /// <param name="timestamp">Timestamp</param>
+    /// <param name="prevAdl"> Last ADL value, from prior period.</param>
+    /// <param name="high">High price, current period.</param>
+    /// <param name="low">Low price, current period.</param>
+    /// <param name="close">Close price, current period.</param>
+    /// <param name="volume">Volume, current period.</param>
+    /// <returns>New ADL result value.</returns>
     public static AdlResult Increment(
+        DateTime timestamp,
         double prevAdl,
         double high,
         double low,
@@ -21,11 +34,10 @@ public static class Adl
         double mfv = mfm * volume;
         double adl = mfv + prevAdl;
 
-        return new AdlResult {
-            Timestamp = DateTime.MinValue,
-            MoneyFlowMultiplier = mfm,
-            MoneyFlowVolume = mfv,
-            Adl = adl
-        };
+        return new AdlResult(
+            Timestamp: timestamp,
+            Adl: adl,
+            MoneyFlowMultiplier: mfm,
+            MoneyFlowVolume: mfv);
     }
 }

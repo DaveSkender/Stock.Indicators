@@ -4,12 +4,24 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
+    /// <summary>
+    /// Gator Oscillator is an expanded view of Williams Alligator.
+    /// <para>
+    /// See
+    /// <see href="https://dotnet.StockIndicators.dev/indicators/Gator/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded"> documentation</see>
+    /// for more information.
+    /// </para>
+    /// </summary>
+    /// <typeparam name = "TQuote" > Configurable Quote type.  See Guide for more information.</typeparam>
+    /// <param name = "quotes" > Historical price quotes.</param>
+    /// <param name="candlePart"></param>
+    /// <returns>Time series of Gator values.</returns>
     public static IEnumerable<GatorResult> GetGator<TQuote>(
-        this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.HL2)
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart = CandlePart.HL2)
+        where TQuote : IQuote
+        => quotes
+            .Use(candlePart)
             .GetAlligator()
             .ToList()
             .CalcGator();
@@ -21,17 +33,10 @@ public static partial class Indicator
             .CalcGator();
 
     // SERIES, from CHAIN
-    public static IEnumerable<GatorResult> GetGator(
-        this IEnumerable<IReusableResult> results) => results
-            .ToTupleResult()
-            .GetAlligator()
-            .ToList()
-            .CalcGator();
-
-    // SERIES, from TUPLE
-    public static IEnumerable<GatorResult> GetGator(
-        this IEnumerable<(DateTime, double)> priceTuples) => priceTuples
-            .ToSortedList()
+    public static IEnumerable<GatorResult> GetGator<T>(
+        this IEnumerable<T> results)
+        where T : IReusableResult
+        => results
             .GetAlligator()
             .ToList()
             .CalcGator();

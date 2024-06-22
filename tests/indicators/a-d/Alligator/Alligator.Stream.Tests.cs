@@ -15,8 +15,8 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Alligator observer = provider
-            .AttachAlligator(13, 8, 8, 5, 5, 3);
+        var observer = provider
+            .ToAlligator(13, 8, 8, 5, 5, 3);
 
         // fetch initial results (early)
         IEnumerable<AlligatorResult> results
@@ -85,9 +85,9 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Alligator observer = provider
-            .AttachSma(10)
-            .AttachAlligator(13, 8, 8, 5, 5, 3);
+        var observer = provider
+            .ToSma(10)
+            .ToAlligator(13, 8, 8, 5, 5, 3);
 
         // emulate adding quotes out of order
         // note: this works when graceful order

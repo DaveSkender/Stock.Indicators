@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class IchimokuResult : IResult
+public record struct IchimokuResult : IResult
 {
     public DateTime Timestamp { get; set; }
     public decimal? TenkanSen { get; set; } // conversion line

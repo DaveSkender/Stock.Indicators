@@ -15,15 +15,16 @@ internal static class Importer
             return new Quote();
         }
 
-        string[] values = csvLine.Split(',');
-        Quote quote = new();
+        string[] csv = csvLine.Split(',');
 
-        HandleOHLCV(quote, "D", values[0]);
-        HandleOHLCV(quote, "O", values[1]);
-        HandleOHLCV(quote, "H", values[2]);
-        HandleOHLCV(quote, "L", values[3]);
-        HandleOHLCV(quote, "C", values[4]);
-        HandleOHLCV(quote, "V", values[5]);
+        Quote quote = new(
+            Timestamp: DateTime.TryParse(csv[0], EnglishCulture, out DateTime d) ? d : default,
+            Open: csv[1].ToDecimalDefault(),
+            High: csv[2].ToDecimalDefault(),
+            Low: csv[3].ToDecimalDefault(),
+            Close: csv[4].ToDecimalDefault(),
+            Volume: csv[5].ToDecimalDefault()
+        );
 
         return quote;
     }
@@ -33,41 +34,12 @@ internal static class Importer
             : throw new NotFiniteNumberException(
                 $"Cannot convert `{value}`,  it is not a number.");
 
+    internal static decimal ToDecimalDefault(this string value)
+        => decimal.TryParse(value, out decimal d) ? d : default;
+
     internal static decimal? ToDecimalNull(this string value)
         => decimal.TryParse(value, out decimal d) ? d : null;
 
     internal static double? ToDoubleNull(this string value)
         => double.TryParse(value, out double d) ? d : null;
-
-    private static void HandleOHLCV(Quote quote, string position, string value)
-    {
-        if (string.IsNullOrEmpty(value))
-        {
-            return;
-        }
-
-        switch (position)
-        {
-            case "D":
-                quote.Timestamp = Convert.ToDateTime(value, EnglishCulture);
-                break;
-            case "O":
-                quote.Open = Convert.ToDecimal(value, EnglishCulture);
-                break;
-            case "H":
-                quote.High = Convert.ToDecimal(value, EnglishCulture);
-                break;
-            case "L":
-                quote.Low = Convert.ToDecimal(value, EnglishCulture);
-                break;
-            case "C":
-                quote.Close = Convert.ToDecimal(value, EnglishCulture);
-                break;
-            case "V":
-                quote.Volume = Convert.ToDecimal(value, EnglishCulture);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(position));
-        }
-    }
 }
