@@ -1,0 +1,11 @@
+# See ROOT for primary .editorconfig
+# This is only for minor SRC overrides.
+root = false
+
+# Be careful of automatically added values from IDE.
+# Add between "# HUMANS markers to differentiate intent.
+
+[*.cs]
+#HUMANS
+dotnet_diagnostic.CS1591.severity=suggestion
+#ENDHUMANS
