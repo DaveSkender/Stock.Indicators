@@ -26,7 +26,7 @@ public interface IStreamCache<TSeries>
     IReadOnlyList<TSeries> GetRange(int index, int count);
 
     /// <summary>
-    /// Finds the index position of the provided timestamp
+    /// Finds the index position in the cache, of the provided timestamp
     /// </summary>
     /// <param name="timeStamp"></param>
     /// <returns>Index value or -1 when not found</returns>
@@ -47,5 +47,16 @@ public interface IStreamCache<TSeries>
     /// <param name="fromTimestamp">
     /// All periods (inclusive) after this DateTime will be removed.
     /// </param>
+    /// <exception cref="InvalidOperationException">
+    /// `fromTimestamp` not found in cache
+    /// </exception>
     void ClearCache(DateTime fromTimestamp);
+
+    /// <summary>
+    /// Deletes all cache entries after `fromIndex` (inclusive),
+    /// without restore.  When applicable, it will cascade delete
+    /// commands to subscribers.
+    /// </summary>
+    /// <param name="fromIndex">From index, inclusive</param>
+    void ClearCache(int fromIndex);
 }

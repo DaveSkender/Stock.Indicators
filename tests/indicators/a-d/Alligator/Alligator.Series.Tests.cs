@@ -44,24 +44,6 @@ public class AlligatorSeriesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<AlligatorResult> r = tupleNanny
-            .ToList()
-            .CalcAlligator(
-                jawPeriods: 13,
-                jawOffset: 8,
-                teethPeriods: 8,
-                teethOffset: 5,
-                lipsPeriods: 5,
-                lipsOffset: 3)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Lips is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<AlligatorResult> results = quotes
@@ -133,7 +115,7 @@ public class AlligatorSeriesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public override void Equality()
+    public void Equality()
     {
         AlligatorResult r1 = new() {
             Timestamp = evalDate,

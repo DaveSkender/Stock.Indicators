@@ -110,17 +110,6 @@ public class StdDevChannelsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<StdDevChannelsResult> r = tupleNanny
-            .GetStdDevChannels(6, 1.1)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<StdDevChannelsResult> results = quotes

@@ -23,10 +23,10 @@ public class LibraryHelpers
     public object ToListQuoteD() => h.ToQuoteD();
 
     [Benchmark]
-    public object ToTupleClose() => h.ToTuple(CandlePart.Close);
+    public object ToReusableClose() => h.ToReusableList(CandlePart.Close);
 
     [Benchmark]
-    public object ToTupleOHLC4() => h.ToTuple(CandlePart.OHLC4);
+    public object ToReusableOHLC4() => h.ToReusableList(CandlePart.OHLC4);
 
     [Benchmark]
     public object ToCandleResults() => h.ToCandleResults();

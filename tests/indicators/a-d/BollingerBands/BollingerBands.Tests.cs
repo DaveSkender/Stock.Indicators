@@ -50,17 +50,6 @@ public class BollingerBandsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<BollingerBandsResult> r = tupleNanny
-            .GetBollingerBands()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<BollingerBandsResult> results = quotes

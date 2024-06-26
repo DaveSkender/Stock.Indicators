@@ -11,4 +11,9 @@ public record struct HeikinAshiResult : IReusableResult, IQuote
 
     readonly double IReusableResult.Value
         => (double)Close;
+
+    // this is only an appropriate
+    // implementation for record types
+    public readonly bool Equals(IQuote? other)
+      => base.Equals(other);
 }

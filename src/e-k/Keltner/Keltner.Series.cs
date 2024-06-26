@@ -18,7 +18,6 @@ public static partial class Indicator
         List<KeltnerResult> results = new(length);
 
         List<EmaResult> emaResults = qdList
-            .ToTuple(CandlePart.Close)
             .CalcEma(emaPeriods)
             .ToList();
 

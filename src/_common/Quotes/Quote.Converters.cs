@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace Skender.Stock.Indicators;
@@ -8,45 +7,6 @@ namespace Skender.Stock.Indicators;
 public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
-
-    // TUPLE QUOTES
-
-    // convert quotes to tuple list
-    public static Collection<(DateTime, double)> ToTupleCollection<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote
-        => quotes
-            .ToTuple(candlePart)
-            .ToCollection();
-
-    internal static Quote ToQuote<TQuote>(this TQuote quote)
-        where TQuote : IQuote => new(
-            Timestamp: quote.Timestamp,
-            Open: quote.Open,
-            High: quote.High,
-            Low: quote.Low,
-            Close: quote.Close,
-            Volume: quote.Volume);
-
-    internal static List<(DateTime, double)> ToTuple<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote => quotes
-            .OrderBy(x => x.Timestamp)
-            .Select(x => x.ToTuple(candlePart))
-            .ToList();
-
-    // convert tuples to list, with sorting
-    public static Collection<(DateTime, double)> ToSortedCollection(
-        this IEnumerable<(DateTime date, double value)> tuples)
-        => tuples
-            .ToSortedList()
-            .ToCollection();
-
-    internal static List<(DateTime, double)> ToSortedList(
-        this IEnumerable<(DateTime date, double value)> tuples)
-        => [.. tuples.OrderBy(x => x.date)];
 
     // DOUBLE QUOTES
 
@@ -74,66 +34,65 @@ public static partial class QuoteUtility
             .OrderBy(x => x.Timestamp)
             .ToList();
 
-    // convert quoteD list to tuples
-    internal static List<(DateTime, double)> ToTuple(
+    // convert quoteD type list to reusable list
+    internal static List<Reusable> ToReusableList(
         this List<QuoteD> qdList,
-        CandlePart candlePart) => qdList
+        CandlePart candlePart)
+          => qdList
             .OrderBy(x => x.Timestamp)
-            .Select(x => x.ToTuple(candlePart))
+            .Select(x => x.ToReusable(candlePart))
+            .ToList();
+
+    // convert IQuote type list to reusable list
+    internal static List<Reusable> ToReusableList<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote
+          => quotes
+            .OrderBy(x => x.Timestamp)
+            .Select(x => x.ToReusable(candlePart))
             .ToList();
 
     /* ELEMENTS */
 
-    // convert TQuote element to basic tuple
-    internal static (DateTime date, double value) ToTuple<TQuote>(
-        this TQuote q,
+    // convert TQuote element to a basic chainable class
+    internal static Reusable ToReusable(
+        this IQuote q,
         CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch {
-            CandlePart.Open => (q.Timestamp, (double)q.Open),
-            CandlePart.High => (q.Timestamp, (double)q.High),
-            CandlePart.Low => (q.Timestamp, (double)q.Low),
-            CandlePart.Close => (q.Timestamp, (double)q.Close),
-            CandlePart.Volume => (q.Timestamp, (double)q.Volume),
-            CandlePart.HL2 => (q.Timestamp, (double)(q.High + q.Low) / 2),
-            CandlePart.HLC3 => (q.Timestamp, (double)(q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => (q.Timestamp, (double)(q.Open + q.Close) / 2),
-            CandlePart.OHL3 => (q.Timestamp, (double)(q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => (q.Timestamp, (double)(q.Open + q.High + q.Low + q.Close) / 4),
-            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
+        => candlePart switch {
+
+            CandlePart.Open => new(q.Timestamp, (double)q.Open),
+            CandlePart.High => new(q.Timestamp, Value: (double)q.High),
+            CandlePart.Low => new(q.Timestamp, (double)q.Low),
+            CandlePart.Close => new(q.Timestamp, (double)q.Close),
+            CandlePart.Volume => new(q.Timestamp, (double)q.Volume),
+            CandlePart.HL2 => new(q.Timestamp, (double)(q.High + q.Low) / 2),
+            CandlePart.HLC3 => new(q.Timestamp, (double)(q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => new(q.Timestamp, (double)(q.Open + q.Close) / 2),
+            CandlePart.OHL3 => new(q.Timestamp, (double)(q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => new(q.Timestamp, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 
-    // convert TQuote element to basic double class
-    internal static QuotePart ToQuotePart<TQuote>(
-        this TQuote q,
-        CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch {
-            CandlePart.Open => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Open },
-            CandlePart.High => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.High },
-            CandlePart.Low => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Low },
-            CandlePart.Close => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Close },
-            CandlePart.Volume => new QuotePart { Timestamp = q.Timestamp, Value = (double)q.Volume },
-            CandlePart.HL2 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.High + q.Low) / 2 },
-            CandlePart.HLC3 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.High + q.Low + q.Close) / 3 },
-            CandlePart.OC2 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.Open + q.Close) / 2 },
-            CandlePart.OHL3 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.Open + q.High + q.Low) / 3 },
-            CandlePart.OHLC4 => new QuotePart { Timestamp = q.Timestamp, Value = (double)(q.Open + q.High + q.Low + q.Close) / 4 },
-            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
-        };
-
-    // convert quoteD element to basic tuple
-    internal static (DateTime, double) ToTuple(
+    // convert quoteD element to reusable type
+    internal static Reusable ToReusable(
         this QuoteD q,
-        CandlePart candlePart) => candlePart switch {
-            CandlePart.Open => (q.Timestamp, q.Open),
-            CandlePart.High => (q.Timestamp, q.High),
-            CandlePart.Low => (q.Timestamp, q.Low),
-            CandlePart.Close => (q.Timestamp, q.Close),
-            CandlePart.Volume => (q.Timestamp, q.Volume),
-            CandlePart.HL2 => (q.Timestamp, (q.High + q.Low) / 2),
-            CandlePart.HLC3 => (q.Timestamp, (q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => (q.Timestamp, (q.Open + q.Close) / 2),
-            CandlePart.OHL3 => (q.Timestamp, (q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => (q.Timestamp, (q.Open + q.High + q.Low + q.Close) / 4),
-            _ => throw new ArgumentOutOfRangeException(nameof(candlePart), candlePart, "Invalid candlePart provided."),
+        CandlePart candlePart)
+        => candlePart switch {
+            CandlePart.Open => new(q.Timestamp, q.Open),
+            CandlePart.High => new(q.Timestamp, q.High),
+            CandlePart.Low => new(q.Timestamp, q.Low),
+            CandlePart.Close => new(q.Timestamp, q.Close),
+            CandlePart.Volume => new(q.Timestamp, q.Volume),
+            CandlePart.HL2 => new(q.Timestamp, (q.High + q.Low) / 2),
+            CandlePart.HLC3 => new(q.Timestamp, (q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => new(q.Timestamp, (q.Open + q.Close) / 2),
+            CandlePart.OHL3 => new(q.Timestamp, (q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => new(q.Timestamp, (q.Open + q.High + q.Low + q.Close) / 4),
+
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(candlePart), candlePart, "Invalid candlePart provided."),
         };
 }

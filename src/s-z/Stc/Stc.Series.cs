@@ -4,11 +4,12 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StcResult> CalcStc(
-        this List<(DateTime, double)> tpList,
+    internal static List<StcResult> CalcStc<T>(
+        this List<T> tpList,
         int cyclePeriods,
         int fastPeriods,
         int slowPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Stc.Validate(cyclePeriods, fastPeriods, slowPeriods);

@@ -29,6 +29,11 @@ public record struct CandleProperties : IQuote, IReusableResult
     // directional info
     public readonly bool IsBullish => Close > Open;
     public readonly bool IsBearish => Close < Open;
+
+    // this is only an appropriate
+    // implementation for record types
+    public readonly bool Equals(IQuote? other)
+      => base.Equals(other);
 }
 
 public record struct CandleResult : IResult

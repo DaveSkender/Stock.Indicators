@@ -10,8 +10,8 @@ public static partial class Indicator
         double multiplier)
     {
         // convert quotes
-        List<(DateTime, double)> tpList = qdList
-            .ToTuple(CandlePart.Close);
+        var tpList = qdList
+            .ToReusableList(CandlePart.Close);
 
         // check parameter arguments
         VolatilityStop.Validate(lookbackPeriods, multiplier);
@@ -29,8 +29,8 @@ public static partial class Indicator
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);
-        double sic = tpList[0].Item2;
-        bool isLong = tpList[initPeriods - 1].Item2 > sic;
+        double sic = tpList[0].Value;
+        bool isLong = tpList[initPeriods - 1].Value > sic;
 
         for (int i = 0; i < initPeriods; i++)
         {

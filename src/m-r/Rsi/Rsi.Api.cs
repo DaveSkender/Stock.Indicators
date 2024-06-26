@@ -9,13 +9,6 @@ public static partial class Indicator
         int lookbackPeriods = 14)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcRsi(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<RsiResult> GetRsi(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods = 14) => priceTuples
             .ToSortedList()
             .CalcRsi(lookbackPeriods);
 }

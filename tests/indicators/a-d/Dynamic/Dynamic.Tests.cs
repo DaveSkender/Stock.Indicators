@@ -42,17 +42,6 @@ public class McGinleyDynamicTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<DynamicResult> r = tupleNanny
-            .GetDynamic(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<DynamicResult> results = quotes

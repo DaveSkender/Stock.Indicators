@@ -27,21 +27,10 @@ public static class Seeking
     // May just use this (above) with a try/catch and `bool` primary return type.
 
     // FIND INDEX by DATE
-    /// <include file='./info.xml' path='info/type[@name="FindIndex"]/*' />
     public static int FindIndex<TSeries>(
         this List<TSeries> series,
         DateTime lookupDate)
         where TSeries : ISeries => series == null
             ? -1
             : series.FindIndex(x => x.Timestamp == lookupDate);
-
-    // FIND INDEX by DATE
-    /// <include file='./info.xml' path='info/type[@name="FindIndexChain"]/*' />
-    public static int FindIndex(
-        this List<(DateTime Timestamp, double Value)> tuple,
-        DateTime lookupDate)
-        => tuple == null
-            ? -1
-            : tuple.FindIndex(x => x.Timestamp == lookupDate);
-
 }

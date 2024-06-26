@@ -5,17 +5,18 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // NOTE: sequence swapped from API
-    internal static List<BetaResult> CalcBeta(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListMrkt,
+    internal static List<BetaResult> CalcBeta<T>(
+        List<T> sourceEval,
+        List<T> sourceMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
+        where T : IReusableResult
     {
         // check parameter arguments
-        Beta.Validate(tpListEval, tpListMrkt, lookbackPeriods);
+        Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
 
         // initialize
-        int length = tpListEval.Count;
+        int length = sourceEval.Count;
         List<BetaResult> results = new(length);
 
         bool calcSd = type is BetaType.All or BetaType.Standard;
@@ -30,73 +31,88 @@ public static partial class Indicator
 
         for (int i = 0; i < length; i++)
         {
-            (DateTime eDate, double eValue) = tpListEval[i];
-            (DateTime mDate, double mValue) = tpListMrkt[i];
+            T eval = sourceEval[i];
+            T mrkt = sourceMrkt[i];
 
-            if (eDate != mDate)
+            if (eval.Timestamp != mrkt.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(tpListEval), eDate,
+                throw new InvalidQuotesException(nameof(sourceEval), eval.Timestamp,
                     "Timestamp sequence does not match.  Beta requires matching dates in provided quotes.");
             }
 
-            evalReturns[i] = prevE != 0 ? (eValue / prevE) - 1d : 0;
-            mrktReturns[i] = prevM != 0 ? (mValue / prevM) - 1d : 0;
+            evalReturns[i] = prevE != 0 ? (eval.Value / prevE) - 1d : 0;
+            mrktReturns[i] = prevM != 0 ? (mrkt.Value / prevM) - 1d : 0;
 
-            prevE = eValue;
-            prevM = mValue;
+            prevE = eval.Value;
+            prevM = mrkt.Value;
         }
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpListEval[i];
-
-            BetaResult r = new() {
-                Timestamp = date,
-                ReturnsEval = evalReturns[i],
-                ReturnsMrkt = mrktReturns[i]
-            };
-            results.Add(r);
+            T eval = sourceEval[i];
 
             // skip warmup periods
             if (i < lookbackPeriods)
             {
+                results.Add(
+                new BetaResult(
+                Timestamp: eval.Timestamp,
+                ReturnsEval: evalReturns[i],
+                ReturnsMrkt: mrktReturns[i]));
+
                 continue;
             }
+
+            double? beta = null;
+            double? betaUp = null;
+            double? betaDown = null;
+            double? ratio = null;
+            double? convexity = null;
 
             // calculate beta variants
             if (calcSd)
             {
-                r.CalcBetaWindow(
+                beta = CalcBetaWindow(
                 i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Standard);
             }
 
             if (calcDn)
             {
-                r.CalcBetaWindow(
+                betaDown = CalcBetaWindow(
                 i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Down);
             }
 
             if (calcUp)
             {
-                r.CalcBetaWindow(
+                betaUp = CalcBetaWindow(
                 i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Up);
             }
 
             // ratio and convexity
-            if (type == BetaType.All && r.BetaUp != null && r.BetaDown != null)
+            if (type == BetaType.All && betaUp != null && betaDown != null)
             {
-                r.Ratio = (r.BetaDown != 0) ? r.BetaUp / r.BetaDown : null;
-                r.Convexity = (r.BetaUp - r.BetaDown) * (r.BetaUp - r.BetaDown);
+                ratio = (betaDown != 0) ? betaUp / betaDown : null;
+                convexity = (betaUp - betaDown) * (betaUp - betaDown);
             }
+
+            results.Add(
+            new BetaResult(
+                Timestamp: eval.Timestamp,
+                ReturnsEval: evalReturns[i],
+                ReturnsMrkt: mrktReturns[i],
+                Beta: beta,
+                BetaUp: betaUp,
+                BetaDown: betaDown,
+                Ratio: ratio,
+                Convexity: convexity));
         }
 
         return results;
     }
 
     // calculate beta
-    private static void CalcBetaWindow(
-        this BetaResult r,
+    private static double? CalcBetaWindow(
         int i,
         int lookbackPeriods,
         double[] mrktReturns,
@@ -106,8 +122,7 @@ public static partial class Indicator
         // note: BetaType.All is ineligible for this method
 
         // initialize
-        CorrResult c = new() { Timestamp = r.Timestamp };
-
+        double? beta = null;
         List<double> dataA = new(lookbackPeriods);
         List<double> dataB = new(lookbackPeriods);
 
@@ -128,26 +143,18 @@ public static partial class Indicator
         if (dataA.Count > 0)
         {
             // calculate correlation, covariance, and variance
-            c.PeriodCorrelation([.. dataA], [.. dataB]);
+            CorrResult c = PeriodCorrelation(
+                default,
+                [.. dataA],
+                [.. dataB]);
 
             // calculate beta
             if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
             {
-                double? beta = (c.Covariance / c.VarianceA).NaN2Null();
-
-                if (type == BetaType.Standard)
-                {
-                    r.Beta = beta;
-                }
-                else if (type == BetaType.Down)
-                {
-                    r.BetaDown = beta;
-                }
-                else if (type == BetaType.Up)
-                {
-                    r.BetaUp = beta;
-                }
+                beta = (c.Covariance / c.VarianceA).NaN2Null();
             }
         }
+
+        return beta;
     }
 }

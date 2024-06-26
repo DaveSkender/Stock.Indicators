@@ -4,17 +4,18 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<KamaResult> CalcKama(
-        this List<(DateTime _, double Value)> tpList,
+    internal static List<KamaResult> CalcKama<T>(
+        this List<T> source,
         int erPeriods,
         int fastPeriods,
         int slowPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Kama.Validate(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<KamaResult> results = new(length);
 
         double scFast = 2d / (fastPeriods + 1);
@@ -25,9 +26,9 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
-            KamaResult r = new() { Timestamp = date };
+            KamaResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // skip incalculable periods
@@ -40,18 +41,18 @@ public static partial class Indicator
 
             if (double.IsNaN(prevKama))
             {
-                kama = value;
+                kama = s.Value;
             }
             else
             {
                 // ER period change
-                double change = Math.Abs(value - tpList[i - erPeriods].Value);
+                double change = Math.Abs(s.Value - source[i - erPeriods].Value);
 
                 // volatility
                 double sumPV = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(tpList[p].Value - tpList[p - 1].Value);
+                    sumPV += Math.Abs(source[p].Value - source[p - 1].Value);
                 }
 
                 if (sumPV != 0)
@@ -64,14 +65,14 @@ public static partial class Indicator
                     double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
-                    kama = prevKama + (sc * sc * (value - prevKama));
+                    kama = prevKama + (sc * sc * (s.Value - prevKama));
                 }
 
                 // handle flatline case
                 else
                 {
                     r.ER = 0;
-                    kama = value;
+                    kama = s.Value;
                 }
             }
 

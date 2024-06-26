@@ -52,7 +52,7 @@ public class QuoteUtilityTests : TestQuoteBase
     }
 
     [TestMethod]
-    public void QuoteToTuple()
+    public void QuoteToReusable()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
 
@@ -78,132 +78,57 @@ public class QuoteUtilityTests : TestQuoteBase
 
         Assert.AreEqual(
             NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Open).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Open).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToTuple(CandlePart.High).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.High).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Low).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Low).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Close).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Close).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Volume).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Volume).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HL2).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.HL2).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HLC3).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.HLC3).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OC2).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.OC2).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHL3).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.OHL3).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHLC4).value, 10));
+            NullMath.Round(q.ToReusable(CandlePart.OHLC4).Value, 10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToTuple((CandlePart)999));
+            => q.ToReusable((CandlePart)999));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToQuotePart((CandlePart)999));
+            => q.ToReusable((CandlePart)999));
     }
 
     [TestMethod]
-    public void ToTupleCollection()
+    public void ToReusableList()
     {
-        Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.Timestamp)
-            .ToTupleCollection(CandlePart.Close);
+        var reusableList = quotes
+            .ToReusableList(CandlePart.Close);
 
-        Assert.IsNotNull(collection);
-        Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(collection.LastOrDefault().Item2, 245.28d);
+        Assert.IsNotNull(reusableList);
+        Assert.AreEqual(502, reusableList.Count);
+        Assert.AreEqual(reusableList.LastOrDefault().Value, 245.28d);
     }
 
     [TestMethod]
-    public void ToSortedList()
-    {
-        Collection<(DateTime, double)> collection = quotes
-            .OrderBy(x => x.Timestamp)
-            .ToTuple(CandlePart.Close)
-            .ToSortedCollection();
-
-        Assert.IsNotNull(collection);
-        Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(collection.LastOrDefault().Item2, 245.28d);
-    }
-
-    [TestMethod]
-    public void QuoteToBasicData()
-    {
-        DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
-
-        decimal l = 111111111111111m;
-        decimal o = 222222222222222m;
-        decimal c = 333333333333333m;
-        decimal h = 444444444444444m;
-        decimal v = 555555555555555m;
-        decimal hl2 = (h + l) / 2m;
-        decimal hlc3 = (h + l + c) / 3m;
-        decimal oc2 = (o + c) / 2m;
-        decimal ohl3 = (o + h + l) / 3m;
-        decimal ohlc4 = (o + h + l + c) / 4m;
-
-        Quote q = new() {
-            Timestamp = d,
-            Open = o,
-            High = h,
-            Low = l,
-            Close = c,
-            Volume = v
-        };
-
-        Assert.AreEqual(
-            NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.Open).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.High).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.Low).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.Close).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.Volume).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.HL2).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.HLC3).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.OC2).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.OHL3).Value, 10));
-        Assert.AreEqual(
-            NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToQuotePart(CandlePart.OHLC4).Value, 10));
-
-        // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToQuotePart((CandlePart)999));
-    }
-
-    [TestMethod]
-    public void QuoteDToTuple()
+    public void QuoteDToReusable()
     {
         DateTime d = DateTime.Parse("5/5/2055", EnglishCulture);
 
@@ -229,37 +154,37 @@ public class QuoteUtilityTests : TestQuoteBase
 
         Assert.AreEqual(
             NullMath.Round((double)o, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Open).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Open).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)h, 10),
-            NullMath.Round(q.ToTuple(CandlePart.High).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.High).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)l, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Low).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Low).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)c, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Close).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Close).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)v, 10),
-            NullMath.Round(q.ToTuple(CandlePart.Volume).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.Volume).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hl2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HL2).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.HL2).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)hlc3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.HLC3).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.HLC3).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)oc2, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OC2).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.OC2).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohl3, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHL3).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.OHL3).Value, 10));
         Assert.AreEqual(
             NullMath.Round((double)ohlc4, 10),
-            NullMath.Round(q.ToTuple(CandlePart.OHLC4).Item2, 10));
+            NullMath.Round(q.ToReusable(CandlePart.OHLC4).Value, 10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToTuple((CandlePart)999));
+            => q.ToReusable((CandlePart)999));
     }
 }

@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
+public class Alligator<TIn>
+    : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
     where TIn : struct, IReusableResult
 {
     // constructor
@@ -28,8 +29,6 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
         TeethOffset = teethOffset;
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
-
-        RebuildCache();
 
         // subscribe to provider
         Subscription = provider != null
@@ -65,6 +64,7 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
         {
             i = Cache.FindIndex(inbound.Timestamp);
             AlligatorResult alligator = Cache[i];
+
             jaw = alligator.Jaw.Null2NaN();
             lips = alligator.Lips.Null2NaN();
             teeth = alligator.Teeth.Null2NaN();
@@ -94,7 +94,7 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
                     double sum = 0;
                     for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                     {
-                        sum += ProviderCache[p].Value;
+                        sum += ToValue(ProviderCache[p]);
                     }
 
                     jaw = sum / JawPeriods;
@@ -103,7 +103,7 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ProviderCache[i - JawOffset].Value;
+                    double newVal = ToValue(ProviderCache[i - JawOffset]);
                     jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
                 }
             }
@@ -111,16 +111,15 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
             // calculate alligator's teeth, when in range
             if (i >= TeethPeriods + TeethOffset - 1)
             {
-                double prevTeeth = Cache[i - 1].Teeth.Null2NaN();
+                double prevTooth = Cache[i - 1].Teeth.Null2NaN();
 
                 // first/reset value: calculate SMA
-                if (double.IsNaN(prevTeeth))
+                if (double.IsNaN(prevTooth))
                 {
                     double sum = 0;
                     for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                     {
-
-                        sum += ProviderCache[p].Value;
+                        sum += ToValue(ProviderCache[p]);
                     }
 
                     teeth = sum / TeethPeriods;
@@ -129,8 +128,8 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ProviderCache[i - TeethOffset].Value;
-                    teeth = ((prevTeeth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
+                    double newVal = ToValue(ProviderCache[i - TeethOffset]);
+                    teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
                 }
             }
 
@@ -145,7 +144,7 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
                     double sum = 0;
                     for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                     {
-                        sum += ProviderCache[p].Value;
+                        sum += ToValue(ProviderCache[p]);
                     }
 
                     lips = sum / LipsPeriods;
@@ -154,7 +153,7 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ProviderCache[i - LipsOffset].Value;
+                    double newVal = ToValue(ProviderCache[i - LipsOffset]);
                     lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
                 }
             }
@@ -171,7 +170,8 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
         // save to cache
         act = ModifyCache(act, r);
 
-        // note: this indicator is not observable (no notification)
+        // send to observers
+        NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
         if (act != Act.AddNew && i < ProviderCache.Count - 1)
@@ -181,4 +181,10 @@ public class Alligator<TIn> : AbstractChainInResultOut<TIn, AlligatorResult>, IA
             OnNextArrival(Act.Update, value);
         }
     }
+
+    // convert provider IQuotes to HL2, if needed
+    private readonly Func<TIn, double> ToValue
+        = (input) => input is IQuote quote
+        ? quote.ToReusable(CandlePart.HL2).Value
+        : input.Value;
 }

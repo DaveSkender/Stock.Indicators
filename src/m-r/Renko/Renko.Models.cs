@@ -13,4 +13,9 @@ public record struct RenkoResult : IQuote, IReusableResult
 
     readonly double IReusableResult.Value
         => (double)Close;
+
+    // this is only an appropriate
+    // implementation for record types
+    public readonly bool Equals(IQuote? other)
+      => base.Equals(other);
 }

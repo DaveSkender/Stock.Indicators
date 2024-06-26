@@ -4,31 +4,32 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PvoResult> CalcPvo(
-        this List<(DateTime, double)> tpList,
+    internal static List<PvoResult> CalcPvo<T>(
+        this List<T> source,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Pvo.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
-        List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
+        List<EmaResult> emaFast = source.CalcEma(fastPeriods);
+        List<EmaResult> emaSlow = source.CalcEma(slowPeriods);
 
-        int length = tpList.Count;
-        List<(DateTime, double)> emaDiff = [];
+        int length = source.Count;
+        List<Reusable> emaDiff = [];
         List<PvoResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            var s = source[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
-            PvoResult r = new() { Timestamp = date };
+            PvoResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i >= slowPeriods - 1)
@@ -39,7 +40,7 @@ public static partial class Indicator
                 r.Pvo = pvo;
 
                 // temp data for interim EMA of PVO
-                (DateTime, double) diff = (date, (pvo == null) ? 0 : (double)pvo);
+                var diff = new Reusable(s.Timestamp, (pvo == null) ? 0 : (double)pvo);
 
                 emaDiff.Add(diff);
             }

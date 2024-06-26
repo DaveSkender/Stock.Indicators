@@ -9,17 +9,8 @@ public static partial class Indicator
         int cyclePeriods = 10,
         int fastPeriods = 23,
         int slowPeriods = 50)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcStc(cyclePeriods, fastPeriods, slowPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<StcResult> GetStc(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int cyclePeriods = 10,
-        int fastPeriods = 23,
-        int slowPeriods = 50) => priceTuples
             .ToSortedList()
             .CalcStc(cyclePeriods, fastPeriods, slowPeriods);
 }

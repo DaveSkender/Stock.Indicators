@@ -35,17 +35,6 @@ public class HmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<HmaResult> r = tupleNanny
-            .GetHma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<HmaResult> results = quotes

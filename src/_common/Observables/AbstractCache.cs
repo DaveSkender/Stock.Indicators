@@ -39,11 +39,11 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
 
     public bool IsFaulted { get; internal set; }
 
-    internal List<TSeries> Cache { get; set; }
+    internal List<TSeries> Cache { get; private set; }
 
-    internal TSeries LastArrival { get; set; } = new();
+    private TSeries LastArrival { get; set; } = new();
 
-    internal int OverflowCount { get; set; }
+    private int OverflowCount { get; set; }
 
 
     // METHODS
@@ -74,9 +74,6 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     }
 
     /// <inheritdoc/>
-    /// <exception cref="InvalidOperationException">
-    /// `fromTimestamp` not found in cache
-    /// </exception>
     public void ClearCache(DateTime fromTimestamp)
     {
         int s = Cache.FindIndex(fromTimestamp);  // start of range
@@ -91,30 +88,21 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
         ClearCache(s);
     }
 
-    /// <summary>
-    /// Deletes all cache entries after `fromIndex` (inclusive)
-    /// </summary>
-    /// <param name="fromIndex">From index, inclusive</param>
-    internal void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: Math.Max(0, Cache.Count - 1));
+    /// <inheritdoc/>
+    public void ClearCache(int fromIndex)
+        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
 
     /// <summary>
     /// Deletes cache entries between index range values.
     /// </summary>
     /// <remarks>
-    /// This is usually overridden/implemented in inheriting
-    /// classes due to unique requirements to notify subscribers.
+    /// This is overridden/implemented in inheriting class
+    /// due to unique requirement to notify subscribers.
     /// </remarks>
     /// <param name="fromIndex">First element to delete</param>
     /// <param name="toIndex">Last element to delete</param>
-    internal virtual void ClearCache(int fromIndex, int toIndex)
-    {
-        for (int i = toIndex; i >= fromIndex; i--)
-        {
-            TSeries r = Cache[i];
-            ModifyCache(Act.Delete, r);
-        }
-    }
+    protected abstract void ClearCache(
+        int fromIndex, int? toIndex = null);
 
     /// <summary>
     /// Analyze new arrival to determine caching instruction;
@@ -126,7 +114,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
-    internal Act CacheWithAnalysis(TSeries item)
+    protected Act CacheWithAnalysis(TSeries item)
     {
         // Currently, only inbound Quote is accepted as an
         // external chain entry point and is the only type
@@ -188,7 +176,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
-    internal Act PurgeWithAnalysis(TSeries item)
+    protected Act PurgeWithAnalysis(TSeries item)
     {
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
@@ -223,7 +211,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// </param>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="InvalidOperationException"></exception>
-    internal Act ModifyCache(Act act, TSeries item)
+    protected Act ModifyCache(Act act, TSeries item)
     {
         // execute action
         switch (act)
@@ -245,11 +233,10 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
                     Cache.Insert(ao, item);
                 }
 
-                // failure to find should never happen
+                // failure to find old back-position
                 else
                 {
-                    throw new InvalidOperationException(
-                        "Cache insert target not found.");
+                    Cache.Add(item);
                 }
 
                 break;
@@ -259,11 +246,21 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
                 // find
                 int uo = Cache.FindIndex(item.Timestamp);
 
-                // replace
-                Cache[uo] = uo != -1
-                    ? item
-                    : throw new InvalidOperationException(
+                // does not exist
+                if (uo == -1)
+                {
+                    throw new InvalidOperationException(
                         "Cache update target not found.");
+                }
+
+                // duplicate
+                if (item.Equals(Cache[uo]))
+                {
+                    return Act.DoNothing;
+                }
+
+                // replace
+                Cache[uo] = item;
 
                 break;
 

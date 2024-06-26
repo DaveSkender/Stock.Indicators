@@ -70,17 +70,6 @@ public class HtTrendlineTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<HtlResult> r = tupleNanny
-            .GetHtTrendline()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<HtlResult> results = quotes

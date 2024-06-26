@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // USE (STREAMING)
 
 public class Use<TQuote>
-    : AbstractQuoteInChainOut<TQuote, QuotePart>, IUse
+    : AbstractQuoteInChainOut<TQuote, Reusable>, IUse
     where TQuote : struct, IQuote
 {
     // constructor
@@ -12,8 +12,6 @@ public class Use<TQuote>
         CandlePart candlePart) : base(provider)
     {
         CandlePartSelection = candlePart;
-
-        RebuildCache();
 
         // subscribe to quote provider
         Subscription = provider is null
@@ -36,10 +34,8 @@ public class Use<TQuote>
     internal override void OnNextArrival(Act act, IQuote quote)
     {
         // candidate result
-        (DateTime d, double v)
-            = quote.ToTuple(CandlePartSelection);
-
-        QuotePart result = new() { Timestamp = d, Value = v };
+        Reusable result
+            = quote.ToReusable(CandlePartSelection);
 
         // save to cache
         ModifyCache(act, result);

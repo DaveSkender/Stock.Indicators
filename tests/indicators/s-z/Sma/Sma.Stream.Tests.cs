@@ -53,7 +53,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             = results.ToList();
 
         // time-series, for comparison
-        var seriesList = quotesList
+        List<SmaResult> seriesList = quotesList
             .GetSma<Quote>(20)
             .ToList();
 
@@ -142,11 +142,11 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         }
 
         // initialize observer
-        Sma<QuotePart> observer = provider
+        Sma<Reusable> observer = provider
             .Use(CandlePart.OC2)
             .ToSma(11);
 
-        // emulate adding quotes to provider
+        // emulate quote stream
         for (int i = 50; i < length; i++)
         {
             provider.Add(quotesList[i]);

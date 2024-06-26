@@ -4,26 +4,27 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AwesomeResult> CalcAwesome(
-        this List<(DateTime, double)> tpList,
+    internal static List<AwesomeResult> CalcAwesome<T>(
+        this List<T> source,
         int fastPeriods,
         int slowPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Awesome.Validate(fastPeriods, slowPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<AwesomeResult> results = new(length);
         double[] pr = new double[length];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            pr[i] = value;
+            T s = source[i];
+            pr[i] = s.Value;
 
-            AwesomeResult r = new() { Timestamp = date };
+            AwesomeResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i + 1 >= slowPeriods)

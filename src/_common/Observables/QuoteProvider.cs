@@ -72,4 +72,8 @@ public class QuoteProvider<TQuote> : AbstractQuoteProvider<TQuote>
             throw;
         }
     }
+
+    protected override void RebuildCache(
+        int fromIndex, int? toIndex = null)
+        => throw new InvalidOperationException("Does not apply.");
 }

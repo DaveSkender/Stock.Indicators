@@ -4,8 +4,6 @@ namespace Skender.Stock.Indicators;
 public static class Pruning
 {
     // REMOVE SPECIFIC PERIODS
-    /// <include file='./info.xml' path='info/type[@name="Prune"]/*' />
-    ///
     public static IEnumerable<T> RemoveWarmupPeriods<T>(
         this IEnumerable<T> series,
         int removePeriods)

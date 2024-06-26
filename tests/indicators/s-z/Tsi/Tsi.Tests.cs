@@ -54,17 +54,6 @@ public class TsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<TsiResult> r = tupleNanny
-            .GetTsi()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<TsiResult> results = quotes

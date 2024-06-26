@@ -9,17 +9,8 @@ public static partial class Indicator
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<ConnorsRsiResult> GetConnorsRsi(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int rsiPeriods = 3,
-        int streakPeriods = 2,
-        int rankPeriods = 100) => priceTuples
             .ToSortedList()
             .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 }

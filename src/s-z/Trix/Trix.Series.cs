@@ -4,15 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<TrixResult> CalcTrix(
-        this List<(DateTime, double)> tpList,
+    internal static List<TrixResult> CalcTrix<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Trix.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<TrixResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
@@ -23,9 +24,9 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
-            TrixResult r = new() { Timestamp = date };
+            TrixResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // skip incalculable periods
@@ -44,8 +45,8 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    var ps = source[p];
+                    sum += ps.Value;
                 }
 
                 ema1 = ema2 = ema3 = sum / lookbackPeriods;
@@ -54,7 +55,7 @@ public static partial class Indicator
             // normal TRIX
             else
             {
-                ema1 = lastEma1 + (k * (value - lastEma1));
+                ema1 = lastEma1 + (k * (s.Value - lastEma1));
                 ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 ema3 = lastEma3 + (k * (ema2 - lastEma3));
 

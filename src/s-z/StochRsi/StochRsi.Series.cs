@@ -4,31 +4,32 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StochRsiResult> CalcStochRsi(
-        this List<(DateTime, double)> tpList,
+    internal static List<StochRsiResult> CalcStochRsi<T>(
+        this List<T> source,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // initialize results
-        int length = tpList.Count;
+        int length = source.Count;
         int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
         List<StochRsiResult> results = new(length);
 
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double _) = tpList[i];
-            results.Add(new StochRsiResult { Timestamp = date });
+            var s = source[i];
+            results.Add(new StochRsiResult { Timestamp = s.Timestamp });
         }
 
         // get Stochastic of RSI
         List<StochResult> stoResults =
-            tpList
+            source
             .CalcRsi(rsiPeriods)
             .Remove(Math.Min(rsiPeriods, length))
             .Select(x => new QuoteD {

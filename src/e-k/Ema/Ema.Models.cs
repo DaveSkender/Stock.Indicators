@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public record struct EmaResult(
     DateTime Timestamp,
-    double? Ema = default)
+    double? Ema = null)
     : IReusableResult
 {
     readonly double IReusableResult.Value

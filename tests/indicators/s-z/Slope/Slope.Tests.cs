@@ -52,17 +52,6 @@ public class SlopeTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<SlopeResult> r = tupleNanny
-            .GetSlope(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Slope is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<SlopeResult> results = quotes

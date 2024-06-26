@@ -4,17 +4,18 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<TsiResult> CalcTsi(
-        this List<(DateTime _, double price)> tpList,
+    internal static List<TsiResult> CalcTsi<T>(
+        this List<T> source,
         int lookbackPeriods,
         int smoothPeriods,
         int signalPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Tsi.Validate(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         double mult1 = 2d / (lookbackPeriods + 1);
         double mult2 = 2d / (smoothPeriods + 1);
         double multS = 2d / (signalPeriods + 1);
@@ -33,10 +34,10 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double price) = tpList[i];
+            var s = source[i];
 
             // initialize
-            TsiResult r = new() { Timestamp = date };
+            TsiResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // skip first period
@@ -52,7 +53,7 @@ public static partial class Indicator
             }
 
             // price change
-            c[i] = price - tpList[i - 1].price;
+            c[i] = s.Value - source[i - 1].Value;
             a[i] = Math.Abs(c[i]);
 
             // re/initialize first smoothing

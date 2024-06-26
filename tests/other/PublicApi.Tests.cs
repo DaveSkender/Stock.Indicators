@@ -28,6 +28,11 @@ internal sealed class MyCustomQuote : IQuote
     public decimal Low { get; set; }
     public decimal Volume { get; set; }
     public double Value { get; set; }
+
+    // this is only an appropriate
+    // implementation for record types
+    public bool Equals(IQuote other)
+      => base.Equals(other);
 }
 
 [TestClass]

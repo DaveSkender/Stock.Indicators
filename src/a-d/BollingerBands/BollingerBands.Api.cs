@@ -10,14 +10,6 @@ public static partial class Indicator
         double standardDeviations = 2)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcBollingerBands(lookbackPeriods, standardDeviations);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<BollingerBandsResult> GetBollingerBands(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods = 20,
-        double standardDeviations = 2) => priceTuples
             .ToSortedList()
             .CalcBollingerBands(lookbackPeriods, standardDeviations);
 }

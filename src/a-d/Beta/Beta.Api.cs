@@ -5,34 +5,18 @@ public static partial class Indicator
 {
     // SERIES, from CHAINS (both inputs reusable)
     public static IEnumerable<BetaResult> GetBeta<T>(
-        this IEnumerable<T> evalResults,
-        IEnumerable<T> mrktResults,
+        this IEnumerable<T> evalSource,
+        IEnumerable<T> mrktSource,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         where T : IReusableResult
     {
-        List<(DateTime Timestamp, double Value)> tpListEval
-            = evalResults.ToTupleResult();
+        List<T> listEval
+            = evalSource.ToSortedList();
 
-        List<(DateTime Timestamp, double Value)> tpListMrkt
-            = mrktResults.ToTupleResult();
+        List<T> listMrkt
+            = mrktSource.ToSortedList();
 
-        return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
-    }
-
-    // SERIES, from TUPLE
-    public static IEnumerable<BetaResult> GetBeta(
-        this IEnumerable<(DateTime, double)> evalTuple,
-        IEnumerable<(DateTime, double)> mrktTuple,
-        int lookbackPeriods,
-        BetaType type = BetaType.Standard)
-    {
-        List<(DateTime, double)> tpListEval
-            = evalTuple.ToSortedList();
-
-        List<(DateTime, double)> tpListMrkt
-            = mrktTuple.ToSortedList();
-
-        return CalcBeta(tpListEval, tpListMrkt, lookbackPeriods, type);
+        return CalcBeta(listEval, listMrkt, lookbackPeriods, type);
     }
 }

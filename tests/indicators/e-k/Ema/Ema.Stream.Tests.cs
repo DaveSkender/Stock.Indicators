@@ -154,23 +154,29 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         // setup quote provider
         QuoteProvider<Quote> provider = new();
 
+        // prefill quotes to provider
+        for (int i = 0; i < 50; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
         // initialize observer
         Ema<SmaResult> observer = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
         // emulate quote stream
-        for (int i = 0; i < length; i++)
+        for (int i = 50; i < length; i++)
         {
             provider.Add(quotesList[i]);
         }
 
         // final results
-        List<EmaResult> streamList
+        List<EmaResult> streamEma
             = [.. observer.Results];
 
         // time-series, for comparison
-        List<EmaResult> seriesList = quotes
+        List<EmaResult> staticEma = quotes
             .GetSma(smaPeriods)
             .GetEma(emaPeriods)
             .ToList();
@@ -178,8 +184,8 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         // assert, should equal series
         for (int i = 0; i < quotesList.Count; i++)
         {
-            EmaResult s = seriesList[i];
-            EmaResult r = streamList[i];
+            EmaResult s = staticEma[i];
+            EmaResult r = streamEma[i];
 
             Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Ema, r.Ema);

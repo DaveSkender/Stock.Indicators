@@ -4,19 +4,20 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StdDevChannelsResult> CalcStdDevChannels(
-        this List<(DateTime, double)> tpList,
+    internal static List<StdDevChannelsResult> CalcStdDevChannels<T>(
+        this List<T> source,
         int? lookbackPeriods,
         double stdDeviations)
+        where T : IReusableResult
     {
         // assume whole quotes when lookback is null
-        lookbackPeriods ??= tpList.Count;
+        lookbackPeriods ??= source.Count;
 
         // check parameter arguments
         StdDevChannels.Validate(lookbackPeriods, stdDeviations);
 
         // initialize
-        List<SlopeResult> slopeResults = tpList
+        List<SlopeResult> slopeResults = source
             .CalcSlope((int)lookbackPeriods);
 
         int length = slopeResults.Count;

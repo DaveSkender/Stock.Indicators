@@ -20,7 +20,8 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart = CandlePart.HL2)
         where TQuote : IQuote => quotes
-            .ToTuple(candlePart)
+            .Use(candlePart)
+            .ToList()
             .CalcHtTrendline();
 
     // SERIES, from CHAIN
@@ -28,12 +29,6 @@ public static partial class Indicator
         this IEnumerable<T> results)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcHtTrendline();
-
-    // SERIES, from TUPLE
-    public static IEnumerable<HtlResult> GetHtTrendline(
-        this IEnumerable<(DateTime, double)> priceTuples) => priceTuples
             .ToSortedList()
             .CalcHtTrendline();
 }

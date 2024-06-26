@@ -9,13 +9,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcSmma(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<SmmaResult> GetSmma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcSmma(lookbackPeriods);
 }

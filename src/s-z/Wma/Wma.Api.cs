@@ -9,13 +9,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcWma(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<WmaResult> GetWma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcWma(lookbackPeriods);
 }

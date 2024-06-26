@@ -1,28 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
-  <type name="TupleChain">
-    <summary>Converts results into a reusable tuple with warmup periods removed and nulls converted to NaN.
-    <para> See <see
-          href="https://dotnet.StockIndicators.dev/utilities/#using-tuple-results?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-      documentation</see> for more information.
-    </para>
-    </summary>
-    <typeparam name="TResult">Any reusable result type.</typeparam>
-    <param name="reusable">Indicator results to evaluate.</param>
-    <returns>Collection of non-nullable tuple time series of results, without null warmup periods.</returns>
-  </type>
-  <type name="Prune">
-    <summary> Removes the recommended quantity of results from the beginning of the results list
-      using a reverse-engineering approach. <para> See <see
-          href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-      documentation</see> for more information. </para>
-    </summary>
-    <param name="results">Indicator
-      results to evaluate.</param>
-    <returns>Time
-      series of results, pruned.</returns>
-  </type>
   <type name="Condense">
     <summary> Removes non-essential records containing null values with unique consideration for
       this indicator. <para> See <see

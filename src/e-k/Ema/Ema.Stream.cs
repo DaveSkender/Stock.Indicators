@@ -17,8 +17,6 @@ public class Ema<TIn>
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        RebuildCache();
-
         // subscribe to provider
         Subscription = provider != null
            ? provider.Subscribe(this)

@@ -4,44 +4,45 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PrsResult> CalcPrs(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListBase,
+    internal static List<PrsResult> CalcPrs<T>(
+        List<T> listEval,
+        List<T> listBase,
         int? lookbackPeriods = null)
+        where T : IReusableResult
     {
         // check parameter arguments
-        Prs.Validate(tpListEval, tpListBase, lookbackPeriods);
+        Prs.Validate(listEval, listBase, lookbackPeriods);
 
         // initialize
-        List<PrsResult> results = new(tpListEval.Count);
+        List<PrsResult> results = new(listEval.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpListEval.Count; i++)
+        for (int i = 0; i < listEval.Count; i++)
         {
-            (DateTime bDate, double bValue) = tpListBase[i];
-            (DateTime eDate, double eValue) = tpListEval[i];
+            T b = listBase[i];
+            T e = listEval[i];
 
-            if (eDate != bDate)
+            if (e.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(tpListEval), eDate,
+                throw new InvalidQuotesException(nameof(listEval), e.Timestamp,
                     "Timestamp sequence does not match.  Price Relative requires matching dates in provided histories.");
             }
 
             PrsResult r = new() {
-                Timestamp = eDate,
-                Prs = (bValue == 0) ? null : (eValue / bValue).NaN2Null() // relative strength ratio
+                Timestamp = e.Timestamp,
+                Prs = (b.Value == 0) ? null : (e.Value / b.Value).NaN2Null() // relative strength ratio
             };
             results.Add(r);
 
-            if (lookbackPeriods != null && i > lookbackPeriods - 1)
+            if (lookbackPeriods is not null && i > lookbackPeriods - 1)
             {
-                (DateTime _, double boValue) = tpListBase[i - (int)lookbackPeriods];
-                (DateTime _, double eoValue) = tpListEval[i - (int)lookbackPeriods];
+                T bo = listBase[i - (int)lookbackPeriods];
+                T eo = listEval[i - (int)lookbackPeriods];
 
-                if (boValue != 0 && eoValue != 0)
+                if (bo.Value != 0 && eo.Value != 0)
                 {
-                    double? pctB = (bValue - boValue) / boValue;
-                    double? pctE = (eValue - eoValue) / eoValue;
+                    double? pctB = (b.Value - bo.Value) / bo.Value;
+                    double? pctE = (e.Value - eo.Value) / eo.Value;
 
                     r.PrsPercent = (pctE - pctB).NaN2Null();
                 }

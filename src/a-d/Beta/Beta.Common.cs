@@ -5,10 +5,11 @@ namespace Skender.Stock.Indicators;
 public static class Beta
 {
     // parameter validation
-    internal static void Validate(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListMrkt,
+    internal static void Validate<T>(
+        List<T> sourceEval,
+        List<T> sourceMrkt,
         int lookbackPeriods)
+        where T : ISeries
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -18,10 +19,10 @@ public static class Beta
         }
 
         // check quotes
-        if (tpListEval.Count != tpListMrkt.Count)
+        if (sourceEval.Count != sourceMrkt.Count)
         {
             throw new InvalidQuotesException(
-                nameof(tpListEval),
+                nameof(sourceEval),
                 "Eval quotes should have the same number of Market quotes for Beta.");
         }
     }

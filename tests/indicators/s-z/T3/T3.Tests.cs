@@ -47,17 +47,6 @@ public class T3Tests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<T3Result> r = tupleNanny
-            .GetT3()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<T3Result> results = quotes

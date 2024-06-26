@@ -41,17 +41,6 @@ public class DemaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<DemaResult> r = tupleNanny
-            .GetDema(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<DemaResult> results = quotes

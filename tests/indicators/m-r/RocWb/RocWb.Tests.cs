@@ -80,17 +80,6 @@ public class RocWbTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<RocWbResult> r = tupleNanny
-            .GetRocWb(6, 7, 5)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<RocWbResult> results = quotes

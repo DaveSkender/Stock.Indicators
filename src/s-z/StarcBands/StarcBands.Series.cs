@@ -17,7 +17,6 @@ public static partial class Indicator
         List<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
 
         List<StarcBandsResult> results = qdList
-            .ToTuple(CandlePart.Close)
             .CalcSma(smaPeriods)
             .Select(x => new StarcBandsResult {
                 Timestamp = x.Timestamp,

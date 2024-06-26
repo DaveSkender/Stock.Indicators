@@ -109,17 +109,6 @@ public class BetaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<BetaResult> r = tupleNanny
-            .GetBeta(tupleNanny, 6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Beta is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainor()
     {
         List<SmaResult> results = otherQuotes

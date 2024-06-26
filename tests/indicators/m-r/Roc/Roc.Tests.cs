@@ -42,17 +42,6 @@ public class RocTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<RocResult> r = tupleNanny
-            .GetRoc(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<RocResult> results = quotes

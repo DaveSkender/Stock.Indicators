@@ -6,20 +6,20 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IEnumerable<SmaResult> GetSma<T>(
-        this IEnumerable<T> results,
+        this IEnumerable<T> source,
         int lookbackPeriods)
         where T : IReusableResult
-        => results
-            .ToTupleResult()
+        => source
+            .ToSortedList()
             .CalcSma(lookbackPeriods);
 
     // ANALYSIS, from CHAIN
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis<T>(
-        this IEnumerable<T> results,
+        this IEnumerable<T> source,
         int lookbackPeriods)
         where T : IReusableResult
-        => results
-            .ToTupleResult()
+        => source
+            .ToSortedList()
             .CalcSmaAnalysis(lookbackPeriods);
 
     // OBSERVER, from Chain Provider

@@ -56,30 +56,28 @@ public abstract class AbstractQuoteInChainOut<TIn, TOut>
     // rebuild cache
     public void RebuildCache() => RebuildCache(0);
 
-    // rebuild cache from date
-    public void RebuildCache(DateTime fromTimestamp)
-        => RebuildCache(fromTimestamp, 0);
-
-    // rebuild cache from timestamp
-    private void RebuildCache(
-        DateTime fromTimestamp, int offset = 0)
+    /// <inheritdoc/>
+    public void RebuildCache(
+        DateTime fromTimestamp)
     {
         int fromIndex = Cache
-            .FindIndex(fromTimestamp);
+            .FindIndex(c => c.Timestamp >= fromTimestamp);
 
-        if (fromIndex == -1)
+        if (fromIndex != -1)
         {
-            throw new InvalidOperationException(
-                "Cache rebuild starting date not found.");
+            RebuildCache(fromIndex);
         }
-
-        RebuildCache(fromIndex, offset);
     }
 
+    /// <inheritdoc/>
+    public void RebuildCache(int fromIndex)
+        => RebuildCache(fromIndex, toIndex: Cache.Count - 1);
+
     // rebuild cache from index
-    private void RebuildCache(int fromIndex, int offset = 0)
+    protected override void RebuildCache(
+        int fromIndex, int? toIndex = null)
     {
-        ClearCache(fromIndex, offset);
-        Provider.Resend(fromIndex, this);
+        ClearCache(fromIndex, toIndex);
+        Provider.Resend(this, fromIndex, toIndex);
     }
 }

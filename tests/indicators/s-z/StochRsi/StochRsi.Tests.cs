@@ -91,17 +91,6 @@ public class StochRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<StochRsiResult> r = tupleNanny
-            .GetStochRsi(14, 14, 3, 1)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<StochRsiResult> results = quotes

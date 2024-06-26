@@ -4,23 +4,24 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<BollingerBandsResult> CalcBollingerBands(
-        this List<(DateTime, double)> tpList,
+    internal static List<BollingerBandsResult> CalcBollingerBands<T>(
+        this List<T> source,
         int lookbackPeriods,
         double standardDeviations)
+        where T : IReusableResult
     {
         // check parameter arguments
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<BollingerBandsResult> results = new(tpList.Count);
+        List<BollingerBandsResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
 
-            BollingerBandsResult r = new() { Timestamp = date };
+            BollingerBandsResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
@@ -31,9 +32,9 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    window[n] = pValue;
-                    sum += pValue;
+                    T ps = source[p];
+                    window[n] = ps.Value;
+                    sum += ps.Value;
                     n++;
                 }
 
@@ -45,9 +46,9 @@ public static partial class Indicator
                 r.LowerBand = periodAvg - (standardDeviations * stdDev);
 
                 r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                    : (value - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                    : (s.Value - r.LowerBand) / (r.UpperBand - r.LowerBand);
 
-                r.ZScore = (stdDev == 0) ? null : (value - r.Sma) / stdDev;
+                r.ZScore = (stdDev == 0) ? null : (s.Value - r.Sma) / stdDev;
                 r.Width = (periodAvg == 0) ? null : (r.UpperBand - r.LowerBand) / periodAvg;
             }
         }

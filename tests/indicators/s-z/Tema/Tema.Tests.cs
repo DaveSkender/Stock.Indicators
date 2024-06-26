@@ -41,17 +41,6 @@ public class TemaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<TemaResult> r = tupleNanny
-            .GetTema(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<TemaResult> results = quotes

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
@@ -9,14 +10,17 @@ public static partial class Indicator
     [ExcludeFromCodeCoverage]
     [Obsolete("Use alternate 'GetX' variant.", false)]
     public static IEnumerable<AlligatorResult> GetAlligator(
-        this IEnumerable<(DateTime, double)> priceTuples,
+        this IEnumerable<(DateTime d, double v)> priceTuples,
         int jawPeriods = 13,
         int jawOffset = 8,
         int teethPeriods = 8,
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        => priceTuples.ToSortedList().CalcAlligator(
+        => priceTuples
+           .Select(t => new Reusable(t.d, t.v))
+           .ToList()
+           .CalcAlligator(
             jawPeriods, jawOffset,
             teethPeriods, teethOffset,
             lipsPeriods, lipsOffset);
@@ -43,7 +47,7 @@ public static partial class Indicator
     public static IEnumerable<PrsResult> GetPrs<TQuote>(
         this IEnumerable<TQuote> quotesEval, IEnumerable<TQuote> quotesBase, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-        => quotesEval.ToTuple(CandlePart.Close).GetPrs(quotesBase.ToTuple(CandlePart.Close), lookbackPeriods);
+        => quotesEval.Use(CandlePart.Close).GetPrs(quotesBase.Use(CandlePart.Close), lookbackPeriods);
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
@@ -51,7 +55,7 @@ public static partial class Indicator
     public static IEnumerable<RocResult> GetRoc<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-        => quotes.ToTuple(CandlePart.Close).GetRoc(lookbackPeriods);
+        => quotes.Use(CandlePart.Close).GetRoc(lookbackPeriods);
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
@@ -59,7 +63,7 @@ public static partial class Indicator
     public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-        => quotes.ToTuple(CandlePart.Close).CalcStdDev(lookbackPeriods);
+        => quotes.Use(CandlePart.Close).ToList().CalcStdDev(lookbackPeriods);
 
     // 3.0.0
     [ExcludeFromCodeCoverage]
@@ -67,7 +71,7 @@ public static partial class Indicator
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-        => quotes.ToTuple(CandlePart.Close).CalcTrix(lookbackPeriods);
+        => quotes.Use(CandlePart.Close).ToList().CalcTrix(lookbackPeriods);
 
     // v3.0.0
     [ExcludeFromCodeCoverage]
@@ -75,7 +79,18 @@ public static partial class Indicator
     public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
-        => quotes.Select(x => x.ToTuple(CandlePart.Close));
+        => quotes.Select(x => (x.Timestamp, x.Value));
+
+    // v3.0.0
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `ToReusable()`", true)]
+    public static Collection<(DateTime Timestamp, double Value)> ToTupleChainable<TResult>(
+        this IEnumerable<TResult> reusable)
+        where TResult : IReusableResult
+        => reusable
+            .Select(x => (x.Timestamp, x.Value))
+            .OrderBy(x => x.Timestamp)
+            .ToCollection();
 }
 
 // v3.0.0

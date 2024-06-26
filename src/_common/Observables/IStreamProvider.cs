@@ -58,17 +58,33 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     void EndTransmission();
 
     /// <summary>
-    /// Resends historical cached values to a requesting observer,
-    /// starting at an index position.
-    /// </summary>
-    /// <param name="fromIndex"></param>
-    /// <param name="toObserver"></param>
-    void Resend(int fromIndex, IObserver<(Act, TSeries)> toObserver);
-
-    /// <summary>
-    /// Finds the index position of the provided timestamp
+    /// Finds the index position in the cache, of the provided timestamp
     /// </summary>
     /// <param name="timeStamp"></param>
     /// <returns>Index value or -1 when not found</returns>
     int FindIndex(DateTime timeStamp);
+
+    /// <summary>
+    /// Resends historical cached values to a requesting observer,
+    /// starting from a specific timestamp.
+    /// </summary>
+    /// <param name="toObserver">Subscriber identity.</param>
+    /// <param name="fromTimestamp">First period to resend.</param>
+    void Resend(
+        IObserver<(Act, TSeries)> toObserver,
+        DateTime fromTimestamp);
+
+    /// <summary>
+    /// Resends historical cached values to a requesting observer,
+    /// starting at an index position.
+    /// </summary>
+    /// <param name="toObserver">Subscriber identity.</param>
+    /// <param name="fromIndex">First periods to resend.</param>
+    /// <param name="toIndex">
+    /// The last period to include, or all (default).
+    /// </param>
+    void Resend(
+        IObserver<(Act, TSeries)> toObserver,
+        int fromIndex,
+        int? toIndex = null);
 }

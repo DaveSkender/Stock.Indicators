@@ -1,19 +1,19 @@
 ---
-title: Basic quote transforms
+title: Basic quote transform
 description: Basic quote transforms (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
-permalink: /indicators/BasicQuote/
+permalink: /indicators/Use/
 type: price-transform
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Returns a basic quote transform (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
+Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by isolating a single value or calculated value from the full OHLCV quote candle parts.
 
 ```csharp
 // C# usage syntax
-IEnumerable<BasicResult> results =
-  quotes.GetBaseQuote(candlePart);
+IEnumerable<Reusable> results =
+  quotes.Use(candlePart);
 ```
 
 ## Parameters
@@ -31,14 +31,14 @@ You must have at least 1 period of `quotes`.
 ## Response
 
 ```csharp
-IEnumerable<BasicResult>
+IEnumerable<Reusable>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### BasicResult
+### `Reusable` type
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
@@ -56,11 +56,6 @@ Results can be further processed on `Value` with additional chain-enabled indica
 
 ```csharp
 // example
-var results = quotes
-    .GetBaseQuote(CandlePart.OHLC4)
-    .GetRsi(..);
-
-// and is equivalent to
 var results = quotes
     .Use(CandlePart.OHLC4)
     .GetRsi(..);

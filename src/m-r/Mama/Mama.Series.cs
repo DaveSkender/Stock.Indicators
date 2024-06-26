@@ -3,10 +3,11 @@ namespace Skender.Stock.Indicators;
 // MOTHER of ADAPTIVE MOVING AVERAGES (SERIES)
 public static partial class Indicator
 {
-    internal static List<MamaResult> CalcMama(
-        this List<(DateTime, double)> tpList,
+    internal static List<MamaResult> CalcMama<T>(
+        this List<T> tpList,
         double fastLimit,
         double slowLimit)
+        where T : IReusableResult
     {
         // check parameter arguments
         Mama.Validate(fastLimit, slowLimit);
@@ -40,10 +41,10 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            pr[i] = value;
+            var s = tpList[i];
+            pr[i] = s.Value;
 
-            MamaResult r = new() { Timestamp = date };
+            MamaResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // skip incalculable periods

@@ -7,15 +7,8 @@ public static partial class Indicator
     public static IEnumerable<HmaResult> GetHma<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcHma(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<HmaResult> GetHma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcHma(lookbackPeriods);
 }

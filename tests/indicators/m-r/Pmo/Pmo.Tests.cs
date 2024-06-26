@@ -38,17 +38,6 @@ public class PmoTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<PmoResult> r = tupleNanny
-            .GetPmo()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pmo is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<PmoResult> results = quotes

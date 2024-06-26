@@ -8,16 +8,8 @@ public static partial class Indicator
         this IEnumerable<T> results,
         int? lookbackPeriods = 20,
         double stdDeviations = 2)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcStdDevChannels(lookbackPeriods, stdDeviations);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<StdDevChannelsResult> GetStdDevChannels(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int? lookbackPeriods = 20,
-        double stdDeviations = 2) => priceTuples
             .ToSortedList()
             .CalcStdDevChannels(lookbackPeriods, stdDeviations);
 }

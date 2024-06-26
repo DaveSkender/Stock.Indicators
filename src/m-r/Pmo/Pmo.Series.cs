@@ -4,17 +4,18 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PmoResult> CalcPmo(
-        this List<(DateTime, double)> tpList,
+    internal static List<PmoResult> CalcPmo<T>(
+        this List<T> source,
         int timePeriods,
         int smoothPeriods,
         int signalPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Pmo.Validate(timePeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<PmoResult> results = new(length);
         double smoothingConstant1 = 2d / smoothPeriods;
         double smoothingConstant2 = 2d / timePeriods;
@@ -32,13 +33,13 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double price) = tpList[i];
-            PmoResult r = new() { Timestamp = date };
+            var s = source[i];
+            PmoResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // rate of change (ROC)
-            rc[i] = prevPrice == 0 ? double.NaN : 100 * ((price / prevPrice) - 1);
-            prevPrice = price;
+            rc[i] = prevPrice == 0 ? double.NaN : 100 * ((s.Value / prevPrice) - 1);
+            prevPrice = s.Value;
 
             // ROC smoothed moving average
             double rocEma;

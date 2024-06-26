@@ -46,17 +46,6 @@ public class TrixTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<TrixResult> r = tupleNanny
-            .GetTrix(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<TrixResult> results = quotes

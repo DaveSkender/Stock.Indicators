@@ -9,15 +9,17 @@ public static class Prs
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
     // parameter validation
-    internal static void Validate(
-        List<(DateTime, double)> quotesEval,
-        List<(DateTime, double)> quotesBase,
+    internal static void Validate<T>(
+        List<T> quotesEval,
+        List<T> quotesBase,
         int? lookbackPeriods)
+        where T : ISeries
     {
         // check parameter arguments
         if (lookbackPeriods is not null and <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+            throw new ArgumentOutOfRangeException(
+                nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for Price Relative Strength.");
         }
 

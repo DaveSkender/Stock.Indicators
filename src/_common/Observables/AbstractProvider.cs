@@ -57,7 +57,9 @@ public abstract class AbstractProvider<TSeries>
     public IDisposable Subscribe(IObserver<(Act, TSeries)> observer)
     {
         Observers.Add(observer);
-        return new Subscription(Observers, observer);
+        Subscription sub = new(Observers, observer);
+        Resend(observer, act: Act.AddNew, fromIndex: 0); // catch-up new guy
+        return sub;
     }
 
     // unsubscribe all observers
@@ -74,37 +76,85 @@ public abstract class AbstractProvider<TSeries>
         Observers.Clear();
     }
 
+    /// <inhertitdoc />
+    public void Resend(
+        IObserver<(Act, TSeries)> toObserver,
+        DateTime fromTimestamp)
+    {
+        int fromIndex = Cache
+            .FindIndex(c => c.Timestamp >= fromTimestamp);
+
+        if (fromIndex == -1)
+        {
+            throw new InvalidOperationException(
+                "Cache rebuild starting date not found.");
+        }
+
+        Resend(toObserver, fromIndex);
+    }
+
     // resend to an observer
     /// <inheritdoc />
     public void Resend(
+        IObserver<(Act, TSeries)> toObserver,
         int fromIndex,
-        IObserver<(Act, TSeries)> toObserver)
+        int? toIndex = null)
+        => Resend(toObserver, fromIndex, default, toIndex);
+
+    private void Resend(
+        IObserver<(Act, TSeries)> toObserver,
+        int fromIndex,
+        Act act,
+        int? toIndex = null)
     {
         if (toObserver is not null && Observers.Contains(toObserver))
         {
-            for (int i = fromIndex; i < Cache.Count; i++)
+            // determine start/end of range
+            int fr = Math.Max(0, fromIndex);
+            int to = Math.Min(toIndex ?? Cache.Count - 1, Cache.Count - 1);
+
+            for (int i = fr; i < to; i++)
             {
-                toObserver.OnNext((Act.AddOld, Cache[i]));
+                toObserver.OnNext((act, Cache[i]));
             }
         }
-
-        throw new NotImplementedException("unsure if needed");
     }
 
     // clears cache segment
     /// <inheritdoc />
-    internal override void ClearCache(int fromIndex, int toIndex)
+    /// <remarks>
+    /// Since upstream allows +/- offset, the arguments
+    /// need to be evaluated to determine start/end of range.
+    /// </remarks>
+    protected override void ClearCache(
+        int fromIndex, int? toIndex = null)
     {
+        if (Cache.Count is 0)
+        {
+            return;
+        }
+
+        // determine start/end of range
+        int fr = Math.Max(fromIndex, 0);
+        int to = Math.Min(toIndex ?? Cache.Count - 1, Cache.Count - 1);
+
         // delete and deliver instruction in reverse
         // order to prevent recursive recompositions
-
-        for (int i = toIndex; i >= fromIndex; i--)
+        for (int i = to; i >= fr; i--)
         {
             TSeries r = Cache[i];
             Act act = ModifyCache(Act.Delete, r);
             NotifyObservers(act, r);
         }
     }
+
+    /// <summary>
+    /// Rebuild cache from provider.
+    /// </summary>
+    /// <param name="fromIndex">start position</param>
+    /// <param name="toIndex">stop position</param>
+    protected abstract void RebuildCache(
+        int fromIndex, int? toIndex = null);
 
     /// <summary>
     /// Sends new item to all subscribers

@@ -5,23 +5,24 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SlopeResult> CalcSlope(
-        this List<(DateTime, double)> tpList,
+    internal static List<SlopeResult> CalcSlope<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Slope.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<SlopeResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            var s = source[i];
 
-            SlopeResult r = new() { Timestamp = date };
+            SlopeResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // skip initialization period
@@ -36,10 +37,10 @@ public static partial class Indicator
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                (DateTime _, double pValue) = tpList[p];
+                var ps = source[p];
 
                 sumX += p + 1d;
-                sumY += pValue;
+                sumY += ps.Value;
             }
 
             double avgX = sumX / lookbackPeriods;
@@ -52,10 +53,10 @@ public static partial class Indicator
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                (DateTime _, double pValue) = tpList[p];
+                var ps = source[p];
 
                 double devX = p + 1d - avgX;
-                double devY = pValue - avgY;
+                double devY = ps.Value - avgY;
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;

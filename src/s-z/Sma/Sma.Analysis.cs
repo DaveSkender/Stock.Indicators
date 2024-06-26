@@ -3,12 +3,13 @@ namespace Skender.Stock.Indicators;
 // SIMPLE MOVING AVERAGE (ANALYSIS)
 public static partial class Indicator
 {
-    internal static IEnumerable<SmaAnalysis> CalcSmaAnalysis(
-        this List<(DateTime, double)> tpList,
+    internal static IEnumerable<SmaAnalysis> CalcSmaAnalysis<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // initialize
-        List<SmaAnalysis> results = tpList
+        List<SmaAnalysis> results = source
             .CalcSma(lookbackPeriods)
             .Select(x => new SmaAnalysis {
                 Timestamp = x.Timestamp,
@@ -28,13 +29,13 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                (DateTime _, double value) = tpList[p];
+                var s = source[p];
 
-                sumMad += Math.Abs(value - sma);
-                sumMse += (value - sma) * (value - sma);
+                sumMad += Math.Abs(s.Value - sma);
+                sumMse += (s.Value - sma) * (s.Value - sma);
 
-                sumMape += (value == 0) ? double.NaN
-                    : Math.Abs(value - sma) / value;
+                sumMape += (s.Value == 0) ? double.NaN
+                    : Math.Abs(s.Value - sma) / s.Value;
             }
 
             results[i] = r with {

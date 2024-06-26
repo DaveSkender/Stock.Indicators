@@ -4,22 +4,23 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<UlcerIndexResult> CalcUlcerIndex(
-        this List<(DateTime, double)> tpList,
+    internal static List<UlcerIndexResult> CalcUlcerIndex<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         UlcerIndex.Validate(lookbackPeriods);
 
         // initialize
-        List<UlcerIndexResult> results = new(tpList.Count);
+        List<UlcerIndexResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            T s = source[i];
 
-            UlcerIndexResult r = new() { Timestamp = date };
+            UlcerIndexResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
@@ -27,21 +28,21 @@ public static partial class Indicator
                 double sumSquared = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    T ps = source[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
-                    for (int s = i + 1 - lookbackPeriods; s < dIndex; s++)
+                    for (int z = i + 1 - lookbackPeriods; z < dIndex; z++)
                     {
-                        (DateTime _, double sValue) = tpList[s];
-                        if (sValue > maxClose)
+                        T zs = source[z];
+                        if (zs.Value > maxClose)
                         {
-                            maxClose = sValue;
+                            maxClose = zs.Value;
                         }
                     }
 
                     double percentDrawdown = (maxClose == 0) ? double.NaN
-                        : 100 * ((pValue - maxClose) / maxClose);
+                        : 100 * ((ps.Value - maxClose) / maxClose);
 
                     sumSquared += percentDrawdown * percentDrawdown;
                 }

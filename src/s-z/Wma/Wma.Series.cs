@@ -4,23 +4,24 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<WmaResult> CalcWma(
-        this List<(DateTime, double)> tpList,
+    internal static List<WmaResult> CalcWma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Wma.Validate(lookbackPeriods);
 
         // initialize
-        List<WmaResult> results = new(tpList.Count);
+        List<WmaResult> results = new(source.Count);
         double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            var s = source[i];
 
-            WmaResult r = new() { Timestamp = date };
+            WmaResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
@@ -28,8 +29,8 @@ public static partial class Indicator
                 double wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    wma += pValue * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
+                    var ps = source[p];
+                    wma += ps.Value * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
 
                 r.Wma = wma.NaN2Null();

@@ -11,15 +11,6 @@ public static partial class Indicator
         int signalPeriods = 10)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<PmoResult> GetPmo(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int timePeriods = 35,
-        int smoothPeriods = 20,
-        int signalPeriods = 10) => priceTuples
             .ToSortedList()
             .CalcPmo(timePeriods, smoothPeriods, signalPeriods);
 }

@@ -10,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double percentOffset,
         MaType movingAverageType)
-        where T: IReusableResult
+        where T : IReusableResult
     {
         // check parameter arguments
         // note: most validations are done in variant methods

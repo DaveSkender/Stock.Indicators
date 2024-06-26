@@ -86,11 +86,4 @@ public class AdlTests : SeriesTestBase
 
         Assert.AreEqual(1, r1.Count);
     }
-
-    // bad SMA period
-    [TestMethod]
-    [Obsolete("Deprecated in v3.0.0", false)]
-    public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetAdl(0));
 }

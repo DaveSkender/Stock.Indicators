@@ -48,17 +48,6 @@ public class StcTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<StcResult> r = tupleNanny
-            .GetStc()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<StcResult> results = quotes

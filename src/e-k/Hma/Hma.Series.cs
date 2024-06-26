@@ -5,32 +5,34 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<HmaResult> CalcHma(
-        this List<(DateTime Timestamp, double _)> tpList,
+    internal static List<HmaResult> CalcHma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Hma.Validate(lookbackPeriods);
 
         // initialize
         int shiftQty = lookbackPeriods - 1;
-        List<(DateTime, double)> synthHistory = [];
+        List<Reusable> synthHistory = [];
 
-        List<WmaResult> wmaN1 = tpList.GetWma(lookbackPeriods).ToList();
-        List<WmaResult> wmaN2 = tpList.GetWma(lookbackPeriods / 2).ToList();
+        List<WmaResult> wmaN1 = source.GetWma(lookbackPeriods).ToList();
+        List<WmaResult> wmaN2 = source.GetWma(lookbackPeriods / 2).ToList();
 
         // roll through quotes, to get interim synthetic quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            T s = source[i];
 
             WmaResult w1 = wmaN1[i];
             WmaResult w2 = wmaN2[i];
 
             if (i >= shiftQty)
             {
-                (DateTime, double) sh
-                    = new(date, (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
+                Reusable sh = new(
+                    Timestamp: s.Timestamp,
+                    Value: (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
 
                 synthHistory.Add(sh);
             }
@@ -39,7 +41,7 @@ public static partial class Indicator
         // add back truncated null results
         int sqN = (int)Math.Sqrt(lookbackPeriods);
 
-        List<HmaResult> results = tpList
+        List<HmaResult> results = source
             .Take(shiftQty)
             .Select(x => new HmaResult { Timestamp = x.Timestamp })
             .ToList();

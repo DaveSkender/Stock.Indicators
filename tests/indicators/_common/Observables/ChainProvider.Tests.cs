@@ -25,7 +25,7 @@ public class ChainProviderTests : StreamTestBase
             .Use(CandlePart.Close);
 
         // fetch initial results
-        IEnumerable<QuotePart> results = observer.Results;
+        IEnumerable<Reusable> results = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 50; i < length; i++)
@@ -35,21 +35,21 @@ public class ChainProviderTests : StreamTestBase
         }
 
         // final results
-        List<QuotePart> resultsList
+        List<Reusable> staticList
             = results.ToList();
 
         // time-series, for comparison
-        List<(DateTime, double)> seriesList = quotes
-            .ToTuple(CandlePart.Close);
+        List<Reusable> streamList = quotes
+            .ToReusableList(CandlePart.Close);
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < streamList.Count; i++)
         {
-            (DateTime date, double value) = seriesList[i];
-            QuotePart r = resultsList[i];
+            Reusable s = streamList[i];
+            Reusable r = staticList[i];
 
-            Assert.AreEqual(date, r.Timestamp);
-            Assert.AreEqual(value, r.Value);
+            Assert.AreEqual(s.Timestamp, r.Timestamp);
+            Assert.AreEqual(s.Value, r.Value);
         }
 
         // confirm public interface
@@ -74,7 +74,7 @@ public class ChainProviderTests : StreamTestBase
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Ema<QuotePart> ema = provider
+        Ema<Reusable> ema = provider
             .Use(CandlePart.HL2)
             .ToEma(11);
 
@@ -102,7 +102,7 @@ public class ChainProviderTests : StreamTestBase
         {
             EmaResult s = staticEma[i];
             EmaResult r = streamEma[i];
-            QuotePart e = ema.Provider.Results[i];
+            Reusable e = ema.Provider.Results[i];
 
             // compare series
             Assert.AreEqual(s.Timestamp, r.Timestamp);
@@ -144,7 +144,7 @@ public class ChainProviderTests : StreamTestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            QuotePart r = observer.Cache[i];
+            Reusable r = observer.Cache[i];
 
             // compare quote to result cache
             Assert.AreEqual(q.Timestamp, r.Timestamp);

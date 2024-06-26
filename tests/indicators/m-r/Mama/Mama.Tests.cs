@@ -60,17 +60,6 @@ public class MamaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<MamaResult> r = tupleNanny
-            .GetMama()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mama is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<MamaResult> results = quotes

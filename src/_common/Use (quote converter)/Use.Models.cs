@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct QuotePart(
+public record struct Reusable(
     DateTime Timestamp,
     double Value
 ) : IReusableResult;

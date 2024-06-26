@@ -48,16 +48,22 @@ Items marked with &#128681; require special attention since they will not produc
 
 - no longer supporting .NET Standard 2.0 for older .NET Framework compatibility.
 
-- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
+### Common breaking changes
 
-- Result classes were changes to `record` class types.  This will only impact rare cases where result classes are used for base inheritance.
+- Quote type (built-in) was changed to `record struct` class type; and its `IQuote` interface `Date` property was widely renamed to `Timestamp`, to avoid a conflict with a C# reserved name.
 
-- Quote class (built-in) was changed to `record` class type.
+- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusableResult` and `IEquality<IQuote>` interfaces, to support chaining and streaming operations.  The best way to fix is to change your `TQuote` from a regular `class` to a `record struct`.  See [the Guide](/guide) for more information.
 
-  - `Date` property was widely renamed to `Timestamp` to avoid conflict with C# reserved name.
+- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.  This was done to improve internal chaining and streaming performance.
 
-- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusableResult` interface, to support streaming operations.  The simplest way to fix is to change your `TQuote` from a regular `class` to a `record class`.  See [the Guide](/guide) for more information.
+- Indicator return types were changed from `sealed class` to `record struct` types.  This will only impact people migrating from v1 who were inheriting result classes; as these new types cannot be used as a base class (this was a v2 breaking change).
 
-- `BasicData` class was renamed to `BasicResult` for consistency with other return types.
+### Less common breaking changes
+
+- Return type for the `Use()` utility method was renamed from `UseResult` to `Reusable` for clarity of its wider purpose.
+
+- `GetBaseQuote()` indicator and related `BasicData` return types were removed since they are redundant to the `Use()` method and `Reusable` return types, respectively.
 
 - `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal utility, but were part of the public API since they were useful for custom indicator development.  Internally, we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit warmup periods.
+
+- `ToTupleCollection<TQuote>()` utility method was deprecated.  This was available to support custom indicator development, but is no longer needed.  We've discontinued using Tuples as an interface to chainable indicators that use `IReusableResult` return types.

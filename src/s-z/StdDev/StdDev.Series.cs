@@ -4,23 +4,24 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StdDevResult> CalcStdDev(
-        this List<(DateTime, double)> tpList,
+    internal static List<StdDevResult> CalcStdDev<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         StdDev.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<StdDevResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
-            StdDevResult r = new() { Timestamp = date };
+            StdDevResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i + 1 >= lookbackPeriods)
@@ -31,9 +32,9 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double v) = tpList[p];
-                    values[n] = v;
-                    sum += v;
+                    var ps = source[p];
+                    values[n] = ps.Value;
+                    sum += ps.Value;
                     n++;
                 }
 
@@ -43,7 +44,7 @@ public static partial class Indicator
                 r.Mean = avg.NaN2Null();
 
                 r.ZScore = (r.StdDev == 0) ? null
-                    : (value - avg) / r.StdDev;
+                    : (s.Value - avg) / r.StdDev;
             }
         }
 

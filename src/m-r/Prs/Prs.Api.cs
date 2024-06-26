@@ -9,25 +9,8 @@ public static partial class Indicator
         IEnumerable<T> quotesBase,
         int? lookbackPeriods = null)
         where T : IReusableResult
-    {
-        List<(DateTime Timestamp, double Value)> tpListEval
-            = quotesEval.ToTupleResult();
-
-        List<(DateTime Timestamp, double Value)> tpListBase
-            = quotesBase.ToTupleResult();
-
-        return CalcPrs(tpListEval, tpListBase, lookbackPeriods);
-    }
-
-    // SERIES, from TUPLE
-    public static IEnumerable<PrsResult> GetPrs(
-        this IEnumerable<(DateTime, double)> tupleEval,
-        IEnumerable<(DateTime, double)> tupleBase,
-        int? lookbackPeriods = null)
-    {
-        List<(DateTime, double)> tpListBase = tupleBase.ToSortedList();
-        List<(DateTime, double)> tpListEval = tupleEval.ToSortedList();
-
-        return CalcPrs(tpListEval, tpListBase, lookbackPeriods);
-    }
+        => CalcPrs(
+            quotesEval.ToSortedList(),
+            quotesBase.ToSortedList(),
+            lookbackPeriods);
 }

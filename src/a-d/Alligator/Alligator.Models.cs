@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public record struct AlligatorResult : IResult
-{
-    public DateTime Timestamp { get; set; }
-    public double? Jaw { get; set; }
-    public double? Teeth { get; set; }
-    public double? Lips { get; set; }
-}
+public record struct AlligatorResult
+(
+    DateTime Timestamp,
+    double? Jaw,
+    double? Teeth,
+    double? Lips
+) : IResult;
 
 public interface IAlligator : IStreamObserver
 {

@@ -8,9 +8,9 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
+            .ToSortedList()
             .CalcEma(lookbackPeriods);
 
     // OBSERVER, from Chain Provider

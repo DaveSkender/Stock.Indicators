@@ -24,8 +24,8 @@ public static partial class Indicator
         {
             T src = tpList[i];
 
-            double? dpoSma = default;
-            double? dpoVal = default;
+            double? dpoSma = null;
+            double? dpoVal = null;
 
             if (i >= lookbackPeriods - offset - 1 && i < length - offset)
             {

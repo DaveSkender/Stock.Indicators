@@ -9,13 +9,6 @@ public static partial class Indicator
         int lookbackPeriods)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcRoc(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<RocResult> GetRoc(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcRoc(lookbackPeriods);
 }

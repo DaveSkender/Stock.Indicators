@@ -9,13 +9,14 @@ public static partial class Indicator
         int lookbackPeriods)
     {
         // convert quotes
-        List<(DateTime, double)> tpList = qdList.ToTuple(CandlePart.Volume);
+        List<Reusable> source
+            = qdList.ToReusableList(CandlePart.Volume);
 
         // check parameter arguments
         Cmf.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<CmfResult> results = new(length);
         List<AdlResult> adlResults = [.. qdList.CalcAdl()];
 
@@ -38,7 +39,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = source[p];
                     sumVol += pValue;
 
                     AdlResult d = adlResults[p];

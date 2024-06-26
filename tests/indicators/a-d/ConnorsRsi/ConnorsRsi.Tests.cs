@@ -48,17 +48,6 @@ public class ConnorsRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<ConnorsRsiResult> r = tupleNanny
-            .GetConnorsRsi()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.ConnorsRsi is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<ConnorsRsiResult> results = quotes

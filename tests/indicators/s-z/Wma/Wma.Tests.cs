@@ -35,17 +35,6 @@ public class WmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<WmaResult> r = tupleNanny
-            .GetWma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<WmaResult> results = quotes

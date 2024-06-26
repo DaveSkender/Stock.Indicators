@@ -3,12 +3,11 @@ namespace Skender.Stock.Indicators;
 // ACCUMULATION/DISTRIBUTION LINE (STREAM)
 
 public partial class Adl<TQuote> : AbstractQuoteInChainOut<TQuote, AdlResult>, IAdl
-    where TQuote: struct, IQuote
+    where TQuote : struct, IQuote
 {
     public Adl(IQuoteProvider<TQuote> provider)
-        : base(provider) {
-
-        RebuildCache();
+        : base(provider)
+    {
 
         // subscribe to quote provider
         Subscription = provider is null

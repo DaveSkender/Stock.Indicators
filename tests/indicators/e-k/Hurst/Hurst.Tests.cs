@@ -34,17 +34,6 @@ public class HurstTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<HurstResult> r = tupleNanny
-            .GetHurst(100)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainor()
     {
         List<SmaResult> results = quotes

@@ -10,14 +10,6 @@ public static partial class Indicator
         double slowLimit = 0.05)
         where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcMama(fastLimit, slowLimit);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<MamaResult> GetMama(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        double fastLimit = 0.5,
-        double slowLimit = 0.05) => priceTuples
             .ToSortedList()
             .CalcMama(fastLimit, slowLimit);
 }

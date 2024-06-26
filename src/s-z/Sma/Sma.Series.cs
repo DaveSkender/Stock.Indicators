@@ -7,20 +7,21 @@ public static partial class Indicator
     // TODO: discontinue converting to Tuple,
     // everywhere.  It's unneeded overhead; use IReusableResult.
 
-    internal static List<SmaResult> CalcSma(
-        this List<(DateTime, double)> tpList,
+    internal static List<SmaResult> CalcSma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         SmaUtilities.Validate(lookbackPeriods);
 
         // initialize
-        List<SmaResult> results = new(tpList.Count);
+        List<SmaResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            T s = source[i];
 
             double sma;
 
@@ -29,8 +30,8 @@ public static partial class Indicator
                 double sumSma = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sumSma += pValue;
+                    T ps = source[p];
+                    sumSma += ps.Value;
                 }
 
                 sma = sumSma / lookbackPeriods;
@@ -41,7 +42,7 @@ public static partial class Indicator
             }
 
             SmaResult result = new(
-                Timestamp: date,
+                Timestamp: s.Timestamp,
                 Sma: sma.NaN2Null());
 
             results.Add(result);

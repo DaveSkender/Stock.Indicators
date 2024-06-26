@@ -4,24 +4,25 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<FisherTransformResult> CalcFisherTransform(
-        this List<(DateTime, double)> tpList,
+    internal static List<FisherTransformResult> CalcFisherTransform<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         FisherTransform.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
         List<FisherTransformResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            pr[i] = value;
+            var s = source[i];
+            pr[i] = s.Value;
 
             double minPrice = pr[i];
             double maxPrice = pr[i];
@@ -32,7 +33,7 @@ public static partial class Indicator
                 maxPrice = Math.Max(pr[p], maxPrice);
             }
 
-            FisherTransformResult r = new() { Timestamp = date };
+            FisherTransformResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i > 0)

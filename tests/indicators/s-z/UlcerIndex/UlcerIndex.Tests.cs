@@ -32,17 +32,6 @@ public class UlcerIndexTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<UlcerIndexResult> r = tupleNanny
-            .GetUlcerIndex(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UlcerIndex is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<UlcerIndexResult> results = quotes

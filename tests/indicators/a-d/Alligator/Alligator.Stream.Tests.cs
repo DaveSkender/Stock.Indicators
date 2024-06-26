@@ -15,7 +15,7 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        var observer = provider
+        Alligator<Quote> observer = provider
             .ToAlligator(13, 8, 8, 5, 5, 3);
 
         // fetch initial results (early)
@@ -85,7 +85,7 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        var observer = provider
+        Alligator<SmaResult> observer = provider
             .ToSma(10)
             .ToAlligator(13, 8, 8, 5, 5, 3);
 

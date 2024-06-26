@@ -4,31 +4,32 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RocResult> CalcRoc(
-        this List<(DateTime, double)> tpList,
+    internal static List<RocResult> CalcRoc<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Roc.Validate(lookbackPeriods);
 
         // initialize
-        List<RocResult> results = new(tpList.Count);
+        List<RocResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
-            RocResult r = new() { Timestamp = date };
+            RocResult r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             if (i + 1 > lookbackPeriods)
             {
-                (DateTime _, double backValue) = tpList[i - lookbackPeriods];
+                var back = source[i - lookbackPeriods];
 
-                r.Momentum = (value - backValue).NaN2Null();
-                r.Roc = (backValue == 0) ? null
-                    : (100d * r.Momentum / backValue).NaN2Null();
+                r.Momentum = (s.Value - back.Value).NaN2Null();
+                r.Roc = (back.Value == 0) ? null
+                    : (100d * r.Momentum / back.Value).NaN2Null();
             }
         }
 

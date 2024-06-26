@@ -7,15 +7,8 @@ public static partial class Indicator
     public static IEnumerable<EpmaResult> GetEpma<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcEpma(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<EpmaResult> GetEpma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
             .ToSortedList()
             .CalcEpma(lookbackPeriods);
 }

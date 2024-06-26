@@ -6,8 +6,8 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CorrResult> results =
-            quotes.GetCorrelation(otherQuotes, 20)
+        List<CorrResult> results = quotes
+            .GetCorrelation(otherQuotes, 20)
             .ToList();
 
         // proper quantities
@@ -43,17 +43,6 @@ public class CorrelationTests : SeriesTestBase
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Correlation != null));
-    }
-
-    [TestMethod]
-    public void TupleNaN()
-    {
-        List<CorrResult> r = tupleNanny
-            .GetCorrelation(tupleNanny, 6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
     [TestMethod]

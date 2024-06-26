@@ -45,17 +45,6 @@ public class AwesomeTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<AwesomeResult> r = tupleNanny
-            .GetAwesome()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<AwesomeResult> results = quotes

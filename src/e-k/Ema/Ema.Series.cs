@@ -4,15 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<EmaResult> CalcEma(
-        this List<(DateTime, double)> tpList,
+    internal static List<EmaResult> CalcEma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         EmaUtilities.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<EmaResult> results = new(length);
 
         double lastEma = double.NaN;
@@ -21,12 +22,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new EmaResult(Timestamp: date));
+                results.Add(new EmaResult(Timestamp: s.Timestamp));
                 continue;
             }
 
@@ -38,8 +39,8 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    var ps = source[p];
+                    sum += ps.Value;
                 }
 
                 ema = sum / lookbackPeriods;
@@ -48,10 +49,13 @@ public static partial class Indicator
             // normal EMA
             else
             {
-                ema = EmaUtilities.Increment(k, lastEma, value);
+                ema = EmaUtilities.Increment(k, lastEma, s.Value);
             }
 
-            EmaResult r = new(Timestamp: date, Ema: ema.NaN2Null());
+            EmaResult r = new(
+                Timestamp: s.Timestamp,
+                Ema: ema.NaN2Null());
+
             results.Add(r);
 
             lastEma = ema;

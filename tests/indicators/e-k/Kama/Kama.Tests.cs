@@ -62,17 +62,6 @@ public class KamaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<KamaResult> r = tupleNanny
-            .GetKama()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<KamaResult> results = quotes

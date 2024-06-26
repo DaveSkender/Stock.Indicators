@@ -78,10 +78,6 @@ public abstract class SeriesTestBase : TestQuoteBase
     [TestMethod]
     public virtual void NoQuotes()
         => Assert.Inconclusive("Test not implemented");
-
-    [TestMethod]
-    public virtual void Equality()
-        => Assert.Inconclusive("Test not implemented");
 }
 
 /// <summary>

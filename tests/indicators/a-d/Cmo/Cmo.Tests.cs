@@ -41,17 +41,6 @@ public class CmoTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<CmoResult> r = tupleNanny
-            .GetCmo(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cmo is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<CmoResult> results = quotes

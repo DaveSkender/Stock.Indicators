@@ -4,32 +4,33 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<MacdResult> CalcMacd(
-        this List<(DateTime, double)> tpList,
+    internal static List<MacdResult> CalcMacd<T>(
+        this List<T> source,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = tpList.CalcEma(fastPeriods);
-        List<EmaResult> emaSlow = tpList.CalcEma(slowPeriods);
+        List<EmaResult> emaFast = source.CalcEma(fastPeriods);
+        List<EmaResult> emaSlow = source.CalcEma(slowPeriods);
 
-        int length = tpList.Count;
-        List<(DateTime, double)> emaDiff = [];
+        int length = source.Count;
+        List<Reusable> emaDiff = [];
         List<MacdResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            var s = source[i];
             EmaResult df = emaFast[i];
             EmaResult ds = emaSlow[i];
 
             MacdResult r = new() {
-                Timestamp = date,
+                Timestamp = s.Timestamp,
                 FastEma = df.Ema,
                 SlowEma = ds.Ema
             };
@@ -41,7 +42,7 @@ public static partial class Indicator
                 r.Macd = macd.NaN2Null();
 
                 // temp data for interim EMA of macd
-                (DateTime, double) diff = (date, macd);
+                var diff = new Reusable(s.Timestamp, macd);
 
                 emaDiff.Add(diff);
             }

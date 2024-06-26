@@ -5,10 +5,11 @@ namespace Skender.Stock.Indicators;
 public static class Correlation
 {
     // parameter validation
-    internal static void Validate(
-        List<(DateTime, double)> quotesA,
-        List<(DateTime, double)> quotesB,
+    internal static void Validate<T>(
+        List<T> sourceA,
+        List<T> sourceB,
         int lookbackPeriods)
+        where T : ISeries
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -18,10 +19,10 @@ public static class Correlation
         }
 
         // check quotes
-        if (quotesA.Count != quotesB.Count)
+        if (sourceA.Count != sourceB.Count)
         {
             throw new InvalidQuotesException(
-                nameof(quotesB),
+                nameof(sourceB),
                 "B quotes should have at least as many records as A quotes for Correlation.");
         }
     }

@@ -56,17 +56,6 @@ public class MacdTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<MacdResult> r = tupleNanny
-            .GetMacd()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Macd is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<MacdResult> results = quotes

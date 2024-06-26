@@ -54,17 +54,6 @@ public class Alma : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<AlmaResult> r = tupleNanny
-            .GetAlma()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<AlmaResult> results = quotes

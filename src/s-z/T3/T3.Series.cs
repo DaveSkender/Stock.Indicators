@@ -4,16 +4,17 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<T3Result> CalcT3(
-        this List<(DateTime, double)> tpList,
+    internal static List<T3Result> CalcT3<T>(
+        this List<T> source,
         int lookbackPeriods,
         double volumeFactor)
+        where T : IReusableResult
     {
         // check parameter arguments
         T3.Validate(lookbackPeriods, volumeFactor);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<T3Result> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
@@ -34,18 +35,18 @@ public static partial class Indicator
         // roll through remaining quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            T3Result r = new() { Timestamp = date };
+            var s = source[i];
+            T3Result r = new() { Timestamp = s.Timestamp };
             results.Add(r);
 
             // re/seed values
             if (double.IsNaN(e6))
             {
-                e1 = e2 = e3 = e4 = e5 = e6 = value;
+                e1 = e2 = e3 = e4 = e5 = e6 = s.Value;
             }
 
             // first smoothing
-            e1 += k * (value - e1);
+            e1 += k * (s.Value - e1);
             e2 += k * (e1 - e2);
             e3 += k * (e2 - e3);
             e4 += k * (e3 - e4);

@@ -1,17 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
-    : AbstractQuoteProvider<TOut>, IQuoteObserver<TIn>
-    where TIn : struct, IQuote, IReusableResult
-    where TOut : struct, IQuote, IReusableResult
+// TODO: unsure if used
+
+public abstract class AbstractQuoteInResultOut<TIn, TOut>
+    : AbstractResultProvider<TOut>, IQuoteObserver<TIn>
+    where TIn : struct, IQuote
+    where TOut : struct, IResult
 {
-    internal AbstractQuoteInQuoteOut(
+    internal AbstractQuoteInResultOut(
         IQuoteProvider<TIn> provider)
     {
         Provider = provider;
     }
 
-    // reminder: these are the observer members only
+    // reminder: these are the subscriber members only
 
     // PROPERTIES
 

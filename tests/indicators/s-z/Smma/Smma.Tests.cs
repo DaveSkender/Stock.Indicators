@@ -39,17 +39,6 @@ public class SmmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<SmmaResult> r = tupleNanny
-            .GetSmma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Smma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
         List<SmmaResult> results = quotes

@@ -15,8 +15,6 @@ public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
 
         LookbackPeriods = lookbackPeriods;
 
-        RebuildCache();
-
         // subscribe to chain provider
         Subscription = provider != null
            ? provider.Subscribe(this)

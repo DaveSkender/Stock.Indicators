@@ -9,17 +9,8 @@ public static partial class Indicator
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)
-        where T: IReusableResult
+        where T : IReusableResult
         => results
-            .ToTupleResult()
-            .CalcAlma(lookbackPeriods, offset, sigma);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<AlmaResult> GetAlma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods = 9,
-        double offset = 0.85,
-        double sigma = 6) => priceTuples
             .ToSortedList()
             .CalcAlma(lookbackPeriods, offset, sigma);
 }

@@ -61,4 +61,15 @@ public interface IStreamObserver
     /// be removed and recalculated.
     /// </param>
     void RebuildCache(DateTime fromTimestamp);
+
+    /// <summary>
+    /// Reset the entire results cache from a known point in time
+    /// and rebuild it from provider sources,
+    /// with cascading updates to subscribers.
+    /// </summary>
+    /// <param name="fromIndex">
+    /// All periods (inclusive) after this index position will
+    /// be removed and recalculated.
+    /// </param>
+    void RebuildCache(int fromIndex);
 }

@@ -5,21 +5,12 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IEnumerable<KamaResult> GetKama<T>(
-        this IEnumerable<T> results,
+        this IEnumerable<T> source,
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30)
-        where T: IReusableResult
-        => results
-            .ToTupleResult()
-            .CalcKama(erPeriods, fastPeriods, slowPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<KamaResult> GetKama(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int erPeriods = 10,
-        int fastPeriods = 2,
-        int slowPeriods = 30) => priceTuples
+        where T : IReusableResult
+        => source
             .ToSortedList()
             .CalcKama(erPeriods, fastPeriods, slowPeriods);
 }

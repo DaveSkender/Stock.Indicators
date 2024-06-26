@@ -16,16 +16,17 @@ public static class CustomIndicator
 {
     // SERIES, from CHAIN
     public static IEnumerable<MyResult> GetIndicator<T>(
-        this IEnumerable<T> results,
+        this IEnumerable<T> source,
         int lookbackPeriods)
         where T : IReusableResult
-        => results
-            .ToTupleChainable()
+        => source
+            .ToSortedCollection()
             .CalcIndicator(lookbackPeriods);
 
-    internal static List<MyResult> CalcIndicator(
-        this Collection<(DateTime, double)> tpList,
+    internal static List<MyResult> CalcIndicator<T>(
+        this Collection<T> source,
         int lookbackPeriods)
+        where T : IReusableResult
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -35,14 +36,14 @@ public static class CustomIndicator
         }
 
         // initialize
-        List<MyResult> results = new(tpList.Count);
+        List<MyResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            var s = source[i];
 
-            MyResult result = new() { Timestamp = date };
+            MyResult result = new() { Timestamp = s.Timestamp };
             results.Add(result);
 
             if (i >= lookbackPeriods - 1)
@@ -50,8 +51,8 @@ public static class CustomIndicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    var ps = source[p];
+                    sum += ps.Value;
                 }
 
                 result.Sma = (sum / lookbackPeriods).NaN2Null();
