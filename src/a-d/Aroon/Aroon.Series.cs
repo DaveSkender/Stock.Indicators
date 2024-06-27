@@ -18,9 +18,8 @@ public static partial class Indicator
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];
-
-            AroonResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? aroonUp = null;
+            double? aroonDown = null;
 
             // add aroons
             if (i + 1 > lookbackPeriods)
@@ -47,10 +46,18 @@ public static partial class Indicator
                     }
                 }
 
-                r.AroonUp = 100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
-                r.AroonDown = 100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
-                r.Oscillator = r.AroonUp - r.AroonDown;
+                aroonUp = 100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
+                aroonDown = 100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
             }
+
+            AroonResult r = new(
+                Timestamp: q.Timestamp,
+                AroonUp: aroonUp,
+                AroonDown: aroonDown,
+                Oscillator: aroonUp - aroonDown);
+
+            results.Add(r);
+
         }
 
         return results;

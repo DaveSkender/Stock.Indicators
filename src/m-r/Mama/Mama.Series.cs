@@ -7,7 +7,7 @@ public static partial class Indicator
         this List<T> tpList,
         double fastLimit,
         double slowLimit)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Mama.Validate(fastLimit, slowLimit);

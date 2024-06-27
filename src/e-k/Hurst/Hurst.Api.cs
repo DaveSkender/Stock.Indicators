@@ -7,7 +7,7 @@ public static partial class Indicator
     public static IEnumerable<HurstResult> GetHurst<T>(
         this IEnumerable<T> results,
         int lookbackPeriods = 100)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcHurst(lookbackPeriods);

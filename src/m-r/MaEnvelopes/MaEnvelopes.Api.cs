@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);

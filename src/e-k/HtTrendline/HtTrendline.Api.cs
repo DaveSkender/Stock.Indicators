@@ -27,7 +27,7 @@ public static partial class Indicator
     // SERIES, from CHAIN
     public static IEnumerable<HtlResult> GetHtTrendline<T>(
         this IEnumerable<T> results)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcHtTrendline();

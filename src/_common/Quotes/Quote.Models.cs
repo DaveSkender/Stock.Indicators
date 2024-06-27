@@ -4,6 +4,8 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Quote interface for standard OHLCV aggregate period.
+/// This is commonly known as a "bar" or "candle" and represents
+/// and asset price range over a specific time range, 
 /// <para>
 /// If implementing your own custom <c>TQuote:IQuote</c> type:
 /// </para>
@@ -12,12 +14,12 @@ namespace Skender.Stock.Indicators;
 /// to ensure chaining and streaming compatibility.
 /// To support chaining features, it has to have value-based
 /// equality <c><see cref="IEquatable{IQuote}"/></c> and implement
-/// the <c><see cref="IReusableResult"/>.Value</c> pointer to your
+/// the <c><see cref="IReusable"/>.Value</c> pointer to your
 /// <see cref="IQuote.Close"/> price.  For streaming, it also has
 /// to be a <see langword="struct"/> type.
 /// </para>
 /// <para>
-/// (B) For <see cref="IReusableResult"/> compliance,
+/// (B) For <see cref="IReusable"/> compliance,
 /// add the following <c>TQuote</c> property (pointer) to your
 /// <see cref="IQuote.Close"/> price.
 /// <code>
@@ -26,10 +28,10 @@ namespace Skender.Stock.Indicators;
 /// </para>
 /// <para>
 /// TIP: If you do not need customization,
-/// use our built-in <see cref="Quote"/> type.
+/// use the built-in <see cref="Quote"/> type.
 /// </para>
 /// </summary>
-public interface IQuote : IEquatable<IQuote>, IReusableResult
+public interface IQuote : IEquatable<IQuote>, IReusable
 {
     /// <summary>
     /// Aggregate bar's first tick price
@@ -91,9 +93,9 @@ public record struct Quote(
     decimal Low,
     decimal Close,
     decimal Volume)
-    : IQuote, IReusableResult
+    : IQuote, IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => (double)Close;
 
     // this is only an appropriate
@@ -112,8 +114,9 @@ internal record struct QuoteD(
     double High,
     double Low,
     double Close,
-    double Volume) : IReusableResult
+    double Volume)
+    : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Close;
 }

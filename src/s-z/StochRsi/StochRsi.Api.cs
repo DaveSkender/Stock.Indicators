@@ -10,7 +10,7 @@ public static partial class Indicator
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods = 1)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcStochRsi(

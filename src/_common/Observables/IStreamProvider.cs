@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// PROVIDER INTERFACES (OBSERVABLES)
+// STREAM OBSERVABLE INTERFACES (PROVIDERS)
 
 /// <summary>
 /// Quote provider interface (observable)
@@ -10,14 +10,14 @@ public interface IQuoteProvider<TQuote> : IStreamProvider<TQuote>
     where TQuote : struct, IQuote;
 
 /// <summary>
-/// Chainable result provider interface (observable)
+/// Chainable provider interface (observable)
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
 public interface IChainProvider<TResult> : IStreamProvider<TResult>
-    where TResult : struct, IReusableResult;
+    where TResult : struct, IReusable;
 
 /// <summary>
-/// Non-chainable result provider interface (observable)
+/// Non-chainable provider interface (observable)
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
 public interface IResultProvider<TResult> : IStreamProvider<TResult>

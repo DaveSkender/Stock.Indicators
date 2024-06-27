@@ -13,24 +13,9 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <summary>
     /// Default. Use internal cache.
     /// </summary>
-    internal AbstractCache()
+    protected AbstractCache()
     {
         Cache = [];
-    }
-
-    /// <summary>
-    /// Optional.  Use externally provided cache.
-    /// </summary>
-    /// <param name="externalCache"></param>
-    /// <remarks>
-    /// DO NOT USE.  This is for future consideration only,
-    /// to allow users to provide their own cache storage location.
-    /// </remarks>
-    internal AbstractCache(
-        List<TSeries> externalCache)
-    {
-        Cache = externalCache;
-        throw new NotImplementedException();
     }
 
     // PROPERTIES
@@ -76,16 +61,15 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <inheritdoc/>
     public void ClearCache(DateTime fromTimestamp)
     {
-        int s = Cache.FindIndex(fromTimestamp);  // start of range
+        // start of range
+        int s = Cache
+            .FindIndex(c => c.Timestamp >= fromTimestamp);
 
-        if (s == -1)
+        // something to do
+        if (s != -1)
         {
-            throw new InvalidOperationException(
-                "Cache clear starting target not found"
-              + " for provided timestamp.");
+            ClearCache(s);
         }
-
-        ClearCache(s);
     }
 
     /// <inheritdoc/>

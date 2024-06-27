@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct SlopeResult : IReusableResult
+public record struct SlopeResult : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double? Slope { get; set; }
@@ -9,6 +9,6 @@ public record struct SlopeResult : IReusableResult
     public double? RSquared { get; set; }
     public decimal? Line { get; set; } // last line segment only
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Slope.Null2NaN();
 }

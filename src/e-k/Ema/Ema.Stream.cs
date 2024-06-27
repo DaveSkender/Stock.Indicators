@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public class Ema<TIn>
     : AbstractChainInChainOut<TIn, EmaResult>, IEma
-    where TIn : struct, IReusableResult
+    where TIn : struct, IReusable
 {
     // constructor
     public Ema(
@@ -35,7 +35,7 @@ public class Ema<TIn>
         => $"EMA({LookbackPeriods})";
 
     // handle chain arrival
-    internal override void OnNextArrival(Act act, IReusableResult inbound)
+    internal override void OnNextArrival(Act act, IReusable inbound)
     {
         int i;
         double ema;
@@ -62,7 +62,7 @@ public class Ema<TIn>
             // normal
             else if (i >= LookbackPeriods - 1)
             {
-                IReusableResult last = Cache[i - 1];  // prior EMA
+                IReusable last = Cache[i - 1];  // prior EMA
 
                 // normal
                 if (!double.IsNaN(last.Value))

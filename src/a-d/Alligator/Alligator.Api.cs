@@ -15,7 +15,7 @@ public static partial class Indicator
     /// </para>
     /// </summary>
     /// <typeparam name="T">
-    /// <c>T</c> must be <see cref="IReusableResult"/> or <see cref="IQuote"/> type
+    /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type
     /// </typeparam>
     /// <param name="source">Time-series values to transform.</param>
     /// <param name="jawPeriods">Lookback periods for the Jaw line.</param>
@@ -36,7 +36,7 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where T : struct, IReusableResult
+        where T : struct, IReusable
         => source
             .ToSortedList()
             .CalcAlligator(
@@ -56,7 +56,7 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where TIn : struct, IReusableResult
+        where TIn : struct, IReusable
         => new(
             chainProvider,
             jawPeriods,

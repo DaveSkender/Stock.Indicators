@@ -6,8 +6,8 @@ public record struct AdxResult(
     double? Mdi = null,
     double? Adx = null,
     double? Adxr = null)
-: IReusableResult
+: IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Adx.Null2NaN();
 }

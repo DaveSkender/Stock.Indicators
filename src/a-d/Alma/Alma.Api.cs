@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcAlma(lookbackPeriods, offset, sigma);

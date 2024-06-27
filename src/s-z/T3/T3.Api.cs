@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> results,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcT3(lookbackPeriods, volumeFactor);

@@ -8,7 +8,7 @@ public static partial class Indicator
         this List<T> source,
         int fastPeriods,
         int slowPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Awesome.Validate(fastPeriods, slowPeriods);
@@ -24,10 +24,10 @@ public static partial class Indicator
             T s = source[i];
             pr[i] = s.Value;
 
-            AwesomeResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            double? oscillator = null;
+            double? normalized = null;
 
-            if (i + 1 >= slowPeriods)
+            if (i >= slowPeriods - 1)
             {
                 double sumSlow = 0;
                 double sumFast = 0;
@@ -42,9 +42,16 @@ public static partial class Indicator
                     }
                 }
 
-                r.Oscillator = ((sumFast / fastPeriods) - (sumSlow / slowPeriods)).NaN2Null();
-                r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
+                oscillator = ((sumFast / fastPeriods) - (sumSlow / slowPeriods)).NaN2Null();
+                normalized = (pr[i] != 0) ? 100 * oscillator / pr[i] : null;
             }
+
+            AwesomeResult r = new(
+                Timestamp: s.Timestamp,
+                Oscillator: oscillator,
+                Normalized: normalized);
+
+            results.Add(r);
         }
 
         return results;

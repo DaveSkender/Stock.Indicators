@@ -3,8 +3,8 @@ namespace Skender.Stock.Indicators;
 public record struct RsiResult(
     DateTime Timestamp,
     double? Rsi = null)
-     : IReusableResult
+     : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Rsi.Null2NaN();
 }

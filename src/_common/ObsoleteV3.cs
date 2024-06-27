@@ -86,17 +86,24 @@ public static partial class Indicator
     [Obsolete("Refactor to use `ToReusable()`", true)]
     public static Collection<(DateTime Timestamp, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
-        where TResult : IReusableResult
+        where TResult : IReusable
         => reusable
             .Select(x => (x.Timestamp, x.Value))
             .OrderBy(x => x.Timestamp)
             .ToCollection();
+
+
 }
 
 // v3.0.0
 [ExcludeFromCodeCoverage]
+[Obsolete("Rename `IReusableResult` to `IReusable`", true)]
+public interface IReusableResult : IReusable {}
+
+// v3.0.0
+[ExcludeFromCodeCoverage]
 [Obsolete("Rename `BasicData` to `BasicResult`", true)]
-public sealed class BasicData : IReusableResult
+public sealed class BasicData : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double Value { get; set; }

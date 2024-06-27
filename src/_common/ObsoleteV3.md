@@ -50,13 +50,49 @@ Items marked with &#128681; require special attention since they will not produc
 
 ### Common breaking changes
 
-- Quote type (built-in) was changed to `record struct` class type; and its `IQuote` interface `Date` property was widely renamed to `Timestamp`, to avoid a conflict with a C# reserved name.
+- `Quote` type (built-in) was changed to an _**immutable**_ `record struct` type; and its `IQuote` interface `Date` property was widely renamed to `Timestamp`, to avoid a conflict with a C# reserved name.  This will break your implementation if you were using `Quote` as an inherited base type.  To fix, define your custom `TQuote` type on the `IQuote` interface instead (example below).
 
-- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusableResult` and `IEquality<IQuote>` interfaces, to support chaining and streaming operations.  The best way to fix is to change your `TQuote` from a regular `class` to a `record struct`.  See [the Guide](/guide) for more information.
+- `IQuote` is now a reusable (chainable) type.  It auto-selects `Close` price as the _default_ consumed value.
+
+- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusable` and `IEquality<IQuote>` interfaces to support chaining and streaming operations.  The best way to fix is to change your `TQuote` from a regular `class` to a `record struct` and add a pointer map `IReusable.Value` to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
+
+  ```csharp
+  public record struct MyCustomQuote (
+
+      // `IQuote` properties
+      DateTime Timestamp,
+      decimal Open,
+      decimal High,
+      decimal Low,
+      decimal MyClose,  // custom
+      decimal Volume,
+
+      // custom properties
+      string? MyCustomProperty = default
+
+  ) : IQuote // base: IReusable, IEquality<IQuote>
+  {
+      // custom mapped properties
+      readonly decimal IQuote.Close
+        => MyClose;
+
+      // `IReusable` compliance
+      readonly double IReusable.Value
+        => (double)Close;
+
+      // Define value-based equality comparator.
+      // This implementation (below) is only
+      // appropriate for `record` types
+      public readonly bool Equals(IQuote? other)
+        => base.Equals(other);
+  }
+  ```
+
+- `IReusableResult` was renamed to `IReusable` since it is no longer limited to _result_ types.
 
 - &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.  This was done to improve internal chaining and streaming performance.
 
-- Indicator return types were changed from `sealed class` to `record struct` types.  This will only impact people migrating from v1 who were inheriting result classes; as these new types cannot be used as a base class (this was a v2 breaking change).
+- Indicator return types were changed from `sealed class` to an _**immutable**_ `record struct` types to improve internal chaining and streaming performance.  This will only impact people migrating from v1 who were using these as base classes.  Since v2, these new result types cannot be inherited.
 
 ### Less common breaking changes
 

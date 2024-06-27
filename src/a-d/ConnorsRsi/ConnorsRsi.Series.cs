@@ -9,7 +9,7 @@ public static partial class Indicator
         int rsiPeriods,
         int streakPeriods,
         int rankPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
@@ -48,7 +48,7 @@ public static partial class Indicator
         this List<T> source,
         int rsiPeriods,
         int rankPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // initialize
         List<RsiResult> rsiResults = CalcRsi(source, rsiPeriods);

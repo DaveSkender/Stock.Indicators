@@ -14,16 +14,16 @@ public interface IStreamCache<TSeries>
     IReadOnlyList<TSeries> Results { get; }
 
     /// <summary>
-    /// An error caused this provider to stop
-    /// and terminated all subscriptions. />.
+    /// An error caused this observer/observable handler
+    /// to stop and terminated all subscriptions. />.
     /// </summary>
-    bool IsFaulted { get; }
+    /// bool IsFaulted { get; }
 
     /// <summary>
     /// Get a segment (window) of cached values.
     /// </summary>
     /// <inheritdoc cref="List{T}.GetRange(int,int)"/>
-    IReadOnlyList<TSeries> GetRange(int index, int count);
+    IReadOnlyList<TSeries> GetRange(int index, int count);  // TODO: is this used?
 
     /// <summary>
     /// Finds the index position in the cache, of the provided timestamp
@@ -37,26 +37,35 @@ public interface IStreamCache<TSeries>
     /// without restore.  When applicable,
     /// it will cascade delete commands to subscribers.
     /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver.RebuildCache()"/>.
+    /// </remarks>
     void ClearCache();
 
     /// <summary>
-    /// Deletes newer cached time-series records from point in time,
+    /// Deletes newer cached records from point in time,
     /// without restore.  When applicable, it will cascade delete
     /// commands to subscribers.
     /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver.RebuildCache(DateTime)"/>.
+    /// </remarks>
     /// <param name="fromTimestamp">
     /// All periods (inclusive) after this DateTime will be removed.
     /// </param>
-    /// <exception cref="InvalidOperationException">
-    /// `fromTimestamp` not found in cache
-    /// </exception>
     void ClearCache(DateTime fromTimestamp);
 
     /// <summary>
-    /// Deletes all cache entries after `fromIndex` (inclusive),
+    /// Deletes newer cached records from an index position (inclusive),
     /// without restore.  When applicable, it will cascade delete
     /// commands to subscribers.
     /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver.RebuildCache(int)"/>.
+    /// </remarks>
     /// <param name="fromIndex">From index, inclusive</param>
     void ClearCache(int fromIndex);
 }

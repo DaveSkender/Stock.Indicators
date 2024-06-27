@@ -8,7 +8,7 @@ public static partial class Indicator
         this List<T> sourceA,
         List<T> sourceB,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Correlation.Validate(sourceA, sourceB, lookbackPeriods);

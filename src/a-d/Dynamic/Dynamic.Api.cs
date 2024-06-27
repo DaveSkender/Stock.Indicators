@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> results,
         int lookbackPeriods,
         double kFactor = 0.6)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcDynamic(lookbackPeriods, kFactor);

@@ -10,7 +10,7 @@ public static partial class Indicator
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);

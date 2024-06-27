@@ -8,7 +8,7 @@ public static partial class Indicator
     public static IEnumerable<SmaResult> GetSma<T>(
         this IEnumerable<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => source
             .ToSortedList()
             .CalcSma(lookbackPeriods);
@@ -17,7 +17,7 @@ public static partial class Indicator
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis<T>(
         this IEnumerable<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => source
             .ToSortedList()
             .CalcSmaAnalysis(lookbackPeriods);
@@ -26,6 +26,6 @@ public static partial class Indicator
     public static Sma<TIn> ToSma<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
-        where TIn : struct, IReusableResult
+        where TIn : struct, IReusable
         => new(chainProvider, lookbackPeriods);
 }

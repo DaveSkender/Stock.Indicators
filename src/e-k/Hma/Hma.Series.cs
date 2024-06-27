@@ -8,7 +8,7 @@ public static partial class Indicator
     internal static List<HmaResult> CalcHma<T>(
         this List<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Hma.Validate(lookbackPeriods);

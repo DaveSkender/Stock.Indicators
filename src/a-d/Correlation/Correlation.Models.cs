@@ -8,8 +8,8 @@ public record struct CorrResult
     double? Covariance = null,
     double? Correlation = null,
     double? RSquared = null
-) : IReusableResult
+) : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Correlation.Null2NaN();
 }

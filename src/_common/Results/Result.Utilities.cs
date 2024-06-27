@@ -11,7 +11,7 @@ public static partial class ResultUtility
     ///
     public static IEnumerable<TResult> Condense<TResult>(
         this IEnumerable<TResult> results)
-        where TResult : IReusableResult
+        where TResult : IReusable
     {
         List<TResult> resultsList = results
             .ToList();

@@ -7,7 +7,7 @@ public static partial class Indicator
     public static IEnumerable<RsiResult> GetRsi<T>(
         this IEnumerable<T> results,
         int lookbackPeriods = 14)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcRsi(lookbackPeriods);

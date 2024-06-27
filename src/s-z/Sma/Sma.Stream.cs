@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // SIMPLE MOVING AVERAGE (STREAMING)
 
 public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
-    where TIn : struct, IReusableResult
+    where TIn : struct, IReusable
 {
     // constructor
     public Sma(
@@ -32,7 +32,7 @@ public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
         => $"SMA({LookbackPeriods})";
 
     // handle chain arrival
-    internal override void OnNextArrival(Act act, IReusableResult inbound)
+    internal override void OnNextArrival(Act act, IReusable inbound)
     {
         int i;
         double sma;

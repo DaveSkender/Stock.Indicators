@@ -6,9 +6,9 @@ public record struct AdlResult
     double Adl,
     double? MoneyFlowMultiplier = null,
     double? MoneyFlowVolume = null)
-    : IReusableResult
+    : IReusable
 {
-    readonly double IReusableResult.Value => Adl;
+    readonly double IReusable.Value => Adl;
 }
 
 public interface IAdl : IStreamObserver

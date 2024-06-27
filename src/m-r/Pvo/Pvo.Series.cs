@@ -9,7 +9,7 @@ public static partial class Indicator
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Pvo.Validate(fastPeriods, slowPeriods, signalPeriods);

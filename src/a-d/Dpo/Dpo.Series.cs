@@ -8,7 +8,7 @@ public static partial class Indicator
     internal static List<DpoResult> CalcDpo<T>(
         this List<T> tpList,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Dpo.Validate(lookbackPeriods);

@@ -7,7 +7,7 @@ public static partial class Indicator
     public static IEnumerable<FisherTransformResult> GetFisherTransform<T>(
         this IEnumerable<T> results,
         int lookbackPeriods = 10)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcFisherTransform(lookbackPeriods);

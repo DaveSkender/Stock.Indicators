@@ -8,7 +8,7 @@ public static partial class Indicator
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         RocWb.Validate(lookbackPeriods, emaPeriods, stdDevPeriods);
@@ -20,9 +20,9 @@ public static partial class Indicator
         double k = 2d / (emaPeriods + 1);
         double prevEma = double.NaN;
 
-        List<IReusableResult> ogRoc = source
+        List<IReusable> ogRoc = source
             .CalcRoc(lookbackPeriods)
-            .Cast<IReusableResult>()
+            .Cast<IReusable>()
             .ToSortedList();
 
         double[] rocSq = ogRoc
@@ -34,7 +34,7 @@ public static partial class Indicator
         // roll through results
         for (int i = 0; i < length; i++)
         {
-            IReusableResult roc = ogRoc[i];
+            IReusable roc = ogRoc[i];
             RocWbResult r = new() {
                 Timestamp = roc.Timestamp,
                 Roc = roc.Value.NaN2Null()

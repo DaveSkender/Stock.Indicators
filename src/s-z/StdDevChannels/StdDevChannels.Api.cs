@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> results,
         int? lookbackPeriods = 20,
         double stdDeviations = 2)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcStdDevChannels(lookbackPeriods, stdDeviations);

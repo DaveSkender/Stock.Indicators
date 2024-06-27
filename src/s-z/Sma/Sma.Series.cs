@@ -10,7 +10,7 @@ public static partial class Indicator
     internal static List<SmaResult> CalcSma<T>(
         this List<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         SmaUtilities.Validate(lookbackPeriods);

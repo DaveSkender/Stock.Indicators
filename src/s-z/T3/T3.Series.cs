@@ -8,7 +8,7 @@ public static partial class Indicator
         this List<T> source,
         int lookbackPeriods,
         double volumeFactor)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         T3.Validate(lookbackPeriods, volumeFactor);

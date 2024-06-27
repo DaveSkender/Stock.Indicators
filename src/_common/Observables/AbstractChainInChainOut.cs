@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 public abstract class AbstractChainInChainOut<TIn, TOut>
     : AbstractChainProvider<TOut>, IChainObserver<TIn>
-    where TIn : struct, IReusableResult
-    where TOut : struct, IReusableResult
+    where TIn : struct, IReusable
+    where TOut : struct, IReusable
 {
     internal AbstractChainInChainOut(
         IChainProvider<TIn> provider)
@@ -29,7 +29,7 @@ public abstract class AbstractChainInChainOut<TIn, TOut>
     public void OnNext((Act, TIn) value)
         => OnNextArrival(value.Item1, value.Item2);
 
-    internal abstract void OnNextArrival(Act act, IReusableResult inbound);
+    internal abstract void OnNextArrival(Act act, IReusable inbound);
 
     public void OnError(Exception error) => throw error;
 
@@ -37,20 +37,13 @@ public abstract class AbstractChainInChainOut<TIn, TOut>
 
     public void Unsubscribe() => Subscription?.Dispose();
 
-    // clear and resubscribe
-    public void Reinitialize(bool withRebuild = true)
+    // restart subscription
+    public void Reinitialize()
     {
         Unsubscribe();
-        Subscription = Provider.Subscribe(this);
+        ClearCache();
 
-        if (withRebuild)
-        {
-            RebuildCache();
-        }
-        else
-        {
-            ClearCache();
-        }
+        Subscription = Provider.Subscribe(this);
     }
 
     // rebuild cache

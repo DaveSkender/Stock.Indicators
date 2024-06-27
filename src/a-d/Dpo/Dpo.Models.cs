@@ -4,8 +4,8 @@ public record struct DpoResult(
     DateTime Timestamp,
     double? Dpo = null,
     double? Sma = null)
-    : IReusableResult
+    : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Dpo.Null2NaN();
 }

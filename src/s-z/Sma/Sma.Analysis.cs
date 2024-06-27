@@ -6,7 +6,7 @@ public static partial class Indicator
     internal static IEnumerable<SmaAnalysis> CalcSmaAnalysis<T>(
         this List<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // initialize
         List<SmaAnalysis> results = source

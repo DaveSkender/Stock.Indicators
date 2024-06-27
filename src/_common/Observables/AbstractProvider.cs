@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public abstract class AbstractQuoteProvider<TQuote>
     : AbstractProvider<TQuote>, IQuoteProvider<TQuote>, IChainProvider<TQuote>
-    where TQuote : struct, IQuote, IReusableResult
+    where TQuote : struct, IQuote, IReusable
 {
     // string label
     public override string ToString()
@@ -20,7 +20,7 @@ public abstract class AbstractQuoteProvider<TQuote>
 /// </summary>
 public abstract class AbstractChainProvider<TReusableResult>
     : AbstractProvider<TReusableResult>, IChainProvider<TReusableResult>
-    where TReusableResult : struct, IReusableResult;
+    where TReusableResult : struct, IReusable;
 
 /// <summary>
 /// Non-chainable result provider (abstract base)

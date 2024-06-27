@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public abstract class AbstractQuoteInChainOut<TIn, TOut>
     : AbstractChainProvider<TOut>, IQuoteObserver<TIn>
     where TIn : struct, IQuote
-    where TOut : struct, IReusableResult
+    where TOut : struct, IReusable
 {
     internal AbstractQuoteInChainOut(
         IQuoteProvider<TIn> provider)
@@ -37,20 +37,13 @@ public abstract class AbstractQuoteInChainOut<TIn, TOut>
 
     public void Unsubscribe() => Subscription?.Dispose();
 
-    // clear and resubscribe
-    public void Reinitialize(bool withRebuild = true)
+    // restart subscription
+    public void Reinitialize()
     {
         Unsubscribe();
-        Subscription = Provider.Subscribe(this);
+        ClearCache();
 
-        if (withRebuild)
-        {
-            RebuildCache();
-        }
-        else
-        {
-            ClearCache();
-        }
+        Subscription = Provider.Subscribe(this);
     }
 
     // rebuild cache

@@ -8,7 +8,7 @@ public static partial class Indicator
         List<T> listEval,
         List<T> listBase,
         int? lookbackPeriods = null)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Prs.Validate(listEval, listBase, lookbackPeriods);

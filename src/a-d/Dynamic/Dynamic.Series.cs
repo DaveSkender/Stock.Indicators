@@ -8,7 +8,7 @@ public static partial class Indicator
         this List<T> source,
         int lookbackPeriods,
         double kFactor)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         MgDynamic.Validate(lookbackPeriods, kFactor);

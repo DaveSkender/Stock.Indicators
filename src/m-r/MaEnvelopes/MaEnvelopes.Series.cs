@@ -10,7 +10,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double percentOffset,
         MaType movingAverageType)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         // note: most validations are done in variant methods
@@ -44,7 +44,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetAlma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -57,7 +57,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -70,7 +70,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList
         .GetEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
@@ -84,7 +84,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -97,7 +97,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -110,7 +110,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetSma<T>(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -123,7 +123,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -136,7 +136,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,
@@ -149,7 +149,7 @@ public static partial class Indicator
         this List<T> tpList,
         int lookbackPeriods,
         double offsetRatio)
-        where T : IReusableResult
+        where T : IReusable
         => tpList.GetWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult {
             Timestamp = x.Timestamp,

@@ -9,7 +9,7 @@ public static partial class Indicator
         int cyclePeriods,
         int fastPeriods,
         int slowPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Stc.Validate(cyclePeriods, fastPeriods, slowPeriods);

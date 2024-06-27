@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // USE (STREAMING)
 
 public class Use<TQuote>
-    : AbstractQuoteInChainOut<TQuote, Reusable>, IUse
+    : AbstractQuoteInChainOut<TQuote, Reusable>, IUse<TQuote>
     where TQuote : struct, IQuote
 {
     // constructor

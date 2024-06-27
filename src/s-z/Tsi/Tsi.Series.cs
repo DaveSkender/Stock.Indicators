@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods,
         int smoothPeriods,
         int signalPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Tsi.Validate(lookbackPeriods, smoothPeriods, signalPeriods);

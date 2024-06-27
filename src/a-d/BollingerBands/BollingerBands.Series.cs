@@ -8,7 +8,7 @@ public static partial class Indicator
         this List<T> source,
         int lookbackPeriods,
         double standardDeviations)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         BollingerBands.Validate(lookbackPeriods, standardDeviations);

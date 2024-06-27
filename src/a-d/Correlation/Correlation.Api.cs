@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> sourceA,
         IEnumerable<T> sourceB,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => CalcCorrelation(
             sourceA.ToSortedList(),
             sourceB.ToSortedList(),

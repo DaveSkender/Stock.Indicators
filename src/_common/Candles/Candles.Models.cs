@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
-public record struct CandleProperties : IQuote, IReusableResult
+public record struct CandleProperties : IQuote, IReusable
 {
     // base quote properties
     public DateTime Timestamp { get; set; }
@@ -12,7 +12,7 @@ public record struct CandleProperties : IQuote, IReusableResult
     public decimal Close { get; set; }
     public decimal Volume { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => (double)Close;
 
     // raw sizes

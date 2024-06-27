@@ -12,7 +12,7 @@ public static partial class Indicator
         int teethOffset,
         int lipsPeriods,
         int lipsOffset)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Alligator.Validate(
@@ -24,17 +24,17 @@ public static partial class Indicator
             lipsOffset);
 
         // use standard HL2 if quote source (override Close)
-        List<IReusableResult> feed
+        List<IReusable> feed
             = typeof(IQuote).IsAssignableFrom(typeof(T))
 
             ? source
              .Cast<IQuote>()
              .Use(CandlePart.HL2)
-             .Cast<IReusableResult>()
+             .Cast<IReusable>()
              .ToSortedList()
 
             : source
-             .Cast<IReusableResult>()
+             .Cast<IReusable>()
              .ToSortedList();
 
         // initialize

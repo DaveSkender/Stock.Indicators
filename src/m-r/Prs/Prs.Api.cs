@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> quotesEval,
         IEnumerable<T> quotesBase,
         int? lookbackPeriods = null)
-        where T : IReusableResult
+        where T : IReusable
         => CalcPrs(
             quotesEval.ToSortedList(),
             quotesBase.ToSortedList(),

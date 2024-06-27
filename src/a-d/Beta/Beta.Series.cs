@@ -10,7 +10,7 @@ public static partial class Indicator
         List<T> sourceMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);

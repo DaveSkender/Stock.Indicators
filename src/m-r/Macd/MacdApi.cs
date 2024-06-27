@@ -9,7 +9,7 @@ public static partial class Indicator
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcMacd(fastPeriods, slowPeriods, signalPeriods);

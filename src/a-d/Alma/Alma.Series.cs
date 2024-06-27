@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offset,
         double sigma)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Alma.Validate(lookbackPeriods, offset, sigma);

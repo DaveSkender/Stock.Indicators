@@ -9,7 +9,7 @@ public static partial class Indicator
         int erPeriods,
         int fastPeriods,
         int slowPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Kama.Validate(erPeriods, fastPeriods, slowPeriods);

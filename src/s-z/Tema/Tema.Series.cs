@@ -8,7 +8,7 @@ public static partial class Indicator
     internal static List<TemaResult> CalcTema<T>(
         this List<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Tema.Validate(lookbackPeriods);

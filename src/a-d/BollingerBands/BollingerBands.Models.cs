@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct BollingerBandsResult : IReusableResult
+public record struct BollingerBandsResult : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double? Sma { get; set; }
@@ -11,6 +11,6 @@ public record struct BollingerBandsResult : IReusableResult
     public double? ZScore { get; set; }
     public double? Width { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => PercentB.Null2NaN();
 }

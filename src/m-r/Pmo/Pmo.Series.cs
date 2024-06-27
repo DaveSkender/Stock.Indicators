@@ -9,7 +9,7 @@ public static partial class Indicator
         int timePeriods,
         int smoothPeriods,
         int signalPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Pmo.Validate(timePeriods, smoothPeriods, signalPeriods);

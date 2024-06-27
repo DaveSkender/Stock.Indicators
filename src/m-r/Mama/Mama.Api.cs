@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> results,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcMama(fastLimit, slowLimit);

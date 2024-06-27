@@ -7,7 +7,7 @@ public static partial class Indicator
     public static IEnumerable<CmoResult> GetCmo<T>(
         this IEnumerable<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => source
             .ToSortedList()
             .CalcCmo(lookbackPeriods);

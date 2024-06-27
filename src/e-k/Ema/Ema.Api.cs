@@ -8,7 +8,7 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcEma(lookbackPeriods);
@@ -17,6 +17,6 @@ public static partial class Indicator
     public static Ema<TIn> ToEma<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
-        where TIn : struct, IReusableResult
+        where TIn : struct, IReusable
         => new(chainProvider, lookbackPeriods);
 }

@@ -8,7 +8,7 @@ public static partial class Indicator
         this List<T> source,
         int? lookbackPeriods,
         double stdDeviations)
-        where T : IReusableResult
+        where T : IReusable
     {
         // assume whole quotes when lookback is null
         lookbackPeriods ??= source.Count;

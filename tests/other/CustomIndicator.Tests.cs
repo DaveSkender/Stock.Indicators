@@ -3,12 +3,12 @@ using System.Globalization;
 
 namespace Tests.CustomIndicators;
 
-public record struct MyResult : IReusableResult
+public record struct MyResult : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double? Sma { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Sma.Null2NaN();
 }
 
@@ -18,7 +18,7 @@ public static class CustomIndicator
     public static IEnumerable<MyResult> GetIndicator<T>(
         this IEnumerable<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => source
             .ToSortedCollection()
             .CalcIndicator(lookbackPeriods);
@@ -26,7 +26,7 @@ public static class CustomIndicator
     internal static List<MyResult> CalcIndicator<T>(
         this Collection<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)

@@ -1,11 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public record struct Reusable(
-    DateTime Timestamp,
-    double Value
-) : IReusableResult;
+// note: Use() uses the Reusable result record type
 
-public interface IUse : IStreamObserver
+public interface IUse<TQuote> : IQuoteObserver<TQuote>
+    where TQuote : struct, IQuote
 {
     CandlePart CandlePartSelection { get; }
 }

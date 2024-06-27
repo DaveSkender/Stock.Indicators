@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 public record struct SmaResult(
     DateTime Timestamp,
     double? Sma = null)
-     : IReusableResult
+     : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Sma.Null2NaN();
 }
 
@@ -23,9 +23,9 @@ public record struct SmaAnalysis(
     double? Mad,
     double? Mse,
     double? Mape)
-    : IReusableResult
+    : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Sma.Null2NaN();
 }
 

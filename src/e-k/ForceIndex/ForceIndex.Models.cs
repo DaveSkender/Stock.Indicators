@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public record struct ForceIndexResult : IReusableResult
+public record struct ForceIndexResult : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double? ForceIndex { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => ForceIndex.Null2NaN();
 }

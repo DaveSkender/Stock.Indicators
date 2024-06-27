@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 public record struct EmaResult(
     DateTime Timestamp,
     double? Ema = null)
-    : IReusableResult
+    : IReusable
 {
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Ema.Null2NaN();
 }
 

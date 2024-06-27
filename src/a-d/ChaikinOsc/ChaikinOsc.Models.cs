@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct ChaikinOscResult : IReusableResult
+public record struct ChaikinOscResult : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double? MoneyFlowMultiplier { get; set; }
@@ -8,6 +8,6 @@ public record struct ChaikinOscResult : IReusableResult
     public double? Adl { get; set; }
     public double? Oscillator { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => Oscillator.Null2NaN();
 }

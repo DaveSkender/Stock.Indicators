@@ -7,7 +7,7 @@ public static partial class Indicator
     internal static List<RsiResult> CalcRsi<T>(
         this List<T> source,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
     {
         // check parameter arguments
         Rsi.Validate(lookbackPeriods);

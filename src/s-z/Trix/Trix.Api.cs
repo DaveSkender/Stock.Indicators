@@ -7,7 +7,7 @@ public static partial class Indicator
     public static IEnumerable<TrixResult> GetTrix<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcTrix(lookbackPeriods);

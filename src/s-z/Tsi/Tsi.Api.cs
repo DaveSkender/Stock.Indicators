@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods = 25,
         int smoothPeriods = 13,
         int signalPeriods = 7)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcTsi(lookbackPeriods, smoothPeriods, signalPeriods);

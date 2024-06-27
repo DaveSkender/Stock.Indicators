@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public class Alligator<TIn>
     : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
-    where TIn : struct, IReusableResult
+    where TIn : struct, IReusable
 {
     // constructor
     public Alligator(
@@ -52,7 +52,7 @@ public class Alligator<TIn>
         => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 
     // handle chain arrival
-    internal override void OnNextArrival(Act act, IReusableResult inbound)
+    internal override void OnNextArrival(Act act, IReusable inbound)
     {
         int i;
         double jaw = double.NaN;

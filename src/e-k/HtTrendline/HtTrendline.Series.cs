@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     internal static List<HtlResult> CalcHtTrendline<T>(
         this List<T> source)
-        where T : IReusableResult
+        where T : IReusable
     {
         // initialize
         int length = source.Count;

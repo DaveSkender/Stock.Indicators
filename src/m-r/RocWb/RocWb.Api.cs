@@ -9,7 +9,7 @@ public static partial class Indicator
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);

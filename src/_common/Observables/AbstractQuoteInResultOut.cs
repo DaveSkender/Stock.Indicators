@@ -39,20 +39,13 @@ public abstract class AbstractQuoteInResultOut<TIn, TOut>
 
     public void Unsubscribe() => Subscription?.Dispose();
 
-    // clear and resubscribe
-    public void Reinitialize(bool withRebuild = true)
+    // restart subscription
+    public void Reinitialize()
     {
         Unsubscribe();
-        Subscription = Provider.Subscribe(this);
+        ClearCache();
 
-        if (withRebuild)
-        {
-            RebuildCache();
-        }
-        else
-        {
-            ClearCache();
-        }
+        Subscription = Provider.Subscribe(this);
     }
 
     // rebuild cache

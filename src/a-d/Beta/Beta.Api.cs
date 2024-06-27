@@ -9,7 +9,7 @@ public static partial class Indicator
         IEnumerable<T> mrktSource,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
-        where T : IReusableResult
+        where T : IReusable
     {
         List<T> listEval
             = evalSource.ToSortedList();

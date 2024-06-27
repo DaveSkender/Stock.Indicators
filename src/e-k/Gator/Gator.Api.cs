@@ -21,7 +21,7 @@ public static partial class Indicator
     // See Alligator API for explanation of unusual setup.
     public static IEnumerable<GatorResult> GetGator<T>(
         this IEnumerable<T> source)
-        where T : struct, IReusableResult
+        where T : struct, IReusable
         => source
             .GetAlligator()
             .ToList()

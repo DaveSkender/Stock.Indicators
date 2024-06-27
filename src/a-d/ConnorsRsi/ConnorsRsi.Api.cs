@@ -9,7 +9,7 @@ public static partial class Indicator
         int rsiPeriods = 3,
         int streakPeriods = 2,
         int rankPeriods = 100)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);

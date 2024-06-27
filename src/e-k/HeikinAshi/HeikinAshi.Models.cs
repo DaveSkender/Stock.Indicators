@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct HeikinAshiResult : IReusableResult, IQuote
+public record struct HeikinAshiResult : IReusable, IQuote
 {
     public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
@@ -9,7 +9,7 @@ public record struct HeikinAshiResult : IReusableResult, IQuote
     public decimal Close { get; set; }
     public decimal Volume { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => (double)Close;
 
     // this is only an appropriate

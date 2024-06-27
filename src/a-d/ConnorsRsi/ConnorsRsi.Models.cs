@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct ConnorsRsiResult : IReusableResult
+public record struct ConnorsRsiResult : IReusable
 {
     public DateTime Timestamp { get; set; }
     public double? Rsi { get; set; }
@@ -11,6 +11,6 @@ public record struct ConnorsRsiResult : IReusableResult
     // internal use only
     internal double Streak { get; set; }
 
-    readonly double IReusableResult.Value
+    readonly double IReusable.Value
         => ConnorsRsi.Null2NaN();
 }

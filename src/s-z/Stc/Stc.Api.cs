@@ -9,7 +9,7 @@ public static partial class Indicator
         int cyclePeriods = 10,
         int fastPeriods = 23,
         int slowPeriods = 50)
-        where T : IReusableResult
+        where T : IReusable
         => results
             .ToSortedList()
             .CalcStc(cyclePeriods, fastPeriods, slowPeriods);
