@@ -1,8 +1,5 @@
-using Tests.Performance.Config;
-
 namespace Tests.Performance;
 
-[Config(typeof(AntiVirusFriendlyConfig))]
 public class IndicatorStaticTests
 {
     private static IEnumerable<Quote> q;
@@ -119,7 +116,7 @@ public class IndicatorStaticTests
     public object GetElderRay() => q.GetElderRay();
 
     [Benchmark]
-    public void GetEma() => q.GetEma(14);
+    public object GetEma() => q.GetEma(14);
 
     [Benchmark]
     public object GetEpma() => q.GetEpma(14);
@@ -224,7 +221,7 @@ public class IndicatorStaticTests
     public object GetSlope() => q.GetSlope(20);
 
     [Benchmark]
-    public void GetSma() => q.GetSma(10);
+    public object GetSma() => q.GetSma(10);
 
     [Benchmark]
     public object GetSmaAnalysis() => q.GetSmaAnalysis(10);
