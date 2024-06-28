@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteUtilityTests : TestQuoteBase
+public class QuoteUtilityTests : TestBase
 {
     [TestMethod]
     public void QuoteToSortedCollection()

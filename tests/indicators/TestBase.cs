@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 namespace Tests.Common;
 
 [TestClass]
-public abstract class TestQuoteBase
+public abstract class TestBase
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);
 
@@ -28,7 +28,7 @@ public abstract class TestQuoteBase
     internal static IEnumerable<Quote> zeroesQuotes = [];
     internal static IEnumerable<(DateTime, double)> tupleNanny = [];
 
-    internal TestQuoteBase()
+    internal TestBase()
     {
         try
         {
@@ -60,7 +60,7 @@ public abstract class TestQuoteBase
 /// You'll get a placeholder result where not implemented.
 /// </summary>
 [TestClass]
-public abstract class SeriesTestBase : TestQuoteBase
+public abstract class SeriesTestBase : TestBase
 {
     internal readonly DateTime evalDate
         = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
@@ -85,15 +85,10 @@ public abstract class SeriesTestBase : TestQuoteBase
 /// You'll get a placeholder result where not implemented.
 /// </summary>
 [TestClass]
-public abstract class StreamTestBase : TestQuoteBase
+public abstract class StreamTestBase : TestBase
 {
     [TestMethod]
-    public virtual void QuoteObserver()
-        => Assert.Inconclusive("Test not implemented");
-
-    [TestMethod]
-    public virtual void Duplicates()
-        => Assert.Inconclusive("Test not implemented");
+    public abstract void QuoteObserver();
 }
 
 /// <summary>
@@ -103,7 +98,7 @@ public abstract class StreamTestBase : TestQuoteBase
 public interface ITestChainObserver
 {
     [TestMethod]
-    void Chainee();
+    void ChainObserver();
 }
 
 /// <summary>
@@ -113,5 +108,5 @@ public interface ITestChainObserver
 public interface ITestChainProvider
 {
     [TestMethod]
-    void Chainor();
+    void ChainProvider();
 }

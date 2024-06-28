@@ -6,7 +6,8 @@ public class Ema<TIn>
     : AbstractChainInChainOut<TIn, EmaResult>, IEma
     where TIn : struct, IReusable
 {
-    // constructor
+    #region CONSTRUCTORS
+
     public Ema(
         IChainProvider<TIn> provider,
         int lookbackPeriods)
@@ -22,20 +23,22 @@ public class Ema<TIn>
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
+    #endregion
 
-    // PROPERTIES
+    # region PROPERTIES
 
     public int LookbackPeriods { get; private set; }
     public double K { get; private set; }
+    #endregion
 
-    // METHODS
+    # region METHODS
 
     // string label
     public override string ToString()
         => $"EMA({LookbackPeriods})";
 
     // handle chain arrival
-    internal override void OnNextArrival(Act act, IReusable inbound)
+    protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
         double ema;
@@ -110,4 +113,5 @@ public class Ema<TIn>
             OnNextArrival(Act.Update, value);
         }
     }
+    #endregion
 }

@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
+public class AlligatorTests : StreamTestBase, ITestChainObserver
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -74,7 +74,7 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void Chainee()
+    public void ChainObserver()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();

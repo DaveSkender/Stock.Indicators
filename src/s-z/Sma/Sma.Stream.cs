@@ -5,7 +5,8 @@ namespace Skender.Stock.Indicators;
 public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
     where TIn : struct, IReusable
 {
-    // constructor
+    #region CONSTRUCTORS
+
     public Sma(
         IChainProvider<TIn> provider,
         int lookbackPeriods)
@@ -20,19 +21,21 @@ public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
+    #endregion
 
-    // PROPERTIES
+    # region PROPERTIES
 
     public int LookbackPeriods { get; private set; }
+    #endregion
 
-    // METHODS
+    # region METHODS
 
     // string label
     public override string ToString()
         => $"SMA({LookbackPeriods})";
 
     // handle chain arrival
-    internal override void OnNextArrival(Act act, IReusable inbound)
+    protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
         double sma;
@@ -95,4 +98,5 @@ public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
             OnNextArrival(Act.Update, value);
         }
     }
+    #endregion
 }

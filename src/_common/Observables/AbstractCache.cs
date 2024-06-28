@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     where TSeries : struct, ISeries
 {
-    // CONSTRUCTORS
+    #region CONSTRUCTORS
 
     /// <summary>
     /// Default. Use internal cache.
@@ -17,31 +17,35 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     {
         Cache = [];
     }
+    #endregion
 
-    // PROPERTIES
+    # region PROPERTIES
 
     public IReadOnlyList<TSeries> Results => Cache;
 
-    public bool IsFaulted { get; internal set; }
+    public bool IsFaulted { get; private set; }
 
     internal List<TSeries> Cache { get; private set; }
 
     private TSeries LastArrival { get; set; } = new();
 
     private int OverflowCount { get; set; }
+    #endregion
 
-
-    // METHODS
-
-    // get a segment of the cache
-    /// <inheritdoc/>
-    public IReadOnlyList<TSeries> GetRange(int index, int count)
-        => Cache.GetRange(index, count);
+    #region METHODS (UTILITIES)
 
     // get the cache index based on a timestamp
     /// <inheritdoc/>
     public int FindIndex(DateTime timeStamp)
         => Cache.FindIndex(x => x.Timestamp == timeStamp);
+
+    // get a segment of the cache
+    /// <inheritdoc/>
+    public IReadOnlyList<TSeries> GetRange(int index, int count)
+        => Cache.GetRange(index, count);
+    #endregion
+
+    #region METHODS (CLEAR CACHE)
 
     // clear entire cache without restore
     /// <inheritdoc/>
@@ -87,6 +91,9 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <param name="toIndex">Last element to delete</param>
     protected abstract void ClearCache(
         int fromIndex, int? toIndex = null);
+    #endregion
+
+    #region METHODS (CACHE MANAGEMENT)
 
     /// <summary>
     /// Analyze new arrival to determine caching instruction;
@@ -100,13 +107,6 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <exception cref="OverflowException"></exception>
     protected Act CacheWithAnalysis(TSeries item)
     {
-        // Currently, only inbound Quote is accepted as an
-        // external chain entry point and is the only type
-        // using this method.   -- DS 12/4/2023
-
-        // TODO: consider moving analysis to QuoteProvider,
-        // if it's the only user.
-
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
         {
@@ -352,4 +352,5 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
 
         return act;
     }
+    #endregion
 }

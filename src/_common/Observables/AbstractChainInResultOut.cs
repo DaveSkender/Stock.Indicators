@@ -5,37 +5,43 @@ public abstract class AbstractChainInResultOut<TIn, TOut>
     where TIn : struct, IReusable
     where TOut : struct, IResult
 {
+    // observer members only
+
+    #region CONSTRUCTORS
+
     internal AbstractChainInResultOut(
         IChainProvider<TIn> provider)
     {
         Provider = provider;
     }
+    #endregion
 
-    // reminder: these are the subscriber members only
+    #region PROPERTIES
 
-    // PROPERTIES
-
-    public IChainProvider<TIn> Provider { get; internal set; }
+    public IChainProvider<TIn> Provider { get; private set; }
 
     public bool IsSubscribed => Subscription is not null;
 
-    internal IDisposable? Subscription;
+    protected IDisposable? Subscription { get; set; }
 
     protected IReadOnlyList<TIn> ProviderCache => Provider.Results;
+    #endregion
 
-
-    // METHODS
+    # region METHODS (OBSERVER)
 
     public void OnNext((Act, TIn) value)
         => OnNextArrival(value.Item1, value.Item2);
 
-    internal abstract void OnNextArrival(Act act, IReusable inbound);
+    protected abstract void OnNextArrival(Act act, TIn inbound);
 
     public void OnError(Exception error) => throw error;
 
     public void OnCompleted() => Unsubscribe();
 
     public void Unsubscribe() => Subscription?.Dispose();
+    #endregion
+
+    #region METHODS (UTILITIES)
 
     // restart subscription
     public void Reinitialize()
@@ -73,4 +79,5 @@ public abstract class AbstractChainInResultOut<TIn, TOut>
         ClearCache(fromIndex, toIndex);
         Provider.Resend(this, fromIndex, toIndex);
     }
+    #endregion
 }

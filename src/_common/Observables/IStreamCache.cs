@@ -17,13 +17,7 @@ public interface IStreamCache<TSeries>
     /// An error caused this observer/observable handler
     /// to stop and terminated all subscriptions. />.
     /// </summary>
-    /// bool IsFaulted { get; }
-
-    /// <summary>
-    /// Get a segment (window) of cached values.
-    /// </summary>
-    /// <inheritdoc cref="List{T}.GetRange(int,int)"/>
-    IReadOnlyList<TSeries> GetRange(int index, int count);  // TODO: is this used?
+    bool IsFaulted { get; }
 
     /// <summary>
     /// Finds the index position in the cache, of the provided timestamp
@@ -31,6 +25,12 @@ public interface IStreamCache<TSeries>
     /// <param name="timeStamp"></param>
     /// <returns>Index value or -1 when not found</returns>
     int FindIndex(DateTime timeStamp);
+
+    /// <summary>
+    /// Get a segment (window) of cached values.
+    /// </summary>
+    /// <inheritdoc cref="List{T}.GetRange(int,int)"/>
+    IReadOnlyList<TSeries> GetRange(int index, int count);  // TODO: is this used?
 
     /// <summary>
     /// Deletes all cached time-series records,

@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class SmaExtendedTests : SeriesTestBase
+public class SmaAnalysisTests : SeriesTestBase
 {
     [TestMethod]
     public void Analysis()

@@ -96,7 +96,6 @@ public static partial class Indicator
 }
 
 // v3.0.0
-[ExcludeFromCodeCoverage]
 [Obsolete("Rename `IReusableResult` to `IReusable`", true)]
 public interface IReusableResult : IReusable {}
 

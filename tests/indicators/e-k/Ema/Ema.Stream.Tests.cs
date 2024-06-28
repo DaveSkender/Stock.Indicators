@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProvider
+public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -72,7 +72,58 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainObserver()
+    {
+        int emaPeriods = 12;
+        int smaPeriods = 8;
+
+        List<Quote> quotesList = quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
+        // setup quote provider
+        QuoteProvider<Quote> provider = new();
+
+        // initialize observer
+        Ema<SmaResult> observer = provider
+            .ToSma(smaPeriods)
+            .ToEma(emaPeriods);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        // final results
+        List<EmaResult> streamEma
+            = [.. observer.Results];
+
+        // time-series, for comparison
+        List<EmaResult> staticEma = quotes
+            .GetSma(smaPeriods)
+            .GetEma(emaPeriods)
+            .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < quotesList.Count; i++)
+        {
+            Quote q = quotesList[i];
+            EmaResult s = staticEma[i];
+            EmaResult r = streamEma[i];
+
+            Assert.AreEqual(q.Timestamp, s.Timestamp);
+            Assert.AreEqual(s.Timestamp, r.Timestamp);
+            Assert.AreEqual(s.Ema, r.Ema);
+        }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
     {
         int emaPeriods = 20;
         int smaPeriods = 10;
@@ -138,85 +189,5 @@ public class EmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
 
         observer.Unsubscribe();
         provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void Chainee()
-    {
-        int emaPeriods = 12;
-        int smaPeriods = 8;
-
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // prefill quotes to provider
-        for (int i = 0; i < 50; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // initialize observer
-        Ema<SmaResult> observer = provider
-            .ToSma(smaPeriods)
-            .ToEma(emaPeriods);
-
-        // emulate quote stream
-        for (int i = 50; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // final results
-        List<EmaResult> streamEma
-            = [.. observer.Results];
-
-        // time-series, for comparison
-        List<EmaResult> staticEma = quotes
-            .GetSma(smaPeriods)
-            .GetEma(emaPeriods)
-            .ToList();
-
-        // assert, should equal series
-        for (int i = 0; i < quotesList.Count; i++)
-        {
-            EmaResult s = staticEma[i];
-            EmaResult r = streamEma[i];
-
-            Assert.AreEqual(s.Timestamp, r.Timestamp);
-            Assert.AreEqual(s.Ema, r.Ema);
-        }
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public override void Duplicates()
-    {
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // initialize observer
-        Ema<Quote> observer = provider
-            .ToEma<Quote>(10);
-
-        // add duplicate to cover warmup
-        Quote quote = quotes.Last();
-
-        for (int i = 0; i <= 20; i++)
-        {
-            provider.Add(quote);
-        }
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
-
-        Assert.AreEqual(1, observer.Results.Count);
-        Assert.AreEqual(1, provider.Results.Count);
     }
 }

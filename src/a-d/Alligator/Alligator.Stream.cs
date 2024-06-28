@@ -4,7 +4,8 @@ public class Alligator<TIn>
     : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
     where TIn : struct, IReusable
 {
-    // constructor
+    #region CONSTRUCTORS
+
     public Alligator(
         IChainProvider<TIn> provider,
         int jawPeriods,
@@ -35,8 +36,9 @@ public class Alligator<TIn>
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
+    #endregion
 
-    // PROPERTIES
+    # region PROPERTIES
 
     public int JawPeriods { get; private set; }
     public int JawOffset { get; private set; }
@@ -44,15 +46,16 @@ public class Alligator<TIn>
     public int TeethOffset { get; private set; }
     public int LipsPeriods { get; private set; }
     public int LipsOffset { get; private set; }
+    #endregion
 
-    // METHODS
+    # region METHODS
 
     // string label
     public override string ToString()
         => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 
     // handle chain arrival
-    internal override void OnNextArrival(Act act, IReusable inbound)
+    protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
         double jaw = double.NaN;
@@ -181,6 +184,7 @@ public class Alligator<TIn>
             OnNextArrival(Act.Update, value);
         }
     }
+    #endregion
 
     // convert provider IQuotes to HL2, if needed
     private readonly Func<TIn, double> ToValue

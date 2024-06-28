@@ -6,7 +6,8 @@ public class Use<TQuote>
     : AbstractQuoteInChainOut<TQuote, Reusable>, IUse<TQuote>
     where TQuote : struct, IQuote
 {
-    // constructor
+    #region CONSTRUCTORS
+
     public Use(
         IQuoteProvider<TQuote> provider,
         CandlePart candlePart) : base(provider)
@@ -18,24 +19,25 @@ public class Use<TQuote>
             ? throw new ArgumentNullException(nameof(provider))
             : provider.Subscribe(this);
     }
+    #endregion
 
-    // PROPERTIES
+    # region PROPERTIES
 
     public CandlePart CandlePartSelection { get; private set; }
+    #endregion
 
-
-    // METHODS
+    # region METHODS
 
     // string label
     public override string ToString()
         => $"USE({Enum.GetName(typeof(CandlePart), CandlePartSelection)})";
 
     // handle quote arrival
-    internal override void OnNextArrival(Act act, IQuote quote)
+    protected override void OnNextArrival(Act act, TQuote inbound)
     {
         // candidate result
         Reusable result
-            = quote.ToReusable(CandlePartSelection);
+            = inbound.ToReusable(CandlePartSelection);
 
         // save to cache
         ModifyCache(act, result);
@@ -43,4 +45,5 @@ public class Use<TQuote>
         // send to observers
         NotifyObservers(act, result);
     }
+    #endregion
 }

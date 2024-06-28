@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class SmaSeriesTests : SeriesTestBase
+public class SmaTests : SeriesTestBase
 {
     [TestMethod]
     public override void Standard()

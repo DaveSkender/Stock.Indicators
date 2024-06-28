@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteEqualityTests : TestQuoteBase
+public class QuoteEqualityTests : TestBase
 {
     internal readonly DateTime evalDate
         = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class ZigZagTests : SeriesTestBase

@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProvider
+public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -72,7 +72,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainProvider()
     {
         int emaPeriods = 12;
         int smaPeriods = 8;
@@ -125,7 +125,7 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Chainee()
+    public void ChainObserver()
     {
         List<Quote> quotesList = quotes
             .ToSortedList();
@@ -172,30 +172,5 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
             Assert.AreEqual(s.Timestamp, r.Timestamp);
             Assert.AreEqual(s.Sma, r.Sma);
         }
-    }
-
-    [TestMethod]
-    public override void Duplicates()
-    {
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // initialize observer
-        Sma<Quote> observer = provider
-            .ToSma<Quote>(10);
-
-        // add duplicate to cover warmup
-        Quote quote = quotes.Last();
-
-        for (int i = 0; i <= 20; i++)
-        {
-            provider.Add(quote);
-        }
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
-
-        Assert.AreEqual(1, observer.Results.Count);
-        Assert.AreEqual(1, provider.Results.Count);
     }
 }

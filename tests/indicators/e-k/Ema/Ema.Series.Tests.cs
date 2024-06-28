@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class EmaSeriesTests : SeriesTestBase
+public class EmaTests : SeriesTestBase
 {
     [TestMethod]
     public void Increment()

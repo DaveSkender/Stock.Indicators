@@ -37,21 +37,22 @@ public abstract class AbstractProvider<TSeries>
     : AbstractCache<TSeries>, IStreamProvider<TSeries>
     where TSeries : struct, ISeries
 {
-    // reminder: these are the provider members only
+    // provider members only
+
+    # region FIELDS & PROPERTIES
 
     // fields
+
     private readonly HashSet<IObserver<(Act, TSeries)>> Observers = new();
 
-    // PROPERTIES
+    // properties
 
     public bool HasSubscribers => Observers.Count > 0;
 
     public int SubscriberCount => Observers.Count;
+    #endregion
 
-    // METHODS
-
-    // string label
-    public abstract override string ToString();
+    # region METHODS (OBSERVABLE)
 
     // subscribe observer
     public IDisposable Subscribe(IObserver<(Act, TSeries)> observer)
@@ -75,6 +76,53 @@ public abstract class AbstractProvider<TSeries>
 
         Observers.Clear();
     }
+
+    /// <summary>
+    /// Sends new item to all subscribers
+    /// </summary>
+    /// <param name="act"></param>
+    /// <param name="item"></param>
+    protected void NotifyObservers(Act act, TSeries item)
+    {
+        // do not propogate "do nothing" acts
+        if (act == Act.DoNothing)
+        {
+            return;
+        }
+
+        // send to subscribers
+        List<IObserver<(Act, TSeries)>> obsList = [.. Observers];
+
+        for (int i = 0; i < obsList.Count; i++)
+        {
+            IObserver<(Act, TSeries)> obs = obsList[i];
+            obs.OnNext((act, item));
+        }
+    }
+
+    /// <summary>
+    /// A disposable subscription to the stream provider.
+    /// <para>Unsubscribed with <see cref="Dispose()"/></para>
+    /// </summary>
+    /// <param name="observers">
+    /// Registry of all subscribers (by ref)
+    /// </param>
+    /// <param name="observer">
+    /// Your unique subscription as provided.
+    /// </param>
+    private class Subscription(
+        ISet<IObserver<(Act, TSeries)>> observers,
+        IObserver<(Act, TSeries)> observer) : IDisposable
+    {
+        // remove single observer
+        public void Dispose() => observers.Remove(observer);
+    }
+    #endregion
+
+    #region METHODS (UTILITIES)
+
+    // string label
+    public abstract override string ToString();
 
     /// <inhertitdoc />
     public void Resend(
@@ -101,6 +149,7 @@ public abstract class AbstractProvider<TSeries>
         int? toIndex = null)
         => Resend(toObserver, fromIndex, default, toIndex);
 
+    // resend to an observer (defined Act)
     private void Resend(
         IObserver<(Act, TSeries)> toObserver,
         int fromIndex,
@@ -111,7 +160,7 @@ public abstract class AbstractProvider<TSeries>
         {
             // determine start/end of range
             int fr = Math.Max(0, fromIndex);
-            int to = Math.Min(toIndex ?? Cache.Count - 1, Cache.Count - 1);
+            int to = Math.Min(toIndex ?? Cache.Count, Cache.Count);
 
             for (int i = fr; i < to; i++)
             {
@@ -155,45 +204,5 @@ public abstract class AbstractProvider<TSeries>
     /// <param name="toIndex">stop position</param>
     protected abstract void RebuildCache(
         int fromIndex, int? toIndex = null);
-
-    /// <summary>
-    /// Sends new item to all subscribers
-    /// </summary>
-    /// <param name="act"></param>
-    /// <param name="item"></param>
-    protected void NotifyObservers(Act act, TSeries item)
-    {
-        // do not propogate "do nothing" acts
-        if (act == Act.DoNothing)
-        {
-            return;
-        }
-
-        // send to subscribers
-        List<IObserver<(Act, TSeries)>> obsList = [.. Observers];
-
-        for (int i = 0; i < obsList.Count; i++)
-        {
-            IObserver<(Act, TSeries)> obs = obsList[i];
-            obs.OnNext((act, item));
-        }
-    }
-
-    /// <summary>
-    /// A disposable subscription to the stream provider.
-    /// <para>Unsubscribed with <see cref="Dispose()"/></para>
-    /// </summary>
-    /// <param name="observers">
-    /// Registry of all subscribers (by ref)
-    /// </param>
-    /// <param name="observer">
-    /// Your unique subscription as provided.
-    /// </param>
-    private class Subscription(
-        ISet<IObserver<(Act, TSeries)>> observers,
-        IObserver<(Act, TSeries)> observer) : IDisposable
-    {
-        // remove single observer
-        public void Dispose() => observers.Remove(observer);
-    }
+    #endregion
 }

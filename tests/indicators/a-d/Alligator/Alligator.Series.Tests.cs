@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class AlligatorSeriesTests : SeriesTestBase
+public class AlligatorTests : SeriesTestBase
 {
     [TestMethod]
     public override void Standard()

@@ -1,35 +1,41 @@
 namespace Skender.Stock.Indicators;
 
+// TODO: unsure if used, needed
+// HeikinAshi and Renko are still IQuote struct types? (probably still need to emit IQuoteProvider)
+
 public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
     : AbstractQuoteProvider<TOut>, IQuoteObserver<TIn>
-    where TIn : struct, IQuote, IReusable
-    where TOut : struct, IQuote, IReusable
+    where TIn : struct, IQuote
+    where TOut : struct, IQuote
 {
+    // observer members only
+
+    #region CONSTRUCTORS
+
     internal AbstractQuoteInQuoteOut(
         IQuoteProvider<TIn> provider)
     {
         Provider = provider;
     }
+    #endregion
 
-    // reminder: these are the observer members only
+    # region PROPERTIES
 
-    // PROPERTIES
-
-    public IQuoteProvider<TIn> Provider { get; internal set; }
+    public IQuoteProvider<TIn> Provider { get; private set; }
 
     public bool IsSubscribed => Subscription is not null;
 
-    internal IDisposable? Subscription;
+    protected IDisposable? Subscription { get; set; }
 
     protected IReadOnlyList<TIn> ProviderCache => Provider.Results;
+    #endregion
 
-
-    // METHODS
+    # region METHODS (OBSERVER)
 
     public void OnNext((Act, TIn) value)
         => OnNextArrival(value.Item1, value.Item2);
 
-    internal abstract void OnNextArrival(Act act, IQuote inbound);
+    protected abstract void OnNextArrival(Act act, TIn inbound);
 
     public void OnError(Exception error) => throw error;
 
@@ -73,4 +79,5 @@ public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
         ClearCache(fromIndex, toIndex);
         Provider.Resend(this, fromIndex, toIndex);
     }
+    #endregion
 }

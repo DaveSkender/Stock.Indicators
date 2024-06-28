@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteValidationTests : TestQuoteBase
+public class QuoteValidationTests : TestBase
 {
     [TestMethod]
     public void Validate()
