@@ -1,5 +1,8 @@
+using Tests.Performance.Config;
+
 namespace Tests.Performance;
 
+[Config(typeof(AntiVirusFriendlyConfig))]
 public class IndicatorStreamTests
 {
     /*
@@ -25,7 +28,7 @@ public class IndicatorStreamTests
     // BENCHMARKS
 
     [Benchmark]
-    public object GetEma()
+    public void GetEma()
     {
         QuoteProvider<Quote> provider = new();
         Ema<Quote> ema = provider.ToEma(14);
@@ -36,11 +39,10 @@ public class IndicatorStreamTests
         }
 
         provider.EndTransmission();
-        return ema.Results;
     }
 
     [Benchmark]
-    public object GetSma()
+    public void GetSma()
     {
         QuoteProvider<Quote> provider = new();
         Sma<Quote> sma = provider.ToSma(10);
@@ -51,7 +53,5 @@ public class IndicatorStreamTests
         }
 
         provider.EndTransmission();
-
-        return sma.Results;
     }
 }

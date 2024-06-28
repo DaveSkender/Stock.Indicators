@@ -44,7 +44,6 @@ public abstract class TestBase
             onequote = TestData.GetDefault(1);
             randomQuotes = TestData.GetRandom(1000);
             zeroesQuotes = TestData.GetZeros();
-            tupleNanny = TestData.GetTupleNaN();
         }
         catch (Exception ex)
         {
