@@ -42,7 +42,7 @@ public class TsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<TsiResult> results = quotes
             .Use(CandlePart.Close)

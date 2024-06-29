@@ -23,7 +23,7 @@ public class SmaAnalysisTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<SmaAnalysis> results = quotes
             .Use(CandlePart.Close)

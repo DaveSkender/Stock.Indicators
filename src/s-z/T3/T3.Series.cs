@@ -35,9 +35,7 @@ public static partial class Indicator
         // roll through remaining quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-            T3Result r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // re/seed values
             if (double.IsNaN(e6))
@@ -54,7 +52,9 @@ public static partial class Indicator
             e6 += k * (e5 - e6);
 
             // T3 moving average
-            r.T3 = ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null();
+            results.Add(new T3Result(
+                Timestamp: s.Timestamp,
+                T3: ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null()));
         }
 
         return results;

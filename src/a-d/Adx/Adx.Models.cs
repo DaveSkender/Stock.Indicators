@@ -1,13 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public record struct AdxResult(
+public readonly record struct AdxResult
+(
     DateTime Timestamp,
     double? Pdi = null,
     double? Mdi = null,
     double? Adx = null,
-    double? Adxr = null)
-: IReusable
+    double? Adxr = null
+) : IReusable
 {
-    readonly double IReusable.Value
-        => Adx.Null2NaN();
+    double IReusable.Value => Adx.Null2NaN();
 }

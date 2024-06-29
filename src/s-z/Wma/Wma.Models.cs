@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public record struct WmaResult : IReusable
+public readonly record struct WmaResult
+(
+    DateTime Timestamp,
+    double? Wma
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Wma { get; set; }
-
-    readonly double IReusable.Value
-        => Wma.Null2NaN();
+    double IReusable.Value => Wma.Null2NaN();
 }

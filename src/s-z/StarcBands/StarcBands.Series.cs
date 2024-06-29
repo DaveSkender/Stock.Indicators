@@ -14,27 +14,22 @@ public static partial class Indicator
         StarcBands.Validate(smaPeriods, multiplier, atrPeriods);
 
         // initialize
+        int length = qdList.Count;
+        List<StarcBandsResult> results = new(length);
         List<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
-
-        List<StarcBandsResult> results = qdList
-            .CalcSma(smaPeriods)
-            .Select(x => new StarcBandsResult {
-                Timestamp = x.Timestamp,
-                Centerline = x.Sma
-            })
-            .ToList();
-
-        int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
+        List<SmaResult> smaResults = qdList.CalcSma(smaPeriods);
 
         // roll through quotes
-        for (int i = lookbackPeriods - 1; i < results.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            StarcBandsResult r = results[i];
-
+            SmaResult s = smaResults[i];
             AtrResult a = atrResults[i];
 
-            r.UpperBand = r.Centerline + (multiplier * a.Atr);
-            r.LowerBand = r.Centerline - (multiplier * a.Atr);
+            results.Add(new StarcBandsResult(
+                Timestamp: s.Timestamp,
+                Centerline: s.Sma,
+                UpperBand: s.Sma + (multiplier * a.Atr),
+                LowerBand: s.Sma - (multiplier * a.Atr)));
         }
 
         return results;

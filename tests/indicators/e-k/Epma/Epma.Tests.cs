@@ -32,7 +32,7 @@ public class EpmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<EpmaResult> results = quotes
             .Use(CandlePart.Close)

@@ -1,21 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-public record struct RenkoResult : IQuote, IReusable
+public readonly record struct RenkoResult
+(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume,
+    bool IsUp
+) : IQuote
 {
-    public DateTime Timestamp { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
-
-    public bool IsUp { get; set; }
-
-    readonly double IReusable.Value
-        => (double)Close;
-
-    // this is only an appropriate
-    // implementation for record types
-    public readonly bool Equals(IQuote? other)
-      => base.Equals(other);
+    double IReusable.Value => (double)Close;
 }

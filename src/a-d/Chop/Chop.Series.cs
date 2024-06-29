@@ -24,10 +24,9 @@ public static partial class Indicator
         double[] trueRange = new double[length];
 
         // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            ChopResult r = new() { Timestamp = qdList[i].Timestamp };
-            results.Add(r);
+            double? chop = null;
 
             if (i > 0)
             {
@@ -57,10 +56,14 @@ public static partial class Indicator
                     // calculate CHOP
                     if (range != 0)
                     {
-                        r.Chop = 100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
+                        chop = 100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
                     }
                 }
             }
+
+            results.Add(new ChopResult(
+                Timestamp: qdList[i].Timestamp,
+                Chop: chop));
         }
 
         return results;

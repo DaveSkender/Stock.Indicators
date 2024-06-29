@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public record struct DpoResult(
+public readonly record struct DpoResult
+(
     DateTime Timestamp,
     double? Dpo = null,
-    double? Sma = null)
-    : IReusable
+    double? Sma = null
+    ) : IReusable
 {
-    readonly double IReusable.Value
-        => Dpo.Null2NaN();
+    double IReusable.Value => Dpo.Null2NaN();
 }

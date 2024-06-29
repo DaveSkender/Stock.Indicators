@@ -35,8 +35,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KvoResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? kvo = null;
+            double? sig = null;
 
             // trend basis comparator
             hlc[i] = q.High + q.Low + q.Close;
@@ -46,6 +46,7 @@ public static partial class Indicator
 
             if (i <= 0)
             {
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
@@ -55,6 +56,7 @@ public static partial class Indicator
             if (i <= 1)
             {
                 cm[i] = 0;
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
@@ -91,6 +93,7 @@ public static partial class Indicator
             {
                 vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
+
             // TODO: update healing, without requiring specific indexing
             else if (i == slowPeriods + 1)
             {
@@ -106,26 +109,32 @@ public static partial class Indicator
             // Klinger Oscillator
             if (i >= slowPeriods + 1)
             {
-                r.Oscillator = vfFastEma[i] - vfSlowEma[i];
+                kvo = vfFastEma[i] - vfSlowEma[i];
 
                 // Signal
                 if (i > slowPeriods + signalPeriods)
                 {
-                    r.Signal = (r.Oscillator * kSignal)
+                    sig = (kvo * kSignal)
                         + (results[i - 1].Signal * (1 - kSignal));
                 }
+
                 // TODO: update healing, without requiring specific indexing
                 else if (i == slowPeriods + signalPeriods)
                 {
-                    double? sum = 0;
-                    for (int p = slowPeriods + 1; p <= i; p++)
+                    double? sum = kvo;
+                    for (int p = slowPeriods + 1; p < i; p++)
                     {
                         sum += results[p].Oscillator;
                     }
 
-                    r.Signal = sum / signalPeriods;
+                    sig = sum / signalPeriods;
                 }
             }
+
+            results.Add(new KvoResult(
+                Timestamp: q.Timestamp,
+                Oscillator: kvo,
+                Signal: sig));
         }
 
         return results;

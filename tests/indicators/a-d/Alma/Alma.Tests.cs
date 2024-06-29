@@ -39,7 +39,7 @@ public class Alma : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<AlmaResult> results = quotes
             .Use(CandlePart.Close)

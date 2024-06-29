@@ -36,7 +36,7 @@ public class StcTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<StcResult> results = quotes
             .Use(CandlePart.Close)

@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<PvoResult> CalcPvo<T>(
-        this List<T> source,
+        this List<T> source,  // volume
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -15,49 +15,100 @@ public static partial class Indicator
         Pvo.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = source.CalcEma(fastPeriods);
-        List<EmaResult> emaSlow = source.CalcEma(slowPeriods);
-
         int length = source.Count;
-        List<Reusable> emaDiff = [];
         List<PvoResult> results = new(length);
+
+        double lastEmaFast = double.NaN;
+        double lastEmaSlow = double.NaN;
+        double lastEmaPvo = double.NaN;
+
+        double kFast = 2d / (fastPeriods + 1);
+        double kSlow = 2d / (slowPeriods + 1);
+        double kPvo = 2d / (signalPeriods + 1);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-            EmaResult df = emaFast[i];
-            EmaResult ds = emaSlow[i];
+            T s = source[i];
 
-            PvoResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            // re-initialize Fast EMA
+            double emaFast;
 
-            if (i >= slowPeriods - 1)
+            if (double.IsNaN(lastEmaFast) && i >= fastPeriods - 1)
             {
-                double? pvo = (ds.Ema != 0) ?
-                    100 * ((df.Ema - ds.Ema) / ds.Ema) : null;
+                double sum = 0;
+                for (int p = i - fastPeriods + 1; p <= i; p++)
+                {
+                    T ps = source[p];
+                    sum += ps.Value;
+                }
 
-                r.Pvo = pvo;
-
-                // temp data for interim EMA of PVO
-                var diff = new Reusable(s.Timestamp, (pvo == null) ? 0 : (double)pvo);
-
-                emaDiff.Add(diff);
+                emaFast = sum / fastPeriods;
             }
-        }
+            else
+            {
+                emaFast = EmaUtilities
+                    .Increment(kFast, lastEmaFast, s.Value);
+            }
 
-        // add signal and histogram to result
-        List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
+            // re-initialize Slow EMA
+            double emaSlow;
 
-        for (int d = slowPeriods - 1; d < length; d++)
-        {
-            PvoResult r = results[d];
-            EmaResult ds = emaSignal[d + 1 - slowPeriods];
+            if (double.IsNaN(lastEmaSlow) && i >= slowPeriods - 1)
+            {
+                double sum = 0;
+                for (int p = i - slowPeriods + 1; p <= i; p++)
+                {
+                    T ps = source[p];
+                    sum += ps.Value;
+                }
 
-            r.Signal = ds.Ema;
-            r.Histogram = r.Pvo - r.Signal;
+                emaSlow = sum / slowPeriods;
+            }
+            else
+            {
+                emaSlow = EmaUtilities
+                    .Increment(kSlow, lastEmaSlow, s.Value);
+            }
+
+            double pvo = (emaSlow != 0) ?
+                100 * ((emaFast - emaSlow) / emaSlow) : double.NaN;
+
+            // re-initialize Signal EMA
+            double signal;
+
+            if (double.IsNaN(lastEmaPvo) && i >= signalPeriods + slowPeriods - 2)
+            {
+                double sum = pvo;
+                for (int p = i - signalPeriods + 1; p < i; p++)
+                {
+                    sum += ((IReusable)results[p]).Value;
+                }
+
+                signal = sum / signalPeriods;
+            }
+            else
+            {
+                signal = EmaUtilities
+                    .Increment(kPvo, lastEmaPvo, pvo);
+            }
+
+            // write results
+            results.Add(new PvoResult(
+                Timestamp: s.Timestamp,
+                Pvo: pvo.NaN2Null(),
+                Signal: signal.NaN2Null(),
+                Histogram: (pvo - signal).NaN2Null()));
+
+            lastEmaPvo = signal;
+            lastEmaFast = emaFast;
+            lastEmaSlow = emaSlow;
         }
 
         return results;
     }
+
+    /* DESIGN NOTE: this is exactly like MACD, except for:
+     *   a) it uses Volume instead of Price (see API)
+     *   b) the PVO calculation slightly different     */
 }

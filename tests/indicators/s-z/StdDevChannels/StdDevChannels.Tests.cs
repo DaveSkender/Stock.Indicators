@@ -98,7 +98,7 @@ public class StdDevChannelsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<StdDevChannelsResult> results = quotes
             .Use(CandlePart.Close)

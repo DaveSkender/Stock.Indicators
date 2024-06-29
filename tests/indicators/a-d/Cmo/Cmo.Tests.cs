@@ -29,7 +29,7 @@ public class CmoTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<CmoResult> results = quotes
             .Use(CandlePart.Close)

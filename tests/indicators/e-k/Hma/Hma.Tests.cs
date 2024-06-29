@@ -23,7 +23,7 @@ public class HmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<HmaResult> results = quotes
             .Use(CandlePart.Close)

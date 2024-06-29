@@ -20,25 +20,32 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            VwmaResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double vwma;
 
             if (i + 1 >= lookbackPeriods)
             {
-                double? sumCl = 0;
-                double? sumVl = 0;
+                double sumCl = 0;
+                double sumVl = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
                     QuoteD d = qdList[p];
-                    double? c = d.Close;
-                    double? v = d.Volume;
+                    double c = d.Close;
+                    double v = d.Volume;
 
                     sumCl += c * v;
                     sumVl += v;
                 }
 
-                r.Vwma = sumVl != 0 ? (sumCl / sumVl) : null;
+                vwma = sumVl != 0 ? (sumCl / sumVl) : double.NaN;
             }
+            else
+            {
+                vwma = double.NaN;
+            }
+
+            results.Add(new VwmaResult(
+                Timestamp: q.Timestamp,
+                Vwma: vwma.NaN2Null()));
         }
 
         return results;

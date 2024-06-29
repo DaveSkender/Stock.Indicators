@@ -6,9 +6,8 @@ namespace Skender.Stock.Indicators;
 // OBSOLETE IN v3
 public static partial class Indicator
 {
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use alternate 'GetX' variant.", false)]
+    [Obsolete("Use alternate 'GetX' variant.", false)] // v3.0.0
     public static IEnumerable<AlligatorResult> GetAlligator(
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int jawPeriods = 13,
@@ -25,83 +24,68 @@ public static partial class Indicator
             teethPeriods, teethOffset,
             lipsPeriods, lipsOffset);
 
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
         this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
         => quotes.ToQuoteD().CalcAdl();
 
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<ObvResult> GetObv<TQuote>(
         this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
-        => quotes.ToQuoteD().CalcObv();
+        => quotes.GetObv();
 
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<PrsResult> GetPrs<TQuote>(
         this IEnumerable<TQuote> quotesEval, IEnumerable<TQuote> quotesBase, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
         => quotesEval.Use(CandlePart.Close).GetPrs(quotesBase.Use(CandlePart.Close), lookbackPeriods);
 
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<RocResult> GetRoc<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
         => quotes.Use(CandlePart.Close).GetRoc(lookbackPeriods);
 
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
         => quotes.Use(CandlePart.Close).ToList().CalcStdDev(lookbackPeriods);
 
-    // 3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
+    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
         => quotes.Use(CandlePart.Close).ToList().CalcTrix(lookbackPeriods);
 
-    // v3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
+    [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)] // v3.0.0
     public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
         => quotes.Select(x => (x.Timestamp, x.Value));
 
-    // v3.0.0
     [ExcludeFromCodeCoverage]
-    [Obsolete("Refactor to use `ToReusable()`", true)]
+    [Obsolete("Refactor to use `ToReusable()`", true)] // v3.0.0
     public static Collection<(DateTime Timestamp, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusable
-        => reusable
-            .Select(x => (x.Timestamp, x.Value))
-            .OrderBy(x => x.Timestamp)
-            .ToCollection();
-
-
+        => reusable.Select(x => (x.Timestamp, x.Value)).OrderBy(x => x.Timestamp).ToCollection();
 }
 
-// v3.0.0
-[Obsolete("Rename `IReusableResult` to `IReusable`", true)]
-public interface IReusableResult : IReusable {}
+[Obsolete("Rename `IReusableResult` to `IReusable`", true)] // v3.0.0
+public interface IReusableResult : IReusable { }
 
-// v3.0.0
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `BasicData` to `BasicResult`", true)]
+[Obsolete("Rename `BasicData` to `Reusable`", true)] // v3.0.0
 public sealed class BasicData : IReusable
 {
     public DateTime Timestamp { get; set; }

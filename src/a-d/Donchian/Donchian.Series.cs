@@ -21,9 +21,6 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            DonchianResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
-
             if (i >= lookbackPeriods)
             {
                 decimal highHigh = 0;
@@ -45,11 +42,22 @@ public static partial class Indicator
                     }
                 }
 
-                r.UpperBand = highHigh;
-                r.LowerBand = lowLow;
-                r.Centerline = (r.UpperBand + r.LowerBand) / 2m;
-                r.Width = (r.Centerline == 0) ? null
-                    : (r.UpperBand - r.LowerBand) / r.Centerline;
+                decimal u = highHigh;
+                decimal l = lowLow;
+                decimal c = (u + l) / 2m;
+
+                results.Add(new DonchianResult(
+                    Timestamp: q.Timestamp,
+                    UpperBand: u,
+                    LowerBand: l,
+                    Centerline: c,
+                    Width: c == 0 ? null : (u - l) / c
+                    ));
+            }
+            else
+            {
+                results.Add(new() { Timestamp = q.Timestamp });
+
             }
         }
 

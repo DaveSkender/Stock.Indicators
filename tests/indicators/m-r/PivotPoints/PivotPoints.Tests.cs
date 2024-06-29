@@ -238,7 +238,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r6.S4);
 
         // special Demark case: test close = open
-        PivotPointsResult d1 = Indicator.GetPivotPointDemark<PivotPointsResult>(125, 200, 100, 125);
+        WindowPoint d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
         Assert.AreEqual(550m / 4, d1.PP);
     }
 

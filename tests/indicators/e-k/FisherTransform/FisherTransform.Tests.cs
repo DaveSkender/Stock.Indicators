@@ -47,7 +47,7 @@ public class FisherTransformTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<FisherTransformResult> results = quotes
             .Use(CandlePart.Close)

@@ -19,12 +19,13 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
+            T s = source[i];
 
-            StdDevResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            double mean;
+            double stdDev;
+            double zScore;
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double[] values = new double[lookbackPeriods];
                 double sum = 0;
@@ -32,20 +33,33 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     values[n] = ps.Value;
                     sum += ps.Value;
                     n++;
                 }
 
-                double avg = sum / lookbackPeriods;
+                mean = sum / lookbackPeriods;
 
-                r.StdDev = values.StdDev().NaN2Null();
-                r.Mean = avg.NaN2Null();
+                stdDev = values.StdDev();
 
-                r.ZScore = (r.StdDev == 0) ? null
-                    : (s.Value - avg) / r.StdDev;
+                zScore = (stdDev == 0) ? double.NaN
+                    : (s.Value - mean) / stdDev;
             }
+            else
+            {
+                mean = double.NaN;
+                stdDev = double.NaN;
+                zScore = double.NaN;
+            }
+
+            StdDevResult r = new(
+                Timestamp: s.Timestamp,
+                StdDev: stdDev.NaN2Null(),
+                Mean: mean.NaN2Null(),
+                ZScore: zScore.NaN2Null());
+
+            results.Add(r);
         }
 
         return results;

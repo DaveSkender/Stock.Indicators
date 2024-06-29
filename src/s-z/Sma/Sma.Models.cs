@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public record struct SmaResult(
+public readonly record struct SmaResult
+(
     DateTime Timestamp,
-    double? Sma = null)
-     : IReusable
+    double? Sma = null
+) : IReusable
 {
-    readonly double IReusable.Value
-        => Sma.Null2NaN();
+    double IReusable.Value => Sma.Null2NaN();
 }
 
 /// <summary>
@@ -17,16 +17,16 @@ public record struct SmaResult(
 /// <param name="Mad">Mean absolute deviation</param>
 /// <param name="Mse">Mean square error</param>
 /// <param name="Mape">Mean absolute percentage error</param>
-public record struct SmaAnalysis(
+public readonly record struct SmaAnalysis
+(
     DateTime Timestamp,
     double? Sma,
     double? Mad,
     double? Mse,
-    double? Mape)
-    : IReusable
+    double? Mape
+) : IReusable
 {
-    readonly double IReusable.Value
-        => Sma.Null2NaN();
+    double IReusable.Value => Sma.Null2NaN();
 }
 
 public interface ISma : IStreamObserver

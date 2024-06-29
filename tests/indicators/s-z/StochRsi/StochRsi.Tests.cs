@@ -78,7 +78,7 @@ public class StochRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<StochRsiResult> results = quotes
             .Use(CandlePart.Close)

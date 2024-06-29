@@ -20,7 +20,7 @@ public class UlcerIndexTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<UlcerIndexResult> results = quotes
             .Use(CandlePart.Close)

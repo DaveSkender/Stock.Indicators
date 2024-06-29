@@ -246,7 +246,9 @@ public static partial class Indicator
         }
 
         // narrow to period
-        decimal? increment = (nextPoint.Value - priorPoint.Value) / (nextPoint.Index - priorPoint.Index);
+        decimal? increment
+            = (nextPoint.Value - priorPoint.Value)
+            / (nextPoint.Index - priorPoint.Index);
 
         // add new line segment
         for (int i = priorPoint.Index - 1; i < nextPoint.Index; i++)
@@ -257,13 +259,21 @@ public static partial class Indicator
             // high line
             if (lastDirection == "L")
             {
-                r.RetraceHigh = priorPoint.Value + (increment * (index - priorPoint.Index));
+                decimal? retraceHigh
+                    = priorPoint.Value
+                    + (increment * (index - priorPoint.Index));
+
+                results[i] = r with { RetraceHigh = retraceHigh };
             }
 
             // low line
             else if (lastDirection == "H")
             {
-                r.RetraceLow = priorPoint.Value + (increment * (index - priorPoint.Index));
+                decimal? retraceLow
+                    = priorPoint.Value
+                    + (increment * (index - priorPoint.Index));
+
+                results[i] = r with { RetraceLow = retraceLow };
             }
         }
     }

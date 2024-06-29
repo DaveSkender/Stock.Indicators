@@ -60,7 +60,7 @@ public class EmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<EmaResult> results = quotes
             .Use(CandlePart.Close)

@@ -29,7 +29,7 @@ public class DemaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<DemaResult> results = quotes
             .Use(CandlePart.Close)

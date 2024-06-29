@@ -4,6 +4,18 @@ namespace Skender.Stock.Indicators;
 // note: indicator unique ENUMS specified in indicator models
 
 /// <summary>
+/// Cache action instruction or outcome
+/// </summary>
+public enum Act
+{
+    AddNew,
+    AddOld,
+    Update,
+    Delete,
+    DoNothing
+}
+
+/// <summary>
 /// Part or value of a quote candle
 /// </summary>
 public enum CandlePart
@@ -80,16 +92,4 @@ public enum PeriodSize
     ThreeMinutes,
     TwoMinutes,
     OneMinute
-}
-
-/// <summary>
-/// The action taken on the cache (outcome)
-/// </summary>
-public enum Act
-{
-    AddNew,
-    AddOld,
-    Update,
-    Delete,
-    DoNothing
 }

@@ -22,12 +22,10 @@ public static partial class Indicator
         double priorClose = 0;
 
         // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
-
-            UltimateResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? ultimate;
 
             if (i > 0)
             {
@@ -72,8 +70,16 @@ public static partial class Indicator
                 double avg2 = (sumTR2 == 0) ? double.NaN : sumBP2 / sumTR2;
                 double avg3 = (sumTR3 == 0) ? double.NaN : sumBP3 / sumTR3;
 
-                r.Ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null();
+                ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null();
             }
+            else
+            {
+                ultimate = null;
+            }
+
+            results.Add(new UltimateResult(
+                Timestamp: q.Timestamp,
+                Ultimate: ultimate));
 
             priorClose = q.Close;
         }

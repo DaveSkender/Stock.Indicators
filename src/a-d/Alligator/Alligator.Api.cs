@@ -36,7 +36,7 @@ public static partial class Indicator
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where T : struct, IReusable
+        where T : IReusable
         => source
             .ToSortedList()
             .CalcAlligator(

@@ -35,7 +35,7 @@ public class T3Tests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<T3Result> results = quotes
             .Use(CandlePart.Close)

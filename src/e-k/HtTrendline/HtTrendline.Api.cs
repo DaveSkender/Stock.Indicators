@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
+    // SERIES, from CHAIN
     /// <summary>
     /// Hilbert Transform Instantaneous Trendline(HTL) is a 5-period trendline of high/low price that uses signal processing to reduce noise.
     /// <para>
@@ -12,23 +12,15 @@ public static partial class Indicator
     /// for more information.
     /// </para>
     /// </summary>
-    /// <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-    /// <param name="quotes">Historical price quotes.</param>
-    /// <param name="candlePart">Optional.  Default is HL2.</param>
+    /// <typeparam name="T">
+    /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type
+    /// </typeparam>
+    /// <param name="source">Time-series values to transform.</param>
     /// <returns>Time series of HTL values and smoothed price.</returns>
-    public static IEnumerable<HtlResult> GetHtTrendline<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart = CandlePart.HL2)
-        where TQuote : IQuote => quotes
-            .Use(candlePart)
-            .ToList()
-            .CalcHtTrendline();
-
-    // SERIES, from CHAIN
     public static IEnumerable<HtlResult> GetHtTrendline<T>(
-        this IEnumerable<T> results)
+        this IEnumerable<T> source)
         where T : IReusable
-        => results
+        => source
             .ToSortedList()
             .CalcHtTrendline();
 }

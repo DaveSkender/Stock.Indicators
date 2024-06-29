@@ -30,7 +30,7 @@ public class RocTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<RocResult> results = quotes
             .Use(CandlePart.Close)

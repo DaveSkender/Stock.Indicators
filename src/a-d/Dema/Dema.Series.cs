@@ -23,14 +23,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            DemaResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -43,7 +41,7 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     sum += ps.Value;
                 }
 
@@ -57,7 +55,9 @@ public static partial class Indicator
                 ema2 = lastEma2 + (k * (ema1 - lastEma2));
             }
 
-            r.Dema = ((2d * ema1) - ema2).NaN2Null();
+            results.Add(new DemaResult(
+                Timestamp: s.Timestamp,
+                Dema: ((2d * ema1) - ema2).NaN2Null()));
 
             lastEma1 = ema1;
             lastEma2 = ema2;

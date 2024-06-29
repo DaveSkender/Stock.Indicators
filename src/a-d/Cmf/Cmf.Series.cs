@@ -18,19 +18,13 @@ public static partial class Indicator
         // initialize
         int length = source.Count;
         List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = [.. qdList.CalcAdl()];
+        List<AdlResult> adlResults = qdList.CalcAdl();
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             AdlResult adl = adlResults[i];
-
-            CmfResult r = new() {
-                Timestamp = adl.Timestamp,
-                MoneyFlowMultiplier = adl.MoneyFlowMultiplier,
-                MoneyFlowVolume = adl.MoneyFlowVolume
-            };
-            results.Add(r);
+            double? cmf = null;
 
             if (i >= lookbackPeriods - 1)
             {
@@ -51,9 +45,15 @@ public static partial class Indicator
 
                 if (avgVol != 0)
                 {
-                    r.Cmf = avgMfv / avgVol;
+                    cmf = avgMfv / avgVol;
                 }
             }
+
+            results.Add(new CmfResult(
+                Timestamp: adl.Timestamp,
+                MoneyFlowMultiplier: adl.MoneyFlowMultiplier,
+                MoneyFlowVolume: adl.MoneyFlowVolume,
+                Cmf: cmf));
         }
 
         return results;

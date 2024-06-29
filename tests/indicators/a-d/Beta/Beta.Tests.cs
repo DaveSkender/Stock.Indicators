@@ -97,7 +97,7 @@ public class BetaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<BetaResult> results = otherQuotes
             .Use(CandlePart.Close)

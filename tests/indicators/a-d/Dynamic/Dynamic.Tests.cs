@@ -29,7 +29,7 @@ public class McGinleyDynamicTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<DynamicResult> results = quotes
             .Use(CandlePart.Close)

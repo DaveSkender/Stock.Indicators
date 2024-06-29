@@ -24,14 +24,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            TrixResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -45,11 +43,13 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     sum += ps.Value;
                 }
 
                 ema1 = ema2 = ema3 = sum / lookbackPeriods;
+
+                results.Add(new() { Timestamp = s.Timestamp });
             }
 
             // normal TRIX
@@ -59,8 +59,12 @@ public static partial class Indicator
                 ema2 = lastEma2 + (k * (ema1 - lastEma2));
                 ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
-                r.Ema3 = ema3.NaN2Null();
-                r.Trix = (100 * (ema3 - lastEma3) / lastEma3).NaN2Null();
+                double trix = 100 * (ema3 - lastEma3) / lastEma3;
+
+                results.Add(new TrixResult(
+                    Timestamp: s.Timestamp,
+                    Ema3: ema3.NaN2Null(),
+                    Trix: trix.NaN2Null()));
             }
 
             lastEma1 = ema1;

@@ -33,9 +33,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-            PmoResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // rate of change (ROC)
             rc[i] = prevPrice == 0 ? double.NaN : 100 * ((s.Value / prevPrice) - 1);
@@ -78,7 +76,6 @@ public static partial class Indicator
                 pmo = prevPmo + (smoothingConstant1 * (re[i] - prevPmo));
             }
 
-            r.Pmo = pmo.NaN2Null();
             prevPmo = pm[i] = pmo;
 
             // add signal (EMA of PMO)
@@ -99,8 +96,14 @@ public static partial class Indicator
                 signal = EmaUtilities.Increment(smoothingConstant3, prevSignal, pm[i]);
             }
 
+            PmoResult r = new(
+                Timestamp: s.Timestamp,
+                Pmo: pmo.NaN2Null(),
+                Signal: signal.NaN2Null());
+
+            results.Add(r);
+
             prevSignal = signal;
-            r.Signal = signal.NaN2Null();
         }
 
         return results;

@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public record struct TrixResult : IReusable
+public readonly record struct TrixResult
+(
+    DateTime Timestamp,
+    double? Ema3,
+    double? Trix
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Ema3 { get; set; }
-    public double? Trix { get; set; }
-
-    readonly double IReusable.Value
-        => Trix.Null2NaN();
+    double IReusable.Value => Trix.Null2NaN();
 }

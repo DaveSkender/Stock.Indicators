@@ -68,7 +68,7 @@ public class RocWbTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<RocWbResult> results = quotes
             .Use(CandlePart.Close)

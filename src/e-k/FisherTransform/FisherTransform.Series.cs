@@ -12,6 +12,20 @@ public static partial class Indicator
         // check parameter arguments
         FisherTransform.Validate(lookbackPeriods);
 
+        // use standard HL2 if quote source (override Close)
+        List<IReusable> feed
+            = typeof(IQuote).IsAssignableFrom(typeof(T))
+
+            ? source
+             .Cast<IQuote>()
+             .Use(CandlePart.HL2)
+             .Cast<IReusable>()
+             .ToSortedList()
+
+            : source
+             .Cast<IReusable>()
+             .ToSortedList();
+
         // initialize
         int length = source.Count;
         double[] pr = new double[length]; // median price
@@ -19,9 +33,9 @@ public static partial class Indicator
         List<FisherTransformResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            var s = source[i];
+            IReusable s = feed[i];
             pr[i] = s.Value;
 
             double minPrice = pr[i];
@@ -33,8 +47,8 @@ public static partial class Indicator
                 maxPrice = Math.Max(pr[p], maxPrice);
             }
 
-            FisherTransformResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            double? fisher;
+            double? trigger = null;
 
             if (i > 0)
             {
@@ -46,16 +60,21 @@ public static partial class Indicator
                 xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
                 xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
 
-                r.Fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
+                fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
                       + (0.5 * results[i - 1].Fisher)).NaN2Null();
 
-                r.Trigger = results[i - 1].Fisher;
+                trigger = results[i - 1].Fisher;
             }
             else
             {
                 xv[i] = 0;
-                r.Fisher = 0;
+                fisher = 0;
             }
+
+            results.Add(new FisherTransformResult(
+                Timestamp: s.Timestamp,
+                Trigger: trigger,
+                Fisher: fisher));
         }
 
         return results;

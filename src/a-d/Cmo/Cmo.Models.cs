@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public record struct CmoResult : IReusable
+public readonly record struct CmoResult
+(
+    DateTime Timestamp,
+    double? Cmo
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Cmo { get; set; }
-
-    readonly double IReusable.Value
-        => Cmo.Null2NaN();
+    double IReusable.Value => Cmo.Null2NaN();
 }

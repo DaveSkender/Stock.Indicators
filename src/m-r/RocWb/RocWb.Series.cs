@@ -35,11 +35,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             IReusable roc = ogRoc[i];
-            RocWbResult r = new() {
-                Timestamp = roc.Timestamp,
-                Roc = roc.Value.NaN2Null()
-            };
-            results.Add(r);
 
             // exponential moving average
             if (double.IsNaN(prevEma) && i >= emaPeriods)
@@ -59,10 +54,11 @@ public static partial class Indicator
                 ema[i] = EmaUtilities.Increment(k, prevEma, roc.Value);
             }
 
-            r.RocEma = ema[i].NaN2Null();
             prevEma = ema[i];
 
             // ROC deviation
+            double? rocDev = null;
+
             if (i >= stdDevPeriods)
             {
                 double sum = 0;
@@ -71,11 +67,15 @@ public static partial class Indicator
                     sum += rocSq[p];
                 }
 
-                double? rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
-
-                r.UpperBand = rocDev;
-                r.LowerBand = -rocDev;
+                rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
             }
+
+            results.Add(new RocWbResult(
+                Timestamp: roc.Timestamp,
+                Roc: roc.Value.NaN2Null(),
+                RocEma: ema[i].NaN2Null(),
+                UpperBand: rocDev,
+                LowerBand: -rocDev));
         }
 
         return results;

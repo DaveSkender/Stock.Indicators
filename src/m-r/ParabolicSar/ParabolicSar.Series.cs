@@ -38,12 +38,13 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ParabolicSarResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            bool? isReversal = null;
+            double psar;
 
             // skip first one
             if (i == 0)
             {
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
@@ -67,8 +68,8 @@ public static partial class Indicator
                 // turn down
                 if (q.Low < sar)
                 {
-                    r.IsReversal = true;
-                    r.Sar = extremePoint;
+                    isReversal = true;
+                    psar = extremePoint;
 
                     isRising = false;
                     accelerationFactor = initialFactor;
@@ -78,8 +79,8 @@ public static partial class Indicator
                 // continue rising
                 else
                 {
-                    r.IsReversal = false;
-                    r.Sar = sar;
+                    isReversal = false;
+                    psar = sar;
 
                     // new high extreme point
                     if (q.High > extremePoint)
@@ -112,8 +113,8 @@ public static partial class Indicator
                 // turn up
                 if (q.High > sar)
                 {
-                    r.IsReversal = true;
-                    r.Sar = extremePoint;
+                    isReversal = true;
+                    psar = extremePoint;
 
                     isRising = true;
                     accelerationFactor = initialFactor;
@@ -123,8 +124,8 @@ public static partial class Indicator
                 // continue falling
                 else
                 {
-                    r.IsReversal = false;
-                    r.Sar = sar;
+                    isReversal = false;
+                    psar = sar;
 
                     // new low extreme point
                     if (q.Low < extremePoint)
@@ -138,17 +139,27 @@ public static partial class Indicator
                 }
             }
 
-            priorSar = (double)r.Sar;
+            results.Add(new ParabolicSarResult(
+                Timestamp: q.Timestamp,
+                Sar: psar.NaN2Null(),
+                IsReversal: isReversal));
+
+            priorSar = psar;
         }
 
         // remove first trendline since it is an invalid guess
         int cutIndex = results.FindIndex(x => x.IsReversal is true);
 
+        cutIndex = cutIndex == -1 ? length - 1 : cutIndex;
+
         for (int d = 0; d <= cutIndex; d++)
         {
-            ParabolicSarResult r = results[d];
-            r.Sar = null;
-            r.IsReversal = null;
+            ParabolicSarResult r = results[d] with {
+                Sar = null,
+                IsReversal = null
+            };
+
+            results[d] = r;
         }
 
         return results;

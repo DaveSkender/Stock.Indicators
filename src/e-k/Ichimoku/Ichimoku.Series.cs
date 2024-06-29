@@ -24,6 +24,7 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<IchimokuResult> results = new(length);
+
         int senkouStartPeriod = Math.Max(
             2 * senkouOffset,
             Math.Max(tenkanPeriods, kijunPeriods)) - 1;
@@ -33,41 +34,56 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            IchimokuResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
-
             // tenkan-sen conversion line
-            CalcIchimokuTenkanSen(i, quotesList, r, tenkanPeriods);
+            decimal? tenkanSen = CalcIchimokuTenkanSen(
+                i, quotesList, tenkanPeriods);
 
             // kijun-sen base line
-            CalcIchimokuKijunSen(i, quotesList, r, kijunPeriods);
+            decimal? kijunSen = CalcIchimokuKijunSen(
+                i, quotesList, kijunPeriods);
 
             // senkou span A
+            decimal? senkouSpanA = null;
+
             if (i >= senkouStartPeriod)
             {
-                IchimokuResult skq = results[i - senkouOffset];
-
-                if (skq.TenkanSen != null && skq.KijunSen != null)
+                if (senkouOffset == 0)
                 {
-                    r.SenkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
+                    senkouSpanA = (tenkanSen + kijunSen) / 2;
+                }
+                else
+                {
+                    IchimokuResult skq = results[i - senkouOffset];
+                    senkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
                 }
             }
 
             // senkou span B
-            CalcIchimokuSenkouB(i, quotesList, r, senkouOffset, senkouBPeriods);
+            decimal? senkouSpanB = CalcIchimokuSenkouB(
+                i, quotesList, senkouOffset, senkouBPeriods);
 
             // chikou line
+            decimal? chikouSpan = null;
+
             if (i + chikouOffset < quotesList.Count)
             {
-                r.ChikouSpan = quotesList[i + chikouOffset].Close;
+                chikouSpan = quotesList[i + chikouOffset].Close;
             }
+
+            results.Add(new IchimokuResult(
+                Timestamp: q.Timestamp,
+                TenkanSen: tenkanSen,
+                KijunSen: kijunSen,
+                SenkouSpanA: senkouSpanA,
+                SenkouSpanB: senkouSpanB,
+                ChikouSpan: chikouSpan));
         }
 
         return results;
     }
 
-    private static void CalcIchimokuTenkanSen<TQuote>(
-        int i, List<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
+    private static decimal? CalcIchimokuTenkanSen<TQuote>(
+        int i, List<TQuote> quotesList, int tenkanPeriods)
         where TQuote : IQuote
     {
         if (i >= tenkanPeriods - 1)
@@ -90,14 +106,15 @@ public static partial class Indicator
                 }
             }
 
-            result.TenkanSen = (min == decimal.MaxValue) ? null : (min + max) / 2;
+            return (min == decimal.MaxValue) ? null : (min + max) / 2;
         }
+
+        return null;
     }
 
-    private static void CalcIchimokuKijunSen<TQuote>(
+    private static decimal? CalcIchimokuKijunSen<TQuote>(
         int i,
         List<TQuote> quotesList,
-        IchimokuResult result,
         int kijunPeriods)
         where TQuote : IQuote
     {
@@ -121,14 +138,15 @@ public static partial class Indicator
                 }
             }
 
-            result.KijunSen = (min == decimal.MaxValue) ? null : (min + max) / 2;
+            return (min == decimal.MaxValue) ? null : (min + max) / 2;
         }
+
+        return null;
     }
 
-    private static void CalcIchimokuSenkouB<TQuote>(
+    private static decimal? CalcIchimokuSenkouB<TQuote>(
         int i,
         List<TQuote> quotesList,
-        IchimokuResult result,
         int senkouOffset,
         int senkouBPeriods)
         where TQuote : IQuote
@@ -154,7 +172,9 @@ public static partial class Indicator
                 }
             }
 
-            result.SenkouSpanB = (min == decimal.MaxValue) ? null : (min + max) / 2;
+            return (min == decimal.MaxValue) ? null : (min + max) / 2;
         }
+
+        return null;
     }
 }

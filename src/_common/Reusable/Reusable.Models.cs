@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct Reusable(
+public readonly record struct Reusable(
     DateTime Timestamp,
     double Value
 ) : IReusable;

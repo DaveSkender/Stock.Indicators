@@ -40,7 +40,7 @@ public class SlopeTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<SlopeResult> results = quotes
             .Use(CandlePart.Close)

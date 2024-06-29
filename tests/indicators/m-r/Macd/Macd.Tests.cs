@@ -44,7 +44,7 @@ public class MacdTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<MacdResult> results = quotes
             .Use(CandlePart.Close)

@@ -19,10 +19,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            HurstResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
+            double? h = null;
 
             if (i + 1 > lookbackPeriods)
             {
@@ -34,7 +32,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
 
                     // return values
                     values[x] = l != 0 ? (ps.Value / l) - 1 : double.NaN;
@@ -44,8 +42,12 @@ public static partial class Indicator
                 }
 
                 // calculate hurst exponent
-                r.HurstExponent = CalcHurstWindow(values).NaN2Null();
+                h = CalcHurstWindow(values).NaN2Null();
             }
+
+            results.Add(new HurstResult(
+                Timestamp: s.Timestamp,
+                HurstExponent: h));
         }
 
         return results;

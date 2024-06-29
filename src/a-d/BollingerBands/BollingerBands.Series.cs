@@ -21,10 +21,7 @@ public static partial class Indicator
         {
             T s = source[i];
 
-            BollingerBandsResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
-
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double[] window = new double[lookbackPeriods];
                 double sum = 0;
@@ -38,18 +35,32 @@ public static partial class Indicator
                     n++;
                 }
 
-                double? periodAvg = (sum / lookbackPeriods).NaN2Null();
+                double? sma = (sum / lookbackPeriods).NaN2Null();
                 double? stdDev = window.StdDev().NaN2Null();
 
-                r.Sma = periodAvg;
-                r.UpperBand = periodAvg + (standardDeviations * stdDev);
-                r.LowerBand = periodAvg - (standardDeviations * stdDev);
+                double? upperBand = sma + (standardDeviations * stdDev);
+                double? lowerBand = sma - (standardDeviations * stdDev);
 
-                r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                    : (s.Value - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                results.Add(new BollingerBandsResult(
 
-                r.ZScore = (stdDev == 0) ? null : (s.Value - r.Sma) / stdDev;
-                r.Width = (periodAvg == 0) ? null : (r.UpperBand - r.LowerBand) / periodAvg;
+                    Timestamp: s.Timestamp,
+
+                    Sma: sma,
+                    UpperBand: upperBand,
+                    LowerBand: lowerBand,
+
+                    PercentB: (upperBand == lowerBand) ? null
+                        : (s.Value - lowerBand) / (upperBand - lowerBand),
+
+                    ZScore: (stdDev == 0) ? null : (s.Value - sma) / stdDev,
+                    Width: (sma == 0) ? null : (upperBand - lowerBand) / sma
+                ));
+            }
+
+            // initization period
+            else
+            {
+                results.Add(new() { Timestamp = s.Timestamp });
             }
         }
 

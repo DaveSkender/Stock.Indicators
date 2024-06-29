@@ -50,7 +50,7 @@ public class KamaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<KamaResult> results = quotes
             .Use(CandlePart.Close)

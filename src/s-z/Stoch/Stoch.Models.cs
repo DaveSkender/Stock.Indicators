@@ -2,18 +2,18 @@ namespace Skender.Stock.Indicators;
 
 /// <include file='./info.xml' path='info/type[@name="Results"]/*' />
 ///
-public record struct StochResult : IReusable
+public readonly record struct StochResult
+(
+    DateTime Timestamp,
+    double? Oscillator,
+    double? Signal,
+    double? PercentJ
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Oscillator { get; set; }
-    public double? Signal { get; set; }
-    public double? PercentJ { get; set; }
-
     // aliases
-    public readonly double? K => Oscillator;
-    public readonly double? D => Signal;
-    public readonly double? J => PercentJ;
+    public double? K => Oscillator;
+    public double? D => Signal;
+    public double? J => PercentJ;
 
-    readonly double IReusable.Value
-        => Oscillator.Null2NaN();
+    double IReusable.Value => Oscillator.Null2NaN();
 }

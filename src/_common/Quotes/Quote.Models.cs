@@ -5,33 +5,28 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Quote interface for standard OHLCV aggregate period.
 /// This is commonly known as a "bar" or "candle" and represents
-/// and asset price range over a specific time range, 
+/// and asset price range over a specific time range,
 /// <para>
 /// If implementing your own custom <c>TQuote:IQuote</c> type:
 /// </para>
 /// <para>
-/// (A) We recommend defining it as a <see langword="record struct"/>
-/// to ensure chaining and streaming compatibility.
-/// To support chaining features, it has to have value-based
-/// equality <c><see cref="IEquatable{IQuote}"/></c> and implement
-/// the <c><see cref="IReusable"/>.Value</c> pointer to your
-/// <see cref="IQuote.Close"/> price.  For streaming, it also has
-/// to be a <see langword="struct"/> type.
+/// (A) For streaming compatibility, define it as a
+/// <see langword="record struct"/> value-based type.
 /// </para>
 /// <para>
-/// (B) For <see cref="IReusable"/> compliance,
-/// add the following <c>TQuote</c> property (pointer) to your
-/// <see cref="IQuote.Close"/> price.
+/// (B) For chaining compatibility (<see cref="IReusable"/>
+/// compliance), add the following <c>TQuote</c> property
+/// (pointer) to your <see cref="IQuote.Close"/> price.
 /// <code>
 ///    double IReusableResult.Value => (double)Close;
 /// </code>
 /// </para>
 /// <para>
-/// TIP: If you do not need customization,
-/// use the built-in <see cref="Quote"/> type.
+/// TIP: If you do not need a custom quote type,
+/// use the built-in <see cref="Quote"/>.
 /// </para>
 /// </summary>
-public interface IQuote : IEquatable<IQuote>, IReusable
+public interface IQuote : IReusable
 {
     /// <summary>
     /// Aggregate bar's first tick price
@@ -57,11 +52,6 @@ public interface IQuote : IEquatable<IQuote>, IReusable
     /// Aggregate bar's tick volume
     /// </summary>
     decimal Volume { get; }
-
-    // reminder: IEquatable does not enforce use of == and != operators,
-    // so any internal comparisons should always use the Equals() method.
-    // Use of those operators would be reference-based equality only if
-    // users opt for 'class' type and did not define them.
 }
 
 /// <summary>
@@ -86,37 +76,32 @@ public interface IQuote : IEquatable<IQuote>, IReusable
 /// Aggregate bar's tick volume
 /// </param>
 /// <inheritdoc cref="IQuote"/>
-public record struct Quote(
+public readonly record struct Quote
+(
     DateTime Timestamp,
     decimal Open,
     decimal High,
     decimal Low,
     decimal Close,
-    decimal Volume)
-    : IQuote, IReusable
+    decimal Volume
+) : IQuote
 {
-    readonly double IReusable.Value
-        => (double)Close;
-
-    // this is only an appropriate
-    // implementation for record types
-    public readonly bool Equals(IQuote? other)
-      => base.Equals(other);
+    double IReusable.Value => (double)Close;
 }
 
 /// <summary>
 /// Double-point precision Quote, for internal use only.
 /// </summary>
 /// <inheritdoc cref="Quote" />
-internal record struct QuoteD(
+internal readonly record struct QuoteD
+(
     DateTime Timestamp,
     double Open,
     double High,
     double Low,
     double Close,
-    double Volume)
-    : IReusable
+    double Volume
+) : IReusable
 {
-    readonly double IReusable.Value
-        => Close;
+    double IReusable.Value => Close;
 }

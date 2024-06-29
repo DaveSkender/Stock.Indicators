@@ -4,16 +4,30 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     internal static List<MamaResult> CalcMama<T>(
-        this List<T> tpList,
+        this List<T> source,
         double fastLimit,
         double slowLimit)
         where T : IReusable
     {
+        // use standard HL2 if quote source (override Close)
+        List<IReusable> feed
+            = typeof(IQuote).IsAssignableFrom(typeof(T))
+
+            ? source
+             .Cast<IQuote>()
+             .Use(CandlePart.HL2)
+             .Cast<IReusable>()
+             .ToSortedList()
+
+            : source
+             .Cast<IReusable>()
+             .ToSortedList();
+
         // check parameter arguments
         Mama.Validate(fastLimit, slowLimit);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<MamaResult> results = new(length);
 
         double prevMama = double.NaN;
@@ -41,15 +55,13 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = tpList[i];
+            IReusable s = feed[i];
             pr[i] = s.Value;
-
-            MamaResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
 
             // skip incalculable periods
             if (i < 5)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -141,8 +153,10 @@ public static partial class Indicator
                 fama = (0.5 * alpha * mama) + ((1d - (0.5 * alpha)) * prevFama);
             }
 
-            r.Mama = mama.NaN2Null();
-            r.Fama = fama.NaN2Null();
+            results.Add(new MamaResult(
+                Timestamp: s.Timestamp,
+                Mama: mama.NaN2Null(),
+                Fama: fama.NaN2Null()));
 
             prevMama = mama;
             prevFama = fama;

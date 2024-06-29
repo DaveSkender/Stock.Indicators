@@ -38,7 +38,7 @@ public static partial class Indicator
              .ToSortedList();
 
         // initialize
-        int length = feed.Count;
+        int length = source.Count;
         List<AlligatorResult> results = new(length);
 
         // roll through quotes
@@ -121,11 +121,12 @@ public static partial class Indicator
             }
 
             // result
-            AlligatorResult r = new(
-                Timestamp: feed[i].Timestamp,
-                Jaw: jaw.NaN2Null(),
-                Teeth: teeth.NaN2Null(),
-                Lips: lips.NaN2Null());
+            AlligatorResult r = new() {
+                Timestamp = feed[i].Timestamp,
+                Jaw = jaw.NaN2Null(),
+                Teeth = teeth.NaN2Null(),
+                Lips = lips.NaN2Null()
+            };
 
             results.Add(r);
         }

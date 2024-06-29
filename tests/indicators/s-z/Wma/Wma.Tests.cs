@@ -23,7 +23,7 @@ public class WmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<WmaResult> results = quotes
             .Use(CandlePart.Close)

@@ -48,7 +48,7 @@ public class MamaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<MamaResult> results = quotes
             .Use(CandlePart.Close)

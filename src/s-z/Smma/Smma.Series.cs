@@ -21,14 +21,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            SmmaResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -40,7 +38,7 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     sum += ps.Value;
                 }
 
@@ -53,7 +51,10 @@ public static partial class Indicator
                 smma = ((prevSmma * (lookbackPeriods - 1)) + s.Value) / lookbackPeriods;
             }
 
-            r.Smma = smma.NaN2Null();
+            results.Add(new SmmaResult(
+                Timestamp: s.Timestamp,
+                Smma: smma.NaN2Null()));
+
             prevSmma = smma;
         }
 

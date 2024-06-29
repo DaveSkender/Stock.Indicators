@@ -246,7 +246,7 @@ public class MaEnvelopesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<MaEnvelopeResult> results = quotes
             .Use(CandlePart.Close)

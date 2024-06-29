@@ -14,6 +14,7 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<MfiResult> results = new(length);
+
         double[] tp = new double[length];  // true price
         double[] mf = new double[length];  // raw MF value
         int[] direction = new int[length]; // direction
@@ -21,12 +22,10 @@ public static partial class Indicator
         double? prevTP = null;
 
         // roll through quotes, to get preliminary data
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
-
-            MfiResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double mfi;
 
             // true price
             tp[i] = (q.High + q.Low + q.Close) / 3;
@@ -48,41 +47,47 @@ public static partial class Indicator
                 direction[i] = -1;
             }
 
-            prevTP = tp[i];
-        }
-
-        // add money flow index
-        for (int i = lookbackPeriods; i < results.Count; i++)
-        {
-            MfiResult r = results[i];
-
-            double sumPosMFs = 0;
-            double sumNegMFs = 0;
-
-            for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+            // add money flow index
+            if (i >= lookbackPeriods)
             {
-                if (direction[p] == 1)
+                double sumPosMFs = 0;
+                double sumNegMFs = 0;
+
+                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    sumPosMFs += mf[p];
+                    if (direction[p] == 1)
+                    {
+                        sumPosMFs += mf[p];
+                    }
+                    else if (direction[p] == -1)
+                    {
+                        sumNegMFs += mf[p];
+                    }
                 }
-                else if (direction[p] == -1)
+
+                // calculate MFI normally
+                if (sumNegMFs != 0)
                 {
-                    sumNegMFs += mf[p];
+                    double mfRatio = sumPosMFs / sumNegMFs;
+                    mfi = 100 - (100 / (1 + mfRatio));
+                }
+
+                // handle no negative case
+                else
+                {
+                    mfi = 100;
                 }
             }
-
-            // calculate MFI normally
-            if (sumNegMFs != 0)
-            {
-                double? mfRatio = sumPosMFs / sumNegMFs;
-                r.Mfi = 100 - (100 / (1 + mfRatio));
-            }
-
-            // handle no negative case
             else
             {
-                r.Mfi = 100;
+                mfi = double.NaN;
             }
+
+            results.Add(new MfiResult(
+                Timestamp: q.Timestamp,
+                Mfi: mfi.NaN2Null()));
+
+            prevTP = tp[i];
         }
 
         return results;

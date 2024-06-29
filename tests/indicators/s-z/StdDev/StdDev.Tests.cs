@@ -38,7 +38,7 @@ public class StdDevTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<StdDevResult> results = quotes
             .Use(CandlePart.Close)

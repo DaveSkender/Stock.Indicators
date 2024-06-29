@@ -4,10 +4,8 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    /// <include file='./info.xml' path='info/*' />
-    ///
     internal static List<CandleResult> CalcDoji<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this List<TQuote> quotesList,
         double maxPriceChangePercent)
         where TQuote : IQuote
     {
@@ -15,22 +13,31 @@ public static partial class Indicator
         Doji.Validate(maxPriceChangePercent);
 
         // initialize
-        List<CandleResult> results = quotes.ToCandleResults();
+        int length = quotesList.Count;
+        List<CandleResult> results = new(length);
+
         maxPriceChangePercent /= 100;
-        int length = results.Count;
 
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            CandleResult r = results[i];
+            TQuote q = quotesList[i];
+            decimal? matchPrice = null;
+            Match matchType = Match.None;
 
             // check for current signal
-            if (r.Candle.Open != 0
-                && Math.Abs((double)(r.Candle.Close / r.Candle.Open) - 1d) <= maxPriceChangePercent)
+            if (q.Open != 0
+                && Math.Abs((double)(q.Close / q.Open) - 1d) <= maxPriceChangePercent)
             {
-                r.Price = r.Candle.Close;
-                r.Match = Match.Neutral;
+                matchPrice = q.Close;
+                matchType = Match.Neutral;
             }
+
+            results.Add(new CandleResult(
+                timestamp: q.Timestamp,
+                quote: q,
+                match: matchType,
+                price: matchPrice));
         }
 
         return results;

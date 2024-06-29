@@ -23,8 +23,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            BopResult r = new() { Timestamp = qdList[i].Timestamp };
-            results.Add(r);
+            double? bop = null;
 
             if (i >= smoothPeriods - 1)
             {
@@ -34,8 +33,12 @@ public static partial class Indicator
                     sum += raw[p];
                 }
 
-                r.Bop = (sum / smoothPeriods).NaN2Null();
+                bop = (sum / smoothPeriods).NaN2Null();
             }
+
+            results.Add(new BopResult(
+                Timestamp: qdList[i].Timestamp,
+                Bop: bop));
         }
 
         return results;

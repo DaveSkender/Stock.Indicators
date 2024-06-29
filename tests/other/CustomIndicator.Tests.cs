@@ -3,10 +3,10 @@ using System.Globalization;
 
 namespace Tests.CustomIndicators;
 
-public record struct MyResult : IReusable
+public readonly record struct MyResult : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Sma { get; set; }
+    public DateTime Timestamp { get; init; }
+    public double? Sma { get; init; }
 
     readonly double IReusable.Value
         => Sma.Null2NaN();
@@ -41,22 +41,32 @@ public static class CustomIndicator
         // roll through quotes
         for (int i = 0; i < source.Count; i++)
         {
-            var s = source[i];
+            T s = source[i];
 
             MyResult result = new() { Timestamp = s.Timestamp };
-            results.Add(result);
+
+            double? sma;
 
             if (i >= lookbackPeriods - 1)
             {
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     sum += ps.Value;
                 }
 
-                result.Sma = (sum / lookbackPeriods).NaN2Null();
+                sma = (sum / lookbackPeriods).NaN2Null();
             }
+            else
+            {
+                sma = null;
+            }
+
+            results.Add(new MyResult() {
+                Timestamp = s.Timestamp,
+                Sma = sma
+            });
         }
 
         return results;

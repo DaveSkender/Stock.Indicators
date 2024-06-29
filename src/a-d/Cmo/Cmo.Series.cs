@@ -33,9 +33,7 @@ public static partial class Indicator
         for (int i = 1; i < length; i++)
         {
             T s = source[i];
-
-            CmoResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            double? cmo = null;
 
             // determine tick direction and size
             (bool? isUp, double value) tick = (null, Math.Abs(s.Value - prevValue));
@@ -77,10 +75,14 @@ public static partial class Indicator
                     }
                 }
 
-                r.Cmo = (sH + sL != 0)
+                cmo = (sH + sL != 0)
                     ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
                     : null;
             }
+
+            results.Add(new CmoResult(
+                Timestamp: s.Timestamp,
+                Cmo: cmo));
 
             prevValue = s.Value;
         }

@@ -61,7 +61,7 @@ public class RsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<RsiResult> results = quotes
             .Use(CandlePart.Close)

@@ -14,20 +14,19 @@ public static partial class Indicator
     /// </summary>
     /// <remarks>
     /// </remarks>
-    /// <typeparam name="T">"T" should be IReusableResult or IQuote type</typeparam>
-    /// <param name = "source" > Historical price quotes.</param>
+    /// <typeparam name="T">
+    /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type
+    /// </typeparam>
+    /// <param name="source">Time-series values to transform.</param>
     /// <returns>Time series of Gator values.</returns>
 
     // See Alligator API for explanation of unusual setup.
     public static IEnumerable<GatorResult> GetGator<T>(
         this IEnumerable<T> source)
-        where T : struct, IReusable
+        where T : IReusable
         => source
             .GetAlligator()
-            .ToList()
-            .CalcGator();
-
-
+            .GetGator();
 
     // SERIES, from [custom] Alligator
     public static IEnumerable<GatorResult> GetGator(

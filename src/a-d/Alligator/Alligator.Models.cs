@@ -1,7 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public record struct AlligatorResult
-(
+public readonly record struct AlligatorResult(
     DateTime Timestamp,
     double? Jaw,
     double? Teeth,

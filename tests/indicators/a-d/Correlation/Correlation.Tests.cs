@@ -34,7 +34,7 @@ public class CorrelationTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<CorrResult> results = quotes
             .Use(CandlePart.Close)

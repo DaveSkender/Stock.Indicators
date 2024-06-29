@@ -34,7 +34,7 @@ public class TrixTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<TrixResult> results = quotes
             .Use(CandlePart.Close)

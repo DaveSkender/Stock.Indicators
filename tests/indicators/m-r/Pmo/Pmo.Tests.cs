@@ -26,7 +26,7 @@ public class PmoTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<PmoResult> results = quotes
             .Use(CandlePart.Close)

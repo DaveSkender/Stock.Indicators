@@ -51,7 +51,7 @@ public class DpoTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<DpoResult> results = quotes
             .Use(CandlePart.Close)

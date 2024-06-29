@@ -145,7 +145,7 @@ public class GatorTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<GatorResult> results = quotes
             .Use(CandlePart.Close)

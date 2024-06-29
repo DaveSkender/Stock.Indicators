@@ -2,44 +2,62 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
-public record struct CandleProperties : IQuote, IReusable
+public readonly record struct CandleProperties : IQuote, IReusable
 {
     // base quote properties
-    public DateTime Timestamp { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
+    public DateTime Timestamp { get; init; }
+    public decimal Open { get; init; }
+    public decimal High { get; init; }
+    public decimal Low { get; init; }
+    public decimal Close { get; init; }
+    public decimal Volume { get; init; }
 
-    readonly double IReusable.Value
-        => (double)Close;
+    double IReusable.Value => (double)Close;
 
     // raw sizes
-    public readonly decimal? Size => High - Low;
-    public readonly decimal? Body => (Open > Close) ? (Open - Close) : (Close - Open);
-    public readonly decimal? UpperWick => High - (Open > Close ? Open : Close);
-    public readonly decimal? LowerWick => (Open > Close ? Close : Open) - Low;
+    public decimal? Size => High - Low;
+    public decimal? Body => (Open > Close) ? (Open - Close) : (Close - Open);
+    public decimal? UpperWick => High - (Open > Close ? Open : Close);
+    public decimal? LowerWick => (Open > Close ? Close : Open) - Low;
 
     // percent sizes
-    public readonly double? BodyPct => (Size != 0) ? (double?)(Body / Size) : 1;
-    public readonly double? UpperWickPct => (Size != 0) ? (double?)(UpperWick / Size) : 1;
-    public readonly double? LowerWickPct => (Size != 0) ? (double?)(LowerWick / Size) : 1;
+    public double? BodyPct => (Size != 0) ? (double?)(Body / Size) : 1;
+    public double? UpperWickPct => (Size != 0) ? (double?)(UpperWick / Size) : 1;
+    public double? LowerWickPct => (Size != 0) ? (double?)(LowerWick / Size) : 1;
 
     // directional info
-    public readonly bool IsBullish => Close > Open;
-    public readonly bool IsBearish => Close < Open;
-
-    // this is only an appropriate
-    // implementation for record types
-    public readonly bool Equals(IQuote? other)
-      => base.Equals(other);
+    public bool IsBullish => Close > Open;
+    public bool IsBearish => Close < Open;
 }
 
-public record struct CandleResult : IResult
+public readonly record struct CandleResult : IResult
 {
-    public DateTime Timestamp { get; set; }
-    public decimal? Price { get; set; }
-    public Match Match { get; set; }
-    public CandleProperties Candle { get; set; }
+    public CandleResult(
+        DateTime timestamp,
+        IQuote quote,
+        Match match,
+        decimal? price)
+    {
+        Timestamp = timestamp;
+        Price = price;
+        Match = match;
+        Candle = quote.ToCandle();
+    }
+
+    public CandleResult(
+        DateTime timestamp,
+        CandleProperties candle,
+        Match match,
+        decimal? price)
+    {
+        Timestamp = timestamp;
+        Price = price;
+        Match = match;
+        Candle = candle;
+    }
+
+    public DateTime Timestamp { get; init; }
+    public decimal? Price { get; init; }
+    public Match Match { get; init; }
+    public CandleProperties Candle { get; init; }
 }

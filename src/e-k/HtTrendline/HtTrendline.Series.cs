@@ -7,6 +7,20 @@ public static partial class Indicator
         this List<T> source)
         where T : IReusable
     {
+        // use standard HL2 if quote source (override Close)
+        List<IReusable> feed
+            = typeof(IQuote).IsAssignableFrom(typeof(T))
+
+            ? source
+             .Cast<IQuote>()
+             .Use(CandlePart.HL2)
+             .Cast<IReusable>()
+             .ToSortedList()
+
+            : source
+             .Cast<IReusable>()
+             .ToSortedList();
+
         // initialize
         int length = source.Count;
         List<HtlResult> results = new(length);
@@ -34,11 +48,8 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
+            IReusable s = feed[i];
             pr[i] = s.Value;
-
-            HtlResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
 
             if (i > 5)
             {
@@ -104,21 +115,27 @@ public static partial class Indicator
 
                 it[i] = dcPeriods > 0 ? sumPr / dcPeriods : pr[i];
 
-                r.DcPeriods = dcPeriods > 0 ? dcPeriods : null;
-
                 // final indicators
-                r.Trendline = i >= 11 // 12th bar
-                    ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
-                    : pr[i].NaN2Null();
+                results.Add(new HtlResult(
 
-                r.SmoothPrice = (((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d).NaN2Null();
+                    Timestamp: s.Timestamp,
+                    DcPeriods: dcPeriods > 0 ? dcPeriods : null,
+
+                    Trendline: i >= 11 // 12th bar
+                      ? (((4 * it[i]) + (3 * it[i - 1]) + (2 * it[i - 2]) + it[i - 3]) / 10d).NaN2Null()
+                      : pr[i].NaN2Null(),
+
+                    SmoothPrice: (((4 * pr[i]) + (3 * pr[i - 1]) + (2 * pr[i - 2]) + pr[i - 3]) / 10d).NaN2Null()));
             }
 
             // initialization period
             else
             {
-                r.Trendline = pr[i].NaN2Null();
-                r.SmoothPrice = null;
+                results.Add(new HtlResult(
+                    Timestamp: s.Timestamp,
+                    DcPeriods: null,
+                    Trendline: pr[i].NaN2Null(),
+                    SmoothPrice: null));
 
                 pd[i] = 0;
                 sp[i] = 0;

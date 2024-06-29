@@ -37,10 +37,10 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SmiResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double smi;
+            double signal;
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double hH = double.MinValue;
                 double lL = double.MaxValue;
@@ -82,8 +82,7 @@ public static partial class Indicator
                 double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
                 // stochastic momentum index
-                double smi = 100 * (smEma2 / (0.5 * hlEma2));
-                r.Smi = smi;
+                smi = 100 * (smEma2 / (0.5 * hlEma2));
 
                 // initialize signal line
                 // TODO: update healing, without requiring specific indexing
@@ -93,8 +92,7 @@ public static partial class Indicator
                 }
 
                 // signal line
-                double signal = lastSignal + (kS * (smi - lastSignal));
-                r.Signal = signal;
+                signal = lastSignal + (kS * (smi - lastSignal));
 
                 // carryover values
                 lastSmEma1 = smEma1;
@@ -103,6 +101,16 @@ public static partial class Indicator
                 lastHlEma2 = hlEma2;
                 lastSignal = signal;
             }
+            else
+            {
+                smi = double.NaN;
+                signal = double.NaN;
+            }
+
+            results.Add(new SmiResult(
+                Timestamp: q.Timestamp,
+                Smi: smi.NaN2Null(),
+                Signal: signal.NaN2Null()));
         }
 
         return results;

@@ -22,26 +22,28 @@ public static partial class Indicator
         // roll through quotes, to get preliminary data
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            DynamicResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
+            double dyn;
 
             // re/initialize
             if (double.IsNaN(prevDyn))
             {
+                dyn = double.NaN;
                 prevDyn = s.Value;
             }
 
             // normal Dynamic
             else
             {
-                double dyn = prevDyn + ((s.Value - prevDyn) /
+                dyn = prevDyn + ((s.Value - prevDyn) /
                    (kFactor * lookbackPeriods * Math.Pow(s.Value / prevDyn, 4)));
 
-                r.Dynamic = dyn.NaN2Null();
                 prevDyn = dyn;
             }
+
+            results.Add(new DynamicResult(
+                Timestamp: s.Timestamp,
+                Dynamic: dyn.NaN2Null()));
         }
 
         return results;

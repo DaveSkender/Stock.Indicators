@@ -29,21 +29,29 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
+
             double? v = q.Volume;
             double? h = q.High;
             double? l = q.Low;
             double? c = q.Close;
 
-            VwapResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? vwap;
 
             if (q.Timestamp >= startDate)
             {
                 cumVolume += v;
                 cumVolumeTP += v * (h + l + c) / 3;
 
-                r.Vwap = (cumVolume != 0) ? (cumVolumeTP / cumVolume) : null;
+                vwap = (cumVolume != 0) ? (cumVolumeTP / cumVolume) : null;
             }
+            else
+            {
+                vwap = null;
+            }
+
+            results.Add(new VwapResult(
+                Timestamp: q.Timestamp,
+                Vwap: vwap));
         }
 
         return results;

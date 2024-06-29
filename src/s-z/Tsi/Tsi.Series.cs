@@ -34,11 +34,7 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            // initialize
-            TsiResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // skip first period
             if (i == 0)
@@ -49,6 +45,8 @@ public static partial class Indicator
                 as1[i] = double.NaN;
                 cs2[i] = double.NaN;
                 as2[i] = double.NaN;
+
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -103,19 +101,20 @@ public static partial class Indicator
             }
 
             // true strength index
-            double tsi = (as2[i] != 0) ? 100d * (cs2[i] / as2[i]) : double.NaN;
-            r.Tsi = tsi.NaN2Null();
+            double tsi = (as2[i] != 0)
+                ? 100d * (cs2[i] / as2[i])
+                : double.NaN;
 
             // signal line
+            double signal;
+
             if (signalPeriods > 1)
             {
-                double signal;
-
                 // re/initialize signal
                 if (double.IsNaN(prevSignal) && i > signalPeriods)
                 {
-                    double sum = 0;
-                    for (int p = i - signalPeriods + 1; p <= i; p++)
+                    double sum = tsi;
+                    for (int p = i - signalPeriods + 1; p < i; p++)
                     {
                         sum += results[p].Tsi.Null2NaN();
                     }
@@ -128,14 +127,20 @@ public static partial class Indicator
                 {
                     signal = ((tsi - prevSignal) * multS) + prevSignal;
                 }
-
-                r.Signal = signal.NaN2Null();
-                prevSignal = signal;
             }
-            else if (signalPeriods == 1)
+            else
             {
-                r.Signal = r.Tsi;
+                signal = signalPeriods == 1
+                    ? tsi
+                    : double.NaN;
             }
+
+            results.Add(new TsiResult(
+                Timestamp: s.Timestamp,
+                Tsi: tsi.NaN2Null(),
+                Signal: signal.NaN2Null()));
+
+            prevSignal = signal;
         }
 
         return results;

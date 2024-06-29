@@ -13,12 +13,12 @@ public static partial class Indicator
         Fcb.Validate(windowSpan);
 
         // initialize
-        List<FractalResult> fractals = quotesList
-            .CalcFractal(windowSpan, windowSpan, EndType.HighLow)
-            .ToList();
-
-        int length = fractals.Count;
+        int length = quotesList.Count;
         List<FcbResult> results = new(length);
+
+        List<FractalResult> fractals = quotesList
+            .CalcFractal(windowSpan, windowSpan, EndType.HighLow);
+
         decimal? upperLine = null;
         decimal? lowerLine = null;
 
@@ -27,19 +27,18 @@ public static partial class Indicator
         {
             FractalResult f = fractals[i];
 
-            FcbResult r = new() { Timestamp = f.Timestamp };
-            results.Add(r);
-
             if (i >= 2 * windowSpan)
             {
                 FractalResult fp = fractals[i - windowSpan];
 
                 upperLine = fp.FractalBear ?? upperLine;
                 lowerLine = fp.FractalBull ?? lowerLine;
-
-                r.UpperBand = upperLine;
-                r.LowerBand = lowerLine;
             }
+
+            results.Add(new FcbResult(
+                Timestamp: f.Timestamp,
+                UpperBand: upperLine,
+                LowerBand: lowerLine));
         }
 
         return results;

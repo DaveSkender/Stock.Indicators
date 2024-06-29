@@ -29,7 +29,7 @@ public class TemaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<TemaResult> results = quotes
             .Use(CandlePart.Close)

@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public record struct ChopResult : IReusable
+public readonly record struct ChopResult
+(
+    DateTime Timestamp,
+    double? Chop
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Chop { get; set; }
-
-    readonly double IReusable.Value
-        => Chop.Null2NaN();
+    double IReusable.Value => Chop.Null2NaN();
 }

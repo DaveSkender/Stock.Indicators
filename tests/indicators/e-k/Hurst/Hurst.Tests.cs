@@ -22,7 +22,7 @@ public class HurstTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<HurstResult> results = quotes
             .Use(CandlePart.Close)

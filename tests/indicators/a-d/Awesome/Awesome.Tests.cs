@@ -33,7 +33,7 @@ public class AwesomeTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<AwesomeResult> results = quotes
             .Use(CandlePart.Close)

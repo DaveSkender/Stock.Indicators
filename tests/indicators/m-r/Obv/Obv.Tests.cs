@@ -69,11 +69,4 @@ public class ObvTests : SeriesTestBase
 
         Assert.AreEqual(1, r1.Count);
     }
-
-    // bad SMA period
-    [TestMethod]
-    [Obsolete("remove after v3")]
-    public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetObv(0));
 }

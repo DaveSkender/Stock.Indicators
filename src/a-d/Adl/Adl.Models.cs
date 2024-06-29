@@ -1,14 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-public record struct AdlResult
+public readonly record struct AdlResult
 (
     DateTime Timestamp,
     double Adl,
     double? MoneyFlowMultiplier = null,
-    double? MoneyFlowVolume = null)
-    : IReusable
+    double? MoneyFlowVolume = null
+) : IReusable
 {
-    readonly double IReusable.Value => Adl;
+    double IReusable.Value => Adl;
 }
 
 public interface IAdl : IStreamObserver

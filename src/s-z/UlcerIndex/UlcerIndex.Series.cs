@@ -13,15 +13,15 @@ public static partial class Indicator
         UlcerIndex.Validate(lookbackPeriods);
 
         // initialize
-        List<UlcerIndexResult> results = new(source.Count);
+        int length = source.Count;
+        List<UlcerIndexResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             T s = source[i];
 
-            UlcerIndexResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            double? ui;
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -47,8 +47,17 @@ public static partial class Indicator
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                r.UlcerIndex = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
+                ui = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
             }
+            else
+            {
+                ui = null;
+            }
+
+            UlcerIndexResult r = new(
+                Timestamp: s.Timestamp,
+                UlcerIndex: ui);
+            results.Add(r);
         }
 
         return results;

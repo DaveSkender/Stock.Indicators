@@ -36,7 +36,7 @@ public class ConnorsRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<ConnorsRsiResult> results = quotes
             .Use(CandlePart.Close)

@@ -27,7 +27,7 @@ public class SmmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<SmmaResult> results = quotes
             .Use(CandlePart.Close)

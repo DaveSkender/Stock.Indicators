@@ -26,21 +26,21 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-
-            KamaResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < erPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
+            double er;
             double kama;
 
             if (double.IsNaN(prevKama))
             {
+                er = double.NaN;
                 kama = s.Value;
             }
             else
@@ -58,8 +58,7 @@ public static partial class Indicator
                 if (sumPV != 0)
                 {
                     // efficiency ratio
-                    double er = change / sumPV;
-                    r.ER = er.NaN2Null();
+                    er = change / sumPV;
 
                     // smoothing constant
                     double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
@@ -71,12 +70,16 @@ public static partial class Indicator
                 // handle flatline case
                 else
                 {
-                    r.ER = 0;
+                    er = 0;
                     kama = s.Value;
                 }
             }
 
-            r.Kama = kama.NaN2Null();
+            results.Add(new KamaResult(
+                Timestamp: s.Timestamp,
+                ER: er.NaN2Null(),
+                Kama: kama.NaN2Null()));
+
             prevKama = kama;
         }
 

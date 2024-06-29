@@ -32,20 +32,22 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KeltnerResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
-
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];
                 double? atrSpan = atr.Atr * multiplier;
 
-                r.UpperBand = ema.Ema + atrSpan;
-                r.LowerBand = ema.Ema - atrSpan;
-                r.Centerline = ema.Ema;
-                r.Width = (r.Centerline == 0) ? null
-                    : (r.UpperBand - r.LowerBand) / r.Centerline;
+                results.Add(new KeltnerResult(
+                    Timestamp: q.Timestamp,
+                    UpperBand: ema.Ema + atrSpan,
+                    LowerBand: ema.Ema - atrSpan,
+                    Centerline: ema.Ema,
+                    Width: (ema.Ema == 0) ? null : 2 * atrSpan / ema.Ema));
+            }
+            else
+            {
+                results.Add(new() { Timestamp = q.Timestamp });
             }
         }
 

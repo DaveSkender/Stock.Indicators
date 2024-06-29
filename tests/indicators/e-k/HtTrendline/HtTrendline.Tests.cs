@@ -58,7 +58,7 @@ public class HtTrendlineTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<HtlResult> results = quotes
             .Use(CandlePart.Close)

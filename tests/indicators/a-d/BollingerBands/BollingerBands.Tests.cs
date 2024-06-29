@@ -38,7 +38,7 @@ public class BollingerBandsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<BollingerBandsResult> results = quotes
             .Use(CandlePart.Close)

@@ -15,49 +15,95 @@ public static partial class Indicator
         Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        List<EmaResult> emaFast = source.CalcEma(fastPeriods);
-        List<EmaResult> emaSlow = source.CalcEma(slowPeriods);
-
         int length = source.Count;
-        List<Reusable> emaDiff = [];
         List<MacdResult> results = new(length);
+
+        double lastEmaFast = double.NaN;
+        double lastEmaSlow = double.NaN;
+        double lastEmaMacd = double.NaN;
+
+        double kFast = 2d / (fastPeriods + 1);
+        double kSlow = 2d / (slowPeriods + 1);
+        double kMacd = 2d / (signalPeriods + 1);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
-            EmaResult df = emaFast[i];
-            EmaResult ds = emaSlow[i];
+            T s = source[i];
 
-            MacdResult r = new() {
-                Timestamp = s.Timestamp,
-                FastEma = df.Ema,
-                SlowEma = ds.Ema
-            };
-            results.Add(r);
+            // re-initialize Fast EMA
+            double emaFast;
 
-            if (i >= slowPeriods - 1)
+            if (double.IsNaN(lastEmaFast) && i >= fastPeriods - 1)
             {
-                double macd = (df.Ema - ds.Ema).Null2NaN();
-                r.Macd = macd.NaN2Null();
+                double sum = 0;
+                for (int p = i - fastPeriods + 1; p <= i; p++)
+                {
+                    T ps = source[p];
+                    sum += ps.Value;
+                }
 
-                // temp data for interim EMA of macd
-                var diff = new Reusable(s.Timestamp, macd);
-
-                emaDiff.Add(diff);
+                emaFast = sum / fastPeriods;
             }
-        }
+            else
+            {
+                emaFast = EmaUtilities
+                    .Increment(kFast, lastEmaFast, s.Value);
+            }
 
-        // add signal and histogram to result
-        List<EmaResult> emaSignal = CalcEma(emaDiff, signalPeriods);
+            // re-initialize Slow EMA
+            double emaSlow;
 
-        for (int d = slowPeriods - 1; d < length; d++)
-        {
-            MacdResult r = results[d];
-            EmaResult ds = emaSignal[d + 1 - slowPeriods];
+            if (double.IsNaN(lastEmaSlow) && i >= slowPeriods - 1)
+            {
+                double sum = 0;
+                for (int p = i - slowPeriods + 1; p <= i; p++)
+                {
+                    T ps = source[p];
+                    sum += ps.Value;
+                }
 
-            r.Signal = ds.Ema.NaN2Null();
-            r.Histogram = (r.Macd - r.Signal).NaN2Null();
+                emaSlow = sum / slowPeriods;
+            }
+            else
+            {
+                emaSlow = EmaUtilities
+                    .Increment(kSlow, lastEmaSlow, s.Value);
+            }
+
+            double macd = emaFast - emaSlow;
+
+            // re-initialize Signal EMA
+            double signal;
+
+            if (double.IsNaN(lastEmaMacd) && i >= signalPeriods + slowPeriods - 2)
+            {
+                double sum = macd;
+                for (int p = i - signalPeriods + 1; p < i; p++)
+                {
+                    sum += ((IReusable)results[p]).Value;
+                }
+
+                signal = sum / signalPeriods;
+            }
+            else
+            {
+                signal = EmaUtilities
+                    .Increment(kMacd, lastEmaMacd, macd);
+            }
+
+            // write results
+            results.Add(new MacdResult(
+                Timestamp: s.Timestamp,
+                Macd: macd.NaN2Null(),
+                Signal: signal.NaN2Null(),
+                Histogram: (macd - signal).NaN2Null(),
+                FastEma: emaFast.NaN2Null(),
+                SlowEma: emaSlow.NaN2Null()));
+
+            lastEmaMacd = signal;
+            lastEmaFast = emaFast;
+            lastEmaSlow = emaSlow;
         }
 
         return results;

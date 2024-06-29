@@ -14,25 +14,24 @@ public static partial class Indicator
         Prs.Validate(listEval, listBase, lookbackPeriods);
 
         // initialize
-        List<PrsResult> results = new(listEval.Count);
+        int length = listEval.Count;
+        List<PrsResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < listEval.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             T b = listBase[i];
             T e = listEval[i];
 
             if (e.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(listEval), e.Timestamp,
-                    "Timestamp sequence does not match.  Price Relative requires matching dates in provided histories.");
+                throw new InvalidQuotesException(
+                    nameof(listEval), e.Timestamp,
+                    "Timestamp sequence does not match.  "
+                  + "Price Relative requires matching dates in provided histories.");
             }
 
-            PrsResult r = new() {
-                Timestamp = e.Timestamp,
-                Prs = (b.Value == 0) ? null : (e.Value / b.Value).NaN2Null() // relative strength ratio
-            };
-            results.Add(r);
+            double? prsPercent = null;
 
             if (lookbackPeriods is not null && i > lookbackPeriods - 1)
             {
@@ -44,9 +43,20 @@ public static partial class Indicator
                     double? pctB = (b.Value - bo.Value) / bo.Value;
                     double? pctE = (e.Value - eo.Value) / eo.Value;
 
-                    r.PrsPercent = (pctE - pctB).NaN2Null();
+                    prsPercent = (pctE - pctB).NaN2Null();
                 }
             }
+
+            PrsResult r = new() {
+                Timestamp = e.Timestamp,
+
+                Prs = (b.Value == 0)
+                    ? null
+                    : (e.Value / b.Value).NaN2Null(), // relative strength ratio
+
+                PrsPercent = prsPercent
+            };
+            results.Add(r);
         }
 
         return results;

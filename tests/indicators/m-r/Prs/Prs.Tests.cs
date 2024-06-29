@@ -31,7 +31,7 @@ public class PrsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
         List<PrsResult> results = otherQuotes
             .Use(CandlePart.Close)

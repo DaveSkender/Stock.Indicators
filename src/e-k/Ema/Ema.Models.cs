@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public record struct EmaResult(
+public readonly record struct EmaResult
+(
     DateTime Timestamp,
-    double? Ema = null)
-    : IReusable
+    double? Ema = null
+) : IReusable
 {
-    readonly double IReusable.Value
-        => Ema.Null2NaN();
+    double IReusable.Value => Ema.Null2NaN();
 }
 
 public interface IEma : IStreamObserver

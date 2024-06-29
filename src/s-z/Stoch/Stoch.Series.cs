@@ -33,9 +33,6 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            StochResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
-
             // initial %K oscillator
             if (i >= lookbackPeriods - 1)
             {
@@ -120,13 +117,14 @@ public static partial class Indicator
                 k[i] = double.NaN;
             }
 
-            r.Oscillator = k[i].NaN2Null();
+            double oscillator = k[i];
+            double signal;
 
 
             // %D signal line
             if (signalPeriods <= 1)
             {
-                r.Signal = r.Oscillator;
+                signal = oscillator;
             }
             else if (i >= signalPeriods)
             {
@@ -140,7 +138,7 @@ public static partial class Indicator
                         sum += k[p];
                     }
 
-                    r.Signal = (sum / signalPeriods).NaN2Null();
+                    signal = sum / signalPeriods;
                 }
 
                 // SMMA case
@@ -153,7 +151,7 @@ public static partial class Indicator
                     }
 
                     double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
-                    r.Signal = d.NaN2Null();
+                    signal = d;
                     prevD = d;
                 }
 
@@ -162,10 +160,16 @@ public static partial class Indicator
                     throw new InvalidOperationException("Invalid Stochastic moving average type.");
                 }
             }
+            else
+            {
+                signal = double.NaN;
+            }
 
-            // %J profile
-            r.PercentJ = (kFactor * r.Oscillator) - (dFactor * r.Signal);
-
+            results.Add(new StochResult(
+                Timestamp: q.Timestamp,
+                Oscillator: oscillator.NaN2Null(),
+                Signal: signal.NaN2Null(),
+                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null()));
         }
         return results;
     }

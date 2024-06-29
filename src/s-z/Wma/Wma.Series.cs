@@ -13,28 +13,35 @@ public static partial class Indicator
         Wma.Validate(lookbackPeriods);
 
         // initialize
-        List<WmaResult> results = new(source.Count);
+        int length = source.Count;
+        List<WmaResult> results = new(length);
+
         double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         // roll through quotes
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            var s = source[i];
+            T s = source[i];
 
-            WmaResult r = new() { Timestamp = s.Timestamp };
-            results.Add(r);
+            double wma;
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
-                double wma = 0;
+                wma = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     wma += ps.Value * (lookbackPeriods - (i + 1 - p - 1)) / divisor;
                 }
-
-                r.Wma = wma.NaN2Null();
             }
+            else
+            {
+                wma = double.NaN;
+            }
+
+            results.Add(new WmaResult(
+                Timestamp: s.Timestamp,
+                Wma: wma.NaN2Null()));
         }
 
         return results;
