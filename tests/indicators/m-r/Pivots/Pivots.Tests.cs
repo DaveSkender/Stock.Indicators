@@ -6,8 +6,8 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<PivotsResult> results = quotes
-            .GetPivots(4, 4, 20, EndType.HighLow)
+        List<PivotsResult> results = Quotes
+            .GetPivots(4, 4)
             .ToList();
 
         // proper quantities
@@ -38,18 +38,18 @@ public class PivotsTests : SeriesTestBase
 
         PivotsResult r120 = results[120];
         Assert.AreEqual(233.02m, r120.HighPoint);
-        Assert.AreEqual(PivotTrend.LH, r120.HighTrend);
+        Assert.AreEqual(PivotTrend.Lh, r120.HighTrend);
         Assert.AreEqual(233.02m, r120.HighLine);
         Assert.AreEqual(null, r120.LowPoint);
-        Assert.AreEqual(PivotTrend.LL, r120.LowTrend);
+        Assert.AreEqual(PivotTrend.Ll, r120.LowTrend);
         Assert.AreEqual(228.9671m, r120.LowLine.Round(4));
 
         PivotsResult r180 = results[180];
         Assert.AreEqual(239.74m, r180.HighPoint);
-        Assert.AreEqual(PivotTrend.HH, r180.HighTrend);
+        Assert.AreEqual(PivotTrend.Hh, r180.HighTrend);
         Assert.AreEqual(239.74m, r180.HighLine);
         Assert.AreEqual(null, r180.LowPoint);
-        Assert.AreEqual(PivotTrend.HL, r180.LowTrend);
+        Assert.AreEqual(PivotTrend.Hl, r180.LowTrend);
         Assert.AreEqual(236.7050m, r180.LowLine.Round(4));
 
         PivotsResult r250 = results[250];
@@ -62,10 +62,10 @@ public class PivotsTests : SeriesTestBase
 
         PivotsResult r472 = results[472];
         Assert.AreEqual(null, r472.HighPoint);
-        Assert.AreEqual(PivotTrend.LH, r472.HighTrend);
+        Assert.AreEqual(PivotTrend.Lh, r472.HighTrend);
         Assert.AreEqual(274.14m, r472.HighLine);
         Assert.AreEqual(null, r472.LowPoint);
-        Assert.AreEqual(PivotTrend.HL, r472.LowTrend);
+        Assert.AreEqual(PivotTrend.Hl, r472.LowTrend);
         Assert.AreEqual(255.8078m, r472.LowLine.Round(4));
 
         PivotsResult r497 = results[497];
@@ -88,7 +88,7 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PivotsResult> r = badQuotes
+        List<PivotsResult> r = BadQuotes
             .GetPivots()
             .ToList();
 
@@ -98,13 +98,13 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PivotsResult> r0 = noquotes
+        List<PivotsResult> r0 = Noquotes
             .GetPivots()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PivotsResult> r1 = onequote
+        List<PivotsResult> r1 = Onequote
             .GetPivots()
             .ToList();
 
@@ -114,8 +114,8 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<PivotsResult> r = quotes
-            .GetPivots(4, 4, 20, EndType.HighLow)
+        List<PivotsResult> r = Quotes
+            .GetPivots(4, 4)
             .Condense()
             .ToList();
 
@@ -127,14 +127,14 @@ public class PivotsTests : SeriesTestBase
     {
         // bad left span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPivots(1));
+            Quotes.GetPivots(1));
 
         // bad right span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPivots(2, 1));
+            Quotes.GetPivots(2, 1));
 
         // bad lookback window
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPivots(20, 10, 20, EndType.Close));
+            Quotes.GetPivots(20, 10, 20, EndType.Close));
     }
 }

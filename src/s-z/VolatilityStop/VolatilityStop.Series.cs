@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<VolatilityStopResult> CalcVolatilityStop(
+    private static List<VolatilityStopResult> CalcVolatilityStop(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier)
@@ -37,7 +37,7 @@ public static partial class Indicator
         {
             IReusable init = reList[i];
             sic = isLong ? Math.Max(sic, init.Value) : Math.Min(sic, init.Value);
-            results.Add(new VolatilityStopResult { Timestamp = init.Timestamp });
+            results.Add(new() { Timestamp = init.Timestamp });
         }
 
         // roll through quotes
@@ -83,7 +83,7 @@ public static partial class Indicator
                 sic = isLong ? Math.Max(sic, s.Value) : Math.Min(sic, s.Value);
             }
 
-            results.Add(new VolatilityStopResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Sar: sar,
                 IsStop: isStop,

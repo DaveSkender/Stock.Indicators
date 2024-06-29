@@ -15,7 +15,7 @@ public static class EmaUtilities
         double k,
         double lastEma,
         double newPrice)
-        => lastEma + (k * (newPrice - lastEma));
+        => lastEma + k * (newPrice - lastEma);
 
     /// <include file='./info.xml' path='info/type[@name="increment-lookback"]/*' />
     ///

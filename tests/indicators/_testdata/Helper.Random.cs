@@ -18,9 +18,9 @@ Seed:       starting value of the random series; should not be 0.
 **/
 internal class RandomGbm : List<Quote>
 {
-    private readonly double volatility;
-    private readonly double drift;
-    private double seed;
+    private readonly double _volatility;
+    private readonly double _drift;
+    private double _seed;
 
     public RandomGbm(
         int bars = 250,
@@ -28,9 +28,9 @@ internal class RandomGbm : List<Quote>
         double drift = 0.01,
         double seed = 1000.0)
     {
-        this.seed = seed;
-        this.volatility = volatility * 0.01;
-        this.drift = drift * 0.001;
+        this._seed = seed;
+        this._volatility = volatility * 0.01;
+        this._drift = drift * 0.001;
         for (int i = 0; i < bars; i++)
         {
             DateTime date = DateTime.Today.AddMinutes(i - bars);
@@ -40,18 +40,18 @@ internal class RandomGbm : List<Quote>
 
     public void Add(DateTime timestamp)
     {
-        double open = Price(seed, volatility * volatility, drift);
-        double close = Price(open, volatility, drift);
+        double open = Price(_seed, _volatility * _volatility, _drift);
+        double close = Price(open, _volatility, _drift);
 
         double ocMax = Math.Max(open, close);
-        double high = Price(seed, volatility * 0.5, 0);
-        high = (high < ocMax) ? (2 * ocMax) - high : high;
+        double high = Price(_seed, _volatility * 0.5, 0);
+        high = high < ocMax ? 2 * ocMax - high : high;
 
         double ocMin = Math.Min(open, close);
-        double low = Price(seed, volatility * 0.5, 0);
-        low = (low > ocMin) ? (2 * ocMin) - low : low;
+        double low = Price(_seed, _volatility * 0.5, 0);
+        low = low > ocMin ? 2 * ocMin - low : low;
 
-        double volume = Price(seed * 10, volatility * 2, drift: 0);
+        double volume = Price(_seed * 10, _volatility * 2, drift: 0);
 
         Quote quote = new() {
             Timestamp = timestamp,
@@ -63,7 +63,7 @@ internal class RandomGbm : List<Quote>
         };
 
         Add(quote);
-        seed = close;
+        _seed = close;
     }
 
     private static double Price(double seed, double volatility, double drift)
@@ -72,6 +72,6 @@ internal class RandomGbm : List<Quote>
         double u1 = 1.0 - rnd.NextDouble();
         double u2 = 1.0 - rnd.NextDouble();
         double z = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2);
-        return seed * Math.Exp(drift - (volatility * volatility * 0.5) + (volatility * z));
+        return seed * Math.Exp(drift - volatility * volatility * 0.5 + volatility * z);
     }
 }

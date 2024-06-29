@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<UltimateResult> CalcUltimate(
+    private static List<UltimateResult> CalcUltimate(
         this List<QuoteD> qdList,
         int shortPeriods,
         int middlePeriods,
@@ -35,13 +35,13 @@ public static partial class Indicator
 
             if (i >= longPeriods)
             {
-                double sumBP1 = 0;
-                double sumBP2 = 0;
-                double sumBP3 = 0;
+                double sumBp1 = 0;
+                double sumBp2 = 0;
+                double sumBp3 = 0;
 
-                double sumTR1 = 0;
-                double sumTR2 = 0;
-                double sumTR3 = 0;
+                double sumTr1 = 0;
+                double sumTr2 = 0;
+                double sumTr3 = 0;
 
                 for (int p = i + 1 - longPeriods; p <= i; p++)
                 {
@@ -50,34 +50,34 @@ public static partial class Indicator
                     // short aggregate
                     if (pIndex > i + 1 - shortPeriods)
                     {
-                        sumBP1 += bp[p];
-                        sumTR1 += tr[p];
+                        sumBp1 += bp[p];
+                        sumTr1 += tr[p];
                     }
 
                     // middle aggregate
                     if (pIndex > i + 1 - middlePeriods)
                     {
-                        sumBP2 += bp[p];
-                        sumTR2 += tr[p];
+                        sumBp2 += bp[p];
+                        sumTr2 += tr[p];
                     }
 
                     // long aggregate
-                    sumBP3 += bp[p];
-                    sumTR3 += tr[p];
+                    sumBp3 += bp[p];
+                    sumTr3 += tr[p];
                 }
 
-                double avg1 = (sumTR1 == 0) ? double.NaN : sumBP1 / sumTR1;
-                double avg2 = (sumTR2 == 0) ? double.NaN : sumBP2 / sumTR2;
-                double avg3 = (sumTR3 == 0) ? double.NaN : sumBP3 / sumTR3;
+                double avg1 = sumTr1 == 0 ? double.NaN : sumBp1 / sumTr1;
+                double avg2 = sumTr2 == 0 ? double.NaN : sumBp2 / sumTr2;
+                double avg3 = sumTr3 == 0 ? double.NaN : sumBp3 / sumTr3;
 
-                ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null();
+                ultimate = (100d * (4d * avg1 + 2d * avg2 + avg3) / 7d).NaN2Null();
             }
             else
             {
                 ultimate = null;
             }
 
-            results.Add(new UltimateResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Ultimate: ultimate));
 

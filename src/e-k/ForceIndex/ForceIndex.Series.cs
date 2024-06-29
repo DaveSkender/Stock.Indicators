@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ForceIndexResult> CalcForceIndex(
+    private static List<ForceIndexResult> CalcForceIndex(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -14,8 +14,8 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<ForceIndexResult> results = new(length);
-        double? prevFI = null;
-        double? sumRawFI = 0;
+        double? prevFi = null;
+        double? sumRawFi = 0;
         double k = 2d / (lookbackPeriods + 1);
 
         // skip first period
@@ -31,32 +31,32 @@ public static partial class Indicator
             double? fi = null;
 
             // raw Force Index
-            double? rawFI = q.Volume * (q.Close - qdList[i - 1].Close);
+            double? rawFi = q.Volume * (q.Close - qdList[i - 1].Close);
 
             // calculate EMA
             if (i > lookbackPeriods)
             {
-                fi = prevFI + (k * (rawFI - prevFI));
+                fi = prevFi + k * (rawFi - prevFi);
             }
 
             // initialization period
             // TODO: update healing, without requiring specific indexing
             else
             {
-                sumRawFI += rawFI;
+                sumRawFi += rawFi;
 
                 // first EMA value
                 if (i == lookbackPeriods)
                 {
-                    fi = sumRawFI / lookbackPeriods;
+                    fi = sumRawFi / lookbackPeriods;
                 }
             }
 
-            results.Add(new ForceIndexResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 ForceIndex: fi));
 
-            prevFI = fi;
+            prevFi = fi;
         }
 
         return results;

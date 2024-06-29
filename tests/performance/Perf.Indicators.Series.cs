@@ -1,4 +1,5 @@
 namespace Tests.Performance;
+// ReSharper disable All
 
 public class IndicatorStaticTests
 {
@@ -167,7 +168,7 @@ public class IndicatorStaticTests
     public object GetMacd() => q.GetMacd();
 
     [Benchmark]
-    public object GetMaEnvelopes() => q.GetMaEnvelopes(20, 2.5, MaType.SMA);
+    public object GetMaEnvelopes() => q.GetMaEnvelopes(20, 2.5, MaType.Sma);
 
     [Benchmark]
     public object GetMama() => q.GetMama();
@@ -248,7 +249,7 @@ public class IndicatorStaticTests
     public object GetStoch() => q.GetStoch();
 
     [Benchmark]
-    public object GetStochSMMA() => q.GetStoch(9, 3, 3, 3, 2, MaType.SMMA);
+    public object GetStochSMMA() => q.GetStoch(9, 3, 3, 3, 2, MaType.Smma);
 
     [Benchmark]
     public object GetStochRsi() => q.GetStochRsi(14, 14, 3);

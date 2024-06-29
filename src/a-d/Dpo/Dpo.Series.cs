@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<DpoResult> CalcDpo<T>(
+    private static List<DpoResult> CalcDpo<T>(
         this List<T> tpList,
         int lookbackPeriods)
         where T : IReusable
@@ -15,7 +15,7 @@ public static partial class Indicator
 
         // initialize
         int length = tpList.Count;
-        int offset = (lookbackPeriods / 2) + 1;
+        int offset = lookbackPeriods / 2 + 1;
         List<SmaResult> sma = tpList.GetSma(lookbackPeriods).ToList();
         List<DpoResult> results = new(length);
 
@@ -31,7 +31,7 @@ public static partial class Indicator
             {
                 SmaResult s = sma[i + offset];
                 dpoSma = s.Sma;
-                dpoVal = s.Sma is null ? null : (src.Value - s.Sma);
+                dpoVal = s.Sma is null ? null : src.Value - s.Sma;
             }
 
             DpoResult r = new(

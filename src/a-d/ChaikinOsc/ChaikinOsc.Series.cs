@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ChaikinOscResult> CalcChaikinOsc(
+    private static List<ChaikinOscResult> CalcChaikinOsc(
         this List<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods)
@@ -30,7 +30,7 @@ public static partial class Indicator
             EmaResult f = adlEmaFast[i];
             EmaResult s = adlEmaSlow[i];
 
-            results.Add(new ChaikinOscResult(
+            results.Add(new(
                  Timestamp: a.Timestamp,
                  MoneyFlowMultiplier: a.MoneyFlowMultiplier,
                  MoneyFlowVolume: a.MoneyFlowVolume,

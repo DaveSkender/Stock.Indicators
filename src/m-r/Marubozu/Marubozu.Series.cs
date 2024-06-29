@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CandleResult> CalcMarubozu<TQuote>(
+    private static List<CandleResult> CalcMarubozu<TQuote>(
         this List<TQuote> quotesList,
         double minBodyPercent)
         where TQuote : IQuote
@@ -33,7 +33,7 @@ public static partial class Indicator
                 matchType = candle.IsBullish ? Match.BullSignal : Match.BearSignal;
             }
 
-            results.Add(new CandleResult(
+            results.Add(new(
                 timestamp: q.Timestamp,
                 candle: candle,
                 match: matchType,

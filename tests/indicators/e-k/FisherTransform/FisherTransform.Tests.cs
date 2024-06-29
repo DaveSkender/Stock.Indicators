@@ -6,8 +6,8 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<FisherTransformResult> results = quotes
-            .GetFisherTransform(10)
+        List<FisherTransformResult> results = Quotes
+            .GetFisherTransform()
             .ToList();
 
         // proper quantities
@@ -49,9 +49,9 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<FisherTransformResult> results = quotes
+        List<FisherTransformResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetFisherTransform(10)
+            .GetFisherTransform()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -61,9 +61,9 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<FisherTransformResult> results = quotes
+        List<FisherTransformResult> results = Quotes
             .GetSma(2)
-            .GetFisherTransform(10)
+            .GetFisherTransform()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -73,8 +73,8 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetFisherTransform(10)
+        List<SmaResult> results = Quotes
+            .GetFisherTransform()
             .GetSma(10)
             .ToList();
 
@@ -85,24 +85,24 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<FisherTransformResult> r = badQuotes
+        List<FisherTransformResult> r = BadQuotes
             .GetFisherTransform(9)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Fisher is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Fisher is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<FisherTransformResult> r0 = noquotes
+        List<FisherTransformResult> r0 = Noquotes
             .GetFisherTransform()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<FisherTransformResult> r1 = onequote
+        List<FisherTransformResult> r1 = Onequote
             .GetFisherTransform()
             .ToList();
 
@@ -113,5 +113,5 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetFisherTransform(0));
+            => Quotes.GetFisherTransform(0));
 }

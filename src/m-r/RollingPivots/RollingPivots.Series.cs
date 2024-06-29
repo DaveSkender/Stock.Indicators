@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
+    private static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
         this List<TQuote> quotesList,
         int windowPeriods,
         int offsetPeriods,
@@ -38,20 +38,20 @@ public static partial class Indicator
                 for (int p = s; p <= i - offsetPeriods - 1; p++)
                 {
                     TQuote d = quotesList[p];
-                    windowHigh = (d.High > windowHigh) ? d.High : windowHigh;
-                    windowLow = (d.Low < windowLow) ? d.Low : windowLow;
+                    windowHigh = d.High > windowHigh ? d.High : windowHigh;
+                    windowLow = d.Low < windowLow ? d.Low : windowLow;
                 }
 
                 // pivot points
                 WindowPoint wp = GetPivotPoint(
                         pointType, q.Open, windowHigh, windowLow, windowClose);
 
-                r = new RollingPivotsResult {
+                r = new() {
 
                     Timestamp = q.Timestamp,
 
                     // pivot point
-                    PP = wp.PP,
+                    Pp = wp.Pp,
 
                     // support
                     S1 = wp.S1,

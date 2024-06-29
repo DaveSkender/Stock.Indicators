@@ -7,7 +7,7 @@ public class KlingerTests : SeriesTestBase
     public override void Standard()
     {
         List<KvoResult> results =
-            quotes.GetKvo(34, 55, 13)
+            Quotes.GetKvo()
             .ToList();
 
         // proper quantities
@@ -48,7 +48,7 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetKvo()
             .GetSma(10)
             .ToList();
@@ -60,24 +60,24 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<KvoResult> r = badQuotes
+        List<KvoResult> r = BadQuotes
             .GetKvo()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<KvoResult> r0 = noquotes
+        List<KvoResult> r0 = Noquotes
             .GetKvo()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<KvoResult> r1 = onequote
+        List<KvoResult> r1 = Onequote
             .GetKvo()
             .ToList();
 
@@ -87,8 +87,8 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<KvoResult> results = quotes
-            .GetKvo(34, 55, 13)
+        List<KvoResult> results = Quotes
+            .GetKvo()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -105,14 +105,14 @@ public class KlingerTests : SeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKvo(2));
+            Quotes.GetKvo(2));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKvo(20, 20));
+            Quotes.GetKvo(20, 20));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKvo(34, 55, 0));
+            Quotes.GetKvo(34, 55, 0));
     }
 }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StdDevChannelsResult> CalcStdDevChannels<T>(
+    private static List<StdDevChannelsResult> CalcStdDevChannels<T>(
         this List<T> source,
         int? lookbackPeriods,
         double stdDeviations)
@@ -35,20 +35,22 @@ public static partial class Indicator
             // add regression line (y = mx + b) and channels
             for (int p = i - (int)lookbackPeriods + 1; p <= i; p++)
             {
-                if (p >= 0)
+                if (p < 0)
                 {
-                    StdDevChannelsResult d = results[p];
-
-                    double? c = (s.Slope * (p + 1)) + s.Intercept;
-
-                    // re-write record
-                    results[p] = d with {
-                        Centerline = c,
-                        UpperChannel = c + width,
-                        LowerChannel = c - width,
-                        BreakPoint = p == i - lookbackPeriods + 1
-                    };
+                    continue;
                 }
+
+                StdDevChannelsResult d = results[p];
+
+                double? c = s.Slope * (p + 1) + s.Intercept;
+
+                // re-write record
+                results[p] = d with {
+                    Centerline = c,
+                    UpperChannel = c + width,
+                    LowerChannel = c - width,
+                    BreakPoint = p == i - lookbackPeriods + 1
+                };
             }
         }
 

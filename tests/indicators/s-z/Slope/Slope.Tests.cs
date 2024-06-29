@@ -6,7 +6,7 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SlopeResult> results = quotes
+        List<SlopeResult> results = Quotes
             .GetSlope(20)
             .ToList();
 
@@ -42,7 +42,7 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<SlopeResult> results = quotes
+        List<SlopeResult> results = Quotes
             .Use(CandlePart.Close)
             .GetSlope(20)
             .ToList();
@@ -54,7 +54,7 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<SlopeResult> results = quotes
+        List<SlopeResult> results = Quotes
             .GetSma(2)
             .GetSlope(20)
             .ToList();
@@ -66,7 +66,7 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetSlope(20)
             .GetSma(10)
             .ToList();
@@ -78,18 +78,18 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SlopeResult> r = badQuotes
+        List<SlopeResult> r = BadQuotes
             .GetSlope(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Slope is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Slope is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<SlopeResult> r = bigQuotes
+        List<SlopeResult> r = BigQuotes
             .GetSlope(250)
             .ToList();
 
@@ -99,13 +99,13 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SlopeResult> r0 = noquotes
+        List<SlopeResult> r0 = Noquotes
             .GetSlope(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SlopeResult> r1 = onequote
+        List<SlopeResult> r1 = Onequote
             .GetSlope(5)
             .ToList();
 
@@ -115,7 +115,7 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SlopeResult> results = quotes
+        List<SlopeResult> results = Quotes
             .GetSlope(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -135,5 +135,5 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetSlope(1));
+            => Quotes.GetSlope(1));
 }

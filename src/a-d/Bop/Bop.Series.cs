@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<BopResult> CalcBop(
+    private static List<BopResult> CalcBop(
         this List<QuoteD> qdList,
         int smoothPeriods)
     {
@@ -16,8 +16,8 @@ public static partial class Indicator
         List<BopResult> results = new(length);
 
         double[] raw = qdList
-            .Select(x => (x.High != x.Low) ?
-                ((x.Close - x.Open) / (x.High - x.Low)) : double.NaN)
+            .Select(x => x.High - x.Low != 0 ?
+                (x.Close - x.Open) / (x.High - x.Low) : double.NaN)
             .ToArray();
 
         // roll through quotes
@@ -36,7 +36,7 @@ public static partial class Indicator
                 bop = (sum / smoothPeriods).NaN2Null();
             }
 
-            results.Add(new BopResult(
+            results.Add(new(
                 Timestamp: qdList[i].Timestamp,
                 Bop: bop));
         }

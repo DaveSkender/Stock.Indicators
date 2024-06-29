@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<TemaResult> CalcTema<T>(
+    private static List<TemaResult> CalcTema<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -54,14 +54,14 @@ public static partial class Indicator
             // normal TEMA
             else
             {
-                ema1 = lastEma1 + (k * (s.Value - lastEma1));
-                ema2 = lastEma2 + (k * (ema1 - lastEma2));
-                ema3 = lastEma3 + (k * (ema2 - lastEma3));
+                ema1 = lastEma1 + k * (s.Value - lastEma1);
+                ema2 = lastEma2 + k * (ema1 - lastEma2);
+                ema3 = lastEma3 + k * (ema2 - lastEma3);
             }
 
-            results.Add(new TemaResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
-                Tema: ((3 * ema1) - (3 * ema2) + ema3).NaN2Null()));
+                Tema: (3 * ema1 - 3 * ema2 + ema3).NaN2Null()));
 
             lastEma1 = ema1;
             lastEma2 = ema2;

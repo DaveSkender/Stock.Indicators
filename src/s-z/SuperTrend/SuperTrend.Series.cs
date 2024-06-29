@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<SuperTrendResult> CalcSuperTrend(
+    private static List<SuperTrendResult> CalcSuperTrend(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier)
@@ -37,8 +37,8 @@ public static partial class Indicator
                 double? prevClose = qdList[i - 1].Close;
 
                 // potential bands
-                double? upperEval = mid + (multiplier * atr);
-                double? lowerEval = mid - (multiplier * atr);
+                double? upperEval = mid + multiplier * atr;
+                double? lowerEval = mid - multiplier * atr;
 
                 // initial values
                 // TODO: update healing, without requiring specific indexing
@@ -85,7 +85,7 @@ public static partial class Indicator
                 lowerOnly = null;
             }
 
-            results.Add(new SuperTrendResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 SuperTrend: (decimal?)superTrend,
                 UpperBand: (decimal?)upperOnly,

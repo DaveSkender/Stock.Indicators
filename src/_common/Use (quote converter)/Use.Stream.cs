@@ -6,8 +6,6 @@ public class Use<TQuote>
     : AbstractQuoteInChainOut<TQuote, Reusable>, IUse<TQuote>
     where TQuote : struct, IQuote
 {
-    #region CONSTRUCTORS
-
     public Use(
         IQuoteProvider<TQuote> provider,
         CandlePart candlePart) : base(provider)
@@ -19,12 +17,8 @@ public class Use<TQuote>
             ? throw new ArgumentNullException(nameof(provider))
             : provider.Subscribe(this);
     }
-    #endregion
 
-    # region PROPERTIES
-
-    public CandlePart CandlePartSelection { get; private set; }
-    #endregion
+    public CandlePart CandlePartSelection { get; }
 
     # region METHODS
 

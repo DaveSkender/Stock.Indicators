@@ -27,8 +27,8 @@ public class Ema<TIn>
 
     # region PROPERTIES
 
-    public int LookbackPeriods { get; private set; }
-    public double K { get; private set; }
+    public int LookbackPeriods { get; }
+    public double K { get; }
     #endregion
 
     # region METHODS
@@ -63,7 +63,8 @@ public class Ema<TIn>
             }
 
             // normal
-            else if (i >= LookbackPeriods - 1)
+
+            if (i >= LookbackPeriods - 1)
             {
                 IReusable last = Cache[i - 1];  // prior EMA
 

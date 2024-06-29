@@ -15,20 +15,20 @@ public class Candles : SeriesTestBase
         Assert.AreEqual(502, candles.Count);
 
         // sample values
-        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
+        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(firstDate, candles[0].Timestamp);
 
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(lastDate, candles.LastOrDefault().Timestamp);
 
-        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);
+        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(spotDate, candles[50].Timestamp);
     }
 
     [TestMethod]
     public void CandleValues()
     {
-        List<CandleResult> candles = quotes.ToCandleResults();
+        List<CandleResult> candles = Quotes.ToCandleResults();
 
         // proper quantities
         Assert.AreEqual(502, candles.Count);
@@ -72,7 +72,7 @@ public class Candles : SeriesTestBase
     [TestMethod]
     public void ToCandles()
     {
-        IEnumerable<CandleProperties> candles = quotes.ToCandles();
-        Assert.AreEqual(quotes.Count(), candles.Count());
+        IEnumerable<CandleProperties> candles = Quotes.ToCandles();
+        Assert.AreEqual(Quotes.Count(), candles.Count());
     }
 }

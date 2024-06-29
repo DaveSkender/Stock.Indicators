@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<BollingerBandsResult> CalcBollingerBands<T>(
+    private static List<BollingerBandsResult> CalcBollingerBands<T>(
         this List<T> source,
         int lookbackPeriods,
         double standardDeviations)
@@ -38,10 +38,10 @@ public static partial class Indicator
                 double? sma = (sum / lookbackPeriods).NaN2Null();
                 double? stdDev = window.StdDev().NaN2Null();
 
-                double? upperBand = sma + (standardDeviations * stdDev);
-                double? lowerBand = sma - (standardDeviations * stdDev);
+                double? upperBand = sma + standardDeviations * stdDev;
+                double? lowerBand = sma - standardDeviations * stdDev;
 
-                results.Add(new BollingerBandsResult(
+                results.Add(new(
 
                     Timestamp: s.Timestamp,
 
@@ -49,11 +49,11 @@ public static partial class Indicator
                     UpperBand: upperBand,
                     LowerBand: lowerBand,
 
-                    PercentB: (upperBand == lowerBand) ? null
+                    PercentB: upperBand - lowerBand == 0 ? null
                         : (s.Value - lowerBand) / (upperBand - lowerBand),
 
-                    ZScore: (stdDev == 0) ? null : (s.Value - sma) / stdDev,
-                    Width: (sma == 0) ? null : (upperBand - lowerBand) / sma
+                    ZScore: stdDev == 0 ? null : (s.Value - sma) / stdDev,
+                    Width: sma == 0 ? null : (upperBand - lowerBand) / sma
                 ));
             }
 

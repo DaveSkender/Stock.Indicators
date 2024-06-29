@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAM)
 
-public partial class Adl<TQuote> : AbstractQuoteInChainOut<TQuote, AdlResult>, IAdl
+public class Adl<TQuote> : AbstractQuoteInChainOut<TQuote, AdlResult>, IAdl
     where TQuote : struct, IQuote
 {
     #region CONSTRUCTORS

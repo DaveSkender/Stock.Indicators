@@ -6,8 +6,8 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<DonchianResult> results = quotes
-            .GetDonchian(20)
+        List<DonchianResult> results = Quotes
+            .GetDonchian()
             .ToList();
 
         // proper quantities
@@ -52,7 +52,7 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DonchianResult> r = badQuotes
+        List<DonchianResult> r = BadQuotes
             .GetDonchian(15)
             .ToList();
 
@@ -62,13 +62,13 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DonchianResult> r0 = noquotes
+        List<DonchianResult> r0 = Noquotes
             .GetDonchian()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DonchianResult> r1 = onequote
+        List<DonchianResult> r1 = Onequote
             .GetDonchian()
             .ToList();
 
@@ -78,8 +78,8 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<DonchianResult> r = quotes
-            .GetDonchian(20)
+        List<DonchianResult> r = Quotes
+            .GetDonchian()
             .Condense()
             .ToList();
 
@@ -96,8 +96,8 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<DonchianResult> results = quotes
-            .GetDonchian(20)
+        List<DonchianResult> results = Quotes
+            .GetDonchian()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -115,5 +115,5 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetDonchian(0));
+            => Quotes.GetDonchian(0));
 }

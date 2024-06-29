@@ -40,12 +40,12 @@ public class Alligator<TIn>
 
     # region PROPERTIES
 
-    public int JawPeriods { get; private set; }
-    public int JawOffset { get; private set; }
-    public int TeethPeriods { get; private set; }
-    public int TeethOffset { get; private set; }
-    public int LipsPeriods { get; private set; }
-    public int LipsOffset { get; private set; }
+    public int JawPeriods { get; }
+    public int JawOffset { get; }
+    public int TeethPeriods { get; }
+    public int TeethOffset { get; }
+    public int LipsPeriods { get; }
+    public int LipsOffset { get; }
     #endregion
 
     # region METHODS
@@ -97,7 +97,7 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                     {
-                        sum += ToValue(ProviderCache[p]);
+                        sum += _toValue(ProviderCache[p]);
                     }
 
                     jaw = sum / JawPeriods;
@@ -106,8 +106,8 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ToValue(ProviderCache[i - JawOffset]);
-                    jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
+                    double newVal = _toValue(ProviderCache[i - JawOffset]);
+                    jaw = (prevJaw * (JawPeriods - 1) + newVal) / JawPeriods;
                 }
             }
 
@@ -122,7 +122,7 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                     {
-                        sum += ToValue(ProviderCache[p]);
+                        sum += _toValue(ProviderCache[p]);
                     }
 
                     teeth = sum / TeethPeriods;
@@ -131,8 +131,8 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ToValue(ProviderCache[i - TeethOffset]);
-                    teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
+                    double newVal = _toValue(ProviderCache[i - TeethOffset]);
+                    teeth = (prevTooth * (TeethPeriods - 1) + newVal) / TeethPeriods;
                 }
             }
 
@@ -147,7 +147,7 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                     {
-                        sum += ToValue(ProviderCache[p]);
+                        sum += _toValue(ProviderCache[p]);
                     }
 
                     lips = sum / LipsPeriods;
@@ -156,8 +156,8 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = ToValue(ProviderCache[i - LipsOffset]);
-                    lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
+                    double newVal = _toValue(ProviderCache[i - LipsOffset]);
+                    lips = (prevLips * (LipsPeriods - 1) + newVal) / LipsPeriods;
                 }
             }
         }
@@ -187,8 +187,8 @@ public class Alligator<TIn>
     #endregion
 
     // convert provider IQuotes to HL2, if needed
-    private readonly Func<TIn, double> ToValue
-        = (input) => input is IQuote quote
-        ? quote.ToReusable(CandlePart.HL2).Value
+    private readonly Func<TIn, double> _toValue
+        = input => input is IQuote quote
+        ? quote.ToReusable(CandlePart.Hl2).Value
         : input.Value;
 }

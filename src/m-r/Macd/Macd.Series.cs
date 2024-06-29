@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<MacdResult> CalcMacd<T>(
+    private static List<MacdResult> CalcMacd<T>(
         this List<T> source,
         int fastPeriods,
         int slowPeriods,
@@ -93,7 +93,7 @@ public static partial class Indicator
             }
 
             // write results
-            results.Add(new MacdResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Macd: macd.NaN2Null(),
                 Signal: signal.NaN2Null(),

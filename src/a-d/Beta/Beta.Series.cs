@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // NOTE: sequence swapped from API
-    internal static List<BetaResult> CalcBeta<T>(
+    private static List<BetaResult> CalcBeta<T>(
         List<T> sourceEval,
         List<T> sourceMrkt,
         int lookbackPeriods,
@@ -40,8 +40,8 @@ public static partial class Indicator
                     "Timestamp sequence does not match.  Beta requires matching dates in provided quotes.");
             }
 
-            evalReturns[i] = prevE != 0 ? (eval.Value / prevE) - 1d : 0;
-            mrktReturns[i] = prevM != 0 ? (mrkt.Value / prevM) - 1d : 0;
+            evalReturns[i] = prevE != 0 ? eval.Value / prevE - 1d : 0;
+            mrktReturns[i] = prevM != 0 ? mrkt.Value / prevM - 1d : 0;
 
             prevE = eval.Value;
             prevM = mrkt.Value;
@@ -56,7 +56,7 @@ public static partial class Indicator
             if (i < lookbackPeriods)
             {
                 results.Add(
-                new BetaResult(
+                new(
                 Timestamp: eval.Timestamp,
                 ReturnsEval: evalReturns[i],
                 ReturnsMrkt: mrktReturns[i]));
@@ -92,12 +92,12 @@ public static partial class Indicator
             // ratio and convexity
             if (type == BetaType.All && betaUp != null && betaDown != null)
             {
-                ratio = (betaDown != 0) ? betaUp / betaDown : null;
+                ratio = betaDown != 0 ? betaUp / betaDown : null;
                 convexity = (betaUp - betaDown) * (betaUp - betaDown);
             }
 
             results.Add(
-            new BetaResult(
+            new(
                 Timestamp: eval.Timestamp,
                 ReturnsEval: evalReturns[i],
                 ReturnsMrkt: mrktReturns[i],
@@ -131,28 +131,32 @@ public static partial class Indicator
             double a = mrktReturns[p];
             double b = evalReturns[p];
 
-            if (type is BetaType.Standard
-            || (type is BetaType.Down && a < 0)
-            || (type is BetaType.Up && a > 0))
+            if (type is not BetaType.Standard
+                && (type is not BetaType.Down || !(a < 0))
+                && (type is not BetaType.Up || !(a > 0)))
             {
-                dataA.Add(a);
-                dataB.Add(b);
+                continue;
             }
+
+            dataA.Add(a);
+            dataB.Add(b);
         }
 
-        if (dataA.Count > 0)
+        if (dataA.Count <= 0)
         {
-            // calculate correlation, covariance, and variance
-            CorrResult c = PeriodCorrelation(
-                default,
-                [.. dataA],
-                [.. dataB]);
+            return beta;
+        }
 
-            // calculate beta
-            if (c.Covariance != null && c.VarianceA != null && c.VarianceA != 0)
-            {
-                beta = (c.Covariance / c.VarianceA).NaN2Null();
-            }
+        // calculate correlation, covariance, and variance
+        CorrResult c = PeriodCorrelation(
+            default,
+            [.. dataA],
+            [.. dataB]);
+
+        // calculate beta
+        if (c is { Covariance: not null, VarianceA: not null } && c.VarianceA != 0)
+        {
+            beta = (c.Covariance / c.VarianceA).NaN2Null();
         }
 
         return beta;

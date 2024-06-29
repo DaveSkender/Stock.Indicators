@@ -6,7 +6,7 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SmmaResult> results = quotes
+        List<SmmaResult> results = Quotes
             .GetSmma(20)
             .ToList();
 
@@ -29,7 +29,7 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<SmmaResult> results = quotes
+        List<SmmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetSmma(20)
             .ToList();
@@ -41,7 +41,7 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<SmmaResult> results = quotes
+        List<SmmaResult> results = Quotes
             .GetSma(2)
             .GetSmma(20)
             .ToList();
@@ -53,7 +53,7 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetSmma(20)
             .GetSma(10)
             .ToList();
@@ -65,24 +65,24 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SmmaResult> r = badQuotes
+        List<SmmaResult> r = BadQuotes
             .GetSmma(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Smma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Smma is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SmmaResult> r0 = noquotes
+        List<SmmaResult> r0 = Noquotes
             .GetSmma(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SmmaResult> r1 = onequote
+        List<SmmaResult> r1 = Onequote
             .GetSmma(5)
             .ToList();
 
@@ -92,7 +92,7 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SmmaResult> results = quotes
+        List<SmmaResult> results = Quotes
             .GetSmma(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -106,5 +106,5 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetSmma(0));
+            => Quotes.GetSmma(0));
 }

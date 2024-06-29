@@ -6,7 +6,7 @@ public class ChainProviderTests : TestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -16,7 +16,7 @@ public class ChainProviderTests : TestBase, ITestChainProvider
 
         // initialize observer
         Ema<Reusable> observer = provider
-            .Use(CandlePart.HL2)
+            .Use(CandlePart.Hl2)
             .ToEma(11);
 
         // emulate adding quotes to provider
@@ -33,8 +33,8 @@ public class ChainProviderTests : TestBase, ITestChainProvider
             .ToList();
 
         // time-series, for comparison
-        List<EmaResult> staticEma = quotes
-            .Use<Quote>(CandlePart.HL2)
+        List<EmaResult> staticEma = Quotes
+            .Use(CandlePart.Hl2)
             .GetEma(11)
             .ToList();
 

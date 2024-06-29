@@ -30,4 +30,9 @@ public static partial class QuoteUtility
 
         return quotesList;
     }
+
+    //     public static TQuote Validate<TQuote>(TQuote quote) where TQuote : IQuote
+    //     {
+    //
+    //     }
 }

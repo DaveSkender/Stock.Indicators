@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CmfResult> CalcCmf(
+    private static List<CmfResult> CalcCmf(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -49,7 +49,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new CmfResult(
+            results.Add(new(
                 Timestamp: adl.Timestamp,
                 MoneyFlowMultiplier: adl.MoneyFlowMultiplier,
                 MoneyFlowVolume: adl.MoneyFlowVolume,

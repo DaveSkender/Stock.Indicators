@@ -6,8 +6,8 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<RsiResult> results = quotes
-            .GetRsi(14)
+        List<RsiResult> results = Quotes
+            .GetRsi()
             .ToList();
 
         // proper quantities
@@ -32,7 +32,7 @@ public class RsiTests : SeriesTestBase
     public void SmallLookback()
     {
         int lookbackPeriods = 1;
-        List<RsiResult> results = quotes
+        List<RsiResult> results = Quotes
             .GetRsi(lookbackPeriods)
             .ToList();
 
@@ -63,9 +63,9 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<RsiResult> results = quotes
+        List<RsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetRsi(14)
+            .GetRsi()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -75,9 +75,9 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<RsiResult> results = quotes
+        List<RsiResult> results = Quotes
             .GetSma(2)
-            .GetRsi(14)
+            .GetRsi()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -87,8 +87,8 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetRsi(14)
+        List<SmaResult> results = Quotes
+            .GetRsi()
             .GetSma(10)
             .ToList();
 
@@ -100,32 +100,32 @@ public class RsiTests : SeriesTestBase
     public void NaN()
     {
         IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
-            .GetRsi(14);
+            .GetRsi();
 
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
     }
 
     [TestMethod]
     public override void BadData()
     {
-        List<RsiResult> r = badQuotes
+        List<RsiResult> r = BadQuotes
             .GetRsi(20)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RsiResult> r0 = noquotes
+        List<RsiResult> r0 = Noquotes
             .GetRsi()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<RsiResult> r1 = onequote
+        List<RsiResult> r1 = Onequote
             .GetRsi()
             .ToList();
 
@@ -135,13 +135,13 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<RsiResult> results = quotes
-            .GetRsi(14)
+        List<RsiResult> results = Quotes
+            .GetRsi()
             .RemoveWarmupPeriods()
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (10 * 14), results.Count);
+        Assert.AreEqual(502 - 10 * 14, results.Count);
 
         RsiResult last = results.LastOrDefault();
         Assert.AreEqual(42.0773, last.Rsi.Round(4));
@@ -151,5 +151,5 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetRsi(0));
+            => Quotes.GetRsi(0));
 }

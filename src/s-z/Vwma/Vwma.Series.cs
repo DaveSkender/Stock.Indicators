@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<VwmaResult> CalcVwma(
+    private static List<VwmaResult> CalcVwma(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -36,14 +36,14 @@ public static partial class Indicator
                     sumVl += v;
                 }
 
-                vwma = sumVl != 0 ? (sumCl / sumVl) : double.NaN;
+                vwma = sumVl != 0 ? sumCl / sumVl : double.NaN;
             }
             else
             {
                 vwma = double.NaN;
             }
 
-            results.Add(new VwmaResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Vwma: vwma.NaN2Null()));
         }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<DemaResult> CalcDema<T>(
+    private static List<DemaResult> CalcDema<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -51,13 +51,13 @@ public static partial class Indicator
             // normal DEMA
             else
             {
-                ema1 = lastEma1 + (k * (s.Value - lastEma1));
-                ema2 = lastEma2 + (k * (ema1 - lastEma2));
+                ema1 = lastEma1 + k * (s.Value - lastEma1);
+                ema2 = lastEma2 + k * (ema1 - lastEma2);
             }
 
-            results.Add(new DemaResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
-                Dema: ((2d * ema1) - ema2).NaN2Null()));
+                Dema: (2d * ema1 - ema2).NaN2Null()));
 
             lastEma1 = ema1;
             lastEma2 = ema2;

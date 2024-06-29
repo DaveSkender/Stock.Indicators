@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<AtrResult> CalcAtr(
+    private static List<AtrResult> CalcAtr(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -43,8 +43,8 @@ public static partial class Indicator
             if (i > lookbackPeriods)
             {
                 // calculate ATR
-                atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
-                atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
+                atrp = q.Close == 0 ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
 
@@ -54,7 +54,7 @@ public static partial class Indicator
                 // initialize ATR
                 sumTr += tr;
                 atr = sumTr / lookbackPeriods;
-                atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                atrp = q.Close == 0 ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
 

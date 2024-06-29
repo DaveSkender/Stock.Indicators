@@ -30,7 +30,7 @@ public static class Candlesticks
     internal static List<CandleResult> ToCandleResults<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
-            .Select(q => new CandleResult() {
+            .Select(q => new CandleResult {
                 Timestamp = q.Timestamp,
                 Match = Match.None,
                 Candle = q.ToCandle()

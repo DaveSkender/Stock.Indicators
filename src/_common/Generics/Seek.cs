@@ -17,20 +17,19 @@ public static class Seeking
     /// <exception cref="InvalidOperationException">
     /// Sequence contains no matching element
     /// </exception>
-    public static TSeries? Find<TSeries>(
+    public static TSeries Find<TSeries>(
         this IEnumerable<TSeries> series,
         DateTime lookupDate)
-        where TSeries : ISeries => series
-            .First(x => x.Timestamp == lookupDate);
+        where TSeries : ISeries
+            => series.First(x => x.Timestamp == lookupDate);
 
     // TODO: add TryFind(), like TryParse() since struct won't allow null return types.
     // May just use this (above) with a try/catch and `bool` primary return type.
 
     // FIND INDEX by DATE
     public static int FindIndex<TSeries>(
-        this List<TSeries> series,
+        this List<TSeries>? series,
         DateTime lookupDate)
-        where TSeries : ISeries => series == null
-            ? -1
-            : series.FindIndex(x => x.Timestamp == lookupDate);
+        where TSeries : ISeries
+            => series?.FindIndex(x => x.Timestamp == lookupDate) ?? -1;
 }

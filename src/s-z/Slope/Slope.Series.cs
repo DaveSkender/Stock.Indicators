@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SlopeResult> CalcSlope<T>(
+    private static List<SlopeResult> CalcSlope<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -47,7 +47,7 @@ public static partial class Indicator
             // least squares method
             double sumSqX = 0;
             double sumSqY = 0;
-            double sumSqXY = 0;
+            double sumSqXy = 0;
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
@@ -58,11 +58,11 @@ public static partial class Indicator
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;
-                sumSqXY += devX * devY;
+                sumSqXy += devX * devY;
             }
 
-            double? slope = (sumSqXY / sumSqX).NaN2Null();
-            double? intercept = (avgY - (slope * avgX)).NaN2Null();
+            double? slope = (sumSqXy / sumSqX).NaN2Null();
+            double? intercept = (avgY - slope * avgX).NaN2Null();
 
             // calculate Standard Deviation and R-Squared
             double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
@@ -72,7 +72,7 @@ public static partial class Indicator
 
             if (stdDevX * stdDevY != 0)
             {
-                double arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
+                double arrr = sumSqXy / (stdDevX * stdDevY) / lookbackPeriods;
                 rSquared = (arrr * arrr).NaN2Null();
             }
 
@@ -87,18 +87,21 @@ public static partial class Indicator
             results.Add(r);
         }
 
-        // add last Line (y = mx + b)
-        if (length >= lookbackPeriods)
+        // insufficient length for last line
+        if (length < lookbackPeriods)
         {
-            SlopeResult last = results.LastOrDefault();
-            for (int p = length - lookbackPeriods; p < length; p++)
-            {
-                SlopeResult d = results[p];
+            return results;
+        }
 
-                results[p] = d with {
-                    Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept).NaN2Null()
-                };
-            }
+        // add last Line (y = mx + b)
+        SlopeResult last = results.LastOrDefault();
+        for (int p = length - lookbackPeriods; p < length; p++)
+        {
+            SlopeResult d = results[p];
+
+            results[p] = d with {
+                Line = (decimal?)(last.Slope * (p + 1) + last.Intercept).NaN2Null()
+            };
         }
 
         return results;

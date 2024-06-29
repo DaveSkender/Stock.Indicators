@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<WmaResult> CalcWma<T>(
+    private static List<WmaResult> CalcWma<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -39,7 +39,7 @@ public static partial class Indicator
                 wma = double.NaN;
             }
 
-            results.Add(new WmaResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Wma: wma.NaN2Null()));
         }

@@ -8,33 +8,37 @@ public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    // DOUBLE QUOTES
+    /* LISTS */
 
-    // convert to quotes in double precision
-    internal static QuoteD ToQuoteD<TQuote>(
-        this TQuote quote)
-        where TQuote : IQuote => new(
-            Timestamp: quote.Timestamp,
-            Open: (double)quote.Open,
-            High: (double)quote.High,
-            Low: (double)quote.Low,
-            Close: (double)quote.Close,
-            Volume: (double)quote.Volume);
-
-    internal static List<QuoteD> ToQuoteD<TQuote>(
+    // convert TQuote type list to built-in Quote type list
+    public static IReadOnlyList<Quote> ToQuoteList<TQuote>(
         this IEnumerable<TQuote> quotes)
-        where TQuote : IQuote => quotes
-            .Select(x => new QuoteD(
-                Timestamp: x.Timestamp,
-                Open: (double)x.Open,
-                High: (double)x.High,
-                Low: (double)x.Low,
-                Close: (double)x.Close,
-                Volume: (double)x.Volume))
+        where TQuote : IQuote
+        => quotes
             .OrderBy(x => x.Timestamp)
+            .Select(x => x.ToQuote())
             .ToList();
 
-    // convert quoteD type list to reusable list
+    // convert TQuote type list to QuoteD type list
+    internal static List<QuoteD> ToQuoteD<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+          => quotes
+            .OrderBy(x => x.Timestamp)
+            .Select(x => x.ToQuoteD())
+            .ToList();
+
+    // convert IQuote type list to Reusable list
+    public static IReadOnlyList<Reusable> ToReusableList<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart)
+        where TQuote : IQuote
+        => quotes
+            .OrderBy(x => x.Timestamp)
+            .Select(x => x.ToReusable(candlePart))
+            .ToList();
+
+    // convert QuoteD type list to Reusable list
     internal static List<Reusable> ToReusableList(
         this List<QuoteD> qdList,
         CandlePart candlePart)
@@ -43,17 +47,27 @@ public static partial class QuoteUtility
             .Select(x => x.ToReusable(candlePart))
             .ToList();
 
-    // convert IQuote type list to reusable list
-    internal static List<Reusable> ToReusableList<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart)
-        where TQuote : IQuote
-          => quotes
-            .OrderBy(x => x.Timestamp)
-            .Select(x => x.ToReusable(candlePart))
-            .ToList();
+    /* TYPES */
 
-    /* ELEMENTS */
+    // convert any IQuote type to native Quote type
+    public static Quote ToQuote<TQuote>(this TQuote quote)
+        where TQuote : IQuote => new(
+            Timestamp: quote.Timestamp,
+            Open: quote.Open,
+            High: quote.High,
+            Low: quote.Low,
+            Close: quote.Close,
+            Volume: quote.Volume);
+
+    // convert to quote in double precision
+    private static QuoteD ToQuoteD(this IQuote quote)
+          => new(
+            Timestamp: quote.Timestamp,
+            Open: (double)quote.Open,
+            High: (double)quote.High,
+            Low: (double)quote.Low,
+            Close: (double)quote.Close,
+            Volume: (double)quote.Volume);
 
     // convert TQuote element to a basic chainable class
     internal static Reusable ToReusable(
@@ -66,14 +80,14 @@ public static partial class QuoteUtility
             CandlePart.Low => new(q.Timestamp, (double)q.Low),
             CandlePart.Close => new(q.Timestamp, (double)q.Close),
             CandlePart.Volume => new(q.Timestamp, (double)q.Volume),
-            CandlePart.HL2 => new(q.Timestamp, (double)(q.High + q.Low) / 2),
-            CandlePart.HLC3 => new(q.Timestamp, (double)(q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => new(q.Timestamp, (double)(q.Open + q.Close) / 2),
-            CandlePart.OHL3 => new(q.Timestamp, (double)(q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => new(q.Timestamp, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+            CandlePart.Hl2 => new(q.Timestamp, (double)(q.High + q.Low) / 2),
+            CandlePart.Hlc3 => new(q.Timestamp, (double)(q.High + q.Low + q.Close) / 3),
+            CandlePart.Oc2 => new(q.Timestamp, (double)(q.Open + q.Close) / 2),
+            CandlePart.Ohl3 => new(q.Timestamp, (double)(q.Open + q.High + q.Low) / 3),
+            CandlePart.Ohlc4 => new(q.Timestamp, (double)(q.Open + q.High + q.Low + q.Close) / 4),
 
             _ => throw new ArgumentOutOfRangeException(
-                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+                nameof(candlePart), candlePart, "Invalid candlePart provided.")
         };
 
     // convert quoteD element to reusable type
@@ -81,18 +95,19 @@ public static partial class QuoteUtility
         this QuoteD q,
         CandlePart candlePart)
         => candlePart switch {
+
             CandlePart.Open => new(q.Timestamp, q.Open),
             CandlePart.High => new(q.Timestamp, q.High),
             CandlePart.Low => new(q.Timestamp, q.Low),
             CandlePart.Close => new(q.Timestamp, q.Close),
             CandlePart.Volume => new(q.Timestamp, q.Volume),
-            CandlePart.HL2 => new(q.Timestamp, (q.High + q.Low) / 2),
-            CandlePart.HLC3 => new(q.Timestamp, (q.High + q.Low + q.Close) / 3),
-            CandlePart.OC2 => new(q.Timestamp, (q.Open + q.Close) / 2),
-            CandlePart.OHL3 => new(q.Timestamp, (q.Open + q.High + q.Low) / 3),
-            CandlePart.OHLC4 => new(q.Timestamp, (q.Open + q.High + q.Low + q.Close) / 4),
+            CandlePart.Hl2 => new(q.Timestamp, (q.High + q.Low) / 2),
+            CandlePart.Hlc3 => new(q.Timestamp, (q.High + q.Low + q.Close) / 3),
+            CandlePart.Oc2 => new(q.Timestamp, (q.Open + q.Close) / 2),
+            CandlePart.Ohl3 => new(q.Timestamp, (q.Open + q.High + q.Low) / 3),
+            CandlePart.Ohlc4 => new(q.Timestamp, (q.Open + q.High + q.Low + q.Close) / 4),
 
             _ => throw new ArgumentOutOfRangeException(
-                nameof(candlePart), candlePart, "Invalid candlePart provided."),
+                nameof(candlePart), candlePart, "Invalid candlePart provided.")
         };
 }

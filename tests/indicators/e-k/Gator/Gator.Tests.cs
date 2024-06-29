@@ -6,7 +6,7 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<GatorResult> results = quotes
+        List<GatorResult> results = Quotes
             .GetGator()
             .ToList();
 
@@ -76,7 +76,7 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void FromAlligator()
     {
-        List<GatorResult> results = quotes
+        List<GatorResult> results = Quotes
             .GetAlligator()
             .GetGator()
             .ToList();
@@ -147,7 +147,7 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<GatorResult> results = quotes
+        List<GatorResult> results = Quotes
             .Use(CandlePart.Close)
             .GetGator()
             .ToList();
@@ -159,7 +159,7 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<GatorResult> results = quotes
+        List<GatorResult> results = Quotes
             .GetSma(2)
             .GetGator()
             .ToList();
@@ -171,24 +171,24 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<GatorResult> r = badQuotes
+        List<GatorResult> r = BadQuotes
             .GetGator()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Upper is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Upper is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<GatorResult> r0 = noquotes
+        List<GatorResult> r0 = Noquotes
             .GetGator()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<GatorResult> r1 = onequote
+        List<GatorResult> r1 = Onequote
             .GetGator()
             .ToList();
 
@@ -198,7 +198,7 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<GatorResult> results = quotes
+        List<GatorResult> results = Quotes
             .GetGator()
             .Condense()
             .ToList();
@@ -216,7 +216,7 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<GatorResult> results = quotes
+        List<GatorResult> results = Quotes
             .GetGator()
             .RemoveWarmupPeriods()
             .ToList();

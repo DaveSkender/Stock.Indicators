@@ -17,14 +17,14 @@ public class DpoTests : SeriesTestBase
         for (int i = 0; i < csvData.Count; i++)
         {
             string[] csv = csvData[i].Split(",");
-            DateTime date = Convert.ToDateTime(csv[1], EnglishCulture);
+            DateTime date = Convert.ToDateTime(csv[1], englishCulture);
 
-            qot.Add(new Quote {
+            qot.Add(new() {
                 Timestamp = date,
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult() {
+            exp.Add(new() {
                 Timestamp = date,
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()
@@ -53,7 +53,7 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<DpoResult> results = quotes
+        List<DpoResult> results = Quotes
             .Use(CandlePart.Close)
             .GetDpo(14)
             .ToList();
@@ -65,7 +65,7 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<DpoResult> results = quotes
+        List<DpoResult> results = Quotes
             .GetSma(2)
             .GetDpo(14)
             .ToList();
@@ -77,7 +77,7 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetDpo(14)
             .GetSma(10)
             .ToList();
@@ -89,24 +89,24 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DpoResult> r = badQuotes
+        List<DpoResult> r = BadQuotes
             .GetDpo(5)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dpo is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DpoResult> r0 = noquotes
+        List<DpoResult> r0 = Noquotes
             .GetDpo(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DpoResult> r1 = onequote
+        List<DpoResult> r1 = Onequote
             .GetDpo(5)
             .ToList();
 
@@ -117,5 +117,5 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetDpo(0));
+            => Quotes.GetDpo(0));
 }

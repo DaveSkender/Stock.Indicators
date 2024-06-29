@@ -6,7 +6,7 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ForceIndexResult> r = quotes.GetForceIndex(13).ToList();
+        List<ForceIndexResult> r = Quotes.GetForceIndex(13).ToList();
 
         // proper quantities
         Assert.AreEqual(502, r.Count);
@@ -25,7 +25,7 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetForceIndex(13)
             .GetSma(10)
             .ToList();
@@ -37,24 +37,24 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ForceIndexResult> r = badQuotes
-            .GetForceIndex(2)
+        List<ForceIndexResult> r = BadQuotes
+            .GetForceIndex()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.ForceIndex is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.ForceIndex is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ForceIndexResult> r0 = noquotes
+        List<ForceIndexResult> r0 = Noquotes
             .GetForceIndex(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ForceIndexResult> r1 = onequote
+        List<ForceIndexResult> r1 = Onequote
             .GetForceIndex(5)
             .ToList();
 
@@ -64,7 +64,7 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ForceIndexResult> results = quotes
+        List<ForceIndexResult> results = Quotes
             .GetForceIndex(13)
             .RemoveWarmupPeriods()
             .ToList();
@@ -80,5 +80,5 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetForceIndex(0));
+            => Quotes.GetForceIndex(0));
 }

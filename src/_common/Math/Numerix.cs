@@ -13,25 +13,27 @@ public static class Numerix
 
         double sd = 0;
         int n = values.Length;
-        if (n > 1)
+        if (n <= 1)
         {
-            double sum = 0;
-            for (int i = 0; i < n; i++)
-            {
-                sum += values[i];
-            }
-
-            double avg = sum / n;
-
-            double sumSq = 0;
-            for (int i = 0; i < n; i++)
-            {
-                double v = values[i];
-                sumSq += (v - avg) * (v - avg);
-            }
-
-            sd = Math.Sqrt(sumSq / n);
+            return sd;
         }
+
+        double sum = 0;
+        for (int i = 0; i < n; i++)
+        {
+            sum += values[i];
+        }
+
+        double avg = sum / n;
+
+        double sumSq = 0;
+        for (int i = 0; i < n; i++)
+        {
+            double v = values[i];
+            sumSq += (v - avg) * (v - avg);
+        }
+
+        sd = Math.Sqrt(sumSq / n);
 
         return sd;
     }

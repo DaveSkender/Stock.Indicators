@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RenkoResult> CalcRenkoAtr<TQuote>(
+    private static List<RenkoResult> CalcRenkoAtr<TQuote>(
         this List<TQuote> quotesList,
         int atrPeriods,
         EndType endType = EndType.Close)

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<EmaResult> CalcEma<T>(
+    private static List<EmaResult> CalcEma<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -27,7 +27,7 @@ public static partial class Indicator
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new EmaResult(Timestamp: s.Timestamp));
+                results.Add(new(Timestamp: s.Timestamp));
                 continue;
             }
 

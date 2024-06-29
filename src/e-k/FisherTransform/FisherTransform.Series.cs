@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<FisherTransformResult> CalcFisherTransform<T>(
+    private static List<FisherTransformResult> CalcFisherTransform<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -18,7 +18,7 @@ public static partial class Indicator
 
             ? source
              .Cast<IQuote>()
-             .Use(CandlePart.HL2)
+             .Use(CandlePart.Hl2)
              .Cast<IReusable>()
              .ToSortedList()
 
@@ -52,16 +52,16 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                xv[i] = maxPrice != minPrice
-                    ? (0.33 * 2 * (((pr[i] - minPrice) / (maxPrice - minPrice)) - 0.5))
-                          + (0.67 * xv[i - 1])
+                xv[i] = maxPrice - minPrice != 0
+                    ? 0.33 * 2 * ((pr[i] - minPrice) / (maxPrice - minPrice) - 0.5)
+                          + 0.67 * xv[i - 1]
                     : 0;
 
-                xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
-                xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
+                xv[i] = xv[i] > 0.99 ? 0.999 : xv[i];
+                xv[i] = xv[i] < -0.99 ? -0.999 : xv[i];
 
-                fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
-                      + (0.5 * results[i - 1].Fisher)).NaN2Null();
+                fisher = (0.5 * Math.Log((1 + xv[i]) / (1 - xv[i]))
+                      + 0.5 * results[i - 1].Fisher).NaN2Null();
 
                 trigger = results[i - 1].Fisher;
             }
@@ -71,7 +71,7 @@ public static partial class Indicator
                 fisher = 0;
             }
 
-            results.Add(new FisherTransformResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Trigger: trigger,
                 Fisher: fisher));

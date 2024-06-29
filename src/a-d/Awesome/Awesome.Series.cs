@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AwesomeResult> CalcAwesome<T>(
+    private static List<AwesomeResult> CalcAwesome<T>(
         this List<T> source,
         int fastPeriods,
         int slowPeriods)
@@ -19,7 +19,7 @@ public static partial class Indicator
 
             ? source
              .Cast<IQuote>()
-             .Use(CandlePart.HL2)
+             .Use(CandlePart.Hl2)
              .Cast<IReusable>()
              .ToSortedList()
 
@@ -56,8 +56,8 @@ public static partial class Indicator
                     }
                 }
 
-                oscillator = ((sumFast / fastPeriods) - (sumSlow / slowPeriods)).NaN2Null();
-                normalized = (pr[i] != 0) ? 100 * oscillator / pr[i] : null;
+                oscillator = (sumFast / fastPeriods - sumSlow / slowPeriods).NaN2Null();
+                normalized = pr[i] != 0 ? 100 * oscillator / pr[i] : null;
             }
 
             AwesomeResult r = new(

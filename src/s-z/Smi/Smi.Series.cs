@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<SmiResult> CalcSmi(
+    private static List<SmiResult> CalcSmi(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         int firstSmoothPeriods,
@@ -60,7 +60,7 @@ public static partial class Indicator
                     }
                 }
 
-                double sm = q.Close - (0.5d * (hH + lL));
+                double sm = q.Close - 0.5d * (hH + lL);
                 double hl = hH - lL;
 
                 // initialize last EMA values
@@ -74,12 +74,12 @@ public static partial class Indicator
                 }
 
                 // first smoothing
-                double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
-                double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
+                double smEma1 = lastSmEma1 + k1 * (sm - lastSmEma1);
+                double hlEma1 = lastHlEma1 + k1 * (hl - lastHlEma1);
 
                 // second smoothing
-                double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
-                double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
+                double smEma2 = lastSmEma2 + k2 * (smEma1 - lastSmEma2);
+                double hlEma2 = lastHlEma2 + k2 * (hlEma1 - lastHlEma2);
 
                 // stochastic momentum index
                 smi = 100 * (smEma2 / (0.5 * hlEma2));
@@ -92,7 +92,7 @@ public static partial class Indicator
                 }
 
                 // signal line
-                signal = lastSignal + (kS * (smi - lastSignal));
+                signal = lastSignal + kS * (smi - lastSignal);
 
                 // carryover values
                 lastSmEma1 = smEma1;
@@ -107,7 +107,7 @@ public static partial class Indicator
                 signal = double.NaN;
             }
 
-            results.Add(new SmiResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Smi: smi.NaN2Null(),
                 Signal: signal.NaN2Null()));

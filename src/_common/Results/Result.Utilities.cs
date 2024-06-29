@@ -1,10 +1,8 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // RESULTS UTILITIES
 
-public static partial class ResultUtility
+public static class ResultUtility
 {
     // CONDENSE (REMOVE null and NaN results)
     /// <include file='./info.xml' path='info/type[@name="CondenseT"]/*' />

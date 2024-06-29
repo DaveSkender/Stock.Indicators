@@ -6,8 +6,8 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<UltimateResult> results = quotes
-            .GetUltimate(7, 14, 28)
+        List<UltimateResult> results = Quotes
+            .GetUltimate()
             .ToList();
 
         // proper quantities
@@ -28,7 +28,7 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetUltimate()
             .GetSma(10)
             .ToList();
@@ -40,24 +40,24 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<UltimateResult> r = badQuotes
+        List<UltimateResult> r = BadQuotes
             .GetUltimate(1, 2, 3)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ultimate is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Ultimate is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<UltimateResult> r0 = noquotes
+        List<UltimateResult> r0 = Noquotes
             .GetUltimate()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<UltimateResult> r1 = onequote
+        List<UltimateResult> r1 = Onequote
             .GetUltimate()
             .ToList();
 
@@ -67,8 +67,8 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<UltimateResult> results = quotes
-            .GetUltimate(7, 14, 28)
+        List<UltimateResult> results = Quotes
+            .GetUltimate()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -84,14 +84,14 @@ public class UltimateTests : SeriesTestBase
     {
         // bad short period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetUltimate(0));
+            Quotes.GetUltimate(0));
 
         // bad middle period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetUltimate(7, 6));
+            Quotes.GetUltimate(7, 6));
 
         // bad long period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetUltimate(7, 14, 11));
+            Quotes.GetUltimate(7, 14, 11));
     }
 }

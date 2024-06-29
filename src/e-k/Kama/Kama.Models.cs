@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public readonly record struct KamaResult
 (
     DateTime Timestamp,
-    double? ER,
+    double? Er,
     double? Kama
 ) : IReusable
 {

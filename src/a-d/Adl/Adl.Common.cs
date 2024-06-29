@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>See the <see href = "https://dotnet.stockindicators.dev/indicators/Adl/">
 ///  Stock Indicators for .NET online guide</see> for more information.</summary>
-public static partial class Adl
+public static class Adl
 {
     // increment calculation
     /// <summary>Get the next incremental Accumulation/Distribution Line(ADL) value.
@@ -30,11 +30,11 @@ public static partial class Adl
         double close,
         double volume)
     {
-        double mfm = (high == low) ? 0 : (close - low - (high - close)) / (high - low);
+        double mfm = high - low == 0 ? 0 : (close - low - (high - close)) / (high - low);
         double mfv = mfm * volume;
         double adl = mfv + prevAdl;
 
-        return new AdlResult(
+        return new(
             Timestamp: timestamp,
             Adl: adl,
             MoneyFlowMultiplier: mfm,

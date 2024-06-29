@@ -11,7 +11,9 @@ namespace Skender.Stock.Indicators;
 /// </para>
 /// <para>
 /// (A) For streaming compatibility, define it as a
-/// <see langword="record struct"/> value-based type.
+/// <see langword="record struct"/> value-based type. Add
+/// the <see langword="readonly"/> keyword modifier for
+/// slightly better memory performance.
 /// </para>
 /// <para>
 /// (B) For chaining compatibility (<see cref="IReusable"/>

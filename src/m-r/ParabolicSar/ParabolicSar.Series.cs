@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ParabolicSarResult> CalcParabolicSar(
+    private static List<ParabolicSarResult> CalcParabolicSar(
         this List<QuoteD> qdList,
         double accelerationStep,
         double maxAccelerationFactor,
@@ -17,16 +17,13 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<ParabolicSarResult> results = new(length);
-        QuoteD q0;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            q0 = qdList[0];
-        }
+
+        QuoteD q0 = qdList[0];
 
         double accelerationFactor = initialFactor;
         double extremePoint = q0.High;
@@ -38,7 +35,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            bool? isReversal = null;
+            bool? isReversal;
             double psar;
 
             // skip first one
@@ -52,7 +49,7 @@ public static partial class Indicator
             if (isRising)
             {
                 double sar =
-                    priorSar + (accelerationFactor * (extremePoint - priorSar));
+                    priorSar + accelerationFactor * (extremePoint - priorSar);
 
                 // SAR cannot be higher than last two lows
                 if (i >= 2)
@@ -98,7 +95,7 @@ public static partial class Indicator
             else
             {
                 double sar
-                    = priorSar - (accelerationFactor * (priorSar - extremePoint));
+                    = priorSar - accelerationFactor * (priorSar - extremePoint);
 
                 // SAR cannot be lower than last two highs
                 if (i >= 2)
@@ -139,7 +136,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new ParabolicSarResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Sar: psar.NaN2Null(),
                 IsReversal: isReversal));

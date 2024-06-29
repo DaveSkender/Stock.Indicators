@@ -6,7 +6,7 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ObvResult> results = quotes
+        List<ObvResult> results = Quotes
             .GetObv()
             .ToList();
 
@@ -24,7 +24,7 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetObv()
             .GetSma(10)
             .ToList();
@@ -36,7 +36,7 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ObvResult> r = badQuotes
+        List<ObvResult> r = BadQuotes
             .GetObv()
             .ToList();
 
@@ -47,7 +47,7 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<ObvResult> r = bigQuotes
+        List<ObvResult> r = BigQuotes
             .GetObv()
             .ToList();
 
@@ -57,13 +57,13 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ObvResult> r0 = noquotes
+        List<ObvResult> r0 = Noquotes
             .GetObv()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ObvResult> r1 = onequote
+        List<ObvResult> r1 = Onequote
             .GetObv()
             .ToList();
 

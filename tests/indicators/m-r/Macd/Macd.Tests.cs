@@ -11,7 +11,7 @@ public class MacdTests : SeriesTestBase
         int signalPeriods = 9;
 
         List<MacdResult> results =
-            quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods)
+            Quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods)
             .ToList();
 
         // proper quantities
@@ -46,7 +46,7 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<MacdResult> results = quotes
+        List<MacdResult> results = Quotes
             .Use(CandlePart.Close)
             .GetMacd()
             .ToList();
@@ -58,7 +58,7 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<MacdResult> results = quotes
+        List<MacdResult> results = Quotes
             .GetSma(2)
             .GetMacd()
             .ToList();
@@ -70,7 +70,7 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetMacd()
             .GetSma(10)
             .ToList();
@@ -82,24 +82,24 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MacdResult> r = badQuotes
+        List<MacdResult> r = BadQuotes
             .GetMacd(10, 20, 5)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Macd is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Macd is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MacdResult> r0 = noquotes
+        List<MacdResult> r0 = Noquotes
             .GetMacd()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MacdResult> r1 = onequote
+        List<MacdResult> r1 = Onequote
             .GetMacd()
             .ToList();
 
@@ -113,7 +113,7 @@ public class MacdTests : SeriesTestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<MacdResult> results = quotes
+        List<MacdResult> results = Quotes
             .GetMacd(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -132,14 +132,14 @@ public class MacdTests : SeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMacd(0, 26, 9));
+            Quotes.GetMacd(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMacd(12, 12, 9));
+            Quotes.GetMacd(12, 12));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMacd(12, 26, -1));
+            Quotes.GetMacd(12, 26, -1));
     }
 }

@@ -12,6 +12,6 @@ public static partial class Indicator
             .ToList()
             .FindIndex(x => x.Pdi != null);
 
-        return results.Remove((2 * n) + 100);
+        return results.Remove(2 * n + 100);
     }
 }

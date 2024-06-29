@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ChandelierResult> CalcChandelier(
+    private static List<ChandelierResult> CalcChandelier(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
@@ -46,7 +46,7 @@ public static partial class Indicator
                             }
                         }
 
-                        exit = maxHigh - (atr * multiplier);
+                        exit = maxHigh - atr * multiplier;
                         break;
 
                     case ChandelierType.Short:
@@ -61,7 +61,7 @@ public static partial class Indicator
                             }
                         }
 
-                        exit = minLow + (atr * multiplier);
+                        exit = minLow + atr * multiplier;
                         break;
 
                     default:
@@ -69,7 +69,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new ChandelierResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 ChandelierExit: exit));
         }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PmoResult> CalcPmo<T>(
+    private static List<PmoResult> CalcPmo<T>(
         this List<T> source,
         int timePeriods,
         int smoothPeriods,
@@ -36,7 +36,7 @@ public static partial class Indicator
             T s = source[i];
 
             // rate of change (ROC)
-            rc[i] = prevPrice == 0 ? double.NaN : 100 * ((s.Value / prevPrice) - 1);
+            rc[i] = prevPrice == 0 ? double.NaN : 100 * (s.Value / prevPrice - 1);
             prevPrice = s.Value;
 
             // ROC smoothed moving average
@@ -53,7 +53,7 @@ public static partial class Indicator
             }
             else
             {
-                rocEma = prevRocEma + (smoothingConstant2 * (rc[i] - prevRocEma));
+                rocEma = prevRocEma + smoothingConstant2 * (rc[i] - prevRocEma);
             }
 
             re[i] = rocEma * 10;
@@ -73,7 +73,7 @@ public static partial class Indicator
             }
             else
             {
-                pmo = prevPmo + (smoothingConstant1 * (re[i] - prevPmo));
+                pmo = prevPmo + smoothingConstant1 * (re[i] - prevPmo);
             }
 
             prevPmo = pm[i] = pmo;

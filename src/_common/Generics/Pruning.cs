@@ -23,17 +23,17 @@ public static class Pruning
         {
             return [];
         }
-        else
-        {
-            if (removePeriods > 0)
-            {
-                for (int i = 0; i < removePeriods; i++)
-                {
-                    seriesList.RemoveAt(0);
-                }
-            }
 
+        if (removePeriods <= 0)
+        {
             return seriesList;
         }
+
+        for (int i = 0; i < removePeriods; i++)
+        {
+            seriesList.RemoveAt(0);
+        }
+
+        return seriesList;
     }
 }

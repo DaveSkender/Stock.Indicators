@@ -2,12 +2,13 @@ using System.Globalization;
 
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
+// ReSharper disable All
 
 internal sealed class MyEma : IResult
 {
-    public DateTime Timestamp { get; set; }
-    public int Id { get; set; }
-    public bool MyProperty { get; set; }
+    public DateTime Timestamp { get; init; }
+    public int Id { get; init; }
+    public bool MyProperty { get; init; }
     public double? Ema { get; set; }
 }
 
@@ -22,14 +23,14 @@ internal record struct MyCustomQuote : IQuote
 
     // custom properties
     public int MyOtherProperty { get; set; }
-    public DateTime CloseDate { get; set; }
-    public decimal CloseValue { get; set; }
+    public DateTime CloseDate { get; init; }
+    public decimal CloseValue { get; init; }
 
     // required base properties
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Volume { get; set; }
+    public decimal Open { get; init; }
+    public decimal High { get; init; }
+    public decimal Low { get; init; }
+    public decimal Volume { get; init; }
 
     readonly double IReusable.Value
         => (double)CloseValue;
@@ -38,10 +39,10 @@ internal record struct MyCustomQuote : IQuote
 [TestClass]
 public class PublicClassTests
 {
-    internal static readonly CultureInfo EnglishCulture
+    private static readonly CultureInfo EnglishCulture
         = new("en-US", false);
 
-    internal static readonly DateTime evalDate
+    private static readonly DateTime EvalDate
         = DateTime.ParseExact(
             "12/31/2018", "MM/dd/yyyy", EnglishCulture);
 
@@ -50,9 +51,11 @@ public class PublicClassTests
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
 
-        quotes.Validate();
-        quotes.GetSma(6);
-        quotes.GetEma(5);
+        IEnumerable<Quote> enumerable = quotes.ToList();
+
+        enumerable.Validate();
+        enumerable.GetSma(6);
+        enumerable.GetEma(5);
     }
 
     [TestMethod]
@@ -60,8 +63,6 @@ public class PublicClassTests
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<Quote> h = quotes.Validate();
-
-        QuoteProvider<MyCustomQuote> foo = new();
 
         Quote f = h.FirstOrDefault();
         Console.WriteLine($"Quote:{f}");
@@ -106,7 +107,7 @@ public class PublicClassTests
     public void EqualCustomQuotes()
     {
         MyCustomQuote q1 = new() {
-            CloseDate = evalDate,
+            CloseDate = EvalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -115,7 +116,7 @@ public class PublicClassTests
         };
 
         MyCustomQuote q2 = new() {
-            CloseDate = evalDate,
+            CloseDate = EvalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -124,7 +125,7 @@ public class PublicClassTests
         };
 
         MyCustomQuote q3 = new() {
-            CloseDate = evalDate,
+            CloseDate = EvalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -235,7 +236,7 @@ public class PublicClassTests
     public void CustomResultClassFind()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
-        IEnumerable<EmaResult> emaResults = Indicator.GetEma(quotes, 20);
+        IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
 
         // can use a derive Indicator class using Linq
 

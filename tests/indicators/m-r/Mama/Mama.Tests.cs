@@ -9,7 +9,7 @@ public class MamaTests : SeriesTestBase
         double fastLimit = 0.5;
         double slowLimit = 0.05;
 
-        List<MamaResult> results = quotes
+        List<MamaResult> results = Quotes
             .GetMama(fastLimit, slowLimit)
             .ToList();
 
@@ -50,7 +50,7 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<MamaResult> results = quotes
+        List<MamaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetMama()
             .ToList();
@@ -62,7 +62,7 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<MamaResult> results = quotes
+        List<MamaResult> results = Quotes
             .GetSma(2)
             .GetMama()
             .ToList();
@@ -74,7 +74,7 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetMama()
             .GetSma(10)
             .ToList();
@@ -86,24 +86,24 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MamaResult> r = badQuotes
+        List<MamaResult> r = BadQuotes
             .GetMama()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mama is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Mama is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MamaResult> r0 = noquotes
+        List<MamaResult> r0 = Noquotes
             .GetMama()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MamaResult> r1 = onequote
+        List<MamaResult> r1 = Onequote
             .GetMama()
             .ToList();
 
@@ -116,7 +116,7 @@ public class MamaTests : SeriesTestBase
         double fastLimit = 0.5;
         double slowLimit = 0.05;
 
-        List<MamaResult> results = quotes
+        List<MamaResult> results = Quotes
             .GetMama(fastLimit, slowLimit)
             .RemoveWarmupPeriods()
             .ToList();
@@ -134,14 +134,14 @@ public class MamaTests : SeriesTestBase
     {
         // bad fast period (same as slow period)
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(0.5, 0.5));
+            Quotes.GetMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(1, 0.5));
+            Quotes.GetMama(1, 0.5));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(0.5, 0));
+            Quotes.GetMama(0.5, 0));
     }
 }

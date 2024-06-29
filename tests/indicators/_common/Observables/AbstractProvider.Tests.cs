@@ -6,7 +6,7 @@ public class ProviderTests : TestBase
     [TestMethod]
     public void Prefill()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList()
             .Take(50)
             .ToList();
@@ -41,6 +41,12 @@ public class ProviderTests : TestBase
 
         observer.Unsubscribe();
         provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void FindIndex()
+    {
+        Assert.Inconclusive("test not implemented");
     }
 
     [TestMethod]

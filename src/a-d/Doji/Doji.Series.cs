@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CandleResult> CalcDoji<TQuote>(
+    private static List<CandleResult> CalcDoji<TQuote>(
         this List<TQuote> quotesList,
         double maxPriceChangePercent)
         where TQuote : IQuote
@@ -33,7 +33,7 @@ public static partial class Indicator
                 matchType = Match.Neutral;
             }
 
-            results.Add(new CandleResult(
+            results.Add(new(
                 timestamp: q.Timestamp,
                 quote: q,
                 match: matchType,

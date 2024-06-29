@@ -6,8 +6,8 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public void StandardSpan2()
     {
-        List<FractalResult> results = quotes
-            .GetFractal(2, EndType.HighLow)
+        List<FractalResult> results = Quotes
+            .GetFractal()
             .ToList();
 
         // proper quantities
@@ -44,8 +44,8 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public void StandardSpan4()
     {
-        List<FractalResult> results = quotes
-            .GetFractal(4, 4, EndType.HighLow)
+        List<FractalResult> results = Quotes
+            .GetFractal(4, 4)
             .ToList();
 
         // proper quantities
@@ -82,7 +82,7 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<FractalResult> r = badQuotes
+        List<FractalResult> r = BadQuotes
             .GetFractal()
             .ToList();
 
@@ -92,13 +92,13 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<FractalResult> r0 = noquotes
+        List<FractalResult> r0 = Noquotes
             .GetFractal()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<FractalResult> r1 = onequote
+        List<FractalResult> r1 = Onequote
             .GetFractal()
             .ToList();
 
@@ -108,7 +108,7 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<FractalResult> r = quotes
+        List<FractalResult> r = Quotes
             .GetFractal()
             .Condense()
             .ToList();
@@ -120,5 +120,5 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetFractal(1));
+            => Quotes.GetFractal(1));
 }

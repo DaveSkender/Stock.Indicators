@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ZigZagResult> CalcZigZag<TQuote>(
+    private static List<ZigZagResult> CalcZigZag<TQuote>(
         this List<TQuote> quotesList,
         EndType endType = EndType.Close,
         decimal percentChange = 5)
@@ -16,16 +16,13 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<ZigZagResult> results = new(length);
-        TQuote q0;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            q0 = quotesList[0];
-        }
+
+        TQuote q0 = quotesList[0];
 
         ZigZagEval eval = GetZigZagEval(endType, 1, q0);
         decimal changeThreshold = percentChange / 100m;
@@ -48,8 +45,6 @@ public static partial class Indicator
             PointType = "L"
         };
 
-        int finalPointIndex = length;
-
         // roll through quotes, to find initial trend
         for (int i = 0; i < length; i++)
         {
@@ -58,10 +53,10 @@ public static partial class Indicator
 
             eval = GetZigZagEval(endType, index, q);
 
-            decimal? changeUp = (lastLowPoint.Value == 0) ? null
+            decimal? changeUp = lastLowPoint.Value == 0 ? null
                 : (eval.High - lastLowPoint.Value) / lastLowPoint.Value;
 
-            decimal? changeDn = (lastHighPoint.Value == 0) ? null
+            decimal? changeDn = lastHighPoint.Value == 0 ? null
                 : (lastHighPoint.Value - eval.Low) / lastHighPoint.Value;
 
             if (changeUp >= changeThreshold && changeUp > changeDn)
@@ -86,7 +81,7 @@ public static partial class Indicator
         results.Add(firstResult);
 
         // find and draw lines
-        while (lastPoint.Index < finalPointIndex)
+        while (lastPoint.Index < length)
         {
             ZigZagPoint nextPoint = EvaluateNextPoint(quotesList, endType, changeThreshold, lastPoint);
             string lastDirection = lastPoint.PointType;
@@ -139,7 +134,7 @@ public static partial class Indicator
                 }
                 else
                 {
-                    change = (extremePoint.Value == 0) ? null
+                    change = extremePoint.Value == 0 ? null
                         : (extremePoint.Value - eval.Low) / extremePoint.Value;
                 }
             }
@@ -153,7 +148,7 @@ public static partial class Indicator
                 }
                 else
                 {
-                    change = (extremePoint.Value == 0) ? null
+                    change = extremePoint.Value == 0 ? null
                         : (eval.High - extremePoint.Value) / extremePoint.Value;
                 }
             }
@@ -192,9 +187,9 @@ public static partial class Indicator
 
                 ZigZagResult result = new() {
                     Timestamp = q.Timestamp,
-                    ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
-                        lastPoint.Value + (increment * (index - lastPoint.Index)) : null,
-                    PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
+                    ZigZag = lastPoint.Index != 1 || index == nextPoint.Index ?
+                        lastPoint.Value + increment * (index - lastPoint.Index) : null,
+                    PointType = index == nextPoint.Index ? nextPoint.PointType : null
                 };
 
                 results.Add(result);
@@ -216,24 +211,25 @@ public static partial class Indicator
     {
         ZigZagPoint priorPoint = new();
 
-        // handle type and reset last point
-        if (lastDirection == "L")
+        switch (lastDirection)
         {
-            priorPoint.Index = lastHighPoint.Index;
-            priorPoint.Value = lastHighPoint.Value;
+            // handle type and reset last point
+            case "L":
+                priorPoint.Index = lastHighPoint.Index;
+                priorPoint.Value = lastHighPoint.Value;
 
-            lastHighPoint.Index = nextPoint.Index;
-            lastHighPoint.Value = nextPoint.Value;
-        }
+                lastHighPoint.Index = nextPoint.Index;
+                lastHighPoint.Value = nextPoint.Value;
+                break;
 
-        // low line
-        else if (lastDirection == "H")
-        {
-            priorPoint.Index = lastLowPoint.Index;
-            priorPoint.Value = lastLowPoint.Value;
+            // low line
+            case "H":
+                priorPoint.Index = lastLowPoint.Index;
+                priorPoint.Value = lastLowPoint.Value;
 
-            lastLowPoint.Index = nextPoint.Index;
-            lastLowPoint.Value = nextPoint.Value;
+                lastLowPoint.Index = nextPoint.Index;
+                lastLowPoint.Value = nextPoint.Value;
+                break;
         }
 
         // nothing to draw cases
@@ -256,24 +252,29 @@ public static partial class Indicator
             ZigZagResult r = results[i];
             int index = i + 1;
 
-            // high line
-            if (lastDirection == "L")
+            switch (lastDirection)
             {
-                decimal? retraceHigh
-                    = priorPoint.Value
-                    + (increment * (index - priorPoint.Index));
+                // high line
+                case "L":
+                    {
+                        decimal? retraceHigh
+                            = priorPoint.Value
+                              + increment * (index - priorPoint.Index);
 
-                results[i] = r with { RetraceHigh = retraceHigh };
-            }
+                        results[i] = r with { RetraceHigh = retraceHigh };
+                        break;
+                    }
 
-            // low line
-            else if (lastDirection == "H")
-            {
-                decimal? retraceLow
-                    = priorPoint.Value
-                    + (increment * (index - priorPoint.Index));
+                // low line
+                case "H":
+                    {
+                        decimal? retraceLow
+                            = priorPoint.Value
+                              + increment * (index - priorPoint.Index);
 
-                results[i] = r with { RetraceLow = retraceLow };
+                        results[i] = r with { RetraceLow = retraceLow };
+                        break;
+                    }
             }
         }
     }

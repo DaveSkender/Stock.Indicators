@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<KeltnerResult> CalcKeltner(
+    private static List<KeltnerResult> CalcKeltner(
         this List<QuoteD> qdList,
         int emaPeriods,
         double multiplier,
@@ -38,12 +38,12 @@ public static partial class Indicator
                 AtrResult atr = atrResults[i];
                 double? atrSpan = atr.Atr * multiplier;
 
-                results.Add(new KeltnerResult(
+                results.Add(new(
                     Timestamp: q.Timestamp,
                     UpperBand: ema.Ema + atrSpan,
                     LowerBand: ema.Ema - atrSpan,
                     Centerline: ema.Ema,
-                    Width: (ema.Ema == 0) ? null : 2 * atrSpan / ema.Ema));
+                    Width: ema.Ema == 0 ? null : 2 * atrSpan / ema.Ema));
             }
             else
             {

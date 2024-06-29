@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<UlcerIndexResult> CalcUlcerIndex<T>(
+    private static List<UlcerIndexResult> CalcUlcerIndex<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -41,7 +41,7 @@ public static partial class Indicator
                         }
                     }
 
-                    double percentDrawdown = (maxClose == 0) ? double.NaN
+                    double percentDrawdown = maxClose == 0 ? double.NaN
                         : 100 * ((ps.Value - maxClose) / maxClose);
 
                     sumSquared += percentDrawdown * percentDrawdown;

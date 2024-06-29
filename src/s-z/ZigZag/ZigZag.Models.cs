@@ -14,7 +14,7 @@ public readonly record struct ZigZagResult
 
 internal class ZigZagEval
 {
-    internal int Index { get; set; }
+    internal int Index { get; init; }
     internal decimal? High { get; set; }
     internal decimal? Low { get; set; }
 }

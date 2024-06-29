@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<HmaResult> CalcHma<T>(
+    private static List<HmaResult> CalcHma<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -28,14 +28,16 @@ public static partial class Indicator
             WmaResult w1 = wmaN1[i];
             WmaResult w2 = wmaN2[i];
 
-            if (i >= shiftQty)
+            if (i < shiftQty)
             {
-                Reusable sh = new(
-                    Timestamp: s.Timestamp,
-                    Value: (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
-
-                synthHistory.Add(sh);
+                continue;
             }
+
+            Reusable sh = new(
+                Timestamp: s.Timestamp,
+                Value: w2.Wma.Null2NaN() * 2d - w1.Wma.Null2NaN());
+
+            synthHistory.Add(sh);
         }
 
         // add back truncated null results

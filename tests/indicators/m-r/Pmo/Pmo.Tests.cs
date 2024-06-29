@@ -6,8 +6,8 @@ public class PmoTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<PmoResult> results = quotes
-            .GetPmo(35, 20, 10)
+        List<PmoResult> results = Quotes
+            .GetPmo()
             .ToList();
 
         // proper quantities
@@ -28,7 +28,7 @@ public class PmoTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<PmoResult> results = quotes
+        List<PmoResult> results = Quotes
             .Use(CandlePart.Close)
             .GetPmo()
             .ToList();
@@ -40,7 +40,7 @@ public class PmoTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<PmoResult> results = quotes
+        List<PmoResult> results = Quotes
             .GetSma(2)
             .GetPmo()
             .ToList();
@@ -52,7 +52,7 @@ public class PmoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetPmo()
             .GetSma(10)
             .ToList();
@@ -64,24 +64,24 @@ public class PmoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PmoResult> r = badQuotes
+        List<PmoResult> r = BadQuotes
             .GetPmo(25, 15, 5)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pmo is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Pmo is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PmoResult> r0 = noquotes
+        List<PmoResult> r0 = Noquotes
             .GetPmo()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PmoResult> r1 = onequote
+        List<PmoResult> r1 = Onequote
             .GetPmo()
             .ToList();
 
@@ -91,8 +91,8 @@ public class PmoTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<PmoResult> results = quotes
-            .GetPmo(35, 20, 10)
+        List<PmoResult> results = Quotes
+            .GetPmo()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -109,14 +109,14 @@ public class PmoTests : SeriesTestBase
     {
         // bad time period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(1));
+            Quotes.GetPmo(1));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(5, 0));
+            Quotes.GetPmo(5, 0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(5, 5, 0));
+            Quotes.GetPmo(5, 5, 0));
     }
 }

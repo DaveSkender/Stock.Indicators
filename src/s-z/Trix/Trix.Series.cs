@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<TrixResult> CalcTrix<T>(
+    private static List<TrixResult> CalcTrix<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -55,13 +55,13 @@ public static partial class Indicator
             // normal TRIX
             else
             {
-                ema1 = lastEma1 + (k * (s.Value - lastEma1));
-                ema2 = lastEma2 + (k * (ema1 - lastEma2));
-                ema3 = lastEma3 + (k * (ema2 - lastEma3));
+                ema1 = lastEma1 + k * (s.Value - lastEma1);
+                ema2 = lastEma2 + k * (ema1 - lastEma2);
+                ema3 = lastEma3 + k * (ema2 - lastEma3);
 
                 double trix = 100 * (ema3 - lastEma3) / lastEma3;
 
-                results.Add(new TrixResult(
+                results.Add(new(
                     Timestamp: s.Timestamp,
                     Ema3: ema3.NaN2Null(),
                     Trix: trix.NaN2Null()));

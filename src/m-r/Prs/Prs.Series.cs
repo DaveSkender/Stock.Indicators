@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PrsResult> CalcPrs<T>(
+    private static List<PrsResult> CalcPrs<T>(
         List<T> listEval,
         List<T> listBase,
         int? lookbackPeriods = null)
@@ -50,7 +50,7 @@ public static partial class Indicator
             PrsResult r = new() {
                 Timestamp = e.Timestamp,
 
-                Prs = (b.Value == 0)
+                Prs = b.Value == 0
                     ? null
                     : (e.Value / b.Value).NaN2Null(), // relative strength ratio
 

@@ -6,7 +6,7 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AdlResult> results = quotes
+        List<AdlResult> results = Quotes
             .GetAdl()
             .ToList();
 
@@ -28,7 +28,7 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetAdl()
             .GetSma(10)
             .ToList();
@@ -43,7 +43,7 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AdlResult> r = badQuotes
+        List<AdlResult> r = BadQuotes
             .GetAdl()
             .ToList();
 
@@ -54,7 +54,7 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<AdlResult> r = bigQuotes
+        List<AdlResult> r = BigQuotes
             .GetAdl()
             .ToList();
 
@@ -64,7 +64,7 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public void RandomData()
     {
-        List<AdlResult> r = randomQuotes
+        List<AdlResult> r = RandomQuotes
             .GetAdl()
             .ToList();
 
@@ -74,13 +74,13 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AdlResult> r0 = noquotes
+        List<AdlResult> r0 = Noquotes
             .GetAdl()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AdlResult> r1 = onequote
+        List<AdlResult> r1 = Onequote
             .GetAdl()
             .ToList();
 

@@ -11,7 +11,7 @@ public class PvoTests : SeriesTestBase
         int signalPeriods = 9;
 
         List<PvoResult> results =
-            quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
+            Quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
             .ToList();
 
         // proper quantities
@@ -50,7 +50,7 @@ public class PvoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetPvo()
             .GetSma(10)
             .ToList();
@@ -62,24 +62,24 @@ public class PvoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PvoResult> r = badQuotes
+        List<PvoResult> r = BadQuotes
             .GetPvo(10, 20, 5)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pvo is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Pvo is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PvoResult> r0 = noquotes
+        List<PvoResult> r0 = Noquotes
             .GetPvo()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PvoResult> r1 = onequote
+        List<PvoResult> r1 = Onequote
             .GetPvo()
             .ToList();
 
@@ -93,7 +93,7 @@ public class PvoTests : SeriesTestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<PvoResult> results = quotes
+        List<PvoResult> results = Quotes
             .GetPvo(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -112,14 +112,14 @@ public class PvoTests : SeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(0, 26, 9));
+            Quotes.GetPvo(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(12, 12, 9));
+            Quotes.GetPvo(12, 12));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(12, 26, -1));
+            Quotes.GetPvo(12, 26, -1));
     }
 }

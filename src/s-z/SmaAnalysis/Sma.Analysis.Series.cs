@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // SIMPLE MOVING AVERAGE (ANALYSIS)
 public static partial class Indicator
 {
-    internal static IEnumerable<SmaAnalysis> CalcSmaAnalysis<T>(
+    private static List<SmaAnalysis> CalcSmaAnalysis<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -21,7 +21,7 @@ public static partial class Indicator
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
         {
             SmaAnalysis r = results[i];
-            double sma = (r.Sma == null) ? double.NaN : (double)r.Sma;
+            double sma = r.Sma ?? double.NaN;
 
             double sumMad = 0;
             double sumMse = 0;
@@ -34,7 +34,7 @@ public static partial class Indicator
                 sumMad += Math.Abs(s.Value - sma);
                 sumMse += (s.Value - sma) * (s.Value - sma);
 
-                sumMape += (s.Value == 0) ? double.NaN
+                sumMape += s.Value == 0 ? double.NaN
                     : Math.Abs(s.Value - sma) / s.Value;
             }
 

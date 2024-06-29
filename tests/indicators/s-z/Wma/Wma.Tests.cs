@@ -6,7 +6,7 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<WmaResult> results = quotes
+        List<WmaResult> results = Quotes
             .GetWma(20)
             .ToList();
 
@@ -25,7 +25,7 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<WmaResult> results = quotes
+        List<WmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetWma(20)
             .ToList();
@@ -37,7 +37,7 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<WmaResult> results = quotes
+        List<WmaResult> results = Quotes
             .GetSma(2)
             .GetWma(20)
             .ToList();
@@ -49,7 +49,7 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetWma(20)
             .GetSma(10)
             .ToList();
@@ -61,11 +61,11 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Chaining()
     {
-        List<WmaResult> standard = quotes
+        List<WmaResult> standard = Quotes
             .GetWma(17)
             .ToList();
 
-        List<WmaResult> results = quotes
+        List<WmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetWma(17)
             .ToList();
@@ -84,24 +84,24 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<WmaResult> r = badQuotes
+        List<WmaResult> r = BadQuotes
             .GetWma(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Wma is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<WmaResult> r0 = noquotes
+        List<WmaResult> r0 = Noquotes
             .GetWma(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<WmaResult> r1 = onequote
+        List<WmaResult> r1 = Onequote
             .GetWma(5)
             .ToList();
 
@@ -111,7 +111,7 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<WmaResult> results = quotes
+        List<WmaResult> results = Quotes
             .GetWma(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -127,5 +127,5 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetWma(0));
+            => Quotes.GetWma(0));
 }

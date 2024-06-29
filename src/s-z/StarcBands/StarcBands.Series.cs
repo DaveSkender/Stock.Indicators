@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StarcBandsResult> CalcStarcBands(
+    private static List<StarcBandsResult> CalcStarcBands(
         this List<QuoteD> qdList,
         int smaPeriods,
         double multiplier,
@@ -25,11 +25,11 @@ public static partial class Indicator
             SmaResult s = smaResults[i];
             AtrResult a = atrResults[i];
 
-            results.Add(new StarcBandsResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Centerline: s.Sma,
-                UpperBand: s.Sma + (multiplier * a.Atr),
-                LowerBand: s.Sma - (multiplier * a.Atr)));
+                UpperBand: s.Sma + multiplier * a.Atr,
+                LowerBand: s.Sma - multiplier * a.Atr));
         }
 
         return results;

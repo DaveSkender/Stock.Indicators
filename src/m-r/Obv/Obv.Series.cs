@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ObvResult> CalcObv(
+    private static List<ObvResult> CalcObv(
         this List<QuoteD> qdList)
     {
         // initialize

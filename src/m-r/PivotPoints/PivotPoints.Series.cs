@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PivotPointsResult> CalcPivotPoints<TQuote>(
+    private static List<PivotPointsResult> CalcPivotPoints<TQuote>(
         this List<TQuote> quotesList,
         PeriodSize windowSize,
         PivotPointType pointType)
@@ -15,20 +15,16 @@ public static partial class Indicator
         List<PivotPointsResult> results = new(length);
 
         WindowPoint windowPoint = new();
-        TQuote h0;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            h0 = quotesList[0];
-        }
+
+        TQuote h0 = quotesList[0];
 
         int windowId = GetWindowNumber(h0.Timestamp, windowSize);
 
-        int windowEval;
         bool firstWindow = true;
 
         decimal windowHigh = h0.High;
@@ -42,7 +38,7 @@ public static partial class Indicator
             TQuote q = quotesList[i];
 
             // new window evaluation
-            windowEval = GetWindowNumber(q.Timestamp, windowSize);
+            int windowEval = GetWindowNumber(q.Timestamp, windowSize);
 
             if (windowEval != windowId)
             {
@@ -72,7 +68,7 @@ public static partial class Indicator
                     Timestamp = q.Timestamp,
 
                     // pivot point
-                    PP = windowPoint.PP,
+                    Pp = windowPoint.Pp,
 
                     // support
                     S1 = windowPoint.S1,
@@ -84,17 +80,17 @@ public static partial class Indicator
                     R1 = windowPoint.R1,
                     R2 = windowPoint.R2,
                     R3 = windowPoint.R3,
-                    R4 = windowPoint.R4,
+                    R4 = windowPoint.R4
                 }
-                : new() {
+                : new PivotPointsResult {
                     Timestamp = q.Timestamp
                 };
 
             results.Add(r);
 
             // capture window threholds (for next iteration)
-            windowHigh = (q.High > windowHigh) ? q.High : windowHigh;
-            windowLow = (q.Low < windowLow) ? q.Low : windowLow;
+            windowHigh = q.High > windowHigh ? q.High : windowHigh;
+            windowLow = q.Low < windowLow ? q.Low : windowLow;
             windowClose = q.Close;
         }
 
@@ -102,103 +98,107 @@ public static partial class Indicator
     }
 
     // internals
-    internal static WindowPoint GetPivotPointStandard(
+    private static WindowPoint GetPivotPointStandard(
         decimal high, decimal low, decimal close)
     {
         decimal pp = (high + low + close) / 3;
 
         return new() {
-            PP = pp,
-            S1 = (pp * 2) - high,
+            Pp = pp,
+            S1 = pp * 2 - high,
             S2 = pp - (high - low),
-            S3 = low - (2 * (high - pp)),
-            R1 = (pp * 2) - low,
+            S3 = low - 2 * (high - pp),
+            R1 = pp * 2 - low,
             R2 = pp + (high - low),
-            R3 = high + (2 * (pp - low))
+            R3 = high + 2 * (pp - low)
         };
     }
 
-    internal static WindowPoint GetPivotPointCamarilla(
+    private static WindowPoint GetPivotPointCamarilla(
         decimal high, decimal low, decimal close)
         => new() {
-            PP = close,
-            S1 = close - (1.1m / 12 * (high - low)),
-            S2 = close - (1.1m / 6 * (high - low)),
-            S3 = close - (1.1m / 4 * (high - low)),
-            S4 = close - (1.1m / 2 * (high - low)),
-            R1 = close + (1.1m / 12 * (high - low)),
-            R2 = close + (1.1m / 6 * (high - low)),
-            R3 = close + (1.1m / 4 * (high - low)),
-            R4 = close + (1.1m / 2 * (high - low))
+            Pp = close,
+            S1 = close - 1.1m / 12 * (high - low),
+            S2 = close - 1.1m / 6 * (high - low),
+            S3 = close - 1.1m / 4 * (high - low),
+            S4 = close - 1.1m / 2 * (high - low),
+            R1 = close + 1.1m / 12 * (high - low),
+            R2 = close + 1.1m / 6 * (high - low),
+            R3 = close + 1.1m / 4 * (high - low),
+            R4 = close + 1.1m / 2 * (high - low)
         };
 
     internal static WindowPoint GetPivotPointDemark(
         decimal open, decimal high, decimal low, decimal close)
     {
         decimal x = close < open
-            ? high + (2 * low) + close
+            ? high + 2 * low + close
             : close > open
-            ? (2 * high) + low + close
-            : high + low + (2 * close);
+            ? 2 * high + low + close
+            : high + low + 2 * close;
 
         return new() {
-            PP = x / 4,
-            S1 = (x / 2) - high,
-            R1 = (x / 2) - low
+            Pp = x / 4,
+            S1 = x / 2 - high,
+            R1 = x / 2 - low
         };
     }
 
-    internal static WindowPoint GetPivotPointFibonacci(
+    private static WindowPoint GetPivotPointFibonacci(
         decimal high, decimal low, decimal close)
     {
         decimal pp = (high + low + close) / 3;
 
         return new() {
-            PP = pp,
-            S1 = pp - (0.382m * (high - low)),
-            S2 = pp - (0.618m * (high - low)),
-            S3 = pp - (1.000m * (high - low)),
-            R1 = pp + (0.382m * (high - low)),
-            R2 = pp + (0.618m * (high - low)),
-            R3 = pp + (1.000m * (high - low))
+            Pp = pp,
+            S1 = pp - 0.382m * (high - low),
+            S2 = pp - 0.618m * (high - low),
+            S3 = pp - 1.000m * (high - low),
+            R1 = pp + 0.382m * (high - low),
+            R2 = pp + 0.618m * (high - low),
+            R3 = pp + 1.000m * (high - low)
         };
     }
 
-    internal static WindowPoint GetPivotPointWoodie(
+    private static WindowPoint GetPivotPointWoodie(
         decimal currentOpen, decimal high, decimal low)
     {
-        decimal pp = (high + low + (2 * currentOpen)) / 4;
+        decimal pp = (high + low + 2 * currentOpen) / 4;
 
         return new() {
-            PP = pp,
-            S1 = (pp * 2) - high,
+            Pp = pp,
+            S1 = pp * 2 - high,
             S2 = pp - high + low,
-            S3 = low - (2 * (high - pp)),
-            R1 = (pp * 2) - low,
+            S3 = low - 2 * (high - pp),
+            R1 = pp * 2 - low,
             R2 = pp + high - low,
-            R3 = high + (2 * (pp - low)),
+            R3 = high + 2 * (pp - low)
         };
     }
 
     // pivot type lookup
-    internal static WindowPoint GetPivotPoint(
+    private static WindowPoint GetPivotPoint(
         PivotPointType pointType, decimal open, decimal high, decimal low, decimal close)
         => pointType switch {
+
             PivotPointType.Standard => GetPivotPointStandard(high, low, close),
             PivotPointType.Camarilla => GetPivotPointCamarilla(high, low, close),
             PivotPointType.Demark => GetPivotPointDemark(open, high, low, close),
             PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
             PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
+
             _ => throw new ArgumentOutOfRangeException(nameof(pointType), pointType, "Invalid pointType provided.")
         };
 
     // window size lookup
     private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
         => windowSize switch {
+
             PeriodSize.Month => d.Month,
             PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
             PeriodSize.Day => d.Day,
             PeriodSize.OneHour => d.Hour,
+
             _ => throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
                 string.Format(
                     EnglishCulture,

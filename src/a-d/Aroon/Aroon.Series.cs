@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AroonResult> CalcAroon(
+    private static List<AroonResult> CalcAroon(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

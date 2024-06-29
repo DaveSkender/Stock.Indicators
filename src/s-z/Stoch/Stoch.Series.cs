@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StochResult> CalcStoch(
+    private static List<StochResult> CalcStoch(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         int signalPeriods,
@@ -65,7 +65,7 @@ public static partial class Indicator
 
                 o[i] = !isViable
                      ? double.NaN
-                     : lowLow != highHigh
+                     : highHigh - lowLow != 0
                      ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
                      : 0;
             }
@@ -85,31 +85,38 @@ public static partial class Indicator
             {
                 k[i] = double.NaN;
 
-                if (movingAverageType is MaType.SMA)  // TODO: || double.IsNaN(prevK) to re/initialize SMMA?
+                switch (movingAverageType)
                 {
-                    double sum = 0;
-                    for (int p = i - smoothPeriods + 1; p <= i; p++)
-                    {
-                        sum += o[p];
-                    }
+                    // SMA case
+                    case MaType.Sma:
+                        {
+                            double sum = 0;
+                            for (int p = i - smoothPeriods + 1; p <= i; p++)
+                            {
+                                sum += o[p];
+                            }
 
-                    k[i] = sum / smoothPeriods;
-                }
+                            k[i] = sum / smoothPeriods;
+                            break;
+                        }
 
-                else if (movingAverageType is MaType.SMMA)
-                {
-                    // re/initialize
-                    if (double.IsNaN(prevK))
-                    {
-                        prevK = o[i];
-                    }
+                    // SMMA case
+                    case MaType.Smma:
+                        {
+                            // re/initialize
+                            if (double.IsNaN(prevK))
+                            {
+                                prevK = o[i];
+                            }
 
-                    k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
-                    prevK = k[i];
-                }
-                else
-                {
-                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
+                            k[i] = (prevK * (smoothPeriods - 1) + o[i]) / smoothPeriods;
+                            prevK = k[i];
+                            break;
+                        }
+
+                    default:
+                        throw new InvalidOperationException(
+                            "Invalid Stochastic moving average type.");
                 }
             }
             else
@@ -128,36 +135,39 @@ public static partial class Indicator
             }
             else if (i >= signalPeriods)
             {
-
-                // SMA case
-                if (movingAverageType is MaType.SMA)  // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
+                switch (movingAverageType)
                 {
-                    double sum = 0;
-                    for (int p = i - signalPeriods + 1; p <= i; p++)
-                    {
-                        sum += k[p];
-                    }
+                    // SMA case
+                    // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
+                    case MaType.Sma:
+                        {
+                            double sum = 0;
+                            for (int p = i - signalPeriods + 1; p <= i; p++)
+                            {
+                                sum += k[p];
+                            }
 
-                    signal = sum / signalPeriods;
-                }
+                            signal = sum / signalPeriods;
+                            break;
+                        }
 
-                // SMMA case
-                else if (movingAverageType is MaType.SMMA)
-                {
-                    // re/initialize
-                    if (double.IsNaN(prevD))
-                    {
-                        prevD = k[i];
-                    }
+                    // SMMA case
+                    case MaType.Smma:
+                        {
+                            // re/initialize
+                            if (double.IsNaN(prevD))
+                            {
+                                prevD = k[i];
+                            }
 
-                    double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
-                    signal = d;
-                    prevD = d;
-                }
+                            double d = (prevD * (signalPeriods - 1) + k[i]) / signalPeriods;
+                            signal = d;
+                            prevD = d;
+                            break;
+                        }
 
-                else
-                {
-                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
+                    default:
+                        throw new InvalidOperationException("Invalid Stochastic moving average type.");
                 }
             }
             else
@@ -165,11 +175,11 @@ public static partial class Indicator
                 signal = double.NaN;
             }
 
-            results.Add(new StochResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Oscillator: oscillator.NaN2Null(),
                 Signal: signal.NaN2Null(),
-                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null()));
+                PercentJ: (kFactor * oscillator - dFactor * signal).NaN2Null()));
         }
         return results;
     }

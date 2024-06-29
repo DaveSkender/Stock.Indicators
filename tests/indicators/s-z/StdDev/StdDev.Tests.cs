@@ -6,7 +6,7 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<StdDevResult> results = quotes
+        List<StdDevResult> results = Quotes
             .GetStdDev(10)
             .ToList();
 
@@ -40,7 +40,7 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<StdDevResult> results = quotes
+        List<StdDevResult> results = Quotes
             .Use(CandlePart.Close)
             .GetStdDev(10)
             .ToList();
@@ -52,7 +52,7 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<StdDevResult> results = quotes
+        List<StdDevResult> results = Quotes
             .GetSma(2)
             .GetStdDev(10)
             .ToList();
@@ -64,7 +64,7 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetStdDev(10)
             .GetSma(10)
             .ToList();
@@ -76,18 +76,18 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StdDevResult> r = badQuotes
+        List<StdDevResult> r = BadQuotes
             .GetStdDev(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.StdDev is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<StdDevResult> r = bigQuotes
+        List<StdDevResult> r = BigQuotes
             .GetStdDev(200)
             .ToList();
 
@@ -97,13 +97,13 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StdDevResult> r0 = noquotes
+        List<StdDevResult> r0 = Noquotes
             .GetStdDev(10)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StdDevResult> r1 = onequote
+        List<StdDevResult> r1 = Onequote
             .GetStdDev(10)
             .ToList();
 
@@ -113,7 +113,7 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<StdDevResult> results = quotes
+        List<StdDevResult> results = Quotes
             .GetStdDev(10)
             .RemoveWarmupPeriods()
             .ToList();
@@ -132,5 +132,5 @@ public class StdDevTests : SeriesTestBase
 
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDev(1));
+            Quotes.GetStdDev(1));
 }

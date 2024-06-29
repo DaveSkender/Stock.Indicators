@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Cache of stored values and related management
 /// </summary>
-public interface IStreamCache<TSeries>
+public interface IStreamCache<out TSeries>
     where TSeries : struct, ISeries
 {
     /// <summary>
@@ -27,12 +27,6 @@ public interface IStreamCache<TSeries>
     int FindIndex(DateTime timeStamp);
 
     /// <summary>
-    /// Get a segment (window) of cached values.
-    /// </summary>
-    /// <inheritdoc cref="List{T}.GetRange(int,int)"/>
-    IReadOnlyList<TSeries> GetRange(int index, int count);  // TODO: is this used?
-
-    /// <summary>
     /// Deletes all cached time-series records,
     /// without restore.  When applicable,
     /// it will cascade delete commands to subscribers.
@@ -41,7 +35,7 @@ public interface IStreamCache<TSeries>
     /// For observers, if your intention is to rebuild from a provider,
     /// use alternate <see cref="IStreamObserver.RebuildCache()"/>.
     /// </remarks>
-    void ClearCache();
+    void ClearCache() => ClearCache(0);
 
     /// <summary>
     /// Deletes newer cached records from point in time,

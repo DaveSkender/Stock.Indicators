@@ -8,8 +8,6 @@ namespace Skender.Stock.Indicators;
 public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     where TSeries : struct, ISeries
 {
-    #region CONSTRUCTORS
-
     /// <summary>
     /// Default. Use internal cache.
     /// </summary>
@@ -17,81 +15,17 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     {
         Cache = [];
     }
-    #endregion
-
-    # region PROPERTIES
 
     public IReadOnlyList<TSeries> Results => Cache;
 
     public bool IsFaulted { get; private set; }
 
-    internal List<TSeries> Cache { get; private set; }
+    internal List<TSeries> Cache { get; }
 
-    private TSeries LastArrival { get; set; } = new();
+    private TSeries LastArrival { get; set; }
 
     private int OverflowCount { get; set; }
-    #endregion
 
-    #region METHODS (UTILITIES)
-
-    // get the cache index based on a timestamp
-    /// <inheritdoc/>
-    public int FindIndex(DateTime timeStamp)
-        => Cache.FindIndex(x => x.Timestamp == timeStamp);
-
-    // get a segment of the cache
-    /// <inheritdoc/>
-    public IReadOnlyList<TSeries> GetRange(int index, int count)
-        => Cache.GetRange(index, count);
-    #endregion
-
-    #region METHODS (CLEAR CACHE)
-
-    // clear entire cache without restore
-    /// <inheritdoc/>
-    public void ClearCache()
-    {
-        // nothing to do
-        if (Cache.Count == 0)
-        {
-            Cache = [];
-            return;
-        }
-
-        // reset all (with handling)
-        ClearCache(0);
-    }
-
-    /// <inheritdoc/>
-    public void ClearCache(DateTime fromTimestamp)
-    {
-        // start of range
-        int s = Cache
-            .FindIndex(c => c.Timestamp >= fromTimestamp);
-
-        // something to do
-        if (s != -1)
-        {
-            ClearCache(s);
-        }
-    }
-
-    /// <inheritdoc/>
-    public void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
-
-    /// <summary>
-    /// Deletes cache entries between index range values.
-    /// </summary>
-    /// <remarks>
-    /// This is overridden/implemented in inheriting class
-    /// due to unique requirement to notify subscribers.
-    /// </remarks>
-    /// <param name="fromIndex">First element to delete</param>
-    /// <param name="toIndex">Last element to delete</param>
-    protected abstract void ClearCache(
-        int fromIndex, int? toIndex = null);
-    #endregion
 
     #region METHODS (CACHE MANAGEMENT)
 
@@ -111,14 +45,13 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
         if (CheckOverflow(item) is Act.DoNothing)
         {
             return Act.DoNothing;
-        };
+        }
 
 
         // DETERMINE ACTion INSTRUCTION
 
         Act act;
-        List<TSeries> cache = Cache;
-        int length = cache.Count;
+        int length = Cache.Count;
 
         // first
         if (length == 0)
@@ -127,7 +60,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
             return ModifyCache(act, item);
         }
 
-        TSeries last = cache[length - 1];
+        TSeries last = Cache[length - 1];
 
         // newer
         if (item.Timestamp > last.Timestamp)
@@ -139,7 +72,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
         else
         {
             // seek duplicate
-            int foundIndex = cache
+            int foundIndex = Cache
                 .FindIndex(x => x.Timestamp == item.Timestamp);
 
             // replace duplicate
@@ -166,7 +99,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
         if (CheckOverflow(item) is Act.DoNothing)
         {
             return Act.DoNothing;
-        };
+        }
 
         // determine if record exists
         int foundIndex = Cache
@@ -314,11 +247,11 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
 
             if (OverflowCount > 100)
             {
-                string msg = """
-                  A repeated stream update exceeded the 100 attempt threshold.
-                  Check and remove circular chains or check your stream provider.
-                  Provider terminated.
-                  """;
+                const string msg = """
+                   A repeated stream update exceeded the 100 attempt threshold.
+                   Check and remove circular chains or check your stream provider.
+                   Provider terminated.
+                   """;
 
                 IsFaulted = true;
 
@@ -352,5 +285,47 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
 
         return act;
     }
+    #endregion
+
+    #region METHODS (UTILITIES)
+
+    // get the cache index based on a timestamp
+    /// <inheritdoc/>
+    public int FindIndex(DateTime timeStamp)
+        => Cache.FindIndex(x => x.Timestamp == timeStamp);
+
+    // clear entire cache without restore
+    /// <inheritdoc/>
+    public void ClearCache() => ClearCache(0);
+
+    /// <inheritdoc/>
+    public void ClearCache(DateTime fromTimestamp)
+    {
+        // start of range
+        int fromIndex = Cache
+            .FindIndex(c => c.Timestamp >= fromTimestamp);
+
+        // something to do
+        if (fromIndex != -1)
+        {
+            ClearCache(fromIndex);
+        }
+    }
+
+    /// <inheritdoc/>
+    public void ClearCache(int fromIndex)
+        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
+
+    /// <summary>
+    /// Deletes cache entries between index range values.
+    /// </summary>
+    /// <remarks>
+    /// This is implemented in inheriting (provider) class
+    /// due to unique requirement to notify subscribers.
+    /// </remarks>
+    /// <param name="fromIndex">First element to delete</param>
+    /// <param name="toIndex">Last element to delete</param>
+    protected abstract void ClearCache(
+        int fromIndex, int toIndex);
     #endregion
 }

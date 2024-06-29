@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<DynamicResult> CalcDynamic<T>(
+    private static List<DynamicResult> CalcDynamic<T>(
         this List<T> source,
         int lookbackPeriods,
         double kFactor)
@@ -35,13 +35,13 @@ public static partial class Indicator
             // normal Dynamic
             else
             {
-                dyn = prevDyn + ((s.Value - prevDyn) /
-                   (kFactor * lookbackPeriods * Math.Pow(s.Value / prevDyn, 4)));
+                dyn = prevDyn + (s.Value - prevDyn) /
+                    (kFactor * lookbackPeriods * Math.Pow(s.Value / prevDyn, 4));
 
                 prevDyn = dyn;
             }
 
-            results.Add(new DynamicResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Dynamic: dyn.NaN2Null()));
         }

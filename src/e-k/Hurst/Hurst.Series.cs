@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<HurstResult> CalcHurst<T>(
+    private static List<HurstResult> CalcHurst<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -35,7 +35,7 @@ public static partial class Indicator
                     T ps = source[p];
 
                     // return values
-                    values[x] = l != 0 ? (ps.Value / l) - 1 : double.NaN;
+                    values[x] = l != 0 ? ps.Value / l - 1 : double.NaN;
 
                     l = ps.Value;
                     x++;
@@ -45,7 +45,7 @@ public static partial class Indicator
                 h = CalcHurstWindow(values).NaN2Null();
             }
 
-            results.Add(new HurstResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 HurstExponent: h));
         }
@@ -89,7 +89,7 @@ public static partial class Indicator
 
             // starting index position used to skip
             // observations to enforce same-sized chunks
-            int startIndex = totalSize - (chunkSize * chunkQty);
+            int startIndex = totalSize - chunkSize * chunkQty;
 
             // analyze chunks in set
             for (int chunkNum = 1; chunkNum <= chunkQty; chunkNum++)
@@ -112,8 +112,8 @@ public static partial class Indicator
                 {
                     double y = values[i] - chunkMean;
                     sumY += y;
-                    minY = (sumY < minY) ? sumY : minY;
-                    maxY = (sumY > maxY) ? sumY : maxY;
+                    minY = sumY < minY ? sumY : minY;
+                    maxY = sumY > maxY ? sumY : maxY;
 
                     sumSq += y * y;
                 }

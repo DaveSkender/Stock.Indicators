@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RocResult> CalcRoc<T>(
+    private static List<RocResult> CalcRoc<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -30,9 +30,9 @@ public static partial class Indicator
 
                 momentum = s.Value - back.Value;
 
-                roc = (back.Value == 0)
+                roc = back.Value == 0
                     ? double.NaN
-                    : (100d * momentum / back.Value);
+                    : 100d * momentum / back.Value;
             }
             else
             {

@@ -28,13 +28,9 @@ var results = quotes
 
 {% include candlepart-options.md %}
 
-### Using tuple quotes
-
-`quotes.ToTupleCollection()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`.  Most indicators in our library will accept this tuple format.  With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
-
 ### Sort quotes
 
-`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Timestamp`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedCollection()` sorts any collection of `TQuote` or `ISeries` and returns it as a `Collection` sorted by ascending `Timestamp`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
 
 ### Resize quote history
 
@@ -149,16 +145,6 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
 > &#128681; **Warning**: without a specified `removePeriods` value, this utility will reverse-engineer the pruning amount.  When there are unusual results or when chaining multiple indicators, there will be an erroneous increase in the amount of pruning.  If you want more certainty, use a specific number for `removePeriods`.  Using this method on chained indicators without `removePeriods` is strongly discouraged.
-
-### Using tuple results
-
-`results.ToTupleCollection()` converts results to a simpler `(DateTime Timestamp, double? Value)` [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `Collection`.
-
-`results.ToTupleNaN()` converts results to simpler `(DateTime Timestamp, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
-
-`results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
-
-> &#128681; **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
 
 ### Sort results
 

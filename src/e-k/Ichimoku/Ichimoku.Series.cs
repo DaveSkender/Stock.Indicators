@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<IchimokuResult> CalcIchimoku<TQuote>(
+    private static List<IchimokuResult> CalcIchimoku<TQuote>(
         this List<TQuote> quotesList,
         int tenkanPeriods,
         int kijunPeriods,
@@ -70,7 +70,7 @@ public static partial class Indicator
                 chikouSpan = quotesList[i + chikouOffset].Close;
             }
 
-            results.Add(new IchimokuResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 TenkanSen: tenkanSen,
                 KijunSen: kijunSen,
@@ -86,30 +86,31 @@ public static partial class Indicator
         int i, List<TQuote> quotesList, int tenkanPeriods)
         where TQuote : IQuote
     {
-        if (i >= tenkanPeriods - 1)
+        if (i < tenkanPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
-
-            for (int p = i - tenkanPeriods + 1; p <= i; p++)
-            {
-                TQuote d = quotesList[p];
-
-                if (d.High > max)
-                {
-                    max = d.High;
-                }
-
-                if (d.Low < min)
-                {
-                    min = d.Low;
-                }
-            }
-
-            return (min == decimal.MaxValue) ? null : (min + max) / 2;
+            return null;
         }
 
-        return null;
+        decimal max = 0;
+        decimal min = decimal.MaxValue;
+
+        for (int p = i - tenkanPeriods + 1; p <= i; p++)
+        {
+            TQuote d = quotesList[p];
+
+            if (d.High > max)
+            {
+                max = d.High;
+            }
+
+            if (d.Low < min)
+            {
+                min = d.Low;
+            }
+        }
+
+        return min == decimal.MaxValue ? null : (min + max) / 2;
+
     }
 
     private static decimal? CalcIchimokuKijunSen<TQuote>(
@@ -118,30 +119,30 @@ public static partial class Indicator
         int kijunPeriods)
         where TQuote : IQuote
     {
-        if (i >= kijunPeriods - 1)
+        if (i < kijunPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
-
-            for (int p = i - kijunPeriods + 1; p <= i; p++)
-            {
-                TQuote d = quotesList[p];
-
-                if (d.High > max)
-                {
-                    max = d.High;
-                }
-
-                if (d.Low < min)
-                {
-                    min = d.Low;
-                }
-            }
-
-            return (min == decimal.MaxValue) ? null : (min + max) / 2;
+            return null;
         }
 
-        return null;
+        decimal max = 0;
+        decimal min = decimal.MaxValue;
+
+        for (int p = i - kijunPeriods + 1; p <= i; p++)
+        {
+            TQuote d = quotesList[p];
+
+            if (d.High > max)
+            {
+                max = d.High;
+            }
+
+            if (d.Low < min)
+            {
+                min = d.Low;
+            }
+        }
+
+        return min == decimal.MaxValue ? null : (min + max) / 2;
     }
 
     private static decimal? CalcIchimokuSenkouB<TQuote>(
@@ -151,30 +152,30 @@ public static partial class Indicator
         int senkouBPeriods)
         where TQuote : IQuote
     {
-        if (i >= senkouOffset + senkouBPeriods - 1)
+        if (i < senkouOffset + senkouBPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
-
-            for (int p = i - senkouOffset - senkouBPeriods + 1;
-                p <= i - senkouOffset; p++)
-            {
-                TQuote d = quotesList[p];
-
-                if (d.High > max)
-                {
-                    max = d.High;
-                }
-
-                if (d.Low < min)
-                {
-                    min = d.Low;
-                }
-            }
-
-            return (min == decimal.MaxValue) ? null : (min + max) / 2;
+            return null;
         }
 
-        return null;
+        decimal max = 0;
+        decimal min = decimal.MaxValue;
+
+        for (int p = i - senkouOffset - senkouBPeriods + 1;
+             p <= i - senkouOffset; p++)
+        {
+            TQuote d = quotesList[p];
+
+            if (d.High > max)
+            {
+                max = d.High;
+            }
+
+            if (d.Low < min)
+            {
+                min = d.Low;
+            }
+        }
+
+        return min == decimal.MaxValue ? null : (min + max) / 2;
     }
 }

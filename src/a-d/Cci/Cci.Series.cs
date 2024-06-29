@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CciResult> CalcCci(
+    private static List<CciResult> CalcCci(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -44,11 +44,11 @@ public static partial class Indicator
 
                 avgDv /= lookbackPeriods;
 
-                cci = (avgDv == 0) ? null
+                cci = avgDv == 0 ? null
                     : ((tp[i] - avgTp) / (0.015 * avgDv)).NaN2Null();
             }
 
-            results.Add(new CciResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Cci: cci));
         }

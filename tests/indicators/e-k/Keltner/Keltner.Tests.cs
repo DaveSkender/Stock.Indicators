@@ -10,7 +10,7 @@ public class KeltnerTests : SeriesTestBase
         int multiplier = 2;
         int atrPeriods = 10;
 
-        List<KeltnerResult> results = quotes
+        List<KeltnerResult> results = Quotes
             .GetKeltner(emaPeriods, multiplier, atrPeriods)
             .ToList();
 
@@ -40,24 +40,24 @@ public class KeltnerTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<KeltnerResult> r = badQuotes
+        List<KeltnerResult> r = BadQuotes
             .GetKeltner(10, 3, 15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<KeltnerResult> r0 = noquotes
+        List<KeltnerResult> r0 = Noquotes
             .GetKeltner()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<KeltnerResult> r1 = onequote
+        List<KeltnerResult> r1 = Onequote
             .GetKeltner()
             .ToList();
 
@@ -71,7 +71,7 @@ public class KeltnerTests : SeriesTestBase
         int multiplier = 2;
         int atrPeriods = 10;
 
-        List<KeltnerResult> results = quotes
+        List<KeltnerResult> results = Quotes
             .GetKeltner(emaPeriods, multiplier, atrPeriods)
             .Condense()
             .ToList();
@@ -94,7 +94,7 @@ public class KeltnerTests : SeriesTestBase
         int atrPeriods = 10;
         int n = Math.Max(emaPeriods, atrPeriods);
 
-        List<KeltnerResult> results = quotes
+        List<KeltnerResult> results = Quotes
             .GetKeltner(emaPeriods, multiplier, atrPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -114,14 +114,14 @@ public class KeltnerTests : SeriesTestBase
     {
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKeltner(1, 2, 10));
+            Quotes.GetKeltner(1));
 
         // bad ATR period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKeltner(20, 2, 1));
+            Quotes.GetKeltner(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKeltner(20, 0, 10));
+            Quotes.GetKeltner(20, 0));
     }
 }

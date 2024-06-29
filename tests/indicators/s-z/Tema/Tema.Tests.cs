@@ -6,7 +6,7 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<TemaResult> results = quotes
+        List<TemaResult> results = Quotes
             .GetTema(20)
             .ToList();
 
@@ -31,7 +31,7 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<TemaResult> results = quotes
+        List<TemaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetTema(20)
             .ToList();
@@ -43,7 +43,7 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<TemaResult> results = quotes
+        List<TemaResult> results = Quotes
             .GetSma(2)
             .GetTema(20)
             .ToList();
@@ -55,7 +55,7 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetTema(20)
             .GetSma(10)
             .ToList();
@@ -67,24 +67,24 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<TemaResult> r = badQuotes
+        List<TemaResult> r = BadQuotes
             .GetTema(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Tema is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<TemaResult> r0 = noquotes
+        List<TemaResult> r0 = Noquotes
             .GetTema(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<TemaResult> r1 = onequote
+        List<TemaResult> r1 = Onequote
             .GetTema(5)
             .ToList();
 
@@ -94,13 +94,13 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<TemaResult> results = quotes
+        List<TemaResult> results = Quotes
             .GetTema(20)
             .RemoveWarmupPeriods()
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
+        Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
 
         TemaResult last = results.LastOrDefault();
         Assert.AreEqual(238.7690, last.Tema.Round(4));
@@ -110,5 +110,5 @@ public class TemaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetTema(0));
+            => Quotes.GetTema(0));
 }

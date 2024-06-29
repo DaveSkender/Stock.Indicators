@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<VortexResult> CalcVortex(
+    private static List<VortexResult> CalcVortex(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -75,7 +75,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new VortexResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Pvi: pvi.NaN2Null(),
                 Nvi: nvi.NaN2Null()));

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AtrStopResult> CalcAtrStop(
+    private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
@@ -42,15 +42,15 @@ public static partial class Indicator
                 // potential bands for CLOSE
                 if (endType == EndType.Close)
                 {
-                    upperEval = q.Close + (multiplier * atr);
-                    lowerEval = q.Close - (multiplier * atr);
+                    upperEval = q.Close + multiplier * atr;
+                    lowerEval = q.Close - multiplier * atr;
                 }
 
                 // potential bands for HIGH/LOW
                 else
                 {
-                    upperEval = q.High + (multiplier * atr);
-                    lowerEval = q.Low - (multiplier * atr);
+                    upperEval = q.High + multiplier * atr;
+                    lowerEval = q.Low - multiplier * atr;
                 }
 
                 // initial values

@@ -6,8 +6,8 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<TsiResult> results = quotes
-            .GetTsi(25, 13, 7)
+        List<TsiResult> results = Quotes
+            .GetTsi()
             .ToList();
 
         // proper quantities
@@ -20,13 +20,13 @@ public class TsiTests : SeriesTestBase
         Assert.AreEqual(53.1204, r2.Tsi.Round(4));
         Assert.AreEqual(null, r2.Signal);
 
-        TsiResult r3a = results[43];
-        Assert.AreEqual(46.0960, r3a.Tsi.Round(4));
-        Assert.AreEqual(51.6916, r3a.Signal.Round(4));
+        TsiResult r3A = results[43];
+        Assert.AreEqual(46.0960, r3A.Tsi.Round(4));
+        Assert.AreEqual(51.6916, r3A.Signal.Round(4));
 
-        TsiResult r3b = results[44];
-        Assert.AreEqual(42.5121, r3b.Tsi.Round(4));
-        Assert.AreEqual(49.3967, r3b.Signal.Round(4));
+        TsiResult r3B = results[44];
+        Assert.AreEqual(42.5121, r3B.Tsi.Round(4));
+        Assert.AreEqual(49.3967, r3B.Signal.Round(4));
 
         TsiResult r4 = results[149];
         Assert.AreEqual(29.0936, r4.Tsi.Round(4));
@@ -44,7 +44,7 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<TsiResult> results = quotes
+        List<TsiResult> results = Quotes
             .Use(CandlePart.Close)
             .GetTsi()
             .ToList();
@@ -56,7 +56,7 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<TsiResult> results = quotes
+        List<TsiResult> results = Quotes
             .GetSma(2)
             .GetTsi()
             .ToList();
@@ -68,7 +68,7 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetTsi()
             .GetSma(10)
             .ToList();
@@ -80,18 +80,18 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<TsiResult> r = badQuotes
+        List<TsiResult> r = BadQuotes
             .GetTsi()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Tsi is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<TsiResult> r = bigQuotes
+        List<TsiResult> r = BigQuotes
             .GetTsi()
             .ToList();
 
@@ -101,13 +101,13 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<TsiResult> r0 = noquotes
+        List<TsiResult> r0 = Noquotes
             .GetTsi()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<TsiResult> r1 = onequote
+        List<TsiResult> r1 = Onequote
             .GetTsi()
             .ToList();
 
@@ -117,8 +117,8 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<TsiResult> results = quotes
-            .GetTsi(25, 13, 7)
+        List<TsiResult> results = Quotes
+            .GetTsi()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -135,14 +135,14 @@ public class TsiTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(0));
+            Quotes.GetTsi(0));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(25, 0));
+            Quotes.GetTsi(25, 0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(25, 13, -1));
+            Quotes.GetTsi(25, 13, -1));
     }
 }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<DonchianResult> CalcDonchian<TQuote>(
+    private static List<DonchianResult> CalcDonchian<TQuote>(
         this List<TQuote> quotesList,
         int lookbackPeriods)
         where TQuote : IQuote
@@ -46,7 +46,7 @@ public static partial class Indicator
                 decimal l = lowLow;
                 decimal c = (u + l) / 2m;
 
-                results.Add(new DonchianResult(
+                results.Add(new(
                     Timestamp: q.Timestamp,
                     UpperBand: u,
                     LowerBand: l,

@@ -6,7 +6,7 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CmoResult> results = quotes
+        List<CmoResult> results = Quotes
             .GetCmo(14)
             .ToList();
 
@@ -31,7 +31,7 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<CmoResult> results = quotes
+        List<CmoResult> results = Quotes
             .Use(CandlePart.Close)
             .GetCmo(14)
             .ToList();
@@ -43,7 +43,7 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<CmoResult> results = quotes
+        List<CmoResult> results = Quotes
             .GetSma(2)
             .GetCmo(20)
             .ToList();
@@ -55,7 +55,7 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetCmo(20)
             .GetSma(10)
             .ToList();
@@ -67,24 +67,24 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CmoResult> r = badQuotes
+        List<CmoResult> r = BadQuotes
             .GetCmo(35)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cmo is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Cmo is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CmoResult> r0 = noquotes
+        List<CmoResult> r0 = Noquotes
             .GetCmo(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CmoResult> r1 = onequote
+        List<CmoResult> r1 = Onequote
             .GetCmo(5)
             .ToList();
 
@@ -94,7 +94,7 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CmoResult> results = quotes
+        List<CmoResult> results = Quotes
             .GetCmo(14)
             .RemoveWarmupPeriods()
             .ToList();
@@ -110,5 +110,5 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetCmo(0));
+            => Quotes.GetCmo(0));
 }

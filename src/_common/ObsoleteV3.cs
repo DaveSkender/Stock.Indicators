@@ -1,6 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable all
+
 namespace Skender.Stock.Indicators;
 
 // OBSOLETE IN v3
@@ -82,7 +84,7 @@ public static partial class Indicator
 }
 
 [Obsolete("Rename `IReusableResult` to `IReusable`", true)] // v3.0.0
-public interface IReusableResult : IReusable { }
+public interface IReusableResult : IReusable;
 
 [ExcludeFromCodeCoverage]
 [Obsolete("Rename `BasicData` to `Reusable`", true)] // v3.0.0

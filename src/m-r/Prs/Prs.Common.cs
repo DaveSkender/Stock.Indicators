@@ -16,7 +16,7 @@ public static class Prs
         where T : ISeries
     {
         // check parameter arguments
-        if (lookbackPeriods is not null and <= 0)
+        if (lookbackPeriods is <= 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(lookbackPeriods), lookbackPeriods,
@@ -27,14 +27,13 @@ public static class Prs
         int qtyHistoryEval = quotesEval.Count;
         int qtyHistoryBase = quotesBase.Count;
 
-        int? minHistory = lookbackPeriods;
-        if (minHistory != null && qtyHistoryEval < minHistory)
+        if (qtyHistoryEval < lookbackPeriods)
         {
             string message = "Insufficient quotes provided for Price Relative Strength.  " +
                 string.Format(
                     EnglishCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistoryEval, minHistory);
+                    qtyHistoryEval, lookbackPeriods);
 
             throw new InvalidQuotesException(nameof(quotesEval), message);
         }

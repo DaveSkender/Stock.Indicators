@@ -3,25 +3,46 @@ namespace Skender.Stock.Indicators;
 // STREAM OBSERVER INTERFACES
 
 /// <summary>
-/// Observer of a streamed quote source
+/// Observer of a streamed quote source.
 /// </summary>
+/// <remarks>
+/// This is used internal to the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
 /// <typeparam name="TQuote"></typeparam>
 public interface IQuoteObserver<TQuote> : IStreamObserver, IObserver<(Act act, TQuote quote)>
-    where TQuote : struct, IQuote;
+    where TQuote : struct, IQuote
+{
+    IQuoteProvider<TQuote> Provider { get; }
+}
 
 /// <summary>
-/// Observer of a streamed chain source
+/// Observer of a streamed chain source.
 /// </summary>
-/// <typeparam name="TResult"></typeparam>
-public interface IChainObserver<TResult> : IStreamObserver, IObserver<(Act act, TResult result)>
-    where TResult : struct, IReusable;
+/// <remarks>
+/// This is used internal to the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TReusable"></typeparam>
+public interface IChainObserver<TReusable> : IStreamObserver, IObserver<(Act act, TReusable result)>
+    where TReusable : struct, IReusable
+{
+    IChainProvider<TReusable> Provider { get; }
+}
 
 /// <summary>
-/// Observer of a unchainable result source
+/// Observer of a unchainable result source.
 /// </summary>
+/// <remarks>
+/// This is not used internally by the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
 /// <typeparam name="TResult"></typeparam>
 public interface IResultObserver<TResult> : IStreamObserver, IObserver<(Act act, TResult result)>
-    where TResult : struct, IResult;
+    where TResult : struct, IResult
+{
+    IResultProvider<TResult> Provider { get; }
+}
 
 /// <summary>
 /// Observer of streamed chain or quote sources
@@ -42,7 +63,7 @@ public interface IStreamObserver
     /// Full reset of the provider subscription.
     /// <remarks>
     /// This unsubscribes from the provider,
-    /// clears cache, cascading deletes to subscribers,
+    /// clears cache, cascades deletes to subscribers,
     /// then re-subscribes to the provider (with rebuild).
     /// </remarks>
     /// </summary>
@@ -57,11 +78,11 @@ public interface IStreamObserver
     /// This is different from <see cref="Reinitialize()"/>.
     /// It does not reset the provider subscription.
     /// </remarks>
-    void RebuildCache();
+    void RebuildCache() => RebuildCache(0);
 
     /// <summary>
-    /// Reset the entire results cache from a known point in time
-    /// and rebuild it from provider sources,
+    /// Reset the entire results cache from a point in time
+    /// and rebuilds it from provider sources,
     /// with cascading updates to subscribers.
     /// </summary>
     /// <param name="fromTimestamp">
@@ -71,8 +92,8 @@ public interface IStreamObserver
     void RebuildCache(DateTime fromTimestamp);
 
     /// <summary>
-    /// Reset the entire results cache from a known index position
-    /// and rebuild it from provider sources,
+    /// Reset the entire results cache from an index position
+    /// and rebuilds it from provider sources,
     /// with cascading updates to subscribers.
     /// </summary>
     /// <param name="fromIndex">

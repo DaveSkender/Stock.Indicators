@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AlligatorResult> CalcAlligator<T>(
+    private static List<AlligatorResult> CalcAlligator<T>(
         this List<T> source,
         int jawPeriods,
         int jawOffset,
@@ -29,7 +29,7 @@ public static partial class Indicator
 
             ? source
              .Cast<IQuote>()
-             .Use(CandlePart.HL2)
+             .Use(CandlePart.Hl2)
              .Cast<IReusable>()
              .ToSortedList()
 
@@ -68,7 +68,7 @@ public static partial class Indicator
                 // remaining values: SMMA
                 else
                 {
-                    jaw = ((prevJaw * (jawPeriods - 1)) + feed[i - jawOffset].Value) / jawPeriods;
+                    jaw = (prevJaw * (jawPeriods - 1) + feed[i - jawOffset].Value) / jawPeriods;
                 }
             }
 
@@ -92,7 +92,7 @@ public static partial class Indicator
                 // remaining values: SMMA
                 else
                 {
-                    teeth = ((prevTooth * (teethPeriods - 1)) + feed[i - teethOffset].Value) / teethPeriods;
+                    teeth = (prevTooth * (teethPeriods - 1) + feed[i - teethOffset].Value) / teethPeriods;
                 }
             }
 
@@ -116,7 +116,7 @@ public static partial class Indicator
                 // remaining values: SMMA
                 else
                 {
-                    lips = ((prevLips * (lipsPeriods - 1)) + feed[i - lipsOffset].Value) / lipsPeriods;
+                    lips = (prevLips * (lipsPeriods - 1) + feed[i - lipsOffset].Value) / lipsPeriods;
                 }
             }
 

@@ -8,7 +8,7 @@ public static partial class Indicator
         this IEnumerable<T> results,
         int lookbackPeriods,
         double percentOffset = 2.5,
-        MaType movingAverageType = MaType.SMA)
+        MaType movingAverageType = MaType.Sma)
         where T : IReusable
         => results
             .ToSortedList()

@@ -10,49 +10,49 @@ public class KamaTests : SeriesTestBase
         int fastPeriods = 2;
         int slowPeriods = 30;
 
-        List<KamaResult> results = quotes
+        List<KamaResult> results = Quotes
             .GetKama(erPeriods, fastPeriods, slowPeriods)
             .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.ER != null));
+        Assert.AreEqual(492, results.Count(x => x.Er != null));
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
 
         // sample values
         KamaResult r1 = results[8];
-        Assert.AreEqual(null, r1.ER);
+        Assert.AreEqual(null, r1.Er);
         Assert.AreEqual(null, r1.Kama);
 
         KamaResult r2 = results[9];
-        Assert.AreEqual(null, r2.ER);
+        Assert.AreEqual(null, r2.Er);
         Assert.AreEqual(213.7500, r2.Kama.Round(4));
 
         KamaResult r3 = results[10];
-        Assert.AreEqual(0.2465, r3.ER.Round(4));
+        Assert.AreEqual(0.2465, r3.Er.Round(4));
         Assert.AreEqual(213.7713, r3.Kama.Round(4));
 
         KamaResult r4 = results[24];
-        Assert.AreEqual(0.2136, r4.ER.Round(4));
+        Assert.AreEqual(0.2136, r4.Er.Round(4));
         Assert.AreEqual(214.7423, r4.Kama.Round(4));
 
         KamaResult r5 = results[149];
-        Assert.AreEqual(0.3165, r5.ER.Round(4));
+        Assert.AreEqual(0.3165, r5.Er.Round(4));
         Assert.AreEqual(235.5510, r5.Kama.Round(4));
 
         KamaResult r6 = results[249];
-        Assert.AreEqual(0.3182, r6.ER.Round(4));
+        Assert.AreEqual(0.3182, r6.Er.Round(4));
         Assert.AreEqual(256.0898, r6.Kama.Round(4));
 
         KamaResult r7 = results[501];
-        Assert.AreEqual(0.2214, r7.ER.Round(4));
+        Assert.AreEqual(0.2214, r7.Er.Round(4));
         Assert.AreEqual(240.1138, r7.Kama.Round(4));
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        List<KamaResult> results = quotes
+        List<KamaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetKama()
             .ToList();
@@ -64,7 +64,7 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<KamaResult> results = quotes
+        List<KamaResult> results = Quotes
             .GetSma(2)
             .GetKama()
             .ToList();
@@ -76,7 +76,7 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetKama()
             .GetSma(10)
             .ToList();
@@ -88,24 +88,24 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<KamaResult> r = badQuotes
+        List<KamaResult> r = BadQuotes
             .GetKama()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Kama is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Kama is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<KamaResult> r0 = noquotes
+        List<KamaResult> r0 = Noquotes
             .GetKama()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<KamaResult> r1 = onequote
+        List<KamaResult> r1 = Onequote
             .GetKama()
             .ToList();
 
@@ -119,7 +119,7 @@ public class KamaTests : SeriesTestBase
         int fastPeriods = 2;
         int slowPeriods = 30;
 
-        List<KamaResult> results = quotes
+        List<KamaResult> results = Quotes
             .GetKama(erPeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -128,7 +128,7 @@ public class KamaTests : SeriesTestBase
         Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
 
         KamaResult last = results.LastOrDefault();
-        Assert.AreEqual(0.2214, last.ER.Round(4));
+        Assert.AreEqual(0.2214, last.Er.Round(4));
         Assert.AreEqual(240.1138, last.Kama.Round(4));
     }
 
@@ -137,14 +137,14 @@ public class KamaTests : SeriesTestBase
     {
         // bad ER period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(0, 2, 30));
+            Quotes.GetKama(0));
 
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(10, 0, 30));
+            Quotes.GetKama(10, 0));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(10, 5, 5));
+            Quotes.GetKama(10, 5, 5));
     }
 }

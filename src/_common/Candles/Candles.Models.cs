@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
-public readonly record struct CandleProperties : IQuote, IReusable
+public readonly record struct CandleProperties : IQuote
 {
     // base quote properties
     public DateTime Timestamp { get; init; }
@@ -16,14 +16,14 @@ public readonly record struct CandleProperties : IQuote, IReusable
 
     // raw sizes
     public decimal? Size => High - Low;
-    public decimal? Body => (Open > Close) ? (Open - Close) : (Close - Open);
+    public decimal? Body => Open > Close ? Open - Close : Close - Open;
     public decimal? UpperWick => High - (Open > Close ? Open : Close);
     public decimal? LowerWick => (Open > Close ? Close : Open) - Low;
 
     // percent sizes
-    public double? BodyPct => (Size != 0) ? (double?)(Body / Size) : 1;
-    public double? UpperWickPct => (Size != 0) ? (double?)(UpperWick / Size) : 1;
-    public double? LowerWickPct => (Size != 0) ? (double?)(LowerWick / Size) : 1;
+    public double? BodyPct => Size != 0 ? (double?)(Body / Size) : 1;
+    public double? UpperWickPct => Size != 0 ? (double?)(UpperWick / Size) : 1;
+    public double? LowerWickPct => Size != 0 ? (double?)(LowerWick / Size) : 1;
 
     // directional info
     public bool IsBullish => Close > Open;

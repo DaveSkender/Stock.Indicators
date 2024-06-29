@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CmoResult> CalcCmo<T>(
+    private static List<CmoResult> CalcCmo<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -26,7 +26,7 @@ public static partial class Indicator
         // initialize, add first records
         double prevValue = source[0].Value;
 
-        results.Add(new CmoResult { Timestamp = source[0].Timestamp });
+        results.Add(new() { Timestamp = source[0].Timestamp });
         ticks.Add((null, double.NaN));
 
         // roll through remaining prices
@@ -63,7 +63,8 @@ public static partial class Indicator
                     }
 
                     // up
-                    else if (isUp == true)
+
+                    if (isUp == true)
                     {
                         sH += pDiff;
                     }
@@ -75,12 +76,12 @@ public static partial class Indicator
                     }
                 }
 
-                cmo = (sH + sL != 0)
+                cmo = sH + sL != 0
                     ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
                     : null;
             }
 
-            results.Add(new CmoResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Cmo: cmo));
 

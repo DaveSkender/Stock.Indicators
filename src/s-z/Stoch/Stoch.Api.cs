@@ -16,7 +16,7 @@ public static partial class Indicator
             .CalcStoch(
                 lookbackPeriods,
                 signalPeriods,
-                smoothPeriods, 3, 2, MaType.SMA);
+                smoothPeriods, 3, 2, MaType.Sma);
 
     // SERIES, from TQuote (extended)
     /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />

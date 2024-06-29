@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ConnorsRsiResult> CalcConnorsRsi<T>(
+    private static List<ConnorsRsiResult> CalcConnorsRsi<T>(
         this List<T> source,
         int rsiPeriods,
         int streakPeriods,

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StochRsiResult> CalcStochRsi<T>(
+    private static List<StochRsiResult> CalcStochRsi<T>(
         this List<T> source,
         int rsiPeriods,
         int stochPeriods,
@@ -24,7 +24,7 @@ public static partial class Indicator
         for (int i = 0; i < initPeriods; i++)
         {
             var s = source[i];
-            results.Add(new StochRsiResult { Timestamp = s.Timestamp });
+            results.Add(new() { Timestamp = s.Timestamp });
         }
 
         // get Stochastic of RSI
@@ -42,14 +42,14 @@ public static partial class Indicator
             .CalcStoch(
                 stochPeriods,
                 signalPeriods,
-                smoothPeriods, 3, 2, MaType.SMA)
+                smoothPeriods, 3, 2, MaType.Sma)
             .ToList();
 
         // add stoch results
         for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
         {
             StochResult r = stoResults[i - rsiPeriods];
-            results.Add(new StochRsiResult {
+            results.Add(new() {
                 Timestamp = r.Timestamp,
                 StochRsi = r.Oscillator,
                 Signal = r.Signal

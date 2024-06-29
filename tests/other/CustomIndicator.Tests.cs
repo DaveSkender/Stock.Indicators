@@ -8,7 +8,7 @@ public readonly record struct MyResult : IReusable
     public DateTime Timestamp { get; init; }
     public double? Sma { get; init; }
 
-    readonly double IReusable.Value
+    double IReusable.Value
         => Sma.Null2NaN();
 }
 
@@ -23,7 +23,7 @@ public static class CustomIndicator
             .ToSortedCollection()
             .CalcIndicator(lookbackPeriods);
 
-    internal static List<MyResult> CalcIndicator<T>(
+    private static List<MyResult> CalcIndicator<T>(
         this Collection<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -43,8 +43,6 @@ public static class CustomIndicator
         {
             T s = source[i];
 
-            MyResult result = new() { Timestamp = s.Timestamp };
-
             double? sma;
 
             if (i >= lookbackPeriods - 1)
@@ -63,7 +61,7 @@ public static class CustomIndicator
                 sma = null;
             }
 
-            results.Add(new MyResult() {
+            results.Add(new() {
                 Timestamp = s.Timestamp,
                 Sma = sma
             });
@@ -196,7 +194,7 @@ public class CustomIndicatorTests
             .GetIndicator(50)
             .ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -207,7 +205,7 @@ public class CustomIndicatorTests
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
     }
 
     [TestMethod]

@@ -12,38 +12,35 @@ namespace Tests.Common;
 [TestClass]
 public abstract class TestBase
 {
-    internal static readonly CultureInfo EnglishCulture = new("en-US", false);
+    internal static readonly CultureInfo englishCulture = new("en-US", false);
 
-    internal static IEnumerable<Quote> quotes = [];
-    internal static IEnumerable<Quote> otherQuotes = [];
-    internal static IEnumerable<Quote> badQuotes = [];
-    internal static IEnumerable<Quote> bigQuotes = [];
-    internal static IEnumerable<Quote> maxQuotes = [];
-    internal static IEnumerable<Quote> longishQuotes = [];
-    internal static IEnumerable<Quote> longestQuotes = [];
-    internal static IEnumerable<Quote> mismatchQuotes = [];
-    internal static IEnumerable<Quote> noquotes = [];
-    internal static IEnumerable<Quote> onequote = [];
-    internal static IEnumerable<Quote> randomQuotes = [];
-    internal static IEnumerable<Quote> zeroesQuotes = [];
-    internal static IEnumerable<(DateTime, double)> tupleNanny = [];
+    internal static IEnumerable<Quote> Quotes = [];
+    internal static IEnumerable<Quote> OtherQuotes = [];
+    internal static IEnumerable<Quote> BadQuotes = [];
+    internal static IEnumerable<Quote> BigQuotes = [];
+    internal static IEnumerable<Quote> LongishQuotes = [];
+    internal static IEnumerable<Quote> LongestQuotes = [];
+    internal static IEnumerable<Quote> MismatchQuotes = [];
+    internal static IEnumerable<Quote> Noquotes = [];
+    internal static IEnumerable<Quote> Onequote = [];
+    internal static IEnumerable<Quote> RandomQuotes = [];
+    internal static IEnumerable<Quote> ZeroesQuotes = [];
 
     internal TestBase()
     {
         try
         {
-            quotes = TestData.GetDefault();
-            otherQuotes = TestData.GetCompare();
-            badQuotes = TestData.GetBad();
-            bigQuotes = TestData.GetTooBig();
-            maxQuotes = TestData.GetMax();
-            longishQuotes = TestData.GetLongish();
-            longestQuotes = TestData.GetLongest();
-            mismatchQuotes = TestData.GetMismatch();
-            noquotes = new List<Quote>();
-            onequote = TestData.GetDefault(1);
-            randomQuotes = TestData.GetRandom(1000);
-            zeroesQuotes = TestData.GetZeros();
+            Quotes = TestData.GetDefault();
+            OtherQuotes = TestData.GetCompare();
+            BadQuotes = TestData.GetBad();
+            BigQuotes = TestData.GetTooBig();
+            LongishQuotes = TestData.GetLongish();
+            LongestQuotes = TestData.GetLongest();
+            MismatchQuotes = TestData.GetMismatch();
+            Noquotes = new List<Quote>();
+            Onequote = TestData.GetDefault(1);
+            RandomQuotes = TestData.GetRandom(1000);
+            ZeroesQuotes = TestData.GetZeros();
         }
         catch (Exception ex)
         {
@@ -61,8 +58,8 @@ public abstract class TestBase
 [TestClass]
 public abstract class SeriesTestBase : TestBase
 {
-    internal readonly DateTime evalDate
-        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+    internal readonly DateTime EvalDate
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
 
     // TODO: once caught up, make these abstract instead of virtual
 

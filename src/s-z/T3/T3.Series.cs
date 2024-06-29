@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<T3Result> CalcT3<T>(
+    private static List<T3Result> CalcT3<T>(
         this List<T> source,
         int lookbackPeriods,
         double volumeFactor)
@@ -21,9 +21,9 @@ public static partial class Indicator
         double a = volumeFactor;
 
         double c1 = -a * a * a;
-        double c2 = (3 * a * a) + (3 * a * a * a);
-        double c3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
-        double c4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
+        double c2 = 3 * a * a + 3 * a * a * a;
+        double c3 = -6 * a * a - 3 * a - 3 * a * a * a;
+        double c4 = 1 + 3 * a + a * a * a + 3 * a * a;
 
         double e1 = double.NaN;
         double e2 = double.NaN;
@@ -52,9 +52,9 @@ public static partial class Indicator
             e6 += k * (e5 - e6);
 
             // T3 moving average
-            results.Add(new T3Result(
+            results.Add(new(
                 Timestamp: s.Timestamp,
-                T3: ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null()));
+                T3: (c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3).NaN2Null()));
         }
 
         return results;

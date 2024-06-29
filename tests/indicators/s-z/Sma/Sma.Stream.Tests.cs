@@ -6,7 +6,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -16,7 +16,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 
         // initialize observer
         Sma<Quote> observer = provider
-            .ToSma<Quote>(20);
+            .ToSma(20);
 
         // fetch initial results (early)
         IEnumerable<SmaResult> results
@@ -54,7 +54,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 
         // time-series, for comparison
         List<SmaResult> seriesList = quotesList
-            .GetSma<Quote>(20)
+            .GetSma(20)
             .ToList();
 
         // assert, should equal series
@@ -77,7 +77,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int emaPeriods = 12;
         int smaPeriods = 8;
 
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -127,7 +127,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -143,7 +143,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 
         // initialize observer
         Sma<Reusable> observer = provider
-            .Use(CandlePart.OC2)
+            .Use(CandlePart.Oc2)
             .ToSma(11);
 
         // emulate quote stream
@@ -158,8 +158,8 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             [.. observer.Results];
 
         // time-series, for comparison
-        List<SmaResult> staticSma = quotes
-            .Use(CandlePart.OC2)
+        List<SmaResult> staticSma = Quotes
+            .Use(CandlePart.Oc2)
             .GetSma(11)
             .ToList();
 

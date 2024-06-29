@@ -6,8 +6,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SmiResult> results = quotes
-            .GetSmi(14, 20, 5, 3)
+        List<SmiResult> results = Quotes
+            .GetSmi(14, 20, 5)
             .ToList();
 
         // proper quantities
@@ -48,8 +48,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetSmi(14, 20, 5, 3)
+        List<SmaResult> results = Quotes
+            .GetSmi(14, 20, 5)
             .GetSma(10)
             .ToList();
 
@@ -60,7 +60,7 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void NoSignal()
     {
-        List<SmiResult> results = quotes
+        List<SmiResult> results = Quotes
             .GetSmi(5, 20, 20, 1)
             .ToList();
 
@@ -75,7 +75,7 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void SmallPeriods()
     {
-        List<SmiResult> results = quotes
+        List<SmiResult> results = Quotes
             .GetSmi(1, 1, 1, 5)
             .ToList();
 
@@ -96,24 +96,24 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SmiResult> r = badQuotes
+        List<SmiResult> r = BadQuotes
             .GetSmi(5, 5, 1, 5)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Smi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Smi is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SmiResult> r0 = noquotes
-            .GetSmi(5, 5, 2)
+        List<SmiResult> r0 = Noquotes
+            .GetSmi(5, 5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SmiResult> r1 = onequote
+        List<SmiResult> r1 = Onequote
             .GetSmi(5, 3, 3)
             .ToList();
 
@@ -123,8 +123,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SmiResult> results = quotes
-            .GetSmi(14, 20, 5, 3)
+        List<SmiResult> results = Quotes
+            .GetSmi(14, 20, 5)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -141,18 +141,18 @@ public class SmiTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(0, 5, 5, 5));
+            Quotes.GetSmi(0, 5, 5, 5));
 
         // bad first smooth period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(14, 0, 5, 5));
+            Quotes.GetSmi(14, 0, 5, 5));
 
         // bad second smooth period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(14, 3, 0, 5));
+            Quotes.GetSmi(14, 3, 0, 5));
 
         // bad signal
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(9, 3, 1, 0));
+            Quotes.GetSmi(9, 3, 1, 0));
     }
 }

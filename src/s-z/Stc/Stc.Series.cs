@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StcResult> CalcStc<T>(
+    private static List<StcResult> CalcStc<T>(
         this List<T> tpList,
         int cyclePeriods,
         int fastPeriods,
@@ -28,13 +28,13 @@ public static partial class Indicator
               Close = x.Macd.Null2NaN()
           })
           .ToList()
-          .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.SMA);
+          .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.Sma);
 
         // add stoch results
         for (int i = 0; i < length; i++)
         {
             StochResult r = stochMacd[i];
-            results.Add(new StcResult {
+            results.Add(new() {
                 Timestamp = r.Timestamp,
                 Stc = r.Oscillator
             });

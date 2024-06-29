@@ -11,15 +11,15 @@ public class Sorting : SeriesTestBase
         // baseline for comparison
         List<SmaResult> baseline =
         [
-            new SmaResult() { Timestamp = DateTime.Parse("1/1/2000", EnglishCulture), Sma = null },
-            new SmaResult() { Timestamp = DateTime.Parse("1/2/2000", EnglishCulture), Sma = null },
-            new SmaResult() { Timestamp = DateTime.Parse("1/9/2000", EnglishCulture), Sma = null },
-            new SmaResult() { Timestamp = DateTime.Parse("1/3/2000", EnglishCulture), Sma = 3 },
-            new SmaResult() { Timestamp = DateTime.Parse("1/4/2000", EnglishCulture), Sma = 4 },
-            new SmaResult() { Timestamp = DateTime.Parse("1/5/2000", EnglishCulture), Sma = 5 },
-            new SmaResult() { Timestamp = DateTime.Parse("1/6/2000", EnglishCulture), Sma = 6 },
-            new SmaResult() { Timestamp = DateTime.Parse("1/7/2000", EnglishCulture), Sma = 7 },
-            new SmaResult() { Timestamp = DateTime.Parse("1/8/2000", EnglishCulture), Sma = double.NaN }
+            new(Timestamp: DateTime.Parse("1/1/2000", englishCulture), Sma: null),
+            new(Timestamp: DateTime.Parse("1/2/2000", englishCulture), Sma: null),
+            new(Timestamp: DateTime.Parse("1/9/2000", englishCulture), Sma: null),
+            new(Timestamp: DateTime.Parse("1/3/2000", englishCulture), Sma: 3),
+            new(Timestamp: DateTime.Parse("1/4/2000", englishCulture), Sma: 4),
+            new(Timestamp: DateTime.Parse("1/5/2000", englishCulture), Sma: 5),
+            new(Timestamp: DateTime.Parse("1/6/2000", englishCulture), Sma: 6),
+            new(Timestamp: DateTime.Parse("1/7/2000", englishCulture), Sma: 7),
+            new(Timestamp: DateTime.Parse("1/8/2000", englishCulture), Sma: double.NaN)
         ];
 
         // PUBLIC VARIANT, generic sorted Collection
@@ -27,6 +27,6 @@ public class Sorting : SeriesTestBase
             .ToSortedCollection();
 
         Assert.AreEqual(5, sortResults[4].Sma);
-        Assert.AreEqual(DateTime.Parse("1/9/2000", EnglishCulture), sortResults.LastOrDefault().Timestamp);
+        Assert.AreEqual(DateTime.Parse("1/9/2000", englishCulture), sortResults.LastOrDefault().Timestamp);
     }
 }

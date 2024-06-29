@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RsiResult> CalcRsi<T>(
+    private static List<RsiResult> CalcRsi<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -20,14 +20,13 @@ public static partial class Indicator
         List<RsiResult> results = new(length);
         double[] gain = new double[length]; // gain
         double[] loss = new double[length]; // loss
-        double prevValue;
 
         if (length == 0)
         {
             return results;
         }
 
-        prevValue = source[0].Value;
+        double prevValue = source[0].Value;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
@@ -40,8 +39,8 @@ public static partial class Indicator
             }
             else
             {
-                gain[i] = (s.Value > prevValue) ? s.Value - prevValue : 0;
-                loss[i] = (s.Value < prevValue) ? prevValue - s.Value : 0;
+                gain[i] = s.Value > prevValue ? s.Value - prevValue : 0;
+                loss[i] = s.Value < prevValue ? prevValue - s.Value : 0;
             }
 
             double? rsi = null;
@@ -63,20 +62,20 @@ public static partial class Indicator
                 avgLoss = sumLoss / lookbackPeriods;
 
                 rsi = !double.IsNaN(avgGain / avgLoss)
-                      ? (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100
+                      ? avgLoss > 0 ? 100 - 100 / (1 + avgGain / avgLoss) : 100
                       : null;
             }
 
             // calculate RSI normally
             else if (i > lookbackPeriods)
             {
-                avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
-                avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
+                avgGain = (avgGain * (lookbackPeriods - 1) + gain[i]) / lookbackPeriods;
+                avgLoss = (avgLoss * (lookbackPeriods - 1) + loss[i]) / lookbackPeriods;
 
                 if (avgLoss > 0)
                 {
                     double rs = avgGain / avgLoss;
-                    rsi = 100 - (100 / (1 + rs));
+                    rsi = 100 - 100 / (1 + rs);
                 }
                 else
                 {

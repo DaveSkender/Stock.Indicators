@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StdDevResult> CalcStdDev<T>(
+    private static List<StdDevResult> CalcStdDev<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -43,7 +43,7 @@ public static partial class Indicator
 
                 stdDev = values.StdDev();
 
-                zScore = (stdDev == 0) ? double.NaN
+                zScore = stdDev == 0 ? double.NaN
                     : (s.Value - mean) / stdDev;
             }
             else

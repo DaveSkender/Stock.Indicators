@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Tests.Common;
 
 [TestClass]
@@ -8,8 +6,8 @@ public class Results : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<AdxResult> results = quotes
-            .GetAdx(14)
+        List<AdxResult> results = Quotes
+            .GetAdx()
             .ToList();
 
         // make a few more in the middle null and NaN

@@ -6,8 +6,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void All()
     {
-        List<BetaResult> results = otherQuotes
-            .GetBeta(quotes, 20, BetaType.All)
+        List<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20, BetaType.All)
             .ToList();
 
         // proper quantities
@@ -51,8 +51,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<BetaResult> results = Indicator
-            .GetBeta(otherQuotes, quotes, 20, BetaType.Standard)
+        List<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20)
             .ToList();
 
         // proper quantities
@@ -67,8 +67,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Up()
     {
-        List<BetaResult> results = otherQuotes
-            .GetBeta(quotes, 20, BetaType.Up)
+        List<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20, BetaType.Up)
             .ToList();
 
         // proper quantities
@@ -83,8 +83,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Down()
     {
-        List<BetaResult> results = otherQuotes
-            .GetBeta(quotes, 20, BetaType.Down)
+        List<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20, BetaType.Down)
             .ToList();
 
         // proper quantities
@@ -99,9 +99,9 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<BetaResult> results = otherQuotes
+        List<BetaResult> results = OtherQuotes
             .Use(CandlePart.Close)
-            .GetBeta(quotes.Use(CandlePart.Close), 20)
+            .GetBeta(Quotes.Use(CandlePart.Close), 20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -111,8 +111,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = otherQuotes
-            .GetBeta(quotes, 20)
+        List<SmaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20)
             .GetSma(10)
             .ToList();
 
@@ -123,46 +123,46 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<BetaResult> results = quotes
+        List<BetaResult> results = Quotes
             .GetSma(2)
-            .GetBeta(otherQuotes.GetSma(2), 20)
+            .GetBeta(OtherQuotes.GetSma(2), 20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Beta != null));
-        Assert.AreEqual(0, results.Count(x => x.Beta is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Beta is double.NaN));
     }
 
     [TestMethod]
     public override void BadData()
     {
-        List<BetaResult> r1 = badQuotes
-            .GetBeta(badQuotes, 15, BetaType.Standard)
+        List<BetaResult> r1 = BadQuotes
+            .GetBeta(BadQuotes, 15)
             .ToList();
 
         Assert.AreEqual(502, r1.Count);
-        Assert.AreEqual(0, r1.Count(x => x.Beta is double and double.NaN));
+        Assert.AreEqual(0, r1.Count(x => x.Beta is double.NaN));
 
-        List<BetaResult> r2 = badQuotes
-            .GetBeta(badQuotes, 15, BetaType.Up)
+        List<BetaResult> r2 = BadQuotes
+            .GetBeta(BadQuotes, 15, BetaType.Up)
             .ToList();
 
         Assert.AreEqual(502, r2.Count);
-        Assert.AreEqual(0, r2.Count(x => x.BetaUp is double and double.NaN));
+        Assert.AreEqual(0, r2.Count(x => x.BetaUp is double.NaN));
 
-        List<BetaResult> r3 = badQuotes
-            .GetBeta(badQuotes, 15, BetaType.Down)
+        List<BetaResult> r3 = BadQuotes
+            .GetBeta(BadQuotes, 15, BetaType.Down)
             .ToList();
 
         Assert.AreEqual(502, r3.Count);
-        Assert.AreEqual(0, r3.Count(x => x.BetaDown is double and double.NaN));
+        Assert.AreEqual(0, r3.Count(x => x.BetaDown is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<BetaResult> r = bigQuotes
-            .GetBeta(bigQuotes, 150, BetaType.All)
+        List<BetaResult> r = BigQuotes
+            .GetBeta(BigQuotes, 150, BetaType.All)
             .ToList();
 
         Assert.AreEqual(1246, r.Count);
@@ -182,11 +182,9 @@ public class BetaTests : SeriesTestBase
         List<Quote> evalQuotes = TestData.GetMsft().ToList();
         List<Quote> mktQuotes = TestData.GetSpx().ToList();
 
-        List<BetaResult> results = Indicator
-            .GetBeta(
-                evalQuotes.Aggregate(PeriodSize.Month),
-                mktQuotes.Aggregate(PeriodSize.Month),
-                60, BetaType.Standard)
+        List<BetaResult> results = evalQuotes.Aggregate(PeriodSize.Month)
+            .GetBeta(mktQuotes.Aggregate(PeriodSize.Month),
+                60)
             .ToList();
 
         Assert.AreEqual(0.91, results[385].Beta.Round(2));
@@ -195,8 +193,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<BetaResult> results = otherQuotes
-            .GetBeta(quotes, 20)
+        List<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -211,8 +209,8 @@ public class BetaTests : SeriesTestBase
     public void SameSame()
     {
         // Beta should be 1 if evaluating against self
-        List<BetaResult> results = quotes
-            .GetBeta(quotes, 20)
+        List<BetaResult> results = Quotes
+            .GetBeta(Quotes, 20)
             .ToList();
 
         // proper quantities
@@ -227,13 +225,13 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<BetaResult> r0 = noquotes
-            .GetBeta(noquotes, 5)
+        List<BetaResult> r0 = Noquotes
+            .GetBeta(Noquotes, 5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<BetaResult> r1 = onequote.GetBeta(onequote, 5).ToList();
+        List<BetaResult> r1 = Onequote.GetBeta(Onequote, 5).ToList();
         Assert.AreEqual(1, r1.Count);
     }
 
@@ -242,28 +240,28 @@ public class BetaTests : SeriesTestBase
     {
         List<Quote> quoteA =
         [
-            new Quote { Timestamp = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/4/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/5/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/6/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
+            new() { Timestamp = DateTime.Parse("1/1/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/2/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/3/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/4/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/5/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/6/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/7/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/8/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/9/2020", englishCulture), Close = 1234 }
         ];
 
         List<Quote> quoteB =
         [
-            new Quote { Timestamp = DateTime.Parse("1/1/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/2/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/3/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("2/4/2020", EnglishCulture), Close = 1234 }, // abberrant
-            new Quote { Timestamp = DateTime.Parse("1/5/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/6/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/7/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/8/2020", EnglishCulture), Close = 1234 },
-            new Quote { Timestamp = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
+            new() { Timestamp = DateTime.Parse("1/1/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/2/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/3/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("2/4/2020", englishCulture), Close = 1234 }, // abberrant
+            new() { Timestamp = DateTime.Parse("1/5/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/6/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/7/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/8/2020", englishCulture), Close = 1234 },
+            new() { Timestamp = DateTime.Parse("1/9/2020", englishCulture), Close = 1234 }
         ];
 
         Assert.ThrowsException<InvalidQuotesException>(()
@@ -275,12 +273,12 @@ public class BetaTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetBeta(otherQuotes, 0));
+            => Quotes.GetBeta(OtherQuotes, 0));
 
         // bad evaluation quotes
         List<Quote> eval = TestData.GetCompare(300).ToList();
 
         Assert.ThrowsException<InvalidQuotesException>(()
-            => quotes.GetBeta(eval, 30));
+            => Quotes.GetBeta(eval, 30));
     }
 }

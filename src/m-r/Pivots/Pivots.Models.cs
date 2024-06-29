@@ -13,8 +13,8 @@ public record struct PivotsResult
 
 public enum PivotTrend
 {
-    HH, // higher high
-    LH, // lower high
-    HL, // higher low
-    LL  // lower low
+    Hh, // higher high
+    Lh, // lower high
+    Hl, // higher low
+    Ll  // lower low
 }

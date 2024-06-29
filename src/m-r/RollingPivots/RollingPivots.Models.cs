@@ -4,7 +4,7 @@ public readonly record struct RollingPivotsResult : IResult, IPivotPoint
 {
     public DateTime Timestamp { get; init; }
 
-    public decimal? PP { get; init; }
+    public decimal? Pp { get; init; }
 
     public decimal? S1 { get; init; }
     public decimal? S2 { get; init; }

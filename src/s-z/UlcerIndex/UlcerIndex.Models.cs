@@ -9,5 +9,5 @@ public readonly record struct UlcerIndexResult
     double IReusable.Value => UlcerIndex.Null2NaN();
 
     [Obsolete("Rename UI to UlcerIndex")] // v3.0.0
-    public readonly double? UI => UlcerIndex;
+    public double? UI => UlcerIndex;
 }

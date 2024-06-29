@@ -6,7 +6,7 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AlligatorResult> results = quotes
+        List<AlligatorResult> results = Quotes
             .GetAlligator()
             .ToList();
 
@@ -46,7 +46,7 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<AlligatorResult> results = quotes
+        List<AlligatorResult> results = Quotes
             .GetSma(2)
             .GetAlligator()
             .ToList();
@@ -58,24 +58,24 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AlligatorResult> r = badQuotes
+        List<AlligatorResult> r = BadQuotes
             .GetAlligator(3, 3, 2, 1, 1, 1)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Jaw is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Jaw is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AlligatorResult> r0 = noquotes
+        List<AlligatorResult> r0 = Noquotes
             .GetAlligator()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AlligatorResult> r1 = onequote
+        List<AlligatorResult> r1 = Onequote
             .GetAlligator()
             .ToList();
 
@@ -85,7 +85,7 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<AlligatorResult> r = quotes
+        List<AlligatorResult> r = Quotes
             .GetAlligator()
             .Condense()
             .ToList();
@@ -101,8 +101,8 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AlligatorResult> r = quotes
-            .GetAlligator(13, 8)
+        List<AlligatorResult> r = Quotes
+            .GetAlligator()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -118,17 +118,17 @@ public class AlligatorTests : SeriesTestBase
     public void Equality()
     {
         AlligatorResult r1 = new() {
-            Timestamp = evalDate,
+            Timestamp = EvalDate,
             Jaw = 1d
         };
 
         AlligatorResult r2 = new() {
-            Timestamp = evalDate,
+            Timestamp = EvalDate,
             Jaw = 1d
         };
 
         AlligatorResult r3 = new() {
-            Timestamp = evalDate,
+            Timestamp = EvalDate,
             Jaw = 2d
         };
 
@@ -141,34 +141,34 @@ public class AlligatorTests : SeriesTestBase
     {
         // bad jaw lookback periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 13, 5, 5, 3));
+            Quotes.GetAlligator(13, 8, 13));
 
         // bad teeth lookback periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 8, 3));
+            Quotes.GetAlligator(13, 8, 8, 5, 8));
 
         // bad lips lookback periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 0, 3));
+            Quotes.GetAlligator(13, 8, 8, 5, 0));
 
         // bad jaw offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 0, 8, 5, 5, 3));
+            Quotes.GetAlligator(13, 0));
 
         // bad teeth offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 0, 5, 3));
+            Quotes.GetAlligator(13, 8, 8, 0));
 
         // bad lips offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 5, 0));
+            Quotes.GetAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 12, 11, 5, 3));
+            Quotes.GetAlligator(13, 8, 12, 11));
 
         // bad teeth + offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 7, 7));
+            Quotes.GetAlligator(13, 8, 8, 5, 7, 7));
     }
 }

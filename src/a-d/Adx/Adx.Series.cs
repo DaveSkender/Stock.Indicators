@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AdxResult> CalcAdx(
+    private static List<AdxResult> CalcAdx(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -40,7 +40,7 @@ public static partial class Indicator
                 prevLow = q.Low;
                 prevClose = q.Close;
 
-                results.Add(new AdxResult(Timestamp: q.Timestamp));
+                results.Add(new(Timestamp: q.Timestamp));
                 continue;
             }
 
@@ -69,7 +69,7 @@ public static partial class Indicator
             // skip DM initialization period
             if (i < lookbackPeriods)
             {
-                results.Add(new AdxResult(Timestamp: q.Timestamp));
+                results.Add(new(Timestamp: q.Timestamp));
                 continue;
             }
 
@@ -87,9 +87,9 @@ public static partial class Indicator
             }
             else
             {
-                trs = prevTrs - (prevTrs / lookbackPeriods) + tr;
-                pdm = prevPdm - (prevPdm / lookbackPeriods) + pdm1;
-                mdm = prevMdm - (prevMdm / lookbackPeriods) + mdm1;
+                trs = prevTrs - prevTrs / lookbackPeriods + tr;
+                pdm = prevPdm - prevPdm / lookbackPeriods + pdm1;
+                mdm = prevMdm - prevMdm / lookbackPeriods + mdm1;
             }
 
             prevTrs = trs;
@@ -98,7 +98,7 @@ public static partial class Indicator
 
             if (trs is 0)
             {
-                results.Add(new AdxResult(Timestamp: q.Timestamp));
+                results.Add(new(Timestamp: q.Timestamp));
                 continue;
             }
 
@@ -107,18 +107,18 @@ public static partial class Indicator
             double mdi = 100 * mdm / trs;
 
             // calculate ADX
-            double dx = (pdi == mdi)
+            double dx = pdi - mdi == 0
                 ? 0
-                : (pdi + mdi != 0)
+                : pdi + mdi != 0
                 ? 100 * Math.Abs(pdi - mdi) / (pdi + mdi)
                 : double.NaN;
 
             double adx = double.NaN;
             double adxr = double.NaN;
 
-            if (i > (2 * lookbackPeriods) - 1)
+            if (i > 2 * lookbackPeriods - 1)
             {
-                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
+                adx = (prevAdx * (lookbackPeriods - 1) + dx) / lookbackPeriods;
 
                 double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
 
@@ -127,7 +127,7 @@ public static partial class Indicator
             }
 
             // initial ADX
-            else if (i == (2 * lookbackPeriods) - 1)
+            else if (i == 2 * lookbackPeriods - 1)
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;

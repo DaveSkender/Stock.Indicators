@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<KvoResult> CalcKvo(
+    private static List<KvoResult> CalcKvo(
         this List<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods,
@@ -51,7 +51,7 @@ public static partial class Indicator
             }
 
             // trend direction
-            t[i] = (hlc[i] > hlc[i - 1]) ? 1 : -1;
+            t[i] = hlc[i] > hlc[i - 1] ? 1 : -1;
 
             if (i <= 1)
             {
@@ -61,19 +61,19 @@ public static partial class Indicator
             }
 
             // cumulative measurement
-            cm[i] = (t[i] == t[i - 1]) ?
-                    (cm[i - 1] + dm[i]) : (dm[i - 1] + dm[i]);
+            cm[i] = t[i] == t[i - 1] ?
+                    cm[i - 1] + dm[i] : dm[i - 1] + dm[i];
 
             // volume force (VF)
-            vf[i] = (dm[i] == cm[i] || q.Volume == 0) ? 0
-                : (dm[i] == 0) ? q.Volume * 2d * t[i] * 100d
-                : (cm[i] != 0) ? q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
+            vf[i] = dm[i] == cm[i] || q.Volume == 0 ? 0
+                : dm[i] == 0 ? q.Volume * 2d * t[i] * 100d
+                : cm[i] != 0 ? q.Volume * Math.Abs(2d * (dm[i] / cm[i] - 1)) * t[i] * 100d
                 : vf[i - 1];
 
             // fast-period EMA of VF
             if (i > fastPeriods + 1)
             {
-                vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
+                vfFastEma[i] = vf[i] * kFast + vfFastEma[i - 1] * (1 - kFast);
             }
 
             // TODO: update healing, without requiring specific indexing
@@ -91,7 +91,7 @@ public static partial class Indicator
             // slow-period EMA of VF
             if (i > slowPeriods + 1)
             {
-                vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
+                vfSlowEma[i] = vf[i] * kSlow + vfSlowEma[i - 1] * (1 - kSlow);
             }
 
             // TODO: update healing, without requiring specific indexing
@@ -114,8 +114,8 @@ public static partial class Indicator
                 // Signal
                 if (i > slowPeriods + signalPeriods)
                 {
-                    sig = (kvo * kSignal)
-                        + (results[i - 1].Signal * (1 - kSignal));
+                    sig = kvo * kSignal
+                        + results[i - 1].Signal * (1 - kSignal);
                 }
 
                 // TODO: update healing, without requiring specific indexing
@@ -131,7 +131,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new KvoResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Oscillator: kvo,
                 Signal: sig));

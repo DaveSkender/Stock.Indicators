@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CorrResult> CalcCorrelation<T>(
+    private static List<CorrResult> CalcCorrelation<T>(
         this List<T> sourceA,
         List<T> sourceB,
         int lookbackPeriods)
@@ -50,7 +50,7 @@ public static partial class Indicator
             }
             else
             {
-                r = new CorrResult(Timestamp: a.Timestamp);
+                r = new(Timestamp: a.Timestamp);
             }
 
             results.Add(r);
@@ -70,7 +70,7 @@ public static partial class Indicator
         double sumB = 0;
         double sumA2 = 0;
         double sumB2 = 0;
-        double sumAB = 0;
+        double sumAb = 0;
 
         for (int i = 0; i < length; i++)
         {
@@ -81,25 +81,25 @@ public static partial class Indicator
             sumB += b;
             sumA2 += a * a;
             sumB2 += b * b;
-            sumAB += a * b;
+            sumAb += a * b;
         }
 
         double avgA = sumA / length;
         double avgB = sumB / length;
         double avgA2 = sumA2 / length;
         double avgB2 = sumB2 / length;
-        double avgAB = sumAB / length;
+        double avgAb = sumAb / length;
 
-        double varA = avgA2 - (avgA * avgA);
-        double varB = avgB2 - (avgB * avgB);
-        double cov = avgAB - (avgA * avgB);
+        double varA = avgA2 - avgA * avgA;
+        double varB = avgB2 - avgB * avgB;
+        double cov = avgAb - avgA * avgB;
         double divisor = Math.Sqrt(varA * varB);
 
-        double? corr = (divisor == 0)
+        double? corr = divisor == 0
             ? null
             : (cov / divisor).NaN2Null();
 
-        return new CorrResult(
+        return new(
             Timestamp: timestamp,
             VarianceA: varA.NaN2Null(),
             VarianceB: varB.NaN2Null(),

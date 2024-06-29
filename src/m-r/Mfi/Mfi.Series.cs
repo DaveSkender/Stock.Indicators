@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<MfiResult> CalcMfi(
+    private static List<MfiResult> CalcMfi(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -19,7 +19,7 @@ public static partial class Indicator
         double[] mf = new double[length];  // raw MF value
         int[] direction = new int[length]; // direction
 
-        double? prevTP = null;
+        double? prevTp = null;
 
         // roll through quotes, to get preliminary data
         for (int i = 0; i < length; i++)
@@ -34,15 +34,15 @@ public static partial class Indicator
             mf[i] = tp[i] * q.Volume;
 
             // direction
-            if (prevTP == null || tp[i] == prevTP)
+            if (prevTp == null || tp[i] == prevTp)
             {
                 direction[i] = 0;
             }
-            else if (tp[i] > prevTP)
+            else if (tp[i] > prevTp)
             {
                 direction[i] = 1;
             }
-            else if (tp[i] < prevTP)
+            else if (tp[i] < prevTp)
             {
                 direction[i] = -1;
             }
@@ -69,7 +69,7 @@ public static partial class Indicator
                 if (sumNegMFs != 0)
                 {
                     double mfRatio = sumPosMFs / sumNegMFs;
-                    mfi = 100 - (100 / (1 + mfRatio));
+                    mfi = 100 - 100 / (1 + mfRatio);
                 }
 
                 // handle no negative case
@@ -83,11 +83,11 @@ public static partial class Indicator
                 mfi = double.NaN;
             }
 
-            results.Add(new MfiResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 Mfi: mfi.NaN2Null()));
 
-            prevTP = tp[i];
+            prevTp = tp[i];
         }
 
         return results;

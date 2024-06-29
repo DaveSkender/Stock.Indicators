@@ -6,8 +6,8 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CciResult> results = quotes
-            .GetCci(20)
+        List<CciResult> results = Quotes
+            .GetCci()
             .ToList();
 
         // proper quantities
@@ -22,8 +22,8 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetCci(20)
+        List<SmaResult> results = Quotes
+            .GetCci()
             .GetSma(10)
             .ToList();
 
@@ -34,24 +34,24 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CciResult> r = badQuotes
+        List<CciResult> r = BadQuotes
             .GetCci(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cci is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Cci is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CciResult> r0 = noquotes
+        List<CciResult> r0 = Noquotes
             .GetCci()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CciResult> r1 = onequote
+        List<CciResult> r1 = Onequote
             .GetCci()
             .ToList();
 
@@ -61,8 +61,8 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CciResult> results = quotes
-            .GetCci(20)
+        List<CciResult> results = Quotes
+            .GetCci()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -77,5 +77,5 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetCci(0));
+            => Quotes.GetCci(0));
 }

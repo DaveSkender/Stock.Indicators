@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
+public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
     where TIn : struct, IReusable
 {
     #region CONSTRUCTORS
@@ -25,7 +25,7 @@ public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
 
     # region PROPERTIES
 
-    public int LookbackPeriods { get; private set; }
+    public int LookbackPeriods { get; }
     #endregion
 
     # region METHODS
@@ -61,7 +61,8 @@ public partial class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
             }
 
             // normal
-            else if (i >= LookbackPeriods - 1)
+
+            if (i >= LookbackPeriods - 1)
             {
                 double sum = 0;
                 for (int w = i - LookbackPeriods + 1; w <= i; w++)

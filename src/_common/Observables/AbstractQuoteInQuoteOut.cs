@@ -10,25 +10,20 @@ public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
 {
     // observer members only
 
-    #region CONSTRUCTORS
-
     internal AbstractQuoteInQuoteOut(
         IQuoteProvider<TIn> provider)
     {
         Provider = provider;
     }
-    #endregion
 
-    # region PROPERTIES
-
-    public IQuoteProvider<TIn> Provider { get; private set; }
+    public IQuoteProvider<TIn> Provider { get; }
 
     public bool IsSubscribed => Subscription is not null;
 
     protected IDisposable? Subscription { get; set; }
 
     protected IReadOnlyList<TIn> ProviderCache => Provider.Results;
-    #endregion
+
 
     # region METHODS (OBSERVER)
 
@@ -42,19 +37,20 @@ public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
     public void OnCompleted() => Unsubscribe();
 
     public void Unsubscribe() => Subscription?.Dispose();
+    #endregion
 
-    // restart subscription
+    #region METHODS (CACHE UTILITIES)
+
+    /// full reset
+    /// <inheritdoc/>
     public void Reinitialize()
     {
         Unsubscribe();
         ClearCache();
-
         Subscription = Provider.Subscribe(this);
     }
 
-    // rebuild cache
-    public void RebuildCache() => RebuildCache(0);
-
+    /// build cache from timestamp
     /// <inheritdoc/>
     public void RebuildCache(
         DateTime fromTimestamp)
@@ -68,16 +64,12 @@ public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
         }
     }
 
+    /// rebuild cache from index
     /// <inheritdoc/>
     public void RebuildCache(int fromIndex)
-        => RebuildCache(fromIndex, toIndex: Cache.Count - 1);
-
-    // rebuild cache from index
-    protected override void RebuildCache(
-        int fromIndex, int? toIndex = null)
     {
-        ClearCache(fromIndex, toIndex);
-        Provider.Resend(this, fromIndex, toIndex);
+        ClearCache(fromIndex);
+        Provider.Resend(this, fromIndex);
     }
     #endregion
 }

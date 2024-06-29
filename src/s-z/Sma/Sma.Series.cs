@@ -4,10 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    // TODO: discontinue converting to Tuple,
-    // everywhere.  It's unneeded overhead; use IReusableResult.
-
-    internal static List<SmaResult> CalcSma<T>(
+    private static List<SmaResult> CalcSma<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable

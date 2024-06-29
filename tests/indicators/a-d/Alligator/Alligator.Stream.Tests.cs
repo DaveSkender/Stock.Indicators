@@ -6,7 +6,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -16,7 +16,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
 
         // initialize observer
         Alligator<Quote> observer = provider
-            .ToAlligator(13, 8, 8, 5, 5, 3);
+            .ToAlligator();
 
         // fetch initial results (early)
         IEnumerable<AlligatorResult> results
@@ -54,7 +54,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
 
         // time-series, for comparison
         List<AlligatorResult> seriesList = quotesList
-            .GetAlligator(13, 8, 8, 5, 5, 3)
+            .GetAlligator()
             .ToList();
 
         // assert, should equal series
@@ -76,7 +76,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
     [TestMethod]
     public void ChainObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -87,7 +87,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         // initialize observer
         Alligator<SmaResult> observer = provider
             .ToSma(10)
-            .ToAlligator(13, 8, 8, 5, 5, 3);
+            .ToAlligator();
 
         // emulate adding quotes out of order
         // note: this works when graceful order
@@ -123,7 +123,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         // time-series, for comparison
         List<AlligatorResult> seriesList = quotesList
             .GetSma(10)
-            .GetAlligator(13, 8, 8, 5, 5, 3)
+            .GetAlligator()
             .ToList();
 
         // assert, should equal series

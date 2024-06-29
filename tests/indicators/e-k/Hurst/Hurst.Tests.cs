@@ -6,8 +6,8 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void StandardLong()
     {
-        List<HurstResult> results = longestQuotes
-            .GetHurst(longestQuotes.Count() - 1)
+        List<HurstResult> results = LongestQuotes
+            .GetHurst(LongestQuotes.Count() - 1)
             .ToList();
 
         // assertions
@@ -24,9 +24,9 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<HurstResult> results = quotes
+        List<HurstResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetHurst(100)
+            .GetHurst()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -36,8 +36,8 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetHurst(100)
+        List<SmaResult> results = Quotes
+            .GetHurst()
             .GetSma(10)
             .ToList();
 
@@ -48,9 +48,9 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<HurstResult> results = quotes
+        List<HurstResult> results = Quotes
             .GetSma(10)
-            .GetHurst(100)
+            .GetHurst()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -60,24 +60,24 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<HurstResult> r = badQuotes
+        List<HurstResult> r = BadQuotes
             .GetHurst(150)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<HurstResult> r0 = noquotes
+        List<HurstResult> r0 = Noquotes
             .GetHurst()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HurstResult> r1 = onequote
+        List<HurstResult> r1 = Onequote
             .GetHurst()
             .ToList();
 
@@ -87,7 +87,7 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<HurstResult> results = longestQuotes.GetHurst(longestQuotes.Count() - 1)
+        List<HurstResult> results = LongestQuotes.GetHurst(LongestQuotes.Count() - 1)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -102,5 +102,5 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetHurst(19));
+            => Quotes.GetHurst(19));
 }

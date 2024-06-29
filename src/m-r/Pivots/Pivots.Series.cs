@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PivotsResult> CalcPivots<TQuote>(
+    private static List<PivotsResult> CalcPivots<TQuote>(
         this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,
@@ -59,9 +59,9 @@ public static partial class Indicator
                 // repaint trend
                 if (lastHighIndex != null && highPoint != lastHighValue)
                 {
-                    PivotTrend trend = (highPoint > lastHighValue)
-                        ? PivotTrend.HH
-                        : PivotTrend.LH;
+                    PivotTrend trend = highPoint > lastHighValue
+                        ? PivotTrend.Hh
+                        : PivotTrend.Lh;
 
                     highLine[(int)lastHighIndex] = lastHighValue;
 
@@ -71,7 +71,7 @@ public static partial class Indicator
                     for (int t = (int)lastHighIndex + 1; t <= i; t++)
                     {
                         highTrend[t] = trend;
-                        highLine[t] = highPoint + (incr * (t - i));
+                        highLine[t] = highPoint + incr * (t - i);
                     }
                 }
 
@@ -86,9 +86,9 @@ public static partial class Indicator
                 // repaint trend
                 if (lastLowIndex != null && lowPoint != lastLowValue)
                 {
-                    PivotTrend trend = (lowPoint > lastLowValue)
-                        ? PivotTrend.HL
-                        : PivotTrend.LL;
+                    PivotTrend trend = lowPoint > lastLowValue
+                        ? PivotTrend.Hl
+                        : PivotTrend.Ll;
 
                     lowLine[(int)lastLowIndex] = lastLowValue;
 
@@ -98,7 +98,7 @@ public static partial class Indicator
                     for (int t = (int)lastLowIndex + 1; t <= i; t++)
                     {
                         lowTrend[t] = trend;
-                        lowLine[t] = lowPoint + (incr * (t - i));
+                        lowLine[t] = lowPoint + incr * (t - i);
                     }
                 }
 
@@ -125,7 +125,7 @@ public static partial class Indicator
             PivotTrend? ht = highTrend[i];
             PivotTrend? lt = lowTrend[i];
 
-            results.Add(new PivotsResult(
+            results.Add(new(
                 Timestamp: q.Timestamp,
                 HighPoint: highPoint,
                 LowPoint: lowPoint,

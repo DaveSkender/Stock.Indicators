@@ -6,8 +6,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public void StandardClose()
     {
-        List<RenkoResult> results = quotes
-            .GetRenko(2.5m, EndType.Close)
+        List<RenkoResult> results = Quotes
+            .GetRenko(2.5m)
             .ToList();
 
         // assertions
@@ -45,7 +45,7 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public void StandardHighLow()
     {
-        List<RenkoResult> results = quotes
+        List<RenkoResult> results = Quotes
             .GetRenko(2.5m, EndType.HighLow)
             .ToList();
 
@@ -82,8 +82,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public void Atr()
     {
-        List<RenkoResult> results = quotes
-            .GetRenkoAtr(14, EndType.Close)
+        List<RenkoResult> results = Quotes
+            .GetRenkoAtr(14)
             .ToList();
 
         // proper quantities
@@ -110,7 +110,7 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<RenkoResult> renkoQuotes = quotes.GetRenko(2.5m);
+        IEnumerable<RenkoResult> renkoQuotes = Quotes.GetRenko(2.5m);
         IEnumerable<SmaResult> renkoSma = renkoQuotes.GetSma(5);
         Assert.AreEqual(108, renkoSma.Count(x => x.Sma != null));
     }
@@ -118,7 +118,7 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RenkoResult> r = badQuotes
+        List<RenkoResult> r = BadQuotes
             .GetRenko(100m)
             .ToList();
 
@@ -128,7 +128,7 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RenkoResult> r0 = noquotes
+        List<RenkoResult> r0 = Noquotes
             .GetRenko(0.01m)
             .ToList();
 
@@ -140,10 +140,10 @@ public class RenkoTests : SeriesTestBase
     {
         // bad arguments
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetRenko(0));
+            => Quotes.GetRenko(0));
 
         // bad end type
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetRenko(2, (EndType)int.MaxValue));
+            => Quotes.GetRenko(2, (EndType)int.MaxValue));
     }
 }

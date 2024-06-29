@@ -43,12 +43,9 @@ public class QuoteProvider<TQuote> : AbstractQuoteProvider<TQuote>
     /// </param>
     public void Add(IEnumerable<TQuote> quotes)
     {
-        List<TQuote> added = quotes
-            .ToSortedList();
-
-        for (int i = 0; i < added.Count; i++)
+        foreach (TQuote quote in quotes.ToSortedList())
         {
-            Add(added[i]);
+            Add(quote);
         }
     }
 
@@ -72,8 +69,4 @@ public class QuoteProvider<TQuote> : AbstractQuoteProvider<TQuote>
             throw;
         }
     }
-
-    protected override void RebuildCache(
-        int fromIndex, int? toIndex = null)
-        => throw new InvalidOperationException("Does not apply.");
 }

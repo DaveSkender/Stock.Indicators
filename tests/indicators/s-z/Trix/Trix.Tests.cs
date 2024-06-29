@@ -6,7 +6,7 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<TrixResult> results = quotes
+        List<TrixResult> results = Quotes
             .GetTrix(20)
             .ToList();
 
@@ -36,7 +36,7 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<TrixResult> results = quotes
+        List<TrixResult> results = Quotes
             .Use(CandlePart.Close)
             .GetTrix(20)
             .ToList();
@@ -48,7 +48,7 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<TrixResult> results = quotes
+        List<TrixResult> results = Quotes
             .GetSma(2)
             .GetTrix(20)
             .ToList();
@@ -60,7 +60,7 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetTrix(20)
             .GetSma(10)
             .ToList();
@@ -72,24 +72,24 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<TrixResult> r = badQuotes
+        List<TrixResult> r = BadQuotes
             .GetTrix(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Trix is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<TrixResult> r0 = noquotes
+        List<TrixResult> r0 = Noquotes
             .GetTrix(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<TrixResult> r1 = onequote
+        List<TrixResult> r1 = Onequote
             .GetTrix(5)
             .ToList();
 
@@ -99,13 +99,13 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<TrixResult> results = quotes
+        List<TrixResult> results = Quotes
             .GetTrix(20)
             .RemoveWarmupPeriods()
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
+        Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
 
         TrixResult last = results.LastOrDefault();
         Assert.AreEqual(263.3216, last.Ema3.Round(4));
@@ -116,5 +116,5 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetTrix(0));
+            => Quotes.GetTrix(0));
 }

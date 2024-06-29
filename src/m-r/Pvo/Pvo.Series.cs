@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<PvoResult> CalcPvo<T>(
+    private static List<PvoResult> CalcPvo<T>(
         this List<T> source,  // volume
         int fastPeriods,
         int slowPeriods,
@@ -71,7 +71,7 @@ public static partial class Indicator
                     .Increment(kSlow, lastEmaSlow, s.Value);
             }
 
-            double pvo = (emaSlow != 0) ?
+            double pvo = emaSlow != 0 ?
                 100 * ((emaFast - emaSlow) / emaSlow) : double.NaN;
 
             // re-initialize Signal EMA
@@ -94,7 +94,7 @@ public static partial class Indicator
             }
 
             // write results
-            results.Add(new PvoResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Pvo: pvo.NaN2Null(),
                 Signal: signal.NaN2Null(),

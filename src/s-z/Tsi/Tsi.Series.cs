@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<TsiResult> CalcTsi<T>(
+    private static List<TsiResult> CalcTsi<T>(
         this List<T> source,
         int lookbackPeriods,
         int smoothPeriods,
@@ -73,35 +73,35 @@ public static partial class Indicator
             // normal first smoothing
             else
             {
-                cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
-                as1[i] = ((a[i] - as1[i - 1]) * mult1) + as1[i - 1];
+                cs1[i] = (c[i] - cs1[i - 1]) * mult1 + cs1[i - 1];
+                as1[i] = (a[i] - as1[i - 1]) * mult1 + as1[i - 1];
             }
 
             // re/initialize second smoothing
             if (double.IsNaN(cs2[i - 1]) && i >= smoothPeriods)
             {
-                double sumCS = 0;
-                double sumAS = 0;
+                double sumCs = 0;
+                double sumAs = 0;
 
                 for (int p = i - smoothPeriods + 1; p <= i; p++)
                 {
-                    sumCS += cs1[p];
-                    sumAS += as1[p];
+                    sumCs += cs1[p];
+                    sumAs += as1[p];
                 }
 
-                cs2[i] = sumCS / smoothPeriods;
-                as2[i] = sumAS / smoothPeriods;
+                cs2[i] = sumCs / smoothPeriods;
+                as2[i] = sumAs / smoothPeriods;
             }
 
             // normal second smoothing
             else
             {
-                cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
-                as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
+                cs2[i] = (cs1[i] - cs2[i - 1]) * mult2 + cs2[i - 1];
+                as2[i] = (as1[i] - as2[i - 1]) * mult2 + as2[i - 1];
             }
 
             // true strength index
-            double tsi = (as2[i] != 0)
+            double tsi = as2[i] != 0
                 ? 100d * (cs2[i] / as2[i])
                 : double.NaN;
 
@@ -125,7 +125,7 @@ public static partial class Indicator
                 // normal signal
                 else
                 {
-                    signal = ((tsi - prevSignal) * multS) + prevSignal;
+                    signal = (tsi - prevSignal) * multS + prevSignal;
                 }
             }
             else
@@ -135,7 +135,7 @@ public static partial class Indicator
                     : double.NaN;
             }
 
-            results.Add(new TsiResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Tsi: tsi.NaN2Null(),
                 Signal: signal.NaN2Null()));

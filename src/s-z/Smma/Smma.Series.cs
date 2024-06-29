@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SmmaResult> CalcSmma<T>(
+    private static List<SmmaResult> CalcSmma<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -48,10 +48,10 @@ public static partial class Indicator
             // normal SMMA
             else
             {
-                smma = ((prevSmma * (lookbackPeriods - 1)) + s.Value) / lookbackPeriods;
+                smma = (prevSmma * (lookbackPeriods - 1) + s.Value) / lookbackPeriods;
             }
 
-            results.Add(new SmmaResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
                 Smma: smma.NaN2Null()));
 

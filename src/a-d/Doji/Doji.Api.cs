@@ -1,9 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
-
 namespace Skender.Stock.Indicators;
 
 // DOJI (API)

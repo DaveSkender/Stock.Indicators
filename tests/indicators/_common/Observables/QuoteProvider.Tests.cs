@@ -6,10 +6,10 @@ public class QuoteProviderTests : TestBase
     [TestMethod]
     public void AddQuote()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
-        int length = quotes.Count();
+        int length = Quotes.Count();
 
         // add base quotes (batch)
         QuoteProvider<Quote> provider = new();

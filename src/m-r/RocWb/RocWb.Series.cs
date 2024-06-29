@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // RATE OF CHANGE (ROC) WITH BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static List<RocWbResult> CalcRocWb<T>(
+    private static List<RocWbResult> CalcRocWb<T>(
         this List<T> source,
         int lookbackPeriods,
         int emaPeriods,
@@ -70,7 +70,7 @@ public static partial class Indicator
                 rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
             }
 
-            results.Add(new RocWbResult(
+            results.Add(new(
                 Timestamp: roc.Timestamp,
                 Roc: roc.Value.NaN2Null(),
                 RocEma: ema[i].NaN2Null(),

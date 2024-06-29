@@ -28,7 +28,7 @@ public class CacheMgmtTests : TestBase
         QuoteProvider<Quote> provider = new();
         Quote q = new() { Timestamp = DateTime.Now }; // dup
 
-        var observer = provider
+        Use<Quote> observer = provider
             .Use(CandlePart.Close);
 
         // overflowing, under threshold
@@ -77,10 +77,10 @@ public class CacheMgmtTests : TestBase
     [TestMethod]
     public void ActAddOld()  // late arrival
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
-        int length = quotes.Count();
+        int length = Quotes.Count();
 
         // add base quotes
         QuoteProvider<Quote> provider = new();

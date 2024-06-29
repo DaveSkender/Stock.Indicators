@@ -10,7 +10,7 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results = quotes
+        List<StochResult> results = Quotes
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
@@ -47,10 +47,8 @@ public class StochTests : SeriesTestBase
 
         // test boundary condition
 
-        for (int i = 0; i < results.Count; i++)
+        foreach (StochResult r in results)
         {
-            StochResult r = results[i];
-
             if (r.Oscillator is not null)
             {
                 Assert.IsTrue(r.Oscillator >= 0);
@@ -72,10 +70,10 @@ public class StochTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void Extended() // with extra parameteres
+    public void Extended() // with extra parameters
     {
         List<StochResult> results =
-            quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA)
+            Quotes.GetStoch(9, 3, 3, 5, 4, MaType.Smma)
             .ToList();
 
         // proper quantities
@@ -118,7 +116,7 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetStoch()
             .GetSma(10)
             .ToList();
@@ -130,11 +128,11 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public void NoSignal()
     {
-        int lookbackPeriods = 5;
-        int signalPeriods = 1;
-        int smoothPeriods = 3;
+        const int lookbackPeriods = 5;
+        const int signalPeriods = 1;
+        const int smoothPeriods = 3;
 
-        List<StochResult> results = quotes
+        List<StochResult> results = Quotes
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
@@ -153,7 +151,7 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 10;
         int smoothPeriods = 1;
 
-        List<StochResult> results = quotes
+        List<StochResult> results = Quotes
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
@@ -174,7 +172,7 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 10;
         int smoothPeriods = 1;
 
-        List<StochResult> results = quotes
+        List<StochResult> results = Quotes
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
@@ -189,24 +187,24 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StochResult> r = badQuotes
+        List<StochResult> r = BadQuotes
             .GetStoch(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StochResult> r0 = noquotes
+        List<StochResult> r0 = Noquotes
             .GetStoch()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StochResult> r1 = onequote
+        List<StochResult> r1 = Onequote
             .GetStoch()
             .ToList();
 
@@ -220,7 +218,7 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results = quotes
+        List<StochResult> results = Quotes
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -277,26 +275,26 @@ public class StochTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(0));
+            Quotes.GetStoch(0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(14, 0));
+            Quotes.GetStoch(14, 0));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(14, 3, 0));
+            Quotes.GetStoch(14, 3, 0));
 
         // bad kFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
+            Quotes.GetStoch(9, 3, 1, 0, 2, MaType.Sma));
 
         // bad dFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
+            Quotes.GetStoch(9, 3, 1, 3, 0, MaType.Sma));
 
         // bad MA type
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
+            Quotes.GetStoch(9, 3, 3, 3, 2, MaType.Alma));
     }
 }

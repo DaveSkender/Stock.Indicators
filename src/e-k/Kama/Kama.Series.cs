@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<KamaResult> CalcKama<T>(
+    private static List<KamaResult> CalcKama<T>(
         this List<T> source,
         int erPeriods,
         int fastPeriods,
@@ -49,22 +49,22 @@ public static partial class Indicator
                 double change = Math.Abs(s.Value - source[i - erPeriods].Value);
 
                 // volatility
-                double sumPV = 0;
+                double sumPv = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(source[p].Value - source[p - 1].Value);
+                    sumPv += Math.Abs(source[p].Value - source[p - 1].Value);
                 }
 
-                if (sumPV != 0)
+                if (sumPv != 0)
                 {
                     // efficiency ratio
-                    er = change / sumPV;
+                    er = change / sumPv;
 
                     // smoothing constant
-                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
+                    double sc = er * (scFast - scSlow) + scSlow;  // squared later
 
                     // kama calculation
-                    kama = prevKama + (sc * sc * (s.Value - prevKama));
+                    kama = prevKama + sc * sc * (s.Value - prevKama);
                 }
 
                 // handle flatline case
@@ -75,9 +75,9 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new KamaResult(
+            results.Add(new(
                 Timestamp: s.Timestamp,
-                ER: er.NaN2Null(),
+                Er: er.NaN2Null(),
                 Kama: kama.NaN2Null()));
 
             prevKama = kama;

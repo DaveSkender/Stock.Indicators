@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<FcbResult> CalcFcb<TQuote>(
+    private static List<FcbResult> CalcFcb<TQuote>(
         this List<TQuote> quotesList,
         int windowSpan)
         where TQuote : IQuote
@@ -35,7 +35,7 @@ public static partial class Indicator
                 lowerLine = fp.FractalBull ?? lowerLine;
             }
 
-            results.Add(new FcbResult(
+            results.Add(new(
                 Timestamp: f.Timestamp,
                 UpperBand: upperLine,
                 LowerBand: lowerLine));

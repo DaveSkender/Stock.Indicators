@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ChopResult> CalcChop(
+    private static List<ChopResult> CalcChop(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -12,11 +12,6 @@ public static partial class Indicator
         Chop.Validate(lookbackPeriods);
 
         // initialize
-        double sum;
-        double high;
-        double low;
-        double range;
-
         int length = qdList.Count;
         List<ChopResult> results = new(length);
         double[] trueHigh = new double[length];
@@ -39,9 +34,9 @@ public static partial class Indicator
                 if (i >= lookbackPeriods)
                 {
                     // reset measurements
-                    sum = trueRange[i];
-                    high = trueHigh[i];
-                    low = trueLow[i];
+                    double sum = trueRange[i];
+                    double high = trueHigh[i];
+                    double low = trueLow[i];
 
                     // iterate over lookback window
                     for (int j = 1; j < lookbackPeriods; j++)
@@ -51,7 +46,7 @@ public static partial class Indicator
                         low = Math.Min(low, trueLow[i - j]);
                     }
 
-                    range = high - low;
+                    double range = high - low;
 
                     // calculate CHOP
                     if (range != 0)
@@ -61,7 +56,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new ChopResult(
+            results.Add(new(
                 Timestamp: qdList[i].Timestamp,
                 Chop: chop));
         }

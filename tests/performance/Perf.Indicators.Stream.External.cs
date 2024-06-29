@@ -1,4 +1,5 @@
 namespace Tests.Performance;
+// ReSharper disable All
 
 public class IndicatorStreamExternal
 {

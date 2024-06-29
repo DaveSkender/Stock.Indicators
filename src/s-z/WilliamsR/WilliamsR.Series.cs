@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<WilliamsResult> CalcWilliamsR(
+    private static List<WilliamsResult> CalcWilliamsR(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -12,7 +12,7 @@ public static partial class Indicator
         WilliamsR.Validate(lookbackPeriods);
 
         // convert Fast Stochastic to William %R
-        return qdList.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)
+        return qdList.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.Sma)
             .Select(s => new WilliamsResult {
                 Timestamp = s.Timestamp,
                 WilliamsR = s.Oscillator - 100

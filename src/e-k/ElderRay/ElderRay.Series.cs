@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ElderRayResult> CalcElderRay(
+    private static List<ElderRayResult> CalcElderRay(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -25,7 +25,7 @@ public static partial class Indicator
             QuoteD q = qdList[i];
             EmaResult e = emaResults[i];
 
-            results.Add(new ElderRayResult(
+            results.Add(new(
                 Timestamp: e.Timestamp,
                 Ema: e.Ema,
                 BullPower: q.High - e.Ema,

@@ -6,8 +6,8 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AwesomeResult> results = quotes
-            .GetAwesome(5, 34)
+        List<AwesomeResult> results = Quotes
+            .GetAwesome()
             .ToList();
 
         // proper quantities
@@ -35,7 +35,7 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<AwesomeResult> results = quotes
+        List<AwesomeResult> results = Quotes
             .Use(CandlePart.Close)
             .GetAwesome()
             .ToList();
@@ -47,7 +47,7 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<AwesomeResult> results = quotes
+        List<AwesomeResult> results = Quotes
             .GetSma(2)
             .GetAwesome()
             .ToList();
@@ -59,7 +59,7 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetAwesome()
             .GetSma(10)
             .ToList();
@@ -71,24 +71,24 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AwesomeResult> r = badQuotes
+        List<AwesomeResult> r = BadQuotes
             .GetAwesome()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AwesomeResult> r0 = noquotes
+        List<AwesomeResult> r0 = Noquotes
             .GetAwesome()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AwesomeResult> r1 = onequote
+        List<AwesomeResult> r1 = Onequote
             .GetAwesome()
             .ToList();
 
@@ -98,8 +98,8 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AwesomeResult> results = quotes
-            .GetAwesome(5, 34)
+        List<AwesomeResult> results = Quotes
+            .GetAwesome()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -116,10 +116,10 @@ public class AwesomeTests : SeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAwesome(0, 34));
+            Quotes.GetAwesome(0));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAwesome(25, 25));
+            Quotes.GetAwesome(25, 25));
     }
 }

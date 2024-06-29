@@ -6,7 +6,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -77,7 +77,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int emaPeriods = 12;
         int smaPeriods = 8;
 
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -101,7 +101,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             = [.. observer.Results];
 
         // time-series, for comparison
-        List<EmaResult> staticEma = quotes
+        List<EmaResult> staticEma = Quotes
             .GetSma(smaPeriods)
             .GetEma(emaPeriods)
             .ToList();
@@ -128,7 +128,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int emaPeriods = 20;
         int smaPeriods = 10;
 
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;

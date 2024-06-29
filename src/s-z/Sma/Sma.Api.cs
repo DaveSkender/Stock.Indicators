@@ -13,15 +13,6 @@ public static partial class Indicator
             .ToSortedList()
             .CalcSma(lookbackPeriods);
 
-    // ANALYSIS, from CHAIN
-    public static IEnumerable<SmaAnalysis> GetSmaAnalysis<T>(
-        this IEnumerable<T> source,
-        int lookbackPeriods)
-        where T : IReusable
-        => source
-            .ToSortedList()
-            .CalcSmaAnalysis(lookbackPeriods);
-
     // OBSERVER, from Chain Provider
     public static Sma<TIn> ToSma<TIn>(
         this IChainProvider<TIn> chainProvider,

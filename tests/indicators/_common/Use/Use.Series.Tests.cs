@@ -7,16 +7,16 @@ public class UseTests : SeriesTestBase
     public override void Standard()
     {
         // compose basic data
-        List<Reusable> o = quotes.Use(CandlePart.Open).ToList();
-        List<Reusable> h = quotes.Use(CandlePart.High).ToList();
-        List<Reusable> l = quotes.Use(CandlePart.Low).ToList();
-        List<Reusable> c = quotes.Use(CandlePart.Close).ToList();
-        List<Reusable> v = quotes.Use(CandlePart.Volume).ToList();
-        List<Reusable> hl = quotes.Use(CandlePart.HL2).ToList();
-        List<Reusable> hlc = quotes.Use(CandlePart.HLC3).ToList();
-        List<Reusable> oc = quotes.Use(CandlePart.OC2).ToList();
-        List<Reusable> ohl = quotes.Use(CandlePart.OHL3).ToList();
-        List<Reusable> ohlc = quotes.Use(CandlePart.OHLC4).ToList();
+        List<Reusable> o = Quotes.Use(CandlePart.Open).ToList();
+        List<Reusable> h = Quotes.Use(CandlePart.High).ToList();
+        List<Reusable> l = Quotes.Use(CandlePart.Low).ToList();
+        List<Reusable> c = Quotes.Use(CandlePart.Close).ToList();
+        List<Reusable> v = Quotes.Use(CandlePart.Volume).ToList();
+        List<Reusable> hl = Quotes.Use(CandlePart.Hl2).ToList();
+        List<Reusable> hlc = Quotes.Use(CandlePart.Hlc3).ToList();
+        List<Reusable> oc = Quotes.Use(CandlePart.Oc2).ToList();
+        List<Reusable> ohl = Quotes.Use(CandlePart.Ohl3).ToList();
+        List<Reusable> ohlc = Quotes.Use(CandlePart.Ohlc4).ToList();
 
         // proper quantities
         Assert.AreEqual(502, c.Count);
@@ -34,7 +34,7 @@ public class UseTests : SeriesTestBase
         Reusable rohlc = ohlc[501];
 
         // proper last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(lastDate, rc.Timestamp);
 
         // last values should be correct
@@ -54,7 +54,7 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public void Use()
     {
-        List<Reusable> results = quotes
+        List<Reusable> results = Quotes
             .Use(CandlePart.Close)
             .ToList();
 
@@ -64,7 +64,7 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetSma(10)
             .ToList();

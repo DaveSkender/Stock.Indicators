@@ -6,7 +6,7 @@ internal interface IPivotPoint
     decimal? R3 { get; }
     decimal? R2 { get; }
     decimal? R1 { get; }
-    decimal? PP { get; }
+    decimal? Pp { get; }
     decimal? S1 { get; }
     decimal? S2 { get; }
     decimal? S3 { get; }
@@ -17,7 +17,7 @@ public readonly record struct PivotPointsResult : IResult, IPivotPoint
 {
     public DateTime Timestamp { get; init; }
 
-    public decimal? PP { get; init; }
+    public decimal? Pp { get; init; }
 
     public decimal? S1 { get; init; }
     public decimal? S2 { get; init; }
@@ -32,7 +32,7 @@ public readonly record struct PivotPointsResult : IResult, IPivotPoint
 
 internal record WindowPoint : IPivotPoint
 {
-    public decimal? PP { get; init; }
+    public decimal? Pp { get; init; }
 
     public decimal? S1 { get; init; }
     public decimal? S2 { get; init; }
