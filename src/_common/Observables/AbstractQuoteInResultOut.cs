@@ -9,7 +9,7 @@ public abstract class AbstractQuoteInResultOut<TIn, TOut>
 {
     // observer members only
 
-    internal AbstractQuoteInResultOut(
+    private protected AbstractQuoteInResultOut(
         IQuoteProvider<TIn> provider)
     {
         Provider = provider;

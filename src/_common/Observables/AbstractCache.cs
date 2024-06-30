@@ -11,7 +11,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <summary>
     /// Default. Use internal cache.
     /// </summary>
-    protected AbstractCache()
+    private protected AbstractCache()
     {
         Cache = [];
     }

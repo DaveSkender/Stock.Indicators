@@ -7,7 +7,7 @@ public abstract class AbstractChainInChainOut<TIn, TOut>
 {
     // observer members only
 
-    internal AbstractChainInChainOut(
+    private protected AbstractChainInChainOut(
         IChainProvider<TIn> provider)
     {
         Provider = provider;

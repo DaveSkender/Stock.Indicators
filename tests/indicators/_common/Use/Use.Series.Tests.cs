@@ -12,11 +12,11 @@ public class UseTests : SeriesTestBase
         List<Reusable> l = Quotes.Use(CandlePart.Low).ToList();
         List<Reusable> c = Quotes.Use(CandlePart.Close).ToList();
         List<Reusable> v = Quotes.Use(CandlePart.Volume).ToList();
-        List<Reusable> hl = Quotes.Use(CandlePart.Hl2).ToList();
-        List<Reusable> hlc = Quotes.Use(CandlePart.Hlc3).ToList();
-        List<Reusable> oc = Quotes.Use(CandlePart.Oc2).ToList();
-        List<Reusable> ohl = Quotes.Use(CandlePart.Ohl3).ToList();
-        List<Reusable> ohlc = Quotes.Use(CandlePart.Ohlc4).ToList();
+        List<Reusable> hl = Quotes.Use(CandlePart.HL2).ToList();
+        List<Reusable> hlc = Quotes.Use(CandlePart.HLC3).ToList();
+        List<Reusable> oc = Quotes.Use(CandlePart.OC2).ToList();
+        List<Reusable> ohl = Quotes.Use(CandlePart.OHL3).ToList();
+        List<Reusable> ohlc = Quotes.Use(CandlePart.OHLC4).ToList();
 
         // proper quantities
         Assert.AreEqual(502, c.Count);

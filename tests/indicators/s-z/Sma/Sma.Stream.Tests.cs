@@ -143,7 +143,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 
         // initialize observer
         Sma<Reusable> observer = provider
-            .Use(CandlePart.Oc2)
+            .Use(CandlePart.OC2)
             .ToSma(11);
 
         // emulate quote stream
@@ -159,7 +159,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 
         // time-series, for comparison
         List<SmaResult> staticSma = Quotes
-            .Use(CandlePart.Oc2)
+            .Use(CandlePart.OC2)
             .GetSma(11)
             .ToList();
 

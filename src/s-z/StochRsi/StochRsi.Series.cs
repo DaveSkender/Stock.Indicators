@@ -42,7 +42,7 @@ public static partial class Indicator
             .CalcStoch(
                 stochPeriods,
                 signalPeriods,
-                smoothPeriods, 3, 2, MaType.Sma)
+                smoothPeriods, 3, 2, MaType.SMA)
             .ToList();
 
         // add stoch results

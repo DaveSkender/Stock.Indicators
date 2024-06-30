@@ -2,15 +2,15 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Sma
 {
-    private static List<SmaResult> CalcSma<T>(
+    internal static List<SmaResult> CalcSma<T>(
         this List<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        SmaUtilities.Validate(lookbackPeriods);
+        Sma.Validate(lookbackPeriods);
 
         // initialize
         List<SmaResult> results = new(source.Count);

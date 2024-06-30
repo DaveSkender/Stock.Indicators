@@ -12,7 +12,7 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
         int lookbackPeriods)
         : base(provider)
     {
-        SmaUtilities.Validate(lookbackPeriods);
+        Sma.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
 

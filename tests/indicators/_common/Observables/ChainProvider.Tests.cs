@@ -16,7 +16,7 @@ public class ChainProviderTests : TestBase, ITestChainProvider
 
         // initialize observer
         Ema<Reusable> observer = provider
-            .Use(CandlePart.Hl2)
+            .Use(CandlePart.HL2)
             .ToEma(11);
 
         // emulate adding quotes to provider
@@ -34,7 +34,7 @@ public class ChainProviderTests : TestBase, ITestChainProvider
 
         // time-series, for comparison
         List<EmaResult> staticEma = Quotes
-            .Use(CandlePart.Hl2)
+            .Use(CandlePart.HL2)
             .GetEma(11)
             .ToList();
 

@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (API)
-public static partial class Indicator
+
+public static partial class Alligator
 {
     // SERIES, from CHAIN
     /// <summary>

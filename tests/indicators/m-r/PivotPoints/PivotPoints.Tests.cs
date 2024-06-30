@@ -15,11 +15,11 @@ public class PivotPointsTests : SeriesTestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Pp != null));
+        Assert.AreEqual(482, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
-        Assert.AreEqual(null, r1.Pp);
+        Assert.AreEqual(null, r1.PP);
         Assert.AreEqual(null, r1.S1);
         Assert.AreEqual(null, r1.S2);
         Assert.AreEqual(null, r1.S3);
@@ -30,7 +30,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r1.R4);
 
         PivotPointsResult r2 = results[20];
-        Assert.AreEqual(214.5000m, r2.Pp.Round(4));
+        Assert.AreEqual(214.5000m, r2.PP.Round(4));
         Assert.AreEqual(211.9800m, r2.S1.Round(4));
         Assert.AreEqual(209.0000m, r2.S2.Round(4));
         Assert.AreEqual(206.4800m, r2.S3.Round(4));
@@ -41,7 +41,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r2.R4);
 
         PivotPointsResult r3 = results[149];
-        Assert.AreEqual(233.6400m, r3.Pp.Round(4));
+        Assert.AreEqual(233.6400m, r3.PP.Round(4));
         Assert.AreEqual(230.8100m, r3.S1.Round(4));
         Assert.AreEqual(226.3300m, r3.S2.Round(4));
         Assert.AreEqual(223.5000m, r3.S3.Round(4));
@@ -52,7 +52,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r3.R4);
 
         PivotPointsResult r4 = results[250];
-        Assert.AreEqual(251.2767m, r4.Pp.Round(4));
+        Assert.AreEqual(251.2767m, r4.PP.Round(4));
         Assert.AreEqual(247.6133m, r4.S1.Round(4));
         Assert.AreEqual(241.2867m, r4.S2.Round(4));
         Assert.AreEqual(237.6233m, r4.S3.Round(4));
@@ -63,7 +63,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r4.R4);
 
         PivotPointsResult r5 = results[251];
-        Assert.AreEqual(255.1967m, r5.Pp.Round(4));
+        Assert.AreEqual(255.1967m, r5.PP.Round(4));
         Assert.AreEqual(251.6933m, r5.S1.Round(4));
         Assert.AreEqual(246.3667m, r5.S2.Round(4));
         Assert.AreEqual(242.8633m, r5.S3.Round(4));
@@ -74,7 +74,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r5.R4);
 
         PivotPointsResult r6 = results[501];
-        Assert.AreEqual(266.6767m, r6.Pp.Round(4));
+        Assert.AreEqual(266.6767m, r6.PP.Round(4));
         Assert.AreEqual(258.9633m, r6.S1.Round(4));
         Assert.AreEqual(248.9667m, r6.S2.Round(4));
         Assert.AreEqual(241.2533m, r6.S3.Round(4));
@@ -97,13 +97,13 @@ public class PivotPointsTests : SeriesTestBase
 
         // proper quantities
         Assert.AreEqual(38, results.Count);
-        Assert.AreEqual(33, results.Count(x => x.Pp != null));
+        Assert.AreEqual(33, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[4];
         Assert.AreEqual(null, r2.R4);
         Assert.AreEqual(null, r2.R3);
-        Assert.AreEqual(null, r2.Pp);
+        Assert.AreEqual(null, r2.PP);
         Assert.AreEqual(null, r2.S1);
         Assert.AreEqual(null, r2.S2);
         Assert.AreEqual(null, r2.R1);
@@ -112,7 +112,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r2.S4);
 
         PivotPointsResult r3 = results[5];
-        Assert.AreEqual(271.0200m, r3.Pp.Round(4));
+        Assert.AreEqual(271.0200m, r3.PP.Round(4));
         Assert.AreEqual(270.13725m, r3.S1.Round(5));
         Assert.AreEqual(269.2545m, r3.S2.Round(4));
         Assert.AreEqual(268.3718m, r3.S3.Round(4));
@@ -123,7 +123,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(276.3165m, r3.R4.Round(4));
 
         PivotPointsResult r4 = results[22];
-        Assert.AreEqual(268.9600m, r4.Pp.Round(4));
+        Assert.AreEqual(268.9600m, r4.PP.Round(4));
         Assert.AreEqual(267.9819m, r4.S1.Round(4));
         Assert.AreEqual(267.0038m, r4.S2.Round(4));
         Assert.AreEqual(266.0258m, r4.S3.Round(4));
@@ -134,7 +134,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(274.8285m, r4.R4.Round(4));
 
         PivotPointsResult r5 = results[23];
-        Assert.AreEqual(257.1700m, r5.Pp.Round(4));
+        Assert.AreEqual(257.1700m, r5.PP.Round(4));
         Assert.AreEqual(255.5640m, r5.S1.Round(4));
         Assert.AreEqual(253.9580m, r5.S2.Round(4));
         Assert.AreEqual(252.3520m, r5.S3.Round(4));
@@ -145,7 +145,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(266.8060m, r5.R4.Round(4));
 
         PivotPointsResult r6 = results[37];
-        Assert.AreEqual(243.1500m, r6.Pp.Round(4));
+        Assert.AreEqual(243.1500m, r6.PP.Round(4));
         Assert.AreEqual(241.56325m, r6.S1.Round(5));
         Assert.AreEqual(239.9765m, r6.S2.Round(4));
         Assert.AreEqual(238.3898m, r6.S3.Round(4));
@@ -168,13 +168,13 @@ public class PivotPointsTests : SeriesTestBase
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Pp != null));
+        Assert.AreEqual(482, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
         Assert.AreEqual(null, r1.R4);
         Assert.AreEqual(null, r1.R3);
-        Assert.AreEqual(null, r1.Pp);
+        Assert.AreEqual(null, r1.PP);
         Assert.AreEqual(null, r1.S1);
         Assert.AreEqual(null, r1.S2);
         Assert.AreEqual(null, r1.R1);
@@ -185,7 +185,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointsResult r2 = results[20];
         Assert.AreEqual(null, r2.R4);
         Assert.AreEqual(null, r2.R3);
-        Assert.AreEqual(215.1300m, r2.Pp.Round(4));
+        Assert.AreEqual(215.1300m, r2.PP.Round(4));
         Assert.AreEqual(213.2400m, r2.S1.Round(4));
         Assert.AreEqual(null, r2.S2);
         Assert.AreEqual(218.7400m, r2.R1.Round(4));
@@ -196,7 +196,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointsResult r3 = results[149];
         Assert.AreEqual(null, r3.R4);
         Assert.AreEqual(null, r3.R3);
-        Assert.AreEqual(234.3475m, r3.Pp.Round(4));
+        Assert.AreEqual(234.3475m, r3.PP.Round(4));
         Assert.AreEqual(232.2250m, r3.S1.Round(4));
         Assert.AreEqual(null, r3.S2);
         Assert.AreEqual(239.5350m, r3.R1.Round(4));
@@ -207,7 +207,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointsResult r4 = results[250];
         Assert.AreEqual(null, r4.R4);
         Assert.AreEqual(null, r4.R3);
-        Assert.AreEqual(252.1925m, r4.Pp.Round(4));
+        Assert.AreEqual(252.1925m, r4.PP.Round(4));
         Assert.AreEqual(249.4450m, r4.S1.Round(4));
         Assert.AreEqual(null, r4.S2);
         Assert.AreEqual(259.4350m, r4.R1.Round(4));
@@ -218,7 +218,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointsResult r5 = results[251];
         Assert.AreEqual(null, r5.R4);
         Assert.AreEqual(null, r5.R3);
-        Assert.AreEqual(256.0725m, r5.Pp.Round(4));
+        Assert.AreEqual(256.0725m, r5.PP.Round(4));
         Assert.AreEqual(253.4450m, r5.S1.Round(4));
         Assert.AreEqual(null, r5.S2);
         Assert.AreEqual(262.2750m, r5.R1.Round(4));
@@ -229,7 +229,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointsResult r6 = results[501];
         Assert.AreEqual(null, r6.R4);
         Assert.AreEqual(null, r6.R3);
-        Assert.AreEqual(268.6050m, r6.Pp.Round(4));
+        Assert.AreEqual(268.6050m, r6.PP.Round(4));
         Assert.AreEqual(262.8200m, r6.S1.Round(4));
         Assert.AreEqual(null, r6.S2);
         Assert.AreEqual(280.5300m, r6.R1.Round(4));
@@ -239,7 +239,7 @@ public class PivotPointsTests : SeriesTestBase
 
         // special Demark case: test close = open
         WindowPoint d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
-        Assert.AreEqual(550m / 4, d1.Pp);
+        Assert.AreEqual(550m / 4, d1.PP);
     }
 
     [TestMethod]
@@ -254,13 +254,13 @@ public class PivotPointsTests : SeriesTestBase
 
         // proper quantities
         Assert.AreEqual(300, results.Count);
-        Assert.AreEqual(241, results.Count(x => x.Pp != null));
+        Assert.AreEqual(241, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[58];
         Assert.AreEqual(null, r1.R4);
         Assert.AreEqual(null, r1.R3);
-        Assert.AreEqual(null, r1.Pp);
+        Assert.AreEqual(null, r1.PP);
         Assert.AreEqual(null, r1.S1);
         Assert.AreEqual(null, r1.S2);
         Assert.AreEqual(null, r1.R1);
@@ -269,7 +269,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r1.S4);
 
         PivotPointsResult r2 = results[59];
-        Assert.AreEqual(368.4967m, r2.Pp.Round(4));
+        Assert.AreEqual(368.4967m, r2.PP.Round(4));
         Assert.AreEqual(367.9237m, r2.S1.Round(4));
         Assert.AreEqual(367.5697m, r2.S2.Round(4));
         Assert.AreEqual(366.9967m, r2.S3.Round(4));
@@ -278,7 +278,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(369.9967m, r2.R3.Round(4));
 
         PivotPointsResult r3 = results[118];
-        Assert.AreEqual(368.4967m, r3.Pp.Round(4));
+        Assert.AreEqual(368.4967m, r3.PP.Round(4));
         Assert.AreEqual(367.9237m, r3.S1.Round(4));
         Assert.AreEqual(367.5697m, r3.S2.Round(4));
         Assert.AreEqual(366.9967m, r3.S3.Round(4));
@@ -287,7 +287,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(369.9967m, r3.R3.Round(4));
 
         PivotPointsResult r4 = results[119];
-        Assert.AreEqual(369.0000m, r4.Pp.Round(4));
+        Assert.AreEqual(369.0000m, r4.PP.Round(4));
         Assert.AreEqual(368.5760m, r4.S1.Round(4));
         Assert.AreEqual(368.3140m, r4.S2.Round(4));
         Assert.AreEqual(367.8900m, r4.S3.Round(4));
@@ -296,7 +296,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(370.1100m, r4.R3.Round(4));
 
         PivotPointsResult r5 = results[149];
-        Assert.AreEqual(369.0000m, r5.Pp.Round(4));
+        Assert.AreEqual(369.0000m, r5.PP.Round(4));
         Assert.AreEqual(368.5760m, r5.S1.Round(4));
         Assert.AreEqual(368.3140m, r5.S2.Round(4));
         Assert.AreEqual(367.8900m, r5.S3.Round(4));
@@ -305,7 +305,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(370.1100m, r5.R3.Round(4));
 
         PivotPointsResult r6 = results[299];
-        Assert.AreEqual(368.8200m, r6.Pp.Round(4));
+        Assert.AreEqual(368.8200m, r6.PP.Round(4));
         Assert.AreEqual(367.5632m, r6.S1.Round(4));
         Assert.AreEqual(366.7868m, r6.S2.Round(4));
         Assert.AreEqual(365.5300m, r6.S3.Round(4));
@@ -326,13 +326,13 @@ public class PivotPointsTests : SeriesTestBase
 
         // proper quantities
         Assert.AreEqual(1564, results.Count);
-        Assert.AreEqual(1173, results.Count(x => x.Pp != null));
+        Assert.AreEqual(1173, results.Count(x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[390];
         Assert.AreEqual(null, r2.R4);
         Assert.AreEqual(null, r2.R3);
-        Assert.AreEqual(null, r2.Pp);
+        Assert.AreEqual(null, r2.PP);
         Assert.AreEqual(null, r2.S1);
         Assert.AreEqual(null, r2.S2);
         Assert.AreEqual(null, r2.R1);
@@ -341,7 +341,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r2.S4);
 
         PivotPointsResult r3 = results[391];
-        Assert.AreEqual(368.7875m, r3.Pp.Round(4));
+        Assert.AreEqual(368.7875m, r3.PP.Round(4));
         Assert.AreEqual(367.9850m, r3.S1.Round(4));
         Assert.AreEqual(365.1175m, r3.S2.Round(4));
         Assert.AreEqual(364.3150m, r3.S3.Round(4));
@@ -350,7 +350,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(375.3250m, r3.R3.Round(4));
 
         PivotPointsResult r4 = results[1172];
-        Assert.AreEqual(370.9769m, r4.Pp.Round(4));
+        Assert.AreEqual(370.9769m, r4.PP.Round(4));
         Assert.AreEqual(370.7938m, r4.S1.Round(4));
         Assert.AreEqual(368.6845m, r4.S2.Round(4));
         Assert.AreEqual(368.5014m, r4.S3.Round(4));
@@ -359,7 +359,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(375.3786m, r4.R3.Round(4));
 
         PivotPointsResult r5 = results[1173];
-        Assert.AreEqual(371.3625m, r5.Pp.Round(4));
+        Assert.AreEqual(371.3625m, r5.PP.Round(4));
         Assert.AreEqual(370.2650m, r5.S1.Round(4));
         Assert.AreEqual(369.9525m, r5.S2.Round(4));
         Assert.AreEqual(368.8550m, r5.S3.Round(4));
@@ -368,7 +368,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(373.0850m, r5.R3.Round(4));
 
         PivotPointsResult r6 = results[1563];
-        Assert.AreEqual(371.3625m, r6.Pp.Round(4));
+        Assert.AreEqual(371.3625m, r6.PP.Round(4));
         Assert.AreEqual(370.2650m, r6.S1.Round(4));
         Assert.AreEqual(369.9525m, r6.S2.Round(4));
         Assert.AreEqual(368.8550m, r6.S3.Round(4));
@@ -418,7 +418,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(482, results.Count);
 
         PivotPointsResult last = results.LastOrDefault();
-        Assert.AreEqual(266.6767m, last.Pp.Round(4));
+        Assert.AreEqual(266.6767m, last.PP.Round(4));
         Assert.AreEqual(258.9633m, last.S1.Round(4));
         Assert.AreEqual(248.9667m, last.S2.Round(4));
         Assert.AreEqual(241.2533m, last.S3.Round(4));

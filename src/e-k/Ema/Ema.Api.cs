@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
 
-public static partial class Indicator
+public static partial class Ema
 {
     // SERIES, from CHAIN
     public static IEnumerable<EmaResult> GetEma<T>(

@@ -10,7 +10,7 @@ public abstract class AbstractQuoteInQuoteOut<TIn, TOut>
 {
     // observer members only
 
-    internal AbstractQuoteInQuoteOut(
+    private protected AbstractQuoteInQuoteOut(
         IQuoteProvider<TIn> provider)
     {
         Provider = provider;

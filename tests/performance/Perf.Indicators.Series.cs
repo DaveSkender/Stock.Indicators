@@ -168,7 +168,7 @@ public class IndicatorStaticTests
     public object GetMacd() => q.GetMacd();
 
     [Benchmark]
-    public object GetMaEnvelopes() => q.GetMaEnvelopes(20, 2.5, MaType.Sma);
+    public object GetMaEnvelopes() => q.GetMaEnvelopes(20, 2.5, MaType.SMA);
 
     [Benchmark]
     public object GetMama() => q.GetMama();
@@ -249,7 +249,7 @@ public class IndicatorStaticTests
     public object GetStoch() => q.GetStoch();
 
     [Benchmark]
-    public object GetStochSMMA() => q.GetStoch(9, 3, 3, 3, 2, MaType.Smma);
+    public object GetStochSMMA() => q.GetStoch(9, 3, 3, 3, 2, MaType.SMMA);
 
     [Benchmark]
     public object GetStochRsi() => q.GetStochRsi(14, 14, 3);

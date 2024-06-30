@@ -68,7 +68,7 @@ public static partial class Indicator
                     Timestamp = q.Timestamp,
 
                     // pivot point
-                    Pp = windowPoint.Pp,
+                    PP = windowPoint.PP,
 
                     // support
                     S1 = windowPoint.S1,
@@ -104,7 +104,7 @@ public static partial class Indicator
         decimal pp = (high + low + close) / 3;
 
         return new() {
-            Pp = pp,
+            PP = pp,
             S1 = pp * 2 - high,
             S2 = pp - (high - low),
             S3 = low - 2 * (high - pp),
@@ -117,7 +117,7 @@ public static partial class Indicator
     private static WindowPoint GetPivotPointCamarilla(
         decimal high, decimal low, decimal close)
         => new() {
-            Pp = close,
+            PP = close,
             S1 = close - 1.1m / 12 * (high - low),
             S2 = close - 1.1m / 6 * (high - low),
             S3 = close - 1.1m / 4 * (high - low),
@@ -138,7 +138,7 @@ public static partial class Indicator
             : high + low + 2 * close;
 
         return new() {
-            Pp = x / 4,
+            PP = x / 4,
             S1 = x / 2 - high,
             R1 = x / 2 - low
         };
@@ -150,7 +150,7 @@ public static partial class Indicator
         decimal pp = (high + low + close) / 3;
 
         return new() {
-            Pp = pp,
+            PP = pp,
             S1 = pp - 0.382m * (high - low),
             S2 = pp - 0.618m * (high - low),
             S3 = pp - 1.000m * (high - low),
@@ -166,7 +166,7 @@ public static partial class Indicator
         decimal pp = (high + low + 2 * currentOpen) / 4;
 
         return new() {
-            Pp = pp,
+            PP = pp,
             S1 = pp * 2 - high,
             S2 = pp - high + low,
             S3 = low - 2 * (high - pp),
@@ -187,7 +187,8 @@ public static partial class Indicator
             PivotPointType.Fibonacci => GetPivotPointFibonacci(high, low, close),
             PivotPointType.Woodie => GetPivotPointWoodie(open, high, low),
 
-            _ => throw new ArgumentOutOfRangeException(nameof(pointType), pointType, "Invalid pointType provided.")
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(pointType), pointType, "Invalid pointType provided.")
         };
 
     // window size lookup
@@ -195,14 +196,19 @@ public static partial class Indicator
         => windowSize switch {
 
             PeriodSize.Month => d.Month,
-            PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
+
+            PeriodSize.Week => EnglishCalendar.GetWeekOfYear(
+                d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
+
             PeriodSize.Day => d.Day,
             PeriodSize.OneHour => d.Hour,
 
-            _ => throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
+            _ => throw new ArgumentOutOfRangeException(
+                nameof(windowSize), windowSize,
                 string.Format(
                     EnglishCulture,
-                    "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
+                    "Pivot Points does not support PeriodSize of {0}.  " +
+                    "See documentation for valid options.",
                     Enum.GetName(typeof(PeriodSize), windowSize)))
         };
 }

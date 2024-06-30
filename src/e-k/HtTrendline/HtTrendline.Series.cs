@@ -13,7 +13,7 @@ public static partial class Indicator
 
             ? source
              .Cast<IQuote>()
-             .Use(CandlePart.Hl2)
+             .Use(CandlePart.HL2)
              .Cast<IReusable>()
              .ToSortedList()
 

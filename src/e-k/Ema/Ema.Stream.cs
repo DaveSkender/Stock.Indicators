@@ -6,14 +6,12 @@ public class Ema<TIn>
     : AbstractChainInChainOut<TIn, EmaResult>, IEma
     where TIn : struct, IReusable
 {
-    #region CONSTRUCTORS
-
     public Ema(
         IChainProvider<TIn> provider,
         int lookbackPeriods)
         : base(provider)
     {
-        EmaUtilities.Validate(lookbackPeriods);
+        Ema.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
@@ -23,13 +21,10 @@ public class Ema<TIn>
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
-    #endregion
-
-    # region PROPERTIES
 
     public int LookbackPeriods { get; }
     public double K { get; }
-    #endregion
+
 
     # region METHODS
 
@@ -71,7 +66,7 @@ public class Ema<TIn>
                 // normal
                 if (!double.IsNaN(last.Value))
                 {
-                    ema = EmaUtilities.Increment(K, last.Value, inbound.Value);
+                    ema = Ema.Increment(K, last.Value, inbound.Value);
                 }
 
                 // set first value (normal) or reset
@@ -81,7 +76,7 @@ public class Ema<TIn>
                     double sum = 0;
                     for (int w = i - LookbackPeriods + 1; w <= i; w++)
                     {
-                        sum += Provider.Results[w].Value;
+                        sum += ProviderCache[w].Value;
                     }
 
                     ema = sum / LookbackPeriods;

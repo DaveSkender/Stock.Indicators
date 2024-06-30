@@ -36,12 +36,14 @@ public static partial class Indicator
 
             if (eval.Timestamp != mrkt.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(sourceEval), eval.Timestamp,
-                    "Timestamp sequence does not match.  Beta requires matching dates in provided quotes.");
+                throw new InvalidQuotesException(
+                    nameof(sourceEval), eval.Timestamp,
+                    "Timestamp sequence does not match.  " +
+                    "Beta requires matching dates in provided quotes.");
             }
 
-            evalReturns[i] = prevE != 0 ? eval.Value / prevE - 1d : 0;
-            mrktReturns[i] = prevM != 0 ? mrkt.Value / prevM - 1d : 0;
+            evalReturns[i] = prevE != 0 ? (eval.Value / prevE) - 1d : 0;
+            mrktReturns[i] = prevM != 0 ? (mrkt.Value / prevM) - 1d : 0;
 
             prevE = eval.Value;
             prevM = mrkt.Value;
@@ -55,11 +57,10 @@ public static partial class Indicator
             // skip warmup periods
             if (i < lookbackPeriods)
             {
-                results.Add(
-                new(
-                Timestamp: eval.Timestamp,
-                ReturnsEval: evalReturns[i],
-                ReturnsMrkt: mrktReturns[i]));
+                results.Add(new(
+                    Timestamp: eval.Timestamp,
+                    ReturnsEval: evalReturns[i],
+                    ReturnsMrkt: mrktReturns[i]));
 
                 continue;
             }
@@ -73,20 +74,20 @@ public static partial class Indicator
             // calculate beta variants
             if (calcSd)
             {
-                beta = CalcBetaWindow(
-                i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Standard);
+                beta = CalcBetaWindow(i, lookbackPeriods,
+                    mrktReturns, evalReturns, BetaType.Standard);
             }
 
             if (calcDn)
             {
-                betaDown = CalcBetaWindow(
-                i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Down);
+                betaDown = CalcBetaWindow(i, lookbackPeriods,
+                    mrktReturns, evalReturns, BetaType.Down);
             }
 
             if (calcUp)
             {
-                betaUp = CalcBetaWindow(
-                i, lookbackPeriods, mrktReturns, evalReturns, BetaType.Up);
+                betaUp = CalcBetaWindow(i, lookbackPeriods,
+                    mrktReturns, evalReturns, BetaType.Up);
             }
 
             // ratio and convexity
@@ -97,8 +98,7 @@ public static partial class Indicator
             }
 
             results.Add(
-            new(
-                Timestamp: eval.Timestamp,
+            new(Timestamp: eval.Timestamp,
                 ReturnsEval: evalReturns[i],
                 ReturnsMrkt: mrktReturns[i],
                 Beta: beta,
@@ -131,15 +131,13 @@ public static partial class Indicator
             double a = mrktReturns[p];
             double b = evalReturns[p];
 
-            if (type is not BetaType.Standard
-                && (type is not BetaType.Down || !(a < 0))
-                && (type is not BetaType.Up || !(a > 0)))
+            if (type is BetaType.Standard
+            || (type is BetaType.Down && a < 0)
+            || (type is BetaType.Up && a > 0))
             {
-                continue;
+                dataA.Add(a);
+                dataB.Add(b);
             }
-
-            dataA.Add(a);
-            dataB.Add(b);
         }
 
         if (dataA.Count <= 0)
@@ -154,7 +152,7 @@ public static partial class Indicator
             [.. dataB]);
 
         // calculate beta
-        if (c is { Covariance: not null, VarianceA: not null } && c.VarianceA != 0)
+        if (c.VarianceA != 0)
         {
             beta = (c.Covariance / c.VarianceA).NaN2Null();
         }

@@ -16,7 +16,6 @@ See your compiler `Warning` to identify these in your code.
 - `Use()` method parameter `candlePart` is now required and no longer defaults to `CandlePart.Close`.
 - `Use()` now returns a chainable `QuotePart` instead of a tuple.  These also replace the redundant `GetBaseQuote()` and `BaseQuote` items, respectively.
 
-
 - `UlcerIndexResult` property `UI` was renamed to `UlcerIndex`
 
 - **Deprecated 'GetX' tuple interfaces**.

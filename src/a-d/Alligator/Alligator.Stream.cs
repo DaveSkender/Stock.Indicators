@@ -189,6 +189,6 @@ public class Alligator<TIn>
     // convert provider IQuotes to HL2, if needed
     private readonly Func<TIn, double> _toValue
         = input => input is IQuote quote
-        ? quote.ToReusable(CandlePart.Hl2).Value
+        ? quote.ToReusable(CandlePart.HL2).Value
         : input.Value;
 }

@@ -21,15 +21,15 @@ public static partial class Indicator
 
         // get envelopes variant
         return movingAverageType switch {
-            MaType.Alma => source.MaEnvAlma(lookbackPeriods, offsetRatio),
-            MaType.Dema => source.MaEnvDema(lookbackPeriods, offsetRatio),
-            MaType.Ema => source.MaEnvEma(lookbackPeriods, offsetRatio),
-            MaType.Epma => source.MaEnvEpma(lookbackPeriods, offsetRatio),
-            MaType.Hma => source.MaEnvHma(lookbackPeriods, offsetRatio),
-            MaType.Sma => source.MaEnvSma(lookbackPeriods, offsetRatio),
-            MaType.Smma => source.MaEnvSmma(lookbackPeriods, offsetRatio),
-            MaType.Tema => source.MaEnvTema(lookbackPeriods, offsetRatio),
-            MaType.Wma => source.MaEnvWma(lookbackPeriods, offsetRatio),
+            MaType.ALMA => source.MaEnvAlma(lookbackPeriods, offsetRatio),
+            MaType.DEMA => source.MaEnvDema(lookbackPeriods, offsetRatio),
+            MaType.EMA => source.MaEnvEma(lookbackPeriods, offsetRatio),
+            MaType.EPMA => source.MaEnvEpma(lookbackPeriods, offsetRatio),
+            MaType.HMA => source.MaEnvHma(lookbackPeriods, offsetRatio),
+            MaType.SMA => source.MaEnvSma(lookbackPeriods, offsetRatio),
+            MaType.SMMA => source.MaEnvSmma(lookbackPeriods, offsetRatio),
+            MaType.TEMA => source.MaEnvTema(lookbackPeriods, offsetRatio),
+            MaType.WMA => source.MaEnvWma(lookbackPeriods, offsetRatio),
 
             _ => throw new ArgumentOutOfRangeException(
                      nameof(movingAverageType), movingAverageType,

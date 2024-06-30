@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (API)
 
-public static partial class Indicator
+public static partial class Sma
 {
     // SERIES, from CHAIN
     public static IEnumerable<SmaResult> GetSma<T>(

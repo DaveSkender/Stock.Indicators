@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public enum Act
 {
-    AddNew = 0,  // default
+    AddNew,
     AddOld,
     Update,
     Delete,
@@ -20,16 +20,16 @@ public enum Act
 /// </summary>
 public enum CandlePart
 {
-    Close = 0,          // default
     Open,
     High,
     Low,
+    Close,
     Volume,
-    Hl2,
-    Hlc3,
-    Oc2,
-    Ohl3,
-    Ohlc4
+    HL2,
+    HLC3,
+    OC2,
+    OHL3,
+    OHLC4
 }
 
 /// <summary>
@@ -37,7 +37,7 @@ public enum CandlePart
 /// </summary>
 public enum EndType
 {
-    Close = 0,           // default
+    Close = 0,
     HighLow = 1
 }
 
@@ -50,7 +50,7 @@ public enum Match
     BullSignal = 100,
     BullBasis = 10,
     Neutral = 1,
-    None = 0,            // default
+    None = 0,
     BearBasis = -10,
     BearSignal = -100,
     BearConfirmed = -200
@@ -61,17 +61,17 @@ public enum Match
 /// </summary>
 public enum MaType
 {
-    Sma = 0,             // default
-    Alma,
-    Dema,
-    Epma,
-    Ema,
-    Hma,
-    Kama,
-    Mama,
-    Smma,
-    Tema,
-    Wma
+    ALMA,
+    DEMA,
+    EPMA,
+    EMA,
+    HMA,
+    KAMA,
+    MAMA,
+    SMA,
+    SMMA,
+    TEMA,
+    WMA
 }
 
 /// <summary>
@@ -80,9 +80,9 @@ public enum MaType
 /// </summary>
 public enum PeriodSize
 {
-    Day = 0,           // default
-    Week,
     Month,
+    Week,
+    Day,
     FourHours,
     TwoHours,
     OneHour,

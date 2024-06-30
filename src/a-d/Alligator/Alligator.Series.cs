@@ -2,9 +2,9 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Alligator
 {
-    private static List<AlligatorResult> CalcAlligator<T>(
+    internal static List<AlligatorResult> CalcAlligator<T>(
         this List<T> source,
         int jawPeriods,
         int jawOffset,
@@ -15,7 +15,7 @@ public static partial class Indicator
         where T : IReusable
     {
         // check parameter arguments
-        Alligator.Validate(
+        Validate(
             jawPeriods,
             jawOffset,
             teethPeriods,
@@ -29,7 +29,7 @@ public static partial class Indicator
 
             ? source
              .Cast<IQuote>()
-             .Use(CandlePart.Hl2)
+             .Use(CandlePart.HL2)
              .Cast<IReusable>()
              .ToSortedList()
 

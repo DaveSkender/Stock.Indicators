@@ -4,8 +4,8 @@ public readonly record struct AdlResult
 (
     DateTime Timestamp,
     double Adl,
-    double? MoneyFlowMultiplier = null,
-    double? MoneyFlowVolume = null
+    double? MoneyFlowMultiplier,
+    double? MoneyFlowVolume
 ) : IReusable
 {
     double IReusable.Value => Adl;

@@ -88,7 +88,7 @@ public static partial class Indicator
                 switch (movingAverageType)
                 {
                     // SMA case
-                    case MaType.Sma:
+                    case MaType.SMA:
                         {
                             double sum = 0;
                             for (int p = i - smoothPeriods + 1; p <= i; p++)
@@ -101,7 +101,7 @@ public static partial class Indicator
                         }
 
                     // SMMA case
-                    case MaType.Smma:
+                    case MaType.SMMA:
                         {
                             // re/initialize
                             if (double.IsNaN(prevK))
@@ -139,7 +139,7 @@ public static partial class Indicator
                 {
                     // SMA case
                     // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
-                    case MaType.Sma:
+                    case MaType.SMA:
                         {
                             double sum = 0;
                             for (int p = i - signalPeriods + 1; p <= i; p++)
@@ -152,7 +152,7 @@ public static partial class Indicator
                         }
 
                     // SMMA case
-                    case MaType.Smma:
+                    case MaType.SMMA:
                         {
                             // re/initialize
                             if (double.IsNaN(prevD))

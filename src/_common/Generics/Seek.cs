@@ -28,7 +28,7 @@ public static class Seeking
 
     // FIND INDEX by DATE
     public static int FindIndex<TSeries>(
-        this List<TSeries>? series,
+        this List<TSeries> series,
         DateTime lookupDate)
         where TSeries : ISeries
             => series?.FindIndex(x => x.Timestamp == lookupDate) ?? -1;

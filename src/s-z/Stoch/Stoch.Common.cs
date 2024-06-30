@@ -44,7 +44,7 @@ public static class Stoch
                 "dFactor must be greater than 0 for Stochastic.");
         }
 
-        if (movingAverageType is not MaType.Sma and not MaType.Smma)
+        if (movingAverageType is not MaType.SMA and not MaType.SMMA)
         {
             throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
                 "Stochastic only supports SMA and SMMA moving average types.");

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (API)
 
-public static partial class Indicator
+public static partial class Adl
 {
     // SERIES, from TQuote
     ///<summary>

@@ -26,7 +26,7 @@ public class LibraryHelpers
     public object ToReusableClose() => _h.ToReusableList(CandlePart.Close);
 
     [Benchmark]
-    public object ToReusableOhlc4() => _h.ToReusableList(CandlePart.Ohlc4);
+    public object ToReusableOhlc4() => _h.ToReusableList(CandlePart.OHLC4);
 
     [Benchmark]
     public object ToCandleResults() => _h.ToCandleResults();

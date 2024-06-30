@@ -28,7 +28,7 @@ public static partial class Indicator
               Close = x.Macd.Null2NaN()
           })
           .ToList()
-          .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.Sma);
+          .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.SMA);
 
         // add stoch results
         for (int i = 0; i < length; i++)

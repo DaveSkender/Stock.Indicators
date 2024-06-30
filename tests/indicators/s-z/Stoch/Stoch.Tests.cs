@@ -73,7 +73,7 @@ public class StochTests : SeriesTestBase
     public void Extended() // with extra parameters
     {
         List<StochResult> results =
-            Quotes.GetStoch(9, 3, 3, 5, 4, MaType.Smma)
+            Quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA)
             .ToList();
 
         // proper quantities
@@ -287,14 +287,14 @@ public class StochTests : SeriesTestBase
 
         // bad kFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(9, 3, 1, 0, 2, MaType.Sma));
+            Quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(9, 3, 1, 3, 0, MaType.Sma));
+            Quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(9, 3, 3, 3, 2, MaType.Alma));
+            Quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

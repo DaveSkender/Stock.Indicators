@@ -60,7 +60,7 @@ public class QuoteStream
         Sma<Quote> sma = provider.ToSma(3);
         Ema<Quote> ema = provider.ToEma(5);
         Ema<Reusable> useChain = provider
-            .Use(CandlePart.Hl2)
+            .Use(CandlePart.HL2)
             .ToEma(7);
         Ema<SmaResult> emaChain = provider
             .ToSma(4)

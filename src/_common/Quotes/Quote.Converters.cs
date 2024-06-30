@@ -80,11 +80,11 @@ public static partial class QuoteUtility
             CandlePart.Low => new(q.Timestamp, (double)q.Low),
             CandlePart.Close => new(q.Timestamp, (double)q.Close),
             CandlePart.Volume => new(q.Timestamp, (double)q.Volume),
-            CandlePart.Hl2 => new(q.Timestamp, (double)(q.High + q.Low) / 2),
-            CandlePart.Hlc3 => new(q.Timestamp, (double)(q.High + q.Low + q.Close) / 3),
-            CandlePart.Oc2 => new(q.Timestamp, (double)(q.Open + q.Close) / 2),
-            CandlePart.Ohl3 => new(q.Timestamp, (double)(q.Open + q.High + q.Low) / 3),
-            CandlePart.Ohlc4 => new(q.Timestamp, (double)(q.Open + q.High + q.Low + q.Close) / 4),
+            CandlePart.HL2 => new(q.Timestamp, (double)(q.High + q.Low) / 2),
+            CandlePart.HLC3 => new(q.Timestamp, (double)(q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => new(q.Timestamp, (double)(q.Open + q.Close) / 2),
+            CandlePart.OHL3 => new(q.Timestamp, (double)(q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => new(q.Timestamp, (double)(q.Open + q.High + q.Low + q.Close) / 4),
 
             _ => throw new ArgumentOutOfRangeException(
                 nameof(candlePart), candlePart, "Invalid candlePart provided.")
@@ -101,11 +101,11 @@ public static partial class QuoteUtility
             CandlePart.Low => new(q.Timestamp, q.Low),
             CandlePart.Close => new(q.Timestamp, q.Close),
             CandlePart.Volume => new(q.Timestamp, q.Volume),
-            CandlePart.Hl2 => new(q.Timestamp, (q.High + q.Low) / 2),
-            CandlePart.Hlc3 => new(q.Timestamp, (q.High + q.Low + q.Close) / 3),
-            CandlePart.Oc2 => new(q.Timestamp, (q.Open + q.Close) / 2),
-            CandlePart.Ohl3 => new(q.Timestamp, (q.Open + q.High + q.Low) / 3),
-            CandlePart.Ohlc4 => new(q.Timestamp, (q.Open + q.High + q.Low + q.Close) / 4),
+            CandlePart.HL2 => new(q.Timestamp, (q.High + q.Low) / 2),
+            CandlePart.HLC3 => new(q.Timestamp, (q.High + q.Low + q.Close) / 3),
+            CandlePart.OC2 => new(q.Timestamp, (q.Open + q.Close) / 2),
+            CandlePart.OHL3 => new(q.Timestamp, (q.Open + q.High + q.Low) / 3),
+            CandlePart.OHLC4 => new(q.Timestamp, (q.Open + q.High + q.Low + q.Close) / 4),
 
             _ => throw new ArgumentOutOfRangeException(
                 nameof(candlePart), candlePart, "Invalid candlePart provided.")

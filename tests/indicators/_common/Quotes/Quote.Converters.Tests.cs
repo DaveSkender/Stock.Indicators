@@ -94,19 +94,19 @@ public class QuoteUtilityTests : TestBase
             q.ToReusable(CandlePart.Volume).Value.Round(10));
         Assert.AreEqual(
             ((double)hl2).Round(10),
-            q.ToReusable(CandlePart.Hl2).Value.Round(10));
+            q.ToReusable(CandlePart.HL2).Value.Round(10));
         Assert.AreEqual(
             ((double)hlc3).Round(10),
-            q.ToReusable(CandlePart.Hlc3).Value.Round(10));
+            q.ToReusable(CandlePart.HLC3).Value.Round(10));
         Assert.AreEqual(
             ((double)oc2).Round(10),
-            q.ToReusable(CandlePart.Oc2).Value.Round(10));
+            q.ToReusable(CandlePart.OC2).Value.Round(10));
         Assert.AreEqual(
             ((double)ohl3).Round(10),
-            q.ToReusable(CandlePart.Ohl3).Value.Round(10));
+            q.ToReusable(CandlePart.OHL3).Value.Round(10));
         Assert.AreEqual(
             ((double)ohlc4).Round(10),
-            q.ToReusable(CandlePart.Ohlc4).Value.Round(10));
+            q.ToReusable(CandlePart.OHLC4).Value.Round(10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
@@ -170,19 +170,19 @@ public class QuoteUtilityTests : TestBase
             q.ToReusable(CandlePart.Volume).Value.Round(10));
         Assert.AreEqual(
             hl2.Round(10),
-            q.ToReusable(CandlePart.Hl2).Value.Round(10));
+            q.ToReusable(CandlePart.HL2).Value.Round(10));
         Assert.AreEqual(
             hlc3.Round(10),
-            q.ToReusable(CandlePart.Hlc3).Value.Round(10));
+            q.ToReusable(CandlePart.HLC3).Value.Round(10));
         Assert.AreEqual(
             oc2.Round(10),
-            q.ToReusable(CandlePart.Oc2).Value.Round(10));
+            q.ToReusable(CandlePart.OC2).Value.Round(10));
         Assert.AreEqual(
             ohl3.Round(10),
-            q.ToReusable(CandlePart.Ohl3).Value.Round(10));
+            q.ToReusable(CandlePart.OHL3).Value.Round(10));
         Assert.AreEqual(
             ohlc4.Round(10),
-            q.ToReusable(CandlePart.Ohlc4).Value.Round(10));
+            q.ToReusable(CandlePart.OHLC4).Value.Round(10));
 
         // bad argument
         Assert.ThrowsException<ArgumentOutOfRangeException>(()

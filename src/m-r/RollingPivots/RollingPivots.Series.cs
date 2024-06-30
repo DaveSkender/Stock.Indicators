@@ -51,7 +51,7 @@ public static partial class Indicator
                     Timestamp = q.Timestamp,
 
                     // pivot point
-                    Pp = wp.Pp,
+                    PP = wp.PP,
 
                     // support
                     S1 = wp.S1,
