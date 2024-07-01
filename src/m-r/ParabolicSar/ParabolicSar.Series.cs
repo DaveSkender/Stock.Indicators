@@ -49,7 +49,7 @@ public static partial class Indicator
             if (isRising)
             {
                 double sar =
-                    priorSar + accelerationFactor * (extremePoint - priorSar);
+                    priorSar + (accelerationFactor * (extremePoint - priorSar));
 
                 // SAR cannot be higher than last two lows
                 if (i >= 2)
@@ -95,7 +95,7 @@ public static partial class Indicator
             else
             {
                 double sar
-                    = priorSar - accelerationFactor * (priorSar - extremePoint);
+                    = priorSar - (accelerationFactor * (priorSar - extremePoint));
 
                 // SAR cannot be lower than last two highs
                 if (i >= 2)
@@ -145,7 +145,7 @@ public static partial class Indicator
         }
 
         // remove first trendline since it is an invalid guess
-        int cutIndex = results.FindIndex(x => x.IsReversal is true);
+        int cutIndex = results.FindIndex(x => x.IsReversal == true);
 
         cutIndex = cutIndex == -1 ? length - 1 : cutIndex;
 

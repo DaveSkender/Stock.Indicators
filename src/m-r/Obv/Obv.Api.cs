@@ -9,6 +9,6 @@ public static partial class Indicator
     public static IEnumerable<ObvResult> GetObv<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcObv();
 }

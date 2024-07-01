@@ -10,8 +10,3 @@ public readonly record struct AdlResult
 {
     double IReusable.Value => Adl;
 }
-
-public interface IAdl : IStreamObserver
-{
-    // no public parameters
-}

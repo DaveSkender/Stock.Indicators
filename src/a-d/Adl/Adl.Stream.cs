@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // ACCUMULATION/DISTRIBUTION LINE (STREAM)
 
 public class Adl<TQuote>
-    : AbstractQuoteInChainOut<TQuote, AdlResult>, IAdl
+    : AbstractQuoteInChainOut<TQuote, AdlResult>
     where TQuote : struct, IQuote
 {
     public Adl(IQuoteProvider<TQuote> provider)
@@ -17,7 +17,6 @@ public class Adl<TQuote>
 
     # region METHODS
 
-    // string label
     public override string ToString()
         => Cache.Count == 0 ? "ADL" : $"ADL({Cache[0].Timestamp:d})";
 

@@ -20,7 +20,7 @@ public class LibraryHelpers
     public object ToSortedCollection() => _h.ToSortedCollection();
 
     [Benchmark]
-    public object ToListQuoteD() => _h.ToQuoteD();
+    public object ToListQuoteD() => _h.ToQuoteDList();
 
     [Benchmark]
     public object ToReusableClose() => _h.ToReusableList(CandlePart.Close);

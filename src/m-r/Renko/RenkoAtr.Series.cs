@@ -12,7 +12,7 @@ public static partial class Indicator
     {
         // initialize
         List<AtrResult> atrResults = quotesList
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcAtr(atrPeriods);
 
         AtrResult last = atrResults.LastOrDefault();

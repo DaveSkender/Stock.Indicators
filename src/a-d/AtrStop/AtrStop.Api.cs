@@ -12,6 +12,6 @@ public static partial class Indicator
         double multiplier = 3,
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
 }

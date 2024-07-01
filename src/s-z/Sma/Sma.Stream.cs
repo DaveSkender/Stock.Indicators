@@ -30,11 +30,9 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
 
     # region METHODS
 
-    // string label
     public override string ToString()
         => $"SMA({LookbackPeriods})";
 
-    // handle chain arrival
     protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;

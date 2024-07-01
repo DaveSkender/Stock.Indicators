@@ -28,11 +28,9 @@ public class Ema<TIn>
 
     # region METHODS
 
-    // string label
     public override string ToString()
         => $"EMA({LookbackPeriods})";
 
-    // handle chain arrival
     protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;

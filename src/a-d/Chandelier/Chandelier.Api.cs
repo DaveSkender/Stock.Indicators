@@ -12,6 +12,6 @@ public static partial class Indicator
         double multiplier = 3,
         ChandelierType type = ChandelierType.Long)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);
 }

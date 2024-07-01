@@ -21,7 +21,7 @@ public static partial class QuoteUtility
             .ToList();
 
     // convert TQuote type list to QuoteD type list
-    internal static List<QuoteD> ToQuoteD<TQuote>(
+    internal static List<QuoteD> ToQuoteDList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
 

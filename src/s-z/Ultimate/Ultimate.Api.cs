@@ -12,6 +12,6 @@ public static partial class Indicator
         int middlePeriods = 14,
         int longPeriods = 28)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcUltimate(shortPeriods, middlePeriods, longPeriods);
 }

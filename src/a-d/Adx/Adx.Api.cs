@@ -11,6 +11,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcAdx(lookbackPeriods);
 }

@@ -50,11 +50,9 @@ public class Alligator<TIn>
 
     # region METHODS
 
-    // string label
     public override string ToString()
         => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 
-    // handle chain arrival
     protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;

@@ -92,7 +92,7 @@ public static partial class Indicator
         }
 
         // remove first trend to stop, since it is a guess
-        int cutIndex = results.FindIndex(x => x.IsStop is true);
+        int cutIndex = results.FindIndex(x => x.IsStop == true);
 
         for (int d = 0; d <= cutIndex; d++)
         {

@@ -20,7 +20,7 @@ public static partial class Adl
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
         => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcAdl();
 
     // OBSERVER, from Quote Provider
