@@ -2,10 +2,10 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (SERIES)
 
-public static partial class Indicator
+public static partial class Atr
 {
     // calculate series
-    private static List<AtrResult> CalcAtr(
+    internal static List<AtrResult> CalcAtr(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {

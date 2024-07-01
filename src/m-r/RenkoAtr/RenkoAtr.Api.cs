@@ -1,10 +1,8 @@
 namespace Skender.Stock.Indicators;
 
 // RENKO CHART - ATR (API)
-public static partial class Indicator
+public static partial class RenkoAtr
 {
-    /// <include file='./info.xml' path='info/type[@name="atr"]/*' />
-    ///
     public static IEnumerable<RenkoResult> GetRenkoAtr<TQuote>(
         this IEnumerable<TQuote> quotes,
         int atrPeriods,

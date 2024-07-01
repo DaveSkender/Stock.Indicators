@@ -13,3 +13,9 @@ public readonly record struct RenkoResult
 {
     double IReusable.Value => (double)Close;
 }
+
+public interface IRenko : IStreamObserver
+{
+    decimal BrickSize { get; }
+    EndType EndType { get; }
+}

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // RENKO CHART - ATR (SERIES)
 
-public static partial class Indicator
+public static partial class RenkoAtr
 {
     private static List<RenkoResult> CalcRenkoAtr<TQuote>(
         this List<TQuote> quotesList,
