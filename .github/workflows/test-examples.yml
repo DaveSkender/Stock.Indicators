@@ -14,15 +14,15 @@ on:
 
 jobs:
   build:
-    name: build projects
+    name: build only
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"

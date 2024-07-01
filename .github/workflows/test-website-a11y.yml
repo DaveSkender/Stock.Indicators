@@ -21,12 +21,11 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install Ruby
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           working-directory: docs
-          ruby-version: 3.1.3
-          bundler-cache: false
+          ruby-version: 3.2
 
       - name: Install GEMs
         working-directory: docs
@@ -58,3 +57,7 @@ jobs:
           npx pa11y-ci \
             --sitemap http://127.0.0.1:4000/sitemap.xml \
             --sitemap-exclude "/*.pdf"
+
+      - name: Kill site (failsafe)
+        if: always()
+        run: pkill -f jekyll

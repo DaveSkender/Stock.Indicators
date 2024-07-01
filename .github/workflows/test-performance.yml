@@ -4,7 +4,7 @@ concurrency:
   group: test-performance
   cancel-in-progress: true
 
-on: [workflow_dispatch]
+on: workflow_dispatch
 
 jobs:
   analyze:
@@ -12,12 +12,12 @@ jobs:
 
     steps:
 
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install GitVersion
+      - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v1.1.1
         with:
           versionSpec: "5.x"
@@ -31,7 +31,7 @@ jobs:
           useConfigFile: true
           configFilePath: gitversion.yml
 
-      - name: Install .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.x"

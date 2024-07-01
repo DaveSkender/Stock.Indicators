@@ -71,9 +71,10 @@ dotnet run -c Release --filter *.GetAdx
 
 ## Documentation
 
-This site uses [GitHub Pages](https://pages.github.com) and [Jekyll](https://jekyllrb.com) construction with Front Matter.
-The documentation site is in the `docs` folder.  Build the site locally to test that it works properly.
-See GitHub documentation for initial [Ruby and Jekyll setup instructions for Github Pages](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll).
+This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
+Our documentation site code is in the `docs` folder.
+Build the site locally to test that it works properly.
+See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 
 ```bash
 # from /docs folder
@@ -94,7 +95,7 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml"
+npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 ```
 
 ## Submitting changes
