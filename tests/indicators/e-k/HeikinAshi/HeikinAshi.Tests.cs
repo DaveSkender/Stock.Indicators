@@ -1,12 +1,12 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class HeikinAshiTests : TestBase
+public class HeikinAshiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<HeikinAshiResult> results = quotes
+        List<HeikinAshiResult> results = Quotes
             .GetHeikinAshi()
             .ToList();
 
@@ -25,7 +25,7 @@ public class HeikinAshiTests : TestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<HeikinAshiResult> haQuotes = quotes.GetHeikinAshi();
+        IEnumerable<HeikinAshiResult> haQuotes = Quotes.GetHeikinAshi();
         IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
         Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
     }
@@ -33,7 +33,7 @@ public class HeikinAshiTests : TestBase
     [TestMethod]
     public void ToQuotes()
     {
-        List<HeikinAshiResult> results = quotes
+        List<HeikinAshiResult> results = Quotes
             .GetHeikinAshi()
             .ToList();
 
@@ -46,7 +46,7 @@ public class HeikinAshiTests : TestBase
             HeikinAshiResult r = results[i];
             Quote q = haQuotes[i];
 
-            Assert.AreEqual(r.Date, q.Date);
+            Assert.AreEqual(r.Timestamp, q.Timestamp);
             Assert.AreEqual(r.Open, q.Open);
             Assert.AreEqual(r.High, q.High);
             Assert.AreEqual(r.Low, q.Low);
@@ -56,9 +56,9 @@ public class HeikinAshiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<HeikinAshiResult> r = badQuotes
+        List<HeikinAshiResult> r = BadQuotes
             .GetHeikinAshi()
             .ToList();
 
@@ -66,15 +66,15 @@ public class HeikinAshiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<HeikinAshiResult> r0 = noquotes
+        List<HeikinAshiResult> r0 = Noquotes
             .GetHeikinAshi()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HeikinAshiResult> r1 = onequote
+        List<HeikinAshiResult> r1 = Onequote
             .GetHeikinAshi()
             .ToList();
 

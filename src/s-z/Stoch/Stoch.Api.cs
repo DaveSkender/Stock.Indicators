@@ -12,7 +12,7 @@ public static partial class Indicator
         int signalPeriods = 3,
         int smoothPeriods = 3)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcStoch(
                 lookbackPeriods,
                 signalPeriods,
@@ -30,7 +30,7 @@ public static partial class Indicator
         double dFactor,
         MaType movingAverageType)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcStoch(
                 lookbackPeriods,
                 signalPeriods,

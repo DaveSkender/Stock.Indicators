@@ -10,5 +10,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         double minBodyPercent = 95)
         where TQuote : IQuote => quotes
+            .ToSortedList()
             .CalcMarubozu(minBodyPercent);
 }

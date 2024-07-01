@@ -1,16 +1,17 @@
 namespace Skender.Stock.Indicators;
 
 // KLINGER VOLUME OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<KvoResult> CalcKvo(
+    private static List<KvoResult> CalcKvo(
         this List<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
     {
         // check parameter arguments
-        ValidateKlinger(fastPeriods, slowPeriods, signalPeriods);
+        Kvo.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -34,8 +35,8 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KvoResult r = new(q.Date);
-            results.Add(r);
+            double? kvo = null;
+            double? sig = null;
 
             // trend basis comparator
             hlc[i] = q.High + q.Low + q.Close;
@@ -45,33 +46,37 @@ public static partial class Indicator
 
             if (i <= 0)
             {
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
             // trend direction
-            t[i] = (hlc[i] > hlc[i - 1]) ? 1 : -1;
+            t[i] = hlc[i] > hlc[i - 1] ? 1 : -1;
 
             if (i <= 1)
             {
                 cm[i] = 0;
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
             // cumulative measurement
-            cm[i] = (t[i] == t[i - 1]) ?
-                    (cm[i - 1] + dm[i]) : (dm[i - 1] + dm[i]);
+            cm[i] = t[i] == t[i - 1] ?
+                    cm[i - 1] + dm[i] : dm[i - 1] + dm[i];
 
             // volume force (VF)
-            vf[i] = (dm[i] == cm[i] || q.Volume == 0) ? 0
-                : (dm[i] == 0) ? q.Volume * 2d * t[i] * 100d
-                : (cm[i] != 0) ? q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
+            vf[i] = dm[i] == cm[i] || q.Volume == 0 ? 0
+                : dm[i] == 0 ? q.Volume * 2d * t[i] * 100d
+                : cm[i] != 0 ? q.Volume * Math.Abs(2d * (dm[i] / cm[i] - 1)) * t[i] * 100d
                 : vf[i - 1];
 
             // fast-period EMA of VF
             if (i > fastPeriods + 1)
             {
-                vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
+                vfFastEma[i] = vf[i] * kFast + vfFastEma[i - 1] * (1 - kFast);
             }
+
+            // TODO: update healing, without requiring specific indexing
             else if (i == fastPeriods + 1)
             {
                 double sum = 0;
@@ -86,8 +91,10 @@ public static partial class Indicator
             // slow-period EMA of VF
             if (i > slowPeriods + 1)
             {
-                vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
+                vfSlowEma[i] = vf[i] * kSlow + vfSlowEma[i - 1] * (1 - kSlow);
             }
+
+            // TODO: update healing, without requiring specific indexing
             else if (i == slowPeriods + 1)
             {
                 double sum = 0;
@@ -102,53 +109,34 @@ public static partial class Indicator
             // Klinger Oscillator
             if (i >= slowPeriods + 1)
             {
-                r.Oscillator = vfFastEma[i] - vfSlowEma[i];
+                kvo = vfFastEma[i] - vfSlowEma[i];
 
                 // Signal
                 if (i > slowPeriods + signalPeriods)
                 {
-                    r.Signal = (r.Oscillator * kSignal)
-                        + (results[i - 1].Signal * (1 - kSignal));
+                    sig = kvo * kSignal
+                        + results[i - 1].Signal * (1 - kSignal);
                 }
+
+                // TODO: update healing, without requiring specific indexing
                 else if (i == slowPeriods + signalPeriods)
                 {
-                    double? sum = 0;
-                    for (int p = slowPeriods + 1; p <= i; p++)
+                    double? sum = kvo;
+                    for (int p = slowPeriods + 1; p < i; p++)
                     {
                         sum += results[p].Oscillator;
                     }
 
-                    r.Signal = sum / signalPeriods;
+                    sig = sum / signalPeriods;
                 }
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Oscillator: kvo,
+                Signal: sig));
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateKlinger(
-        int fastPeriods,
-        int slowPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (fastPeriods <= 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast (short) Periods must be greater than 2 for Klinger Oscillator.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow (long) Periods must be greater than Fast Periods for Klinger Oscillator.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal Periods must be greater than 0 for Klinger Oscillator.");
-        }
     }
 }

@@ -12,6 +12,6 @@ public static partial class Indicator
         double multiplier = 2,
         int atrPeriods = 10)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcStarcBands(smaPeriods, multiplier, atrPeriods);
 }

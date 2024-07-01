@@ -11,6 +11,6 @@ public static partial class Indicator
         int lookbackPeriods = 7,
         double multiplier = 3)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcVolatilityStop(lookbackPeriods, multiplier);
 }

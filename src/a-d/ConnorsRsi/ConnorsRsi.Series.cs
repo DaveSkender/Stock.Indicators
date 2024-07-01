@@ -1,41 +1,62 @@
 namespace Skender.Stock.Indicators;
 
 // CONNORS RSI (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<ConnorsRsiResult> CalcConnorsRsi(
-        this List<(DateTime, double)> tpList,
+    private static List<ConnorsRsiResult> CalcConnorsRsi<T>(
+        this List<T> source,
         int rsiPeriods,
         int streakPeriods,
         int rankPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+        ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
 
         // initialize
-        List<ConnorsRsiResult> results = tpList.CalcStreak(rsiPeriods, rankPeriods);
-        int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
-        int length = results.Count;
+        int length = source.Count;
+        List<ConnorsRsiResult> results = new(length);
+
+        int startPeriod
+            = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
+
+        List<ConnorsRsiResult> streakInfo
+            = source.CalcStreak(rsiPeriods, rankPeriods);
 
         // RSI of streak
-        List<(DateTime Date, double Streak)> bdStreak = results
-            .Remove(Math.Min(length, 1))
-            .Select(x => (x.Date, (double)x.Streak))
+        List<Reusable> reStreak = streakInfo
+            .Select(si => new Reusable(si.Timestamp, si.Streak))
             .ToList();
 
-        List<RsiResult> rsiStreak = CalcRsi(bdStreak, streakPeriods);
+        List<RsiResult> rsiStreak = reStreak.CalcRsi(streakPeriods);
 
         // compose final results
-        for (int p = streakPeriods + 2; p < length; p++)
+        for (int i = 0; i < length; i++)
         {
-            ConnorsRsiResult r = results[p];
-            RsiResult k = rsiStreak[p - 1];
-
-            r.RsiStreak = k.Rsi;
-
-            if (p + 1 >= startPeriod)
+            if (i >= streakPeriods + 2)
             {
-                r.ConnorsRsi = (r.Rsi + r.RsiStreak + r.PercentRank) / 3;
+                ConnorsRsiResult sInfo = streakInfo[i];
+                RsiResult sRsi = rsiStreak[i];
+
+                double? crsi = null;
+
+                if (i >= startPeriod - 1)
+                {
+                    crsi = (sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3;
+                }
+
+                results.Add(sInfo with {
+                    ConnorsRsi = crsi,
+                    RsiStreak = sRsi.Rsi
+                });
+            }
+
+            // warmup periods
+            else
+            {
+                ConnorsRsiResult sInfo = streakInfo[i];
+                results.Add(sInfo);
             }
         }
 
@@ -43,44 +64,42 @@ public static partial class Indicator
     }
 
     // calculate baseline streak and rank
-    private static List<ConnorsRsiResult> CalcStreak(
-        this List<(DateTime Date, double Streak)> tpList,
+    private static List<ConnorsRsiResult> CalcStreak<T>(
+        this List<T> source,
         int rsiPeriods,
         int rankPeriods)
+        where T : IReusable
     {
         // initialize
-        List<RsiResult> rsiResults = CalcRsi(tpList, rsiPeriods);
+        List<RsiResult> rsiResults = CalcRsi(source, rsiPeriods);
 
-        int length = tpList.Count;
+        int length = source.Count;
         List<ConnorsRsiResult> results = new(length);
         double[] gain = new double[length];
 
-        double lastClose = double.NaN;
-        int streak = 0;
+        double streak = 0;
+        double prevPrice = double.NaN;
 
-        // compose interim results
+        // roll through history
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-
-            ConnorsRsiResult r = new(date) {
-                Rsi = rsiResults[i].Rsi
-            };
-            results.Add(r);
+            T s = source[i];
+            double? percentRank = null;
 
             // bypass for first record
             if (i == 0)
             {
-                lastClose = value;
+                prevPrice = s.Value;
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
             // streak of up or down
-            if (value == lastClose)
+            if (double.IsNaN(s.Value) || double.IsNaN(prevPrice))
             {
-                streak = 0;
+                streak = double.NaN;
             }
-            else if (value > lastClose)
+            else if (s.Value > prevPrice)
             {
                 if (streak >= 0)
                 {
@@ -91,7 +110,7 @@ public static partial class Indicator
                     streak = 1;
                 }
             }
-            else // h.Value < lastClose
+            else if (s.Value < prevPrice)
             {
                 if (streak <= 0)
                 {
@@ -102,56 +121,49 @@ public static partial class Indicator
                     streak = -1;
                 }
             }
-
-            r.Streak = streak;
+            else
+            {
+                streak = 0;
+            }
 
             // percentile rank
-            gain[i] = (lastClose <= 0) ? double.NaN
-                    : (value - lastClose) / lastClose;
+            gain[i] = double.IsNaN(s.Value) || double.IsNaN(prevPrice) || prevPrice <= 0
+                    ? double.NaN
+                    : (s.Value - prevPrice) / prevPrice;
 
-            if (i + 1 > rankPeriods)
+            if (i > rankPeriods - 1 && !double.IsNaN(gain[i]))
             {
                 int qty = 0;
+                bool isViableRank = true;
                 for (int p = i - rankPeriods; p <= i; p++)
                 {
+                    // rank is not viable if there
+                    // are incalculable gain values
+                    if (double.IsNaN(gain[p]))
+                    {
+                        isViableRank = false;
+                        break;
+                    }
+
                     if (gain[p] < gain[i])
                     {
                         qty++;
                     }
                 }
 
-                r.PercentRank = 100 * qty / rankPeriods;
+                percentRank = isViableRank ? 100 * qty / rankPeriods : null;
             }
 
-            lastClose = value;
+            results.Add(new() {
+                Timestamp = s.Timestamp,
+                Streak = streak,
+                Rsi = rsiResults[i].Rsi,
+                PercentRank = percentRank
+            });
+
+            prevPrice = s.Value;
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateConnorsRsi(
-        int rsiPeriods,
-        int streakPeriods,
-        int rankPeriods)
-    {
-        // check parameter arguments
-        if (rsiPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rsiPeriods), rsiPeriods,
-                "RSI period for Close price must be greater than 1 for ConnorsRsi.");
-        }
-
-        if (streakPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(streakPeriods), streakPeriods,
-                "RSI period for Streak must be greater than 1 for ConnorsRsi.");
-        }
-
-        if (rankPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rankPeriods), rankPeriods,
-                "Percent Rank periods must be greater than 1 for ConnorsRsi.");
-        }
     }
 }

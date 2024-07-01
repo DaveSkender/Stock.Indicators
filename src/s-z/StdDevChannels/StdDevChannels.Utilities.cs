@@ -16,7 +16,7 @@ public static partial class Indicator
                x.UpperChannel is null
             && x.LowerChannel is null
             && x.Centerline is null
-            && x.BreakPoint is false);
+            && !x.BreakPoint);
 
         return resultsList.ToSortedList();
     }

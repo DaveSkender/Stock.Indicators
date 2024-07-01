@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // STOCHASTIC MOMENTUM INDEX (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<SmiResult> CalcSmi(
+    private static List<SmiResult> CalcSmi(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         int firstSmoothPeriods,
@@ -11,7 +12,7 @@ public static partial class Indicator
         int signalPeriods)
     {
         // check parameter arguments
-        ValidateSmi(
+        Smi.Validate(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,
@@ -36,10 +37,10 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            SmiResult r = new(q.Date);
-            results.Add(r);
+            double smi;
+            double signal;
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double hH = double.MinValue;
                 double lL = double.MaxValue;
@@ -59,11 +60,12 @@ public static partial class Indicator
                     }
                 }
 
-                double sm = q.Close - (0.5d * (hH + lL));
+                double sm = q.Close - 0.5d * (hH + lL);
                 double hl = hH - lL;
 
                 // initialize last EMA values
-                if (i + 1 == lookbackPeriods)
+                // TODO: update healing, without requiring specific indexing
+                if (i == lookbackPeriods - 1)
                 {
                     lastSmEma1 = sm;
                     lastSmEma2 = lastSmEma1;
@@ -72,26 +74,25 @@ public static partial class Indicator
                 }
 
                 // first smoothing
-                double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
-                double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
+                double smEma1 = lastSmEma1 + k1 * (sm - lastSmEma1);
+                double hlEma1 = lastHlEma1 + k1 * (hl - lastHlEma1);
 
                 // second smoothing
-                double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
-                double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
+                double smEma2 = lastSmEma2 + k2 * (smEma1 - lastSmEma2);
+                double hlEma2 = lastHlEma2 + k2 * (hlEma1 - lastHlEma2);
 
                 // stochastic momentum index
-                double smi = 100 * (smEma2 / (0.5 * hlEma2));
-                r.Smi = smi;
+                smi = 100 * (smEma2 / (0.5 * hlEma2));
 
                 // initialize signal line
-                if (i + 1 == lookbackPeriods)
+                // TODO: update healing, without requiring specific indexing
+                if (i == lookbackPeriods - 1)
                 {
                     lastSignal = smi;
                 }
 
                 // signal line
-                double signal = lastSignal + (kS * (smi - lastSignal));
-                r.Signal = signal;
+                signal = lastSignal + kS * (smi - lastSignal);
 
                 // carryover values
                 lastSmEma1 = smEma1;
@@ -100,41 +101,18 @@ public static partial class Indicator
                 lastHlEma2 = hlEma2;
                 lastSignal = signal;
             }
+            else
+            {
+                smi = double.NaN;
+                signal = double.NaN;
+            }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Smi: smi.NaN2Null(),
+                Signal: signal.NaN2Null()));
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateSmi(
-        int lookbackPeriods,
-        int firstSmoothPeriods,
-        int secondSmoothPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMI.");
-        }
-
-        if (firstSmoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(firstSmoothPeriods), firstSmoothPeriods,
-                "Smoothing periods must be greater than 0 for SMI.");
-        }
-
-        if (secondSmoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(secondSmoothPeriods), secondSmoothPeriods,
-                "Smoothing periods must be greater than 0 for SMI.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than 0 for SMI.");
-        }
     }
 }

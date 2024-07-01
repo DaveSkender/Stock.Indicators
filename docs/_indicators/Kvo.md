@@ -49,7 +49,7 @@ IEnumerable<KvoResult>
 
 ### KvoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator`** _`double`_ - Klinger Oscillator
 

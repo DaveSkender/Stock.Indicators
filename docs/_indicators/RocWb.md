@@ -48,7 +48,7 @@ IEnumerable<RocWbResult>
 
 ### RocWbResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Roc`** _`double`_ - Rate of Change over `N` lookback periods (%, not decimal)
 

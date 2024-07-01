@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class WilliamsResult : ResultBase, IReusableResult
+public readonly record struct WilliamsResult
+(
+    DateTime Timestamp,
+    double? WilliamsR
+) : IReusable
 {
-    public WilliamsResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? WilliamsR { get; set; }
-
-    double? IReusableResult.Value => WilliamsR;
+    double IReusable.Value => WilliamsR.Null2NaN();
 }

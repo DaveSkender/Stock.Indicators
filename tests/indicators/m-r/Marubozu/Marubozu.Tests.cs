@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class MarubozuTests : TestBase
+public class MarubozuTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<CandleResult> results = quotes
-            .GetMarubozu(95)
+        List<CandleResult> results = Quotes
+            .GetMarubozu()
             .ToList();
 
         // proper quantities
@@ -41,9 +41,9 @@ public class MarubozuTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<CandleResult> r = badQuotes
+        List<CandleResult> r = BadQuotes
             .GetMarubozu()
             .ToList();
 
@@ -51,15 +51,15 @@ public class MarubozuTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<CandleResult> r0 = noquotes
+        List<CandleResult> r0 = Noquotes
             .GetMarubozu()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CandleResult> r1 = onequote
+        List<CandleResult> r1 = Onequote
             .GetMarubozu()
             .ToList();
 
@@ -69,8 +69,8 @@ public class MarubozuTests : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<CandleResult> r = quotes
-            .GetMarubozu(95)
+        List<CandleResult> r = Quotes
+            .GetMarubozu()
             .Condense()
             .ToList();
 
@@ -82,9 +82,9 @@ public class MarubozuTests : TestBase
     {
         // bad minimum body percent values
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMarubozu(79.9));
+            Quotes.GetMarubozu(79.9));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMarubozu(100.1));
+            Quotes.GetMarubozu(100.1));
     }
 }

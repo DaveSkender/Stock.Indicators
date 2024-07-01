@@ -1,32 +1,30 @@
 namespace Skender.Stock.Indicators;
 
 // RENKO CHART - STANDARD (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<RenkoResult> CalcRenko<TQuote>(
+    private static List<RenkoResult> CalcRenko<TQuote>(
         this List<TQuote> quotesList,
         decimal brickSize,
         EndType endType)
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateRenko(brickSize);
+        Renko.Validate(brickSize);
 
         // initialize
         int length = quotesList.Count;
         List<RenkoResult> results = new(length);
-        TQuote q0;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            q0 = quotesList[0];
-        }
 
-        bool resetHLV = true;
+        TQuote q0 = quotesList[0];
+
+        bool resetHlv = true;
         int decimals = brickSize.GetDecimalPlaces();
         decimal baseline = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
 
@@ -34,7 +32,8 @@ public static partial class Indicator
         decimal l = decimal.MaxValue;
         decimal v = 0;
 
-        RenkoResult lastBrick = new(q0.Date) {
+        RenkoResult lastBrick = new() {
+            Timestamp = q0.Timestamp,
             Open = baseline,
             Close = baseline
         };
@@ -45,7 +44,7 @@ public static partial class Indicator
             TQuote q = quotesList[i];
 
             // accumulate brick info
-            if (resetHLV)
+            if (resetHlv)
             {
                 // reset
                 h = q.High;
@@ -81,7 +80,8 @@ public static partial class Indicator
                     c = baseline - brickSize;
                 }
 
-                RenkoResult r = new(q.Date) {
+                RenkoResult r = new() {
+                    Timestamp = q.Timestamp,
                     Open = baseline,
                     High = h,
                     Low = l,
@@ -94,7 +94,7 @@ public static partial class Indicator
             }
 
             // init next brick(s)
-            resetHLV = absQty != 0;
+            resetHlv = absQty != 0;
         }
 
         return results;
@@ -132,7 +132,7 @@ public static partial class Indicator
                 decimal hQty = (q.High - upper) / brickSize;
                 decimal lQty = (lower - q.Low) / brickSize;
 
-                bricks = (int)((hQty >= lQty) ? hQty : -lQty);
+                bricks = (int)(hQty >= lQty ? hQty : -lQty);
                 break;
 
             default:
@@ -140,17 +140,5 @@ public static partial class Indicator
         }
 
         return bricks;
-    }
-
-    // parameter validation
-    private static void ValidateRenko(
-        decimal brickSize)
-    {
-        // check parameter arguments
-        if (brickSize <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(brickSize), brickSize,
-                "Brick size must be greater than 0 for Renko Charts.");
-        }
     }
 }

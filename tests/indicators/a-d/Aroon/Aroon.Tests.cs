@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class Aroon : TestBase
+public class Aroon : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<AroonResult> results = quotes
-            .GetAroon(25)
+        List<AroonResult> results = Quotes
+            .GetAroon()
             .ToList();
 
         // proper quantities
@@ -46,8 +46,8 @@ public class Aroon : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetAroon(25)
+        List<SmaResult> results = Quotes
+            .GetAroon()
             .GetSma(10)
             .ToList();
 
@@ -56,26 +56,26 @@ public class Aroon : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<AroonResult> r = badQuotes
+        List<AroonResult> r = BadQuotes
             .GetAroon(20)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<AroonResult> r0 = noquotes
+        List<AroonResult> r0 = Noquotes
             .GetAroon()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AroonResult> r1 = onequote
+        List<AroonResult> r1 = Onequote
             .GetAroon()
             .ToList();
 
@@ -85,8 +85,8 @@ public class Aroon : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<AroonResult> results = quotes
-            .GetAroon(25)
+        List<AroonResult> results = Quotes
+            .GetAroon()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -103,5 +103,5 @@ public class Aroon : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetAroon(0));
+            => Quotes.GetAroon(0));
 }

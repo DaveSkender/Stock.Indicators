@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class VolatilityStopTests : TestBase
+public class VolatilityStopTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         List<VolatilityStopResult> results =
-            quotes.GetVolatilityStop(14, 3)
+            Quotes.GetVolatilityStop(14)
             .ToList();
 
         // proper quantities
@@ -64,7 +64,7 @@ public class VolatilityStopTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetVolatilityStop()
             .GetSma(10)
             .ToList();
@@ -74,26 +74,26 @@ public class VolatilityStopTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<VolatilityStopResult> r = badQuotes
+        List<VolatilityStopResult> r = BadQuotes
             .GetVolatilityStop()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<VolatilityStopResult> r0 = noquotes
+        List<VolatilityStopResult> r0 = Noquotes
             .GetVolatilityStop()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VolatilityStopResult> r1 = onequote
+        List<VolatilityStopResult> r1 = Onequote
             .GetVolatilityStop()
             .ToList();
 
@@ -103,8 +103,8 @@ public class VolatilityStopTests : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<VolatilityStopResult> results = quotes
-            .GetVolatilityStop(14, 3)
+        List<VolatilityStopResult> results = Quotes
+            .GetVolatilityStop(14)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -121,10 +121,10 @@ public class VolatilityStopTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetVolatilityStop(1));
+            Quotes.GetVolatilityStop(1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetVolatilityStop(20, 0));
+            Quotes.GetVolatilityStop(20, 0));
     }
 }

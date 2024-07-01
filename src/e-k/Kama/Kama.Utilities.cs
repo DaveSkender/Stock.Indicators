@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         int erPeriods = results
             .ToList()
-            .FindIndex(x => x.ER != null);
+            .FindIndex(x => x.Er != null);
 
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
     }

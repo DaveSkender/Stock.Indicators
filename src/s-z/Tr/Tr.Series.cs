@@ -1,36 +1,33 @@
 namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
-    internal static List<TrResult> CalcTr(
+    private static List<TrResult> CalcTr(
         this List<QuoteD> qdList)
     {
         // initialize
-        List<TrResult> results = new(qdList.Count);
-        double prevClose = 0;
+        int length = qdList.Count;
+        List<TrResult> results = new(length);
+
+        // skip first period
+        if (length > 0)
+        {
+            results.Add(
+                new(qdList[0].Timestamp, null));
+        }
 
         // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 1; i < length; i++)
         {
             QuoteD q = qdList[i];
 
-            TrResult r = new(q.Date);
-            results.Add(r);
-
-            if (i is 0)
-            {
-                prevClose = q.Close;
-                continue;
-            }
-
-            double hmpc = Math.Abs(q.High - prevClose);
-            double lmpc = Math.Abs(q.Low - prevClose);
-
-            r.Tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
-
-            prevClose = q.Close;
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Tr: Tr.Increment(qdList[i - 1].Close, q.High, q.Low)
+                      .NaN2Null()));
         }
 
         return results;

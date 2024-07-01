@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class T3Result : ResultBase, IReusableResult
+public readonly record struct T3Result
+(
+    DateTime Timestamp,
+    double? T3
+) : IReusable
 {
-    public T3Result(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? T3 { get; set; }
-
-    double? IReusableResult.Value => T3;
+    double IReusable.Value => T3.Null2NaN();
 }

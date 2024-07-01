@@ -1,14 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AlligatorResult : ResultBase
-{
-    public AlligatorResult(DateTime date)
-    {
-        Date = date;
-    }
+public readonly record struct AlligatorResult(
+    DateTime Timestamp,
+    double? Jaw,
+    double? Teeth,
+    double? Lips
+) : IResult;
 
-    public double? Jaw { get; set; }
-    public double? Teeth { get; set; }
-    public double? Lips { get; set; }
+public interface IAlligator : IStreamObserver
+{
+    int JawPeriods { get; }
+    int JawOffset { get; }
+    int TeethPeriods { get; }
+    int TeethOffset { get; }
+    int LipsPeriods { get; }
+    int LipsOffset { get; }
 }

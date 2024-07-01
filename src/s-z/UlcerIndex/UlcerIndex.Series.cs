@@ -1,66 +1,65 @@
 namespace Skender.Stock.Indicators;
 
 // ULCER INDEX (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<UlcerIndexResult> CalcUlcerIndex(
-        this List<(DateTime, double)> tpList,
+    private static List<UlcerIndexResult> CalcUlcerIndex<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateUlcer(lookbackPeriods);
+        UlcerIndex.Validate(lookbackPeriods);
 
         // initialize
-        List<UlcerIndexResult> results = new(tpList.Count);
+        int length = source.Count;
+        List<UlcerIndexResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            T s = source[i];
 
-            UlcerIndexResult r = new(date);
-            results.Add(r);
+            double? ui;
 
             if (i + 1 >= lookbackPeriods)
             {
                 double sumSquared = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    T ps = source[p];
                     int dIndex = p + 1;
 
                     double maxClose = 0;
-                    for (int s = i + 1 - lookbackPeriods; s < dIndex; s++)
+                    for (int z = i + 1 - lookbackPeriods; z < dIndex; z++)
                     {
-                        (DateTime _, double sValue) = tpList[s];
-                        if (sValue > maxClose)
+                        T zs = source[z];
+                        if (zs.Value > maxClose)
                         {
-                            maxClose = sValue;
+                            maxClose = zs.Value;
                         }
                     }
 
-                    double percentDrawdown = (maxClose == 0) ? double.NaN
-                        : 100 * ((pValue - maxClose) / maxClose);
+                    double percentDrawdown = maxClose == 0 ? double.NaN
+                        : 100 * ((ps.Value - maxClose) / maxClose);
 
                     sumSquared += percentDrawdown * percentDrawdown;
                 }
 
-                r.UI = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
+                ui = Math.Sqrt(sumSquared / lookbackPeriods).NaN2Null();
             }
+            else
+            {
+                ui = null;
+            }
+
+            UlcerIndexResult r = new(
+                Timestamp: s.Timestamp,
+                UlcerIndex: ui);
+            results.Add(r);
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateUlcer(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Ulcer Index.");
-        }
     }
 }

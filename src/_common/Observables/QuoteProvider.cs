@@ -1,186 +1,72 @@
 namespace Skender.Stock.Indicators;
 
-// QUOTES as PROVIDER
-
-public class QuoteProvider : IObservable<Quote>
+/// <summary>
+/// Quote provider, using generic IQuote interface type.
+/// </summary>
+/// <typeparam name="TQuote" cref="IQuote">
+///   OHLCV price quote with value-based equality comparer
+/// </typeparam>
+public class QuoteProvider<TQuote> : AbstractQuoteProvider<TQuote>
+    where TQuote : struct, IQuote, IReusable
 {
-    // fields
-    private readonly List<IObserver<Quote>> observers;
-
-    // initialize
-    public QuoteProvider()
+    /// <summary>
+    /// Add a single quote.
+    /// We'll determine if it's new or an update.
+    /// </summary>
+    /// <param name="quote" cref="IQuote">
+    /// Quote to add or update
+    /// </param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
+    public Act Add(TQuote quote)
     {
-        observers = [];
-        ProtectedQuotes = [];
-    }
-
-    // properties
-    public IEnumerable<Quote> Quotes => ProtectedQuotes;
-
-    internal List<Quote> ProtectedQuotes { get; private set; }
-
-    private int OverflowCount { get; set; }
-
-    // METHODS
-
-    // add one
-    public void Add(Quote quote)
-    {
-        // validate quote
-        if (quote == null)
+        try
         {
-            throw new ArgumentNullException(nameof(quote), "Quote cannot be null.");
+            Act act = CacheWithAnalysis(quote);
+
+            NotifyObservers(act, quote);
+
+            return act;
         }
-
-        int length = ProtectedQuotes.Count;
-
-        if (length == 0)
+        catch (OverflowException)
         {
-            // add new quote
-            ProtectedQuotes.Add(quote);
-
-            // notify observers
-            NotifyObservers(quote);
-
-            return;
-        }
-
-        Quote last = ProtectedQuotes[length - 1];
-
-        // add quote
-        if (quote.Date > last.Date)
-        {
-            // add new quote
-            ProtectedQuotes.Add(quote);
-
-            // notify observers
-            NotifyObservers(quote);
-        }
-
-        // same date or quote recieved
-        else if (quote.Date <= last.Date)
-        {
-            // check for overflow condition
-            // where same quote continues (possible circular condition)
-            if (quote.Date == last.Date)
-            {
-                OverflowCount++;
-
-                if (OverflowCount > 100)
-                {
-                    string msg = "A repeated Quote update exceeded the 100 attempt threshold. "
-                      + "Check and remove circular chains or check your Quote provider.";
-
-                    EndTransmission();
-
-                    throw new OverflowException(msg);
-                }
-            }
-            else
-            {
-                OverflowCount = 0;
-            }
-
-            // seek old quote
-            int foundIndex = ProtectedQuotes
-                .FindIndex(x => x.Date == quote.Date);
-
-            // found
-            if (foundIndex >= 0)
-            {
-                Quote old = ProtectedQuotes[foundIndex];
-
-                old.Open = quote.Open;
-                old.High = quote.High;
-                old.Low = quote.Low;
-                old.Close = quote.Close;
-                old.Volume = quote.Volume;
-            }
-
-            // add missing quote
-            else
-            {
-                ProtectedQuotes.Add(quote);
-
-                // re-sort cache
-                ProtectedQuotes = ProtectedQuotes
-                    .ToSortedList();
-            }
-
-            // let observer handle old + duplicates
-            NotifyObservers(quote);
+            EndTransmission();
+            throw;
         }
     }
 
-    // add many
-    public void Add(IEnumerable<Quote> quotes)
+    /// <summary>
+    /// Add a batch of quotes.
+    /// We'll determine if they're new or updated.
+    /// </summary>
+    /// <param name="quotes" cref="IQuote">
+    ///   Batch of quotes to add or update
+    /// </param>
+    public void Add(IEnumerable<TQuote> quotes)
     {
-        List<Quote> added = quotes
-            .ToSortedList();
-
-        for (int i = 0; i < added.Count; i++)
+        foreach (TQuote quote in quotes.ToSortedList())
         {
-            Add(added[i]);
+            Add(quote);
         }
     }
 
-    // subscribe observer
-    public IDisposable Subscribe(IObserver<Quote> observer)
+    /// <summary>
+    /// Delete a quote.  We'll double-check that it exists in the
+    /// cache before propogating the event to subscribers.
+    /// </summary>
+    /// <param name="quote">Quote to delete</param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
+    public Act Delete(TQuote quote)
     {
-        if (!observers.Contains(observer))
+        try
         {
-            observers.Add(observer);
+            Act act = PurgeWithAnalysis(quote);
+            NotifyObservers(act, quote);
+            return act;
         }
-
-        return new Unsubscriber(observers, observer);
-    }
-
-    // close all observations
-    public void EndTransmission()
-    {
-        foreach (IObserver<Quote> observer in observers.ToArray())
+        catch (OverflowException)
         {
-            if (observers.Contains(observer))
-            {
-                observer.OnCompleted();
-            }
-        }
-
-        observers.Clear();
-    }
-
-    // notify observers
-    private void NotifyObservers(Quote quote)
-    {
-        List<IObserver<Quote>> obsList = observers.ToList();
-
-        for (int i = 0; i < obsList.Count; i++)
-        {
-            IObserver<Quote> obs = obsList[i];
-            obs.OnNext(quote);
-        }
-    }
-
-    // unsubscriber
-    private class Unsubscriber : IDisposable
-    {
-        private readonly List<IObserver<Quote>> observers;
-        private readonly IObserver<Quote> observer;
-
-        // identify and save observer
-        public Unsubscriber(List<IObserver<Quote>> observers, IObserver<Quote> observer)
-        {
-            this.observers = observers;
-            this.observer = observer;
-        }
-
-        // remove single observer
-        public void Dispose()
-        {
-            if (observer != null && observers.Contains(observer))
-            {
-                observers.Remove(observer);
-            }
+            EndTransmission();
+            throw;
         }
     }
 }

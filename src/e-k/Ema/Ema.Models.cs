@@ -1,14 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class EmaResult : ResultBase, IReusableResult
+public readonly record struct EmaResult
+(
+    DateTime Timestamp,
+    double? Ema = null
+) : IReusable
 {
-    public EmaResult(DateTime date)
-    {
-        Date = date;
-    }
+    double IReusable.Value => Ema.Null2NaN();
+}
 
-    public double? Ema { get; set; }
-
-    double? IReusableResult.Value => Ema;
+public interface IEma : IStreamObserver
+{
+    int LookbackPeriods { get; }
+    double K { get; }
 }

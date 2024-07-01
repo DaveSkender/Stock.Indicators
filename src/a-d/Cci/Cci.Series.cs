@@ -1,14 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 // COMMODITY CHANNEL INDEX (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<CciResult> CalcCci(
+    private static List<CciResult> CalcCci(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateCci(lookbackPeriods);
+        Cci.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -21,8 +22,7 @@ public static partial class Indicator
             QuoteD q = qdList[i];
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
-            CciResult r = new(q.Date);
-            results.Add(r);
+            double? cci = null;
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -44,23 +44,15 @@ public static partial class Indicator
 
                 avgDv /= lookbackPeriods;
 
-                r.Cci = (avgDv == 0) ? null
+                cci = avgDv == 0 ? null
                     : ((tp[i] - avgTp) / (0.015 * avgDv)).NaN2Null();
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Cci: cci));
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateCci(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Commodity Channel Index.");
-        }
     }
 }

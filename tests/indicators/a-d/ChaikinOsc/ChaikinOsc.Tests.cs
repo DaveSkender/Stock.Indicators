@@ -1,15 +1,15 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class ChaikinOscTests : TestBase
+public class ChaikinOscTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int fastPeriods = 3;
         int slowPeriods = 10;
 
-        List<ChaikinOscResult> results = quotes
+        List<ChaikinOscResult> results = Quotes
             .GetChaikinOsc(fastPeriods, slowPeriods)
             .ToList();
 
@@ -28,8 +28,8 @@ public class ChaikinOscTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetChaikinOsc(3, 10)
+        List<SmaResult> results = Quotes
+            .GetChaikinOsc()
             .GetSma(10)
             .ToList();
 
@@ -38,26 +38,26 @@ public class ChaikinOscTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<ChaikinOscResult> r = badQuotes
+        List<ChaikinOscResult> r = BadQuotes
             .GetChaikinOsc(5, 15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<ChaikinOscResult> r0 = noquotes
+        List<ChaikinOscResult> r0 = Noquotes
             .GetChaikinOsc()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ChaikinOscResult> r1 = onequote
+        List<ChaikinOscResult> r1 = Onequote
             .GetChaikinOsc()
             .ToList();
 
@@ -70,7 +70,7 @@ public class ChaikinOscTests : TestBase
         int fastPeriods = 3;
         int slowPeriods = 10;
 
-        List<ChaikinOscResult> results = quotes
+        List<ChaikinOscResult> results = Quotes
             .GetChaikinOsc(fastPeriods, slowPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -90,10 +90,10 @@ public class ChaikinOscTests : TestBase
     {
         // bad fast lookback
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetChaikinOsc(0));
+            Quotes.GetChaikinOsc(0));
 
         // bad slow lookback
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetChaikinOsc(10, 5));
+            Quotes.GetChaikinOsc(10, 5));
     }
 }

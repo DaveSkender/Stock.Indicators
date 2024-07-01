@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class T3Tests : TestBase
+public class T3Tests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<T3Result> results = quotes
-            .GetT3(5, 0.7)
+        List<T3Result> results = Quotes
+            .GetT3()
             .ToList();
 
         // proper quantities
@@ -35,9 +35,9 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<T3Result> results = quotes
+        List<T3Result> results = Quotes
             .Use(CandlePart.Close)
             .GetT3()
             .ToList();
@@ -47,20 +47,9 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<T3Result> r = tupleNanny
-            .GetT3()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<T3Result> results = quotes
+        List<T3Result> results = Quotes
             .GetSma(2)
             .GetT3()
             .ToList();
@@ -72,7 +61,7 @@ public class T3Tests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetT3()
             .GetSma(10)
             .ToList();
@@ -81,26 +70,26 @@ public class T3Tests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<T3Result> r = badQuotes
+        List<T3Result> r = BadQuotes
             .GetT3()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.T3 is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<T3Result> r0 = noquotes
+        List<T3Result> r0 = Noquotes
             .GetT3()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<T3Result> r1 = onequote
+        List<T3Result> r1 = Onequote
             .GetT3()
             .ToList();
 
@@ -112,10 +101,10 @@ public class T3Tests : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetT3(0));
+            Quotes.GetT3(0));
 
         // bad volume factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetT3(25, 0));
+            Quotes.GetT3(25, 0));
     }
 }

@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class StochRsiResult : ResultBase, IReusableResult
+public readonly record struct StochRsiResult
+(
+    DateTime Timestamp,
+    double? StochRsi,
+    double? Signal
+) : IReusable
 {
-    public StochRsiResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? StochRsi { get; set; }
-    public double? Signal { get; set; }
-
-    double? IReusableResult.Value => StochRsi;
+    double IReusable.Value => StochRsi.Null2NaN();
 }

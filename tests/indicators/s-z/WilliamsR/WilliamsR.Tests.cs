@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class WilliamsRTests : TestBase
+public class WilliamsRTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<WilliamsResult> results = quotes
-            .GetWilliamsR(14)
+        List<WilliamsResult> results = Quotes
+            .GetWilliamsR()
             .ToList();
 
         // proper quantities
@@ -37,7 +37,7 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetWilliamsR()
             .GetSma(10)
             .ToList();
@@ -47,29 +47,26 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<Quote> quotes = badQuotes
-            .ToSortedList();
-
-        List<WilliamsResult> results = badQuotes
+        List<WilliamsResult> results = BadQuotes
             .GetWilliamsR(20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(0, results.Count(x => x.WilliamsR is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.WilliamsR is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<WilliamsResult> r0 = noquotes
+        List<WilliamsResult> r0 = Noquotes
             .GetWilliamsR()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<WilliamsResult> r1 = onequote
+        List<WilliamsResult> r1 = Onequote
             .GetWilliamsR()
             .ToList();
 
@@ -79,8 +76,8 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<WilliamsResult> results = quotes
-            .GetWilliamsR(14)
+        List<WilliamsResult> results = Quotes
+            .GetWilliamsR()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -96,7 +93,7 @@ public class WilliamsRTests : TestBase
     {
         List<WilliamsResult> results = TestData
             .GetRandom(2500)
-            .GetWilliamsR(14)
+            .GetWilliamsR()
             .ToList();
 
         // analyze boundary
@@ -119,14 +116,14 @@ public class WilliamsRTests : TestBase
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(x => x.Timestamp);
 
         List<Quote> quotesList = test1127.ToList();
         int length = quotesList.Count;
 
         // get indicators
-        List<WilliamsResult> resultsList = test1127
-            .GetWilliamsR(14)
+        List<WilliamsResult> resultsList = quotesList
+            .GetWilliamsR()
             .ToList();
 
         Console.WriteLine($"%R from {length} quotes.");
@@ -137,7 +134,7 @@ public class WilliamsRTests : TestBase
             Quote q = quotesList[i];
             WilliamsResult r = resultsList[i];
 
-            Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
+            Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 
             if (r.WilliamsR is not null)
             {
@@ -151,5 +148,5 @@ public class WilliamsRTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetWilliamsR(0));
+            => Quotes.GetWilliamsR(0));
 }

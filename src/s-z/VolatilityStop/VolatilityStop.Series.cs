@@ -1,22 +1,24 @@
 namespace Skender.Stock.Indicators;
 
 // VOLATILITY SYSTEM/STOP (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<VolatilityStopResult> CalcVolatilityStop(
+    private static List<VolatilityStopResult> CalcVolatilityStop(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier)
     {
-        // convert quotes
-        List<(DateTime, double)> tpList = qdList
-            .ToTuple(CandlePart.Close);
+        //convert quotes
+        List<IReusable> reList = qdList
+            .Cast<IReusable>()
+            .ToList();
 
         // check parameter arguments
-        ValidateVolatilityStop(lookbackPeriods, multiplier);
+        VolatilityStop.Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = tpList.Count;
+        int length = qdList.Count;
         List<VolatilityStopResult> results = new(length);
 
         if (length == 0)
@@ -28,97 +30,82 @@ public static partial class Indicator
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);
-        double sic = tpList[0].Item2;
-        bool isLong = tpList[initPeriods - 1].Item2 > sic;
+        double sic = reList[0].Value;
+        bool isLong = reList[initPeriods - 1].Value > sic;
 
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
-            results.Add(new VolatilityStopResult(date));
+            IReusable init = reList[i];
+            sic = isLong ? Math.Max(sic, init.Value) : Math.Min(sic, init.Value);
+            results.Add(new() { Timestamp = init.Timestamp });
         }
 
         // roll through quotes
         for (int i = lookbackPeriods; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            IReusable s = reList[i];
 
             // average true range × multiplier constant
             double? arc = atrList[i - 1].Atr * multiplier;
 
-            VolatilityStopResult r = new(date) {
-                // stop and reverse threshold
-                Sar = isLong ? sic - arc : sic + arc
-            };
-            results.Add(r);
+            // stop and reverse threshold
+            double? sar = isLong ? sic - arc : sic + arc;
 
             // add SAR as separate bands
+            double? lowerBand = null;
+            double? upperBand = null;
+
             if (isLong)
             {
-                r.LowerBand = r.Sar;
+                lowerBand = sar;
             }
             else
             {
-                r.UpperBand = r.Sar;
+                upperBand = sar;
             }
 
             // evaluate stop and reverse
-            if ((isLong && value < r.Sar)
-            || (!isLong && value > r.Sar))
+            bool? isStop;
+
+            if ((isLong && s.Value < sar)
+            || (!isLong && s.Value > sar))
             {
-                r.IsStop = true;
-                sic = value;
+                isStop = true;
+                sic = s.Value;
                 isLong = !isLong;
             }
             else
             {
-                r.IsStop = false;
+                isStop = false;
 
                 // significant close adjustment
                 // extreme favorable close (value) while in trade
-                sic = isLong ? Math.Max(sic, value) : Math.Min(sic, value);
+                sic = isLong ? Math.Max(sic, s.Value) : Math.Min(sic, s.Value);
             }
+
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Sar: sar,
+                IsStop: isStop,
+                UpperBand: upperBand,
+                LowerBand: lowerBand));
         }
 
         // remove first trend to stop, since it is a guess
-        VolatilityStopResult? firstStop = results
-            .Where(x => x.IsStop == true)
-            .OrderBy(x => x.Date)
-            .FirstOrDefault();
+        int cutIndex = results.FindIndex(x => x.IsStop == true);
 
-        if (firstStop != null)
+        for (int d = 0; d <= cutIndex; d++)
         {
-            int cutIndex = results.IndexOf(firstStop);
+            VolatilityStopResult r = results[d];
 
-            for (int d = 0; d <= cutIndex; d++)
-            {
-                VolatilityStopResult r = results[d];
-                r.Sar = null;
-                r.UpperBand = null;
-                r.LowerBand = null;
-                r.IsStop = null;
-            }
+            results[d] = r with {
+                Sar = null,
+                UpperBand = null,
+                LowerBand = null,
+                IsStop = null
+            };
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateVolatilityStop(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Volatility Stop.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "ATR Multiplier must be greater than 0 for Volatility Stop.");
-        }
     }
 }

@@ -1,17 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class ChaikinOscResult : ResultBase, IReusableResult
+public readonly record struct ChaikinOscResult
+(
+    DateTime Timestamp,
+    double? MoneyFlowMultiplier,
+    double? MoneyFlowVolume,
+    double? Adl,
+    double? Oscillator
+) : IReusable
 {
-    public ChaikinOscResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? MoneyFlowMultiplier { get; set; }
-    public double? MoneyFlowVolume { get; set; }
-    public double? Adl { get; set; }
-    public double? Oscillator { get; set; }
-
-    double? IReusableResult.Value => Oscillator;
+    double IReusable.Value => Oscillator.Null2NaN();
 }

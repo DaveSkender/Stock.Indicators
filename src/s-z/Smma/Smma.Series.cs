@@ -1,66 +1,63 @@
 namespace Skender.Stock.Indicators;
 
 // SMOOTHED MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SmmaResult> CalcSmma(
-        this List<(DateTime, double)> tpList,
+    private static List<SmmaResult> CalcSmma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateSmma(lookbackPeriods);
+        Smma.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<SmmaResult> results = new(length);
-        double prevValue = double.NaN;
+        double prevSmma = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            double smma = double.NaN;
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
 
-            SmmaResult r = new(date);
-            results.Add(r);
-
-            // calculate SMMA
-            if (i + 1 > lookbackPeriods)
+            // skip incalculable periods
+            if (i < lookbackPeriods - 1)
             {
-                smma = ((prevValue * (lookbackPeriods - 1)) + value) / lookbackPeriods;
-                r.Smma = smma.NaN2Null();
+                results.Add(new() { Timestamp = s.Timestamp });
+                continue;
             }
 
-            // first SMMA calculated as simple SMA
-            else if (i + 1 == lookbackPeriods)
+            double smma;
+
+            // when no prior SMMA, reset as SMA
+            if (double.IsNaN(prevSmma))
             {
-                double sumClose = 0;
+                double sum = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sumClose += pValue;
+                    T ps = source[p];
+                    sum += ps.Value;
                 }
 
-                smma = sumClose / lookbackPeriods;
-                r.Smma = smma.NaN2Null();
+                smma = sum / lookbackPeriods;
             }
 
-            prevValue = smma;
+            // normal SMMA
+            else
+            {
+                smma = (prevSmma * (lookbackPeriods - 1) + s.Value) / lookbackPeriods;
+            }
+
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Smma: smma.NaN2Null()));
+
+            prevSmma = smma;
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateSmma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMMA.");
-        }
     }
 }

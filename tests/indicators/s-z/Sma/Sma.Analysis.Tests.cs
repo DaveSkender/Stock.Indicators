@@ -1,12 +1,12 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class SmaExtendedTests : TestBase
+public class SmaAnalysisTests : SeriesTestBase
 {
     [TestMethod]
     public void Analysis()
     {
-        List<SmaAnalysis> results = quotes
+        List<SmaAnalysis> results = Quotes
             .GetSmaAnalysis(20)
             .ToList();
 
@@ -23,9 +23,9 @@ public class SmaExtendedTests : TestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<SmaAnalysis> results = quotes
+        List<SmaAnalysis> results = Quotes
             .Use(CandlePart.Close)
             .GetSmaAnalysis(20)
             .ToList();
@@ -35,20 +35,9 @@ public class SmaExtendedTests : TestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<SmaAnalysis> r = tupleNanny
-            .GetSmaAnalysis(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mse is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<SmaAnalysis> results = quotes
+        List<SmaAnalysis> results = Quotes
             .GetSma(2)
             .GetSmaAnalysis(20)
             .ToList();
@@ -60,7 +49,7 @@ public class SmaExtendedTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<EmaResult> results = quotes
+        List<EmaResult> results = Quotes
             .GetSmaAnalysis(10)
             .GetEma(10)
             .ToList();
@@ -70,26 +59,26 @@ public class SmaExtendedTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<SmaAnalysis> r = badQuotes
+        List<SmaAnalysis> r = BadQuotes
             .GetSmaAnalysis(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mape is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Mape is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<SmaAnalysis> r0 = noquotes
+        List<SmaAnalysis> r0 = Noquotes
             .GetSmaAnalysis(6)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SmaAnalysis> r1 = onequote
+        List<SmaAnalysis> r1 = Onequote
             .GetSmaAnalysis(6)
             .ToList();
 
@@ -99,7 +88,7 @@ public class SmaExtendedTests : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<SmaAnalysis> results = quotes
+        List<SmaAnalysis> results = Quotes
             .GetSmaAnalysis(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -113,5 +102,5 @@ public class SmaExtendedTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetSmaAnalysis(0));
+            => Quotes.GetSmaAnalysis(0));
 }

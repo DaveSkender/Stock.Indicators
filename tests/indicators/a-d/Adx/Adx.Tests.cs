@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class AdxTests : TestBase
+public class AdxTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<AdxResult> results = quotes
-            .GetAdx(14)
+        List<AdxResult> results = Quotes
+            .GetAdx()
             .ToList();
 
         // proper quantities
@@ -47,8 +47,8 @@ public class AdxTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetAdx(14)
+        List<SmaResult> results = Quotes
+            .GetAdx()
             .GetSma(10)
             .ToList();
 
@@ -57,20 +57,20 @@ public class AdxTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<AdxResult> r = badQuotes
+        List<AdxResult> r = BadQuotes
             .GetAdx(20)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<AdxResult> r = bigQuotes
+        List<AdxResult> r = BigQuotes
             .GetAdx(200)
             .ToList();
 
@@ -78,15 +78,15 @@ public class AdxTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<AdxResult> r0 = noquotes
+        List<AdxResult> r0 = Noquotes
             .GetAdx(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AdxResult> r1 = onequote
+        List<AdxResult> r1 = Onequote
             .GetAdx(5)
             .ToList();
 
@@ -99,32 +99,32 @@ public class AdxTests : TestBase
         IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
             .Select(Importer.QuoteFromCsv)
-            .OrderByDescending(x => x.Date);
+            .OrderByDescending(x => x.Timestamp);
 
-        List<AdxResult> r = test859.GetAdx(14).ToList();
+        List<AdxResult> r = test859.GetAdx().ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
         Assert.AreEqual(595, r.Count);
     }
 
     [TestMethod]
     public void Zeroes()
     {
-        List<AdxResult> r = zeroesQuotes.GetAdx(14).ToList();
+        List<AdxResult> r = ZeroesQuotes.GetAdx().ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
         Assert.AreEqual(200, r.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<AdxResult> r = quotes.GetAdx(14)
+        List<AdxResult> r = Quotes.GetAdx()
             .RemoveWarmupPeriods()
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((2 * 14) + 100), r.Count);
+        Assert.AreEqual(502 - (2 * 14 + 100), r.Count);
 
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
@@ -137,5 +137,5 @@ public class AdxTests : TestBase
 
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAdx(1));
+            Quotes.GetAdx(1));
 }

@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class TransformTests : TestBase
+public class TransformTests : SeriesTestBase
 {
     [TestMethod]
     public void ToCollection()
     {
-        Collection<Quote> collection = quotes
+        Collection<Quote> collection = Quotes
             .ToSortedList()
             .ToCollection();
 

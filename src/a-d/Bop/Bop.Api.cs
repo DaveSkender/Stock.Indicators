@@ -10,6 +10,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int smoothPeriods = 14)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcBop(smoothPeriods);
 }

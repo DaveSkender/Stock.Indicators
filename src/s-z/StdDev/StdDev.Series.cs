@@ -1,29 +1,31 @@
 namespace Skender.Stock.Indicators;
 
 // STANDARD DEVIATION (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<StdDevResult> CalcStdDev(
-        this List<(DateTime, double)> tpList,
-        int lookbackPeriods,
-        int? smaPeriods)
+    private static List<StdDevResult> CalcStdDev<T>(
+        this List<T> source,
+        int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateStdDev(lookbackPeriods, smaPeriods);
+        StdDev.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<StdDevResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
 
-            StdDevResult r = new(date);
-            results.Add(r);
+            double mean;
+            double stdDev;
+            double zScore;
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double[] values = new double[lookbackPeriods];
                 double sum = 0;
@@ -31,53 +33,35 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double v) = tpList[p];
-                    values[n] = v;
-                    sum += v;
+                    T ps = source[p];
+                    values[n] = ps.Value;
+                    sum += ps.Value;
                     n++;
                 }
 
-                double avg = sum / lookbackPeriods;
+                mean = sum / lookbackPeriods;
 
-                r.StdDev = values.StdDev().NaN2Null();
-                r.Mean = avg.NaN2Null();
+                stdDev = values.StdDev();
 
-                r.ZScore = (r.StdDev == 0) ? null
-                    : (value - avg) / r.StdDev;
+                zScore = stdDev == 0 ? double.NaN
+                    : (s.Value - mean) / stdDev;
             }
-
-            // optional SMA
-            if (smaPeriods != null && i >= lookbackPeriods + smaPeriods - 2)
+            else
             {
-                double? sumSma = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    sumSma += results[p].StdDev;
-                }
-
-                r.StdDevSma = (sumSma / smaPeriods).NaN2Null();
+                mean = double.NaN;
+                stdDev = double.NaN;
+                zScore = double.NaN;
             }
+
+            StdDevResult r = new(
+                Timestamp: s.Timestamp,
+                StdDev: stdDev.NaN2Null(),
+                Mean: mean.NaN2Null(),
+                ZScore: zScore.NaN2Null());
+
+            results.Add(r);
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateStdDev(
-        int lookbackPeriods,
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for Standard Deviation.");
-        }
-
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for Standard Deviation.");
-        }
     }
 }

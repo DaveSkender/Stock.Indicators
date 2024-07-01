@@ -1,18 +1,20 @@
 namespace Skender.Stock.Indicators;
 
 // ENDPOINT MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
     // calculate series
-    internal static List<EpmaResult> CalcEpma(
-        this List<(DateTime, double)> tpList,
+    private static List<EpmaResult> CalcEpma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateEpma(lookbackPeriods);
+        Epma.Validate(lookbackPeriods);
 
         // initialize
-        List<SlopeResult> slopeResults = tpList
+        List<SlopeResult> slopeResults = source
             .CalcSlope(lookbackPeriods)
             .ToList();
 
@@ -24,25 +26,14 @@ public static partial class Indicator
         {
             SlopeResult s = slopeResults[i];
 
-            EpmaResult r = new(s.Date) {
-                Epma = ((s.Slope * (i + 1)) + s.Intercept).NaN2Null()
+            EpmaResult r = new() {
+                Timestamp = s.Timestamp,
+                Epma = (s.Slope * (i + 1) + s.Intercept).NaN2Null()
             };
 
             results.Add(r);
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateEpma(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Epma.");
-        }
     }
 }

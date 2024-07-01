@@ -1,19 +1,21 @@
 namespace Skender.Stock.Indicators;
 
 // ATR TRAILING STOP (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<AtrStopResult> CalcAtrStop(
+    private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
         EndType endType)
     {
         // check parameter arguments
-        ValidateAtrStop(lookbackPeriods, multiplier);
+        AtrStop.Validate(lookbackPeriods, multiplier);
 
         // initialize
-        List<AtrStopResult> results = new(qdList.Count);
+        int length = qdList.Count;
+        List<AtrStopResult> results = new(length);
         List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
@@ -21,12 +23,13 @@ public static partial class Indicator
         double? lowerBand = null;
 
         // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
 
-            AtrStopResult r = new(q.Date);
-            results.Add(r);
+            decimal? atrStop = null;
+            decimal? buyStop = null;
+            decimal? sellStop = null;
 
             if (i >= lookbackPeriods)
             {
@@ -39,18 +42,19 @@ public static partial class Indicator
                 // potential bands for CLOSE
                 if (endType == EndType.Close)
                 {
-                    upperEval = q.Close + (multiplier * atr);
-                    lowerEval = q.Close - (multiplier * atr);
+                    upperEval = q.Close + multiplier * atr;
+                    lowerEval = q.Close - multiplier * atr;
                 }
 
                 // potential bands for HIGH/LOW
                 else
                 {
-                    upperEval = q.High + (multiplier * atr);
-                    lowerEval = q.Low - (multiplier * atr);
+                    upperEval = q.High + multiplier * atr;
+                    lowerEval = q.Low - multiplier * atr;
                 }
 
                 // initial values
+                // TODO: update healing, without requiring specific indexing
                 if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= p.Close;
@@ -74,38 +78,27 @@ public static partial class Indicator
                 // trailing stop
                 if (q.Close <= (isBullish ? lowerBand : upperBand))
                 {
-                    r.AtrStop = (decimal?)upperBand;
-                    r.BuyStop = (decimal?)upperBand;
+                    atrStop = (decimal?)upperBand;
+                    buyStop = (decimal?)upperBand;
                     isBullish = false;
                 }
                 else
                 {
-                    r.AtrStop = (decimal?)lowerBand;
-                    r.SellStop = (decimal?)lowerBand;
+                    atrStop = (decimal?)lowerBand;
+                    sellStop = (decimal?)lowerBand;
                     isBullish = true;
                 }
             }
+
+            AtrStopResult r = new(
+                Timestamp: q.Timestamp,
+                AtrStop: atrStop,
+                BuyStop: buyStop,
+                SellStop: sellStop);
+
+            results.Add(r);
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAtrStop(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for ATR Trailing Stop.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for ATR Trailing Stop.");
-        }
     }
 }

@@ -43,7 +43,7 @@ IEnumerable<EpmaResult>
 
 ### EpmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Epma`** _`double`_ - Endpoint moving average
 

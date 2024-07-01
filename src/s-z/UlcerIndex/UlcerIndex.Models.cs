@@ -1,14 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class UlcerIndexResult : ResultBase, IReusableResult
+public readonly record struct UlcerIndexResult
+(
+    DateTime Timestamp,
+    double? UlcerIndex  // ulcer index
+) : IReusable
 {
-    public UlcerIndexResult(DateTime date)
-    {
-        Date = date;
-    }
+    double IReusable.Value => UlcerIndex.Null2NaN();
 
-    public double? UI { get; set; } // ulcer index
-
-    double? IReusableResult.Value => UI;
+    [Obsolete("Rename UI to UlcerIndex")] // v3.0.0
+    public double? UI => UlcerIndex;
 }

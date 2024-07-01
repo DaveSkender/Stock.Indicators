@@ -13,7 +13,7 @@ public static partial class Indicator
         int secondSmoothPeriods = 2,
         int signalPeriods = 3)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcSmi(
                 lookbackPeriods,
                 firstSmoothPeriods,

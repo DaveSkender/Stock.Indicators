@@ -19,23 +19,23 @@ internal class Program
 
 public class QuoteStream
 {
-    private readonly string alpacaApiKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
-    private readonly string alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
+    private readonly string _alpacaKey = Environment.GetEnvironmentVariable("ALPACA_KEY");
+    private readonly string _alpacaSecret = Environment.GetEnvironmentVariable("ALPACA_SECRET");
 
     internal QuoteStream()
     {
-        if (string.IsNullOrEmpty(alpacaApiKey))
+        if (string.IsNullOrEmpty(_alpacaKey))
         {
             throw new ArgumentNullException(
-                alpacaApiKey,
-                $"API KEY missing, use `setx ALPACA_KEY \"MY_ALPACA_KEY\"` to set.");
+                _alpacaKey,
+                "API KEY missing, use `setx ALPACA_KEY \"MY_ALPACA_KEY\"` to set.");
         }
 
-        if (string.IsNullOrEmpty(alpacaSecret))
+        if (string.IsNullOrEmpty(_alpacaSecret))
         {
             throw new ArgumentNullException(
-                alpacaSecret,
-                $"API SECRET missing, use `setx ALPACA_SECRET \"MY_ALPACA_SECRET\"` to set.");
+                _alpacaSecret,
+                "API SECRET missing, use `setx ALPACA_SECRET \"MY_ALPACA_SECRET\"` to set.");
         }
     }
 
@@ -44,27 +44,30 @@ public class QuoteStream
         Console.WriteLine("Press any key to exit the process...");
         Console.WriteLine("PLEASE WAIT. QUOTES ARRIVE EVERY MINUTE.");
 
-        if (string.IsNullOrEmpty(alpacaApiKey))
+        if (string.IsNullOrEmpty(_alpacaKey))
         {
-            throw new ArgumentNullException(alpacaApiKey);
+            throw new ArgumentNullException(_alpacaKey);
         }
 
-        if (string.IsNullOrEmpty(alpacaSecret))
+        if (string.IsNullOrEmpty(_alpacaSecret))
         {
-            throw new ArgumentNullException(alpacaSecret);
+            throw new ArgumentNullException(_alpacaSecret);
         }
 
         // initialize our quote provider and a few subscribers
-        QuoteProvider provider = new();
+        QuoteProvider<Quote> provider = new();
 
-        EmaObserver ema = provider.GetEma(14);
-        SmaObserver sma = provider.GetSma(5);
-        EmaObserver emaChain = provider
+        Sma<Quote> sma = provider.ToSma(3);
+        Ema<Quote> ema = provider.ToEma(5);
+        Ema<Reusable> useChain = provider
             .Use(CandlePart.HL2)
-            .GetEma(10);
+            .ToEma(7);
+        Ema<SmaResult> emaChain = provider
+            .ToSma(4)
+            .ToEma(4);
 
         // connect to Alpaca websocket
-        SecretKey secretKey = new(alpacaApiKey, alpacaSecret);
+        SecretKey secretKey = new(_alpacaKey, _alpacaSecret);
 
         IAlpacaCryptoStreamingClient client
             = Environments
@@ -72,9 +75,6 @@ public class QuoteStream
             .GetAlpacaCryptoStreamingClient(secretKey);
 
         await client.ConnectAndAuthenticateAsync();
-
-        // TODO: is this needed?
-        AutoResetEvent[] waitObjects = [new AutoResetEvent(false)];
 
         IAlpacaDataSubscription<IBar> quoteSubscription
             = client.GetMinuteBarSubscription(symbol);
@@ -91,12 +91,10 @@ public class QuoteStream
         Console.WriteLine("----------------------------------------------------------------------------------");
 
         // handle new quotes
-        quoteSubscription.Received += (q) =>
-        {
+        quoteSubscription.Received += q => {
             // add to our provider
-            provider.Add(new Quote
-            {
-                Date = q.TimeUtc,
+            provider.Add(new Quote {
+                Timestamp = q.TimeUtc,
                 Open = q.Open,
                 High = q.High,
                 Low = q.Low,
@@ -104,10 +102,36 @@ public class QuoteStream
                 Volume = q.Volume
             });
 
-            Console.WriteLine($"{q.Symbol} {q.TimeUtc:s} ${q.Close:N2} | {q.TradeCount} trades");
-        };
+            // display live results
+            string liveMessage = $"{q.TimeUtc:u}    ${q.Close:N2}";
 
-        await client.SubscribeAsync(quoteSubscription);
+            SmaResult s = sma.Results[^1];
+            EmaResult e = ema.Results[^1];
+            EmaResult u = useChain.Results[^1];
+            EmaResult c = emaChain.Results[^1];
+
+            if (s.Sma is not null)
+            {
+                liveMessage += $"{s.Sma,12:N1}";
+            }
+
+            if (e.Ema is not null)
+            {
+                liveMessage += $"{e.Ema,12:N1}";
+            }
+
+            if (u.Ema is not null)
+            {
+                liveMessage += $"{u.Ema,12:N1}";
+            }
+
+            if (c.Ema is not null)
+            {
+                liveMessage += $"{c.Ema,12:N1}";
+            }
+
+            Console.WriteLine(liveMessage);
+        };
 
         // to stop watching on key press
         Console.ReadKey();

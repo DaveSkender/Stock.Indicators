@@ -1,64 +1,53 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class UlcerIndexTests : TestBase
+public class UlcerIndexTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<UlcerIndexResult> results = quotes
-            .GetUlcerIndex(14)
+        List<UlcerIndexResult> results = Quotes
+            .GetUlcerIndex()
             .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.UI != null));
+        Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
 
         // sample value
         UlcerIndexResult r = results[501];
-        Assert.AreEqual(5.7255, r.UI.Round(4));
+        Assert.AreEqual(5.7255, r.UlcerIndex.Round(4));
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<UlcerIndexResult> results = quotes
+        List<UlcerIndexResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetUlcerIndex(14)
+            .GetUlcerIndex()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.UI != null));
-    }
-
-    [TestMethod]
-    public void TupleNaN()
-    {
-        List<UlcerIndexResult> r = tupleNanny
-            .GetUlcerIndex(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
+        Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        List<UlcerIndexResult> results = quotes
+        List<UlcerIndexResult> results = Quotes
             .GetSma(2)
-            .GetUlcerIndex(14)
+            .GetUlcerIndex()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.UI != null));
+        Assert.AreEqual(488, results.Count(x => x.UlcerIndex != null));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetUlcerIndex(14)
+        List<SmaResult> results = Quotes
+            .GetUlcerIndex()
             .GetSma(10)
             .ToList();
 
@@ -67,26 +56,26 @@ public class UlcerIndexTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<UlcerIndexResult> r = badQuotes
+        List<UlcerIndexResult> r = BadQuotes
             .GetUlcerIndex(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UlcerIndex is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<UlcerIndexResult> r0 = noquotes
+        List<UlcerIndexResult> r0 = Noquotes
             .GetUlcerIndex()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<UlcerIndexResult> r1 = onequote
+        List<UlcerIndexResult> r1 = Onequote
             .GetUlcerIndex()
             .ToList();
 
@@ -96,8 +85,8 @@ public class UlcerIndexTests : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<UlcerIndexResult> results = quotes
-            .GetUlcerIndex(14)
+        List<UlcerIndexResult> results = Quotes
+            .GetUlcerIndex()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -105,12 +94,12 @@ public class UlcerIndexTests : TestBase
         Assert.AreEqual(502 - 13, results.Count);
 
         UlcerIndexResult last = results.LastOrDefault();
-        Assert.AreEqual(5.7255, last.UI.Round(4));
+        Assert.AreEqual(5.7255, last.UlcerIndex.Round(4));
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetUlcerIndex(0));
+            => Quotes.GetUlcerIndex(0));
 }

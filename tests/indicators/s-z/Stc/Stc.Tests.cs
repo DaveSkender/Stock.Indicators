@@ -1,23 +1,18 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class StcTests : TestBase
+public class StcTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int cyclePeriods = 9;
         int fastPeriods = 12;
         int slowPeriods = 26;
 
-        List<StcResult> results =
-            quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods)
+        List<StcResult> results = Quotes
+            .GetStc(cyclePeriods, fastPeriods, slowPeriods)
             .ToList();
-
-        foreach (StcResult r in results)
-        {
-            Console.WriteLine($"{r.Date:d},{r.Stc:N4}");
-        }
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -41,9 +36,9 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<StcResult> results = quotes
+        List<StcResult> results = Quotes
             .Use(CandlePart.Close)
             .GetStc(9, 12, 26)
             .ToList();
@@ -53,20 +48,9 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<StcResult> r = tupleNanny
-            .GetStc()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<StcResult> results = quotes
+        List<StcResult> results = Quotes
             .GetSma(2)
             .GetStc(9, 12, 26)
             .ToList();
@@ -78,7 +62,7 @@ public class StcTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetStc(9, 12, 26)
             .GetSma(10)
             .ToList();
@@ -88,26 +72,26 @@ public class StcTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<StcResult> r = badQuotes
-            .GetStc(10, 23, 50)
+        List<StcResult> r = BadQuotes
+            .GetStc()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Stc is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<StcResult> r0 = noquotes
+        List<StcResult> r0 = Noquotes
             .GetStc()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StcResult> r1 = onequote
+        List<StcResult> r1 = Onequote
             .GetStc()
             .ToList();
 
@@ -122,7 +106,7 @@ public class StcTests : TestBase
         RandomGbm quotes = new(58);
 
         List<StcResult> results = quotes
-            .GetStc(10, 23, 50)
+            .GetStc()
             .ToList();
 
         Assert.AreEqual(58, results.Count);
@@ -135,7 +119,7 @@ public class StcTests : TestBase
         int fastPeriods = 12;
         int slowPeriods = 26;
 
-        List<StcResult> results = quotes
+        List<StcResult> results = Quotes
             .GetStc(cyclePeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -152,14 +136,14 @@ public class StcTests : TestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStc(9, 0, 26));
+            Quotes.GetStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStc(9, 12, 12));
+            Quotes.GetStc(9, 12, 12));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStc(-1, 12, 26));
+            Quotes.GetStc(-1, 12, 26));
     }
 }

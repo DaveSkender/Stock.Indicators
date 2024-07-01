@@ -1,98 +1,88 @@
 namespace Skender.Stock.Indicators;
 
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<KamaResult> CalcKama(
-        this List<(DateTime, double)> tpList,
+    private static List<KamaResult> CalcKama<T>(
+        this List<T> source,
         int erPeriods,
         int fastPeriods,
         int slowPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateKama(erPeriods, fastPeriods, slowPeriods);
+        Kama.Validate(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<KamaResult> results = new(length);
+
         double scFast = 2d / (fastPeriods + 1);
         double scSlow = 2d / (slowPeriods + 1);
+
+        double prevKama = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
 
-            KamaResult r = new(date);
-            results.Add(r);
+            // skip incalculable periods
+            if (i < erPeriods - 1)
+            {
+                results.Add(new() { Timestamp = s.Timestamp });
+                continue;
+            }
 
-            if (i + 1 > erPeriods)
+            double er;
+            double kama;
+
+            if (double.IsNaN(prevKama))
+            {
+                er = double.NaN;
+                kama = s.Value;
+            }
+            else
             {
                 // ER period change
-                double change = Math.Abs(value - tpList[i - erPeriods].Item2);
+                double change = Math.Abs(s.Value - source[i - erPeriods].Value);
 
                 // volatility
-                double sumPV = 0;
+                double sumPv = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(tpList[p].Item2 - tpList[p - 1].Item2);
+                    sumPv += Math.Abs(source[p].Value - source[p - 1].Value);
                 }
 
-                if (sumPV != 0)
+                if (sumPv != 0)
                 {
                     // efficiency ratio
-                    double er = change / sumPV;
-                    r.ER = er.NaN2Null();
+                    er = change / sumPv;
 
                     // smoothing constant
-                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
+                    double sc = er * (scFast - scSlow) + scSlow;  // squared later
 
                     // kama calculation
-                    double? pk = results[i - 1].Kama;  // prior KAMA
-                    r.Kama = (pk + (sc * sc * (value - pk))).NaN2Null();
+                    kama = prevKama + sc * sc * (s.Value - prevKama);
                 }
 
                 // handle flatline case
                 else
                 {
-                    r.ER = 0;
-                    r.Kama = value.NaN2Null();
+                    er = 0;
+                    kama = s.Value;
                 }
             }
 
-            // initial value
-            else if (i + 1 == erPeriods)
-            {
-                r.Kama = value.NaN2Null();
-            }
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Er: er.NaN2Null(),
+                Kama: kama.NaN2Null()));
+
+            prevKama = kama;
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateKama(
-        int erPeriods,
-        int fastPeriods,
-        int slowPeriods)
-    {
-        // check parameter arguments
-        if (erPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(erPeriods), erPeriods,
-                "Efficiency Ratio periods must be greater than 0 for KAMA.");
-        }
-
-        if (fastPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(fastPeriods), fastPeriods,
-                "Fast EMA periods must be greater than 0 for KAMA.");
-        }
-
-        if (slowPeriods <= fastPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(slowPeriods), slowPeriods,
-                "Slow EMA periods must be greater than Fast EMA period for KAMA.");
-        }
     }
 }

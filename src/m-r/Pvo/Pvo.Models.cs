@@ -1,16 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class PvoResult : ResultBase, IReusableResult
+public readonly record struct PvoResult
+(
+    DateTime Timestamp,
+    double? Pvo,
+    double? Signal,
+    double? Histogram
+) : IReusable
 {
-    public PvoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Pvo { get; set; }
-    public double? Signal { get; set; }
-    public double? Histogram { get; set; }
-
-    double? IReusableResult.Value => Pvo;
+    double IReusable.Value => Pvo.Null2NaN();
 }

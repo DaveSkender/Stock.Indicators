@@ -1,15 +1,15 @@
 using Newtonsoft.Json;
 
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class ZigZagTests : TestBase
+public class ZigZagTests : SeriesTestBase
 {
     [TestMethod]
     public void StandardClose()
     {
         List<ZigZagResult> results =
-            quotes.GetZigZag(EndType.Close, 3)
+            Quotes.GetZigZag(EndType.Close, 3)
             .ToList();
 
         // proper quantities
@@ -61,7 +61,7 @@ public class ZigZagTests : TestBase
     public void StandardHighLow()
     {
         List<ZigZagResult> results =
-            quotes.GetZigZag(EndType.HighLow, 3)
+            Quotes.GetZigZag(EndType.HighLow, 3)
             .ToList();
 
         // proper quantities
@@ -112,7 +112,7 @@ public class ZigZagTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetZigZag(EndType.Close, 3)
             .GetSma(10)
             .ToList();
@@ -131,7 +131,7 @@ public class ZigZagTests : TestBase
             .DeserializeObject<IReadOnlyCollection<Quote>>(json);
 
         List<ZigZagResult> results = quotes
-            .GetZigZag(EndType.Close, 5m)
+            .GetZigZag()
             .ToList();
 
         Assert.AreEqual(0, results.Count(x => x.PointType != null));
@@ -148,22 +148,22 @@ public class ZigZagTests : TestBase
             .ToList();
 
         List<ZigZagResult> resultsList = quotesList
-            .GetZigZag(EndType.Close, 5m)
+            .GetZigZag()
             .ToList();
 
         Assert.AreEqual(17, resultsList.Count);
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<ZigZagResult> r1 = badQuotes
-            .GetZigZag(EndType.Close)
+        List<ZigZagResult> r1 = BadQuotes
+            .GetZigZag()
             .ToList();
 
         Assert.AreEqual(502, r1.Count);
 
-        List<ZigZagResult> r2 = badQuotes
+        List<ZigZagResult> r2 = BadQuotes
             .GetZigZag(EndType.HighLow)
             .ToList();
 
@@ -171,15 +171,15 @@ public class ZigZagTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<ZigZagResult> r0 = noquotes
+        List<ZigZagResult> r0 = Noquotes
             .GetZigZag()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ZigZagResult> r1 = onequote
+        List<ZigZagResult> r1 = Onequote
             .GetZigZag()
             .ToList();
 
@@ -189,7 +189,7 @@ public class ZigZagTests : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<ZigZagResult> results = quotes
+        List<ZigZagResult> results = Quotes
             .GetZigZag(EndType.Close, 3)
             .Condense()
             .ToList();
@@ -205,7 +205,7 @@ public class ZigZagTests : TestBase
 
         List<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .ToList();
 
         List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
@@ -222,10 +222,10 @@ public class ZigZagTests : TestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetZigZag(EndType.Close, 0));
+            => Quotes.GetZigZag(EndType.Close, 0));
 
         // bad end type
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetZigZag((EndType)int.MaxValue, 2));
+            => Quotes.GetZigZag((EndType)int.MaxValue, 2));
     }
 }

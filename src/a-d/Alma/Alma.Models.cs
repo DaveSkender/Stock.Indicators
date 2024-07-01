@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AlmaResult : ResultBase, IReusableResult
+public readonly record struct AlmaResult
+(
+    DateTime Timestamp,
+    double? Alma
+) : IReusable
 {
-    public AlmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Alma { get; set; }
-
-    double? IReusableResult.Value => Alma;
+    double IReusable.Value => Alma.Null2NaN();
 }

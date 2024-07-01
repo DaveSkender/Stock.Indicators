@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class DojiTests : TestBase
+public class DojiTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<CandleResult> results = quotes
-            .GetDoji(0.1)
+        List<CandleResult> results = Quotes
+            .GetDoji()
             .ToList();
 
         // proper quantities
@@ -41,9 +41,9 @@ public class DojiTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<CandleResult> r = badQuotes
+        List<CandleResult> r = BadQuotes
             .GetDoji()
             .ToList();
 
@@ -51,15 +51,15 @@ public class DojiTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<CandleResult> r0 = noquotes
+        List<CandleResult> r0 = Noquotes
             .GetDoji()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CandleResult> r1 = onequote
+        List<CandleResult> r1 = Onequote
             .GetDoji()
             .ToList();
 
@@ -69,8 +69,8 @@ public class DojiTests : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<CandleResult> r = quotes
-            .GetDoji(0.1)
+        List<CandleResult> r = Quotes
+            .GetDoji()
             .Condense()
             .ToList();
 
@@ -82,9 +82,9 @@ public class DojiTests : TestBase
     {
         // bad maximum change value
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetDoji(-0.00001));
+            Quotes.GetDoji(-0.00001));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetDoji(0.50001));
+            Quotes.GetDoji(0.50001));
     }
 }

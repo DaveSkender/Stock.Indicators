@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class KvoResult : ResultBase, IReusableResult
+public readonly record struct KvoResult
+(
+    DateTime Timestamp,
+    double? Oscillator,
+    double? Signal
+) : IReusable
 {
-    internal KvoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Oscillator { get; set; }
-    public double? Signal { get; set; }
-
-    double? IReusableResult.Value => Oscillator;
+    double IReusable.Value => Oscillator.Null2NaN();
 }

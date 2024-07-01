@@ -1,16 +1,17 @@
 namespace Skender.Stock.Indicators;
 
 // CHANDELIER EXIT (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<ChandelierResult> CalcChandelier(
+    private static List<ChandelierResult> CalcChandelier(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)
     {
         // check parameter arguments
-        ValidateChandelier(lookbackPeriods, multiplier);
+        Chandelier.Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = qdList.Count;
@@ -24,8 +25,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ChandelierResult r = new(q.Date);
-            results.Add(r);
+            double? exit = null;
 
             // add exit values
             if (i >= lookbackPeriods)
@@ -46,7 +46,7 @@ public static partial class Indicator
                             }
                         }
 
-                        r.ChandelierExit = maxHigh - (atr * multiplier);
+                        exit = maxHigh - atr * multiplier;
                         break;
 
                     case ChandelierType.Short:
@@ -61,34 +61,19 @@ public static partial class Indicator
                             }
                         }
 
-                        r.ChandelierExit = minLow + (atr * multiplier);
+                        exit = minLow + atr * multiplier;
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                ChandelierExit: exit));
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateChandelier(
-        int lookbackPeriods,
-        double multiplier)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Chandelier Exit.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for Chandelier Exit.");
-        }
     }
 }

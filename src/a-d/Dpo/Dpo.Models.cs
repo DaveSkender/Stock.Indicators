@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class DpoResult : ResultBase, IReusableResult
+public readonly record struct DpoResult
+(
+    DateTime Timestamp,
+    double? Dpo = null,
+    double? Sma = null
+    ) : IReusable
 {
-    public DpoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Sma { get; set; }
-    public double? Dpo { get; set; }
-
-    double? IReusableResult.Value => Dpo;
+    double IReusable.Value => Dpo.Null2NaN();
 }

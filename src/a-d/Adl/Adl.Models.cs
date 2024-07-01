@@ -1,17 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AdlResult : ResultBase, IReusableResult
+public readonly record struct AdlResult
+(
+    DateTime Timestamp,
+    double Adl,
+    double? MoneyFlowMultiplier,
+    double? MoneyFlowVolume
+) : IReusable
 {
-    public AdlResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? MoneyFlowMultiplier { get; set; }
-    public double? MoneyFlowVolume { get; set; }
-    public double Adl { get; set; }
-    public double? AdlSma { get; set; }
-
-    double? IReusableResult.Value => Adl;
+    double IReusable.Value => Adl;
 }

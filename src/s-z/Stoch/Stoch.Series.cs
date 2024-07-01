@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // STOCHASTIC OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<StochResult> CalcStoch(
+    private static List<StochResult> CalcStoch(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         int signalPeriods,
@@ -13,7 +14,7 @@ public static partial class Indicator
         MaType movingAverageType)
     {
         // check parameter arguments
-        ValidateStoch(
+        Stoch.Validate(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
@@ -21,22 +22,35 @@ public static partial class Indicator
         int length = qdList.Count;
         List<StochResult> results = new(length);
 
+        double[] o = new double[length]; // %K oscillator (initial)
+        double[] k = new double[length]; // %K oscillator (final)
+
+        double prevK = double.NaN;
+        double prevD = double.NaN;
+
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
 
-            StochResult r = new(q.Date);
-            results.Add(r);
-
-            if (i + 1 >= lookbackPeriods)
+            // initial %K oscillator
+            if (i >= lookbackPeriods - 1)
             {
                 double highHigh = double.MinValue;
                 double lowLow = double.MaxValue;
+                bool isViable = true;
 
-                for (int p = i + 1 - lookbackPeriods; p <= i; p++)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
                     QuoteD x = qdList[p];
+
+                    if (double.IsNaN(x.High)
+                     || double.IsNaN(x.Low)
+                     || double.IsNaN(x.Close))
+                    {
+                        isViable = false;
+                        break;
+                    }
 
                     if (x.High > highHigh)
                     {
@@ -49,165 +63,124 @@ public static partial class Indicator
                     }
                 }
 
-                r.Oscillator = lowLow != highHigh
-                    ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
-                    : 0;
-
-                // reclaim nulls from NaNs
-                r.Oscillator = r.Oscillator.NaN2Null();
+                o[i] = !isViable
+                     ? double.NaN
+                     : highHigh - lowLow != 0
+                     ? 100 * (q.Close - lowLow) / (highHigh - lowLow)
+                     : 0;
             }
-        }
+            else
+            {
+                o[i] = double.NaN;
+            }
 
-        // smooth the oscillator
-        if (smoothPeriods > 1)
-        {
-            results = SmoothOscillator(
-                results, length, lookbackPeriods, smoothPeriods, movingAverageType);
-        }
+            // final %K oscillator, keep original
+            if (smoothPeriods <= 1)
+            {
+                k[i] = o[i];
+            }
 
-        // handle insufficient length
-        if (length < lookbackPeriods - 1)
-        {
-            return results;
-        }
+            // final %K oscillator, if smoothed
+            else if (i >= smoothPeriods)
+            {
+                k[i] = double.NaN;
 
-        // signal (%D) and %J
-        int signalIndex = lookbackPeriods + smoothPeriods + signalPeriods - 2;
-        double? s = null;
+                switch (movingAverageType)
+                {
+                    // SMA case
+                    case MaType.SMA:
+                        {
+                            double sum = 0;
+                            for (int p = i - smoothPeriods + 1; p <= i; p++)
+                            {
+                                sum += o[p];
+                            }
 
-        for (int i = lookbackPeriods - 1; i < length; i++)
-        {
-            StochResult r = results[i];
+                            k[i] = sum / smoothPeriods;
+                            break;
+                        }
 
-            // add signal
+                    // SMMA case
+                    case MaType.SMMA:
+                        {
+                            // re/initialize
+                            if (double.IsNaN(prevK))
+                            {
+                                prevK = o[i];
+                            }
 
+                            k[i] = (prevK * (smoothPeriods - 1) + o[i]) / smoothPeriods;
+                            prevK = k[i];
+                            break;
+                        }
+
+                    default:
+                        throw new InvalidOperationException(
+                            "Invalid Stochastic moving average type.");
+                }
+            }
+            else
+            {
+                k[i] = double.NaN;
+            }
+
+            double oscillator = k[i];
+            double signal;
+
+
+            // %D signal line
             if (signalPeriods <= 1)
             {
-                r.Signal = r.Oscillator;
+                signal = oscillator;
             }
-
-            // SMA case
-            else if (i + 1 >= signalIndex && movingAverageType is MaType.SMA)
+            else if (i >= signalPeriods)
             {
-                double? sumOsc = 0;
-                for (int p = i + 1 - signalPeriods; p <= i; p++)
+                switch (movingAverageType)
                 {
-                    StochResult x = results[p];
-                    sumOsc += x.Oscillator;
+                    // SMA case
+                    // TODO: || double.IsNaN(prevD) to re/initialize SMMA?
+                    case MaType.SMA:
+                        {
+                            double sum = 0;
+                            for (int p = i - signalPeriods + 1; p <= i; p++)
+                            {
+                                sum += k[p];
+                            }
+
+                            signal = sum / signalPeriods;
+                            break;
+                        }
+
+                    // SMMA case
+                    case MaType.SMMA:
+                        {
+                            // re/initialize
+                            if (double.IsNaN(prevD))
+                            {
+                                prevD = k[i];
+                            }
+
+                            double d = (prevD * (signalPeriods - 1) + k[i]) / signalPeriods;
+                            signal = d;
+                            prevD = d;
+                            break;
+                        }
+
+                    default:
+                        throw new InvalidOperationException("Invalid Stochastic moving average type.");
                 }
-
-                r.Signal = sumOsc / signalPeriods;
             }
-
-            // SMMA case
-            else if (i >= lookbackPeriods - 1 && movingAverageType is MaType.SMMA)
+            else
             {
-                s ??= results[i].Oscillator; // set initial or reset if null
-
-                s = ((s * (signalPeriods - 1)) + results[i].Oscillator) / signalPeriods;
-                r.Signal = s;
+                signal = double.NaN;
             }
 
-            // %J
-            r.PercentJ = (kFactor * r.Oscillator) - (dFactor * r.Signal);
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Oscillator: oscillator.NaN2Null(),
+                Signal: signal.NaN2Null(),
+                PercentJ: (kFactor * oscillator - dFactor * signal).NaN2Null()));
         }
-
         return results;
-    }
-
-    // internals
-    private static List<StochResult> SmoothOscillator(
-        List<StochResult> results,
-        int length,
-        int lookbackPeriods,
-        int smoothPeriods,
-        MaType movingAverageType)
-    {
-        // temporarily store interim smoothed oscillator
-        double?[] smooth = new double?[length]; // smoothed value
-
-        if (movingAverageType is MaType.SMA)
-        {
-            int smoothIndex = lookbackPeriods + smoothPeriods - 2;
-
-            for (int i = smoothIndex; i < length; i++)
-            {
-                double? sumOsc = 0;
-                for (int p = i + 1 - smoothPeriods; p <= i; p++)
-                {
-                    sumOsc += results[p].Oscillator;
-                }
-
-                smooth[i] = sumOsc / smoothPeriods;
-            }
-        }
-        else if (movingAverageType is MaType.SMMA)
-        {
-            // initialize with unsmoothed value
-            double? k = results[lookbackPeriods - 1].Oscillator;
-
-            for (int i = lookbackPeriods - 1; i < length; i++)
-            {
-                k ??= results[i].Oscillator; // reset if null
-
-                k = ((k * (smoothPeriods - 1)) + results[i].Oscillator) / smoothPeriods;
-                smooth[i] = k;
-            }
-        }
-
-        // replace oscillator
-        for (int i = 0; i < length; i++)
-        {
-            results[i].Oscillator = smooth[i];
-        }
-
-        return results;
-    }
-
-    // parameter validation
-    private static void ValidateStoch(
-        int lookbackPeriods,
-        int signalPeriods,
-        int smoothPeriods,
-        double kFactor,
-        double dFactor,
-        MaType movingAverageType)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Stochastic.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than 0 for Stochastic.");
-        }
-
-        if (smoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
-                "Smooth periods must be greater than 0 for Stochastic.");
-        }
-
-        if (kFactor <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(kFactor), kFactor,
-                "kFactor must be greater than 0 for Stochastic.");
-        }
-
-        if (dFactor <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
-                "dFactor must be greater than 0 for Stochastic.");
-        }
-
-        if (movingAverageType is not MaType.SMA and not MaType.SMMA)
-        {
-            throw new ArgumentOutOfRangeException(nameof(dFactor), dFactor,
-                "Stochastic only supports SMA and SMMA moving average types.");
-        }
     }
 }

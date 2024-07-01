@@ -1,37 +1,39 @@
 namespace Skender.Stock.Indicators;
 
 // STOCHASTIC RSI (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<StochRsiResult> CalcStochRsi(
-        this List<(DateTime, double)> tpList,
+    private static List<StochRsiResult> CalcStochRsi<T>(
+        this List<T> source,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
         int smoothPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // initialize results
-        int length = tpList.Count;
+        int length = source.Count;
         int initPeriods = Math.Min(rsiPeriods + stochPeriods - 1, length);
         List<StochRsiResult> results = new(length);
 
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            (DateTime date, double _) = tpList[i];
-            results.Add(new StochRsiResult(date));
+            var s = source[i];
+            results.Add(new() { Timestamp = s.Timestamp });
         }
 
         // get Stochastic of RSI
         List<StochResult> stoResults =
-            tpList
+            source
             .CalcRsi(rsiPeriods)
             .Remove(Math.Min(rsiPeriods, length))
             .Select(x => new QuoteD {
-                Date = x.Date,
+                Timestamp = x.Timestamp,
                 High = x.Rsi.Null2NaN(),
                 Low = x.Rsi.Null2NaN(),
                 Close = x.Rsi.Null2NaN()
@@ -47,45 +49,13 @@ public static partial class Indicator
         for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
         {
             StochResult r = stoResults[i - rsiPeriods];
-            results.Add(new StochRsiResult(r.Date) {
+            results.Add(new() {
+                Timestamp = r.Timestamp,
                 StochRsi = r.Oscillator,
                 Signal = r.Signal
             });
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateStochRsi(
-        int rsiPeriods,
-        int stochPeriods,
-        int signalPeriods,
-        int smoothPeriods)
-    {
-        // check parameter arguments
-        if (rsiPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rsiPeriods), rsiPeriods,
-                "RSI periods must be greater than 0 for Stochastic RSI.");
-        }
-
-        if (stochPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(stochPeriods), stochPeriods,
-                "STOCH periods must be greater than 0 for Stochastic RSI.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than 0 for Stochastic RSI.");
-        }
-
-        if (smoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
-                "Smooth periods must be greater than 0 for Stochastic RSI.");
-        }
     }
 }

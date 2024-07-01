@@ -1,23 +1,23 @@
 namespace Skender.Stock.Indicators;
 
 // KELTNER CHANNELS (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<KeltnerResult> CalcKeltner(
+    private static List<KeltnerResult> CalcKeltner(
         this List<QuoteD> qdList,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
     {
         // check parameter arguments
-        ValidateKeltner(emaPeriods, multiplier, atrPeriods);
+        Keltner.Validate(emaPeriods, multiplier, atrPeriods);
 
         // initialize
         int length = qdList.Count;
         List<KeltnerResult> results = new(length);
 
         List<EmaResult> emaResults = qdList
-            .ToTuple(CandlePart.Close)
             .CalcEma(emaPeriods)
             .ToList();
 
@@ -32,49 +32,25 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            KeltnerResult r = new(q.Date);
-            results.Add(r);
-
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 EmaResult ema = emaResults[i];
                 AtrResult atr = atrResults[i];
                 double? atrSpan = atr.Atr * multiplier;
 
-                r.UpperBand = ema.Ema + atrSpan;
-                r.LowerBand = ema.Ema - atrSpan;
-                r.Centerline = ema.Ema;
-                r.Width = (r.Centerline == 0) ? null
-                    : (r.UpperBand - r.LowerBand) / r.Centerline;
+                results.Add(new(
+                    Timestamp: q.Timestamp,
+                    UpperBand: ema.Ema + atrSpan,
+                    LowerBand: ema.Ema - atrSpan,
+                    Centerline: ema.Ema,
+                    Width: ema.Ema == 0 ? null : 2 * atrSpan / ema.Ema));
+            }
+            else
+            {
+                results.Add(new() { Timestamp = q.Timestamp });
             }
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateKeltner(
-        int emaPeriods,
-        double multiplier,
-        int atrPeriods)
-    {
-        // check parameter arguments
-        if (emaPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(emaPeriods), emaPeriods,
-                "EMA periods must be greater than 1 for Keltner Channel.");
-        }
-
-        if (atrPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(atrPeriods), atrPeriods,
-                "ATR periods must be greater than 1 for Keltner Channel.");
-        }
-
-        if (multiplier <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
-                "Multiplier must be greater than 0 for Keltner Channel.");
-        }
     }
 }

@@ -1,21 +1,21 @@
 namespace Tests.Common;
 
 [TestClass]
-public class Pruning : TestBase
+public class Pruning : SeriesTestBase
 {
     [TestMethod]
     public void Remove()
     {
         // specific periods
         IEnumerable<HeikinAshiResult> results =
-            quotes.GetHeikinAshi()
+            Quotes.GetHeikinAshi()
               .RemoveWarmupPeriods(102);
 
         Assert.AreEqual(400, results.Count());
 
         // bad remove period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetAdx(14).RemoveWarmupPeriods(-1));
+            => Quotes.GetAdx().RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]
@@ -23,7 +23,7 @@ public class Pruning : TestBase
     {
         // more than available
         IEnumerable<HeikinAshiResult> results =
-            quotes.GetHeikinAshi()
+            Quotes.GetHeikinAshi()
               .RemoveWarmupPeriods(600);
 
         Assert.AreEqual(0, results.Count());

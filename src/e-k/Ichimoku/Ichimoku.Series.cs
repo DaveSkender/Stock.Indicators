@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // ICHIMOKU CLOUD (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<IchimokuResult> CalcIchimoku<TQuote>(
+    private static List<IchimokuResult> CalcIchimoku<TQuote>(
         this List<TQuote> quotesList,
         int tenkanPeriods,
         int kijunPeriods,
@@ -13,7 +14,7 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateIchimoku(
+        Ichimoku.Validate(
             tenkanPeriods,
             kijunPeriods,
             senkouBPeriods,
@@ -23,6 +24,7 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<IchimokuResult> results = new(length);
+
         int senkouStartPeriod = Math.Max(
             2 * senkouOffset,
             Math.Max(tenkanPeriods, kijunPeriods)) - 1;
@@ -32,161 +34,148 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            IchimokuResult r = new(q.Date);
-            results.Add(r);
-
             // tenkan-sen conversion line
-            CalcIchimokuTenkanSen(i, quotesList, r, tenkanPeriods);
+            decimal? tenkanSen = CalcIchimokuTenkanSen(
+                i, quotesList, tenkanPeriods);
 
             // kijun-sen base line
-            CalcIchimokuKijunSen(i, quotesList, r, kijunPeriods);
+            decimal? kijunSen = CalcIchimokuKijunSen(
+                i, quotesList, kijunPeriods);
 
             // senkou span A
+            decimal? senkouSpanA = null;
+
             if (i >= senkouStartPeriod)
             {
-                IchimokuResult skq = results[i - senkouOffset];
-
-                if (skq != null && skq.TenkanSen != null && skq.KijunSen != null)
+                if (senkouOffset == 0)
                 {
-                    r.SenkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
+                    senkouSpanA = (tenkanSen + kijunSen) / 2;
+                }
+                else
+                {
+                    IchimokuResult skq = results[i - senkouOffset];
+                    senkouSpanA = (skq.TenkanSen + skq.KijunSen) / 2;
                 }
             }
 
             // senkou span B
-            CalcIchimokuSenkouB(i, quotesList, r, senkouOffset, senkouBPeriods);
+            decimal? senkouSpanB = CalcIchimokuSenkouB(
+                i, quotesList, senkouOffset, senkouBPeriods);
 
             // chikou line
+            decimal? chikouSpan = null;
+
             if (i + chikouOffset < quotesList.Count)
             {
-                r.ChikouSpan = quotesList[i + chikouOffset].Close;
+                chikouSpan = quotesList[i + chikouOffset].Close;
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                TenkanSen: tenkanSen,
+                KijunSen: kijunSen,
+                SenkouSpanA: senkouSpanA,
+                SenkouSpanB: senkouSpanB,
+                ChikouSpan: chikouSpan));
         }
 
         return results;
     }
 
-    private static void CalcIchimokuTenkanSen<TQuote>(
-        int i, List<TQuote> quotesList, IchimokuResult result, int tenkanPeriods)
+    private static decimal? CalcIchimokuTenkanSen<TQuote>(
+        int i, List<TQuote> quotesList, int tenkanPeriods)
         where TQuote : IQuote
     {
-        if (i >= tenkanPeriods - 1)
+        if (i < tenkanPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
+            return null;
+        }
 
-            for (int p = i - tenkanPeriods + 1; p <= i; p++)
+        decimal max = 0;
+        decimal min = decimal.MaxValue;
+
+        for (int p = i - tenkanPeriods + 1; p <= i; p++)
+        {
+            TQuote d = quotesList[p];
+
+            if (d.High > max)
             {
-                TQuote d = quotesList[p];
-
-                if (d.High > max)
-                {
-                    max = d.High;
-                }
-
-                if (d.Low < min)
-                {
-                    min = d.Low;
-                }
+                max = d.High;
             }
 
-            result.TenkanSen = (min == decimal.MaxValue) ? null : (min + max) / 2;
+            if (d.Low < min)
+            {
+                min = d.Low;
+            }
         }
+
+        return min == decimal.MaxValue ? null : (min + max) / 2;
+
     }
 
-    private static void CalcIchimokuKijunSen<TQuote>(
+    private static decimal? CalcIchimokuKijunSen<TQuote>(
         int i,
         List<TQuote> quotesList,
-        IchimokuResult result,
         int kijunPeriods)
         where TQuote : IQuote
     {
-        if (i >= kijunPeriods - 1)
+        if (i < kijunPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
+            return null;
+        }
 
-            for (int p = i - kijunPeriods + 1; p <= i; p++)
+        decimal max = 0;
+        decimal min = decimal.MaxValue;
+
+        for (int p = i - kijunPeriods + 1; p <= i; p++)
+        {
+            TQuote d = quotesList[p];
+
+            if (d.High > max)
             {
-                TQuote d = quotesList[p];
-
-                if (d.High > max)
-                {
-                    max = d.High;
-                }
-
-                if (d.Low < min)
-                {
-                    min = d.Low;
-                }
+                max = d.High;
             }
 
-            result.KijunSen = (min == decimal.MaxValue) ? null : (min + max) / 2;
+            if (d.Low < min)
+            {
+                min = d.Low;
+            }
         }
+
+        return min == decimal.MaxValue ? null : (min + max) / 2;
     }
 
-    private static void CalcIchimokuSenkouB<TQuote>(
+    private static decimal? CalcIchimokuSenkouB<TQuote>(
         int i,
         List<TQuote> quotesList,
-        IchimokuResult result,
         int senkouOffset,
         int senkouBPeriods)
         where TQuote : IQuote
     {
-        if (i >= senkouOffset + senkouBPeriods - 1)
+        if (i < senkouOffset + senkouBPeriods - 1)
         {
-            decimal max = 0;
-            decimal min = decimal.MaxValue;
+            return null;
+        }
 
-            for (int p = i - senkouOffset - senkouBPeriods + 1;
-                p <= i - senkouOffset; p++)
+        decimal max = 0;
+        decimal min = decimal.MaxValue;
+
+        for (int p = i - senkouOffset - senkouBPeriods + 1;
+             p <= i - senkouOffset; p++)
+        {
+            TQuote d = quotesList[p];
+
+            if (d.High > max)
             {
-                TQuote d = quotesList[p];
-
-                if (d.High > max)
-                {
-                    max = d.High;
-                }
-
-                if (d.Low < min)
-                {
-                    min = d.Low;
-                }
+                max = d.High;
             }
 
-            result.SenkouSpanB = (min == decimal.MaxValue) ? null : (min + max) / 2;
-        }
-    }
-
-    private static void ValidateIchimoku(
-        int tenkanPeriods,
-        int kijunPeriods,
-        int senkouBPeriods,
-        int senkouOffset,
-        int chikouOffset)
-    {
-        // check parameter arguments
-        if (tenkanPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(tenkanPeriods), tenkanPeriods,
-                "Tenkan periods must be greater than 0 for Ichimoku Cloud.");
+            if (d.Low < min)
+            {
+                min = d.Low;
+            }
         }
 
-        if (kijunPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(kijunPeriods), kijunPeriods,
-                "Kijun periods must be greater than 0 for Ichimoku Cloud.");
-        }
-
-        if (senkouBPeriods <= kijunPeriods)
-        {
-            throw new ArgumentOutOfRangeException(nameof(senkouBPeriods), senkouBPeriods,
-                "Senkou B periods must be greater than Kijun periods for Ichimoku Cloud.");
-        }
-
-        if (senkouOffset < 0 || chikouOffset < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(senkouOffset), senkouOffset,
-                "Senkou and Chikou offset periods must be non-negative for Ichimoku Cloud.");
-        }
+        return min == decimal.MaxValue ? null : (min + max) / 2;
     }
 }

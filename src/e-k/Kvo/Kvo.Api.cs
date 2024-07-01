@@ -12,6 +12,6 @@ public static partial class Indicator
         int slowPeriods = 55,
         int signalPeriods = 13)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcKvo(fastPeriods, slowPeriods, signalPeriods);
 }

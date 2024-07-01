@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class EpmaResult : ResultBase, IReusableResult
+public readonly record struct EpmaResult
+(
+    DateTime Timestamp,
+    double? Epma
+) : IReusable
 {
-    public EpmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Epma { get; set; }
-
-    double? IReusableResult.Value => Epma;
+    double IReusable.Value => Epma.Null2NaN();
 }

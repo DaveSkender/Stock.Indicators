@@ -1,14 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 // VORTEX INDICATOR (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<VortexResult> CalcVortex(
+    private static List<VortexResult> CalcVortex(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateVortex(lookbackPeriods);
+        Vortex.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
@@ -27,15 +28,14 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            VortexResult r = new(q.Date);
-            results.Add(r);
-
             // skip first period
             if (i == 0)
             {
                 prevHigh = q.High;
                 prevLow = q.Low;
                 prevClose = q.Close;
+
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
@@ -50,6 +50,9 @@ public static partial class Indicator
             prevHigh = q.High;
             prevLow = q.Low;
             prevClose = q.Close;
+
+            double pvi = double.NaN;
+            double nvi = double.NaN;
 
             // vortex indicator
             if (i + 1 > lookbackPeriods)
@@ -67,24 +70,17 @@ public static partial class Indicator
 
                 if (sumTr is not 0)
                 {
-                    r.Pvi = sumPvm / sumTr;
-                    r.Nvi = sumNvm / sumTr;
+                    pvi = sumPvm / sumTr;
+                    nvi = sumNvm / sumTr;
                 }
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Pvi: pvi.NaN2Null(),
+                Nvi: nvi.NaN2Null()));
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateVortex(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 1 for VI.");
-        }
     }
 }

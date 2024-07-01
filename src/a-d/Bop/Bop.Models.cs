@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class BopResult : ResultBase, IReusableResult
+public readonly record struct BopResult
+(
+    DateTime Timestamp,
+    double? Bop
+) : IReusable
 {
-    public BopResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Bop { get; set; }
-
-    double? IReusableResult.Value => Bop;
+    double IReusable.Value => Bop.Null2NaN();
 }

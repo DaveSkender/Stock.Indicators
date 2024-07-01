@@ -1,155 +1,111 @@
 namespace Skender.Stock.Indicators;
 
 // PRICE MOMENTUM OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<PmoResult> CalcPmo(
-        this List<(DateTime, double)> tpList,
+    private static List<PmoResult> CalcPmo<T>(
+        this List<T> source,
         int timePeriods,
         int smoothPeriods,
         int signalPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidatePmo(timePeriods, smoothPeriods, signalPeriods);
+        Pmo.Validate(timePeriods, smoothPeriods, signalPeriods);
 
         // initialize
-        List<PmoResult> results = tpList.CalcPmoRocEma(timePeriods);
-        double smoothingConstant = 2d / smoothPeriods;
-        double? lastPmo = null;
+        int length = source.Count;
+        List<PmoResult> results = new(length);
+        double smoothingConstant1 = 2d / smoothPeriods;
+        double smoothingConstant2 = 2d / timePeriods;
+        double smoothingConstant3 = 2d / (signalPeriods + 1);
 
-        // calculate PMO
-        int startIndex = timePeriods + smoothPeriods;
+        double prevPrice = double.NaN;
+        double prevPmo = double.NaN;
+        double prevRocEma = double.NaN;
+        double prevSignal = double.NaN;
 
-        for (int i = startIndex - 1; i < results.Count; i++)
+        double[] rc = new double[length];  // roc
+        double[] re = new double[length];  // roc ema
+        double[] pm = new double[length];  // pmo
+
+        // roll through quotes
+        for (int i = 0; i < length; i++)
         {
-            PmoResult pr = results[i];
+            T s = source[i];
 
-            if (i + 1 > startIndex)
+            // rate of change (ROC)
+            rc[i] = prevPrice == 0 ? double.NaN : 100 * (s.Value / prevPrice - 1);
+            prevPrice = s.Value;
+
+            // ROC smoothed moving average
+            double rocEma;
+
+            if (double.IsNaN(prevRocEma) && i >= timePeriods)
             {
-                pr.Pmo = ((pr.RocEma - lastPmo) * smoothingConstant) + lastPmo;
-            }
-            else if (i + 1 == startIndex)
-            {
-                double? sumRocEma = 0;
-                for (int p = i + 1 - smoothPeriods; p <= i; p++)
+                double sum = 0;
+                for (int p = i - timePeriods + 1; p <= i; p++)
                 {
-                    PmoResult d = results[p];
-                    sumRocEma += d.RocEma;
+                    sum += rc[p];
+                }
+                rocEma = sum / timePeriods;
+            }
+            else
+            {
+                rocEma = prevRocEma + smoothingConstant2 * (rc[i] - prevRocEma);
+            }
+
+            re[i] = rocEma * 10;
+            prevRocEma = rocEma;
+
+            // price momentum oscillator
+            double pmo;
+
+            if (double.IsNaN(prevPmo) && i >= smoothPeriods)
+            {
+                double sum = 0;
+                for (int p = i - smoothPeriods + 1; p <= i; p++)
+                {
+                    sum += re[p];
+                }
+                pmo = sum / smoothPeriods;
+            }
+            else
+            {
+                pmo = prevPmo + smoothingConstant1 * (re[i] - prevPmo);
+            }
+
+            prevPmo = pm[i] = pmo;
+
+            // add signal (EMA of PMO)
+            double signal;
+
+            if (double.IsNaN(prevSignal) && i >= signalPeriods)
+            {
+                double sum = 0;
+                for (int p = i - signalPeriods + 1; p <= i; p++)
+                {
+                    sum += pm[p];
                 }
 
-                pr.Pmo = sumRocEma / smoothPeriods;
+                signal = sum / signalPeriods;
+            }
+            else
+            {
+                signal = Ema.Increment(smoothingConstant3, prevSignal, pm[i]);
             }
 
-            lastPmo = pr.Pmo;
-        }
+            PmoResult r = new(
+                Timestamp: s.Timestamp,
+                Pmo: pmo.NaN2Null(),
+                Signal: signal.NaN2Null());
 
-        // add Signal
-        CalcPmoSignal(results, timePeriods, smoothPeriods, signalPeriods);
-
-        return results;
-    }
-
-    // internals
-    private static List<PmoResult> CalcPmoRocEma(
-        this List<(DateTime, double)> tpList,
-        int timePeriods)
-    {
-        // initialize
-        double smoothingMultiplier = 2d / timePeriods;
-        double? lastRocEma = null;
-        List<RocResult> roc = tpList.CalcRoc(1, null).ToList();
-        List<PmoResult> results = [];
-
-        int startIndex = timePeriods + 1;
-
-        for (int i = 0; i < roc.Count; i++)
-        {
-            RocResult rocResult = roc[i];
-
-            PmoResult r = new(rocResult.Date);
             results.Add(r);
 
-            if (i + 1 > startIndex)
-            {
-                r.RocEma = (rocResult.Roc * smoothingMultiplier) + (lastRocEma * (1 - smoothingMultiplier));
-            }
-            else if (i + 1 == startIndex)
-            {
-                double? sumRoc = 0;
-                for (int p = i + 1 - timePeriods; p <= i; p++)
-                {
-                    RocResult d = roc[p];
-                    sumRoc += d.Roc;
-                }
-
-                r.RocEma = sumRoc / timePeriods;
-            }
-
-            lastRocEma = r.RocEma;
-            r.RocEma *= 10;
+            prevSignal = signal;
         }
 
         return results;
-    }
-
-    private static void CalcPmoSignal(
-        List<PmoResult> results,
-        int timePeriods,
-        int smoothPeriods,
-        int signalPeriods)
-    {
-        double signalConstant = 2d / (signalPeriods + 1);
-        double? lastSignal = null;
-
-        int startIndex = timePeriods + smoothPeriods + signalPeriods - 1;
-
-        for (int i = startIndex - 1; i < results.Count; i++)
-        {
-            PmoResult pr = results[i];
-
-            if (i + 1 > startIndex)
-            {
-                pr.Signal = ((pr.Pmo - lastSignal) * signalConstant) + lastSignal;
-            }
-            else if (i + 1 == startIndex)
-            {
-                double? sumPmo = 0;
-                for (int p = i + 1 - signalPeriods; p <= i; p++)
-                {
-                    PmoResult d = results[p];
-                    sumPmo += d.Pmo;
-                }
-
-                pr.Signal = sumPmo / signalPeriods;
-            }
-
-            lastSignal = pr.Signal;
-        }
-    }
-
-    // parameter validation
-    private static void ValidatePmo(
-        int timePeriods,
-        int smoothPeriods,
-        int signalPeriods)
-    {
-        // check parameter arguments
-        if (timePeriods <= 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(timePeriods), timePeriods,
-                "Time periods must be greater than 1 for PMO.");
-        }
-
-        if (smoothPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
-                "Smoothing periods must be greater than 0 for PMO.");
-        }
-
-        if (signalPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(signalPeriods), signalPeriods,
-                "Signal periods must be greater than 0 for PMO.");
-        }
     }
 }

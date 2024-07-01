@@ -1,50 +1,30 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class ObvTests : TestBase
+public class ObvTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<ObvResult> results = quotes
+        List<ObvResult> results = Quotes
             .GetObv()
             .ToList();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.ObvSma == null));
 
         // sample values
         ObvResult r1 = results[249];
         Assert.AreEqual(1780918888, r1.Obv);
-        Assert.AreEqual(null, r1.ObvSma);
 
         ObvResult r2 = results[501];
         Assert.AreEqual(539843504, r2.Obv);
-        Assert.AreEqual(null, r2.ObvSma);
-    }
-
-    [TestMethod]
-    public void WithSma()
-    {
-        List<ObvResult> results = quotes
-            .GetObv(20)
-            .ToList();
-
-        // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.ObvSma != null));
-
-        // sample values
-        ObvResult r1 = results[501];
-        Assert.AreEqual(539843504, r1.Obv);
-        Assert.AreEqual(1016208844.40, r1.ObvSma);
     }
 
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetObv()
             .GetSma(10)
             .ToList();
@@ -54,9 +34,9 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<ObvResult> r = badQuotes
+        List<ObvResult> r = BadQuotes
             .GetObv()
             .ToList();
 
@@ -67,7 +47,7 @@ public class ObvTests : TestBase
     [TestMethod]
     public void BigData()
     {
-        List<ObvResult> r = bigQuotes
+        List<ObvResult> r = BigQuotes
             .GetObv()
             .ToList();
 
@@ -75,24 +55,18 @@ public class ObvTests : TestBase
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<ObvResult> r0 = noquotes
+        List<ObvResult> r0 = Noquotes
             .GetObv()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ObvResult> r1 = onequote
+        List<ObvResult> r1 = Onequote
             .GetObv()
             .ToList();
 
         Assert.AreEqual(1, r1.Count);
     }
-
-    // bad SMA period
-    [TestMethod]
-    public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetObv(0));
 }

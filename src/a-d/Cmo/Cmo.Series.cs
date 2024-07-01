@@ -1,42 +1,51 @@
 namespace Skender.Stock.Indicators;
 
 // CHANDE MOMENTUM OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<CmoResult> CalcCmo(
-        this List<(DateTime, double)> tpList,
+    private static List<CmoResult> CalcCmo<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateCmo(lookbackPeriods);
+        Cmo.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<CmoResult> results = new(length);
         List<(bool? isUp, double value)> ticks = new(length);
-        double prevValue = double.NaN;
 
-        // add initial record
-        if (length > 0)
+        // discontinue of empty
+        if (length == 0)
         {
-            results.Add(new CmoResult(tpList[0].Item1));
-            ticks.Add((null, double.NaN));
-
-            prevValue = tpList[0].Item2;
+            return results;
         }
 
-        // roll through quotes
+        // initialize, add first records
+        double prevValue = source[0].Value;
+
+        results.Add(new() { Timestamp = source[0].Timestamp });
+        ticks.Add((null, double.NaN));
+
+        // roll through remaining prices
         for (int i = 1; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
+            double? cmo = null;
 
-            CmoResult r = new(date);
-            results.Add(r);
-            ticks.Add((
-                  value > prevValue ? true
-                : value < prevValue ? false
-                : null, Math.Abs(value - prevValue)));
+            // determine tick direction and size
+            (bool? isUp, double value) tick = (null, Math.Abs(s.Value - prevValue));
 
+            tick.isUp = double.IsNaN(tick.value) ? null
+                : (s.Value > prevValue ? true
+                    : (s.Value < prevValue ? false
+                        : null));
+
+            ticks.Add(tick);
+
+            // calculate CMO
             if (i >= lookbackPeriods)
             {
                 double sH = 0;
@@ -46,40 +55,39 @@ public static partial class Indicator
                 {
                     (bool? isUp, double pDiff) = ticks[p];
 
-                    if (isUp is null)
+                    if (double.IsNaN(pDiff))
                     {
-                        continue;
+                        sH = double.NaN;
+                        sL = double.NaN;
+                        break;
                     }
-                    else if (isUp == true)
+
+                    // up
+
+                    if (isUp == true)
                     {
                         sH += pDiff;
                     }
+
+                    // down
                     else
                     {
                         sL += pDiff;
                     }
                 }
 
-                r.Cmo = (sH + sL != 0)
+                cmo = sH + sL != 0
                     ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
                     : null;
             }
 
-            prevValue = value;
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Cmo: cmo));
+
+            prevValue = s.Value;
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateCmo(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for CMO.");
-        }
     }
 }

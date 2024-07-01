@@ -1,75 +1,64 @@
 namespace Skender.Stock.Indicators;
 
 // FORCE INDEX (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<ForceIndexResult> CalcForceIndex(
+    private static List<ForceIndexResult> CalcForceIndex(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateForceIndex(lookbackPeriods);
+        ForceIndex.Validate(lookbackPeriods);
 
         // initialize
         int length = qdList.Count;
         List<ForceIndexResult> results = new(length);
-        double? prevClose = null;
-        double? prevFI = null;
-        double? sumRawFI = 0;
+        double? prevFi = null;
+        double? sumRawFi = 0;
         double k = 2d / (lookbackPeriods + 1);
 
+        // skip first period
+        if (length > 0)
+        {
+            results.Add(new() { Timestamp = qdList[0].Timestamp });
+        }
+
         // roll through quotes
-        for (int i = 0; i < length; i++)
+        for (int i = 1; i < length; i++)
         {
             QuoteD q = qdList[i];
-
-            ForceIndexResult r = new(q.Date);
-            results.Add(r);
-
-            // skip first period
-            if (i == 0)
-            {
-                prevClose = q.Close;
-                continue;
-            }
+            double? fi = null;
 
             // raw Force Index
-            double? rawFI = q.Volume * (q.Close - prevClose);
-            prevClose = q.Close;
+            double? rawFi = q.Volume * (q.Close - qdList[i - 1].Close);
 
             // calculate EMA
             if (i > lookbackPeriods)
             {
-                r.ForceIndex = prevFI + (k * (rawFI - prevFI));
+                fi = prevFi + k * (rawFi - prevFi);
             }
 
             // initialization period
+            // TODO: update healing, without requiring specific indexing
             else
             {
-                sumRawFI += rawFI;
+                sumRawFi += rawFi;
 
                 // first EMA value
                 if (i == lookbackPeriods)
                 {
-                    r.ForceIndex = sumRawFI / lookbackPeriods;
+                    fi = sumRawFi / lookbackPeriods;
                 }
             }
 
-            prevFI = r.ForceIndex;
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                ForceIndex: fi));
+
+            prevFi = fi;
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateForceIndex(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Force Index.");
-        }
     }
 }

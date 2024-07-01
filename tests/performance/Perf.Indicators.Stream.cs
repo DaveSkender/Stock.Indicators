@@ -1,11 +1,16 @@
-using BenchmarkDotNet.Attributes;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Performance;
+// ReSharper disable All
 
-public class IndicatorsStreaming
+public class IndicatorStreamTests
 {
+    /*
+     dotnet build -c Release
+
+     Examples, to run cohorts:
+     dotnet run -c Release -filter *IndicatorStreaming*
+     dotnet run -c Release -filter *IndicatorStreaming.GetSma*
+     */
+
     private static IEnumerable<Quote> q;
     private static List<Quote> ql;
 
@@ -21,14 +26,10 @@ public class IndicatorsStreaming
     // BENCHMARKS
 
     [Benchmark]
-    public object GetEma() => q.GetEma(14);
-
-    [Benchmark]
-    public object GetEmaStream()
+    public object GetEma()
     {
-        // todo: refactor to exclude provider
-        QuoteProvider provider = new();
-        EmaObserver observer = provider.GetEma(14);
+        QuoteProvider<Quote> provider = new();
+        Ema<Quote> ema = provider.ToEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {
@@ -36,19 +37,14 @@ public class IndicatorsStreaming
         }
 
         provider.EndTransmission();
-
-        return observer.Results;
+        return ema.Results;
     }
 
     [Benchmark]
-    public object GetSma() => q.GetSma(10);
-
-    [Benchmark]
-    public object GetSmaStream()
+    public object GetSma()
     {
-        // todo: refactor to exclude provider
-        QuoteProvider provider = new();
-        SmaObserver observer = provider.GetSma(10);
+        QuoteProvider<Quote> provider = new();
+        Sma<Quote> sma = provider.ToSma(10);
 
         for (int i = 0; i < ql.Count; i++)
         {
@@ -56,7 +52,6 @@ public class IndicatorsStreaming
         }
 
         provider.EndTransmission();
-
-        return observer.Results;
+        return sma.Results;
     }
 }

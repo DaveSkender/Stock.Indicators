@@ -1,109 +1,64 @@
 namespace Skender.Stock.Indicators;
 
 // PRICE RELATIVE STRENGTH (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<PrsResult> CalcPrs(
-        List<(DateTime, double)> tpListEval,
-        List<(DateTime, double)> tpListBase,
-        int? lookbackPeriods = null,
-        int? smaPeriods = null)
+    private static List<PrsResult> CalcPrs<T>(
+        List<T> listEval,
+        List<T> listBase,
+        int? lookbackPeriods = null)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidatePriceRelative(tpListEval, tpListBase, lookbackPeriods, smaPeriods);
+        Prs.Validate(listEval, listBase, lookbackPeriods);
 
         // initialize
-        List<PrsResult> results = new(tpListEval.Count);
+        int length = listEval.Count;
+        List<PrsResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < tpListEval.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            (DateTime bDate, double bValue) = tpListBase[i];
-            (DateTime eDate, double eValue) = tpListEval[i];
+            T b = listBase[i];
+            T e = listEval[i];
 
-            if (eDate != bDate)
+            if (e.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(tpListEval), eDate,
-                    "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
+                throw new InvalidQuotesException(
+                    nameof(listEval), e.Timestamp,
+                    "Timestamp sequence does not match.  "
+                  + "Price Relative requires matching dates in provided histories.");
             }
 
-            PrsResult r = new(eDate) {
-                Prs = (bValue == 0) ? null : (eValue / bValue).NaN2Null() // relative strength ratio
+            double? prsPercent = null;
+
+            if (lookbackPeriods is not null && i > lookbackPeriods - 1)
+            {
+                T bo = listBase[i - (int)lookbackPeriods];
+                T eo = listEval[i - (int)lookbackPeriods];
+
+                if (bo.Value != 0 && eo.Value != 0)
+                {
+                    double? pctB = (b.Value - bo.Value) / bo.Value;
+                    double? pctE = (e.Value - eo.Value) / eo.Value;
+
+                    prsPercent = (pctE - pctB).NaN2Null();
+                }
+            }
+
+            PrsResult r = new() {
+                Timestamp = e.Timestamp,
+
+                Prs = b.Value == 0
+                    ? null
+                    : (e.Value / b.Value).NaN2Null(), // relative strength ratio
+
+                PrsPercent = prsPercent
             };
             results.Add(r);
-
-            if (lookbackPeriods != null && i + 1 > lookbackPeriods)
-            {
-                (DateTime _, double boValue) = tpListBase[i - (int)lookbackPeriods];
-                (DateTime _, double eoValue) = tpListEval[i - (int)lookbackPeriods];
-
-                if (boValue != 0 && eoValue != 0)
-                {
-                    double? pctB = (bValue - boValue) / boValue;
-                    double? pctE = (eValue - eoValue) / eoValue;
-
-                    r.PrsPercent = (pctE - pctB).NaN2Null();
-                }
-            }
-
-            // optional moving average of PRS
-            if (smaPeriods != null && i + 1 >= smaPeriods)
-            {
-                double? sumRs = 0;
-                for (int p = i + 1 - (int)smaPeriods; p <= i; p++)
-                {
-                    PrsResult d = results[p];
-                    sumRs += d.Prs;
-                }
-
-                r.PrsSma = (sumRs / smaPeriods).NaN2Null();
-            }
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidatePriceRelative(
-        List<(DateTime, double)> quotesEval,
-        List<(DateTime, double)> quotesBase,
-        int? lookbackPeriods,
-        int? smaPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Price Relative Strength.");
-        }
-
-        if (smaPeriods is not null and <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(smaPeriods), smaPeriods,
-                "SMA periods must be greater than 0 for Price Relative Strength.");
-        }
-
-        // check quotes
-        int qtyHistoryEval = quotesEval.Count;
-        int qtyHistoryBase = quotesBase.Count;
-
-        int? minHistory = lookbackPeriods;
-        if (minHistory != null && qtyHistoryEval < minHistory)
-        {
-            string message = "Insufficient quotes provided for Price Relative Strength.  " +
-                string.Format(
-                    EnglishCulture,
-                    "You provided {0} periods of quotes when at least {1} are required.",
-                    qtyHistoryEval, minHistory);
-
-            throw new InvalidQuotesException(nameof(quotesEval), message);
-        }
-
-        if (qtyHistoryBase != qtyHistoryEval)
-        {
-            throw new InvalidQuotesException(
-                nameof(quotesBase),
-                "Base quotes should have at least as many records as Eval quotes for PRS.");
-        }
     }
 }

@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // PIVOTS (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<PivotsResult> CalcPivots<TQuote>(
+    private static List<PivotsResult> CalcPivots<TQuote>(
         this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,
@@ -12,17 +13,21 @@ public static partial class Indicator
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidatePivots(leftSpan, rightSpan, maxTrendPeriods);
+        Pivots.Validate(leftSpan, rightSpan, maxTrendPeriods);
 
         // initialize
+        int length = quotesList.Count;
 
-        List<PivotsResult> results
+        decimal?[] highLine = new decimal?[length];
+        PivotTrend?[] highTrend = new PivotTrend?[length];
+
+        decimal?[] lowLine = new decimal?[length];
+        PivotTrend?[] lowTrend = new PivotTrend?[length];
+
+        List<(decimal? highPoint, decimal? lowPoint)> fractals
            = quotesList
             .CalcFractal(leftSpan, rightSpan, endType)
-            .Select(x => new PivotsResult(x.Date) {
-                HighPoint = x.FractalBear,
-                LowPoint = x.FractalBull
-            })
+            .Select(f => (f.FractalBear, f.FractalBull))
             .ToList();
 
         int? lastHighIndex = null;
@@ -31,9 +36,9 @@ public static partial class Indicator
         decimal? lastLowValue = null;
 
         // roll through results
-        for (int i = leftSpan; i <= results.Count - rightSpan; i++)
+        for (int i = leftSpan; i <= length - rightSpan; i++)
         {
-            PivotsResult r = results[i];
+            (decimal? highPoint, decimal? lowPoint) = fractals[i];
 
             // reset expired indexes
             if (lastHighIndex < i - maxTrendPeriods)
@@ -49,87 +54,87 @@ public static partial class Indicator
             }
 
             // evaluate high trend
-            if (r.HighPoint != null)
+            if (highPoint != null)
             {
                 // repaint trend
-                if (lastHighIndex != null && r.HighPoint != lastHighValue)
+                if (lastHighIndex != null && highPoint != lastHighValue)
                 {
-                    PivotTrend trend = (r.HighPoint > lastHighValue)
-                        ? PivotTrend.HH
-                        : PivotTrend.LH;
+                    PivotTrend trend = highPoint > lastHighValue
+                        ? PivotTrend.Hh
+                        : PivotTrend.Lh;
 
-                    results[(int)lastHighIndex].HighLine = lastHighValue;
+                    highLine[(int)lastHighIndex] = lastHighValue;
 
-                    decimal? incr = (r.HighPoint - lastHighValue)
+                    decimal? incr = (highPoint - lastHighValue)
                                  / (i - lastHighIndex);
 
                     for (int t = (int)lastHighIndex + 1; t <= i; t++)
                     {
-                        results[t].HighTrend = trend;
-                        results[t].HighLine = r.HighPoint + (incr * (t - i));
+                        highTrend[t] = trend;
+                        highLine[t] = highPoint + incr * (t - i);
                     }
                 }
 
                 // reset starting position
                 lastHighIndex = i;
-                lastHighValue = r.HighPoint;
+                lastHighValue = highPoint;
             }
 
             // evaluate low trend
-            if (r.LowPoint != null)
+            if (lowPoint != null)
             {
                 // repaint trend
-                if (lastLowIndex != null && r.LowPoint != lastLowValue)
+                if (lastLowIndex != null && lowPoint != lastLowValue)
                 {
-                    PivotTrend trend = (r.LowPoint > lastLowValue)
-                        ? PivotTrend.HL
-                        : PivotTrend.LL;
+                    PivotTrend trend = lowPoint > lastLowValue
+                        ? PivotTrend.Hl
+                        : PivotTrend.Ll;
 
-                    results[(int)lastLowIndex].LowLine = lastLowValue;
+                    lowLine[(int)lastLowIndex] = lastLowValue;
 
-                    decimal? incr = (r.LowPoint - lastLowValue)
+                    decimal? incr = (lowPoint - lastLowValue)
                                  / (i - lastLowIndex);
 
                     for (int t = (int)lastLowIndex + 1; t <= i; t++)
                     {
-                        results[t].LowTrend = trend;
-                        results[t].LowLine = r.LowPoint + (incr * (t - i));
+                        lowTrend[t] = trend;
+                        lowLine[t] = lowPoint + incr * (t - i);
                     }
                 }
 
                 // reset starting position
                 lastLowIndex = i;
-                lastLowValue = r.LowPoint;
+                lastLowValue = lowPoint;
             }
         }
 
+        // write results
+
+        // TODO: this may need to be re-writes (with) for streaming
+        // or even here, since it still may be better than 2 full passes
+
+        List<PivotsResult> results = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            TQuote q = quotesList[i];
+            (decimal? highPoint, decimal? lowPoint) = fractals[i];
+
+            decimal? hl = highLine[i];
+            decimal? ll = lowLine[i];
+            PivotTrend? ht = highTrend[i];
+            PivotTrend? lt = lowTrend[i];
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                HighPoint: highPoint,
+                LowPoint: lowPoint,
+                HighLine: hl,
+                LowLine: ll,
+                HighTrend: ht,
+                LowTrend: lt));
+        }
+
         return results;
-    }
-
-    // parameter validation
-    internal static void ValidatePivots(
-        int leftSpan,
-        int rightSpan,
-        int maxTrendPeriods,
-        string caller = "Pivots")
-    {
-        // check parameter arguments
-        if (rightSpan < 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rightSpan), rightSpan,
-                $"Right span must be at least 2 for {caller}.");
-        }
-
-        if (leftSpan < 2)
-        {
-            throw new ArgumentOutOfRangeException(nameof(leftSpan), leftSpan,
-                $"Left span must be at least 2 for {caller}.");
-        }
-
-        if (maxTrendPeriods <= leftSpan)
-        {
-            throw new ArgumentOutOfRangeException(nameof(leftSpan), leftSpan,
-                $"Lookback periods must be greater than the Left window span for {caller}.");
-        }
     }
 }

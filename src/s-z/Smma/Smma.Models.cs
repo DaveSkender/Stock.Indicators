@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class SmmaResult : ResultBase, IReusableResult
+public readonly record struct SmmaResult
+(
+    DateTime Timestamp,
+    double? Smma
+) : IReusable
 {
-    public SmmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Smma { get; set; }
-
-    double? IReusableResult.Value => Smma;
+    double IReusable.Value => Smma.Null2NaN();
 }

@@ -1,15 +1,16 @@
 namespace Skender.Stock.Indicators;
 
 // DONCHIAN CHANNEL (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<DonchianResult> CalcDonchian<TQuote>(
+    private static List<DonchianResult> CalcDonchian<TQuote>(
         this List<TQuote> quotesList,
         int lookbackPeriods)
         where TQuote : IQuote
     {
         // check parameter arguments
-        ValidateDonchian(lookbackPeriods);
+        Donchian.Validate(lookbackPeriods);
 
         // initialize
         int length = quotesList.Count;
@@ -19,9 +20,6 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
-
-            DonchianResult r = new(q.Date);
-            results.Add(r);
 
             if (i >= lookbackPeriods)
             {
@@ -44,26 +42,25 @@ public static partial class Indicator
                     }
                 }
 
-                r.UpperBand = highHigh;
-                r.LowerBand = lowLow;
-                r.Centerline = (r.UpperBand + r.LowerBand) / 2m;
-                r.Width = (r.Centerline == 0) ? null
-                    : (r.UpperBand - r.LowerBand) / r.Centerline;
+                decimal u = highHigh;
+                decimal l = lowLow;
+                decimal c = (u + l) / 2m;
+
+                results.Add(new(
+                    Timestamp: q.Timestamp,
+                    UpperBand: u,
+                    LowerBand: l,
+                    Centerline: c,
+                    Width: c == 0 ? null : (u - l) / c
+                    ));
+            }
+            else
+            {
+                results.Add(new() { Timestamp = q.Timestamp });
+
             }
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateDonchian(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Donchian Channel.");
-        }
     }
 }

@@ -1,19 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class VolatilityStopResult : ResultBase, IReusableResult
-{
-    public VolatilityStopResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Sar { get; set; }
-    public bool? IsStop { get; set; }
+public readonly record struct VolatilityStopResult
+(
+    DateTime Timestamp,
+    double? Sar,
+    bool? IsStop,
 
     // SAR values as long/short stop bands
-    public double? UpperBand { get; set; }
-    public double? LowerBand { get; set; }
-
-    double? IReusableResult.Value => Sar;
+    double? UpperBand,
+    double? LowerBand
+) : IReusable
+{
+    double IReusable.Value => Sar.Null2NaN();
 }

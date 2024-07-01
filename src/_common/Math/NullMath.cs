@@ -7,17 +7,17 @@ namespace Skender.Stock.Indicators;
 public static class NullMath
 {
     public static double? Abs(this double? value)
-        => (value is null)
+        => value is null
         ? null
         : value < 0 ? (double)-value : (double)value;
 
     public static decimal? Round(this decimal? value, int digits)
-        => (value is null)
+        => value is null
         ? null
         : Math.Round((decimal)value, digits);
 
     public static double? Round(this double? value, int digits)
-        => (value is null)
+        => value is null
         ? null
         : Math.Round((double)value, digits);
 
@@ -30,8 +30,13 @@ public static class NullMath
     public static double Null2NaN(this double? value)
         => value ?? double.NaN;
 
+    public static double Null2NaN(this decimal? value)
+        => value is null
+        ? double.NaN
+        : (double)value;
+
     public static double? NaN2Null(this double? value)
-        => (value is not null and double.NaN)
+        => value is double.NaN
         ? null
         : value;
 

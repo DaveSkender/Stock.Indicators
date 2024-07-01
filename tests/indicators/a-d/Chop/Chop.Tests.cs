@@ -1,13 +1,13 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class ChopTests : TestBase
+public class ChopTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<ChopResult> results = quotes
-            .GetChop(14)
+        List<ChopResult> results = Quotes
+            .GetChop()
             .ToList();
 
         // proper quantities
@@ -31,8 +31,8 @@ public class ChopTests : TestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetChop(14)
+        List<SmaResult> results = Quotes
+            .GetChop()
             .GetSma(10)
             .ToList();
 
@@ -44,7 +44,7 @@ public class ChopTests : TestBase
     public void SmallLookback()
     {
         int lookbackPeriods = 2;
-        List<ChopResult> results = quotes
+        List<ChopResult> results = Quotes
             .GetChop(lookbackPeriods)
             .ToList();
 
@@ -54,26 +54,26 @@ public class ChopTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<ChopResult> r = badQuotes
+        List<ChopResult> r = BadQuotes
             .GetChop(20)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Chop is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Chop is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<ChopResult> r0 = noquotes
+        List<ChopResult> r0 = Noquotes
             .GetChop()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ChopResult> r1 = onequote
+        List<ChopResult> r1 = Onequote
             .GetChop()
             .ToList();
 
@@ -83,8 +83,8 @@ public class ChopTests : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<ChopResult> results = quotes
-            .GetChop(14)
+        List<ChopResult> results = Quotes
+            .GetChop()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -99,5 +99,5 @@ public class ChopTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetChop(1));
+            => Quotes.GetChop(1));
 }

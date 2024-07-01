@@ -1,70 +1,58 @@
 namespace Skender.Stock.Indicators;
 
 // RELATIVE STRENGTH INDEX (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<RsiResult> CalcRsi(
-        this List<(DateTime Date, double Value)> tpList,
+    private static List<RsiResult> CalcRsi<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        ValidateRsi(lookbackPeriods);
+        Rsi.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
-        double avgGain = 0;
-        double avgLoss = 0;
+        int length = source.Count;
+        double avgGain = double.NaN;
+        double avgLoss = double.NaN;
 
         List<RsiResult> results = new(length);
         double[] gain = new double[length]; // gain
         double[] loss = new double[length]; // loss
-        double lastValue;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            lastValue = tpList[0].Value;
-        }
+
+        double prevValue = source[0].Value;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
-            RsiResult r = new(date);
-            results.Add(r);
-
-            gain[i] = (value > lastValue) ? value - lastValue : 0;
-            loss[i] = (value < lastValue) ? lastValue - value : 0;
-            lastValue = value;
-
-            // calculate RSI
-            if (i > lookbackPeriods)
+            if (double.IsNaN(s.Value) || double.IsNaN(prevValue))
             {
-                avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
-                avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
-
-                if (avgLoss > 0)
-                {
-                    double rs = avgGain / avgLoss;
-                    r.Rsi = 100 - (100 / (1 + rs));
-                }
-                else
-                {
-                    r.Rsi = 100;
-                }
+                gain[i] = loss[i] = double.NaN;
+            }
+            else
+            {
+                gain[i] = s.Value > prevValue ? s.Value - prevValue : 0;
+                loss[i] = s.Value < prevValue ? prevValue - s.Value : 0;
             }
 
+            double? rsi = null;
+            prevValue = s.Value;
+
             // initialize average gain
-            else if (i == lookbackPeriods)
+            if (i >= lookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
             {
                 double sumGain = 0;
                 double sumLoss = 0;
 
-                for (int p = 1; p <= lookbackPeriods; p++)
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
                     sumGain += gain[p];
                     sumLoss += loss[p];
@@ -73,22 +61,35 @@ public static partial class Indicator
                 avgGain = sumGain / lookbackPeriods;
                 avgLoss = sumLoss / lookbackPeriods;
 
-                r.Rsi = (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100;
+                rsi = !double.IsNaN(avgGain / avgLoss)
+                      ? avgLoss > 0 ? 100 - 100 / (1 + avgGain / avgLoss) : 100
+                      : null;
             }
+
+            // calculate RSI normally
+            else if (i > lookbackPeriods)
+            {
+                avgGain = (avgGain * (lookbackPeriods - 1) + gain[i]) / lookbackPeriods;
+                avgLoss = (avgLoss * (lookbackPeriods - 1) + loss[i]) / lookbackPeriods;
+
+                if (avgLoss > 0)
+                {
+                    double rs = avgGain / avgLoss;
+                    rsi = 100 - 100 / (1 + rs);
+                }
+                else
+                {
+                    rsi = 100;
+                }
+            }
+
+            RsiResult r = new(
+                Timestamp: s.Timestamp,
+                Rsi: rsi);
+
+            results.Add(r);
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateRsi(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for RSI.");
-        }
     }
 }

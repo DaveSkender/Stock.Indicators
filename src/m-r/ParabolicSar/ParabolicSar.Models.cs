@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class ParabolicSarResult : ResultBase, IReusableResult
+public readonly record struct ParabolicSarResult
+(
+    DateTime Timestamp,
+    double? Sar,
+    bool? IsReversal
+) : IReusable
 {
-    public ParabolicSarResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Sar { get; set; }
-    public bool? IsReversal { get; set; }
-
-    double? IReusableResult.Value => Sar;
+    double IReusable.Value => Sar.Null2NaN();
 }

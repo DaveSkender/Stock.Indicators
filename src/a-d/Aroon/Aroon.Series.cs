@@ -1,14 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 // AROON OSCILLATOR (SERIES)
+
 public static partial class Indicator
 {
-    internal static List<AroonResult> CalcAroon(
+    private static List<AroonResult> CalcAroon(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ValidateAroon(lookbackPeriods);
+        Aroon.Validate(lookbackPeriods);
 
         // initialize
         List<AroonResult> results = new(qdList.Count);
@@ -17,9 +18,8 @@ public static partial class Indicator
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];
-
-            AroonResult r = new(q.Date);
-            results.Add(r);
+            double? aroonUp = null;
+            double? aroonDown = null;
 
             // add aroons
             if (i + 1 > lookbackPeriods)
@@ -46,24 +46,20 @@ public static partial class Indicator
                     }
                 }
 
-                r.AroonUp = 100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
-                r.AroonDown = 100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
-                r.Oscillator = r.AroonUp - r.AroonDown;
+                aroonUp = 100d * (lookbackPeriods - (i + 1 - lastHighIndex)) / lookbackPeriods;
+                aroonDown = 100d * (lookbackPeriods - (i + 1 - lastLowIndex)) / lookbackPeriods;
             }
+
+            AroonResult r = new(
+                Timestamp: q.Timestamp,
+                AroonUp: aroonUp,
+                AroonDown: aroonDown,
+                Oscillator: aroonUp - aroonDown);
+
+            results.Add(r);
+
         }
 
         return results;
-    }
-
-    // parameter validation
-    private static void ValidateAroon(
-        int lookbackPeriods)
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for Aroon.");
-        }
     }
 }

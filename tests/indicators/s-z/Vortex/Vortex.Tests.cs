@@ -1,12 +1,12 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class VortexTests : TestBase
+public class VortexTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
-        List<VortexResult> results = quotes
+        List<VortexResult> results = Quotes
             .GetVortex(14)
             .ToList();
 
@@ -37,26 +37,26 @@ public class VortexTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<VortexResult> r = badQuotes
+        List<VortexResult> r = BadQuotes
             .GetVortex(20)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pvi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Pvi is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<VortexResult> r0 = noquotes
+        List<VortexResult> r0 = Noquotes
             .GetVortex(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VortexResult> r1 = onequote
+        List<VortexResult> r1 = Onequote
             .GetVortex(5)
             .ToList();
 
@@ -66,7 +66,7 @@ public class VortexTests : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<VortexResult> results = quotes
+        List<VortexResult> results = Quotes
             .GetVortex(14)
             .Condense()
             .ToList();
@@ -82,7 +82,7 @@ public class VortexTests : TestBase
     [TestMethod]
     public void Removed()
     {
-        List<VortexResult> results = quotes
+        List<VortexResult> results = Quotes
             .GetVortex(14)
             .RemoveWarmupPeriods()
             .ToList();
@@ -99,5 +99,5 @@ public class VortexTests : TestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetVortex(1));
+            => Quotes.GetVortex(1));
 }

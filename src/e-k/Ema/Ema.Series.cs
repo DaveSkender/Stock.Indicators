@@ -1,48 +1,64 @@
 namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (SERIES)
-public static partial class Indicator
+
+public static partial class Ema
 {
-    internal static List<EmaResult> CalcEma(
-        this List<(DateTime, double)> tpList,
+    internal static List<EmaResult> CalcEma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        EmaObserver.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<EmaResult> results = new(length);
 
-        double lastEma = 0;
+        double lastEma = double.NaN;
         double k = 2d / (lookbackPeriods + 1);
-        int initPeriods = Math.Min(lookbackPeriods, length);
-
-        for (int i = 0; i < initPeriods; i++)
-        {
-            (DateTime _, double value) = tpList[i];
-            lastEma += value;
-        }
-
-        lastEma /= lookbackPeriods;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            EmaResult r = new(date);
+            var s = source[i];
+
+            // skip incalculable periods
+            if (i < lookbackPeriods - 1)
+            {
+                results.Add(new(Timestamp: s.Timestamp));
+                continue;
+            }
+
+            double ema;
+
+            // when no prior EMA, reset as SMA
+            if (double.IsNaN(lastEma))
+            {
+                double sum = 0;
+                for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                {
+                    var ps = source[p];
+                    sum += ps.Value;
+                }
+
+                ema = sum / lookbackPeriods;
+            }
+
+            // normal EMA
+            else
+            {
+                ema = Ema.Increment(k, lastEma, s.Value);
+            }
+
+            EmaResult r = new(
+                Timestamp: s.Timestamp,
+                Ema: ema.NaN2Null());
+
             results.Add(r);
 
-            if (i + 1 > lookbackPeriods)
-            {
-                double ema = EmaObserver.Increment(value, lastEma, k);
-                r.Ema = ema.NaN2Null();
-                lastEma = ema;
-            }
-            else if (i == lookbackPeriods - 1)
-            {
-                r.Ema = lastEma.NaN2Null();
-            }
+            lastEma = ema;
         }
 
         return results;

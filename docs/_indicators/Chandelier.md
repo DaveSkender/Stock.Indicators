@@ -54,7 +54,7 @@ IEnumerable<ChandelierResult>
 
 ### ChandelierResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ChandelierExit`** _`double`_ - Exit line
 

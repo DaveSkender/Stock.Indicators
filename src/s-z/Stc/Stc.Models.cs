@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class StcResult : ResultBase, IReusableResult
+public readonly record struct StcResult
+(
+    DateTime Timestamp,
+    double? Stc
+) : IReusable
 {
-    public StcResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Stc { get; set; }
-
-    double? IReusableResult.Value => Stc;
+    double IReusable.Value => Stc.Null2NaN();
 }

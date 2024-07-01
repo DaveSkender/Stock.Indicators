@@ -1,16 +1,16 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class StarcBandsTests : TestBase
+public class StarcBandsTests : SeriesTestBase
 {
     [TestMethod]
-    public void Standard()
+    public override void Standard()
     {
         int smaPeriods = 20;
         int multiplier = 2;
         int atrPeriods = 14;
 
-        List<StarcBandsResult> results = quotes
+        List<StarcBandsResult> results = Quotes
             .GetStarcBands(smaPeriods, multiplier, atrPeriods)
             .ToList();
 
@@ -48,26 +48,26 @@ public class StarcBandsTests : TestBase
     }
 
     [TestMethod]
-    public void BadData()
+    public override void BadData()
     {
-        List<StarcBandsResult> r = badQuotes
+        List<StarcBandsResult> r = BadQuotes
             .GetStarcBands(10, 3, 15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
     }
 
     [TestMethod]
-    public void NoQuotes()
+    public override void NoQuotes()
     {
-        List<StarcBandsResult> r0 = noquotes
+        List<StarcBandsResult> r0 = Noquotes
             .GetStarcBands(10)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StarcBandsResult> r1 = onequote
+        List<StarcBandsResult> r1 = Onequote
             .GetStarcBands(10)
             .ToList();
 
@@ -82,7 +82,7 @@ public class StarcBandsTests : TestBase
         int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results = quotes
+        List<StarcBandsResult> results = Quotes
             .GetStarcBands(smaPeriods, multiplier, atrPeriods)
             .Condense()
             .ToList();
@@ -104,7 +104,7 @@ public class StarcBandsTests : TestBase
         int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results = quotes
+        List<StarcBandsResult> results = Quotes
             .GetStarcBands(smaPeriods, multiplier, atrPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -123,14 +123,14 @@ public class StarcBandsTests : TestBase
     {
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(1, 2, 10));
+            Quotes.GetStarcBands(1));
 
         // bad ATR period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(20, 2, 1));
+            Quotes.GetStarcBands(20, 2, 1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(20, 0, 10));
+            Quotes.GetStarcBands(20, 0));
     }
 }
