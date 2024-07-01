@@ -4,8 +4,6 @@ public class Alligator<TIn>
     : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
     where TIn : struct, IReusable
 {
-    #region CONSTRUCTORS
-
     public Alligator(
         IChainProvider<TIn> provider,
         int jawPeriods,
@@ -36,9 +34,6 @@ public class Alligator<TIn>
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
-    #endregion
-
-    # region PROPERTIES
 
     public int JawPeriods { get; }
     public int JawOffset { get; }
@@ -46,7 +41,7 @@ public class Alligator<TIn>
     public int TeethOffset { get; }
     public int LipsPeriods { get; }
     public int LipsOffset { get; }
-    #endregion
+
 
     # region METHODS
 

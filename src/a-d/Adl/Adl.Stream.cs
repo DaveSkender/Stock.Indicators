@@ -15,6 +15,7 @@ public class Adl<TQuote>
             : provider.Subscribe(this);
     }
 
+
     # region METHODS
 
     public override string ToString()
