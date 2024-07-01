@@ -1,0 +1,31 @@
+<svg viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    overflow="hidden">
+
+    <defs>
+        <style>
+            @import url("https://fonts.googleapis.com/css?family=Rubik:500,700");
+        </style>
+
+        <g id="stripes">
+            <g transform="rotate(40 360 360) scale(1.93) translate(-75 -265)">
+                <rect x="0" y="0" width="163" height="720" fill="#ED7D31" />
+                <rect x="163" y="0" width="202" height="720" fill="#4472C4" />
+                <rect x="365" y="0" width="86" height="720" fill="#FFC000" />
+                <rect x="451" y="0" width="48" height="720" fill="#404040" />
+                <rect x="499" y="0" width="221" height="720" fill="#70AD47" />
+            </g>
+        </g>
+    </defs>
+
+    <use xlink:href="#stripes" />
+    <rect width="100%" height="100%" fill="#1b1b1b" opacity="0.9" />
+    <!-- <rect x="330" y="10" width="620" height="620" fill="#1b1b1b" opacity="0.5" /> -->
+    <!-- <line x1="0" y1="320" x2="1280" y2="320" stroke="gray" /> -->
+    <!-- <line x1="640" y1="0" x2="640" y2="640" stroke="gray" /> -->
+    <text font-family="Rubik" font-weight="700" font-size="95" fill="#E6C74C" opacity="0.85" transform="translate(430 258)">stock</text>
+    <text font-family="Rubik" font-weight="700" font-size="95" fill="#E6C74C" opacity="0.85" transform="translate(400 335)">indicators</text>
+    <text font-family="Rubik" font-weight="600" font-size="40" fill="#E6C74C" opacity="0.85" transform="translate(650 375)">for C# .NET</text>
+    <text font-family="Rubik" font-weight="400" font-size="35" fill="#A9A9A9" opacity="0.85" transform="translate(435 450)">Skender.Stock.Indicators</text>
+    <text font-family="Rubik" font-weight="300" font-size="25" fill="#A9A9A9" opacity="0.85" transform="translate(570 475)">@nuget.org</text>
+    <text font-family="Rubik" font-weight="400" font-size="28" fill="#A9A9A9" opacity="1.00" transform="translate(415 530)">https://dotnet.stockindicators.dev</text>
+</svg>

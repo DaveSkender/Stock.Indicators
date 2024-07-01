@@ -51,9 +51,8 @@ jobs:
       - name: Compose version
         id: compose
         run: |
-          COMPOSED_VERSION=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || inputs.preview && github.run_number || '' }}
-          echo "version=$COMPOSED_VERSION" >> "$GITHUB_OUTPUT"
-          echo "COMPOSED_VERSION=$COMPOSED_VERSION" >> "$GITHUB_ENV"
+          ver=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || inputs.preview && github.run_number || '' }}
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
 
       - name: Update release notes URL
         uses: jacobtomlinson/gha-find-replace@v3
@@ -86,7 +85,7 @@ jobs:
           -p:PackageVersion=${{ steps.compose.outputs.version }}
 
       - name: Save package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: packages
           path: NuGet
@@ -100,7 +99,7 @@ jobs:
             echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
             echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed    | ${{ steps.compose.outputs.COMPOSED_VERSION }}   |"
+            echo "| Composed    | ${{ steps.compose.outputs.version }}   |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -140,7 +139,7 @@ jobs:
           nuget-version: '6.x'
 
       - name: Download package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: packages
           path: NuGet
