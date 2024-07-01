@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (API)
-public static partial class Indicator
+public static partial class Atr
 {
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
