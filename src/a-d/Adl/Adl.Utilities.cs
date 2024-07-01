@@ -14,12 +14,14 @@ public static partial class Adl
     /// for more information.</para>
     /// </summary>
     /// <param name="timestamp">Timestamp</param>
-    /// <param name="prevAdl">Last ADL value, from prior period</param>
+    /// <param name="prevAdl">
+    /// Last ADL value, from prior period
+    /// </param>
     /// <param name="high">High price, current period</param>
     /// <param name="low">Low price, current period</param>
     /// <param name="close">Close price, current period</param>
     /// <param name="volume">Volume, current period</param>
-    /// <returns>New ADL result value.</returns>
+    /// <returns>New ADL result value</returns>
     public static AdlResult Increment(
         DateTime timestamp,
         double prevAdl,

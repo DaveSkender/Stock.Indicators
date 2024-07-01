@@ -17,7 +17,8 @@ public static partial class Adl
             QuoteD q = qdList[i];
 
             AdlResult r = Increment(
-                q.Timestamp, prevAdl, q.High, q.Low, q.Close, q.Volume);
+                q.Timestamp, prevAdl,
+                q.High, q.Low, q.Close, q.Volume);
 
             results.Add(r);
 

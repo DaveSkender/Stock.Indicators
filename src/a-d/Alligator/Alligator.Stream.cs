@@ -58,33 +58,38 @@ public class Alligator<TIn>
     protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
-        double jaw = double.NaN;
-        double lips = double.NaN;
-        double teeth = double.NaN;
+        AlligatorResult r;
 
         // handle deletes
         if (act == Act.Delete)
         {
             i = Cache.FindIndex(inbound.Timestamp);
-            AlligatorResult alligator = Cache[i];
 
-            jaw = alligator.Jaw.Null2NaN();
-            lips = alligator.Lips.Null2NaN();
-            teeth = alligator.Teeth.Null2NaN();
+            // cache entry unexpectedly not found
+            if (i == -1)
+            {
+                throw new InvalidOperationException(
+                    "Matching cache entry not found.");
+            }
+
+            r = Cache[i];
         }
 
-        // handle new values
+        // calculate incremental value
         else
         {
-
             i = Provider.FindIndex(inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
             {
                 throw new InvalidOperationException(
-                    "Matching source history not found on arrival.");
+                    "Matching source history not found.");
             }
+
+            double jaw = double.NaN;
+            double lips = double.NaN;
+            double teeth = double.NaN;
 
             // calculate alligator's jaw, when in range
             if (i >= JawPeriods + JawOffset - 1)
@@ -160,15 +165,15 @@ public class Alligator<TIn>
                     lips = (prevLips * (LipsPeriods - 1) + newVal) / LipsPeriods;
                 }
             }
-        }
 
-        // candidate result
-        AlligatorResult r = new() {
-            Timestamp = inbound.Timestamp,
-            Jaw = jaw.NaN2Null(),
-            Lips = lips.NaN2Null(),
-            Teeth = teeth.NaN2Null()
-        };
+            // candidate result
+            r = new() {
+                Timestamp = inbound.Timestamp,
+                Jaw = jaw.NaN2Null(),
+                Lips = lips.NaN2Null(),
+                Teeth = teeth.NaN2Null()
+            };
+        }
 
         // save to cache
         act = ModifyCache(act, r);

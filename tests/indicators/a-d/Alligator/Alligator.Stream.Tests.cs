@@ -19,7 +19,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
             .ToAlligator();
 
         // fetch initial results (early)
-        IEnumerable<AlligatorResult> results
+        IReadOnlyList<AlligatorResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -48,21 +48,20 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         provider.Delete(quotesList[400]);
         quotesList.RemoveAt(400);
 
-        // final results
-        List<AlligatorResult> streamList
-            = results.ToList();
-
         // time-series, for comparison
-        List<AlligatorResult> seriesList = quotesList
+        List<AlligatorResult> seriesList
+           = quotesList
             .GetAlligator()
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < length - 1; i++)
         {
+            Quote q = quotesList[i];
             AlligatorResult s = seriesList[i];
             AlligatorResult r = streamList[i];
 
+            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Jaw.Should().Be(s.Jaw);
             r.Lips.Should().Be(s.Lips);
@@ -117,21 +116,24 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // final results
-        List<AlligatorResult> streamList
-            = [.. observer.Results];
+        IReadOnlyList<AlligatorResult> streamList
+            = observer.Results;
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList = quotesList
+        List<AlligatorResult> seriesList
+           = quotesList
             .GetSma(10)
             .GetAlligator()
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < length - 1; i++)
         {
+            Quote q = quotesList[i];
             AlligatorResult s = seriesList[i];
             AlligatorResult r = streamList[i];
 
+            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Jaw.Should().Be(s.Jaw);
             r.Lips.Should().Be(s.Lips);

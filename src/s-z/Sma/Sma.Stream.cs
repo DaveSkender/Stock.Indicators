@@ -38,29 +38,37 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
     protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
-        double sma;
+        SmaResult r;
 
         // handle deletes
         if (act == Act.Delete)
         {
             i = Cache.FindIndex(inbound.Timestamp);
-            sma = Cache[i].Sma.Null2NaN();
+
+            // cache entry unexpectedly not found
+            if (i == -1)
+            {
+                throw new InvalidOperationException(
+                    "Matching cache entry not found.");
+            }
+
+            r = Cache[i];
         }
 
-        // handle new values
+        // calculate incremental value
         else
         {
-            // calculate incremental value
             i = Provider.FindIndex(inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
             {
                 throw new InvalidOperationException(
-                    "Matching source history not found on arrival.");
+                    "Matching source history not found.");
             }
 
             // normal
+            double sma;
 
             if (i >= LookbackPeriods - 1)
             {
@@ -78,12 +86,12 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
             {
                 sma = double.NaN;
             }
-        }
 
-        // candidate result
-        SmaResult r = new(
-            Timestamp: inbound.Timestamp,
-            Sma: sma.NaN2Null());
+            // candidate result
+            r = new(
+                Timestamp: inbound.Timestamp,
+                Sma: sma.NaN2Null());
+        }
 
         // save to cache
         act = ModifyCache(act, r);

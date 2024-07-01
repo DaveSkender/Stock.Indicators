@@ -36,16 +36,24 @@ public class Ema<TIn>
     protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
-        double ema;
+        EmaResult r;
 
         // handle deletes
         if (act is Act.Delete)
         {
             i = Cache.FindIndex(inbound.Timestamp);
-            ema = Cache[i].Ema.Null2NaN();
+
+            // cache entry unexpectedly not found
+            if (i == -1)
+            {
+                throw new InvalidOperationException(
+                    "Matching cache entry not found.");
+            }
+
+            r = Cache[i];
         }
 
-        // handle new values
+        // calculate incremental value
         else
         {
             i = Provider.FindIndex(inbound.Timestamp);
@@ -54,10 +62,11 @@ public class Ema<TIn>
             if (i == -1)
             {
                 throw new InvalidOperationException(
-                    "Matching source history not found on arrival.");
+                    "Matching source history not found.");
             }
 
             // normal
+            double ema;
 
             if (i >= LookbackPeriods - 1)
             {
@@ -88,12 +97,12 @@ public class Ema<TIn>
             {
                 ema = double.NaN;
             }
-        }
 
-        // candidate result
-        EmaResult r = new(
-            Timestamp: inbound.Timestamp,
-            Ema: ema.NaN2Null());
+            // candidate result
+            r = new(
+                Timestamp: inbound.Timestamp,
+                Ema: ema.NaN2Null());
+        }
 
         // save to cache
         act = ModifyCache(act, r);

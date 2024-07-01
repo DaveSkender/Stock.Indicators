@@ -14,6 +14,7 @@ public static partial class QuoteUtility
     public static IReadOnlyList<Quote> ToQuoteList<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
+
         => quotes
             .OrderBy(x => x.Timestamp)
             .Select(x => x.ToQuote())
@@ -23,6 +24,7 @@ public static partial class QuoteUtility
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
+
           => quotes
             .OrderBy(x => x.Timestamp)
             .Select(x => x.ToQuoteD())
@@ -33,6 +35,7 @@ public static partial class QuoteUtility
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote
+
         => quotes
             .OrderBy(x => x.Timestamp)
             .Select(x => x.ToReusable(candlePart))
@@ -42,6 +45,7 @@ public static partial class QuoteUtility
     internal static List<Reusable> ToReusableList(
         this List<QuoteD> qdList,
         CandlePart candlePart)
+
           => qdList
             .OrderBy(x => x.Timestamp)
             .Select(x => x.ToReusable(candlePart))
@@ -51,7 +55,9 @@ public static partial class QuoteUtility
 
     // convert any IQuote type to native Quote type
     public static Quote ToQuote<TQuote>(this TQuote quote)
-        where TQuote : IQuote => new(
+        where TQuote : IQuote
+
+        => new(
             Timestamp: quote.Timestamp,
             Open: quote.Open,
             High: quote.High,
@@ -60,8 +66,9 @@ public static partial class QuoteUtility
             Volume: quote.Volume);
 
     // convert to quote in double precision
-    private static QuoteD ToQuoteD(this IQuote quote)
-          => new(
+    internal static QuoteD ToQuoteD(this IQuote quote)
+
+        => new(
             Timestamp: quote.Timestamp,
             Open: (double)quote.Open,
             High: (double)quote.High,
@@ -70,9 +77,8 @@ public static partial class QuoteUtility
             Volume: (double)quote.Volume);
 
     // convert TQuote element to a basic chainable class
-    internal static Reusable ToReusable(
-        this IQuote q,
-        CandlePart candlePart)
+    internal static Reusable ToReusable(this IQuote q, CandlePart candlePart)
+
         => candlePart switch {
 
             CandlePart.Open => new(q.Timestamp, (double)q.Open),
@@ -91,9 +97,8 @@ public static partial class QuoteUtility
         };
 
     // convert quoteD element to reusable type
-    internal static Reusable ToReusable(
-        this QuoteD q,
-        CandlePart candlePart)
+    internal static Reusable ToReusable(this QuoteD q, CandlePart candlePart)
+
         => candlePart switch {
 
             CandlePart.Open => new(q.Timestamp, q.Open),

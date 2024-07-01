@@ -35,7 +35,8 @@ public static partial class Ema
         // check parameter arguments
         if (lookbackPeriods <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+            throw new ArgumentOutOfRangeException(
+                nameof(lookbackPeriods), lookbackPeriods,
                 "Lookback periods must be greater than 0 for EMA.");
         }
     }
