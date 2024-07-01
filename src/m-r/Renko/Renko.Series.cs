@@ -22,123 +22,79 @@ public static partial class Renko
             return results;
         }
 
+        // first brick baseline
         TQuote q0 = quotesList[0];
 
-        bool resetHlv = true;
         int decimals = brickSize.GetDecimalPlaces();
         decimal baseline = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
 
-        decimal h = decimal.MinValue;
-        decimal l = decimal.MaxValue;
-        decimal v = 0;
-
         RenkoResult lastBrick = new() {
-            Timestamp = q0.Timestamp,
             Open = baseline,
             Close = baseline
         };
+
+        // initialize high/low/volume tracking
+        decimal h = decimal.MinValue;
+        decimal l = decimal.MaxValue;
+        decimal sumV = 0;  // cumulative
 
         // roll through quotes
         for (int i = 1; i < length; i++)
         {
             TQuote q = quotesList[i];
 
-            // accumulate brick info
-            if (resetHlv)
-            {
-                // reset
-                h = q.High;
-                l = q.Low;
-                v = q.Volume;
-            }
-            else
-            {
-                h = q.High > h ? q.High : h;
-                l = q.Low < l ? q.Low : l;
-                v += q.Volume;
-            }
+            // track high/low/volume between bricks
+            h = Math.Max(h, q.High);
+            l = Math.Min(l, q.Low);
+            sumV += q.Volume;
 
-            // determine if new brick threshold is met
-            int newBrickQty = GetNewBricks(endType, q, lastBrick, brickSize);
-            int absQty = Math.Abs(newBrickQty);
+            // determine new brick quantity
+            int newBrickQty = GetNewBrickQuantity(q, lastBrick, brickSize, endType);
+            int absBrickQty = Math.Abs(newBrickQty);
+            bool isUp = newBrickQty >= 0;
 
             // add new brick(s)
             // can add more than one brick!
-            for (int b = 0; b < absQty; b++)
+            for (int b = 0; b < absBrickQty; b++)
             {
+                decimal o;
                 decimal c;
-                bool isUp = newBrickQty >= 0;
+                decimal v = sumV / absBrickQty;
 
-                if (newBrickQty > 0)
+                if (isUp)
                 {
-                    baseline = Math.Max(lastBrick.Open, lastBrick.Close);
-                    c = baseline + brickSize;
+                    o = Math.Max(lastBrick.Open, lastBrick.Close);
+                    c = o + brickSize;
                 }
                 else
                 {
-                    baseline = Math.Min(lastBrick.Open, lastBrick.Close);
-                    c = baseline - brickSize;
+                    o = Math.Min(lastBrick.Open, lastBrick.Close);
+                    c = o - brickSize;
                 }
 
                 RenkoResult r = new() {
                     Timestamp = q.Timestamp,
-                    Open = baseline,
+                    Open = o,
                     High = h,
                     Low = l,
                     Close = c,
-                    Volume = v / absQty,
+                    Volume = v,
                     IsUp = isUp
                 };
+
                 results.Add(r);
                 lastBrick = r;
             }
 
-            // init next brick(s)
-            resetHlv = absQty != 0;
+            // reset high/low/volume tracking
+            if (absBrickQty != 0)
+            {
+                h = decimal.MinValue;
+                l = decimal.MaxValue;
+                sumV = 0;
+            }
         }
 
         return results;
-    }
-
-    // calculate brick size
-    private static int GetNewBricks<TQuote>(
-        EndType endType,
-        TQuote q,
-        RenkoResult lastBrick,
-        decimal brickSize)
-        where TQuote : IQuote
-    {
-        int bricks;
-        decimal upper = Math.Max(lastBrick.Open, lastBrick.Close);
-        decimal lower = Math.Min(lastBrick.Open, lastBrick.Close);
-
-        switch (endType)
-        {
-            case EndType.Close:
-
-                bricks = q.Close > upper
-                    ? (int)((q.Close - upper) / brickSize)
-                    : q.Close < lower
-                        ? (int)((q.Close - lower) / brickSize)
-                        : 0;
-
-                break;
-
-            case EndType.HighLow:
-
-                // high/low assumption: absolute greater diff wins
-                // --> does not consider close direction
-
-                decimal hQty = (q.High - upper) / brickSize;
-                decimal lQty = (lower - q.Low) / brickSize;
-
-                bricks = (int)(hQty >= lQty ? hQty : -lQty);
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException(nameof(endType));
-        }
-
-        return bricks;
     }
 }
