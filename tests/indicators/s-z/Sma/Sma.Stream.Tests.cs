@@ -64,6 +64,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
@@ -120,6 +121,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
+            r.Should().Be(s);
         }
     }
 
@@ -173,6 +175,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Ema.Should().Be(s.Ema);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();

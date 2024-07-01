@@ -66,6 +66,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
             r.Jaw.Should().Be(s.Jaw);
             r.Lips.Should().Be(s.Lips);
             r.Teeth.Should().Be(s.Teeth);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
@@ -138,6 +139,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
             r.Jaw.Should().Be(s.Jaw);
             r.Lips.Should().Be(s.Lips);
             r.Teeth.Should().Be(s.Teeth);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();

@@ -1,11 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 // RENKO CHART - STANDARD (API)
-public static partial class Indicator
+public static partial class Renko
 {
     // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
-    ///
     public static IEnumerable<RenkoResult> GetRenko<TQuote>(
         this IEnumerable<TQuote> quotes,
         decimal brickSize,
@@ -13,4 +11,13 @@ public static partial class Indicator
         where TQuote : IQuote => quotes
             .ToSortedList()
             .CalcRenko(brickSize, endType);
+
+    // OBSERVER, from Quote Provider
+    public static Renko<TQuote> ToRenko<TQuote>(
+        this IQuoteProvider<TQuote> quoteProvider,
+        decimal brickSize,
+        EndType endType = EndType.Close)
+        where TQuote : struct, IQuote
+        => new(quoteProvider, brickSize, endType);
+
 }

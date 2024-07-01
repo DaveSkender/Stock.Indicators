@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// RENKO CHART - STANDARD (COMMON)
+// RENKO CHART - STANDARD (UTILITIES)
 
-public static class Renko
+public static partial class Renko
 {
     // parameter validation
     internal static void Validate(
@@ -11,7 +11,8 @@ public static class Renko
         // check parameter arguments
         if (brickSize <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(brickSize), brickSize,
+            throw new ArgumentOutOfRangeException(
+                nameof(brickSize), brickSize,
                 "Brick size must be greater than 0 for Renko Charts.");
         }
     }

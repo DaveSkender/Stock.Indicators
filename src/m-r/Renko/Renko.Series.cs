@@ -2,16 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // RENKO CHART - STANDARD (SERIES)
 
-public static partial class Indicator
+public static partial class Renko
 {
-    private static List<RenkoResult> CalcRenko<TQuote>(
+    internal static List<RenkoResult> CalcRenko<TQuote>(
         this List<TQuote> quotesList,
         decimal brickSize,
         EndType endType)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Renko.Validate(brickSize);
+        Validate(brickSize);
 
         // initialize
         int length = quotesList.Count;

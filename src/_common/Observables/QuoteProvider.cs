@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 ///   OHLCV price quote with value-based equality comparer
 /// </typeparam>
 public class QuoteProvider<TQuote> : AbstractQuoteProvider<TQuote>
-    where TQuote : struct, IQuote, IReusable
+    where TQuote : struct, IQuote
 {
     /// <summary>
     /// Add a single quote.

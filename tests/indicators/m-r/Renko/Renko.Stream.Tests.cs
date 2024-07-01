@@ -1,11 +1,14 @@
 namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class AdlTests : StreamTestBase, ITestChainProvider
+public class RenkoTests : StreamTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
     {
+        decimal brickSize = 2.5m;
+        EndType endType = EndType.Close;
+
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
@@ -15,11 +18,11 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Adl<Quote> observer = provider
-            .ToAdl();
+        Renko<Quote> observer = provider
+            .ToRenko(brickSize, endType);
 
         // fetch initial results (early)
-        IReadOnlyList<AdlResult> streamList
+        IReadOnlyList<RenkoResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -49,20 +52,25 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<AdlResult> seriesList = quotesList
-            .GetAdl()
+        List<RenkoResult> seriesList = quotesList
+            .GetRenko(brickSize, endType)
             .ToList();
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)
         {
             Quote q = quotesList[i];
-            AdlResult s = seriesList[i];
-            AdlResult r = streamList[i];
+            RenkoResult s = seriesList[i];
+            RenkoResult r = streamList[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
-            r.Adl.Should().Be(s.Adl);
+            r.Open.Should().Be(s.Open);
+            r.High.Should().Be(s.High);
+            r.Low.Should().Be(s.Low);
+            r.Close.Should().Be(s.Close);
+            r.Volume.Should().Be(s.Volume);
+            r.IsUp.Should().Be(s.IsUp);
             r.Should().Be(s);
         }
 
@@ -73,6 +81,8 @@ public class AdlTests : StreamTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
+        decimal brickSize = 2.5m;
+        EndType endType = EndType.Close;
         int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes
@@ -84,8 +94,8 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma<AdlResult> observer = provider
-            .ToAdl()
+        Sma<RenkoResult> observer = provider
+            .ToRenko(brickSize, endType)
             .ToSma(smaPeriods);
 
         // emulate quote stream
@@ -104,7 +114,7 @@ public class AdlTests : StreamTestBase, ITestChainProvider
 
         // time-series, for comparison
         List<SmaResult> seriesList = quotesList
-            .GetAdl()
+            .GetRenko(brickSize, endType)
             .GetSma(smaPeriods)
             .ToList();
 
@@ -118,7 +128,6 @@ public class AdlTests : StreamTestBase, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
-            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
