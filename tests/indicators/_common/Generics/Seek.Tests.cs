@@ -10,7 +10,8 @@ public class Seeking : SeriesTestBase
         IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
 
         // find specific date
-        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
+        DateTime findDate
+            = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
 
         EmaResult r = emaResults.Find(findDate);
         Assert.AreEqual(249.3519, r.Ema.Round(4));
@@ -23,10 +24,11 @@ public class Seeking : SeriesTestBase
         IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
 
         // find specific date
-        DateTime findDate = DateTime.ParseExact("1928-10-29", "yyyy-MM-dd", EnglishCulture);
+        DateTime findDate
+            = DateTime.ParseExact("1928-10-29", "yyyy-MM-dd", englishCulture);
 
-        EmaResult r = emaResults.Find(findDate);
-        Assert.IsNull(r);
+        Assert.ThrowsException<InvalidOperationException>(
+            () => emaResults.Find(findDate));
     }
 
     [TestMethod]
@@ -37,7 +39,8 @@ public class Seeking : SeriesTestBase
             .ToSortedList();
 
         // find specific date
-        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
+        DateTime findDate
+            = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", englishCulture);
 
         int i = quotes.FindIndex(findDate);
         Assert.AreEqual(501, i);

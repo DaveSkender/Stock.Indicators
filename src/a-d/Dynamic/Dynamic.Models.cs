@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class DynamicResult : IReusableResult
+public readonly record struct DynamicResult
+(
+    DateTime Timestamp,
+    double? Dynamic
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Dynamic { get; set; }
-
-    double IReusableResult.Value => Dynamic.Null2NaN();
+    double IReusable.Value => Dynamic.Null2NaN();
 }

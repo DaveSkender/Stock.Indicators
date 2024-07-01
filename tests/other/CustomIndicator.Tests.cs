@@ -3,41 +3,30 @@ using System.Globalization;
 
 namespace Tests.CustomIndicators;
 
-public sealed class MyResult : IReusableResult
+public readonly record struct MyResult : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Sma { get; set; }
+    public DateTime Timestamp { get; init; }
+    public double? Sma { get; init; }
 
-    double IReusableResult.Value => Sma.Null2NaN();
+    double IReusable.Value
+        => Sma.Null2NaN();
 }
 
 public static class CustomIndicator
 {
-    // SERIES, from TQuote
-    public static IEnumerable<MyResult> GetIndicator<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote => quotes
-            .ToTupleCollection(CandlePart.Close)
-            .CalcIndicator(lookbackPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<MyResult> GetIndicator(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
-            .ToTupleChainable()
-            .CalcIndicator(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<MyResult> GetIndicator(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
+    public static IEnumerable<MyResult> GetIndicator<T>(
+        this IEnumerable<T> source,
+        int lookbackPeriods)
+        where T : IReusable
+        => source
             .ToSortedCollection()
             .CalcIndicator(lookbackPeriods);
 
-    internal static List<MyResult> CalcIndicator(
-        this Collection<(DateTime, double)> tpList,
+    private static List<MyResult> CalcIndicator<T>(
+        this Collection<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         if (lookbackPeriods <= 0)
@@ -47,27 +36,35 @@ public static class CustomIndicator
         }
 
         // initialize
-        List<MyResult> results = new(tpList.Count);
+        List<MyResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double _) = tpList[i];
+            T s = source[i];
 
-            MyResult result = new() { Timestamp = date };
-            results.Add(result);
+            double? sma;
 
             if (i >= lookbackPeriods - 1)
             {
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    T ps = source[p];
+                    sum += ps.Value;
                 }
 
-                result.Sma = (sum / lookbackPeriods).NaN2Null();
+                sma = (sum / lookbackPeriods).NaN2Null();
             }
+            else
+            {
+                sma = null;
+            }
+
+            results.Add(new() {
+                Timestamp = s.Timestamp,
+                Sma = sma
+            });
         }
 
         return results;
@@ -91,7 +88,6 @@ public class CustomIndicatorTests
     internal static readonly IEnumerable<Quote> onequote = TestData.GetDefault(1);
     internal static readonly IEnumerable<Quote> randomQuotes = TestData.GetRandom(1000);
     internal static readonly IEnumerable<Quote> zeroesQuotes = TestData.GetZeros();
-    internal static readonly IEnumerable<(DateTime, double)> tupleNanny = TestData.GetTupleNaN();
 
     [TestMethod]
     public void Standard()
@@ -192,24 +188,13 @@ public class CustomIndicatorTests
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<MyResult> r = tupleNanny
-            .GetIndicator(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
-    }
-
-    [TestMethod]
     public void NaN()
     {
         List<MyResult> r = TestData.GetBtcUsdNan()
             .GetIndicator(50)
             .ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -220,7 +205,7 @@ public class CustomIndicatorTests
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
     }
 
     [TestMethod]

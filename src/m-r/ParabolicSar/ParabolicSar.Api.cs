@@ -11,7 +11,7 @@ public static partial class Indicator
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcParabolicSar(
                 accelerationStep,
                 maxAccelerationFactor,
@@ -26,7 +26,7 @@ public static partial class Indicator
         double maxAccelerationFactor,
         double initialFactor)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcParabolicSar(
                 accelerationStep,
                 maxAccelerationFactor,

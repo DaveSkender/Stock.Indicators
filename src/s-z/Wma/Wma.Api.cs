@@ -3,27 +3,12 @@ namespace Skender.Stock.Indicators;
 // WEIGHTED MOVING AVERAGE (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<WmaResult> GetWma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcWma(lookbackPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<WmaResult> GetWma(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
-            .ToTupleResult()
-            .CalcWma(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<WmaResult> GetWma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
+    public static IEnumerable<WmaResult> GetWma<T>(
+        this IEnumerable<T> results,
+        int lookbackPeriods)
+        where T : IReusable
+        => results
             .ToSortedList()
             .CalcWma(lookbackPeriods);
 }

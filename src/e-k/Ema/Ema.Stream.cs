@@ -2,70 +2,78 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public partial class Ema : ChainObserver<EmaResult>, IEma
+public class Ema<TIn>
+    : AbstractChainInChainOut<TIn, EmaResult>, IEma
+    where TIn : struct, IReusable
 {
-    // constructor
     public Ema(
-        ChainProvider provider,
+        IChainProvider<TIn> provider,
         int lookbackPeriods)
         : base(provider)
     {
-        Validate(lookbackPeriods);
+        Ema.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        RebuildCache();
-
         // subscribe to provider
-        unsubscriber = provider != null
+        Subscription = provider != null
            ? provider.Subscribe(this)
            : throw new ArgumentNullException(nameof(provider));
     }
 
-    // PROPERTIES
+    public int LookbackPeriods { get; }
+    public double K { get; }
 
-    public int LookbackPeriods { get; private set; }
-    public double K { get; private set; }
 
-    // METHODS
+    # region METHODS
 
-    // handle chain arrival
-    public override void OnNext((Act act, DateTime date, double price) value)
+    public override string ToString()
+        => $"EMA({LookbackPeriods})";
+
+    protected override void OnNextArrival(Act act, TIn inbound)
     {
         int i;
-        double ema;
-
-        List<(DateTime _, double value)> supplier = ChainSupplier.Chain;
+        EmaResult r;
 
         // handle deletes
-        if (value.act == Act.Delete)
+        if (act is Act.Delete)
         {
-            i = Cache.FindIndex(value.date);
-            ema = Cache[i].Ema.Null2NaN();
+            i = Cache.FindIndex(inbound.Timestamp);
+
+            // cache entry unexpectedly not found
+            if (i == -1)
+            {
+                throw new InvalidOperationException(
+                    "Matching cache entry not found.");
+            }
+
+            r = Cache[i];
         }
 
-        // handle new values
+        // calculate incremental value
         else
         {
-            i = supplier.FindIndex(value.date);
+            i = Provider.FindIndex(inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
             {
                 throw new InvalidOperationException(
-                    "Matching source history not found on arrival.");
+                    "Matching source history not found.");
             }
 
             // normal
-            else if (i >= LookbackPeriods - 1)
+            double ema;
+
+            if (i >= LookbackPeriods - 1)
             {
-                IReusableResult last = Cache[i - 1];  // prior EMA
+                IReusable last = Cache[i - 1];  // prior EMA
 
                 // normal
                 if (!double.IsNaN(last.Value))
                 {
-                    ema = Increment(K, last.Value, value.price);
+                    ema = Ema.Increment(K, last.Value, inbound.Value);
                 }
 
                 // set first value (normal) or reset
@@ -75,7 +83,7 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
                     double sum = 0;
                     for (int w = i - LookbackPeriods + 1; w <= i; w++)
                     {
-                        sum += supplier[w].value;
+                        sum += ProviderCache[w].Value;
                     }
 
                     ema = sum / LookbackPeriods;
@@ -87,42 +95,26 @@ public partial class Ema : ChainObserver<EmaResult>, IEma
             {
                 ema = double.NaN;
             }
+
+            // candidate result
+            r = new(
+                Timestamp: inbound.Timestamp,
+                Ema: ema.NaN2Null());
         }
 
-        // candidate result
-        EmaResult r = new() {
-            Timestamp = value.date,
-            Ema = ema.NaN2Null()
-        };
-
         // save to cache
-        Act act = CacheChainorPerAction(value.act, r, ema);
+        act = ModifyCache(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
-        // update forward values
-        if (act != Act.AddNew && i < supplier.Count - 1)
+        // cascade update forward values (recursively)
+        if (act != Act.AddNew && i < ProviderCache.Count - 1)
         {
-            // cascade updates gracefully
             int next = act == Act.Delete ? i : i + 1;
-            (DateTime d, double v) = supplier[next];
-            OnNext((Act.Update, d, v));
+            TIn value = ProviderCache[next];
+            OnNextArrival(Act.Update, value);
         }
     }
-
-    // delete cache between index values
-    // usually called from inherited ClearCache(fromDate)
-    internal override void ClearCache(int fromIndex, int toIndex)
-    {
-        // delete and deliver instruction,
-        // in reverse order to prevent recompositions
-
-        for (int i = toIndex; i >= fromIndex; i--)
-        {
-            EmaResult r = Cache[i];
-            Act act = CacheChainorPerAction(Act.Delete, r, double.NaN);
-            NotifyObservers(act, r);
-        }
-    }
+    #endregion
 }

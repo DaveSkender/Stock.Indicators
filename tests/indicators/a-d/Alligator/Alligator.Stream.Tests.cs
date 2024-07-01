@@ -1,12 +1,12 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
+public class AlligatorTests : StreamTestBase, ITestChainObserver
 {
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -15,11 +15,11 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Alligator observer = provider
-            .AttachAlligator(13, 8, 8, 5, 5, 3);
+        Alligator<Quote> observer = provider
+            .ToAlligator();
 
         // fetch initial results (early)
-        IEnumerable<AlligatorResult> results
+        IReadOnlyList<AlligatorResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -48,21 +48,20 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         provider.Delete(quotesList[400]);
         quotesList.RemoveAt(400);
 
-        // final results
-        List<AlligatorResult> streamList
-            = results.ToList();
-
         // time-series, for comparison
-        List<AlligatorResult> seriesList = quotesList
-            .GetAlligator(13, 8, 8, 5, 5, 3)
+        List<AlligatorResult> seriesList
+           = quotesList
+            .GetAlligator()
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < length - 1; i++)
         {
+            Quote q = quotesList[i];
             AlligatorResult s = seriesList[i];
             AlligatorResult r = streamList[i];
 
+            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Jaw.Should().Be(s.Jaw);
             r.Lips.Should().Be(s.Lips);
@@ -74,9 +73,9 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void Chainee()
+    public void ChainObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -85,9 +84,9 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Alligator observer = provider
-            .AttachSma(10)
-            .AttachAlligator(13, 8, 8, 5, 5, 3);
+        Alligator<SmaResult> observer = provider
+            .ToSma(10)
+            .ToAlligator();
 
         // emulate adding quotes out of order
         // note: this works when graceful order
@@ -117,21 +116,24 @@ public class AlligatorStreamTests : StreamTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // final results
-        List<AlligatorResult> streamList
-            = [.. observer.Results];
+        IReadOnlyList<AlligatorResult> streamList
+            = observer.Results;
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList = quotesList
+        List<AlligatorResult> seriesList
+           = quotesList
             .GetSma(10)
-            .GetAlligator(13, 8, 8, 5, 5, 3)
+            .GetAlligator()
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < length - 1; i++)
         {
+            Quote q = quotesList[i];
             AlligatorResult s = seriesList[i];
             AlligatorResult r = streamList[i];
 
+            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Jaw.Should().Be(s.Jaw);
             r.Lips.Should().Be(s.Lips);

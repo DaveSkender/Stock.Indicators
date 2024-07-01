@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class FcbTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<FcbResult> results = quotes
-            .GetFcb(2)
+        List<FcbResult> results = Quotes
+            .GetFcb()
             .ToList();
 
         // proper quantities
@@ -44,7 +44,7 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<FcbResult> r = badQuotes
+        List<FcbResult> r = BadQuotes
             .GetFcb()
             .ToList();
 
@@ -54,13 +54,13 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<FcbResult> r0 = noquotes
+        List<FcbResult> r0 = Noquotes
             .GetFcb()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<FcbResult> r1 = onequote
+        List<FcbResult> r1 = Onequote
             .GetFcb()
             .ToList();
 
@@ -70,8 +70,8 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<FcbResult> results = quotes
-            .GetFcb(2)
+        List<FcbResult> results = Quotes
+            .GetFcb()
             .Condense()
             .ToList();
 
@@ -86,8 +86,8 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<FcbResult> results = quotes
-            .GetFcb(2)
+        List<FcbResult> results = Quotes
+            .GetFcb()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -103,5 +103,5 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetFcb(1));
+            => Quotes.GetFcb(1));
 }

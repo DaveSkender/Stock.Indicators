@@ -4,17 +4,18 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<KamaResult> CalcKama(
-        this List<(DateTime _, double Value)> tpList,
+    private static List<KamaResult> CalcKama<T>(
+        this List<T> source,
         int erPeriods,
         int fastPeriods,
         int slowPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Kama.Validate(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<KamaResult> results = new(length);
 
         double scFast = 2d / (fastPeriods + 1);
@@ -25,57 +26,60 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-
-            KamaResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < erPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
+            double er;
             double kama;
 
             if (double.IsNaN(prevKama))
             {
-                kama = value;
+                er = double.NaN;
+                kama = s.Value;
             }
             else
             {
                 // ER period change
-                double change = Math.Abs(value - tpList[i - erPeriods].Value);
+                double change = Math.Abs(s.Value - source[i - erPeriods].Value);
 
                 // volatility
-                double sumPV = 0;
+                double sumPv = 0;
                 for (int p = i - erPeriods + 1; p <= i; p++)
                 {
-                    sumPV += Math.Abs(tpList[p].Value - tpList[p - 1].Value);
+                    sumPv += Math.Abs(source[p].Value - source[p - 1].Value);
                 }
 
-                if (sumPV != 0)
+                if (sumPv != 0)
                 {
                     // efficiency ratio
-                    double er = change / sumPV;
-                    r.ER = er.NaN2Null();
+                    er = change / sumPv;
 
                     // smoothing constant
-                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
+                    double sc = er * (scFast - scSlow) + scSlow;  // squared later
 
                     // kama calculation
-                    kama = prevKama + (sc * sc * (value - prevKama));
+                    kama = prevKama + sc * sc * (s.Value - prevKama);
                 }
 
                 // handle flatline case
                 else
                 {
-                    r.ER = 0;
-                    kama = value;
+                    er = 0;
+                    kama = s.Value;
                 }
             }
 
-            r.Kama = kama.NaN2Null();
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Er: er.NaN2Null(),
+                Kama: kama.NaN2Null()));
+
             prevKama = kama;
         }
 

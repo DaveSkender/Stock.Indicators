@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class CmfTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CmfResult> results = quotes
-            .GetCmf(20)
+        List<CmfResult> results = Quotes
+            .GetCmf()
             .ToList();
 
         // proper quantities
@@ -34,8 +34,8 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetCmf(20)
+        List<SmaResult> results = Quotes
+            .GetCmf()
             .GetSma(10)
             .ToList();
 
@@ -46,18 +46,18 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CmfResult> r = badQuotes
+        List<CmfResult> r = BadQuotes
             .GetCmf(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cmf is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Cmf is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<CmfResult> r = bigQuotes
+        List<CmfResult> r = BigQuotes
             .GetCmf(150)
             .ToList();
 
@@ -67,13 +67,13 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CmfResult> r0 = noquotes
+        List<CmfResult> r0 = Noquotes
             .GetCmf()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CmfResult> r1 = onequote
+        List<CmfResult> r1 = Onequote
             .GetCmf()
             .ToList();
 
@@ -83,8 +83,8 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CmfResult> results = quotes
-            .GetCmf(20)
+        List<CmfResult> results = Quotes
+            .GetCmf()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -101,5 +101,5 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetCmf(0));
+            => Quotes.GetCmf(0));
 }

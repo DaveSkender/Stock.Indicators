@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class MfiTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<MfiResult> results = quotes
-            .GetMfi(14)
+        List<MfiResult> results = Quotes
+            .GetMfi()
             .ToList();
 
         // proper quantities
@@ -25,7 +25,7 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetMfi()
             .GetSma(10)
             .ToList();
@@ -39,7 +39,7 @@ public class MfiTests : SeriesTestBase
     {
         int lookbackPeriods = 4;
 
-        List<MfiResult> results = quotes
+        List<MfiResult> results = Quotes
             .GetMfi(lookbackPeriods)
             .ToList();
 
@@ -58,24 +58,24 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MfiResult> r = badQuotes
+        List<MfiResult> r = BadQuotes
             .GetMfi(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Mfi is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MfiResult> r0 = noquotes
+        List<MfiResult> r0 = Noquotes
             .GetMfi()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MfiResult> r1 = onequote
+        List<MfiResult> r1 = Onequote
             .GetMfi()
             .ToList();
 
@@ -87,7 +87,7 @@ public class MfiTests : SeriesTestBase
     {
         int lookbackPeriods = 14;
 
-        List<MfiResult> results = quotes
+        List<MfiResult> results = Quotes
             .GetMfi(lookbackPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -103,5 +103,5 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetMfi(1));
+            => Quotes.GetMfi(1));
 }

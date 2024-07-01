@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ParabolicSarResult> CalcParabolicSar(
+    private static List<ParabolicSarResult> CalcParabolicSar(
         this List<QuoteD> qdList,
         double accelerationStep,
         double maxAccelerationFactor,
@@ -17,16 +17,13 @@ public static partial class Indicator
         // initialize
         int length = qdList.Count;
         List<ParabolicSarResult> results = new(length);
-        QuoteD q0;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            q0 = qdList[0];
-        }
+
+        QuoteD q0 = qdList[0];
 
         double accelerationFactor = initialFactor;
         double extremePoint = q0.High;
@@ -38,12 +35,13 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ParabolicSarResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            bool? isReversal;
+            double psar;
 
             // skip first one
             if (i == 0)
             {
+                results.Add(new() { Timestamp = q.Timestamp });
                 continue;
             }
 
@@ -67,8 +65,8 @@ public static partial class Indicator
                 // turn down
                 if (q.Low < sar)
                 {
-                    r.IsReversal = true;
-                    r.Sar = extremePoint;
+                    isReversal = true;
+                    psar = extremePoint;
 
                     isRising = false;
                     accelerationFactor = initialFactor;
@@ -78,8 +76,8 @@ public static partial class Indicator
                 // continue rising
                 else
                 {
-                    r.IsReversal = false;
-                    r.Sar = sar;
+                    isReversal = false;
+                    psar = sar;
 
                     // new high extreme point
                     if (q.High > extremePoint)
@@ -112,8 +110,8 @@ public static partial class Indicator
                 // turn up
                 if (q.High > sar)
                 {
-                    r.IsReversal = true;
-                    r.Sar = extremePoint;
+                    isReversal = true;
+                    psar = extremePoint;
 
                     isRising = true;
                     accelerationFactor = initialFactor;
@@ -123,8 +121,8 @@ public static partial class Indicator
                 // continue falling
                 else
                 {
-                    r.IsReversal = false;
-                    r.Sar = sar;
+                    isReversal = false;
+                    psar = sar;
 
                     // new low extreme point
                     if (q.Low < extremePoint)
@@ -138,24 +136,27 @@ public static partial class Indicator
                 }
             }
 
-            priorSar = (double)r.Sar;
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Sar: psar.NaN2Null(),
+                IsReversal: isReversal));
+
+            priorSar = psar;
         }
 
         // remove first trendline since it is an invalid guess
-        ParabolicSarResult? firstReversal = results
-            .Where(x => x.IsReversal == true)
-            .OrderBy(x => x.Timestamp)
-            .FirstOrDefault();
+        int cutIndex = results.FindIndex(x => x.IsReversal == true);
 
-        int cutIndex = (firstReversal != null)
-            ? results.IndexOf(firstReversal)
-            : length - 1;
+        cutIndex = cutIndex == -1 ? length - 1 : cutIndex;
 
         for (int d = 0; d <= cutIndex; d++)
         {
-            ParabolicSarResult r = results[d];
-            r.Sar = null;
-            r.IsReversal = null;
+            ParabolicSarResult r = results[d] with {
+                Sar = null,
+                IsReversal = null
+            };
+
+            results[d] = r;
         }
 
         return results;

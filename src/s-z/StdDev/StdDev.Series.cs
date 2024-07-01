@@ -4,26 +4,28 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<StdDevResult> CalcStdDev(
-        this List<(DateTime, double)> tpList,
+    private static List<StdDevResult> CalcStdDev<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         StdDev.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<StdDevResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
 
-            StdDevResult r = new() { Timestamp = date };
-            results.Add(r);
+            double mean;
+            double stdDev;
+            double zScore;
 
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double[] values = new double[lookbackPeriods];
                 double sum = 0;
@@ -31,20 +33,33 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double v) = tpList[p];
-                    values[n] = v;
-                    sum += v;
+                    T ps = source[p];
+                    values[n] = ps.Value;
+                    sum += ps.Value;
                     n++;
                 }
 
-                double avg = sum / lookbackPeriods;
+                mean = sum / lookbackPeriods;
 
-                r.StdDev = values.StdDev().NaN2Null();
-                r.Mean = avg.NaN2Null();
+                stdDev = values.StdDev();
 
-                r.ZScore = (r.StdDev == 0) ? null
-                    : (value - avg) / r.StdDev;
+                zScore = stdDev == 0 ? double.NaN
+                    : (s.Value - mean) / stdDev;
             }
+            else
+            {
+                mean = double.NaN;
+                stdDev = double.NaN;
+                zScore = double.NaN;
+            }
+
+            StdDevResult r = new(
+                Timestamp: s.Timestamp,
+                StdDev: stdDev.NaN2Null(),
+                Mean: mean.NaN2Null(),
+                ZScore: zScore.NaN2Null());
+
+            results.Add(r);
         }
 
         return results;

@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Ema
 {
-    internal static List<EmaResult> CalcEma(
-        this List<(DateTime, double)> tpList,
+    internal static List<EmaResult> CalcEma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        Ema.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<EmaResult> results = new(length);
 
         double lastEma = double.NaN;
@@ -21,14 +22,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-
-            EmaResult r = new() { Timestamp = date };
-            results.Add(r);
+            var s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new(Timestamp: s.Timestamp));
                 continue;
             }
 
@@ -40,8 +39,8 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    var ps = source[p];
+                    sum += ps.Value;
                 }
 
                 ema = sum / lookbackPeriods;
@@ -50,10 +49,15 @@ public static partial class Indicator
             // normal EMA
             else
             {
-                ema = Ema.Increment(k, lastEma, value);
+                ema = Ema.Increment(k, lastEma, s.Value);
             }
 
-            r.Ema = ema.NaN2Null();
+            EmaResult r = new(
+                Timestamp: s.Timestamp,
+                Ema: ema.NaN2Null());
+
+            results.Add(r);
+
             lastEma = ema;
         }
 

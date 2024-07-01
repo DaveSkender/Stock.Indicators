@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class StochRsiTests : SeriesTestBase
@@ -12,7 +12,7 @@ public class StochRsiTests : SeriesTestBase
         int smoothPeriods = 1;
 
         List<StochRsiResult> results =
-            quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+            Quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // assertions
@@ -49,7 +49,7 @@ public class StochRsiTests : SeriesTestBase
         int smoothPeriods = 3;
 
         List<StochRsiResult> results =
-            quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+            Quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .ToList();
 
         // assertions
@@ -78,35 +78,24 @@ public class StochRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<StochRsiResult> results = quotes
+        List<StochRsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStochRsi(14, 14, 3, 1)
+            .GetStochRsi(14, 14, 3)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
-        Assert.AreEqual(0, results.Count(x => x.StochRsi is double and double.NaN));
-    }
-
-    [TestMethod]
-    public void TupleNaN()
-    {
-        List<StochRsiResult> r = tupleNanny
-            .GetStochRsi(14, 14, 3, 1)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.StochRsi is double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        List<StochRsiResult> results = quotes
+        List<StochRsiResult> results = Quotes
             .GetSma(2)
-            .GetStochRsi(14, 14, 3, 1)
+            .GetStochRsi(14, 14, 3)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -116,7 +105,7 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetStochRsi(14, 14, 3, 3)
             .GetSma(10)
             .ToList();
@@ -128,24 +117,24 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StochRsiResult> r = badQuotes
+        List<StochRsiResult> r = BadQuotes
             .GetStochRsi(15, 20, 3, 2)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.StochRsi is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StochRsiResult> r0 = noquotes
+        List<StochRsiResult> r0 = Noquotes
             .GetStochRsi(10, 20, 3)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StochRsiResult> r1 = onequote
+        List<StochRsiResult> r1 = Onequote
             .GetStochRsi(8, 13, 2)
             .ToList();
 
@@ -160,7 +149,7 @@ public class StochRsiTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochRsiResult> results = quotes
+        List<StochRsiResult> results = Quotes
             .GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods()
             .ToList();
@@ -179,18 +168,18 @@ public class StochRsiTests : SeriesTestBase
     {
         // bad RSI period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStochRsi(0, 14, 3, 1));
+            Quotes.GetStochRsi(0, 14, 3));
 
         // bad STO period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStochRsi(14, 0, 3, 3));
+            Quotes.GetStochRsi(14, 0, 3, 3));
 
         // bad STO signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStochRsi(14, 14, 0));
+            Quotes.GetStochRsi(14, 14, 0));
 
         // bad STO smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStochRsi(14, 14, 3, 0));
+            Quotes.GetStochRsi(14, 14, 3, 0));
     }
 }

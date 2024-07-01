@@ -2,62 +2,42 @@ namespace Skender.Stock.Indicators;
 
 // USE (STREAMING)
 
-public class Use<TQuote> : QuoteObserver<TQuote, UseResult>
-    where TQuote : IQuote, new()
+public class Use<TQuote>
+    : AbstractQuoteInChainOut<TQuote, Reusable>, IUse<TQuote>
+    where TQuote : struct, IQuote
 {
-    // constructor
     public Use(
-        QuoteProvider<TQuote> provider,
-        CandlePart candlePart) :
-        base(provider)
+        IQuoteProvider<TQuote> provider,
+        CandlePart candlePart) : base(provider)
     {
         CandlePartSelection = candlePart;
 
-        RebuildCache();
-
         // subscribe to quote provider
-        unsubscriber = provider is null
+        Subscription = provider is null
             ? throw new ArgumentNullException(nameof(provider))
             : provider.Subscribe(this);
     }
 
-    // PROPERTIES
+    public CandlePart CandlePartSelection { get; }
 
-    private CandlePart CandlePartSelection { get; set; }
-
-
-    // METHODS
+    # region METHODS
 
     // string label
     public override string ToString()
         => $"USE({Enum.GetName(typeof(CandlePart), CandlePartSelection)})";
 
     // handle quote arrival
-    public override void OnNext((Act act, TQuote quote) value)
+    protected override void OnNextArrival(Act act, TQuote inbound)
     {
         // candidate result
-        (DateTime d, double v) = value.quote.ToTuple(CandlePartSelection);
-        UseResult r = new() { Timestamp = d, Value = v };
+        Reusable result
+            = inbound.ToReusable(CandlePartSelection);
 
         // save to cache
-        CacheChainorPerAction(value.act, r, v);
+        ModifyCache(act, result);
 
         // send to observers
-        NotifyObservers(value.act, r);
+        NotifyObservers(act, result);
     }
-
-    // delete cache between index values
-    // usually called from inherited ClearCache(fromDate)
-    internal override void ClearCache(int fromIndex, int toIndex)
-    {
-        // delete and deliver instruction,
-        // in reverse order to prevent recompositions
-
-        for (int i = toIndex; i >= fromIndex; i--)
-        {
-            UseResult r = Cache[i];
-            Act act = CacheChainorPerAction(Act.Delete, r, double.NaN);
-            NotifyObservers(act, r);
-        }
-    }
+    #endregion
 }

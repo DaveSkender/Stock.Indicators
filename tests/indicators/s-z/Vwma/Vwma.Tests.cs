@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class VwmaTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<VwmaResult> results = quotes
+        List<VwmaResult> results = Quotes
             .GetVwma(10)
             .ToList();
 
@@ -28,7 +28,7 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetVwma(10)
             .GetSma(10)
             .ToList();
@@ -40,24 +40,24 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<VwmaResult> r = badQuotes
+        List<VwmaResult> r = BadQuotes
             .GetVwma(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Vwma is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<VwmaResult> r0 = noquotes
+        List<VwmaResult> r0 = Noquotes
             .GetVwma(4)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VwmaResult> r1 = onequote
+        List<VwmaResult> r1 = Onequote
             .GetVwma(4)
             .ToList();
 
@@ -67,7 +67,7 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<VwmaResult> results = quotes
+        List<VwmaResult> results = Quotes
             .GetVwma(10)
             .RemoveWarmupPeriods()
             .ToList();
@@ -83,5 +83,5 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetVwma(0));
+            => Quotes.GetVwma(0));
 }

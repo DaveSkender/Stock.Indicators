@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class ChandelierTests : SeriesTestBase
@@ -9,7 +9,7 @@ public class ChandelierTests : SeriesTestBase
         int lookbackPeriods = 22;
 
         List<ChandelierResult> longResult =
-            quotes.GetChandelier(lookbackPeriods, 3)
+            Quotes.GetChandelier(lookbackPeriods)
             .ToList();
 
         // proper quantities
@@ -25,7 +25,7 @@ public class ChandelierTests : SeriesTestBase
 
         // short
         List<ChandelierResult> shortResult =
-            quotes.GetChandelier(lookbackPeriods, 3, ChandelierType.Short)
+            Quotes.GetChandelier(lookbackPeriods, 3, ChandelierType.Short)
             .ToList();
 
         ChandelierResult c = shortResult[501];
@@ -35,8 +35,8 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetChandelier(22)
+        List<SmaResult> results = Quotes
+            .GetChandelier()
             .GetSma(10)
             .ToList();
 
@@ -47,24 +47,24 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ChandelierResult> r = badQuotes
+        List<ChandelierResult> r = BadQuotes
             .GetChandelier(15, 2)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ChandelierResult> r0 = noquotes
+        List<ChandelierResult> r0 = Noquotes
             .GetChandelier()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ChandelierResult> r1 = onequote
+        List<ChandelierResult> r1 = Onequote
             .GetChandelier()
             .ToList();
 
@@ -74,8 +74,8 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ChandelierResult> longResult = quotes
-            .GetChandelier(22, 3)
+        List<ChandelierResult> longResult = Quotes
+            .GetChandelier()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -91,14 +91,14 @@ public class ChandelierTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetChandelier(0));
+            Quotes.GetChandelier(0));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetChandelier(25, 0));
+            Quotes.GetChandelier(25, 0));
 
         // bad type
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
+            Quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
     }
 }

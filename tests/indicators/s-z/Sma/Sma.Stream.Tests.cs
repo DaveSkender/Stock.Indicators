@@ -1,12 +1,12 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProvider
+public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -15,11 +15,11 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma observer = provider
-            .AttachSma(20);
+        Sma<Quote> observer = provider
+            .ToSma(20);
 
         // fetch initial results (early)
-        IEnumerable<SmaResult> results
+        IReadOnlyList<SmaResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -48,23 +48,22 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         provider.Delete(quotesList[400]);
         quotesList.RemoveAt(400);
 
-        // final results
-        List<SmaResult> streamList
-            = results.ToList();
-
         // time-series, for comparison
-        List<SmaResult> seriesList = quotesList
+        List<SmaResult> seriesList
+           = quotesList
             .GetSma(20)
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count; i++)
+        for (int i = 0; i < length - 1; i++)
         {
+            Quote q = quotesList[i];
             SmaResult s = seriesList[i];
             SmaResult r = streamList[i];
 
-            Assert.AreEqual(s.Timestamp, r.Timestamp);
-            Assert.AreEqual(s.Sma, r.Sma);
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Sma.Should().Be(s.Sma);
         }
 
         observer.Unsubscribe();
@@ -72,62 +71,9 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
     }
 
     [TestMethod]
-    public void Chainor()
+    public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int smaPeriods = 8;
-
-        List<Quote> quotesList = quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
-        // setup quote provider
-        QuoteProvider<Quote> provider = new();
-
-        // initialize observer
-        Ema observer = provider
-            .AttachSma(smaPeriods)
-            .AttachEma(emaPeriods);
-
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // delete
-        provider.Delete(quotesList[400]);
-        quotesList.RemoveAt(400);
-
-        // final results
-        List<EmaResult> streamList
-            = [.. observer.Results];
-
-        // time-series, for comparison
-        List<EmaResult> seriesList = quotesList
-            .GetSma(smaPeriods)
-            .GetEma(emaPeriods)
-            .ToList();
-
-        // assert, should equal series
-        for (int i = 0; i < quotesList.Count; i++)
-        {
-            EmaResult s = seriesList[i];
-            EmaResult r = streamList[i];
-
-            Assert.AreEqual(s.Timestamp, r.Timestamp);
-            Assert.AreEqual(s.Ema, r.Ema);
-        }
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void Chainee()
-    {
-        List<Quote> quotesList = quotes
+        List<Quote> quotesList = Quotes
             .ToSortedList();
 
         int length = quotesList.Count;
@@ -142,11 +88,11 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         }
 
         // initialize observer
-        Sma observer = provider
+        Sma<Reusable> observer = provider
             .Use(CandlePart.OC2)
-            .AttachSma(11);
+            .ToSma(11);
 
-        // emulate adding quotes to provider
+        // emulate quote stream
         for (int i = 50; i < length; i++)
         {
             provider.Add(quotesList[i]);
@@ -154,11 +100,12 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
 
         provider.EndTransmission();
 
-        List<SmaResult> streamSma =
-            [.. observer.Results];
+        IReadOnlyList<SmaResult> streamList =
+            observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> staticSma = quotes
+        List<SmaResult> staticList
+           = quotesList
             .Use(CandlePart.OC2)
             .GetSma(11)
             .ToList();
@@ -166,36 +113,69 @@ public class SmaStreamTests : StreamTestBase, ITestChainObserver, ITestChainProv
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            SmaResult s = staticSma[i];
-            SmaResult r = streamSma[i];
+            Quote q = quotesList[i];
+            SmaResult s = staticList[i];
+            SmaResult r = streamList[i];
 
-            Assert.AreEqual(s.Timestamp, r.Timestamp);
-            Assert.AreEqual(s.Sma, r.Sma);
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Sma.Should().Be(s.Sma);
         }
     }
 
     [TestMethod]
-    public override void Duplicates()
+    public void ChainProvider()
     {
+        int emaPeriods = 12;
+        int smaPeriods = 8;
+
+        List<Quote> quotesList = Quotes
+            .ToSortedList();
+
+        int length = quotesList.Count;
+
         // setup quote provider
         QuoteProvider<Quote> provider = new();
 
         // initialize observer
-        Sma observer = provider
-            .AttachSma(10);
+        Ema<SmaResult> observer = provider
+            .ToSma(smaPeriods)
+            .ToEma(emaPeriods);
 
-        // add duplicate to cover warmup
-        Quote quote = quotes.Last();
-
-        for (int i = 0; i <= 20; i++)
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
         {
-            provider.Add(quote);
+            provider.Add(quotesList[i]);
+        }
+
+        // delete
+        provider.Delete(quotesList[400]);
+        quotesList.RemoveAt(400);
+
+        // final results
+        IReadOnlyList<EmaResult> streamList
+            = observer.Results;
+
+        // time-series, for comparison
+        List<EmaResult> seriesList
+           = quotesList
+            .GetSma(smaPeriods)
+            .GetEma(emaPeriods)
+            .ToList();
+
+        // assert, should equal series
+        for (int i = 0; i < length - 1; i++)
+        {
+            Quote q = quotesList[i];
+            EmaResult s = seriesList[i];
+            EmaResult r = streamList[i];
+
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Ema.Should().Be(s.Ema);
         }
 
         observer.Unsubscribe();
         provider.EndTransmission();
-
-        Assert.AreEqual(1, observer.Results.Count());
-        Assert.AreEqual(1, observer.Chain.Count);
     }
 }

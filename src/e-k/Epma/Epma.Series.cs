@@ -5,15 +5,16 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<EpmaResult> CalcEpma(
-        this List<(DateTime, double)> tpList,
+    private static List<EpmaResult> CalcEpma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Epma.Validate(lookbackPeriods);
 
         // initialize
-        List<SlopeResult> slopeResults = tpList
+        List<SlopeResult> slopeResults = source
             .CalcSlope(lookbackPeriods)
             .ToList();
 
@@ -27,7 +28,7 @@ public static partial class Indicator
 
             EpmaResult r = new() {
                 Timestamp = s.Timestamp,
-                Epma = ((s.Slope * (i + 1)) + s.Intercept).NaN2Null()
+                Epma = (s.Slope * (i + 1) + s.Intercept).NaN2Null()
             };
 
             results.Add(r);

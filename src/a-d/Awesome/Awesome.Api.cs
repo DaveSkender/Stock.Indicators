@@ -3,30 +3,13 @@ namespace Skender.Stock.Indicators;
 // AWESOME OSCILLATOR (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<AwesomeResult> GetAwesome<T>(
+        this IEnumerable<T> source,
         int fastPeriods = 5,
         int slowPeriods = 34)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.HL2)
-            .CalcAwesome(fastPeriods, slowPeriods);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<AwesomeResult> GetAwesome(
-        this IEnumerable<IReusableResult> results,
-        int fastPeriods = 5,
-        int slowPeriods = 34) => results
-            .ToTupleResult()
-            .CalcAwesome(fastPeriods, slowPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<AwesomeResult> GetAwesome(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int fastPeriods = 5,
-        int slowPeriods = 34) => priceTuples
+        where T : IReusable
+        => source
             .ToSortedList()
             .CalcAwesome(fastPeriods, slowPeriods);
 }

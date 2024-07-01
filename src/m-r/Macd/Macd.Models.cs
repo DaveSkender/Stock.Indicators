@@ -1,15 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class MacdResult : IReusableResult
-{
-    public DateTime Timestamp { get; set; }
-    public double? Macd { get; set; }
-    public double? Signal { get; set; }
-    public double? Histogram { get; set; }
+public readonly record struct MacdResult
+(
+    DateTime Timestamp,
+    double? Macd,
+    double? Signal,
+    double? Histogram,
 
     // extra interim data
-    public double? FastEma { get; set; }
-    public double? SlowEma { get; set; }
+    double? FastEma,
+    double? SlowEma
 
-    double IReusableResult.Value => Macd.Null2NaN();
+) : IReusable
+{
+    double IReusable.Value => Macd.Null2NaN();
 }

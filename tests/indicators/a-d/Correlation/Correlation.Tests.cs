@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class CorrelationTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CorrResult> results =
-            quotes.GetCorrelation(otherQuotes, 20)
+        List<CorrResult> results = Quotes
+            .GetCorrelation(OtherQuotes, 20)
             .ToList();
 
         // proper quantities
@@ -34,11 +34,11 @@ public class CorrelationTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<CorrResult> results = quotes
+        List<CorrResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetCorrelation(otherQuotes.Use(CandlePart.Close), 20)
+            .GetCorrelation(OtherQuotes.Use(CandlePart.Close), 20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -46,21 +46,10 @@ public class CorrelationTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<CorrResult> r = tupleNanny
-            .GetCorrelation(tupleNanny, 6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetCorrelation(otherQuotes, 20)
+        List<SmaResult> results = Quotes
+            .GetCorrelation(OtherQuotes, 20)
             .GetSma(10)
             .ToList();
 
@@ -71,32 +60,32 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<CorrResult> results = quotes
+        List<CorrResult> results = Quotes
             .GetSma(2)
-            .GetCorrelation(otherQuotes.GetSma(2), 20)
+            .GetCorrelation(OtherQuotes.GetSma(2), 20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Correlation != null));
-        Assert.AreEqual(0, results.Count(x => x.Correlation is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Correlation is double.NaN));
     }
 
     [TestMethod]
     public override void BadData()
     {
-        List<CorrResult> r = badQuotes
-            .GetCorrelation(badQuotes, 15)
+        List<CorrResult> r = BadQuotes
+            .GetCorrelation(BadQuotes, 15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double.NaN));
     }
 
     [TestMethod]
     public void BigData()
     {
-        List<CorrResult> r = bigQuotes
-            .GetCorrelation(bigQuotes, 150)
+        List<CorrResult> r = BigQuotes
+            .GetCorrelation(BigQuotes, 150)
             .ToList();
 
         Assert.AreEqual(1246, r.Count);
@@ -105,14 +94,14 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CorrResult> r0 = noquotes
-            .GetCorrelation(noquotes, 10)
+        List<CorrResult> r0 = Noquotes
+            .GetCorrelation(Noquotes, 10)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CorrResult> r1 = onequote
-            .GetCorrelation(onequote, 10)
+        List<CorrResult> r1 = Onequote
+            .GetCorrelation(Onequote, 10)
             .ToList();
 
         Assert.AreEqual(1, r1.Count);
@@ -121,8 +110,8 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CorrResult> results = quotes
-            .GetCorrelation(otherQuotes, 20)
+        List<CorrResult> results = Quotes
+            .GetCorrelation(OtherQuotes, 20)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -139,15 +128,15 @@ public class CorrelationTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetCorrelation(otherQuotes, 0));
+            Quotes.GetCorrelation(OtherQuotes, 0));
 
         // bad eval quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            quotes.GetCorrelation(eval, 30));
+            Quotes.GetCorrelation(eval, 30));
 
         // mismatched quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            mismatchQuotes.GetCorrelation(otherQuotes, 20));
+            MismatchQuotes.GetCorrelation(OtherQuotes, 20));
     }
 }

@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class StdDevChannelsTests : SeriesTestBase
@@ -10,7 +10,7 @@ public class StdDevChannelsTests : SeriesTestBase
         double standardDeviations = 2;
 
         List<StdDevChannelsResult> results =
-            quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
+            Quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
             .ToList();
 
         // proper quantities
@@ -69,7 +69,7 @@ public class StdDevChannelsTests : SeriesTestBase
         // null provided for lookback period
 
         List<StdDevChannelsResult> results =
-            quotes.GetStdDevChannels(null, 2)
+            Quotes.GetStdDevChannels(null)
             .ToList();
 
         // proper quantities
@@ -98,11 +98,11 @@ public class StdDevChannelsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<StdDevChannelsResult> results = quotes
+        List<StdDevChannelsResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStdDevChannels(20, 2)
+            .GetStdDevChannels()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -110,22 +110,11 @@ public class StdDevChannelsTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<StdDevChannelsResult> r = tupleNanny
-            .GetStdDevChannels(6, 1.1)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<StdDevChannelsResult> results = quotes
+        List<StdDevChannelsResult> results = Quotes
             .GetSma(2)
-            .GetStdDevChannels(20, 2)
+            .GetStdDevChannels()
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -135,24 +124,24 @@ public class StdDevChannelsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StdDevChannelsResult> r = badQuotes
+        List<StdDevChannelsResult> r = BadQuotes
             .GetStdDevChannels()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StdDevChannelsResult> r0 = noquotes
+        List<StdDevChannelsResult> r0 = Noquotes
             .GetStdDevChannels()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StdDevChannelsResult> r1 = onequote
+        List<StdDevChannelsResult> r1 = Onequote
             .GetStdDevChannels()
             .ToList();
 
@@ -165,7 +154,7 @@ public class StdDevChannelsTests : SeriesTestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results = quotes
+        List<StdDevChannelsResult> results = Quotes
             .GetStdDevChannels(lookbackPeriods, standardDeviations)
             .Condense()
             .ToList();
@@ -185,7 +174,7 @@ public class StdDevChannelsTests : SeriesTestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results = quotes
+        List<StdDevChannelsResult> results = Quotes
             .GetStdDevChannels(lookbackPeriods, standardDeviations)
             .RemoveWarmupPeriods()
             .ToList();
@@ -204,10 +193,10 @@ public class StdDevChannelsTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDevChannels(0));
+            Quotes.GetStdDevChannels(0));
 
         // bad standard deviations
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDevChannels(20, 0));
+            Quotes.GetStdDevChannels(20, 0));
     }
 }

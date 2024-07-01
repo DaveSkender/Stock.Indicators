@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<HeikinAshiResult> CalcHeikinAshi<TQuote>(
+    private static List<HeikinAshiResult> CalcHeikinAshi<TQuote>(
         this List<TQuote> quotesList)
         where TQuote : IQuote
     {

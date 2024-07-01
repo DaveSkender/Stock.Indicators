@@ -1,4 +1,5 @@
 namespace Tests.Performance;
+// ReSharper disable All
 
 public class IndicatorStreamExternal
 {
@@ -29,7 +30,7 @@ public class IndicatorStreamExternal
     public object GetFoo()
     {
         QuoteProvider<Quote> provider = new();
-        Ema ema = provider.AttachEma(14);
+        Ema<Quote> ema = provider.ToEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {

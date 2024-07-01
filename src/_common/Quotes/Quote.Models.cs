@@ -2,113 +2,108 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE MODELS
 
-public interface IQuote : ISeries, IEquatable<IQuote>
+/// <summary>
+/// Quote interface for standard OHLCV aggregate period.
+/// This is commonly known as a "bar" or "candle" and represents
+/// and asset price range over a specific time range,
+/// <para>
+/// If implementing your own custom <c>TQuote:IQuote</c> type:
+/// </para>
+/// <para>
+/// (A) For streaming compatibility, define it as a
+/// <see langword="record struct"/> value-based type. Add
+/// the <see langword="readonly"/> keyword modifier for
+/// slightly better memory performance.
+/// </para>
+/// <para>
+/// (B) For chaining compatibility (<see cref="IReusable"/>
+/// compliance), add the following <c>TQuote</c> property
+/// (pointer) to your <see cref="IQuote.Close"/> price.
+/// <code>
+///    double IReusableResult.Value => (double)Close;
+/// </code>
+/// </para>
+/// <para>
+/// TIP: If you do not need a custom quote type,
+/// use the built-in <see cref="Quote"/>.
+/// </para>
+/// </summary>
+public interface IQuote : IReusable
 {
+    /// <summary>
+    /// Aggregate bar's first tick price
+    /// </summary>
     decimal Open { get; }
-    decimal High { get; }
-    decimal Low { get; }
-    decimal Close { get; }
-    decimal Volume { get; }
 
-    // CS0567 C# Interfaces cannot contain conversion,
-    // equality, or inequality operators (i.e. == or !=)
-    // and cannot be inforced here
+    /// <summary>
+    /// Aggregate bar's highest tick price
+    /// </summary>
+    decimal High { get; }
+
+    /// <summary>
+    /// Aggregate bar's lowest tick price
+    /// </summary>
+    decimal Low { get; }
+
+    /// <summary>
+    /// Aggregate bar's last tick price
+    /// </summary>
+    decimal Close { get; }
+
+    /// <summary>
+    /// Aggregate bar's tick volume
+    /// </summary>
+    decimal Volume { get; }
 }
 
 /// <summary>
-/// Built-in Quote type.
+/// Built-in Quote type, representing an OHLCV aggregate price period.
 /// </summary>
-public record class Quote : IQuote
+/// <param name="Timestamp">
+/// Close date/time of the aggregate period
+/// </param>
+/// <param name="Open">
+/// Aggregate bar's first tick price
+/// </param>
+/// <param name="High">
+/// Aggregate bar's highest tick price
+/// </param>
+/// <param name="Low">
+/// Aggregate bar's lowest tick price
+/// </param>
+/// <param name="Close">
+/// Aggregate bar's last tick price
+/// </param>
+/// <param name="Volume">
+/// Aggregate bar's tick volume
+/// </param>
+/// <inheritdoc cref="IQuote"/>
+public readonly record struct Quote
+(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume
+) : IQuote
 {
-    public DateTime Timestamp { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
-
-    // this is only an appropriate
-    // implementation for record types
-    public bool Equals(IQuote? other)
-      => base.Equals(other);
+    double IReusable.Value => (double)Close;
 }
 
-public abstract class EquatableQuote : IQuote
+/// <summary>
+/// Double-point precision Quote, for internal use only.
+/// </summary>
+/// <inheritdoc cref="Quote" />
+internal readonly record struct QuoteD
+(
+    DateTime Timestamp,
+    double Open,
+    double High,
+    double Low,
+    double Close,
+    double Volume
+) : IReusable
 {
-    public virtual DateTime Timestamp { get; set; }
-    public virtual decimal Open { get; set; }
-    public virtual decimal High { get; set; }
-    public virtual decimal Low { get; set; }
-    public virtual decimal Close { get; set; }
-    public virtual decimal Volume { get; set; }
-
-    public override bool Equals(object? obj)
-        => Equals(obj as IQuote);
-
-    public bool Equals(IQuote? other)
-    {
-        if (other is null)
-        {
-            return false;
-        }
-
-        // same object reference
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        // mismatch object types
-        if (GetType() != other.GetType())
-        {
-            return false;
-        }
-
-        // deep compare
-        return Timestamp == other.Timestamp
-            && Open == other.Open
-            && High == other.High
-            && Low == other.Low
-            && Close == other.Close
-            && Volume == other.Volume;
-    }
-
-    public static bool operator
-        ==(EquatableQuote lhs, EquatableQuote rhs)
-    {
-        if (lhs is null)
-        {
-            if (rhs is null)
-            {
-                // null == null = true
-                return true;
-            }
-
-            // left side is null
-            return false;
-        }
-
-        // null on right side also handled
-        return lhs.Equals(rhs);
-    }
-
-    public static bool operator
-        !=(EquatableQuote lhs, EquatableQuote rhs)
-    {
-        return !(lhs == rhs);
-    }
-
-    public override int GetHashCode()
-    => HashCode.Combine(
-            Timestamp, Open, High, Low, Close, Volume);
-}
-
-internal class QuoteD
-{
-    internal DateTime Timestamp { get; set; }
-    internal double Open { get; set; }
-    internal double High { get; set; }
-    internal double Low { get; set; }
-    internal double Close { get; set; }
-    internal double Volume { get; set; }
+    double IReusable.Value => Close;
 }

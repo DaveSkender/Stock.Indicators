@@ -3,32 +3,14 @@ namespace Skender.Stock.Indicators;
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (API)
 public static partial class Indicator
 {
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<KamaResult> GetKama<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    // SERIES, from CHAIN
+    public static IEnumerable<KamaResult> GetKama<T>(
+        this IEnumerable<T> source,
         int erPeriods = 10,
         int fastPeriods = 2,
         int slowPeriods = 30)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcKama(erPeriods, fastPeriods, slowPeriods);
-
-    // SERIES, from CHAIN
-    public static IEnumerable<KamaResult> GetKama(
-        this IEnumerable<IReusableResult> results,
-        int erPeriods = 10,
-        int fastPeriods = 2,
-        int slowPeriods = 30) => results
-            .ToTupleResult()
-            .CalcKama(erPeriods, fastPeriods, slowPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<KamaResult> GetKama(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int erPeriods = 10,
-        int fastPeriods = 2,
-        int slowPeriods = 30) => priceTuples
+        where T : IReusable
+        => source
             .ToSortedList()
             .CalcKama(erPeriods, fastPeriods, slowPeriods);
 }

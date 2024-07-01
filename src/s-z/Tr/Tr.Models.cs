@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class TrResult : IReusableResult
+public readonly record struct TrResult(
+    DateTime Timestamp,
+    double? Tr
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Tr { get; set; }
-
-    double IReusableResult.Value => Tr.Null2NaN();
+    double IReusable.Value => Tr.Null2NaN();
 }

@@ -8,32 +8,35 @@ public static class Numerix
         // validate parameters
         if (values is null)
         {
-            throw new ArgumentNullException(nameof(values), "StdDev values cannot be null.");
+            throw new ArgumentNullException(
+                nameof(values),
+                "StdDev values cannot be null.");
         }
 
-        double sd = 0;
         int n = values.Length;
-        if (n > 1)
+
+        if (n <= 1)
         {
-            double sum = 0;
-            for (int i = 0; i < n; i++)
-            {
-                sum += values[i];
-            }
-
-            double avg = sum / n;
-
-            double sumSq = 0;
-            for (int i = 0; i < n; i++)
-            {
-                double v = values[i];
-                sumSq += (v - avg) * (v - avg);
-            }
-
-            sd = Math.Sqrt(sumSq / n);
+            return 0;
         }
 
-        return sd;
+        double sum = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            sum += values[i];
+        }
+
+        double avg = sum / n;
+
+        double sumSq = 0;
+        for (int i = 0; i < n; i++)
+        {
+            double v = values[i];
+            sumSq += (v - avg) * (v - avg);
+        }
+
+        return Math.Sqrt(sumSq / n);
     }
 
     // SLOPE of BEST FIT LINE
@@ -42,17 +45,20 @@ public static class Numerix
         // validate parameters
         if (x is null)
         {
-            throw new ArgumentNullException(nameof(x), "Slope X values cannot be null.");
+            throw new ArgumentNullException(
+                nameof(x), "Slope X values cannot be null.");
         }
 
         if (y is null)
         {
-            throw new ArgumentNullException(nameof(y), "Slope Y values cannot be null.");
+            throw new ArgumentNullException(
+                nameof(y), "Slope Y values cannot be null.");
         }
 
         if (x.Length != y.Length)
         {
-            throw new ArgumentException("Slope X and Y arrays must be the same size.");
+            throw new ArgumentException(
+                "Slope X and Y arrays must be the same size.");
         }
 
         int length = x.Length;
@@ -89,7 +95,8 @@ public static class Numerix
     }
 
     // DATE ROUNDING
-    internal static DateTime RoundDown(this DateTime dateTime, TimeSpan interval)
+    internal static DateTime RoundDown(
+        this DateTime dateTime, TimeSpan interval)
         => interval == TimeSpan.Zero
         ? dateTime
         : dateTime

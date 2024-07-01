@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class HmaResult : IReusableResult
+public readonly record struct HmaResult
+(
+    DateTime Timestamp,
+    double? Hma
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Hma { get; set; }
-
-    double IReusableResult.Value => Hma.Null2NaN();
+    double IReusable.Value => Hma.Null2NaN();
 }

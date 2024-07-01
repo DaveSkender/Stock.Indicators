@@ -1,6 +1,6 @@
 # v3 migration guide
 
-We've discontinued all bridge features for v1 backwards compatiblity.
+We've discontinued all bridge features for v1 backwards compatibility.
 Correct all Warnings from this library before migrating from v2 to v3.
 If you are still using v1, migrate to v2 first, to ease the transition to v3.
 
@@ -14,8 +14,11 @@ In addition there are [breaking changes](#breaking-changes) that will require yo
 See your compiler `Warning` to identify these in your code.
 
 - `Use()` method parameter `candlePart` is now required and no longer defaults to `CandlePart.Close`.
+- `Use()` now returns a chainable `QuotePart` instead of a tuple.  These also replace the redundant `GetBaseQuote()` and `BaseQuote` items, respectively.
 
 - `UlcerIndexResult` property `UI` was renamed to `UlcerIndex`
+
+- **Deprecated 'GetX' tuple interfaces**.
 
 - **Deprecated internal signals**: several indicators were originally built with integrated but optional
   moving averages, often by specifying an optional `smaPeriods` parameter.  With more moving average chaining options,
@@ -38,26 +41,64 @@ See your compiler `Warning` to identify these in your code.
 ## Breaking changes
 
 Not all, but some of these will be shown as compiler `Errors` in your code.
-Items marked with &#128681; require special attention since they will not produce compiler Errors or Warings.
+Items marked with &#128681; require special attention since they will not produce compiler Errors or Warnings.
 
-- all backwards compatible v1 accomodations removed.
+- all v1 backwards compatibility accommodations were removed.
 
 - no longer supporting .NET Standard 2.0 for older .NET Framework compatibility.
 
-- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null`
-  for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.
+### Common breaking changes
 
-- Result classes were changes to `record` class types.  This will only impact rare cases where result classes are used for base inheritance.
+- `Quote` type (built-in) was changed to an _**immutable**_ `record struct` type; and its `IQuote` interface `Date` property was widely renamed to `Timestamp`, to avoid a conflict with a C# reserved name.  This will break your implementation if you were using `Quote` as an inherited base type.  To fix, define your custom `TQuote` type on the `IQuote` interface instead (example below).
 
-- Quote class (built-in) was changed to `record` class type.
+- `IQuote` is now a reusable (chainable) type.  It auto-selects `Close` price as the _default_ consumed value.
 
-- `Date` property was widely renamed to `Timestamp` to avoid conflict with C# reserved name.
+- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusable` and `IEquality<IQuote>` interfaces to support chaining and streaming operations.  The best way to fix is to change your `TQuote` from a regular `class` to a `record struct` and add a pointer map `IReusable.Value` to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
 
-- `IQuote` customization now has to be `IEquatable<T>` type to support streaming operations.  See [the Guide](/guide) for more information.
+  ```csharp
+  public record struct MyCustomQuote (
 
-- `BasicData` class was renamed to `BasicResult` for consistency with other return types.
+      // `IQuote` properties
+      DateTime Timestamp,
+      decimal Open,
+      decimal High,
+      decimal Low,
+      decimal MyClose,  // custom
+      decimal Volume,
 
-- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal
-  utility, but were part of the public API since they were useful for custom indicator development.  Internally,
-  we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit
-  warmup periods.
+      // custom properties
+      string? MyCustomProperty = default
+
+  ) : IQuote // base: IReusable, IEquality<IQuote>
+  {
+      // custom mapped properties
+      readonly decimal IQuote.Close
+        => MyClose;
+
+      // `IReusable` compliance
+      readonly double IReusable.Value
+        => (double)Close;
+
+      // Define value-based equality comparator.
+      // This implementation (below) is only
+      // appropriate for `record` types
+      public readonly bool Equals(IQuote? other)
+        => base.Equals(other);
+  }
+  ```
+
+- `IReusableResult` was renamed to `IReusable` since it is no longer limited to _result_ types.
+
+- &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.  This was done to improve internal chaining and streaming performance.
+
+- Indicator return types were changed from `sealed class` to an _**immutable**_ `record struct` types to improve internal chaining and streaming performance.  This will only impact people migrating from v1 who were using these as base classes.  Since v2, these new result types cannot be inherited.
+
+### Less common breaking changes
+
+- Return type for the `Use()` utility method was renamed from `UseResult` to `Reusable` for clarity of its wider purpose.
+
+- `GetBaseQuote()` indicator and related `BasicData` return types were removed since they are redundant to the `Use()` method and `Reusable` return types, respectively.
+
+- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal utility, but were part of the public API since they were useful for custom indicator development.  Internally, we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit warmup periods.
+
+- `ToTupleCollection<TQuote>()` utility method was deprecated.  This was available to support custom indicator development, but is no longer needed.  We've discontinued using Tuples as an interface to chainable indicators that use `IReusableResult` return types.

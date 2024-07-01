@@ -1,7 +1,7 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
-public class EmaSeriesTests : SeriesTestBase
+public class EmaTests : SeriesTestBase
 {
     [TestMethod]
     public void Increment()
@@ -14,7 +14,7 @@ public class EmaSeriesTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<EmaResult> results = quotes
+        List<EmaResult> results = Quotes
             .GetEma(20)
             .ToList();
 
@@ -36,7 +36,7 @@ public class EmaSeriesTests : SeriesTestBase
     [TestMethod]
     public void UsePart()
     {
-        List<EmaResult> results = quotes
+        List<EmaResult> results = Quotes
             .Use(CandlePart.Open)
             .GetEma(20)
             .ToList();
@@ -50,77 +50,66 @@ public class EmaSeriesTests : SeriesTestBase
 
         // sample values
         EmaResult r29 = results[29];
-        Assert.AreEqual(216.2643, NullMath.Round(r29.Ema, 4));
+        Assert.AreEqual(216.2643, r29.Ema.Round(4));
 
         EmaResult r249 = results[249];
-        Assert.AreEqual(255.4875, NullMath.Round(r249.Ema, 4));
+        Assert.AreEqual(255.4875, r249.Ema.Round(4));
 
         EmaResult r501 = results[501];
-        Assert.AreEqual(249.9157, NullMath.Round(r501.Ema, 4));
+        Assert.AreEqual(249.9157, r501.Ema.Round(4));
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<EmaResult> results = quotes
+        List<EmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetEma(20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
-    }
-
-    [TestMethod]
-    public void TupleNaN()
-    {
-        List<EmaResult> r = tupleNanny
-            .GetEma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double.NaN));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        List<EmaResult> results = quotes
+        List<EmaResult> results = Quotes
             .GetSma(2)
             .GetEma(20)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double.NaN));
     }
 
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetEma(20)
             .GetSma(10)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
-        Assert.AreEqual(0, results.Count(x => x.Sma is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
     public void ChaineeMore()
     {
-        List<EmaResult> results = quotes
-            .GetRsi(14)
+        List<EmaResult> results = Quotes
+            .GetRsi()
             .GetEma(20)
             .ToList();
 
         // assertions
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double.NaN));
 
         // sample values
         EmaResult r32 = results[32];
@@ -139,24 +128,24 @@ public class EmaSeriesTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<EmaResult> r = badQuotes
+        List<EmaResult> r = BadQuotes
             .GetEma(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Ema is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<EmaResult> r0 = noquotes
+        List<EmaResult> r0 = Noquotes
             .GetEma(10)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<EmaResult> r1 = onequote
+        List<EmaResult> r1 = Onequote
             .GetEma(10)
             .ToList();
 
@@ -166,7 +155,7 @@ public class EmaSeriesTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<EmaResult> results = quotes
+        List<EmaResult> results = Quotes
             .GetEma(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -182,5 +171,5 @@ public class EmaSeriesTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetEma(0));
+            => Quotes.GetEma(0));
 }

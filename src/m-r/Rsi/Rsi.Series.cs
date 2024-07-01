@@ -4,49 +4,47 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RsiResult> CalcRsi(
-        this List<(DateTime Timestamp, double Value)> tpList,
+    private static List<RsiResult> CalcRsi<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Rsi.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         double avgGain = double.NaN;
         double avgLoss = double.NaN;
 
         List<RsiResult> results = new(length);
         double[] gain = new double[length]; // gain
         double[] loss = new double[length]; // loss
-        double prevValue;
 
         if (length == 0)
         {
             return results;
         }
 
-        prevValue = tpList[0].Value;
+        double prevValue = source[0].Value;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            var s = source[i];
 
-            RsiResult r = new() { Timestamp = date };
-            results.Add(r);
-
-            if (double.IsNaN(value) || double.IsNaN(prevValue))
+            if (double.IsNaN(s.Value) || double.IsNaN(prevValue))
             {
                 gain[i] = loss[i] = double.NaN;
             }
             else
             {
-                gain[i] = (value > prevValue) ? value - prevValue : 0;
-                loss[i] = (value < prevValue) ? prevValue - value : 0;
+                gain[i] = s.Value > prevValue ? s.Value - prevValue : 0;
+                loss[i] = s.Value < prevValue ? prevValue - s.Value : 0;
             }
 
-            prevValue = value;
+            double? rsi = null;
+            prevValue = s.Value;
 
             // initialize average gain
             if (i >= lookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
@@ -63,27 +61,33 @@ public static partial class Indicator
                 avgGain = sumGain / lookbackPeriods;
                 avgLoss = sumLoss / lookbackPeriods;
 
-                r.Rsi = !double.IsNaN(avgGain / avgLoss)
-                      ? (avgLoss > 0) ? 100 - (100 / (1 + (avgGain / avgLoss))) : 100
+                rsi = !double.IsNaN(avgGain / avgLoss)
+                      ? avgLoss > 0 ? 100 - 100 / (1 + avgGain / avgLoss) : 100
                       : null;
             }
 
             // calculate RSI normally
             else if (i > lookbackPeriods)
             {
-                avgGain = ((avgGain * (lookbackPeriods - 1)) + gain[i]) / lookbackPeriods;
-                avgLoss = ((avgLoss * (lookbackPeriods - 1)) + loss[i]) / lookbackPeriods;
+                avgGain = (avgGain * (lookbackPeriods - 1) + gain[i]) / lookbackPeriods;
+                avgLoss = (avgLoss * (lookbackPeriods - 1) + loss[i]) / lookbackPeriods;
 
                 if (avgLoss > 0)
                 {
                     double rs = avgGain / avgLoss;
-                    r.Rsi = 100 - (100 / (1 + rs));
+                    rsi = 100 - 100 / (1 + rs);
                 }
                 else
                 {
-                    r.Rsi = 100;
+                    rsi = 100;
                 }
             }
+
+            RsiResult r = new(
+                Timestamp: s.Timestamp,
+                Rsi: rsi);
+
+            results.Add(r);
         }
 
         return results;

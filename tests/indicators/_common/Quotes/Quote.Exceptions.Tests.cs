@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class ExceptionTests : TestQuoteBase
+public class ExceptionTests : TestBase
 {
     // bad quotes exceptions
     [TestMethod]

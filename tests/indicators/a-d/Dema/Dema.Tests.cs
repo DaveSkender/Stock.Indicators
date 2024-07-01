@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class DemaTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<DemaResult> results = quotes
+        List<DemaResult> results = Quotes
             .GetDema(20)
             .ToList();
 
@@ -29,9 +29,9 @@ public class DemaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<DemaResult> results = quotes
+        List<DemaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetDema(20)
             .ToList();
@@ -41,20 +41,9 @@ public class DemaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<DemaResult> r = tupleNanny
-            .GetDema(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<DemaResult> results = quotes
+        List<DemaResult> results = Quotes
             .GetSma(2)
             .GetDema(20)
             .ToList();
@@ -66,7 +55,7 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetDema(20)
             .GetSma(10)
             .ToList();
@@ -78,24 +67,24 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DemaResult> r = badQuotes
+        List<DemaResult> r = BadQuotes
             .GetDema(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dema is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DemaResult> r0 = noquotes
+        List<DemaResult> r0 = Noquotes
             .GetDema(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DemaResult> r1 = onequote
+        List<DemaResult> r1 = Onequote
             .GetDema(5)
             .ToList();
 
@@ -105,7 +94,7 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<DemaResult> results = quotes
+        List<DemaResult> results = Quotes
             .GetDema(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -121,5 +110,5 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetDema(0));
+            => Quotes.GetDema(0));
 }

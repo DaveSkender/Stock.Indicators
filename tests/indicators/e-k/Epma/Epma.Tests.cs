@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class EpmaTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class EpmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<EpmaResult> results = quotes
+        List<EpmaResult> results = Quotes
             .GetEpma(20)
             .ToList();
 
@@ -32,9 +32,9 @@ public class EpmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<EpmaResult> results = quotes
+        List<EpmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetEpma(20)
             .ToList();
@@ -44,20 +44,9 @@ public class EpmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<EpmaResult> r = tupleNanny
-            .GetEpma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<EpmaResult> results = quotes
+        List<EpmaResult> results = Quotes
             .GetSma(2)
             .GetEpma(20)
             .ToList();
@@ -69,7 +58,7 @@ public class EpmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetEpma(20)
             .GetSma(10)
             .ToList();
@@ -81,24 +70,24 @@ public class EpmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<EpmaResult> r = badQuotes
+        List<EpmaResult> r = BadQuotes
             .GetEpma(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Epma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Epma is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<EpmaResult> r0 = noquotes
+        List<EpmaResult> r0 = Noquotes
             .GetEpma(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<EpmaResult> r1 = onequote
+        List<EpmaResult> r1 = Onequote
             .GetEpma(5)
             .ToList();
 
@@ -108,7 +97,7 @@ public class EpmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<EpmaResult> results = quotes
+        List<EpmaResult> results = Quotes
             .GetEpma(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -124,5 +113,5 @@ public class EpmaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetEpma(0));
+            => Quotes.GetEpma(0));
 }

@@ -1,10 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class FisherTransformResult : IReusableResult
+public readonly record struct FisherTransformResult
+(
+    DateTime Timestamp,
+    double? Fisher,
+    double? Trigger
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Fisher { get; set; }
-    public double? Trigger { get; set; }
-
-    double IReusableResult.Value => Fisher.Null2NaN();
+    double IReusable.Value => Fisher.Null2NaN();
 }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<SuperTrendResult> CalcSuperTrend(
+    private static List<SuperTrendResult> CalcSuperTrend(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier)
@@ -13,7 +13,8 @@ public static partial class Indicator
         SuperTrend.Validate(lookbackPeriods, multiplier);
 
         // initialize
-        List<SuperTrendResult> results = new(qdList.Count);
+        int length = qdList.Count;
+        List<SuperTrendResult> results = new(length);
         List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
@@ -21,12 +22,13 @@ public static partial class Indicator
         double? lowerBand = null;
 
         // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
 
-            SuperTrendResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? superTrend;
+            double? upperOnly;
+            double? lowerOnly;
 
             if (i >= lookbackPeriods)
             {
@@ -35,8 +37,8 @@ public static partial class Indicator
                 double? prevClose = qdList[i - 1].Close;
 
                 // potential bands
-                double? upperEval = mid + (multiplier * atr);
-                double? lowerEval = mid - (multiplier * atr);
+                double? upperEval = mid + multiplier * atr;
+                double? lowerEval = mid - multiplier * atr;
 
                 // initial values
                 // TODO: update healing, without requiring specific indexing
@@ -63,17 +65,31 @@ public static partial class Indicator
                 // supertrend
                 if (q.Close <= (isBullish ? lowerBand : upperBand))
                 {
-                    r.SuperTrend = (decimal?)upperBand;
-                    r.UpperBand = (decimal?)upperBand;
+                    superTrend = upperBand;
+                    upperOnly = upperBand;
+                    lowerOnly = null;
                     isBullish = false;
                 }
                 else
                 {
-                    r.SuperTrend = (decimal?)lowerBand;
-                    r.LowerBand = (decimal?)lowerBand;
+                    superTrend = lowerBand;
+                    lowerOnly = lowerBand;
+                    upperOnly = null;
                     isBullish = true;
                 }
             }
+            else
+            {
+                superTrend = null;
+                upperOnly = null;
+                lowerOnly = null;
+            }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                SuperTrend: (decimal?)superTrend,
+                UpperBand: (decimal?)upperOnly,
+                LowerBand: (decimal?)lowerOnly));
         }
 
         return results;

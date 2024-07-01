@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class ConnorsRsiTests : SeriesTestBase
@@ -11,7 +11,7 @@ public class ConnorsRsiTests : SeriesTestBase
         int rankPeriods = 100;
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        List<ConnorsRsiResult> results1 = quotes
+        List<ConnorsRsiResult> results1 = Quotes
             .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .ToList();
 
@@ -27,7 +27,7 @@ public class ConnorsRsiTests : SeriesTestBase
         Assert.AreEqual(74.7662, r1.ConnorsRsi.Round(4));
 
         // different parameters
-        List<ConnorsRsiResult> results2 = quotes.GetConnorsRsi(14, 20, 10).ToList();
+        List<ConnorsRsiResult> results2 = Quotes.GetConnorsRsi(14, 20, 10).ToList();
         ConnorsRsiResult r2 = results2[501];
         Assert.AreEqual(42.0773, r2.Rsi.Round(4));
         Assert.AreEqual(52.7386, r2.RsiStreak.Round(4));
@@ -36,9 +36,9 @@ public class ConnorsRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<ConnorsRsiResult> results = quotes
+        List<ConnorsRsiResult> results = Quotes
             .Use(CandlePart.Close)
             .GetConnorsRsi()
             .ToList();
@@ -48,20 +48,9 @@ public class ConnorsRsiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<ConnorsRsiResult> r = tupleNanny
-            .GetConnorsRsi()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.ConnorsRsi is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<ConnorsRsiResult> results = quotes
+        List<ConnorsRsiResult> results = Quotes
             .GetSma(2)
             .GetConnorsRsi()
             .ToList();
@@ -73,7 +62,7 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetConnorsRsi()
             .GetSma(10)
             .ToList();
@@ -85,24 +74,24 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ConnorsRsiResult> r = badQuotes
+        List<ConnorsRsiResult> r = BadQuotes
             .GetConnorsRsi(4, 3, 25)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ConnorsRsiResult> r0 = noquotes
+        List<ConnorsRsiResult> r0 = Noquotes
             .GetConnorsRsi()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ConnorsRsiResult> r1 = onequote
+        List<ConnorsRsiResult> r1 = Onequote
             .GetConnorsRsi()
             .ToList();
 
@@ -120,7 +109,7 @@ public class ConnorsRsiTests : SeriesTestBase
         int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
         List<ConnorsRsiResult> results =
-            quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
+            Quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -139,14 +128,14 @@ public class ConnorsRsiTests : SeriesTestBase
     {
         // bad RSI period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetConnorsRsi(1, 2, 100));
+            Quotes.GetConnorsRsi(1));
 
         // bad Streak period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetConnorsRsi(3, 1, 100));
+            Quotes.GetConnorsRsi(3, 1));
 
         // bad Rank period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetConnorsRsi(3, 2, 1));
+            Quotes.GetConnorsRsi(3, 2, 1));
     }
 }

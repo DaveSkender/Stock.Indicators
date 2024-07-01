@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class PivotPointsTests : SeriesTestBase
@@ -9,7 +9,7 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<PivotPointsResult> results = quotes
+        List<PivotPointsResult> results = Quotes
             .GetPivotPoints(periodSize, pointType)
             .ToList();
 
@@ -162,7 +162,7 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Demark;
 
-        List<PivotPointsResult> results = quotes
+        List<PivotPointsResult> results = Quotes
             .GetPivotPoints(periodSize, pointType)
             .ToList();
 
@@ -238,7 +238,7 @@ public class PivotPointsTests : SeriesTestBase
         Assert.AreEqual(null, r6.S4);
 
         // special Demark case: test close = open
-        PivotPointsResult d1 = Indicator.GetPivotPointDemark<PivotPointsResult>(125, 200, 100, 125);
+        WindowPoint d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
         Assert.AreEqual(550m / 4, d1.PP);
     }
 
@@ -380,7 +380,7 @@ public class PivotPointsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PivotPointsResult> r = badQuotes
+        List<PivotPointsResult> r = BadQuotes
             .GetPivotPoints(PeriodSize.Week)
             .ToList();
 
@@ -390,13 +390,13 @@ public class PivotPointsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PivotPointsResult> r0 = noquotes
+        List<PivotPointsResult> r0 = Noquotes
             .GetPivotPoints(PeriodSize.Week)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PivotPointsResult> r1 = onequote
+        List<PivotPointsResult> r1 = Onequote
             .GetPivotPoints(PeriodSize.Week)
             .ToList();
 
@@ -409,7 +409,7 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<PivotPointsResult> results = quotes
+        List<PivotPointsResult> results = Quotes
             .GetPivotPoints(periodSize, pointType)
             .RemoveWarmupPeriods()
             .ToList();
@@ -434,12 +434,12 @@ public class PivotPointsTests : SeriesTestBase
     {
         // bad pointtype size
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes
+            => Quotes
                 .GetPivotPoints(PeriodSize.Week, (PivotPointType)999));
 
         // bad window size
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes
+            => Quotes
                 .GetPivotPoints(PeriodSize.ThreeMinutes));
     }
 }

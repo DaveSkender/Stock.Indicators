@@ -1,16 +1,16 @@
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteEqualityTests : TestQuoteBase
+public class QuoteEqualityTests : TestBase
 {
-    internal readonly DateTime evalDate
-        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+    private readonly DateTime _evalDate
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
 
     [TestMethod]
     public void EqualQuotes()
     {
         Quote q1 = new() {
-            Timestamp = evalDate,
+            Timestamp = _evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -19,7 +19,7 @@ public class QuoteEqualityTests : TestQuoteBase
         };
 
         Quote q2 = new() {
-            Timestamp = evalDate,
+            Timestamp = _evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,
@@ -28,7 +28,7 @@ public class QuoteEqualityTests : TestQuoteBase
         };
 
         Quote q3 = new() {
-            Timestamp = evalDate,
+            Timestamp = _evalDate,
             Open = 1m,
             High = 1m,
             Low = 1m,

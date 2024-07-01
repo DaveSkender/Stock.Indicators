@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class QuoteValidationTests : TestQuoteBase
+public class QuoteValidationTests : TestBase
 {
     [TestMethod]
     public void Validate()
@@ -14,23 +14,23 @@ public class QuoteValidationTests : TestQuoteBase
         Assert.AreEqual(502, h.Count);
 
         // sample values
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(lastDate, h[501].Timestamp);
 
-        DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", EnglishCulture);
+        DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(spotDate, h[20].Timestamp);
     }
 
     [TestMethod]
     public void ValidateLong()
     {
-        List<Quote> h = longishQuotes.Validate().ToList();
+        List<Quote> h = LongishQuotes.Validate().ToList();
 
         // proper quantities
         Assert.AreEqual(5285, h.Count);
 
         // sample values
-        DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", EnglishCulture);
+        DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture);
         Assert.AreEqual(lastDate, h[5284].Timestamp);
     }
 
@@ -46,7 +46,7 @@ public class QuoteValidationTests : TestQuoteBase
         Assert.AreEqual(200, h.Count);
 
         // should be 20 results and no index corruption
-        List<SmaResult> r1 = Indicator.GetSma(h.TakeLast(20), 14).ToList();
+        List<SmaResult> r1 = h.TakeLast(20).GetSma(14).ToList();
         Assert.AreEqual(20, r1.Count);
 
         for (int i = 1; i < r1.Count; i++)
@@ -55,7 +55,7 @@ public class QuoteValidationTests : TestQuoteBase
         }
 
         // should be 50 results and no index corruption
-        List<SmaResult> r2 = Indicator.GetSma(h.TakeLast(50), 14).ToList();
+        List<SmaResult> r2 = h.TakeLast(50).GetSma(14).ToList();
         Assert.AreEqual(50, r2.Count);
 
         for (int i = 1; i < r2.Count; i++)
@@ -79,11 +79,11 @@ public class QuoteValidationTests : TestQuoteBase
     {
         List<Quote> badHistory =
         [
-            new Quote { Timestamp = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", EnglishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
-            new Quote { Timestamp = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", EnglishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
-            new Quote { Timestamp = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", EnglishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
-            new Quote { Timestamp = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
-            new Quote { Timestamp = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
+            new() { Timestamp = DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open = 214.86m, High = 220.33m, Low = 210.96m, Close = 216.99m, Volume = 5923254 },
+            new() { Timestamp = DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open = 214.75m, High = 228.00m, Low = 214.31m, Close = 226.99m, Volume = 11213471 },
+            new() { Timestamp = DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open = 226.42m, High = 227.48m, Low = 221.95m, Close = 226.75m, Volume = 5911695 },
+            new() { Timestamp = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open = 226.93m, High = 230.31m, Low = 225.45m, Close = 229.01m, Volume = 5527893 },
+            new() { Timestamp = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
         ];
 
         badHistory.Validate();

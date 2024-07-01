@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<FractalResult> CalcFractal<TQuote>(
+    private static List<FractalResult> CalcFractal<TQuote>(
         this List<TQuote> quotesList,
         int leftSpan,
         int rightSpan,
@@ -15,25 +15,25 @@ public static partial class Indicator
         Fractal.Validate(Math.Min(leftSpan, rightSpan));
 
         // initialize
-        List<FractalResult> results = new(quotesList.Count);
+        int length = quotesList.Count;
+        List<FractalResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
-
-            FractalResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            decimal? fractalBear = null;
+            decimal? fractalBull = null;
 
             if (i + 1 > leftSpan && i + 1 <= quotesList.Count - rightSpan)
             {
                 bool isHigh = true;
                 bool isLow = true;
 
-                decimal evalHigh = (endType == EndType.Close) ?
+                decimal evalHigh = endType == EndType.Close ?
                    q.Close : q.High;
 
-                decimal evalLow = (endType == EndType.Close) ?
+                decimal evalLow = endType == EndType.Close ?
                     q.Close : q.Low;
 
                 // compare today with wings
@@ -48,10 +48,10 @@ public static partial class Indicator
                     // evaluate wing periods
                     TQuote wing = quotesList[p];
 
-                    decimal wingHigh = (endType == EndType.Close) ?
+                    decimal wingHigh = endType == EndType.Close ?
                         wing.Close : wing.High;
 
-                    decimal wingLow = (endType == EndType.Close) ?
+                    decimal wingLow = endType == EndType.Close ?
                         wing.Close : wing.Low;
 
                     if (evalHigh <= wingHigh)
@@ -68,15 +68,20 @@ public static partial class Indicator
                 // bearish signal
                 if (isHigh)
                 {
-                    r.FractalBear = evalHigh;
+                    fractalBear = evalHigh;
                 }
 
                 // bullish signal
                 if (isLow)
                 {
-                    r.FractalBull = evalLow;
+                    fractalBull = evalLow;
                 }
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                FractalBear: fractalBear,
+                FractalBull: fractalBull));
         }
 
         return results;

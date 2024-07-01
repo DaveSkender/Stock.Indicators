@@ -12,7 +12,8 @@ public static partial class Indicator
         int slowPeriods = 26,
         int signalPeriods = 9)
         where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Volume)
+            .Use(CandlePart.Volume)
+            .ToList()
             .CalcPvo(fastPeriods, slowPeriods, signalPeriods);
 
     // given that this is volume-based, other chaining is moot

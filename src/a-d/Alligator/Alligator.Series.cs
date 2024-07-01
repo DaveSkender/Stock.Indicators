@@ -2,19 +2,20 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Alligator
 {
-    internal static List<AlligatorResult> CalcAlligator(
-        this List<(DateTime Timestamp, double Value)> tpList,
+    internal static List<AlligatorResult> CalcAlligator<T>(
+        this List<T> source,
         int jawPeriods,
         int jawOffset,
         int teethPeriods,
         int teethOffset,
         int lipsPeriods,
         int lipsOffset)
+        where T : IReusable
     {
         // check parameter arguments
-        Alligator.Validate(
+        Validate(
             jawPeriods,
             jawOffset,
             teethPeriods,
@@ -22,100 +23,112 @@ public static partial class Indicator
             lipsPeriods,
             lipsOffset);
 
-        // initialize
-        int length = tpList.Count;
+        // use standard HL2 if quote source (override Close)
+        List<IReusable> feed
+            = typeof(IQuote).IsAssignableFrom(typeof(T))
 
-        List<AlligatorResult> results =
-            tpList
-            .Select(x => new AlligatorResult { Timestamp = x.Timestamp })
-            .ToList();
+            ? source
+             .Cast<IQuote>()
+             .Use(CandlePart.HL2)
+             .Cast<IReusable>()
+             .ToSortedList()
+
+            : source
+             .Cast<IReusable>()
+             .ToSortedList();
+
+        // initialize
+        int length = source.Count;
+        List<AlligatorResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            // only calculate jaw if the array offset is still in valid range
-            if (i + jawOffset < length)
-            {
-                AlligatorResult jawResult = results[i + jawOffset];
-                double? prevValue = results[i + jawOffset - 1].Jaw;
+            double jaw = double.NaN;
+            double lips = double.NaN;
+            double teeth = double.NaN;
 
-                // calculate alligator's jaw
-                // first value: calculate SMA
-                if (i >= jawPeriods - 1 && prevValue is null)
+            // calculate alligator's jaw, when in range
+            if (i >= jawPeriods + jawOffset - 1)
+            {
+                double prevJaw = results[i - 1].Jaw.Null2NaN();
+
+                // first/reset value: calculate SMA
+                if (double.IsNaN(prevJaw))
                 {
                     double sum = 0;
-                    for (int p = i + 1 - jawPeriods; p <= i; p++)
+                    for (int p = i - jawPeriods - jawOffset + 1; p <= i - jawOffset; p++)
                     {
-                        sum += tpList[p].Value;
+                        sum += feed[p].Value;
                     }
 
-                    jawResult.Jaw = sum / jawPeriods;
+                    jaw = sum / jawPeriods;
                 }
 
                 // remaining values: SMMA
                 else
                 {
-                    jawResult.Jaw = ((prevValue * (jawPeriods - 1)) + tpList[i].Value) / jawPeriods;
+                    jaw = (prevJaw * (jawPeriods - 1) + feed[i - jawOffset].Value) / jawPeriods;
                 }
-
-                jawResult.Jaw = jawResult.Jaw.NaN2Null();
             }
 
-            // only calculate teeth if the array offset is still in valid range
-            if (i + teethOffset < length)
+            // calculate alligator's teeth, when in range
+            if (i >= teethPeriods + teethOffset - 1)
             {
-                AlligatorResult teethResult = results[i + teethOffset];
-                double? prevValue = results[i + teethOffset - 1].Teeth;
+                double prevTooth = results[i - 1].Teeth.Null2NaN();
 
-                // calculate alligator's teeth
-                // first value: calculate SMA
-                if (i >= teethPeriods - 1 && prevValue is null)
+                // first/reset value: calculate SMA
+                if (double.IsNaN(prevTooth))
                 {
                     double sum = 0;
-                    for (int p = i + 1 - teethPeriods; p <= i; p++)
+                    for (int p = i - teethPeriods - teethOffset + 1; p <= i - teethOffset; p++)
                     {
-                        sum += tpList[p].Value;
+                        sum += feed[p].Value;
                     }
 
-                    teethResult.Teeth = sum / teethPeriods;
+                    teeth = sum / teethPeriods;
                 }
 
                 // remaining values: SMMA
                 else
                 {
-                    teethResult.Teeth = ((prevValue * (teethPeriods - 1)) + tpList[i].Value) / teethPeriods;
+                    teeth = (prevTooth * (teethPeriods - 1) + feed[i - teethOffset].Value) / teethPeriods;
                 }
-
-                teethResult.Teeth = teethResult.Teeth.NaN2Null();
             }
 
-            // only calculate lips if the array offset is still in valid range
-            if (i + lipsOffset < length)
+            // calculate alligator's lips, when in range
+            if (i >= lipsPeriods + lipsOffset - 1)
             {
-                AlligatorResult lipsResult = results[i + lipsOffset];
-                double? prevValue = results[i + lipsOffset - 1].Lips;
+                double prevLips = results[i - 1].Lips.Null2NaN();
 
-                // calculate alligator's lips
-                // first value: calculate SMA
-                if (i >= lipsPeriods - 1 && prevValue is null)
+                // first/reset value: calculate SMA
+                if (double.IsNaN(prevLips))
                 {
                     double sum = 0;
-                    for (int p = i + 1 - lipsPeriods; p <= i; p++)
+                    for (int p = i - lipsPeriods - lipsOffset + 1; p <= i - lipsOffset; p++)
                     {
-                        sum += tpList[p].Value;
+                        sum += feed[p].Value;
                     }
 
-                    lipsResult.Lips = sum / lipsPeriods;
+                    lips = sum / lipsPeriods;
                 }
 
                 // remaining values: SMMA
                 else
                 {
-                    lipsResult.Lips = ((prevValue * (lipsPeriods - 1)) + tpList[i].Value) / lipsPeriods;
+                    lips = (prevLips * (lipsPeriods - 1) + feed[i - lipsOffset].Value) / lipsPeriods;
                 }
-
-                lipsResult.Lips = lipsResult.Lips.NaN2Null();
             }
+
+            // result
+            AlligatorResult r = new() {
+                Timestamp = feed[i].Timestamp,
+                Jaw = jaw.NaN2Null(),
+                Teeth = teeth.NaN2Null(),
+                Lips = lips.NaN2Null()
+            };
+
+            results.Add(r);
         }
 
         return results;

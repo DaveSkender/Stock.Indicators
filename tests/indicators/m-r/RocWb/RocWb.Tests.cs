@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class RocWbTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class RocWbTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<RocWbResult> results = quotes
+        List<RocWbResult> results = Quotes
             .GetRocWb(20, 3, 20)
             .ToList();
 
@@ -68,9 +68,9 @@ public class RocWbTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<RocWbResult> results = quotes
+        List<RocWbResult> results = Quotes
             .Use(CandlePart.Close)
             .GetRocWb(20, 3, 20)
             .ToList();
@@ -80,20 +80,9 @@ public class RocWbTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<RocWbResult> r = tupleNanny
-            .GetRocWb(6, 7, 5)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<RocWbResult> results = quotes
+        List<RocWbResult> results = Quotes
             .GetSma(2)
             .GetRocWb(20, 3, 20)
             .ToList();
@@ -105,7 +94,7 @@ public class RocWbTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetRocWb(20, 3, 20)
             .GetSma(10)
             .ToList();
@@ -117,24 +106,24 @@ public class RocWbTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RocWbResult> r = badQuotes
+        List<RocWbResult> r = BadQuotes
             .GetRocWb(35, 3, 35)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Roc is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RocWbResult> r0 = noquotes
+        List<RocWbResult> r0 = Noquotes
             .GetRocWb(5, 3, 2)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<RocWbResult> r1 = onequote
+        List<RocWbResult> r1 = Onequote
             .GetRocWb(5, 3, 2)
             .ToList();
 
@@ -144,7 +133,7 @@ public class RocWbTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<RocWbResult> results = quotes
+        List<RocWbResult> results = Quotes
             .GetRocWb(20, 3, 20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -164,14 +153,14 @@ public class RocWbTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRocWb(0, 3, 12));
+            Quotes.GetRocWb(0, 3, 12));
 
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRocWb(14, 0, 14));
+            Quotes.GetRocWb(14, 0, 14));
 
         // bad STDDEV period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRocWb(15, 3, 16));
+            Quotes.GetRocWb(15, 3, 16));
     }
 }

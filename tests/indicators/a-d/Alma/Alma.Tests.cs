@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class Alma : SeriesTestBase
@@ -10,7 +10,7 @@ public class Alma : SeriesTestBase
         double offset = 0.85;
         double sigma = 6;
 
-        List<AlmaResult> results = quotes
+        List<AlmaResult> results = Quotes
             .GetAlma(lookbackPeriods, offset, sigma)
             .ToList();
 
@@ -39,11 +39,11 @@ public class Alma : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<AlmaResult> results = quotes
+        List<AlmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetAlma(10, 0.85, 6)
+            .GetAlma(10)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -54,22 +54,11 @@ public class Alma : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<AlmaResult> r = tupleNanny
-            .GetAlma()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<AlmaResult> results = quotes
+        List<AlmaResult> results = Quotes
             .GetSma(2)
-            .GetAlma(10, 0.85, 6)
+            .GetAlma(10)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -83,7 +72,7 @@ public class Alma : SeriesTestBase
         double offset = 0.85;
         double sigma = 6;
 
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetAlma(lookbackPeriods, offset, sigma)
             .GetSma(10)
             .ToList();
@@ -95,36 +84,36 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma(9, 0.85, 6).ToList();
+        List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma().ToList();
 
-        Assert.AreEqual(0, r1.Count(x => x.Alma is double and double.NaN));
+        Assert.AreEqual(0, r1.Count(x => x.Alma is double.NaN));
 
-        List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20, 0.85, 6).ToList();
+        List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20).ToList();
 
-        Assert.AreEqual(0, r2.Count(x => x.Alma is double and double.NaN));
+        Assert.AreEqual(0, r2.Count(x => x.Alma is double.NaN));
     }
 
     [TestMethod]
     public override void BadData()
     {
-        List<AlmaResult> r = badQuotes
+        List<AlmaResult> r = BadQuotes
             .GetAlma(14, 0.5, 3)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Alma is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AlmaResult> r0 = noquotes
+        List<AlmaResult> r0 = Noquotes
             .GetAlma()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AlmaResult> r1 = onequote
+        List<AlmaResult> r1 = Onequote
             .GetAlma()
             .ToList();
 
@@ -134,8 +123,8 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AlmaResult> results = quotes
-            .GetAlma(10, 0.85, 6)
+        List<AlmaResult> results = Quotes
+            .GetAlma(10)
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -151,14 +140,14 @@ public class Alma : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(0, 1, 5));
+            Quotes.GetAlma(0, 1, 5));
 
         // bad offset
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(15, 1.1, 3));
+            Quotes.GetAlma(15, 1.1, 3));
 
         // bad sigma
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(10, 0.5, 0));
+            Quotes.GetAlma(10, 0.5, 0));
     }
 }

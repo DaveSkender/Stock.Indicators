@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class VwapResult : IReusableResult
+public readonly record struct VwapResult
+(
+    DateTime Timestamp,
+    double? Vwap
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Vwap { get; set; }
-
-    double IReusableResult.Value => Vwap.Null2NaN();
+    double IReusable.Value => Vwap.Null2NaN();
 }

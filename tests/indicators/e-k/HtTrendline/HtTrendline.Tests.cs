@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class HtTrendlineTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<HtlResult> results = quotes
+        List<HtlResult> results = Quotes
             .GetHtTrendline()
             .ToList();
 
@@ -58,9 +58,9 @@ public class HtTrendlineTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<HtlResult> results = quotes
+        List<HtlResult> results = Quotes
             .Use(CandlePart.Close)
             .GetHtTrendline()
             .ToList();
@@ -70,20 +70,9 @@ public class HtTrendlineTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<HtlResult> r = tupleNanny
-            .GetHtTrendline()
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<HtlResult> results = quotes
+        List<HtlResult> results = Quotes
             .GetSma(2)
             .GetHtTrendline()
             .ToList();
@@ -95,7 +84,7 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetHtTrendline()
             .GetSma(10)
             .ToList();
@@ -107,18 +96,18 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<HtlResult> r = badQuotes
+        List<HtlResult> r = BadQuotes
             .GetHtTrendline()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trendline is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Trendline is double.NaN));
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<HtlResult> results = quotes
+        List<HtlResult> results = Quotes
             .GetHtTrendline()
             .RemoveWarmupPeriods()
             .ToList();
@@ -146,13 +135,13 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<HtlResult> r0 = noquotes
+        List<HtlResult> r0 = Noquotes
             .GetHtTrendline()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HtlResult> r1 = onequote
+        List<HtlResult> r1 = Onequote
             .GetHtTrendline()
             .ToList();
 

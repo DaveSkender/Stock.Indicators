@@ -5,29 +5,28 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SmmaResult> CalcSmma(
-        this List<(DateTime, double)> tpList,
+    private static List<SmmaResult> CalcSmma<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Smma.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<SmmaResult> results = new(length);
         double prevSmma = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-
-            SmmaResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -39,8 +38,8 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    T ps = source[p];
+                    sum += ps.Value;
                 }
 
                 smma = sum / lookbackPeriods;
@@ -49,10 +48,13 @@ public static partial class Indicator
             // normal SMMA
             else
             {
-                smma = ((prevSmma * (lookbackPeriods - 1)) + value) / lookbackPeriods;
+                smma = (prevSmma * (lookbackPeriods - 1) + s.Value) / lookbackPeriods;
             }
 
-            r.Smma = smma.NaN2Null();
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Smma: smma.NaN2Null()));
+
             prevSmma = smma;
         }
 

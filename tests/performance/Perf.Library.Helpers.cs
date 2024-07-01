@@ -4,36 +4,36 @@ namespace Tests.Performance;
 
 public class LibraryHelpers
 {
-    private static IEnumerable<Quote> h;
-    private static IEnumerable<Quote> i;
+    private static IEnumerable<Quote> _h;
+    private static IEnumerable<Quote> _i;
 
     [GlobalSetup]
-    public static void Setup() => h = TestData.GetDefault();
+    public static void Setup() => _h = TestData.GetDefault();
 
     [GlobalSetup(Targets = [nameof(Aggregate)])]
-    public static void SetupIntraday() => i = TestData.GetIntraday();
+    public static void SetupIntraday() => _i = TestData.GetIntraday();
 
     [Benchmark]
-    public object ToSortedList() => h.ToSortedList();
+    public object ToSortedList() => _h.ToSortedList();
 
     [Benchmark]
-    public object ToSortedCollection() => h.ToSortedCollection();
+    public object ToSortedCollection() => _h.ToSortedCollection();
 
     [Benchmark]
-    public object ToListQuoteD() => h.ToQuoteD();
+    public object ToListQuoteD() => _h.ToQuoteDList();
 
     [Benchmark]
-    public object ToTupleClose() => h.ToTuple(CandlePart.Close);
+    public object ToReusableClose() => _h.ToReusableList(CandlePart.Close);
 
     [Benchmark]
-    public object ToTupleOHLC4() => h.ToTuple(CandlePart.OHLC4);
+    public object ToReusableOhlc4() => _h.ToReusableList(CandlePart.OHLC4);
 
     [Benchmark]
-    public object ToCandleResults() => h.ToCandleResults();
+    public object ToCandleResults() => _h.ToCandleResults();
 
     [Benchmark]
-    public object Validate() => h.Validate();
+    public object Validate() => _h.Validate();
 
     [Benchmark]
-    public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
+    public object Aggregate() => _i.Aggregate(PeriodSize.FifteenMinutes);
 }

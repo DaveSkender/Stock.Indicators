@@ -1,12 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class ObvResult : IReusableResult
+public readonly record struct ObvResult
+(
+    DateTime Timestamp,
+    double Obv
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double Obv { get; set; }
-
-    [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", false)]
-    public double? ObvSma { get; set; }
-
-    double IReusableResult.Value => Obv;
+    double IReusable.Value => Obv;
 }

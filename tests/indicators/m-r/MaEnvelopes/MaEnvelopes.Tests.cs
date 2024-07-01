@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class MaEnvelopesTests : SeriesTestBase
@@ -7,7 +7,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Alma()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA)
+            Quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA)
             .ToList();
 
         // proper quantities
@@ -35,7 +35,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Dema()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA)
             .ToList();
 
         // proper quantities
@@ -63,7 +63,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Epma()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA)
             .ToList();
 
         // proper quantities
@@ -91,7 +91,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Ema()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.EMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.EMA)
             .ToList();
 
         // proper quantities
@@ -119,7 +119,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Hma()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.HMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.HMA)
             .ToList();
 
         // proper quantities
@@ -142,7 +142,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Sma()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.SMA)
+            Quotes.GetMaEnvelopes(20)
             .ToList();
 
         // proper quantities
@@ -170,7 +170,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Smma()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA)
             .ToList();
 
         // proper quantities
@@ -198,7 +198,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Tema()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA)
             .ToList();
 
         // proper quantities
@@ -226,7 +226,7 @@ public class MaEnvelopesTests : SeriesTestBase
     public void Wma()
     {
         List<MaEnvelopeResult> results =
-            quotes.GetMaEnvelopes(20, 2.5, MaType.WMA)
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.WMA)
             .ToList();
 
         // proper quantities
@@ -246,11 +246,11 @@ public class MaEnvelopesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<MaEnvelopeResult> results = quotes
+        List<MaEnvelopeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMaEnvelopes(10, 2.5, MaType.SMA)
+            .GetMaEnvelopes(10)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -258,22 +258,11 @@ public class MaEnvelopesTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<MaEnvelopeResult> r = tupleNanny
-            .GetMaEnvelopes(8, 2.5, MaType.ALMA)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperEnvelope is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<MaEnvelopeResult> results = quotes
+        List<MaEnvelopeResult> results = Quotes
             .GetSma(2)
-            .GetMaEnvelopes(10, 2.5, MaType.SMA)
+            .GetMaEnvelopes(10)
             .ToList();
 
         Assert.AreEqual(502, results.Count);
@@ -283,49 +272,49 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MaEnvelopeResult> a = badQuotes
+        List<MaEnvelopeResult> a = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.ALMA)
             .ToList();
 
         Assert.AreEqual(502, a.Count);
 
-        List<MaEnvelopeResult> d = badQuotes
+        List<MaEnvelopeResult> d = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.DEMA)
             .ToList();
 
         Assert.AreEqual(502, d.Count);
 
-        List<MaEnvelopeResult> p = badQuotes
+        List<MaEnvelopeResult> p = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.EPMA)
             .ToList();
 
         Assert.AreEqual(502, p.Count);
 
-        List<MaEnvelopeResult> e = badQuotes
+        List<MaEnvelopeResult> e = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.EMA)
             .ToList();
 
         Assert.AreEqual(502, e.Count);
 
-        List<MaEnvelopeResult> h = badQuotes
+        List<MaEnvelopeResult> h = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.HMA)
             .ToList();
 
         Assert.AreEqual(502, h.Count);
 
-        List<MaEnvelopeResult> s = badQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.SMA)
+        List<MaEnvelopeResult> s = BadQuotes
+            .GetMaEnvelopes(5)
             .ToList();
 
         Assert.AreEqual(502, s.Count);
 
-        List<MaEnvelopeResult> t = badQuotes
+        List<MaEnvelopeResult> t = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.TEMA)
             .ToList();
 
         Assert.AreEqual(502, t.Count);
 
-        List<MaEnvelopeResult> w = badQuotes
+        List<MaEnvelopeResult> w = BadQuotes
             .GetMaEnvelopes(5, 2.5, MaType.WMA)
             .ToList();
 
@@ -335,8 +324,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<MaEnvelopeResult> r = quotes
-            .GetMaEnvelopes(20, 2.5, MaType.SMA)
+        List<MaEnvelopeResult> r = Quotes
+            .GetMaEnvelopes(20)
             .Condense()
             .ToList();
 
@@ -348,11 +337,11 @@ public class MaEnvelopesTests : SeriesTestBase
     {
         // bad offset period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMaEnvelopes(14, 0));
+            Quotes.GetMaEnvelopes(14, 0));
 
         // bad MA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetMaEnvelopes(14, 5, MaType.KAMA));
+            Quotes.GetMaEnvelopes(14, 5, MaType.KAMA));
 
         // note: insufficient quotes is tested elsewhere
     }

@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class VortexResult : IResult
-{
-    public DateTime Timestamp { get; set; }
-    public double? Pvi { get; set; }
-    public double? Nvi { get; set; }
-}
+public readonly record struct VortexResult
+(
+    DateTime Timestamp,
+    double? Pvi,
+    double? Nvi
+) : IResult;

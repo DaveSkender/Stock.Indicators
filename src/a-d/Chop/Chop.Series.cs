@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ChopResult> CalcChop(
+    private static List<ChopResult> CalcChop(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -12,11 +12,6 @@ public static partial class Indicator
         Chop.Validate(lookbackPeriods);
 
         // initialize
-        double sum;
-        double high;
-        double low;
-        double range;
-
         int length = qdList.Count;
         List<ChopResult> results = new(length);
         double[] trueHigh = new double[length];
@@ -24,10 +19,9 @@ public static partial class Indicator
         double[] trueRange = new double[length];
 
         // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            ChopResult r = new() { Timestamp = qdList[i].Timestamp };
-            results.Add(r);
+            double? chop = null;
 
             if (i > 0)
             {
@@ -40,9 +34,9 @@ public static partial class Indicator
                 if (i >= lookbackPeriods)
                 {
                     // reset measurements
-                    sum = trueRange[i];
-                    high = trueHigh[i];
-                    low = trueLow[i];
+                    double sum = trueRange[i];
+                    double high = trueHigh[i];
+                    double low = trueLow[i];
 
                     // iterate over lookback window
                     for (int j = 1; j < lookbackPeriods; j++)
@@ -52,15 +46,19 @@ public static partial class Indicator
                         low = Math.Min(low, trueLow[i - j]);
                     }
 
-                    range = high - low;
+                    double range = high - low;
 
                     // calculate CHOP
                     if (range != 0)
                     {
-                        r.Chop = 100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
+                        chop = 100 * (Math.Log(sum / range) / Math.Log(lookbackPeriods));
                     }
                 }
             }
+
+            results.Add(new(
+                Timestamp: qdList[i].Timestamp,
+                Chop: chop));
         }
 
         return results;

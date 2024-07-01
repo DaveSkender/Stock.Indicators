@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class HmaTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<HmaResult> results = quotes
+        List<HmaResult> results = Quotes
             .GetHma(20)
             .ToList();
 
@@ -23,9 +23,9 @@ public class HmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void UseTuple()
+    public void UseReusable()
     {
-        List<HmaResult> results = quotes
+        List<HmaResult> results = Quotes
             .Use(CandlePart.Close)
             .GetHma(20)
             .ToList();
@@ -35,20 +35,9 @@ public class HmaTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void TupleNaN()
-    {
-        List<HmaResult> r = tupleNanny
-            .GetHma(6)
-            .ToList();
-
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
-    }
-
-    [TestMethod]
     public void Chainee()
     {
-        List<HmaResult> results = quotes
+        List<HmaResult> results = Quotes
             .GetSma(2)
             .GetHma(19)
             .ToList();
@@ -60,7 +49,7 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetHma(20)
             .GetSma(10)
             .ToList();
@@ -72,24 +61,24 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<HmaResult> r = badQuotes
+        List<HmaResult> r = BadQuotes
             .GetHma(15)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Hma is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<HmaResult> r0 = noquotes
+        List<HmaResult> r0 = Noquotes
             .GetHma(5)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HmaResult> r1 = onequote
+        List<HmaResult> r1 = Onequote
             .GetHma(5)
             .ToList();
 
@@ -99,7 +88,7 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<HmaResult> results = quotes
+        List<HmaResult> results = Quotes
             .GetHma(20)
             .RemoveWarmupPeriods()
             .ToList();
@@ -115,5 +104,5 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetHma(1));
+            => Quotes.GetHma(1));
 }

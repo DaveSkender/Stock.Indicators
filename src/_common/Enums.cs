@@ -3,6 +3,21 @@ namespace Skender.Stock.Indicators;
 // SHARED ENUMERATIONS
 // note: indicator unique ENUMS specified in indicator models
 
+/// <summary>
+/// Cache action instruction or outcome
+/// </summary>
+public enum Act
+{
+    AddNew,
+    AddOld,
+    Update,
+    Delete,
+    DoNothing
+}
+
+/// <summary>
+/// Part or value of a quote candle
+/// </summary>
 public enum CandlePart
 {
     Open,
@@ -17,12 +32,18 @@ public enum CandlePart
     OHLC4
 }
 
+/// <summary>
+/// Candle close or high/low wick values
+/// </summary>
 public enum EndType
 {
     Close = 0,
     HighLow = 1
 }
 
+/// <summary>
+/// Candlestick pattern matching type
+/// </summary>
 public enum Match
 {
     BullConfirmed = 200,
@@ -35,6 +56,9 @@ public enum Match
     BearConfirmed = -200
 }
 
+/// <summary>
+/// Moving average type
+/// </summary>
 public enum MaType
 {
     ALMA,
@@ -50,6 +74,10 @@ public enum MaType
     WMA
 }
 
+/// <summary>
+/// Period size.  Usually referring to the
+/// time period represented in a quote candle.
+/// </summary>
 public enum PeriodSize
 {
     Month,
@@ -64,13 +92,4 @@ public enum PeriodSize
     ThreeMinutes,
     TwoMinutes,
     OneMinute
-}
-
-public enum Act
-{
-    AddNew,
-    AddOld,
-    Update,
-    Delete,
-    DoNothing
 }

@@ -4,19 +4,20 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AlmaResult> CalcAlma(
-        this List<(DateTime Timestamp, double _)> tpList,
+    private static List<AlmaResult> CalcAlma<T>(
+        this List<T> source,
         int lookbackPeriods,
         double offset,
         double sigma)
+        where T : IReusable
     {
         // check parameter arguments
         Alma.Validate(lookbackPeriods, offset, sigma);
 
         // initialize
-        List<AlmaResult> results = new(tpList.Count);
+        List<AlmaResult> results = new(source.Count);
 
-        // determine price weights
+        // determine price weight constants
         double m = offset * (lookbackPeriods - 1);
         double s = lookbackPeriods / sigma;
 
@@ -31,10 +32,9 @@ public static partial class Indicator
         }
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            AlmaResult r = new() { Timestamp = tpList[i].Timestamp };
-            results.Add(r);
+            double alma = double.NaN;
 
             if (i + 1 >= lookbackPeriods)
             {
@@ -43,13 +43,17 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    weightedSum += weight[n] * pValue;
+                    T ps = source[p];
+                    weightedSum += weight[n] * ps.Value;
                     n++;
                 }
 
-                r.Alma = (weightedSum / norm).NaN2Null();
+                alma = weightedSum / norm;
             }
+
+            results.Add(
+            new(Timestamp: source[i].Timestamp,
+                Alma: alma.NaN2Null()));
         }
 
         return results;

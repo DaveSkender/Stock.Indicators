@@ -2,51 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
 
-public static partial class Indicator
+public static partial class Ema
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
-    ///
-    public static IEnumerable<EmaResult> GetEma<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcEma(lookbackPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<EmaResult> GetEma(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods) => results
-            .ToTupleResult()
-            .CalcEma(lookbackPeriods);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<EmaResult> GetEma(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods) => priceTuples
+    public static IEnumerable<EmaResult> GetEma<T>(
+        this IEnumerable<T> results,
+        int lookbackPeriods)
+        where T : IReusable
+        => results
             .ToSortedList()
             .CalcEma(lookbackPeriods);
 
-    // OBSERVER, from Quote Provider
-    /// <include file='./info.xml' path='info/type[@name="observer"]/*' />
-    ///
-    public static Ema AttachEma<TQuote>(
-        this QuoteProvider<TQuote> quoteProvider,
-        int lookbackPeriods)
-        where TQuote : IQuote, new()
-    {
-        Use<TQuote> chainProvider = quoteProvider
-            .Use(CandlePart.Close);
-
-        return new(chainProvider, lookbackPeriods);
-    }
-
     // OBSERVER, from Chain Provider
-    /// <include file='./info.xml' path='info/type[@name="chainee"]/*' />
-    ///
-    public static Ema AttachEma(
-        this ChainProvider chainProvider,
+    public static Ema<TIn> ToEma<TIn>(
+        this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
+        where TIn : struct, IReusable
         => new(chainProvider, lookbackPeriods);
 }

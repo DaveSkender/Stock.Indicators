@@ -4,26 +4,24 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<BollingerBandsResult> CalcBollingerBands(
-        this List<(DateTime, double)> tpList,
+    private static List<BollingerBandsResult> CalcBollingerBands<T>(
+        this List<T> source,
         int lookbackPeriods,
         double standardDeviations)
+        where T : IReusable
     {
         // check parameter arguments
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<BollingerBandsResult> results = new(tpList.Count);
+        List<BollingerBandsResult> results = new(source.Count);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < source.Count; i++)
         {
-            (DateTime date, double value) = tpList[i];
+            T s = source[i];
 
-            BollingerBandsResult r = new() { Timestamp = date };
-            results.Add(r);
-
-            if (i + 1 >= lookbackPeriods)
+            if (i >= lookbackPeriods - 1)
             {
                 double[] window = new double[lookbackPeriods];
                 double sum = 0;
@@ -31,24 +29,38 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    window[n] = pValue;
-                    sum += pValue;
+                    T ps = source[p];
+                    window[n] = ps.Value;
+                    sum += ps.Value;
                     n++;
                 }
 
-                double? periodAvg = (sum / lookbackPeriods).NaN2Null();
+                double? sma = (sum / lookbackPeriods).NaN2Null();
                 double? stdDev = window.StdDev().NaN2Null();
 
-                r.Sma = periodAvg;
-                r.UpperBand = periodAvg + (standardDeviations * stdDev);
-                r.LowerBand = periodAvg - (standardDeviations * stdDev);
+                double? upperBand = sma + standardDeviations * stdDev;
+                double? lowerBand = sma - standardDeviations * stdDev;
 
-                r.PercentB = (r.UpperBand == r.LowerBand) ? null
-                    : (value - r.LowerBand) / (r.UpperBand - r.LowerBand);
+                results.Add(new(
 
-                r.ZScore = (stdDev == 0) ? null : (value - r.Sma) / stdDev;
-                r.Width = (periodAvg == 0) ? null : (r.UpperBand - r.LowerBand) / periodAvg;
+                    Timestamp: s.Timestamp,
+
+                    Sma: sma,
+                    UpperBand: upperBand,
+                    LowerBand: lowerBand,
+
+                    PercentB: upperBand - lowerBand == 0 ? null
+                        : (s.Value - lowerBand) / (upperBand - lowerBand),
+
+                    ZScore: stdDev == 0 ? null : (s.Value - sma) / stdDev,
+                    Width: sma == 0 ? null : (upperBand - lowerBand) / sma
+                ));
+            }
+
+            // initization period
+            else
+            {
+                results.Add(new() { Timestamp = s.Timestamp });
             }
         }
 

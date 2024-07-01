@@ -4,10 +4,8 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    internal static List<CandleResult> CalcMarubozu<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    private static List<CandleResult> CalcMarubozu<TQuote>(
+        this List<TQuote> quotesList,
         double minBodyPercent)
         where TQuote : IQuote
     {
@@ -15,21 +13,31 @@ public static partial class Indicator
         Marubozu.Validate(minBodyPercent);
 
         // initialize
-        List<CandleResult> results = quotes.ToCandleResults();
+        int length = quotesList.Count;
+        List<CandleResult> results = new(length);
+
         minBodyPercent /= 100;
-        int length = results.Count;
 
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            CandleResult r = results[i];
+            TQuote q = quotesList[i];
+            decimal? matchPrice = null;
+            Match matchType = Match.None;
+            CandleProperties candle = q.ToCandle();
 
             // check for current signal
-            if (r.Candle.BodyPct >= minBodyPercent)
+            if (candle.BodyPct >= minBodyPercent)
             {
-                r.Price = r.Candle.Close;
-                r.Match = r.Candle.IsBullish ? Match.BullSignal : Match.BearSignal;
+                matchPrice = q.Close;
+                matchType = candle.IsBullish ? Match.BullSignal : Match.BearSignal;
             }
+
+            results.Add(new(
+                timestamp: q.Timestamp,
+                candle: candle,
+                match: matchType,
+                price: matchPrice));
         }
 
         return results;

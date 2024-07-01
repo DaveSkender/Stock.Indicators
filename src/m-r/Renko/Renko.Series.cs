@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RenkoResult> CalcRenko<TQuote>(
+    private static List<RenkoResult> CalcRenko<TQuote>(
         this List<TQuote> quotesList,
         decimal brickSize,
         EndType endType)
@@ -16,18 +16,15 @@ public static partial class Indicator
         // initialize
         int length = quotesList.Count;
         List<RenkoResult> results = new(length);
-        TQuote q0;
 
         if (length == 0)
         {
             return results;
         }
-        else
-        {
-            q0 = quotesList[0];
-        }
 
-        bool resetHLV = true;
+        TQuote q0 = quotesList[0];
+
+        bool resetHlv = true;
         int decimals = brickSize.GetDecimalPlaces();
         decimal baseline = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
 
@@ -47,7 +44,7 @@ public static partial class Indicator
             TQuote q = quotesList[i];
 
             // accumulate brick info
-            if (resetHLV)
+            if (resetHlv)
             {
                 // reset
                 h = q.High;
@@ -97,7 +94,7 @@ public static partial class Indicator
             }
 
             // init next brick(s)
-            resetHLV = absQty != 0;
+            resetHlv = absQty != 0;
         }
 
         return results;
@@ -135,7 +132,7 @@ public static partial class Indicator
                 decimal hQty = (q.High - upper) / brickSize;
                 decimal lQty = (lower - q.Low) / brickSize;
 
-                bricks = (int)((hQty >= lQty) ? hQty : -lQty);
+                bricks = (int)(hQty >= lQty ? hQty : -lQty);
                 break;
 
             default:

@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class RollingPivotsTests : SeriesTestBase
@@ -11,7 +11,7 @@ public class RollingPivotsTests : SeriesTestBase
         PivotPointType pointType = PivotPointType.Standard;
 
         List<RollingPivotsResult> results =
-            quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
+            Quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
         // proper quantities
@@ -156,7 +156,7 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 10;
         PivotPointType pointType = PivotPointType.Demark;
 
-        List<RollingPivotsResult> results = quotes
+        List<RollingPivotsResult> results = Quotes
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .ToList();
 
@@ -314,7 +314,7 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 16;
         PivotPointType pointType = PivotPointType.Woodie;
 
-        IEnumerable<Quote> h = TestData.GetIntraday(1564);
+        IEnumerable<Quote> h = TestData.GetIntraday();
 
         List<RollingPivotsResult> results = h
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
@@ -376,7 +376,7 @@ public class RollingPivotsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RollingPivotsResult> r = badQuotes
+        List<RollingPivotsResult> r = BadQuotes
             .GetRollingPivots(5, 5)
             .ToList();
 
@@ -386,13 +386,13 @@ public class RollingPivotsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RollingPivotsResult> r0 = noquotes
+        List<RollingPivotsResult> r0 = Noquotes
             .GetRollingPivots(5, 2)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<RollingPivotsResult> r1 = onequote
+        List<RollingPivotsResult> r1 = Onequote
             .GetRollingPivots(5, 2)
             .ToList();
 
@@ -406,7 +406,7 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 9;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<RollingPivotsResult> results = quotes
+        List<RollingPivotsResult> results = Quotes
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
             .RemoveWarmupPeriods()
             .ToList();
@@ -431,10 +431,10 @@ public class RollingPivotsTests : SeriesTestBase
     {
         // bad window period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRollingPivots(0, 10));
+            Quotes.GetRollingPivots(0, 10));
 
         // bad offset period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRollingPivots(10, -1));
+            Quotes.GetRollingPivots(10, -1));
     }
 }

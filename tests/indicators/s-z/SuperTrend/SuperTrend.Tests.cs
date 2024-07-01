@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class SuperTrendTests : SeriesTestBase
@@ -6,10 +6,10 @@ public class SuperTrendTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        int lookbackPeriods = 14;
-        double multiplier = 3;
+        const int lookbackPeriods = 14;
+        const double multiplier = 3;
 
-        List<SuperTrendResult> results = quotes
+        List<SuperTrendResult> results = Quotes
             .GetSuperTrend(lookbackPeriods, multiplier)
             .ToList();
 
@@ -55,7 +55,7 @@ public class SuperTrendTests : SeriesTestBase
         IEnumerable<Quote> h = TestData.GetBitcoin();
 
         List<SuperTrendResult> results = h
-            .GetSuperTrend(10, 3)
+            .GetSuperTrend()
             .ToList();
 
         Assert.AreEqual(1246, results.Count);
@@ -67,7 +67,7 @@ public class SuperTrendTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SuperTrendResult> r = badQuotes
+        List<SuperTrendResult> r = BadQuotes
             .GetSuperTrend(7)
             .ToList();
 
@@ -77,13 +77,13 @@ public class SuperTrendTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SuperTrendResult> r0 = noquotes
+        List<SuperTrendResult> r0 = Noquotes
             .GetSuperTrend()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SuperTrendResult> r1 = onequote
+        List<SuperTrendResult> r1 = Onequote
             .GetSuperTrend()
             .ToList();
 
@@ -96,7 +96,7 @@ public class SuperTrendTests : SeriesTestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results = quotes
+        List<SuperTrendResult> results = Quotes
             .GetSuperTrend(lookbackPeriods, multiplier)
             .Condense()
             .ToList();
@@ -116,7 +116,7 @@ public class SuperTrendTests : SeriesTestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results = quotes
+        List<SuperTrendResult> results = Quotes
             .GetSuperTrend(lookbackPeriods, multiplier)
             .RemoveWarmupPeriods()
             .ToList();
@@ -135,10 +135,10 @@ public class SuperTrendTests : SeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetSuperTrend(1));
+            Quotes.GetSuperTrend(1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetSuperTrend(7, 0));
+            Quotes.GetSuperTrend(7, 0));
     }
 }

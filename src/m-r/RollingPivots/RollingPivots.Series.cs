@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
+    private static List<RollingPivotsResult> CalcRollingPivots<TQuote>(
         this List<TQuote> quotesList,
         int windowPeriods,
         int offsetPeriods,
@@ -23,9 +23,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            RollingPivotsResult r = new() {
-                Timestamp = q.Timestamp
-            };
+            RollingPivotsResult r;
 
             if (i >= windowPeriods + offsetPeriods)
             {
@@ -40,23 +38,37 @@ public static partial class Indicator
                 for (int p = s; p <= i - offsetPeriods - 1; p++)
                 {
                     TQuote d = quotesList[p];
-                    windowHigh = (d.High > windowHigh) ? d.High : windowHigh;
-                    windowLow = (d.Low < windowLow) ? d.Low : windowLow;
+                    windowHigh = d.High > windowHigh ? d.High : windowHigh;
+                    windowLow = d.Low < windowLow ? d.Low : windowLow;
                 }
 
                 // pivot points
-                RollingPivotsResult wp = GetPivotPoint<RollingPivotsResult>(
+                WindowPoint wp = GetPivotPoint(
                         pointType, q.Open, windowHigh, windowLow, windowClose);
 
-                r.PP = wp.PP;
-                r.S1 = wp.S1;
-                r.S2 = wp.S2;
-                r.S3 = wp.S3;
-                r.S4 = wp.S4;
-                r.R1 = wp.R1;
-                r.R2 = wp.R2;
-                r.R3 = wp.R3;
-                r.R4 = wp.R4;
+                r = new() {
+
+                    Timestamp = q.Timestamp,
+
+                    // pivot point
+                    PP = wp.PP,
+
+                    // support
+                    S1 = wp.S1,
+                    S2 = wp.S2,
+                    S3 = wp.S3,
+                    S4 = wp.S4,
+
+                    // resistance
+                    R1 = wp.R1,
+                    R2 = wp.R2,
+                    R3 = wp.R3,
+                    R4 = wp.R4
+                };
+            }
+            else
+            {
+                r = new() { Timestamp = q.Timestamp };
             }
 
             results.Add(r);

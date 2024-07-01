@@ -10,6 +10,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         DateTime? startDate = null)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcVwap(startDate);
 }

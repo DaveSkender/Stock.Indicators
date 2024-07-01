@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class AtrTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AtrResult> results = quotes
-            .GetAtr(14)
+        List<AtrResult> results = Quotes
+            .GetAtr()
             .ToList();
 
         // proper quantities
@@ -44,7 +44,7 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetAtr(10)
             .GetSma(10)
             .ToList();
@@ -56,24 +56,24 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AtrResult> r = badQuotes
+        List<AtrResult> r = BadQuotes
             .GetAtr(20)
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Atr is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AtrResult> r0 = noquotes
+        List<AtrResult> r0 = Noquotes
             .GetAtr()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AtrResult> r1 = onequote
+        List<AtrResult> r1 = Onequote
             .GetAtr()
             .ToList();
 
@@ -83,8 +83,8 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AtrResult> results = quotes
-            .GetAtr(14)
+        List<AtrResult> results = Quotes
+            .GetAtr()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -101,5 +101,5 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAtr(1));
+            Quotes.GetAtr(1));
 }

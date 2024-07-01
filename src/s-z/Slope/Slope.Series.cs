@@ -5,28 +5,27 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<SlopeResult> CalcSlope(
-        this List<(DateTime, double)> tpList,
+    private static List<SlopeResult> CalcSlope<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Slope.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<SlopeResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
-
-            SlopeResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
 
             // skip initialization period
-            if (i + 1 < lookbackPeriods)
+            if (i < lookbackPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -36,10 +35,10 @@ public static partial class Indicator
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                (DateTime _, double pValue) = tpList[p];
+                T ps = source[p];
 
                 sumX += p + 1d;
-                sumY += pValue;
+                sumY += ps.Value;
             }
 
             double avgX = sumX / lookbackPeriods;
@@ -48,44 +47,61 @@ public static partial class Indicator
             // least squares method
             double sumSqX = 0;
             double sumSqY = 0;
-            double sumSqXY = 0;
+            double sumSqXy = 0;
 
             for (int p = i - lookbackPeriods + 1; p <= i; p++)
             {
-                (DateTime _, double pValue) = tpList[p];
+                T ps = source[p];
 
                 double devX = p + 1d - avgX;
-                double devY = pValue - avgY;
+                double devY = ps.Value - avgY;
 
                 sumSqX += devX * devX;
                 sumSqY += devY * devY;
-                sumSqXY += devX * devY;
+                sumSqXy += devX * devY;
             }
 
-            r.Slope = (sumSqXY / sumSqX).NaN2Null();
-            r.Intercept = (avgY - (r.Slope * avgX)).NaN2Null();
+            double? slope = (sumSqXy / sumSqX).NaN2Null();
+            double? intercept = (avgY - slope * avgX).NaN2Null();
 
             // calculate Standard Deviation and R-Squared
             double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
             double stdDevY = Math.Sqrt(sumSqY / lookbackPeriods);
-            r.StdDev = stdDevY.NaN2Null();
+
+            double? rSquared = null;
 
             if (stdDevX * stdDevY != 0)
             {
-                double arrr = sumSqXY / (stdDevX * stdDevY) / lookbackPeriods;
-                r.RSquared = (arrr * arrr).NaN2Null();
+                double arrr = sumSqXy / (stdDevX * stdDevY) / lookbackPeriods;
+                rSquared = (arrr * arrr).NaN2Null();
             }
+
+            // write results
+            SlopeResult r = new(
+                Timestamp: s.Timestamp,
+                Slope: slope,
+                Intercept: intercept,
+                StdDev: stdDevY.NaN2Null(),
+                RSquared: rSquared,
+                Line: null); // re-written below
+            results.Add(r);
+        }
+
+        // insufficient length for last line
+        if (length < lookbackPeriods)
+        {
+            return results;
         }
 
         // add last Line (y = mx + b)
-        if (length >= lookbackPeriods)
+        SlopeResult last = results.LastOrDefault();
+        for (int p = length - lookbackPeriods; p < length; p++)
         {
-            SlopeResult? last = results.LastOrDefault();
-            for (int p = length - lookbackPeriods; p < length; p++)
-            {
-                SlopeResult d = results[p];
-                d.Line = (decimal?)((last?.Slope * (p + 1)) + last?.Intercept).NaN2Null();
-            }
+            SlopeResult d = results[p];
+
+            results[p] = d with {
+                Line = (decimal?)(last.Slope * (p + 1) + last.Intercept).NaN2Null()
+            };
         }
 
         return results;

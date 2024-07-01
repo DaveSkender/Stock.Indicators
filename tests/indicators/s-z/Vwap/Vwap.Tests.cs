@@ -1,16 +1,16 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class VwapTests : SeriesTestBase
 {
-    private readonly IEnumerable<Quote> intraday = TestData.GetIntraday()
+    private readonly IEnumerable<Quote> _intraday = TestData.GetIntraday()
         .OrderBy(x => x.Timestamp)
         .Take(391);
 
     [TestMethod]
     public override void Standard()
     {
-        List<VwapResult> results = intraday.GetVwap()
+        List<VwapResult> results = _intraday.GetVwap()
             .ToList();
 
         // proper quantities
@@ -35,9 +35,9 @@ public class VwapTests : SeriesTestBase
     public void WithStartDate()
     {
         DateTime startDate =
-            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", EnglishCulture);
+            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
-        List<VwapResult> results = intraday
+        List<VwapResult> results = _intraday
             .GetVwap(startDate)
             .ToList();
 
@@ -62,7 +62,7 @@ public class VwapTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
+        List<SmaResult> results = Quotes
             .GetVwap()
             .GetSma(10)
             .ToList();
@@ -74,24 +74,24 @@ public class VwapTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<VwapResult> r = badQuotes
+        List<VwapResult> r = BadQuotes
             .GetVwap()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Vwap is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Vwap is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<VwapResult> r0 = noquotes
+        List<VwapResult> r0 = Noquotes
             .GetVwap()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VwapResult> r1 = onequote
+        List<VwapResult> r1 = Onequote
             .GetVwap()
             .ToList();
 
@@ -102,7 +102,7 @@ public class VwapTests : SeriesTestBase
     public void Removed()
     {
         // no start date
-        List<VwapResult> results = intraday
+        List<VwapResult> results = _intraday
             .GetVwap()
             .RemoveWarmupPeriods()
             .ToList();
@@ -115,9 +115,9 @@ public class VwapTests : SeriesTestBase
 
         // with start date
         DateTime startDate =
-        DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", EnglishCulture);
+        DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
-        List<VwapResult> sdResults = intraday
+        List<VwapResult> sdResults = _intraday
             .GetVwap(startDate)
             .RemoveWarmupPeriods()
             .ToList();
@@ -134,9 +134,9 @@ public class VwapTests : SeriesTestBase
     {
         // bad SMA period
         DateTime startDate =
-            DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", EnglishCulture);
+            DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", englishCulture);
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetVwap(startDate));
+            Quotes.GetVwap(startDate));
     }
 }

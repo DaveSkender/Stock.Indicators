@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<RenkoResult> CalcRenkoAtr<TQuote>(
+    private static List<RenkoResult> CalcRenkoAtr<TQuote>(
         this List<TQuote> quotesList,
         int atrPeriods,
         EndType endType = EndType.Close)
@@ -12,14 +12,14 @@ public static partial class Indicator
     {
         // initialize
         List<AtrResult> atrResults = quotesList
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcAtr(atrPeriods);
 
-        double? atr = atrResults.LastOrDefault()?.Atr;
-        decimal brickSize = (atr == null) ? 0 : (decimal)atr;
+        AtrResult last = atrResults.LastOrDefault();
+        decimal brickSize = (decimal?)last.Atr ?? 0;
 
-        return brickSize is 0 ?
-            []
+        return brickSize is 0
+          ? []
           : quotesList.CalcRenko(brickSize, endType);
     }
 }

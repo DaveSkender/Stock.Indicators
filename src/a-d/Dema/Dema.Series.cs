@@ -4,15 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<DemaResult> CalcDema(
-        this List<(DateTime, double)> tpList,
+    private static List<DemaResult> CalcDema<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Dema.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<DemaResult> results = new(length);
 
         double k = 2d / (lookbackPeriods + 1);
@@ -22,14 +23,12 @@ public static partial class Indicator
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-
-            DemaResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
+                results.Add(new() { Timestamp = s.Timestamp });
                 continue;
             }
 
@@ -42,8 +41,8 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
-                    sum += pValue;
+                    T ps = source[p];
+                    sum += ps.Value;
                 }
 
                 ema1 = ema2 = sum / lookbackPeriods;
@@ -52,11 +51,13 @@ public static partial class Indicator
             // normal DEMA
             else
             {
-                ema1 = lastEma1 + (k * (value - lastEma1));
-                ema2 = lastEma2 + (k * (ema1 - lastEma2));
+                ema1 = lastEma1 + k * (s.Value - lastEma1);
+                ema2 = lastEma2 + k * (ema1 - lastEma2);
             }
 
-            r.Dema = ((2d * ema1) - ema2).NaN2Null();
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Dema: (2d * ema1 - ema2).NaN2Null()));
 
             lastEma1 = ema1;
             lastEma2 = ema2;

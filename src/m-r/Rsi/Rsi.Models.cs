@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class RsiResult : IReusableResult
+public readonly record struct RsiResult
+(
+    DateTime Timestamp,
+    double? Rsi = null
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Rsi { get; set; }
-
-    double IReusableResult.Value => Rsi.Null2NaN();
+    double IReusable.Value => Rsi.Null2NaN();
 }

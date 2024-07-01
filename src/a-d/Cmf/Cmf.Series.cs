@@ -4,32 +4,27 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CmfResult> CalcCmf(
+    private static List<CmfResult> CalcCmf(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
         // convert quotes
-        List<(DateTime, double)> tpList = qdList.ToTuple(CandlePart.Volume);
+        List<Reusable> source
+            = qdList.ToReusableList(CandlePart.Volume);
 
         // check parameter arguments
         Cmf.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = [.. qdList.CalcAdl()];
+        List<AdlResult> adlResults = qdList.CalcAdl();
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             AdlResult adl = adlResults[i];
-
-            CmfResult r = new() {
-                Timestamp = adl.Timestamp,
-                MoneyFlowMultiplier = adl.MoneyFlowMultiplier,
-                MoneyFlowVolume = adl.MoneyFlowVolume
-            };
-            results.Add(r);
+            double? cmf = null;
 
             if (i >= lookbackPeriods - 1)
             {
@@ -38,7 +33,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = tpList[p];
+                    (DateTime _, double pValue) = source[p];
                     sumVol += pValue;
 
                     AdlResult d = adlResults[p];
@@ -50,9 +45,15 @@ public static partial class Indicator
 
                 if (avgVol != 0)
                 {
-                    r.Cmf = avgMfv / avgVol;
+                    cmf = avgMfv / avgVol;
                 }
             }
+
+            results.Add(new(
+                Timestamp: adl.Timestamp,
+                MoneyFlowMultiplier: adl.MoneyFlowMultiplier,
+                MoneyFlowVolume: adl.MoneyFlowVolume,
+                Cmf: cmf));
         }
 
         return results;

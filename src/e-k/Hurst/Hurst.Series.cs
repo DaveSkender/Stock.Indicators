@@ -4,24 +4,23 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<HurstResult> CalcHurst(
-        this List<(DateTime, double)> tpList,
+    private static List<HurstResult> CalcHurst<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Hurst.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<HurstResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double _) = tpList[i];
-
-            HurstResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
+            double? h = null;
 
             if (i + 1 > lookbackPeriods)
             {
@@ -29,22 +28,26 @@ public static partial class Indicator
                 double[] values = new double[lookbackPeriods];
 
                 int x = 0;
-                double l = tpList[i - lookbackPeriods].Item2;
+                double l = source[i - lookbackPeriods].Value;
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double c) = tpList[p];
+                    T ps = source[p];
 
                     // return values
-                    values[x] = l != 0 ? (c / l) - 1 : double.NaN;
+                    values[x] = l != 0 ? ps.Value / l - 1 : double.NaN;
 
-                    l = c;
+                    l = ps.Value;
                     x++;
                 }
 
                 // calculate hurst exponent
-                r.HurstExponent = CalcHurstWindow(values).NaN2Null();
+                h = CalcHurstWindow(values).NaN2Null();
             }
+
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                HurstExponent: h));
         }
 
         return results;
@@ -86,7 +89,7 @@ public static partial class Indicator
 
             // starting index position used to skip
             // observations to enforce same-sized chunks
-            int startIndex = totalSize - (chunkSize * chunkQty);
+            int startIndex = totalSize - chunkSize * chunkQty;
 
             // analyze chunks in set
             for (int chunkNum = 1; chunkNum <= chunkQty; chunkNum++)
@@ -109,8 +112,8 @@ public static partial class Indicator
                 {
                     double y = values[i] - chunkMean;
                     sumY += y;
-                    minY = (sumY < minY) ? sumY : minY;
-                    maxY = (sumY > maxY) ? sumY : maxY;
+                    minY = sumY < minY ? sumY : minY;
+                    maxY = sumY > maxY ? sumY : maxY;
 
                     sumSq += y * y;
                 }

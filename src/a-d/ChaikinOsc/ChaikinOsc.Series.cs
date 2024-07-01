@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ChaikinOscResult> CalcChaikinOsc(
+    private static List<ChaikinOscResult> CalcChaikinOsc(
         this List<QuoteD> qdList,
         int fastPeriods,
         int slowPeriods)
@@ -12,34 +12,31 @@ public static partial class Indicator
         // check parameter arguments
         ChaikinOsc.Validate(fastPeriods, slowPeriods);
 
+        // initialize
+        int length = qdList.Count;
+        List<ChaikinOscResult> results = new(length);
+
         // money flow
-        List<ChaikinOscResult> results = qdList.CalcAdl()
-            .Select(r => new ChaikinOscResult {
-                Timestamp = r.Timestamp,
-                MoneyFlowMultiplier = r.MoneyFlowMultiplier,
-                MoneyFlowVolume = r.MoneyFlowVolume,
-                Adl = r.Adl
-            })
-            .ToList();
+        List<AdlResult> adlResults = qdList.CalcAdl();
 
-        // EMA of ADL
-        List<(DateTime Timestamp, double)> tpAdl = results
-            .Select(x => (
-                x.Timestamp, (double)(x.Adl ?? double.NaN)))
-            .ToList();
+        // fast/slow EMA of ADL
+        List<EmaResult> adlEmaSlow = adlResults.CalcEma(slowPeriods);
+        List<EmaResult> adlEmaFast = adlResults.CalcEma(fastPeriods);
 
-        List<EmaResult> adlEmaSlow = tpAdl.CalcEma(slowPeriods);
-        List<EmaResult> adlEmaFast = tpAdl.CalcEma(fastPeriods);
-
-        // add Oscillator
-        for (int i = slowPeriods - 1; i < results.Count; i++)
+        // roll through history
+        for (int i = 0; i < length; i++)
         {
-            ChaikinOscResult r = results[i];
-
+            AdlResult a = adlResults[i];
             EmaResult f = adlEmaFast[i];
             EmaResult s = adlEmaSlow[i];
 
-            r.Oscillator = f.Ema - s.Ema;
+            results.Add(new(
+                 Timestamp: a.Timestamp,
+                 MoneyFlowMultiplier: a.MoneyFlowMultiplier,
+                 MoneyFlowVolume: a.MoneyFlowVolume,
+                 Adl: a.Adl,
+                 Oscillator: f.Ema - s.Ema
+             ));
         }
 
         return results;

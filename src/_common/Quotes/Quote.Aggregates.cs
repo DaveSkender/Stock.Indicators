@@ -12,28 +12,28 @@ public static partial class QuoteUtility
         PeriodSize newSize)
         where TQuote : IQuote
     {
-        if (newSize != PeriodSize.Month)
-        {
-            // parameter conversion
-            TimeSpan newTimeSpan = newSize.ToTimeSpan();
-
-            // convert
-            return quotes.Aggregate(newTimeSpan);
-        }
-        else // month
+        if (newSize == PeriodSize.Month)
         {
             return quotes
-            .OrderBy(x => x.Timestamp)
-            .GroupBy(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
-            .Select(x => new Quote {
-                Timestamp = x.Key,
-                Open = x.First().Open,
-                High = x.Max(t => t.High),
-                Low = x.Min(t => t.Low),
-                Close = x.Last().Close,
-                Volume = x.Sum(t => t.Volume)
-            });
+                .OrderBy(x => x.Timestamp)
+                .GroupBy(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
+                .Select(x => new Quote {
+                    Timestamp = x.Key,
+                    Open = x.First().Open,
+                    High = x.Max(t => t.High),
+                    Low = x.Min(t => t.Low),
+                    Close = x.Last().Close,
+                    Volume = x.Sum(t => t.Volume)
+                });
         }
+
+        // parameter conversion
+        TimeSpan newTimeSpan = newSize.ToTimeSpan();
+
+        // convert
+        return quotes.Aggregate(newTimeSpan);
+
+        // month
     }
 
     // aggregation (quantization) using TimeSpan

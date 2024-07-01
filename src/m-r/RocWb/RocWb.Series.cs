@@ -3,41 +3,38 @@ namespace Skender.Stock.Indicators;
 // RATE OF CHANGE (ROC) WITH BANDS (SERIES)
 public static partial class Indicator
 {
-    internal static List<RocWbResult> CalcRocWb(
-        this List<(DateTime, double)> tpList,
+    private static List<RocWbResult> CalcRocWb<T>(
+        this List<T> source,
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         RocWb.Validate(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<RocWbResult> results = new(length);
 
         double k = 2d / (emaPeriods + 1);
         double prevEma = double.NaN;
 
-        List<(DateTime _, double Roc)> tpRoc = tpList
+        List<IReusable> ogRoc = source
             .CalcRoc(lookbackPeriods)
-            .ToTupleResult();
+            .Cast<IReusable>()
+            .ToSortedList();
 
-        double[] rocSq = tpRoc
-            .Select(x => x.Roc * x.Roc)
+        double[] rocSq = ogRoc
+            .Select(x => x.Value * x.Value)
             .ToArray();
 
         double[] ema = new double[length];
 
-        // roll through quotes
+        // roll through results
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double roc) = tpRoc[i];
-            RocWbResult r = new() {
-                Timestamp = date,
-                Roc = roc.NaN2Null()
-            };
-            results.Add(r);
+            IReusable roc = ogRoc[i];
 
             // exponential moving average
             if (double.IsNaN(prevEma) && i >= emaPeriods)
@@ -45,7 +42,7 @@ public static partial class Indicator
                 double sum = 0;
                 for (int p = i - emaPeriods + 1; p <= i; p++)
                 {
-                    sum += tpRoc[p].Roc;
+                    sum += ogRoc[p].Value;
                 }
 
                 ema[i] = sum / emaPeriods;
@@ -54,13 +51,14 @@ public static partial class Indicator
             // normal EMA
             else
             {
-                ema[i] = Ema.Increment(k, prevEma, roc);
+                ema[i] = Ema.Increment(k, prevEma, roc.Value);
             }
 
-            r.RocEma = ema[i].NaN2Null();
             prevEma = ema[i];
 
             // ROC deviation
+            double? rocDev = null;
+
             if (i >= stdDevPeriods)
             {
                 double sum = 0;
@@ -69,11 +67,15 @@ public static partial class Indicator
                     sum += rocSq[p];
                 }
 
-                double? rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
-
-                r.UpperBand = rocDev;
-                r.LowerBand = -rocDev;
+                rocDev = Math.Sqrt(sum / stdDevPeriods).NaN2Null();
             }
+
+            results.Add(new(
+                Timestamp: roc.Timestamp,
+                Roc: roc.Value.NaN2Null(),
+                RocEma: ema[i].NaN2Null(),
+                UpperBand: rocDev,
+                LowerBand: -rocDev));
         }
 
         return results;

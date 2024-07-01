@@ -1,9 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class UltimateResult : IReusableResult
+public readonly record struct UltimateResult
+(
+    DateTime Timestamp,
+    double? Ultimate
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Ultimate { get; set; }
-
-    double IReusableResult.Value => Ultimate.Null2NaN();
+    double IReusable.Value => Ultimate.Null2NaN();
 }

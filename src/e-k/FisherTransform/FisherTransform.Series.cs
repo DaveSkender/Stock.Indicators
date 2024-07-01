@@ -4,24 +4,39 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<FisherTransformResult> CalcFisherTransform(
-        this List<(DateTime, double)> tpList,
+    private static List<FisherTransformResult> CalcFisherTransform<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         FisherTransform.Validate(lookbackPeriods);
 
+        // use standard HL2 if quote source (override Close)
+        List<IReusable> feed
+            = typeof(IQuote).IsAssignableFrom(typeof(T))
+
+            ? source
+             .Cast<IQuote>()
+             .Use(CandlePart.HL2)
+             .Cast<IReusable>()
+             .ToSortedList()
+
+            : source
+             .Cast<IReusable>()
+             .ToSortedList();
+
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
         List<FisherTransformResult> results = new(length);
 
         // roll through quotes
-        for (int i = 0; i < tpList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            pr[i] = value;
+            IReusable s = feed[i];
+            pr[i] = s.Value;
 
             double minPrice = pr[i];
             double maxPrice = pr[i];
@@ -32,29 +47,34 @@ public static partial class Indicator
                 maxPrice = Math.Max(pr[p], maxPrice);
             }
 
-            FisherTransformResult r = new() { Timestamp = date };
-            results.Add(r);
+            double? fisher;
+            double? trigger = null;
 
             if (i > 0)
             {
-                xv[i] = maxPrice != minPrice
-                    ? (0.33 * 2 * (((pr[i] - minPrice) / (maxPrice - minPrice)) - 0.5))
-                          + (0.67 * xv[i - 1])
+                xv[i] = maxPrice - minPrice != 0
+                    ? 0.33 * 2 * ((pr[i] - minPrice) / (maxPrice - minPrice) - 0.5)
+                          + 0.67 * xv[i - 1]
                     : 0;
 
-                xv[i] = (xv[i] > 0.99) ? 0.999 : xv[i];
-                xv[i] = (xv[i] < -0.99) ? -0.999 : xv[i];
+                xv[i] = xv[i] > 0.99 ? 0.999 : xv[i];
+                xv[i] = xv[i] < -0.99 ? -0.999 : xv[i];
 
-                r.Fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
-                      + (0.5 * results[i - 1].Fisher)).NaN2Null();
+                fisher = (0.5 * Math.Log((1 + xv[i]) / (1 - xv[i]))
+                      + 0.5 * results[i - 1].Fisher).NaN2Null();
 
-                r.Trigger = results[i - 1].Fisher;
+                trigger = results[i - 1].Fisher;
             }
             else
             {
                 xv[i] = 0;
-                r.Fisher = 0;
+                fisher = 0;
             }
+
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Trigger: trigger,
+                Fisher: fisher));
         }
 
         return results;

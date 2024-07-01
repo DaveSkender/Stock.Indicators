@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class TrTests : SeriesTestBase
@@ -6,7 +6,7 @@ public class TrTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<TrResult> results = quotes
+        List<TrResult> results = Quotes
             .GetTr()
             .ToList();
 
@@ -41,13 +41,13 @@ public class TrTests : SeriesTestBase
     public void Chainor()
     {
         // same as ATR
-        List<SmmaResult> results = quotes
+        List<SmmaResult> results = Quotes
             .GetTr()
             .GetSmma(14)
             .ToList();
 
-        List<AtrResult> atrResults = quotes
-            .GetAtr(14)
+        List<AtrResult> atrResults = Quotes
+            .GetAtr()
             .ToList();
 
         for (int i = 0; i < results.Count; i++)
@@ -63,24 +63,24 @@ public class TrTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<TrResult> r = badQuotes
+        List<TrResult> r = BadQuotes
             .GetTr()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tr is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Tr is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<TrResult> r0 = noquotes
+        List<TrResult> r0 = Noquotes
             .GetTr()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<TrResult> r1 = onequote
+        List<TrResult> r1 = Onequote
             .GetTr()
             .ToList();
 

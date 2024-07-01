@@ -4,16 +4,17 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<DynamicResult> CalcDynamic(
-        this List<(DateTime, double)> tpList,
+    private static List<DynamicResult> CalcDynamic<T>(
+        this List<T> source,
         int lookbackPeriods,
         double kFactor)
+        where T : IReusable
     {
         // check parameter arguments
         MgDynamic.Validate(lookbackPeriods, kFactor);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<DynamicResult> results = new(length);
 
         double prevDyn = double.NaN;
@@ -21,26 +22,28 @@ public static partial class Indicator
         // roll through quotes, to get preliminary data
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-
-            DynamicResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
+            double dyn;
 
             // re/initialize
             if (double.IsNaN(prevDyn))
             {
-                prevDyn = value;
+                dyn = double.NaN;
+                prevDyn = s.Value;
             }
 
             // normal Dynamic
             else
             {
-                double dyn = prevDyn + ((value - prevDyn) /
-                   (kFactor * lookbackPeriods * Math.Pow(value / prevDyn, 4)));
+                dyn = prevDyn + (s.Value - prevDyn) /
+                    (kFactor * lookbackPeriods * Math.Pow(s.Value / prevDyn, 4));
 
-                r.Dynamic = dyn.NaN2Null();
                 prevDyn = dyn;
             }
+
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Dynamic: dyn.NaN2Null()));
         }
 
         return results;

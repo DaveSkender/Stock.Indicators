@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class BopTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<BopResult> results = quotes
-            .GetBop(14)
+        List<BopResult> results = Quotes
+            .GetBop()
             .ToList();
 
         // proper quantities
@@ -34,8 +34,8 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetBop(14)
+        List<SmaResult> results = Quotes
+            .GetBop()
             .GetSma(10)
             .ToList();
 
@@ -49,29 +49,29 @@ public class BopTests : SeriesTestBase
         IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
             .GetBop(50);
 
-        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
     }
 
     [TestMethod]
     public override void BadData()
     {
-        List<BopResult> r = badQuotes
+        List<BopResult> r = BadQuotes
             .GetBop()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<BopResult> r0 = noquotes
+        List<BopResult> r0 = Noquotes
             .GetBop()
             .ToList();
         Assert.AreEqual(0, r0.Count);
 
-        List<BopResult> r1 = onequote
+        List<BopResult> r1 = Onequote
             .GetBop()
             .ToList();
         Assert.AreEqual(1, r1.Count);
@@ -80,8 +80,8 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<BopResult> results = quotes
-            .GetBop(14)
+        List<BopResult> results = Quotes
+            .GetBop()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -96,5 +96,5 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetBop(0));
+            => Quotes.GetBop(0));
 }

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<ChandelierResult> CalcChandelier(
+    private static List<ChandelierResult> CalcChandelier(
         this List<QuoteD> qdList,
         int lookbackPeriods,
         double multiplier,
@@ -25,8 +25,7 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            ChandelierResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? exit = null;
 
             // add exit values
             if (i >= lookbackPeriods)
@@ -47,7 +46,7 @@ public static partial class Indicator
                             }
                         }
 
-                        r.ChandelierExit = maxHigh - (atr * multiplier);
+                        exit = maxHigh - atr * multiplier;
                         break;
 
                     case ChandelierType.Short:
@@ -62,13 +61,17 @@ public static partial class Indicator
                             }
                         }
 
-                        r.ChandelierExit = minLow + (atr * multiplier);
+                        exit = minLow + atr * multiplier;
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
             }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                ChandelierExit: exit));
         }
 
         return results;

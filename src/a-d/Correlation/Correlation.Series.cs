@@ -4,32 +4,32 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CorrResult> CalcCorrelation(
-        this List<(DateTime, double)> tpListA,
-        List<(DateTime, double)> tpListB,
+    private static List<CorrResult> CalcCorrelation<T>(
+        this List<T> sourceA,
+        List<T> sourceB,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
-        Correlation.Validate(tpListA, tpListB, lookbackPeriods);
+        Correlation.Validate(sourceA, sourceB, lookbackPeriods);
 
         // initialize
-        int length = tpListA.Count;
+        int length = sourceA.Count;
         List<CorrResult> results = new(length);
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime aDate, double _) = tpListA[i];
-            (DateTime bDate, double _) = tpListB[i];
+            T a = sourceA[i];
+            T b = sourceB[i];
 
-            if (aDate != bDate)
+            if (a.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(tpListA), aDate,
+                throw new InvalidQuotesException(nameof(sourceA), a.Timestamp,
                     "Timestamp sequence does not match.  Correlation requires matching dates in provided histories.");
             }
 
-            CorrResult r = new() { Timestamp = aDate };
-            results.Add(r);
+            CorrResult r;
 
             // calculate correlation
             if (i >= lookbackPeriods - 1)
@@ -40,22 +40,28 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    dataA[z] = tpListA[p].Item2;
-                    dataB[z] = tpListB[p].Item2;
+                    dataA[z] = sourceA[p].Value;
+                    dataB[z] = sourceB[p].Value;
 
                     z++;
                 }
 
-                r.PeriodCorrelation(dataA, dataB);
+                r = PeriodCorrelation(a.Timestamp, dataA, dataB);
             }
+            else
+            {
+                r = new(Timestamp: a.Timestamp);
+            }
+
+            results.Add(r);
         }
 
         return results;
     }
 
     // calculate correlation
-    private static void PeriodCorrelation(
-        this CorrResult r,
+    private static CorrResult PeriodCorrelation(
+        DateTime timestamp,
         double[] dataA,
         double[] dataB)
     {
@@ -64,7 +70,7 @@ public static partial class Indicator
         double sumB = 0;
         double sumA2 = 0;
         double sumB2 = 0;
-        double sumAB = 0;
+        double sumAb = 0;
 
         for (int i = 0; i < length; i++)
         {
@@ -75,24 +81,30 @@ public static partial class Indicator
             sumB += b;
             sumA2 += a * a;
             sumB2 += b * b;
-            sumAB += a * b;
+            sumAb += a * b;
         }
 
         double avgA = sumA / length;
         double avgB = sumB / length;
         double avgA2 = sumA2 / length;
         double avgB2 = sumB2 / length;
-        double avgAB = sumAB / length;
+        double avgAb = sumAb / length;
 
-        double varA = avgA2 - (avgA * avgA);
-        double varB = avgB2 - (avgB * avgB);
-        double cov = avgAB - (avgA * avgB);
+        double varA = avgA2 - avgA * avgA;
+        double varB = avgB2 - avgB * avgB;
+        double cov = avgAb - avgA * avgB;
         double divisor = Math.Sqrt(varA * varB);
 
-        r.VarianceA = varA.NaN2Null();
-        r.VarianceB = varB.NaN2Null();
-        r.Covariance = cov.NaN2Null();
-        r.Correlation = (divisor == 0) ? null : (cov / divisor).NaN2Null();
-        r.RSquared = r.Correlation * r.Correlation;
+        double? corr = divisor == 0
+            ? null
+            : (cov / divisor).NaN2Null();
+
+        return new(
+            Timestamp: timestamp,
+            VarianceA: varA.NaN2Null(),
+            VarianceB: varB.NaN2Null(),
+            Covariance: cov.NaN2Null(),
+            Correlation: corr,
+            RSquared: corr * corr);
     }
 }

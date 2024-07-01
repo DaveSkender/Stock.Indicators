@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (SERIES)
 
-public static partial class Indicator
+public static partial class Adl
 {
     internal static List<AdlResult> CalcAdl(
         this List<QuoteD> qdList)
@@ -16,8 +16,10 @@ public static partial class Indicator
         {
             QuoteD q = qdList[i];
 
-            AdlResult r = Adl.Increment(prevAdl, q.High, q.Low, q.Close, q.Volume);
-            r.Timestamp = q.Timestamp;
+            AdlResult r = Increment(
+                q.Timestamp, prevAdl,
+                q.High, q.Low, q.Close, q.Volume);
+
             results.Add(r);
 
             prevAdl = r.Adl;

@@ -4,15 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<CmoResult> CalcCmo(
-        this List<(DateTime Timestamp, double Value)> tpList,
+    private static List<CmoResult> CalcCmo<T>(
+        this List<T> source,
         int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Cmo.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<CmoResult> results = new(length);
         List<(bool? isUp, double value)> ticks = new(length);
 
@@ -23,26 +24,24 @@ public static partial class Indicator
         }
 
         // initialize, add first records
-        double prevPrice = tpList[0].Value;
+        double prevValue = source[0].Value;
 
-        results.Add(new CmoResult { Timestamp = tpList[0].Timestamp });
+        results.Add(new() { Timestamp = source[0].Timestamp });
         ticks.Add((null, double.NaN));
 
         // roll through remaining prices
         for (int i = 1; i < length; i++)
         {
-            (DateTime date, double price) = tpList[i];
-
-            CmoResult r = new() { Timestamp = date };
-            results.Add(r);
+            T s = source[i];
+            double? cmo = null;
 
             // determine tick direction and size
-            (bool? isUp, double value) tick = (null, Math.Abs(price - prevPrice));
+            (bool? isUp, double value) tick = (null, Math.Abs(s.Value - prevValue));
 
             tick.isUp = double.IsNaN(tick.value) ? null
-                : price > prevPrice ? true
-                : price < prevPrice ? false
-                : null;
+                : (s.Value > prevValue ? true
+                    : (s.Value < prevValue ? false
+                        : null));
 
             ticks.Add(tick);
 
@@ -64,7 +63,8 @@ public static partial class Indicator
                     }
 
                     // up
-                    else if (isUp == true)
+
+                    if (isUp == true)
                     {
                         sH += pDiff;
                     }
@@ -76,12 +76,16 @@ public static partial class Indicator
                     }
                 }
 
-                r.Cmo = (sH + sL != 0)
+                cmo = sH + sL != 0
                     ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
                     : null;
             }
 
-            prevPrice = price;
+            results.Add(new(
+                Timestamp: s.Timestamp,
+                Cmo: cmo));
+
+            prevValue = s.Value;
         }
 
         return results;

@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class RocWbResult : IReusableResult
+public readonly record struct RocWbResult
+(
+    DateTime Timestamp,
+    double? Roc,
+    double? RocEma,
+    double? UpperBand,
+    double? LowerBand
+) : IReusable
 {
-    public DateTime Timestamp { get; set; }
-    public double? Roc { get; set; }
-    public double? RocEma { get; set; }
-    public double? UpperBand { get; set; }
-    public double? LowerBand { get; set; }
-
-    double IReusableResult.Value => Roc.Null2NaN();
+    double IReusable.Value => Roc.Null2NaN();
 }

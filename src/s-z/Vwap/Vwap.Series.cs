@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<VwapResult> CalcVwap(
+    private static List<VwapResult> CalcVwap(
         this List<QuoteD> qdList,
         DateTime? startDate = null)
     {
@@ -23,27 +23,35 @@ public static partial class Indicator
         startDate ??= qdList[0].Timestamp;
 
         double? cumVolume = 0;
-        double? cumVolumeTP = 0;
+        double? cumVolumeTp = 0;
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
+
             double? v = q.Volume;
             double? h = q.High;
             double? l = q.Low;
             double? c = q.Close;
 
-            VwapResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
+            double? vwap;
 
             if (q.Timestamp >= startDate)
             {
                 cumVolume += v;
-                cumVolumeTP += v * (h + l + c) / 3;
+                cumVolumeTp += v * (h + l + c) / 3;
 
-                r.Vwap = (cumVolume != 0) ? (cumVolumeTP / cumVolume) : null;
+                vwap = cumVolume != 0 ? cumVolumeTp / cumVolume : null;
             }
+            else
+            {
+                vwap = null;
+            }
+
+            results.Add(new(
+                Timestamp: q.Timestamp,
+                Vwap: vwap));
         }
 
         return results;

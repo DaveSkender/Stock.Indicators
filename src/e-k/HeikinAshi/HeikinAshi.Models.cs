@@ -1,14 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-public sealed record class HeikinAshiResult : IResult, IQuote
+public readonly record struct HeikinAshiResult
+(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume
+) : IQuote
 {
-    public DateTime Timestamp { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
-
-    public bool Equals(IQuote? other)
-    => base.Equals(other);
+    double IReusable.Value => (double)Close;
 }

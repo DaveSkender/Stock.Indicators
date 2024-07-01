@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // calculate series
-    internal static List<AtrResult> CalcAtr(
+    private static List<AtrResult> CalcAtr(
         this List<QuoteD> qdList,
         int lookbackPeriods)
     {
@@ -13,41 +13,38 @@ public static partial class Indicator
         Atr.Validate(lookbackPeriods);
 
         // initialize
-        List<AtrResult> results = new(qdList.Count);
+        int length = qdList.Count;
+        List<AtrResult> results = new(length);
         double prevAtr = double.NaN;
         double prevClose = double.NaN;
         double sumTr = 0;
 
-        // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        // skip first period
+        if (length > 0)
         {
-            double hmpc;
-            double lmpc;
+            QuoteD q = qdList[0];
+            results.Add(new(Timestamp: q.Timestamp));
+            prevClose = q.Close;
+        }
+
+        // roll through quotes
+        for (int i = 1; i < length; i++)
+        {
             QuoteD q = qdList[i];
 
-            AtrResult r = new() { Timestamp = q.Timestamp };
-            results.Add(r);
-
-            if (i > 0)
-            {
-                hmpc = Math.Abs(q.High - prevClose);
-                lmpc = Math.Abs(q.Low - prevClose);
-            }
-            else
-            {
-                prevClose = q.Close;
-                continue;
-            }
+            double hmpc = Math.Abs(q.High - prevClose);
+            double lmpc = Math.Abs(q.Low - prevClose);
 
             double tr = Math.Max(q.High - q.Low, Math.Max(hmpc, lmpc));
-            r.Tr = tr;
+
+            double atr;
+            double? atrp;
 
             if (i > lookbackPeriods)
             {
                 // calculate ATR
-                double atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
-                r.Atr = atr;
-                r.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
+                atrp = q.Close == 0 ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
 
@@ -56,16 +53,27 @@ public static partial class Indicator
             {
                 // initialize ATR
                 sumTr += tr;
-                double atr = sumTr / lookbackPeriods;
-                r.Atr = atr;
-                r.Atrp = (q.Close == 0) ? null : atr / q.Close * 100;
+                atr = sumTr / lookbackPeriods;
+                atrp = q.Close == 0 ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
+
+            // only used for initialization periods
             else
             {
-                // only used for periods before ATR initialization
                 sumTr += tr;
+
+                atr = double.NaN;
+                atrp = null;
             }
+
+            AtrResult r = new(
+                Timestamp: q.Timestamp,
+                Tr: tr.NaN2Null(),
+                Atr: atr.NaN2Null(),
+                Atrp: atrp);
+
+            results.Add(r);
 
             prevClose = q.Close;
         }

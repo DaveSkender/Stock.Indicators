@@ -1,4 +1,4 @@
-namespace Tests.Indicators;
+namespace Tests.Indicators.Series;
 
 [TestClass]
 public class ElderRayTests : SeriesTestBase
@@ -6,8 +6,8 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ElderRayResult> results = quotes
-            .GetElderRay(13)
+        List<ElderRayResult> results = Quotes
+            .GetElderRay()
             .ToList();
 
         // proper quantities
@@ -50,8 +50,8 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = quotes
-            .GetElderRay(13)
+        List<SmaResult> results = Quotes
+            .GetElderRay()
             .GetSma(10)
             .ToList();
 
@@ -62,24 +62,24 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ElderRayResult> r = badQuotes
+        List<ElderRayResult> r = BadQuotes
             .GetElderRay()
             .ToList();
 
         Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.BullPower is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.BullPower is double.NaN));
     }
 
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ElderRayResult> r0 = noquotes
+        List<ElderRayResult> r0 = Noquotes
             .GetElderRay()
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ElderRayResult> r1 = onequote
+        List<ElderRayResult> r1 = Onequote
             .GetElderRay()
             .ToList();
 
@@ -89,8 +89,8 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ElderRayResult> results = quotes
-            .GetElderRay(13)
+        List<ElderRayResult> results = Quotes
+            .GetElderRay()
             .RemoveWarmupPeriods()
             .ToList();
 
@@ -107,5 +107,5 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetElderRay(0));
+            => Quotes.GetElderRay(0));
 }

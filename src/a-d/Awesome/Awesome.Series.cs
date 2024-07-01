@@ -4,29 +4,44 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    internal static List<AwesomeResult> CalcAwesome(
-        this List<(DateTime, double)> tpList,
+    private static List<AwesomeResult> CalcAwesome<T>(
+        this List<T> source,
         int fastPeriods,
         int slowPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         Awesome.Validate(fastPeriods, slowPeriods);
 
+        // use standard HL2 if quote source (override Close)
+        List<IReusable> feed
+            = typeof(IQuote).IsAssignableFrom(typeof(T))
+
+            ? source
+             .Cast<IQuote>()
+             .Use(CandlePart.HL2)
+             .Cast<IReusable>()
+             .ToSortedList()
+
+            : source
+             .Cast<IReusable>()
+             .ToSortedList();
+
         // initialize
-        int length = tpList.Count;
+        int length = source.Count;
         List<AwesomeResult> results = new(length);
         double[] pr = new double[length];
 
         // roll through quotes
         for (int i = 0; i < length; i++)
         {
-            (DateTime date, double value) = tpList[i];
-            pr[i] = value;
+            IReusable s = feed[i];
+            pr[i] = s.Value;
 
-            AwesomeResult r = new() { Timestamp = date };
-            results.Add(r);
+            double? oscillator = null;
+            double? normalized = null;
 
-            if (i + 1 >= slowPeriods)
+            if (i >= slowPeriods - 1)
             {
                 double sumSlow = 0;
                 double sumFast = 0;
@@ -41,9 +56,16 @@ public static partial class Indicator
                     }
                 }
 
-                r.Oscillator = ((sumFast / fastPeriods) - (sumSlow / slowPeriods)).NaN2Null();
-                r.Normalized = (pr[i] != 0) ? 100 * r.Oscillator / pr[i] : null;
+                oscillator = (sumFast / fastPeriods - sumSlow / slowPeriods).NaN2Null();
+                normalized = pr[i] != 0 ? 100 * oscillator / pr[i] : null;
             }
+
+            AwesomeResult r = new(
+                Timestamp: s.Timestamp,
+                Oscillator: oscillator,
+                Normalized: normalized);
+
+            results.Add(r);
         }
 
         return results;
