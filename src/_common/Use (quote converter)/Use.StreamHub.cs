@@ -16,22 +16,25 @@ public class Use<TQuote>
     private readonly StreamCache<Reusable> _cache;
     private readonly StreamObserver<TQuote, Reusable> _observer;
 
+    #region constructors
+
     public Use(
         QuoteProvider<TQuote> provider,
         CandlePart candlePart)
-        : this(provider, cache: new())
-    {
-        CandlePartSelection = candlePart;
-    }
+        : this(provider, cache: new(), candlePart) { }
 
     private Use(
         QuoteProvider<TQuote> provider,
-        StreamCache<Reusable> cache)
+        StreamCache<Reusable> cache,
+        CandlePart candlePart)
         : base(cache)
     {
+        CandlePartSelection = candlePart;
+
         _cache = cache;
         _observer = new(this, this, provider);
     }
+    #endregion
 
     public CandlePart CandlePartSelection { get; }
 
@@ -39,7 +42,7 @@ public class Use<TQuote>
     // METHODS
 
     public override string ToString()
-        => $"USE({Enum.GetName(typeof(CandlePart), CandlePartSelection)})";
+        => $"USE({Enum.GetName(CandlePartSelection)})";
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
@@ -50,7 +53,7 @@ public class Use<TQuote>
             = inbound.ToReusable(CandlePartSelection);
 
         // save to cache
-        _cache.ModifyCache(act, result);
+        _cache.Modify(act, result);
 
         // send to observers
         NotifyObservers(act, result);

@@ -10,6 +10,8 @@ public class AdlHub<TQuote>
     private readonly StreamObserver<TQuote, AdlResult> _observer;
     private readonly QuoteProvider<TQuote> _supplier;
 
+    #region constructors
+
     public AdlHub(
         QuoteProvider<TQuote> provider)
         : this(provider, cache: new()) { }
@@ -19,17 +21,25 @@ public class AdlHub<TQuote>
         StreamCache<AdlResult> cache) : base(cache)
     {
         _cache = cache;
-        _observer = new(this, this, provider);
         _supplier = provider;
+        _observer = new(this, this, provider);
     }
-
+    #endregion
 
     // METHODS
 
     public override string ToString()
-        => _cache.Cache.Count == 0
-            ? "ADL"
-            : $"ADL({_cache.Cache[0].Timestamp:d})";
+    {
+        if (_cache.CacheX.Count == 0)
+        {
+            return "ADL";
+        }
+
+        ref readonly AdlResult first
+            = ref _cache.SpanCache[0];
+
+        return $"ADL({first.Timestamp:d})";
+    }
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
@@ -41,7 +51,8 @@ public class AdlHub<TQuote>
         // handle deletes
         if (act is Act.Delete)
         {
-            i = _cache.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
+            i = _cache.CacheX
+                .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
             if (i == -1)
@@ -50,13 +61,13 @@ public class AdlHub<TQuote>
                     "Matching cache entry not found.");
             }
 
-            r = _cache.Cache[i];
+            r = _cache.CacheX[i];
         }
 
         // calculate incremental value
         else
         {
-            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
+            i = _supplier.CacheP.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -67,10 +78,19 @@ public class AdlHub<TQuote>
 
             QuoteD q = inbound.ToQuoteD();
 
-            double prevAdl
-                = i == 0
-                ? 0
-                : _cache.Cache[i - 1].Adl;
+            double prevAdl;
+
+            if (i == 0)
+            {
+                prevAdl = 0;
+            }
+            else
+            {
+                ref readonly AdlResult prev
+                    = ref _cache.SpanCache[i - 1];
+
+                prevAdl = prev.Adl;
+            }
 
             // calculate ADL
             r = Adl.Increment(
@@ -79,16 +99,19 @@ public class AdlHub<TQuote>
         }
 
         // save to cache
-        act = _cache.ModifyCache(act, r);
+        act = _cache.Modify(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
+        if (act != Act.AddNew && i < _supplier.CacheP.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            TQuote value = _supplier.Cache[next];
+
+            ref readonly TQuote value
+                = ref _supplier.SpanCache[next];
+
             OnNextArrival(Act.Update, value);
         }
     }

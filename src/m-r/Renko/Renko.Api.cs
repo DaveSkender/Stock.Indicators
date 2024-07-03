@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // RENKO CHART (API)
+
 public static partial class Renko
 {
     // SERIES, from TQuote

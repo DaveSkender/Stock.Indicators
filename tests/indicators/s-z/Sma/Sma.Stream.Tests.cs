@@ -99,8 +99,6 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             provider.Add(quotesList[i]);
         }
 
-        provider.EndTransmission();
-
         IReadOnlyList<SmaResult> streamList =
             observer.Results;
 
@@ -123,6 +121,9 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Sma.Should().Be(s.Sma);
             r.Should().Be(s);
         }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 
     [TestMethod]

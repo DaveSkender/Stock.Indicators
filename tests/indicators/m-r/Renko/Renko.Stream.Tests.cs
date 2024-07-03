@@ -81,6 +81,8 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
+        Assert.Fail("need to debug");
+
         decimal brickSize = 2.5m;
         EndType endType = EndType.Close;
         int smaPeriods = 8;

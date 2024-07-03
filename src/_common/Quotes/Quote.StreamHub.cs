@@ -59,13 +59,13 @@ public class QuoteHub<TQuote>
     // METHODS
 
     public override string ToString()
-        => $"{_cache.Cache.Count} quotes (type: {nameof(TQuote)})";
+        => $"{_cache.CacheX.Count} quotes (type: {nameof(TQuote)})";
 
     public Act Add(TQuote quote)
     {
         try
         {
-            Act act = _cache.CacheWithAnalysis(quote);
+            Act act = _cache.Modify(quote);
             NotifyObservers(act, quote);
             return act;
         }
@@ -88,7 +88,7 @@ public class QuoteHub<TQuote>
     {
         try
         {
-            Act act = _cache.PurgeWithAnalysis(quote);
+            Act act = _cache.Purge(quote);
             NotifyObservers(act, quote);
             return act;
         }

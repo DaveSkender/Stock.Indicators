@@ -2,7 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (STREAMING)
 
-#region Hub interface
+#region hub interface
+
 public interface IAlligatorHub
 {
     int JawPeriods { get; }
@@ -22,23 +23,30 @@ public class Alligator<TIn>
     private readonly StreamObserver<TIn, AlligatorResult> _observer;
     private readonly ChainProvider<TIn> _supplier;
 
+    #region constructors
+
     public Alligator(
         ChainProvider<TIn> provider,
-        int jawPeriods,
-        int jawOffset,
-        int teethPeriods,
-        int teethOffset,
-        int lipsPeriods,
-        int lipsOffset)
-        : this(provider, cache: new())
+        int jawPeriods, int jawOffset,
+        int teethPeriods, int teethOffset,
+        int lipsPeriods, int lipsOffset)
+        : this(provider, cache: new(),
+            jawPeriods, jawOffset,
+            teethPeriods, teethOffset,
+            lipsPeriods, lipsOffset)
+    { }
+
+    private Alligator(
+        ChainProvider<TIn> provider,
+        StreamCache<AlligatorResult> cache,
+        int jawPeriods, int jawOffset,
+        int teethPeriods, int teethOffset,
+        int lipsPeriods, int lipsOffset) : base(cache)
     {
         Alligator.Validate(
-            jawPeriods,
-            jawOffset,
-            teethPeriods,
-            teethOffset,
-            lipsPeriods,
-            lipsOffset);
+            jawPeriods, jawOffset,
+            teethPeriods, teethOffset,
+            lipsPeriods, lipsOffset);
 
         JawPeriods = jawPeriods;
         JawOffset = jawOffset;
@@ -46,16 +54,12 @@ public class Alligator<TIn>
         TeethOffset = teethOffset;
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
-    }
 
-    private Alligator(
-        ChainProvider<TIn> provider,
-        StreamCache<AlligatorResult> cache) : base(cache)
-    {
         _cache = cache;
-        _observer = new(this, this, provider);
         _supplier = provider;
+        _observer = new(this, this, provider);
     }
+    #endregion
 
     public int JawPeriods { get; }
     public int JawOffset { get; }
@@ -80,7 +84,8 @@ public class Alligator<TIn>
         // handle deletes
         if (act == Act.Delete)
         {
-            i = Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
+            i = _cache.CacheX
+                .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
             if (i == -1)
@@ -89,13 +94,14 @@ public class Alligator<TIn>
                     "Matching cache entry not found.");
             }
 
-            r = Cache[i];
+            r = SpanCache[i];
         }
 
         // calculate incremental value
         else
         {
-            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
+            i = _supplier.CacheP
+                .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -111,7 +117,10 @@ public class Alligator<TIn>
             // calculate alligator's jaw, when in range
             if (i >= JawPeriods + JawOffset - 1)
             {
-                double prevJaw = Cache[i - 1].Jaw.Null2NaN();
+                ref readonly AlligatorResult prev
+                    = ref SpanCache[i - 1];
+
+                double prevJaw = prev.Jaw.Null2NaN();
 
                 // first/reset value: calculate SMA
                 if (double.IsNaN(prevJaw))
@@ -119,7 +128,10 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                     {
-                        sum += _toValue(_supplier.Cache[p]);
+                        ref readonly TIn item
+                            = ref _supplier.SpanCache[p];
+
+                        sum += _toValue(item);
                     }
 
                     jaw = sum / JawPeriods;
@@ -128,7 +140,10 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = _toValue(_supplier.Cache[i - JawOffset]);
+                    ref readonly TIn item
+                        = ref _supplier.SpanCache[i - JawOffset];
+
+                    double newVal = _toValue(item);
                     jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
                 }
             }
@@ -136,7 +151,10 @@ public class Alligator<TIn>
             // calculate alligator's teeth, when in range
             if (i >= TeethPeriods + TeethOffset - 1)
             {
-                double prevTooth = Cache[i - 1].Teeth.Null2NaN();
+                ref readonly AlligatorResult prev
+                    = ref SpanCache[i - 1];
+
+                double prevTooth = prev.Teeth.Null2NaN();
 
                 // first/reset value: calculate SMA
                 if (double.IsNaN(prevTooth))
@@ -144,7 +162,10 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                     {
-                        sum += _toValue(_supplier.Cache[p]);
+                        ref readonly TIn item
+                            = ref _supplier.SpanCache[p];
+
+                        sum += _toValue(item);
                     }
 
                     teeth = sum / TeethPeriods;
@@ -153,7 +174,10 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = _toValue(_supplier.Cache[i - TeethOffset]);
+                    ref readonly TIn item
+                        = ref _supplier.SpanCache[i - TeethOffset];
+
+                    double newVal = _toValue(item);
                     teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
                 }
             }
@@ -161,7 +185,10 @@ public class Alligator<TIn>
             // calculate alligator's lips, when in range
             if (i >= LipsPeriods + LipsOffset - 1)
             {
-                double prevLips = Cache[i - 1].Lips.Null2NaN();
+                ref readonly AlligatorResult prev
+                    = ref SpanCache[i - 1];
+
+                double prevLips = prev.Lips.Null2NaN();
 
                 // first/reset value: calculate SMA
                 if (double.IsNaN(prevLips))
@@ -169,7 +196,10 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                     {
-                        sum += _toValue(_supplier.Cache[p]);
+                        ref readonly TIn item
+                            = ref _supplier.SpanCache[p];
+
+                        sum += _toValue(item);
                     }
 
                     lips = sum / LipsPeriods;
@@ -178,7 +208,10 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = _toValue(_supplier.Cache[i - LipsOffset]);
+                    ref readonly TIn item
+                        = ref _supplier.SpanCache[i - LipsOffset];
+
+                    double newVal = _toValue(item);
                     lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
                 }
             }
@@ -193,16 +226,16 @@ public class Alligator<TIn>
         }
 
         // save to cache
-        act = _cache.ModifyCache(act, r);
+        act = _cache.Modify(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
+        if (act != Act.AddNew && i < _supplier.CacheP.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            TIn value = _supplier.Cache[next];
+            ref readonly TIn value = ref _supplier.SpanCache[next];
             OnNextArrival(Act.Update, value);
         }
     }

@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Skender.Stock.Indicators;
 
 // CACHE STORE
@@ -13,16 +15,28 @@ public class StreamCache<TSeries> : IStreamCache
     /// </summary>
     internal StreamCache()
     {
-        Cache = [];
+        CacheX = [];
     }
 
     public bool IsFaulted { get; private set; }
 
-    internal List<TSeries> Cache { get; }
+    /// <summary>
+    /// Use this to FindIndex, Count as it does not copy the struct
+    /// </summary>
+    internal List<TSeries> CacheX { get; }
+
+    /// <summary>
+    /// Use this to `ref TSeries s = ref ReadCache[i];`
+    /// to avoid copying the struct
+    /// </summary>
+    internal Span<TSeries> SpanCache
+        => CollectionsMarshal.AsSpan(CacheX);
 
     private TSeries LastArrival { get; set; }
 
     private int OverflowCount { get; set; }
+
+
 
     #region METHODS (CACHE MANAGEMENT)
 
@@ -36,7 +50,7 @@ public class StreamCache<TSeries> : IStreamCache
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
-    internal Act CacheWithAnalysis(TSeries item)
+    internal Act Modify(TSeries item)
     {
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
@@ -48,16 +62,17 @@ public class StreamCache<TSeries> : IStreamCache
         // DETERMINE ACTion INSTRUCTION
 
         Act act;
-        int length = Cache.Count;
+        int length = CacheX.Count;
 
         // first
         if (length == 0)
         {
             act = Act.AddNew;
-            return ModifyCache(act, item);
+            return Modify(act, item);
         }
 
-        TSeries last = Cache[length - 1];
+        ref readonly TSeries last
+            = ref SpanCache[length - 1];
 
         // newer
         if (item.Timestamp > last.Timestamp)
@@ -69,7 +84,7 @@ public class StreamCache<TSeries> : IStreamCache
         else
         {
             // seek duplicate
-            int foundIndex = Cache
+            int foundIndex = CacheX
                 .FindIndex(x => x.Timestamp == item.Timestamp);
 
             // replace duplicate
@@ -77,7 +92,7 @@ public class StreamCache<TSeries> : IStreamCache
         }
 
         // perform actual update, return final action
-        return ModifyCache(act, item);
+        return Modify(act, item);
     }
 
     /// <summary>
@@ -90,7 +105,7 @@ public class StreamCache<TSeries> : IStreamCache
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
-    internal Act PurgeWithAnalysis(TSeries item)
+    internal Act Purge(TSeries item)
     {
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
@@ -99,7 +114,7 @@ public class StreamCache<TSeries> : IStreamCache
         }
 
         // determine if record exists
-        int foundIndex = Cache
+        int foundIndex = CacheX
             .FindIndex(x => x.Timestamp == item.Timestamp);
 
         // not found
@@ -108,11 +123,12 @@ public class StreamCache<TSeries> : IStreamCache
             return Act.DoNothing;
         }
 
-        TSeries t = Cache[foundIndex];
+        ref readonly TSeries t
+            = ref SpanCache[foundIndex];
 
         // delete if full match
         return t.Equals(item)
-            ? ModifyCache(Act.Delete, t)
+            ? Modify(Act.Delete, t)
             : Act.DoNothing;
     }
 
@@ -125,32 +141,33 @@ public class StreamCache<TSeries> : IStreamCache
     /// </param>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="InvalidOperationException"></exception>
-    internal Act ModifyCache(Act act, TSeries item)
+    internal Act Modify(Act act, TSeries item)
     {
         // execute action
         switch (act)
         {
             case Act.AddNew:
 
-                Cache.Add(item);
+                CacheX.Add(item);
 
                 break;
 
             case Act.AddOld:
 
                 // find
-                int ao = Cache.FindIndex(c => c.Timestamp > item.Timestamp);
+                int ao = CacheX
+                    .FindIndex(c => c.Timestamp > item.Timestamp);
 
                 // insert
                 if (ao != -1)
                 {
-                    Cache.Insert(ao, item);
+                    CacheX.Insert(ao, item);
                 }
 
                 // failure to find newer index
                 else
                 {
-                    Cache.Add(item);
+                    CacheX.Add(item);
                 }
 
                 break;
@@ -158,7 +175,8 @@ public class StreamCache<TSeries> : IStreamCache
             case Act.Update:
 
                 // find
-                int uo = Cache.FindIndex(c => c.Timestamp == item.Timestamp);
+                int uo = CacheX
+                    .FindIndex(c => c.Timestamp == item.Timestamp);
 
                 // does not exist
                 if (uo == -1)
@@ -168,25 +186,26 @@ public class StreamCache<TSeries> : IStreamCache
                 }
 
                 // duplicate
-                if (item.Equals(Cache[uo]))
+                if (item.Equals(CacheX[uo]))
                 {
                     return Act.DoNothing;
                 }
 
                 // replace
-                Cache[uo] = item;
+                CacheX[uo] = item;
 
                 break;
 
             case Act.Delete:
 
                 // find
-                int d = Cache.FindIndex(c => c.Timestamp == item.Timestamp);
+                int d = CacheX
+                    .FindIndex(c => c.Timestamp == item.Timestamp);
 
                 // delete
                 if (d != -1)
                 {
-                    Cache.RemoveAt(d);
+                    CacheX.RemoveAt(d);
                 }
 
                 // failure to find should never happen
@@ -290,7 +309,7 @@ public class StreamCache<TSeries> : IStreamCache
     /// <inheritdoc/>
     public bool TryFindIndex(DateTime timestamp, out int index)
     {
-        index = Cache.FindIndex(x => x.Timestamp == timestamp);
+        index = CacheX.FindIndex(x => x.Timestamp == timestamp);
         return index != -1;
     }
     #endregion

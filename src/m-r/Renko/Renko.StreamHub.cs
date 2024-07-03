@@ -2,7 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // RENKO CHART (STREAMING)
 
-#region Hub interface
+#region hub interface
+
 public interface IRenkoHub
 {
     decimal BrickSize { get; }
@@ -18,26 +19,31 @@ public class RenkoHub<TQuote>
     private readonly StreamObserver<TQuote, RenkoResult> _observer;
     private readonly QuoteProvider<TQuote> _supplier;
 
+    #region constructors
+
     public RenkoHub(
         QuoteProvider<TQuote> provider,
         decimal brickSize,
         EndType endType)
-        : this(provider, cache: new())
-    {
-        Renko.Validate(brickSize);
-
-        BrickSize = brickSize;
-        EndType = endType;
-    }
+        : this(provider, cache: new(),
+              brickSize, endType)
+    { }
 
     private RenkoHub(
         QuoteProvider<TQuote> provider,
-        StreamCache<RenkoResult> cache) : base(cache)
+        StreamCache<RenkoResult> cache,
+        decimal brickSize,
+        EndType endType) : base(cache)
     {
+        Renko.Validate(brickSize);
+        BrickSize = brickSize;
+        EndType = endType;
+
         _cache = cache;
-        _observer = new(this, this, provider);
         _supplier = provider;
+        _observer = new(this, this, provider);
     }
+    #endregion
 
     public decimal BrickSize { get; }
     public EndType EndType { get; }
@@ -46,7 +52,7 @@ public class RenkoHub<TQuote>
     // METHODS
 
     public override string ToString()
-        => $"RENKO({BrickSize}, {EndType}) - {_cache.Cache.Count} items";
+        => $"RENKO({BrickSize}, {EndType}) - {_cache.CacheX.Count} items";
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
@@ -62,29 +68,31 @@ public class RenkoHub<TQuote>
             // determine last brick
             RenkoResult lastBrick;
 
-            if (_cache.Cache.Count != 0)
+            if (_cache.CacheX.Count != 0)
             {
-                lastBrick = _cache.Cache
+                lastBrick = Results
                     .Where(c => c.Timestamp <= inbound.Timestamp)
                     .Last();
             }
             else // no bricks yet
             {
                 // skip first quote
-                if (_supplier.Cache.Count <= 1)
+                if (_supplier.CacheP.Count <= 1)
                 {
                     return;
                 }
 
                 int decimals = BrickSize.GetDecimalPlaces();
 
+                ref readonly TQuote q0
+                    = ref _supplier.SpanCache[0];
+
                 decimal baseline
-                    = Math.Round(
-                        _supplier.Cache[0].Close,
+                    = Math.Round(q0.Close,
                         Math.Max(decimals - 1, 0));
 
                 lastBrick = new() {
-                    Timestamp = _supplier.Cache[0].Timestamp,
+                    Timestamp = q0.Timestamp,
                     Open = baseline,
                     Close = baseline
                 };
@@ -109,11 +117,11 @@ public class RenkoHub<TQuote>
 
                 // by aggregating provider cache range
                 int inboundIndex
-                    = _supplier.Cache
+                    = _supplier.CacheP
                         .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
                 int lastBrickIndex
-                    = _supplier.Cache
+                    = _supplier.CacheP
                         .FindIndex(c => c.Timestamp == lastBrick.Timestamp);
 
                 if (inboundIndex == -1 || lastBrickIndex == -1)
@@ -124,7 +132,8 @@ public class RenkoHub<TQuote>
 
                 for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
                 {
-                    TQuote pq = _supplier.Cache[w];
+                    ref readonly TQuote pq
+                        = ref _supplier.SpanCache[w];
 
                     h = Math.Max(h, pq.High);
                     l = Math.Min(l, pq.Low);
@@ -160,7 +169,7 @@ public class RenkoHub<TQuote>
                     };
 
                     // save to cache
-                    act = _cache.ModifyCache(act, r);
+                    act = _cache.Modify(act, r);
 
                     // send to observers
                     NotifyObservers(act, r);

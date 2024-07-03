@@ -51,9 +51,9 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         }
 
         // confirm public interface
-        Assert.AreEqual(observer.Cache.Count, observer.Results.Count);
+        Assert.AreEqual(observer.CacheP.Count, observer.Results.Count);
 
         // confirm same length as provider cache
-        Assert.AreEqual(observer.Cache.Count, provider.Results.Count);
+        Assert.AreEqual(observer.CacheP.Count, provider.Results.Count);
     }
 }

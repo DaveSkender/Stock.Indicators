@@ -55,14 +55,14 @@ public class QuoteStream
         }
 
         // initialize our quote provider and a few subscribers
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
-        Sma<Quote> sma = provider.ToSma(3);
-        Ema<Quote> ema = provider.ToEma(5);
-        Ema<Reusable> useChain = provider
+        SmaHub<Quote> sma = provider.ToSma(3);
+        EmaHub<Quote> ema = provider.ToEma(5);
+        EmaHub<Reusable> useChain = provider
             .Use(CandlePart.HL2)
             .ToEma(7);
-        Ema<SmaResult> emaChain = provider
+        EmaHub<SmaResult> emaChain = provider
             .ToSma(4)
             .ToEma(4);
 

@@ -96,7 +96,7 @@ public class CacheMgmtTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            Reusable r = observer.Cache[i];
+            Reusable r = observer.CacheP[i];
 
             // compare quote to result cache
             r.Timestamp.Should().Be(q.Timestamp);
