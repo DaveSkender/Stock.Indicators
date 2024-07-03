@@ -4,28 +4,19 @@ namespace Tests.Common.Observables;
 public class CacheMgmtTests : TestBase
 {
     [TestMethod]
-    public void Analysis()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void Analysis() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void Purge()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void Purge() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void Modify()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void Modify() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
     public void Overflowing()
     {
         // initialize
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
         Quote q = new() { Timestamp = DateTime.Now }; // dup
 
         Use<Quote> observer = provider
@@ -40,16 +31,16 @@ public class CacheMgmtTests : TestBase
         provider.EndTransmission();
 
         // assert
-        Assert.AreEqual(1, provider.Results.Count);
-        Assert.AreEqual(1, observer.Results.Count);
-        Assert.IsFalse(provider.IsFaulted);
+        provider.Results.Should().HaveCount(1);
+        observer.Results.Should().HaveCount(1);
+        provider.IsFaulted.Should().BeFalse();
     }
 
     [TestMethod]
     public void Overflowed()
     {
         // initialize
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
         Quote q = new() { Timestamp = DateTime.Now }; // dup
 
         // overflowed, over threshold
@@ -64,15 +55,12 @@ public class CacheMgmtTests : TestBase
         provider.EndTransmission();
 
         // assert
-        Assert.AreEqual(1, provider.Results.Count);
-        Assert.IsTrue(provider.IsFaulted);
+        provider.Results.Should().HaveCount(1);
+        provider.IsFaulted.Should().BeTrue();
     }
 
     [TestMethod]
-    public void ActAddNew()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void ActAddNew() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
     public void ActAddOld()  // late arrival
@@ -83,7 +71,7 @@ public class CacheMgmtTests : TestBase
         int length = Quotes.Count();
 
         // add base quotes
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         Use<Quote> observer = provider
             .Use(CandlePart.Close);
@@ -111,8 +99,8 @@ public class CacheMgmtTests : TestBase
             Reusable r = observer.Cache[i];
 
             // compare quote to result cache
-            Assert.AreEqual(q.Timestamp, r.Timestamp);
-            Assert.AreEqual((double)q.Close, r.Value);
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Value.Should().Be((double)q.Close);
         }
 
         // close observations
@@ -120,20 +108,11 @@ public class CacheMgmtTests : TestBase
     }
 
     [TestMethod]
-    public void ActUpdate()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void ActUpdate() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void ActDelete()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void ActDelete() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void ActDoNothing()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void ActDoNothing() => Assert.Inconclusive("test not implemented");
 }

@@ -50,7 +50,7 @@ public static partial class Alligator
 
     // OBSERVER, from Chain Provider
     public static Alligator<TIn> ToAlligator<TIn>(
-        this IChainProvider<TIn> chainProvider,
+        this ChainProvider<TIn> chainProvider,
         int jawPeriods = 13,
         int jawOffset = 8,
         int teethPeriods = 8,

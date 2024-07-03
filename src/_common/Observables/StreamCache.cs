@@ -1,22 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// CACHE PROVIDER
+// CACHE STORE
 
 /// <summary>
 /// Base cache and management utilities
 /// </summary>
-public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
+public class StreamCache<TSeries> : IStreamCache
     where TSeries : struct, ISeries
 {
     /// <summary>
     /// Default. Use internal cache.
     /// </summary>
-    private protected AbstractCache()
+    internal StreamCache()
     {
         Cache = [];
     }
-
-    public IReadOnlyList<TSeries> Results => Cache;
 
     public bool IsFaulted { get; private set; }
 
@@ -25,7 +23,6 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     private TSeries LastArrival { get; set; }
 
     private int OverflowCount { get; set; }
-
 
     #region METHODS (CACHE MANAGEMENT)
 
@@ -39,7 +36,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
-    protected Act CacheWithAnalysis(TSeries item)
+    internal Act CacheWithAnalysis(TSeries item)
     {
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
@@ -93,7 +90,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="OverflowException"></exception>
-    protected Act PurgeWithAnalysis(TSeries item)
+    internal Act PurgeWithAnalysis(TSeries item)
     {
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
@@ -128,7 +125,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
     /// </param>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="InvalidOperationException"></exception>
-    protected Act ModifyCache(Act act, TSeries item)
+    internal Act ModifyCache(Act act, TSeries item)
     {
         // execute action
         switch (act)
@@ -142,7 +139,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
             case Act.AddOld:
 
                 // find
-                int ao = Cache.FindIndex(x => x.Timestamp > item.Timestamp);
+                int ao = Cache.FindIndex(c => c.Timestamp > item.Timestamp);
 
                 // insert
                 if (ao != -1)
@@ -150,7 +147,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
                     Cache.Insert(ao, item);
                 }
 
-                // failure to find old back-position
+                // failure to find newer index
                 else
                 {
                     Cache.Add(item);
@@ -161,7 +158,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
             case Act.Update:
 
                 // find
-                int uo = Cache.FindIndex(item.Timestamp);
+                int uo = Cache.FindIndex(c => c.Timestamp == item.Timestamp);
 
                 // does not exist
                 if (uo == -1)
@@ -184,7 +181,7 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
             case Act.Delete:
 
                 // find
-                int d = Cache.FindIndex(item.Timestamp);
+                int d = Cache.FindIndex(c => c.Timestamp == item.Timestamp);
 
                 // delete
                 if (d != -1)
@@ -291,41 +288,11 @@ public abstract class AbstractCache<TSeries> : IStreamCache<TSeries>
 
     // get the cache index based on a timestamp
     /// <inheritdoc/>
-    public int FindIndex(DateTime timeStamp)
-        => Cache.FindIndex(x => x.Timestamp == timeStamp);
-
-    // clear entire cache without restore
-    /// <inheritdoc/>
-    public void ClearCache() => ClearCache(0);
-
-    /// <inheritdoc/>
-    public void ClearCache(DateTime fromTimestamp)
+    public bool TryFindIndex(DateTime timestamp, out int index)
     {
-        // start of range
-        int fromIndex = Cache
-            .FindIndex(c => c.Timestamp >= fromTimestamp);
-
-        // something to do
-        if (fromIndex != -1)
-        {
-            ClearCache(fromIndex);
-        }
+        index = Cache.FindIndex(x => x.Timestamp == timestamp);
+        return index != -1;
     }
-
-    /// <inheritdoc/>
-    public void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
-
-    /// <summary>
-    /// Deletes cache entries between index range values.
-    /// </summary>
-    /// <remarks>
-    /// This is implemented in inheriting (provider) class
-    /// due to unique requirement to notify subscribers.
-    /// </remarks>
-    /// <param name="fromIndex">First element to delete</param>
-    /// <param name="toIndex">Last element to delete</param>
-    protected abstract void ClearCache(
-        int fromIndex, int toIndex);
     #endregion
+
 }

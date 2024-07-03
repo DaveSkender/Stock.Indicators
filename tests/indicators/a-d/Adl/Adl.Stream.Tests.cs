@@ -12,10 +12,10 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Adl<Quote> observer = provider
+        AdlHub<Quote> observer = provider
             .ToAdl();
 
         // fetch initial results (early)
@@ -81,10 +81,10 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Sma<AdlResult> observer = provider
+        SmaHub<AdlResult> observer = provider
             .ToAdl()
             .ToSma(smaPeriods);
 

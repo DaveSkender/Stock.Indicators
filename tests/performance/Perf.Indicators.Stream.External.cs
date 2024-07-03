@@ -29,8 +29,8 @@ public class IndicatorStreamExternal
     // TODO: replace with external data cache model, when available
     public object GetFoo()
     {
-        QuoteProvider<Quote> provider = new();
-        Ema<Quote> ema = provider.ToEma(14);
+        QuoteHub<Quote> provider = new();
+        EmaHub<Quote> ema = provider.ToEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {

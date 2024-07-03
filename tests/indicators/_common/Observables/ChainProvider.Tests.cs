@@ -12,10 +12,10 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<Reusable> observer = provider
+        EmaHub<Reusable> observer = provider
             .Use(CandlePart.HL2)
             .ToEma(11);
 
@@ -28,9 +28,8 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         provider.EndTransmission();
 
         // stream results
-        List<EmaResult> streamEma = observer
-            .Results
-            .ToList();
+        IReadOnlyList<EmaResult> streamEma
+            = observer.Results;
 
         // time-series, for comparison
         List<EmaResult> staticEma = Quotes
@@ -41,16 +40,14 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         // assert, should equal series
         for (int i = 0; i < length; i++)
         {
+            Quote q = quotesList[i];
             EmaResult s = staticEma[i];
             EmaResult r = streamEma[i];
-            Reusable e = observer.Provider.Results[i];
 
-            // compare provider
-            Assert.AreEqual(e.Timestamp, s.Timestamp);
-
-            // compare series
-            Assert.AreEqual(s.Timestamp, r.Timestamp);
-            Assert.AreEqual(s.Ema, r.Ema);
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Ema.Should().Be(s.Ema);
+            r.Should().Be(s);
         }
 
         // confirm public interface

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// RENKO CHART - STANDARD (SERIES)
+// RENKO CHART (SERIES)
 
 public static partial class Renko
 {

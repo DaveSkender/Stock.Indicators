@@ -1,18 +1,36 @@
 namespace Skender.Stock.Indicators;
 
+// WILLIAMS ALLIGATOR (STREAMING)
+
+#region Hub interface
+public interface IAlligatorHub
+{
+    int JawPeriods { get; }
+    int JawOffset { get; }
+    int TeethPeriods { get; }
+    int TeethOffset { get; }
+    int LipsPeriods { get; }
+    int LipsOffset { get; }
+}
+#endregion
+
 public class Alligator<TIn>
-    : AbstractChainInResultOut<TIn, AlligatorResult>, IAlligator
+    : ResultProvider<AlligatorResult>, IStreamHub<TIn, AlligatorResult>, IAlligatorHub
     where TIn : struct, IReusable
 {
+    private readonly StreamCache<AlligatorResult> _cache;
+    private readonly StreamObserver<TIn, AlligatorResult> _observer;
+    private readonly ChainProvider<TIn> _supplier;
+
     public Alligator(
-        IChainProvider<TIn> provider,
+        ChainProvider<TIn> provider,
         int jawPeriods,
         int jawOffset,
         int teethPeriods,
         int teethOffset,
         int lipsPeriods,
         int lipsOffset)
-        : base(provider)
+        : this(provider, cache: new())
     {
         Alligator.Validate(
             jawPeriods,
@@ -28,11 +46,15 @@ public class Alligator<TIn>
         TeethOffset = teethOffset;
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
+    }
 
-        // subscribe to provider
-        Subscription = provider != null
-           ? provider.Subscribe(this)
-           : throw new ArgumentNullException(nameof(provider));
+    private Alligator(
+        ChainProvider<TIn> provider,
+        StreamCache<AlligatorResult> cache) : base(cache)
+    {
+        _cache = cache;
+        _observer = new(this, this, provider);
+        _supplier = provider;
     }
 
     public int JawPeriods { get; }
@@ -43,12 +65,14 @@ public class Alligator<TIn>
     public int LipsOffset { get; }
 
 
-    # region METHODS
+    // METHODS
 
     public override string ToString()
         => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 
-    protected override void OnNextArrival(Act act, TIn inbound)
+    public void Unsubscribe() => _observer.Unsubscribe();
+
+    public void OnNextArrival(Act act, TIn inbound)
     {
         int i;
         AlligatorResult r;
@@ -56,7 +80,7 @@ public class Alligator<TIn>
         // handle deletes
         if (act == Act.Delete)
         {
-            i = Cache.FindIndex(inbound.Timestamp);
+            i = Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
             if (i == -1)
@@ -71,7 +95,7 @@ public class Alligator<TIn>
         // calculate incremental value
         else
         {
-            i = Provider.FindIndex(inbound.Timestamp);
+            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -95,7 +119,7 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                     {
-                        sum += _toValue(ProviderCache[p]);
+                        sum += _toValue(_supplier.Cache[p]);
                     }
 
                     jaw = sum / JawPeriods;
@@ -104,8 +128,8 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = _toValue(ProviderCache[i - JawOffset]);
-                    jaw = (prevJaw * (JawPeriods - 1) + newVal) / JawPeriods;
+                    double newVal = _toValue(_supplier.Cache[i - JawOffset]);
+                    jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
                 }
             }
 
@@ -120,7 +144,7 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                     {
-                        sum += _toValue(ProviderCache[p]);
+                        sum += _toValue(_supplier.Cache[p]);
                     }
 
                     teeth = sum / TeethPeriods;
@@ -129,8 +153,8 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = _toValue(ProviderCache[i - TeethOffset]);
-                    teeth = (prevTooth * (TeethPeriods - 1) + newVal) / TeethPeriods;
+                    double newVal = _toValue(_supplier.Cache[i - TeethOffset]);
+                    teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
                 }
             }
 
@@ -145,7 +169,7 @@ public class Alligator<TIn>
                     double sum = 0;
                     for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                     {
-                        sum += _toValue(ProviderCache[p]);
+                        sum += _toValue(_supplier.Cache[p]);
                     }
 
                     lips = sum / LipsPeriods;
@@ -154,8 +178,8 @@ public class Alligator<TIn>
                 // remaining values: SMMA
                 else
                 {
-                    double newVal = _toValue(ProviderCache[i - LipsOffset]);
-                    lips = (prevLips * (LipsPeriods - 1) + newVal) / LipsPeriods;
+                    double newVal = _toValue(_supplier.Cache[i - LipsOffset]);
+                    lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
                 }
             }
 
@@ -169,20 +193,19 @@ public class Alligator<TIn>
         }
 
         // save to cache
-        act = ModifyCache(act, r);
+        act = _cache.ModifyCache(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < ProviderCache.Count - 1)
+        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            TIn value = ProviderCache[next];
+            TIn value = _supplier.Cache[next];
             OnNextArrival(Act.Update, value);
         }
     }
-    #endregion
 
     // convert provider IQuotes to HL2, if needed
     private readonly Func<TIn, double> _toValue

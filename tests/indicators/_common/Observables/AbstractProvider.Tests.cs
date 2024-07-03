@@ -14,7 +14,7 @@ public class ProviderTests : TestBase
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < length; i++)
@@ -27,8 +27,8 @@ public class ProviderTests : TestBase
             .Use(CandlePart.Close);
 
         // assert: prefilled
-        Assert.AreEqual(50, provider.Cache.Count);
-        Assert.AreEqual(50, observer.Cache.Count);
+        provider.Cache.Should().HaveCount(50);
+        observer.Cache.Should().HaveCount(50);
 
         // assert: same dates
         for (int i = 0; i < 50; i++)
@@ -36,7 +36,7 @@ public class ProviderTests : TestBase
             IReusable r = observer.Cache[i];
             IReusable q = provider.Cache[i];
 
-            Assert.AreEqual(q.Timestamp, r.Timestamp);
+            r.Timestamp.Should().Be(q.Timestamp);
         }
 
         observer.Unsubscribe();
@@ -44,20 +44,11 @@ public class ProviderTests : TestBase
     }
 
     [TestMethod]
-    public void FindIndex()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void FindIndex() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void RebuildCache()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void RebuildCache() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void Resend()
-    {
-        Assert.Inconclusive("test not implemented");
-    }
+    public void Resend() => Assert.Inconclusive("test not implemented");
 }

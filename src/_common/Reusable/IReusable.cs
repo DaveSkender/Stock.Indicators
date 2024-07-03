@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// A time-series type that identifies
 /// a single chainable value.
 /// </summary>
-public interface IReusable : ISeries
+public interface IReusable : IResult
 {
     /// <summary>
     /// Value that is passed to chained indicators.

@@ -9,7 +9,3 @@ public readonly record struct SmaResult
     double IReusable.Value => Sma.Null2NaN();
 }
 
-public interface ISma : IStreamObserver
-{
-    int LookbackPeriods { get; }
-}

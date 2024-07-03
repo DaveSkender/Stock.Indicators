@@ -2,36 +2,55 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAMING)
 
-public class Ema<TIn>
-    : AbstractChainInChainOut<TIn, EmaResult>, IEma
+#region Hub interface
+public interface IEmaHub
+{
+    int LookbackPeriods { get; }
+    double K { get; }
+}
+#endregion
+
+public class EmaHub<TIn>
+    : ChainProvider<EmaResult>, IStreamHub<TIn, EmaResult>, IEmaHub
     where TIn : struct, IReusable
 {
-    public Ema(
-        IChainProvider<TIn> provider,
+    private readonly StreamCache<EmaResult> _cache;
+    private readonly StreamObserver<TIn, EmaResult> _observer;
+    private readonly ChainProvider<TIn> _supplier;
+
+    public EmaHub(
+        ChainProvider<TIn> provider,
         int lookbackPeriods)
-        : base(provider)
+        : this(provider, cache: new())
     {
         Ema.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
+    }
 
-        // subscribe to provider
-        Subscription = provider != null
-           ? provider.Subscribe(this)
-           : throw new ArgumentNullException(nameof(provider));
+    private EmaHub(
+        ChainProvider<TIn> provider,
+        StreamCache<EmaResult> cache)
+        : base(cache)
+    {
+        _cache = cache;
+        _observer = new(this, this, provider);
+        _supplier = provider;
     }
 
     public int LookbackPeriods { get; }
     public double K { get; }
 
 
-    # region METHODS
+    // METHODS
 
     public override string ToString()
         => $"EMA({LookbackPeriods})";
 
-    protected override void OnNextArrival(Act act, TIn inbound)
+    public void Unsubscribe() => _observer.Unsubscribe();
+
+    public void OnNextArrival(Act act, TIn inbound)
     {
         int i;
         EmaResult r;
@@ -39,7 +58,7 @@ public class Ema<TIn>
         // handle deletes
         if (act is Act.Delete)
         {
-            i = Cache.FindIndex(inbound.Timestamp);
+            i = Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
             if (i == -1)
@@ -54,7 +73,7 @@ public class Ema<TIn>
         // calculate incremental value
         else
         {
-            i = Provider.FindIndex(inbound.Timestamp);
+            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -83,7 +102,7 @@ public class Ema<TIn>
                     double sum = 0;
                     for (int w = i - LookbackPeriods + 1; w <= i; w++)
                     {
-                        sum += ProviderCache[w].Value;
+                        sum += _supplier.Cache[w].Value;
                     }
 
                     ema = sum / LookbackPeriods;
@@ -103,18 +122,17 @@ public class Ema<TIn>
         }
 
         // save to cache
-        act = ModifyCache(act, r);
+        act = _cache.ModifyCache(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < ProviderCache.Count - 1)
+        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            TIn value = ProviderCache[next];
+            TIn value = _supplier.Cache[next];
             OnNextArrival(Act.Update, value);
         }
     }
-    #endregion
 }

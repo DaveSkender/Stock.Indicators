@@ -15,10 +15,10 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Renko<Quote> observer = provider
+        RenkoHub<Quote> observer = provider
             .ToRenko(brickSize, endType);
 
         // fetch initial results (early)
@@ -57,13 +57,13 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < seriesList.Count - 1; i++)
         {
             Quote q = quotesList[i];
             RenkoResult s = seriesList[i];
             RenkoResult r = streamList[i];
 
-            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Open.Should().Be(s.Open);
             r.High.Should().Be(s.High);
@@ -91,10 +91,10 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Sma<RenkoResult> observer = provider
+        SmaHub<RenkoResult> observer = provider
             .ToRenko(brickSize, endType)
             .ToSma(smaPeriods);
 
@@ -119,13 +119,13 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < seriesList.Count - 1; i++)
         {
             Quote q = quotesList[i];
             SmaResult s = seriesList[i];
             SmaResult r = streamList[i];
 
-            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
         }

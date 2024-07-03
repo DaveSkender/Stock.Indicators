@@ -12,10 +12,10 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Sma<Quote> observer = provider
+        SmaHub<Quote> observer = provider
             .ToSma(20);
 
         // fetch initial results (early)
@@ -80,7 +80,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
@@ -89,7 +89,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        Sma<Reusable> observer = provider
+        SmaHub<Reusable> observer = provider
             .Use(CandlePart.OC2)
             .ToSma(11);
 
@@ -137,10 +137,11 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<SmaResult> observer = provider
+        EmaHub<SmaResult> observer
+           = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 

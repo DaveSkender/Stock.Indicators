@@ -81,6 +81,17 @@ public static partial class Indicator
         this IEnumerable<TResult> reusable)
         where TResult : IReusable
         => reusable.Select(x => (x.Timestamp, x.Value)).OrderBy(x => x.Timestamp).ToCollection();
+
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `List.First(c => c.Timestamp == lookupDate)`", false)] // v3.0.0
+    public static TSeries Find<TSeries>(this IEnumerable<TSeries> series, DateTime lookupDate)
+        where TSeries : ISeries => series.First(x => x.Timestamp == lookupDate);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `List.FindIndex(c => c.Timestamp == lookupDate)`", false)] // v3.0.0
+    public static int FindIndex<TSeries>(this List<TSeries> series, DateTime lookupDate)
+        where TSeries : ISeries => series?.FindIndex(x => x.Timestamp == lookupDate) ?? -1;
 }
 
 [Obsolete("Rename `IReusableResult` to `IReusable`", true)] // v3.0.0

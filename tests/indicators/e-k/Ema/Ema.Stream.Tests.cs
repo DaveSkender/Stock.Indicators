@@ -12,10 +12,10 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<Quote> observer = provider
+        EmaHub<Quote> observer = provider
             .ToEma(20);
 
         // fetch initial results (early)
@@ -82,10 +82,10 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<SmaResult> observer = provider
+        EmaHub<SmaResult> observer = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
@@ -135,10 +135,10 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Sma<EmaResult> observer = provider
+        SmaHub<EmaResult> observer = provider
             .ToEma(emaPeriods)
             .ToSma(smaPeriods);
 

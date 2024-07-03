@@ -2,33 +2,51 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAMING)
 
-public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
+#region Hub interface
+public interface ISmaHub
+{
+    int LookbackPeriods { get; }
+}
+#endregion
+
+public class SmaHub<TIn> : ChainProvider<SmaResult>, IStreamHub<TIn, SmaResult>, ISmaHub
     where TIn : struct, IReusable
 {
-    public Sma(
-        IChainProvider<TIn> provider,
+    private readonly StreamCache<SmaResult> _cache;
+    private readonly StreamObserver<TIn, SmaResult> _observer;
+    private readonly ChainProvider<TIn> _supplier;
+
+    public SmaHub(
+        ChainProvider<TIn> provider,
         int lookbackPeriods)
-        : base(provider)
+        : this(provider, cache: new())
     {
         Sma.Validate(lookbackPeriods);
 
         LookbackPeriods = lookbackPeriods;
+    }
 
-        // subscribe to chain provider
-        Subscription = provider != null
-           ? provider.Subscribe(this)
-           : throw new ArgumentNullException(nameof(provider));
+    private SmaHub(
+        ChainProvider<TIn> provider,
+        StreamCache<SmaResult> cache)
+        : base(cache)
+    {
+        _cache = cache;
+        _observer = new(this, this, provider);
+        _supplier = provider;
     }
 
     public int LookbackPeriods { get; }
 
 
-    # region METHODS
+    // METHODS
 
     public override string ToString()
         => $"SMA({LookbackPeriods})";
 
-    protected override void OnNextArrival(Act act, TIn inbound)
+    public void Unsubscribe() => _observer.Unsubscribe();
+
+    public void OnNextArrival(Act act, TIn inbound)
     {
         int i;
         SmaResult r;
@@ -36,7 +54,7 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
         // handle deletes
         if (act == Act.Delete)
         {
-            i = Cache.FindIndex(inbound.Timestamp);
+            i = Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
             if (i == -1)
@@ -51,7 +69,7 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
         // calculate incremental value
         else
         {
-            i = Provider.FindIndex(inbound.Timestamp);
+            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -68,7 +86,7 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
                 double sum = 0;
                 for (int w = i - LookbackPeriods + 1; w <= i; w++)
                 {
-                    sum += ProviderCache[w].Value;
+                    sum += _supplier.Cache[w].Value;
                 }
 
                 sma = sum / LookbackPeriods;
@@ -87,18 +105,17 @@ public class Sma<TIn> : AbstractChainInChainOut<TIn, SmaResult>, ISma
         }
 
         // save to cache
-        act = ModifyCache(act, r);
+        act = _cache.ModifyCache(act, r);
 
         // send to observers
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < ProviderCache.Count - 1)
+        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            TIn value = ProviderCache[next];
+            TIn value = _supplier.Cache[next];
             OnNextArrival(Act.Update, value);
         }
     }
-    #endregion
 }

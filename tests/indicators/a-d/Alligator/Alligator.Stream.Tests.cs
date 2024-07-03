@@ -12,7 +12,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
         Alligator<Quote> observer = provider
@@ -82,7 +82,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
         Alligator<SmaResult> observer = provider
