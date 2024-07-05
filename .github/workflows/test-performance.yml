@@ -1,8 +1,7 @@
 name: Benchmark performance
 
 concurrency:
-  group: test-performance
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
 
 on: workflow_dispatch
 
