@@ -52,7 +52,7 @@ public class RenkoHub<TQuote>
     // METHODS
 
     public override string ToString()
-        => $"RENKO({BrickSize}, {EndType}) - {_cache.CacheX.Count} items";
+        => $"RENKO({BrickSize}, {EndType}) - {_cache.Cache.Count} items";
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
@@ -68,7 +68,7 @@ public class RenkoHub<TQuote>
             // determine last brick
             RenkoResult lastBrick;
 
-            if (_cache.CacheX.Count != 0)
+            if (_cache.Cache.Count != 0)
             {
                 lastBrick = Results
                     .Where(c => c.Timestamp <= inbound.Timestamp)
@@ -77,15 +77,14 @@ public class RenkoHub<TQuote>
             else // no bricks yet
             {
                 // skip first quote
-                if (_supplier.CacheP.Count <= 1)
+                if (_supplier.Cache.Count <= 1)
                 {
                     return;
                 }
 
                 int decimals = BrickSize.GetDecimalPlaces();
 
-                ref readonly TQuote q0
-                    = ref _supplier.SpanCache[0];
+                TQuote q0 = _supplier.ReadCache[0];
 
                 decimal baseline
                     = Math.Round(q0.Close,
@@ -117,11 +116,11 @@ public class RenkoHub<TQuote>
 
                 // by aggregating provider cache range
                 int inboundIndex
-                    = _supplier.CacheP
+                    = _supplier.Cache
                         .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
                 int lastBrickIndex
-                    = _supplier.CacheP
+                    = _supplier.Cache
                         .FindIndex(c => c.Timestamp == lastBrick.Timestamp);
 
                 if (inboundIndex == -1 || lastBrickIndex == -1)
@@ -132,8 +131,7 @@ public class RenkoHub<TQuote>
 
                 for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
                 {
-                    ref readonly TQuote pq
-                        = ref _supplier.SpanCache[w];
+                    TQuote pq = _supplier.ReadCache[w];
 
                     h = Math.Max(h, pq.High);
                     l = Math.Min(l, pq.Low);

@@ -65,17 +65,17 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
 
     public int SubscriberCount => _observers.Count;
 
-    public IReadOnlyList<TSeries> Results => _cache.CacheX;
+    public IReadOnlyList<TSeries> Results => _cache.Cache;
 
     /// <summary>
     /// Use this to FindIndex, Count as it does not copy the struct
     /// </summary>
-    internal List<TSeries> CacheP => _cache.CacheX;
+    internal List<TSeries> Cache => _cache.Cache;
 
     /// <summary>
     /// Use this to avoid copying the struct
     /// </summary>
-    internal Span<TSeries> SpanCache => _cache.SpanCache;
+    internal ReadOnlySpan<TSeries> ReadCache => _cache.ReadCache;
 
 
     #region METHODS (OBSERVABLE)
@@ -153,7 +153,7 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
         DateTime fromTimestamp,
         Act act)
     {
-        int fromIndex = _cache.CacheX
+        int fromIndex = _cache.Cache
             .FindIndex(c => c.Timestamp >= fromTimestamp);
 
         if (fromIndex == -1)
@@ -171,7 +171,7 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
         IObserver<(Act, TSeries)> toObserver,
         int fromIndex,
         Act act)
-        => Resend(toObserver, fromIndex, _cache.CacheX.Count - 1, act);
+        => Resend(toObserver, fromIndex, _cache.Cache.Count - 1, act);
 
     /// resends values in a range to a requesting observer
     /// <inheritdoc />
@@ -188,14 +188,11 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
 
         // determine start/end of range
         int fr = Math.Max(0, fromIndex);
-        int to = Math.Min(toIndex, _cache.CacheX.Count - 1);
+        int to = Math.Min(toIndex, _cache.Cache.Count - 1);
 
         for (int i = fr; i <= to; i++)
         {
-            ref readonly TSeries item
-                = ref _cache.SpanCache[i];
-
-            toObserver.OnNext((act, item));
+            toObserver.OnNext((act, _cache.ReadCache[i]));
         }
     }
     #endregion
@@ -211,7 +208,7 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     public void ClearCache(DateTime fromTimestamp)
     {
         // start of range
-        int fromIndex = _cache.CacheX
+        int fromIndex = _cache.Cache
             .FindIndex(c => c.Timestamp >= fromTimestamp);
 
         // something to do
@@ -224,7 +221,7 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     /// clear cache without restore, from index
     /// <inheritdoc/>
     public void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: _cache.CacheX.Count - 1);
+        => ClearCache(fromIndex, toIndex: _cache.Cache.Count - 1);
 
     /// <summary>
     /// Deletes cache entries between index range values.
@@ -241,21 +238,20 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
         int fromIndex, int toIndex)
     {
         // nothing to do
-        if (_cache.CacheX.Count is 0)
+        if (_cache.Cache.Count is 0)
         {
             return;
         }
 
         // determine in-range start/end indices
         int fr = Math.Max(0, Math.Min(fromIndex, toIndex));
-        int to = Math.Min(_cache.CacheX.Count - 1, Math.Max(fromIndex, toIndex));
+        int to = Math.Min(_cache.Cache.Count - 1, Math.Max(fromIndex, toIndex));
 
         // delete and deliver instruction in reverse
         // order to prevent recursive recompositions
         for (int i = to; i >= fr; i--)
         {
-            ref readonly TSeries item
-                = ref _cache.SpanCache[i];
+            TSeries item = _cache.ReadCache[i];
 
             Act act = _cache.Modify(Act.Delete, item);
             NotifyObservers(act, item);

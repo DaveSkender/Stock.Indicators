@@ -60,7 +60,7 @@ public class EmaHub<TIn>
         // handle deletes
         if (act is Act.Delete)
         {
-            i = _cache.CacheX
+            i = _cache.Cache
                 .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
@@ -70,13 +70,13 @@ public class EmaHub<TIn>
                     "Matching cache entry not found.");
             }
 
-            r = CacheP[i];
+            r = Cache[i];
         }
 
         // calculate incremental value
         else
         {
-            i = _supplier.CacheP
+            i = _supplier.Cache
                 .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
@@ -91,8 +91,7 @@ public class EmaHub<TIn>
 
             if (i >= LookbackPeriods - 1)
             {
-                ref readonly EmaResult last
-                    = ref SpanCache[i - 1];
+                EmaResult last = ReadCache[i - 1];
 
                 // normal
                 if (last.Ema is not null)
@@ -107,10 +106,7 @@ public class EmaHub<TIn>
                     double sum = 0;
                     for (int w = i - LookbackPeriods + 1; w <= i; w++)
                     {
-                        ref readonly TIn item
-                            = ref _supplier.SpanCache[w];
-
-                        sum += item.Value;
+                        sum += _supplier.ReadCache[w].Value;
                     }
 
                     ema = sum / LookbackPeriods;
@@ -136,11 +132,11 @@ public class EmaHub<TIn>
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < _supplier.CacheP.Count - 1)
+        // TODO: optimize this
+        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            ref readonly TIn value = ref _supplier.SpanCache[next];
-            OnNextArrival(Act.Update, value);
+            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
         }
     }
 }

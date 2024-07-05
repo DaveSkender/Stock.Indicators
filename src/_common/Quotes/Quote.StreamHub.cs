@@ -59,7 +59,7 @@ public class QuoteHub<TQuote>
     // METHODS
 
     public override string ToString()
-        => $"{_cache.CacheX.Count} quotes (type: {nameof(TQuote)})";
+        => $"{_cache.Cache.Count} quotes (type: {nameof(TQuote)})";
 
     public Act Add(TQuote quote)
     {

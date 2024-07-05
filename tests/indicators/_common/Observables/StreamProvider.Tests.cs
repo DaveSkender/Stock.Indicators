@@ -27,14 +27,14 @@ public class ProviderTests : TestBase
             .Use(CandlePart.Close);
 
         // assert: prefilled
-        provider.CacheP.Should().HaveCount(50);
-        observer.CacheP.Should().HaveCount(50);
+        provider.Cache.Should().HaveCount(50);
+        observer.Cache.Should().HaveCount(50);
 
         // assert: same dates
         for (int i = 0; i < 50; i++)
         {
-            IReusable r = observer.CacheP[i];
-            IReusable q = provider.CacheP[i];
+            IReusable r = observer.Cache[i];
+            IReusable q = provider.Cache[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
         }

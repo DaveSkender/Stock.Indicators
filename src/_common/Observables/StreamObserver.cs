@@ -57,7 +57,7 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     public void RebuildCache(
         DateTime fromTimestamp)
     {
-        int fromIndex = _observable.CacheP
+        int fromIndex = _observable.Cache
             .FindLastIndex(c => c.Timestamp <= fromTimestamp);
 
         if (fromIndex == -1)
@@ -82,9 +82,9 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
         }
         else
         {
-            TOut item = _observable.SpanCache[fromIndex];
+            TOut item = _observable.ReadCache[fromIndex];
 
-            providerIndex = _supplier.CacheP
+            providerIndex = _supplier.Cache
                 .FindIndex(c => c.Timestamp == item.Timestamp);
 
             if (providerIndex == -1)

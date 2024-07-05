@@ -30,13 +30,12 @@ public class AdlHub<TQuote>
 
     public override string ToString()
     {
-        if (_cache.CacheX.Count == 0)
+        if (_cache.Cache.Count == 0)
         {
             return "ADL";
         }
 
-        ref readonly AdlResult first
-            = ref _cache.SpanCache[0];
+        AdlResult first = _cache.ReadCache[0];
 
         return $"ADL({first.Timestamp:d})";
     }
@@ -51,7 +50,7 @@ public class AdlHub<TQuote>
         // handle deletes
         if (act is Act.Delete)
         {
-            i = _cache.CacheX
+            i = _cache.Cache
                 .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
@@ -61,13 +60,13 @@ public class AdlHub<TQuote>
                     "Matching cache entry not found.");
             }
 
-            r = _cache.CacheX[i];
+            r = _cache.Cache[i];
         }
 
         // calculate incremental value
         else
         {
-            i = _supplier.CacheP.FindIndex(c => c.Timestamp == inbound.Timestamp);
+            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
             if (i == -1)
@@ -86,9 +85,7 @@ public class AdlHub<TQuote>
             }
             else
             {
-                ref readonly AdlResult prev
-                    = ref _cache.SpanCache[i - 1];
-
+                AdlResult prev = _cache.ReadCache[i - 1];
                 prevAdl = prev.Adl;
             }
 
@@ -105,14 +102,12 @@ public class AdlHub<TQuote>
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < _supplier.CacheP.Count - 1)
+        // TODO: optimize this
+        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
 
-            ref readonly TQuote value
-                = ref _supplier.SpanCache[next];
-
-            OnNextArrival(Act.Update, value);
+            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
         }
     }
 }
