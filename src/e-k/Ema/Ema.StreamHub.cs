@@ -37,7 +37,7 @@ public class EmaHub<TIn>
 
         _cache = cache;
         _supplier = provider;
-        _observer = new(this, this, provider);
+        _observer = new(this, cache, this, provider);
     }
     #endregion
 
@@ -91,26 +91,15 @@ public class EmaHub<TIn>
 
             if (i >= LookbackPeriods - 1)
             {
-                EmaResult last = ReadCache[i - 1];
+                IReusable last = ReadCache[i - 1];
 
-                // normal
-                if (last.Ema is not null)
-                {
-                    ema = Ema.Increment(K, (double)last.Ema, inbound.Value);
-                }
+                ema = !double.IsNaN(last.Value)
 
-                // set first value (normal) or reset
-                // when prior EMA was incalculable
-                else
-                {
-                    double sum = 0;
-                    for (int w = i - LookbackPeriods + 1; w <= i; w++)
-                    {
-                        sum += _supplier.ReadCache[w].Value;
-                    }
+                    // normal
+                    ? Ema.Increment(K, last.Value, inbound.Value)
 
-                    ema = sum / LookbackPeriods;
-                }
+                    // re/initialize
+                    : Sma.Increment(_supplier.ReadCache, i, LookbackPeriods);
             }
 
             // warmup periods are never calculable

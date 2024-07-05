@@ -34,7 +34,7 @@ public class SmaHub<TIn>
 
         _cache = cache;
         _supplier = provider;
-        _observer = new(this, this, provider);
+        _observer = new(this, cache, this, provider);
     }
     #endregion
 
@@ -85,7 +85,7 @@ public class SmaHub<TIn>
             // candidate result
             r = new(
                 Timestamp: inbound.Timestamp,
-                Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods, false));
+                Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods).NaN2Null());
         }
 
         // save to cache

@@ -2,20 +2,17 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Sma
 {
-    internal static double? Increment<T>(
+    internal static double Increment<T>(
         this ReadOnlySpan<T> values,
         int endIndex,
-        int lookbackPeriods,
-        bool incalculableAsNaN = false)
+        int lookbackPeriods)
         where T : struct, IReusable
     {
         int offset = lookbackPeriods - 1;
 
         if (endIndex < offset || endIndex >= values.Length)
         {
-            return incalculableAsNaN
-                ? double.NaN
-                : null;
+            return double.NaN;
         }
 
         double sum = 0;
@@ -26,11 +23,7 @@ public static partial class Sma
             sum += values[i].Value;
         }
 
-        double results = sum / lookbackPeriods;
-
-        return incalculableAsNaN
-            ? results
-            : results.NaN2Null();
+        return sum / lookbackPeriods;
     }
 
     // remove recommended periods
