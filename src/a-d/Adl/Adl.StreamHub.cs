@@ -22,7 +22,7 @@ public class AdlHub<TQuote>
     {
         _cache = cache;
         _supplier = provider;
-        _observer = new(this, this, provider);
+        _observer = new(this, cache, this, provider);
     }
     #endregion
 
@@ -42,72 +42,32 @@ public class AdlHub<TQuote>
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
-    public void OnNextArrival(Act act, TQuote inbound)
+    public void OnNextNew(TQuote newItem)
     {
-        int i;
-        AdlResult r;
+        double prevAdl;
+        QuoteD q = newItem.ToQuoteD();
 
-        // handle deletes
-        if (act is Act.Delete)
+        int i = _supplier.Position(newItem.Timestamp);
+
+        if (i == 0)
         {
-            i = _cache.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
-
-            // cache entry unexpectedly not found
-            if (i == -1)
-            {
-                throw new InvalidOperationException(
-                    "Matching cache entry not found.");
-            }
-
-            r = _cache.Cache[i];
+            prevAdl = 0;
         }
-
-        // calculate incremental value
         else
         {
-            i = _supplier.Cache.FindIndex(c => c.Timestamp == inbound.Timestamp);
-
-            // source unexpectedly not found
-            if (i == -1)
-            {
-                throw new InvalidOperationException(
-                    "Matching source history not found.");
-            }
-
-            QuoteD q = inbound.ToQuoteD();
-
-            double prevAdl;
-
-            if (i == 0)
-            {
-                prevAdl = 0;
-            }
-            else
-            {
-                AdlResult prev = _cache.ReadCache[i - 1];
-                prevAdl = prev.Adl;
-            }
-
-            // calculate ADL
-            r = Adl.Increment(
-                q.Timestamp, prevAdl,
-                q.High, q.Low, q.Close, q.Volume);
+            AdlResult prev = _cache.ReadCache[i - 1];
+            prevAdl = prev.Adl;
         }
 
+        // calculate ADL
+        AdlResult r = Adl.Increment(
+            q.Timestamp, prevAdl,
+            q.High, q.Low, q.Close, q.Volume);
+
         // save to cache
-        act = _cache.Modify(act, r);
+        Act act = _cache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
-
-        // cascade update forward values (recursively)
-        // TODO: optimize this
-        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
-        {
-            int next = act == Act.Delete ? i : i + 1;
-
-            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
-        }
     }
 }

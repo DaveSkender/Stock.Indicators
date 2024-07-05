@@ -3,45 +3,6 @@ namespace Skender.Stock.Indicators;
 // STREAM PROVIDERS (BASE)
 // with Quote, Chain, Result variants (at bottom)
 
-#region QUOTE, CHAIN, RESULT PROVIDERS
-
-/// <summary>
-/// Quote provider (abstract base)
-/// </summary>
-public abstract class QuoteProvider<TQuote>
-    : ChainProvider<TQuote>
-    where TQuote : struct, IQuote
-{
-    protected internal QuoteProvider(
-        StreamCache<TQuote> observableCache)
-        : base(observableCache) { }
-}
-
-/// <summary>
-/// Chainable result provider (abstract base)
-/// </summary>
-public abstract class ChainProvider<TReusableResult>
-    : ResultProvider<TReusableResult>
-    where TReusableResult : struct, IReusable
-{
-    protected internal ChainProvider(
-        StreamCache<TReusableResult> observableCache)
-        : base(observableCache) { }
-}
-
-/// <summary>
-/// Non-chainable result provider (abstract base)
-/// </summary>
-public abstract class ResultProvider<TResult>
-    : StreamProvider<TResult>
-    where TResult : struct, IResult
-{
-    protected internal ResultProvider(
-        StreamCache<TResult> observableCache)
-        : base(observableCache) { }
-}
-#endregion
-
 /// <summary>
 /// Streaming provider (generic)
 /// </summary>
@@ -258,5 +219,48 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
         }
     }
 
+    /// <inheritdoc cref="StreamCache{TSeries}.Position(DateTime)"/>
+    internal int Position(DateTime timestamp)
+        => _cache.Position(timestamp);
+
     #endregion
 }
+
+#region QUOTE, CHAIN, RESULT PROVIDER variants
+
+/// <summary>
+/// Quote provider (abstract base)
+/// </summary>
+public abstract class QuoteProvider<TQuote>
+    : ChainProvider<TQuote>
+    where TQuote : struct, IQuote
+{
+    protected internal QuoteProvider(
+        StreamCache<TQuote> observableCache)
+        : base(observableCache) { }
+}
+
+/// <summary>
+/// Chainable result provider (abstract base)
+/// </summary>
+public abstract class ChainProvider<TReusableResult>
+    : ResultProvider<TReusableResult>
+    where TReusableResult : struct, IReusable
+{
+    protected internal ChainProvider(
+        StreamCache<TReusableResult> observableCache)
+        : base(observableCache) { }
+}
+
+/// <summary>
+/// Non-chainable result provider (abstract base)
+/// </summary>
+public abstract class ResultProvider<TResult>
+    : StreamProvider<TResult>
+    where TResult : struct, IResult
+{
+    protected internal ResultProvider(
+        StreamCache<TResult> observableCache)
+        : base(observableCache) { }
+}
+#endregion

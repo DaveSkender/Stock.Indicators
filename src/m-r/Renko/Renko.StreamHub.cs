@@ -41,7 +41,7 @@ public class RenkoHub<TQuote>
 
         _cache = cache;
         _supplier = provider;
-        _observer = new(this, this, provider);
+        _observer = new(this, cache, this, provider);
     }
     #endregion
 
@@ -56,133 +56,105 @@ public class RenkoHub<TQuote>
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
-    public void OnNextArrival(Act act, TQuote inbound)
+    public void OnNextNew(TQuote newItem)
     {
-        // note: due to the cumulative nature and unsynchronized
-        // timeline, we need to reprocess the entire subsequent
-        // series after older quote arrival (including deletes)
+        // get last brick
+        RenkoResult lastBrick;
 
-        // handle new arrivals
-        if (act is Act.AddNew)
+        if (_cache.Cache.Count != 0)
         {
-            // determine last brick
-            RenkoResult lastBrick;
-
-            if (_cache.Cache.Count != 0)
+            lastBrick = Results
+                .Where(c => c.Timestamp <= newItem.Timestamp)
+                .Last();
+        }
+        else // no bricks yet
+        {
+            // skip first quote
+            if (_supplier.Cache.Count <= 1)
             {
-                lastBrick = Results
-                    .Where(c => c.Timestamp <= inbound.Timestamp)
-                    .Last();
-            }
-            else // no bricks yet
-            {
-                // skip first quote
-                if (_supplier.Cache.Count <= 1)
-                {
-                    return;
-                }
-
-                int decimals = BrickSize.GetDecimalPlaces();
-
-                TQuote q0 = _supplier.ReadCache[0];
-
-                decimal baseline
-                    = Math.Round(q0.Close,
-                        Math.Max(decimals - 1, 0));
-
-                lastBrick = new() {
-                    Timestamp = q0.Timestamp,
-                    Open = baseline,
-                    Close = baseline
-                };
+                return;
             }
 
-            // determine new brick quantity
-            int newBrickQty
-                = Renko.GetNewBrickQuantity(
-                    inbound, lastBrick, BrickSize, EndType);
+            int decimals = BrickSize.GetDecimalPlaces();
 
-            int absBrickQty = Math.Abs(newBrickQty);
-            bool isUp = newBrickQty >= 0;
+            TQuote q0 = _supplier.ReadCache[0];
 
-            // add new brick(s)
-            // can add more than one brick!
-            if (absBrickQty > 0)
-            {
-                // get high/low/volume between bricks
-                decimal h = decimal.MinValue;
-                decimal l = decimal.MaxValue;
-                decimal sumV = 0;  // cumulative
+            decimal baseline
+                = Math.Round(q0.Close,
+                    Math.Max(decimals - 1, 0));
 
-                // by aggregating provider cache range
-                int inboundIndex
-                    = _supplier.Cache
-                        .FindIndex(c => c.Timestamp == inbound.Timestamp);
-
-                int lastBrickIndex
-                    = _supplier.Cache
-                        .FindIndex(c => c.Timestamp == lastBrick.Timestamp);
-
-                if (inboundIndex == -1 || lastBrickIndex == -1)
-                {
-                    throw new ArgumentException(
-                        "Matching cache entry not found.", nameof(inbound));
-                }
-
-                for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
-                {
-                    TQuote pq = _supplier.ReadCache[w];
-
-                    h = Math.Max(h, pq.High);
-                    l = Math.Min(l, pq.Low);
-                    sumV += pq.Volume;
-                }
-
-                decimal v = sumV / absBrickQty;
-
-                for (int b = 0; b < absBrickQty; b++)
-                {
-                    decimal o;
-                    decimal c;
-
-                    if (isUp)
-                    {
-                        o = Math.Max(lastBrick.Open, lastBrick.Close);
-                        c = o + BrickSize;
-                    }
-                    else
-                    {
-                        o = Math.Min(lastBrick.Open, lastBrick.Close);
-                        c = o - BrickSize;
-                    }
-
-                    RenkoResult r = new() {
-                        Timestamp = inbound.Timestamp,
-                        Open = o,
-                        High = h,
-                        Low = l,
-                        Close = c,
-                        Volume = v,
-                        IsUp = isUp
-                    };
-
-                    // save to cache
-                    act = _cache.Modify(act, r);
-
-                    // send to observers
-                    NotifyObservers(act, r);
-
-                    lastBrick = r;
-                }
-            }
-
-            return;
+            lastBrick = new() {
+                Timestamp = q0.Timestamp,
+                Open = baseline,
+                Close = baseline
+            };
         }
 
-        // handle all others with rebuild
-        // from changed point in index
+        // determine new brick quantity
+        int newBrickQty
+            = Renko.GetNewBrickQuantity(
+                newItem, lastBrick, BrickSize, EndType);
 
-        //TODO: fix; overrunning
-        _observer.RebuildCache(inbound.Timestamp);
+        int absBrickQty = Math.Abs(newBrickQty);
+        bool isUp = newBrickQty >= 0;
+
+        // add new brick(s) ... can add more than one!
+        if (absBrickQty > 0)
+        {
+            // get high/low/volume between bricks
+            decimal h = decimal.MinValue;
+            decimal l = decimal.MaxValue;
+            decimal sumV = 0;  // cumulative
+
+            // by aggregating provider cache range
+            int inboundIndex = _supplier.Position(newItem.Timestamp);
+            int lastBrickIndex = _supplier.Position(lastBrick.Timestamp);
+
+            for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
+            {
+                TQuote pq = _supplier.ReadCache[w];
+
+                h = Math.Max(h, pq.High);
+                l = Math.Min(l, pq.Low);
+                sumV += pq.Volume;
+            }
+
+            decimal v = sumV / absBrickQty;
+
+            for (int b = 0; b < absBrickQty; b++)
+            {
+                decimal o;
+                decimal c;
+
+                if (isUp)
+                {
+                    o = Math.Max(lastBrick.Open, lastBrick.Close);
+                    c = o + BrickSize;
+                }
+                else
+                {
+                    o = Math.Min(lastBrick.Open, lastBrick.Close);
+                    c = o - BrickSize;
+                }
+
+                RenkoResult r = new() {
+                    Timestamp = newItem.Timestamp,
+                    Open = o,
+                    High = h,
+                    Low = l,
+                    Close = c,
+                    Volume = v,
+                    IsUp = isUp
+                };
+
+                // save to cache
+                Act act = _cache.Modify(Act.AddNew, r);
+
+                // send to observers
+                NotifyObservers(act, r);
+
+                lastBrick = r;
+            }
+        }
     }
 }

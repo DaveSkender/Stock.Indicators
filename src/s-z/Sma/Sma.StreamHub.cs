@@ -48,58 +48,19 @@ public class SmaHub<TIn>
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
-    public void OnNextArrival(Act act, TIn inbound)
+    public void OnNextNew(TIn newItem)
     {
-        int i;
-        SmaResult r;
+        int i = _supplier.Position(newItem.Timestamp);
 
-        // handle deletes
-        if (act == Act.Delete)
-        {
-            i = _cache.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
-
-            // cache entry unexpectedly not found
-            if (i == -1)
-            {
-                throw new InvalidOperationException(
-                    "Matching cache entry not found.");
-            }
-
-            r = Cache[i];
-        }
-
-        // calculate incremental value
-        else
-        {
-            i = _supplier.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
-
-            // source unexpectedly not found
-            if (i == -1)
-            {
-                throw new InvalidOperationException(
-                    "Matching source history not found.");
-            }
-
-            // candidate result
-            r = new(
-                Timestamp: inbound.Timestamp,
-                Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods).NaN2Null());
-        }
+        // candidate result
+        SmaResult r = new(
+            Timestamp: newItem.Timestamp,
+            Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods).NaN2Null());
 
         // save to cache
-        act = _cache.Modify(act, r);
+        Act act = _cache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
-
-        // cascade update forward values (recursively)
-        // TODO: optimize this
-        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
-        {
-            int next = act == Act.Delete ? i : i + 1;
-            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
-        }
     }
 }

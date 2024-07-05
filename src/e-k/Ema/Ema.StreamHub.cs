@@ -52,80 +52,41 @@ public class EmaHub<TIn>
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
-    public void OnNextArrival(Act act, TIn inbound)
+    public void OnNextNew(TIn newItem)
     {
-        int i;
-        EmaResult r;
+        double ema;
 
-        // handle deletes
-        if (act is Act.Delete)
+        int i = _supplier.Position(newItem.Timestamp);
+
+        if (i >= LookbackPeriods - 1)
         {
-            i = _cache.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
+            IReusable last = ReadCache[i - 1];
 
-            // cache entry unexpectedly not found
-            if (i == -1)
-            {
-                throw new InvalidOperationException(
-                    "Matching cache entry not found.");
-            }
+            ema = !double.IsNaN(last.Value)
 
-            r = Cache[i];
+                // normal
+                ? Ema.Increment(K, last.Value, newItem.Value)
+
+                // re/initialize
+                : Sma.Increment(_supplier.ReadCache, i, LookbackPeriods);
         }
 
-        // calculate incremental value
+        // warmup periods are never calculable
         else
         {
-            i = _supplier.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
-
-            // source unexpectedly not found
-            if (i == -1)
-            {
-                throw new InvalidOperationException(
-                    "Matching source history not found.");
-            }
-
-            // normal
-            double ema;
-
-            if (i >= LookbackPeriods - 1)
-            {
-                IReusable last = ReadCache[i - 1];
-
-                ema = !double.IsNaN(last.Value)
-
-                    // normal
-                    ? Ema.Increment(K, last.Value, inbound.Value)
-
-                    // re/initialize
-                    : Sma.Increment(_supplier.ReadCache, i, LookbackPeriods);
-            }
-
-            // warmup periods are never calculable
-            else
-            {
-                ema = double.NaN;
-            }
-
-            // candidate result
-            r = new(
-                Timestamp: inbound.Timestamp,
-                Ema: ema.NaN2Null());
+            ema = double.NaN;
         }
 
+        // candidate result
+        EmaResult r = new(
+            Timestamp: newItem.Timestamp,
+            Ema: ema.NaN2Null());
+
+
         // save to cache
-        act = _cache.Modify(act, r);
+        Act act = _cache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
-
-        // cascade update forward values (recursively)
-        // TODO: optimize this
-        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
-        {
-            int next = act == Act.Delete ? i : i + 1;
-            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
-        }
     }
 }

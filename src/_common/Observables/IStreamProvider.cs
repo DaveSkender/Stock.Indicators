@@ -10,10 +10,7 @@ namespace Skender.Stock.Indicators;
 public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     where TSeries : struct, ISeries
 {
-    /// <summary>
-    /// An error caused this observer/observable handler
-    /// to stop and terminated all subscriptions. />.
-    /// </summary>
+    /// <inheritdoc cref="IStreamCache.IsFaulted" />
     bool IsFaulted { get; }
 
     /// <summary>
@@ -107,7 +104,7 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     void ClearCache(int fromIndex);
 }
 
-#region QUOTE, CHAIN, RESULT PROVIDERS
+#region QUOTE, CHAIN, RESULT PROVIDER variants
 
 // these contrain specific struct types
 

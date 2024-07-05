@@ -32,7 +32,7 @@ public class Use<TQuote>
         CandlePartSelection = candlePart;
 
         _cache = cache;
-        _observer = new(this, this, provider);
+        _observer = new(this, cache, this, provider);
     }
     #endregion
 
@@ -46,14 +46,14 @@ public class Use<TQuote>
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
-    public void OnNextArrival(Act act, TQuote inbound)
+    public void OnNextNew(TQuote newItem)
     {
         // candidate result
         Reusable result
-            = inbound.ToReusable(CandlePartSelection);
+            = newItem.ToReusable(CandlePartSelection);
 
         // save to cache
-        _cache.Modify(act, result);
+        Act act = _cache.Modify(Act.AddNew, result);
 
         // send to observers
         NotifyObservers(act, result);

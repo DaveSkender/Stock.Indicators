@@ -3,39 +3,6 @@ namespace Skender.Stock.Indicators;
 // STREAM OBSERVER INTERFACES
 
 /// <summary>
-/// Observer of a streamed quote source.
-/// </summary>
-/// <remarks>
-/// This is used internal to the library,
-/// but can be implemented to build your own observers.
-/// </remarks>
-/// <typeparam name="TQuote"></typeparam>
-public interface IQuoteObserver<TQuote> : IStreamObserver<TQuote>
-    where TQuote : struct, IQuote;
-
-/// <summary>
-/// Observer of a streamed chain source.
-/// </summary>
-/// <remarks>
-/// This is used internal to the library,
-/// but can be implemented to build your own observers.
-/// </remarks>
-/// <typeparam name="TReusable"></typeparam>
-public interface IChainObserver<TReusable> : IStreamObserver<TReusable>
-    where TReusable : struct, IReusable;
-
-/// <summary>
-/// Observer of a unchainable result source.
-/// </summary>
-/// <remarks>
-/// This is not used internally by the library,
-/// but can be implemented to build your own observers.
-/// </remarks>
-/// <typeparam name="TResult"></typeparam>
-public interface IResultObserver<TResult> : IStreamObserver<TResult>
-    where TResult : struct, IResult;
-
-/// <summary>
 /// Observer of streamed chain or quote sources
 /// </summary>
 public interface IStreamObserver<TIn> : IObserver<(Act act, TIn inbound)>
@@ -94,3 +61,41 @@ public interface IStreamObserver<TIn> : IObserver<(Act act, TIn inbound)>
     /// </param>
     void RebuildCache(int fromIndex);
 }
+
+#region QUOTE, CHAIN, RESULT OBSERVER variants
+
+// these contrain specific struct types
+
+/// <summary>
+/// Observer of a streamed quote source.
+/// </summary>
+/// <remarks>
+/// This is used internal to the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TQuote"></typeparam>
+public interface IQuoteObserver<TQuote> : IStreamObserver<TQuote>
+    where TQuote : struct, IQuote;
+
+/// <summary>
+/// Observer of a streamed chain source.
+/// </summary>
+/// <remarks>
+/// This is used internal to the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TReusable"></typeparam>
+public interface IChainObserver<TReusable> : IStreamObserver<TReusable>
+    where TReusable : struct, IReusable;
+
+/// <summary>
+/// Observer of a unchainable result source.
+/// </summary>
+/// <remarks>
+/// This is not used internally by the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TResult"></typeparam>
+public interface IResultObserver<TResult> : IStreamObserver<TResult>
+    where TResult : struct, IResult;
+#endregion

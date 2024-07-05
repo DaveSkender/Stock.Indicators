@@ -7,15 +7,18 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     where TOut : struct, ISeries
 {
     private readonly IStreamHub<TIn, TOut> _hub;
+    private readonly StreamCache<TOut> _cache;
     private readonly StreamProvider<TOut> _observable;
     private readonly StreamProvider<TIn> _supplier;
 
     protected internal StreamObserver(
         IStreamHub<TIn, TOut> hub,
+        StreamCache<TOut> cache,
         StreamProvider<TOut> observable,
         StreamProvider<TIn> provider)
     {
         _hub = hub;
+        _cache = cache;
         _observable = observable;
         _supplier = provider;
 
@@ -29,7 +32,45 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     // METHODS (OBSERVER)
 
     public void OnNext((Act, TIn) value)
-        => _hub.OnNextArrival(value.Item1, value.Item2);
+    {
+        (Act act, TIn item) = value;
+
+        switch (act)
+        {
+            case Act.AddNew:
+                _hub.OnNextNew(item);
+                break;
+
+            // TODO: handle revision/recursion
+            // differently for different indicators
+            default:
+                RebuildCache(item.Timestamp);
+                break;
+        }
+    }
+
+    private bool OnDeleted(TIn deleted)
+    {
+        int i = _cache.Cache
+            .FindIndex(c => c.Timestamp == deleted.Timestamp);
+
+        // cache entry unexpectedly not found
+        if (i == -1)
+        {
+            throw new ArgumentException(
+                "Matching cache entry not found.", nameof(deleted));
+        }
+
+        TOut d = _cache.ReadCache[i];
+
+        // save to cache
+        Act act = _cache.Modify(Act.Delete, d);
+
+        // send to observers
+        _observable.NotifyObservers(act, d);
+
+        return act == Act.Delete;
+    }
 
     public void OnError(Exception error) => throw error;
 
@@ -58,14 +99,24 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
         DateTime fromTimestamp)
     {
         int fromIndex = _observable.Cache
-            .FindLastIndex(c => c.Timestamp <= fromTimestamp);
+            .FindIndex(c => c.Timestamp >= fromTimestamp);
 
+        // nothing to rebuild
         if (fromIndex == -1)
         {
-            fromIndex = 0;
+            return;
         }
 
-        RebuildCache(fromIndex);
+        int provIndex = _supplier.Cache
+            .FindIndex(c => c.Timestamp >= fromTimestamp);
+
+        // nothing to restore
+        if (provIndex == -1)
+        {
+            provIndex = int.MaxValue;
+        }
+
+        RebuildCache(fromIndex, provIndex);
     }
 
     // rebuild cache from index
@@ -73,27 +124,43 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     public void RebuildCache(int fromIndex)
     {
         // get equivalent provider index
-        // can be different in some cases (e.g. Renko)
-        int providerIndex;
+        int provIndex;
 
         if (fromIndex <= 0)
         {
-            providerIndex = 0;
+            provIndex = 0;
         }
         else
         {
             TOut item = _observable.ReadCache[fromIndex];
 
-            providerIndex = _supplier.Cache
-                .FindIndex(c => c.Timestamp == item.Timestamp);
+            provIndex = _supplier.Cache
+                .FindIndex(c => c.Timestamp >= item.Timestamp);
 
-            if (providerIndex == -1)
+            if (provIndex == -1)
             {
-                providerIndex = 0;
+                // nothing to restore
+                provIndex = int.MaxValue;
             }
         }
 
-        _observable.ClearCache(fromIndex);
-        _supplier.Resend(this, providerIndex, Act.AddNew);
+        RebuildCache(fromIndex, provIndex);
+    }
+
+    /// <summary>
+    /// Rebuild cache from index and provider index positions.
+    /// </summary>
+    /// <param name="thisIndex">Cache starting position to purge.</param>
+    /// <param name="provIndex">Provider starting position to add back.</param>
+    private void RebuildCache(int thisIndex, int provIndex)
+    {
+        // clear outdated cache
+        _observable.ClearCache(thisIndex);
+
+        // rebuild cache from provider
+        for (int i = provIndex; i < _supplier.Cache.Count; i++)
+        {
+            _hub.OnNextNew(_supplier.ReadCache[i]);
+        }
     }
 }

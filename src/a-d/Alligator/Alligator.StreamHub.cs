@@ -57,7 +57,7 @@ public class Alligator<TIn>
 
         _cache = cache;
         _supplier = provider;
-        _observer = new(this, this, provider);
+        _observer = new(this, cache, this, provider);
     }
     #endregion
 
@@ -76,146 +76,108 @@ public class Alligator<TIn>
 
     public void Unsubscribe() => _observer.Unsubscribe();
 
-    public void OnNextArrival(Act act, TIn inbound)
+    public void OnNextNew(TIn newItem)
     {
-        int i;
-        AlligatorResult r;
+        double jaw = double.NaN;
+        double lips = double.NaN;
+        double teeth = double.NaN;
 
-        // handle deletes
-        if (act == Act.Delete)
+        int i = _supplier.Position(newItem.Timestamp);
+
+        // calculate alligator's jaw, when in range
+        if (i >= JawPeriods + JawOffset - 1)
         {
-            i = _cache.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
+            AlligatorResult prev = ReadCache[i - 1];
+            double prevJaw = prev.Jaw.Null2NaN();
 
-            // cache entry unexpectedly not found
-            if (i == -1)
+            // first/reset value: calculate SMA
+            if (double.IsNaN(prevJaw))
             {
-                throw new InvalidOperationException(
-                    "Matching cache entry not found.");
+                double sum = 0;
+                for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
+                {
+                    sum += _toValue(_supplier.ReadCache[p]);
+                }
+
+                jaw = sum / JawPeriods;
             }
 
-            r = ReadCache[i];
+            // remaining values: SMMA
+            else
+            {
+                double newVal = _toValue(_supplier.ReadCache[i - JawOffset]);
+                jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
+            }
         }
 
-        // calculate incremental value
-        else
+        // calculate alligator's teeth, when in range
+        if (i >= TeethPeriods + TeethOffset - 1)
         {
-            i = _supplier.Cache
-                .FindIndex(c => c.Timestamp == inbound.Timestamp);
+            AlligatorResult prev = ReadCache[i - 1];
 
-            // source unexpectedly not found
-            if (i == -1)
+            double prevTooth = prev.Teeth.Null2NaN();
+
+            // first/reset value: calculate SMA
+            if (double.IsNaN(prevTooth))
             {
-                throw new InvalidOperationException(
-                    "Matching source history not found.");
+                double sum = 0;
+                for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
+                {
+                    sum += _toValue(_supplier.ReadCache[p]);
+                }
+
+                teeth = sum / TeethPeriods;
             }
 
-            double jaw = double.NaN;
-            double lips = double.NaN;
-            double teeth = double.NaN;
-
-            // calculate alligator's jaw, when in range
-            if (i >= JawPeriods + JawOffset - 1)
+            // remaining values: SMMA
+            else
             {
-                AlligatorResult prev = ReadCache[i - 1];
-                double prevJaw = prev.Jaw.Null2NaN();
-
-                // first/reset value: calculate SMA
-                if (double.IsNaN(prevJaw))
-                {
-                    double sum = 0;
-                    for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
-                    {
-                        sum += _toValue(_supplier.ReadCache[p]);
-                    }
-
-                    jaw = sum / JawPeriods;
-                }
-
-                // remaining values: SMMA
-                else
-                {
-                    double newVal = _toValue(_supplier.ReadCache[i - JawOffset]);
-                    jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
-                }
+                double newVal = _toValue(_supplier.ReadCache[i - TeethOffset]);
+                teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
             }
-
-            // calculate alligator's teeth, when in range
-            if (i >= TeethPeriods + TeethOffset - 1)
-            {
-                AlligatorResult prev = ReadCache[i - 1];
-
-                double prevTooth = prev.Teeth.Null2NaN();
-
-                // first/reset value: calculate SMA
-                if (double.IsNaN(prevTooth))
-                {
-                    double sum = 0;
-                    for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
-                    {
-                        sum += _toValue(_supplier.ReadCache[p]);
-                    }
-
-                    teeth = sum / TeethPeriods;
-                }
-
-                // remaining values: SMMA
-                else
-                {
-                    double newVal = _toValue(_supplier.ReadCache[i - TeethOffset]);
-                    teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
-                }
-            }
-
-            // calculate alligator's lips, when in range
-            if (i >= LipsPeriods + LipsOffset - 1)
-            {
-                AlligatorResult prev = ReadCache[i - 1];
-
-                double prevLips = prev.Lips.Null2NaN();
-
-                // first/reset value: calculate SMA
-                if (double.IsNaN(prevLips))
-                {
-                    double sum = 0;
-                    for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
-                    {
-                        sum += _toValue(_supplier.ReadCache[p]);
-                    }
-
-                    lips = sum / LipsPeriods;
-                }
-
-                // remaining values: SMMA
-                else
-                {
-                    double newVal = _toValue(_supplier.ReadCache[i - LipsOffset]);
-                    lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
-                }
-            }
-
-            // candidate result
-            r = new() {
-                Timestamp = inbound.Timestamp,
-                Jaw = jaw.NaN2Null(),
-                Lips = lips.NaN2Null(),
-                Teeth = teeth.NaN2Null()
-            };
         }
+
+        // calculate alligator's lips, when in range
+        if (i >= LipsPeriods + LipsOffset - 1)
+        {
+            AlligatorResult prev = ReadCache[i - 1];
+
+            double prevLips = prev.Lips.Null2NaN();
+
+            // first/reset value: calculate SMA
+            if (double.IsNaN(prevLips))
+            {
+                // TODO: refactor - add offset to, and use Sma.Increment(...,offset)
+                double sum = 0;
+                for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
+                {
+                    sum += _toValue(_supplier.ReadCache[p]);
+                }
+
+                lips = sum / LipsPeriods;
+            }
+
+            // remaining values: SMMA
+            else
+            {
+                double newVal = _toValue(_supplier.ReadCache[i - LipsOffset]);
+                lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
+            }
+        }
+
+        // candidate result
+        AlligatorResult r = new() {
+            Timestamp = newItem.Timestamp,
+            Jaw = jaw.NaN2Null(),
+            Lips = lips.NaN2Null(),
+            Teeth = teeth.NaN2Null()
+        };
 
         // save to cache
-        act = _cache.Modify(act, r);
+        Act act = _cache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
-
-        // cascade update forward values (recursively)
-        // TODO: optimize this
-        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
-        {
-            int next = act == Act.Delete ? i : i + 1;
-            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
-        }
     }
 
     // convert provider IQuotes to HL2, if needed

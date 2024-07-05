@@ -24,9 +24,9 @@ public interface IStreamHub<TIn, TOut>
     /// <summary>
     /// Handles new data from provider
     /// </summary>
-    /// <param name="act" cref="Act">Caching instruction</param>
-    /// <param name="inbound">New value from provider</param>
-    void OnNextArrival(Act act, TIn inbound);
+    /// <param name="newItem">New value from provider</param>
+    // TODO: shouldn't this really just be "Add", if public? ==> probabably not since it may need analysis
+    void OnNextNew(TIn newItem);
 
     /// <inheritdoc cref="IStreamObserver{TIn}.Unsubscribe" />
     void Unsubscribe();

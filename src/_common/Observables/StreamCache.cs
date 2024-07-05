@@ -37,7 +37,6 @@ public class StreamCache<TSeries> : IStreamCache
     private int OverflowCount { get; set; }
 
 
-
     #region METHODS (CACHE MANAGEMENT)
 
     /// <summary>
@@ -309,6 +308,28 @@ public class StreamCache<TSeries> : IStreamCache
     {
         index = Cache.FindIndex(x => x.Timestamp == timestamp);
         return index != -1;
+    }
+
+    /// <summary>
+    /// Get the cache index based on a timestamp.
+    /// </summary>
+    /// <param name="timestamp">
+    /// Timestamp of cached item
+    /// </param>
+    /// <returns>Index position</returns>
+    /// <exception cref="ArgumentException">
+    /// When timestamp is not found (should never happen).
+    /// </exception>
+    internal int Position(DateTime timestamp)
+    {
+        int index = Cache.FindIndex(
+            c => c.Timestamp == timestamp);
+
+        // source unexpectedly not found
+        return index == -1
+            ? throw new ArgumentException(
+                "Matching source history not found.", nameof(timestamp))
+            : index;
     }
     #endregion
 
