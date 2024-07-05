@@ -107,7 +107,7 @@ public class RenkoHub<TQuote>
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = _supplier.Position(newItem.Timestamp);
+            int inboundIndex = _supplier.Position(newItem);
             int lastBrickIndex = _supplier.Position(lastBrick.Timestamp);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)

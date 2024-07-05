@@ -41,35 +41,13 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
                 _hub.OnNextNew(item);
                 break;
 
-            // TODO: handle revision/recursion
-            // differently for different indicators
+            // TODO: handle revision/recursion differently
+            // for different indicators; and may also need
+            // to breakout OnDeleted(TIn deleted), etc.
             default:
                 RebuildCache(item.Timestamp);
                 break;
         }
-    }
-
-    private bool OnDeleted(TIn deleted)
-    {
-        int i = _cache.Cache
-            .FindIndex(c => c.Timestamp == deleted.Timestamp);
-
-        // cache entry unexpectedly not found
-        if (i == -1)
-        {
-            throw new ArgumentException(
-                "Matching cache entry not found.", nameof(deleted));
-        }
-
-        TOut d = _cache.ReadCache[i];
-
-        // save to cache
-        Act act = _cache.Modify(Act.Delete, d);
-
-        // send to observers
-        _observable.NotifyObservers(act, d);
-
-        return act == Act.Delete;
     }
 
     public void OnError(Exception error) => throw error;

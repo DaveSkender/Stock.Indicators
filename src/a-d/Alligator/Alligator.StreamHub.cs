@@ -82,7 +82,7 @@ public class Alligator<TIn>
         double lips = double.NaN;
         double teeth = double.NaN;
 
-        int i = _supplier.Position(newItem.Timestamp);
+        int i = _supplier.Position(newItem);
 
         // calculate alligator's jaw, when in range
         if (i >= JawPeriods + JawOffset - 1)

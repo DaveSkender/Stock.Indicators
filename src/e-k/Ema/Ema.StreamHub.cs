@@ -56,7 +56,7 @@ public class EmaHub<TIn>
     {
         double ema;
 
-        int i = _supplier.Position(newItem.Timestamp);
+        int i = _supplier.Position(newItem);
 
         if (i >= LookbackPeriods - 1)
         {

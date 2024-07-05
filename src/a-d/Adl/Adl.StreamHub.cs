@@ -47,7 +47,7 @@ public class AdlHub<TQuote>
         double prevAdl;
         QuoteD q = newItem.ToQuoteD();
 
-        int i = _supplier.Position(newItem.Timestamp);
+        int i = _supplier.Position(newItem);
 
         if (i == 0)
         {

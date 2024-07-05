@@ -50,7 +50,7 @@ public class SmaHub<TIn>
 
     public void OnNextNew(TIn newItem)
     {
-        int i = _supplier.Position(newItem.Timestamp);
+        int i = _supplier.Position(newItem);
 
         // candidate result
         SmaResult r = new(

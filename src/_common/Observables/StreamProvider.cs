@@ -223,6 +223,10 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     internal int Position(DateTime timestamp)
         => _cache.Position(timestamp);
 
+    /// <inheritdoc cref="StreamCache{TSeries}.Position(TSeries)"/>
+    internal int Position(TSeries item)
+        => _cache.Position(item);
+
     #endregion
 }
 

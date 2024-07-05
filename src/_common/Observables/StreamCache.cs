@@ -311,8 +311,34 @@ public class StreamCache<TSeries> : IStreamCache
     }
 
     /// <summary>
+    /// Get the cache index based on item equality.
+    /// </summary>
+    /// <param name="item">
+    /// Timeseries object to find
+    /// </param>
+    /// <returns>Index position</returns>
+    /// <exception cref="ArgumentException">
+    /// When items is not found (should never happen).
+    /// </exception>
+    internal int Position(TSeries item)
+    {
+        int index = Cache.FindIndex(c => c.Equals(item));
+
+        // source unexpectedly not found
+        return index == -1
+            ? throw new ArgumentException(
+                "Matching source history not found.", nameof(item))
+            : index;
+    }
+
+    /// <summary>
     /// Get the cache index based on a timestamp.
     /// </summary>
+    /// <remarks>
+    /// Only use this when you are looking for a point in time
+    /// without a a matching item for context.  In most cases
+    /// <see cref="Position(TSeries)"/> is more appropriate.
+    /// </remarks>
     /// <param name="timestamp">
     /// Timestamp of cached item
     /// </param>
