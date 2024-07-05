@@ -2,6 +2,37 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Sma
 {
+    internal static double? Increment<T>(
+        this ReadOnlySpan<T> values,
+        int endIndex,
+        int lookbackPeriods,
+        bool incalculableAsNaN = false)
+        where T : struct, IReusable
+    {
+        int offset = lookbackPeriods - 1;
+
+        if (endIndex < offset || endIndex >= values.Length)
+        {
+            return incalculableAsNaN
+                ? double.NaN
+                : null;
+        }
+
+        double sum = 0;
+        int startIndex = endIndex - offset;
+
+        for (int i = startIndex; i <= endIndex; i++)
+        {
+            sum += values[i].Value;
+        }
+
+        double results = sum / lookbackPeriods;
+
+        return incalculableAsNaN
+            ? results
+            : results.NaN2Null();
+    }
+
     // remove recommended periods
     /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
     ///

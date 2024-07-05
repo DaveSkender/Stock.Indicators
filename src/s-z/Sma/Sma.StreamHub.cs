@@ -56,7 +56,7 @@ public class SmaHub<TIn>
         // handle deletes
         if (act == Act.Delete)
         {
-            i = _cache.CacheX
+            i = _cache.Cache
                 .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // cache entry unexpectedly not found
@@ -66,13 +66,13 @@ public class SmaHub<TIn>
                     "Matching cache entry not found.");
             }
 
-            r = CacheP[i];
+            r = Cache[i];
         }
 
         // calculate incremental value
         else
         {
-            i = _supplier.CacheP
+            i = _supplier.Cache
                 .FindIndex(c => c.Timestamp == inbound.Timestamp);
 
             // source unexpectedly not found
@@ -82,33 +82,10 @@ public class SmaHub<TIn>
                     "Matching source history not found.");
             }
 
-            // normal
-            double sma;
-
-            if (i >= LookbackPeriods - 1)
-            {
-                double sum = 0;
-                for (int w = i - LookbackPeriods + 1; w <= i; w++)
-                {
-                    ref readonly TIn item
-                        = ref _supplier.SpanCache[w];
-
-                    sum += item.Value;
-                }
-
-                sma = sum / LookbackPeriods;
-            }
-
-            // warmup periods are never calculable
-            else
-            {
-                sma = double.NaN;
-            }
-
             // candidate result
             r = new(
                 Timestamp: inbound.Timestamp,
-                Sma: sma.NaN2Null());
+                Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods, false));
         }
 
         // save to cache
@@ -118,11 +95,11 @@ public class SmaHub<TIn>
         NotifyObservers(act, r);
 
         // cascade update forward values (recursively)
-        if (act != Act.AddNew && i < _supplier.CacheP.Count - 1)
+        // TODO: optimize this
+        if (act != Act.AddNew && i < _supplier.Cache.Count - 1)
         {
             int next = act == Act.Delete ? i : i + 1;
-            ref readonly TIn value = ref _supplier.SpanCache[next];
-            OnNextArrival(Act.Update, value);
+            OnNextArrival(Act.Update, _supplier.ReadCache[next]);
         }
     }
 }
