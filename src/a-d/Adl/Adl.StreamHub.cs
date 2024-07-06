@@ -40,8 +40,6 @@ public class AdlHub<TQuote>
         return $"ADL({first.Timestamp:d})";
     }
 
-    public void Unsubscribe() => _observer.Unsubscribe();
-
     public void OnNextNew(TQuote newItem)
     {
         double prevAdl;
@@ -70,4 +68,13 @@ public class AdlHub<TQuote>
         // send to observers
         NotifyObservers(act, r);
     }
+
+    #region inherited methods
+
+    public void Unsubscribe() => _observer.Unsubscribe();
+    public void Reinitialize() => _observer.Reinitialize();
+    public void RebuildCache() => _observer.RebuildCache();
+    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
+    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
+    #endregion
 }

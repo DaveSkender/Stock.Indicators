@@ -74,8 +74,6 @@ public class Alligator<TIn>
     public override string ToString()
         => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 
-    public void Unsubscribe() => _observer.Unsubscribe();
-
     public void OnNextNew(TIn newItem)
     {
         double jaw = double.NaN;
@@ -185,4 +183,13 @@ public class Alligator<TIn>
         = input => input is IQuote quote
         ? quote.ToReusable(CandlePart.HL2).Value
         : input.Value;
+
+    #region inherited methods
+
+    public void Unsubscribe() => _observer.Unsubscribe();
+    public void Reinitialize() => _observer.Reinitialize();
+    public void RebuildCache() => _observer.RebuildCache();
+    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
+    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
+    #endregion
 }

@@ -44,8 +44,6 @@ public class Use<TQuote>
     public override string ToString()
         => $"USE({Enum.GetName(CandlePartSelection)})";
 
-    public void Unsubscribe() => _observer.Unsubscribe();
-
     public void OnNextNew(TQuote newItem)
     {
         // candidate result
@@ -58,4 +56,13 @@ public class Use<TQuote>
         // send to observers
         NotifyObservers(act, result);
     }
+
+    #region inherited methods
+
+    public void Unsubscribe() => _observer.Unsubscribe();
+    public void Reinitialize() => _observer.Reinitialize();
+    public void RebuildCache() => _observer.RebuildCache();
+    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
+    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
+    #endregion
 }

@@ -28,8 +28,22 @@ public interface IStreamHub<TIn, TOut>
     // TODO: shouldn't this really just be "Add", if public? ==> probabably not since it may need analysis
     void OnNextNew(TIn newItem);
 
-    /// <inheritdoc cref="IStreamObserver{TIn}.Unsubscribe" />
+    // inherited methods
+
+    /// <inheritdoc cref="IStreamObserver{TIn}.Unsubscribe"/>
     void Unsubscribe();
+
+    /// <inheritdoc cref="IStreamObserver{TIn}.Reinitialize()"/>
+    void Reinitialize();
+
+    /// <inheritdoc cref="IStreamObserver{TIn}.RebuildCache()"/>
+    void RebuildCache();
+
+    /// <inheritdoc cref="IStreamObserver{TIn}.RebuildCache(DateTime)"/>
+    void RebuildCache(DateTime fromTimestamp);
+
+    /// <inheritdoc cref="IStreamObserver{TIn}.RebuildCache(int)"/>
+    void RebuildCache(int fromIndex);
 }
 
 /// <summary>

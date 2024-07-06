@@ -46,8 +46,6 @@ public class SmaHub<TIn>
     public override string ToString()
         => $"SMA({LookbackPeriods})";
 
-    public void Unsubscribe() => _observer.Unsubscribe();
-
     public void OnNextNew(TIn newItem)
     {
         int i = _supplier.Position(newItem);
@@ -63,4 +61,13 @@ public class SmaHub<TIn>
         // send to observers
         NotifyObservers(act, r);
     }
+
+    #region inherited methods
+
+    public void Unsubscribe() => _observer.Unsubscribe();
+    public void Reinitialize() => _observer.Reinitialize();
+    public void RebuildCache() => _observer.RebuildCache();
+    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
+    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
+    #endregion
 }

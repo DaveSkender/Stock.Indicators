@@ -54,8 +54,6 @@ public class RenkoHub<TQuote>
     public override string ToString()
         => $"RENKO({BrickSize}, {EndType}) - {_cache.Cache.Count} items";
 
-    public void Unsubscribe() => _observer.Unsubscribe();
-
     public void OnNextNew(TQuote newItem)
     {
         // get last brick
@@ -157,4 +155,13 @@ public class RenkoHub<TQuote>
             }
         }
     }
+
+    #region inherited methods
+
+    public void Unsubscribe() => _observer.Unsubscribe();
+    public void Reinitialize() => _observer.Reinitialize();
+    public void RebuildCache() => _observer.RebuildCache();
+    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
+    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
+    #endregion
 }
