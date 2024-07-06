@@ -12,7 +12,8 @@ public class QuoteProviderTests : TestBase
         int length = Quotes.Count();
 
         // add base quotes (batch)
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
+
         provider.Add(quotesList.Take(200));
 
         // emulate incremental quotes

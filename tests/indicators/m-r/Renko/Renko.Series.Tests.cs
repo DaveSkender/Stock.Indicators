@@ -4,7 +4,7 @@ namespace Tests.Indicators.Series;
 public class RenkoTests : SeriesTestBase
 {
     [TestMethod]
-    public void StandardClose()
+    public override void Standard()  // close
     {
         List<RenkoResult> results = Quotes
             .GetRenko(2.5m)

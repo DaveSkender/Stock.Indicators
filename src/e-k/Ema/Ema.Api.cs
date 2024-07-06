@@ -14,8 +14,8 @@ public static partial class Ema
             .CalcEma(lookbackPeriods);
 
     // OBSERVER, from Chain Provider
-    public static Ema<TIn> ToEma<TIn>(
-        this IChainProvider<TIn> chainProvider,
+    public static EmaHub<TIn> ToEma<TIn>(
+        this ChainProvider<TIn> chainProvider,
         int lookbackPeriods)
         where TIn : struct, IReusable
         => new(chainProvider, lookbackPeriods);

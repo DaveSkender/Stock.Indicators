@@ -1,11 +1,14 @@
 namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class AlligatorTests : StreamTestBase, ITestChainObserver
+public class RenkoTests : StreamTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
     {
+        decimal brickSize = 2.5m;
+        EndType endType = EndType.Close;
+
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
@@ -15,11 +18,11 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Alligator<Quote> observer = provider
-            .ToAlligator();
+        RenkoHub<Quote> observer = provider
+            .ToRenko(brickSize, endType);
 
         // fetch initial results (early)
-        IReadOnlyList<AlligatorResult> streamList
+        IReadOnlyList<RenkoResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -49,23 +52,25 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList
-           = quotesList
-            .GetAlligator()
+        List<RenkoResult> seriesList = quotesList
+            .GetRenko(brickSize, endType)
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < seriesList.Count - 1; i++)
         {
             Quote q = quotesList[i];
-            AlligatorResult s = seriesList[i];
-            AlligatorResult r = streamList[i];
+            RenkoResult s = seriesList[i];
+            RenkoResult r = streamList[i];
 
-            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
-            r.Jaw.Should().Be(s.Jaw);
-            r.Lips.Should().Be(s.Lips);
-            r.Teeth.Should().Be(s.Teeth);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Open.Should().Be(s.Open);
+            r.High.Should().Be(s.High);
+            r.Low.Should().Be(s.Low);
+            r.Close.Should().Be(s.Close);
+            r.Volume.Should().Be(s.Volume);
+            r.IsUp.Should().Be(s.IsUp);
             r.Should().Be(s);
         }
 
@@ -74,8 +79,12 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainProvider()
     {
+        decimal brickSize = 2.5m;
+        EndType endType = EndType.Close;
+        int smaPeriods = 8;
+
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
@@ -85,61 +94,40 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Alligator<SmaResult> observer = provider
-            .ToSma(10)
-            .ToAlligator();
+        SmaHub<RenkoResult> observer = provider
+            .ToRenko(brickSize, endType)
+            .ToSma(smaPeriods);
 
-        // emulate adding quotes out of order
-        // note: this works when graceful order
+        // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
-
-            Quote q = quotesList[i];
-            provider.Add(q);
-
-            // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                provider.Add(q);
-            }
+            provider.Add(quotesList[i]);
         }
-
-        // late arrival
-        provider.Add(quotesList[80]);
 
         // delete
         provider.Delete(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
-        IReadOnlyList<AlligatorResult> streamList
+        IReadOnlyList<SmaResult> streamList
             = observer.Results;
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList
-           = quotesList
-            .GetSma(10)
-            .GetAlligator()
+        List<SmaResult> seriesList = quotesList
+            .GetRenko(brickSize, endType)
+            .GetSma(smaPeriods)
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < seriesList.Count - 1; i++)
         {
             Quote q = quotesList[i];
-            AlligatorResult s = seriesList[i];
-            AlligatorResult r = streamList[i];
+            SmaResult s = seriesList[i];
+            SmaResult r = streamList[i];
 
-            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
-            r.Jaw.Should().Be(s.Jaw);
-            r.Lips.Should().Be(s.Lips);
-            r.Teeth.Should().Be(s.Teeth);
-            r.Should().Be(s);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Sma.Should().Be(s.Sma);
         }
 
         observer.Unsubscribe();

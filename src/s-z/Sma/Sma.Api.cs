@@ -14,8 +14,8 @@ public static partial class Sma
             .CalcSma(lookbackPeriods);
 
     // OBSERVER, from Chain Provider
-    public static Sma<TIn> ToSma<TIn>(
-        this IChainProvider<TIn> chainProvider,
+    public static SmaHub<TIn> ToSma<TIn>(
+        this ChainProvider<TIn> chainProvider,
         int lookbackPeriods)
         where TIn : struct, IReusable
         => new(chainProvider, lookbackPeriods);

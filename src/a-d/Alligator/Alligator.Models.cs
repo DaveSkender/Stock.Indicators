@@ -7,12 +7,3 @@ public readonly record struct AlligatorResult(
     double? Lips
 ) : IResult;
 
-public interface IAlligator : IStreamObserver
-{
-    int JawPeriods { get; }
-    int JawOffset { get; }
-    int TeethPeriods { get; }
-    int TeethOffset { get; }
-    int LipsPeriods { get; }
-    int LipsOffset { get; }
-}

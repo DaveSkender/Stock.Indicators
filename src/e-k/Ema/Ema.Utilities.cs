@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// EXPONENTIAL MOVING AVERAGE (UTILITIES)
+
 public static partial class Ema
 {
     public static double Increment(

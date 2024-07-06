@@ -23,7 +23,7 @@ public static partial class Indicator
 
     // OBSERVER, from Quote Provider
     public static Use<TQuote> Use<TQuote>(
-        this IQuoteProvider<TQuote> quoteProvider,
+        this QuoteProvider<TQuote> quoteProvider,
         CandlePart candlePart)
         where TQuote : struct, IQuote
         => new(quoteProvider, candlePart);

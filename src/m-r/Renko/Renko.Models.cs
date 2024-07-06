@@ -13,3 +13,4 @@ public readonly record struct RenkoResult
 {
     double IReusable.Value => (double)Close;
 }
+

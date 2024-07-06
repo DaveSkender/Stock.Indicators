@@ -12,10 +12,10 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<Quote> observer = provider
+        EmaHub<Quote> observer = provider
             .ToEma(20);
 
         // fetch initial results (early)
@@ -63,6 +63,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Ema.Should().Be(s.Ema);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
@@ -81,10 +82,10 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<SmaResult> observer = provider
+        EmaHub<SmaResult> observer = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
@@ -115,6 +116,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Ema.Should().Be(s.Ema);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
@@ -133,10 +135,10 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Sma<EmaResult> observer = provider
+        SmaHub<EmaResult> observer = provider
             .ToEma(emaPeriods)
             .ToSma(smaPeriods);
 
@@ -187,6 +189,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();

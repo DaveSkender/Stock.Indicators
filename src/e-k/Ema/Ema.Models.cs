@@ -9,8 +9,3 @@ public readonly record struct EmaResult
     double IReusable.Value => Ema.Null2NaN();
 }
 
-public interface IEma : IStreamObserver
-{
-    int LookbackPeriods { get; }
-    double K { get; }
-}

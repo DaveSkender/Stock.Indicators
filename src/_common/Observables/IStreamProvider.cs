@@ -10,6 +10,9 @@ namespace Skender.Stock.Indicators;
 public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     where TSeries : struct, ISeries
 {
+    /// <inheritdoc cref="IStreamCache.IsFaulted" />
+    bool IsFaulted { get; }
+
     /// <summary>
     /// Currently has subscribers
     /// </summary>
@@ -21,28 +24,9 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     int SubscriberCount { get; }
 
     /// <summary>
-    /// Read-only cache of historical provider cache values
-    /// </summary>
-    IReadOnlyList<TSeries> Results { get; }
-
-    /// <summary>
-    /// Returns a short text label
-    /// with parameter values, e.g. EMA(10)
-    /// </summary>
-    /// <returns>String label</returns>
-    string ToString();
-
-    /// <summary>
     /// Unsubscribe all observers (subscribers)
     /// </summary>
     void EndTransmission();
-
-    /// <summary>
-    /// Finds cache index position of the provided timestamp
-    /// </summary>
-    /// <param name="timeStamp"></param>
-    /// <returns>Index value or -1 when not found</returns>
-    int FindIndex(DateTime timeStamp);
 
     /// <summary>
     /// Resends all newer values to a requesting observer,
@@ -50,9 +34,11 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     /// </summary>
     /// <param name="toObserver">Subscribtion identity</param>
     /// <param name="fromTimestamp">From timestamp, inclusive</param>
+    /// <param name="act">Caching instruction</param>
     void Resend(
         IObserver<(Act, TSeries)> toObserver,
-        DateTime fromTimestamp);
+        DateTime fromTimestamp,
+        Act act);
 
     /// <summary>
     /// Resends all newer values to a requesting observer,
@@ -60,9 +46,11 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     /// </summary>
     /// <param name="toObserver">Subscribtion identity</param>
     /// <param name="fromIndex">From index, inclusive</param>
+    /// <param name="act">Caching instruction</param>
     void Resend(
         IObserver<(Act, TSeries)> toObserver,
-        int fromIndex);
+        int fromIndex,
+        Act act);
 
     /// <summary>
     /// Resends all values in a range to a requesting observer,
@@ -71,13 +59,54 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     /// <param name="toObserver">Subscribtion identity</param>
     /// <param name="fromIndex">Starting index, inclusive</param>
     /// <param name="toIndex">Ending index, inclusive</param>
+    /// <param name="act">Caching instruction</param>
     void Resend(
         IObserver<(Act, TSeries)> toObserver,
         int fromIndex,
-        int toIndex);
+        int toIndex,
+        Act act);
+
+    /// <summary>
+    /// Deletes all cached time-series records,
+    /// without restore.  When applicable,
+    /// it will cascade delete commands to subscribers.
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{TIn}.RebuildCache()"/>.
+    /// </remarks>
+    void ClearCache() => ClearCache(0);
+
+    /// <summary>
+    /// Deletes newer cached records from point in time,
+    /// without restore.  When applicable, it will cascade delete
+    /// commands to subscribers.
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{TIn}.RebuildCache(DateTime)"/>.
+    /// </remarks>
+    /// <param name="fromTimestamp">
+    /// All periods (inclusive) after this DateTime will be removed.
+    /// </param>
+    void ClearCache(DateTime fromTimestamp);
+
+    /// <summary>
+    /// Deletes newer cached records from an index position (inclusive),
+    /// without restore.  When applicable, it will cascade delete
+    /// commands to subscribers.
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{TIn}.RebuildCache(int)"/>.
+    /// </remarks>
+    /// <param name="fromIndex">From index, inclusive</param>
+    void ClearCache(int fromIndex);
 }
 
-#region QUOTE, CHAIN, RESULT PROVIDERS
+#region QUOTE, CHAIN, RESULT PROVIDER variants
+
+// these contrain specific struct types
 
 /// <summary>
 /// Quote provider interface (observable)

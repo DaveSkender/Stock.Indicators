@@ -236,28 +236,32 @@ public class PublicClassTests
     public void CustomResultClassFind()
     {
         IEnumerable<Quote> quotes = TestData.GetDefault();
-        IEnumerable<EmaResult> emaResults = quotes.GetEma(20);
+
+        List<EmaResult> emaResults
+            = quotes.GetEma(20).ToList();
 
         // can use a derive Indicator class using Linq
 
-        IEnumerable<MyEma> myIndicatorResults = emaResults
+        List<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
             .Select(x => new MyEma {
                 Id = 12345,
                 Timestamp = x.Timestamp,
                 Ema = x.Ema,
                 MyProperty = false
-            });
+            })
+            .ToList();
 
-        Assert.IsTrue(myIndicatorResults.Any());
+        Assert.IsTrue(myIndicatorResults.Count > 0);
 
         // find specific date
-        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
+        DateTime findDate = DateTime.ParseExact(
+            "2018-12-31", "yyyy-MM-dd", EnglishCulture);
 
-        MyEma i = myIndicatorResults.Find(findDate);
+        MyEma i = myIndicatorResults.Find(x => x.Timestamp == findDate);
         Assert.AreEqual(12345, i.Id);
 
-        EmaResult r = emaResults.Find(findDate);
+        EmaResult r = emaResults.Find(x => x.Timestamp == findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
     }
 
@@ -286,13 +290,13 @@ public class PublicClassTests
         List<Quote> quotesList = TestData.GetDefault().ToList();
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observers, get static results for comparison (later)
-        Ema<Quote> observeEma = provider.ToEma(20);
+        EmaHub<Quote> observeEma = provider.ToEma(20);
         List<EmaResult> staticEma = quotesList.GetEma(20).ToList();
 
-        Sma<Quote> observeSma = provider.ToSma(20);
+        SmaHub<Quote> observeSma = provider.ToSma(20);
         List<SmaResult> staticSma = quotesList.GetSma(20).ToList();
 
         // emulate adding quotes to provider

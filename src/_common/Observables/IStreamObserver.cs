@@ -3,51 +3,10 @@ namespace Skender.Stock.Indicators;
 // STREAM OBSERVER INTERFACES
 
 /// <summary>
-/// Observer of a streamed quote source.
-/// </summary>
-/// <remarks>
-/// This is used internal to the library,
-/// but can be implemented to build your own observers.
-/// </remarks>
-/// <typeparam name="TQuote"></typeparam>
-public interface IQuoteObserver<TQuote> : IStreamObserver, IObserver<(Act act, TQuote quote)>
-    where TQuote : struct, IQuote
-{
-    IQuoteProvider<TQuote> Provider { get; }
-}
-
-/// <summary>
-/// Observer of a streamed chain source.
-/// </summary>
-/// <remarks>
-/// This is used internal to the library,
-/// but can be implemented to build your own observers.
-/// </remarks>
-/// <typeparam name="TReusable"></typeparam>
-public interface IChainObserver<TReusable> : IStreamObserver, IObserver<(Act act, TReusable result)>
-    where TReusable : struct, IReusable
-{
-    IChainProvider<TReusable> Provider { get; }
-}
-
-/// <summary>
-/// Observer of a unchainable result source.
-/// </summary>
-/// <remarks>
-/// This is not used internally by the library,
-/// but can be implemented to build your own observers.
-/// </remarks>
-/// <typeparam name="TResult"></typeparam>
-public interface IResultObserver<TResult> : IStreamObserver, IObserver<(Act act, TResult result)>
-    where TResult : struct, IResult
-{
-    IResultProvider<TResult> Provider { get; }
-}
-
-/// <summary>
 /// Observer of streamed chain or quote sources
 /// </summary>
-public interface IStreamObserver
+public interface IStreamObserver<TIn> : IObserver<(Act act, TIn inbound)>
+    where TIn : struct, ISeries
 {
     /// <summary>
     /// Current state of subscription to provider.
@@ -78,7 +37,7 @@ public interface IStreamObserver
     /// This is different from <see cref="Reinitialize()"/>.
     /// It does not reset the provider subscription.
     /// </remarks>
-    void RebuildCache() => RebuildCache(0);
+    void RebuildCache();
 
     /// <summary>
     /// Reset the entire results cache from a point in time
@@ -92,7 +51,7 @@ public interface IStreamObserver
     void RebuildCache(DateTime fromTimestamp);
 
     /// <summary>
-    /// Reset the entire results cache from an index position
+    /// Resets the results cache from an index position
     /// and rebuilds it from provider sources,
     /// with cascading updates to subscribers.
     /// </summary>
@@ -102,3 +61,41 @@ public interface IStreamObserver
     /// </param>
     void RebuildCache(int fromIndex);
 }
+
+#region QUOTE, CHAIN, RESULT OBSERVER variants
+
+// these contrain specific struct types
+
+/// <summary>
+/// Observer of a streamed quote source.
+/// </summary>
+/// <remarks>
+/// This is used internal to the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TQuote"></typeparam>
+public interface IQuoteObserver<TQuote> : IStreamObserver<TQuote>
+    where TQuote : struct, IQuote;
+
+/// <summary>
+/// Observer of a streamed chain source.
+/// </summary>
+/// <remarks>
+/// This is used internal to the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TReusable"></typeparam>
+public interface IChainObserver<TReusable> : IStreamObserver<TReusable>
+    where TReusable : struct, IReusable;
+
+/// <summary>
+/// Observer of a unchainable result source.
+/// </summary>
+/// <remarks>
+/// This is not used internally by the library,
+/// but can be implemented to build your own observers.
+/// </remarks>
+/// <typeparam name="TResult"></typeparam>
+public interface IResultObserver<TResult> : IStreamObserver<TResult>
+    where TResult : struct, IResult;
+#endregion

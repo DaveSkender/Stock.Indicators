@@ -12,10 +12,10 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Sma<Quote> observer = provider
+        SmaHub<Quote> observer = provider
             .ToSma(20);
 
         // fetch initial results (early)
@@ -64,6 +64,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
@@ -79,7 +80,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
         for (int i = 0; i < 50; i++)
@@ -88,7 +89,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        Sma<Reusable> observer = provider
+        SmaHub<Reusable> observer = provider
             .Use(CandlePart.OC2)
             .ToSma(11);
 
@@ -97,8 +98,6 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         {
             provider.Add(quotesList[i]);
         }
-
-        provider.EndTransmission();
 
         IReadOnlyList<SmaResult> streamList =
             observer.Results;
@@ -120,7 +119,11 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
+            r.Should().Be(s);
         }
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 
     [TestMethod]
@@ -135,10 +138,11 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup quote provider
-        QuoteProvider<Quote> provider = new();
+        QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Ema<SmaResult> observer = provider
+        EmaHub<SmaResult> observer
+           = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
@@ -173,6 +177,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Ema.Should().Be(s.Ema);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();
