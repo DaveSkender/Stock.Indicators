@@ -72,4 +72,31 @@ public class UseTests : SeriesTestBase
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
+
+    [TestMethod]
+    public override void BadData()
+    {
+        List<Reusable> r = BadQuotes
+            .Use(CandlePart.Close)
+            .ToList();
+
+        Assert.AreEqual(502, r.Count);
+        Assert.AreEqual(0, r.Count(x => x.Value is double.NaN));
+    }
+
+    [TestMethod]
+    public override void NoQuotes()
+    {
+        List<Reusable> r0 = Noquotes
+            .Use(CandlePart.Close)
+            .ToList();
+
+        Assert.AreEqual(0, r0.Count);
+
+        List<Reusable> r1 = Onequote
+            .Use(CandlePart.Close)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
+    }
 }

@@ -6,7 +6,7 @@ namespace Tests.Indicators.Series;
 public class ZigZagTests : SeriesTestBase
 {
     [TestMethod]
-    public void StandardClose()
+    public override void Standard() // on Close
     {
         List<ZigZagResult> results =
             Quotes.GetZigZag(EndType.Close, 3)
