@@ -142,4 +142,7 @@ public class CacheMgmtTests : TestBase
 
     [TestMethod]
     public void ActDoNothing() => Assert.Inconclusive("test not implemented");
+
+    [TestMethod]
+    public void ActAutoPrune() => Assert.Inconclusive("test not implemented");
 }

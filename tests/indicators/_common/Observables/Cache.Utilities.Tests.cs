@@ -4,7 +4,49 @@ namespace Tests.Common.Observables;
 public class CacheUtilsTests : TestBase
 {
     [TestMethod]
-    public void TryFindIndex() => Assert.Inconclusive("test not implemented");
+    public void TryFindIndex()
+    {
+
+        // setup quote provider
+
+        List<Quote> quotesList = Quotes
+            .ToSortedList()
+            .Take(10)
+            .ToList();
+
+        int length = quotesList.Count;
+
+        QuoteHub<Quote> provider = new();
+
+        for (int i = 0; i < length; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        Quote q = quotesList[4];
+
+        // act: find index of quote
+
+        // assert: correct index
+        if (provider.StreamCache.TryFindIndex(q.Timestamp, out int goodIndex))
+        {
+            goodIndex.Should().Be(4);
+        }
+        else
+        {
+            Assert.Fail("index not found");
+        }
+
+        // assert: out of range
+        if (provider.StreamCache.TryFindIndex(DateTime.MaxValue, out int badIndex))
+        {
+            Assert.Fail("unexpected index found");
+        }
+        else
+        {
+            badIndex.Should().Be(-1);
+        }
+    }
 
     [TestMethod]
     public void FindPosition()
