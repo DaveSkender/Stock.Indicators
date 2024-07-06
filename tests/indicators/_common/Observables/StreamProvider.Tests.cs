@@ -44,59 +44,6 @@ public class ProviderTests : TestBase
     }
 
     [TestMethod]
-    public void Resend()
-    {
-        Assert.Fail("overrun condition");
-
-        // setup quote provider
-
-        CandlePart candlePart = CandlePart.HL2;
-
-        List<Quote> quotesList = LongishQuotes
-            .ToSortedList()
-            .ToList();
-
-        int length = quotesList.Count;
-
-        QuoteHub<Quote> provider = new();
-
-        Use<Quote> observer = provider
-            .Use(candlePart);
-
-        IReadOnlyList<Reusable> streamList
-            = observer.Results;
-
-        // series list for comparison
-        List<Reusable> seriesList
-            = quotesList
-                .Use(candlePart)
-                .ToList();
-
-        for (int i = 0; i < length; i++)
-        {
-            // skip one (resend later)
-            if (i == 80)
-            {
-                continue;
-            }
-
-            provider.Add(quotesList[i]);
-        }
-
-        Quote q80 = quotesList[80];
-
-        // precondition: not the same
-        streamList.Should().NotBeEquivalentTo(seriesList);
-        streamList.Count.Should().Be(length - 1);
-
-        // act: resend
-        provider.Resend(observer, q80.Timestamp);
-
-        // assert: as if it was never reinserted
-        streamList.Should().BeEquivalentTo(seriesList);
-    }
-
-    [TestMethod]
     public void ClearCache()
     {
         // setup quote provider

@@ -29,53 +29,6 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     void EndTransmission();
 
     /// <summary>
-    /// Resends all newer values to a requesting observer,
-    /// starting from a specific timestamp.
-    /// </summary>
-    /// <param name="toObserver">Observer recipient</param>
-    /// <param name="fromTimestamp">From timestamp, inclusive</param>
-    /// <param name="act">Caching instruction override</param>
-    /// <exception cref="ArgumentException">
-    /// Observer is not subscribed to the provider.
-    /// </exception>
-    void Resend<T>(
-        IObserverHub<TSeries, T> toObserver,
-        DateTime fromTimestamp,
-        Act act) where T : struct, ISeries;
-
-    /// <summary>
-    /// Resends all newer values to a requesting observer,
-    /// starting at an index position.
-    /// </summary>
-    /// <param name="toObserver">Observer recipient</param>
-    /// <param name="fromIndex">From index, inclusive</param>
-    /// <param name="act">Caching instruction override</param>
-    /// <exception cref="ArgumentException">
-    /// Observer is not subscribed to the provider.
-    /// </exception>
-    void Resend<T>(
-        IObserverHub<TSeries, T> toObserver,
-        int fromIndex,
-        Act act) where T : struct, ISeries;
-
-    /// <summary>
-    /// Resends all values in a range to a requesting observer,
-    /// starting and ending at an index position.
-    /// </summary>
-    /// <param name="toObserver">Observer recipient</param>
-    /// <param name="fromIndex">Starting index, inclusive</param>
-    /// <param name="toIndex">Ending index, inclusive</param>
-    /// <param name="act">Caching instruction override</param>
-    /// <exception cref="ArgumentException">
-    /// Observer is not subscribed to the provider.
-    /// </exception>
-    void Resend<T>(
-        IObserverHub<TSeries, T> toObserver,
-        int fromIndex,
-        int toIndex,
-        Act act) where T : struct, ISeries;
-
-    /// <summary>
     /// Deletes all cached time-series records,
     /// without restore.  When applicable,
     /// it will cascade delete commands to subscribers.

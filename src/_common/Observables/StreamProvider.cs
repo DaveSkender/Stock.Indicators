@@ -92,66 +92,6 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     }
     #endregion
 
-    #region METHODS (RESEND)
-
-    // TODO: tighten up these methods
-
-    /// resend newer to an observer (from timestamp)
-    /// <inhertitdoc />
-    public void Resend<T>(
-        IObserverHub<TSeries, T> toObserver,
-        DateTime fromTimestamp,
-        Act act = Act.Update)
-        where T : struct, ISeries
-    {
-        int fromIndex = StreamCache.Cache
-            .FindIndex(c => c.Timestamp >= fromTimestamp);
-
-        if (fromIndex == -1)
-        {
-            throw new InvalidOperationException(
-                "Cache rebuild starting date not found.");
-        }
-
-        Resend(toObserver, fromIndex, act);
-    }
-
-    /// resend newer to an observer (from index)
-    /// <inheritdoc />
-    public void Resend<T>(
-        IObserverHub<TSeries, T> toObserver,
-        int fromIndex,
-        Act act = Act.Update)
-        where T : struct, ISeries
-        => Resend(toObserver, fromIndex, StreamCache.Cache.Count - 1, act);
-
-    /// resends values in a range to a requesting observer
-    /// <inheritdoc />
-    public void Resend<T>(
-        IObserverHub<TSeries, T> toObserver,
-        int fromIndex,
-        int toIndex,
-        Act act = Act.Update)
-        where T : struct, ISeries
-    {
-        if (toObserver?.Observer is StreamObserver<TSeries, T> obs && _observers.Contains(obs))
-        {
-            // determine start/end of range
-            int fr = Math.Max(0, fromIndex);
-            int to = Math.Min(toIndex, StreamCache.Cache.Count - 1);
-
-            for (int i = fr; i <= to; i++)
-            {
-                obs.OnNext((act, StreamCache.ReadCache[i]));
-            }
-        }
-        else
-        {
-            throw new ArgumentException("Unknown observer", nameof(toObserver));
-        }
-    }
-    #endregion
-
     #region METHODS (CLEAR CACHE)
 
     /// clear cache without restore
