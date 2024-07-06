@@ -98,10 +98,11 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
 
     /// resend newer to an observer (from timestamp)
     /// <inhertitdoc />
-    public void Resend(
-        IObserver<(Act, TSeries)> toObserver,
+    public void Resend<T>(
+        IObserverHub<TSeries, T> toObserver,
         DateTime fromTimestamp,
-        Act act)
+        Act act = Act.Update)
+        where T : struct, ISeries
     {
         int fromIndex = StreamCache.Cache
             .FindIndex(c => c.Timestamp >= fromTimestamp);
@@ -117,32 +118,36 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
 
     /// resend newer to an observer (from index)
     /// <inheritdoc />
-    public void Resend(
-        IObserver<(Act, TSeries)> toObserver,
+    public void Resend<T>(
+        IObserverHub<TSeries, T> toObserver,
         int fromIndex,
-        Act act)
+        Act act = Act.Update)
+        where T : struct, ISeries
         => Resend(toObserver, fromIndex, StreamCache.Cache.Count - 1, act);
 
     /// resends values in a range to a requesting observer
     /// <inheritdoc />
-    public void Resend(
-        IObserver<(Act, TSeries)> toObserver,
+    public void Resend<T>(
+        IObserverHub<TSeries, T> toObserver,
         int fromIndex,
         int toIndex,
-        Act act)
+        Act act = Act.Update)
+        where T : struct, ISeries
     {
-        if (toObserver is null || !_observers.Contains(toObserver))
+        if (toObserver?.Observer is StreamObserver<TSeries, T> obs && _observers.Contains(obs))
         {
-            return;
+            // determine start/end of range
+            int fr = Math.Max(0, fromIndex);
+            int to = Math.Min(toIndex, StreamCache.Cache.Count - 1);
+
+            for (int i = fr; i <= to; i++)
+            {
+                obs.OnNext((act, StreamCache.ReadCache[i]));
+            }
         }
-
-        // determine start/end of range
-        int fr = Math.Max(0, fromIndex);
-        int to = Math.Min(toIndex, StreamCache.Cache.Count - 1);
-
-        for (int i = fr; i <= to; i++)
+        else
         {
-            toObserver.OnNext((act, StreamCache.ReadCache[i]));
+            throw new ArgumentException("Unknown observer", nameof(toObserver));
         }
     }
     #endregion
@@ -207,6 +212,8 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
             NotifyObservers(act, item);
         }
     }
+
+    public void Resend(StreamObserver<TSeries, TSeries> toObserver, DateTime fromTimestamp, Act act) => throw new NotImplementedException();
 
     #endregion
 }

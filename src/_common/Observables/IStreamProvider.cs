@@ -32,39 +32,48 @@ public interface IStreamProvider<TSeries> : IObservable<(Act, TSeries)>
     /// Resends all newer values to a requesting observer,
     /// starting from a specific timestamp.
     /// </summary>
-    /// <param name="toObserver">Subscribtion identity</param>
+    /// <param name="toObserver">Observer recipient</param>
     /// <param name="fromTimestamp">From timestamp, inclusive</param>
-    /// <param name="act">Caching instruction</param>
-    void Resend(
-        IObserver<(Act, TSeries)> toObserver,
+    /// <param name="act">Caching instruction override</param>
+    /// <exception cref="ArgumentException">
+    /// Observer is not subscribed to the provider.
+    /// </exception>
+    void Resend<T>(
+        IObserverHub<TSeries, T> toObserver,
         DateTime fromTimestamp,
-        Act act);
+        Act act) where T : struct, ISeries;
 
     /// <summary>
     /// Resends all newer values to a requesting observer,
     /// starting at an index position.
     /// </summary>
-    /// <param name="toObserver">Subscribtion identity</param>
+    /// <param name="toObserver">Observer recipient</param>
     /// <param name="fromIndex">From index, inclusive</param>
-    /// <param name="act">Caching instruction</param>
-    void Resend(
-        IObserver<(Act, TSeries)> toObserver,
+    /// <param name="act">Caching instruction override</param>
+    /// <exception cref="ArgumentException">
+    /// Observer is not subscribed to the provider.
+    /// </exception>
+    void Resend<T>(
+        IObserverHub<TSeries, T> toObserver,
         int fromIndex,
-        Act act);
+        Act act) where T : struct, ISeries;
 
     /// <summary>
     /// Resends all values in a range to a requesting observer,
     /// starting and ending at an index position.
     /// </summary>
-    /// <param name="toObserver">Subscribtion identity</param>
+    /// <param name="toObserver">Observer recipient</param>
     /// <param name="fromIndex">Starting index, inclusive</param>
     /// <param name="toIndex">Ending index, inclusive</param>
-    /// <param name="act">Caching instruction</param>
-    void Resend(
-        IObserver<(Act, TSeries)> toObserver,
+    /// <param name="act">Caching instruction override</param>
+    /// <exception cref="ArgumentException">
+    /// Observer is not subscribed to the provider.
+    /// </exception>
+    void Resend<T>(
+        IObserverHub<TSeries, T> toObserver,
         int fromIndex,
         int toIndex,
-        Act act);
+        Act act) where T : struct, ISeries;
 
     /// <summary>
     /// Deletes all cached time-series records,
