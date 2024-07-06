@@ -44,7 +44,7 @@ public class ProviderTests : TestBase
     }
 
     [TestMethod]
-    public void FindIndex() => Assert.Inconclusive("test not implemented");
+    public void FindPosition() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
     public void RebuildCache() => Assert.Inconclusive("test not implemented");

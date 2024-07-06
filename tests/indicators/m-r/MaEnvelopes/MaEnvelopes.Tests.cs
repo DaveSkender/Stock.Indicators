@@ -4,6 +4,34 @@ namespace Tests.Indicators.Series;
 public class MaEnvelopesTests : SeriesTestBase
 {
     [TestMethod]
+    public override void Standard() // SMA
+    {
+        List<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20)
+            .ToList();
+
+        // proper quantities
+        Assert.AreEqual(502, results.Count);
+        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+
+        // sample values
+        MaEnvelopeResult r1 = results[24];
+        Assert.AreEqual(215.0310, r1.Centerline.Round(4));
+        Assert.AreEqual(220.4068, r1.UpperEnvelope.Round(4));
+        Assert.AreEqual(209.6552, r1.LowerEnvelope.Round(4));
+
+        MaEnvelopeResult r2 = results[249];
+        Assert.AreEqual(255.5500, r2.Centerline.Round(4));
+        Assert.AreEqual(261.9388, r2.UpperEnvelope.Round(4));
+        Assert.AreEqual(249.16125, r2.LowerEnvelope.Round(5));
+
+        MaEnvelopeResult r3 = results[501];
+        Assert.AreEqual(251.8600, r3.Centerline.Round(4));
+        Assert.AreEqual(258.1565, r3.UpperEnvelope.Round(4));
+        Assert.AreEqual(245.5635, r3.LowerEnvelope.Round(4));
+    }
+
+    [TestMethod]
     public void Alma()
     {
         List<MaEnvelopeResult> results =
@@ -136,34 +164,6 @@ public class MaEnvelopesTests : SeriesTestBase
         Assert.AreEqual(235.6972, r3.Centerline.Round(4));
         Assert.AreEqual(241.5897, r3.UpperEnvelope.Round(4));
         Assert.AreEqual(229.8048, r3.LowerEnvelope.Round(4));
-    }
-
-    [TestMethod]
-    public void Sma()
-    {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20)
-            .ToList();
-
-        // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
-
-        // sample values
-        MaEnvelopeResult r1 = results[24];
-        Assert.AreEqual(215.0310, r1.Centerline.Round(4));
-        Assert.AreEqual(220.4068, r1.UpperEnvelope.Round(4));
-        Assert.AreEqual(209.6552, r1.LowerEnvelope.Round(4));
-
-        MaEnvelopeResult r2 = results[249];
-        Assert.AreEqual(255.5500, r2.Centerline.Round(4));
-        Assert.AreEqual(261.9388, r2.UpperEnvelope.Round(4));
-        Assert.AreEqual(249.16125, r2.LowerEnvelope.Round(5));
-
-        MaEnvelopeResult r3 = results[501];
-        Assert.AreEqual(251.8600, r3.Centerline.Round(4));
-        Assert.AreEqual(258.1565, r3.UpperEnvelope.Round(4));
-        Assert.AreEqual(245.5635, r3.LowerEnvelope.Round(4));
     }
 
     [TestMethod]
@@ -319,6 +319,22 @@ public class MaEnvelopesTests : SeriesTestBase
             .ToList();
 
         Assert.AreEqual(502, w.Count);
+    }
+
+    [TestMethod]
+    public override void NoQuotes()
+    {
+        List<MaEnvelopeResult> r0 = Noquotes
+            .GetMaEnvelopes(10)
+            .ToList();
+
+        Assert.AreEqual(0, r0.Count);
+
+        List<MaEnvelopeResult> r1 = Onequote
+            .GetMaEnvelopes(10)
+            .ToList();
+
+        Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]

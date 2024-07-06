@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class Results : SeriesTestBase
+public class Results : TestBase
 {
     [TestMethod]
     public void Condense()

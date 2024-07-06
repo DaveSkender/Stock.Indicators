@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class Sorting : SeriesTestBase
+public class Sorting : TestBase
 {
     [TestMethod]
     public void ToSortedCollection()

@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class Candles : SeriesTestBase
+public class Candles : TestBase
 {
     [TestMethod]
     public void SortCandles()

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 namespace Tests.Common;
 
 [TestClass]
-public class TransformTests : SeriesTestBase
+public class TransformTests : TestBase
 {
     [TestMethod]
     public void ToCollection()
