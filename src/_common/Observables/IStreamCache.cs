@@ -13,6 +13,17 @@ public interface IStreamCache
     bool IsFaulted { get; }
 
     /// <summary>
+    /// Use this to reset the <see cref="IsFaulted"/> flag
+    /// and OverflowCount after recovering from an error.
+    /// </summary>
+    /// <remarks>
+    /// You may also need to <see cref="IStreamObserver{TIn}.Reinitialize()"/>,
+    /// <see cref="IStreamObserver{TSeries}.RebuildCache()"/>, or
+    /// <see cref="IStreamProvider{TSeries}.ClearCache()"/> before resuming.
+    /// </remarks>
+    void Reset();
+
+    /// <summary>
     /// Try to find index position of the provided timestamp
     /// </summary>
     /// <param name="timestamp">Timestamp to seek</param>

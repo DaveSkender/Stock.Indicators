@@ -28,20 +28,26 @@ public class CacheMgmtTests : TestBase
             provider.Add(q);
         }
 
-        provider.EndTransmission();
+        // assert: no fault, no overflow (yet)
 
-        // assert
-        provider.Results.Should().HaveCount(1);
+        provider.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeFalse();
+        provider.StreamCache.OverflowCount.Should().Be(100);
+        provider.HasSubscribers.Should().BeTrue();
+
+        provider.EndTransmission();
     }
 
     [TestMethod]
-    public void Overflowed()
+    public void OverflowedAndReset()
     {
         // initialize
         QuoteHub<Quote> provider = new();
         Quote q = new() { Timestamp = DateTime.Now }; // dup
+
+        Use<Quote> observer = provider
+            .Use(CandlePart.Close);
 
         // overflowed, over threshold
         Assert.ThrowsException<OverflowException>(() => {
@@ -52,11 +58,32 @@ public class CacheMgmtTests : TestBase
             }
         });
 
-        provider.EndTransmission();
+        // assert: faulted
 
-        // assert
-        provider.Results.Should().HaveCount(1);
+        provider.Quotes.Should().HaveCount(1);
+        observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeTrue();
+        provider.StreamCache.OverflowCount.Should().Be(101);
+        provider.HasSubscribers.Should().BeFalse();
+
+        // act: reset
+
+        provider.StreamCache.Reset();
+
+        for (int i = 0; i < 100; i++)
+        {
+            provider.Add(q);
+        }
+
+        // assert: no fault, no overflow (yet)
+
+        provider.Quotes.Should().HaveCount(1);
+        observer.Results.Should().HaveCount(1);
+        provider.IsFaulted.Should().BeFalse();
+        provider.StreamCache.OverflowCount.Should().Be(100);
+        provider.HasSubscribers.Should().BeFalse(); // expected
+
+        provider.EndTransmission();
     }
 
     [TestMethod]
@@ -96,7 +123,7 @@ public class CacheMgmtTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            Reusable r = observer.Cache[i];
+            Reusable r = observer.StreamCache.Cache[i];
 
             // compare quote to result cache
             r.Timestamp.Should().Be(q.Timestamp);
