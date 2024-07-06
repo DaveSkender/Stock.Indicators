@@ -7,18 +7,15 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     where TOut : struct, ISeries
 {
     private readonly IStreamHub<TIn, TOut> _hub;
-    private readonly StreamCache<TOut> _cache;
     private readonly StreamProvider<TOut> _observable;
     private readonly StreamProvider<TIn> _supplier;
 
     protected internal StreamObserver(
         IStreamHub<TIn, TOut> hub,
-        StreamCache<TOut> cache,
         StreamProvider<TOut> observable,
         StreamProvider<TIn> provider)
     {
         _hub = hub;
-        _cache = cache;
         _observable = observable;
         _supplier = provider;
 
@@ -35,18 +32,17 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     {
         (Act act, TIn item) = value;
 
-        switch (act)
+        if (act is Act.AddNew)
         {
-            case Act.AddNew:
-                _hub.OnNextNew(item);
-                break;
+            _hub.OnNextNew(item);
+        }
 
-            // TODO: handle revision/recursion differently
-            // for different indicators; and may also need
-            // to breakout OnDeleted(TIn deleted), etc.
-            default:
-                RebuildCache(item.Timestamp);
-                break;
+        // TODO: handle revision/recursion differently
+        // for different indicators; and may also need
+        // to breakout OnDeleted(TIn deleted), etc.
+        else
+        {
+            RebuildCache(item.Timestamp);
         }
     }
 

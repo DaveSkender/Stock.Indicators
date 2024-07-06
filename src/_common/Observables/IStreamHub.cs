@@ -35,9 +35,7 @@ public interface IStreamHub<TIn, TOut>
 /// <summary>
 /// Provider-only hub that manages observables and its cache
 /// </summary>
-/// <typeparam name="TOut"></typeparam>
-public interface IProviderHub<TOut>
-    where TOut : struct, ISeries
+public interface IProviderHub
 {
     /// <summary>
     /// Returns a short text label

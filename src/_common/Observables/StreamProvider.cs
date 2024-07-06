@@ -14,7 +14,7 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     private readonly HashSet<IObserver<(Act, TSeries)>> _observers = [];
     private readonly StreamCache<TSeries> _cache;
 
-    protected internal StreamProvider(
+    private protected StreamProvider(
         StreamCache<TSeries> observableCache)
     {
         _cache = observableCache;
@@ -239,7 +239,7 @@ public abstract class QuoteProvider<TQuote>
     : ChainProvider<TQuote>
     where TQuote : struct, IQuote
 {
-    protected internal QuoteProvider(
+    private protected QuoteProvider(
         StreamCache<TQuote> observableCache)
         : base(observableCache) { }
 }
@@ -251,7 +251,7 @@ public abstract class ChainProvider<TReusableResult>
     : ResultProvider<TReusableResult>
     where TReusableResult : struct, IReusable
 {
-    protected internal ChainProvider(
+    private protected ChainProvider(
         StreamCache<TReusableResult> observableCache)
         : base(observableCache) { }
 }
@@ -263,7 +263,7 @@ public abstract class ResultProvider<TResult>
     : StreamProvider<TResult>
     where TResult : struct, IResult
 {
-    protected internal ResultProvider(
+    private protected ResultProvider(
         StreamCache<TResult> observableCache)
         : base(observableCache) { }
 }

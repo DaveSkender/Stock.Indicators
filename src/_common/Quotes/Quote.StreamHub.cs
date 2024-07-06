@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // QUOTE (STREAMING)
 
 #region Hub interface
-public interface IQuoteHub<TQuote> : IProviderHub<TQuote>
+public interface IQuoteHub<TQuote> : IProviderHub
     where TQuote : struct, IQuote
 {
     /// <summary>

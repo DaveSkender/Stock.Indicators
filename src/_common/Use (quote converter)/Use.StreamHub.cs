@@ -32,7 +32,7 @@ public class Use<TQuote>
         CandlePartSelection = candlePart;
 
         _cache = cache;
-        _observer = new(this, cache, this, provider);
+        _observer = new(this, this, provider);
     }
     #endregion
 

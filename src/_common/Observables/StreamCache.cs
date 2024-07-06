@@ -94,42 +94,6 @@ public class StreamCache<TSeries> : IStreamCache
     }
 
     /// <summary>
-    /// Analyze and DELETE new arrivals from cache,
-    /// after validating best instruction.
-    /// </summary>
-    /// <param name="item">
-    ///   Fully formed cacheable time-series object.
-    /// </param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    internal Act Purge(TSeries item)
-    {
-        // check format and overflow
-        if (CheckOverflow(item) is Act.DoNothing)
-        {
-            return Act.DoNothing;
-        }
-
-        // determine if record exists
-        int foundIndex = Cache
-            .FindIndex(x => x.Timestamp == item.Timestamp);
-
-        // not found
-        if (foundIndex == -1)
-        {
-            return Act.DoNothing;
-        }
-
-        TSeries found = ReadCache[foundIndex];
-
-        // delete if full match
-        return found.Equals(item)
-            ? Modify(Act.Delete, found)
-            : Act.DoNothing;
-    }
-
-    /// <summary>
     /// Update cache, per "act" instruction.
     /// </summary>
     /// <param name="act" cref="Act">Caching instruction</param>
@@ -227,6 +191,42 @@ public class StreamCache<TSeries> : IStreamCache
 
         IsFaulted = false;
         return act;
+    }
+
+    /// <summary>
+    /// Analyze and DELETE new arrivals from cache,
+    /// after validating best instruction.
+    /// </summary>
+    /// <param name="item">
+    ///   Fully formed cacheable time-series object.
+    /// </param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="OverflowException"></exception>
+    internal Act Purge(TSeries item)
+    {
+        // check format and overflow
+        if (CheckOverflow(item) is Act.DoNothing)
+        {
+            return Act.DoNothing;
+        }
+
+        // determine if record exists
+        int foundIndex = Cache
+            .FindIndex(x => x.Timestamp == item.Timestamp);
+
+        // not found
+        if (foundIndex == -1)
+        {
+            return Act.DoNothing;
+        }
+
+        TSeries found = ReadCache[foundIndex];
+
+        // delete if full match
+        return found.Equals(item)
+            ? Modify(Act.Delete, found)
+            : Act.DoNothing;
     }
 
     /// <summary>

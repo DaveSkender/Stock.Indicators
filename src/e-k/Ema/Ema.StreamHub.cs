@@ -37,7 +37,7 @@ public class EmaHub<TIn>
 
         _cache = cache;
         _supplier = provider;
-        _observer = new(this, cache, this, provider);
+        _observer = new(this, this, provider);
     }
     #endregion
 
