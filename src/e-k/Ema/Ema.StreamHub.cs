@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// EXPONENTIAL MOVING AVERAGE (STREAMING)
+// EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
 #region hub interface
 
@@ -12,13 +12,9 @@ public interface IEmaHub
 #endregion
 
 public class EmaHub<TIn>
-    : ChainProvider<EmaResult>, IStreamHub<TIn, EmaResult>, IEmaHub
+    : ChainHub<TIn, EmaResult>, IEmaHub
     where TIn : struct, IReusable
 {
-    private readonly StreamCache<EmaResult> _cache;
-    private readonly StreamObserver<TIn, EmaResult> _observer;
-    private readonly ChainProvider<TIn> _supplier;
-
     #region constructors
 
     public EmaHub(
@@ -29,36 +25,33 @@ public class EmaHub<TIn>
     private EmaHub(
         ChainProvider<TIn> provider,
         StreamCache<EmaResult> cache,
-        int lookbackPeriods) : base(cache)
+        int lookbackPeriods) : base(provider, cache)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public int LookbackPeriods { get; }
     public double K { get; }
 
-
     // METHODS
 
     public override string ToString()
         => $"EMA({LookbackPeriods})";
 
-    public void OnNextNew(TIn newItem)
+    public override void OnNextNew(TIn newItem)
     {
         double ema;
 
-        int i = _supplier.Position(newItem);
+        int i = Supplier.StreamCache.Position(newItem);
 
         if (i >= LookbackPeriods - 1)
         {
-            IReusable last = ReadCache[i - 1];
+            IReusable last = StreamCache.ReadCache[i - 1];
 
             ema = !double.IsNaN(last.Value)
 
@@ -66,7 +59,7 @@ public class EmaHub<TIn>
                 ? Ema.Increment(K, last.Value, newItem.Value)
 
                 // re/initialize
-                : Sma.Increment(_supplier.ReadCache, i, LookbackPeriods);
+                : Sma.Increment(Supplier.StreamCache.ReadCache, i, LookbackPeriods);
         }
 
         // warmup periods are never calculable
@@ -82,18 +75,9 @@ public class EmaHub<TIn>
 
 
         // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
+        Act act = StreamCache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
     }
-
-    #region inherited methods
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-    public void Reinitialize() => _observer.Reinitialize();
-    public void RebuildCache() => _observer.RebuildCache();
-    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
-    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
-    #endregion
 }

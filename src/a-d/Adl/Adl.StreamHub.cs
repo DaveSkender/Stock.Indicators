@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// ACCUMULATION/DISTRIBUTION LINE (STREAM)
+// ACCUMULATION/DISTRIBUTION LINE (STREAM HUB)
 
 public class AdlHub<TQuote>
-    : ChainProvider<AdlResult>, IStreamHub<TQuote, AdlResult>
+    : ChainHub<TQuote, AdlResult>
     where TQuote : struct, IQuote
 {
-    private readonly StreamCache<AdlResult> _cache;
-    private readonly StreamObserver<TQuote, AdlResult> _observer;
-    private readonly QuoteProvider<TQuote> _supplier;
-
     #region constructors
 
     public AdlHub(
@@ -18,11 +14,10 @@ public class AdlHub<TQuote>
 
     private AdlHub(
         QuoteProvider<TQuote> provider,
-        StreamCache<AdlResult> cache) : base(cache)
+        StreamCache<AdlResult> cache)
+        : base(provider, cache)
     {
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
@@ -30,22 +25,22 @@ public class AdlHub<TQuote>
 
     public override string ToString()
     {
-        if (_cache.Cache.Count == 0)
+        if (StreamCache.Cache.Count == 0)
         {
             return "ADL";
         }
 
-        AdlResult first = _cache.ReadCache[0];
+        AdlResult first = StreamCache.ReadCache[0];
 
         return $"ADL({first.Timestamp:d})";
     }
 
-    public void OnNextNew(TQuote newItem)
+    public override void OnNextNew(TQuote newItem)
     {
         double prevAdl;
         QuoteD q = newItem.ToQuoteD();
 
-        int i = _supplier.Position(newItem);
+        int i = Supplier.StreamCache.Position(newItem);
 
         if (i == 0)
         {
@@ -53,7 +48,7 @@ public class AdlHub<TQuote>
         }
         else
         {
-            AdlResult prev = _cache.ReadCache[i - 1];
+            AdlResult prev = StreamCache.ReadCache[i - 1];
             prevAdl = prev.Adl;
         }
 
@@ -63,18 +58,9 @@ public class AdlHub<TQuote>
             q.High, q.Low, q.Close, q.Volume);
 
         // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
+        Act act = StreamCache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
     }
-
-    #region inherited methods
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-    public void Reinitialize() => _observer.Reinitialize();
-    public void RebuildCache() => _observer.RebuildCache();
-    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
-    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
-    #endregion
 }

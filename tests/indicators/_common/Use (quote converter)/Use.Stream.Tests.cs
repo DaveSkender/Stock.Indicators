@@ -1,13 +1,12 @@
 namespace Tests.Indicators.Stream;
 
 [TestClass]
-public class RenkoTests : StreamTestBase, ITestChainProvider
+public class UseTests : StreamTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
     {
-        decimal brickSize = 2.5m;
-        EndType endType = EndType.Close;
+        CandlePart candlePart = CandlePart.HLC3;
 
         List<Quote> quotesList = Quotes
             .ToSortedList();
@@ -18,21 +17,21 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 20; i++)
         {
             provider.Add(quotesList[i]);
         }
 
         // initialize observer
-        RenkoHub<Quote> observer = provider
-            .ToRenko(brickSize, endType);
+        Use<Quote> observer = provider
+            .Use(candlePart);
 
         // fetch initial results (early)
-        IReadOnlyList<RenkoResult> streamList
+        IReadOnlyList<Reusable> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
-        for (int i = 50; i < length; i++)
+        for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -58,25 +57,21 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<RenkoResult> seriesList = quotesList
-            .GetRenko(brickSize, endType)
+        List<Reusable> seriesList
+           = quotesList
+            .Use(candlePart)
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count - 1; i++)
+        for (int i = 0; i < length - 1; i++)
         {
             Quote q = quotesList[i];
-            RenkoResult s = seriesList[i];
-            RenkoResult r = streamList[i];
+            Reusable s = seriesList[i];
+            Reusable r = streamList[i];
 
+            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Open.Should().Be(s.Open);
-            r.High.Should().Be(s.High);
-            r.Low.Should().Be(s.Low);
-            r.Close.Should().Be(s.Close);
-            r.Volume.Should().Be(s.Volume);
-            r.IsUp.Should().Be(s.IsUp);
+            r.Value.Should().Be(s.Value);
             r.Should().Be(s);
         }
 
@@ -87,9 +82,8 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        decimal brickSize = 2.5m;
-        EndType endType = EndType.Close;
         int smaPeriods = 8;
+        CandlePart candlePart = CandlePart.OHLC4;
 
         List<Quote> quotesList = Quotes
             .ToSortedList();
@@ -100,8 +94,9 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        SmaHub<RenkoResult> observer = provider
-            .ToRenko(brickSize, endType)
+        SmaHub<Reusable> observer
+           = provider
+            .Use(candlePart)
             .ToSma(smaPeriods);
 
         // emulate quote stream
@@ -119,21 +114,23 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotesList
-            .GetRenko(brickSize, endType)
+        List<SmaResult> seriesList
+           = quotesList
+            .Use(candlePart)
             .GetSma(smaPeriods)
             .ToList();
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count - 1; i++)
+        for (int i = 0; i < length - 1; i++)
         {
             Quote q = quotesList[i];
             SmaResult s = seriesList[i];
             SmaResult r = streamList[i];
 
-            r.Timestamp.Should().Be(s.Timestamp);
+            r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
             r.Sma.Should().Be(s.Sma);
+            r.Should().Be(s);
         }
 
         observer.Unsubscribe();

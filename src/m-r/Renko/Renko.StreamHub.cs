@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// RENKO CHART (STREAMING)
+// RENKO CHART (STREAM HUB)
 
 #region hub interface
 
@@ -12,13 +12,9 @@ public interface IRenkoHub
 #endregion
 
 public class RenkoHub<TQuote>
-    : ChainProvider<RenkoResult>, IStreamHub<TQuote, RenkoResult>, IRenkoHub
+    : ChainHub<TQuote, RenkoResult>, IRenkoHub
     where TQuote : struct, IQuote
 {
-    private readonly StreamCache<RenkoResult> _cache;
-    private readonly StreamObserver<TQuote, RenkoResult> _observer;
-    private readonly QuoteProvider<TQuote> _supplier;
-
     #region constructors
 
     public RenkoHub(
@@ -33,49 +29,46 @@ public class RenkoHub<TQuote>
         QuoteProvider<TQuote> provider,
         StreamCache<RenkoResult> cache,
         decimal brickSize,
-        EndType endType) : base(cache)
+        EndType endType) : base(provider, cache)
     {
         Renko.Validate(brickSize);
         BrickSize = brickSize;
         EndType = endType;
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public decimal BrickSize { get; }
     public EndType EndType { get; }
 
-
     // METHODS
 
     public override string ToString()
-        => $"RENKO({BrickSize}, {EndType}) - {_cache.Cache.Count} items";
+        => $"RENKO({BrickSize}, {EndType})";
 
-    public void OnNextNew(TQuote newItem)
+    public override void OnNextNew(TQuote newItem)
     {
         // get last brick
         RenkoResult lastBrick;
 
-        if (_cache.Cache.Count != 0)
+        if (StreamCache.Cache.Count != 0)
         {
-            lastBrick = Results
+            lastBrick = StreamCache.Cache
                 .Where(c => c.Timestamp <= newItem.Timestamp)
                 .Last();
         }
         else // no bricks yet
         {
             // skip first quote
-            if (_supplier.Cache.Count <= 1)
+            if (Supplier.StreamCache.Cache.Count <= 1)
             {
                 return;
             }
 
             int decimals = BrickSize.GetDecimalPlaces();
 
-            TQuote q0 = _supplier.ReadCache[0];
+            TQuote q0 = Supplier.StreamCache.ReadCache[0];
 
             decimal baseline
                 = Math.Round(q0.Close,
@@ -105,12 +98,12 @@ public class RenkoHub<TQuote>
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = _supplier.Position(newItem);
-            int lastBrickIndex = _supplier.Position(lastBrick.Timestamp);
+            int inboundIndex = Supplier.StreamCache.Position(newItem);
+            int lastBrickIndex = Supplier.StreamCache.Position(lastBrick.Timestamp);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
             {
-                TQuote pq = _supplier.ReadCache[w];
+                TQuote pq = Supplier.StreamCache.ReadCache[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -146,7 +139,7 @@ public class RenkoHub<TQuote>
                 };
 
                 // save to cache
-                Act act = _cache.Modify(Act.AddNew, r);
+                Act act = StreamCache.Modify(Act.AddNew, r);
 
                 // send to observers
                 NotifyObservers(act, r);
@@ -155,13 +148,4 @@ public class RenkoHub<TQuote>
             }
         }
     }
-
-    #region inherited methods
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-    public void Reinitialize() => _observer.Reinitialize();
-    public void RebuildCache() => _observer.RebuildCache();
-    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
-    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
-    #endregion
 }

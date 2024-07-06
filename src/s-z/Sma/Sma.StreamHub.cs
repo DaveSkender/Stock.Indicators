@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (STREAMING)
+// SIMPLE MOVING AVERAGE (STREAM HUB)
 
 #region hub interface
 public interface ISmaHub
@@ -10,13 +10,9 @@ public interface ISmaHub
 #endregion
 
 public class SmaHub<TIn>
-    : ChainProvider<SmaResult>, IStreamHub<TIn, SmaResult>, ISmaHub
+    : ChainHub<TIn, SmaResult>, ISmaHub
     where TIn : struct, IReusable
 {
-    private readonly StreamCache<SmaResult> _cache;
-    private readonly StreamObserver<TIn, SmaResult> _observer;
-    private readonly ChainProvider<TIn> _supplier;
-
     #region constructors
 
     public SmaHub(
@@ -27,47 +23,35 @@ public class SmaHub<TIn>
     private SmaHub(
         ChainProvider<TIn> provider,
         StreamCache<SmaResult> cache,
-        int lookbackPeriods) : base(cache)
+        int lookbackPeriods) : base(provider, cache)
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public int LookbackPeriods { get; }
-
 
     // METHODS
 
     public override string ToString()
         => $"SMA({LookbackPeriods})";
 
-    public void OnNextNew(TIn newItem)
+    public override void OnNextNew(TIn newItem)
     {
-        int i = _supplier.Position(newItem);
+        int i = Supplier.StreamCache.Position(newItem);
 
         // candidate result
         SmaResult r = new(
             Timestamp: newItem.Timestamp,
-            Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods).NaN2Null());
+            Sma: Sma.Increment(Supplier.StreamCache.ReadCache, i, LookbackPeriods).NaN2Null());
 
         // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
+        Act act = StreamCache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
     }
-
-    #region inherited methods
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-    public void Reinitialize() => _observer.Reinitialize();
-    public void RebuildCache() => _observer.RebuildCache();
-    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
-    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
-    #endregion
 }

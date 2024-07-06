@@ -6,20 +6,21 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     where TIn : struct, ISeries
     where TOut : struct, ISeries
 {
-    private readonly IStreamHub<TIn, TOut> _hub;
+    private readonly IObserverHub<TIn, TOut> _hub;
+    private readonly StreamCache<TOut> _cache;
     private readonly StreamProvider<TOut> _observable;
     private readonly StreamProvider<TIn> _supplier;
 
     protected internal StreamObserver(
-        IStreamHub<TIn, TOut> hub,
+        IObserverHub<TIn, TOut> hub,
+        StreamCache<TOut> cache,
         StreamProvider<TOut> observable,
         StreamProvider<TIn> provider)
     {
         _hub = hub;
+        _cache = cache;
         _observable = observable;
         _supplier = provider;
-
-        Subscription = _supplier.Subscribe(this);
     }
 
     public bool IsSubscribed => Subscription is not null;
@@ -59,8 +60,10 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     public void Reinitialize()
     {
         Unsubscribe();
+        _cache.Reset();
         _observable.ClearCache();
         Subscription = _supplier.Subscribe(this);
+        RebuildCache();
     }
 
     // rebuild cache
@@ -72,7 +75,7 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
     public void RebuildCache(
         DateTime fromTimestamp)
     {
-        int fromIndex = _observable.Cache
+        int fromIndex = _observable.StreamCache.Cache
             .FindIndex(c => c.Timestamp >= fromTimestamp);
 
         // nothing to rebuild
@@ -81,7 +84,7 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
             return;
         }
 
-        int provIndex = _supplier.Cache
+        int provIndex = _supplier.StreamCache.Cache
             .FindIndex(c => c.Timestamp >= fromTimestamp);
 
         // nothing to restore
@@ -106,9 +109,9 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
         }
         else
         {
-            TOut item = _observable.ReadCache[fromIndex];
+            TOut item = _observable.StreamCache.ReadCache[fromIndex];
 
-            provIndex = _supplier.Cache
+            provIndex = _supplier.StreamCache.Cache
                 .FindIndex(c => c.Timestamp >= item.Timestamp);
 
             if (provIndex == -1)
@@ -132,9 +135,9 @@ public class StreamObserver<TIn, TOut> : IStreamObserver<TIn>
         _observable.ClearCache(thisIndex);
 
         // rebuild cache from provider
-        for (int i = provIndex; i < _supplier.Cache.Count; i++)
+        for (int i = provIndex; i < _supplier.StreamCache.Cache.Count; i++)
         {
-            _hub.OnNextNew(_supplier.ReadCache[i]);
+            _hub.OnNextNew(_supplier.StreamCache.ReadCache[i]);
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// USE (STREAMING)
+// USE / QUOTE CONVERTER (STREAM HUB)
 
 #region Hub interface
 public interface IUseHub
@@ -10,12 +10,9 @@ public interface IUseHub
 #endregion
 
 public class Use<TQuote>
-    : ChainProvider<Reusable>, IStreamHub<TQuote, Reusable>, IUseHub
+    : ChainHub<TQuote, Reusable>, IUseHub
     where TQuote : struct, IQuote
 {
-    private readonly StreamCache<Reusable> _cache;
-    private readonly StreamObserver<TQuote, Reusable> _observer;
-
     #region constructors
 
     public Use(
@@ -27,42 +24,31 @@ public class Use<TQuote>
         QuoteProvider<TQuote> provider,
         StreamCache<Reusable> cache,
         CandlePart candlePart)
-        : base(cache)
+        : base(provider, cache)
     {
         CandlePartSelection = candlePart;
 
-        _cache = cache;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public CandlePart CandlePartSelection { get; }
-
 
     // METHODS
 
     public override string ToString()
         => $"USE({Enum.GetName(CandlePartSelection)})";
 
-    public void OnNextNew(TQuote newItem)
+    public override void OnNextNew(TQuote newItem)
     {
         // candidate result
         Reusable result
             = newItem.ToReusable(CandlePartSelection);
 
         // save to cache
-        Act act = _cache.Modify(Act.AddNew, result);
+        Act act = StreamCache.Modify(Act.AddNew, result);
 
         // send to observers
         NotifyObservers(act, result);
     }
-
-    #region inherited methods
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-    public void Reinitialize() => _observer.Reinitialize();
-    public void RebuildCache() => _observer.RebuildCache();
-    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
-    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
-    #endregion
 }

@@ -18,26 +18,59 @@ public class StreamCache<TSeries> : IStreamCache
         Cache = [];
     }
 
+    /// <summary>
+    /// The cache failed and is no longer operational.
+    /// </summary>
+    /// <remarks>
+    /// The cache and its provider will no longer function.
+    /// Use <see cref="IStreamCache.Reset()"/> to remove this flag.
+    /// This primarily occurs when there is an overflow condition.
+    /// This usually occurs when a circular chain is detected,
+    /// or when there were too many sequential duplicates.
+    /// </remarks>
     public bool IsFaulted { get; private set; }
 
     /// <summary>
-    /// Use this to FindIndex, Count as it does not copy the struct
+    /// Cache of stored values (base).
     /// </summary>
+    /// <remarks>
+    /// Only access this <c>Cache</c> through implemented
+    /// methods. It's also okay to use indexing operations
+    /// like <see cref="List{T}.FindIndex(Predicate{T})"/>
+    /// and <see cref="List{T}.Count"/> since they do not
+    /// copy the struct.  Use <see cref="ReadCache"/> for
+    /// referencing objects in the list.
+    /// </remarks>
     internal List<TSeries> Cache { get; }
 
     /// <summary>
-    /// Use this to `ref TSeries s = ref ReadCache[i];`
-    /// to avoid copying the struct
+    /// Read-only Span-list of the stored values <see cref="Cache"/>.
     /// </summary>
+    /// <remarks>
+    /// Use this to referencing objects to avoid copying the struct.
+    /// </remarks>
     internal ReadOnlySpan<TSeries> ReadCache
         => CollectionsMarshal.AsSpan(Cache);
 
-    private TSeries LastArrival { get; set; }
+    /// <summary>
+    /// Most recent arrival to cache.
+    /// </summary>
+    internal TSeries LastArrival { get; private set; }
 
-    private int OverflowCount { get; set; }
+    /// <summary>
+    /// Current count of repeated arrivals.
+    /// An overflow condition is triggered after 100.
+    /// </summary>
+    internal byte OverflowCount { get; private set; }
 
 
-    #region METHODS (CACHE MANAGEMENT)
+    #region METHODS (CACHE MANAGER)
+
+    public void Reset()
+    {
+        OverflowCount = 0;
+        IsFaulted = false;
+    }
 
     /// <summary>
     /// Analyze new arrival to determine caching instruction;
@@ -94,14 +127,24 @@ public class StreamCache<TSeries> : IStreamCache
     }
 
     /// <summary>
-    /// Update cache, per "act" instruction.
+    /// Update cache, per "act" instruction, without analysis.
     /// </summary>
+    /// <remarks>
+    /// Since this does not analyze the action, it is not
+    /// recommended for use outside of the cache management system.
+    /// For example, it will not prevent duplicates or overflow.
+    /// </remarks>
     /// <param name="act" cref="Act">Caching instruction</param>
     /// <param name="item">
     ///   Fully formed cacheable time-series object.
     /// </param>
     /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <exception cref="ArgumentException">
+    /// Item to modify is not found.
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// Action is not defined.
+    /// </exception>
     internal Act Modify(Act act, TSeries item)
     {
         // execute action
@@ -142,8 +185,8 @@ public class StreamCache<TSeries> : IStreamCache
                 // does not exist
                 if (uo == -1)
                 {
-                    throw new InvalidOperationException(
-                        "Cache update target not found.");
+                    throw new ArgumentException(
+                        "Cache update target not found.", nameof(item));
                 }
 
                 // duplicate
@@ -172,8 +215,8 @@ public class StreamCache<TSeries> : IStreamCache
                 // failure to find should never happen
                 else
                 {
-                    throw new InvalidOperationException(
-                        "Cache delete target not found.");
+                    throw new ArgumentException(
+                        "Cache delete target not found.", nameof(item));
                 }
 
                 break;
@@ -358,5 +401,4 @@ public class StreamCache<TSeries> : IStreamCache
             : index;
     }
     #endregion
-
 }

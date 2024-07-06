@@ -20,12 +20,16 @@ public interface IStreamObserver<TIn> : IObserver<(Act act, TIn inbound)>
 
     /// <summary>
     /// Full reset of the provider subscription.
+    /// </summary>
     /// <remarks>
     /// This unsubscribes from the provider,
-    /// clears cache, cascades deletes to subscribers,
+    /// clears cache, cascading deletes to subscribers,
     /// then re-subscribes to the provider (with rebuild).
+    /// <para>
+    /// This is also used on startup to invoke provider
+    /// <see cref="IObservable{T}.Subscribe(IObserver{T})"/>.
+    /// </para>
     /// </remarks>
-    /// </summary>
     void Reinitialize();
 
     /// <summary>

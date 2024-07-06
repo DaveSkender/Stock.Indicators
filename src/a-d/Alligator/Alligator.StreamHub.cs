@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS ALLIGATOR (STREAMING)
+// WILLIAMS ALLIGATOR (STREAM HUB)
 
 #region hub interface
 
@@ -16,13 +16,9 @@ public interface IAlligatorHub
 #endregion
 
 public class Alligator<TIn>
-    : ResultProvider<AlligatorResult>, IStreamHub<TIn, AlligatorResult>, IAlligatorHub
+    : ResultHub<TIn, AlligatorResult>, IAlligatorHub
     where TIn : struct, IReusable
 {
-    private readonly StreamCache<AlligatorResult> _cache;
-    private readonly StreamObserver<TIn, AlligatorResult> _observer;
-    private readonly ChainProvider<TIn> _supplier;
-
     #region constructors
 
     public Alligator(
@@ -41,7 +37,8 @@ public class Alligator<TIn>
         StreamCache<AlligatorResult> cache,
         int jawPeriods, int jawOffset,
         int teethPeriods, int teethOffset,
-        int lipsPeriods, int lipsOffset) : base(cache)
+        int lipsPeriods, int lipsOffset)
+        : base(provider, cache)
     {
         Alligator.Validate(
             jawPeriods, jawOffset,
@@ -55,9 +52,7 @@ public class Alligator<TIn>
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
@@ -68,24 +63,23 @@ public class Alligator<TIn>
     public int LipsPeriods { get; }
     public int LipsOffset { get; }
 
-
     // METHODS
 
     public override string ToString()
         => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 
-    public void OnNextNew(TIn newItem)
+    public override void OnNextNew(TIn newItem)
     {
         double jaw = double.NaN;
         double lips = double.NaN;
         double teeth = double.NaN;
 
-        int i = _supplier.Position(newItem);
+        int i = Supplier.StreamCache.Position(newItem);
 
         // calculate alligator's jaw, when in range
         if (i >= JawPeriods + JawOffset - 1)
         {
-            AlligatorResult prev = ReadCache[i - 1];
+            AlligatorResult prev = StreamCache.ReadCache[i - 1];
             double prevJaw = prev.Jaw.Null2NaN();
 
             // first/reset value: calculate SMA
@@ -94,7 +88,7 @@ public class Alligator<TIn>
                 double sum = 0;
                 for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                 {
-                    sum += _toValue(_supplier.ReadCache[p]);
+                    sum += _toValue(Supplier.StreamCache.ReadCache[p]);
                 }
 
                 jaw = sum / JawPeriods;
@@ -103,7 +97,7 @@ public class Alligator<TIn>
             // remaining values: SMMA
             else
             {
-                double newVal = _toValue(_supplier.ReadCache[i - JawOffset]);
+                double newVal = _toValue(Supplier.StreamCache.ReadCache[i - JawOffset]);
                 jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
             }
         }
@@ -111,7 +105,7 @@ public class Alligator<TIn>
         // calculate alligator's teeth, when in range
         if (i >= TeethPeriods + TeethOffset - 1)
         {
-            AlligatorResult prev = ReadCache[i - 1];
+            AlligatorResult prev = StreamCache.ReadCache[i - 1];
 
             double prevTooth = prev.Teeth.Null2NaN();
 
@@ -121,7 +115,7 @@ public class Alligator<TIn>
                 double sum = 0;
                 for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                 {
-                    sum += _toValue(_supplier.ReadCache[p]);
+                    sum += _toValue(Supplier.StreamCache.ReadCache[p]);
                 }
 
                 teeth = sum / TeethPeriods;
@@ -130,7 +124,7 @@ public class Alligator<TIn>
             // remaining values: SMMA
             else
             {
-                double newVal = _toValue(_supplier.ReadCache[i - TeethOffset]);
+                double newVal = _toValue(Supplier.StreamCache.ReadCache[i - TeethOffset]);
                 teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
             }
         }
@@ -138,7 +132,7 @@ public class Alligator<TIn>
         // calculate alligator's lips, when in range
         if (i >= LipsPeriods + LipsOffset - 1)
         {
-            AlligatorResult prev = ReadCache[i - 1];
+            AlligatorResult prev = StreamCache.ReadCache[i - 1];
 
             double prevLips = prev.Lips.Null2NaN();
 
@@ -149,7 +143,7 @@ public class Alligator<TIn>
                 double sum = 0;
                 for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                 {
-                    sum += _toValue(_supplier.ReadCache[p]);
+                    sum += _toValue(Supplier.StreamCache.ReadCache[p]);
                 }
 
                 lips = sum / LipsPeriods;
@@ -158,7 +152,7 @@ public class Alligator<TIn>
             // remaining values: SMMA
             else
             {
-                double newVal = _toValue(_supplier.ReadCache[i - LipsOffset]);
+                double newVal = _toValue(Supplier.StreamCache.ReadCache[i - LipsOffset]);
                 lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
             }
         }
@@ -172,7 +166,7 @@ public class Alligator<TIn>
         };
 
         // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
+        Act act = StreamCache.Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
@@ -183,13 +177,4 @@ public class Alligator<TIn>
         = input => input is IQuote quote
         ? quote.ToReusable(CandlePart.HL2).Value
         : input.Value;
-
-    #region inherited methods
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-    public void Reinitialize() => _observer.Reinitialize();
-    public void RebuildCache() => _observer.RebuildCache();
-    public void RebuildCache(DateTime fromTimestamp) => _observer.RebuildCache(fromTimestamp);
-    public void RebuildCache(int fromIndex) => _observer.RebuildCache(fromIndex);
-    #endregion
 }

@@ -8,11 +8,38 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public enum Act
 {
+    /// <summary>
+    /// Adds to end of cache
+    /// </summary>
     AddNew,
+
+    /// <summary>
+    /// Adds new item to middle of cache
+    /// </summary>
     AddOld,
+
+    /// <summary>
+    /// Updates existing item in cache
+    /// </summary>
     Update,
+
+    /// <summary>
+    /// Deletes existing item in cache
+    /// </summary>
     Delete,
-    DoNothing
+
+    /// <summary>
+    /// Does nothing to cache (aborted)
+    /// </summary>
+    DoNothing,
+
+    /// <summary>
+    /// Delete from first position of cache
+    /// without rebuilding or recalculating;
+    /// as part of the auto-pruning process
+    /// to maintain maximum cache size.
+    /// </summary>
+    AutoPrune  // TODO: implement. May also have some integrity checks.
 }
 
 /// <summary>
