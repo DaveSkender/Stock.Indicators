@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Tests.Performance;
 // ReSharper disable All
 
@@ -58,7 +60,7 @@ public class IndicatorStreamTests
     [Benchmark]
     public object RenkoHub()
     {
-        var hub = provider.ToRenko(2.5);
+        var hub = provider.ToRenko(2.5m);
         return hub.Results;
     }
     
