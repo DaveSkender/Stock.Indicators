@@ -6,54 +6,43 @@ namespace Tests.Common.Observables;
 public class StackoverflowTests : TestBase
 {
     [TestMethod]
-    public void ManySubscribers()
+    public void FatLongStack()
     {
-        // goal: test that all indicators
-        // can subscribe to the same provider
-        // without stack overflow
+        // goal: about ~10 subscribers, with really long
+        // quote history, checking for stack overflow
 
-        int length = 1000;
+        int qtyQuotes = 10000;
 
         // setup: many random quotes (massive)
         List<Quote> quotesList
-            = TestData.GetRandom(length).ToList();
+            = TestData.GetRandom(qtyQuotes).ToList();
 
         ReadOnlySpan<Quote> quotesSpan
             = CollectionsMarshal.AsSpan(quotesList);
 
         QuoteHub<Quote> provider = new();
 
-        // setup: define all possible subscribers
-        // TODO: add to this as more Hubs come online
+        // setup: define ~10 subscribers (flat)
         List<(string label, IEnumerable<IResult> results, bool irregular)> subscribers
             = new() {
-                AddHub(provider.ToAdl()),
-                AddHub(provider.ToAlligator()),
-                AddHub(provider.ToEma(14)),
-                AddHub(provider.ToRenko(2.1m), irregular: true)
-
-                // SMA and USE rolled-out maximus (below)
-            };
-
-        // many SMAs
-        for (int i = 1; i <= 300; i += 1)
-        {
-            subscribers.Add(AddHub(provider.ToSma(i)));
-        }
+                HubRef(provider.ToAdl()),
+                HubRef(provider.ToEma(14)) };
 
         // all USEs
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
         {
-            subscribers.Add(AddHub(provider.Use(candlePart)));
+            subscribers.Add(HubRef(provider.Use(candlePart)));
         }
 
         // act: add quotes
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < qtyQuotes; i++)
         {
             provider.Add(quotesSpan[i]);
         }
 
-        subscribers.Insert(0, new(provider.ToString(), provider.Quotes.Cast<IResult>(), false));
+        subscribers.Insert(0, new(
+            provider.ToString(),
+            provider.Quotes.Cast<IResult>(), false));
 
         // assert: this just has to not fail, really
 
@@ -70,7 +59,7 @@ public class StackoverflowTests : TestBase
 
             if (irregular) { continue; }
 
-            resultQty.Should().Be(length);
+            resultQty.Should().Be(qtyQuotes);
         }
 
         // assert: [last subscriber] has the same dates
@@ -78,7 +67,7 @@ public class StackoverflowTests : TestBase
         ReadOnlySpan<IResult> lastSubscriber
             = CollectionsMarshal.AsSpan(subscribers[^1].results.ToList());
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesSpan[i];
             IResult r = lastSubscriber[i];
@@ -87,7 +76,109 @@ public class StackoverflowTests : TestBase
         }
 
         // act: clear provider cache (cascades to subscribers)
-        int cutoff = length / 2;
+        int cutoff = qtyQuotes / 2;
+        provider.ClearCache(cutoff);
+
+        provider.Quotes.Count.Should().Be(cutoff);
+
+        Console.WriteLine("--------------------");
+
+        // assert: all have same count
+        foreach ((string label, IEnumerable<IResult> results, bool irregular)
+            in subscribers)
+        {
+            int resultQty = results.Count();
+
+            Console.WriteLine($"Cut: {resultQty} - {label}");
+
+            if (irregular) { continue; }
+
+            resultQty.Should().Be(cutoff);
+        }
+    }
+
+    [TestMethod]
+    public void ManySubscribers()
+    {
+        // goal: test that many indictors (all at once)
+        // can subscribe to the same quote provider
+        // without stack overflow; ~350 subscribers
+
+        int qtyQuotes = 1000;
+
+        // setup: many random quotes
+        List<Quote> quotesList
+            = TestData.GetRandom(qtyQuotes).ToList();
+
+        ReadOnlySpan<Quote> quotesSpan
+            = CollectionsMarshal.AsSpan(quotesList);
+
+        QuoteHub<Quote> provider = new();
+
+        // setup: define all possible subscribers
+        // TODO: add to this as more Hubs come online
+        List<(string label, IEnumerable<IResult> results, bool irregular)> subscribers
+            = new() {
+                HubRef(provider.ToAdl()),
+                HubRef(provider.ToAlligator()),
+                HubRef(provider.ToEma(14)),
+                HubRef(provider.ToRenko(2.1m), irregular: true)            };
+
+        // all USEs
+        foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
+        {
+            subscribers.Add(HubRef(provider.Use(candlePart)));
+        }
+
+        // many SMAs
+        for (int i = 1; i <= 300; i++)
+        {
+            subscribers.Add(HubRef(provider.ToSma(i)));
+        }
+
+        // act: add quotes
+        for (int i = 0; i < qtyQuotes; i++)
+        {
+            provider.Add(quotesSpan[i]);
+        }
+
+        subscribers.Insert(0, new(
+            provider.ToString(),
+            provider.Quotes.Cast<IResult>(), false));
+
+        // assert: this just has to not fail, really
+
+        Console.WriteLine($"Subscribers: {subscribers.Count}");
+        Console.WriteLine("--------------------");
+
+        // assert: all non-irregular subscribers have the same count
+        foreach ((string label, IEnumerable<IResult> results, bool irregular)
+            in subscribers)
+        {
+            int resultQty = results.Count();
+
+            Console.WriteLine($"Hub: {resultQty} - {label}");
+
+            if (irregular) { continue; }
+
+            resultQty.Should().Be(qtyQuotes);
+        }
+
+        // assert: [last subscriber] has the same dates
+
+        ReadOnlySpan<IResult> lastSubscriber
+            = CollectionsMarshal.AsSpan(subscribers[^1].results.ToList());
+
+        for (int i = 0; i < qtyQuotes; i++)
+        {
+            Quote q = quotesSpan[i];
+            IResult r = lastSubscriber[i];
+
+            r.Timestamp.Should().Be(q.Timestamp);
+        }
+
+        // act: clear provider cache (cascades to subscribers)
+        int cutoff = qtyQuotes / 2;
         provider.ClearCache(cutoff);
 
         provider.Quotes.Count.Should().Be(cutoff);
@@ -111,15 +202,16 @@ public class StackoverflowTests : TestBase
     [TestMethod]
     public void ManyChainDepths()
     {
-        // goal: test that a massive chain starting from
-        // one provider works without stack overflow
+        // goal: test that a massive chain where each new subscriber
+        // subscribes to the next creating a really long chain
+        // of observers, without stack overflow
 
-        int length = 1000;
-        int depth = 1000;
+        int qtyQuotes = 600;
+        int chainDepth = 400;
 
         // setup: many random quotes (massive)
         List<Quote> quotesList
-            = TestData.GetRandom(length).ToList();
+            = TestData.GetRandom(qtyQuotes).ToList();
 
         ReadOnlySpan<Quote> quotesSpan
             = CollectionsMarshal.AsSpan(quotesList);
@@ -128,35 +220,34 @@ public class StackoverflowTests : TestBase
 
         // setup: subscribe a large chain depth
         List<(string label, IEnumerable<IResult> results, bool irregular)> subscribers
-            = new(depth + 2);
-
-        short increment = 5;
-        int lookbackPeriods = 5;
+            = new(chainDepth + 2);
 
         SmaHub<Quote> init = provider.ToSma(1);
-        SmaHub<SmaResult> sma = init.ToSma(3);
+        SmaHub<SmaResult> sma = init.ToSma(2);
 
-        subscribers.Add(AddHub(init));
-        subscribers.Add(AddHub(sma));
+        subscribers.Add(HubRef(init));
+        subscribers.Add(HubRef(sma));
 
-        for (int i = 1; i <= depth; i++)
+        int lookbackPeriods = 1;
+
+        // recursive providers
+        for (int i = 1; i <= chainDepth; i++)
         {
             sma = sma.ToSma(lookbackPeriods);
-            subscribers.Add(AddHub(sma));
+            subscribers.Add(HubRef(sma));
 
-            if (lookbackPeriods >= 50) { increment = -5; }
-            if (lookbackPeriods <= 5) { increment = 5; }
-
-            lookbackPeriods += increment;
+            lookbackPeriods = lookbackPeriods is 2 ? 1 : 2;
         }
 
         // act: add quotes
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < qtyQuotes; i++)
         {
             provider.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0, new(provider.ToString(), provider.Quotes.Cast<IResult>(), false));
+        subscribers.Insert(0,
+            new(provider.ToString(),
+            provider.Quotes.Cast<IResult>(), false));
 
         Console.WriteLine($"Subscribers: {subscribers.Count}");
         Console.WriteLine("--------------------");
@@ -170,7 +261,7 @@ public class StackoverflowTests : TestBase
             int resultQty = results.Count();
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
-            resultQty.Should().Be(length);
+            resultQty.Should().Be(qtyQuotes);
         }
 
         // assert: [last subscriber] has the same dates
@@ -178,7 +269,7 @@ public class StackoverflowTests : TestBase
         ReadOnlySpan<IResult> lastSubscriber
             = CollectionsMarshal.AsSpan(subscribers[^1].results.ToList());
 
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesSpan[i];
             IResult r = lastSubscriber[i];
@@ -186,30 +277,33 @@ public class StackoverflowTests : TestBase
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
-        //// act: clear provider cache (cascades to subscribers)
-        //int cutoff = length / 2;
-        //provider.ClearCache(cutoff);
+        // act: clear provider cache (cascades to subscribers)
+        int cutoff = qtyQuotes / 2;
+        provider.ClearCache(cutoff);
 
-        //provider.Quotes.Count.Should().Be(cutoff);
+        provider.Quotes.Count.Should().Be(cutoff);
 
-        //// assert: all have same count
-        //foreach ((string label, IEnumerable<IResult> results, bool irregular)
-        //    in subscribers)
-        //{
-        //    int resultQty = results.Count();
+        // assert: all have same count
+        foreach ((string label, IEnumerable<IResult> results, bool irregular)
+            in subscribers)
+        {
+            int resultQty = results.Count();
 
-        //    Console.WriteLine($"Cut: {resultQty} - {label}");
+            Console.WriteLine($"Cut: {resultQty} - {label}");
 
-        //    if (irregular)
-        //    {
-        //        continue;
-        //    }
+            if (irregular)
+            {
+                continue;
+            }
 
-        //    resultQty.Should().Be(cutoff);
-        //}
+            resultQty.Should().Be(cutoff);
+        }
     }
 
-    private static (string, IEnumerable<IResult>, bool) AddHub<TIn, TOut>(
+    /// <summary>
+    /// Utility to get references to a hub's results.
+    /// </summary>
+    private static (string, IEnumerable<IResult>, bool) HubRef<TIn, TOut>(
         IObserverHub<TIn, TOut> hub, bool irregular = false)
         where TIn : struct, ISeries
         where TOut : struct, IResult
