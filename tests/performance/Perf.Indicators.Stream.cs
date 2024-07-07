@@ -12,7 +12,8 @@ public class IndicatorStreamTests
      */
 
     private static IEnumerable<Quote> q;
-    private static List<Quote> ql;
+    private static ReadOnlySpan<Quote> ql
+        = CollectionsMarshal.AsSpan(q.ToSortedList());
 
     // SETUP
 
@@ -20,11 +21,40 @@ public class IndicatorStreamTests
     public void Setup()
     {
         q = TestData.GetDefault();
-        ql = q.ToSortedList();
     }
 
     // BENCHMARKS
 
+    [Benchmark]
+    public object GetAdl()
+    {
+        QuoteHub<Quote> provider = new();
+        AdlHub<Quote> adl = provider.ToAdl();
+
+        for (int i = 0; i < ql.Count; i++)
+        {
+            provider.Add(ql[i]);
+        }
+
+        provider.EndTransmission();
+        return adl.Results;
+    }
+
+    [Benchmark]
+    public object GetAlligator()
+    {
+        QuoteHub<Quote> provider = new();
+        AlligatorHub<Quote> alligator = provider.ToAlligator();
+
+        for (int i = 0; i < ql.Count; i++)
+        {
+            provider.Add(ql[i]);
+        }
+
+        provider.EndTransmission();
+        return alligator.Results;
+    }
+    
     [Benchmark]
     public object GetEma()
     {
@@ -40,6 +70,21 @@ public class IndicatorStreamTests
         return ema.Results;
     }
 
+    [Benchmark]
+    public object GetRenko()
+    {
+        QuoteHub<Quote> provider = new();
+        RenkoHub<Quote> renko = provider.ToRenko(2.5);
+
+        for (int i = 0; i < ql.Count; i++)
+        {
+            provider.Add(ql[i]);
+        }
+
+        provider.EndTransmission();
+        return renko.Results;
+    }
+    
     [Benchmark]
     public object GetSma()
     {
