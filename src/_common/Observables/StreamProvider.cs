@@ -161,13 +161,23 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
 #region QUOTE, CHAIN, RESULT PROVIDER variants
 
 /// <summary>
-/// Quote provider (abstract base)
+/// Quote provider (standalone base)
 /// </summary>
-public abstract class QuoteProvider<TQuote>
+/// <remarks>
+/// Do not instantiate.
+/// Use <see cref="QuoteHub{TQuote}"/> instead,
+/// for a full quote hub.
+/// </remarks>
+public class QuoteProvider<TQuote>
     : ChainProvider<TQuote>
     where TQuote : struct, IQuote
 {
-    private protected QuoteProvider(
+    // TODO: return this to abtract, if possible.
+    // We'd removed it to allow open instantiation
+    // of the QuoteHub.  It may externally unusable
+    // (would be okay) with `internal protected`.
+
+    protected internal QuoteProvider(
         StreamCache<TQuote> observableCache)
         : base(observableCache) { }
 }

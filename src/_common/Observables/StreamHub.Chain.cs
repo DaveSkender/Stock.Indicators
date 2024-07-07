@@ -1,8 +1,15 @@
 
 namespace Skender.Stock.Indicators;
 
-// CHAIN HUB
+// CHAIN HUB (STREAMING)
 
+/// <summary>
+/// ChainHub is the base type for streaming indicators
+/// that are chainable and have a single usable value.
+/// It can be observed by external subscribers.
+/// </summary>
+/// <typeparam name="TIn"></typeparam>
+/// <typeparam name="TOut"></typeparam>
 public abstract class ChainHub<TIn, TOut>
     : ChainProvider<TOut>, IObserverHub<TIn, TOut>
     where TIn : struct, ISeries

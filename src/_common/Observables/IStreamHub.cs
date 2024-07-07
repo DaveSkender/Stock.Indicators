@@ -77,10 +77,10 @@ public interface IObserverHub<TIn, TOut> : IStreamHub<TOut>
 
 /// <summary>
 /// Streaming quote hub that manages its cache and its observable role.
-/// It is a provider-only hub (it does not contain observer features).
+/// It can be a sole provider or a redistirubiton subscriber for other quote hubs.
 /// </summary>
 /// <typeparam name="TQuote"></typeparam>
-public interface IQuoteHub<TQuote> : IStreamHub<TQuote>
+public interface IQuoteHub<TQuote> : IObserverHub<TQuote, TQuote>
     where TQuote : struct, IQuote
 {
     /// <inheritdoc cref="StreamCache{TQuote}.Cache" />

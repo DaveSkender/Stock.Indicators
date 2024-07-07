@@ -1,8 +1,14 @@
 
 namespace Skender.Stock.Indicators;
 
-// RESULT HUB
+// RESULT HUB (STREAMING)
 
+/// <summary>
+/// ResultHub is the base type for streaming indicators that
+/// are not chainable.  It can be observed by external subscribers.
+/// </summary>
+/// <typeparam name="TIn"></typeparam>
+/// <typeparam name="TOut"></typeparam>
 public abstract class ResultHub<TIn, TOut>
     : ResultProvider<TOut>, IObserverHub<TIn, TOut>
     where TIn : struct, ISeries
