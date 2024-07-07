@@ -12,8 +12,8 @@ public class IndicatorStreamTests
      */
 
     private static IEnumerable<Quote> q;
-    private static ReadOnlySpan<Quote> ql
-        = CollectionsMarshal.AsSpan(q.ToSortedList());
+    private static List<Quote> ql;
+    private readonly QuoteHub<Quote> provider = new();
 
     // SETUP
 
@@ -21,82 +21,51 @@ public class IndicatorStreamTests
     public void Setup()
     {
         q = TestData.GetDefault();
+        ql = q.ToSortedList();
+
+        ReadOnlySpan<Quote> spanQuotes
+            = CollectionsMarshal.AsSpan(ql);
+
+        for (int i = 0; i < ql.Count; i++)
+        {
+            provider.Add(spanQuotes[i]);
+        }
     }
 
     // BENCHMARKS
 
     [Benchmark]
-    public object GetAdl()
+    public object AdlHub()
     {
-        QuoteHub<Quote> provider = new();
-        AdlHub<Quote> adl = provider.ToAdl();
-
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
-
-        provider.EndTransmission();
-        return adl.Results;
+        var hub = provider.ToAdl();
+        return hub.Results;
     }
 
     [Benchmark]
-    public object GetAlligator()
+    public object AlligatorHub()
     {
-        QuoteHub<Quote> provider = new();
-        AlligatorHub<Quote> alligator = provider.ToAlligator();
-
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
-
-        provider.EndTransmission();
-        return alligator.Results;
+        var hub = provider.ToAlligator();
+        return hub.Results;
     }
     
     [Benchmark]
-    public object GetEma()
+    public object EmaHub()
     {
-        QuoteHub<Quote> provider = new();
-        EmaHub<Quote> ema = provider.ToEma(14);
-
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
-
-        provider.EndTransmission();
-        return ema.Results;
+        var hub = provider.ToEma(14);
+        return hub.Results;
     }
 
     [Benchmark]
-    public object GetRenko()
+    public object RenkoHub()
     {
-        QuoteHub<Quote> provider = new();
-        RenkoHub<Quote> renko = provider.ToRenko(2.5);
-
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
-
-        provider.EndTransmission();
-        return renko.Results;
+        var hub = provider.ToRenko(2.5);
+        return hub.Results;
     }
     
     [Benchmark]
-    public object GetSma()
+    public object SmaHub()
     {
-        QuoteHub<Quote> provider = new();
-        SmaHub<Quote> sma = provider.ToSma(10);
-
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
-
-        provider.EndTransmission();
-        return sma.Results;
+        var hub = provider.ToSma(10);
+        return hub.Results;
     }
 }
