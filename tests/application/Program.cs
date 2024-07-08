@@ -10,20 +10,18 @@ internal class Program
             Console.WriteLine(args);
         }
 
-        string scenario = "B";
+        string scenario = "A";
 
-        if (scenario is "A")
+        switch (scenario)
         {
-            Scenarios.QuoteHub();
-        }
-        else if (scenario is "B")
-        {
-            Scenarios.MultipleSubscribers();
+            case "A": Do.QuoteHub(); break;
+            case "B": Do.EmaHub(); break;
+            case "C": Do.MultipleSubscribers(); break;
         }
     }
 }
 
-public class Scenarios
+public class Do
 {
     private static readonly bool verbose = true; // turn this off when profiling
 
@@ -34,7 +32,7 @@ public class Scenarios
 
     private static readonly int quotesLength = quotes.Count;
 
-    internal Scenarios()
+    internal Do()
     {
         if (!verbose)
         {
@@ -47,6 +45,42 @@ public class Scenarios
     }
 
     internal static void QuoteHub()
+    {
+        EmaHub<Quote> emaHub = provider.ToEma(14);
+
+        if (!verbose)
+        {
+            return;
+        }
+
+        // initialize console display
+        Console.WriteLine("""
+        Date     Close price
+        --------------------
+        """);
+
+        // add quotes to provider
+        for (int i = 0; i < quotesLength; i++)
+        {
+            Quote q = quotes[i];
+            provider.Add(q);
+
+            // wait for next quote
+            Timewarp();
+
+            // send to console
+            SendToConsole(q);
+        }
+    }
+
+    private static void SendToConsole(Quote q)
+    {
+        string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";
+        Console.WriteLine(m);
+    }
+
+
+    internal static void EmaHub()
     {
         EmaHub<Quote> emaHub = provider.ToEma(14);
 
