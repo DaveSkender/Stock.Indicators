@@ -1,4 +1,3 @@
-
 namespace Test.Application;
 
 internal class Program
@@ -10,7 +9,7 @@ internal class Program
             Console.WriteLine(args);
         }
 
-        string scenario = "A";
+        string scenario = "C";
 
         switch (scenario)
         {
@@ -36,11 +35,16 @@ public class Do
     {
         if (!verbose)
         {
-            // prefill quotes to provider
-            for (int i = 0; i < quotesLength; i++)
-            {
-                provider.Add(quotes[i]);
-            }
+            Prefill();
+        }
+    }
+
+    private static void Prefill()
+    {
+        // prefill quotes to provider
+        for (int i = 0; i < quotesLength; i++)
+        {
+            provider.Add(quotes[i]);
         }
     }
 
