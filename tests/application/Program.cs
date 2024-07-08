@@ -1,128 +1,172 @@
-namespace ObserveStreaming;
+
+namespace Test.Application;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        // arg 0: true/false to show console (default: true)
-        // arg 1: quotes per minute (default: 0 [no delays])
-
-        bool log = true;
-        int qpm = 0;
-
         if (args.Length != 0)
         {
             Console.WriteLine(args);
-
-            if (args.Length > 0)
-            {
-                log = bool.Parse(args[0]);
-            }
-
-            if (args.Length > 1)
-            {
-                qpm = int.Parse(args[1]);
-            }
         }
 
-        Scenarios scenarios = new(log, qpm);
-        scenarios.MultipleSubscribers();
+        string scenario = "B";
+
+        if (scenario is "A")
+        {
+            Scenarios.QuoteHub();
+        }
+        else if (scenario is "B")
+        {
+            Scenarios.MultipleSubscribers();
+        }
     }
 }
 
 public class Scenarios
 {
-    private readonly bool showConsole;
-    private readonly int quotesPerMinute;
+    private static readonly bool verbose = true; // turn this off when profiling
 
     private static readonly QuoteHub<Quote> provider = new();
 
     private static readonly IReadOnlyList<Quote> quotes
         = TestData.GetDefault().ToSortedCollection();
 
-    internal Scenarios(bool log, int qpm)
+    private static readonly int quotesLength = quotes.Count;
+
+    internal Scenarios()
     {
-        showConsole = log;
-        quotesPerMinute = qpm;
+        if (!verbose)
+        {
+            // prefill quotes to provider
+            for (int i = 0; i < quotesLength; i++)
+            {
+                provider.Add(quotes[i]);
+            }
+        }
     }
 
-    public void MultipleSubscribers()
+    internal static void QuoteHub()
     {
-        SmaHub<Quote> sma = provider.ToSma(3);
-        EmaHub<Quote> ema = provider.ToEma(5);
-        EmaHub<Reusable> useChain = provider.Use(CandlePart.HL2).ToEma(7);
-        EmaHub<SmaResult> emaChain = provider.ToSma(4).ToEma(4);
+        EmaHub<Quote> emaHub = provider.ToEma(14);
 
-        // initialize console display
-        if (showConsole)
+        if (!verbose)
         {
-            Console.WriteLine("""
-            Date                Close price      SMA(3)      EMA(5)  EMA(7,HL2)  SMA/EMA(8)
-            -------------------------------------------------------------------------------
-            """);
+            return;
         }
 
+        // initialize console display
+        Console.WriteLine("""
+        Date     Close price   EMA(14)
+        ------------------------------
+        """);
+
         // add quotes to provider
-        foreach (Quote q in quotes)
+        for (int i = 0; i < quotesLength; i++)
         {
+            Quote q = quotes[i];
             provider.Add(q);
 
             // wait for next quote
             Timewarp();
 
             // send to console
-            SendToConsole(q, sma, ema, useChain, emaChain);
+            SendToConsole(q, emaHub);
         }
     }
 
-    private void SendToConsole(
-        Quote q,
-        SmaHub<Quote> sma,
-        EmaHub<Quote> ema,
-        EmaHub<Reusable> useChain,
-        EmaHub<SmaResult> emaChain)
+    private static void SendToConsole(Quote q, EmaHub<Quote> emaHub)
     {
-        if (!showConsole)
+        string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";
+
+        EmaResult e = emaHub.Results[^1];
+
+        if (e.Ema is not null)
+        {
+            m += $"{e.Ema,10:N3}";
+        }
+        else
+        {
+            m += $"{"[null]",10}";
+        }
+
+        Console.WriteLine(m);
+    }
+
+    internal static void MultipleSubscribers()
+    {
+        SmaHub<Quote> smaHub = provider.ToSma(3);
+        EmaHub<Quote> emaHub = provider.ToEma(5);
+        EmaHub<Reusable> useChain = provider.Use(CandlePart.HL2).ToEma(7);
+        EmaHub<SmaResult> emaChain = provider.ToSma(4).ToEma(4);
+
+        if (!verbose)
         {
             return;
         }
 
-        // display live results
-        string liveMessage = $"{q.Timestamp:u}    ${q.Close:N2}";
+        // initialize console display
+        Console.WriteLine("""
+        Date     Close price   SMA(3)  EMA(5)  EMA(7,HL2)  SMA/EMA(8)
+        -------------------------------------------------------------
+        """);
 
-        SmaResult s = sma.Results[^1];
-        EmaResult e = ema.Results[^1];
+        // add quotes to provider
+        for (int i = 0; i < quotesLength; i++)
+        {
+            Quote q = quotes[i];
+            provider.Add(q);
+
+            // wait for next quote
+            Timewarp();
+
+            // send to console
+            SendToConsole(q, smaHub, emaHub, useChain, emaChain);
+        }
+    }
+
+    private static void SendToConsole(
+        Quote q,
+        SmaHub<Quote> smaHub,
+        EmaHub<Quote> emaHub,
+        EmaHub<Reusable> useChain,
+        EmaHub<SmaResult> emaChain)
+    {
+        string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";
+
+        SmaResult s = smaHub.Results[^1];
+        EmaResult e = emaHub.Results[^1];
         EmaResult u = useChain.Results[^1];
         EmaResult c = emaChain.Results[^1];
 
         if (s.Sma is not null)
         {
-            liveMessage += $"{s.Sma,12:N1}";
+            m += $"{s.Sma,8:N1}";
         }
 
         if (e.Ema is not null)
         {
-            liveMessage += $"{e.Ema,12:N1}";
+            m += $"{e.Ema,8:N1}";
         }
 
         if (u.Ema is not null)
         {
-            liveMessage += $"{u.Ema,12:N1}";
+            m += $"{u.Ema,12:N1}";
         }
 
         if (c.Ema is not null)
         {
-            liveMessage += $"{c.Ema,12:N1}";
+            m += $"{c.Ema,12:N1}";
         }
 
-        Console.WriteLine(liveMessage);
+        Console.WriteLine(m);
     }
 
     /// <summary>
     /// Emulate quote arrival rate.
     /// Use '0' to disable.
     /// </summary>
-    private void Timewarp()
+    private static void Timewarp(int quotesPerMinute = 0)
     {
         if (quotesPerMinute is 0)
         {
