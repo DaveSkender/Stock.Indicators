@@ -15,13 +15,13 @@ public interface IAlligatorHub
 }
 #endregion
 
-public class Alligator<TIn>
+public class AlligatorHub<TIn>
     : ResultHub<TIn, AlligatorResult>, IAlligatorHub
     where TIn : struct, IReusable
 {
     #region constructors
 
-    public Alligator(
+    public AlligatorHub(
         ChainProvider<TIn> provider,
         int jawPeriods, int jawOffset,
         int teethPeriods, int teethOffset,
@@ -32,7 +32,7 @@ public class Alligator<TIn>
             lipsPeriods, lipsOffset)
     { }
 
-    private Alligator(
+    private AlligatorHub(
         ChainProvider<TIn> provider,
         StreamCache<AlligatorResult> cache,
         int jawPeriods, int jawOffset,

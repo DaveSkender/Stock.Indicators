@@ -21,7 +21,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         }
 
         // initialize observer
-        Alligator<Quote> observer = provider
+        AlligatorHub<Quote> observer = provider
             .ToAlligator();
 
         // fetch initial results (early)
@@ -91,7 +91,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        Alligator<SmaResult> observer = provider
+        AlligatorHub<SmaResult> observer = provider
             .ToSma(10)
             .ToAlligator();
 

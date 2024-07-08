@@ -49,7 +49,7 @@ public static partial class Alligator
                 lipsOffset);
 
     // OBSERVER, from Chain Provider
-    public static Alligator<TIn> ToAlligator<TIn>(
+    public static AlligatorHub<TIn> ToAlligator<TIn>(
         this ChainProvider<TIn> chainProvider,
         int jawPeriods = 13,
         int jawOffset = 8,

@@ -5,16 +5,9 @@ namespace Tests.Performance;
 
 public class IndicatorStreamTests
 {
-    /*
-     dotnet build -c Release
+    private static readonly List<Quote> ql
+        = TestData.GetDefault().ToSortedList();
 
-     Examples, to run cohorts:
-     dotnet run -c Release -filter *IndicatorStreaming*
-     dotnet run -c Release -filter *IndicatorStreaming.GetSma*
-     */
-
-    private static IEnumerable<Quote> q;
-    private static List<Quote> ql;
     private readonly QuoteHub<Quote> provider = new();
 
     // SETUP
@@ -22,9 +15,6 @@ public class IndicatorStreamTests
     [GlobalSetup]
     public void Setup()
     {
-        q = TestData.GetDefault();
-        ql = q.ToSortedList();
-
         ReadOnlySpan<Quote> spanQuotes
             = CollectionsMarshal.AsSpan(ql);
 
@@ -39,35 +29,35 @@ public class IndicatorStreamTests
     [Benchmark]
     public object AdlHub()
     {
-        var hub = provider.ToAdl();
+        AdlHub<Quote> hub = provider.ToAdl();
         return hub.Results;
     }
 
     [Benchmark]
     public object AlligatorHub()
     {
-        var hub = provider.ToAlligator();
+        AlligatorHub<Quote> hub = provider.ToAlligator();
         return hub.Results;
     }
-    
+
     [Benchmark]
     public object EmaHub()
     {
-        var hub = provider.ToEma(14);
+        EmaHub<Quote> hub = provider.ToEma(14);
         return hub.Results;
     }
 
     [Benchmark]
     public object RenkoHub()
     {
-        var hub = provider.ToRenko(2.5m);
+        RenkoHub<Quote> hub = provider.ToRenko(2.5m);
         return hub.Results;
     }
-    
+
     [Benchmark]
     public object SmaHub()
     {
-        var hub = provider.ToSma(10);
+        SmaHub<Quote> hub = provider.ToSma(10);
         return hub.Results;
     }
 }
