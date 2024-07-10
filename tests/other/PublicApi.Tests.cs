@@ -35,8 +35,6 @@ internal sealed class MyGenericQuote : IQuote
 [TestClass]
 public class PublicClassTests
 {
-    internal static readonly CultureInfo EnglishCulture = new("en-US", false);
-
     [TestMethod]
     public void ValidateHistory()
     {
@@ -226,7 +224,11 @@ public class PublicClassTests
         Assert.IsTrue(myIndicatorResults.Any());
 
         // find specific date
-        DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", EnglishCulture);
+        DateTime findDate
+            = DateTime.ParseExact(
+                "2018-12-31",
+                "yyyy-MM-dd",
+                CultureInfo.InvariantCulture);
 
         MyEma i = myIndicatorResults.Find(findDate);
         Assert.AreEqual(12345, i.Id);
@@ -234,4 +236,37 @@ public class PublicClassTests
         EmaResult r = emaResults.Find(findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
     }
+
+    [TestMethod]
+    public void CultureDate()
+    {
+        // tests for culture compatibility
+
+        bool isParsed = DateTime.TryParse(
+            "2018-12-05", out DateTime outDate);
+
+        Assert.IsTrue(isParsed);
+        Assert.AreEqual(2018, outDate.Year);
+        Assert.AreEqual(12, outDate.Month);
+        Assert.AreEqual(5, outDate.Day);
+
+        // TODO: may need to pair with LANG envar
+        Assert.Fail("test incomplete");
+    }
+
+    [TestMethod]
+    public void CultureNumber()
+    {
+        // tests for culture compatibility
+
+        bool isParsed = decimal.TryParse(
+            "1,000", out decimal outDecimal);
+
+        Assert.IsTrue(isParsed);
+        Assert.AreEqual(1000, outDecimal);
+
+        // TODO: may need to pair with LANG envar
+        Assert.Fail("test incomplete");
+    }
+
 }

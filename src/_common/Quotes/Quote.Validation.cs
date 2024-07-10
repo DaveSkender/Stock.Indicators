@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES
@@ -17,12 +19,13 @@ public static partial class QuoteUtility
 
         // check for duplicates
         DateTime lastDate = DateTime.MinValue;
-        foreach (var q in quotesList)
+        foreach (TQuote q in quotesList)
         {
             if (lastDate == q.Date)
             {
                 throw new InvalidQuotesException(
-                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
+                    string.Format(CultureInfo.InvariantCulture,
+                    "Duplicate date found on {0}.", q.Date));
             }
 
             lastDate = q.Date;

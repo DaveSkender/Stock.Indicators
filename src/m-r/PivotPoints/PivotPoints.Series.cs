@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
 // PIVOT POINTS (SERIES)
@@ -211,7 +213,7 @@ public static partial class Indicator
             PeriodSize.OneHour => d.Hour,
             _ => throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
                 string.Format(
-                    EnglishCulture,
+                    CultureInfo.InvariantCulture,
                     "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
                     Enum.GetName(typeof(PeriodSize), windowSize)))
         };
