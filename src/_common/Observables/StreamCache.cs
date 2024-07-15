@@ -51,108 +51,143 @@ public abstract class StreamCache<TSeries>
     /// <inheritdoc/>
     public int GetIndex(TSeries cachedItem, bool noException)
     {
-        int index = Cache.FindIndex(c => c.Equals(cachedItem));
+        int low = 0;
+        int high = Cache.Count - 1;
+        int firstMatchIndex = -1; // index of the first timestamp match
 
-        if (index >= 0 || noException)
+        while (low <= high)
         {
-            return index;
+            int mid = low + ((high - low) / 2);
+            int comparison = Cache[mid].Timestamp.CompareTo(cachedItem.Timestamp);
+
+            if (comparison == 0)
+            {
+                // found a match by Timestamp,
+                // store the index of the first match
+                if (firstMatchIndex == -1)
+                {
+                    firstMatchIndex = mid;
+                }
+
+                // verify with Equals for an exact match
+                if (Cache[mid].Equals(cachedItem))
+                {
+                    return mid; // exact match found
+                }
+
+                // continue searching to the left for
+                // the first occurrence
+                high = mid - 1;
+            }
+            else if (comparison < 0)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
         }
 
-        //int low = 0;
-        //int high = Cache.Count - 1;
+        // If a timestamp match was found but no exact
+        // match, try to find an exact match in the range
+        // of duplicate timestamps (e.g. Renko bricks),
+        // biased towards later duplicats.
+        if (firstMatchIndex != -1)
+        {
+            // Find the last occurrence of the matching timestamp
+            int lastMatchIndex = firstMatchIndex;
+            for (int i = firstMatchIndex + 1; i < Cache.Count && Cache[i].Timestamp == cachedItem.Timestamp; i++)
+            {
+                lastMatchIndex = i;
+            }
 
-        //while (low <= high)
-        //{
-        //    int mid = low + (high - low) / 2;
-        //    int comparison = Cache[mid].Timestamp.CompareTo(cachedItem.Timestamp);
+            // Search for an exact match starting from the last occurrence
+            for (int i = lastMatchIndex; i >= firstMatchIndex; i--)
+            {
+                if (Cache[i].Equals(cachedItem))
+                {
+                    return i; // exact match found among duplicates
+                }
+            }
+        }
 
-        //    if (comparison == 0)
-        //    {
-        //        // Found a match by Timestamp, verify with Equals
-        //        if (Cache[mid].Equals(cachedItem))
-        //        {
-        //            return mid; // Exact match found
-        //        }
-        //        // Handle the case where Timestamps match but items are not equal,
-        //        // this depends on the nature of your data and equality conditions.
-        //        break; // Exit loop or adjust search logic for duplicates
-        //    }
-        //    else if (comparison < 0)
-        //    {
-        //        low = mid + 1;
-        //    }
-        //    else
-        //    {
-        //        high = mid - 1;
-        //    }
-        //}
-
-        // source unexpectedly not found
-        throw new ArgumentException(
-            "Matching source history not found.", nameof(cachedItem));
+        if (noException)
+        {
+            return -1;
+        }
+        else
+        {
+            // not found
+            throw new ArgumentException(
+                "Matching source history not found.", nameof(cachedItem));
+        }
     }
 
     // get the cache index based on a timestamp
     /// <inheritdoc/>
     public int GetIndex(DateTime timestamp, bool noException)
     {
-        int index = Cache.FindIndex(
-            c => c.Timestamp == timestamp);
+        int low = 0;
+        int high = Cache.Count - 1;
 
-        if (index >= 0 || noException)
+        while (low <= high)
         {
-            return index;
+            int mid = low + ((high - low) / 2);
+            DateTime midTimestamp = Cache[mid].Timestamp;
+
+            if (midTimestamp == timestamp)
+            {
+                return mid;
+            }
+            else if (midTimestamp < timestamp)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
         }
 
-        //int low = 0;
-        //int high = Cache.Count - 1;
-
-        //while (low <= high)
-        //{
-        //    int mid = low + (high - low) / 2;
-        //    DateTime midTimestamp = Cache[mid].Timestamp;
-
-        //    if (midTimestamp == timestamp)
-        //    {
-        //        return mid;
-        //    }
-        //    else if (midTimestamp < timestamp)
-        //    {
-        //        low = mid + 1;
-        //    }
-        //    else
-        //    {
-        //        high = mid - 1;
-        //    }
-        //}
-
-        // not found
-        throw new ArgumentException(
-            "Matching source history not found.", nameof(timestamp));
+        if (noException)
+        {
+            return -1;
+        }
+        else
+        {
+            // not found
+            throw new ArgumentException(
+                "Matching source history not found.", nameof(timestamp));
+        }
     }
 
     // get first cache index at or greater than timestamp
     /// <inheritdoc/>
     public int GetInsertIndex(DateTime timestamp)
-        => Cache.FindIndex(c => c.Timestamp >= timestamp);
-    //int low = 0;
-    //int high = Cache.Count;
-    //while (low < high)
-    //{
-    //    int mid = low + (high - low) / 2;
-    //    if (Cache[mid].Timestamp < timestamp)
-    //    {
-    //        low = mid + 1;
-    //    }
-    //    else
-    //    {
-    //        high = mid;
-    //    }
-    //}
-    //// At this point, low is the index of the first element that is greater than or equal to timestamp
-    //// or Cache.Count if all elements are less than timestamp.
-    //// If low is equal to Cache.Count, it means there are no elements greater than or equal to timestamp.
-    //return low < Cache.Count ? low : -1;
+    {
+        int low = 0;
+        int high = Cache.Count;
+        while (low < high)
+        {
+            int mid = low + ((high - low) / 2);
+            if (Cache[mid].Timestamp < timestamp)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid;
+            }
+        }
+
+        // At this point, low is the index of the first
+        // element that is greater than or equal to timestamp
+        // or Cache.Count if all elements are less than timestamp.
+        // If low is equal to Cache.Count, it means there are
+        // no elements greater than or equal to timestamp.
+        return low < Cache.Count ? low : -1;
+    }
 
     #endregion
 
