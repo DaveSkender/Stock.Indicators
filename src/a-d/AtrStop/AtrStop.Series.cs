@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // ATR TRAILING STOP (SERIES)
 
-public static partial class Indicator
+public static partial class AtrStop
 {
     private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> qdList,
@@ -11,7 +11,7 @@ public static partial class Indicator
         EndType endType)
     {
         // check parameter arguments
-        AtrStop.Validate(lookbackPeriods, multiplier);
+        Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = qdList.Count;
@@ -42,15 +42,15 @@ public static partial class Indicator
                 // potential bands for CLOSE
                 if (endType == EndType.Close)
                 {
-                    upperEval = q.Close + multiplier * atr;
-                    lowerEval = q.Close - multiplier * atr;
+                    upperEval = q.Close + (multiplier * atr);
+                    lowerEval = q.Close - (multiplier * atr);
                 }
 
                 // potential bands for HIGH/LOW
                 else
                 {
-                    upperEval = q.High + multiplier * atr;
-                    lowerEval = q.Low - multiplier * atr;
+                    upperEval = q.High + (multiplier * atr);
+                    lowerEval = q.Low - (multiplier * atr);
                 }
 
                 // initial values
@@ -90,13 +90,11 @@ public static partial class Indicator
                 }
             }
 
-            AtrStopResult r = new(
+            results.Add(new AtrStopResult(
                 Timestamp: q.Timestamp,
                 AtrStop: atrStop,
                 BuyStop: buyStop,
-                SellStop: sellStop);
-
-            results.Add(r);
+                SellStop: sellStop));
         }
 
         return results;
