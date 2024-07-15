@@ -4,4 +4,7 @@ public record WilliamsResult
 (
     DateTime Timestamp,
     double? WilliamsR
-) : Reusable(Timestamp, WilliamsR.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => WilliamsR.Null2NaN();
+}

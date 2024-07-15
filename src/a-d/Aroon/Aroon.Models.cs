@@ -6,4 +6,7 @@ public record AroonResult
     double? AroonUp,
     double? AroonDown,
     double? Oscillator
-) : Reusable(Timestamp, Oscillator.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Oscillator.Null2NaN();
+}

@@ -86,8 +86,10 @@ public record Quote
     decimal Low,
     decimal Close,
     decimal Volume
-) : Reusable(Timestamp, (double)Close), IQuote
+) : Reusable(Timestamp), IQuote
 {
+    public override double Value => (double)Close;
+
     // TODO: add [Obsolete] auto-getter/setter for 'Date' property
     // but only for a short transition period.  See if there can be
     // a full overload of 'Quote' that has the 'Date' property and
@@ -106,4 +108,7 @@ internal record QuoteD
     double Low,
     double Close,
     double Volume
-) : Reusable(Timestamp, Close);
+) : Reusable(Timestamp)
+{
+    public override double Value => (double)Close;
+}

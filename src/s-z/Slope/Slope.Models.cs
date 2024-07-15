@@ -8,4 +8,7 @@ public record SlopeResult
     double? StdDev = null,
     double? RSquared = null,
     decimal? Line = null // last line segment only
-) : Reusable(Timestamp, Slope.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Slope.Null2NaN();
+}

@@ -5,4 +5,7 @@ public record AwesomeResult
     DateTime Timestamp,
     double? Oscillator,
     double? Normalized
-) : Reusable(Timestamp, Oscillator.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Oscillator.Null2NaN();
+}

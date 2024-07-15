@@ -15,7 +15,7 @@ public static partial class Indicator
 
         // initialize
         int shiftQty = lookbackPeriods - 1;
-        List<Reusable> synthHistory = [];
+        List<IReusable> synthHistory = [];
 
         List<WmaResult> wmaN1 = source.GetWma(lookbackPeriods).ToList();
         List<WmaResult> wmaN2 = source.GetWma(lookbackPeriods / 2).ToList();
@@ -33,7 +33,7 @@ public static partial class Indicator
                 continue;
             }
 
-            Reusable sh = new(
+            QuotePart sh = new(
                 s.Timestamp,
                 (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
 

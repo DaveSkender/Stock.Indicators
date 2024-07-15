@@ -5,4 +5,7 @@ public record ParabolicSarResult
     DateTime Timestamp,
     double? Sar = null,
     bool? IsReversal = null
-) : Reusable(Timestamp, Sar.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Sar.Null2NaN();
+}

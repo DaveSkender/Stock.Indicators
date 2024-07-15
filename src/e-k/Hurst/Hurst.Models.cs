@@ -4,4 +4,7 @@ public record HurstResult
 (
     DateTime Timestamp,
     double? HurstExponent
-) : Reusable(Timestamp, HurstExponent.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => HurstExponent.Null2NaN();
+}

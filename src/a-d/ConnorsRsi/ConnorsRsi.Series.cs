@@ -25,8 +25,8 @@ public static partial class Indicator
             = source.CalcStreak(rsiPeriods, rankPeriods);
 
         // RSI of streak
-        List<Reusable> reStreak = streakInfo
-            .Select(si => new Reusable(si.Timestamp, si.Streak))
+        List<QuotePart> reStreak = streakInfo
+            .Select(si => new QuotePart(si.Timestamp, si.Streak))
             .ToList();
 
         List<RsiResult> rsiStreak = reStreak.CalcRsi(streakPeriods);
@@ -48,8 +48,7 @@ public static partial class Indicator
 
                 results.Add(sInfo with {
                     ConnorsRsi = crsi,
-                    RsiStreak = sRsi.Rsi,
-                    Value = crsi.Null2NaN()
+                    RsiStreak = sRsi.Rsi
                 });
             }
 

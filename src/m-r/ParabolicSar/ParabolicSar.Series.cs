@@ -153,8 +153,7 @@ public static partial class Indicator
         {
             ParabolicSarResult r = results[d] with {
                 Sar = null,
-                IsReversal = null,
-                Value = double.NaN
+                IsReversal = null
             };
 
             results[d] = r;

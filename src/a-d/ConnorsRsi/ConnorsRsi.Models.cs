@@ -8,4 +8,7 @@ public record ConnorsRsiResult
     double? RsiStreak = null,
     double? PercentRank = null,
     double? ConnorsRsi = null
-) : Reusable(Timestamp, ConnorsRsi.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => ConnorsRsi.Null2NaN();
+}

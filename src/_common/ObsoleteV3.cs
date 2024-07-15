@@ -19,7 +19,7 @@ public static partial class Indicator
         int lipsPeriods = 5,
         int lipsOffset = 3)
         => priceTuples
-           .Select(t => new Reusable(t.d, t.v))
+           .Select(t => new QuotePart(t.d, t.v))
            .ToList()
            .CalcAlligator(
             jawPeriods, jawOffset,

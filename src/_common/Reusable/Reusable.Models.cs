@@ -4,10 +4,14 @@ namespace Skender.Stock.Indicators;
 /// Reusable base result model for chainable indicators.
 /// </summary>
 /// <inheritdoc cref="IReusable"/>
-public record Reusable
-(
-    DateTime Timestamp,
-    double Value
-) : IReusable;
+public abstract record Reusable(
+    DateTime Timestamp
+) : IReusable
+{
+    // we've done it this way to avoid
+    // having to seal the inherited classes
+    // to enable inheritance, but without
+    // instantiating the Value property
 
-// TODO: make abstract, use QuotePart as instantiation
+    public abstract double Value { get; }
+}

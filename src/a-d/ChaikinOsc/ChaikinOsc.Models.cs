@@ -7,4 +7,7 @@ public record ChaikinOscResult
     double? MoneyFlowVolume,
     double? Adl,
     double? Oscillator
-) : Reusable(Timestamp, Oscillator.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Oscillator.Null2NaN();
+}

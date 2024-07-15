@@ -4,4 +4,7 @@ public record BopResult
 (
     DateTime Timestamp,
     double? Bop
-) : Reusable(Timestamp, Bop.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Bop.Null2NaN();
+}

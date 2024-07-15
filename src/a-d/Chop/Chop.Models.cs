@@ -4,4 +4,7 @@ public record ChopResult
 (
     DateTime Timestamp,
     double? Chop
-) : Reusable(Timestamp, Chop.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Chop.Null2NaN();
+}

@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Skender.Stock.Indicators;
 
 public record AdlResult
@@ -6,4 +8,7 @@ public record AdlResult
     double Adl,
     double? MoneyFlowMultiplier = null,
     double? MoneyFlowVolume = null
-) : Reusable(Timestamp, Adl);
+) : Reusable(Timestamp)
+{
+    public override double Value => Adl;
+}

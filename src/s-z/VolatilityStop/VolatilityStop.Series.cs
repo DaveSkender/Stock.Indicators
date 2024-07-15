@@ -102,8 +102,7 @@ public static partial class Indicator
                 Sar = null,
                 UpperBand = null,
                 LowerBand = null,
-                IsStop = null,
-                Value = double.NaN
+                IsStop = null
             };
         }
 

@@ -5,4 +5,7 @@ public record RocResult
     DateTime Timestamp,
     double? Momentum,
     double? Roc
-) : Reusable(Timestamp, Roc.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Roc.Null2NaN();
+}

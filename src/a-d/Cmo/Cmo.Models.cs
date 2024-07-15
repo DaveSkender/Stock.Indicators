@@ -4,4 +4,7 @@ public record CmoResult
 (
     DateTime Timestamp,
     double? Cmo = null
-) : Reusable(Timestamp, Cmo.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Cmo.Null2NaN();
+}

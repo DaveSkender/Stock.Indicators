@@ -4,4 +4,7 @@ public record AlmaResult
 (
     DateTime Timestamp,
     double? Alma
-) : Reusable(Timestamp, Alma.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Alma.Null2NaN();
+}

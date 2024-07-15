@@ -8,4 +8,7 @@ public record CorrResult
     double? Covariance = null,
     double? Correlation = null,
     double? RSquared = null
-) : Reusable(Timestamp, Correlation.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Correlation.Null2NaN();
+}

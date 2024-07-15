@@ -4,4 +4,7 @@ public record DynamicResult
 (
     DateTime Timestamp,
     double? Dynamic
-) : Reusable(Timestamp, Dynamic.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Dynamic.Null2NaN();
+}

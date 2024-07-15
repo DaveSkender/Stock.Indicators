@@ -4,4 +4,7 @@ public record VwapResult
 (
     DateTime Timestamp,
     double? Vwap
-) : Reusable(Timestamp, Vwap.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Vwap.Null2NaN();
+}

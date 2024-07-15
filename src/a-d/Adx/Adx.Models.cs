@@ -7,4 +7,7 @@ public record AdxResult
     double? Mdi = null,
     double? Adx = null,
     double? Adxr = null
-) : Reusable(Timestamp, Adx.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Adx.Null2NaN();
+}

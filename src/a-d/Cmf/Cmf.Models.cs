@@ -6,4 +6,7 @@ public record CmfResult
     double? MoneyFlowMultiplier,
     double? MoneyFlowVolume,
     double? Cmf
-) : Reusable(Timestamp, Cmf.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Cmf.Null2NaN();
+}

@@ -4,4 +4,7 @@ public record ObvResult
 (
     DateTime Timestamp,
     double Obv
-) : Reusable(Timestamp, Obv);
+) : Reusable(Timestamp)
+{
+    public override double Value => Obv;
+}

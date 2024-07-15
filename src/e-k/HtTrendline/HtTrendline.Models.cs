@@ -6,4 +6,7 @@ public record HtlResult
     int? DcPeriods,
     double? Trendline,
     double? SmoothPrice
-) : Reusable(Timestamp, Trendline.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Trendline.Null2NaN();
+}

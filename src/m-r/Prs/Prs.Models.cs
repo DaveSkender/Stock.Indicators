@@ -5,4 +5,7 @@ public record PrsResult
     DateTime Timestamp,
     double? Prs,
     double? PrsPercent
-) : Reusable(Timestamp, Prs.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Prs.Null2NaN();
+}

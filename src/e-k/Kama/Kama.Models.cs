@@ -5,4 +5,7 @@ public record KamaResult
     DateTime Timestamp,
     double? Er = null,
     double? Kama = null
-) : Reusable(Timestamp, Kama.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Kama.Null2NaN();
+}

@@ -5,4 +5,7 @@ public record DpoResult
     DateTime Timestamp,
     double? Dpo = null,
     double? Sma = null
-    ) : Reusable(Timestamp, Dpo.Null2NaN());
+    ) : Reusable(Timestamp)
+{
+    public override double Value => Dpo.Null2NaN();
+}

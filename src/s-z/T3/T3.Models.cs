@@ -4,4 +4,7 @@ public record T3Result
 (
     DateTime Timestamp,
     double? T3
-) : Reusable(Timestamp, T3.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => T3.Null2NaN();
+}

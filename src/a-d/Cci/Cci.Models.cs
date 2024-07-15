@@ -4,4 +4,7 @@ public record CciResult
 (
     DateTime Timestamp,
     double? Cci
-) : Reusable(Timestamp, Cci.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Cci.Null2NaN();
+}

@@ -11,8 +11,8 @@ public class Reusable : TestBase
             .ToList();
 
         // make a few more in the middle null and NaN
-        results[249] = results[249] with { Value = double.NaN, Adx = null };
-        results[345] = results[345] with { Value = double.NaN, Adx = double.NaN };
+        results[249] = results[249] with { Adx = null };
+        results[345] = results[345] with { Adx = double.NaN };
 
         List<AdxResult> r = results.Condense().ToList();
 

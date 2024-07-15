@@ -4,7 +4,10 @@ public record ChandelierResult
 (
     DateTime Timestamp,
     double? ChandelierExit
-) : Reusable(Timestamp, ChandelierExit.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => ChandelierExit.Null2NaN();
+}
 
 public enum ChandelierType
 {

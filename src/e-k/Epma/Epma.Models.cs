@@ -4,4 +4,7 @@ public record EpmaResult
 (
     DateTime Timestamp,
     double? Epma
-) : Reusable(Timestamp, Epma.Null2NaN());
+) : Reusable(Timestamp)
+{
+    public override double Value => Epma.Null2NaN();
+}
