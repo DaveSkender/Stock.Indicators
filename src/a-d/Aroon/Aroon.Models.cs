@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct AroonResult
+public record AroonResult
 (
     DateTime Timestamp,
     double? AroonUp,
     double? AroonDown,
     double? Oscillator
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Oscillator.Null2NaN();
+    public override double Value => Oscillator.Null2NaN();
 }

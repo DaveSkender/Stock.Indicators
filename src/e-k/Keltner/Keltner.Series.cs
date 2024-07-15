@@ -27,7 +27,7 @@ public static partial class Indicator
 
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
@@ -38,7 +38,7 @@ public static partial class Indicator
                 AtrResult atr = atrResults[i];
                 double? atrSpan = atr.Atr * multiplier;
 
-                results.Add(new(
+                results.Add(new KeltnerResult(
                     Timestamp: q.Timestamp,
                     UpperBand: ema.Ema + atrSpan,
                     LowerBand: ema.Ema - atrSpan,
@@ -47,7 +47,7 @@ public static partial class Indicator
             }
             else
             {
-                results.Add(new() { Timestamp = q.Timestamp });
+                results.Add(new(q.Timestamp));
             }
         }
 

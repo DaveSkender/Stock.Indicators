@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct StarcBandsResult
+public record StarcBandsResult
 (
     DateTime Timestamp,
     double? UpperBand,
     double? Centerline,
     double? LowerBand
-) : IResult;
+) : ISeries;

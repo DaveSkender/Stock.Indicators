@@ -49,7 +49,7 @@ public static partial class Indicator
             prevM = mrkt.Value;
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T eval = sourceEval[i];

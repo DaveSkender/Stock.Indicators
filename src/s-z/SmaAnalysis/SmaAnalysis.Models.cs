@@ -8,14 +8,11 @@ namespace Skender.Stock.Indicators;
 /// <param name="Mad">Mean absolute deviation</param>
 /// <param name="Mse">Mean square error</param>
 /// <param name="Mape">Mean absolute percentage error</param>
-public readonly record struct SmaAnalysis
+public record SmaAnalysis
 (
     DateTime Timestamp,
-    double? Sma,
-    double? Mad,
-    double? Mse,
-    double? Mape
-) : IReusable
-{
-    double IReusable.Value => Sma.Null2NaN();
-}
+    double? Sma = null,
+    double? Mad = null,
+    double? Mse = null,
+    double? Mape = null
+) : SmaResult(Timestamp, Sma);

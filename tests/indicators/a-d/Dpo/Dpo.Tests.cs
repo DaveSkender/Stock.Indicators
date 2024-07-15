@@ -19,16 +19,8 @@ public class DpoTests : SeriesTestBase
             string[] csv = csvData[i].Split(",");
             DateTime date = Convert.ToDateTime(csv[1], englishCulture);
 
-            qot.Add(new() {
-                Timestamp = date,
-                Close = csv[5].ToDecimal()
-            });
-
-            exp.Add(new() {
-                Timestamp = date,
-                Sma = csv[6].ToDoubleNull(),
-                Dpo = csv[7].ToDoubleNull()
-            });
+            qot.Add(new Quote(date, 0, 0, 0, Close: csv[5].ToDecimal(), 0));
+            exp.Add(new(date, csv[7].ToDoubleNull(), csv[6].ToDoubleNull()));
         }
 
         // calculate actual data

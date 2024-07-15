@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct AlmaResult
+public record AlmaResult
 (
     DateTime Timestamp,
     double? Alma
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Alma.Null2NaN();
+    public override double Value => Alma.Null2NaN();
 }

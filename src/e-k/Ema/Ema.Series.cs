@@ -19,10 +19,10 @@ public static partial class Ema
         double lastEma = double.NaN;
         double k = 2d / (lookbackPeriods + 1);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
+            T s = source[i];
 
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
@@ -39,7 +39,7 @@ public static partial class Ema
                 double sum = 0;
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    var ps = source[p];
+                    T ps = source[p];
                     sum += ps.Value;
                 }
 

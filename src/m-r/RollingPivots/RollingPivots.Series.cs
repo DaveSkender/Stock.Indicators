@@ -18,7 +18,7 @@ public static partial class Indicator
         int length = quotesList.Count;
         List<RollingPivotsResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];

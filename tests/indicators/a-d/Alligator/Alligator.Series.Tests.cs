@@ -117,20 +117,9 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Equality()
     {
-        AlligatorResult r1 = new() {
-            Timestamp = EvalDate,
-            Jaw = 1d
-        };
-
-        AlligatorResult r2 = new() {
-            Timestamp = EvalDate,
-            Jaw = 1d
-        };
-
-        AlligatorResult r3 = new() {
-            Timestamp = EvalDate,
-            Jaw = 2d
-        };
+        AlligatorResult r1 = new(EvalDate, 1d, null, null);
+        AlligatorResult r2 = new(EvalDate, 1d, null, null);
+        AlligatorResult r3 = new(EvalDate, 2d, null, null); // abberent
 
         Assert.IsTrue(Equals(r1, r2));
         Assert.IsFalse(Equals(r1, r3));

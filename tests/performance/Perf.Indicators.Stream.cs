@@ -3,55 +3,70 @@ namespace Tests.Performance;
 
 public class IndicatorStreamTests
 {
-    /*
-     dotnet build -c Release
+    private static readonly List<Quote> ql
+        = TestData.GetDefault().ToSortedList();
 
-     Examples, to run cohorts:
-     dotnet run -c Release -filter *IndicatorStreaming*
-     dotnet run -c Release -filter *IndicatorStreaming.GetSma*
-     */
-
-    private static IEnumerable<Quote> q;
-    private static List<Quote> ql;
+    private readonly QuoteHub<Quote> provider = new();
 
     // SETUP
 
     [GlobalSetup]
     public void Setup()
     {
-        q = TestData.GetDefault();
-        ql = q.ToSortedList();
+        for (int i = 0; i < ql.Count; i++)
+        {
+            provider.Add(ql[i]);
+        }
     }
 
     // BENCHMARKS
 
     [Benchmark]
-    public object GetEma()
+    public object AdlHub()
     {
-        QuoteHub<Quote> provider = new();
-        EmaHub<Quote> ema = provider.ToEma(14);
-
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
-
-        provider.EndTransmission();
-        return ema.Results;
+        AdlHub<Quote> hub = provider.ToAdl();
+        return hub.Results;
     }
 
     [Benchmark]
-    public object GetSma()
+    public object AlligatorHub()
     {
-        QuoteHub<Quote> provider = new();
-        SmaHub<Quote> sma = provider.ToSma(10);
+        AlligatorHub<Quote> hub = provider.ToAlligator();
+        return hub.Results;
+    }
 
-        for (int i = 0; i < ql.Count; i++)
-        {
-            provider.Add(ql[i]);
-        }
+    [Benchmark]
+    public object EmaHub()
+    {
+        EmaHub<Quote> hub = provider.ToEma(14);
+        return hub.Results;
+    }
 
-        provider.EndTransmission();
-        return sma.Results;
+    [Benchmark]
+    public object QuoteHub()  // redistribution
+    {
+        QuoteHub<Quote> hub = provider.ToQuote();
+        return hub.Results;
+    }
+
+    [Benchmark]
+    public object QuotePartHub()
+    {
+        QuotePartHub<Quote> hub = provider.ToQuotePart(CandlePart.OHL3);
+        return hub.Results;
+    }
+
+    [Benchmark]
+    public object RenkoHub()
+    {
+        RenkoHub<Quote> hub = provider.ToRenko(2.5m);
+        return hub.Results;
+    }
+
+    [Benchmark]
+    public object SmaHub()
+    {
+        SmaHub<Quote> hub = provider.ToSma(10);
+        return hub.Results;
     }
 }

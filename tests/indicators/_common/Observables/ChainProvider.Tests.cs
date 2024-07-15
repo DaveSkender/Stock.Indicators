@@ -15,8 +15,8 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        EmaHub<Reusable> observer = provider
-            .Use(CandlePart.HL2)
+        var observer = provider
+            .ToQuotePart(CandlePart.HL2)
             .ToEma(11);
 
         // emulate adding quotes to provider
@@ -54,6 +54,6 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         Assert.AreEqual(observer.Cache.Count, observer.Results.Count);
 
         // confirm same length as provider cache
-        Assert.AreEqual(observer.Cache.Count, provider.Results.Count);
+        Assert.AreEqual(observer.Cache.Count, provider.Quotes.Count);
     }
 }

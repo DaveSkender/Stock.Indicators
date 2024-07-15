@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (STREAMING)
+// SIMPLE MOVING AVERAGE (STREAM HUB)
 
 #region hub interface
 public interface ISmaHub
@@ -9,58 +9,45 @@ public interface ISmaHub
 }
 #endregion
 
-public class SmaHub<TIn>
-    : ChainProvider<SmaResult>, IStreamHub<TIn, SmaResult>, ISmaHub
-    where TIn : struct, IReusable
+public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
+    IReusableHub<TIn, SmaResult>, ISmaHub
+    where TIn : IReusable
 {
-    private readonly StreamCache<SmaResult> _cache;
-    private readonly StreamObserver<TIn, SmaResult> _observer;
-    private readonly ChainProvider<TIn> _supplier;
-
     #region constructors
 
     public SmaHub(
-        ChainProvider<TIn> provider,
-        int lookbackPeriods)
-        : this(provider, cache: new(), lookbackPeriods) { }
-
-    private SmaHub(
-        ChainProvider<TIn> provider,
-        StreamCache<SmaResult> cache,
-        int lookbackPeriods) : base(cache)
+        IChainProvider<TIn> provider,
+        int lookbackPeriods) : base(provider)
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public int LookbackPeriods { get; }
 
-
     // METHODS
 
-    public override string ToString()
-        => $"SMA({LookbackPeriods})";
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-
-    public void OnNextNew(TIn newItem)
+    internal override void Add(Act act, TIn newIn, int? index)
     {
-        int i = _supplier.Position(newItem);
+        if (newIn is null)
+        {
+            throw new ArgumentNullException(nameof(newIn));
+        }
+
+        int i = index ?? Supplier.GetIndex(newIn, false);
 
         // candidate result
         SmaResult r = new(
-            Timestamp: newItem.Timestamp,
-            Sma: Sma.Increment(_supplier.ReadCache, i, LookbackPeriods).NaN2Null());
+            Timestamp: newIn.Timestamp,
+            Sma: Sma.Increment(Supplier.Results, i, LookbackPeriods).NaN2Null());
 
-        // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
-
-        // send to observers
-        NotifyObservers(act, r);
+        // save and send
+        Motify(act, r, i);
     }
+
+    public override string ToString()
+        => $"SMA({LookbackPeriods})";
 }

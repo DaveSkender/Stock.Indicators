@@ -16,7 +16,7 @@ public class QuoteProviderTests : TestBase
 
         provider.Add(quotesList.Take(200));
 
-        // emulate incremental quotes
+        // add incremental quotes
         for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
@@ -33,7 +33,7 @@ public class QuoteProviderTests : TestBase
         }
 
         // confirm public interfaces
-        Assert.AreEqual(provider.Cache.Count, provider.Results.Count);
+        Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count);
 
         // close observations
         provider.EndTransmission();

@@ -4,17 +4,18 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Adl
 {
-    internal static List<AdlResult> CalcAdl(
-        this List<QuoteD> qdList)
+    internal static List<AdlResult> CalcAdl<TQuote>(
+        this List<TQuote> source)
+        where TQuote : IQuote
     {
         // initialize
-        List<AdlResult> results = new(qdList.Count);
+        List<AdlResult> results = new(source.Count);
         double prevAdl = 0;
 
-        // roll through quotes
-        for (int i = 0; i < qdList.Count; i++)
+        // roll through source values
+        for (int i = 0; i < source.Count; i++)
         {
-            QuoteD q = qdList[i];
+            IQuote q = source[i];
 
             AdlResult r = Increment(
                 q.Timestamp, prevAdl,

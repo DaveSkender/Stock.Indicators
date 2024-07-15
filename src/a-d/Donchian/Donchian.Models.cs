@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct DonchianResult
+public record DonchianResult
 (
     DateTime Timestamp,
-    decimal? UpperBand,
-    decimal? Centerline,
-    decimal? LowerBand,
-    decimal? Width
-) : IResult;
+    decimal? UpperBand = null,
+    decimal? Centerline = null,
+    decimal? LowerBand = null,
+    decimal? Width = null
+) : ISeries;

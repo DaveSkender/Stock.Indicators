@@ -49,14 +49,14 @@ Items marked with &#128681; require special attention since they will not produc
 
 ### Common breaking changes
 
-- `Quote` type (built-in) was changed to an _**immutable**_ `record struct` type; and its `IQuote` interface `Date` property was widely renamed to `Timestamp`, to avoid a conflict with a C# reserved name.  This will break your implementation if you were using `Quote` as an inherited base type.  To fix, define your custom `TQuote` type on the `IQuote` interface instead (example below).
+- `Quote` type (built-in) was changed to an _**immutable**_ `record` type; and its `IQuote` interface `Date` property was widely renamed to `Timestamp`, to avoid a conflict with a C# reserved name.  This will break your implementation if you were using `Quote` as an inherited base type.  To fix, define your custom `TQuote` type on the `IQuote` interface instead (example below).
 
 - `IQuote` is now a reusable (chainable) type.  It auto-selects `Close` price as the _default_ consumed value.
 
-- `TQuote` custom quote types now have to be a `struct` type and implement the `IReusable` and `IEquality<IQuote>` interfaces to support chaining and streaming operations.  The best way to fix is to change your `TQuote` from a regular `class` to a `record struct` and add a pointer map `IReusable.Value` to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
+- `TQuote` custom quote types now have to implement the `IReusable` interface to support chaining operations.  The best way to fix is to change your `TQuote` to implement a `IReusable.Value` pointer to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
 
   ```csharp
-  public record struct MyCustomQuote (
+  public record MyCustomQuote (
 
       // `IQuote` properties
       DateTime Timestamp,
@@ -72,18 +72,12 @@ Items marked with &#128681; require special attention since they will not produc
   ) : IQuote // base: IReusable, IEquality<IQuote>
   {
       // custom mapped properties
-      readonly decimal IQuote.Close
+      decimal IQuote.Close
         => MyClose;
 
       // `IReusable` compliance
-      readonly double IReusable.Value
+      double IReusable.Value
         => (double)Close;
-
-      // Define value-based equality comparator.
-      // This implementation (below) is only
-      // appropriate for `record` types
-      public readonly bool Equals(IQuote? other)
-        => base.Equals(other);
   }
   ```
 
@@ -91,16 +85,16 @@ Items marked with &#128681; require special attention since they will not produc
 
 - &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.  This was done to improve internal chaining and streaming performance.
 
-- Indicator return types were changed from `sealed class` to an _**immutable**_ `record struct` types to improve internal chaining and streaming performance.  This will only impact people migrating from v1 who were using these as base classes.  Since v2, these new result types cannot be inherited.
+- Indicator return types were changed from `sealed class` to _**immutable**_ `record` types to improve internal chaining and streaming performance.  This should not impact negatively; however, these can now be inherited as base classes.
 
 ### Less common breaking changes
 
-- Return type for the `Use()` utility method was renamed from `UseResult` to `Reusable` for clarity of its wider purpose.
+- Return type for the `Use()` utility method was renamed from `UseResult` to `QuotePart` for clarity of its wider purpose.
 
-- `GetBaseQuote()` indicator and related `BasicData` return types were removed since they are redundant to the `Use()` method and `Reusable` return types, respectively.
+- `GetBaseQuote()` indicator and related `BasicData` return types were removed since they are redundant to the `Use()` method and `QuotePart` return types, respectively.
 
-- `SyncSeries()` utility function and related `SyncType` enum were removed.  These were primarily for internal utility, but were part of the public API since they were useful for custom indicator development.  Internally, we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit warmup periods.
+- `SyncSeries()` utility function and related `SyncType` enum were removed.  This was primarily an internal utility, but was part of the public API to support user who wanted to build custom indicator development.  Internally, we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit warmup periods.
 
-- `ToTupleCollection<TQuote>()` utility method was deprecated.  This was available to support custom indicator development, but is no longer needed.  We've discontinued using Tuples as an interface to chainable indicators that use `IReusableResult` return types.
+- `ToTupleCollection<TQuote>()` utility method was deprecated.  This was available to support custom indicator development, but is no longer needed.  We've discontinued using _tuples_ as an interface to chainable indicators.
 
 - `Find()` and `FindIndex()` utility methods were removed.  These were redundant to the native C# `List.Find()` method and `List.FindIndex()` methods, respectively.

@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct CmfResult
+public record CmfResult
 (
     DateTime Timestamp,
     double? MoneyFlowMultiplier,
     double? MoneyFlowVolume,
     double? Cmf
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Cmf.Null2NaN();
+    public override double Value => Cmf.Null2NaN();
 }

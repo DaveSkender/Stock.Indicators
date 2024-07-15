@@ -20,7 +20,7 @@ public static partial class Indicator
             .CalcAtr(lookbackPeriods)
             .ToList();
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

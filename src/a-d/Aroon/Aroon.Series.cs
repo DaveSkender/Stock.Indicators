@@ -14,7 +14,7 @@ public static partial class Indicator
         // initialize
         List<AroonResult> results = new(qdList.Count);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];

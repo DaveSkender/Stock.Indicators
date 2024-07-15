@@ -19,7 +19,7 @@ public static partial class Indicator
 
         double prevDyn = double.NaN;
 
-        // roll through quotes, to get preliminary data
+        // roll through source values, to get preliminary data
         for (int i = 0; i < length; i++)
         {
             T s = source[i];

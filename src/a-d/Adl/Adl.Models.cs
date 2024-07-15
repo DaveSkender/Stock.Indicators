@@ -1,12 +1,14 @@
+using System.Runtime.InteropServices;
+
 namespace Skender.Stock.Indicators;
 
-public readonly record struct AdlResult
+public record AdlResult
 (
     DateTime Timestamp,
     double Adl,
-    double? MoneyFlowMultiplier,
-    double? MoneyFlowVolume
-) : IReusable
+    double? MoneyFlowMultiplier = null,
+    double? MoneyFlowVolume = null
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Adl;
+    public override double Value => Adl;
 }

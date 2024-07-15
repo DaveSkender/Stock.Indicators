@@ -15,8 +15,8 @@ public static partial class Sma
 
     // OBSERVER, from Chain Provider
     public static SmaHub<TIn> ToSma<TIn>(
-        this ChainProvider<TIn> chainProvider,
+        this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
-        where TIn : struct, IReusable
+        where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
 }

@@ -44,4 +44,18 @@ public static partial class Adl
             MoneyFlowMultiplier: mfm,
             MoneyFlowVolume: mfv);
     }
+
+    internal static AdlResult Increment(
+        DateTime timestamp,
+        double prevAdl,
+        decimal high,
+        decimal low,
+        decimal close,
+        decimal volume) => Increment(
+            timestamp,
+            prevAdl,
+            (double)high,
+            (double)low,
+            (double)close,
+            (double)volume);
 }

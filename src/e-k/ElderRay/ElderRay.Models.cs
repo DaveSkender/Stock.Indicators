@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct ElderRayResult
+public record ElderRayResult
 (
     DateTime Timestamp,
     double? Ema,
     double? BullPower,
     double? BearPower
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => (BullPower + BearPower).Null2NaN();
+    public override double Value => (BullPower + BearPower).Null2NaN();
 }

@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct AtrResult
+public record AtrResult
 (
     DateTime Timestamp,
     double? Tr = null,
     double? Atr = null,
     double? Atrp = null
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Atrp.Null2NaN();
+    public override double Value => Atrp.Null2NaN();
 }

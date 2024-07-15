@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct StdDevResult
+public record StdDevResult
 (
     DateTime Timestamp,
     double? StdDev,
     double? Mean,
     double? ZScore
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => StdDev.Null2NaN();
+    public override double Value => StdDev.Null2NaN();
 }

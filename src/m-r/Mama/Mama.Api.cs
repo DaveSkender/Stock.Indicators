@@ -10,6 +10,6 @@ public static partial class Indicator
         double slowLimit = 0.05)
         where T : IReusable
         => results
-            .ToSortedList()
+            .ToSortedList(CandlePart.HL2)
             .CalcMama(fastLimit, slowLimit);
 }

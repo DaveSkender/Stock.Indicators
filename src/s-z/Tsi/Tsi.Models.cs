@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct TsiResult
+public record TsiResult
 (
     DateTime Timestamp,
-    double? Tsi,
-    double? Signal
-) : IReusable
+    double? Tsi = null,
+    double? Signal = null
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Tsi.Null2NaN();
+    public override double Value => Tsi.Null2NaN();
 }

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// EXPONENTIAL MOVING AVERAGE (STREAMING)
+// EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
 #region hub interface
 
@@ -11,64 +11,51 @@ public interface IEmaHub
 }
 #endregion
 
-public class EmaHub<TIn>
-    : ChainProvider<EmaResult>, IStreamHub<TIn, EmaResult>, IEmaHub
-    where TIn : struct, IReusable
+public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
+    IReusableHub<TIn, EmaResult>, IEmaHub
+    where TIn : IReusable
 {
-    private readonly StreamCache<EmaResult> _cache;
-    private readonly StreamObserver<TIn, EmaResult> _observer;
-    private readonly ChainProvider<TIn> _supplier;
-
     #region constructors
 
     public EmaHub(
-        ChainProvider<TIn> provider,
-        int lookbackPeriods)
-        : this(provider, cache: new(), lookbackPeriods) { }
-
-    private EmaHub(
-        ChainProvider<TIn> provider,
-        StreamCache<EmaResult> cache,
-        int lookbackPeriods) : base(cache)
+        IChainProvider<TIn> provider,
+        int lookbackPeriods) : base(provider)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public int LookbackPeriods { get; }
     public double K { get; }
 
-
     // METHODS
 
-    public override string ToString()
-        => $"EMA({LookbackPeriods})";
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-
-    public void OnNextNew(TIn newItem)
+    internal override void Add(Act act, TIn newIn, int? index)
     {
+        if (newIn is null)
+        {
+            throw new ArgumentNullException(nameof(newIn));
+        }
+
         double ema;
 
-        int i = _supplier.Position(newItem);
+        int i = index ?? Supplier.GetIndex(newIn, false);
 
         if (i >= LookbackPeriods - 1)
         {
-            IReusable last = ReadCache[i - 1];
+            IReusable last = Cache[i - 1];
 
             ema = !double.IsNaN(last.Value)
 
                 // normal
-                ? Ema.Increment(K, last.Value, newItem.Value)
+                ? Ema.Increment(K, last.Value, newIn.Value)
 
                 // re/initialize
-                : Sma.Increment(_supplier.ReadCache, i, LookbackPeriods);
+                : Sma.Increment(Supplier.Results, i, LookbackPeriods);
         }
 
         // warmup periods are never calculable
@@ -79,14 +66,13 @@ public class EmaHub<TIn>
 
         // candidate result
         EmaResult r = new(
-            Timestamp: newItem.Timestamp,
+            Timestamp: newIn.Timestamp,
             Ema: ema.NaN2Null());
 
-
-        // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
-
-        // send to observers
-        NotifyObservers(act, r);
+        // save and send
+        Motify(act, r, i);
     }
+
+    public override string ToString()
+        => $"EMA({LookbackPeriods})";
 }

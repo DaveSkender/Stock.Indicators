@@ -1,13 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct ChaikinOscResult
+public record ChaikinOscResult
 (
     DateTime Timestamp,
     double? MoneyFlowMultiplier,
     double? MoneyFlowVolume,
     double? Adl,
     double? Oscillator
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Oscillator.Null2NaN();
+    public override double Value => Oscillator.Null2NaN();
 }

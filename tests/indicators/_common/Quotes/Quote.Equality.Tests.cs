@@ -9,32 +9,9 @@ public class QuoteEqualityTests : TestBase
     [TestMethod]
     public void EqualQuotes()
     {
-        Quote q1 = new() {
-            Timestamp = _evalDate,
-            Open = 1m,
-            High = 1m,
-            Low = 1m,
-            Close = 1m,
-            Volume = 100
-        };
-
-        Quote q2 = new() {
-            Timestamp = _evalDate,
-            Open = 1m,
-            High = 1m,
-            Low = 1m,
-            Close = 1m,
-            Volume = 100
-        };
-
-        Quote q3 = new() {
-            Timestamp = _evalDate,
-            Open = 1m,
-            High = 1m,
-            Low = 1m,
-            Close = 2m,
-            Volume = 99
-        };
+        Quote q1 = new(_evalDate, 1m, 1m, 1m, 1m, 100);
+        Quote q2 = new(_evalDate, 1m, 1m, 1m, 1m, 100);
+        Quote q3 = new(_evalDate, 1m, 1m, 1m, 2m, 99);
 
         Assert.IsTrue(Equals(q1, q2));
         Assert.IsFalse(Equals(q1, q3));

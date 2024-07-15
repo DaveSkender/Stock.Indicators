@@ -25,8 +25,8 @@ public static partial class Indicator
             = source.CalcStreak(rsiPeriods, rankPeriods);
 
         // RSI of streak
-        List<Reusable> reStreak = streakInfo
-            .Select(si => new Reusable(si.Timestamp, si.Streak))
+        List<QuotePart> reStreak = streakInfo
+            .Select(si => new QuotePart(si.Timestamp, si.Streak))
             .ToList();
 
         List<RsiResult> rsiStreak = reStreak.CalcRsi(streakPeriods);
@@ -80,7 +80,7 @@ public static partial class Indicator
         double streak = 0;
         double prevPrice = double.NaN;
 
-        // roll through history
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];
@@ -90,7 +90,7 @@ public static partial class Indicator
             if (i == 0)
             {
                 prevPrice = s.Value;
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp, 0));
                 continue;
             }
 
@@ -154,12 +154,11 @@ public static partial class Indicator
                 percentRank = isViableRank ? 100 * qty / rankPeriods : null;
             }
 
-            results.Add(new() {
-                Timestamp = s.Timestamp,
-                Streak = streak,
-                Rsi = rsiResults[i].Rsi,
-                PercentRank = percentRank
-            });
+            results.Add(new ConnorsRsiResult(
+                Timestamp: s.Timestamp,
+                Streak: streak,
+                Rsi: rsiResults[i].Rsi,
+                PercentRank: percentRank));
 
             prevPrice = s.Value;
         }

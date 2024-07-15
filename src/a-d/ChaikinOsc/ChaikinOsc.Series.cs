@@ -4,26 +4,27 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    private static List<ChaikinOscResult> CalcChaikinOsc(
-        this List<QuoteD> qdList,
+    private static List<ChaikinOscResult> CalcChaikinOsc<TQuote>(
+        this List<TQuote> source,
         int fastPeriods,
         int slowPeriods)
+        where TQuote : IQuote
     {
         // check parameter arguments
         ChaikinOsc.Validate(fastPeriods, slowPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<ChaikinOscResult> results = new(length);
 
         // money flow
-        List<AdlResult> adlResults = qdList.CalcAdl();
+        List<AdlResult> adlResults = source.CalcAdl();
 
         // fast/slow EMA of ADL
         List<EmaResult> adlEmaSlow = adlResults.CalcEma(slowPeriods);
         List<EmaResult> adlEmaFast = adlResults.CalcEma(fastPeriods);
 
-        // roll through history
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             AdlResult a = adlResults[i];

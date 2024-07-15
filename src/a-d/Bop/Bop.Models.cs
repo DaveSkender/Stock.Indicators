@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct BopResult
+public record BopResult
 (
     DateTime Timestamp,
     double? Bop
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Bop.Null2NaN();
+    public override double Value => Bop.Null2NaN();
 }

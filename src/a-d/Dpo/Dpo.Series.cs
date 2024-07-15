@@ -19,7 +19,7 @@ public static partial class Indicator
         List<SmaResult> sma = tpList.GetSma(lookbackPeriods).ToList();
         List<DpoResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T src = tpList[i];

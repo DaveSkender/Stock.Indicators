@@ -1,11 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct SmaResult
-(
+public record SmaResult(
     DateTime Timestamp,
-    double? Sma = null
-) : IReusable
+    double? Sma
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Sma.Null2NaN();
+    public override double Value => Sma.Null2NaN();
 }
-

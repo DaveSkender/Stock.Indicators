@@ -4,7 +4,7 @@ namespace Tests.Indicators.Series;
 public class StochRsiTests : SeriesTestBase
 {
     [TestMethod]
-    public void FastRsi()
+    public override void Standard() // Fast RSI
     {
         int rsiPeriods = 14;
         int stochPeriods = 14;

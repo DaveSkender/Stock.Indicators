@@ -18,7 +18,7 @@ public static partial class Indicator
         double[] trueLow = new double[length];
         double[] trueRange = new double[length];
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             double? chop = null;

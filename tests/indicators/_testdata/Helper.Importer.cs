@@ -12,7 +12,7 @@ internal static class Importer
     {
         if (string.IsNullOrEmpty(csvLine))
         {
-            return new();
+            throw new InvalidDataException("CSV line was empty");
         }
 
         string[] csv = csvLine.Split(',');

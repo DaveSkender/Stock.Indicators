@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct HurstResult
+public record HurstResult
 (
     DateTime Timestamp,
     double? HurstExponent
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => HurstExponent.Null2NaN();
+    public override double Value => HurstExponent.Null2NaN();
 }

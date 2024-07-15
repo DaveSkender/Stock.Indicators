@@ -10,6 +10,6 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes
-            .ToQuoteDList()
+            .ToSortedList()
             .CalcCmf(lookbackPeriods);
 }

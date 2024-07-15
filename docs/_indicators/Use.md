@@ -12,7 +12,7 @@ Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by i
 
 ```csharp
 // C# usage syntax
-IEnumerable<Reusable> results =
+IEnumerable<QuotePart> results =
   quotes.Use(candlePart);
 ```
 
@@ -31,14 +31,14 @@ You must have at least 1 period of `quotes`.
 ## Response
 
 ```csharp
-IEnumerable<Reusable>
+IEnumerable<QuotePart>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
 
-### `Reusable` type
+### `QuotePart` type
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 

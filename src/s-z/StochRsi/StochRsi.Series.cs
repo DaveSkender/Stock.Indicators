@@ -23,21 +23,23 @@ public static partial class Indicator
         // add back auto-pruned results
         for (int i = 0; i < initPeriods; i++)
         {
-            var s = source[i];
-            results.Add(new() { Timestamp = s.Timestamp });
+            T s = source[i];
+            results.Add(new(s.Timestamp));
         }
 
         // get Stochastic of RSI
         List<StochResult> stoResults =
             source
             .CalcRsi(rsiPeriods)
-            .Remove(Math.Min(rsiPeriods, length))
-            .Select(x => new QuoteD {
-                Timestamp = x.Timestamp,
-                High = x.Rsi.Null2NaN(),
-                Low = x.Rsi.Null2NaN(),
-                Close = x.Rsi.Null2NaN()
-            })
+            .Remove(Math.Min(rsiPeriods, length)) // TODO: still need to Remove() here?
+            .Select(x => new QuoteD(
+                Timestamp: x.Timestamp,
+                Open: 0,
+                High: x.Rsi.Null2NaN(),
+                Low: x.Rsi.Null2NaN(),
+                Close: x.Rsi.Null2NaN(),
+                Volume: 0
+             ))
             .ToList()
             .CalcStoch(
                 stochPeriods,
@@ -49,11 +51,11 @@ public static partial class Indicator
         for (int i = rsiPeriods + stochPeriods - 1; i < length; i++)
         {
             StochResult r = stoResults[i - rsiPeriods];
-            results.Add(new() {
-                Timestamp = r.Timestamp,
-                StochRsi = r.Oscillator,
-                Signal = r.Signal
-            });
+
+            results.Add(new StochRsiResult(
+                Timestamp: r.Timestamp,
+                StochRsi: r.Oscillator,
+                Signal: r.Signal));
         }
 
         return results;

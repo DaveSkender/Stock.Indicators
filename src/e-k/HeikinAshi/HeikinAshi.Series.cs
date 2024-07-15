@@ -22,7 +22,7 @@ public static partial class Indicator
             prevClose = q.Close;
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
@@ -41,15 +41,13 @@ public static partial class Indicator
             decimal[] arrL = [q.Low, open, close];
             decimal low = arrL.Min();
 
-            HeikinAshiResult r = new() {
-                Timestamp = q.Timestamp,
-                Open = open,
-                High = high,
-                Low = low,
-                Close = close,
-                Volume = q.Volume
-            };
-            results.Add(r);
+            results.Add(new HeikinAshiResult(
+                Timestamp: q.Timestamp,
+                Open: open,
+                High: high,
+                Low: low,
+                Close: close,
+                Volume: q.Volume));
 
             // save for next iteration
             prevOpen = open;

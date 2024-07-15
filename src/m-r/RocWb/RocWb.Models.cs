@@ -1,13 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct RocWbResult
+public record RocWbResult
 (
     DateTime Timestamp,
     double? Roc,
     double? RocEma,
     double? UpperBand,
     double? LowerBand
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Roc.Null2NaN();
+    public override double Value => Roc.Null2NaN();
 }

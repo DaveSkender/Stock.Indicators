@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct StdDevChannelsResult
+public record StdDevChannelsResult
 (
     DateTime Timestamp,
-    double? Centerline,
-    double? UpperChannel,
-    double? LowerChannel,
-    bool BreakPoint
-) : IResult;
+    double? Centerline = null,
+    double? UpperChannel = null,
+    double? LowerChannel = null,
+    bool BreakPoint = false
+) : ISeries;

@@ -16,7 +16,7 @@ public static partial class Indicator
         List<CciResult> results = new(length);
         double[] tp = new double[length];
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

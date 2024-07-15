@@ -17,7 +17,7 @@ public static partial class Indicator
         int length = source.Count;
         List<SlopeResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];
@@ -25,7 +25,7 @@ public static partial class Indicator
             // skip initialization period
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
                 continue;
             }
 
@@ -62,7 +62,7 @@ public static partial class Indicator
             }
 
             double? slope = (sumSqXy / sumSqX).NaN2Null();
-            double? intercept = (avgY - slope * avgX).NaN2Null();
+            double? intercept = (avgY - (slope * avgX)).NaN2Null();
 
             // calculate Standard Deviation and R-Squared
             double stdDevX = Math.Sqrt(sumSqX / lookbackPeriods);
@@ -84,6 +84,7 @@ public static partial class Indicator
                 StdDev: stdDevY.NaN2Null(),
                 RSquared: rSquared,
                 Line: null); // re-written below
+
             results.Add(r);
         }
 
@@ -94,13 +95,14 @@ public static partial class Indicator
         }
 
         // add last Line (y = mx + b)
-        SlopeResult last = results.LastOrDefault();
+        SlopeResult last = results.Last();
+
         for (int p = length - lookbackPeriods; p < length; p++)
         {
             SlopeResult d = results[p];
 
             results[p] = d with {
-                Line = (decimal?)(last.Slope * (p + 1) + last.Intercept).NaN2Null()
+                Line = (decimal?)((last.Slope * (p + 1)) + last.Intercept).NaN2Null()
             };
         }
 

@@ -21,7 +21,7 @@ public static partial class Indicator
 
         double priorClose = 0;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

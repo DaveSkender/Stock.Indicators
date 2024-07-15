@@ -13,29 +13,15 @@ public static partial class Indicator
         // check parameter arguments
         Awesome.Validate(fastPeriods, slowPeriods);
 
-        // use standard HL2 if quote source (override Close)
-        List<IReusable> feed
-            = typeof(IQuote).IsAssignableFrom(typeof(T))
-
-            ? source
-             .Cast<IQuote>()
-             .Use(CandlePart.HL2)
-             .Cast<IReusable>()
-             .ToSortedList()
-
-            : source
-             .Cast<IReusable>()
-             .ToSortedList();
-
         // initialize
         int length = source.Count;
         List<AwesomeResult> results = new(length);
         double[] pr = new double[length];
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = feed[i];
+            IReusable s = source[i];
             pr[i] = s.Value;
 
             double? oscillator = null;
@@ -56,7 +42,7 @@ public static partial class Indicator
                     }
                 }
 
-                oscillator = (sumFast / fastPeriods - sumSlow / slowPeriods).NaN2Null();
+                oscillator = ((sumFast / fastPeriods) - (sumSlow / slowPeriods)).NaN2Null();
                 normalized = pr[i] != 0 ? 100 * oscillator / pr[i] : null;
             }
 

@@ -22,7 +22,7 @@ public static partial class Indicator
         decimal? upperLine = null;
         decimal? lowerLine = null;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             FractalResult f = fractals[i];

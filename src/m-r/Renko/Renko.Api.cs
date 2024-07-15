@@ -14,10 +14,10 @@ public static partial class Renko
             .CalcRenko(brickSize, endType);
 
     // OBSERVER, from Quote Provider
-    public static RenkoHub<TQuote> ToRenko<TQuote>(
-        this QuoteProvider<TQuote> quoteProvider,
+    public static RenkoHub<TIn> ToRenko<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
         decimal brickSize,
         EndType endType = EndType.Close)
-        where TQuote : struct, IQuote
+        where TIn : IQuote
         => new(quoteProvider, brickSize, endType);
 }

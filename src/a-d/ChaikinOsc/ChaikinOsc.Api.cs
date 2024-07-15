@@ -11,6 +11,6 @@ public static partial class Indicator
         int fastPeriods = 3,
         int slowPeriods = 10)
         where TQuote : IQuote => quotes
-            .ToQuoteDList()
+            .ToSortedList()
             .CalcChaikinOsc(fastPeriods, slowPeriods);
 }

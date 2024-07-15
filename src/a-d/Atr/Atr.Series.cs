@@ -27,7 +27,7 @@ public static partial class Atr
             prevClose = q.Close;
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 1; i < length; i++)
         {
             QuoteD q = qdList[i];

@@ -4,7 +4,7 @@ namespace Tests.Indicators.Series;
 public class HurstTests : SeriesTestBase
 {
     [TestMethod]
-    public void StandardLong()
+    public override void Standard()
     {
         List<HurstResult> results = LongestQuotes
             .GetHurst(LongestQuotes.Count() - 1)

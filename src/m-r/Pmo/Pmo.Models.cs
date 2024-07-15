@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct PmoResult
+public record PmoResult
 (
     DateTime Timestamp,
     double? Pmo,
     double? Signal
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Pmo.Null2NaN();
+    public override double Value => Pmo.Null2NaN();
 }

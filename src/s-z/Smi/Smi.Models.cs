@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct SmiResult
+public record SmiResult
 (
     DateTime Timestamp,
     double? Smi,
     double? Signal
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Smi.Null2NaN();
+    public override double Value => Smi.Null2NaN();
 }

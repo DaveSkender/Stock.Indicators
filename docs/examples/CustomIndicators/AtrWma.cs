@@ -5,14 +5,14 @@ namespace Custom.Stock.Indicators;
 
 // Custom results class
 // This inherits many of the extension methods, like .RemoveWarmupPeriods()
-public sealed class AtrWmaResult : ResultBase, IReusableResult
+public sealed class AtrWmaResult : ResultBase, IReusable
 {
     // date property is inherited here,
     // so you only need to add custom items
     public double? AtrWma { get; set; }
 
     // to enable further chaining
-    double? IReusableResult.Value => AtrWma;
+    double? IReusable.Value => AtrWma;
 }
 
 public static class CustomIndicators
@@ -35,7 +35,7 @@ public static class CustomIndicators
             .GetAtr(lookbackPeriods)
             .ToList();
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < quotesList.Count; i++)
         {
             TQuote q = quotesList[i];

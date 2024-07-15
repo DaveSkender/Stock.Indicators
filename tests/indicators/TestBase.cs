@@ -61,19 +61,14 @@ public abstract class SeriesTestBase : TestBase
     internal readonly DateTime EvalDate
         = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
 
-    // TODO: once caught up, make these abstract instead of virtual
+    [TestMethod]
+    public abstract void Standard();
 
     [TestMethod]
-    public virtual void Standard()
-        => Assert.Inconclusive("Test not implemented");
+    public abstract void BadData();
 
     [TestMethod]
-    public virtual void BadData()
-        => Assert.Inconclusive("Test not implemented");
-
-    [TestMethod]
-    public virtual void NoQuotes()
-        => Assert.Inconclusive("Test not implemented");
+    public abstract void NoQuotes();
 }
 
 /// <summary>

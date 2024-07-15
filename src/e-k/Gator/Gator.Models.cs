@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct GatorResult
+public record GatorResult
 (
     DateTime Timestamp,
-    double? Upper,
-    double? Lower,
-    bool? UpperIsExpanding,
-    bool? LowerIsExpanding
-) : IResult;
+    double? Upper = null,
+    double? Lower = null,
+    bool? UpperIsExpanding = null,
+    bool? LowerIsExpanding = null
+) : ISeries;

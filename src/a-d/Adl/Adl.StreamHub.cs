@@ -1,53 +1,32 @@
 namespace Skender.Stock.Indicators;
 
-// ACCUMULATION/DISTRIBUTION LINE (STREAM)
+// ACCUMULATION/DISTRIBUTION LINE (STREAM HUB)
 
-public class AdlHub<TQuote>
-    : ChainProvider<AdlResult>, IStreamHub<TQuote, AdlResult>
-    where TQuote : struct, IQuote
+public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
+    IReusableHub<TIn, AdlResult>
+    where TIn : IQuote
 {
-    private readonly StreamCache<AdlResult> _cache;
-    private readonly StreamObserver<TQuote, AdlResult> _observer;
-    private readonly QuoteProvider<TQuote> _supplier;
-
     #region constructors
 
-    public AdlHub(
-        QuoteProvider<TQuote> provider)
-        : this(provider, cache: new()) { }
-
-    private AdlHub(
-        QuoteProvider<TQuote> provider,
-        StreamCache<AdlResult> cache) : base(cache)
+    public AdlHub(IQuoteProvider<TIn> provider)
+        : base(provider)
     {
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     // METHODS
 
-    public override string ToString()
+    internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (_cache.Cache.Count == 0)
+        if (newIn is null)
         {
-            return "ADL";
+            throw new ArgumentNullException(nameof(newIn));
         }
 
-        AdlResult first = _cache.ReadCache[0];
-
-        return $"ADL({first.Timestamp:d})";
-    }
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-
-    public void OnNextNew(TQuote newItem)
-    {
         double prevAdl;
-        QuoteD q = newItem.ToQuoteD();
 
-        int i = _supplier.Position(newItem);
+        int i = index ?? Supplier.GetIndex(newIn, false);
 
         if (i == 0)
         {
@@ -55,19 +34,31 @@ public class AdlHub<TQuote>
         }
         else
         {
-            AdlResult prev = _cache.ReadCache[i - 1];
+            AdlResult prev = Cache[i - 1];
             prevAdl = prev.Adl;
         }
 
         // calculate ADL
         AdlResult r = Adl.Increment(
-            q.Timestamp, prevAdl,
-            q.High, q.Low, q.Close, q.Volume);
+            newIn.Timestamp, prevAdl,
+            newIn.High,
+            newIn.Low,
+            newIn.Close,
+            newIn.Volume);
 
-        // save to cache
-        Act act = _cache.Modify(Act.AddNew, r);
+        // save and send
+        Motify(act, r, i);
+    }
 
-        // send to observers
-        NotifyObservers(act, r);
+    public override string ToString()
+    {
+        if (Cache.Count == 0)
+        {
+            return "ADL";
+        }
+
+        AdlResult first = Cache[0];
+
+        return $"ADL({first.Timestamp:d})";
     }
 }

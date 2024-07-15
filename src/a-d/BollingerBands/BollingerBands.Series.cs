@@ -16,7 +16,7 @@ public static partial class Indicator
         // initialize
         List<BollingerBandsResult> results = new(source.Count);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < source.Count; i++)
         {
             T s = source[i];
@@ -38,10 +38,10 @@ public static partial class Indicator
                 double? sma = (sum / lookbackPeriods).NaN2Null();
                 double? stdDev = window.StdDev().NaN2Null();
 
-                double? upperBand = sma + standardDeviations * stdDev;
-                double? lowerBand = sma - standardDeviations * stdDev;
+                double? upperBand = sma + (standardDeviations * stdDev);
+                double? lowerBand = sma - (standardDeviations * stdDev);
 
-                results.Add(new(
+                results.Add(new BollingerBandsResult(
 
                     Timestamp: s.Timestamp,
 
@@ -60,7 +60,7 @@ public static partial class Indicator
             // initization period
             else
             {
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
             }
         }
 

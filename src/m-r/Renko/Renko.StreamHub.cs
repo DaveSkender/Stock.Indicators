@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// RENKO CHART (STREAMING)
+// RENKO CHART (STREAM HUB)
 
 #region hub interface
 
@@ -11,89 +11,72 @@ public interface IRenkoHub
 }
 #endregion
 
-public class RenkoHub<TQuote>
-    : ChainProvider<RenkoResult>, IStreamHub<TQuote, RenkoResult>, IRenkoHub
-    where TQuote : struct, IQuote
+public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
+    IQuoteHub<TIn, RenkoResult>, IRenkoHub
+    where TIn : IQuote
 {
-    private readonly StreamCache<RenkoResult> _cache;
-    private readonly StreamObserver<TQuote, RenkoResult> _observer;
-    private readonly QuoteProvider<TQuote> _supplier;
-
     #region constructors
 
     public RenkoHub(
-        QuoteProvider<TQuote> provider,
+        IQuoteProvider<TIn> provider,
         decimal brickSize,
-        EndType endType)
-        : this(provider, cache: new(),
-              brickSize, endType)
-    { }
-
-    private RenkoHub(
-        QuoteProvider<TQuote> provider,
-        StreamCache<RenkoResult> cache,
-        decimal brickSize,
-        EndType endType) : base(cache)
+        EndType endType) : base(provider)
     {
         Renko.Validate(brickSize);
         BrickSize = brickSize;
         EndType = endType;
 
-        _cache = cache;
-        _supplier = provider;
-        _observer = new(this, this, provider);
+        Reinitialize();
     }
     #endregion
 
     public decimal BrickSize { get; }
     public EndType EndType { get; }
 
-
     // METHODS
 
-    public override string ToString()
-        => $"RENKO({BrickSize}, {EndType}) - {_cache.Cache.Count} items";
-
-    public void Unsubscribe() => _observer.Unsubscribe();
-
-    public void OnNextNew(TQuote newItem)
+    internal override void Add(Act act, TIn newIn, int? index)
     {
+        if (newIn is null)
+        {
+            throw new ArgumentNullException(nameof(newIn));
+        }
+
         // get last brick
         RenkoResult lastBrick;
 
-        if (_cache.Cache.Count != 0)
+        if (Cache.Count != 0)
         {
-            lastBrick = Results
-                .Where(c => c.Timestamp <= newItem.Timestamp)
+            lastBrick = Cache
+                .Where(c => c.Timestamp <= newIn.Timestamp)
                 .Last();
         }
         else // no bricks yet
         {
             // skip first quote
-            if (_supplier.Cache.Count <= 1)
+            if (Supplier.Results.Count <= 1)
             {
                 return;
             }
 
             int decimals = BrickSize.GetDecimalPlaces();
 
-            TQuote q0 = _supplier.ReadCache[0];
+            TIn q0 = Supplier.Results[0];
 
             decimal baseline
                 = Math.Round(q0.Close,
                     Math.Max(decimals - 1, 0));
 
-            lastBrick = new() {
-                Timestamp = q0.Timestamp,
-                Open = baseline,
-                Close = baseline
-            };
+            lastBrick = new(
+                q0.Timestamp,
+                Open: baseline, 0, 0,
+                Close: baseline, 0, false);
         }
 
         // determine new brick quantity
         int newBrickQty
             = Renko.GetNewBrickQuantity(
-                newItem, lastBrick, BrickSize, EndType);
+                newIn, lastBrick, BrickSize, EndType);
 
         int absBrickQty = Math.Abs(newBrickQty);
         bool isUp = newBrickQty >= 0;
@@ -107,12 +90,12 @@ public class RenkoHub<TQuote>
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = _supplier.Position(newItem);
-            int lastBrickIndex = _supplier.Position(lastBrick.Timestamp);
+            int inboundIndex = index ?? Supplier.GetIndex(newIn, false);
+            int lastBrickIndex = Supplier.GetIndex(lastBrick.Timestamp, false);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
             {
-                TQuote pq = _supplier.ReadCache[w];
+                TIn pq = Supplier.Results[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -137,24 +120,17 @@ public class RenkoHub<TQuote>
                     c = o - BrickSize;
                 }
 
-                RenkoResult r = new() {
-                    Timestamp = newItem.Timestamp,
-                    Open = o,
-                    High = h,
-                    Low = l,
-                    Close = c,
-                    Volume = v,
-                    IsUp = isUp
-                };
-
-                // save to cache
-                Act act = _cache.Modify(Act.AddNew, r);
-
-                // send to observers
-                NotifyObservers(act, r);
+                RenkoResult r
+                    = new(newIn.Timestamp, o, h, l, c, v, isUp);
 
                 lastBrick = r;
+
+                // save and send
+                Motify(act, r, null);
             }
         }
     }
+
+    public override string ToString()
+        => $"RENKO({BrickSize}, {EndType})";
 }

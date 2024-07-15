@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct FractalResult
+public record FractalResult
 (
     DateTime Timestamp,
     decimal? FractalBear,
     decimal? FractalBull
-) : IResult;
+) : ISeries;

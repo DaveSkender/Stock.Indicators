@@ -20,7 +20,7 @@ public static partial class Indicator
                 (x.Close - x.Open) / (x.High - x.Low) : double.NaN)
             .ToArray();
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             double? bop = null;

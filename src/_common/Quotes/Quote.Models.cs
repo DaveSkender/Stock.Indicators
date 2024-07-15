@@ -10,17 +10,17 @@ namespace Skender.Stock.Indicators;
 /// If implementing your own custom <c>TQuote:IQuote</c> type:
 /// </para>
 /// <para>
-/// (A) For streaming compatibility, define it as a
-/// <see langword="record struct"/> value-based type. Add
-/// the <see langword="readonly"/> keyword modifier for
-/// slightly better memory performance.
-/// </para>
-/// <para>
-/// (B) For chaining compatibility (<see cref="IReusable"/>
+/// For chaining compatibility (<see cref="IReusable"/>
 /// compliance), add the following <c>TQuote</c> property
 /// (pointer) to your <see cref="IQuote.Close"/> price.
 /// <code>
-///    double IReusableResult.Value => (double)Close;
+///    double IReusable.Value => (double)Close;
+/// </code>
+/// or inherit the <see cref="Reusable"/> record class
+/// <code>
+///    public record MyQuote(DateTime MyTimestamp, decimal MyClosePrice, ...)
+///      : Reusable(MyTimestamp, (double)MyClosePrice), IQuote
+///    { ... }
 /// </code>
 /// </para>
 /// <para>
@@ -78,7 +78,7 @@ public interface IQuote : IReusable
 /// Aggregate bar's tick volume
 /// </param>
 /// <inheritdoc cref="IQuote"/>
-public readonly record struct Quote
+public record Quote
 (
     DateTime Timestamp,
     decimal Open,
@@ -86,16 +86,21 @@ public readonly record struct Quote
     decimal Low,
     decimal Close,
     decimal Volume
-) : IQuote
+) : Reusable(Timestamp), IQuote
 {
-    double IReusable.Value => (double)Close;
+    public override double Value => (double)Close;
+
+    // TODO: add [Obsolete] auto-getter/setter for 'Date' property
+    // but only for a short transition period.  See if there can be
+    // a full overload of 'Quote' that has the 'Date' property and
+    // can support new(){ ... } initialization.
 }
 
 /// <summary>
 /// Double-point precision Quote, for internal use only.
 /// </summary>
 /// <inheritdoc cref="Quote" />
-internal readonly record struct QuoteD
+internal record QuoteD
 (
     DateTime Timestamp,
     double Open,
@@ -103,7 +108,7 @@ internal readonly record struct QuoteD
     double Low,
     double Close,
     double Volume
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Close;
+    public override double Value => (double)Close;
 }

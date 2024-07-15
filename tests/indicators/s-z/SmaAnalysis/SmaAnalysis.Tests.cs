@@ -4,7 +4,7 @@ namespace Tests.Indicators.Series;
 public class SmaAnalysisTests : SeriesTestBase
 {
     [TestMethod]
-    public void Analysis()
+    public override void Standard()
     {
         List<SmaAnalysis> results = Quotes
             .GetSmaAnalysis(20)

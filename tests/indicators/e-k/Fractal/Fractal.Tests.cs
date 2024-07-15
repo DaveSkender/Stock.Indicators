@@ -4,7 +4,7 @@ namespace Tests.Indicators.Series;
 public class FractalTests : SeriesTestBase
 {
     [TestMethod]
-    public void StandardSpan2()
+    public override void Standard() // Span 2
     {
         List<FractalResult> results = Quotes
             .GetFractal()

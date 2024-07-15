@@ -17,6 +17,12 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
+        // prefill quotes to provider
+        for (int i = 0; i < 50; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
         // initialize observer
         RenkoHub<Quote> observer = provider
             .ToRenko(brickSize, endType);
@@ -26,7 +32,7 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
+        for (int i = 50; i < length; i++)
         {
             // skip one (add later)
             if (i == 80)

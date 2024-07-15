@@ -25,7 +25,7 @@ public static partial class Indicator
         double? cumVolume = 0;
         double? cumVolumeTp = 0;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

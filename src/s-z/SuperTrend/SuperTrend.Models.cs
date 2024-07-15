@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct SuperTrendResult
+public record SuperTrendResult
 (
     DateTime Timestamp,
     decimal? SuperTrend,
     decimal? UpperBand,
     decimal? LowerBand
-) : IResult;
+) : ISeries;

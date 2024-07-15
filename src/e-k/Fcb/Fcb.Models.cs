@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct FcbResult
+public record FcbResult
 (
     DateTime Timestamp,
     decimal? UpperBand,
     decimal? LowerBand
-) : IResult;
+) : ISeries;

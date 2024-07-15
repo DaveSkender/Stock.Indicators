@@ -14,16 +14,22 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
+        // prefill quotes to provider
+        for (int i = 0; i < 20; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
         // initialize observer
-        EmaHub<Quote> observer = provider
-            .ToEma(20);
+        var observer = provider
+            .ToEma(5);
 
         // fetch initial results (early)
         IReadOnlyList<EmaResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
+        for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -50,7 +56,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
 
         // time-series, for comparison
         List<EmaResult> seriesList = quotesList
-            .GetEma(20)
+            .GetEma(5)
             .ToList();
 
         // assert, should equal series
@@ -85,7 +91,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        EmaHub<SmaResult> observer = provider
+        var observer = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
@@ -138,7 +144,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        SmaHub<EmaResult> observer = provider
+        var observer = provider
             .ToEma(emaPeriods)
             .ToSma(smaPeriods);
 

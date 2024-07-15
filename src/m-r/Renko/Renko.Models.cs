@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct RenkoResult
+/// <inheritdoc cref="Quote"/>
+public record RenkoResult
 (
     DateTime Timestamp,
     decimal Open,
@@ -9,8 +10,4 @@ public readonly record struct RenkoResult
     decimal Close,
     decimal Volume,
     bool IsUp
-) : IQuote
-{
-    double IReusable.Value => (double)Close;
-}
-
+) : Quote(Timestamp, Open, High, Low, Close, Volume);
