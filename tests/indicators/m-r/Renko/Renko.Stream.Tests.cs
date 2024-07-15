@@ -58,27 +58,12 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<RenkoResult> seriesList = quotesList
-            .GetRenko(brickSize, endType)
-            .ToList();
+        IEnumerable<RenkoResult> seriesList = quotesList
+            .GetRenko(brickSize, endType);
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count - 1; i++)
-        {
-            Quote q = quotesList[i];
-            RenkoResult s = seriesList[i];
-            RenkoResult r = streamList[i];
-
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Open.Should().Be(s.Open);
-            r.High.Should().Be(s.High);
-            r.Low.Should().Be(s.Low);
-            r.Close.Should().Be(s.Close);
-            r.Volume.Should().Be(s.Volume);
-            r.IsUp.Should().Be(s.IsUp);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(112);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -119,22 +104,13 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotesList
+        IEnumerable<SmaResult> seriesList = quotesList
             .GetRenko(brickSize, endType)
-            .GetSma(smaPeriods)
-            .ToList();
+            .GetSma(smaPeriods);
 
         // assert, should equal series
-        for (int i = 0; i < seriesList.Count - 1; i++)
-        {
-            Quote q = quotesList[i];
-            SmaResult s = seriesList[i];
-            SmaResult r = streamList[i];
-
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Sma.Should().Be(s.Sma);
-        }
+        streamList.Should().HaveCount(112);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();

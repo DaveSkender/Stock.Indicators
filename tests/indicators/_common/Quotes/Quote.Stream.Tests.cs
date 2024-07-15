@@ -28,22 +28,10 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
         QuoteHub<Quote> observer
             = provider.ToQuote();
 
-        // assert same as original
-        for (int i = 0; i < length; i++)
-        {
-            Quote o = quotesList[i];
-            Quote q = provider.Cache[i];
-            Quote r = observer.Cache[i];
-
-            q.Should().Be(o);
-            r.Should().Be(q);
-        }
-
         // close observations
         provider.EndTransmission();
 
-        // confirm public interfaces
-        provider.Cache.Should().HaveCount(length);
+        // assert same as original
         observer.Cache.Should().HaveCount(length);
         observer.Cache.Should().BeEquivalentTo(provider.Cache);
     }
@@ -81,24 +69,15 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList
+        IEnumerable<SmaResult> seriesList
            = quotesList
-            .GetSma(smaPeriods)
-            .ToList();
+            .GetSma(smaPeriods);
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            SmaResult s = seriesList[i];
-            SmaResult r = streamList[i];
+        streamList.Should().HaveCount(length-1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Sma.Should().Be(s.Sma);
-            r.Should().Be(s);
-        }
-
+        // cleanup
         observer.Unsubscribe();
         provider.EndTransmission();
     }

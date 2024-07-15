@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // QUOTEPART TYPE UTILITIES
 
-public static class QuotePartUtility
+public static partial class QuotePartUtility
 {
     // convert TQuote element to a basic QuotePart class
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)

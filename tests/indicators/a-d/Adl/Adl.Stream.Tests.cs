@@ -55,22 +55,12 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<AdlResult> seriesList = quotesList
-            .GetAdl()
-            .ToList();
+        IEnumerable<AdlResult> seriesList = quotesList
+            .GetAdl();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            AdlResult s = seriesList[i];
-            AdlResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Adl.Should().Be(s.Adl);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -111,23 +101,13 @@ public class AdlTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotesList
+        IEnumerable<SmaResult> seriesList = quotesList
             .GetAdl()
-            .GetSma(smaPeriods)
-            .ToList();
+            .GetSma(smaPeriods);
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            SmaResult s = seriesList[i];
-            SmaResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Sma.Should().Be(s.Sma);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();

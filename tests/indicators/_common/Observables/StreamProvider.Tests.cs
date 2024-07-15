@@ -1,7 +1,7 @@
 namespace Tests.Common.Observables;
 
 [TestClass]
-public class ProviderTests : TestBase
+public class ProviderTests : TestBase, ITestChainProvider
 {
     [TestMethod]
     public void Prefill()
@@ -44,120 +44,93 @@ public class ProviderTests : TestBase
     }
 
     [TestMethod]
-    public void ClearCache()
+    public void Subscription()
     {
-        // setup quote provider
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
-            .Take(10)
-            .ToList();
-
-        int length = quotesList.Count;
-
+        // setup quote provider, observer
         QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> observer = provider.ToQuote();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        // assert: subscribed
+        observer.IsSubscribed.Should().BeTrue();
+        provider.SubscriberCount.Should().Be(1);
+        provider.HasSubscribers.Should().BeTrue();
 
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        // act: unsubscribe
+        observer.Unsubscribe();
 
-        // act: clear cache
-        observer.ClearCache();
+        // assert: not subscribed
+        provider.SubscriberCount.Should().Be(0);
+        provider.HasSubscribers.Should().BeFalse();
+        observer.IsSubscribed.Should().BeFalse();
 
-        // assert: cache is empty
-        observer.Cache.Should().BeEmpty();
-        provider.Cache.Should().HaveCount(10);
+        // act: resubscribe
+        provider.Subscribe(observer);
+
+        // assert: subscribed
+        provider.SubscriberCount.Should().Be(1);
+        provider.HasSubscribers.Should().BeTrue();
+        observer.IsSubscribed.Should().BeTrue();
+
+        // act: end all subscriptions
+        provider.EndTransmission();
+
+        // assert: not subscribed
+        provider.SubscriberCount.Should().Be(0);
+        provider.HasSubscribers.Should().BeFalse();
+        observer.IsSubscribed.Should().BeFalse();
     }
 
     [TestMethod]
-    public void ClearCacheByTimestamp()
+    public void ChainProvider()
     {
-
-        // setup quote provider
-
         List<Quote> quotesList = Quotes
-            .ToSortedList()
-            .Take(10)
-            .ToList();
+            .ToSortedList();
 
         int length = quotesList.Count;
 
+        // setup quote provider
         QuoteHub<Quote> provider = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        // initialize observer
+        EmaHub<QuotePart> observer = provider
+            .ToQuotePart(CandlePart.HL2)
+            .ToEma(11);
 
+        // emulate adding quotes to provider
         for (int i = 0; i < length; i++)
         {
             provider.Add(quotesList[i]);
         }
 
-        Quote q3 = quotesList[3];
+        provider.EndTransmission();
 
-        // act: clear cache
-        observer.ClearCache(q3.Timestamp);
+        // stream results
+        IReadOnlyList<EmaResult> streamEma
+            = observer.Results;
 
-        // assert: cache is empty
-        observer.Cache.Should().HaveCount(3);
-        provider.Cache.Should().HaveCount(10);
-
-        List<QuotePart> cacheOver
-            = observer.Results
-                .Where(c => c.Timestamp >= q3.Timestamp).ToList();
-
-        List<QuotePart> cacheUndr
-            = observer.Results
-                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
-
-        cacheOver.Should().BeEmpty();
-        cacheUndr.Should().HaveCount(3);
-    }
-
-    [TestMethod]
-    public void ClearCacheByIndex()
-    {
-
-        // setup quote provider
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
-            .Take(10)
+        // time-series, for comparison
+        List<EmaResult> staticEma = Quotes
+            .Use(CandlePart.HL2)
+            .GetEma(11)
             .ToList();
 
-        int length = quotesList.Count;
-
-        QuoteHub<Quote> provider = new();
-
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
-
+        // assert, should equal series
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            Quote q = quotesList[i];
+            EmaResult s = staticEma[i];
+            EmaResult r = streamEma[i];
+
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(s.Timestamp);
+            r.Ema.Should().Be(s.Ema);
+            r.Should().Be(s);
         }
 
-        Quote q3 = quotesList[3];
+        // confirm public interface
+        Assert.AreEqual(observer.Cache.Count, observer.Results.Count);
 
-        // act: clear cache
-        observer.ClearCache(3);
-
-        // assert: cache is empty
-        observer.Cache.Should().HaveCount(3);
-        provider.Cache.Should().HaveCount(10);
-
-        List<QuotePart> cacheOver
-            = observer.Results
-                .Where(c => c.Timestamp >= q3.Timestamp).ToList();
-
-        List<QuotePart> cacheUndr
-            = observer.Results
-                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
-
-        cacheOver.Should().BeEmpty();
-        cacheUndr.Should().HaveCount(3);
+        // confirm same length as provider cache
+        Assert.AreEqual(observer.Cache.Count, provider.Quotes.Count);
     }
 }

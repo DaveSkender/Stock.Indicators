@@ -55,25 +55,13 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList
+        IEnumerable<AlligatorResult> seriesList
            = quotesList
-            .GetAlligator()
-            .ToList();
+            .GetAlligator();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            AlligatorResult s = seriesList[i];
-            AlligatorResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Jaw.Should().Be(s.Jaw);
-            r.Lips.Should().Be(s.Lips);
-            r.Teeth.Should().Be(s.Teeth);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -127,26 +115,14 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
             = observer.Results;
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList
+        IEnumerable<AlligatorResult> seriesList
            = quotesList
             .GetSma(10)
-            .GetAlligator()
-            .ToList();
+            .GetAlligator();
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            AlligatorResult s = seriesList[i];
-            AlligatorResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Jaw.Should().Be(s.Jaw);
-            r.Lips.Should().Be(s.Lips);
-            r.Teeth.Should().Be(s.Teeth);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();
