@@ -53,7 +53,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
 
     // METHODS
 
-    public override void Add(TIn newIn)
+    internal override void Add(Act act, TIn newIn, int? index)
     {
         if (newIn is null)
         {
@@ -64,7 +64,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         double lips = double.NaN;
         double teeth = double.NaN;
 
-        int i = Supplier.ExactIndex(newIn);
+        int i = index ?? Supplier.GetIndex(newIn, false);
 
         // calculate alligator's jaw, when in range
         if (i >= JawPeriods + JawOffset - 1)
@@ -151,11 +151,8 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         AlligatorResult r = new(
             newIn.Timestamp, jaw.NaN2Null(), teeth.NaN2Null(), lips.NaN2Null());
 
-        // save to cache
-        Act act = Modify(Act.AddNew, r);
-
-        // send to observers
-        NotifyObservers(act, r);
+        // save and send
+        Motify(act, r, i);
     }
 
     public override string ToString()

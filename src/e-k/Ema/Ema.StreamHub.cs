@@ -34,7 +34,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     // METHODS
 
-    public override void Add(TIn newIn)
+    internal override void Add(Act act, TIn newIn, int? index)
     {
         if (newIn is null)
         {
@@ -43,7 +43,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
         double ema;
 
-        int i = Supplier.ExactIndex(newIn);
+        int i = index ?? Supplier.GetIndex(newIn, false);
 
         if (i >= LookbackPeriods - 1)
         {
@@ -69,12 +69,8 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
             Timestamp: newIn.Timestamp,
             Ema: ema.NaN2Null());
 
-
-        // save to cache
-        Act act = Modify(Act.AddNew, r);
-
-        // send to observers
-        NotifyObservers(act, r);
+        // save and send
+        Motify(act, r, i);
     }
 
     public override string ToString()

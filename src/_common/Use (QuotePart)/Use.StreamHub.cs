@@ -32,7 +32,7 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 
     // METHODS
 
-    public override void Add(TQuote newIn)
+    internal override void Add(Act act, TQuote newIn, int? index)
     {
         if (newIn is null)
         {
@@ -41,14 +41,11 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 
         // candidate result
 
-        QuotePart result
+        QuotePart r
             = newIn.ToQuotePart(CandlePartSelection);
 
-        // save to cache
-        Act act = Modify(Act.AddNew, result);
-
-        // send to observers
-        NotifyObservers(act, result);
+        // save and send
+        Motify(act, r, index);
     }
 
     public override string ToString()

@@ -16,7 +16,7 @@ public interface IChainProvider<TReusable>
 /// Streaming provider interface (observable cache)
 /// </summary>
 public interface IStreamProvider<TSeries>
-    : IObservable<(Act, TSeries)>, IStreamCache<TSeries>
+    : IObservable<(Act, TSeries, int?)>, IStreamCache<TSeries>
     where TSeries : ISeries
 {
     /// <summary>

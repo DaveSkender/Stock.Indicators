@@ -10,7 +10,7 @@ public abstract class StreamProvider<TSeries>
     : StreamCache<TSeries>, IStreamProvider<TSeries>
     where TSeries : ISeries
 {
-    private readonly HashSet<IObserver<(Act, TSeries)>> _observers = [];
+    private readonly HashSet<IObserver<(Act, TSeries, int?)>> _observers = [];
 
     public bool HasSubscribers => _observers.Count > 0;
 
@@ -21,7 +21,7 @@ public abstract class StreamProvider<TSeries>
     #region METHODS (OBSERVABLE)
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(Act, TSeries)> observer)
+    public IDisposable Subscribe(IObserver<(Act, TSeries, int?)> observer)
     {
         _observers.Add(observer);
         return new Subscription(_observers, observer);
@@ -30,7 +30,7 @@ public abstract class StreamProvider<TSeries>
     // unsubscribe all observers
     public void EndTransmission()
     {
-        foreach (IObserver<(Act, TSeries)> obs
+        foreach (IObserver<(Act, TSeries, int?)> obs
             in _observers.ToArray())
         {
             if (_observers.Contains(obs))
@@ -43,23 +43,36 @@ public abstract class StreamProvider<TSeries>
     }
 
     /// <summary>
+    /// Modify cache and notify observers.
+    /// </summary>
+    /// <param name="act" cref="Act">Caching instruction</param>
+    /// <param name="result"><c>TSeries</c> item to send</param>
+    /// <param name="index">Cached index position</param>
+    protected void Motify(Act act, TSeries result, int? index)
+    {
+        Act actTaken = Modify(act, result, index);
+        NotifyObservers(actTaken, result, index);
+    }
+
+    /// <summary>
     /// Sends <c>TSeries</c> item to all subscribers
     /// </summary>
     /// <param name="act" cref="Act">Caching instruction</param>
     /// <param name="item"><c>TSeries</c> item to send</param>
-    protected void NotifyObservers(Act act, TSeries item)
+    /// <param name="index">Provider index hint</param>
+    protected void NotifyObservers(Act act, TSeries? item, int? index)
     {
         // do not propogate "do nothing" acts
-        if (act == Act.DoNothing)
+        if (act == Act.DoNothing || item is null)
         {
             return;
         }
 
         // send to subscribers
-        foreach (IObserver<(Act, TSeries)> obs
+        foreach (IObserver<(Act, TSeries, int?)> obs
             in _observers.ToArray())
         {
-            obs.OnNext((act, item));
+            obs.OnNext((act, item, index));
         }
     }
 
@@ -74,8 +87,8 @@ public abstract class StreamProvider<TSeries>
     /// Your unique subscription as provided.
     /// </param>
     private class Subscription(
-        ISet<IObserver<(Act, TSeries)>> observers,
-        IObserver<(Act, TSeries)> observer) : IDisposable
+        ISet<IObserver<(Act, TSeries, int?)>> observers,
+        IObserver<(Act, TSeries, int?)> observer) : IDisposable
     {
         // remove single observer
         public void Dispose() => observers.Remove(observer);
@@ -89,8 +102,7 @@ public abstract class StreamProvider<TSeries>
     public override void ClearCache(DateTime fromTimestamp)
     {
         // start of range
-        int fromIndex = Cache
-            .FindIndex(c => c.Timestamp >= fromTimestamp);
+        int fromIndex = GetInsertIndex(fromTimestamp);
 
         // something to do
         if (fromIndex != -1)
@@ -132,10 +144,7 @@ public abstract class StreamProvider<TSeries>
         // order to prevent recursive recompositions
         for (int i = to; i >= fr; i--)
         {
-            TSeries item = Cache[i];
-
-            Act act = Modify(Act.Delete, item);
-            NotifyObservers(act, item);
+            Motify(Act.Delete, Cache[i], i);
         }
     }
     #endregion

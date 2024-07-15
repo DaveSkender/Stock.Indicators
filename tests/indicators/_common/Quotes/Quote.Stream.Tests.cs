@@ -73,7 +73,7 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
         }
 
         // delete
-        provider.Delete(quotesList[400], 400);
+        provider.RemoveAt(400);
         quotesList.RemoveAt(400);
 
         // final results

@@ -106,7 +106,7 @@ public class UseTests : StreamTestBase, ITestChainProvider
         }
 
         // delete
-        provider.Delete(quotesList[400], 400);
+        provider.Delete(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results

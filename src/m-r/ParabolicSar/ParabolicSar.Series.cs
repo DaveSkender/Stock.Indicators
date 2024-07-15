@@ -147,7 +147,7 @@ public static partial class Indicator
         // remove first trendline since it is an invalid guess
         int cutIndex = results.FindIndex(x => x.IsReversal == true);
 
-        cutIndex = cutIndex == -1 ? length - 1 : cutIndex;
+        cutIndex = cutIndex < 0 ? length - 1 : cutIndex;
 
         for (int d = 0; d <= cutIndex; d++)
         {

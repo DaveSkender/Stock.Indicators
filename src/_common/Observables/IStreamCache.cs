@@ -56,11 +56,14 @@ public interface IStreamCache<TSeries>
     /// <param name="cachedItem">
     /// Timeseries object to find in cache
     /// </param>
+    /// <param name="noException">
+    /// Disable exception when item is not found
+    /// </param>
     /// <returns>Index position</returns>
     /// <exception cref="ArgumentException">
     /// When items is not found (should never happen).
     /// </exception>
-    int ExactIndex(TSeries cachedItem);
+    int GetIndex(TSeries cachedItem, bool noException);
 
     /// <summary>
     /// Get the cache index based on a timestamp.
@@ -68,16 +71,19 @@ public interface IStreamCache<TSeries>
     /// <remarks>
     /// Only use this when you are looking for a point in time
     /// without a matching item for context.  In most cases
-    /// <see cref="ExactIndex(TSeries)"/> is more appropriate.
+    /// <see cref="GetIndex(TSeries,bool)"/> is more appropriate.
     /// </remarks>
     /// <param name="timestamp">
     /// Timestamp of cached item
+    /// </param>
+    /// <param name="noException">
+    /// Disable exception when item is not found
     /// </param>
     /// <returns>Index position</returns>
     /// <exception cref="ArgumentException">
     /// When timestamp is not found (should never happen).
     /// </exception>
-    int ExactIndex(DateTime timestamp);
+    int GetIndex(DateTime timestamp, bool noException);
 
     /// <summary>
     /// Get the first cache index on or after a timestamp.
@@ -85,16 +91,13 @@ public interface IStreamCache<TSeries>
     /// <remarks>
     /// Only use this when you are looking for a point in time
     /// without a matching item for context.  In most cases
-    /// <see cref="ExactIndex(TSeries)"/> is more appropriate.
+    /// <see cref="GetIndex(TSeries,bool)"/> is more appropriate.
     /// </remarks>
     /// <param name="timestamp">
     /// Timestamp of cached item
     /// </param>
-    /// <returns>First index position</returns>
-    /// <exception cref="ArgumentException">
-    /// When timestamp is not found (should never happen).
-    /// </exception>
-    public int FromIndex(DateTime timestamp);
+    /// <returns>First index position or -1 if not found</returns>
+    int GetInsertIndex(DateTime timestamp);
 
     /// <summary>
     /// Deletes all cached time-series records,

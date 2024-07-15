@@ -20,22 +20,20 @@ public abstract class StreamHub<TIn, TOut>(
 
     public abstract override string ToString();
 
-    public void OnNext((Act, TIn) value)
+    public void OnNext((Act, TIn, int?) value)
     {
-        (Act act, TIn item) = value;
+        (Act act, TIn item, int? index) = value;
 
-        if (act is Act.AddNew)
+        if (act is Act.Unknown or Act.AddNew)
         {
-            Add(item);
+            Add(act, item, index);
+            return;
         }
 
         // TODO: handle revision/recursion differently
         // for different indicators; and may also need
         // to breakout OnDeleted(TIn deleted), etc.
-        else
-        {
-            RebuildCache(item.Timestamp);
-        }
+        RebuildCache(item.Timestamp);
     }
 
     public void OnError(Exception error) => throw error;
@@ -44,26 +42,27 @@ public abstract class StreamHub<TIn, TOut>(
 
     public void Unsubscribe() => Subscription?.Dispose();
 
-    public abstract void Add(TIn newIn);
+    public void Add(TIn newIn) => OnNext((Act.Unknown, newIn, null));
 
     public void Add(IEnumerable<TIn> newIn)
     {
         foreach (TIn quote in newIn.ToSortedList())
         {
-            Add(quote);
+            OnNext((Act.Unknown, quote, null));
         }
     }
 
-    public virtual Act Delete(TIn deletedIn, int? index = null)
-    {
-        index ??= ExactIndex(deletedIn.Timestamp);
+    public virtual Act Delete(TOut cachedItem)
+        => RemoveAt(GetIndex(cachedItem, false));
 
-        TOut thisItem = Cache[(int)index];
+    public Act RemoveAt(int cacheIndex)
+    {
+        TOut thisItem = Cache[cacheIndex];
 
         try
         {
-            Act act = Purge(thisItem);
-            NotifyObservers(act, thisItem);
+            Act act = Purge(cacheIndex);
+            NotifyObservers(act, thisItem, cacheIndex);
             return act;
         }
         catch (OverflowException)
@@ -72,6 +71,21 @@ public abstract class StreamHub<TIn, TOut>(
             throw;
         }
     }
+
+    /// <summary>
+    /// Builds incremental indicator and adds to cache.
+    /// </summary>
+    /// <param name="act">
+    /// Caching instruction hint from provider
+    /// </param>
+    /// <param name="item">
+    /// New inbound item from provider
+    /// </param>
+    /// <param name="index">
+    /// Index position of item in provider cache
+    /// </param>
+    internal abstract void Add(Act act, TIn item, int? index);
+
     #endregion
 
     #region METHODS (CACHE REBUILD)
@@ -96,19 +110,18 @@ public abstract class StreamHub<TIn, TOut>(
     public void RebuildCache(
         DateTime fromTimestamp)
     {
-        int fromIndex = Cache
-            .FindIndex(c => c.Timestamp >= fromTimestamp);
+        int fromIndex = GetInsertIndex(fromTimestamp);
 
         // nothing to rebuild
-        if (fromIndex == -1)
+        if (fromIndex < 0)
         {
             return;
         }
 
-        int provIndex = Supplier.FromIndex(fromTimestamp);
+        int provIndex = Supplier.GetInsertIndex(fromTimestamp);
 
         // nothing to restore
-        if (provIndex == -1)
+        if (provIndex < 0)
         {
             provIndex = int.MaxValue;
         }
@@ -131,9 +144,9 @@ public abstract class StreamHub<TIn, TOut>(
         {
             TOut item = Cache[fromIndex];
 
-            provIndex = Supplier.ExactIndex(item.Timestamp);
+            provIndex = Supplier.GetInsertIndex(item.Timestamp);
 
-            if (provIndex == -1)
+            if (provIndex < 0)
             {
                 // nothing to restore
                 provIndex = int.MaxValue;
@@ -156,8 +169,9 @@ public abstract class StreamHub<TIn, TOut>(
         // rebuild cache from provider
         for (int i = provIndex; i < Supplier.Results.Count; i++)
         {
-            Add(Supplier.Results[i]);
+            OnNext((Act.AddNew, Supplier.Results[i], i));
         }
     }
+
     #endregion
 }

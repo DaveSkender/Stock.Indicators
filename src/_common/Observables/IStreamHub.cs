@@ -26,7 +26,7 @@ public interface IResultHub<TIn, TOut>
 /// Streaming hub (observer and observable provider).
 /// </summary>
 public interface IStreamHub<TIn, TOut>
-    : IObserver<(Act act, TIn inbound)>, IStreamProvider<TOut>
+    : IObserver<(Act, TIn, int?)>, IStreamProvider<TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
@@ -107,17 +107,17 @@ public interface IStreamHub<TIn, TOut>
 
     /// <summary>
     /// Delete an item from the cache.
-    /// We'll double-check that it exists in the
-    /// cache before propogating the event to subscribers.
     /// </summary>
-    /// <remarks>
-    /// Developer note: override this method when there
-    /// is no provider index parity.
-    /// </remarks>
-    /// <param name="deletedIn">Source item to match</param>
-    /// <param name="index">Provider index position</param>
+    /// <param name="cachedItem">Cached item to delete</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
-    Act Delete(TIn deletedIn, int? index = null);
+    Act Delete(TOut cachedItem);
+
+    /// <summary>
+    /// Delete an item from the cache.
+    /// </summary>
+    /// <param name="cacheIndex">Position in cache to delete</param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
+    Act RemoveAt(int cacheIndex);
 
     /// <summary>
     /// Returns a short text label for the hub

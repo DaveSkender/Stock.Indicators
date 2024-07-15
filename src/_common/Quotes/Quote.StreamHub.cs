@@ -20,12 +20,12 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
 
     // METHODS
 
-    public override void Add(TQuote newIn)
+    internal override void Add(Act act, TQuote newIn, int? index)
     {
         try
         {
-            Act act = Modify(newIn);
-            NotifyObservers(act, newIn);
+            // save and send
+            Motify(act, newIn, index);
         }
         catch (OverflowException)
         {

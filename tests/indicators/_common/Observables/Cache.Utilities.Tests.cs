@@ -49,7 +49,7 @@ public class CacheUtilsTests : TestBase
     }
 
     [TestMethod]
-    public void FindPosition()
+    public void GetIndex()
     {
         // setup quote provider
 
@@ -70,22 +70,35 @@ public class CacheUtilsTests : TestBase
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndex = provider.ExactIndex(q);
-        int timeIndex = provider.ExactIndex(q.Timestamp);
+        int itemIndexEx = provider.GetIndex(q, false);
+        int timeIndexEx = provider.GetIndex(q.Timestamp, false);
 
         // assert: same index
-        itemIndex.Should().Be(4);
-        timeIndex.Should().Be(4);
+        itemIndexEx.Should().Be(4);
+        timeIndexEx.Should().Be(4);
 
-        // out of range
+        // out of range (exceptions)
         Quote o = Quotes.ToList()[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.ExactIndex(o);
+            provider.GetIndex(o, false);
         });
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.ExactIndex(o.Timestamp);
+            provider.GetIndex(o.Timestamp, false);
         });
+
+        // out of range (no exceptions)
+        int itemIndexNo = provider.GetIndex(o, true);
+        int timeIndexNo = provider.GetIndex(o.Timestamp, true);
+
+        itemIndexNo.Should().Be(-1);
+        timeIndexNo.Should().Be(-1);
+
+        int timeInsertOut = provider.GetInsertIndex(o.Timestamp);
+        int timeInsertIn = provider.GetInsertIndex(quotesList[2].Timestamp);
+
+        timeInsertOut.Should().Be(-1);
+        timeInsertIn.Should().Be(2);
     }
 }
