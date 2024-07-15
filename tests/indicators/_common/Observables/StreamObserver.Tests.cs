@@ -6,12 +6,15 @@ public class ObserverTests : TestBase
     [TestMethod]
     public void RebuildCache()
     {
-        // setup: pre-populated observer
-        List<Quote> quotesList = LongestQuotes
-            .ToSortedList()
-            .ToList();
+        int qtyQuotes = 5000;
+
+        // setup: many random quotes (massive)
+        List<Quote> quotesList
+            = TestData.GetRandom(qtyQuotes).ToList();
 
         int length = quotesList.Count;
+
+        length.Should().Be(qtyQuotes); // check rando
 
         QuoteHub<Quote> provider = new();
 
@@ -39,8 +42,8 @@ public class ObserverTests : TestBase
         List<QuotePart> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
-        provider.Cache.Should().HaveCount(15821);
-        observer.Cache.Should().HaveCount(15821);
+        provider.Cache.Should().HaveCount(length);
+        observer.Cache.Should().HaveCount(length);
 
         observer.Cache[1000].Value.Should().Be(12345);
         observer.Cache.Should().NotBeEquivalentTo(original);
@@ -50,7 +53,7 @@ public class ObserverTests : TestBase
         observer.RebuildCache();
 
         // assert: restored to original
-        observer.Results.Should().HaveCount(15821);
+        observer.Results.Should().HaveCount(length);
         observer.Results.Should().BeEquivalentTo(original);
 
         observer.Cache[1000].Value.Should().NotBe(12345);
