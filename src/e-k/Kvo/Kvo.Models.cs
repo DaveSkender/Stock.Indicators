@@ -1,11 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct KvoResult
+public record KvoResult
 (
     DateTime Timestamp,
-    double? Oscillator,
-    double? Signal
-) : IReusable
-{
-    double IReusable.Value => Oscillator.Null2NaN();
-}
+    double? Oscillator = null,
+    double? Signal = null
+) : Reusable(Timestamp, Oscillator.Null2NaN());

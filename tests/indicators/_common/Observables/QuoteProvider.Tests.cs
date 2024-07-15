@@ -27,13 +27,13 @@ public class QuoteProviderTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote o = quotesList[i];
-            Quote q = provider.StreamCache.Cache[i];
+            Quote q = provider.Cache[i];
 
             Assert.AreEqual(o, q);  // same ref
         }
 
         // confirm public interfaces
-        Assert.AreEqual(provider.StreamCache.Cache.Count, provider.Quotes.Count);
+        Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count);
 
         // close observations
         provider.EndTransmission();

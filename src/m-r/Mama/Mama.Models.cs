@@ -1,11 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct MamaResult
+public record MamaResult
 (
     DateTime Timestamp,
-    double? Mama,
-    double? Fama
-) : IReusable
-{
-    double IReusable.Value => Mama.Null2NaN();
-}
+    double? Mama = null,
+    double? Fama = null
+) : Reusable(Timestamp, Mama.Null2NaN());

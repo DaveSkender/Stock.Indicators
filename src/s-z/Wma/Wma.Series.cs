@@ -18,7 +18,7 @@ public static partial class Indicator
 
         double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];

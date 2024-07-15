@@ -24,8 +24,8 @@ public static partial class Adl
             .CalcAdl();
 
     // OBSERVER, from Quote Provider
-    public static AdlHub<TQuote> ToAdl<TQuote>(
-        this QuoteProvider<TQuote> quoteProvider)
-        where TQuote : struct, IQuote
+    public static AdlHub<TIn> ToAdl<TIn>(
+        this IQuoteProvider<TIn> quoteProvider)
+        where TIn : IQuote
         => new(quoteProvider);
 }

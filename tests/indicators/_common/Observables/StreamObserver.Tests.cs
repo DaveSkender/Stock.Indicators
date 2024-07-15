@@ -15,8 +15,8 @@ public class ObserverTests : TestBase
 
         QuoteHub<Quote> provider = new();
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
@@ -24,27 +24,27 @@ public class ObserverTests : TestBase
         }
 
         // original results
-        List<Reusable> original = observer.Results.ToList();
+        List<QuotePart> original = observer.Results.ToList();
 
         // quotes to replace
         Quote q1000original = quotesList[1000] with { /* copy */ };
-        Reusable r1000original = observer.StreamCache.Cache[1000] with { /* copy */ };
+        QuotePart r1000original = observer.Cache[1000] with { /* copy */ };
 
         // modify results (keeping provider intact)
         Quote q1000modified = quotesList[1000] with { Close = 12345m };
-        Reusable r1000modified = q1000modified.ToReusable(CandlePart.Close);
+        QuotePart r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
 
-        observer.StreamCache.Modify(r1000modified);  // add directly to observer
+        observer.Modify(r1000modified);  // add directly to observer
 
-        List<Reusable> modified = observer.Results.ToList();
+        List<QuotePart> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
-        provider.StreamCache.Cache.Should().HaveCount(15821);
-        observer.StreamCache.Cache.Should().HaveCount(15821);
+        provider.Cache.Should().HaveCount(15821);
+        observer.Cache.Should().HaveCount(15821);
 
-        observer.StreamCache.ReadCache[1000].Value.Should().Be(12345);
-        observer.StreamCache.Cache.Should().NotBeEquivalentTo(original);
-        observer.StreamCache.Cache.Should().BeEquivalentTo(modified);
+        observer.Cache[1000].Value.Should().Be(12345);
+        observer.Cache.Should().NotBeEquivalentTo(original);
+        observer.Cache.Should().BeEquivalentTo(modified);
 
         // act: Rebuild()
         observer.RebuildCache();
@@ -53,7 +53,7 @@ public class ObserverTests : TestBase
         observer.Results.Should().HaveCount(15821);
         observer.Results.Should().BeEquivalentTo(original);
 
-        observer.StreamCache.ReadCache[1000].Value.Should().NotBe(12345);
-        observer.StreamCache.ReadCache[1000].Value.Should().Be((double)quotesList[1000].Close);
+        observer.Cache[1000].Value.Should().NotBe(12345);
+        observer.Cache[1000].Value.Should().Be((double)quotesList[1000].Close);
     }
 }

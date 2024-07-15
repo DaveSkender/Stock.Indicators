@@ -20,7 +20,7 @@ public static partial class Indicator
         List<CmfResult> results = new(length);
         List<AdlResult> adlResults = qdList.CalcAdl();
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             AdlResult adl = adlResults[i];

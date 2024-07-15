@@ -23,7 +23,7 @@ public static partial class Indicator
 
         double prevKama = double.NaN;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];
@@ -31,7 +31,7 @@ public static partial class Indicator
             // skip incalculable periods
             if (i < erPeriods - 1)
             {
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
                 continue;
             }
 
@@ -61,10 +61,10 @@ public static partial class Indicator
                     er = change / sumPv;
 
                     // smoothing constant
-                    double sc = er * (scFast - scSlow) + scSlow;  // squared later
+                    double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
-                    kama = prevKama + sc * sc * (s.Value - prevKama);
+                    kama = prevKama + (sc * sc * (s.Value - prevKama));
                 }
 
                 // handle flatline case
@@ -75,7 +75,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new(
+            results.Add(new KamaResult(
                 Timestamp: s.Timestamp,
                 Er: er.NaN2Null(),
                 Kama: kama.NaN2Null()));

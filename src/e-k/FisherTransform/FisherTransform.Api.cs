@@ -9,6 +9,6 @@ public static partial class Indicator
         int lookbackPeriods = 10)
         where T : IReusable
         => results
-            .ToSortedList()
+            .ToSortedList(CandlePart.HL2)
             .CalcFisherTransform(lookbackPeriods);
 }

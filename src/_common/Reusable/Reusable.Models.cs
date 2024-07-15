@@ -1,9 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct Reusable(
+/// <summary>
+/// Reusable base result model for chainable indicators.
+/// </summary>
+/// <inheritdoc cref="IReusable"/>
+public record Reusable
+(
     DateTime Timestamp,
     double Value
 ) : IReusable;
 
-
-
+// TODO: make abstract, use QuotePart as instantiation

@@ -45,7 +45,7 @@ public static partial class Indicator
             PointType = "L"
         };
 
-        // roll through quotes, to find initial trend
+        // roll through source values, to find initial trend
         for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
@@ -81,7 +81,7 @@ public static partial class Indicator
         }
 
         // add first point to results
-        ZigZagResult firstResult = new() { Timestamp = q0.Timestamp };
+        ZigZagResult firstResult = new(q0.Timestamp);
         results.Add(firstResult);
 
         // find and draw lines
@@ -199,15 +199,14 @@ public static partial class Indicator
                 TQuote q = quotesList[i];
                 int index = i + 1;
 
-                ZigZagResult result = new() {
-                    Timestamp = q.Timestamp,
-                    ZigZag = lastPoint.Index != 1 || index == nextPoint.Index
+                ZigZagResult result = new(
+                    Timestamp: q.Timestamp,
+                    ZigZag: lastPoint.Index != 1 || index == nextPoint.Index
                         ? lastPoint.Value + (increment * (index - lastPoint.Index))
                         : null,
-                    PointType = index == nextPoint.Index
+                    PointType: index == nextPoint.Index
                         ? nextPoint.PointType
-                        : null
-                };
+                        : null);
 
                 results.Add(result);
             }

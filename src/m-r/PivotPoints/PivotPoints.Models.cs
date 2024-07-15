@@ -13,7 +13,7 @@ internal interface IPivotPoint
     decimal? S4 { get; }
 }
 
-public readonly record struct PivotPointsResult : IResult, IPivotPoint
+public record PivotPointsResult : ISeries, IPivotPoint
 {
     public DateTime Timestamp { get; init; }
 

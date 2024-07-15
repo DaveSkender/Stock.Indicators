@@ -1,10 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct DemaResult
+public record DemaResult
 (
     DateTime Timestamp,
-    double? Dema
-) : IReusable
-{
-    double IReusable.Value => Dema.Null2NaN();
-}
+    double? Dema = null
+) : Reusable(Timestamp, Dema.Null2NaN());

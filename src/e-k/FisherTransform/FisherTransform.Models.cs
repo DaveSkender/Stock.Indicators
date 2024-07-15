@@ -1,11 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct FisherTransformResult
+public record FisherTransformResult
 (
     DateTime Timestamp,
     double? Fisher,
     double? Trigger
-) : IReusable
-{
-    double IReusable.Value => Fisher.Null2NaN();
-}
+) : Reusable(Timestamp, Fisher.Null2NaN());

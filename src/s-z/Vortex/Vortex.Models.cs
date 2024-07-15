@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct VortexResult
+public record VortexResult
 (
     DateTime Timestamp,
-    double? Pvi,
-    double? Nvi
-) : IResult;
+    double? Pvi = null,
+    double? Nvi = null
+) : ISeries;

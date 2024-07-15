@@ -21,6 +21,6 @@ public static partial class Indicator
         this IEnumerable<T> source)
         where T : IReusable
         => source
-            .ToSortedList()
+            .ToSortedList(CandlePart.HL2)
             .CalcHtTrendline();
 }

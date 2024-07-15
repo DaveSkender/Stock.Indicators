@@ -37,10 +37,10 @@ public static partial class Indicator
         {
             IReusable init = reList[i];
             sic = isLong ? Math.Max(sic, init.Value) : Math.Min(sic, init.Value);
-            results.Add(new() { Timestamp = init.Timestamp });
+            results.Add(new(init.Timestamp));
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = lookbackPeriods; i < length; i++)
         {
             IReusable s = reList[i];
@@ -83,7 +83,7 @@ public static partial class Indicator
                 sic = isLong ? Math.Max(sic, s.Value) : Math.Min(sic, s.Value);
             }
 
-            results.Add(new(
+            results.Add(new VolatilityStopResult(
                 Timestamp: s.Timestamp,
                 Sar: sar,
                 IsStop: isStop,
@@ -91,7 +91,7 @@ public static partial class Indicator
                 LowerBand: lowerBand));
         }
 
-        // remove first trend to stop, since it is a guess
+        // remove trend to first stop, since it is a guess
         int cutIndex = results.FindIndex(x => x.IsStop == true);
 
         for (int d = 0; d <= cutIndex; d++)
@@ -102,7 +102,8 @@ public static partial class Indicator
                 Sar = null,
                 UpperBand = null,
                 LowerBand = null,
-                IsStop = null
+                IsStop = null,
+                Value = double.NaN
             };
         }
 

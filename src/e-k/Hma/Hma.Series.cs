@@ -20,7 +20,7 @@ public static partial class Indicator
         List<WmaResult> wmaN1 = source.GetWma(lookbackPeriods).ToList();
         List<WmaResult> wmaN2 = source.GetWma(lookbackPeriods / 2).ToList();
 
-        // roll through quotes, to get interim synthetic quotes
+        // roll through source values, to get interim synthetic quotes
         for (int i = 0; i < source.Count; i++)
         {
             T s = source[i];
@@ -34,8 +34,8 @@ public static partial class Indicator
             }
 
             Reusable sh = new(
-                Timestamp: s.Timestamp,
-                Value: w2.Wma.Null2NaN() * 2d - w1.Wma.Null2NaN());
+                s.Timestamp,
+                (w2.Wma.Null2NaN() * 2d) - w1.Wma.Null2NaN());
 
             synthHistory.Add(sh);
         }
@@ -45,15 +45,15 @@ public static partial class Indicator
 
         List<HmaResult> results = source
             .Take(shiftQty)
-            .Select(x => new HmaResult { Timestamp = x.Timestamp })
+            .Select(x => new HmaResult(x.Timestamp))
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
         List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
-            .Select(x => new HmaResult {
-                Timestamp = x.Timestamp,
-                Hma = x.Wma
-            })
+            .Select(x => new HmaResult(
+                Timestamp: x.Timestamp,
+                Hma: x.Wma
+             ))
             .ToList();
 
         // add WMA to results

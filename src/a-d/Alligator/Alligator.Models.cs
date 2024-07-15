@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct AlligatorResult(
+public record AlligatorResult
+(
     DateTime Timestamp,
     double? Jaw,
     double? Teeth,
     double? Lips
-) : IResult;
-
+) : ISeries;

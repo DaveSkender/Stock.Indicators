@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Tests.CustomIndicators;
 
-public readonly record struct MyResult : IReusable
+public sealed record MyResult : IReusable
 {
     public DateTime Timestamp { get; init; }
     public double? Sma { get; init; }
@@ -38,7 +38,7 @@ public static class CustomIndicator
         // initialize
         List<MyResult> results = new(source.Count);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < source.Count; i++)
         {
             T s = source[i];

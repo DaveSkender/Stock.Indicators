@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct BetaResult(
+public record BetaResult(
     DateTime Timestamp,
     double? Beta = null,
     double? BetaUp = null,
@@ -9,10 +9,7 @@ public readonly record struct BetaResult(
     double? Convexity = null,
     double? ReturnsEval = null,
     double? ReturnsMrkt = null
-) : IReusable
-{
-    double IReusable.Value => Beta.Null2NaN();
-}
+) : Reusable(Timestamp, Beta.Null2NaN());
 
 public enum BetaType
 {

@@ -17,7 +17,7 @@ public static partial class Indicator
         int length = listEval.Count;
         List<PrsResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T b = listBase[i];
@@ -47,15 +47,15 @@ public static partial class Indicator
                 }
             }
 
-            PrsResult r = new() {
-                Timestamp = e.Timestamp,
+            PrsResult r = new(
+                Timestamp: e.Timestamp,
 
-                Prs = b.Value == 0
+                Prs: b.Value == 0
                     ? null
                     : (e.Value / b.Value).NaN2Null(), // relative strength ratio
 
-                PrsPercent = prsPercent
-            };
+                PrsPercent: prsPercent);
+
             results.Add(r);
         }
 

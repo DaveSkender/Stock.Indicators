@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct RollingPivotsResult : IResult, IPivotPoint
+public record RollingPivotsResult : ISeries, IPivotPoint
 {
     public DateTime Timestamp { get; init; }
 

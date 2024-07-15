@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct KeltnerResult
+public record KeltnerResult
 (
     DateTime Timestamp,
-    double? UpperBand,
-    double? Centerline,
-    double? LowerBand,
-    double? Width
-) : IResult;
+    double? UpperBand = null,
+    double? Centerline = null,
+    double? LowerBand = null,
+    double? Width = null
+) : ISeries;

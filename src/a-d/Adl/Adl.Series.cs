@@ -11,7 +11,7 @@ public static partial class Adl
         List<AdlResult> results = new(qdList.Count);
         double prevAdl = 0;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];

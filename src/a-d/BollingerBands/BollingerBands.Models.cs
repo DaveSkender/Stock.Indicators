@@ -1,15 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct BollingerBandsResult
+public record BollingerBandsResult
 (
     DateTime Timestamp,
-    double? Sma,
-    double? UpperBand,
-    double? LowerBand,
-    double? PercentB,
-    double? ZScore,
-    double? Width
-) : IReusable
-{
-    double IReusable.Value => PercentB.Null2NaN();
-}
+    double? Sma = null,
+    double? UpperBand = null,
+    double? LowerBand = null,
+    double? PercentB = null,
+    double? ZScore = null,
+    double? Width = null
+) : Reusable(Timestamp, PercentB.Null2NaN());

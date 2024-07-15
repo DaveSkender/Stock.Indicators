@@ -1,12 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct HtlResult
+public record HtlResult
 (
     DateTime Timestamp,
     int? DcPeriods,
     double? Trendline,
     double? SmoothPrice
-) : IReusable
-{
-    double IReusable.Value => Trendline.Null2NaN();
-}
+) : Reusable(Timestamp, Trendline.Null2NaN());

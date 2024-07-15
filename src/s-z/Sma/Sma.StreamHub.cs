@@ -9,21 +9,15 @@ public interface ISmaHub
 }
 #endregion
 
-public class SmaHub<TIn>
-    : ChainHub<TIn, SmaResult>, ISmaHub
-    where TIn : struct, IReusable
+public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
+    IReusableHub<TIn, SmaResult>, ISmaHub
+    where TIn : IReusable
 {
     #region constructors
 
     public SmaHub(
-        ChainProvider<TIn> provider,
-        int lookbackPeriods)
-        : this(provider, cache: new(), lookbackPeriods) { }
-
-    private SmaHub(
-        ChainProvider<TIn> provider,
-        StreamCache<SmaResult> cache,
-        int lookbackPeriods) : base(provider, cache)
+        IChainProvider<TIn> provider,
+        int lookbackPeriods) : base(provider)
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
@@ -39,17 +33,22 @@ public class SmaHub<TIn>
     public override string ToString()
         => $"SMA({LookbackPeriods})";
 
-    public override void OnNextNew(TIn newItem)
+    public override void Add(TIn newIn)
     {
-        int i = Supplier.StreamCache.Position(newItem);
+        if (newIn is null)
+        {
+            throw new ArgumentNullException(nameof(newIn));
+        }
+
+        int i = Supplier.ExactIndex(newIn);
 
         // candidate result
         SmaResult r = new(
-            Timestamp: newItem.Timestamp,
-            Sma: Sma.Increment(Supplier.StreamCache.ReadCache, i, LookbackPeriods).NaN2Null());
+            Timestamp: newIn.Timestamp,
+            Sma: Sma.Increment(Supplier.Results, i, LookbackPeriods).NaN2Null());
 
         // save to cache
-        Act act = StreamCache.Modify(Act.AddNew, r);
+        Act act = Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);

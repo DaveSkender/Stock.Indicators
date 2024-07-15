@@ -31,7 +31,7 @@ public static partial class Indicator
             norm += wt;
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < source.Count; i++)
         {
             double alma = double.NaN;

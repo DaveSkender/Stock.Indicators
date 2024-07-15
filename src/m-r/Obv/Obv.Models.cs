@@ -1,10 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct ObvResult
+public record ObvResult
 (
     DateTime Timestamp,
     double Obv
-) : IReusable
-{
-    double IReusable.Value => Obv;
-}
+) : Reusable(Timestamp, Obv);

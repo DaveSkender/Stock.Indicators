@@ -18,7 +18,7 @@ public static partial class Indicator
         List<SmmaResult> results = new(length);
         double prevSmma = double.NaN;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];
@@ -26,7 +26,7 @@ public static partial class Indicator
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
                 continue;
             }
 
@@ -48,10 +48,10 @@ public static partial class Indicator
             // normal SMMA
             else
             {
-                smma = (prevSmma * (lookbackPeriods - 1) + s.Value) / lookbackPeriods;
+                smma = ((prevSmma * (lookbackPeriods - 1)) + s.Value) / lookbackPeriods;
             }
 
-            results.Add(new(
+            results.Add(new SmmaResult(
                 Timestamp: s.Timestamp,
                 Smma: smma.NaN2Null()));
 

@@ -22,7 +22,7 @@ public static partial class Indicator
         double? upperBand = null;
         double? lowerBand = null;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

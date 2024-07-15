@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Tests.PublicApi;
 // ReSharper disable All
 
-internal sealed class MyEma : IResult
+internal sealed class MyEma : ISeries
 {
     public DateTime Timestamp { get; init; }
     public int Id { get; init; }

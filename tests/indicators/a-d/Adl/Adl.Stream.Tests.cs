@@ -21,7 +21,7 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         }
 
         // initialize observer
-        AdlHub<Quote> observer = provider
+        StreamHub<Quote, AdlResult> observer = provider
             .ToAdl();
 
         // fetch initial results (early)
@@ -90,8 +90,10 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        SmaHub<AdlResult> observer = provider
-            .ToAdl()
+        IChainProvider<AdlResult> adlHub = provider
+            .ToAdl();
+
+        SmaHub<AdlResult> observer = adlHub
             .ToSma(smaPeriods);
 
         // emulate quote stream

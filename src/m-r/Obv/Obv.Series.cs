@@ -13,7 +13,7 @@ public static partial class Indicator
         double prevClose = double.NaN;
         double obv = 0;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < qdList.Count; i++)
         {
             QuoteD q = qdList[i];
@@ -31,11 +31,9 @@ public static partial class Indicator
                 obv -= q.Volume;
             }
 
-            ObvResult r = new() {
-                Timestamp = q.Timestamp,
-                Obv = obv
-            };
-            results.Add(r);
+            results.Add(new ObvResult(
+                Timestamp: q.Timestamp,
+                Obv: obv));
 
             prevClose = q.Close;
         }

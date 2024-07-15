@@ -1,10 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct CmoResult
+public record CmoResult
 (
     DateTime Timestamp,
-    double? Cmo
-) : IReusable
-{
-    double IReusable.Value => Cmo.Null2NaN();
-}
+    double? Cmo = null
+) : Reusable(Timestamp, Cmo.Null2NaN());

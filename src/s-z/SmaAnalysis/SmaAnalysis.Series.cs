@@ -11,13 +11,10 @@ public static partial class Indicator
         // initialize
         List<SmaAnalysis> results = source
             .CalcSma(lookbackPeriods)
-            .Select(x => new SmaAnalysis {
-                Timestamp = x.Timestamp,
-                Sma = x.Sma
-            })
+            .Select(s => new SmaAnalysis(s.Timestamp, s.Sma))
             .ToList();
 
-        // roll through quotes
+        // roll through source values
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
         {
             SmaAnalysis r = results[i];
@@ -29,7 +26,7 @@ public static partial class Indicator
 
             for (int p = i + 1 - lookbackPeriods; p <= i; p++)
             {
-                var s = source[p];
+                T s = source[p];
 
                 sumMad += Math.Abs(s.Value - sma);
                 sumMse += (s.Value - sma) * (s.Value - sma);
@@ -48,7 +45,6 @@ public static partial class Indicator
 
                 // mean absolute percent error
                 Mape = (sumMape / lookbackPeriods).NaN2Null()
-
             };
         }
 

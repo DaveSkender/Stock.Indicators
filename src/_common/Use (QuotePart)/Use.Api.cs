@@ -5,26 +5,26 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from Quotes
-    public static IEnumerable<Reusable> Use(
+    public static IEnumerable<QuotePart> Use(
         this IEnumerable<IQuote> quotes,
         CandlePart candlePart)
         => quotes
             .OrderBy(q => q.Timestamp)
-            .Select(q => q.ToReusable(candlePart));
+            .Select(q => q.ToQuotePart(candlePart));
 
     // SERIES, from Quotes
-    public static IEnumerable<Reusable> Use<TQuote>(
+    public static IEnumerable<QuotePart> Use<TQuote>(
         this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote
         => quotes
             .OrderBy(q => q.Timestamp)
-            .Select(q => q.ToReusable(candlePart));
+            .Select(q => q.ToQuotePart(candlePart));
 
     // OBSERVER, from Quote Provider
-    public static Use<TQuote> Use<TQuote>(
-        this QuoteProvider<TQuote> quoteProvider,
+    public static QuotePartHub<TIn> ToQuotePart<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
         CandlePart candlePart)
-        where TQuote : struct, IQuote
+        where TIn : IQuote
         => new(quoteProvider, candlePart);
 }

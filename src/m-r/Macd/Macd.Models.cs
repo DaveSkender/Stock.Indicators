@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct MacdResult
+public record MacdResult
 (
     DateTime Timestamp,
     double? Macd,
@@ -11,7 +11,4 @@ public readonly record struct MacdResult
     double? FastEma,
     double? SlowEma
 
-) : IReusable
-{
-    double IReusable.Value => Macd.Null2NaN();
-}
+) : Reusable(Timestamp, Macd.Null2NaN());

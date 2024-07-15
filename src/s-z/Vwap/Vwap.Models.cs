@@ -1,10 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct VwapResult
+public record VwapResult
 (
     DateTime Timestamp,
     double? Vwap
-) : IReusable
-{
-    double IReusable.Value => Vwap.Null2NaN();
-}
+) : Reusable(Timestamp, Vwap.Null2NaN());

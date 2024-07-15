@@ -28,17 +28,17 @@ public static partial class Renko
         int decimals = brickSize.GetDecimalPlaces();
         decimal baseline = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
 
-        RenkoResult lastBrick = new() {
-            Open = baseline,
-            Close = baseline
-        };
+        RenkoResult lastBrick = new(
+            q0.Timestamp,
+            Open: baseline, 0, 0,
+            Close: baseline, 0, false);
 
         // initialize high/low/volume tracking
         decimal h = decimal.MinValue;
         decimal l = decimal.MaxValue;
         decimal sumV = 0;  // cumulative
 
-        // roll through quotes
+        // roll through source values
         for (int i = 1; i < length; i++)
         {
             TQuote q = quotesList[i];
@@ -72,15 +72,8 @@ public static partial class Renko
                     c = o - brickSize;
                 }
 
-                RenkoResult r = new() {
-                    Timestamp = q.Timestamp,
-                    Open = o,
-                    High = h,
-                    Low = l,
-                    Close = c,
-                    Volume = v,
-                    IsUp = isUp
-                };
+                RenkoResult r
+                    = new(q.Timestamp, o, h, l, c, v, isUp);
 
                 results.Add(r);
                 lastBrick = r;

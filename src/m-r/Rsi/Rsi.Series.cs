@@ -28,7 +28,7 @@ public static partial class Indicator
 
         double prevValue = source[0].Value;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             var s = source[i];

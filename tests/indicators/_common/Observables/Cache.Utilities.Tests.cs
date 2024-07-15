@@ -28,7 +28,7 @@ public class CacheUtilsTests : TestBase
         // act: find index of quote
 
         // assert: correct index
-        if (provider.StreamCache.TryFindIndex(q.Timestamp, out int goodIndex))
+        if (provider.TryFindIndex(q.Timestamp, out int goodIndex))
         {
             goodIndex.Should().Be(4);
         }
@@ -38,7 +38,7 @@ public class CacheUtilsTests : TestBase
         }
 
         // assert: out of range
-        if (provider.StreamCache.TryFindIndex(DateTime.MaxValue, out int badIndex))
+        if (provider.TryFindIndex(DateTime.MaxValue, out int badIndex))
         {
             Assert.Fail("unexpected index found");
         }
@@ -70,8 +70,8 @@ public class CacheUtilsTests : TestBase
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndex = provider.StreamCache.Position(q);
-        int timeIndex = provider.StreamCache.Position(q.Timestamp);
+        int itemIndex = provider.ExactIndex(q);
+        int timeIndex = provider.ExactIndex(q.Timestamp);
 
         // assert: same index
         itemIndex.Should().Be(4);
@@ -81,11 +81,11 @@ public class CacheUtilsTests : TestBase
         Quote o = Quotes.ToList()[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.StreamCache.Position(o);
+            provider.ExactIndex(o);
         });
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.StreamCache.Position(o.Timestamp);
+            provider.ExactIndex(o.Timestamp);
         });
     }
 }

@@ -13,10 +13,10 @@ public static partial class Ema
             .ToSortedList()
             .CalcEma(lookbackPeriods);
 
-    // OBSERVER, from Chain Provider
-    public static EmaHub<TIn> ToEma<TIn>(
-        this ChainProvider<TIn> chainProvider,
+    // HUB, from Chain Provider
+    public static EmaHub<T> ToEma<T>(
+        this IChainProvider<T> chainProvider,
         int lookbackPeriods)
-        where TIn : struct, IReusable
+        where T : IReusable
         => new(chainProvider, lookbackPeriods);
 }

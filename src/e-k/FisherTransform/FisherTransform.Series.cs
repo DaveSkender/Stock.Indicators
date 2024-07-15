@@ -12,30 +12,16 @@ public static partial class Indicator
         // check parameter arguments
         FisherTransform.Validate(lookbackPeriods);
 
-        // use standard HL2 if quote source (override Close)
-        List<IReusable> feed
-            = typeof(IQuote).IsAssignableFrom(typeof(T))
-
-            ? source
-             .Cast<IQuote>()
-             .Use(CandlePart.HL2)
-             .Cast<IReusable>()
-             .ToSortedList()
-
-            : source
-             .Cast<IReusable>()
-             .ToSortedList();
-
         // initialize
         int length = source.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
         List<FisherTransformResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = feed[i];
+            IReusable s = source[i];
             pr[i] = s.Value;
 
             double minPrice = pr[i];
@@ -53,15 +39,15 @@ public static partial class Indicator
             if (i > 0)
             {
                 xv[i] = maxPrice - minPrice != 0
-                    ? 0.33 * 2 * ((pr[i] - minPrice) / (maxPrice - minPrice) - 0.5)
-                          + 0.67 * xv[i - 1]
+                    ? (0.33 * 2 * (((pr[i] - minPrice) / (maxPrice - minPrice)) - 0.5))
+                          + (0.67 * xv[i - 1])
                     : 0;
 
                 xv[i] = xv[i] > 0.99 ? 0.999 : xv[i];
                 xv[i] = xv[i] < -0.99 ? -0.999 : xv[i];
 
-                fisher = (0.5 * Math.Log((1 + xv[i]) / (1 - xv[i]))
-                      + 0.5 * results[i - 1].Fisher).NaN2Null();
+                fisher = ((0.5 * Math.Log((1 + xv[i]) / (1 - xv[i])))
+                      + (0.5 * results[i - 1].Fisher)).NaN2Null();
 
                 trigger = results[i - 1].Fisher;
             }

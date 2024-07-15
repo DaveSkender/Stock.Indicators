@@ -32,7 +32,7 @@ public static partial class Indicator
         double lastHlEma2 = 0;
         double lastSignal = 0;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

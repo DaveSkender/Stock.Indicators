@@ -3,14 +3,14 @@ namespace Skender.Stock.Indicators;
 public static partial class Sma
 {
     internal static double Increment<T>(
-        this ReadOnlySpan<T> values,
+        this IReadOnlyList<T> values,
         int endIndex,
         int lookbackPeriods)
-        where T : struct, IReusable
+        where T : IReusable
     {
         int offset = lookbackPeriods - 1;
 
-        if (endIndex < offset || endIndex >= values.Length)
+        if (endIndex < offset || endIndex >= values.Count)
         {
             return double.NaN;
         }
@@ -24,32 +24,6 @@ public static partial class Sma
         }
 
         return sum / lookbackPeriods;
-    }
-
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<SmaResult> RemoveWarmupPeriods(
-        this IEnumerable<SmaResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Sma != null);
-
-        return results.Remove(removePeriods);
-    }
-
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<SmaAnalysis> RemoveWarmupPeriods(
-        this IEnumerable<SmaAnalysis> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Sma != null);
-
-        return results.Remove(removePeriods);
     }
 
     // parameter validation

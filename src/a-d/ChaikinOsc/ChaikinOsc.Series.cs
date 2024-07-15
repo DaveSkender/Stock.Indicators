@@ -23,7 +23,7 @@ public static partial class Indicator
         List<EmaResult> adlEmaSlow = adlResults.CalcEma(slowPeriods);
         List<EmaResult> adlEmaFast = adlResults.CalcEma(fastPeriods);
 
-        // roll through history
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             AdlResult a = adlResults[i];

@@ -1,10 +1,7 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct HmaResult
+public record HmaResult
 (
     DateTime Timestamp,
-    double? Hma
-) : IReusable
-{
-    double IReusable.Value => Hma.Null2NaN();
-}
+    double? Hma = null
+) : Reusable(Timestamp, Hma.Null2NaN());

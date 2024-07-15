@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 namespace Tests.Performance;
 // ReSharper disable All
 
@@ -15,12 +13,9 @@ public class IndicatorStreamTests
     [GlobalSetup]
     public void Setup()
     {
-        ReadOnlySpan<Quote> spanQuotes
-            = CollectionsMarshal.AsSpan(ql);
-
         for (int i = 0; i < ql.Count; i++)
         {
-            provider.Add(spanQuotes[i]);
+            provider.Add(ql[i]);
         }
     }
 
@@ -44,6 +39,13 @@ public class IndicatorStreamTests
     public object EmaHub()
     {
         EmaHub<Quote> hub = provider.ToEma(14);
+        return hub.Results;
+    }
+
+    [Benchmark]
+    public object QuoteHub()  // redistribution
+    {
+        QuoteHub<Quote> hub = provider.ToQuote();
         return hub.Results;
     }
 

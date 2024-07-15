@@ -26,7 +26,7 @@ public static partial class Indicator
         double kSlow = 2d / (slowPeriods + 1);
         double kMacd = 2d / (signalPeriods + 1);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];

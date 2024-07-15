@@ -31,7 +31,7 @@ public static partial class Indicator
 
         double prevSignal = double.NaN;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];
@@ -46,7 +46,7 @@ public static partial class Indicator
                 cs2[i] = double.NaN;
                 as2[i] = double.NaN;
 
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
                 continue;
             }
 
@@ -73,8 +73,8 @@ public static partial class Indicator
             // normal first smoothing
             else
             {
-                cs1[i] = (c[i] - cs1[i - 1]) * mult1 + cs1[i - 1];
-                as1[i] = (a[i] - as1[i - 1]) * mult1 + as1[i - 1];
+                cs1[i] = ((c[i] - cs1[i - 1]) * mult1) + cs1[i - 1];
+                as1[i] = ((a[i] - as1[i - 1]) * mult1) + as1[i - 1];
             }
 
             // re/initialize second smoothing
@@ -96,8 +96,8 @@ public static partial class Indicator
             // normal second smoothing
             else
             {
-                cs2[i] = (cs1[i] - cs2[i - 1]) * mult2 + cs2[i - 1];
-                as2[i] = (as1[i] - as2[i - 1]) * mult2 + as2[i - 1];
+                cs2[i] = ((cs1[i] - cs2[i - 1]) * mult2) + cs2[i - 1];
+                as2[i] = ((as1[i] - as2[i - 1]) * mult2) + as2[i - 1];
             }
 
             // true strength index
@@ -125,7 +125,7 @@ public static partial class Indicator
                 // normal signal
                 else
                 {
-                    signal = (tsi - prevSignal) * multS + prevSignal;
+                    signal = ((tsi - prevSignal) * multS) + prevSignal;
                 }
             }
             else
@@ -135,7 +135,7 @@ public static partial class Indicator
                     : double.NaN;
             }
 
-            results.Add(new(
+            results.Add(new TsiResult(
                 Timestamp: s.Timestamp,
                 Tsi: tsi.NaN2Null(),
                 Signal: signal.NaN2Null()));

@@ -95,8 +95,8 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        SmaHub<Reusable> observer = provider
-            .Use(CandlePart.OC2)
+        SmaHub<QuotePart> observer = provider
+            .ToQuotePart(CandlePart.OC2)
             .ToSma(11);
 
         // emulate quote stream

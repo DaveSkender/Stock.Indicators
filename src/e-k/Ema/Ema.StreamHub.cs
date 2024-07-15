@@ -11,21 +11,15 @@ public interface IEmaHub
 }
 #endregion
 
-public class EmaHub<TIn>
-    : ChainHub<TIn, EmaResult>, IEmaHub
-    where TIn : struct, IReusable
+public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
+    IReusableHub<TIn, EmaResult>, IEmaHub
+    where TIn : IReusable
 {
     #region constructors
 
     public EmaHub(
-        ChainProvider<TIn> provider,
-        int lookbackPeriods)
-        : this(provider, cache: new(), lookbackPeriods) { }
-
-    private EmaHub(
-        ChainProvider<TIn> provider,
-        StreamCache<EmaResult> cache,
-        int lookbackPeriods) : base(provider, cache)
+        IChainProvider<TIn> provider,
+        int lookbackPeriods) : base(provider)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
@@ -43,23 +37,28 @@ public class EmaHub<TIn>
     public override string ToString()
         => $"EMA({LookbackPeriods})";
 
-    public override void OnNextNew(TIn newItem)
+    public override void Add(TIn newIn)
     {
+        if (newIn is null)
+        {
+            throw new ArgumentNullException(nameof(newIn));
+        }
+
         double ema;
 
-        int i = Supplier.StreamCache.Position(newItem);
+        int i = Supplier.ExactIndex(newIn);
 
         if (i >= LookbackPeriods - 1)
         {
-            IReusable last = StreamCache.ReadCache[i - 1];
+            IReusable last = Cache[i - 1];
 
             ema = !double.IsNaN(last.Value)
 
                 // normal
-                ? Ema.Increment(K, last.Value, newItem.Value)
+                ? Ema.Increment(K, last.Value, newIn.Value)
 
                 // re/initialize
-                : Sma.Increment(Supplier.StreamCache.ReadCache, i, LookbackPeriods);
+                : Sma.Increment(Supplier.Results, i, LookbackPeriods);
         }
 
         // warmup periods are never calculable
@@ -70,12 +69,12 @@ public class EmaHub<TIn>
 
         // candidate result
         EmaResult r = new(
-            Timestamp: newItem.Timestamp,
+            Timestamp: newIn.Timestamp,
             Ema: ema.NaN2Null());
 
 
         // save to cache
-        Act act = StreamCache.Modify(Act.AddNew, r);
+        Act act = Modify(Act.AddNew, r);
 
         // send to observers
         NotifyObservers(act, r);
