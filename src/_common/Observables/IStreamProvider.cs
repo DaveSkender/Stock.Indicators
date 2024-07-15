@@ -30,6 +30,16 @@ public interface IStreamProvider<TSeries>
     int SubscriberCount { get; }
 
     /// <summary>
+    /// Checks if a specific observer is subscribed
+    /// </summary>
+    /// <param name="observer">
+    /// Subscriber <c>IObserver</c> reference
+    /// </param>
+    /// <returns>True if subscribed/registered</returns>
+    bool HasSubscriber(
+        IObserver<(Act, TSeries, int?)> observer);
+
+    /// <summary>
     /// Unsubscribe all observers (subscribers)
     /// </summary>
     void EndTransmission();

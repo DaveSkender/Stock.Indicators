@@ -18,13 +18,36 @@ public abstract class StreamProvider<TSeries>
 
     public IReadOnlyList<TSeries> ReadCache => Cache;
 
-    #region METHODS (OBSERVABLE)
+    #region METHODS (SUBSCRIPTION)
 
     // subscribe observer
     public IDisposable Subscribe(IObserver<(Act, TSeries, int?)> observer)
     {
         _observers.Add(observer);
         return new Subscription(_observers, observer);
+    }
+
+    // check if observer is subscribed
+    public bool HasSubscriber(
+        IObserver<(Act, TSeries, int?)> observer)
+            => _observers.Contains(observer);
+
+    /// <summary>
+    /// A disposable subscription to the stream provider.
+    /// <para>Unsubscribed with <see cref="Dispose()"/></para>
+    /// </summary>
+    /// <param name="observers">
+    /// Registry of all subscribers (by ref)
+    /// </param>
+    /// <param name="observer">
+    /// Your unique subscription as provided.
+    /// </param>
+    private class Subscription(
+        ISet<IObserver<(Act, TSeries, int?)>> observers,
+        IObserver<(Act, TSeries, int?)> observer) : IDisposable
+    {
+        // remove single observer
+        public void Dispose() => observers.Remove(observer);
     }
 
     // unsubscribe all observers
@@ -41,6 +64,9 @@ public abstract class StreamProvider<TSeries>
 
         _observers.Clear();
     }
+    #endregion
+
+    #region METHODS (OBSERVABLE)
 
     /// <summary>
     /// Modify cache and notify observers.
@@ -74,24 +100,6 @@ public abstract class StreamProvider<TSeries>
         {
             obs.OnNext((act, item, index));
         }
-    }
-
-    /// <summary>
-    /// A disposable subscription to the stream provider.
-    /// <para>Unsubscribed with <see cref="Dispose()"/></para>
-    /// </summary>
-    /// <param name="observers">
-    /// Registry of all subscribers (by ref)
-    /// </param>
-    /// <param name="observer">
-    /// Your unique subscription as provided.
-    /// </param>
-    private class Subscription(
-        ISet<IObserver<(Act, TSeries, int?)>> observers,
-        IObserver<(Act, TSeries, int?)> observer) : IDisposable
-    {
-        // remove single observer
-        public void Dispose() => observers.Remove(observer);
     }
     #endregion
 

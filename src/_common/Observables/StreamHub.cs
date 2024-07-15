@@ -10,7 +10,7 @@ public abstract class StreamHub<TIn, TOut>(
     where TIn : ISeries
     where TOut : ISeries
 {
-    public bool IsSubscribed => Subscription is not null;
+    public bool IsSubscribed => Supplier.HasSubscriber(this);
 
     internal IDisposable? Subscription { get; set; }
 

@@ -48,12 +48,14 @@ public class ProviderTests : TestBase, ITestChainProvider
     {
         // setup quote provider, observer
         QuoteHub<Quote> provider = new();
-        QuoteHub<Quote> observer = provider.ToQuote();
+
+        QuotePartHub<Quote> observer
+            = provider.ToQuotePart(CandlePart.OHLC4);
 
         // assert: subscribed
-        observer.IsSubscribed.Should().BeTrue();
         provider.SubscriberCount.Should().Be(1);
         provider.HasSubscribers.Should().BeTrue();
+        observer.IsSubscribed.Should().BeTrue();
 
         // act: unsubscribe
         observer.Unsubscribe();
