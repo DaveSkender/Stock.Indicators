@@ -20,9 +20,6 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
 
     // METHODS
 
-    public override string ToString()
-        => $"QUOTES: {Quotes.Count} items (type: {nameof(TQuote)})";
-
     public override void Add(TQuote newIn)
     {
         try
@@ -36,6 +33,9 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
             throw;
         }
     }
+
+    public override string ToString()
+        => $"QUOTES: {Quotes.Count} items (type: {nameof(TQuote)})";
 }
 
 /// <summary>

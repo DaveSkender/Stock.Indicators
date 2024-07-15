@@ -32,9 +32,6 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 
     // METHODS
 
-    public override string ToString()
-        => $"QUOTEPART({Enum.GetName(CandlePartSelection)})";
-
     public override void Add(TQuote newIn)
     {
         if (newIn is null)
@@ -53,4 +50,7 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
         // send to observers
         NotifyObservers(act, result);
     }
+
+    public override string ToString()
+        => $"QUOTEPART({Enum.GetName(CandlePartSelection)})";
 }

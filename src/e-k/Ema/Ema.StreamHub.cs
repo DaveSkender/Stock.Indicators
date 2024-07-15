@@ -34,9 +34,6 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     // METHODS
 
-    public override string ToString()
-        => $"EMA({LookbackPeriods})";
-
     public override void Add(TIn newIn)
     {
         if (newIn is null)
@@ -79,4 +76,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
         // send to observers
         NotifyObservers(act, r);
     }
+
+    public override string ToString()
+        => $"EMA({LookbackPeriods})";
 }

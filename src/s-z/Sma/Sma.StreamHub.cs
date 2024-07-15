@@ -30,9 +30,6 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
 
     // METHODS
 
-    public override string ToString()
-        => $"SMA({LookbackPeriods})";
-
     public override void Add(TIn newIn)
     {
         if (newIn is null)
@@ -53,4 +50,7 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
         // send to observers
         NotifyObservers(act, r);
     }
+
+    public override string ToString()
+        => $"SMA({LookbackPeriods})";
 }

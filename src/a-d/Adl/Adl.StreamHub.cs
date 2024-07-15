@@ -17,18 +17,6 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
     // METHODS
 
-    public override string ToString()
-    {
-        if (Cache.Count == 0)
-        {
-            return "ADL";
-        }
-
-        AdlResult first = Cache[0];
-
-        return $"ADL({first.Timestamp:d})";
-    }
-
     public override void Add(TIn newIn)
     {
         if (newIn is null)
@@ -61,5 +49,17 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
         // send to observers
         NotifyObservers(act, r);
+    }
+
+    public override string ToString()
+    {
+        if (Cache.Count == 0)
+        {
+            return "ADL";
+        }
+
+        AdlResult first = Cache[0];
+
+        return $"ADL({first.Timestamp:d})";
     }
 }

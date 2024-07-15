@@ -50,6 +50,13 @@ public class IndicatorStreamTests
     }
 
     [Benchmark]
+    public object QuotePartHub()
+    {
+        QuotePartHub<Quote> hub = provider.ToQuotePart(CandlePart.OHL3);
+        return hub.Results;
+    }
+
+    [Benchmark]
     public object RenkoHub()
     {
         RenkoHub<Quote> hub = provider.ToRenko(2.5m);

@@ -35,9 +35,6 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
     // METHODS
 
-    public override string ToString()
-        => $"RENKO({BrickSize}, {EndType})";
-
     public override void Add(TIn newIn)
     {
         if (newIn is null)
@@ -136,4 +133,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
             }
         }
     }
+
+    public override string ToString()
+        => $"RENKO({BrickSize}, {EndType})";
 }

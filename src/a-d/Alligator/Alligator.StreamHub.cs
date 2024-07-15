@@ -53,9 +53,6 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
 
     // METHODS
 
-    public override string ToString()
-        => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
-
     public override void Add(TIn newIn)
     {
         if (newIn is null)
@@ -160,4 +157,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         // send to observers
         NotifyObservers(act, r);
     }
+
+    public override string ToString()
+        => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 }
