@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct UlcerIndexResult
+public record UlcerIndexResult
 (
     DateTime Timestamp,
-    double? UlcerIndex  // ulcer index
-) : IReusable
+    double? UlcerIndex
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => UlcerIndex.Null2NaN();
+    public override double Value => UlcerIndex.Null2NaN();
 
     [Obsolete("Rename UI to UlcerIndex")] // v3.0.0
     public double? UI => UlcerIndex;

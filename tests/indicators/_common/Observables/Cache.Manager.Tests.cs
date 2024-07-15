@@ -26,8 +26,8 @@ public class CacheMgmtTests : TestBase
         // add base quotes
         QuoteHub<Quote> provider = new();
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         // emulate incremental quotes
         for (int i = 0; i < length; i++)
@@ -49,7 +49,7 @@ public class CacheMgmtTests : TestBase
         for (int i = 0; i < length; i++)
         {
             Quote q = quotesList[i];
-            Reusable r = observer.StreamCache.Cache[i];
+            QuotePart r = observer.Cache[i];
 
             // compare quote to result cache
             r.Timestamp.Should().Be(q.Timestamp);
@@ -65,15 +65,22 @@ public class CacheMgmtTests : TestBase
     {
         // initialize
         QuoteHub<Quote> provider = new();
-        Quote q = new() { Timestamp = DateTime.Now }; // dup
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        Quote dup = new(
+            Timestamp: DateTime.Now,
+            Open: 1.00m,
+            High: 2.00m,
+            Low: 0.50m,
+            Close: 1.75m,
+            Volume: 1000);
+
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         // overflowing, under threshold
         for (int i = 0; i <= 100; i++)
         {
-            provider.Add(q);
+            provider.Add(dup);
         }
 
         // assert: no fault, no overflow (yet)
@@ -81,7 +88,7 @@ public class CacheMgmtTests : TestBase
         provider.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeFalse();
-        provider.StreamCache.OverflowCount.Should().Be(100);
+        provider.OverflowCount.Should().Be(100);
         provider.HasSubscribers.Should().BeTrue();
 
         provider.EndTransmission();
@@ -92,17 +99,24 @@ public class CacheMgmtTests : TestBase
     {
         // initialize
         QuoteHub<Quote> provider = new();
-        Quote q = new() { Timestamp = DateTime.Now }; // dup
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        Quote dup = new(
+            Timestamp: DateTime.Now,
+            Open: 1.00m,
+            High: 2.00m,
+            Low: 0.50m,
+            Close: 1.75m,
+            Volume: 1000);
+
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         // overflowed, over threshold
         Assert.ThrowsException<OverflowException>(() => {
 
             for (int i = 0; i <= 101; i++)
             {
-                provider.Add(q);
+                provider.Add(dup);
             }
         });
 
@@ -111,16 +125,16 @@ public class CacheMgmtTests : TestBase
         provider.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeTrue();
-        provider.StreamCache.OverflowCount.Should().Be(101);
+        provider.OverflowCount.Should().Be(101);
         provider.HasSubscribers.Should().BeFalse();
 
         // act: reset
 
-        provider.StreamCache.Reset();
+        provider.ResetFault();
 
         for (int i = 0; i < 100; i++)
         {
-            provider.Add(q);
+            provider.Add(dup);
         }
 
         // assert: no fault, no overflow (yet)
@@ -128,7 +142,7 @@ public class CacheMgmtTests : TestBase
         provider.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeFalse();
-        provider.StreamCache.OverflowCount.Should().Be(100);
+        provider.OverflowCount.Should().Be(100);
         provider.HasSubscribers.Should().BeFalse(); // expected
 
         provider.EndTransmission();

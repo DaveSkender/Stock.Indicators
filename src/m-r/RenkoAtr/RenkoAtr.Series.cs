@@ -15,8 +15,8 @@ public static partial class RenkoAtr
             .ToQuoteDList()
             .CalcAtr(atrPeriods);
 
-        AtrResult last = atrResults.LastOrDefault();
-        decimal brickSize = (decimal?)last.Atr ?? 0;
+        AtrResult? last = atrResults.LastOrDefault();
+        decimal brickSize = (decimal?)last?.Atr ?? 0;
 
         return brickSize is 0
           ? []

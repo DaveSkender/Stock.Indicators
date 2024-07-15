@@ -21,12 +21,11 @@ public static partial class Indicator
         // get stochastic of macd
         List<StochResult> stochMacd = tpList
           .CalcMacd(fastPeriods, slowPeriods, 1)
-          .Select(x => new QuoteD {
-              Timestamp = x.Timestamp,
-              High = x.Macd.Null2NaN(),
-              Low = x.Macd.Null2NaN(),
-              Close = x.Macd.Null2NaN()
-          })
+          .Select(x => new QuoteD(
+              x.Timestamp, 0,
+              x.Macd.Null2NaN(),
+              x.Macd.Null2NaN(),
+              x.Macd.Null2NaN(), 0))
           .ToList()
           .CalcStoch(cyclePeriods, 1, 3, 3, 2, MaType.SMA);
 
@@ -34,10 +33,10 @@ public static partial class Indicator
         for (int i = 0; i < length; i++)
         {
             StochResult r = stochMacd[i];
-            results.Add(new() {
-                Timestamp = r.Timestamp,
-                Stc = r.Oscillator
-            });
+
+            results.Add(new StcResult(
+                Timestamp: r.Timestamp,
+                Stc: r.Oscillator));
         }
 
         return results;

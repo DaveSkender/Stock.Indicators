@@ -2,18 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
-public readonly record struct CandleProperties : IQuote
+public record CandleProperties
+(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume
+) : Quote(Timestamp, Open, High, Low, Close, Volume)
 {
-    // base quote properties
-    public DateTime Timestamp { get; init; }
-    public decimal Open { get; init; }
-    public decimal High { get; init; }
-    public decimal Low { get; init; }
-    public decimal Close { get; init; }
-    public decimal Volume { get; init; }
-
-    double IReusable.Value => (double)Close;
-
     // raw sizes
     public decimal? Size => High - Low;
     public decimal? Body => Open > Close ? Open - Close : Close - Open;
@@ -30,7 +28,7 @@ public readonly record struct CandleProperties : IQuote
     public bool IsBearish => Close < Open;
 }
 
-public readonly record struct CandleResult : IResult
+public record CandleResult : ISeries
 {
     public CandleResult(
         DateTime timestamp,

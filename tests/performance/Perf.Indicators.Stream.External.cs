@@ -30,7 +30,7 @@ public class IndicatorStreamExternal
     public object GetFoo()
     {
         QuoteHub<Quote> provider = new();
-        EmaHub<Quote> ema = provider.ToEma(14);
+        var ema = provider.ToEma(14);
 
         for (int i = 0; i < ql.Count; i++)
         {

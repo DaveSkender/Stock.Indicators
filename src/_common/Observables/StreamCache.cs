@@ -1,61 +1,27 @@
-using System.Runtime.InteropServices;
-
 namespace Skender.Stock.Indicators;
 
-// CACHE STORE
+// STREAMING CACHE STORE
 
-/// <summary>
-/// Base cache and management utilities
-/// </summary>
-public class StreamCache<TSeries> : IStreamCache
-    where TSeries : struct, ISeries
+/// <inheritdoc cref="IStreamCache{TSeries}"/>
+public abstract class StreamCache<TSeries>
+    : IStreamCache<TSeries>
+    where TSeries : ISeries
 {
-    /// <summary>
-    /// Default. Use internal cache.
-    /// </summary>
-    internal StreamCache()
-    {
-        Cache = [];
-    }
+    /// <inheritdoc/>
+    public IReadOnlyList<TSeries> Results => Cache;
 
-    /// <summary>
-    /// The cache failed and is no longer operational.
-    /// </summary>
-    /// <remarks>
-    /// The cache and its provider will no longer function.
-    /// Use <see cref="IStreamCache.Reset()"/> to remove this flag.
-    /// This primarily occurs when there is an overflow condition.
-    /// This usually occurs when a circular chain is detected,
-    /// or when there were too many sequential duplicates.
-    /// </remarks>
+    /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
 
     /// <summary>
     /// Cache of stored values (base).
     /// </summary>
-    /// <remarks>
-    /// Only access this <c>Cache</c> through implemented
-    /// methods. It's also okay to use indexing operations
-    /// like <see cref="List{T}.FindIndex(Predicate{T})"/>
-    /// and <see cref="List{T}.Count"/> since they do not
-    /// copy the struct.  Use <see cref="ReadCache"/> for
-    /// referencing objects in the list.
-    /// </remarks>
-    internal List<TSeries> Cache { get; }
-
-    /// <summary>
-    /// Read-only Span-list of the stored values <see cref="Cache"/>.
-    /// </summary>
-    /// <remarks>
-    /// Use this to referencing objects to avoid copying the struct.
-    /// </remarks>
-    internal ReadOnlySpan<TSeries> ReadCache
-        => CollectionsMarshal.AsSpan(Cache);
+    internal List<TSeries> Cache { get; private set; } = [];
 
     /// <summary>
     /// Most recent arrival to cache.
     /// </summary>
-    internal TSeries LastArrival { get; private set; }
+    internal TSeries? LastArrival { get; private set; }
 
     /// <summary>
     /// Current count of repeated arrivals.
@@ -63,47 +29,211 @@ public class StreamCache<TSeries> : IStreamCache
     /// </summary>
     internal byte OverflowCount { get; private set; }
 
+    #region METHODS (CACHE UTILITIES)
 
-    #region METHODS (CACHE MANAGER)
-
-    public void Reset()
+    // reset fault flag and condition
+    /// <inheritdoc/>
+    public void ResetFault()
     {
         OverflowCount = 0;
         IsFaulted = false;
     }
 
+    // try/get the cache index based on a timestamp
+    /// <inheritdoc/>
+    public bool TryFindIndex(DateTime timestamp, out int index)
+    {
+        index = GetIndex(timestamp, true);
+        return index != -1;
+    }
+
+    // get the cache index based on item equality
+    /// <inheritdoc/>
+    public int GetIndex(TSeries cachedItem, bool noException)
+    {
+        int low = 0;
+        int high = Cache.Count - 1;
+        int firstMatchIndex = -1; // index of the first timestamp match
+
+        while (low <= high)
+        {
+            int mid = low + ((high - low) / 2);
+            int comparison = Cache[mid].Timestamp.CompareTo(cachedItem.Timestamp);
+
+            if (comparison == 0)
+            {
+                // found a match by Timestamp,
+                // store the index of the first match
+                if (firstMatchIndex == -1)
+                {
+                    firstMatchIndex = mid;
+                }
+
+                // verify with Equals for an exact match
+                if (Cache[mid].Equals(cachedItem))
+                {
+                    return mid; // exact match found
+                }
+
+                // continue searching to the left for
+                // the first occurrence
+                high = mid - 1;
+            }
+            else if (comparison < 0)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        // If a timestamp match was found but no exact
+        // match, try to find an exact match in the range
+        // of duplicate timestamps (e.g. Renko bricks),
+        // biased towards later duplicats.
+        if (firstMatchIndex != -1)
+        {
+            // Find the last occurrence of the matching timestamp
+            int lastMatchIndex = firstMatchIndex;
+            for (int i = firstMatchIndex + 1; i < Cache.Count && Cache[i].Timestamp == cachedItem.Timestamp; i++)
+            {
+                lastMatchIndex = i;
+            }
+
+            // Search for an exact match starting from the last occurrence
+            for (int i = lastMatchIndex; i >= firstMatchIndex; i--)
+            {
+                if (Cache[i].Equals(cachedItem))
+                {
+                    return i; // exact match found among duplicates
+                }
+            }
+        }
+
+        if (noException)
+        {
+            return -1;
+        }
+        else
+        {
+            // not found
+            throw new ArgumentException(
+                "Matching source history not found.", nameof(cachedItem));
+        }
+    }
+
+    // get the cache index based on a timestamp
+    /// <inheritdoc/>
+    public int GetIndex(DateTime timestamp, bool noException)
+    {
+        int low = 0;
+        int high = Cache.Count - 1;
+
+        while (low <= high)
+        {
+            int mid = low + ((high - low) / 2);
+            DateTime midTimestamp = Cache[mid].Timestamp;
+
+            if (midTimestamp == timestamp)
+            {
+                return mid;
+            }
+            else if (midTimestamp < timestamp)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        if (noException)
+        {
+            return -1;
+        }
+        else
+        {
+            // not found
+            throw new ArgumentException(
+                "Matching source history not found.", nameof(timestamp));
+        }
+    }
+
+    // get first cache index at or greater than timestamp
+    /// <inheritdoc/>
+    public int GetInsertIndex(DateTime timestamp)
+    {
+        int low = 0;
+        int high = Cache.Count;
+        while (low < high)
+        {
+            int mid = low + ((high - low) / 2);
+            if (Cache[mid].Timestamp < timestamp)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid;
+            }
+        }
+
+        // At this point, low is the index of the first
+        // element that is greater than or equal to timestamp
+        // or Cache.Count if all elements are less than timestamp.
+        // If low is equal to Cache.Count, it means there are
+        // no elements greater than or equal to timestamp.
+        return low < Cache.Count ? low : -1;
+    }
+
+    #endregion
+
+    #region METHODS (CACHE MODIFICATION)
+
+    // clear cache without restore
+    /// <inheritdoc/>
+    public void ClearCache() => ClearCache(0);
+    public abstract void ClearCache(DateTime fromTimestamp);
+    public abstract void ClearCache(int fromIndex);
+
     /// <summary>
     /// Analyze new arrival to determine caching instruction;
     /// then follow-on with caching action.
     /// </summary>
-    /// <param name="item">
-    ///   Fully formed cacheable time-series object.
-    /// </param>
+    /// <param name="item">Cacheable time-series object</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="ArgumentException">
+    /// Item to modify is not found.
+    /// </exception>
+    /// <exception cref="OverflowException">
+    /// Too many sequential duplicates were detected.
+    /// </exception>
     internal Act Modify(TSeries item)
     {
-        // check format and overflow
+        // check overflow
         if (CheckOverflow(item) is Act.DoNothing)
         {
+            // duplicate found
             return Act.DoNothing;
         }
-
 
         // DETERMINE ACTion INSTRUCTION
 
         Act act;
         int length = Cache.Count;
+        int? index = null;
 
         // first
         if (length == 0)
         {
             act = Act.AddNew;
-            return Modify(act, item);
+            return Modify(act, item, index);
         }
 
-        TSeries last = ReadCache[length - 1];
+        TSeries last = Cache[length - 1];
 
         // newer
         if (item.Timestamp > last.Timestamp)
@@ -115,15 +245,22 @@ public class StreamCache<TSeries> : IStreamCache
         else
         {
             // seek duplicate
-            int foundIndex = Cache
-                .FindIndex(x => x.Timestamp == item.Timestamp);
+            index = GetIndex(item.Timestamp, true);
 
             // replace duplicate
-            act = foundIndex == -1 ? Act.AddOld : Act.Update;
+            if (index >= 0)
+            {
+                act = Act.Update;
+            }
+            else
+            {
+                act = Act.AddOld;
+                index = null;
+            }
         }
 
-        // perform actual update, return final action
-        return Modify(act, item);
+        // perform actual modification, return final action
+        return Modify(act, item, index);
     }
 
     /// <summary>
@@ -135,17 +272,19 @@ public class StreamCache<TSeries> : IStreamCache
     /// For example, it will not prevent duplicates or overflow.
     /// </remarks>
     /// <param name="act" cref="Act">Caching instruction</param>
-    /// <param name="item">
-    ///   Fully formed cacheable time-series object.
-    /// </param>
+    /// <param name="item">Cacheable time-series object</param>
+    /// <param name="index">Index, if already known (optional)</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentException">
     /// Item to modify is not found.
     /// </exception>
-    /// <exception cref="InvalidOperationException">
-    /// Action is not defined.
+    /// <exception cref="OverflowException">
+    /// Too many sequential duplicates were detected.
     /// </exception>
-    internal Act Modify(Act act, TSeries item)
+    /// <exception cref="InvalidOperationException">
+    /// Action type is unknown.
+    /// </exception>
+    protected Act Modify(Act act, TSeries item, int? index)
     {
         // execute action
         switch (act)
@@ -159,8 +298,7 @@ public class StreamCache<TSeries> : IStreamCache
             case Act.AddOld:
 
                 // find
-                int ao = Cache
-                    .FindIndex(c => c.Timestamp > item.Timestamp);
+                int ao = index ?? GetInsertIndex(item.Timestamp);
 
                 // insert
                 if (ao != -1)
@@ -179,15 +317,7 @@ public class StreamCache<TSeries> : IStreamCache
             case Act.Update:
 
                 // find
-                int uo = Cache
-                    .FindIndex(c => c.Timestamp == item.Timestamp);
-
-                // does not exist
-                if (uo == -1)
-                {
-                    throw new ArgumentException(
-                        "Cache update target not found.", nameof(item));
-                }
+                int uo = index ?? GetIndex(item.Timestamp, false);
 
                 // duplicate
                 if (item.Equals(Cache[uo]))
@@ -203,27 +333,20 @@ public class StreamCache<TSeries> : IStreamCache
             case Act.Delete:
 
                 // find
-                int d = Cache
-                    .FindIndex(c => c.Timestamp == item.Timestamp);
+                int d = index ?? GetIndex(item.Timestamp, false);
 
                 // delete
-                if (d != -1)
-                {
-                    Cache.RemoveAt(d);
-                }
-
-                // failure to find should never happen
-                else
-                {
-                    throw new ArgumentException(
-                        "Cache delete target not found.", nameof(item));
-                }
+                Cache.RemoveAt(d);
 
                 break;
 
             case Act.DoNothing:
 
                 break;
+
+            case Act.Unknown:
+
+                return Modify(item);
 
             // should never get here
             default:
@@ -240,13 +363,12 @@ public class StreamCache<TSeries> : IStreamCache
     /// Analyze and DELETE new arrivals from cache,
     /// after validating best instruction.
     /// </summary>
-    /// <param name="item">
-    ///   Fully formed cacheable time-series object.
-    /// </param>
+    /// <param name="item">Cacheable time-series object</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    internal Act Purge(TSeries item)
+    /// <exception cref="OverflowException">
+    /// Too many sequential duplicates were detected.
+    /// </exception>
+    protected Act Purge(TSeries item)
     {
         // check format and overflow
         if (CheckOverflow(item) is Act.DoNothing)
@@ -254,44 +376,63 @@ public class StreamCache<TSeries> : IStreamCache
             return Act.DoNothing;
         }
 
-        // determine if record exists
-        int foundIndex = Cache
-            .FindIndex(x => x.Timestamp == item.Timestamp);
+        // find position
+        int index = GetIndex(item, true);
 
-        // not found
-        if (foundIndex == -1)
+        if (index < 0)
         {
+            // not found
             return Act.DoNothing;
         }
 
-        TSeries found = ReadCache[foundIndex];
+        // delete
+        return Modify(Act.Delete, item, index);
+    }
 
-        // delete if full match
-        return found.Equals(item)
-            ? Modify(Act.Delete, found)
-            : Act.DoNothing;
+    /// <summary>
+    /// DELETE item from cache at index position,
+    /// without validating or analyzing the action
+    /// </summary>
+    /// <returns cref="Act">Action taken (outcome)</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Index is out of range (not found).
+    /// </exception>
+    protected Act Purge(int index)
+    {
+        if (index < 0 || index >= Cache.Count)
+        {
+            // not found
+            return Act.DoNothing;
+        }
+
+        TSeries item = Cache[index];
+
+        // delete
+        return Modify(Act.Delete, item, index);
     }
 
     /// <summary>
     /// Validate inbound item and compare to prior arrivals
-    /// to manage and prevent overflow conditions.
-    /// <remarks>
-    /// Overflow can occur for many reasons;
-    /// the most aggregious being a circular subscription,
-    /// set by an external user.
-    /// </remarks>
+    /// to gracefully manage and prevent overflow conditions.
     /// </summary>
-    /// <param name="item">
-    ///   Fully formed cacheable time-series object.
-    /// </param>
+    /// <param name="item">Cacheable time-series object</param>
     /// <returns cref="Act">
-    /// An "do nothing" act instruction if duplicate or 'null'
+    /// A "do nothing" act instruction if duplicate or 'null'
+    /// when no overflow condition is detected.
     /// </returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="OverflowException"></exception>
+    /// <exception cref="OverflowException">
+    /// Too many sequential duplicates were detected.
+    /// </exception>
     private Act? CheckOverflow(TSeries item)
     {
         Act? act = null;
+
+        // skip first arrival
+        if (LastArrival is null)
+        {
+            LastArrival = item;
+            return act;
+        }
 
         // check for overflow condition
         if (item.Timestamp == LastArrival.Timestamp)
@@ -341,64 +482,6 @@ public class StreamCache<TSeries> : IStreamCache
 
         return act;
     }
-    #endregion
 
-    #region METHODS (UTILITIES)
-
-    // get the cache index based on a timestamp
-    /// <inheritdoc/>
-    public bool TryFindIndex(DateTime timestamp, out int index)
-    {
-        index = Cache.FindIndex(x => x.Timestamp == timestamp);
-        return index != -1;
-    }
-
-    /// <summary>
-    /// Get the cache index based on item equality.
-    /// </summary>
-    /// <param name="item">
-    /// Timeseries object to find
-    /// </param>
-    /// <returns>Index position</returns>
-    /// <exception cref="ArgumentException">
-    /// When items is not found (should never happen).
-    /// </exception>
-    internal int Position(TSeries item)
-    {
-        int index = Cache.FindIndex(c => c.Equals(item));
-
-        // source unexpectedly not found
-        return index == -1
-            ? throw new ArgumentException(
-                "Matching source history not found.", nameof(item))
-            : index;
-    }
-
-    /// <summary>
-    /// Get the cache index based on a timestamp.
-    /// </summary>
-    /// <remarks>
-    /// Only use this when you are looking for a point in time
-    /// without a a matching item for context.  In most cases
-    /// <see cref="Position(TSeries)"/> is more appropriate.
-    /// </remarks>
-    /// <param name="timestamp">
-    /// Timestamp of cached item
-    /// </param>
-    /// <returns>Index position</returns>
-    /// <exception cref="ArgumentException">
-    /// When timestamp is not found (should never happen).
-    /// </exception>
-    internal int Position(DateTime timestamp)
-    {
-        int index = Cache.FindIndex(
-            c => c.Timestamp == timestamp);
-
-        // source unexpectedly not found
-        return index == -1
-            ? throw new ArgumentException(
-                "Matching source history not found.", nameof(timestamp))
-            : index;
-    }
     #endregion
 }

@@ -23,11 +23,11 @@ public class UseTests : StreamTestBase, ITestChainProvider
         }
 
         // initialize observer
-        Use<Quote> observer = provider
-            .Use(candlePart);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(candlePart);
 
         // fetch initial results (early)
-        IReadOnlyList<Reusable> streamList
+        IReadOnlyList<QuotePart> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -57,7 +57,7 @@ public class UseTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<Reusable> seriesList
+        List<QuotePart> seriesList
            = quotesList
             .Use(candlePart)
             .ToList();
@@ -66,8 +66,8 @@ public class UseTests : StreamTestBase, ITestChainProvider
         for (int i = 0; i < length - 1; i++)
         {
             Quote q = quotesList[i];
-            Reusable s = seriesList[i];
-            Reusable r = streamList[i];
+            QuotePart s = seriesList[i];
+            QuotePart r = streamList[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
             r.Timestamp.Should().Be(s.Timestamp);
@@ -94,9 +94,9 @@ public class UseTests : StreamTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        SmaHub<Reusable> observer
+        SmaHub<QuotePart> observer
            = provider
-            .Use(candlePart)
+            .ToQuotePart(candlePart)
             .ToSma(smaPeriods);
 
         // emulate quote stream

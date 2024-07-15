@@ -21,10 +21,10 @@ public static partial class Indicator
         // skip first period
         if (length > 0)
         {
-            results.Add(new() { Timestamp = qdList[0].Timestamp });
+            results.Add(new(qdList[0].Timestamp));
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 1; i < length; i++)
         {
             QuoteD q = qdList[i];
@@ -36,7 +36,7 @@ public static partial class Indicator
             // calculate EMA
             if (i > lookbackPeriods)
             {
-                fi = prevFi + k * (rawFi - prevFi);
+                fi = prevFi + (k * (rawFi - prevFi));
             }
 
             // initialization period
@@ -52,7 +52,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new(
+            results.Add(new ForceIndexResult(
                 Timestamp: q.Timestamp,
                 ForceIndex: fi));
 

@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct StcResult
+public record StcResult
 (
     DateTime Timestamp,
     double? Stc
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Stc.Null2NaN();
+    public override double Value => Stc.Null2NaN();
 }

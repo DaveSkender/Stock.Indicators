@@ -19,7 +19,7 @@ public static partial class Indicator
         int lipsPeriods = 5,
         int lipsOffset = 3)
         => priceTuples
-           .Select(t => new Reusable(t.d, t.v))
+           .Select(t => new QuotePart(t.d, t.v))
            .ToList()
            .CalcAlligator(
             jawPeriods, jawOffset,
@@ -31,7 +31,7 @@ public static partial class Indicator
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
         this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
-        => quotes.ToQuoteDList().CalcAdl();
+        => quotes.ToSortedList().CalcAdl();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
@@ -98,7 +98,7 @@ public static partial class Indicator
 public interface IReusableResult : IReusable;
 
 [ExcludeFromCodeCoverage]
-[Obsolete("Rename `BasicData` to `Reusable`", true)] // v3.0.0
+[Obsolete("Rename `BasicData` to `QuotePart`", true)] // v3.0.0
 public sealed class BasicData : IReusable
 {
     public DateTime Timestamp { get; set; }

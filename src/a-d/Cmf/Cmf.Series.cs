@@ -4,23 +4,24 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
-    private static List<CmfResult> CalcCmf(
-        this List<QuoteD> qdList,
+    private static List<CmfResult> CalcCmf<TQuote>(
+        this List<TQuote> source,
         int lookbackPeriods)
+        where TQuote : IQuote
     {
-        // convert quotes
-        List<Reusable> source
-            = qdList.ToReusableList(CandlePart.Volume);
+        // get volume array
+        double[] volume
+            = source.Select(v => (double)v.Volume).ToArray();
 
         // check parameter arguments
         Cmf.Validate(lookbackPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = volume.Length;
         List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = qdList.CalcAdl();
+        List<AdlResult> adlResults = source.CalcAdl();
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             AdlResult adl = adlResults[i];
@@ -33,8 +34,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    (DateTime _, double pValue) = source[p];
-                    sumVol += pValue;
+                    sumVol += volume[p];
 
                     AdlResult d = adlResults[p];
                     sumMfv += d.MoneyFlowVolume;

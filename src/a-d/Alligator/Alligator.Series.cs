@@ -23,25 +23,11 @@ public static partial class Alligator
             lipsPeriods,
             lipsOffset);
 
-        // use standard HL2 if quote source (override Close)
-        List<IReusable> feed
-            = typeof(IQuote).IsAssignableFrom(typeof(T))
-
-            ? source
-             .Cast<IQuote>()
-             .Use(CandlePart.HL2)
-             .Cast<IReusable>()
-             .ToSortedList()
-
-            : source
-             .Cast<IReusable>()
-             .ToSortedList();
-
         // initialize
         int length = source.Count;
         List<AlligatorResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             double jaw = double.NaN;
@@ -59,7 +45,7 @@ public static partial class Alligator
                     double sum = 0;
                     for (int p = i - jawPeriods - jawOffset + 1; p <= i - jawOffset; p++)
                     {
-                        sum += feed[p].Value;
+                        sum += source[p].Value;
                     }
 
                     jaw = sum / jawPeriods;
@@ -68,7 +54,7 @@ public static partial class Alligator
                 // remaining values: SMMA
                 else
                 {
-                    jaw = (prevJaw * (jawPeriods - 1) + feed[i - jawOffset].Value) / jawPeriods;
+                    jaw = ((prevJaw * (jawPeriods - 1)) + source[i - jawOffset].Value) / jawPeriods;
                 }
             }
 
@@ -83,7 +69,7 @@ public static partial class Alligator
                     double sum = 0;
                     for (int p = i - teethPeriods - teethOffset + 1; p <= i - teethOffset; p++)
                     {
-                        sum += feed[p].Value;
+                        sum += source[p].Value;
                     }
 
                     teeth = sum / teethPeriods;
@@ -92,7 +78,7 @@ public static partial class Alligator
                 // remaining values: SMMA
                 else
                 {
-                    teeth = (prevTooth * (teethPeriods - 1) + feed[i - teethOffset].Value) / teethPeriods;
+                    teeth = ((prevTooth * (teethPeriods - 1)) + source[i - teethOffset].Value) / teethPeriods;
                 }
             }
 
@@ -107,7 +93,7 @@ public static partial class Alligator
                     double sum = 0;
                     for (int p = i - lipsPeriods - lipsOffset + 1; p <= i - lipsOffset; p++)
                     {
-                        sum += feed[p].Value;
+                        sum += source[p].Value;
                     }
 
                     lips = sum / lipsPeriods;
@@ -116,19 +102,13 @@ public static partial class Alligator
                 // remaining values: SMMA
                 else
                 {
-                    lips = (prevLips * (lipsPeriods - 1) + feed[i - lipsOffset].Value) / lipsPeriods;
+                    lips = ((prevLips * (lipsPeriods - 1)) + source[i - lipsOffset].Value) / lipsPeriods;
                 }
             }
 
             // result
-            AlligatorResult r = new() {
-                Timestamp = feed[i].Timestamp,
-                Jaw = jaw.NaN2Null(),
-                Teeth = teeth.NaN2Null(),
-                Lips = lips.NaN2Null()
-            };
-
-            results.Add(r);
+            results.Add(new AlligatorResult(
+                source[i].Timestamp, jaw.NaN2Null(), teeth.NaN2Null(), lips.NaN2Null()));
         }
 
         return results;

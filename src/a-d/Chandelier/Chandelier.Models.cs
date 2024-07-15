@@ -1,12 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct ChandelierResult
+public record ChandelierResult
 (
     DateTime Timestamp,
     double? ChandelierExit
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => ChandelierExit.Null2NaN();
+    public override double Value => ChandelierExit.Null2NaN();
 }
 
 public enum ChandelierType

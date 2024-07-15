@@ -23,7 +23,7 @@ public static partial class Indicator
         double prevLow = 0;
         double prevClose = 0;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
@@ -35,7 +35,7 @@ public static partial class Indicator
                 prevLow = q.Low;
                 prevClose = q.Close;
 
-                results.Add(new() { Timestamp = q.Timestamp });
+                results.Add(new(q.Timestamp));
                 continue;
             }
 
@@ -75,7 +75,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new(
+            results.Add(new VortexResult(
                 Timestamp: q.Timestamp,
                 Pvi: pvi.NaN2Null(),
                 Nvi: nvi.NaN2Null()));

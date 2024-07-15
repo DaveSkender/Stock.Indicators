@@ -19,7 +19,7 @@ public static partial class Indicator
         List<EmaResult> emaResults
             = qdList.CalcEma(lookbackPeriods);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

@@ -15,7 +15,7 @@ public static partial class Sma
         // initialize
         List<SmaResult> results = new(source.Count);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < source.Count; i++)
         {
             T s = source[i];

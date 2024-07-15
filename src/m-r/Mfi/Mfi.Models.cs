@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct MfiResult
+public record MfiResult
 (
     DateTime Timestamp,
     double? Mfi
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Mfi.Null2NaN();
+    public override double Value => Mfi.Null2NaN();
 }

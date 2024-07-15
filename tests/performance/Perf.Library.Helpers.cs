@@ -29,7 +29,7 @@ public class LibraryHelpers
     public object ToReusableOhlc4() => _h.ToReusableList(CandlePart.OHLC4);
 
     [Benchmark]
-    public object ToCandleResults() => _h.ToCandleResults();
+    public object ToCandleResults() => _h.ToCandles();
 
     [Benchmark]
     public object Validate() => _h.Validate();

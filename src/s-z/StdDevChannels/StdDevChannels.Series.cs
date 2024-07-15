@@ -23,10 +23,10 @@ public static partial class Indicator
             .CalcSlope((int)lookbackPeriods);
 
         List<StdDevChannelsResult> results = slopeResults
-            .Select(x => new StdDevChannelsResult { Timestamp = x.Timestamp })
+            .Select(x => new StdDevChannelsResult(x.Timestamp))
             .ToList();
 
-        // roll through quotes in reverse
+        // roll through source values in reverse
         for (int i = length - 1; i >= lookbackPeriods - 1; i -= (int)lookbackPeriods)
         {
             SlopeResult s = slopeResults[i];
@@ -42,7 +42,7 @@ public static partial class Indicator
 
                 StdDevChannelsResult d = results[p];
 
-                double? c = s.Slope * (p + 1) + s.Intercept;
+                double? c = (s.Slope * (p + 1)) + s.Intercept;
 
                 // re-write record
                 results[p] = d with {

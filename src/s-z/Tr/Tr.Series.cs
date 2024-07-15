@@ -19,7 +19,7 @@ public static partial class Indicator
                 new(qdList[0].Timestamp, null));
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 1; i < length; i++)
         {
             QuoteD q = qdList[i];

@@ -7,31 +7,31 @@ public class UseTests : SeriesTestBase
     public override void Standard()
     {
         // compose basic data
-        List<Reusable> o = Quotes.Use(CandlePart.Open).ToList();
-        List<Reusable> h = Quotes.Use(CandlePart.High).ToList();
-        List<Reusable> l = Quotes.Use(CandlePart.Low).ToList();
-        List<Reusable> c = Quotes.Use(CandlePart.Close).ToList();
-        List<Reusable> v = Quotes.Use(CandlePart.Volume).ToList();
-        List<Reusable> hl = Quotes.Use(CandlePart.HL2).ToList();
-        List<Reusable> hlc = Quotes.Use(CandlePart.HLC3).ToList();
-        List<Reusable> oc = Quotes.Use(CandlePart.OC2).ToList();
-        List<Reusable> ohl = Quotes.Use(CandlePart.OHL3).ToList();
-        List<Reusable> ohlc = Quotes.Use(CandlePart.OHLC4).ToList();
+        List<QuotePart> o = Quotes.Use(CandlePart.Open).ToList();
+        List<QuotePart> h = Quotes.Use(CandlePart.High).ToList();
+        List<QuotePart> l = Quotes.Use(CandlePart.Low).ToList();
+        List<QuotePart> c = Quotes.Use(CandlePart.Close).ToList();
+        List<QuotePart> v = Quotes.Use(CandlePart.Volume).ToList();
+        List<QuotePart> hl = Quotes.Use(CandlePart.HL2).ToList();
+        List<QuotePart> hlc = Quotes.Use(CandlePart.HLC3).ToList();
+        List<QuotePart> oc = Quotes.Use(CandlePart.OC2).ToList();
+        List<QuotePart> ohl = Quotes.Use(CandlePart.OHL3).ToList();
+        List<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4).ToList();
 
         // proper quantities
         Assert.AreEqual(502, c.Count);
 
         // samples
-        Reusable ro = o[501];
-        Reusable rh = h[501];
-        Reusable rl = l[501];
-        Reusable rc = c[501];
-        Reusable rv = v[501];
-        Reusable rhl = hl[501];
-        Reusable rhlc = hlc[501];
-        Reusable roc = oc[501];
-        Reusable rohl = ohl[501];
-        Reusable rohlc = ohlc[501];
+        QuotePart ro = o[501];
+        QuotePart rh = h[501];
+        QuotePart rl = l[501];
+        QuotePart rc = c[501];
+        QuotePart rv = v[501];
+        QuotePart rhl = hl[501];
+        QuotePart rhlc = hlc[501];
+        QuotePart roc = oc[501];
+        QuotePart rohl = ohl[501];
+        QuotePart rohlc = ohlc[501];
 
         // proper last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
@@ -54,7 +54,7 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public void Use()
     {
-        List<Reusable> results = Quotes
+        List<QuotePart> results = Quotes
             .Use(CandlePart.Close)
             .ToList();
 
@@ -76,7 +76,7 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<Reusable> r = BadQuotes
+        List<QuotePart> r = BadQuotes
             .Use(CandlePart.Close)
             .ToList();
 
@@ -87,13 +87,13 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<Reusable> r0 = Noquotes
+        List<QuotePart> r0 = Noquotes
             .Use(CandlePart.Close)
             .ToList();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<Reusable> r1 = Onequote
+        List<QuotePart> r1 = Onequote
             .Use(CandlePart.Close)
             .ToList();
 

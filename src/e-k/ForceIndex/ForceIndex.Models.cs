@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct ForceIndexResult
+public record ForceIndexResult
 (
     DateTime Timestamp,
-    double? ForceIndex
-) : IReusable
+    double? ForceIndex = null
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => ForceIndex.Null2NaN();
+    public override double Value => ForceIndex.Null2NaN();
 }

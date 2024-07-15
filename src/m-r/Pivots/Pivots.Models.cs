@@ -9,7 +9,7 @@ public record struct PivotsResult
     decimal? LowLine,
     PivotTrend? HighTrend,
     PivotTrend? LowTrend
-) : IResult;
+) : ISeries;
 
 public enum PivotTrend
 {

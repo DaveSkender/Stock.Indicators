@@ -21,14 +21,14 @@ using Skender.Stock.Indicators;
 namespace Custom.Stock.Indicators;
 
 // custom results class
-public class AtrWmaResult : ResultBase, IReusableResult
+public class AtrWmaResult : ResultBase, IReusable
 {
   // date property is inherited here,
   // so you only need to add custom items
   public double? AtrWma { get; set; }
 
   // to enable further chaining
-  double? IReusableResult.Value => AtrWma;
+  double? IReusable.Value => AtrWma;
 }
 ```
 
@@ -61,7 +61,7 @@ public static class CustomIndicator
       .GetAtr(lookbackPeriods)
       .ToList();
 
-    // roll through quotes
+    // roll through source values
     for (int i = 0; i < quotesList.Count; i++)
     {
       TQuote q = quotesList[i];

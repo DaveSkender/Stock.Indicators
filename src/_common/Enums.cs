@@ -39,7 +39,12 @@ public enum Act
     /// as part of the auto-pruning process
     /// to maintain maximum cache size.
     /// </summary>
-    AutoPrune  // TODO: implement. May also have some integrity checks.
+    AutoPrune,  // TODO: implement. May also have some integrity checks.
+
+    /// <summary>
+    /// Instruction has not yet been determined
+    /// </summary>
+    Unknown
 }
 
 /// <summary>

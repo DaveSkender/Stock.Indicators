@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct EpmaResult
+public record EpmaResult
 (
     DateTime Timestamp,
     double? Epma
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Epma.Null2NaN();
+    public override double Value => Epma.Null2NaN();
 }

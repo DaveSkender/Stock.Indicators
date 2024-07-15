@@ -21,7 +21,7 @@ public static partial class Indicator
         double lastEma2 = double.NaN;
         double lastEma3 = double.NaN;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];
@@ -29,7 +29,7 @@ public static partial class Indicator
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
                 continue;
             }
 
@@ -49,19 +49,19 @@ public static partial class Indicator
 
                 ema1 = ema2 = ema3 = sum / lookbackPeriods;
 
-                results.Add(new() { Timestamp = s.Timestamp });
+                results.Add(new(s.Timestamp));
             }
 
             // normal TRIX
             else
             {
-                ema1 = lastEma1 + k * (s.Value - lastEma1);
-                ema2 = lastEma2 + k * (ema1 - lastEma2);
-                ema3 = lastEma3 + k * (ema2 - lastEma3);
+                ema1 = lastEma1 + (k * (s.Value - lastEma1));
+                ema2 = lastEma2 + (k * (ema1 - lastEma2));
+                ema3 = lastEma3 + (k * (ema2 - lastEma3));
 
                 double trix = 100 * (ema3 - lastEma3) / lastEma3;
 
-                results.Add(new(
+                results.Add(new TrixResult(
                     Timestamp: s.Timestamp,
                     Ema3: ema3.NaN2Null(),
                     Trix: trix.NaN2Null()));

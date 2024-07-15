@@ -28,7 +28,7 @@ public static partial class Indicator
         double prevK = double.NaN;
         double prevD = double.NaN;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];

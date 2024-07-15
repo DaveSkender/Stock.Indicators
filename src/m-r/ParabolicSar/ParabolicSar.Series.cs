@@ -30,7 +30,7 @@ public static partial class Indicator
         double priorSar = q0.Low;
         bool isRising = true;  // initial guess
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
@@ -41,7 +41,7 @@ public static partial class Indicator
             // skip first one
             if (i == 0)
             {
-                results.Add(new() { Timestamp = q.Timestamp });
+                results.Add(new(q.Timestamp));
                 continue;
             }
 
@@ -136,7 +136,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new(
+            results.Add(new ParabolicSarResult(
                 Timestamp: q.Timestamp,
                 Sar: psar.NaN2Null(),
                 IsReversal: isReversal));
@@ -147,7 +147,7 @@ public static partial class Indicator
         // remove first trendline since it is an invalid guess
         int cutIndex = results.FindIndex(x => x.IsReversal == true);
 
-        cutIndex = cutIndex == -1 ? length - 1 : cutIndex;
+        cutIndex = cutIndex < 0 ? length - 1 : cutIndex;
 
         for (int d = 0; d <= cutIndex; d++)
         {

@@ -39,7 +39,7 @@ public static class Program
         Console.WriteLine("   Date         Close  StRSI Signal  Cross    Net Gains");
         Console.WriteLine("-------------------------------------------------------");
 
-        // roll through history
+        // roll through source values
         for (int i = 1; i < quotesList.Count; i++)
         {
             Quote q = quotesList[i];

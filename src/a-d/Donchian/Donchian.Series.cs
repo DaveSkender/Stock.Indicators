@@ -16,7 +16,7 @@ public static partial class Indicator
         int length = quotesList.Count;
         List<DonchianResult> results = new(length);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];
@@ -46,17 +46,16 @@ public static partial class Indicator
                 decimal l = lowLow;
                 decimal c = (u + l) / 2m;
 
-                results.Add(new(
+                results.Add(new DonchianResult(
                     Timestamp: q.Timestamp,
                     UpperBand: u,
                     LowerBand: l,
                     Centerline: c,
-                    Width: c == 0 ? null : (u - l) / c
-                    ));
+                    Width: c == 0 ? null : (u - l) / c));
             }
             else
             {
-                results.Add(new() { Timestamp = q.Timestamp });
+                results.Add(new(q.Timestamp));
 
             }
         }

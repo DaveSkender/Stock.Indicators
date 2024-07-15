@@ -29,7 +29,7 @@ public static partial class Indicator
             2 * senkouOffset,
             Math.Max(tenkanPeriods, kijunPeriods)) - 1;
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             TQuote q = quotesList[i];

@@ -13,10 +13,10 @@ public static partial class Indicator
 
         if (length > 0)
         {
-            results.Add(new() { Timestamp = alligator[0].Timestamp });
+            results.Add(new(alligator[0].Timestamp));
         }
 
-        // roll through quotes
+        // roll through source values
         for (int i = 1; i < length; i++)
         {
             AlligatorResult a = alligator[i];
@@ -25,7 +25,7 @@ public static partial class Indicator
             double? upper = (a.Jaw - a.Teeth).Abs();
             double? lower = -(a.Teeth - a.Lips).Abs();
 
-            results.Add(new(
+            results.Add(new GatorResult(
 
                 Timestamp: a.Timestamp,
 

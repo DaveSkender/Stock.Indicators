@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct AwesomeResult
+public record AwesomeResult
 (
     DateTime Timestamp,
     double? Oscillator,
     double? Normalized
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Oscillator.Null2NaN();
+    public override double Value => Oscillator.Null2NaN();
 }

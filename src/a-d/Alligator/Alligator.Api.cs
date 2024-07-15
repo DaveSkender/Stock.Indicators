@@ -39,7 +39,7 @@ public static partial class Alligator
         int lipsOffset = 3)
         where T : IReusable
         => source
-            .ToSortedList()
+            .ToSortedList(CandlePart.HL2)
             .CalcAlligator(
                 jawPeriods,
                 jawOffset,
@@ -48,16 +48,16 @@ public static partial class Alligator
                 lipsPeriods,
                 lipsOffset);
 
-    // OBSERVER, from Chain Provider
+    // HUB, from Chain Provider
     public static AlligatorHub<TIn> ToAlligator<TIn>(
-        this ChainProvider<TIn> chainProvider,
+        this IChainProvider<TIn> chainProvider,
         int jawPeriods = 13,
         int jawOffset = 8,
         int teethPeriods = 8,
         int teethOffset = 5,
         int lipsPeriods = 5,
         int lipsOffset = 3)
-        where TIn : struct, IReusable
+        where TIn : IReusable
         => new(
             chainProvider,
             jawPeriods,

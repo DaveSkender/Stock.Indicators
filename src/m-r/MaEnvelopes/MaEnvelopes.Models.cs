@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct MaEnvelopeResult
+public record MaEnvelopeResult
 (
     DateTime Timestamp,
     double? Centerline,
     double? UpperEnvelope,
     double? LowerEnvelope
-) : IResult;
+) : ISeries;

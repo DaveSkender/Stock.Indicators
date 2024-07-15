@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct KamaResult
+public record KamaResult
 (
     DateTime Timestamp,
-    double? Er,
-    double? Kama
-) : IReusable
+    double? Er = null,
+    double? Kama = null
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Kama.Null2NaN();
+    public override double Value => Kama.Null2NaN();
 }

@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Tests.PublicApi;
 // ReSharper disable All
 
-internal sealed class MyEma : IResult
+internal sealed class MyEma : ISeries
 {
     public DateTime Timestamp { get; init; }
     public int Id { get; init; }
@@ -267,40 +267,37 @@ public class PublicClassTests
 
 
     [TestMethod]
-    public void StreamAll() // from quote provider
+    public void StreamMany() // from quote provider
     {
         /******************************************************
-         * Attaches all stream observers to one Quote provider
+         * Attaches many stream observers to one Quote provider
          * for a full sprectrum stream collective.
          *
-         * Currently, it does not include any [direct] chains;
-         * however, under the hood many of these are streaming
-         * through an underlying Use<TQuote> converter.
+         * Currently, it does not include any [direct] chains.
          *
          * This test covers most of the unusual test cases, like:
          *
          *  - out of order quotes (late arrivals)
          *  - duplicates, but not to an overflow situation
          *
-         *  TODO: add all indicators to test, when available
-         *
          ******************************************************/
 
         // source quotes (out of order, messy use case)
         List<Quote> quotesList = TestData.GetDefault().ToList();
+        int length = quotesList.Count;
 
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
-        // initialize observers, get static results for comparison (later)
-        EmaHub<Quote> observeEma = provider.ToEma(20);
-        List<EmaResult> staticEma = quotesList.GetEma(20).ToList();
-
-        SmaHub<Quote> observeSma = provider.ToSma(20);
-        List<SmaResult> staticSma = quotesList.GetSma(20).ToList();
+        // initialize observers
+        AdlHub<Quote> adlHub = provider.ToAdl();
+        AlligatorHub<Quote> alligatorHub = provider.ToAlligator();
+        EmaHub<Quote> emaHub = provider.ToEma(20);
+        SmaHub<Quote> smaHub = provider.ToSma(20);
+        QuotePartHub<Quote> quotePartHub = provider.ToQuotePart(CandlePart.OHL3);
 
         // emulate adding quotes to provider
-        for (int i = 0; i < quotesList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -324,24 +321,32 @@ public class PublicClassTests
         // end all observations
         provider.EndTransmission();
 
+        // get static equivalents for comparison
+        IEnumerable<AdlResult> staticAdl = quotesList.GetAdl();
+        IEnumerable<AlligatorResult> staticAlligator = quotesList.GetAlligator();
+        IEnumerable<EmaResult> staticEma = quotesList.GetEma(20);
+        IEnumerable<SmaResult> staticSma = quotesList.GetSma(20);
+        IEnumerable<QuotePart> staticQuotePart = quotesList.Use(CandlePart.OHL3);
+
         // final results should persist in scope
-        List<EmaResult> streamEma = observeEma.Results.ToList();
-        List<SmaResult> streamSma = observeSma.Results.ToList();
+        IReadOnlyList<AdlResult> streamAdl = adlHub.Results;
+        IReadOnlyList<AlligatorResult> streamAlligator = alligatorHub.Results;
+        IReadOnlyList<EmaResult> streamEma = emaHub.Results;
+        IReadOnlyList<SmaResult> streamSma = smaHub.Results;
+        IReadOnlyList<QuotePart> streamQuotePart = quotePartHub.Results;
+
+        // assert, should be correct length
+        streamAdl.Should().HaveCount(length);
+        streamAlligator.Should().HaveCount(length);
+        streamEma.Should().HaveCount(length);
+        streamSma.Should().HaveCount(length);
+        streamQuotePart.Should().HaveCount(length);
 
         // assert, should equal static series
-        for (int i = 0; i < quotesList.Count; i++)
-        {
-            EmaResult sEma = staticEma[i];
-            EmaResult rEma = streamEma[i];
-
-            Assert.AreEqual(sEma.Timestamp, rEma.Timestamp);
-            Assert.AreEqual(sEma.Ema, rEma.Ema);
-
-            SmaResult sSma = staticSma[i];
-            SmaResult rSma = streamSma[i];
-
-            Assert.AreEqual(sSma.Timestamp, rSma.Timestamp);
-            Assert.AreEqual(sSma.Sma, rSma.Sma);
-        }
+        streamAdl.Should().BeEquivalentTo(staticAdl);
+        streamAlligator.Should().BeEquivalentTo(staticAlligator);
+        streamEma.Should().BeEquivalentTo(staticEma);
+        streamSma.Should().BeEquivalentTo(staticSma);
+        streamQuotePart.Should().BeEquivalentTo(staticQuotePart);
     }
 }

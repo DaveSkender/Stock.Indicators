@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct VwmaResult
+public record VwmaResult
 (
     DateTime Timestamp,
     double? Vwma
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Vwma.Null2NaN();
+    public override double Value => Vwma.Null2NaN();
 }

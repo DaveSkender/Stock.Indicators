@@ -26,10 +26,10 @@ public class Do
 
     private static readonly QuoteHub<Quote> provider = new();
 
-    private static readonly IReadOnlyList<Quote> quotes
+    private static readonly IReadOnlyList<Quote> quotesList
         = TestData.GetDefault().ToSortedCollection();
 
-    private static readonly int quotesLength = quotes.Count;
+    private static readonly int quotesLength = quotesList.Count;
 
     internal Do()
     {
@@ -44,7 +44,7 @@ public class Do
         // prefill quotes to provider
         for (int i = 0; i < quotesLength; i++)
         {
-            provider.Add(quotes[i]);
+            provider.Add(quotesList[i]);
         }
     }
 
@@ -66,7 +66,7 @@ public class Do
         // add quotes to provider
         for (int i = 0; i < quotesLength; i++)
         {
-            Quote q = quotes[i];
+            Quote q = quotesList[i];
             provider.Add(q);
 
             // wait for next quote
@@ -102,7 +102,7 @@ public class Do
         // add quotes to provider
         for (int i = 0; i < quotesLength; i++)
         {
-            Quote q = quotes[i];
+            Quote q = quotesList[i];
             provider.Add(q);
 
             // wait for next quote
@@ -113,7 +113,8 @@ public class Do
         }
     }
 
-    private static void SendToConsole(Quote q, EmaHub<Quote> emaHub)
+    private static void SendToConsole<T>(Quote q, EmaHub<T> emaHub)
+        where T : IReusable
     {
         string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";
 
@@ -135,7 +136,7 @@ public class Do
     {
         SmaHub<Quote> smaHub = provider.ToSma(3);
         EmaHub<Quote> emaHub = provider.ToEma(5);
-        EmaHub<Reusable> useChain = provider.Use(CandlePart.HL2).ToEma(7);
+        EmaHub<QuotePart> useChain = provider.ToQuotePart(CandlePart.HL2).ToEma(7);
         EmaHub<SmaResult> emaChain = provider.ToSma(4).ToEma(4);
 
         if (!verbose)
@@ -152,7 +153,7 @@ public class Do
         // add quotes to provider
         for (int i = 0; i < quotesLength; i++)
         {
-            Quote q = quotes[i];
+            Quote q = quotesList[i];
             provider.Add(q);
 
             // wait for next quote
@@ -167,7 +168,7 @@ public class Do
         Quote q,
         SmaHub<Quote> smaHub,
         EmaHub<Quote> emaHub,
-        EmaHub<Reusable> useChain,
+        EmaHub<QuotePart> useChain,
         EmaHub<SmaResult> emaChain)
     {
         string m = $"{q.Timestamp:yyyy-MM-dd}   ${q.Close:N2}";

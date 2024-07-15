@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct CorrResult
+public record CorrResult
 (
     DateTime Timestamp,
     double? VarianceA = null,
@@ -8,7 +8,7 @@ public readonly record struct CorrResult
     double? Covariance = null,
     double? Correlation = null,
     double? RSquared = null
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Correlation.Null2NaN();
+    public override double Value => Correlation.Null2NaN();
 }

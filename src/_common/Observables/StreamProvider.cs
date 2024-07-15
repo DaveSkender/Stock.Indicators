@@ -1,37 +1,27 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM PROVIDERS (BASE)
-// with Quote, Chain, Result variants (at bottom)
-
 /// <summary>
-/// Streaming provider (generic)
+/// Streaming provider (abstract subject).
+/// <remarks>
+/// Contains cache and provides observable stream.
+/// </remarks>
 /// </summary>
-public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
-    where TSeries : struct, ISeries
+public abstract class StreamProvider<TSeries>
+    : StreamCache<TSeries>, IStreamProvider<TSeries>
+    where TSeries : ISeries
 {
-    // provider members only
-
-    private readonly HashSet<IObserver<(Act, TSeries)>> _observers = [];
-
-    private protected StreamProvider(
-        StreamCache<TSeries> observableCache)
-    {
-        StreamCache = observableCache;
-    }
-
-    public bool IsFaulted => StreamCache.IsFaulted;
+    private readonly HashSet<IObserver<(Act, TSeries, int?)>> _observers = [];
 
     public bool HasSubscribers => _observers.Count > 0;
 
     public int SubscriberCount => _observers.Count;
 
-    public StreamCache<TSeries> StreamCache { get; private set; }
-
+    public IReadOnlyList<TSeries> ReadCache => Cache;
 
     #region METHODS (OBSERVABLE)
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(Act, TSeries)> observer)
+    public IDisposable Subscribe(IObserver<(Act, TSeries, int?)> observer)
     {
         _observers.Add(observer);
         return new Subscription(_observers, observer);
@@ -40,7 +30,7 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     // unsubscribe all observers
     public void EndTransmission()
     {
-        foreach (IObserver<(Act, TSeries)> obs
+        foreach (IObserver<(Act, TSeries, int?)> obs
             in _observers.ToArray())
         {
             if (_observers.Contains(obs))
@@ -53,23 +43,36 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     }
 
     /// <summary>
+    /// Modify cache and notify observers.
+    /// </summary>
+    /// <param name="act" cref="Act">Caching instruction</param>
+    /// <param name="result"><c>TSeries</c> item to send</param>
+    /// <param name="index">Cached index position</param>
+    protected void Motify(Act act, TSeries result, int? index)
+    {
+        Act actTaken = Modify(act, result, index);
+        NotifyObservers(actTaken, result, index);
+    }
+
+    /// <summary>
     /// Sends <c>TSeries</c> item to all subscribers
     /// </summary>
     /// <param name="act" cref="Act">Caching instruction</param>
     /// <param name="item"><c>TSeries</c> item to send</param>
-    internal void NotifyObservers(Act act, TSeries item)
+    /// <param name="index">Provider index hint</param>
+    protected void NotifyObservers(Act act, TSeries? item, int? index)
     {
         // do not propogate "do nothing" acts
-        if (act == Act.DoNothing)
+        if (act == Act.DoNothing || item is null)
         {
             return;
         }
 
         // send to subscribers
-        foreach (IObserver<(Act, TSeries)> obs
+        foreach (IObserver<(Act, TSeries, int?)> obs
             in _observers.ToArray())
         {
-            obs.OnNext((act, item));
+            obs.OnNext((act, item, index));
         }
     }
 
@@ -84,27 +87,22 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     /// Your unique subscription as provided.
     /// </param>
     private class Subscription(
-        ISet<IObserver<(Act, TSeries)>> observers,
-        IObserver<(Act, TSeries)> observer) : IDisposable
+        ISet<IObserver<(Act, TSeries, int?)>> observers,
+        IObserver<(Act, TSeries, int?)> observer) : IDisposable
     {
         // remove single observer
         public void Dispose() => observers.Remove(observer);
     }
     #endregion
 
-    #region METHODS (CLEAR CACHE)
-
-    /// clear cache without restore
-    /// <inheritdoc/>
-    public void ClearCache() => ClearCache(0);
+    #region METHODS (CACHE CLEAR)
 
     /// clear cache without restore, from timestamp
     /// <inheritdoc/>
-    public void ClearCache(DateTime fromTimestamp)
+    public override void ClearCache(DateTime fromTimestamp)
     {
         // start of range
-        int fromIndex = StreamCache.Cache
-            .FindIndex(c => c.Timestamp >= fromTimestamp);
+        int fromIndex = GetInsertIndex(fromTimestamp);
 
         // something to do
         if (fromIndex != -1)
@@ -115,8 +113,8 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
 
     /// clear cache without restore, from index
     /// <inheritdoc/>
-    public void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: StreamCache.Cache.Count - 1);
+    public override void ClearCache(int fromIndex)
+        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
 
     /// <summary>
     /// Deletes cache entries between index range values.
@@ -129,80 +127,25 @@ public abstract class StreamProvider<TSeries> : IStreamProvider<TSeries>
     /// <param name="toIndex">Last element to delete</param>
     /// clears cache segment
     /// <inheritdoc />
-    protected void ClearCache(
+    private void ClearCache(
         int fromIndex, int toIndex)
     {
         // nothing to do
-        if (StreamCache.Cache.Count is 0)
+        if (Cache.Count is 0)
         {
             return;
         }
 
         // determine in-range start/end indices
         int fr = Math.Max(0, Math.Min(fromIndex, toIndex));
-        int to = Math.Min(StreamCache.Cache.Count - 1, Math.Max(fromIndex, toIndex));
+        int to = Math.Min(Cache.Count - 1, Math.Max(fromIndex, toIndex));
 
         // delete and deliver instruction in reverse
         // order to prevent recursive recompositions
         for (int i = to; i >= fr; i--)
         {
-            TSeries item = StreamCache.ReadCache[i];
-
-            Act act = StreamCache.Modify(Act.Delete, item);
-            NotifyObservers(act, item);
+            Motify(Act.Delete, Cache[i], i);
         }
     }
-
-    public void Resend(StreamObserver<TSeries, TSeries> toObserver, DateTime fromTimestamp, Act act) => throw new NotImplementedException();
-
     #endregion
 }
-
-#region QUOTE, CHAIN, RESULT PROVIDER variants
-
-/// <summary>
-/// Quote provider (standalone base)
-/// </summary>
-/// <remarks>
-/// Do not instantiate.
-/// Use <see cref="QuoteHub{TQuote}"/> instead,
-/// for a full quote hub.
-/// </remarks>
-public class QuoteProvider<TQuote>
-    : ChainProvider<TQuote>
-    where TQuote : struct, IQuote
-{
-    // TODO: return this to abtract, if possible.
-    // We'd removed it to allow open instantiation
-    // of the QuoteHub.  It may externally unusable
-    // (would be okay) with `internal protected`.
-
-    protected internal QuoteProvider(
-        StreamCache<TQuote> observableCache)
-        : base(observableCache) { }
-}
-
-/// <summary>
-/// Chainable result provider (abstract base)
-/// </summary>
-public abstract class ChainProvider<TReusable>
-    : ResultProvider<TReusable>
-    where TReusable : struct, IReusable
-{
-    private protected ChainProvider(
-        StreamCache<TReusable> observableCache)
-        : base(observableCache) { }
-}
-
-/// <summary>
-/// Non-chainable result provider (abstract base)
-/// </summary>
-public abstract class ResultProvider<TResult>
-    : StreamProvider<TResult>
-    where TResult : struct, IResult
-{
-    private protected ResultProvider(
-        StreamCache<TResult> observableCache)
-        : base(observableCache) { }
-}
-#endregion

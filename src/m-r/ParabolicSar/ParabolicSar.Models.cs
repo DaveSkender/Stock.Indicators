@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct ParabolicSarResult
+public record ParabolicSarResult
 (
     DateTime Timestamp,
-    double? Sar,
-    bool? IsReversal
-) : IReusable
+    double? Sar = null,
+    bool? IsReversal = null
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Sar.Null2NaN();
+    public override double Value => Sar.Null2NaN();
 }

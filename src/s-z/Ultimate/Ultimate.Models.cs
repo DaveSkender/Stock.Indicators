@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct UltimateResult
+public record UltimateResult
 (
     DateTime Timestamp,
     double? Ultimate
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Ultimate.Null2NaN();
+    public override double Value => Ultimate.Null2NaN();
 }

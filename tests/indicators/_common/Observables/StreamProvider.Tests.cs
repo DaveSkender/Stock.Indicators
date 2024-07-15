@@ -23,18 +23,18 @@ public class ProviderTests : TestBase
         }
 
         // initialize observer
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         // assert: prefilled
-        provider.StreamCache.Cache.Should().HaveCount(50);
-        observer.StreamCache.Cache.Should().HaveCount(50);
+        provider.Cache.Should().HaveCount(50);
+        observer.Cache.Should().HaveCount(50);
 
         // assert: same dates
         for (int i = 0; i < 50; i++)
         {
-            IReusable r = observer.StreamCache.Cache[i];
-            IReusable q = provider.StreamCache.Cache[i];
+            IReusable r = observer.Cache[i];
+            IReusable q = provider.Cache[i];
 
             r.Timestamp.Should().Be(q.Timestamp);
         }
@@ -57,8 +57,8 @@ public class ProviderTests : TestBase
 
         QuoteHub<Quote> provider = new();
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
@@ -69,8 +69,8 @@ public class ProviderTests : TestBase
         observer.ClearCache();
 
         // assert: cache is empty
-        observer.StreamCache.Cache.Should().BeEmpty();
-        provider.StreamCache.Cache.Should().HaveCount(10);
+        observer.Cache.Should().BeEmpty();
+        provider.Cache.Should().HaveCount(10);
     }
 
     [TestMethod]
@@ -88,8 +88,8 @@ public class ProviderTests : TestBase
 
         QuoteHub<Quote> provider = new();
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
@@ -102,11 +102,16 @@ public class ProviderTests : TestBase
         observer.ClearCache(q3.Timestamp);
 
         // assert: cache is empty
-        observer.StreamCache.Cache.Should().HaveCount(3);
-        provider.StreamCache.Cache.Should().HaveCount(10);
+        observer.Cache.Should().HaveCount(3);
+        provider.Cache.Should().HaveCount(10);
 
-        List<Reusable> cacheOver = observer.Results.Where(c => c.Timestamp >= q3.Timestamp).ToList();
-        List<Reusable> cacheUndr = observer.Results.Where(c => c.Timestamp <= q3.Timestamp).ToList();
+        List<QuotePart> cacheOver
+            = observer.Results
+                .Where(c => c.Timestamp >= q3.Timestamp).ToList();
+
+        List<QuotePart> cacheUndr
+            = observer.Results
+                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
 
         cacheOver.Should().BeEmpty();
         cacheUndr.Should().HaveCount(3);
@@ -127,8 +132,8 @@ public class ProviderTests : TestBase
 
         QuoteHub<Quote> provider = new();
 
-        Use<Quote> observer = provider
-            .Use(CandlePart.Close);
+        QuotePartHub<Quote> observer = provider
+            .ToQuotePart(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
@@ -141,11 +146,16 @@ public class ProviderTests : TestBase
         observer.ClearCache(3);
 
         // assert: cache is empty
-        observer.StreamCache.Cache.Should().HaveCount(3);
-        provider.StreamCache.Cache.Should().HaveCount(10);
+        observer.Cache.Should().HaveCount(3);
+        provider.Cache.Should().HaveCount(10);
 
-        List<Reusable> cacheOver = observer.Results.Where(c => c.Timestamp >= q3.Timestamp).ToList();
-        List<Reusable> cacheUndr = observer.Results.Where(c => c.Timestamp <= q3.Timestamp).ToList();
+        List<QuotePart> cacheOver
+            = observer.Results
+                .Where(c => c.Timestamp >= q3.Timestamp).ToList();
+
+        List<QuotePart> cacheUndr
+            = observer.Results
+                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
 
         cacheOver.Should().BeEmpty();
         cacheUndr.Should().HaveCount(3);

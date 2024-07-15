@@ -30,7 +30,7 @@ public static partial class Indicator
         double[] re = new double[length];  // roc ema
         double[] pm = new double[length];  // pmo
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             T s = source[i];

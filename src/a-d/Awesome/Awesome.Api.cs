@@ -10,6 +10,6 @@ public static partial class Indicator
         int slowPeriods = 34)
         where T : IReusable
         => source
-            .ToSortedList()
+            .ToSortedList(CandlePart.HL2)
             .CalcAwesome(fastPeriods, slowPeriods);
 }

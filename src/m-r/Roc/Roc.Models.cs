@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct RocResult
+public record RocResult
 (
     DateTime Timestamp,
     double? Momentum,
     double? Roc
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Roc.Null2NaN();
+    public override double Value => Roc.Null2NaN();
 }

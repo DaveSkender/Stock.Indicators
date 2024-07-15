@@ -26,7 +26,7 @@ public static partial class Indicator
         // initialize, add first records
         double prevValue = source[0].Value;
 
-        results.Add(new() { Timestamp = source[0].Timestamp });
+        results.Add(new(source[0].Timestamp));
         ticks.Add((null, double.NaN));
 
         // roll through remaining prices

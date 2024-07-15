@@ -1,11 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public readonly record struct PrsResult
+public record PrsResult
 (
     DateTime Timestamp,
     double? Prs,
     double? PrsPercent
-) : IReusable
+) : Reusable(Timestamp)
 {
-    double IReusable.Value => Prs.Null2NaN();
+    public override double Value => Prs.Null2NaN();
 }

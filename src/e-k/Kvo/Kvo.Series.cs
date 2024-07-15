@@ -30,7 +30,7 @@ public static partial class Indicator
         double kSlow = 2d / (slowPeriods + 1);
         double kSignal = 2d / (signalPeriods + 1);
 
-        // roll through quotes
+        // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = qdList[i];
@@ -46,7 +46,7 @@ public static partial class Indicator
 
             if (i <= 0)
             {
-                results.Add(new() { Timestamp = q.Timestamp });
+                results.Add(new(q.Timestamp));
                 continue;
             }
 
@@ -56,7 +56,7 @@ public static partial class Indicator
             if (i <= 1)
             {
                 cm[i] = 0;
-                results.Add(new() { Timestamp = q.Timestamp });
+                results.Add(new(q.Timestamp));
                 continue;
             }
 
@@ -67,13 +67,13 @@ public static partial class Indicator
             // volume force (VF)
             vf[i] = dm[i] == cm[i] || q.Volume == 0 ? 0
                 : dm[i] == 0 ? q.Volume * 2d * t[i] * 100d
-                : cm[i] != 0 ? q.Volume * Math.Abs(2d * (dm[i] / cm[i] - 1)) * t[i] * 100d
+                : cm[i] != 0 ? q.Volume * Math.Abs(2d * ((dm[i] / cm[i]) - 1)) * t[i] * 100d
                 : vf[i - 1];
 
             // fast-period EMA of VF
             if (i > fastPeriods + 1)
             {
-                vfFastEma[i] = vf[i] * kFast + vfFastEma[i - 1] * (1 - kFast);
+                vfFastEma[i] = (vf[i] * kFast) + (vfFastEma[i - 1] * (1 - kFast));
             }
 
             // TODO: update healing, without requiring specific indexing
@@ -91,7 +91,7 @@ public static partial class Indicator
             // slow-period EMA of VF
             if (i > slowPeriods + 1)
             {
-                vfSlowEma[i] = vf[i] * kSlow + vfSlowEma[i - 1] * (1 - kSlow);
+                vfSlowEma[i] = (vf[i] * kSlow) + (vfSlowEma[i - 1] * (1 - kSlow));
             }
 
             // TODO: update healing, without requiring specific indexing
@@ -114,8 +114,8 @@ public static partial class Indicator
                 // Signal
                 if (i > slowPeriods + signalPeriods)
                 {
-                    sig = kvo * kSignal
-                        + results[i - 1].Signal * (1 - kSignal);
+                    sig = (kvo * kSignal)
+                        + (results[i - 1].Signal * (1 - kSignal));
                 }
 
                 // TODO: update healing, without requiring specific indexing
@@ -131,7 +131,7 @@ public static partial class Indicator
                 }
             }
 
-            results.Add(new(
+            results.Add(new KvoResult(
                 Timestamp: q.Timestamp,
                 Oscillator: kvo,
                 Signal: sig));

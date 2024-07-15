@@ -33,7 +33,7 @@ public static partial class Indicator
                 matchType = Match.Neutral;
             }
 
-            results.Add(new(
+            results.Add(new CandleResult(
                 timestamp: q.Timestamp,
                 quote: q,
                 match: matchType,
