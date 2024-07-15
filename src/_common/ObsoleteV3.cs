@@ -31,7 +31,7 @@ public static partial class Indicator
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
         this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
-        => quotes.ToQuoteDList().CalcAdl();
+        => quotes.ToSortedList().CalcAdl();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0

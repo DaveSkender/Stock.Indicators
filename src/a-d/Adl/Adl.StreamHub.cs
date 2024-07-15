@@ -25,7 +25,6 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
         }
 
         double prevAdl;
-        QuoteD q = newIn.ToQuoteD();
 
         int i = index ?? Supplier.GetIndex(newIn, false);
 
@@ -41,8 +40,11 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
         // calculate ADL
         AdlResult r = Adl.Increment(
-            q.Timestamp, prevAdl,
-            q.High, q.Low, q.Close, q.Volume);
+            newIn.Timestamp, prevAdl,
+            newIn.High,
+            newIn.Low,
+            newIn.Close,
+            newIn.Volume);
 
         // save and send
         Motify(act, r, i);
