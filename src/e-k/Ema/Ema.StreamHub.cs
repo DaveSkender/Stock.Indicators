@@ -43,7 +43,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
         double ema;
 
-        int i = index ?? Supplier.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, false);
 
         if (i >= LookbackPeriods - 1)
         {
@@ -55,7 +55,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
                 ? Ema.Increment(K, last.Value, newIn.Value)
 
                 // re/initialize
-                : Sma.Increment(Supplier.Results, i, LookbackPeriods);
+                : Sma.Increment(Provider.Results, i, LookbackPeriods);
         }
 
         // warmup periods are never calculable

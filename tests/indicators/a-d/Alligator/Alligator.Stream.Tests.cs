@@ -51,7 +51,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         provider.Add(quotesList[80]);
 
         // delete
-        provider.Delete(quotesList[400]);
+        provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -107,7 +107,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         provider.Add(quotesList[80]);
 
         // delete
-        provider.Delete(quotesList[400]);
+        provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results

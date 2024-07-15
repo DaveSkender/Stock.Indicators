@@ -26,7 +26,7 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
         double prevAdl;
 
-        int i = index ?? Supplier.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, false);
 
         if (i == 0)
         {

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // STREAM HUB INTERFACES
 
-#region quote, reusable, & result out types
+#region hub variants
 
 public interface IQuoteHub<TIn, TOut>
     : IStreamHub<TIn, TOut>, IQuoteProvider<TOut>, IChainProvider<TOut>
@@ -110,7 +110,7 @@ public interface IStreamHub<TIn, TOut>
     /// </summary>
     /// <param name="cachedItem">Cached item to delete</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
-    Act Delete(TOut cachedItem);
+    Act Remove(TOut cachedItem);
 
     /// <summary>
     /// Delete an item from the cache.

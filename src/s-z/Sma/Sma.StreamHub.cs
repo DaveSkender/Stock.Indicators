@@ -37,12 +37,12 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
             throw new ArgumentNullException(nameof(newIn));
         }
 
-        int i = index ?? Supplier.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, false);
 
         // candidate result
         SmaResult r = new(
             Timestamp: newIn.Timestamp,
-            Sma: Sma.Increment(Supplier.Results, i, LookbackPeriods).NaN2Null());
+            Sma: Sma.Increment(Provider.Results, i, LookbackPeriods).NaN2Null());
 
         // save and send
         Motify(act, r, i);
