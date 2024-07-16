@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 
 // STREAM HUB (REBUILD CACHE)
 
-public abstract partial class StreamHub<TOut>
+public abstract partial class StreamHub<TIn, TOut>
 {
     // full reset
     /// <inheritdoc/>
