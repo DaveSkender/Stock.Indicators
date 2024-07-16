@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest an idea for this project.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to make a recommendation for the [Skender.Stock.Indicators NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)!
+        If you have an idea that you don't want us to formally evaluate and track, please consider posting in our [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions).
+  - type: textarea
+    id: request
+    attributes:
+      label: the problem
+      description: What problem are you trying to solve?  What [specific] outcome do you want achieve?  Why?
+      placeholder: I'm always frustrated when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: an idea
+      description: |
+        Optional. Any suggestions for a solution?
+        Include any alternative solutions you've considered.
+        If requesting a new indicator,
+        please provide references to the original author's publication of the indicator recipe.
+      placeholder: I'd love it if the library could [...]
+  - type: textarea
+    id: usage
+    attributes:
+      label: code example
+      description: |
+        Optional.  Any proposed implementation syntax?
+        This will be automatically formatted into code, so no need for `backticks`.
+      render: shell
+      placeholder: |
+        var foo = quotes.AwesomeNewFeature(whatDaYaThink);
+  - type: markdown
+    attributes:
+      value: |
+        If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo).
+        If you require contract custom development, please [contact Skender Co.](https://skenderco.com), our parent organization.
