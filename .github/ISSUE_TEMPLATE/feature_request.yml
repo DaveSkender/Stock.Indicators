@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to make a recommendation for the [Skender.Stock.Indicators NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)! If you have an idea that you don't want us to formally evaluate and track, consider posting in our [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions).
+        Thank you &#128150; for taking the time to make a recommendation for the [Skender.Stock.Indicators NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)! If you have an idea that you don't want us to track in [our backlog](https://github.com/users/DaveSkender/projects/1), consider posting in our community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions).
   - type: textarea
     id: request
     attributes:
@@ -26,11 +26,11 @@ body:
     id: usage
     attributes:
       label: code example
-      description: Any proposed implementation syntax? This will be auto-formatted as code, so no need for \`backticks\`.
+      description: Any proposed implementation syntax? _This will be auto-formatted as code, so no need for \`backticks\`_.
       render: shell
       placeholder: var foo = quotes.AwesomeNewFeature(whatDaYaThink);
     validations:
       required: false
   - type: markdown
     attributes:
-      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, [contact Skender Co.](https://skenderco.com)
+      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, contact [Skender Co.](https://skenderco.com)
