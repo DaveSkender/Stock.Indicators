@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Tests.Common;
+namespace Utilities;
 
 // TEST QUOTE IMPORTER
 internal static class Importer

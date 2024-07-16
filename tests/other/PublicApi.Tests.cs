@@ -1,7 +1,7 @@
 using System.Globalization;
 
 [assembly: CLSCompliant(true)]
-namespace Tests.PublicApi;
+namespace PublicApi;
 // ReSharper disable All
 
 internal sealed class MyEma : ISeries

@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class SmmaTests : SeriesTestBase

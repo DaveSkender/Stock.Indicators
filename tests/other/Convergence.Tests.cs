@@ -1,5 +1,5 @@
 // ReSharper disable All
-namespace Tests.Other;
+namespace Convergence;
 
 [TestClass]
 public class ConvergenceTests : TestBase

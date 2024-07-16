@@ -1,4 +1,4 @@
-namespace Tests.Common.Observables;
+namespace Observables;
 
 [TestClass]
 public class QuoteProviderTests : TestBase

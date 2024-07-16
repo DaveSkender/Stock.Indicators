@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Tests.Common;
+namespace Utilities;
 // ReSharper disable All
 
 [TestClass]

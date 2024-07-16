@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Tests.Other")]
 [assembly: InternalsVisibleTo("Tests.Performance")]
 [assembly: InternalsVisibleTo("Observe.Streaming")]
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
 public abstract class TestBase

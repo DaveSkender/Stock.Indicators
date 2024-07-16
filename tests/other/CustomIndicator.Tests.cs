@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace Tests.CustomIndicators;
+namespace Customization;
 
 public sealed record MyResult : IReusable
 {

@@ -1,4 +1,4 @@
-namespace Tests.Common;
+namespace Utilities;
 // ReSharper disable All
 
 [TestClass]

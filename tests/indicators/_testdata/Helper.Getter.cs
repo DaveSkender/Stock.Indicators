@@ -1,4 +1,4 @@
-namespace Tests.Common;
+namespace Utilities;
 
 // IMPORT TEST DATA
 internal static class TestData
