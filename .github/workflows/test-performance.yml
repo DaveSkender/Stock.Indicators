@@ -45,7 +45,7 @@ jobs:
 
       - name: Benchmark indicators
         working-directory: tests/performance
-        run: dotnet run -c Release
+        run: dotnet run -c Release -j short
 
       - name: Save test results
         uses: actions/upload-artifact@v3
