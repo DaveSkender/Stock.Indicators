@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 
 namespace Utilities;
-// ReSharper disable All
 
 [TestClass]
 public class QuoteUtilityTests : TestBase

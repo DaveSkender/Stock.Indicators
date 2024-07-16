@@ -1,8 +1,9 @@
-namespace Tests.Performance;
+namespace Performance;
 
-// INTERNAL FUNCTIONS
+// INTERNAL UTILITIES
 
-public class LibraryInternals
+[ShortRunJob]
+public class UtilityMaths
 {
     [Params(20, 50, 250, 1000)]
     public int Periods;
@@ -12,7 +13,7 @@ public class LibraryInternals
     // standard deviation
     [GlobalSetup(Targets = [nameof(StdDev)])]
     public void Setup()
-        => _values = TestData.GetLongish(Periods)
+        => _values = Data.GetLongish(Periods)
             .Select(x => (double)x.Close)
             .ToArray();
 

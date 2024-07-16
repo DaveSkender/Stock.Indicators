@@ -1,39 +1,12 @@
-namespace Tests.Performance;
-// ReSharper disable All
+namespace Performance;
 
-public class IndicatorStaticTests
+// TIME-SERIES INDICATORS
+
+[ShortRunJob]
+public class SeriesIndicators
 {
-    private static IEnumerable<Quote> q;
-    private static IEnumerable<Quote> o;
-    private static List<Quote> ql;
-    private static List<Quote> ll;
-
-    // SETUP
-
-    [GlobalSetup]
-    public static void Setup()
-    {
-        q = TestData.GetDefault();
-        ql = q.ToList();
-        ll = TestData.GetLongest().ToList();
-    }
-
-    [GlobalSetup(Targets = new[]
-    {
-        nameof(GetBeta),
-        nameof(GetBetaUp),
-        nameof(GetBetaDown),
-        nameof(GetBetaAll),
-        nameof(GetCorrelation),
-        nameof(GetPrs)
-    })]
-    public static void SetupCompare()
-    {
-        q = TestData.GetDefault();
-        o = TestData.GetCompare();
-    }
-
-    // BENCHMARKS
+    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
 
     [Benchmark]
     public object GetAdl() => q.GetAdl();

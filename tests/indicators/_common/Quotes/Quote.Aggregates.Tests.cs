@@ -1,5 +1,4 @@
 namespace Utilities;
-// ReSharper disable All
 
 [TestClass]
 public class QuoteAggregateTests : TestBase

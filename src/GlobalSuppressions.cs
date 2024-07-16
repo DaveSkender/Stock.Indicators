@@ -26,16 +26,6 @@ using System.Diagnostics.CodeAnalysis;
     Target = "~F:Skender.Stock.Indicators.ChandelierType.Short")]
 
 [assembly: SuppressMessage(
-    "Style",
-    "IDE0056:Use index operator",
-    Justification = "Does not support .NET Standard.")]
-
-[assembly: SuppressMessage(
     "Maintainability",
     "CA1510:Use ArgumentNullException throw helper",
     Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
-
-[assembly: SuppressMessage(
-    "StyleCop.CSharp.SpacingRules",
-    "SA1010:Opening square brackets should be spaced correctly",
-    Justification = "Invalid for new C# 12 [ collection ] syntax.")]

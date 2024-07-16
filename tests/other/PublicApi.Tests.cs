@@ -2,7 +2,6 @@ using System.Globalization;
 
 [assembly: CLSCompliant(true)]
 namespace PublicApi;
-// ReSharper disable All
 
 internal sealed class MyEma : ISeries
 {
