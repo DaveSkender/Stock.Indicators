@@ -19,7 +19,7 @@ body:
     id: usage
     attributes:
       label: Code usage
-      description: How did you write your code? Provide a code snippet. This will be automatically formatted into code, so no need for \`backticks\`. Also, consider providing the historical _quotes_ you used (upload in "What happened?" field as a JSON, CSV, or Excel file).
+      description: How did you write your code? Provide a code snippet. This will be auto-formatted as code, so no need for \`backticks\`. Also, consider providing your source _quotes_ as a _JSON, CSV, or Excel_ file in the "What happened?" field.
       render: csharp
       placeholder: |
         // example (put your own code here)
@@ -30,10 +30,10 @@ body:
     id: logs
     attributes:
       label: Log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for \`backticks\`.
+      description: Please copy and paste any relevant log output. This will be auto-formatted as code, so no need for \`backticks\`.
       render: bash
     validations:
       required: false
   - type: markdown
     attributes:
-      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, [contact Skender Co.](https://skenderco.com).
+      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, [contact Skender Co.](https://skenderco.com)

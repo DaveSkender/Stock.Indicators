@@ -18,7 +18,7 @@ body:
     id: solution
     attributes:
       label: an idea
-      description: Any suggestions for a solution? Include any alternative solutions you've considered. If requesting a new indicator, please provide references to the original author's publication of the indicator recipe.
+      description: Any suggestions for a solution? Include any alternative solutions you've considered. If requesting a new [reputable indicator](https://github.com/DaveSkender/Stock.Indicators/discussions/1024), please provide the original author's publication of its recipe.
       placeholder: I'd love it if the library could [...]
     validations:
       required: false
@@ -26,11 +26,11 @@ body:
     id: usage
     attributes:
       label: code example
-      description: Any proposed implementation syntax? This will be automatically formatted into code, so no need for \`backticks\`.
+      description: Any proposed implementation syntax? This will be auto-formatted as code, so no need for \`backticks\`.
       render: shell
       placeholder: var foo = quotes.AwesomeNewFeature(whatDaYaThink);
     validations:
       required: false
   - type: markdown
     attributes:
-      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, [contact Skender Co.](https://skenderco.com).
+      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, [contact Skender Co.](https://skenderco.com)
