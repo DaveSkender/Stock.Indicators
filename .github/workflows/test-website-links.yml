@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
-      - ".github/workflows/docs-test-links.yml"
+      - ".github/workflows/test-website-links.yml"
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
