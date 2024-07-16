@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class HurstTests : SeriesTestBase
@@ -7,7 +7,7 @@ public class HurstTests : SeriesTestBase
     public override void Standard()
     {
         List<HurstResult> results = LongestQuotes
-            .GetHurst(LongestQuotes.Count() - 1)
+            .GetHurst(LongestQuotes.Count - 1)
             .ToList();
 
         // assertions
@@ -87,7 +87,7 @@ public class HurstTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<HurstResult> results = LongestQuotes.GetHurst(LongestQuotes.Count() - 1)
+        List<HurstResult> results = LongestQuotes.GetHurst(LongestQuotes.Count - 1)
             .RemoveWarmupPeriods()
             .ToList();
 

@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class ParabolicSarTests : SeriesTestBase
@@ -91,7 +91,7 @@ public class ParabolicSarTests : SeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        IEnumerable<Quote> insufficientQuotes = TestData.GetDefault()
+        IEnumerable<Quote> insufficientQuotes = Data.GetDefault()
             .OrderBy(x => x.Timestamp)
             .Take(10);
 

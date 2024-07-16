@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class WilliamsRTests : SeriesTestBase
@@ -91,7 +91,7 @@ public class WilliamsRTests : SeriesTestBase
     [TestMethod]
     public void Boundary()
     {
-        List<WilliamsResult> results = TestData
+        List<WilliamsResult> results = Data
             .GetRandom(2500)
             .GetWilliamsR()
             .ToList();
@@ -115,7 +115,7 @@ public class WilliamsRTests : SeriesTestBase
         // initialize
         IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
             .Skip(1)
-            .Select(Importer.QuoteFromCsv)
+            .Select(Imports.QuoteFromCsv)
             .OrderByDescending(x => x.Timestamp);
 
         List<Quote> quotesList = test1127.ToList();

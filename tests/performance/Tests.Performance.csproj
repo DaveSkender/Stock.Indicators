@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
-    <StartupObject>Tests.Performance.Program</StartupObject>
+    <StartupObject>Performance.Program</StartupObject>
+
+    <ImplicitUsings>enable</ImplicitUsings>
 
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -20,12 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="_testdata\data\*.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 
 </Project>

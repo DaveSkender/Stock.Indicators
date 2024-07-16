@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Stream;
+namespace Stream;
 
 [TestClass]
 public class AdlTests : StreamTestBase, ITestChainProvider

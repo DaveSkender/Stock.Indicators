@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class AdxTests : SeriesTestBase
@@ -98,7 +98,7 @@ public class AdxTests : SeriesTestBase
     {
         IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
-            .Select(Importer.QuoteFromCsv)
+            .Select(Imports.QuoteFromCsv)
             .OrderByDescending(x => x.Timestamp);
 
         List<AdxResult> r = test859.GetAdx().ToList();

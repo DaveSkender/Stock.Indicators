@@ -1,9 +1,10 @@
 using System.Globalization;
 
-namespace Tests.Common;
+namespace Test.Data;
 
-// TEST QUOTE IMPORTER
-internal static class Importer
+// TEST DATA IMPORT UTILITIES
+
+internal static class Imports
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 

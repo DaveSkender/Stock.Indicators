@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class RsiTests : SeriesTestBase
@@ -51,7 +51,7 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void CryptoData()
     {
-        IEnumerable<Quote> btc = TestData.GetBitcoin();
+        IEnumerable<Quote> btc = Data.GetBitcoin();
 
         List<RsiResult> r = btc
             .GetRsi(1)
@@ -99,7 +99,7 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
+        IEnumerable<RsiResult> r = Data.GetBtcUsdNan()
             .GetRsi();
 
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));

@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class PrsTests : SeriesTestBase
@@ -103,11 +103,11 @@ public class PrsTests : SeriesTestBase
 
         // insufficient quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            TestData.GetCompare(13).GetPrs(Quotes, 14));
+            Data.GetCompare(13).GetPrs(Quotes, 14));
 
         // insufficient eval quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            TestData.GetCompare(300).GetPrs(Quotes, 14));
+            Data.GetCompare(300).GetPrs(Quotes, 14));
 
         // mismatch quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>

@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class StochTests : SeriesTestBase
@@ -239,7 +239,7 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results = TestData
+        List<StochResult> results = Data
             .GetRandom(2500)
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .ToList();

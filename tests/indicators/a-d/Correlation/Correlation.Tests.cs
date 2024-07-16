@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class CorrelationTests : SeriesTestBase
@@ -131,7 +131,7 @@ public class CorrelationTests : SeriesTestBase
             Quotes.GetCorrelation(OtherQuotes, 0));
 
         // bad eval quotes
-        IEnumerable<Quote> eval = TestData.GetCompare(300);
+        IEnumerable<Quote> eval = Data.GetCompare(300);
         Assert.ThrowsException<InvalidQuotesException>(() =>
             Quotes.GetCorrelation(eval, 30));
 

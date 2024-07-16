@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class BopTests : SeriesTestBase
@@ -46,7 +46,7 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
+        IEnumerable<BopResult> r = Data.GetBtcUsdNan()
             .GetBop(50);
 
         Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));

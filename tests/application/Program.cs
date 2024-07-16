@@ -26,8 +26,7 @@ public class Do
 
     private static readonly QuoteHub<Quote> provider = new();
 
-    private static readonly IReadOnlyList<Quote> quotesList
-        = TestData.GetDefault().ToSortedCollection();
+    private static readonly IReadOnlyList<Quote> quotesList = Data.Data.GetDefault();
 
     private static readonly int quotesLength = quotesList.Count;
 

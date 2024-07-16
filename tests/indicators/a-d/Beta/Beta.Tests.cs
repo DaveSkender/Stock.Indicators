@@ -1,4 +1,4 @@
-namespace Tests.Indicators.Series;
+namespace Series;
 
 [TestClass]
 public class BetaTests : SeriesTestBase
@@ -179,8 +179,8 @@ public class BetaTests : SeriesTestBase
           https://www.nasdaq.com/market-activity/stocks/msft
         */
 
-        List<Quote> evalQuotes = TestData.GetMsft().ToList();
-        List<Quote> mktQuotes = TestData.GetSpx().ToList();
+        List<Quote> evalQuotes = Data.GetMsft().ToList();
+        List<Quote> mktQuotes = Data.GetSpx().ToList();
 
         List<BetaResult> results = evalQuotes.Aggregate(PeriodSize.Month)
             .GetBeta(mktQuotes.Aggregate(PeriodSize.Month),
@@ -276,7 +276,7 @@ public class BetaTests : SeriesTestBase
             => Quotes.GetBeta(OtherQuotes, 0));
 
         // bad evaluation quotes
-        List<Quote> eval = TestData.GetCompare(300).ToList();
+        List<Quote> eval = Data.GetCompare(300).ToList();
 
         Assert.ThrowsException<InvalidQuotesException>(()
             => Quotes.GetBeta(eval, 30));

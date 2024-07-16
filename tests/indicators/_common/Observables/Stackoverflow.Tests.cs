@@ -1,4 +1,4 @@
-namespace Tests.Common.Observables;
+namespace Observables;
 
 [TestClass]
 public class StackoverflowTests : TestBase
@@ -13,7 +13,7 @@ public class StackoverflowTests : TestBase
 
         // setup: many random quotes (massive)
         List<Quote> quotesList
-            = TestData.GetRandom(qtyQuotes).ToList();
+            = Data.GetRandom(qtyQuotes).ToList();
 
         QuoteHub<Quote> provider = new();
 
@@ -104,7 +104,7 @@ public class StackoverflowTests : TestBase
 
         // setup: many random quotes (massive)
         List<Quote> quotesList
-            = TestData.GetRandom(qtyQuotes).ToList();
+            = Data.GetRandom(qtyQuotes).ToList();
 
         QuoteHub<Quote> provider = new();
 
@@ -201,7 +201,7 @@ public class StackoverflowTests : TestBase
 
         // setup: many random quotes
         List<Quote> quotesList
-            = TestData.GetRandom(qtyQuotes).ToList();
+            = Data.GetRandom(qtyQuotes).ToList();
 
         QuoteHub<Quote> provider = new();
 

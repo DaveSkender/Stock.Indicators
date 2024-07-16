@@ -1,4 +1,4 @@
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
 public class QuoteEqualityTests : TestBase
