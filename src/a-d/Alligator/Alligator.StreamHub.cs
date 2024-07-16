@@ -78,7 +78,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
                 double sum = 0;
                 for (int p = i - JawPeriods - JawOffset + 1; p <= i - JawOffset; p++)
                 {
-                    sum += Provider.Results[p].IfQuoteHl2();
+                    sum += Provider.Results[p].Hl2orValue();
                 }
 
                 jaw = sum / JawPeriods;
@@ -87,7 +87,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
             // remaining values: SMMA
             else
             {
-                double newVal = Provider.Results[i - JawOffset].IfQuoteHl2();
+                double newVal = Provider.Results[i - JawOffset].Hl2orValue();
                 jaw = ((prevJaw * (JawPeriods - 1)) + newVal) / JawPeriods;
             }
         }
@@ -105,7 +105,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
                 double sum = 0;
                 for (int p = i - TeethPeriods - TeethOffset + 1; p <= i - TeethOffset; p++)
                 {
-                    sum += Provider.Results[p].IfQuoteHl2();
+                    sum += Provider.Results[p].Hl2orValue();
                 }
 
                 teeth = sum / TeethPeriods;
@@ -114,7 +114,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
             // remaining values: SMMA
             else
             {
-                double newVal = Provider.Results[i - TeethOffset].IfQuoteHl2();
+                double newVal = Provider.Results[i - TeethOffset].Hl2orValue();
                 teeth = ((prevTooth * (TeethPeriods - 1)) + newVal) / TeethPeriods;
             }
         }
@@ -133,7 +133,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
                 double sum = 0;
                 for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                 {
-                    sum += Provider.Results[p].IfQuoteHl2();
+                    sum += Provider.Results[p].Hl2orValue();
                 }
 
                 lips = sum / LipsPeriods;
@@ -142,7 +142,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
             // remaining values: SMMA
             else
             {
-                double newVal = Provider.Results[i - LipsOffset].IfQuoteHl2();
+                double newVal = Provider.Results[i - LipsOffset].Hl2orValue();
                 lips = ((prevLips * (LipsPeriods - 1)) + newVal) / LipsPeriods;
             }
         }

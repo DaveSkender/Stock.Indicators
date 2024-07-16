@@ -29,13 +29,13 @@ public static partial class QuotePartUtility
         };
 
     // conditional HL2 value if IQuote type
-    internal static double IfQuoteHl2<T>(
+    internal static double Hl2orValue<T>(
         this T item)
         where T : IReusable
-        => item.QuotePartIfQuote(CandlePart.HL2);
+        => item.QuotePartOrValue(CandlePart.HL2);
 
     // conditional CandlePart value if IQuote type
-    internal static double QuotePartIfQuote<T>(
+    internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
         where T : IReusable
         => item is IQuote q

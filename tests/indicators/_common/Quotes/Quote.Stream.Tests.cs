@@ -74,7 +74,7 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
             .GetSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length-1);
+        streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
 
         // cleanup
