@@ -45,12 +45,13 @@ public class PublicClassTests
         = DateTime.ParseExact(
             "12/31/2018", "MM/dd/yyyy", EnglishCulture);
 
+    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday();
+
     [TestMethod]
     public void ValidateHistory()
     {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
-
-        IEnumerable<Quote> enumerable = quotes.ToList();
+        IEnumerable<Quote> enumerable = quotes;
 
         enumerable.Validate();
         enumerable.GetSma(6);
@@ -60,7 +61,6 @@ public class PublicClassTests
     [TestMethod]
     public void ReadQuoteClass()
     {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<Quote> h = quotes.Validate();
 
         Quote f = h.FirstOrDefault();
@@ -70,8 +70,7 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteSeries()
     {
-        List<MyCustomQuote> myGenericHistory = TestData
-            .GetDefault()
+        List<MyCustomQuote> myGenericHistory = quotes
             .Select(x => new MyCustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
@@ -138,17 +137,17 @@ public class PublicClassTests
         Assert.IsTrue(q1.Equals(q2));
         Assert.IsFalse(q1.Equals(q3));
 
-        //Assert.IsTrue(q1 == q2, "== operator");
-        //Assert.IsFalse(q1 == q3, "== operator");
+        Assert.IsTrue(q1 == q2, "== operator");
+        Assert.IsFalse(q1 == q3, "== operator");
 
-        //Assert.IsFalse(q1 != q2, "!= operator");
-        //Assert.IsTrue(q1 != q3, "!= operator");
+        Assert.IsFalse(q1 != q2, "!= operator");
+        Assert.IsTrue(q1 != q3, "!= operator");
     }
 
     [TestMethod]
     public void CustomQuoteAggregate()
     {
-        List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
+        List<MyCustomQuote> myGenericHistory = intraday
             .Select(x => new MyCustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
@@ -175,7 +174,7 @@ public class PublicClassTests
     [TestMethod]
     public void CustomQuoteAggregateTimeSpan()
     {
-        List<MyCustomQuote> myGenericHistory = TestData.GetIntraday()
+        List<MyCustomQuote> myGenericHistory = intraday
             .Select(x => new MyCustomQuote {
                 CloseDate = x.Timestamp,
                 Open = x.Open,
@@ -215,7 +214,6 @@ public class PublicClassTests
     [TestMethod]
     public void CustomResultClassLinq()
     {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
         IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
 
         // can use a derive Indicator class using Linq
@@ -234,8 +232,6 @@ public class PublicClassTests
     [TestMethod]
     public void CustomResultClassFind()
     {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
-
         List<EmaResult> emaResults
             = quotes.GetEma(20).ToList();
 
@@ -281,9 +277,7 @@ public class PublicClassTests
          *
          ******************************************************/
 
-        // source quotes (out of order, messy use case)
-        List<Quote> quotesList = TestData.GetDefault().ToList();
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         // setup quote provider
         QuoteHub<Quote> provider = new();
@@ -304,7 +298,7 @@ public class PublicClassTests
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             provider.Add(q);
 
             // resend duplicate quotes
@@ -315,17 +309,17 @@ public class PublicClassTests
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Add(quotes[80]);
 
         // end all observations
         provider.EndTransmission();
 
         // get static equivalents for comparison
-        IEnumerable<AdlResult> staticAdl = quotesList.GetAdl();
-        IEnumerable<AlligatorResult> staticAlligator = quotesList.GetAlligator();
-        IEnumerable<EmaResult> staticEma = quotesList.GetEma(20);
-        IEnumerable<SmaResult> staticSma = quotesList.GetSma(20);
-        IEnumerable<QuotePart> staticQuotePart = quotesList.Use(CandlePart.OHL3);
+        IEnumerable<AdlResult> staticAdl = quotes.GetAdl();
+        IEnumerable<AlligatorResult> staticAlligator = quotes.GetAlligator();
+        IEnumerable<EmaResult> staticEma = quotes.GetEma(20);
+        IEnumerable<SmaResult> staticSma = quotes.GetSma(20);
+        IEnumerable<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
 
         // final results should persist in scope
         IReadOnlyList<AdlResult> streamAdl = adlHub.Results;

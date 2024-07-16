@@ -82,7 +82,7 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 0;
         PivotPointType pointType = PivotPointType.Camarilla;
 
-        IEnumerable<Quote> h = TestData.GetDefault(38);
+        IEnumerable<Quote> h = Data.GetDefault(38);
 
         List<RollingPivotsResult> results = h
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
@@ -239,7 +239,7 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 15;
         PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IEnumerable<Quote> h = TestData.GetIntraday(300);
+        IEnumerable<Quote> h = Data.GetIntraday(300);
 
         List<RollingPivotsResult> results =
             h.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
@@ -314,7 +314,7 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 16;
         PivotPointType pointType = PivotPointType.Woodie;
 
-        IEnumerable<Quote> h = TestData.GetIntraday();
+        IEnumerable<Quote> h = Data.GetIntraday();
 
         List<RollingPivotsResult> results = h
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)

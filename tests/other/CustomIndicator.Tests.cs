@@ -76,18 +76,10 @@ public class CustomIndicatorTests
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
-    internal static readonly IEnumerable<Quote> quotes = TestData.GetDefault();
-    internal static readonly IEnumerable<Quote> otherQuotes = TestData.GetCompare();
-    internal static readonly IEnumerable<Quote> badQuotes = TestData.GetBad();
-    internal static readonly IEnumerable<Quote> bigQuotes = TestData.GetTooBig();
-    internal static readonly IEnumerable<Quote> maxQuotes = TestData.GetMax();
-    internal static readonly IEnumerable<Quote> longishQuotes = TestData.GetLongish();
-    internal static readonly IEnumerable<Quote> longestQuotes = TestData.GetLongest();
-    internal static readonly IEnumerable<Quote> mismatchQuotes = TestData.GetMismatch();
-    internal static readonly IEnumerable<Quote> noquotes = new List<Quote>();
-    internal static readonly IEnumerable<Quote> onequote = TestData.GetDefault(1);
-    internal static readonly IEnumerable<Quote> randomQuotes = TestData.GetRandom(1000);
-    internal static readonly IEnumerable<Quote> zeroesQuotes = TestData.GetZeros();
+    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> badQuotes = Data.GetBad();
+    private static readonly IReadOnlyList<Quote> noquotes = [];
+    private static readonly IReadOnlyList<Quote> onequote = Data.GetDefault(1);
 
     [TestMethod]
     public void Standard()
@@ -167,7 +159,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void QuoteToSortedList()
     {
-        IEnumerable<Quote> mismatch = TestData.GetMismatch();
+        IEnumerable<Quote> mismatch = Data.GetMismatch();
 
         Collection<Quote> h = mismatch.ToSortedCollection();
 
@@ -190,7 +182,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void NaN()
     {
-        List<MyResult> r = TestData.GetBtcUsdNan()
+        List<MyResult> r = Data.GetBtcUsdNan()
             .GetIndicator(50)
             .ToList();
 

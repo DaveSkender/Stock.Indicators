@@ -6,7 +6,7 @@ public class QuoteAggregateTests : TestBase
     [TestMethod]
     public void Aggregate()
     {
-        IEnumerable<Quote> quotes = TestData.GetIntraday();
+        IReadOnlyList<Quote> quotes = Data.GetIntraday();
 
         // aggregate
         List<Quote> results = quotes
@@ -50,7 +50,7 @@ public class QuoteAggregateTests : TestBase
     [TestMethod]
     public void AggregateTimeSpan()
     {
-        IEnumerable<Quote> quotes = TestData.GetIntraday();
+        IReadOnlyList<Quote> quotes = Data.GetIntraday();
 
         // aggregate
         List<Quote> results = quotes

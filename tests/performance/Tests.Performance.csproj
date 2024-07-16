@@ -21,12 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="_utility\data\*.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@ public class ObserverTests : TestBase
 
         // setup: many random quotes (massive)
         List<Quote> quotesList
-            = TestData.GetRandom(qtyQuotes).ToList();
+            = Data.GetRandom(qtyQuotes).ToList();
 
         int length = quotesList.Count;
 

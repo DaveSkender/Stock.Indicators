@@ -1,21 +1,24 @@
-namespace Utilities;
-/**
-<summary>
-Geometric Brownian Motion (GMB) is a random simulator of market movement.
-GBM can be used for testing indicators, validation and Monte Carlo simulations of strategies.
+namespace Test.Data;
 
-Sample usage:
-RandomGbm data = new(); // generates 1 year (252) list of bars
-RandomGbm data = new(Bars: 1000); // generates 1,000 bars
-RandomGbm data = new(Bars: 252, Volatility: 0.05, Drift: 0.0005, Seed: 100.0)
+/// <summary>
+/// Geometric Brownian Motion (GMB) is a random simulator of market movement.
+/// GBM can be used for testing indicators, validation and Monte Carlo simulations of strategies.
+/// 
+/// <code>
+/// Sample usage:
+/// 
+/// RandomGbm data = new(); // generates 1 year (252) list of bars
+/// RandomGbm data = new(Bars: 1000); // generates 1,000 bars
+/// RandomGbm data = new(Bars: 252, Volatility: 0.05, Drift: 0.0005, Seed: 100.0)
+/// 
+/// Parameters:
+/// 
+/// Bars:       number of bars (quotes) requested
+/// Volatility: how dymamic/volatile the series should be; default is 1
+/// Drift:      incremental drift due to annual interest rate; default is 5%
+/// Seed:       starting value of the random series; should not be 0.
+/// </code></summary>
 
-Parameters
-Bars:       number of bars (quotes) requested
-Volatility: how dymamic/volatile the series should be; default is 1
-Drift:      incremental drift due to annual interest rate; default is 5%
-Seed:       starting value of the random series; should not be 0.
-</summary>
-**/
 internal class RandomGbm : List<Quote>
 {
     private readonly double _volatility;

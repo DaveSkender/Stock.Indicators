@@ -84,11 +84,11 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma().ToList();
+        List<AlmaResult> r1 = Data.GetBtcUsdNan().GetAlma().ToList();
 
         Assert.AreEqual(0, r1.Count(x => x.Alma is double.NaN));
 
-        List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20).ToList();
+        List<AlmaResult> r2 = Data.GetBtcUsdNan().GetAlma(20).ToList();
 
         Assert.AreEqual(0, r2.Count(x => x.Alma is double.NaN));
     }

@@ -18,10 +18,7 @@ public class CacheMgmtTests : TestBase
     [TestMethod]
     public void ActAddOld()  // late arrival
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
-
-        int length = Quotes.Count();
+        int length = Quotes.Count;
 
         // add base quotes
         QuoteHub<Quote> provider = new();
@@ -38,17 +35,17 @@ public class CacheMgmtTests : TestBase
                 continue;
             }
 
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             provider.Add(q);
         }
 
         // add late
-        provider.Add(quotesList[100]);
+        provider.Add(Quotes[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)
         {
-            Quote q = quotesList[i];
+            Quote q = Quotes[i];
             QuotePart r = observer.Cache[i];
 
             // compare quote to result cache

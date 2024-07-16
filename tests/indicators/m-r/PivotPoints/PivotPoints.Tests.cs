@@ -91,7 +91,7 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Week;
         PivotPointType pointType = PivotPointType.Camarilla;
 
-        IEnumerable<Quote> h = TestData.GetDefault(38);
+        IEnumerable<Quote> h = Data.GetDefault(38);
         List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
@@ -248,7 +248,7 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.OneHour;
         PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IEnumerable<Quote> h = TestData.GetIntraday(300);
+        IEnumerable<Quote> h = Data.GetIntraday(300);
         List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 
@@ -320,7 +320,7 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Day;
         PivotPointType pointType = PivotPointType.Woodie;
 
-        IEnumerable<Quote> h = TestData.GetIntraday();
+        IEnumerable<Quote> h = Data.GetIntraday();
         List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
             .ToList();
 

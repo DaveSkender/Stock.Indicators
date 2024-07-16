@@ -123,7 +123,7 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public void PennyData()
     {
-        IEnumerable<Quote> penny = TestData.GetPenny();
+        IEnumerable<Quote> penny = Data.GetPenny();
 
         List<HtlResult> r = penny
             .GetHtTrendline()

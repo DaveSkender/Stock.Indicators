@@ -6,7 +6,7 @@ public class QuoteValidationTests : TestBase
     [TestMethod]
     public void Validate()
     {
-        IEnumerable<Quote> quotes = TestData.GetDefault();
+        IReadOnlyList<Quote> quotes = Data.GetDefault();
 
         List<Quote> h = quotes.Validate().ToList();
 
@@ -39,7 +39,7 @@ public class QuoteValidationTests : TestBase
     {
         // if quotes post-cleaning, is cut down in size it should not corrupt the results
 
-        IEnumerable<Quote> quotes = TestData.GetDefault(200);
+        IReadOnlyList<Quote> quotes = Data.GetDefault(200);
         List<Quote> h = quotes.Validate().ToList();
 
         // should be 200 periods, initially

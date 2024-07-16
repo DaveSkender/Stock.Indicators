@@ -8,7 +8,7 @@ public class QuoteUtilityTests : TestBase
     [TestMethod]
     public void QuoteToSortedCollection()
     {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
+        IReadOnlyList<Quote> quotes = Data.GetMismatch();
 
         Collection<Quote> h = quotes.ToSortedCollection();
 
@@ -31,7 +31,7 @@ public class QuoteUtilityTests : TestBase
     [TestMethod]
     public void QuoteToSortedList()
     {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
+        IReadOnlyList<Quote> quotes = Data.GetMismatch();
 
         List<Quote> h = quotes.ToSortedList();
 

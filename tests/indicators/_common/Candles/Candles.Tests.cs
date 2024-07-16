@@ -6,7 +6,7 @@ public class Candles : TestBase
     [TestMethod]
     public void SortCandles()
     {
-        IEnumerable<Quote> quotes = TestData.GetMismatch();
+        IReadOnlyList<Quote> quotes = Data.GetMismatch();
 
         // sort
         List<CandleProperties> candles
@@ -75,6 +75,6 @@ public class Candles : TestBase
     public void ToCandles()
     {
         IEnumerable<CandleProperties> candles = Quotes.ToCandles();
-        Assert.AreEqual(Quotes.Count(), candles.Count());
+        Assert.AreEqual(Quotes.Count, candles.Count());
     }
 }

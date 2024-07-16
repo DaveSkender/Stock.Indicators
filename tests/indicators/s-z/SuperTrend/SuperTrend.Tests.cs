@@ -52,7 +52,7 @@ public class SuperTrendTests : SeriesTestBase
     [TestMethod]
     public void Bitcoin()
     {
-        IEnumerable<Quote> h = TestData.GetBitcoin();
+        IEnumerable<Quote> h = Data.GetBitcoin();
 
         List<SuperTrendResult> results = h
             .GetSuperTrend()

@@ -81,7 +81,7 @@ public class SmaTests : SeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        List<SmaResult> r = TestData.GetBtcUsdNan()
+        List<SmaResult> r = Data.GetBtcUsdNan()
             .GetSma(50)
             .ToList();
 

@@ -78,7 +78,7 @@ public class CacheUtilsTests : TestBase
         timeIndexEx.Should().Be(4);
 
         // out of range (exceptions)
-        Quote o = Quotes.ToList()[10];
+        Quote o = Quotes[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
             provider.GetIndex(o, false);

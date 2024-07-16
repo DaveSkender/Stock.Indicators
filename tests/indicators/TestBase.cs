@@ -4,51 +4,26 @@ using System.Runtime.CompilerServices;
 // GLOBALS & INITIALIZATION OF TEST DATA
 
 [assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("Tests.Other")]
+[assembly: InternalsVisibleTo("Tests.Other")]        // these use test data
 [assembly: InternalsVisibleTo("Tests.Performance")]
-[assembly: InternalsVisibleTo("Observe.Streaming")]
-namespace Utilities;
+namespace Test.Data;
 
 [TestClass]
 public abstract class TestBase
 {
     internal static readonly CultureInfo englishCulture = new("en-US", false);
 
-    internal static IEnumerable<Quote> Quotes = [];
-    internal static IEnumerable<Quote> OtherQuotes = [];
-    internal static IEnumerable<Quote> BadQuotes = [];
-    internal static IEnumerable<Quote> BigQuotes = [];
-    internal static IEnumerable<Quote> LongishQuotes = [];
-    internal static IEnumerable<Quote> LongestQuotes = [];
-    internal static IEnumerable<Quote> MismatchQuotes = [];
-    internal static IEnumerable<Quote> Noquotes = [];
-    internal static IEnumerable<Quote> Onequote = [];
-    internal static IEnumerable<Quote> RandomQuotes = [];
-    internal static IEnumerable<Quote> ZeroesQuotes = [];
-
-    internal TestBase()
-    {
-        try
-        {
-            Quotes = TestData.GetDefault();
-            OtherQuotes = TestData.GetCompare();
-            BadQuotes = TestData.GetBad();
-            BigQuotes = TestData.GetTooBig();
-            LongishQuotes = TestData.GetLongish();
-            LongestQuotes = TestData.GetLongest();
-            MismatchQuotes = TestData.GetMismatch();
-            Noquotes = new List<Quote>();
-            Onequote = TestData.GetDefault(1);
-            RandomQuotes = TestData.GetRandom(1000);
-            ZeroesQuotes = TestData.GetZeros();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Test data failed to load.");
-            Console.WriteLine(ex);
-            throw;
-        }
-    }
+    internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
+    internal static readonly IReadOnlyList<Quote> OtherQuotes = Data.GetCompare();
+    internal static readonly IReadOnlyList<Quote> BadQuotes = Data.GetBad();
+    internal static readonly IReadOnlyList<Quote> BigQuotes = Data.GetTooBig();
+    internal static readonly IReadOnlyList<Quote> LongishQuotes = Data.GetLongish();
+    internal static readonly IReadOnlyList<Quote> LongestQuotes = Data.GetLongest();
+    internal static readonly IReadOnlyList<Quote> MismatchQuotes = Data.GetMismatch();
+    internal static readonly IReadOnlyList<Quote> Noquotes = [];
+    internal static readonly IReadOnlyList<Quote> Onequote = Data.GetDefault(1);
+    internal static readonly IReadOnlyList<Quote> RandomQuotes = Data.GetRandom(1000);
+    internal static readonly IReadOnlyList<Quote> ZeroesQuotes = Data.GetZeros();
 }
 
 /// <summary>

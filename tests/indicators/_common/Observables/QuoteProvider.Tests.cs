@@ -9,7 +9,7 @@ public class QuoteProviderTests : TestBase
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
-        int length = Quotes.Count();
+        int length = Quotes.Count;
 
         // add base quotes (batch)
         QuoteHub<Quote> provider = new();

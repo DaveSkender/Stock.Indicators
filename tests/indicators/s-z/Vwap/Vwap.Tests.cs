@@ -3,7 +3,7 @@ namespace Series;
 [TestClass]
 public class VwapTests : SeriesTestBase
 {
-    private readonly IEnumerable<Quote> _intraday = TestData.GetIntraday()
+    private readonly IEnumerable<Quote> _intraday = Data.GetIntraday()
         .OrderBy(x => x.Timestamp)
         .Take(391);
 
