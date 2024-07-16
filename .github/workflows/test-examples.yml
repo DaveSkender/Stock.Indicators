@@ -10,7 +10,7 @@ on:
     branches: ["main","v3"]
     paths:
       - docs/examples/**
-      - ".github/workflows/build-examples.yml"
+      - ".github/workflows/test-examples.yml"
 
 jobs:
   build:
