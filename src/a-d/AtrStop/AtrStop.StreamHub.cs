@@ -47,9 +47,13 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             throw new ArgumentNullException(nameof(newIn));
         }
 
-        decimal atrStop = decimal.MaxValue;
-        decimal buyStop = decimal.MaxValue;
-        decimal sellStop = decimal.MaxValue;
+        bool isBullish = true;
+        double? upperBand = null;
+        double? lowerBand = null;
+
+        decimal? atrStop = null;
+        decimal? buyStop = null;
+        decimal? sellStop = null;
 
 
 
