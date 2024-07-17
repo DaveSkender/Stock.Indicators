@@ -5,21 +5,21 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<CciResult> CalcCci(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Cci.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<CciResult> results = new(length);
         double[] tp = new double[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
             tp[i] = (q.High + q.Low + q.Close) / 3d;
 
             double? cci = null;

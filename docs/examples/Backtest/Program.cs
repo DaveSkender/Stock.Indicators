@@ -23,11 +23,11 @@ public static class Program
          */
 
         // fetch historical quotes from data provider
-        List<Quote> quotesList = [.. GetQuotesFromFeed()];
+        IReadOnlyList<Quote> quotes = GetQuotesFromFeed();
 
         // calculate Stochastic RSI
-        List<StochRsiResult> resultsList =
-            quotesList
+        IReadOnlyList<StochRsiResult> resultsList =
+            quotes
                 .GetStochRsi(14, 14, 3)
                 .ToList();
 
@@ -40,9 +40,9 @@ public static class Program
         Console.WriteLine("-------------------------------------------------------");
 
         // roll through source values
-        for (int i = 1; i < quotesList.Count; i++)
+        for (int i = 1; i < quotes.Count; i++)
         {
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
 
             StochRsiResult e = resultsList[i]; // evaluation period
             StochRsiResult l = resultsList[i - 1]; // last (prior) period
@@ -105,7 +105,7 @@ public static class Program
          See https://github.com/DaveSkender/Stock.Indicators/discussions/579
          for free or inexpensive market data providers and examples.
 
-         The return type of IEnumerable<Quote> can also be List<Quote>
+         The return type of IReadOnlyList<Quote> can also be List<Quote>
          or ICollection<Quote> or other IEnumerable compatible types.
 
          ************************************************************/

@@ -16,7 +16,7 @@ Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investope
 
 ```csharp
 // C# usage syntax
-IEnumerable<CmoResult> results =
+IReadOnlyList<CmoResult> results =
   quotes.GetCmo(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<CmoResult>
+IReadOnlyList<CmoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

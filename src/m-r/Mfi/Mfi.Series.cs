@@ -5,14 +5,14 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<MfiResult> CalcMfi(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Mfi.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<MfiResult> results = new(length);
 
         double[] tp = new double[length];  // true price
@@ -24,7 +24,7 @@ public static partial class Indicator
         // roll through source values, to get preliminary data
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
             double mfi;
 
             // true price

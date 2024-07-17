@@ -17,7 +17,7 @@ public static partial class QuoteUtility
 
         // check for duplicates
         DateTime lastDate = DateTime.MinValue;
-        foreach (var q in quotesList)
+        foreach (TQuote q in quotesList)
         {
             if (lastDate == q.Timestamp)
             {

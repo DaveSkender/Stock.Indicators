@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/type[@name="Standard"]/*' />
     ///
-    public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
+    public static IReadOnlyList<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
@@ -20,7 +20,7 @@ public static partial class Indicator
     // SERIES, from TQuote (alt)
     /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
-    public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
+    public static IReadOnlyList<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
         double accelerationStep,
         double maxAccelerationFactor,

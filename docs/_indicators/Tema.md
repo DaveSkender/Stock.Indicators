@@ -18,7 +18,7 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 
 ```csharp
 // C# usage syntax
-IEnumerable<TemaResult> results =
+IReadOnlyList<TemaResult> results =
   quotes.GetTema(lookbackPeriods);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is mo
 ## Response
 
 ```csharp
-IEnumerable<TemaResult>
+IReadOnlyList<TemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

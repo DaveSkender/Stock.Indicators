@@ -16,7 +16,7 @@ Created by Larry Williams, the [Williams %R](https://en.wikipedia.org/wiki/Willi
 
 ```csharp
 // C# usage syntax
-IEnumerable<WilliamsResult> results =
+IReadOnlyList<WilliamsResult> results =
   quotes.GetWilliamsR(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<WilliamsResult>
+IReadOnlyList<WilliamsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

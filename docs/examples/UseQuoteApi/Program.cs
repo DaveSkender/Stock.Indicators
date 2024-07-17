@@ -10,7 +10,7 @@ internal class Program
         string symbol = "AAPL";
 
         // fetch historical quotes from data provider
-        IEnumerable<Quote> quotes = await GetQuotesFromFeed(symbol);
+        IReadOnlyList<Quote> quotes = await GetQuotesFromFeed(symbol);
 
         // calculate 10-period SMA
         IEnumerable<SmaResult> results = quotes.GetSma(10);
@@ -42,27 +42,24 @@ internal class Program
           with the same ordinal position.
          ************************************************************/
 
-        List<Quote> quotesList = quotes
-            .ToList();
-
         List<SmaResult> resultsList = results
             .ToList();
 
-        for (int i = quotesList.Count - 25; i < quotesList.Count; i++)
+        for (int i = quotes.Count - 25; i < quotes.Count; i++)
         {
             // only showing ~25 records for brevity
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             SmaResult r = resultsList[i];
 
             bool isBullish = (double)q.Close > r.Sma;
 
             Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}"
-                              + $" and Bullishness is {isBullish}");
+                            + $" and Bullishness is {isBullish}");
         }
     }
 
-    private static async Task<IEnumerable<Quote>> GetQuotesFromFeed(string symbol)
+    private static async Task<IReadOnlyList<Quote>> GetQuotesFromFeed(string symbol)
     {
         /************************************************************
 
@@ -113,7 +110,7 @@ internal class Program
         IPage<IBar> barSet = await client.ListHistoricalBarsAsync(request);
 
         // convert library compatible quotes
-        IEnumerable<Quote> quotes = barSet
+        List<Quote> quotes = barSet
             .Items
             .Select(bar => new Quote
             {
@@ -124,7 +121,8 @@ internal class Program
                 Close = bar.Close,
                 Volume = bar.Volume
             })
-            .OrderBy(x => x.Date); // optional
+            .OrderBy(x => x.Date)
+            .ToList();
 
         return quotes;
     }

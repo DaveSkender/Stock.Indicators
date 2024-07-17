@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<ParabolicSarResult> CalcParabolicSar(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
@@ -15,7 +15,7 @@ public static partial class Indicator
             accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<ParabolicSarResult> results = new(length);
 
         if (length == 0)
@@ -23,7 +23,7 @@ public static partial class Indicator
             return results;
         }
 
-        QuoteD q0 = qdList[0];
+        QuoteD q0 = source[0];
 
         double accelerationFactor = initialFactor;
         double extremePoint = q0.High;
@@ -33,7 +33,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             bool? isReversal;
             double psar;
@@ -56,8 +56,8 @@ public static partial class Indicator
                 {
                     double minLastTwo =
                         Math.Min(
-                            qdList[i - 1].Low,
-                            qdList[i - 2].Low);
+                            source[i - 1].Low,
+                            source[i - 2].Low);
 
                     sar = Math.Min(sar, minLastTwo);
                 }
@@ -101,8 +101,8 @@ public static partial class Indicator
                 if (i >= 2)
                 {
                     double maxLastTwo = Math.Max(
-                        qdList[i - 1].High,
-                        qdList[i - 2].High);
+                        source[i - 1].High,
+                        source[i - 2].High);
 
                     sar = Math.Max(sar, maxLastTwo);
                 }

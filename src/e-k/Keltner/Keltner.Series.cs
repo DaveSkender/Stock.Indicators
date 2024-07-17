@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<KeltnerResult> CalcKeltner(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
@@ -14,23 +14,21 @@ public static partial class Indicator
         Keltner.Validate(emaPeriods, multiplier, atrPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<KeltnerResult> results = new(length);
 
-        List<EmaResult> emaResults = qdList
-            .CalcEma(emaPeriods)
-            .ToList();
+        IReadOnlyList<EmaResult> emaResults
+            = source.CalcEma(emaPeriods);
 
-        List<AtrResult> atrResults = qdList
-            .CalcAtr(atrPeriods)
-            .ToList();
+        IReadOnlyList<AtrResult> atrResults
+            = source.CalcAtr(atrPeriods);
 
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             if (i >= lookbackPeriods - 1)
             {

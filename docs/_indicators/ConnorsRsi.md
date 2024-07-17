@@ -16,7 +16,7 @@ Created by Laurence Connors, the [ConnorsRSI](https://alvarezquanttrading.com/wp
 
 ```csharp
 // C# usage syntax
-IEnumerable<ConnorsRsiResult> results =
+IReadOnlyList<ConnorsRsiResult> results =
   quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 ```
 
@@ -37,7 +37,7 @@ IEnumerable<ConnorsRsiResult> results =
 ## Response
 
 ```csharp
-IEnumerable<ConnorsRsiResult>
+IReadOnlyList<ConnorsRsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

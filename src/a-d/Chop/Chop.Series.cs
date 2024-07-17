@@ -5,14 +5,14 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<ChopResult> CalcChop(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Chop.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<ChopResult> results = new(length);
         double[] trueHigh = new double[length];
         double[] trueLow = new double[length];
@@ -25,8 +25,8 @@ public static partial class Indicator
 
             if (i > 0)
             {
-                trueHigh[i] = Math.Max(qdList[i].High, qdList[i - 1].Close);
-                trueLow[i] = Math.Min(qdList[i].Low, qdList[i - 1].Close);
+                trueHigh[i] = Math.Max(source[i].High, source[i - 1].Close);
+                trueLow[i] = Math.Min(source[i].Low, source[i - 1].Close);
                 trueRange[i] = trueHigh[i] - trueLow[i];
 
                 // calculate CHOP
@@ -57,7 +57,7 @@ public static partial class Indicator
             }
 
             results.Add(new(
-                Timestamp: qdList[i].Timestamp,
+                Timestamp: source[i].Timestamp,
                 Chop: chop));
         }
 

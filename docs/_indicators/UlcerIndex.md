@@ -16,7 +16,7 @@ Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_i
 
 ```csharp
 // C# usage syntax
-IEnumerable<UlcerIndexResult> results =
+IReadOnlyList<UlcerIndexResult> results =
   quotes.GetUlcerIndex(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<UlcerIndexResult>
+IReadOnlyList<UlcerIndexResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

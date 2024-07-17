@@ -16,7 +16,7 @@ Volume Weighted Moving Average is the volume adjusted average price over a lookb
 
 ```csharp
 // C# usage syntax
-IEnumerable<VwmaResult> results =
+IReadOnlyList<VwmaResult> results =
   quotes.GetVwma(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<VwmaResult>
+IReadOnlyList<VwmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

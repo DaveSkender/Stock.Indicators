@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<KvoResult> GetKvo<TQuote>(
+    public static IReadOnlyList<KvoResult> GetKvo<TQuote>(
         this IEnumerable<TQuote> quotes,
         int fastPeriods = 34,
         int slowPeriods = 55,

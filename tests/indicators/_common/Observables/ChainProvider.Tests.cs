@@ -15,7 +15,7 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        var observer = provider
+        EmaHub<QuotePart> observer = provider
             .ToQuotePart(CandlePart.HL2)
             .ToEma(11);
 

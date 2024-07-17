@@ -10,7 +10,7 @@ public static class Program
     public static void Main()
     {
         // fetch historical quotes from data provider
-        IEnumerable<Quote> quotes = GetQuotesFromFeed();
+        IReadOnlyList<Quote> quotes = GetQuotesFromFeed();
 
         // calculate 10-period SMA
         IEnumerable<SmaResult> results = quotes.GetSma(10);
@@ -47,23 +47,20 @@ public static class Program
           with the same ordinal position.
          ************************************************************/
 
-        List<Quote> quotesList = quotes
-            .ToList();
+        IReadOnlyList<SmaResult> resultsList
+            = results.ToList();
 
-        List<SmaResult> resultsList = results
-            .ToList();
-
-        for (int i = quotesList.Count - 25; i < quotesList.Count; i++)
+        for (int i = quotes.Count - 25; i < quotes.Count; i++)
         {
             // only showing ~25 records for brevity
 
-            Quote q = quotesList[i];
+            Quote q = quotes[i];
             SmaResult r = resultsList[i];
 
             bool isBullish = (double)q.Close > r.Sma;
 
             Console.WriteLine($"SMA on {r.Date:u} was ${r.Sma:N3}"
-                              + $" and Bullishness is {isBullish}");
+                            + $" and Bullishness is {isBullish}");
         }
     }
 
@@ -80,7 +77,7 @@ public static class Program
          See https://github.com/DaveSkender/Stock.Indicators/discussions/579
          for free or inexpensive market data providers and examples.
 
-         The return type of IEnumerable<Quote> can also be List<Quote>
+         The return type of IReadOnlyList<Quote> can also be List<Quote>
          or ICollection<Quote> or other IEnumerable compatible types.
 
          ************************************************************/

@@ -5,12 +5,12 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<VolatilityStopResult> CalcVolatilityStop(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier)
     {
         //convert quotes
-        List<IReusable> reList = qdList
+        List<IReusable> reList = source
             .Cast<IReusable>()
             .ToList();
 
@@ -18,7 +18,7 @@ public static partial class Indicator
         VolatilityStop.Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<VolatilityStopResult> results = new(length);
 
         if (length == 0)
@@ -26,7 +26,7 @@ public static partial class Indicator
             return results;
         }
 
-        List<AtrResult> atrList = qdList.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrList = source.CalcAtr(lookbackPeriods);
 
         // initial trend (guess)
         int initPeriods = Math.Min(length, lookbackPeriods);

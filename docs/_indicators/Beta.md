@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<BetaResult> results = quotesEval
+IReadOnlyList<BetaResult> results = quotesEval
   .GetBeta(quotesMarket, lookbackPeriods, type);
 ```
 
@@ -51,7 +51,7 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 ## Response
 
 ```csharp
-IEnumerable<BetaResult>
+IReadOnlyList<BetaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

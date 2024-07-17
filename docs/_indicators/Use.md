@@ -12,7 +12,7 @@ Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by i
 
 ```csharp
 // C# usage syntax
-IEnumerable<QuotePart> results =
+IReadOnlyList<QuotePart> results =
   quotes.Use(candlePart);
 ```
 
@@ -31,7 +31,7 @@ You must have at least 1 period of `quotes`.
 ## Response
 
 ```csharp
-IEnumerable<QuotePart>
+IReadOnlyList<QuotePart>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

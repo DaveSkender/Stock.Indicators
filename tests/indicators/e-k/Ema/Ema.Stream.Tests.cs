@@ -21,7 +21,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        var observer = provider
+        EmaHub<Quote> observer = provider
             .ToEma(5);
 
         // fetch initial results (early)
@@ -91,7 +91,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        var observer = provider
+        EmaHub<SmaResult> observer = provider
             .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
@@ -144,7 +144,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        var observer = provider
+        SmaHub<EmaResult> observer = provider
             .ToEma(emaPeriods)
             .ToSma(smaPeriods);
 

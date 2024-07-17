@@ -16,7 +16,7 @@ Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA
 
 ```csharp
 // C# usage syntax
-IEnumerable<EpmaResult> results =
+IReadOnlyList<EpmaResult> results =
   quotes.GetEpma(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<EpmaResult>
+IReadOnlyList<EpmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

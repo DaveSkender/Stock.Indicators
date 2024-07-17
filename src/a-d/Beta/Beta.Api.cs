@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAINS (both inputs reusable)
-    public static IEnumerable<BetaResult> GetBeta<T>(
+    public static IReadOnlyList<BetaResult> GetBeta<T>(
         this IEnumerable<T> evalSource,
         IEnumerable<T> mrktSource,
         int lookbackPeriods,

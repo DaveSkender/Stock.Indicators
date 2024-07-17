@@ -14,12 +14,11 @@ public static partial class Indicator
         Epma.Validate(lookbackPeriods);
 
         // initialize
-        List<SlopeResult> slope = source
-            .CalcSlope(lookbackPeriods)
-            .ToList();
-
-        int length = slope.Count;
+        int length = source.Count;
         List<EpmaResult> results = new(length);
+
+        IReadOnlyList<SlopeResult> slope
+            = source.CalcSlope(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

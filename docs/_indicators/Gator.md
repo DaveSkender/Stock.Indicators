@@ -16,11 +16,11 @@ Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of
 
 ```csharp
 // C# usage syntax
-IEnumerable<GatorResult> results =
+IReadOnlyList<GatorResult> results =
   quotes.GetGator();
 
 // with custom Alligator configuration
-IEnumerable<GatorResult> results = quotes
+IReadOnlyList<GatorResult> results = quotes
   .GetAlligator([see Alligator docs])
   .GetGator();
 ```
@@ -34,7 +34,7 @@ If using default settings, you must have at least 121 periods of `quotes`. Since
 ## Response
 
 ```csharp
-IEnumerable<GatorResult>
+IReadOnlyList<GatorResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

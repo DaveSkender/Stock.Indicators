@@ -16,11 +16,11 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<StdDevResult> results =
+IReadOnlyList<StdDevResult> results =
   quotes.GetStdDev(lookbackPeriods);
 
 // usage with optional SMA of SD (shown above)
-IEnumerable<StdDevResult> results =
+IReadOnlyList<StdDevResult> results =
   quotes.GetStdDev(lookbackPeriods, smaPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<StdDevResult>
+IReadOnlyList<StdDevResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

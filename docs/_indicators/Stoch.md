@@ -16,11 +16,11 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 
 ```csharp
 // C# usage syntax (standard)
-IEnumerable<StochResult> results =
+IReadOnlyList<StochResult> results =
   quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
 // advanced customization
-IEnumerable<StochResult> results =
+IReadOnlyList<StochResult> results =
   quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods,
                   kFactor, dFactor, movingAverageType);
 ```
@@ -56,7 +56,7 @@ These are the supported moving average types:
 ## Response
 
 ```csharp
-IEnumerable<StochResult>
+IReadOnlyList<StochResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

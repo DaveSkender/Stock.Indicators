@@ -16,7 +16,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 
 ```csharp
 // C# usage syntax
-IEnumerable<ForceIndexResult> results =
+IReadOnlyList<ForceIndexResult> results =
   quotes.GetForceIndex(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+100` for `2×N` periods of `quotes`, whichever is more
 ## Response
 
 ```csharp
-IEnumerable<ForceIndexResult>
+IReadOnlyList<ForceIndexResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

@@ -15,7 +15,8 @@ public static partial class Indicator
         Alma.Validate(lookbackPeriods, offset, sigma);
 
         // initialize
-        List<AlmaResult> results = new(source.Count);
+        int length = source.Count;
+        List<AlmaResult> results = new(length);
 
         // determine price weight constants
         double m = offset * (lookbackPeriods - 1);
@@ -32,7 +33,7 @@ public static partial class Indicator
         }
 
         // roll through source values
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             double alma = double.NaN;
 

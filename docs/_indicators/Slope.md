@@ -17,7 +17,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<SlopeResult> results =
+IReadOnlyList<SlopeResult> results =
   quotes.GetSlope(lookbackPeriods);
 ```
 
@@ -34,7 +34,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<SlopeResult>
+IReadOnlyList<SlopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

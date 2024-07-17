@@ -6,14 +6,14 @@ public static partial class Atr
 {
     // calculate series
     internal static List<AtrResult> CalcAtr(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Atr.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<AtrResult> results = new(length);
         double prevAtr = double.NaN;
         double prevClose = double.NaN;
@@ -22,7 +22,7 @@ public static partial class Atr
         // skip first period
         if (length > 0)
         {
-            QuoteD q = qdList[0];
+            QuoteD q = source[0];
             results.Add(new(Timestamp: q.Timestamp));
             prevClose = q.Close;
         }
@@ -30,7 +30,7 @@ public static partial class Atr
         // roll through source values
         for (int i = 1; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double hmpc = Math.Abs(q.High - prevClose);
             double lmpc = Math.Abs(q.Low - prevClose);

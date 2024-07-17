@@ -13,10 +13,11 @@ public static partial class Sma
         Sma.Validate(lookbackPeriods);
 
         // initialize
-        List<SmaResult> results = new(source.Count);
+        int length = source.Count;
+        List<SmaResult> results = new(length);
 
         // roll through source values
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             T s = source[i];
 

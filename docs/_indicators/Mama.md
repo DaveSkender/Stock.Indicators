@@ -16,7 +16,7 @@ Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) ind
 
 ```csharp
 // C# usage syntax
-IEnumerable<MamaResult> results =
+IReadOnlyList<MamaResult> results =
   quotes.GetMama(fastLimit, slowLimit);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `50` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<MamaResult>
+IReadOnlyList<MamaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

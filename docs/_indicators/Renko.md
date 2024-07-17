@@ -16,7 +16,7 @@ The [Renko Chart](https://en.m.wikipedia.org/wiki/Renko_chart) is a Japanese pri
 
 ```csharp
 // C# usage syntax
-IEnumerable<RenkoResult> results =
+IReadOnlyList<RenkoResult> results =
   quotes.GetRenko(brickSize, endType);
 ```
 
@@ -54,7 +54,7 @@ This indicator must be generated from `quotes` and **cannot** be generated from 
 ## Response
 
 ```csharp
-IEnumerable<RenkoResult>
+IReadOnlyList<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -94,7 +94,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ```csharp
 // C# usage syntax
-IEnumerable<RenkoResult> results =
+IReadOnlyList<RenkoResult> results =
   quotes.GetRenkoAtr(atrPeriods, endType);
 ```
 
@@ -113,7 +113,7 @@ You must have at least `A+100` periods of `quotes`.
 ## Response for ATR
 
 ```csharp
-IEnumerable<RenkoResult>
+IReadOnlyList<RenkoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

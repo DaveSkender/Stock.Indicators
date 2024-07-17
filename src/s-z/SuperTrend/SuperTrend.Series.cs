@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<SuperTrendResult> CalcSuperTrend(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier)
     {
@@ -13,9 +13,9 @@ public static partial class Indicator
         SuperTrend.Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<SuperTrendResult> results = new(length);
-        List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = source.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;
@@ -24,7 +24,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double? superTrend;
             double? upperOnly;
@@ -34,7 +34,7 @@ public static partial class Indicator
             {
                 double? mid = (q.High + q.Low) / 2;
                 double? atr = atrResults[i].Atr;
-                double? prevClose = qdList[i - 1].Close;
+                double? prevClose = source[i - 1].Close;
 
                 // potential bands
                 double? upperEval = mid + multiplier * atr;

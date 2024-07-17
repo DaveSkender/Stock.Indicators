@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Ema
 {
     // SERIES, from CHAIN
-    public static IEnumerable<EmaResult> GetEma<T>(
+    public static IReadOnlyList<EmaResult> GetEma<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
         where T : IReusable
