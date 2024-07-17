@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<StcResult> CalcStc<T>(
-        this List<T> tpList,
+        this List<T> source,
         int cyclePeriods,
         int fastPeriods,
         int slowPeriods)
@@ -15,11 +15,11 @@ public static partial class Indicator
         Stc.Validate(cyclePeriods, fastPeriods, slowPeriods);
 
         // initialize results
-        int length = tpList.Count;
+        int length = source.Count;
         List<StcResult> results = new(length);
 
         // get stochastic of macd
-        List<StochResult> stochMacd = tpList
+        IReadOnlyList<StochResult> stochMacd = source
           .CalcMacd(fastPeriods, slowPeriods, 1)
           .Select(x => new QuoteD(
               x.Timestamp, 0,

@@ -7,7 +7,7 @@ public static partial class AtrStop
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<AtrStopResult> GetAtrStop<TQuote>(
+    public static IReadOnlyList<AtrStopResult> GetAtrStop<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 21,
         double multiplier = 3,

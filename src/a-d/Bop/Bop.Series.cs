@@ -5,17 +5,17 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<BopResult> CalcBop(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int smoothPeriods)
     {
         // check parameter arguments
         Bop.Validate(smoothPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<BopResult> results = new(length);
 
-        double[] raw = qdList
+        double[] raw = source
             .Select(x => x.High - x.Low != 0 ?
                 (x.Close - x.Open) / (x.High - x.Low) : double.NaN)
             .ToArray();
@@ -37,7 +37,7 @@ public static partial class Indicator
             }
 
             results.Add(new(
-                Timestamp: qdList[i].Timestamp,
+                Timestamp: source[i].Timestamp,
                 Bop: bop));
         }
 

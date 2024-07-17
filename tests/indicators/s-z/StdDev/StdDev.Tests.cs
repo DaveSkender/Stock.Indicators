@@ -6,9 +6,8 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<StdDevResult> results = Quotes
-            .GetStdDev(10)
-            .ToList();
+        IReadOnlyList<StdDevResult> results = Quotes
+            .GetStdDev(10);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -40,10 +39,9 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStdDev(10)
-            .ToList();
+            .GetStdDev(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.StdDev != null));
@@ -52,10 +50,9 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> results = Quotes
             .GetSma(2)
-            .GetStdDev(10)
-            .ToList();
+            .GetStdDev(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.StdDev != null));
@@ -64,10 +61,9 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetStdDev(10)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -76,9 +72,8 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StdDevResult> r = BadQuotes
-            .GetStdDev(15)
-            .ToList();
+        IReadOnlyList<StdDevResult> r = BadQuotes
+            .GetStdDev(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.StdDev is double.NaN));
@@ -87,9 +82,8 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<StdDevResult> r = BigQuotes
-            .GetStdDev(200)
-            .ToList();
+        IReadOnlyList<StdDevResult> r = BigQuotes
+            .GetStdDev(200);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -97,15 +91,13 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StdDevResult> r0 = Noquotes
-            .GetStdDev(10)
-            .ToList();
+        IReadOnlyList<StdDevResult> r0 = Noquotes
+            .GetStdDev(10);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StdDevResult> r1 = Onequote
-            .GetStdDev(10)
-            .ToList();
+        IReadOnlyList<StdDevResult> r1 = Onequote
+            .GetStdDev(10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -113,15 +105,14 @@ public class StdDevTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<StdDevResult> results = Quotes
+        IReadOnlyList<StdDevResult> results = Quotes
             .GetStdDev(10)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 9, results.Count);
 
-        StdDevResult last = results.LastOrDefault();
+        StdDevResult last = results[^1];
         Assert.AreEqual(5.4738, last.StdDev.Round(4));
         Assert.AreEqual(242.4100, last.Mean.Round(4));
         Assert.AreEqual(0.524312, last.ZScore.Round(6));

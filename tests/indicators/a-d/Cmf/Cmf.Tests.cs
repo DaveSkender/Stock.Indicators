@@ -6,9 +6,8 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CmfResult> results = Quotes
-            .GetCmf()
-            .ToList();
+        IReadOnlyList<CmfResult> results = Quotes
+            .GetCmf();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -34,10 +33,9 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetCmf()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -46,9 +44,8 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CmfResult> r = BadQuotes
-            .GetCmf(15)
-            .ToList();
+        IReadOnlyList<CmfResult> r = BadQuotes
+            .GetCmf(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cmf is double.NaN));
@@ -57,9 +54,8 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<CmfResult> r = BigQuotes
-            .GetCmf(150)
-            .ToList();
+        IReadOnlyList<CmfResult> r = BigQuotes
+            .GetCmf(150);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -67,15 +63,13 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CmfResult> r0 = Noquotes
-            .GetCmf()
-            .ToList();
+        IReadOnlyList<CmfResult> r0 = Noquotes
+            .GetCmf();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CmfResult> r1 = Onequote
-            .GetCmf()
-            .ToList();
+        IReadOnlyList<CmfResult> r1 = Onequote
+            .GetCmf();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -83,15 +77,14 @@ public class CmfTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CmfResult> results = Quotes
+        IReadOnlyList<CmfResult> results = Quotes
             .GetCmf()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
 
-        CmfResult last = results.LastOrDefault();
+        CmfResult last = results[^1];
         Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
         Assert.AreEqual(118396116.25, last.MoneyFlowVolume.Round(2));
         Assert.AreEqual(-0.123754, last.Cmf.Round(6));

@@ -6,9 +6,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public override void Standard()  // close
     {
-        List<RenkoResult> results = Quotes
-            .GetRenko(2.5m)
-            .ToList();
+        IReadOnlyList<RenkoResult> results = Quotes
+            .GetRenko(2.5m);
 
         // assertions
 
@@ -33,7 +32,7 @@ public class RenkoTests : SeriesTestBase
         Assert.AreEqual(4192959240m, r5.Volume);
         Assert.IsTrue(r5.IsUp);
 
-        RenkoResult last = results.LastOrDefault();
+        RenkoResult last = results[^1];
         Assert.AreEqual(240.5m, last.Open);
         Assert.AreEqual(243.68m, last.High);
         Assert.AreEqual(234.52m, last.Low);
@@ -45,9 +44,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public void StandardHighLow()
     {
-        List<RenkoResult> results = Quotes
-            .GetRenko(2.5m, EndType.HighLow)
-            .ToList();
+        IReadOnlyList<RenkoResult> results = Quotes
+            .GetRenko(2.5m, EndType.HighLow);
 
         // assertions
 
@@ -70,7 +68,7 @@ public class RenkoTests : SeriesTestBase
         Assert.AreEqual(100801672m, r25.Volume.Round(0));
         Assert.IsTrue(r25.IsUp);
 
-        RenkoResult last = results.LastOrDefault();
+        RenkoResult last = results[^1];
         Assert.AreEqual(243m, last.Open);
         Assert.AreEqual(246.73m, last.High);
         Assert.AreEqual(241.87m, last.Low);
@@ -82,9 +80,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public void Atr()
     {
-        List<RenkoResult> results = Quotes
-            .GetRenkoAtr(14)
-            .ToList();
+        IReadOnlyList<RenkoResult> results = Quotes
+            .GetRenkoAtr(14);
 
         // proper quantities
         Assert.AreEqual(29, results.Count);
@@ -98,7 +95,7 @@ public class RenkoTests : SeriesTestBase
         Assert.AreEqual(2090292272m, r0.Volume.Round(0));
         Assert.IsTrue(r0.IsUp);
 
-        RenkoResult last = results.LastOrDefault();
+        RenkoResult last = results[^1];
         Assert.AreEqual(237.3990m, last.Open.Round(4));
         Assert.AreEqual(246.73m, last.High.Round(4));
         Assert.AreEqual(229.42m, last.Low.Round(4));
@@ -118,9 +115,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RenkoResult> r = BadQuotes
-            .GetRenko(100m)
-            .ToList();
+        IReadOnlyList<RenkoResult> r = BadQuotes
+            .GetRenko(100m);
 
         Assert.AreNotEqual(0, r.Count);
     }
@@ -128,9 +124,8 @@ public class RenkoTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RenkoResult> r0 = Noquotes
-            .GetRenko(0.01m)
-            .ToList();
+        IReadOnlyList<RenkoResult> r0 = Noquotes
+            .GetRenko(0.01m);
 
         Assert.AreEqual(0, r0.Count);
     }

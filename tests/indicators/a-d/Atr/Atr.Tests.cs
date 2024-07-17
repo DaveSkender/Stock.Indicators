@@ -6,9 +6,8 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AtrResult> results = Quotes
-            .GetAtr()
-            .ToList();
+        IReadOnlyList<AtrResult> results = Quotes
+            .GetAtr();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -44,10 +43,9 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetAtr(10)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
@@ -56,9 +54,8 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AtrResult> r = BadQuotes
-            .GetAtr(20)
-            .ToList();
+        IReadOnlyList<AtrResult> r = BadQuotes
+            .GetAtr(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Atr is double.NaN));
@@ -67,15 +64,13 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AtrResult> r0 = Noquotes
-            .GetAtr()
-            .ToList();
+        IReadOnlyList<AtrResult> r0 = Noquotes
+            .GetAtr();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AtrResult> r1 = Onequote
-            .GetAtr()
-            .ToList();
+        IReadOnlyList<AtrResult> r1 = Onequote
+            .GetAtr();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -83,15 +78,14 @@ public class AtrTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AtrResult> results = Quotes
+        IReadOnlyList<AtrResult> results = Quotes
             .GetAtr()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 14, results.Count);
 
-        AtrResult last = results.LastOrDefault();
+        AtrResult last = results[^1];
         Assert.AreEqual(2.67, last.Tr.Round(8));
         Assert.AreEqual(6.1497, last.Atr.Round(4));
         Assert.AreEqual(2.5072, last.Atrp.Round(4));

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<StochRsiResult> GetStochRsi<T>(
+    public static IReadOnlyList<StochRsiResult> GetStochRsi<T>(
         this IEnumerable<T> results,
         int rsiPeriods,
         int stochPeriods,

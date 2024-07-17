@@ -16,7 +16,7 @@ Created by Jack Hutson, [TRIX](https://en.wikipedia.org/wiki/Trix_(technical_ana
 
 ```csharp
 // C# usage syntax for Trix
-IEnumerable<TrixResult> results =
+IReadOnlyList<TrixResult> results =
   quotes.GetTrix(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is mo
 ## Response
 
 ```csharp
-IEnumerable<TrixResult>
+IReadOnlyList<TrixResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

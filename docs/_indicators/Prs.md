@@ -16,13 +16,13 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<PrsResult> results =
+IReadOnlyList<PrsResult> results =
   quotesEval.GetPrs(quotesBase);
 ```
 
 ## Parameters
 
-**`quotesBase`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
+**`quotesBase`** _`IReadOnlyList<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
 
 **`lookbackPeriods`** _`int`_ - Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
 
@@ -30,12 +30,12 @@ IEnumerable<PrsResult> results =
 
 You must have at least `N` periods of `quotesEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesEval` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotesEval` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
 ```csharp
-IEnumerable<PrsResult>
+IReadOnlyList<PrsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

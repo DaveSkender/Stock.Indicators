@@ -55,7 +55,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IEnumerable<AlligatorResult> seriesList
+        IReadOnlyList<AlligatorResult> seriesList
            = quotesList
             .GetAlligator();
 
@@ -115,7 +115,7 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
             = observer.Results;
 
         // time-series, for comparison
-        IEnumerable<AlligatorResult> seriesList
+        IReadOnlyList<AlligatorResult> seriesList
            = quotesList
             .GetSma(10)
             .GetAlligator();

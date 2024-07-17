@@ -6,9 +6,8 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CmoResult> results = Quotes
-            .GetCmo(14)
-            .ToList();
+        IReadOnlyList<CmoResult> results = Quotes
+            .GetCmo(14);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -31,10 +30,9 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetCmo(14)
-            .ToList();
+            .GetCmo(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Cmo != null));
@@ -43,10 +41,9 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> results = Quotes
             .GetSma(2)
-            .GetCmo(20)
-            .ToList();
+            .GetCmo(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Cmo != null));
@@ -55,10 +52,9 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetCmo(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -67,9 +63,8 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CmoResult> r = BadQuotes
-            .GetCmo(35)
-            .ToList();
+        IReadOnlyList<CmoResult> r = BadQuotes
+            .GetCmo(35);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cmo is double.NaN));
@@ -78,15 +73,13 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CmoResult> r0 = Noquotes
-            .GetCmo(5)
-            .ToList();
+        IReadOnlyList<CmoResult> r0 = Noquotes
+            .GetCmo(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CmoResult> r1 = Onequote
-            .GetCmo(5)
-            .ToList();
+        IReadOnlyList<CmoResult> r1 = Onequote
+            .GetCmo(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -94,15 +87,14 @@ public class CmoTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CmoResult> results = Quotes
+        IReadOnlyList<CmoResult> results = Quotes
             .GetCmo(14)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(488, results.Count);
 
-        CmoResult last = results.LastOrDefault();
+        CmoResult last = results[^1];
         Assert.AreEqual(-26.7502, last.Cmo.Round(4));
     }
 

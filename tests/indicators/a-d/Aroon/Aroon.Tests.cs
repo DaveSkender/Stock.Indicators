@@ -6,9 +6,8 @@ public class Aroon : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AroonResult> results = Quotes
-            .GetAroon()
-            .ToList();
+        IReadOnlyList<AroonResult> results = Quotes
+            .GetAroon();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -46,10 +45,9 @@ public class Aroon : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetAroon()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
@@ -58,9 +56,8 @@ public class Aroon : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AroonResult> r = BadQuotes
-            .GetAroon(20)
-            .ToList();
+        IReadOnlyList<AroonResult> r = BadQuotes
+            .GetAroon(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -69,15 +66,13 @@ public class Aroon : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AroonResult> r0 = Noquotes
-            .GetAroon()
-            .ToList();
+        IReadOnlyList<AroonResult> r0 = Noquotes
+            .GetAroon();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AroonResult> r1 = Onequote
-            .GetAroon()
-            .ToList();
+        IReadOnlyList<AroonResult> r1 = Onequote
+            .GetAroon();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -85,15 +80,14 @@ public class Aroon : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AroonResult> results = Quotes
+        IReadOnlyList<AroonResult> results = Quotes
             .GetAroon()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 25, results.Count);
 
-        AroonResult last = results.LastOrDefault();
+        AroonResult last = results[^1];
         Assert.AreEqual(28, last.AroonUp);
         Assert.AreEqual(88, last.AroonDown);
         Assert.AreEqual(-60, last.Oscillator);

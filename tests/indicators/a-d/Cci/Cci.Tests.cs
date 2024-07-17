@@ -6,9 +6,8 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CciResult> results = Quotes
-            .GetCci()
-            .ToList();
+        IReadOnlyList<CciResult> results = Quotes
+            .GetCci();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -22,10 +21,9 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetCci()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -34,9 +32,8 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CciResult> r = BadQuotes
-            .GetCci(15)
-            .ToList();
+        IReadOnlyList<CciResult> r = BadQuotes
+            .GetCci(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cci is double.NaN));
@@ -45,15 +42,13 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CciResult> r0 = Noquotes
-            .GetCci()
-            .ToList();
+        IReadOnlyList<CciResult> r0 = Noquotes
+            .GetCci();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CciResult> r1 = Onequote
-            .GetCci()
-            .ToList();
+        IReadOnlyList<CciResult> r1 = Onequote
+            .GetCci();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -61,15 +56,14 @@ public class CciTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CciResult> results = Quotes
+        IReadOnlyList<CciResult> results = Quotes
             .GetCci()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
 
-        CciResult last = results.LastOrDefault();
+        CciResult last = results[^1];
         Assert.AreEqual(-52.9946, last.Cci.Round(4));
     }
 

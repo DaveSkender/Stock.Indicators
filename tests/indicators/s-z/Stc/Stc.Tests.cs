@@ -10,9 +10,8 @@ public class StcTests : SeriesTestBase
         int fastPeriods = 12;
         int slowPeriods = 26;
 
-        List<StcResult> results = Quotes
-            .GetStc(cyclePeriods, fastPeriods, slowPeriods)
-            .ToList();
+        IReadOnlyList<StcResult> results = Quotes
+            .GetStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -31,17 +30,16 @@ public class StcTests : SeriesTestBase
         StcResult r249 = results[249];
         Assert.AreEqual(27.7340, r249.Stc.Round(4));
 
-        StcResult last = results.LastOrDefault();
+        StcResult last = results[^1];
         Assert.AreEqual(19.2544, last.Stc.Round(4));
     }
 
     [TestMethod]
     public void UseReusable()
     {
-        List<StcResult> results = Quotes
+        IReadOnlyList<StcResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStc(9, 12, 26)
-            .ToList();
+            .GetStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(467, results.Count(x => x.Stc != null));
@@ -50,10 +48,9 @@ public class StcTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<StcResult> results = Quotes
+        IReadOnlyList<StcResult> results = Quotes
             .GetSma(2)
-            .GetStc(9, 12, 26)
-            .ToList();
+            .GetStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(466, results.Count(x => x.Stc != null));
@@ -62,10 +59,9 @@ public class StcTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetStc(9, 12, 26)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(458, results.Count(x => x.Sma != null));
@@ -74,9 +70,8 @@ public class StcTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StcResult> r = BadQuotes
-            .GetStc()
-            .ToList();
+        IReadOnlyList<StcResult> r = BadQuotes
+            .GetStc();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Stc is double.NaN));
@@ -85,15 +80,13 @@ public class StcTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StcResult> r0 = Noquotes
-            .GetStc()
-            .ToList();
+        IReadOnlyList<StcResult> r0 = Noquotes
+            .GetStc();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StcResult> r1 = Onequote
-            .GetStc()
-            .ToList();
+        IReadOnlyList<StcResult> r1 = Onequote
+            .GetStc();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -105,9 +98,8 @@ public class StcTests : SeriesTestBase
 
         RandomGbm quotes = new(58);
 
-        List<StcResult> results = quotes
-            .GetStc()
-            .ToList();
+        IReadOnlyList<StcResult> results = quotes
+            .GetStc();
 
         Assert.AreEqual(58, results.Count);
     }
@@ -119,15 +111,14 @@ public class StcTests : SeriesTestBase
         int fastPeriods = 12;
         int slowPeriods = 26;
 
-        List<StcResult> results = Quotes
+        IReadOnlyList<StcResult> results = Quotes
             .GetStc(cyclePeriods, fastPeriods, slowPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (slowPeriods + cyclePeriods + 250), results.Count);
 
-        StcResult last = results.LastOrDefault();
+        StcResult last = results[^1];
         Assert.AreEqual(19.2544, last.Stc.Round(4));
     }
 

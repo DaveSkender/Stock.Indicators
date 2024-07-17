@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAINS (both inputs reusable)
-    public static IEnumerable<CorrResult> GetCorrelation<T>(
+    public static IReadOnlyList<CorrResult> GetCorrelation<T>(
         this IEnumerable<T> sourceA,
         IEnumerable<T> sourceB,
         int lookbackPeriods)

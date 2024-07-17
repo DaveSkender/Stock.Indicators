@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<KamaResult> GetKama<T>(
+    public static IReadOnlyList<KamaResult> GetKama<T>(
         this IEnumerable<T> source,
         int erPeriods = 10,
         int fastPeriods = 2,

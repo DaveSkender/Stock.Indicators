@@ -10,9 +10,8 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+        IReadOnlyList<StochResult> results = Quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -72,9 +71,8 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public void Extended() // with extra parameters
     {
-        List<StochResult> results =
-            Quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA)
-            .ToList();
+        IReadOnlyList<StochResult> results =
+            Quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -116,10 +114,9 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetStoch()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(478, results.Count(x => x.Sma != null));
@@ -132,9 +129,8 @@ public class StochTests : SeriesTestBase
         const int signalPeriods = 1;
         const int smoothPeriods = 3;
 
-        List<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+        IReadOnlyList<StochResult> results = Quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // signal equals oscillator
         StochResult r1 = results[487];
@@ -151,9 +147,8 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 10;
         int smoothPeriods = 1;
 
-        List<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+        IReadOnlyList<StochResult> results = Quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
         StochResult r1 = results[487];
@@ -172,9 +167,8 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 10;
         int smoothPeriods = 1;
 
-        List<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+        IReadOnlyList<StochResult> results = Quotes
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
         StochResult r1 = results[70];
@@ -187,9 +181,8 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StochResult> r = BadQuotes
-            .GetStoch(15)
-            .ToList();
+        IReadOnlyList<StochResult> r = BadQuotes
+            .GetStoch(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -198,15 +191,13 @@ public class StochTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StochResult> r0 = Noquotes
-            .GetStoch()
-            .ToList();
+        IReadOnlyList<StochResult> r0 = Noquotes
+            .GetStoch();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StochResult> r1 = Onequote
-            .GetStoch()
-            .ToList();
+        IReadOnlyList<StochResult> r1 = Onequote
+            .GetStoch();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -218,15 +209,14 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results = Quotes
+        IReadOnlyList<StochResult> results = Quotes
             .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (lookbackPeriods + smoothPeriods - 2), results.Count);
 
-        StochResult last = results.LastOrDefault();
+        StochResult last = results[^1];
         Assert.AreEqual(43.1353, last.Oscillator.Round(4));
         Assert.AreEqual(35.5674, last.Signal.Round(4));
         Assert.AreEqual(58.2712, last.PercentJ.Round(4));
@@ -239,10 +229,9 @@ public class StochTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochResult> results = Data
+        IReadOnlyList<StochResult> results = Data
             .GetRandom(2500)
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // test boundary condition
 

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes<T>(
+    public static IReadOnlyList<MaEnvelopeResult> GetMaEnvelopes<T>(
         this IEnumerable<T> results,
         int lookbackPeriods,
         double percentOffset = 2.5,

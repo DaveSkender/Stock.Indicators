@@ -16,7 +16,7 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<MacdResult> results =
+IReadOnlyList<MacdResult> results =
   quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 ## Response
 
 ```csharp
-IEnumerable<MacdResult>
+IReadOnlyList<MacdResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<AlmaResult> GetAlma<T>(
+    public static IReadOnlyList<AlmaResult> GetAlma<T>(
         this IEnumerable<T> results,
         int lookbackPeriods = 9,
         double offset = 0.85,

@@ -6,9 +6,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SmiResult> results = Quotes
-            .GetSmi(14, 20, 5)
-            .ToList();
+        IReadOnlyList<SmiResult> results = Quotes
+            .GetSmi(14, 20, 5);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -48,10 +47,9 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetSmi(14, 20, 5)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
@@ -60,9 +58,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void NoSignal()
     {
-        List<SmiResult> results = Quotes
-            .GetSmi(5, 20, 20, 1)
-            .ToList();
+        IReadOnlyList<SmiResult> results = Quotes
+            .GetSmi(5, 20, 20, 1);
 
         // signal equals oscillator
         SmiResult r1 = results[487];
@@ -75,9 +72,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void SmallPeriods()
     {
-        List<SmiResult> results = Quotes
-            .GetSmi(1, 1, 1, 5)
-            .ToList();
+        IReadOnlyList<SmiResult> results = Quotes
+            .GetSmi(1, 1, 1, 5);
 
         // sample values
         SmiResult r51 = results[51];
@@ -96,9 +92,8 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SmiResult> r = BadQuotes
-            .GetSmi(5, 5, 1, 5)
-            .ToList();
+        IReadOnlyList<SmiResult> r = BadQuotes
+            .GetSmi(5, 5, 1, 5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Smi is double.NaN));
@@ -107,15 +102,13 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SmiResult> r0 = Noquotes
-            .GetSmi(5, 5)
-            .ToList();
+        IReadOnlyList<SmiResult> r0 = Noquotes
+            .GetSmi(5, 5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SmiResult> r1 = Onequote
-            .GetSmi(5, 3, 3)
-            .ToList();
+        IReadOnlyList<SmiResult> r1 = Onequote
+            .GetSmi(5, 3, 3);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -123,15 +116,14 @@ public class SmiTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SmiResult> results = Quotes
+        IReadOnlyList<SmiResult> results = Quotes
             .GetSmi(14, 20, 5)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(501 - (14 + 100), results.Count);
 
-        SmiResult last = results.LastOrDefault();
+        SmiResult last = results[^1];
         Assert.AreEqual(-52.6560, last.Smi.Round(4));
         Assert.AreEqual(-54.1903, last.Signal.Round(4));
     }

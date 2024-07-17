@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<CciResult> GetCci<TQuote>(
+    public static IReadOnlyList<CciResult> GetCci<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes

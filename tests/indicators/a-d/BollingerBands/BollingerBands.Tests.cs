@@ -6,9 +6,8 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<BollingerBandsResult> results =
-            Quotes.GetBollingerBands()
-            .ToList();
+        IReadOnlyList<BollingerBandsResult> results =
+            Quotes.GetBollingerBands();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -40,10 +39,9 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<BollingerBandsResult> results = Quotes
+        IReadOnlyList<BollingerBandsResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetBollingerBands()
-            .ToList();
+            .GetBollingerBands();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -52,10 +50,9 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<BollingerBandsResult> results = Quotes
+        IReadOnlyList<BollingerBandsResult> results = Quotes
             .GetSma(2)
-            .GetBollingerBands()
-            .ToList();
+            .GetBollingerBands();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
@@ -64,10 +61,9 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetBollingerBands()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -76,9 +72,8 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<BollingerBandsResult> r = BadQuotes
-            .GetBollingerBands(15, 3)
-            .ToList();
+        IReadOnlyList<BollingerBandsResult> r = BadQuotes
+            .GetBollingerBands(15, 3);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
@@ -87,15 +82,13 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<BollingerBandsResult> r0 = Noquotes
-            .GetBollingerBands()
-            .ToList();
+        IReadOnlyList<BollingerBandsResult> r0 = Noquotes
+            .GetBollingerBands();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<BollingerBandsResult> r1 = Onequote
-            .GetBollingerBands()
-            .ToList();
+        IReadOnlyList<BollingerBandsResult> r1 = Onequote
+            .GetBollingerBands();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -103,15 +96,14 @@ public class BollingerBandsTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<BollingerBandsResult> results =
-            Quotes.GetBollingerBands()
-                .RemoveWarmupPeriods()
-                .ToList();
+        IReadOnlyList<BollingerBandsResult> results = Quotes
+            .GetBollingerBands()
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
 
-        BollingerBandsResult last = results.LastOrDefault();
+        BollingerBandsResult last = results[^1];
         Assert.AreEqual(251.8600, last.Sma.Round(4));
         Assert.AreEqual(273.7004, last.UpperBand.Round(4));
         Assert.AreEqual(230.0196, last.LowerBand.Round(4));

@@ -33,7 +33,7 @@ public class QuoteUtilityTests : TestBase
     {
         IReadOnlyList<Quote> quotes = Data.GetMismatch();
 
-        List<Quote> h = quotes.ToSortedList();
+        IReadOnlyList<Quote> h = quotes.ToSortedList();
 
         // proper quantities
         Assert.AreEqual(502, h.Count);
@@ -44,7 +44,7 @@ public class QuoteUtilityTests : TestBase
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
+        Assert.AreEqual(lastDate, h[^1].Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);

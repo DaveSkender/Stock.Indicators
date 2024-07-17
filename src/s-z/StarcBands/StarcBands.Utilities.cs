@@ -4,7 +4,7 @@ public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
     /// <inheritdoc cref="ReusableUtility.Condense{T}(IEnumerable{T})"/>
-    public static IEnumerable<StarcBandsResult> Condense(
+    public static IReadOnlyList<StarcBandsResult> Condense(
         this IEnumerable<StarcBandsResult> results)
     {
         List<StarcBandsResult> resultsList = results
@@ -19,7 +19,7 @@ public static partial class Indicator
 
     // remove recommended periods
     /// <inheritdoc cref="ReusableUtility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IEnumerable<StarcBandsResult> RemoveWarmupPeriods(
+    public static IReadOnlyList<StarcBandsResult> RemoveWarmupPeriods(
         this IEnumerable<StarcBandsResult> results)
     {
         int n = results

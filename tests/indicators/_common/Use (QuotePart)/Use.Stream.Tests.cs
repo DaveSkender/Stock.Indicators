@@ -57,10 +57,9 @@ public class UseTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<QuotePart> seriesList
+        IReadOnlyList<QuotePart> seriesList
            = quotesList
-            .Use(candlePart)
-            .ToList();
+            .Use(candlePart);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)
@@ -114,11 +113,10 @@ public class UseTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList
+        IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(candlePart)
-            .GetSma(smaPeriods)
-            .ToList();
+            .GetSma(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

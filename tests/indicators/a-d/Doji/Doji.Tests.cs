@@ -6,9 +6,8 @@ public class DojiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CandleResult> results = Quotes
-            .GetDoji()
-            .ToList();
+        IReadOnlyList<CandleResult> results = Quotes
+            .GetDoji();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -43,9 +42,8 @@ public class DojiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CandleResult> r = BadQuotes
-            .GetDoji()
-            .ToList();
+        IReadOnlyList<CandleResult> r = BadQuotes
+            .GetDoji();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -53,15 +51,13 @@ public class DojiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CandleResult> r0 = Noquotes
-            .GetDoji()
-            .ToList();
+        IReadOnlyList<CandleResult> r0 = Noquotes
+            .GetDoji();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CandleResult> r1 = Onequote
-            .GetDoji()
-            .ToList();
+        IReadOnlyList<CandleResult> r1 = Onequote
+            .GetDoji();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -69,12 +65,11 @@ public class DojiTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<CandleResult> r = Quotes
+        IReadOnlyList<CandleResult> results = Quotes
             .GetDoji()
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(112, r.Count);
+        Assert.AreEqual(112, results.Count);
     }
 
     [TestMethod]

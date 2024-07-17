@@ -4,7 +4,7 @@ public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
     /// <inheritdoc cref="ReusableUtility.Condense{T}(IEnumerable{T})"/>
-    public static IEnumerable<MaEnvelopeResult> Condense(
+    public static IReadOnlyList<MaEnvelopeResult> Condense(
         this IEnumerable<MaEnvelopeResult> results)
     {
         List<MaEnvelopeResult> resultsList = results

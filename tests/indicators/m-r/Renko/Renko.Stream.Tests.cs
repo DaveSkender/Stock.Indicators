@@ -58,7 +58,7 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IEnumerable<RenkoResult> seriesList = quotesList
+        IReadOnlyList<RenkoResult> seriesList = quotesList
             .GetRenko(brickSize, endType);
 
         // assert, should equal series
@@ -104,7 +104,7 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        IEnumerable<SmaResult> seriesList = quotesList
+        IReadOnlyList<SmaResult> seriesList = quotesList
             .GetRenko(brickSize, endType)
             .GetSma(smaPeriods);
 

@@ -14,10 +14,11 @@ public static partial class Indicator
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
 
         // initialize
-        List<BollingerBandsResult> results = new(source.Count);
+        int length = source.Count;
+        List<BollingerBandsResult> results = new(length);
 
         // roll through source values
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             T s = source[i];
 

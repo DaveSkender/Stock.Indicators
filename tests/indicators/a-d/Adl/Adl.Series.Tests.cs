@@ -6,9 +6,8 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AdlResult> results = Quotes
-            .GetAdl()
-            .ToList();
+        IReadOnlyList<AdlResult> results = Quotes
+            .GetAdl();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,10 +27,9 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetAdl()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         // assertions
 
@@ -43,9 +41,8 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AdlResult> r = BadQuotes
-            .GetAdl()
-            .ToList();
+        IReadOnlyList<AdlResult> r = BadQuotes
+            .GetAdl();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Adl)));
@@ -54,9 +51,8 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<AdlResult> r = BigQuotes
-            .GetAdl()
-            .ToList();
+        IReadOnlyList<AdlResult> r = BigQuotes
+            .GetAdl();
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -64,9 +60,8 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public void RandomData()
     {
-        List<AdlResult> r = RandomQuotes
-            .GetAdl()
-            .ToList();
+        IReadOnlyList<AdlResult> r = RandomQuotes
+            .GetAdl();
 
         Assert.AreEqual(1000, r.Count);
     }
@@ -74,15 +69,13 @@ public class AdlTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AdlResult> r0 = Noquotes
-            .GetAdl()
-            .ToList();
+        IReadOnlyList<AdlResult> r0 = Noquotes
+            .GetAdl();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AdlResult> r1 = Onequote
-            .GetAdl()
-            .ToList();
+        IReadOnlyList<AdlResult> r1 = Onequote
+            .GetAdl();
 
         Assert.AreEqual(1, r1.Count);
     }

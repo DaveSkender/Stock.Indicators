@@ -69,7 +69,7 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        IEnumerable<SmaResult> seriesList
+        IReadOnlyList<SmaResult> seriesList
            = quotesList
             .GetSma(smaPeriods);
 

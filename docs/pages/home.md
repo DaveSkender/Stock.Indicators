@@ -43,7 +43,7 @@ You'll get all of the industry standard indicators out-of-the-box.  Additionally
 
 ```csharp
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = quotes.GetSma(20);
+IReadOnlyList<SmaResult> results = quotes.GetSma(20);
 ```
 
 See more [usage examples]({{site.baseurl}}/guide/#example-usage).
@@ -54,13 +54,13 @@ Optional chaining enables advanced uses cases; such as, indicator of indicators,
 
 ```csharp
 // example: advanced chaining (RSI of OBV)
-IEnumerable<RsiResult> results
+IReadOnlyList<RsiResult> results
   = quotes
     .GetObv()
     .GetRsi(14);
 
 // example: use any candle variant
-IEnumerable<EmaResult> results
+IReadOnlyList<EmaResult> results
   = quotes
     .Use(CandlePart.HL2)
     .GetEma(20);

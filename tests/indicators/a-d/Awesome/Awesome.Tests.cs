@@ -6,9 +6,8 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AwesomeResult> results = Quotes
-            .GetAwesome()
-            .ToList();
+        IReadOnlyList<AwesomeResult> results = Quotes
+            .GetAwesome();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -35,10 +34,9 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetAwesome()
-            .ToList();
+            .GetAwesome();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
@@ -47,10 +45,9 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> results = Quotes
             .GetSma(2)
-            .GetAwesome()
-            .ToList();
+            .GetAwesome();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Oscillator != null));
@@ -59,10 +56,9 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetAwesome()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(460, results.Count(x => x.Sma != null));
@@ -71,9 +67,8 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AwesomeResult> r = BadQuotes
-            .GetAwesome()
-            .ToList();
+        IReadOnlyList<AwesomeResult> r = BadQuotes
+            .GetAwesome();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -82,15 +77,13 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AwesomeResult> r0 = Noquotes
-            .GetAwesome()
-            .ToList();
+        IReadOnlyList<AwesomeResult> r0 = Noquotes
+            .GetAwesome();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AwesomeResult> r1 = Onequote
-            .GetAwesome()
-            .ToList();
+        IReadOnlyList<AwesomeResult> r1 = Onequote
+            .GetAwesome();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -98,15 +91,14 @@ public class AwesomeTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AwesomeResult> results = Quotes
+        IReadOnlyList<AwesomeResult> results = Quotes
             .GetAwesome()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 33, results.Count);
 
-        AwesomeResult last = results.LastOrDefault();
+        AwesomeResult last = results[^1];
         Assert.AreEqual(-17.7692, last.Oscillator.Round(4));
         Assert.AreEqual(-7.2763, last.Normalized.Round(4));
     }

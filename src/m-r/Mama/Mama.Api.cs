@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<MamaResult> GetMama<T>(
+    public static IReadOnlyList<MamaResult> GetMama<T>(
         this IEnumerable<T> results,
         double fastLimit = 0.5,
         double slowLimit = 0.05)

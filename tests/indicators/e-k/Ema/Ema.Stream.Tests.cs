@@ -55,7 +55,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IEnumerable<EmaResult> seriesList = quotesList
+        IReadOnlyList<EmaResult> seriesList = quotesList
             .GetEma(5);
 
         // assert, should equal series
@@ -96,7 +96,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        IEnumerable<EmaResult> seriesList
+        IReadOnlyList<EmaResult> seriesList
            = quotesList
             .GetSma(smaPeriods)
             .GetEma(emaPeriods);
@@ -159,7 +159,7 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        IEnumerable<SmaResult> seriesList
+        IReadOnlyList<SmaResult> seriesList
            = quotesList
             .GetEma(emaPeriods)
             .GetSma(smaPeriods);

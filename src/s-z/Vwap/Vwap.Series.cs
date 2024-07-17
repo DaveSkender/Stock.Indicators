@@ -5,14 +5,14 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<VwapResult> CalcVwap(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         DateTime? startDate = null)
     {
         // check parameter arguments
-        Vwap.Validate(qdList, startDate);
+        Vwap.Validate(source, startDate);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<VwapResult> results = new(length);
 
         if (length == 0)
@@ -20,7 +20,7 @@ public static partial class Indicator
             return results;
         }
 
-        startDate ??= qdList[0].Timestamp;
+        startDate ??= source[0].Timestamp;
 
         double? cumVolume = 0;
         double? cumVolumeTp = 0;
@@ -28,7 +28,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double? v = q.Volume;
             double? h = q.High;

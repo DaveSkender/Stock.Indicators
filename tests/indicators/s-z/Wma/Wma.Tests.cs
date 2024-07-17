@@ -6,9 +6,8 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<WmaResult> results = Quotes
-            .GetWma(20)
-            .ToList();
+        IReadOnlyList<WmaResult> results = Quotes
+            .GetWma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -25,10 +24,9 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetWma(20)
-            .ToList();
+            .GetWma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Wma != null));
@@ -37,10 +35,9 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> results = Quotes
             .GetSma(2)
-            .GetWma(20)
-            .ToList();
+            .GetWma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Wma != null));
@@ -49,10 +46,9 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetWma(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -61,14 +57,12 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Chaining()
     {
-        List<WmaResult> standard = Quotes
-            .GetWma(17)
-            .ToList();
+        IReadOnlyList<WmaResult> standard = Quotes
+            .GetWma(17);
 
-        List<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetWma(17)
-            .ToList();
+            .GetWma(17);
 
         // assertions
         for (int i = 0; i < results.Count; i++)
@@ -84,9 +78,8 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<WmaResult> r = BadQuotes
-            .GetWma(15)
-            .ToList();
+        IReadOnlyList<WmaResult> r = BadQuotes
+            .GetWma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Wma is double.NaN));
@@ -95,15 +88,13 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<WmaResult> r0 = Noquotes
-            .GetWma(5)
-            .ToList();
+        IReadOnlyList<WmaResult> r0 = Noquotes
+            .GetWma(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<WmaResult> r1 = Onequote
-            .GetWma(5)
-            .ToList();
+        IReadOnlyList<WmaResult> r1 = Onequote
+            .GetWma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -111,15 +102,14 @@ public class WmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<WmaResult> results = Quotes
+        IReadOnlyList<WmaResult> results = Quotes
             .GetWma(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
 
-        WmaResult last = results.LastOrDefault();
+        WmaResult last = results[^1];
         Assert.AreEqual(246.5110, last.Wma.Round(4));
     }
 

@@ -10,9 +10,8 @@ public class PvoTests : SeriesTestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<PvoResult> results =
-            Quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods)
-            .ToList();
+        IReadOnlyList<PvoResult> results =
+            Quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -50,10 +49,9 @@ public class PvoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetPvo()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
@@ -62,9 +60,8 @@ public class PvoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PvoResult> r = BadQuotes
-            .GetPvo(10, 20, 5)
-            .ToList();
+        IReadOnlyList<PvoResult> r = BadQuotes
+            .GetPvo(10, 20, 5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Pvo is double.NaN));
@@ -73,15 +70,13 @@ public class PvoTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PvoResult> r0 = Noquotes
-            .GetPvo()
-            .ToList();
+        IReadOnlyList<PvoResult> r0 = Noquotes
+            .GetPvo();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PvoResult> r1 = Onequote
-            .GetPvo()
-            .ToList();
+        IReadOnlyList<PvoResult> r1 = Onequote
+            .GetPvo();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -93,15 +88,14 @@ public class PvoTests : SeriesTestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<PvoResult> results = Quotes
+        IReadOnlyList<PvoResult> results = Quotes
             .GetPvo(fastPeriods, slowPeriods, signalPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
-        PvoResult last = results.LastOrDefault();
+        PvoResult last = results[^1];
         Assert.AreEqual(10.4395, last.Pvo.Round(4));
         Assert.AreEqual(12.2681, last.Signal.Round(4));
         Assert.AreEqual(-1.8286, last.Histogram.Round(4));

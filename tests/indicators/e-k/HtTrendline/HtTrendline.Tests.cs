@@ -6,9 +6,8 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<HtlResult> results = Quotes
-            .GetHtTrendline()
-            .ToList();
+        IReadOnlyList<HtlResult> results = Quotes
+            .GetHtTrendline();
 
         // proper quantities
         // should always be the same number of results as there is quotes
@@ -60,10 +59,9 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<HtlResult> results = Quotes
+        IReadOnlyList<HtlResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetHtTrendline()
-            .ToList();
+            .GetHtTrendline();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Trendline != null));
@@ -72,10 +70,9 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<HtlResult> results = Quotes
+        IReadOnlyList<HtlResult> results = Quotes
             .GetSma(2)
-            .GetHtTrendline()
-            .ToList();
+            .GetHtTrendline();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Trendline != null));
@@ -84,10 +81,9 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetHtTrendline()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -96,9 +92,8 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<HtlResult> r = BadQuotes
-            .GetHtTrendline()
-            .ToList();
+        IReadOnlyList<HtlResult> r = BadQuotes
+            .GetHtTrendline();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trendline is double.NaN));
@@ -107,15 +102,14 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<HtlResult> results = Quotes
+        IReadOnlyList<HtlResult> results = Quotes
             .GetHtTrendline()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 100, results.Count);
 
-        HtlResult last = results.LastOrDefault();
+        HtlResult last = results[^1];
         Assert.AreEqual(252.2172, last.Trendline.Round(4));
         Assert.AreEqual(242.3435, last.SmoothPrice.Round(4));
     }
@@ -125,9 +119,8 @@ public class HtTrendlineTests : SeriesTestBase
     {
         IEnumerable<Quote> penny = Data.GetPenny();
 
-        List<HtlResult> r = penny
-            .GetHtTrendline()
-            .ToList();
+        IReadOnlyList<HtlResult> r = penny
+            .GetHtTrendline();
 
         Assert.AreEqual(533, r.Count);
     }
@@ -135,15 +128,13 @@ public class HtTrendlineTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<HtlResult> r0 = Noquotes
-            .GetHtTrendline()
-            .ToList();
+        IReadOnlyList<HtlResult> r0 = Noquotes
+            .GetHtTrendline();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HtlResult> r1 = Onequote
-            .GetHtTrendline()
-            .ToList();
+        IReadOnlyList<HtlResult> r1 = Onequote
+            .GetHtTrendline();
 
         Assert.AreEqual(1, r1.Count);
     }

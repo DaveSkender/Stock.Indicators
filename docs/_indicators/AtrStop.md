@@ -16,7 +16,7 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
 
 ```csharp
 // C# usage syntax
-IEnumerable<AtrStopResult> results =
+IReadOnlyList<AtrStopResult> results =
   quotes.GetAtrStop(lookbackPeriods, multiplier, endType);
 ```
 
@@ -43,7 +43,7 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 ## Response
 
 ```csharp
-IEnumerable<AtrStopResult>
+IReadOnlyList<AtrStopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

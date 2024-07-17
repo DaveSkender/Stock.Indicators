@@ -6,9 +6,8 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ElderRayResult> results = Quotes
-            .GetElderRay()
-            .ToList();
+        IReadOnlyList<ElderRayResult> results = Quotes
+            .GetElderRay();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -50,10 +49,9 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetElderRay()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Sma != null));
@@ -62,9 +60,8 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ElderRayResult> r = BadQuotes
-            .GetElderRay()
-            .ToList();
+        IReadOnlyList<ElderRayResult> r = BadQuotes
+            .GetElderRay();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.BullPower is double.NaN));
@@ -73,15 +70,13 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ElderRayResult> r0 = Noquotes
-            .GetElderRay()
-            .ToList();
+        IReadOnlyList<ElderRayResult> r0 = Noquotes
+            .GetElderRay();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ElderRayResult> r1 = Onequote
-            .GetElderRay()
-            .ToList();
+        IReadOnlyList<ElderRayResult> r1 = Onequote
+            .GetElderRay();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -89,15 +84,14 @@ public class ElderRayTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ElderRayResult> results = Quotes
+        IReadOnlyList<ElderRayResult> results = Quotes
             .GetElderRay()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (100 + 13), results.Count);
 
-        ElderRayResult last = results.LastOrDefault();
+        ElderRayResult last = results[^1];
         Assert.AreEqual(246.0129, last.Ema.Round(4));
         Assert.AreEqual(-0.4729, last.BullPower.Round(4));
         Assert.AreEqual(-3.1429, last.BearPower.Round(4));

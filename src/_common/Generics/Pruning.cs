@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static class Pruning
 {
     // REMOVE SPECIFIC PERIODS
-    public static IEnumerable<T> RemoveWarmupPeriods<T>(
+    public static IReadOnlyList<T> RemoveWarmupPeriods<T>(
         this IEnumerable<T> series,
         int removePeriods)
         => removePeriods < 0

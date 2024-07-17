@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<DynamicResult> GetDynamic<T>(
+    public static IReadOnlyList<DynamicResult> GetDynamic<T>(
         this IEnumerable<T> results,
         int lookbackPeriods,
         double kFactor = 0.6)

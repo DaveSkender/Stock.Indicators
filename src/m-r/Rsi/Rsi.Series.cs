@@ -31,7 +31,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            var s = source[i];
+            T s = source[i];
 
             if (double.IsNaN(s.Value) || double.IsNaN(prevValue))
             {

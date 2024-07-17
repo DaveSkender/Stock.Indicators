@@ -6,9 +6,8 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public override void Standard() // Span 2
     {
-        List<FractalResult> results = Quotes
-            .GetFractal()
-            .ToList();
+        IReadOnlyList<FractalResult> results = Quotes
+            .GetFractal();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -44,9 +43,8 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public void StandardSpan4()
     {
-        List<FractalResult> results = Quotes
-            .GetFractal(4, 4)
-            .ToList();
+        IReadOnlyList<FractalResult> results = Quotes
+            .GetFractal(4, 4);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -82,9 +80,8 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<FractalResult> r = BadQuotes
-            .GetFractal()
-            .ToList();
+        IReadOnlyList<FractalResult> r = BadQuotes
+            .GetFractal();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -92,15 +89,13 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<FractalResult> r0 = Noquotes
-            .GetFractal()
-            .ToList();
+        IReadOnlyList<FractalResult> r0 = Noquotes
+            .GetFractal();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<FractalResult> r1 = Onequote
-            .GetFractal()
-            .ToList();
+        IReadOnlyList<FractalResult> r1 = Onequote
+            .GetFractal();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -108,12 +103,11 @@ public class FractalTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<FractalResult> r = Quotes
+        IReadOnlyList<FractalResult> results = Quotes
             .GetFractal()
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(129, r.Count);
+        Assert.AreEqual(129, results.Count);
     }
 
     // bad window span

@@ -17,7 +17,7 @@ Created by William Blau, the [True Strength Index](https://en.wikipedia.org/wiki
 
 ```csharp
 // C# usage syntax
-IEnumerable<TsiResult> results =
+IReadOnlyList<TsiResult> results =
   quotes.GetTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 ```
 
@@ -38,7 +38,7 @@ You must have at least `N+M+100` periods of `quotes` to cover the convergence pe
 ## Response
 
 ```csharp
-IEnumerable<TsiResult>
+IReadOnlyList<TsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

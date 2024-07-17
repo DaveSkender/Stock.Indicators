@@ -39,8 +39,7 @@ public class CacheUtilsTests : TestBase
 
         // setup quote provider
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
             .ToList();
 
@@ -126,8 +125,7 @@ public class CacheUtilsTests : TestBase
     {
         // setup quote provider
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
             .ToList();
 

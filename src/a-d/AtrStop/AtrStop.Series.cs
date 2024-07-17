@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     private static List<AtrStopResult> CalcAtrStop(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         EndType endType)
@@ -14,9 +14,9 @@ public static partial class AtrStop
         Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<AtrStopResult> results = new(length);
-        List<AtrResult> atrResults = qdList.CalcAtr(lookbackPeriods);
+        List<AtrResult> atrResults = source.CalcAtr(lookbackPeriods);
 
         bool isBullish = true;
         double? upperBand = null;
@@ -25,7 +25,7 @@ public static partial class AtrStop
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             decimal? atrStop = null;
             decimal? buyStop = null;
@@ -34,7 +34,7 @@ public static partial class AtrStop
             if (i >= lookbackPeriods)
             {
                 double? atr = atrResults[i].Atr;
-                QuoteD p = qdList[i - 1];
+                QuoteD p = source[i - 1];
 
                 double? upperEval;
                 double? lowerEval;

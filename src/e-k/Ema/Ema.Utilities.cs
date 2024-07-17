@@ -20,7 +20,7 @@ public static partial class Ema
     }
 
     // remove recommended periods
-    public static IEnumerable<EmaResult> RemoveWarmupPeriods(
+    public static IReadOnlyList<EmaResult> RemoveWarmupPeriods(
         this IEnumerable<EmaResult> results)
     {
         int n = results

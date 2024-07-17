@@ -16,7 +16,7 @@ Created by Oliver Seban, the SuperTrend indicator attempts to determine the prim
 
 ```csharp
 // C# usage syntax
-IEnumerable<SuperTrendResult> results =
+IReadOnlyList<SuperTrendResult> results =
   quotes.GetSuperTrend(lookbackPeriods, multiplier);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 ## Response
 
 ```csharp
-IEnumerable<SuperTrendResult>
+IReadOnlyList<SuperTrendResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

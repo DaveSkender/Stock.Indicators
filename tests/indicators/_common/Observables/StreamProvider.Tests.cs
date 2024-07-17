@@ -6,8 +6,7 @@ public class ProviderTests : TestBase, ITestChainProvider
     [TestMethod]
     public void Prefill()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(50)
             .ToList();
 
@@ -17,10 +16,7 @@ public class ProviderTests : TestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        provider.Add(quotesList);
 
         // initialize observer
         QuotePartHub<Quote> observer = provider
@@ -85,11 +81,6 @@ public class ProviderTests : TestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
@@ -99,40 +90,23 @@ public class ProviderTests : TestBase, ITestChainProvider
             .ToEma(11);
 
         // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
+        provider.Add(Quotes);
         provider.EndTransmission();
 
         // stream results
-        IReadOnlyList<EmaResult> streamEma
+        IReadOnlyList<EmaResult> streamList
             = observer.Results;
 
         // time-series, for comparison
-        List<EmaResult> staticEma = Quotes
+        IReadOnlyList<EmaResult> seriesList = Quotes
             .Use(CandlePart.HL2)
-            .GetEma(11)
-            .ToList();
+            .GetEma(11);
 
         // assert, should equal series
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotesList[i];
-            EmaResult s = staticEma[i];
-            EmaResult r = streamEma[i];
+        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().BeEquivalentTo(seriesList);
 
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Ema.Should().Be(s.Ema);
-            r.Should().Be(s);
-        }
-
-        // confirm public interface
-        Assert.AreEqual(observer.Cache.Count, observer.Results.Count);
-
-        // confirm same length as provider cache
-        Assert.AreEqual(observer.Cache.Count, provider.Quotes.Count);
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 }

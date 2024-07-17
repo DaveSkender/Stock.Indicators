@@ -16,7 +16,7 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 
 ```csharp
 // C# usage syntax
-IEnumerable<HmaResult> results =
+IReadOnlyList<HmaResult> results =
   quotes.GetHma(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+(integer of SQRT(N))-1` periods of `quotes` to cover t
 ## Response
 
 ```csharp
-IEnumerable<HmaResult>
+IReadOnlyList<HmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

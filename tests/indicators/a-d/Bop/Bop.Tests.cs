@@ -6,9 +6,8 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<BopResult> results = Quotes
-            .GetBop()
-            .ToList();
+        IReadOnlyList<BopResult> results = Quotes
+            .GetBop();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -34,10 +33,9 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetBop()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
@@ -55,9 +53,8 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<BopResult> r = BadQuotes
-            .GetBop()
-            .ToList();
+        IReadOnlyList<BopResult> r = BadQuotes
+            .GetBop();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
@@ -66,29 +63,26 @@ public class BopTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<BopResult> r0 = Noquotes
-            .GetBop()
-            .ToList();
+        IReadOnlyList<BopResult> r0 = Noquotes
+            .GetBop();
         Assert.AreEqual(0, r0.Count);
 
-        List<BopResult> r1 = Onequote
-            .GetBop()
-            .ToList();
+        IReadOnlyList<BopResult> r1 = Onequote
+            .GetBop();
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void Removed()
     {
-        List<BopResult> results = Quotes
+        IReadOnlyList<BopResult> results = Quotes
             .GetBop()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 13, results.Count);
 
-        BopResult last = results.LastOrDefault();
+        BopResult last = results[^1];
         Assert.AreEqual(-0.292788, last.Bop.Round(6));
     }
 

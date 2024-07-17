@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<UltimateResult> CalcUltimate(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -14,7 +14,7 @@ public static partial class Indicator
         Ultimate.Validate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<UltimateResult> results = new(length);
         double[] bp = new double[length]; // buying pressure
         double[] tr = new double[length]; // true range
@@ -24,7 +24,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
             double? ultimate;
 
             if (i > 0)

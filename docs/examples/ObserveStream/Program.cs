@@ -40,7 +40,7 @@ internal class Program
         }
 
         // initialize our quote provider and a few subscribers
-        QuoteHub<Quote> provider = new();
+        QuoteProvider provider = new();
 
         SmaObserver sma = provider.GetSma(3);
         EmaObserver ema = provider.GetEma(5);

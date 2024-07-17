@@ -6,9 +6,8 @@ public class McGinleyDynamicTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<DynamicResult> results = Quotes
-            .GetDynamic(14)
-            .ToList();
+        IReadOnlyList<DynamicResult> results = Quotes
+            .GetDynamic(14);
 
         // assertions
         Assert.AreEqual(502, results.Count);
@@ -31,10 +30,9 @@ public class McGinleyDynamicTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<DynamicResult> results = Quotes
+        IReadOnlyList<DynamicResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetDynamic(20)
-            .ToList();
+            .GetDynamic(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
@@ -44,10 +42,9 @@ public class McGinleyDynamicTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<DynamicResult> results = Quotes
+        IReadOnlyList<DynamicResult> results = Quotes
             .GetSma(10)
-            .GetDynamic(14)
-            .ToList();
+            .GetDynamic(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
@@ -56,10 +53,9 @@ public class McGinleyDynamicTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetDynamic(14)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Sma != null));
@@ -68,9 +64,8 @@ public class McGinleyDynamicTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DynamicResult> r = BadQuotes
-            .GetDynamic(15)
-            .ToList();
+        IReadOnlyList<DynamicResult> r = BadQuotes
+            .GetDynamic(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dynamic is double.NaN));
@@ -79,15 +74,13 @@ public class McGinleyDynamicTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DynamicResult> r0 = Noquotes
-            .GetDynamic(14)
-            .ToList();
+        IReadOnlyList<DynamicResult> r0 = Noquotes
+            .GetDynamic(14);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DynamicResult> r1 = Onequote
-            .GetDynamic(14)
-            .ToList();
+        IReadOnlyList<DynamicResult> r1 = Onequote
+            .GetDynamic(14);
 
         Assert.AreEqual(1, r1.Count);
     }

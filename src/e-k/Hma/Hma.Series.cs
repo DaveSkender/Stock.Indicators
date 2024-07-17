@@ -14,14 +14,18 @@ public static partial class Indicator
         Hma.Validate(lookbackPeriods);
 
         // initialize
+        int length = source.Count;
         int shiftQty = lookbackPeriods - 1;
         List<IReusable> synthHistory = [];
 
-        List<WmaResult> wmaN1 = source.GetWma(lookbackPeriods).ToList();
-        List<WmaResult> wmaN2 = source.GetWma(lookbackPeriods / 2).ToList();
+        IReadOnlyList<WmaResult> wmaN1
+            = source.CalcWma(lookbackPeriods);
+
+        IReadOnlyList<WmaResult> wmaN2
+            = source.CalcWma(lookbackPeriods / 2);
 
         // roll through source values, to get interim synthetic quotes
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             T s = source[i];
 

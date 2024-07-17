@@ -6,9 +6,8 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<FisherTransformResult> results = Quotes
-            .GetFisherTransform()
-            .ToList();
+        IReadOnlyList<FisherTransformResult> results = Quotes
+            .GetFisherTransform();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -49,10 +48,9 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<FisherTransformResult> results = Quotes
+        IReadOnlyList<FisherTransformResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetFisherTransform()
-            .ToList();
+            .GetFisherTransform();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
@@ -61,10 +59,9 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<FisherTransformResult> results = Quotes
+        IReadOnlyList<FisherTransformResult> results = Quotes
             .GetSma(2)
-            .GetFisherTransform()
-            .ToList();
+            .GetFisherTransform();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
@@ -73,10 +70,9 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetFisherTransform()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -85,9 +81,8 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<FisherTransformResult> r = BadQuotes
-            .GetFisherTransform(9)
-            .ToList();
+        IReadOnlyList<FisherTransformResult> r = BadQuotes
+            .GetFisherTransform(9);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Fisher is double.NaN));
@@ -96,15 +91,13 @@ public class FisherTransformTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<FisherTransformResult> r0 = Noquotes
-            .GetFisherTransform()
-            .ToList();
+        IReadOnlyList<FisherTransformResult> r0 = Noquotes
+            .GetFisherTransform();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<FisherTransformResult> r1 = Onequote
-            .GetFisherTransform()
-            .ToList();
+        IReadOnlyList<FisherTransformResult> r1 = Onequote
+            .GetFisherTransform();
 
         Assert.AreEqual(1, r1.Count);
     }

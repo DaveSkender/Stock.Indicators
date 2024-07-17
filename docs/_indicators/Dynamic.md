@@ -16,7 +16,7 @@ Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<DynamicResult> results =
+IReadOnlyList<DynamicResult> results =
   quotes.GetDynamic(lookbackPeriods, kFactor);
 ```
 
@@ -41,7 +41,7 @@ You must have at least `2` periods of `quotes`, to cover the initialization peri
 ## Response
 
 ```csharp
-IEnumerable<DynamicResult>
+IReadOnlyList<DynamicResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

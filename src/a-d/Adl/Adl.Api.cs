@@ -16,7 +16,7 @@ public static partial class Adl
     ///<typeparam name = "TQuote" > Configurable Quote type. See Guide for more information.</typeparam>
     ///<param name="quotes">Historical price quotes.</param>
     ///<returns>Time series of ADL values.</returns>
-    public static IEnumerable<AdlResult> GetAdl<TQuote>(
+    public static IReadOnlyList<AdlResult> GetAdl<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
         => quotes

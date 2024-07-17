@@ -6,9 +6,8 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<RsiResult> results = Quotes
-            .GetRsi()
-            .ToList();
+        IReadOnlyList<RsiResult> results = Quotes
+            .GetRsi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -32,9 +31,8 @@ public class RsiTests : SeriesTestBase
     public void SmallLookback()
     {
         int lookbackPeriods = 1;
-        List<RsiResult> results = Quotes
-            .GetRsi(lookbackPeriods)
-            .ToList();
+        IReadOnlyList<RsiResult> results = Quotes
+            .GetRsi(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -53,9 +51,8 @@ public class RsiTests : SeriesTestBase
     {
         IEnumerable<Quote> btc = Data.GetBitcoin();
 
-        List<RsiResult> r = btc
-            .GetRsi(1)
-            .ToList();
+        IReadOnlyList<RsiResult> r = btc
+            .GetRsi(1);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -63,10 +60,9 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetRsi()
-            .ToList();
+            .GetRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Rsi != null));
@@ -75,10 +71,9 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> results = Quotes
             .GetSma(2)
-            .GetRsi()
-            .ToList();
+            .GetRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(487, results.Count(x => x.Rsi != null));
@@ -87,10 +82,9 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetRsi()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
@@ -108,9 +102,8 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RsiResult> r = BadQuotes
-            .GetRsi(20)
-            .ToList();
+        IReadOnlyList<RsiResult> r = BadQuotes
+            .GetRsi(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
@@ -119,15 +112,13 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RsiResult> r0 = Noquotes
-            .GetRsi()
-            .ToList();
+        IReadOnlyList<RsiResult> r0 = Noquotes
+            .GetRsi();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<RsiResult> r1 = Onequote
-            .GetRsi()
-            .ToList();
+        IReadOnlyList<RsiResult> r1 = Onequote
+            .GetRsi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -135,15 +126,14 @@ public class RsiTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<RsiResult> results = Quotes
+        IReadOnlyList<RsiResult> results = Quotes
             .GetRsi()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 10 * 14, results.Count);
 
-        RsiResult last = results.LastOrDefault();
+        RsiResult last = results[^1];
         Assert.AreEqual(42.0773, last.Rsi.Round(4));
     }
 

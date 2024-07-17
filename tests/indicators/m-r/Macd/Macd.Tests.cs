@@ -10,9 +10,8 @@ public class MacdTests : SeriesTestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<MacdResult> results =
-            Quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods)
-            .ToList();
+        IReadOnlyList<MacdResult> results =
+            Quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -46,10 +45,9 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<MacdResult> results = Quotes
+        IReadOnlyList<MacdResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMacd()
-            .ToList();
+            .GetMacd();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.Macd != null));
@@ -58,10 +56,9 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<MacdResult> results = Quotes
+        IReadOnlyList<MacdResult> results = Quotes
             .GetSma(2)
-            .GetMacd()
-            .ToList();
+            .GetMacd();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(476, results.Count(x => x.Macd != null));
@@ -70,10 +67,9 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetMacd()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));
@@ -82,9 +78,8 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MacdResult> r = BadQuotes
-            .GetMacd(10, 20, 5)
-            .ToList();
+        IReadOnlyList<MacdResult> r = BadQuotes
+            .GetMacd(10, 20, 5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Macd is double.NaN));
@@ -93,15 +88,13 @@ public class MacdTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MacdResult> r0 = Noquotes
-            .GetMacd()
-            .ToList();
+        IReadOnlyList<MacdResult> r0 = Noquotes
+            .GetMacd();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MacdResult> r1 = Onequote
-            .GetMacd()
-            .ToList();
+        IReadOnlyList<MacdResult> r1 = Onequote
+            .GetMacd();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -113,15 +106,14 @@ public class MacdTests : SeriesTestBase
         int slowPeriods = 26;
         int signalPeriods = 9;
 
-        List<MacdResult> results = Quotes
+        IReadOnlyList<MacdResult> results = Quotes
             .GetMacd(fastPeriods, slowPeriods, signalPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
 
-        MacdResult last = results.LastOrDefault();
+        MacdResult last = results[^1];
         Assert.AreEqual(-6.2198, last.Macd.Round(4));
         Assert.AreEqual(-5.8569, last.Signal.Round(4));
         Assert.AreEqual(-0.3629, last.Histogram.Round(4));

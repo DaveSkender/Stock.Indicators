@@ -25,7 +25,7 @@ public static class ReusableUtility
     /// <typeparam name="T">Any reusable result type.</typeparam>
     /// <param name="results">Indicator results to evaluate.</param>
     /// <returns>Time series of indicator results, condensed.</returns>
-    public static IEnumerable<T> Condense<T>(
+    public static IReadOnlyList<T> Condense<T>(
         this IEnumerable<T> results)
         where T : IReusable
     {
@@ -36,7 +36,7 @@ public static class ReusableUtility
             .RemoveAll(match:
                 x => double.IsNaN(x.Value));
 
-        return resultsList.ToSortedList();
+        return resultsList;
     }
 
     /// <summary>
@@ -50,12 +50,12 @@ public static class ReusableUtility
     /// <typeparam name="T">Any reusable result type.</typeparam>
     /// <param name="results">Indicator results to evaluate.</param>
     /// <returns>Time series of results, pruned.</returns>
-    internal static IEnumerable<T> RemoveWarmupPeriods<T>(
+    internal static IReadOnlyList<T> RemoveWarmupPeriods<T>(
         this IEnumerable<T> results)
         where T : IReusable
     {
-        // this is the default implementation;
-        // it will be overridden in the specific indicator class
+        // this is the default implementation, it will
+        // be overridden in the specific indicator class
 
         int removePeriods = results
             .ToList()

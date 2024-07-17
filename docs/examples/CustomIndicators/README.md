@@ -44,8 +44,8 @@ namespace Custom.Stock.Indicators;
 public static class CustomIndicator
 {
   // Custom ATR WMA calculation
-  public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
-    this IEnumerable<TQuote> quotes,
+  public static IReadOnlyList<AtrWmaResult> GetAtrWma<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods)
     where TQuote : IQuote
   {
@@ -107,10 +107,10 @@ using Custom.Stock.Indicators; // your custom library
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 10-period ATR WMA
-IEnumerable<AtrWmaResult> results = quotes.GetAtrWma(10);
+IReadOnlyList<AtrWmaResult> results = quotes.GetAtrWma(10);
 
 // use results as needed for your use case (example only)
 foreach (AtrWmaResult r in results)

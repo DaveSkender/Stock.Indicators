@@ -5,20 +5,20 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<VwmaResult> CalcVwma(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Vwma.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<VwmaResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double vwma;
 
@@ -28,7 +28,7 @@ public static partial class Indicator
                 double sumVl = 0;
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD d = qdList[p];
+                    QuoteD d = source[p];
                     double c = d.Close;
                     double v = d.Volume;
 

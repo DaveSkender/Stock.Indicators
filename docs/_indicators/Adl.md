@@ -16,7 +16,7 @@ Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.w
 
 ```csharp
 // C# usage syntax
-IEnumerable<AdlResult> results =
+IReadOnlyList<AdlResult> results =
   quotes.GetAdl();
 ```
 
@@ -29,7 +29,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 ## Response
 
 ```csharp
-IEnumerable<AdlResult>
+IReadOnlyList<AdlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
