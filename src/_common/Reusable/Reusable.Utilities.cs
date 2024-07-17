@@ -54,8 +54,8 @@ public static class ReusableUtility
         this IEnumerable<T> results)
         where T : IReusable
     {
-        // this is the default implementation;
-        // it will be overridden in the specific indicator class
+        // this is the default implementation, it will
+        // be overridden in the specific indicator class
 
         int removePeriods = results
             .ToList()
