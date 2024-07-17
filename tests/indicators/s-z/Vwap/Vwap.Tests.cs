@@ -3,15 +3,14 @@ namespace Series;
 [TestClass]
 public class VwapTests : SeriesTestBase
 {
-    private readonly IEnumerable<Quote> _intraday = Data.GetIntraday()
+    private readonly IEnumerable<Quote> intraday = Data.GetIntraday()
         .OrderBy(x => x.Timestamp)
         .Take(391);
 
     [TestMethod]
     public override void Standard()
     {
-        List<VwapResult> results = _intraday.GetVwap()
-            .ToList();
+        IReadOnlyList<VwapResult> results = intraday.GetVwap();
 
         // proper quantities
         Assert.AreEqual(391, results.Count);
@@ -37,9 +36,8 @@ public class VwapTests : SeriesTestBase
         DateTime startDate =
             DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
-        List<VwapResult> results = _intraday
-            .GetVwap(startDate)
-            .ToList();
+        IReadOnlyList<VwapResult> results = intraday
+            .GetVwap(startDate);
 
         // proper quantities
         Assert.AreEqual(391, results.Count);
@@ -62,10 +60,9 @@ public class VwapTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetVwap()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -74,9 +71,8 @@ public class VwapTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<VwapResult> r = BadQuotes
-            .GetVwap()
-            .ToList();
+        IReadOnlyList<VwapResult> r = BadQuotes
+            .GetVwap();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwap is double.NaN));
@@ -85,15 +81,13 @@ public class VwapTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<VwapResult> r0 = Noquotes
-            .GetVwap()
-            .ToList();
+        IReadOnlyList<VwapResult> r0 = Noquotes
+            .GetVwap();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VwapResult> r1 = Onequote
-            .GetVwap()
-            .ToList();
+        IReadOnlyList<VwapResult> r1 = Onequote
+            .GetVwap();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -102,30 +96,28 @@ public class VwapTests : SeriesTestBase
     public void Removed()
     {
         // no start date
-        List<VwapResult> results = _intraday
+        IReadOnlyList<VwapResult> results = intraday
             .GetVwap()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(391, results.Count);
 
-        VwapResult last = results.LastOrDefault();
+        VwapResult last = results[^1];
         Assert.AreEqual(368.1804, last.Vwap.Round(4));
 
         // with start date
         DateTime startDate =
         DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
-        List<VwapResult> sdResults = _intraday
+        IReadOnlyList<VwapResult> sdResults = intraday
             .GetVwap(startDate)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(361, sdResults.Count);
 
-        VwapResult sdLast = sdResults.LastOrDefault();
+        VwapResult sdLast = sdResults[^1];
         Assert.AreEqual(368.2908, sdLast.Vwap.Round(4));
     }
 

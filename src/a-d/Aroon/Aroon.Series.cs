@@ -5,19 +5,20 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<AroonResult> CalcAroon(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Aroon.Validate(lookbackPeriods);
 
         // initialize
-        List<AroonResult> results = new(qdList.Count);
+        int length = source.Count;
+        List<AroonResult> results = new(length);
 
         // roll through source values
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
             double? aroonUp = null;
             double? aroonDown = null;
 
@@ -31,7 +32,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods - 1; p <= i; p++)
                 {
-                    QuoteD d = qdList[p];
+                    QuoteD d = source[p];
 
                     if (d.High > lastHighPrice)
                     {

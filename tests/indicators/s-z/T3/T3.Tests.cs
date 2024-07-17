@@ -6,9 +6,8 @@ public class T3Tests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<T3Result> results = Quotes
-            .GetT3()
-            .ToList();
+        IReadOnlyList<T3Result> results = Quotes
+            .GetT3();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -37,10 +36,9 @@ public class T3Tests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<T3Result> results = Quotes
+        IReadOnlyList<T3Result> results = Quotes
             .Use(CandlePart.Close)
-            .GetT3()
-            .ToList();
+            .GetT3();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.T3 != null));
@@ -49,10 +47,9 @@ public class T3Tests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<T3Result> results = Quotes
+        IReadOnlyList<T3Result> results = Quotes
             .GetSma(2)
-            .GetT3()
-            .ToList();
+            .GetT3();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.T3 != null));
@@ -61,10 +58,9 @@ public class T3Tests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetT3()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
     }
@@ -72,9 +68,8 @@ public class T3Tests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<T3Result> r = BadQuotes
-            .GetT3()
-            .ToList();
+        IReadOnlyList<T3Result> r = BadQuotes
+            .GetT3();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.T3 is double.NaN));
@@ -83,15 +78,13 @@ public class T3Tests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<T3Result> r0 = Noquotes
-            .GetT3()
-            .ToList();
+        IReadOnlyList<T3Result> r0 = Noquotes
+            .GetT3();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<T3Result> r1 = Onequote
-            .GetT3()
-            .ToList();
+        IReadOnlyList<T3Result> r1 = Onequote
+            .GetT3();
 
         Assert.AreEqual(1, r1.Count);
     }

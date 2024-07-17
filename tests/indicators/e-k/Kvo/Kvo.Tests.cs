@@ -6,9 +6,8 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<KvoResult> results =
-            Quotes.GetKvo()
-            .ToList();
+        IReadOnlyList<KvoResult> results =
+            Quotes.GetKvo();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -48,10 +47,9 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetKvo()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(437, results.Count(x => x.Sma != null));
@@ -60,9 +58,8 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<KvoResult> r = BadQuotes
-            .GetKvo()
-            .ToList();
+        IReadOnlyList<KvoResult> r = BadQuotes
+            .GetKvo();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -71,15 +68,13 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<KvoResult> r0 = Noquotes
-            .GetKvo()
-            .ToList();
+        IReadOnlyList<KvoResult> r0 = Noquotes
+            .GetKvo();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<KvoResult> r1 = Onequote
-            .GetKvo()
-            .ToList();
+        IReadOnlyList<KvoResult> r1 = Onequote
+            .GetKvo();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -87,15 +82,14 @@ public class KlingerTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<KvoResult> results = Quotes
+        IReadOnlyList<KvoResult> results = Quotes
             .GetKvo()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (55 + 150), results.Count);
 
-        KvoResult last = results.LastOrDefault();
+        KvoResult last = results[^1];
         Assert.AreEqual(-539224047, Math.Round(last.Oscillator.Value, 0));
         Assert.AreEqual(-1548306127, Math.Round(last.Signal.Value, 0));
     }

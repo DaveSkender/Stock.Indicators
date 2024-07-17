@@ -9,9 +9,8 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<PivotPointsResult> results = Quotes
-            .GetPivotPoints(periodSize, pointType)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> results = Quotes
+            .GetPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -92,8 +91,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointType pointType = PivotPointType.Camarilla;
 
         IEnumerable<Quote> h = Data.GetDefault(38);
-        List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(38, results.Count);
@@ -162,9 +160,8 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Demark;
 
-        List<PivotPointsResult> results = Quotes
-            .GetPivotPoints(periodSize, pointType)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> results = Quotes
+            .GetPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -249,8 +246,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointType pointType = PivotPointType.Fibonacci;
 
         IEnumerable<Quote> h = Data.GetIntraday(300);
-        List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(300, results.Count);
@@ -321,8 +317,7 @@ public class PivotPointsTests : SeriesTestBase
         PivotPointType pointType = PivotPointType.Woodie;
 
         IEnumerable<Quote> h = Data.GetIntraday();
-        List<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(1564, results.Count);
@@ -380,9 +375,8 @@ public class PivotPointsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PivotPointsResult> r = BadQuotes
-            .GetPivotPoints(PeriodSize.Week)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> r = BadQuotes
+            .GetPivotPoints(PeriodSize.Week);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -390,15 +384,13 @@ public class PivotPointsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PivotPointsResult> r0 = Noquotes
-            .GetPivotPoints(PeriodSize.Week)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> r0 = Noquotes
+            .GetPivotPoints(PeriodSize.Week);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PivotPointsResult> r1 = Onequote
-            .GetPivotPoints(PeriodSize.Week)
-            .ToList();
+        IReadOnlyList<PivotPointsResult> r1 = Onequote
+            .GetPivotPoints(PeriodSize.Week);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -409,15 +401,14 @@ public class PivotPointsTests : SeriesTestBase
         PeriodSize periodSize = PeriodSize.Month;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<PivotPointsResult> results = Quotes
+        IReadOnlyList<PivotPointsResult> results = Quotes
             .GetPivotPoints(periodSize, pointType)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(482, results.Count);
 
-        PivotPointsResult last = results.LastOrDefault();
+        PivotPointsResult last = results[^1];
         Assert.AreEqual(266.6767m, last.PP.Round(4));
         Assert.AreEqual(258.9633m, last.S1.Round(4));
         Assert.AreEqual(248.9667m, last.S2.Round(4));

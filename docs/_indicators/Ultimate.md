@@ -16,7 +16,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 
 ```csharp
 // C# usage syntax
-IEnumerable<UltimateResult> results =
+IReadOnlyList<UltimateResult> results =
   quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `L+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<UltimateResult>
+IReadOnlyList<UltimateResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

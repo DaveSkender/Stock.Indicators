@@ -16,11 +16,11 @@ Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parab
 
 ```csharp
 // C# usage syntax (standard)
-IEnumerable<ParabolicSarResult> results =
+IReadOnlyList<ParabolicSarResult> results =
   quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);
 
 // alternate usage with custom initial Factor
-IEnumerable<ParabolicSarResult> results =
+IReadOnlyList<ParabolicSarResult> results =
   quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
 ```
 
@@ -41,7 +41,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 ## Response
 
 ```csharp
-IEnumerable<ParabolicSarResult>
+IReadOnlyList<ParabolicSarResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

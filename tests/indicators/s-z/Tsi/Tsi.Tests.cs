@@ -6,9 +6,8 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<TsiResult> results = Quotes
-            .GetTsi()
-            .ToList();
+        IReadOnlyList<TsiResult> results = Quotes
+            .GetTsi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -44,10 +43,9 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<TsiResult> results = Quotes
+        IReadOnlyList<TsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetTsi()
-            .ToList();
+            .GetTsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(465, results.Count(x => x.Tsi != null));
@@ -56,10 +54,9 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<TsiResult> results = Quotes
+        IReadOnlyList<TsiResult> results = Quotes
             .GetSma(2)
-            .GetTsi()
-            .ToList();
+            .GetTsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(464, results.Count(x => x.Tsi != null));
@@ -68,10 +65,9 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetTsi()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(456, results.Count(x => x.Sma != null));
@@ -80,9 +76,8 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<TsiResult> r = BadQuotes
-            .GetTsi()
-            .ToList();
+        IReadOnlyList<TsiResult> r = BadQuotes
+            .GetTsi();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tsi is double.NaN));
@@ -91,9 +86,8 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<TsiResult> r = BigQuotes
-            .GetTsi()
-            .ToList();
+        IReadOnlyList<TsiResult> r = BigQuotes
+            .GetTsi();
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -101,15 +95,13 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<TsiResult> r0 = Noquotes
-            .GetTsi()
-            .ToList();
+        IReadOnlyList<TsiResult> r0 = Noquotes
+            .GetTsi();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<TsiResult> r1 = Onequote
-            .GetTsi()
-            .ToList();
+        IReadOnlyList<TsiResult> r1 = Onequote
+            .GetTsi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -117,15 +109,14 @@ public class TsiTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<TsiResult> results = Quotes
+        IReadOnlyList<TsiResult> results = Quotes
             .GetTsi()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (25 + 13 + 250), results.Count);
 
-        TsiResult last = results.LastOrDefault();
+        TsiResult last = results[^1];
         Assert.AreEqual(-28.3513, last.Tsi.Round(4));
         Assert.AreEqual(-29.3597, last.Signal.Round(4));
     }

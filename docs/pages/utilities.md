@@ -76,14 +76,14 @@ IEnumerable<Quote> dayBarQuotes =
 CandleProperties candle = quote.ToCandle();
 
 // collection of quotes
-IEnumerable<CandleProperties> candles = quotes.ToCandles();
+IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 ```
 
 {% include candle-properties.md %}
 
 ### Validate quote history
 
-`quotes.Validate()` is an advanced check of your `IEnumerable<TQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
+`quotes.Validate()` is an advanced check of your `IReadOnlyList<TQuote> quotes`.  It will check for duplicate dates and other bad data and will throw an `InvalidQuotesException` if validation fails.  This comes at a small performance cost, so we did not automatically add these advanced checks in the indicator methods.  Of course, you can and should do your own validation of `quotes` prior to using it in this library.  Bad historical quotes can produce unexpected results.
 
 ```csharp
 // advanced validation
@@ -104,7 +104,7 @@ var results = quotes
 
 ```csharp
 // example: only show Marubozu signals
-IEnumerable<CandleResult> results
+IReadOnlyList<CandleResult> results
   = quotes.GetMarubozu(..).Condense();
 ```
 
@@ -116,7 +116,7 @@ IEnumerable<CandleResult> results
 
 ```csharp
 // calculate indicator series
-IEnumerable<SmaResult> results = quotes.GetSma(20);
+IReadOnlyList<SmaResult> results = quotes.GetSma(20);
 
 // find result on a specific date
 DateTime lookupDate = [..] // the date you want to find
@@ -131,12 +131,12 @@ SmaResult result = results.Find(lookupDate);
 
 ```csharp
 // auto remove recommended warmup periods
-IEnumerable<AdxResult> results =
+IReadOnlyList<AdxResult> results =
   quotes.GetAdx(14).RemoveWarmupPeriods();
 
 // remove a specific quantity of periods
 int n = 14;
-IEnumerable<AdxResult> results =
+IReadOnlyList<AdxResult> results =
   quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
 ```
 

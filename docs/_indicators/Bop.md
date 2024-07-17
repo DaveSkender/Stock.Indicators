@@ -16,7 +16,7 @@ Created by Igor Levshin, the [Balance of Power](https://school.stockcharts.com/d
 
 ```csharp
 // C# usage syntax
-IEnumerable<BopResult> results =
+IReadOnlyList<BopResult> results =
   quotes.GetBop(smoothPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<BopResult>
+IReadOnlyList<BopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

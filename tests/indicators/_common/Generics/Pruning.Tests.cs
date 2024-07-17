@@ -7,11 +7,11 @@ public class Pruning : TestBase
     public void Remove()
     {
         // specific periods
-        IEnumerable<HeikinAshiResult> results =
-            Quotes.GetHeikinAshi()
-              .RemoveWarmupPeriods(102);
+        IReadOnlyList<HeikinAshiResult> results = Quotes
+            .GetHeikinAshi()
+            .RemoveWarmupPeriods(102);
 
-        Assert.AreEqual(400, results.Count());
+        Assert.AreEqual(400, results.Count);
 
         // bad remove period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
@@ -22,10 +22,10 @@ public class Pruning : TestBase
     public void RemoveTooMany()
     {
         // more than available
-        IEnumerable<HeikinAshiResult> results =
-            Quotes.GetHeikinAshi()
-              .RemoveWarmupPeriods(600);
+        IReadOnlyList<HeikinAshiResult> results = Quotes
+            .GetHeikinAshi()
+            .RemoveWarmupPeriods(600);
 
-        Assert.AreEqual(0, results.Count());
+        Assert.AreEqual(0, results.Count);
     }
 }

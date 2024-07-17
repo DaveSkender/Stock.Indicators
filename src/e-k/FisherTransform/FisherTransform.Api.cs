@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<FisherTransformResult> GetFisherTransform<T>(
+    public static IReadOnlyList<FisherTransformResult> GetFisherTransform<T>(
         this IEnumerable<T> results,
         int lookbackPeriods = 10)
         where T : IReusable

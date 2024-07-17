@@ -8,7 +8,7 @@ public class QuoteValidationTests : TestBase
     {
         IReadOnlyList<Quote> quotes = Data.GetDefault();
 
-        List<Quote> h = quotes.Validate().ToList();
+        IReadOnlyList<Quote> h = quotes.Validate();
 
         // proper quantities
         Assert.AreEqual(502, h.Count);
@@ -24,7 +24,7 @@ public class QuoteValidationTests : TestBase
     [TestMethod]
     public void ValidateLong()
     {
-        List<Quote> h = LongishQuotes.Validate().ToList();
+        IReadOnlyList<Quote> h = LongishQuotes.Validate();
 
         // proper quantities
         Assert.AreEqual(5285, h.Count);
@@ -40,13 +40,14 @@ public class QuoteValidationTests : TestBase
         // if quotes post-cleaning, is cut down in size it should not corrupt the results
 
         IReadOnlyList<Quote> quotes = Data.GetDefault(200);
-        List<Quote> h = quotes.Validate().ToList();
+
+        IReadOnlyList<Quote> h = quotes.Validate();
 
         // should be 200 periods, initially
         Assert.AreEqual(200, h.Count);
 
         // should be 20 results and no index corruption
-        List<SmaResult> r1 = h.TakeLast(20).GetSma(14).ToList();
+        IReadOnlyList<SmaResult> r1 = h.TakeLast(20).GetSma(14).ToList();
         Assert.AreEqual(20, r1.Count);
 
         for (int i = 1; i < r1.Count; i++)
@@ -55,7 +56,7 @@ public class QuoteValidationTests : TestBase
         }
 
         // should be 50 results and no index corruption
-        List<SmaResult> r2 = h.TakeLast(50).GetSma(14).ToList();
+        IReadOnlyList<SmaResult> r2 = h.TakeLast(50).GetSma(14).ToList();
         Assert.AreEqual(50, r2.Count);
 
         for (int i = 1; i < r2.Count; i++)
@@ -77,7 +78,7 @@ public class QuoteValidationTests : TestBase
     [ExpectedException(typeof(InvalidQuotesException), "Duplicate date found.")]
     public void DuplicateHistory()
     {
-        List<Quote> badHistory =
+        IReadOnlyList<Quote> badHistory =
         [
             new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
             new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),

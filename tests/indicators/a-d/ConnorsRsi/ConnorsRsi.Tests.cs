@@ -11,9 +11,8 @@ public class ConnorsRsiTests : SeriesTestBase
         int rankPeriods = 100;
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        List<ConnorsRsiResult> results1 = Quotes
-            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
-            .ToList();
+        IReadOnlyList<ConnorsRsiResult> results1 = Quotes
+            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results1.Count);
@@ -27,7 +26,7 @@ public class ConnorsRsiTests : SeriesTestBase
         Assert.AreEqual(74.7662, r1.ConnorsRsi.Round(4));
 
         // different parameters
-        List<ConnorsRsiResult> results2 = Quotes.GetConnorsRsi(14, 20, 10).ToList();
+        IReadOnlyList<ConnorsRsiResult> results2 = Quotes.GetConnorsRsi(14, 20, 10).ToList();
         ConnorsRsiResult r2 = results2[501];
         Assert.AreEqual(42.0773, r2.Rsi.Round(4));
         Assert.AreEqual(52.7386, r2.RsiStreak.Round(4));
@@ -38,10 +37,9 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<ConnorsRsiResult> results = Quotes
+        IReadOnlyList<ConnorsRsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetConnorsRsi()
-            .ToList();
+            .GetConnorsRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
@@ -50,10 +48,9 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<ConnorsRsiResult> results = Quotes
+        IReadOnlyList<ConnorsRsiResult> results = Quotes
             .GetSma(2)
-            .GetConnorsRsi()
-            .ToList();
+            .GetConnorsRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
@@ -62,10 +59,9 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetConnorsRsi()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(392, results.Count(x => x.Sma != null));
@@ -74,9 +70,8 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ConnorsRsiResult> r = BadQuotes
-            .GetConnorsRsi(4, 3, 25)
-            .ToList();
+        IReadOnlyList<ConnorsRsiResult> r = BadQuotes
+            .GetConnorsRsi(4, 3, 25);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
@@ -85,15 +80,13 @@ public class ConnorsRsiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ConnorsRsiResult> r0 = Noquotes
-            .GetConnorsRsi()
-            .ToList();
+        IReadOnlyList<ConnorsRsiResult> r0 = Noquotes
+            .GetConnorsRsi();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ConnorsRsiResult> r1 = Onequote
-            .GetConnorsRsi()
-            .ToList();
+        IReadOnlyList<ConnorsRsiResult> r1 = Onequote
+            .GetConnorsRsi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -108,15 +101,14 @@ public class ConnorsRsiTests : SeriesTestBase
         // TODO: I don't think this is right, inconsistent
         int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        List<ConnorsRsiResult> results =
-            Quotes.GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+        IReadOnlyList<ConnorsRsiResult> results = Quotes
+            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - removePeriods + 1, results.Count);
 
-        ConnorsRsiResult last = results.LastOrDefault();
+        ConnorsRsiResult last = results[^1];
         Assert.AreEqual(68.8087, last.Rsi.Round(4));
         Assert.AreEqual(67.4899, last.RsiStreak.Round(4));
         Assert.AreEqual(88.0000, last.PercentRank.Round(4));

@@ -11,9 +11,8 @@ public class StochRsiTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 1;
 
-        List<StochRsiResult> results =
-            Quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+        IReadOnlyList<StochRsiResult> results =
+            Quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // assertions
 
@@ -48,9 +47,8 @@ public class StochRsiTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochRsiResult> results =
-            Quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-            .ToList();
+        IReadOnlyList<StochRsiResult> results =
+            Quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // assertions
 
@@ -80,10 +78,9 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<StochRsiResult> results = Quotes
+        IReadOnlyList<StochRsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStochRsi(14, 14, 3)
-            .ToList();
+            .GetStochRsi(14, 14, 3);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
@@ -93,10 +90,9 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<StochRsiResult> results = Quotes
+        IReadOnlyList<StochRsiResult> results = Quotes
             .GetSma(2)
-            .GetStochRsi(14, 14, 3)
-            .ToList();
+            .GetStochRsi(14, 14, 3);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.StochRsi != null));
@@ -105,10 +101,9 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetStochRsi(14, 14, 3, 3)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(464, results.Count(x => x.Sma != null));
@@ -117,9 +112,8 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StochRsiResult> r = BadQuotes
-            .GetStochRsi(15, 20, 3, 2)
-            .ToList();
+        IReadOnlyList<StochRsiResult> r = BadQuotes
+            .GetStochRsi(15, 20, 3, 2);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.StochRsi is double.NaN));
@@ -128,15 +122,13 @@ public class StochRsiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StochRsiResult> r0 = Noquotes
-            .GetStochRsi(10, 20, 3)
-            .ToList();
+        IReadOnlyList<StochRsiResult> r0 = Noquotes
+            .GetStochRsi(10, 20, 3);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StochRsiResult> r1 = Onequote
-            .GetStochRsi(8, 13, 2)
-            .ToList();
+        IReadOnlyList<StochRsiResult> r1 = Onequote
+            .GetStochRsi(8, 13, 2);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -149,16 +141,15 @@ public class StochRsiTests : SeriesTestBase
         int signalPeriods = 3;
         int smoothPeriods = 3;
 
-        List<StochRsiResult> results = Quotes
+        IReadOnlyList<StochRsiResult> results = Quotes
             .GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
         Assert.AreEqual(502 - removeQty, results.Count);
 
-        StochRsiResult last = results.LastOrDefault();
+        StochRsiResult last = results[^1];
         Assert.AreEqual(89.8385, last.StochRsi.Round(4));
         Assert.AreEqual(73.4176, last.Signal.Round(4));
     }

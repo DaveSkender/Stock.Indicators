@@ -5,24 +5,24 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<ElderRayResult> CalcElderRay(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         ElderRay.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<ElderRayResult> results = new(length);
 
         // EMA
         List<EmaResult> emaResults
-            = qdList.CalcEma(lookbackPeriods);
+            = source.CalcEma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
             EmaResult e = emaResults[i];
 
             results.Add(new(

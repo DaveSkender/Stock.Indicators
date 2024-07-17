@@ -8,9 +8,8 @@ public class ZigZagTests : SeriesTestBase
     [TestMethod]
     public override void Standard() // on Close
     {
-        List<ZigZagResult> results =
-            Quotes.GetZigZag(EndType.Close, 3)
-            .ToList();
+        IReadOnlyList<ZigZagResult> results =
+            Quotes.GetZigZag(EndType.Close, 3);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -60,9 +59,8 @@ public class ZigZagTests : SeriesTestBase
     [TestMethod]
     public void StandardHighLow()
     {
-        List<ZigZagResult> results =
-            Quotes.GetZigZag(EndType.HighLow, 3)
-            .ToList();
+        IReadOnlyList<ZigZagResult> results =
+            Quotes.GetZigZag(EndType.HighLow, 3);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -112,10 +110,9 @@ public class ZigZagTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetZigZag(EndType.Close, 3)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(225, results.Count(x => x.Sma != null));
@@ -130,9 +127,8 @@ public class ZigZagTests : SeriesTestBase
         IReadOnlyCollection<Quote> quotes = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json);
 
-        List<ZigZagResult> results = quotes
-            .GetZigZag()
-            .ToList();
+        IReadOnlyList<ZigZagResult> results = quotes
+            .GetZigZag();
 
         Assert.AreEqual(0, results.Count(x => x.PointType != null));
     }
@@ -143,13 +139,11 @@ public class ZigZagTests : SeriesTestBase
         // thresholds are never met
         string json = File.ReadAllText("./s-z/ZigZag/data.issue632.json");
 
-        List<Quote> quotesList = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .ToList();
+        IReadOnlyCollection<Quote> quotesList = JsonConvert
+            .DeserializeObject<IReadOnlyCollection<Quote>>(json);
 
-        List<ZigZagResult> resultsList = quotesList
-            .GetZigZag()
-            .ToList();
+        IReadOnlyList<ZigZagResult> resultsList = quotesList
+            .GetZigZag();
 
         Assert.AreEqual(17, resultsList.Count);
     }
@@ -157,15 +151,13 @@ public class ZigZagTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ZigZagResult> r1 = BadQuotes
-            .GetZigZag()
-            .ToList();
+        IReadOnlyList<ZigZagResult> r1 = BadQuotes
+            .GetZigZag();
 
         Assert.AreEqual(502, r1.Count);
 
-        List<ZigZagResult> r2 = BadQuotes
-            .GetZigZag(EndType.HighLow)
-            .ToList();
+        IReadOnlyList<ZigZagResult> r2 = BadQuotes
+            .GetZigZag(EndType.HighLow);
 
         Assert.AreEqual(502, r2.Count);
     }
@@ -173,15 +165,13 @@ public class ZigZagTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ZigZagResult> r0 = Noquotes
-            .GetZigZag()
-            .ToList();
+        IReadOnlyList<ZigZagResult> r0 = Noquotes
+            .GetZigZag();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ZigZagResult> r1 = Onequote
-            .GetZigZag()
-            .ToList();
+        IReadOnlyList<ZigZagResult> r1 = Onequote
+            .GetZigZag();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -189,10 +179,9 @@ public class ZigZagTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<ZigZagResult> results = Quotes
+        IReadOnlyList<ZigZagResult> results = Quotes
             .GetZigZag(EndType.Close, 3)
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(14, results.Count);
@@ -203,17 +192,16 @@ public class ZigZagTests : SeriesTestBase
     {
         string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
 
-        List<Quote> h = JsonConvert
+        IOrderedEnumerable<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Timestamp)
-            .ToList();
+            .OrderBy(x => x.Timestamp);
 
-        List<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
+        IReadOnlyList<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
         Assert.AreEqual(342, r1.Count);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
-        List<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3).ToList();
+        IReadOnlyList<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3).ToList();
         Assert.AreEqual(342, r2.Count);
     }
 

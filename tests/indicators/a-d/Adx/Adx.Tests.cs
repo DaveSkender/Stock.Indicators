@@ -6,9 +6,7 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AdxResult> results = Quotes
-            .GetAdx()
-            .ToList();
+        IReadOnlyList<AdxResult> results = Quotes.GetAdx();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -47,10 +45,9 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetAdx()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(466, results.Count(x => x.Sma != null));
@@ -59,9 +56,7 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AdxResult> r = BadQuotes
-            .GetAdx(20)
-            .ToList();
+        IReadOnlyList<AdxResult> r = BadQuotes.GetAdx(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
@@ -70,9 +65,7 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<AdxResult> r = BigQuotes
-            .GetAdx(200)
-            .ToList();
+        IReadOnlyList<AdxResult> r = BigQuotes.GetAdx(200);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -80,15 +73,11 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AdxResult> r0 = Noquotes
-            .GetAdx(5)
-            .ToList();
+        IReadOnlyList<AdxResult> r0 = Noquotes.GetAdx(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AdxResult> r1 = Onequote
-            .GetAdx(5)
-            .ToList();
+        IReadOnlyList<AdxResult> r1 = Onequote.GetAdx(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -101,7 +90,7 @@ public class AdxTests : SeriesTestBase
             .Select(Imports.QuoteFromCsv)
             .OrderByDescending(x => x.Timestamp);
 
-        List<AdxResult> r = test859.GetAdx().ToList();
+        IReadOnlyList<AdxResult> r = test859.GetAdx();
 
         Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
         Assert.AreEqual(595, r.Count);
@@ -110,7 +99,7 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public void Zeroes()
     {
-        List<AdxResult> r = ZeroesQuotes.GetAdx().ToList();
+        IReadOnlyList<AdxResult> r = ZeroesQuotes.GetAdx();
 
         Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
         Assert.AreEqual(200, r.Count);
@@ -119,14 +108,14 @@ public class AdxTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AdxResult> r = Quotes.GetAdx()
-            .RemoveWarmupPeriods()
-            .ToList();
+        IReadOnlyList<AdxResult> results = Quotes
+            .GetAdx()
+            .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (2 * 14 + 100), r.Count);
+        Assert.AreEqual(502 - ((2 * 14) + 100), results.Count);
 
-        AdxResult last = r.LastOrDefault();
+        AdxResult last = results[^1];
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
         Assert.AreEqual(31.1510, last.Mdi.Round(4));
         Assert.AreEqual(34.2987, last.Adx.Round(4));

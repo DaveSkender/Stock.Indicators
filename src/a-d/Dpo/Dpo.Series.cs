@@ -6,7 +6,7 @@ public static partial class Indicator
 {
     // calculate series
     private static List<DpoResult> CalcDpo<T>(
-        this List<T> tpList,
+        this List<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
@@ -14,15 +14,18 @@ public static partial class Indicator
         Dpo.Validate(lookbackPeriods);
 
         // initialize
-        int length = tpList.Count;
-        int offset = lookbackPeriods / 2 + 1;
-        List<SmaResult> sma = tpList.GetSma(lookbackPeriods).ToList();
+        int length = source.Count;
         List<DpoResult> results = new(length);
+
+        int offset = (lookbackPeriods / 2) + 1;
+
+        IReadOnlyList<SmaResult> sma
+            = source.CalcSma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T src = tpList[i];
+            T src = source[i];
 
             double? dpoSma = null;
             double? dpoVal = null;

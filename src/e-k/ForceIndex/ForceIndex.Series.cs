@@ -5,14 +5,14 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<ForceIndexResult> CalcForceIndex(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         ForceIndex.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<ForceIndexResult> results = new(length);
         double? prevFi = null;
         double? sumRawFi = 0;
@@ -21,17 +21,17 @@ public static partial class Indicator
         // skip first period
         if (length > 0)
         {
-            results.Add(new(qdList[0].Timestamp));
+            results.Add(new(source[0].Timestamp));
         }
 
         // roll through source values
         for (int i = 1; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
             double? fi = null;
 
             // raw Force Index
-            double? rawFi = q.Volume * (q.Close - qdList[i - 1].Close);
+            double? rawFi = q.Volume * (q.Close - source[i - 1].Close);
 
             // calculate EMA
             if (i > lookbackPeriods)

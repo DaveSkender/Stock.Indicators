@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<StochResult> CalcStoch(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -19,7 +19,7 @@ public static partial class Indicator
             kFactor, dFactor, movingAverageType);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<StochResult> results = new(length);
 
         double[] o = new double[length]; // %K oscillator (initial)
@@ -31,7 +31,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             // initial %K oscillator
             if (i >= lookbackPeriods - 1)
@@ -42,7 +42,7 @@ public static partial class Indicator
 
                 for (int p = i - lookbackPeriods + 1; p <= i; p++)
                 {
-                    QuoteD x = qdList[p];
+                    QuoteD x = source[p];
 
                     if (double.IsNaN(x.High)
                      || double.IsNaN(x.Low)

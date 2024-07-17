@@ -9,11 +9,12 @@ public static partial class Adl
         where TQuote : IQuote
     {
         // initialize
-        List<AdlResult> results = new(source.Count);
+        int length = source.Count;
+        List<AdlResult> results = new(length);
         double prevAdl = 0;
 
         // roll through source values
-        for (int i = 0; i < source.Count; i++)
+        for (int i = 0; i < length; i++)
         {
             IQuote q = source[i];
 

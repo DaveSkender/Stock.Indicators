@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<SmiResult> CalcSmi(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
@@ -19,7 +19,7 @@ public static partial class Indicator
             signalPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<SmiResult> results = new(length);
 
         double k1 = 2d / (firstSmoothPeriods + 1);
@@ -35,7 +35,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double smi;
             double signal;
@@ -47,7 +47,7 @@ public static partial class Indicator
 
                 for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                 {
-                    QuoteD x = qdList[p];
+                    QuoteD x = source[p];
 
                     if (x.High > hH)
                     {

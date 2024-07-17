@@ -16,7 +16,7 @@ Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wi
 
 ```csharp
 // C# usage syntax
-IEnumerable<ObvResult> results =
+IReadOnlyList<ObvResult> results =
   quotes.GetObv();
 ```
 
@@ -29,7 +29,7 @@ You must have at least two historical quotes to cover the warmup periods; howeve
 ## Response
 
 ```csharp
-IEnumerable<ObvResult>
+IReadOnlyList<ObvResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

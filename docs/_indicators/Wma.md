@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<WmaResult> results =
+IReadOnlyList<WmaResult> results =
   quotes.GetWma(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<WmaResult>
+IReadOnlyList<WmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

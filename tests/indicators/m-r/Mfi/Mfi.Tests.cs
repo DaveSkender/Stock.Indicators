@@ -6,9 +6,8 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<MfiResult> results = Quotes
-            .GetMfi()
-            .ToList();
+        IReadOnlyList<MfiResult> results = Quotes
+            .GetMfi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -25,10 +24,9 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetMfi()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
@@ -39,9 +37,8 @@ public class MfiTests : SeriesTestBase
     {
         int lookbackPeriods = 4;
 
-        List<MfiResult> results = Quotes
-            .GetMfi(lookbackPeriods)
-            .ToList();
+        IReadOnlyList<MfiResult> results = Quotes
+            .GetMfi(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -58,9 +55,8 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MfiResult> r = BadQuotes
-            .GetMfi(15)
-            .ToList();
+        IReadOnlyList<MfiResult> r = BadQuotes
+            .GetMfi(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mfi is double.NaN));
@@ -69,15 +65,13 @@ public class MfiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MfiResult> r0 = Noquotes
-            .GetMfi()
-            .ToList();
+        IReadOnlyList<MfiResult> r0 = Noquotes
+            .GetMfi();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MfiResult> r1 = Onequote
-            .GetMfi()
-            .ToList();
+        IReadOnlyList<MfiResult> r1 = Onequote
+            .GetMfi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -87,15 +81,14 @@ public class MfiTests : SeriesTestBase
     {
         int lookbackPeriods = 14;
 
-        List<MfiResult> results = Quotes
+        IReadOnlyList<MfiResult> results = Quotes
             .GetMfi(lookbackPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 14, results.Count);
 
-        MfiResult last = results.LastOrDefault();
+        MfiResult last = results[^1];
         Assert.AreEqual(39.9494, last.Mfi.Round(4));
     }
 

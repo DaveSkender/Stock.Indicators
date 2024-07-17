@@ -16,7 +16,7 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 
 ```csharp
 // C# usage syntax
-IEnumerable<VolatilityStopResult> results =
+IReadOnlyList<VolatilityStopResult> results =
   quotes.GetVolatilityStop(lookbackPeriods, multiplier);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `N+100` periods of `quotes` to cover the convergence peri
 ## Response
 
 ```csharp
-IEnumerable<VolatilityStopResult>
+IReadOnlyList<VolatilityStopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

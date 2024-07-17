@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 public static class CandleUtility
 {
-    public static IEnumerable<CandleResult> Condense(
+    public static IReadOnlyList<CandleResult> Condense(
         this IEnumerable<CandleResult> candleResults) => candleResults
             .Where(candle => candle.Match != Match.None)
             .ToList();
@@ -18,7 +18,7 @@ public static class CandleUtility
             Volume: quote.Volume);
 
     // convert/sort quotes into candles list
-    public static IEnumerable<CandleProperties> ToCandles<TQuote>(
+    public static IReadOnlyList<CandleProperties> ToCandles<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
             .Select(x => x.ToCandle())

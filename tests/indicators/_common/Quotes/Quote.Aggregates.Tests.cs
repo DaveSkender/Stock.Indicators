@@ -9,9 +9,8 @@ public class QuoteAggregateTests : TestBase
         IReadOnlyList<Quote> quotes = Data.GetIntraday();
 
         // aggregate
-        List<Quote> results = quotes
-            .Aggregate(PeriodSize.FifteenMinutes)
-            .ToList();
+        IReadOnlyList<Quote> results = quotes
+            .Aggregate(PeriodSize.FifteenMinutes);
 
         // proper quantities
         Assert.AreEqual(108, results.Count);
@@ -42,7 +41,7 @@ public class QuoteAggregateTests : TestBase
         Assert.AreEqual(1396993m, r2.Volume);
 
         // no history scenario
-        List<Quote> noQuotes = [];
+        IReadOnlyList<Quote> noQuotes = [];
         IEnumerable<Quote> noResults = noQuotes.Aggregate(PeriodSize.Day);
         Assert.IsFalse(noResults.Any());
     }
@@ -53,9 +52,8 @@ public class QuoteAggregateTests : TestBase
         IReadOnlyList<Quote> quotes = Data.GetIntraday();
 
         // aggregate
-        List<Quote> results = quotes
-            .Aggregate(TimeSpan.FromMinutes(15))
-            .ToList();
+        IReadOnlyList<Quote> results = quotes
+            .Aggregate(TimeSpan.FromMinutes(15));
 
         // proper quantities
         Assert.AreEqual(108, results.Count);
@@ -86,7 +84,7 @@ public class QuoteAggregateTests : TestBase
         Assert.AreEqual(1396993m, r2.Volume);
 
         // no history scenario
-        List<Quote> noQuotes = [];
+        IReadOnlyList<Quote> noQuotes = [];
         IEnumerable<Quote> noResults = noQuotes.Aggregate(TimeSpan.FromDays(1));
         Assert.IsFalse(noResults.Any());
     }
@@ -95,9 +93,8 @@ public class QuoteAggregateTests : TestBase
     public void AggregateMonth()
     {
         // aggregate
-        List<Quote> results = Quotes
-            .Aggregate(PeriodSize.Month)
-            .ToList();
+        IReadOnlyList<Quote> results = Quotes
+            .Aggregate(PeriodSize.Month);
 
         // proper quantities
         Assert.AreEqual(24, results.Count);

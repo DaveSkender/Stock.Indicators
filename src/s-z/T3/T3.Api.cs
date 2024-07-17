@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<T3Result> GetT3<T>(
+    public static IReadOnlyList<T3Result> GetT3<T>(
         this IEnumerable<T> results,
         int lookbackPeriods = 5,
         double volumeFactor = 0.7)

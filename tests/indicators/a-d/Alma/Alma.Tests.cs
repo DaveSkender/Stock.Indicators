@@ -10,9 +10,8 @@ public class Alma : SeriesTestBase
         double offset = 0.85;
         double sigma = 6;
 
-        List<AlmaResult> results = Quotes
-            .GetAlma(lookbackPeriods, offset, sigma)
-            .ToList();
+        IReadOnlyList<AlmaResult> results = Quotes
+            .GetAlma(lookbackPeriods, offset, sigma);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -41,25 +40,23 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetAlma(10)
-            .ToList();
+            .GetAlma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
-        AlmaResult last = results.LastOrDefault();
+        AlmaResult last = results[^1];
         Assert.AreEqual(242.1871, last.Alma.Round(4));
     }
 
     [TestMethod]
     public void Chainee()
     {
-        List<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> results = Quotes
             .GetSma(2)
-            .GetAlma(10)
-            .ToList();
+            .GetAlma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Alma != null));
@@ -72,10 +69,9 @@ public class Alma : SeriesTestBase
         double offset = 0.85;
         double sigma = 6;
 
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetAlma(lookbackPeriods, offset, sigma)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -84,11 +80,13 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        List<AlmaResult> r1 = Data.GetBtcUsdNan().GetAlma().ToList();
+        IReadOnlyList<AlmaResult> r1
+            = Data.GetBtcUsdNan().GetAlma();
 
         Assert.AreEqual(0, r1.Count(x => x.Alma is double.NaN));
 
-        List<AlmaResult> r2 = Data.GetBtcUsdNan().GetAlma(20).ToList();
+        IReadOnlyList<AlmaResult> r2
+            = Data.GetBtcUsdNan().GetAlma(20);
 
         Assert.AreEqual(0, r2.Count(x => x.Alma is double.NaN));
     }
@@ -96,9 +94,7 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AlmaResult> r = BadQuotes
-            .GetAlma(14, 0.5, 3)
-            .ToList();
+        IReadOnlyList<AlmaResult> r = BadQuotes.GetAlma(14, 0.5, 3);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Alma is double.NaN));
@@ -107,15 +103,11 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AlmaResult> r0 = Noquotes
-            .GetAlma()
-            .ToList();
+        IReadOnlyList<AlmaResult> r0 = Noquotes.GetAlma();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AlmaResult> r1 = Onequote
-            .GetAlma()
-            .ToList();
+        IReadOnlyList<AlmaResult> r1 = Onequote.GetAlma();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -123,15 +115,14 @@ public class Alma : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AlmaResult> results = Quotes
+        IReadOnlyList<AlmaResult> results = Quotes
             .GetAlma(10)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 9, results.Count);
 
-        AlmaResult last = results.LastOrDefault();
+        AlmaResult last = results[^1];
         Assert.AreEqual(242.1871, last.Alma.Round(4));
     }
 

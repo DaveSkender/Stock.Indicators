@@ -16,7 +16,7 @@ The [Hurst Exponent](https://en.wikipedia.org/wiki/Hurst_exponent) (`H`) is part
 
 ```csharp
 // C# usage syntax
-IEnumerable<HurstResult> results =
+IReadOnlyList<HurstResult> results =
   quotes.GetHurst(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<HurstResult>
+IReadOnlyList<HurstResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

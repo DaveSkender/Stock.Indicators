@@ -9,7 +9,7 @@ public class ObserverTests : TestBase
         int qtyQuotes = 5000;
 
         // setup: many random quotes (massive)
-        List<Quote> quotesList
+        IReadOnlyList<Quote> quotesList
             = Data.GetRandom(qtyQuotes).ToList();
 
         int length = quotesList.Count;
@@ -27,7 +27,7 @@ public class ObserverTests : TestBase
         }
 
         // original results
-        List<QuotePart> original = observer.Results.ToList();
+        IReadOnlyList<QuotePart> original = observer.Results.ToList();
 
         // quotes to replace
         Quote q1000original = quotesList[1000] with { /* copy */ };
@@ -39,7 +39,7 @@ public class ObserverTests : TestBase
 
         observer.Modify(r1000modified);  // add directly to observer
 
-        List<QuotePart> modified = observer.Results.ToList();
+        IReadOnlyList<QuotePart> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
         provider.Cache.Should().HaveCount(length);

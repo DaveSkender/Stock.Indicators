@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax (with Close price)
-IEnumerable<SmaResult> results =
+IReadOnlyList<SmaResult> results =
   quotes.GetSma(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<SmaResult>
+IReadOnlyList<SmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

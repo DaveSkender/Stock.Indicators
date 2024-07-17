@@ -17,7 +17,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 
 ```csharp
 // C# usage syntax
-IEnumerable<ChandelierResult> results =
+IReadOnlyList<ChandelierResult> results =
   quotes.GetChandelier(lookbackPeriods, multiplier, type);
 ```
 
@@ -44,7 +44,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<ChandelierResult>
+IReadOnlyList<ChandelierResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

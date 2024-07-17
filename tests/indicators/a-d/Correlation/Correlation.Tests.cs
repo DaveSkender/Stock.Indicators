@@ -6,9 +6,8 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CorrResult> results = Quotes
-            .GetCorrelation(OtherQuotes, 20)
-            .ToList();
+        IReadOnlyList<CorrResult> results = Quotes
+            .GetCorrelation(OtherQuotes, 20);
 
         // proper quantities
         // should always be the same number of results as there is quotes
@@ -36,10 +35,9 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetCorrelation(OtherQuotes.Use(CandlePart.Close), 20)
-            .ToList();
+            .GetCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Correlation != null));
@@ -48,10 +46,9 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetCorrelation(OtherQuotes, 20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -60,10 +57,9 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> results = Quotes
             .GetSma(2)
-            .GetCorrelation(OtherQuotes.GetSma(2), 20)
-            .ToList();
+            .GetCorrelation(OtherQuotes.GetSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Correlation != null));
@@ -73,9 +69,8 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CorrResult> r = BadQuotes
-            .GetCorrelation(BadQuotes, 15)
-            .ToList();
+        IReadOnlyList<CorrResult> r = BadQuotes
+            .GetCorrelation(BadQuotes, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Correlation is double.NaN));
@@ -84,9 +79,8 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<CorrResult> r = BigQuotes
-            .GetCorrelation(BigQuotes, 150)
-            .ToList();
+        IReadOnlyList<CorrResult> r = BigQuotes
+            .GetCorrelation(BigQuotes, 150);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -94,15 +88,13 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CorrResult> r0 = Noquotes
-            .GetCorrelation(Noquotes, 10)
-            .ToList();
+        IReadOnlyList<CorrResult> r0 = Noquotes
+            .GetCorrelation(Noquotes, 10);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CorrResult> r1 = Onequote
-            .GetCorrelation(Onequote, 10)
-            .ToList();
+        IReadOnlyList<CorrResult> r1 = Onequote
+            .GetCorrelation(Onequote, 10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -110,15 +102,14 @@ public class CorrelationTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<CorrResult> results = Quotes
+        IReadOnlyList<CorrResult> results = Quotes
             .GetCorrelation(OtherQuotes, 20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
 
-        CorrResult last = results.LastOrDefault();
+        CorrResult last = results[^1];
         Assert.AreEqual(0.8460, last.Correlation.Round(4));
         Assert.AreEqual(0.7157, last.RSquared.Round(4));
     }

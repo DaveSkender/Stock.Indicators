@@ -6,9 +6,8 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<FcbResult> results = Quotes
-            .GetFcb()
-            .ToList();
+        IReadOnlyList<FcbResult> results = Quotes
+            .GetFcb();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -44,9 +43,8 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<FcbResult> r = BadQuotes
-            .GetFcb()
-            .ToList();
+        IReadOnlyList<FcbResult> r = BadQuotes
+            .GetFcb();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -54,15 +52,13 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<FcbResult> r0 = Noquotes
-            .GetFcb()
-            .ToList();
+        IReadOnlyList<FcbResult> r0 = Noquotes
+            .GetFcb();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<FcbResult> r1 = Onequote
-            .GetFcb()
-            .ToList();
+        IReadOnlyList<FcbResult> r1 = Onequote
+            .GetFcb();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -70,15 +66,14 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<FcbResult> results = Quotes
+        IReadOnlyList<FcbResult> results = Quotes
             .GetFcb()
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(502 - 5, results.Count);
 
-        FcbResult last = results.LastOrDefault();
+        FcbResult last = results[^1];
         Assert.AreEqual(262.47m, last.UpperBand);
         Assert.AreEqual(229.42m, last.LowerBand);
     }
@@ -86,15 +81,14 @@ public class FcbTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<FcbResult> results = Quotes
+        IReadOnlyList<FcbResult> results = Quotes
             .GetFcb()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 5, results.Count);
 
-        FcbResult last = results.LastOrDefault();
+        FcbResult last = results[^1];
         Assert.AreEqual(262.47m, last.UpperBand);
         Assert.AreEqual(229.42m, last.LowerBand);
     }

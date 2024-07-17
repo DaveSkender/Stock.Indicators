@@ -21,15 +21,14 @@ public static partial class Indicator
         int startPeriod
             = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        List<ConnorsRsiResult> streakInfo
+        IReadOnlyList<ConnorsRsiResult> streakInfo
             = source.CalcStreak(rsiPeriods, rankPeriods);
 
         // RSI of streak
-        List<QuotePart> reStreak = streakInfo
+        IReadOnlyList<RsiResult> rsiStreak = streakInfo
             .Select(si => new QuotePart(si.Timestamp, si.Streak))
-            .ToList();
-
-        List<RsiResult> rsiStreak = reStreak.CalcRsi(streakPeriods);
+            .ToList()
+            .CalcRsi(streakPeriods);
 
         // compose final results
         for (int i = 0; i < length; i++)

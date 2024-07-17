@@ -8,9 +8,8 @@ public class PrsTests : SeriesTestBase
     {
         int lookbackPeriods = 30;
 
-        List<PrsResult> results = OtherQuotes
-            .GetPrs(Quotes, lookbackPeriods)
-            .ToList();
+        IReadOnlyList<PrsResult> results = OtherQuotes
+            .GetPrs(Quotes, lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -33,10 +32,9 @@ public class PrsTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<PrsResult> results = OtherQuotes
+        IReadOnlyList<PrsResult> results = OtherQuotes
             .Use(CandlePart.Close)
-            .GetPrs(Quotes.Use(CandlePart.Close), 20)
-            .ToList();
+            .GetPrs(Quotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Prs != null));
@@ -45,10 +43,9 @@ public class PrsTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = OtherQuotes
+        IReadOnlyList<SmaResult> results = OtherQuotes
             .GetPrs(Quotes, 20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -57,10 +54,9 @@ public class PrsTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<PrsResult> results = Quotes
+        IReadOnlyList<PrsResult> results = Quotes
             .GetSma(2)
-            .GetPrs(OtherQuotes.GetSma(2), 20)
-            .ToList();
+            .GetPrs(OtherQuotes.GetSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Prs != null));
@@ -70,9 +66,8 @@ public class PrsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PrsResult> r = BadQuotes
-            .GetPrs(BadQuotes, 15)
-            .ToList();
+        IReadOnlyList<PrsResult> r = BadQuotes
+            .GetPrs(BadQuotes, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Prs is double.NaN));
@@ -81,15 +76,13 @@ public class PrsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PrsResult> r0 = Noquotes
-            .GetPrs(Noquotes)
-            .ToList();
+        IReadOnlyList<PrsResult> r0 = Noquotes
+            .GetPrs(Noquotes);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PrsResult> r1 = Onequote
-            .GetPrs(Onequote)
-            .ToList();
+        IReadOnlyList<PrsResult> r1 = Onequote
+            .GetPrs(Onequote);
 
         Assert.AreEqual(1, r1.Count);
     }

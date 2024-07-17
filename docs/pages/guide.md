@@ -60,7 +60,7 @@ using Skender.Stock.Indicators;
 IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = quotes
+IReadOnlyList<SmaResult> results = quotes
   .GetSma(20);
 
 // use results as needed for your use case (example only)
@@ -250,14 +250,14 @@ Example:
 IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
 
 // calculate RSI of OBV
-IEnumerable<RsiResult> results
+IReadOnlyList<RsiResult> results
   = quotes
     .GetObv()
     .GetRsi(14);
 
 // or with two separate operations
-IEnumerable<ObvResult> obvResults = quotes.GetObv();
-IEnumerable<RsiResult> rsiOfObv = obvResults.GetRsi(14);
+IReadOnlyList<ObvResult> obvResults = quotes.GetObv();
+IReadOnlyList<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 ```
 
 ## Candlestick patterns

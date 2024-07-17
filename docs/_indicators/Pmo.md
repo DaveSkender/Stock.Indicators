@@ -16,7 +16,7 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 
 ```csharp
 // C# usage syntax
-IEnumerable<PmoResult> results =
+IReadOnlyList<PmoResult> results =
   quotes.GetPmo(timePeriods, smoothPeriods, signalPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S
 ## Response
 
 ```csharp
-IEnumerable<PmoResult>
+IReadOnlyList<PmoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

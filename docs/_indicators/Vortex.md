@@ -16,7 +16,7 @@ Created by Etienne Botes and Douglas Siepman, the [Vortex Indicator](https://en.
 
 ```csharp
 // C# usage syntax
-IEnumerable<VortexResult> results =
+IReadOnlyList<VortexResult> results =
   quotes.GetVortex(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<VortexResult>
+IReadOnlyList<VortexResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

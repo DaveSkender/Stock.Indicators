@@ -5,14 +5,14 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<AdxResult> CalcAdx(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
         Adx.Validate(lookbackPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<AdxResult> results = new(length);
 
         double prevHigh = 0;
@@ -31,7 +31,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             // skip first period
             if (i == 0)

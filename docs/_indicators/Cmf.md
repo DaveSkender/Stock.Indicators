@@ -16,7 +16,7 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 
 ```csharp
 // C# usage syntax
-IEnumerable<CmfResult> results =
+IReadOnlyList<CmfResult> results =
   quotes.GetCmf(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<CmfResult>
+IReadOnlyList<CmfResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

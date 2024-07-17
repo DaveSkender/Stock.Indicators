@@ -6,9 +6,8 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<DemaResult> results = Quotes
-            .GetDema(20)
-            .ToList();
+        IReadOnlyList<DemaResult> results = Quotes
+            .GetDema(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -31,10 +30,9 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetDema(20)
-            .ToList();
+            .GetDema(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Dema != null));
@@ -43,10 +41,9 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> results = Quotes
             .GetSma(2)
-            .GetDema(20)
-            .ToList();
+            .GetDema(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Dema != null));
@@ -55,10 +52,9 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetDema(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -67,9 +63,8 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DemaResult> r = BadQuotes
-            .GetDema(15)
-            .ToList();
+        IReadOnlyList<DemaResult> r = BadQuotes
+            .GetDema(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dema is double.NaN));
@@ -78,15 +73,13 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DemaResult> r0 = Noquotes
-            .GetDema(5)
-            .ToList();
+        IReadOnlyList<DemaResult> r0 = Noquotes
+            .GetDema(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DemaResult> r1 = Onequote
-            .GetDema(5)
-            .ToList();
+        IReadOnlyList<DemaResult> r1 = Onequote
+            .GetDema(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -94,15 +87,14 @@ public class DemaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<DemaResult> results = Quotes
+        IReadOnlyList<DemaResult> results = Quotes
             .GetDema(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (40 + 100), results.Count);
 
-        DemaResult last = results.LastOrDefault();
+        DemaResult last = results[^1];
         Assert.AreEqual(241.1677, last.Dema.Round(4));
     }
 

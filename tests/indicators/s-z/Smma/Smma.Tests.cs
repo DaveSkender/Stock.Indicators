@@ -6,9 +6,8 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SmmaResult> results = Quotes
-            .GetSmma(20)
-            .ToList();
+        IReadOnlyList<SmmaResult> results = Quotes
+            .GetSmma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -29,10 +28,9 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetSmma(20)
-            .ToList();
+            .GetSmma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Smma != null));
@@ -41,10 +39,9 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> results = Quotes
             .GetSma(2)
-            .GetSmma(20)
-            .ToList();
+            .GetSmma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Smma != null));
@@ -53,10 +50,9 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetSmma(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -65,9 +61,8 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SmmaResult> r = BadQuotes
-            .GetSmma(15)
-            .ToList();
+        IReadOnlyList<SmmaResult> r = BadQuotes
+            .GetSmma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Smma is double.NaN));
@@ -76,15 +71,13 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SmmaResult> r0 = Noquotes
-            .GetSmma(5)
-            .ToList();
+        IReadOnlyList<SmmaResult> r0 = Noquotes
+            .GetSmma(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SmmaResult> r1 = Onequote
-            .GetSmma(5)
-            .ToList();
+        IReadOnlyList<SmmaResult> r1 = Onequote
+            .GetSmma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -92,14 +85,13 @@ public class SmmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SmmaResult> results = Quotes
+        IReadOnlyList<SmmaResult> results = Quotes
             .GetSmma(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (20 + 100), results.Count);
-        Assert.AreEqual(255.67462, Math.Round(results.LastOrDefault().Smma.Value, 5));
+        Assert.AreEqual(255.67462, Math.Round(results[^1].Smma.Value, 5));
     }
 
     // bad lookback period

@@ -17,7 +17,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<PivotPointsResult> results =
+IReadOnlyList<PivotPointsResult> results =
   quotes.GetPivotPoints(windowSize, pointType);
 ```
 
@@ -58,7 +58,7 @@ You must have at least `2` windows of `quotes` to cover the warmup periods.  For
 ## Response
 
 ```csharp
-IEnumerable<PivotPointsResult>
+IReadOnlyList<PivotPointsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

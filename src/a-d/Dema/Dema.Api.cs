@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<DemaResult> GetDema<T>(
+    public static IReadOnlyList<DemaResult> GetDema<T>(
         this IEnumerable<T> results,
         int lookbackPeriods)
         where T : IReusable

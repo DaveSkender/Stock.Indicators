@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<KvoResult> CalcKvo(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
@@ -14,7 +14,7 @@ public static partial class Indicator
         Kvo.Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<KvoResult> results = new(length);
 
         double[] t = new double[length];          // trend direction
@@ -33,7 +33,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double? kvo = null;
             double? sig = null;

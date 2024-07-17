@@ -13,10 +13,10 @@ public static class Program
     public static void Main()
     {
         // fetch historical quotes from data provider
-        IEnumerable<Quote> quotes = GetQuotesFromFeed();
+        IReadOnlyList<Quote> quotes = GetQuotesFromFeed();
 
         // calculate 10-period custom AtrWma
-        IEnumerable<AtrWmaResult> results = quotes
+        IReadOnlyList<AtrWmaResult> results = quotes
             .GetAtrWma(10);
 
         // show results

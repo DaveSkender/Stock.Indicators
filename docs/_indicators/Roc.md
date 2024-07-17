@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<RocResult> results =
+IReadOnlyList<RocResult> results =
   quotes.GetRoc(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RocResult>
+IReadOnlyList<RocResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

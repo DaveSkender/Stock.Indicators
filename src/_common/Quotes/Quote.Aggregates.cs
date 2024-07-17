@@ -7,7 +7,7 @@ public static partial class QuoteUtility
     // aggregation (quantization)
     /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
     ///
-    public static IEnumerable<Quote> Aggregate<TQuote>(
+    public static IReadOnlyList<Quote> Aggregate<TQuote>(
         this IEnumerable<TQuote> quotes,
         PeriodSize newSize)
         where TQuote : IQuote
@@ -23,7 +23,8 @@ public static partial class QuoteUtility
                     High: x.Max(t => t.High),
                     Low: x.Min(t => t.Low),
                     Close: x.Last().Close,
-                    Volume: x.Sum(t => t.Volume)));
+                    Volume: x.Sum(t => t.Volume)))
+                .ToList();
         }
 
         // parameter conversion
@@ -38,7 +39,7 @@ public static partial class QuoteUtility
     // aggregation (quantization) using TimeSpan
     /// <include file='./info.xml' path='info/type[@name="AggregateTimeSpan"]/*' />
     ///
-    public static IEnumerable<Quote> Aggregate<TQuote>(
+    public static IReadOnlyList<Quote> Aggregate<TQuote>(
         this IEnumerable<TQuote> quotes,
         TimeSpan timeSpan)
         where TQuote : IQuote
@@ -59,6 +60,7 @@ public static partial class QuoteUtility
                 High: x.Max(t => t.High),
                 Low: x.Min(t => t.Low),
                 Close: x.Last().Close,
-                Volume: x.Sum(t => t.Volume)));
+                Volume: x.Sum(t => t.Volume)))
+            .ToList();
     }
 }

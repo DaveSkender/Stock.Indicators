@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Alligator
 {
     // CONDENSE (REMOVE null results)
-    public static IEnumerable<AlligatorResult> Condense(
+    public static IReadOnlyList<AlligatorResult> Condense(
         this IEnumerable<AlligatorResult> results)
     {
         List<AlligatorResult> resultsList = results
@@ -17,7 +17,7 @@ public static partial class Alligator
     }
 
     // remove recommended periods
-    public static IEnumerable<AlligatorResult> RemoveWarmupPeriods(
+    public static IReadOnlyList<AlligatorResult> RemoveWarmupPeriods(
         this IEnumerable<AlligatorResult> results)
     {
         int removePeriods = results

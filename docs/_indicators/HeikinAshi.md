@@ -16,7 +16,7 @@ Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlesti
 
 ```csharp
 // C# usage syntax
-IEnumerable<HeikinAshiResult> results =
+IReadOnlyList<HeikinAshiResult> results =
   quotes.GetHeikinAshi();
 ```
 
@@ -29,7 +29,7 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 ## Response
 
 ```csharp
-IEnumerable<HeikinAshiResult>
+IReadOnlyList<HeikinAshiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -58,7 +58,7 @@ IEnumerable<HeikinAshiResult>
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp
-  IEnumerable<Quote> results = quotes
+  IReadOnlyList<Quote> results = quotes
     .GetHeikinAshi()
     .ToQuotes();
   ```

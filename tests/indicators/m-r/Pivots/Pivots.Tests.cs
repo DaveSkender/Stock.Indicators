@@ -6,9 +6,8 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<PivotsResult> results = Quotes
-            .GetPivots(4, 4)
-            .ToList();
+        IReadOnlyList<PivotsResult> results = Quotes
+            .GetPivots(4, 4);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -88,9 +87,8 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<PivotsResult> r = BadQuotes
-            .GetPivots()
-            .ToList();
+        IReadOnlyList<PivotsResult> r = BadQuotes
+            .GetPivots();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -98,15 +96,13 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<PivotsResult> r0 = Noquotes
-            .GetPivots()
-            .ToList();
+        IReadOnlyList<PivotsResult> r0 = Noquotes
+            .GetPivots();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<PivotsResult> r1 = Onequote
-            .GetPivots()
-            .ToList();
+        IReadOnlyList<PivotsResult> r1 = Onequote
+            .GetPivots();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -114,12 +110,11 @@ public class PivotsTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<PivotsResult> r = Quotes
+        IReadOnlyList<PivotsResult> results = Quotes
             .GetPivots(4, 4)
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(67, r.Count);
+        Assert.AreEqual(67, results.Count);
     }
 
     [TestMethod]

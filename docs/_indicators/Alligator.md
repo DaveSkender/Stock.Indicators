@@ -16,7 +16,7 @@ Created by Bill Williams, Alligator is a depiction of three smoothed moving aver
 
 ```csharp
 // C# usage syntax
-IEnumerable<AlligatorResult> results =
+IReadOnlyList<AlligatorResult> results =
   quotes.GetAlligator(jawPeriods,jawOffset,teethPeriods,teethOffset,lipsPeriods,lipsOffset);
 ```
 
@@ -43,7 +43,7 @@ You must have at least `JP+JO+100` periods of `quotes` to cover the convergence 
 ## Response
 
 ```csharp
-IEnumerable<AlligatorResult>
+IReadOnlyList<AlligatorResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

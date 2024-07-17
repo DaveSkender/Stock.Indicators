@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<StarcBandsResult> CalcStarcBands(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int smaPeriods,
         double multiplier,
         int atrPeriods)
@@ -14,10 +14,10 @@ public static partial class Indicator
         StarcBands.Validate(smaPeriods, multiplier, atrPeriods);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<StarcBandsResult> results = new(length);
-        List<AtrResult> atrResults = qdList.CalcAtr(atrPeriods);
-        List<SmaResult> smaResults = qdList.CalcSma(smaPeriods);
+        List<AtrResult> atrResults = source.CalcAtr(atrPeriods);
+        List<SmaResult> smaResults = source.CalcSma(smaPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

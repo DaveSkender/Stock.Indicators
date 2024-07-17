@@ -9,9 +9,8 @@ public class SuperTrendTests : SeriesTestBase
         const int lookbackPeriods = 14;
         const double multiplier = 3;
 
-        List<SuperTrendResult> results = Quotes
-            .GetSuperTrend(lookbackPeriods, multiplier)
-            .ToList();
+        IReadOnlyList<SuperTrendResult> results = Quotes
+            .GetSuperTrend(lookbackPeriods, multiplier);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -54,9 +53,8 @@ public class SuperTrendTests : SeriesTestBase
     {
         IEnumerable<Quote> h = Data.GetBitcoin();
 
-        List<SuperTrendResult> results = h
-            .GetSuperTrend()
-            .ToList();
+        IReadOnlyList<SuperTrendResult> results = h
+            .GetSuperTrend();
 
         Assert.AreEqual(1246, results.Count);
 
@@ -67,9 +65,8 @@ public class SuperTrendTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SuperTrendResult> r = BadQuotes
-            .GetSuperTrend(7)
-            .ToList();
+        IReadOnlyList<SuperTrendResult> r = BadQuotes
+            .GetSuperTrend(7);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -77,15 +74,13 @@ public class SuperTrendTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SuperTrendResult> r0 = Noquotes
-            .GetSuperTrend()
-            .ToList();
+        IReadOnlyList<SuperTrendResult> r0 = Noquotes
+            .GetSuperTrend();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SuperTrendResult> r1 = Onequote
-            .GetSuperTrend()
-            .ToList();
+        IReadOnlyList<SuperTrendResult> r1 = Onequote
+            .GetSuperTrend();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -96,15 +91,14 @@ public class SuperTrendTests : SeriesTestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results = Quotes
+        IReadOnlyList<SuperTrendResult> results = Quotes
             .GetSuperTrend(lookbackPeriods, multiplier)
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(488, results.Count);
 
-        SuperTrendResult last = results.LastOrDefault();
+        SuperTrendResult last = results[^1];
         Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
         Assert.AreEqual(last.SuperTrend, last.UpperBand);
         Assert.AreEqual(null, last.LowerBand);
@@ -116,15 +110,14 @@ public class SuperTrendTests : SeriesTestBase
         int lookbackPeriods = 14;
         double multiplier = 3;
 
-        List<SuperTrendResult> results = Quotes
+        IReadOnlyList<SuperTrendResult> results = Quotes
             .GetSuperTrend(lookbackPeriods, multiplier)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(488, results.Count);
 
-        SuperTrendResult last = results.LastOrDefault();
+        SuperTrendResult last = results[^1];
         Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
         Assert.AreEqual(last.SuperTrend, last.UpperBand);
         Assert.AreEqual(null, last.LowerBand);

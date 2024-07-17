@@ -24,8 +24,7 @@ public class DpoTests : SeriesTestBase
         }
 
         // calculate actual data
-        List<DpoResult> act = qot.GetDpo(14)
-            .ToList();
+        IReadOnlyList<DpoResult> act = qot.GetDpo(14);
 
         // assertions
         Assert.AreEqual(exp.Count, act.Count);
@@ -45,10 +44,9 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<DpoResult> results = Quotes
+        IReadOnlyList<DpoResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetDpo(14)
-            .ToList();
+            .GetDpo(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.Dpo != null));
@@ -57,10 +55,9 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<DpoResult> results = Quotes
+        IReadOnlyList<DpoResult> results = Quotes
             .GetSma(2)
-            .GetDpo(14)
-            .ToList();
+            .GetDpo(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Dpo != null));
@@ -69,10 +66,9 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetDpo(14)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
@@ -81,9 +77,8 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DpoResult> r = BadQuotes
-            .GetDpo(5)
-            .ToList();
+        IReadOnlyList<DpoResult> r = BadQuotes
+            .GetDpo(5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dpo is double.NaN));
@@ -92,15 +87,13 @@ public class DpoTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DpoResult> r0 = Noquotes
-            .GetDpo(5)
-            .ToList();
+        IReadOnlyList<DpoResult> r0 = Noquotes
+            .GetDpo(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DpoResult> r1 = Onequote
-            .GetDpo(5)
-            .ToList();
+        IReadOnlyList<DpoResult> r1 = Onequote
+            .GetDpo(5);
 
         Assert.AreEqual(1, r1.Count);
     }

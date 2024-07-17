@@ -8,9 +8,8 @@ public class ChandelierTests : SeriesTestBase
     {
         int lookbackPeriods = 22;
 
-        List<ChandelierResult> longResult =
-            Quotes.GetChandelier(lookbackPeriods)
-            .ToList();
+        IReadOnlyList<ChandelierResult> longResult =
+            Quotes.GetChandelier(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, longResult.Count);
@@ -24,9 +23,8 @@ public class ChandelierTests : SeriesTestBase
         Assert.AreEqual(259.0480, b.ChandelierExit.Round(4));
 
         // short
-        List<ChandelierResult> shortResult =
-            Quotes.GetChandelier(lookbackPeriods, 3, ChandelierType.Short)
-            .ToList();
+        IReadOnlyList<ChandelierResult> shortResult =
+            Quotes.GetChandelier(lookbackPeriods, 3, ChandelierType.Short);
 
         ChandelierResult c = shortResult[501];
         Assert.AreEqual(246.4240, c.ChandelierExit.Round(4));
@@ -35,10 +33,9 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetChandelier()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
@@ -47,9 +44,8 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ChandelierResult> r = BadQuotes
-            .GetChandelier(15, 2)
-            .ToList();
+        IReadOnlyList<ChandelierResult> r = BadQuotes
+            .GetChandelier(15, 2);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double.NaN));
@@ -58,15 +54,13 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ChandelierResult> r0 = Noquotes
-            .GetChandelier()
-            .ToList();
+        IReadOnlyList<ChandelierResult> r0 = Noquotes
+            .GetChandelier();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ChandelierResult> r1 = Onequote
-            .GetChandelier()
-            .ToList();
+        IReadOnlyList<ChandelierResult> r1 = Onequote
+            .GetChandelier();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -74,15 +68,14 @@ public class ChandelierTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ChandelierResult> longResult = Quotes
+        IReadOnlyList<ChandelierResult> results = Quotes
             .GetChandelier()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 22, longResult.Count);
+        Assert.AreEqual(502 - 22, results.Count);
 
-        ChandelierResult last = longResult.LastOrDefault();
+        ChandelierResult last = results[^1];
         Assert.AreEqual(256.5860, last.ChandelierExit.Round(4));
     }
 

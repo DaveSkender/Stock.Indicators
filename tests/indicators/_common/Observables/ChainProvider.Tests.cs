@@ -15,7 +15,7 @@ public class ChainProviderTests : TestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        var observer = provider
+        EmaHub<QuotePart> observer = provider
             .ToQuotePart(CandlePart.HL2)
             .ToEma(11);
 
@@ -32,10 +32,9 @@ public class ChainProviderTests : TestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<EmaResult> staticEma = Quotes
+        IReadOnlyList<EmaResult> staticEma = Quotes
             .Use(CandlePart.HL2)
-            .GetEma(11)
-            .ToList();
+            .GetEma(11);
 
         // assert, should equal series
         for (int i = 0; i < length; i++)

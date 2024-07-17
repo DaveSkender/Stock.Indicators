@@ -5,18 +5,19 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<ObvResult> CalcObv(
-        this List<QuoteD> qdList)
+        this List<QuoteD> source)
     {
         // initialize
-        List<ObvResult> results = new(qdList.Count);
+        int length = source.Count;
+        List<ObvResult> results = new(length);
 
         double prevClose = double.NaN;
         double obv = 0;
 
         // roll through source values
-        for (int i = 0; i < qdList.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             if (double.IsNaN(prevClose) || q.Close == prevClose)
             {

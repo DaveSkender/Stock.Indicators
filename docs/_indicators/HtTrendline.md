@@ -16,7 +16,7 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 
 ```csharp
 // C# usage syntax
-IEnumerable<HtlResult> results =
+IReadOnlyList<HtlResult> results =
   quotes.GetHtTrendline();
 ```
 
@@ -29,7 +29,7 @@ You must have at least `100` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<HtlResult>
+IReadOnlyList<HtlResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

@@ -6,8 +6,7 @@ public class ProviderTests : TestBase
     [TestMethod]
     public void Prefill()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(50)
             .ToList();
 
@@ -48,8 +47,7 @@ public class ProviderTests : TestBase
     {
         // setup quote provider
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
             .ToList();
 
@@ -79,10 +77,9 @@ public class ProviderTests : TestBase
 
         // setup quote provider
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
-            .ToList();
+            .ToSortedList();
 
         int length = quotesList.Count;
 
@@ -105,11 +102,11 @@ public class ProviderTests : TestBase
         observer.Cache.Should().HaveCount(3);
         provider.Cache.Should().HaveCount(10);
 
-        List<QuotePart> cacheOver
+        IReadOnlyList<QuotePart> cacheOver
             = observer.Results
                 .Where(c => c.Timestamp >= q3.Timestamp).ToList();
 
-        List<QuotePart> cacheUndr
+        IReadOnlyList<QuotePart> cacheUndr
             = observer.Results
                 .Where(c => c.Timestamp <= q3.Timestamp).ToList();
 
@@ -123,8 +120,7 @@ public class ProviderTests : TestBase
 
         // setup quote provider
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
+        IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
             .ToList();
 
@@ -149,11 +145,11 @@ public class ProviderTests : TestBase
         observer.Cache.Should().HaveCount(3);
         provider.Cache.Should().HaveCount(10);
 
-        List<QuotePart> cacheOver
+        IReadOnlyList<QuotePart> cacheOver
             = observer.Results
                 .Where(c => c.Timestamp >= q3.Timestamp).ToList();
 
-        List<QuotePart> cacheUndr
+        IReadOnlyList<QuotePart> cacheUndr
             = observer.Results
                 .Where(c => c.Timestamp <= q3.Timestamp).ToList();
 

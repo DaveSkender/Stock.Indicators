@@ -6,9 +6,8 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<TrixResult> results = Quotes
-            .GetTrix(20)
-            .ToList();
+        IReadOnlyList<TrixResult> results = Quotes
+            .GetTrix(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -36,10 +35,9 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetTrix(20)
-            .ToList();
+            .GetTrix(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Trix != null));
@@ -48,10 +46,9 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> results = Quotes
             .GetSma(2)
-            .GetTrix(20)
-            .ToList();
+            .GetTrix(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Trix != null));
@@ -60,10 +57,9 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetTrix(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -72,9 +68,8 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<TrixResult> r = BadQuotes
-            .GetTrix(15)
-            .ToList();
+        IReadOnlyList<TrixResult> r = BadQuotes
+            .GetTrix(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trix is double.NaN));
@@ -83,15 +78,13 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<TrixResult> r0 = Noquotes
-            .GetTrix(5)
-            .ToList();
+        IReadOnlyList<TrixResult> r0 = Noquotes
+            .GetTrix(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<TrixResult> r1 = Onequote
-            .GetTrix(5)
-            .ToList();
+        IReadOnlyList<TrixResult> r1 = Onequote
+            .GetTrix(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -99,15 +92,14 @@ public class TrixTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<TrixResult> results = Quotes
+        IReadOnlyList<TrixResult> results = Quotes
             .GetTrix(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
 
-        TrixResult last = results.LastOrDefault();
+        TrixResult last = results[^1];
         Assert.AreEqual(263.3216, last.Ema3.Round(4));
         Assert.AreEqual(-0.230742, last.Trix.Round(6));
     }

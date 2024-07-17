@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     private static List<ChandelierResult> CalcChandelier(
-        this List<QuoteD> qdList,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)
@@ -14,16 +14,16 @@ public static partial class Indicator
         Chandelier.Validate(lookbackPeriods, multiplier);
 
         // initialize
-        int length = qdList.Count;
+        int length = source.Count;
         List<ChandelierResult> results = new(length);
-        List<AtrResult> atrResult = qdList
-            .CalcAtr(lookbackPeriods)
-            .ToList();
+
+        IReadOnlyList<AtrResult> atrResult
+            = source.CalcAtr(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            QuoteD q = qdList[i];
+            QuoteD q = source[i];
 
             double? exit = null;
 
@@ -39,14 +39,14 @@ public static partial class Indicator
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
-                            QuoteD d = qdList[p];
+                            QuoteD d = source[p];
                             if (d.High > maxHigh)
                             {
                                 maxHigh = d.High;
                             }
                         }
 
-                        exit = maxHigh - atr * multiplier;
+                        exit = maxHigh - (atr * multiplier);
                         break;
 
                     case ChandelierType.Short:
@@ -54,14 +54,14 @@ public static partial class Indicator
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
                         {
-                            QuoteD d = qdList[p];
+                            QuoteD d = source[p];
                             if (d.Low < minLow)
                             {
                                 minLow = d.Low;
                             }
                         }
 
-                        exit = minLow + atr * multiplier;
+                        exit = minLow + (atr * multiplier);
                         break;
 
                     default:

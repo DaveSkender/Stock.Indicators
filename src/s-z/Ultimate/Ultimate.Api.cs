@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
+    public static IReadOnlyList<UltimateResult> GetUltimate<TQuote>(
         this IEnumerable<TQuote> quotes,
         int shortPeriods = 7,
         int middlePeriods = 14,

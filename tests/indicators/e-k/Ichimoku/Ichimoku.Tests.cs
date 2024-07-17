@@ -10,9 +10,8 @@ public class IchimokuTests : SeriesTestBase
         int kijunPeriods = 26;
         int senkouBPeriods = 52;
 
-        List<IchimokuResult> results = Quotes
-            .GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods)
-            .ToList();
+        IReadOnlyList<IchimokuResult> results = Quotes
+            .GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -55,19 +54,17 @@ public class IchimokuTests : SeriesTestBase
     [TestMethod]
     public void Extended()
     {
-        List<IchimokuResult> r = Quotes
-            .GetIchimoku(3, 13, 40, 0, 0)
-            .ToList();
+        IReadOnlyList<IchimokuResult> results = Quotes
+            .GetIchimoku(3, 13, 40, 0, 0);
 
-        Assert.AreEqual(502, r.Count);
+        Assert.AreEqual(502, results.Count);
     }
 
     [TestMethod]
     public override void BadData()
     {
-        List<IchimokuResult> r = BadQuotes
-            .GetIchimoku()
-            .ToList();
+        IReadOnlyList<IchimokuResult> r = BadQuotes
+            .GetIchimoku();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -75,15 +72,13 @@ public class IchimokuTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<IchimokuResult> r0 = Noquotes
-            .GetIchimoku()
-            .ToList();
+        IReadOnlyList<IchimokuResult> r0 = Noquotes
+            .GetIchimoku();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<IchimokuResult> r1 = Onequote
-            .GetIchimoku()
-            .ToList();
+        IReadOnlyList<IchimokuResult> r1 = Onequote
+            .GetIchimoku();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -91,12 +86,11 @@ public class IchimokuTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<IchimokuResult> r = Quotes
+        IReadOnlyList<IchimokuResult> results = Quotes
             .GetIchimoku()
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.AreEqual(502, results.Count);
     }
 
     [TestMethod]

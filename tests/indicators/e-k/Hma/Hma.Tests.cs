@@ -6,9 +6,8 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<HmaResult> results = Quotes
-            .GetHma(20)
-            .ToList();
+        IReadOnlyList<HmaResult> results = Quotes
+            .GetHma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -25,10 +24,9 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetHma(20)
-            .ToList();
+            .GetHma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
@@ -37,10 +35,9 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> results = Quotes
             .GetSma(2)
-            .GetHma(19)
-            .ToList();
+            .GetHma(19);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
@@ -49,10 +46,9 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetHma(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
@@ -61,9 +57,8 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<HmaResult> r = BadQuotes
-            .GetHma(15)
-            .ToList();
+        IReadOnlyList<HmaResult> r = BadQuotes
+            .GetHma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Hma is double.NaN));
@@ -72,15 +67,13 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<HmaResult> r0 = Noquotes
-            .GetHma(5)
-            .ToList();
+        IReadOnlyList<HmaResult> r0 = Noquotes
+            .GetHma(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HmaResult> r1 = Onequote
-            .GetHma(5)
-            .ToList();
+        IReadOnlyList<HmaResult> r1 = Onequote
+            .GetHma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -88,15 +81,14 @@ public class HmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<HmaResult> results = Quotes
+        IReadOnlyList<HmaResult> results = Quotes
             .GetHma(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(480, results.Count);
 
-        HmaResult last = results.LastOrDefault();
+        HmaResult last = results[^1];
         Assert.AreEqual(235.6972, last.Hma.Round(4));
     }
 
