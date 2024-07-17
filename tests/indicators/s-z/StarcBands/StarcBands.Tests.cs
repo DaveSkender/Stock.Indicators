@@ -10,9 +10,8 @@ public class StarcBandsTests : SeriesTestBase
         int multiplier = 2;
         int atrPeriods = 14;
 
-        List<StarcBandsResult> results = Quotes
-            .GetStarcBands(smaPeriods, multiplier, atrPeriods)
-            .ToList();
+        IReadOnlyList<StarcBandsResult> results = Quotes
+            .GetStarcBands(smaPeriods, multiplier, atrPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -50,9 +49,8 @@ public class StarcBandsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StarcBandsResult> r = BadQuotes
-            .GetStarcBands(10, 3, 15)
-            .ToList();
+        IReadOnlyList<StarcBandsResult> r = BadQuotes
+            .GetStarcBands(10, 3, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
@@ -61,15 +59,13 @@ public class StarcBandsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StarcBandsResult> r0 = Noquotes
-            .GetStarcBands(10)
-            .ToList();
+        IReadOnlyList<StarcBandsResult> r0 = Noquotes
+            .GetStarcBands(10);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StarcBandsResult> r1 = Onequote
-            .GetStarcBands(10)
-            .ToList();
+        IReadOnlyList<StarcBandsResult> r1 = Onequote
+            .GetStarcBands(10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -82,15 +78,14 @@ public class StarcBandsTests : SeriesTestBase
         int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results = Quotes
+        IReadOnlyList<StarcBandsResult> results = Quotes
             .GetStarcBands(smaPeriods, multiplier, atrPeriods)
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(502 - lookbackPeriods + 1, results.Count);
 
-        StarcBandsResult last = results.LastOrDefault();
+        StarcBandsResult last = results[^1];
         Assert.AreEqual(251.8600, last.Centerline.Round(4));
         Assert.AreEqual(264.1595, last.UpperBand.Round(4));
         Assert.AreEqual(239.5605, last.LowerBand.Round(4));
@@ -104,15 +99,14 @@ public class StarcBandsTests : SeriesTestBase
         int atrPeriods = 14;
         int lookbackPeriods = Math.Max(smaPeriods, atrPeriods);
 
-        List<StarcBandsResult> results = Quotes
+        IReadOnlyList<StarcBandsResult> results = Quotes
             .GetStarcBands(smaPeriods, multiplier, atrPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
 
-        StarcBandsResult last = results.LastOrDefault();
+        StarcBandsResult last = results[^1];
         Assert.AreEqual(251.8600, last.Centerline.Round(4));
         Assert.AreEqual(264.1595, last.UpperBand.Round(4));
         Assert.AreEqual(239.5605, last.LowerBand.Round(4));

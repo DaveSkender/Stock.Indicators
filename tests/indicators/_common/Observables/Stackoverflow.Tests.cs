@@ -12,8 +12,8 @@ public class StackoverflowTests : TestBase
         int qtyQuotes = 20000;
 
         // setup: many random quotes (massive)
-        List<Quote> quotesList
-            = Data.GetRandom(qtyQuotes).ToList();
+        IReadOnlyList<Quote> quotesList
+            = Data.GetRandom(qtyQuotes);
 
         QuoteHub<Quote> provider = new();
 
@@ -59,7 +59,7 @@ public class StackoverflowTests : TestBase
 
         // assert: [last subscriber] has the same dates
 
-        List<ISeries> lastSubscriber
+        IReadOnlyList<ISeries> lastSubscriber
             = subscribers[^1].results.ToList();
 
         for (int i = 0; i < qtyQuotes; i++)
@@ -103,8 +103,8 @@ public class StackoverflowTests : TestBase
         int chainDepth = 500;
 
         // setup: many random quotes (massive)
-        List<Quote> quotesList
-            = Data.GetRandom(qtyQuotes).ToList();
+        IReadOnlyList<Quote> quotesList
+            = Data.GetRandom(qtyQuotes);
 
         QuoteHub<Quote> provider = new();
 
@@ -156,7 +156,7 @@ public class StackoverflowTests : TestBase
 
         // assert: [last subscriber] has the same dates
 
-        List<ISeries> lastSubscriber
+        IReadOnlyList<ISeries> lastSubscriber
             = subscribers[^1].results.ToList();
 
         for (int i = 0; i < qtyQuotes; i++)
@@ -200,8 +200,8 @@ public class StackoverflowTests : TestBase
         int qtyQuotes = 5000;
 
         // setup: many random quotes
-        List<Quote> quotesList
-            = Data.GetRandom(qtyQuotes).ToList();
+        IReadOnlyList<Quote> quotesList
+            = Data.GetRandom(qtyQuotes);
 
         QuoteHub<Quote> provider = new();
 
@@ -258,7 +258,7 @@ public class StackoverflowTests : TestBase
 
         // assert: [last subscriber] has the same dates
 
-        List<ISeries> lastSubscriber
+        IReadOnlyList<ISeries> lastSubscriber
             = subscribers[^1].results.ToList();
 
         for (int i = 0; i < qtyQuotes; i++)

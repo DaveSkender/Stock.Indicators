@@ -9,9 +9,8 @@ public class StdDevChannelsTests : SeriesTestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results =
-            Quotes.GetStdDevChannels(lookbackPeriods, standardDeviations)
-            .ToList();
+        IReadOnlyList<StdDevChannelsResult> results =
+            Quotes.GetStdDevChannels(lookbackPeriods, standardDeviations);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -68,9 +67,8 @@ public class StdDevChannelsTests : SeriesTestBase
     {
         // null provided for lookback period
 
-        List<StdDevChannelsResult> results =
-            Quotes.GetStdDevChannels(null)
-            .ToList();
+        IReadOnlyList<StdDevChannelsResult> results =
+            Quotes.GetStdDevChannels(null);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -100,10 +98,9 @@ public class StdDevChannelsTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStdDevChannels()
-            .ToList();
+            .GetStdDevChannels();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
@@ -112,10 +109,9 @@ public class StdDevChannelsTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> results = Quotes
             .GetSma(2)
-            .GetStdDevChannels()
-            .ToList();
+            .GetStdDevChannels();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
@@ -124,9 +120,8 @@ public class StdDevChannelsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<StdDevChannelsResult> r = BadQuotes
-            .GetStdDevChannels()
-            .ToList();
+        IReadOnlyList<StdDevChannelsResult> r = BadQuotes
+            .GetStdDevChannels();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperChannel is double.NaN));
@@ -135,15 +130,13 @@ public class StdDevChannelsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<StdDevChannelsResult> r0 = Noquotes
-            .GetStdDevChannels()
-            .ToList();
+        IReadOnlyList<StdDevChannelsResult> r0 = Noquotes
+            .GetStdDevChannels();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<StdDevChannelsResult> r1 = Onequote
-            .GetStdDevChannels()
-            .ToList();
+        IReadOnlyList<StdDevChannelsResult> r1 = Onequote
+            .GetStdDevChannels();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -154,14 +147,13 @@ public class StdDevChannelsTests : SeriesTestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> results = Quotes
             .GetStdDevChannels(lookbackPeriods, standardDeviations)
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(500, results.Count);
-        StdDevChannelsResult last = results.LastOrDefault();
+        StdDevChannelsResult last = results[^1];
         Assert.AreEqual(235.8131, last.Centerline.Round(4));
         Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
         Assert.AreEqual(213.9727, last.LowerChannel.Round(4));
@@ -174,14 +166,13 @@ public class StdDevChannelsTests : SeriesTestBase
         int lookbackPeriods = 20;
         double standardDeviations = 2;
 
-        List<StdDevChannelsResult> results = Quotes
+        IReadOnlyList<StdDevChannelsResult> results = Quotes
             .GetStdDevChannels(lookbackPeriods, standardDeviations)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(500, results.Count);
-        StdDevChannelsResult last = results.LastOrDefault();
+        StdDevChannelsResult last = results[^1];
         Assert.AreEqual(235.8131, last.Centerline.Round(4));
         Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
         Assert.AreEqual(213.9727, last.LowerChannel.Round(4));

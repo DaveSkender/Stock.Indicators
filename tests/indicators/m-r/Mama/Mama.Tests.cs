@@ -9,9 +9,8 @@ public class MamaTests : SeriesTestBase
         double fastLimit = 0.5;
         double slowLimit = 0.05;
 
-        List<MamaResult> results = Quotes
-            .GetMama(fastLimit, slowLimit)
-            .ToList();
+        IReadOnlyList<MamaResult> results = Quotes
+            .GetMama(fastLimit, slowLimit);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -50,10 +49,9 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMama()
-            .ToList();
+            .GetMama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(497, results.Count(x => x.Mama != null));
@@ -62,10 +60,9 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> results = Quotes
             .GetSma(2)
-            .GetMama()
-            .ToList();
+            .GetMama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(496, results.Count(x => x.Mama != null));
@@ -74,10 +71,9 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetMama()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Sma != null));
@@ -86,9 +82,8 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MamaResult> r = BadQuotes
-            .GetMama()
-            .ToList();
+        IReadOnlyList<MamaResult> r = BadQuotes
+            .GetMama();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mama is double.NaN));
@@ -97,15 +92,11 @@ public class MamaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MamaResult> r0 = Noquotes
-            .GetMama()
-            .ToList();
+        IReadOnlyList<MamaResult> r0 = Noquotes.GetMama();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MamaResult> r1 = Onequote
-            .GetMama()
-            .ToList();
+        IReadOnlyList<MamaResult> r1 = Onequote.GetMama();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -116,15 +107,14 @@ public class MamaTests : SeriesTestBase
         double fastLimit = 0.5;
         double slowLimit = 0.05;
 
-        List<MamaResult> results = Quotes
+        IReadOnlyList<MamaResult> results = Quotes
             .GetMama(fastLimit, slowLimit)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 50, results.Count);
 
-        MamaResult last = results.LastOrDefault();
+        MamaResult last = results[^1];
         Assert.AreEqual(244.1092, last.Mama.Round(4));
         Assert.AreEqual(252.6139, last.Fama.Round(4));
     }

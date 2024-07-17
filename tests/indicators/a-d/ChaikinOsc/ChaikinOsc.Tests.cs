@@ -9,9 +9,8 @@ public class ChaikinOscTests : SeriesTestBase
         int fastPeriods = 3;
         int slowPeriods = 10;
 
-        List<ChaikinOscResult> results = Quotes
-            .GetChaikinOsc(fastPeriods, slowPeriods)
-            .ToList();
+        IReadOnlyList<ChaikinOscResult> results = Quotes
+            .GetChaikinOsc(fastPeriods, slowPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,10 +27,9 @@ public class ChaikinOscTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetChaikinOsc()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -40,9 +38,8 @@ public class ChaikinOscTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ChaikinOscResult> r = BadQuotes
-            .GetChaikinOsc(5, 15)
-            .ToList();
+        IReadOnlyList<ChaikinOscResult> r = BadQuotes
+            .GetChaikinOsc(5, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -51,15 +48,13 @@ public class ChaikinOscTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ChaikinOscResult> r0 = Noquotes
-            .GetChaikinOsc()
-            .ToList();
+        IReadOnlyList<ChaikinOscResult> r0 = Noquotes
+            .GetChaikinOsc();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ChaikinOscResult> r1 = Onequote
-            .GetChaikinOsc()
-            .ToList();
+        IReadOnlyList<ChaikinOscResult> r1 = Onequote
+            .GetChaikinOsc();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -70,15 +65,14 @@ public class ChaikinOscTests : SeriesTestBase
         int fastPeriods = 3;
         int slowPeriods = 10;
 
-        List<ChaikinOscResult> results = Quotes
+        IReadOnlyList<ChaikinOscResult> results = Quotes
             .GetChaikinOsc(fastPeriods, slowPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
 
-        ChaikinOscResult last = results.LastOrDefault();
+        ChaikinOscResult last = results[^1];
         Assert.AreEqual(3439986548.42, last.Adl.Round(2));
         Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
         Assert.AreEqual(118396116.25, last.MoneyFlowVolume.Round(2));

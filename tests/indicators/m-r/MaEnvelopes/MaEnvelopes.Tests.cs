@@ -6,9 +6,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public override void Standard() // SMA
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -34,9 +33,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Alma()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -62,9 +60,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Dema()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -90,9 +87,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Epma()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -118,9 +114,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Ema()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.EMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.EMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -146,9 +141,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Hma()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.HMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.HMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -169,9 +163,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Smma()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -197,9 +190,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Tema()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -225,9 +217,8 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Wma()
     {
-        List<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.WMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> results =
+            Quotes.GetMaEnvelopes(20, 2.5, MaType.WMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -248,10 +239,9 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<MaEnvelopeResult> results = Quotes
+        IReadOnlyList<MaEnvelopeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMaEnvelopes(10)
-            .ToList();
+            .GetMaEnvelopes(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Centerline != null));
@@ -260,10 +250,9 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<MaEnvelopeResult> results = Quotes
+        IReadOnlyList<MaEnvelopeResult> results = Quotes
             .GetSma(2)
-            .GetMaEnvelopes(10)
-            .ToList();
+            .GetMaEnvelopes(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Centerline != null));
@@ -272,51 +261,43 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<MaEnvelopeResult> a = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.ALMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> a = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.ALMA);
 
         Assert.AreEqual(502, a.Count);
 
-        List<MaEnvelopeResult> d = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.DEMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> d = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.DEMA);
 
         Assert.AreEqual(502, d.Count);
 
-        List<MaEnvelopeResult> p = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.EPMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> p = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.EPMA);
 
         Assert.AreEqual(502, p.Count);
 
-        List<MaEnvelopeResult> e = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.EMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> e = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.EMA);
 
         Assert.AreEqual(502, e.Count);
 
-        List<MaEnvelopeResult> h = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.HMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> h = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.HMA);
 
         Assert.AreEqual(502, h.Count);
 
-        List<MaEnvelopeResult> s = BadQuotes
-            .GetMaEnvelopes(5)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> s = BadQuotes
+            .GetMaEnvelopes(5);
 
         Assert.AreEqual(502, s.Count);
 
-        List<MaEnvelopeResult> t = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.TEMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> t = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.TEMA);
 
         Assert.AreEqual(502, t.Count);
 
-        List<MaEnvelopeResult> w = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.WMA)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> w = BadQuotes
+            .GetMaEnvelopes(5, 2.5, MaType.WMA);
 
         Assert.AreEqual(502, w.Count);
     }
@@ -324,15 +305,13 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<MaEnvelopeResult> r0 = Noquotes
-            .GetMaEnvelopes(10)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> r0 = Noquotes
+            .GetMaEnvelopes(10);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MaEnvelopeResult> r1 = Onequote
-            .GetMaEnvelopes(10)
-            .ToList();
+        IReadOnlyList<MaEnvelopeResult> r1 = Onequote
+            .GetMaEnvelopes(10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -340,12 +319,11 @@ public class MaEnvelopesTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<MaEnvelopeResult> r = Quotes
+        IReadOnlyList<MaEnvelopeResult> results = Quotes
             .GetMaEnvelopes(20)
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(483, r.Count);
+        Assert.AreEqual(483, results.Count);
     }
 
     [TestMethod]

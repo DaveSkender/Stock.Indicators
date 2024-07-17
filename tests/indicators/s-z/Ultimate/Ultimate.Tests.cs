@@ -6,9 +6,8 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<UltimateResult> results = Quotes
-            .GetUltimate()
-            .ToList();
+        IReadOnlyList<UltimateResult> results = Quotes
+            .GetUltimate();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,10 +27,9 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetUltimate()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(465, results.Count(x => x.Sma != null));
@@ -40,9 +38,8 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<UltimateResult> r = BadQuotes
-            .GetUltimate(1, 2, 3)
-            .ToList();
+        IReadOnlyList<UltimateResult> r = BadQuotes
+            .GetUltimate(1, 2, 3);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Ultimate is double.NaN));
@@ -51,15 +48,13 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<UltimateResult> r0 = Noquotes
-            .GetUltimate()
-            .ToList();
+        IReadOnlyList<UltimateResult> r0 = Noquotes
+            .GetUltimate();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<UltimateResult> r1 = Onequote
-            .GetUltimate()
-            .ToList();
+        IReadOnlyList<UltimateResult> r1 = Onequote
+            .GetUltimate();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -67,15 +62,14 @@ public class UltimateTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<UltimateResult> results = Quotes
+        IReadOnlyList<UltimateResult> results = Quotes
             .GetUltimate()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 28, results.Count);
 
-        UltimateResult last = results.LastOrDefault();
+        UltimateResult last = results[^1];
         Assert.AreEqual(49.5257, last.Ultimate.Round(4));
     }
 

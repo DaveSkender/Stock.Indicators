@@ -6,9 +6,8 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SlopeResult> results = Quotes
-            .GetSlope(20)
-            .ToList();
+        IReadOnlyList<SlopeResult> results = Quotes
+            .GetSlope(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -42,10 +41,9 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<SlopeResult> results = Quotes
+        IReadOnlyList<SlopeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetSlope(20)
-            .ToList();
+            .GetSlope(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Slope != null));
@@ -54,10 +52,9 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<SlopeResult> results = Quotes
+        IReadOnlyList<SlopeResult> results = Quotes
             .GetSma(2)
-            .GetSlope(20)
-            .ToList();
+            .GetSlope(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Slope != null));
@@ -66,10 +63,9 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetSlope(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -78,9 +74,8 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SlopeResult> r = BadQuotes
-            .GetSlope(15)
-            .ToList();
+        IReadOnlyList<SlopeResult> r = BadQuotes
+            .GetSlope(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Slope is double.NaN));
@@ -89,9 +84,8 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<SlopeResult> r = BigQuotes
-            .GetSlope(250)
-            .ToList();
+        IReadOnlyList<SlopeResult> r = BigQuotes
+            .GetSlope(250);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -99,15 +93,13 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SlopeResult> r0 = Noquotes
-            .GetSlope(5)
-            .ToList();
+        IReadOnlyList<SlopeResult> r0 = Noquotes
+            .GetSlope(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SlopeResult> r1 = Onequote
-            .GetSlope(5)
-            .ToList();
+        IReadOnlyList<SlopeResult> r1 = Onequote
+            .GetSlope(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -115,15 +107,14 @@ public class SlopeTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SlopeResult> results = Quotes
+        IReadOnlyList<SlopeResult> results = Quotes
             .GetSlope(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
 
-        SlopeResult last = results.LastOrDefault();
+        SlopeResult last = results[^1];
         Assert.AreEqual(-1.689143, last.Slope.Round(6));
         Assert.AreEqual(1083.7629, last.Intercept.Round(4));
         Assert.AreEqual(0.7955, last.RSquared.Round(4));

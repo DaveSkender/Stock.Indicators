@@ -6,9 +6,8 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<SmaAnalysis> results = Quotes
-            .GetSmaAnalysis(20)
-            .ToList();
+        IReadOnlyList<SmaAnalysis> results = Quotes
+            .GetSmaAnalysis(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -25,10 +24,9 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<SmaAnalysis> results = Quotes
+        IReadOnlyList<SmaAnalysis> results = Quotes
             .Use(CandlePart.Close)
-            .GetSmaAnalysis(20)
-            .ToList();
+            .GetSmaAnalysis(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -37,10 +35,9 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<SmaAnalysis> results = Quotes
+        IReadOnlyList<SmaAnalysis> results = Quotes
             .GetSma(2)
-            .GetSmaAnalysis(20)
-            .ToList();
+            .GetSmaAnalysis(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Sma != null));
@@ -49,10 +46,9 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> results = Quotes
             .GetSmaAnalysis(10)
-            .GetEma(10)
-            .ToList();
+            .GetEma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));
@@ -61,9 +57,8 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<SmaAnalysis> r = BadQuotes
-            .GetSmaAnalysis(15)
-            .ToList();
+        IReadOnlyList<SmaAnalysis> r = BadQuotes
+            .GetSmaAnalysis(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mape is double.NaN));
@@ -72,15 +67,13 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<SmaAnalysis> r0 = Noquotes
-            .GetSmaAnalysis(6)
-            .ToList();
+        IReadOnlyList<SmaAnalysis> r0 = Noquotes
+            .GetSmaAnalysis(6);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<SmaAnalysis> r1 = Onequote
-            .GetSmaAnalysis(6)
-            .ToList();
+        IReadOnlyList<SmaAnalysis> r1 = Onequote
+            .GetSmaAnalysis(6);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -88,14 +81,13 @@ public class SmaAnalysisTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<SmaAnalysis> results = Quotes
+        IReadOnlyList<SmaAnalysis> results = Quotes
             .GetSmaAnalysis(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 19, results.Count);
-        Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
+        Assert.AreEqual(251.8600, Math.Round(results[^1].Sma.Value, 4));
     }
 
     // bad lookback period

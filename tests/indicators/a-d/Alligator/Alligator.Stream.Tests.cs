@@ -55,10 +55,9 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList
+        var seriesList
            = quotesList
-            .GetAlligator()
-            .ToList();
+            .GetAlligator();
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)
@@ -127,11 +126,10 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
             = observer.Results;
 
         // time-series, for comparison
-        List<AlligatorResult> seriesList
+        var seriesList
            = quotesList
             .GetSma(10)
-            .GetAlligator()
-            .ToList();
+            .GetAlligator();
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

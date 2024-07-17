@@ -6,9 +6,8 @@ public class HeikinAshiTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<HeikinAshiResult> results = Quotes
-            .GetHeikinAshi()
-            .ToList();
+        IReadOnlyList<HeikinAshiResult> results = Quotes
+            .GetHeikinAshi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -31,36 +30,10 @@ public class HeikinAshiTests : SeriesTestBase
     }
 
     [TestMethod]
-    public void ToQuotes()
-    {
-        List<HeikinAshiResult> results = Quotes
-            .GetHeikinAshi()
-            .ToList();
-
-        List<Quote> haQuotes = results
-            .ToQuotes()
-            .ToList();
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            HeikinAshiResult r = results[i];
-            Quote q = haQuotes[i];
-
-            Assert.AreEqual(r.Timestamp, q.Timestamp);
-            Assert.AreEqual(r.Open, q.Open);
-            Assert.AreEqual(r.High, q.High);
-            Assert.AreEqual(r.Low, q.Low);
-            Assert.AreEqual(r.Close, q.Close);
-            Assert.AreEqual(r.Volume, q.Volume);
-        }
-    }
-
-    [TestMethod]
     public override void BadData()
     {
-        List<HeikinAshiResult> r = BadQuotes
-            .GetHeikinAshi()
-            .ToList();
+        IReadOnlyList<HeikinAshiResult> r = BadQuotes
+            .GetHeikinAshi();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -68,15 +41,13 @@ public class HeikinAshiTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<HeikinAshiResult> r0 = Noquotes
-            .GetHeikinAshi()
-            .ToList();
+        IReadOnlyList<HeikinAshiResult> r0 = Noquotes
+            .GetHeikinAshi();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<HeikinAshiResult> r1 = Onequote
-            .GetHeikinAshi()
-            .ToList();
+        IReadOnlyList<HeikinAshiResult> r1 = Onequote
+            .GetHeikinAshi();
 
         Assert.AreEqual(1, r1.Count);
     }

@@ -6,9 +6,8 @@ public class VolatilityStopTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<VolatilityStopResult> results =
-            Quotes.GetVolatilityStop(14)
-            .ToList();
+        IReadOnlyList<VolatilityStopResult> results =
+            Quotes.GetVolatilityStop(14);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -54,7 +53,7 @@ public class VolatilityStopTests : SeriesTestBase
         Assert.AreEqual(249.7460, r284.LowerBand.Round(4));
         Assert.IsNull(r284.UpperBand);
 
-        VolatilityStopResult last = results.LastOrDefault();
+        VolatilityStopResult last = results[^1];
         Assert.AreEqual(249.2423, last.Sar.Round(4));
         Assert.AreEqual(false, last.IsStop);
         Assert.AreEqual(249.2423, last.UpperBand.Round(4));
@@ -64,10 +63,9 @@ public class VolatilityStopTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetVolatilityStop()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(439, results.Count(x => x.Sma != null));
@@ -76,9 +74,8 @@ public class VolatilityStopTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<VolatilityStopResult> r = BadQuotes
-            .GetVolatilityStop()
-            .ToList();
+        IReadOnlyList<VolatilityStopResult> r = BadQuotes
+            .GetVolatilityStop();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
@@ -87,15 +84,13 @@ public class VolatilityStopTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<VolatilityStopResult> r0 = Noquotes
-            .GetVolatilityStop()
-            .ToList();
+        IReadOnlyList<VolatilityStopResult> r0 = Noquotes
+            .GetVolatilityStop();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VolatilityStopResult> r1 = Onequote
-            .GetVolatilityStop()
-            .ToList();
+        IReadOnlyList<VolatilityStopResult> r1 = Onequote
+            .GetVolatilityStop();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -103,15 +98,14 @@ public class VolatilityStopTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<VolatilityStopResult> results = Quotes
+        IReadOnlyList<VolatilityStopResult> results = Quotes
             .GetVolatilityStop(14)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(402, results.Count);
 
-        VolatilityStopResult last = results.LastOrDefault();
+        VolatilityStopResult last = results[^1];
         Assert.AreEqual(249.2423, last.Sar.Round(4));
         Assert.AreEqual(false, last.IsStop);
     }

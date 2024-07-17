@@ -6,9 +6,8 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<GatorResult> results = Quotes
-            .GetGator()
-            .ToList();
+        IReadOnlyList<GatorResult> results = Quotes
+            .GetGator();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -76,10 +75,9 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void FromAlligator()
     {
-        List<GatorResult> results = Quotes
+        IReadOnlyList<GatorResult> results = Quotes
             .GetAlligator()
-            .GetGator()
-            .ToList();
+            .GetGator();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -147,10 +145,9 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<GatorResult> results = Quotes
+        IReadOnlyList<GatorResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetGator()
-            .ToList();
+            .GetGator();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Upper != null));
@@ -159,10 +156,9 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<GatorResult> results = Quotes
+        IReadOnlyList<GatorResult> results = Quotes
             .GetSma(2)
-            .GetGator()
-            .ToList();
+            .GetGator();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Upper != null));
@@ -171,9 +167,8 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<GatorResult> r = BadQuotes
-            .GetGator()
-            .ToList();
+        IReadOnlyList<GatorResult> r = BadQuotes
+            .GetGator();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Upper is double.NaN));
@@ -182,15 +177,13 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<GatorResult> r0 = Noquotes
-            .GetGator()
-            .ToList();
+        IReadOnlyList<GatorResult> r0 = Noquotes
+            .GetGator();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<GatorResult> r1 = Onequote
-            .GetGator()
-            .ToList();
+        IReadOnlyList<GatorResult> r1 = Onequote
+            .GetGator();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -198,15 +191,14 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<GatorResult> results = Quotes
+        IReadOnlyList<GatorResult> results = Quotes
             .GetGator()
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(490, results.Count);
 
-        GatorResult last = results.LastOrDefault();
+        GatorResult last = results[^1];
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
         Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
         Assert.IsTrue(last.UpperIsExpanding);
@@ -216,15 +208,14 @@ public class GatorTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<GatorResult> results = Quotes
+        IReadOnlyList<GatorResult> results = Quotes
             .GetGator()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 150, results.Count);
 
-        GatorResult last = results.LastOrDefault();
+        GatorResult last = results[^1];
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
         Assert.AreEqual(-9.2399, Math.Round(last.Lower.Value, 4));
         Assert.IsTrue(last.UpperIsExpanding);

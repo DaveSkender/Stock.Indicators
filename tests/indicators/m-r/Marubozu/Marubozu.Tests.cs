@@ -6,9 +6,8 @@ public class MarubozuTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<CandleResult> results = Quotes
-            .GetMarubozu()
-            .ToList();
+        IReadOnlyList<CandleResult> results = Quotes
+            .GetMarubozu();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -43,9 +42,8 @@ public class MarubozuTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<CandleResult> r = BadQuotes
-            .GetMarubozu()
-            .ToList();
+        IReadOnlyList<CandleResult> r = BadQuotes
+            .GetMarubozu();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -53,15 +51,13 @@ public class MarubozuTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<CandleResult> r0 = Noquotes
-            .GetMarubozu()
-            .ToList();
+        IReadOnlyList<CandleResult> r0 = Noquotes
+            .GetMarubozu();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<CandleResult> r1 = Onequote
-            .GetMarubozu()
-            .ToList();
+        IReadOnlyList<CandleResult> r1 = Onequote
+            .GetMarubozu();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -69,12 +65,11 @@ public class MarubozuTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<CandleResult> r = Quotes
+        IReadOnlyList<CandleResult> results = Quotes
             .GetMarubozu()
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(6, r.Count);
+        Assert.AreEqual(6, results.Count);
     }
 
     [TestMethod]

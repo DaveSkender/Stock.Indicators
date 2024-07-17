@@ -55,9 +55,8 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<AdlResult> seriesList = quotesList
-            .GetAdl()
-            .ToList();
+        var seriesList = quotesList
+            .GetAdl();
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)
@@ -111,10 +110,9 @@ public class AdlTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList = quotesList
+        var seriesList = quotesList
             .GetAdl()
-            .GetSma(smaPeriods)
-            .ToList();
+            .GetSma(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

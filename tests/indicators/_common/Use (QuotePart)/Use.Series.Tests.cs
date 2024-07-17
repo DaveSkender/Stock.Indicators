@@ -7,16 +7,16 @@ public class UseTests : SeriesTestBase
     public override void Standard()
     {
         // compose basic data
-        List<QuotePart> o = Quotes.Use(CandlePart.Open).ToList();
-        List<QuotePart> h = Quotes.Use(CandlePart.High).ToList();
-        List<QuotePart> l = Quotes.Use(CandlePart.Low).ToList();
-        List<QuotePart> c = Quotes.Use(CandlePart.Close).ToList();
-        List<QuotePart> v = Quotes.Use(CandlePart.Volume).ToList();
-        List<QuotePart> hl = Quotes.Use(CandlePart.HL2).ToList();
-        List<QuotePart> hlc = Quotes.Use(CandlePart.HLC3).ToList();
-        List<QuotePart> oc = Quotes.Use(CandlePart.OC2).ToList();
-        List<QuotePart> ohl = Quotes.Use(CandlePart.OHL3).ToList();
-        List<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4).ToList();
+        IReadOnlyList<QuotePart> o = Quotes.Use(CandlePart.Open).ToList();
+        IReadOnlyList<QuotePart> h = Quotes.Use(CandlePart.High).ToList();
+        IReadOnlyList<QuotePart> l = Quotes.Use(CandlePart.Low).ToList();
+        IReadOnlyList<QuotePart> c = Quotes.Use(CandlePart.Close).ToList();
+        IReadOnlyList<QuotePart> v = Quotes.Use(CandlePart.Volume).ToList();
+        IReadOnlyList<QuotePart> hl = Quotes.Use(CandlePart.HL2).ToList();
+        IReadOnlyList<QuotePart> hlc = Quotes.Use(CandlePart.HLC3).ToList();
+        IReadOnlyList<QuotePart> oc = Quotes.Use(CandlePart.OC2).ToList();
+        IReadOnlyList<QuotePart> ohl = Quotes.Use(CandlePart.OHL3).ToList();
+        IReadOnlyList<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4).ToList();
 
         // proper quantities
         Assert.AreEqual(502, c.Count);
@@ -54,9 +54,8 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public void Use()
     {
-        List<QuotePart> results = Quotes
-            .Use(CandlePart.Close)
-            .ToList();
+        IReadOnlyList<QuotePart> results = Quotes
+            .Use(CandlePart.Close);
 
         Assert.AreEqual(502, results.Count);
     }
@@ -64,10 +63,9 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -76,9 +74,8 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<QuotePart> r = BadQuotes
-            .Use(CandlePart.Close)
-            .ToList();
+        IReadOnlyList<QuotePart> r = BadQuotes
+            .Use(CandlePart.Close);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Value is double.NaN));
@@ -87,15 +84,13 @@ public class UseTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<QuotePart> r0 = Noquotes
-            .Use(CandlePart.Close)
-            .ToList();
+        IReadOnlyList<QuotePart> r0 = Noquotes
+            .Use(CandlePart.Close);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<QuotePart> r1 = Onequote
-            .Use(CandlePart.Close)
-            .ToList();
+        IReadOnlyList<QuotePart> r1 = Onequote
+            .Use(CandlePart.Close);
 
         Assert.AreEqual(1, r1.Count);
     }

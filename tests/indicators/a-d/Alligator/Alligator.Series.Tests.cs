@@ -6,9 +6,8 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<AlligatorResult> results = Quotes
-            .GetAlligator()
-            .ToList();
+        IReadOnlyList<AlligatorResult> results = Quotes
+            .GetAlligator();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -46,10 +45,9 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<AlligatorResult> results = Quotes
+        IReadOnlyList<AlligatorResult> results = Quotes
             .GetSma(2)
-            .GetAlligator()
-            .ToList();
+            .GetAlligator();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Jaw != null));
@@ -58,9 +56,8 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AlligatorResult> r = BadQuotes
-            .GetAlligator(3, 3, 2, 1, 1, 1)
-            .ToList();
+        IReadOnlyList<AlligatorResult> r = BadQuotes
+            .GetAlligator(3, 3, 2, 1, 1, 1);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Jaw is double.NaN));
@@ -69,15 +66,13 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AlligatorResult> r0 = Noquotes
-            .GetAlligator()
-            .ToList();
+        IReadOnlyList<AlligatorResult> r0 = Noquotes
+            .GetAlligator();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AlligatorResult> r1 = Onequote
-            .GetAlligator()
-            .ToList();
+        IReadOnlyList<AlligatorResult> r1 = Onequote
+            .GetAlligator();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -85,14 +80,13 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<AlligatorResult> r = Quotes
+        IReadOnlyList<AlligatorResult> results = Quotes
             .GetAlligator()
-            .Condense()
-            .ToList();
+            .Condense();
 
-        Assert.AreEqual(495, r.Count);
+        Assert.AreEqual(495, results.Count);
 
-        AlligatorResult last = r.LastOrDefault();
+        AlligatorResult last = results[^1];
         Assert.AreEqual(260.98953, last.Jaw.Round(5));
         Assert.AreEqual(253.53576, last.Teeth.Round(5));
         Assert.AreEqual(244.29591, last.Lips.Round(5));
@@ -101,14 +95,13 @@ public class AlligatorTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<AlligatorResult> r = Quotes
+        IReadOnlyList<AlligatorResult> results = Quotes
             .GetAlligator()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
-        Assert.AreEqual(502 - 21 - 250, r.Count);
+        Assert.AreEqual(502 - 21 - 250, results.Count);
 
-        AlligatorResult last = r.LastOrDefault();
+        AlligatorResult last = results[^1];
         Assert.AreEqual(260.98953, last.Jaw.Round(5));
         Assert.AreEqual(253.53576, last.Teeth.Round(5));
         Assert.AreEqual(244.29591, last.Lips.Round(5));

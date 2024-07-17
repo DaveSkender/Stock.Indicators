@@ -6,9 +6,8 @@ public class VortexTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<VortexResult> results = Quotes
-            .GetVortex(14)
-            .ToList();
+        IReadOnlyList<VortexResult> results = Quotes
+            .GetVortex(14);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -39,9 +38,8 @@ public class VortexTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<VortexResult> r = BadQuotes
-            .GetVortex(20)
-            .ToList();
+        IReadOnlyList<VortexResult> r = BadQuotes
+            .GetVortex(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Pvi is double.NaN));
@@ -50,15 +48,13 @@ public class VortexTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<VortexResult> r0 = Noquotes
-            .GetVortex(5)
-            .ToList();
+        IReadOnlyList<VortexResult> r0 = Noquotes
+            .GetVortex(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VortexResult> r1 = Onequote
-            .GetVortex(5)
-            .ToList();
+        IReadOnlyList<VortexResult> r1 = Onequote
+            .GetVortex(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -66,15 +62,14 @@ public class VortexTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<VortexResult> results = Quotes
+        IReadOnlyList<VortexResult> results = Quotes
             .GetVortex(14)
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
         Assert.AreEqual(502 - 14, results.Count);
 
-        VortexResult last = results.LastOrDefault();
+        VortexResult last = results[^1];
         Assert.AreEqual(0.8712, last.Pvi.Round(4));
         Assert.AreEqual(1.1163, last.Nvi.Round(4));
     }
@@ -82,15 +77,14 @@ public class VortexTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<VortexResult> results = Quotes
+        IReadOnlyList<VortexResult> results = Quotes
             .GetVortex(14)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 14, results.Count);
 
-        VortexResult last = results.LastOrDefault();
+        VortexResult last = results[^1];
         Assert.AreEqual(0.8712, last.Pvi.Round(4));
         Assert.AreEqual(1.1163, last.Nvi.Round(4));
     }

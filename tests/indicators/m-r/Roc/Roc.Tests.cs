@@ -6,9 +6,8 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<RocResult> results = Quotes
-            .GetRoc(20)
-            .ToList();
+        IReadOnlyList<RocResult> results = Quotes
+            .GetRoc(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -32,10 +31,9 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<RocResult> results = Quotes
+        IReadOnlyList<RocResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetRoc(20)
-            .ToList();
+            .GetRoc(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
@@ -44,10 +42,9 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<RocResult> results = Quotes
+        IReadOnlyList<RocResult> results = Quotes
             .GetSma(2)
-            .GetRoc(20)
-            .ToList();
+            .GetRoc(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Roc != null));
@@ -56,10 +53,9 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetRoc(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -68,9 +64,8 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RocResult> r = BadQuotes
-            .GetRoc(35)
-            .ToList();
+        IReadOnlyList<RocResult> r = BadQuotes
+            .GetRoc(35);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double.NaN));
@@ -79,15 +74,13 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RocResult> r0 = Noquotes
-            .GetRoc(5)
-            .ToList();
+        IReadOnlyList<RocResult> r0 = Noquotes
+            .GetRoc(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<RocResult> r1 = Onequote
-            .GetRoc(5)
-            .ToList();
+        IReadOnlyList<RocResult> r1 = Onequote
+            .GetRoc(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -95,15 +88,14 @@ public class RocTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<RocResult> results = Quotes
+        IReadOnlyList<RocResult> results = Quotes
             .GetRoc(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 20, results.Count);
 
-        RocResult last = results.LastOrDefault();
+        RocResult last = results[^1];
         Assert.AreEqual(-8.2482, last.Roc.Round(4));
     }
 

@@ -6,7 +6,7 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ForceIndexResult> r = Quotes.GetForceIndex(13).ToList();
+        IReadOnlyList<ForceIndexResult> r = Quotes.GetForceIndex(13).ToList();
 
         // proper quantities
         Assert.AreEqual(502, r.Count);
@@ -25,10 +25,9 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetForceIndex(13)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
@@ -37,9 +36,8 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ForceIndexResult> r = BadQuotes
-            .GetForceIndex()
-            .ToList();
+        IReadOnlyList<ForceIndexResult> r = BadQuotes
+            .GetForceIndex();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.ForceIndex is double.NaN));
@@ -48,15 +46,13 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ForceIndexResult> r0 = Noquotes
-            .GetForceIndex(5)
-            .ToList();
+        IReadOnlyList<ForceIndexResult> r0 = Noquotes
+            .GetForceIndex(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ForceIndexResult> r1 = Onequote
-            .GetForceIndex(5)
-            .ToList();
+        IReadOnlyList<ForceIndexResult> r1 = Onequote
+            .GetForceIndex(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -64,15 +60,14 @@ public class ForceIndexTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ForceIndexResult> results = Quotes
+        IReadOnlyList<ForceIndexResult> results = Quotes
             .GetForceIndex(13)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (13 + 100), results.Count);
 
-        ForceIndexResult last = results.LastOrDefault();
+        ForceIndexResult last = results[^1];
         Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
     }
 

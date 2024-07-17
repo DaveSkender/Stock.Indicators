@@ -10,9 +10,8 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 9;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<RollingPivotsResult> results =
-            Quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> results =
+            Quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -84,9 +83,8 @@ public class RollingPivotsTests : SeriesTestBase
 
         IEnumerable<Quote> h = Data.GetDefault(38);
 
-        List<RollingPivotsResult> results = h
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> results = h
+            .GetRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(38, results.Count);
@@ -156,9 +154,8 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 10;
         PivotPointType pointType = PivotPointType.Demark;
 
-        List<RollingPivotsResult> results = Quotes
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> results = Quotes
+            .GetRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -241,9 +238,8 @@ public class RollingPivotsTests : SeriesTestBase
 
         IEnumerable<Quote> h = Data.GetIntraday(300);
 
-        List<RollingPivotsResult> results =
-            h.GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> results =
+            h.GetRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(300, results.Count);
@@ -316,9 +312,8 @@ public class RollingPivotsTests : SeriesTestBase
 
         IEnumerable<Quote> h = Data.GetIntraday();
 
-        List<RollingPivotsResult> results = h
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> results = h
+            .GetRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(1564, results.Count);
@@ -376,9 +371,8 @@ public class RollingPivotsTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<RollingPivotsResult> r = BadQuotes
-            .GetRollingPivots(5, 5)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> r = BadQuotes
+            .GetRollingPivots(5, 5);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -386,15 +380,13 @@ public class RollingPivotsTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<RollingPivotsResult> r0 = Noquotes
-            .GetRollingPivots(5, 2)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> r0 = Noquotes
+            .GetRollingPivots(5, 2);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<RollingPivotsResult> r1 = Onequote
-            .GetRollingPivots(5, 2)
-            .ToList();
+        IReadOnlyList<RollingPivotsResult> r1 = Onequote
+            .GetRollingPivots(5, 2);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -406,15 +398,14 @@ public class RollingPivotsTests : SeriesTestBase
         int offsetPeriods = 9;
         PivotPointType pointType = PivotPointType.Standard;
 
-        List<RollingPivotsResult> results = Quotes
+        IReadOnlyList<RollingPivotsResult> results = Quotes
             .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (windowPeriods + offsetPeriods), results.Count);
 
-        RollingPivotsResult last = results.LastOrDefault();
+        RollingPivotsResult last = results[^1];
         Assert.AreEqual(260.0267m, last.PP.Round(4));
         Assert.AreEqual(246.4633m, last.S1.Round(4));
         Assert.AreEqual(238.7767m, last.S2.Round(4));

@@ -55,10 +55,9 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        List<SmaResult> seriesList
+        IReadOnlyList<SmaResult> seriesList
            = quotesList
-            .GetSma(5)
-            .ToList();
+            .GetSma(5);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)
@@ -109,11 +108,10 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> staticList
+        IReadOnlyList<SmaResult> staticList
            = quotesList
             .Use(CandlePart.OC2)
-            .GetSma(11)
-            .ToList();
+            .GetSma(11);
 
         // assert, should equal series
         for (int i = 0; i < length; i++)
@@ -167,11 +165,10 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<EmaResult> seriesList
+        IReadOnlyList<EmaResult> seriesList
            = quotesList
             .GetSma(smaPeriods)
-            .GetEma(emaPeriods)
-            .ToList();
+            .GetEma(emaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

@@ -21,7 +21,7 @@ public class TransformTests : TestBase
     [TestMethod]
     public void Exceptions()
     {
-        List<Quote> nullQuotes = null;
+        IReadOnlyList<Quote> nullQuotes = null;
 
         Assert.ThrowsException<ArgumentNullException>(()
             => nullQuotes.ToCollection());

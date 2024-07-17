@@ -7,7 +7,7 @@ public static partial class QuoteUtility
     // VALIDATION
     /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
     ///
-    public static IEnumerable<TQuote> Validate<TQuote>(
+    public static IReadOnlyList<TQuote> Validate<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {

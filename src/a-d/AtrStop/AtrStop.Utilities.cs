@@ -4,7 +4,7 @@ public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
     /// <inheritdoc cref="ReusableUtility.Condense{T}(IEnumerable{T})"/>
-    public static IEnumerable<AtrStopResult> Condense(
+    public static IReadOnlyList<AtrStopResult> Condense(
         this IEnumerable<AtrStopResult> results)
     {
         List<AtrStopResult> resultsList = results
@@ -17,7 +17,7 @@ public static partial class Indicator
 
     // remove recommended periods
     /// <inheritdoc cref="ReusableUtility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IEnumerable<AtrStopResult> RemoveWarmupPeriods(
+    public static IReadOnlyList<AtrStopResult> RemoveWarmupPeriods(
         this IEnumerable<AtrStopResult> results)
     {
         int removePeriods = results

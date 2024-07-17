@@ -15,7 +15,7 @@ public sealed record MyResult : IReusable
 public static class CustomIndicator
 {
     // SERIES, from CHAIN
-    public static IEnumerable<MyResult> GetIndicator<T>(
+    public static IReadOnlyList<MyResult> GetIndicator<T>(
         this IEnumerable<T> source,
         int lookbackPeriods)
         where T : IReusable
@@ -85,9 +85,8 @@ public class CustomIndicatorTests
     [TestMethod]
     public void Standard()
     {
-        List<MyResult> results = quotes
-            .GetIndicator(20)
-            .ToList();
+        IReadOnlyList<MyResult> results = quotes
+            .GetIndicator(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -105,10 +104,9 @@ public class CustomIndicatorTests
     [TestMethod]
     public void CandlePartOpen()
     {
-        List<MyResult> results = quotes
+        IReadOnlyList<MyResult> results = quotes
             .Use(CandlePart.Open)
-            .GetIndicator(20)
-            .ToList();
+            .GetIndicator(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -125,10 +123,9 @@ public class CustomIndicatorTests
     [TestMethod]
     public void CandlePartVolume()
     {
-        List<MyResult> results = quotes
+        IReadOnlyList<MyResult> results = quotes
             .Use(CandlePart.Volume)
-            .GetIndicator(20)
-            .ToList();
+            .GetIndicator(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -148,10 +145,9 @@ public class CustomIndicatorTests
     [TestMethod]
     public void Chainor()
     {
-        List<EmaResult> results = quotes
+        IReadOnlyList<EmaResult> results = quotes
             .GetIndicator(10)
-            .GetEma(10)
-            .ToList();
+            .GetEma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));
@@ -183,9 +179,8 @@ public class CustomIndicatorTests
     [TestMethod]
     public void NaN()
     {
-        List<MyResult> r = Data.GetBtcUsdNan()
-            .GetIndicator(50)
-            .ToList();
+        IReadOnlyList<MyResult> r = Data.GetBtcUsdNan()
+            .GetIndicator(50);
 
         Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
     }
@@ -193,9 +188,8 @@ public class CustomIndicatorTests
     [TestMethod]
     public void BadData()
     {
-        List<MyResult> r = badQuotes
-            .GetIndicator(15)
-            .ToList();
+        IReadOnlyList<MyResult> r = badQuotes
+            .GetIndicator(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
@@ -204,15 +198,13 @@ public class CustomIndicatorTests
     [TestMethod]
     public void NoQuotesExist()
     {
-        List<MyResult> r0 = noquotes
-            .GetIndicator(5)
-            .ToList();
+        IReadOnlyList<MyResult> r0 = noquotes
+            .GetIndicator(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<MyResult> r1 = onequote
-            .GetIndicator(5)
-            .ToList();
+        IReadOnlyList<MyResult> r1 = onequote
+            .GetIndicator(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -220,13 +212,12 @@ public class CustomIndicatorTests
     [TestMethod]
     public void Removed()
     {
-        List<MyResult> results = quotes
+        IReadOnlyList<MyResult> results = quotes
             .GetIndicator(20)
-            .RemoveWarmupPeriods(19)
-            .ToList();
+            .RemoveWarmupPeriods(19);
 
         Assert.AreEqual(502 - 19, results.Count);
-        Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
+        Assert.AreEqual(251.8600, Math.Round(results[^1].Sma.Value, 4));
     }
 
     // bad lookback period

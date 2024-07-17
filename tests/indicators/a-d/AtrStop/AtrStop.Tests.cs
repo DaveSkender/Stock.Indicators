@@ -9,9 +9,8 @@ public class AtrStopTests : SeriesTestBase
         int lookbackPeriods = 21;
         double multiplier = 3;
 
-        List<AtrStopResult> results = Quotes
-            .GetAtrStop(lookbackPeriods, multiplier)
-            .ToList();
+        IReadOnlyList<AtrStopResult> results = Quotes
+            .GetAtrStop(lookbackPeriods, multiplier);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -55,9 +54,8 @@ public class AtrStopTests : SeriesTestBase
         int lookbackPeriods = 21;
         double multiplier = 3;
 
-        List<AtrStopResult> results = Quotes
-            .GetAtrStop(lookbackPeriods, multiplier, EndType.HighLow)
-            .ToList();
+        IReadOnlyList<AtrStopResult> results = Quotes
+            .GetAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -98,9 +96,8 @@ public class AtrStopTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<AtrStopResult> r = BadQuotes
-            .GetAtrStop(7)
-            .ToList();
+        IReadOnlyList<AtrStopResult> r = BadQuotes
+            .GetAtrStop(7);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -108,15 +105,13 @@ public class AtrStopTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<AtrStopResult> r0 = Noquotes
-            .GetAtrStop()
-            .ToList();
+        IReadOnlyList<AtrStopResult> r0 = Noquotes
+            .GetAtrStop();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<AtrStopResult> r1 = Onequote
-            .GetAtrStop()
-            .ToList();
+        IReadOnlyList<AtrStopResult> r1 = Onequote
+            .GetAtrStop();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -127,15 +122,14 @@ public class AtrStopTests : SeriesTestBase
         int lookbackPeriods = 21;
         double multiplier = 3;
 
-        List<AtrStopResult> results =
-            Quotes.GetAtrStop(lookbackPeriods, multiplier)
-             .Condense()
-             .ToList();
+        IReadOnlyList<AtrStopResult> results = Quotes
+            .GetAtrStop(lookbackPeriods, multiplier)
+            .Condense();
 
         // assertions
         Assert.AreEqual(481, results.Count);
 
-        AtrStopResult last = results.LastOrDefault();
+        AtrStopResult last = results[^1];
         Assert.AreEqual(246.3232m, last.AtrStop.Round(4));
         Assert.AreEqual(last.AtrStop, last.BuyStop);
         Assert.AreEqual(null, last.SellStop);
@@ -147,15 +141,14 @@ public class AtrStopTests : SeriesTestBase
         int lookbackPeriods = 21;
         double multiplier = 3;
 
-        List<AtrStopResult> results =
-            Quotes.GetAtrStop(lookbackPeriods, multiplier)
-             .RemoveWarmupPeriods()
-             .ToList();
+        IReadOnlyList<AtrStopResult> results = Quotes
+            .GetAtrStop(lookbackPeriods, multiplier)
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(481, results.Count);
 
-        AtrStopResult last = results.LastOrDefault();
+        AtrStopResult last = results[^1];
         Assert.AreEqual(246.3232m, last.AtrStop.Round(4));
         Assert.AreEqual(last.AtrStop, last.BuyStop);
         Assert.AreEqual(null, last.SellStop);

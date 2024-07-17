@@ -9,7 +9,7 @@ public class Sorting : TestBase
     public void ToSortedCollection()
     {
         // baseline for comparison
-        List<SmaResult> baseline =
+        IReadOnlyList<SmaResult> baseline =
         [
             new(Timestamp: DateTime.Parse("1/1/2000", englishCulture), Sma: null),
             new(Timestamp: DateTime.Parse("1/2/2000", englishCulture), Sma: null),

@@ -61,9 +61,9 @@ public class PublicClassTests
     [TestMethod]
     public void ReadQuoteClass()
     {
-        IEnumerable<Quote> h = quotes.Validate();
+        IReadOnlyList<Quote> h = quotes.Validate();
 
-        Quote f = h.FirstOrDefault();
+        Quote f = h[0];
         Console.WriteLine($"Quote:{f}");
     }
 
@@ -82,9 +82,8 @@ public class PublicClassTests
             })
             .ToList();
 
-        List<EmaResult> results = myGenericHistory
-            .GetEma(20)
-            .ToList();
+        IReadOnlyList<EmaResult> results = myGenericHistory
+            .GetEma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -159,9 +158,8 @@ public class PublicClassTests
             })
             .ToList();
 
-        List<Quote> quotesList = myGenericHistory
-            .Aggregate(PeriodSize.TwoHours)
-            .ToList();
+        IReadOnlyList<Quote> quotesList = myGenericHistory
+            .Aggregate(PeriodSize.TwoHours);
 
         // proper quantities
         Assert.AreEqual(20, quotesList.Count);
@@ -186,9 +184,8 @@ public class PublicClassTests
             })
             .ToList();
 
-        List<Quote> quotesList = myGenericHistory
-            .Aggregate(TimeSpan.FromHours(2))
-            .ToList();
+        IReadOnlyList<Quote> quotesList = myGenericHistory
+            .Aggregate(TimeSpan.FromHours(2));
 
         // proper quantities
         Assert.AreEqual(20, quotesList.Count);

@@ -81,10 +81,9 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        List<SmaResult> seriesList
+        IReadOnlyList<SmaResult> seriesList
            = quotesList
-            .GetSma(smaPeriods)
-            .ToList();
+            .GetSma(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

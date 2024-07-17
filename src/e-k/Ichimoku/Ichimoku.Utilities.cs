@@ -4,7 +4,7 @@ public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
     /// <inheritdoc cref="ReusableUtility.Condense{T}(IEnumerable{T})"/>
-    public static IEnumerable<IchimokuResult> Condense(
+    public static IReadOnlyList<IchimokuResult> Condense(
         this IEnumerable<IchimokuResult> results)
     {
         List<IchimokuResult> resultsList = results

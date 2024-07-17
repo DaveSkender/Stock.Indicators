@@ -14,9 +14,8 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<EmaResult> results = Quotes
-            .GetEma(20)
-            .ToList();
+        IReadOnlyList<EmaResult> results = Quotes
+            .GetEma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -36,10 +35,9 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public void UsePart()
     {
-        List<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> results = Quotes
             .Use(CandlePart.Open)
-            .GetEma(20)
-            .ToList();
+            .GetEma(20);
 
         // assertions
 
@@ -62,10 +60,9 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetEma(20)
-            .ToList();
+            .GetEma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
@@ -75,10 +72,9 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> results = Quotes
             .GetSma(2)
-            .GetEma(20)
-            .ToList();
+            .GetEma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
@@ -88,10 +84,9 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetEma(20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -101,10 +96,9 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public void ChaineeMore()
     {
-        List<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> results = Quotes
             .GetRsi()
-            .GetEma(20)
-            .ToList();
+            .GetEma(20);
 
         // assertions
         Assert.AreEqual(502, results.Count);
@@ -128,9 +122,8 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<EmaResult> r = BadQuotes
-            .GetEma(15)
-            .ToList();
+        IReadOnlyList<EmaResult> r = BadQuotes
+            .GetEma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Ema is double.NaN));
@@ -139,15 +132,13 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<EmaResult> r0 = Noquotes
-            .GetEma(10)
-            .ToList();
+        IReadOnlyList<EmaResult> r0 = Noquotes
+            .GetEma(10);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<EmaResult> r1 = Onequote
-            .GetEma(10)
-            .ToList();
+        IReadOnlyList<EmaResult> r1 = Onequote
+            .GetEma(10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -155,15 +146,14 @@ public class EmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<EmaResult> results = Quotes
+        IReadOnlyList<EmaResult> results = Quotes
             .GetEma(20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - (20 + 100), results.Count);
 
-        EmaResult last = results.LastOrDefault();
+        EmaResult last = results[^1];
         Assert.AreEqual(249.3519, last.Ema.Round(4));
     }
 

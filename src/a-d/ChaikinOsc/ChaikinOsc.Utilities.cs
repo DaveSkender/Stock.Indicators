@@ -4,7 +4,7 @@ public static partial class Indicator
 {
     // remove recommended periods
     /// <inheritdoc cref="ReusableUtility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IEnumerable<ChaikinOscResult> RemoveWarmupPeriods(
+    public static IReadOnlyList<ChaikinOscResult> RemoveWarmupPeriods(
         this IEnumerable<ChaikinOscResult> results)
     {
         int s = results

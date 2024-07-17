@@ -4,7 +4,7 @@ public static partial class Indicator
 {
     // remove recommended periods
     /// <inheritdoc cref="ReusableUtility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IEnumerable<TemaResult> RemoveWarmupPeriods(
+    public static IReadOnlyList<TemaResult> RemoveWarmupPeriods(
         this IEnumerable<TemaResult> results)
     {
         int n = results

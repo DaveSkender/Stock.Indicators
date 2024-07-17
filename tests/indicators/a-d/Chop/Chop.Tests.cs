@@ -6,9 +6,8 @@ public class ChopTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ChopResult> results = Quotes
-            .GetChop()
-            .ToList();
+        IReadOnlyList<ChopResult> results = Quotes
+            .GetChop();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -31,10 +30,9 @@ public class ChopTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetChop()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
@@ -44,9 +42,8 @@ public class ChopTests : SeriesTestBase
     public void SmallLookback()
     {
         int lookbackPeriods = 2;
-        List<ChopResult> results = Quotes
-            .GetChop(lookbackPeriods)
-            .ToList();
+        IReadOnlyList<ChopResult> results = Quotes
+            .GetChop(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -56,9 +53,8 @@ public class ChopTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ChopResult> r = BadQuotes
-            .GetChop(20)
-            .ToList();
+        IReadOnlyList<ChopResult> r = BadQuotes
+            .GetChop(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Chop is double.NaN));
@@ -67,15 +63,13 @@ public class ChopTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ChopResult> r0 = Noquotes
-            .GetChop()
-            .ToList();
+        IReadOnlyList<ChopResult> r0 = Noquotes
+            .GetChop();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ChopResult> r1 = Onequote
-            .GetChop()
-            .ToList();
+        IReadOnlyList<ChopResult> r1 = Onequote
+            .GetChop();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -83,15 +77,14 @@ public class ChopTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<ChopResult> results = Quotes
+        IReadOnlyList<ChopResult> results = Quotes
             .GetChop()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 14, results.Count);
 
-        ChopResult last = results.LastOrDefault();
+        ChopResult last = results[^1];
         Assert.AreEqual(38.6526, last.Chop.Round(4));
     }
 

@@ -6,9 +6,8 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<ObvResult> results = Quotes
-            .GetObv()
-            .ToList();
+        IReadOnlyList<ObvResult> results = Quotes
+            .GetObv();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -24,10 +23,9 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetObv()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -36,9 +34,8 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ObvResult> r = BadQuotes
-            .GetObv()
-            .ToList();
+        IReadOnlyList<ObvResult> r = BadQuotes
+            .GetObv();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
@@ -47,9 +44,8 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<ObvResult> r = BigQuotes
-            .GetObv()
-            .ToList();
+        IReadOnlyList<ObvResult> r = BigQuotes
+            .GetObv();
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -57,15 +53,13 @@ public class ObvTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ObvResult> r0 = Noquotes
-            .GetObv()
-            .ToList();
+        IReadOnlyList<ObvResult> r0 = Noquotes
+            .GetObv();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ObvResult> r1 = Onequote
-            .GetObv()
-            .ToList();
+        IReadOnlyList<ObvResult> r1 = Onequote
+            .GetObv();
 
         Assert.AreEqual(1, r1.Count);
     }

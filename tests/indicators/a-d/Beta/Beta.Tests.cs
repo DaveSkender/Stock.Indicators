@@ -6,9 +6,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void All()
     {
-        List<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20, BetaType.All)
-            .ToList();
+        IReadOnlyList<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20, BetaType.All);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -51,9 +50,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20)
-            .ToList();
+        IReadOnlyList<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -67,9 +65,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Up()
     {
-        List<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20, BetaType.Up)
-            .ToList();
+        IReadOnlyList<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20, BetaType.Up);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -83,9 +80,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Down()
     {
-        List<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20, BetaType.Down)
-            .ToList();
+        IReadOnlyList<BetaResult> results = OtherQuotes
+            .GetBeta(Quotes, 20, BetaType.Down);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -99,10 +95,9 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> results = OtherQuotes
             .Use(CandlePart.Close)
-            .GetBeta(Quotes.Use(CandlePart.Close), 20)
-            .ToList();
+            .GetBeta(Quotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Beta != null));
@@ -111,10 +106,9 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = OtherQuotes
+        IReadOnlyList<SmaResult> results = OtherQuotes
             .GetBeta(Quotes, 20)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -123,10 +117,9 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<BetaResult> results = Quotes
+        IReadOnlyList<BetaResult> results = Quotes
             .GetSma(2)
-            .GetBeta(OtherQuotes.GetSma(2), 20)
-            .ToList();
+            .GetBeta(OtherQuotes.GetSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Beta != null));
@@ -136,23 +129,20 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<BetaResult> r1 = BadQuotes
-            .GetBeta(BadQuotes, 15)
-            .ToList();
+        IReadOnlyList<BetaResult> r1 = BadQuotes
+            .GetBeta(BadQuotes, 15);
 
         Assert.AreEqual(502, r1.Count);
         Assert.AreEqual(0, r1.Count(x => x.Beta is double.NaN));
 
-        List<BetaResult> r2 = BadQuotes
-            .GetBeta(BadQuotes, 15, BetaType.Up)
-            .ToList();
+        IReadOnlyList<BetaResult> r2 = BadQuotes
+            .GetBeta(BadQuotes, 15, BetaType.Up);
 
         Assert.AreEqual(502, r2.Count);
         Assert.AreEqual(0, r2.Count(x => x.BetaUp is double.NaN));
 
-        List<BetaResult> r3 = BadQuotes
-            .GetBeta(BadQuotes, 15, BetaType.Down)
-            .ToList();
+        IReadOnlyList<BetaResult> r3 = BadQuotes
+            .GetBeta(BadQuotes, 15, BetaType.Down);
 
         Assert.AreEqual(502, r3.Count);
         Assert.AreEqual(0, r3.Count(x => x.BetaDown is double.NaN));
@@ -161,9 +151,8 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void BigData()
     {
-        List<BetaResult> r = BigQuotes
-            .GetBeta(BigQuotes, 150, BetaType.All)
-            .ToList();
+        IReadOnlyList<BetaResult> r = BigQuotes
+            .GetBeta(BigQuotes, 150, BetaType.All);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -179,13 +168,12 @@ public class BetaTests : SeriesTestBase
           https://www.nasdaq.com/market-activity/stocks/msft
         */
 
-        List<Quote> evalQuotes = Data.GetMsft().ToList();
-        List<Quote> mktQuotes = Data.GetSpx().ToList();
+        IReadOnlyList<Quote> evalQuotes = Data.GetMsft();
+        IReadOnlyList<Quote> mktQuotes = Data.GetSpx();
 
-        List<BetaResult> results = evalQuotes.Aggregate(PeriodSize.Month)
-            .GetBeta(mktQuotes.Aggregate(PeriodSize.Month),
-                60)
-            .ToList();
+        IReadOnlyList<BetaResult> results = evalQuotes
+            .Aggregate(PeriodSize.Month)
+            .GetBeta(mktQuotes.Aggregate(PeriodSize.Month), 60);
 
         Assert.AreEqual(0.91, results[385].Beta.Round(2));
     }
@@ -193,15 +181,14 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<BetaResult> results = OtherQuotes
+        IReadOnlyList<BetaResult> results = OtherQuotes
             .GetBeta(Quotes, 20)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 20, results.Count);
 
-        BetaResult last = results.LastOrDefault();
+        BetaResult last = results[^1];
         Assert.AreEqual(1.5123, last.Beta.Round(4));
     }
 
@@ -209,9 +196,8 @@ public class BetaTests : SeriesTestBase
     public void SameSame()
     {
         // Beta should be 1 if evaluating against self
-        List<BetaResult> results = Quotes
-            .GetBeta(Quotes, 20)
-            .ToList();
+        IReadOnlyList<BetaResult> results = Quotes
+            .GetBeta(Quotes, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -225,20 +211,21 @@ public class BetaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<BetaResult> r0 = Noquotes
-            .GetBeta(Noquotes, 5)
-            .ToList();
+        IReadOnlyList<BetaResult> r0 = Noquotes
+            .GetBeta(Noquotes, 5);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<BetaResult> r1 = Onequote.GetBeta(Onequote, 5).ToList();
+        IReadOnlyList<BetaResult> r1 = Onequote
+            .GetBeta(Onequote, 5);
+
         Assert.AreEqual(1, r1.Count);
     }
 
     [TestMethod]
     public void NoMatch()
     {
-        List<Quote> quoteA =
+        IReadOnlyList<Quote> quoteA =
         [
             new(DateTime.Parse("1/1/2020", englishCulture), 0, 0, 0, 1234, 0),
             new(DateTime.Parse("1/2/2020", englishCulture), 0, 0, 0, 1234, 0),
@@ -251,7 +238,7 @@ public class BetaTests : SeriesTestBase
             new(DateTime.Parse("1/9/2020", englishCulture), 0, 0, 0, 1234, 0)
         ];
 
-        List<Quote> quoteB =
+        IReadOnlyList<Quote> quoteB =
         [
             new(DateTime.Parse("1/1/2020", englishCulture), 0, 0, 0, 1234, 0),
             new(DateTime.Parse("1/2/2020", englishCulture), 0, 0, 0, 1234, 0),
@@ -276,7 +263,7 @@ public class BetaTests : SeriesTestBase
             => Quotes.GetBeta(OtherQuotes, 0));
 
         // bad evaluation quotes
-        List<Quote> eval = Data.GetCompare(300).ToList();
+        IReadOnlyList<Quote> eval = Data.GetCompare(300).ToList();
 
         Assert.ThrowsException<InvalidQuotesException>(()
             => Quotes.GetBeta(eval, 30));

@@ -6,21 +6,22 @@ public class Reusable : TestBase
     [TestMethod]
     public void Condense()
     {
-        List<AdxResult> results = Quotes
+        List<AdxResult> original = Quotes
             .GetAdx()
             .ToList();
 
         // make a few more in the middle null and NaN
-        results[249] = results[249] with { Adx = null };
-        results[345] = results[345] with { Adx = double.NaN };
+        original[249] = original[249] with { Adx = null };
+        original[345] = original[345] with { Adx = double.NaN };
 
-        List<AdxResult> r = results.Condense().ToList();
+        IReadOnlyList<AdxResult> results
+            = original.Condense();
 
         // proper quantities
-        Assert.AreEqual(473, r.Count);
+        Assert.AreEqual(473, results.Count);
 
         // sample values
-        AdxResult last = r.LastOrDefault();
+        AdxResult last = results[^1];
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
         Assert.AreEqual(31.1510, last.Mdi.Round(4));
         Assert.AreEqual(34.2987, last.Adx.Round(4));

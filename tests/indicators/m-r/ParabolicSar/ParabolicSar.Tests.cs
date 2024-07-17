@@ -9,7 +9,7 @@ public class ParabolicSarTests : SeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        List<ParabolicSarResult> results =
+        IReadOnlyList<ParabolicSarResult> results =
             Quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
@@ -42,7 +42,7 @@ public class ParabolicSarTests : SeriesTestBase
         double maxAccelerationFactor = 0.2;
         double initialStep = 0.01;
 
-        List<ParabolicSarResult> results =
+        IReadOnlyList<ParabolicSarResult> results =
             Quotes.GetParabolicSar(
                 acclerationStep, maxAccelerationFactor, initialStep)
                 .ToList();
@@ -76,10 +76,9 @@ public class ParabolicSarTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetParabolicSar()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
@@ -95,7 +94,7 @@ public class ParabolicSarTests : SeriesTestBase
             .OrderBy(x => x.Timestamp)
             .Take(10);
 
-        List<ParabolicSarResult> results =
+        IReadOnlyList<ParabolicSarResult> results =
             insufficientQuotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
@@ -109,9 +108,8 @@ public class ParabolicSarTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<ParabolicSarResult> r = BadQuotes
-            .GetParabolicSar(0.2, 0.2, 0.2)
-            .ToList();
+        IReadOnlyList<ParabolicSarResult> r = BadQuotes
+            .GetParabolicSar(0.2, 0.2, 0.2);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
@@ -120,15 +118,13 @@ public class ParabolicSarTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<ParabolicSarResult> r0 = Noquotes
-            .GetParabolicSar()
-            .ToList();
+        IReadOnlyList<ParabolicSarResult> r0 = Noquotes
+            .GetParabolicSar();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<ParabolicSarResult> r1 = Onequote
-            .GetParabolicSar()
-            .ToList();
+        IReadOnlyList<ParabolicSarResult> r1 = Onequote
+            .GetParabolicSar();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -139,15 +135,14 @@ public class ParabolicSarTests : SeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        List<ParabolicSarResult> results = Quotes
+        IReadOnlyList<ParabolicSarResult> results = Quotes
             .GetParabolicSar(acclerationStep, maxAccelerationFactor)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(488, results.Count);
 
-        ParabolicSarResult last = results.LastOrDefault();
+        ParabolicSarResult last = results[^1];
         Assert.AreEqual(229.7662, last.Sar.Round(4));
         Assert.AreEqual(false, last.IsReversal);
     }

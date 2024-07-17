@@ -10,9 +10,8 @@ public class KamaTests : SeriesTestBase
         int fastPeriods = 2;
         int slowPeriods = 30;
 
-        List<KamaResult> results = Quotes
-            .GetKama(erPeriods, fastPeriods, slowPeriods)
-            .ToList();
+        IReadOnlyList<KamaResult> results = Quotes
+            .GetKama(erPeriods, fastPeriods, slowPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -52,10 +51,9 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public void UseReusable()
     {
-        List<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetKama()
-            .ToList();
+            .GetKama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
@@ -64,10 +62,9 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public void Chainee()
     {
-        List<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> results = Quotes
             .GetSma(2)
-            .GetKama()
-            .ToList();
+            .GetKama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Kama != null));
@@ -76,10 +73,9 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetKama()
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -88,9 +84,8 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<KamaResult> r = BadQuotes
-            .GetKama()
-            .ToList();
+        IReadOnlyList<KamaResult> r = BadQuotes
+            .GetKama();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Kama is double.NaN));
@@ -99,15 +94,13 @@ public class KamaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<KamaResult> r0 = Noquotes
-            .GetKama()
-            .ToList();
+        IReadOnlyList<KamaResult> r0 = Noquotes
+            .GetKama();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<KamaResult> r1 = Onequote
-            .GetKama()
-            .ToList();
+        IReadOnlyList<KamaResult> r1 = Onequote
+            .GetKama();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -119,15 +112,14 @@ public class KamaTests : SeriesTestBase
         int fastPeriods = 2;
         int slowPeriods = 30;
 
-        List<KamaResult> results = Quotes
+        IReadOnlyList<KamaResult> results = Quotes
             .GetKama(erPeriods, fastPeriods, slowPeriods)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - Math.Max(erPeriods + 100, erPeriods * 10), results.Count);
 
-        KamaResult last = results.LastOrDefault();
+        KamaResult last = results[^1];
         Assert.AreEqual(0.2214, last.Er.Round(4));
         Assert.AreEqual(240.1138, last.Kama.Round(4));
     }

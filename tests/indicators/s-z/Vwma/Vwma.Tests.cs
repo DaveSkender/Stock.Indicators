@@ -6,9 +6,8 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<VwmaResult> results = Quotes
-            .GetVwma(10)
-            .ToList();
+        IReadOnlyList<VwmaResult> results = Quotes
+            .GetVwma(10);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,10 +27,9 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        List<SmaResult> results = Quotes
+        IReadOnlyList<SmaResult> results = Quotes
             .GetVwma(10)
-            .GetSma(10)
-            .ToList();
+            .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -40,9 +38,8 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<VwmaResult> r = BadQuotes
-            .GetVwma(15)
-            .ToList();
+        IReadOnlyList<VwmaResult> r = BadQuotes
+            .GetVwma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwma is double.NaN));
@@ -51,15 +48,13 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<VwmaResult> r0 = Noquotes
-            .GetVwma(4)
-            .ToList();
+        IReadOnlyList<VwmaResult> r0 = Noquotes
+            .GetVwma(4);
 
         Assert.AreEqual(0, r0.Count);
 
-        List<VwmaResult> r1 = Onequote
-            .GetVwma(4)
-            .ToList();
+        IReadOnlyList<VwmaResult> r1 = Onequote
+            .GetVwma(4);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -67,15 +62,14 @@ public class VwmaTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<VwmaResult> results = Quotes
+        IReadOnlyList<VwmaResult> results = Quotes
             .GetVwma(10)
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 9, results.Count);
 
-        VwmaResult last = results.LastOrDefault();
+        VwmaResult last = results[^1];
         Assert.AreEqual(242.101548, last.Vwma.Round(6));
     }
 

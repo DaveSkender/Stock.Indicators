@@ -6,9 +6,8 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        List<DonchianResult> results = Quotes
-            .GetDonchian()
-            .ToList();
+        IReadOnlyList<DonchianResult> results = Quotes
+            .GetDonchian();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -52,9 +51,8 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        List<DonchianResult> r = BadQuotes
-            .GetDonchian(15)
-            .ToList();
+        IReadOnlyList<DonchianResult> r = BadQuotes
+            .GetDonchian(15);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -62,15 +60,13 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        List<DonchianResult> r0 = Noquotes
-            .GetDonchian()
-            .ToList();
+        IReadOnlyList<DonchianResult> r0 = Noquotes
+            .GetDonchian();
 
         Assert.AreEqual(0, r0.Count);
 
-        List<DonchianResult> r1 = Onequote
-            .GetDonchian()
-            .ToList();
+        IReadOnlyList<DonchianResult> r1 = Onequote
+            .GetDonchian();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -78,15 +74,14 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public void Condense()
     {
-        List<DonchianResult> r = Quotes
+        IReadOnlyList<DonchianResult> results = Quotes
             .GetDonchian()
-            .Condense()
-            .ToList();
+            .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 20, r.Count);
+        Assert.AreEqual(502 - 20, results.Count);
 
-        DonchianResult last = r.LastOrDefault();
+        DonchianResult last = results[^1];
         Assert.AreEqual(251.5050m, last.Centerline.Round(4));
         Assert.AreEqual(273.5900m, last.UpperBand.Round(4));
         Assert.AreEqual(229.4200m, last.LowerBand.Round(4));
@@ -96,15 +91,14 @@ public class DonchianTests : SeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        List<DonchianResult> results = Quotes
+        IReadOnlyList<DonchianResult> results = Quotes
             .GetDonchian()
-            .RemoveWarmupPeriods()
-            .ToList();
+            .RemoveWarmupPeriods();
 
         // assertions
         Assert.AreEqual(502 - 20, results.Count);
 
-        DonchianResult last = results.LastOrDefault();
+        DonchianResult last = results[^1];
         Assert.AreEqual(251.5050m, last.Centerline.Round(4));
         Assert.AreEqual(273.5900m, last.UpperBand.Round(4));
         Assert.AreEqual(229.4200m, last.LowerBand.Round(4));

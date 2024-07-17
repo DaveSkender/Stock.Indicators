@@ -4,11 +4,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Renko
 {
-    // convert results to quotes
-    public static IEnumerable<Quote> ToQuotes(
-    this IEnumerable<RenkoResult> results)
-        => results.Cast<Quote>();
-
     // calculate brick size
     internal static int GetNewBrickQuantity<TQuote>(
         TQuote q,
