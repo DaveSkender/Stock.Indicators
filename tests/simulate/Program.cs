@@ -33,6 +33,5 @@ for (int i = 0; i < quantityToStream; i++)
     Thread.Sleep(60000 / quotesPerMinute);
 
     // send output to console
-    Console.SetCursorPosition(0, i + 5);
     Util.PrintData(quote, smaHub, emaHub, useChain, emaChain);
 }

@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Skender.Stock.Indicators">
-      <HintPath>..\..\..\src\bin\Debug\net8.0\Skender.Stock.Indicators.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\src\Indicators.csproj" />
   </ItemGroup>
 
 </Project>

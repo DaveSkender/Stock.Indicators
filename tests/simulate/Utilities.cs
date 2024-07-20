@@ -6,7 +6,6 @@ internal static class Util
 {
     internal static List<Quote> Setup(int quantityToStream, int quotesPerMinute)
     {
-        Console.SetCursorPosition(0, 0);
         Console.WriteLine($"Simulating {quotesPerMinute:N0} quotes per minute");
         PrintHeader();
 
