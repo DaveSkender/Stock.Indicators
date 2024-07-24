@@ -24,27 +24,16 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
             throw new ArgumentNullException(nameof(newIn));
         }
 
-        double prevAdl;
-
         int i = index ?? Provider.GetIndex(newIn, false);
-
-        if (i == 0)
-        {
-            prevAdl = 0;
-        }
-        else
-        {
-            AdlResult prev = Cache[i - 1];
-            prevAdl = prev.Adl;
-        }
 
         // calculate ADL
         AdlResult r = Adl.Increment(
-            newIn.Timestamp, prevAdl,
+            newIn.Timestamp,
             newIn.High,
             newIn.Low,
             newIn.Close,
-            newIn.Volume);
+            newIn.Volume,
+            i > 0 ? Cache[i - 1].Value : 0);
 
         // save and send
         Motify(act, r, i);

@@ -11,20 +11,19 @@ public static partial class Adl
         // initialize
         int length = source.Count;
         List<AdlResult> results = new(length);
-        double prevAdl = 0;
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IQuote q = source[i];
-
             AdlResult r = Increment(
-                q.Timestamp, prevAdl,
-                q.High, q.Low, q.Close, q.Volume);
+                source[i].Timestamp,
+                source[i].High,
+                source[i].Low,
+                source[i].Close,
+                source[i].Volume,
+                i > 0 ? results[i - 1].Adl : 0);
 
             results.Add(r);
-
-            prevAdl = r.Adl;
         }
 
         return results;

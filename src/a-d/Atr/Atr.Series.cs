@@ -43,12 +43,13 @@ public static partial class Atr
             if (i > lookbackPeriods)
             {
                 // calculate ATR
-                atr = (prevAtr * (lookbackPeriods - 1) + tr) / lookbackPeriods;
+                atr = ((prevAtr * (lookbackPeriods - 1)) + tr) / lookbackPeriods;
                 atrp = q.Close == 0 ? null : atr / q.Close * 100;
                 prevAtr = atr;
             }
 
-            // TODO: update healing, without requiring specific indexing
+            // TODO: update healing, without requiring specific indexing,
+            // have had trouble gettng this one to work when evaluating previous ATR values
             else if (i == lookbackPeriods)
             {
                 // initialize ATR

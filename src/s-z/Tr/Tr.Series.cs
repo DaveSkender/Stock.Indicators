@@ -26,8 +26,7 @@ public static partial class Tr
 
             results.Add(new TrResult(
                 Timestamp: q.Timestamp,
-                Tr: Tr.Increment(q.High, q.Low, source[i - 1].Close)
-                      .NaN2Null()));
+                Tr: Increment(q.High, q.Low, source[i - 1].Close)));
         }
 
         return results;

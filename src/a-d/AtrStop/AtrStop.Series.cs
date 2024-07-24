@@ -53,8 +53,7 @@ public static partial class AtrStop
                     lowerEval = q.Low - (multiplier * atr);
                 }
 
-                // initial values
-                // TODO: update healing, without requiring specific indexing
+                // initialize values on first eval pass
                 if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= p.Close;
@@ -63,19 +62,20 @@ public static partial class AtrStop
                     lowerBand = lowerEval;
                 }
 
-                // new upper band
+                // new upper band: can only go down, or reverse
                 if (upperEval < upperBand || p.Close > upperBand)
                 {
                     upperBand = upperEval;
                 }
 
-                // new lower band
+                // new lower band: can only go up, or reverse
                 if (lowerEval > lowerBand || p.Close < lowerBand)
                 {
                     lowerBand = lowerEval;
                 }
 
-                // trailing stop
+                // trailing stop: based on direction,
+                // can be either the upper or lower band
                 if (q.Close <= (isBullish ? lowerBand : upperBand))
                 {
                     atrStop = (decimal?)upperBand;
