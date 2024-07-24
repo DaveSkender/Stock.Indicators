@@ -17,7 +17,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 {
     #region constructors
 
-    public RenkoHub(
+    internal RenkoHub(
         IQuoteProvider<TIn> provider,
         decimal brickSize,
         EndType endType) : base(provider)

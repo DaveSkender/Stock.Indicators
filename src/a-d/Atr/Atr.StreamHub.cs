@@ -16,7 +16,7 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
 {
     #region constructors
 
-    public AtrHub(IQuoteProvider<TIn> provider,
+    internal AtrHub(IQuoteProvider<TIn> provider,
         int lookbackPeriods)
         : base(provider)
     {

@@ -18,7 +18,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 {
     #region constructors
 
-    public AtrStopHub(
+    internal AtrStopHub(
         IQuoteProvider<TIn> provider,
         int lookbackPeriods,
         double multiplier,
@@ -65,8 +65,6 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
         // save and send
         Motify(act, r, null);
-
-        throw new NotImplementedException();
     }
 
     public override string ToString()

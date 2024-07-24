@@ -15,7 +15,7 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
 {
     #region constructors
 
-    public SmaHub(
+    internal SmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {

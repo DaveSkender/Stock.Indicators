@@ -18,6 +18,7 @@ public static partial class AtrStop
         List<AtrStopResult> results = new(length);
         List<AtrResult> atrResults = source.CalcAtr(lookbackPeriods);
 
+        // prevailing direction and bands
         bool isBullish = true;
         double? upperBand = null;
         double? lowerBand = null;

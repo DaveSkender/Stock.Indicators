@@ -8,7 +8,7 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 {
     #region constructors
 
-    public AdlHub(IQuoteProvider<TIn> provider)
+    internal AdlHub(IQuoteProvider<TIn> provider)
         : base(provider)
     {
         Reinitialize();

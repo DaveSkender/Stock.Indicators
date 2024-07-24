@@ -17,7 +17,7 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 {
     #region constructors
 
-    public QuotePartHub(
+    internal QuotePartHub(
         IQuoteProvider<TQuote> provider,
         CandlePart candlePart)
         : base(provider)

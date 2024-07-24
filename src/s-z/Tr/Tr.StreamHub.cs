@@ -8,7 +8,7 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
 {
     #region constructors
 
-    public TrHub(IQuoteProvider<TIn> provider)
+    internal TrHub(IQuoteProvider<TIn> provider)
         : base(provider)
     {
         Reinitialize();

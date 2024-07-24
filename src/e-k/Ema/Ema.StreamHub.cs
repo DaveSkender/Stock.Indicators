@@ -17,7 +17,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 {
     #region constructors
 
-    public EmaHub(
+    internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {

@@ -21,7 +21,7 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
 {
     #region constructors
 
-    public AlligatorHub(
+    internal AlligatorHub(
         IChainProvider<TIn> provider,
         int jawPeriods, int jawOffset,
         int teethPeriods, int teethOffset,
