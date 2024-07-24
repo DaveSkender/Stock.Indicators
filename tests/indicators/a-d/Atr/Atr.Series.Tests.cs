@@ -41,6 +41,27 @@ public class AtrTests : SeriesTestBase
     }
 
     [TestMethod]
+    public void MatchingTrueRange()
+    {
+        IReadOnlyList<AtrResult> resultsAtr = Quotes
+            .GetAtr(14);
+
+        IReadOnlyList<TrResult> resultsTr = Quotes
+            .GetTr();
+
+        for (int i = 0; i < Quotes.Count; i++)
+        {
+            Quote q = Quotes[i];
+            TrResult t = resultsTr[i];
+            AtrResult r = resultsAtr[i];
+
+            r.Timestamp.Should().Be(q.Timestamp);
+            r.Timestamp.Should().Be(t.Timestamp);
+            r.Tr.Should().Be(t.Tr);
+        }
+    }
+
+    [TestMethod]
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes

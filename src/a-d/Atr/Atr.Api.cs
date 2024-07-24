@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (API)
+
 public static partial class Atr
 {
     // SERIES, from TQuote
@@ -12,4 +13,11 @@ public static partial class Atr
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcAtr(lookbackPeriods);
+
+    // OBSERVER, from Quote Provider
+    public static AtrHub<TIn> ToAtr<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
+        int lookbackPeriods)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods);
 }
