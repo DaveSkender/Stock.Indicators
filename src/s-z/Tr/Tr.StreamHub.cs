@@ -19,11 +19,6 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         int i = index ?? Provider.GetIndex(newIn, false);
 
         // skip first period
@@ -35,7 +30,7 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
 
         TIn prev = Provider.Results[i - 1];
 
-        // calculate TR
+        // candidate result
         TrResult r = new(
             newIn.Timestamp,
             Tr.Increment(

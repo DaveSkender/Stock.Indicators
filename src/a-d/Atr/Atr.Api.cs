@@ -17,7 +17,7 @@ public static partial class Atr
     // OBSERVER, from Quote Provider
     public static AtrHub<TIn> ToAtr<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
         where TIn : IQuote
         => new(quoteProvider, lookbackPeriods);
 }

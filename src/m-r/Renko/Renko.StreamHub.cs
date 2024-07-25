@@ -37,11 +37,6 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         // get last brick
         RenkoResult lastBrick;
 
@@ -120,6 +115,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
                     c = o - BrickSize;
                 }
 
+                // candidate result
                 RenkoResult r
                     = new(newIn.Timestamp, o, h, l, c, v, isUp);
 

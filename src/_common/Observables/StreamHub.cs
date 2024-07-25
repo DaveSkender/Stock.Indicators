@@ -35,7 +35,7 @@ public abstract partial class StreamHub<TIn, TOut>(
 
     // observer methods
 
-    public void OnNext((Act, TIn, int?) value)
+    public virtual void OnNext((Act, TIn, int?) value)
     {
         (Act act, TIn item, int? index) = value;
 

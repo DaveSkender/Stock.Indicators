@@ -37,6 +37,9 @@ public class StreamIndicators
     public object AtrHub() => provider.ToAtr(14).Results;
 
     [Benchmark]
+    public object AtrStopHub() => provider.ToAtrStop().Results;
+
+    [Benchmark]
     public object AlligatorHub() => provider.ToAlligator().Results;
 
     [Benchmark]

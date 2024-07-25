@@ -19,14 +19,9 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         int i = index ?? Provider.GetIndex(newIn, false);
 
-        // calculate ADL
+        // candidate result
         AdlResult r = Adl.Increment(
             newIn.Timestamp,
             newIn.High,

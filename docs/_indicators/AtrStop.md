@@ -63,6 +63,8 @@ IReadOnlyList<AtrStopResult>
 
 **`SellStop`** _`decimal`_ - Lower band only (red)
 
+**`Atr`** _`double`_ - Average True Range
+
 `BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 
 ### Utilities

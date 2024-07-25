@@ -55,11 +55,6 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         double jaw = double.NaN;
         double lips = double.NaN;
         double teeth = double.NaN;

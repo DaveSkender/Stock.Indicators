@@ -32,11 +32,6 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         int i = index ?? Provider.GetIndex(newIn, false);
 
         // candidate result

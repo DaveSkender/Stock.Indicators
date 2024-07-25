@@ -28,13 +28,14 @@ public static partial class AtrStop
         {
             QuoteD q = source[i];
 
+            double? atr = null;
             decimal? atrStop = null;
             decimal? buyStop = null;
             decimal? sellStop = null;
 
             if (i >= lookbackPeriods)
             {
-                double? atr = atrResults[i].Atr;
+                atr = atrResults[i].Atr;
                 QuoteD p = source[i - 1];
 
                 double? upperEval;
@@ -95,7 +96,8 @@ public static partial class AtrStop
                 Timestamp: q.Timestamp,
                 AtrStop: atrStop,
                 BuyStop: buyStop,
-                SellStop: sellStop));
+                SellStop: sellStop,
+                Atr: atr));
         }
 
         return results;

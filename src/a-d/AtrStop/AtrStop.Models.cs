@@ -4,5 +4,6 @@ public record AtrStopResult(
     DateTime Timestamp,
     decimal? AtrStop,
     decimal? BuyStop,
-    decimal? SellStop
+    decimal? SellStop,
+    double? Atr
 ) : ISeries;

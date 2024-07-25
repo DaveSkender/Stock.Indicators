@@ -36,11 +36,6 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         double ema;
 
         int i = index ?? Provider.GetIndex(newIn, false);
