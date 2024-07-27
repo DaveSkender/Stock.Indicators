@@ -43,7 +43,7 @@ GEM
     faraday (2.10.0)
       faraday-net_http (>= 2.0, < 3.2)
       logger
-    faraday-net_http (3.1.0)
+    faraday-net_http (3.1.1)
       net-http
     faraday-retry (2.2.1)
       faraday (~> 2.0)
@@ -246,9 +246,9 @@ GEM
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
-    nokogiri (1.16.6-x64-mingw-ucrt)
+    nokogiri (1.16.7-x64-mingw-ucrt)
       racc (~> 1.4)
-    nokogiri (1.16.6-x86_64-linux)
+    nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
     octokit (4.25.1)
       faraday (>= 1, < 3)
