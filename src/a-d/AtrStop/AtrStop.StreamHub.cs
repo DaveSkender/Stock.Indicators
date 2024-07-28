@@ -40,12 +40,12 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
     // prevailing direction and band thresholds
     private bool IsBullish { get; set; } = true;
-    private double? UpperBand { get; set; }
-    private double? LowerBand { get; set; }
+    private double UpperBand { get; set; } = double.MaxValue;
+    private double LowerBand { get; set; } = double.MinValue;
 
     // METHODS
 
-    // overriden to handle non-standard arrival scenarios
+    // overridden to handle non-standard arrival scenarios
     public override void OnNext((Act, TIn, int?) value)
     {
         (Act act, TIn item, int? index) = value;
@@ -57,21 +57,23 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             return;
         }
 
-        // find last reversal position (before deviance)
-        int lastStopIndex = Cache.FindLastIndex(
-            x => x.Timestamp <= item.Timestamp
-              && x.AtrStop != (IsBullish ? x.BuyStop : x.SellStop));
+        // find last synchronized band position (before deviance)
+        int lastSyncIndex = Cache.FindLastIndex(
+            x => x.Timestamp < item.Timestamp
+              && x.AtrStop == (IsBullish ? x.SellStop : x.BuyStop));
 
         // rebuild from last know reversal point
-        if (lastStopIndex > 0)
+        if (lastSyncIndex > LookbackPeriods)
         {
-            AtrStopResult lastStop = Cache[lastStopIndex];
+            AtrStopResult lastSyncPoint = Cache[lastSyncIndex];
 
-            IsBullish = lastStop.AtrStop == lastStop.BuyStop;
-            UpperBand = (double?)lastStop.SellStop;
-            LowerBand = (double?)lastStop.BuyStop;
+            // reset prevailing direction and bands
+            IsBullish = lastSyncPoint.AtrStop == lastSyncPoint.SellStop;
+            UpperBand = (double?)lastSyncPoint.BuyStop ?? default;
+            LowerBand = (double?)lastSyncPoint.SellStop ?? default;
 
-            RebuildCache(lastStopIndex);
+            // rebuild cache AFTER last sync point
+            RebuildCache(lastSyncIndex + 1, lastSyncIndex + 1);
         }
 
         // full rebuild if no prior reversal
@@ -93,12 +95,12 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
                 "AtrStopHub should only receive new data.");
         }
 
+        int i = index ?? Provider.GetIndex(newIn, false);
+
         double? atr = null;
         decimal? atrStop = null;
         decimal? buyStop = null;
         decimal? sellStop = null;
-
-        int i = index ?? Provider.GetIndex(newIn, false);
 
         if (i >= LookbackPeriods)
         {
@@ -154,25 +156,23 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             if (i == LookbackPeriods)
             {
                 IsBullish = newQ.Close >= prevQ.Close;
-
-                UpperBand = upperEval;
-                LowerBand = lowerEval;
             }
 
             // new upper band: can only go down, or reverse
             if (upperEval < UpperBand || prevQ.Close > UpperBand)
             {
-                UpperBand = upperEval;
+                UpperBand = (double)upperEval;
             }
 
             // new lower band: can only go up, or reverse
             if (lowerEval > LowerBand || prevQ.Close < LowerBand)
             {
-                LowerBand = lowerEval;
+                LowerBand = (double)lowerEval;
             }
 
-            // trailing stop: based on direction,
-            // can be either the upper or lower band
+            // trailing stop: based on direction, can be either:
+            // the upper band (buy-to-stop) or
+            // the lower band (sell-to-stop)
             if (newQ.Close <= (IsBullish ? LowerBand : UpperBand))
             {
                 atrStop = (decimal?)UpperBand;

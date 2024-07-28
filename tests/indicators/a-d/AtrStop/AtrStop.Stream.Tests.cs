@@ -14,15 +14,14 @@ public class AtrStopTests : StreamTestBase
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
-        // prefill quotes to provider
-        for (int i = 0; i < 20; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        // prefill quotes to provider (batch)
+        provider.Add(quotesList.Take(20));
 
         // initialize observer
         AtrStopHub<Quote> observer = provider
             .ToAtrStop();
+
+        observer.Results.Should().HaveCount(20);
 
         // fetch initial results (early)
         IReadOnlyList<AtrStopResult> streamList

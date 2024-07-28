@@ -76,7 +76,7 @@ public abstract partial class StreamHub<TIn, TOut>
     /// </summary>
     /// <param name="thisIndex">Cache starting position to purge.</param>
     /// <param name="provIndex">Provider starting position to add back.</param>
-    private void RebuildCache(int thisIndex, int provIndex)
+    internal void RebuildCache(int thisIndex, int provIndex)
     {
         // clear outdated cache
         ClearCache(thisIndex);
