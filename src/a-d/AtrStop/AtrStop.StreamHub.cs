@@ -97,102 +97,110 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
         int i = index ?? Provider.GetIndex(newIn, false);
 
-        double? atr = null;
-        decimal? atrStop = null;
-        decimal? buyStop = null;
-        decimal? sellStop = null;
-
-        if (i >= LookbackPeriods)
+        // handle warmup periods
+        if (i < LookbackPeriods)
         {
-            QuoteD newQ = newIn.ToQuoteD();
-            QuoteD prevQ = Provider.Results[i - 1].ToQuoteD();
-
-            // calculate ATR
-            if (Cache[i - 1].Atr is not null)
-            {
-                atr = Atr.Increment(
-                    LookbackPeriods,
-                    newQ.High,
-                    newQ.Low,
-                    prevQ.Close,
-                    Cache[i - 1].Atr ?? double.NaN);
-            }
-
-            // initialize ATR
-            else
-            {
-                double sumTr = 0;
-
-                for (int p = i - LookbackPeriods + 1; p <= i; p++)
-                {
-                    sumTr += Tr.Increment(
-                        (double)Provider.Results[p].High,
-                        (double)Provider.Results[p].Low,
-                        (double)Provider.Results[p - 1].Close);
-                }
-
-                atr = sumTr / LookbackPeriods;
-            }
-
-            // evaluate bands
-            double? upperEval;
-            double? lowerEval;
-
-            // potential bands for CLOSE
-            if (EndType == EndType.Close)
-            {
-                upperEval = newQ.Close + (Multiplier * atr);
-                lowerEval = newQ.Close - (Multiplier * atr);
-            }
-
-            // potential bands for HIGH/LOW
-            else
-            {
-                upperEval = newQ.High + (Multiplier * atr);
-                lowerEval = newQ.Low - (Multiplier * atr);
-            }
-
-            // initialize values on first eval pass
-            if (i == LookbackPeriods)
-            {
-                IsBullish = newQ.Close >= prevQ.Close;
-            }
-
-            // new upper band: can only go down, or reverse
-            if (upperEval < UpperBand || prevQ.Close > UpperBand)
-            {
-                UpperBand = (double)upperEval;
-            }
-
-            // new lower band: can only go up, or reverse
-            if (lowerEval > LowerBand || prevQ.Close < LowerBand)
-            {
-                LowerBand = (double)lowerEval;
-            }
-
-            // trailing stop: based on direction, can be either:
-            // the upper band (buy-to-stop) or
-            // the lower band (sell-to-stop)
-            if (newQ.Close <= (IsBullish ? LowerBand : UpperBand))
-            {
-                atrStop = (decimal?)UpperBand;
-                buyStop = (decimal?)UpperBand;
-                IsBullish = false;
-            }
-            else
-            {
-                atrStop = (decimal?)LowerBand;
-                sellStop = (decimal?)LowerBand;
-                IsBullish = true;
-            }
+            Motify(act, new(newIn.Timestamp), null);
+            return;
         }
 
-        AtrStopResult r = new(
-            Timestamp: newIn.Timestamp,
-            AtrStop: atrStop,
-            BuyStop: buyStop,
-            SellStop: sellStop,
-            Atr: atr);
+        QuoteD newQ = newIn.ToQuoteD();
+        QuoteD prevQ = Provider.Results[i - 1].ToQuoteD();
+
+        // initialize direction on first evaluation
+        if (i == LookbackPeriods)
+        {
+            IsBullish = newQ.Close >= prevQ.Close;
+        }
+
+        // calculate ATR
+        double atr;
+
+        if (Cache[i - 1].Atr is not null)
+        {
+            atr = Atr.Increment(
+                LookbackPeriods,
+                newQ.High,
+                newQ.Low,
+                prevQ.Close,
+                Cache[i - 1].Atr ?? double.NaN);
+        }
+
+        // initialize ATR
+        else
+        {
+            double sumTr = 0;
+
+            for (int p = i - LookbackPeriods + 1; p <= i; p++)
+            {
+                sumTr += Tr.Increment(
+                    (double)Provider.Results[p].High,
+                    (double)Provider.Results[p].Low,
+                    (double)Provider.Results[p - 1].Close);
+            }
+
+            atr = sumTr / LookbackPeriods;
+        }
+
+        // evaluate bands
+        double upperEval;
+        double lowerEval;
+
+        // potential bands for CLOSE
+        if (EndType == EndType.Close)
+        {
+            upperEval = newQ.Close + (Multiplier * atr);
+            lowerEval = newQ.Close - (Multiplier * atr);
+        }
+
+        // potential bands for HIGH/LOW
+        else
+        {
+            upperEval = newQ.High + (Multiplier * atr);
+            lowerEval = newQ.Low - (Multiplier * atr);
+        }
+
+        // new upper band: can only go down, or reverse
+        if (upperEval < UpperBand || prevQ.Close > UpperBand)
+        {
+            UpperBand = (double)upperEval;
+        }
+
+        // new lower band: can only go up, or reverse
+        if (lowerEval > LowerBand || prevQ.Close < LowerBand)
+        {
+            LowerBand = (double)lowerEval;
+        }
+
+        // trailing stop: based on direction
+
+        AtrStopResult r;
+
+        // the upper band (short / buy-to-stop)
+        if (newQ.Close <= (IsBullish ? LowerBand : UpperBand))
+        {
+            IsBullish = false;
+
+            r = new(
+                Timestamp: newQ.Timestamp,
+                AtrStop: (decimal)UpperBand,
+                BuyStop: (decimal)UpperBand,
+                SellStop: null,
+                Atr: atr);
+        }
+
+        // the lower band (long / sell-to-stop)
+        else
+        {
+            IsBullish = true;
+
+            r = new(
+                Timestamp: newQ.Timestamp,
+                AtrStop: (decimal)LowerBand,
+                BuyStop: null,
+                SellStop: (decimal)LowerBand,
+                Atr: atr);
+        }
 
         // save and send
         Motify(act, r, null);
