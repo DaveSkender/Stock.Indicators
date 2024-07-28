@@ -112,4 +112,11 @@ public class AtrTests : StreamTestBase, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        AtrHub<Quote> hub = new(new QuoteHub<Quote>(), 20);
+        hub.ToString().Should().Be("ATR(20)");
+    }
 }

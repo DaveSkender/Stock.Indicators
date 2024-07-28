@@ -55,6 +55,9 @@ public abstract class StreamTestBase : TestBase
 {
     [TestMethod]
     public abstract void QuoteObserver();
+
+    [TestMethod]
+    public abstract void CustomToString();
 }
 
 /// <summary>

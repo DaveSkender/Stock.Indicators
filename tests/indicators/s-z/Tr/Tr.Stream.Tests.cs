@@ -112,4 +112,11 @@ public class TrTests : StreamTestBase, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        TrHub<Quote> hub = new(new QuoteHub<Quote>());
+        hub.ToString().Should().Be("TRUE RANGE");
+    }
 }

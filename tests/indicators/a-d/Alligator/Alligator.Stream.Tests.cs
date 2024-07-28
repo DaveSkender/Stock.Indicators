@@ -127,4 +127,11 @@ public class AlligatorTests : StreamTestBase, ITestChainObserver
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        AlligatorHub<Quote> hub = new(new QuoteHub<Quote>(), 13, 8, 7, 5, 4, 3);
+        hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");
+    }
 }

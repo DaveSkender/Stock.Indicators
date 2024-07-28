@@ -43,5 +43,5 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
     }
 
     public override string ToString()
-        => $"QUOTEPART({Enum.GetName(CandlePartSelection)})";
+        => $"QUOTE-PART({CandlePartSelection.ToString().ToUpperInvariant()})";
 }

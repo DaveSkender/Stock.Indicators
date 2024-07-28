@@ -115,4 +115,11 @@ public class RenkoTests : StreamTestBase, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        RenkoHub<Quote> hub = new(new QuoteHub<Quote>(), 2.5m, EndType.Close);
+        hub.ToString().Should().Be("RENKO(2.5,CLOSE)");
+    }
 }

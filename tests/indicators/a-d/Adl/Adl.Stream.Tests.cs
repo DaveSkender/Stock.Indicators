@@ -112,4 +112,19 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        QuoteHub<Quote> provider = new();
+
+        AdlHub<Quote> hub = new(provider);
+        hub.ToString().Should().Be("ADL");
+
+        provider.Add(Quotes[0]);
+        provider.Add(Quotes[1]);
+
+        string s = $"ADL({Quotes[0].Timestamp:d})";
+        hub.ToString().Should().Be(s);
+    }
 }

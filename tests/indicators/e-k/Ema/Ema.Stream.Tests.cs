@@ -171,4 +171,11 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        EmaHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
+        hub.ToString().Should().Be("EMA(14)");
+    }
 }

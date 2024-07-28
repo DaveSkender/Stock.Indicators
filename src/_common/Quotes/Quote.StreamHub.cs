@@ -35,7 +35,7 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
     }
 
     public override string ToString()
-        => $"QUOTES: {Quotes.Count} items (type: {nameof(TQuote)})";
+        => $"QUOTES<{typeof(TQuote).Name}>: {Quotes.Count} items";
 }
 
 /// <summary>
