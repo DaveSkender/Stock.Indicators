@@ -1,151 +1,64 @@
 namespace Skender.Stock.Indicators;
 
-/// <summary>
-/// Streaming provider (abstract subject).
-/// <remarks>
-/// Contains cache and provides observable stream.
-/// </remarks>
-/// </summary>
-public abstract class StreamProvider<TSeries>
+// STREAM PROVIDER (OBSERVABLE BASE)
+
+/// <inheritdoc cref="IStreamProvider{TSeries}"/>
+public abstract partial class StreamProvider<TSeries>
     : StreamCache<TSeries>, IStreamProvider<TSeries>
     where TSeries : ISeries
 {
-    private readonly HashSet<IObserver<(Act, TSeries, int?)>> _observers = [];
+    private readonly HashSet<IObserver<(Act, TSeries, int?)>> _subscribers = [];
 
-    public bool HasSubscribers => _observers.Count > 0;
+    public bool HasSubscribers => _subscribers.Count > 0;
 
-    public int SubscriberCount => _observers.Count;
+    public int SubscriberCount => _subscribers.Count;
 
     public IReadOnlyList<TSeries> ReadCache => Cache;
 
-    #region METHODS (OBSERVABLE)
+    // SUBSCRIPTION SERVICES
 
     // subscribe observer
     public IDisposable Subscribe(IObserver<(Act, TSeries, int?)> observer)
     {
-        _observers.Add(observer);
-        return new Subscription(_observers, observer);
+        _subscribers.Add(observer);
+        return new Subscription(_subscribers, observer);
     }
 
-    // unsubscribe all observers
-    public void EndTransmission()
-    {
-        foreach (IObserver<(Act, TSeries, int?)> obs
-            in _observers.ToArray())
-        {
-            if (_observers.Contains(obs))
-            {
-                obs.OnCompleted();
-            }
-        }
-
-        _observers.Clear();
-    }
-
-    /// <summary>
-    /// Modify cache and notify observers.
-    /// </summary>
-    /// <param name="act" cref="Act">Caching instruction</param>
-    /// <param name="result"><c>TSeries</c> item to send</param>
-    /// <param name="index">Cached index position</param>
-    protected void Motify(Act act, TSeries result, int? index)
-    {
-        Act actTaken = Modify(act, result, index);
-        NotifyObservers(actTaken, result, index);
-    }
-
-    /// <summary>
-    /// Sends <c>TSeries</c> item to all subscribers
-    /// </summary>
-    /// <param name="act" cref="Act">Caching instruction</param>
-    /// <param name="item"><c>TSeries</c> item to send</param>
-    /// <param name="index">Provider index hint</param>
-    protected void NotifyObservers(Act act, TSeries? item, int? index)
-    {
-        // do not propogate "do nothing" acts
-        if (act == Act.DoNothing || item is null)
-        {
-            return;
-        }
-
-        // send to subscribers
-        foreach (IObserver<(Act, TSeries, int?)> obs
-            in _observers.ToArray())
-        {
-            obs.OnNext((act, item, index));
-        }
-    }
+    // check if observer is subscribed
+    public bool HasSubscriber(
+        IObserver<(Act, TSeries, int?)> observer)
+            => _subscribers.Contains(observer);
 
     /// <summary>
     /// A disposable subscription to the stream provider.
     /// <para>Unsubscribed with <see cref="Dispose()"/></para>
     /// </summary>
-    /// <param name="observers">
+    /// <param name="subscribers">
     /// Registry of all subscribers (by ref)
     /// </param>
-    /// <param name="observer">
+    /// <param name="subscriber">
     /// Your unique subscription as provided.
     /// </param>
     private class Subscription(
-        ISet<IObserver<(Act, TSeries, int?)>> observers,
-        IObserver<(Act, TSeries, int?)> observer) : IDisposable
+        ISet<IObserver<(Act, TSeries, int?)>> subscribers,
+        IObserver<(Act, TSeries, int?)> subscriber) : IDisposable
     {
         // remove single observer
-        public void Dispose() => observers.Remove(observer);
+        public void Dispose() => subscribers.Remove(subscriber);
     }
-    #endregion
 
-    #region METHODS (CACHE CLEAR)
-
-    /// clear cache without restore, from timestamp
-    /// <inheritdoc/>
-    public override void ClearCache(DateTime fromTimestamp)
+    // unsubscribe all observers
+    public void EndTransmission()
     {
-        // start of range
-        int fromIndex = GetInsertIndex(fromTimestamp);
-
-        // something to do
-        if (fromIndex != -1)
+        foreach (IObserver<(Act, TSeries, int?)> subscriber
+            in _subscribers.ToArray())
         {
-            ClearCache(fromIndex);
+            if (_subscribers.Contains(subscriber))
+            {
+                subscriber.OnCompleted();
+            }
         }
+
+        _subscribers.Clear();
     }
-
-    /// clear cache without restore, from index
-    /// <inheritdoc/>
-    public override void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
-
-    /// <summary>
-    /// Deletes cache entries between index range values.
-    /// </summary>
-    /// <remarks>
-    /// This is implemented in inheriting (provider) class
-    /// due to unique requirement to notify subscribers.
-    /// </remarks>
-    /// <param name="fromIndex">First element to delete</param>
-    /// <param name="toIndex">Last element to delete</param>
-    /// clears cache segment
-    /// <inheritdoc />
-    private void ClearCache(
-        int fromIndex, int toIndex)
-    {
-        // nothing to do
-        if (Cache.Count is 0)
-        {
-            return;
-        }
-
-        // determine in-range start/end indices
-        int fr = Math.Max(0, Math.Min(fromIndex, toIndex));
-        int to = Math.Min(Cache.Count - 1, Math.Max(fromIndex, toIndex));
-
-        // delete and deliver instruction in reverse
-        // order to prevent recursive recompositions
-        for (int i = to; i >= fr; i--)
-        {
-            Motify(Act.Delete, Cache[i], i);
-        }
-    }
-    #endregion
 }

@@ -1,7 +1,7 @@
 namespace Stream;
 
 [TestClass]
-public class AdlTests : StreamTestBase, ITestChainProvider
+public class AtrStopTests : StreamTestBase
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -14,25 +14,24 @@ public class AdlTests : StreamTestBase, ITestChainProvider
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
-        // prefill quotes to provider
-        for (int i = 0; i < 20; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        // prefill quotes to provider (batch)
+        provider.Add(quotesList.Take(20));
 
         // initialize observer
-        StreamHub<Quote, AdlResult> observer = provider
-            .ToAdl();
+        AtrStopHub<Quote> observer = provider
+            .ToAtrStop();
+
+        observer.Results.Should().HaveCount(20);
 
         // fetch initial results (early)
-        IReadOnlyList<AdlResult> streamList
+        IReadOnlyList<AtrStopResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
-            if (i == 80)
+            if (i is 30 or 80)
             {
                 continue;
             }
@@ -47,16 +46,18 @@ public class AdlTests : StreamTestBase, ITestChainProvider
             }
         }
 
-        // late arrival
-        provider.Add(quotesList[80]);
+        // late arrivals
+        provider.Add(quotesList[30]);  // rebuilds complete series
+        provider.Add(quotesList[80]);  // rebuilds from last reversal
 
         // delete
         provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<AdlResult> seriesList = quotesList
-            .GetAdl();
+        IEnumerable<AtrStopResult> seriesList
+           = quotesList
+            .GetAtrStop();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -67,46 +68,31 @@ public class AdlTests : StreamTestBase, ITestChainProvider
     }
 
     [TestMethod]
-    public void ChainProvider()
+    public void QuoteObserverHighLow()
     {
-        int smaPeriods = 8;
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
+        // simple test, just to check High/Low variant
 
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        IChainProvider<AdlResult> adlHub = provider
-            .ToAdl();
+        AtrStopHub<Quote> observer = provider
+            .ToAtrStop(endType: EndType.HighLow);
 
-        SmaHub<AdlResult> observer = adlHub
-            .ToSma(smaPeriods);
+        // add quotes to provider
+        provider.Add(Quotes);
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // delete
-        provider.Remove(quotesList[400]);
-        quotesList.RemoveAt(400);
-
-        // final results
-        IReadOnlyList<SmaResult> streamList
+        // stream results
+        IReadOnlyList<AtrStopResult> streamList
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList = quotesList
-            .GetAdl()
-            .GetSma(smaPeriods);
+        IEnumerable<AtrStopResult> seriesList
+           = Quotes
+            .GetAtrStop(endType: EndType.HighLow);
 
         // assert, should equal series
-        streamList.Should().HaveCount(length - 1);
+        streamList.Should().HaveCount(Quotes.Count);
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();

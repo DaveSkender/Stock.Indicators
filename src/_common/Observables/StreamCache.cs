@@ -1,12 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-// STREAMING CACHE STORE
+// STREAM CACHE (BASE)
 
 /// <inheritdoc cref="IStreamCache{TSeries}"/>
-public abstract class StreamCache<TSeries>
+public abstract partial class StreamCache<TSeries>
     : IStreamCache<TSeries>
     where TSeries : ISeries
 {
+    #region PROPERTIES
+
     /// <inheritdoc/>
     public IReadOnlyList<TSeries> Results => Cache;
 
@@ -28,176 +30,9 @@ public abstract class StreamCache<TSeries>
     /// An overflow condition is triggered after 100.
     /// </summary>
     internal byte OverflowCount { get; private set; }
-
-    #region METHODS (CACHE UTILITIES)
-
-    // reset fault flag and condition
-    /// <inheritdoc/>
-    public void ResetFault()
-    {
-        OverflowCount = 0;
-        IsFaulted = false;
-    }
-
-    // try/get the cache index based on a timestamp
-    /// <inheritdoc/>
-    public bool TryFindIndex(DateTime timestamp, out int index)
-    {
-        index = GetIndex(timestamp, true);
-        return index != -1;
-    }
-
-    // get the cache index based on item equality
-    /// <inheritdoc/>
-    public int GetIndex(TSeries cachedItem, bool noException)
-    {
-        int low = 0;
-        int high = Cache.Count - 1;
-        int firstMatchIndex = -1; // index of the first timestamp match
-
-        while (low <= high)
-        {
-            int mid = low + ((high - low) / 2);
-            int comparison = Cache[mid].Timestamp.CompareTo(cachedItem.Timestamp);
-
-            if (comparison == 0)
-            {
-                // found a match by Timestamp,
-                // store the index of the first match
-                if (firstMatchIndex == -1)
-                {
-                    firstMatchIndex = mid;
-                }
-
-                // verify with Equals for an exact match
-                if (Cache[mid].Equals(cachedItem))
-                {
-                    return mid; // exact match found
-                }
-
-                // continue searching to the left for
-                // the first occurrence
-                high = mid - 1;
-            }
-            else if (comparison < 0)
-            {
-                low = mid + 1;
-            }
-            else
-            {
-                high = mid - 1;
-            }
-        }
-
-        // If a timestamp match was found but no exact
-        // match, try to find an exact match in the range
-        // of duplicate timestamps (e.g. Renko bricks),
-        // biased towards later duplicats.
-        if (firstMatchIndex != -1)
-        {
-            // Find the last occurrence of the matching timestamp
-            int lastMatchIndex = firstMatchIndex;
-            for (int i = firstMatchIndex + 1; i < Cache.Count && Cache[i].Timestamp == cachedItem.Timestamp; i++)
-            {
-                lastMatchIndex = i;
-            }
-
-            // Search for an exact match starting from the last occurrence
-            for (int i = lastMatchIndex; i >= firstMatchIndex; i--)
-            {
-                if (Cache[i].Equals(cachedItem))
-                {
-                    return i; // exact match found among duplicates
-                }
-            }
-        }
-
-        if (noException)
-        {
-            return -1;
-        }
-        else
-        {
-            // not found
-            throw new ArgumentException(
-                "Matching source history not found.", nameof(cachedItem));
-        }
-    }
-
-    // get the cache index based on a timestamp
-    /// <inheritdoc/>
-    public int GetIndex(DateTime timestamp, bool noException)
-    {
-        int low = 0;
-        int high = Cache.Count - 1;
-
-        while (low <= high)
-        {
-            int mid = low + ((high - low) / 2);
-            DateTime midTimestamp = Cache[mid].Timestamp;
-
-            if (midTimestamp == timestamp)
-            {
-                return mid;
-            }
-            else if (midTimestamp < timestamp)
-            {
-                low = mid + 1;
-            }
-            else
-            {
-                high = mid - 1;
-            }
-        }
-
-        if (noException)
-        {
-            return -1;
-        }
-        else
-        {
-            // not found
-            throw new ArgumentException(
-                "Matching source history not found.", nameof(timestamp));
-        }
-    }
-
-    // get first cache index at or greater than timestamp
-    /// <inheritdoc/>
-    public int GetInsertIndex(DateTime timestamp)
-    {
-        int low = 0;
-        int high = Cache.Count;
-        while (low < high)
-        {
-            int mid = low + ((high - low) / 2);
-            if (Cache[mid].Timestamp < timestamp)
-            {
-                low = mid + 1;
-            }
-            else
-            {
-                high = mid;
-            }
-        }
-
-        // At this point, low is the index of the first
-        // element that is greater than or equal to timestamp
-        // or Cache.Count if all elements are less than timestamp.
-        // If low is equal to Cache.Count, it means there are
-        // no elements greater than or equal to timestamp.
-        return low < Cache.Count ? low : -1;
-    }
-
     #endregion
 
-    #region METHODS (CACHE MODIFICATION)
-
-    // clear cache without restore
-    /// <inheritdoc/>
-    public void ClearCache() => ClearCache(0);
-    public abstract void ClearCache(DateTime fromTimestamp);
-    public abstract void ClearCache(int fromIndex);
+    // CACHE MODIFICATION
 
     /// <summary>
     /// Analyze new arrival to determine caching instruction;
@@ -482,6 +317,4 @@ public abstract class StreamCache<TSeries>
 
         return act;
     }
-
-    #endregion
 }

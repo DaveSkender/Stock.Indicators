@@ -14,21 +14,21 @@ public static partial class Adl
     /// for more information.</para>
     /// </summary>
     /// <param name="timestamp">Timestamp</param>
-    /// <param name="prevAdl">
-    /// Last ADL value, from prior period
-    /// </param>
     /// <param name="high">High price, current period</param>
     /// <param name="low">Low price, current period</param>
     /// <param name="close">Close price, current period</param>
     /// <param name="volume">Volume, current period</param>
     /// <returns>New ADL result value</returns>
+    /// <param name="prevAdl">
+    /// Last ADL value, from prior period
+    /// </param>
     public static AdlResult Increment(
         DateTime timestamp,
-        double prevAdl,
         double high,
         double low,
         double close,
-        double volume)
+        double volume,
+        double prevAdl)
     {
         double mfm = high - low == 0
             ? 0
@@ -38,7 +38,7 @@ public static partial class Adl
         double mfv = mfm * volume;
         double adl = mfv + prevAdl;
 
-        return new(
+        return new AdlResult(
             Timestamp: timestamp,
             Adl: adl,
             MoneyFlowMultiplier: mfm,
@@ -47,15 +47,16 @@ public static partial class Adl
 
     internal static AdlResult Increment(
         DateTime timestamp,
-        double prevAdl,
         decimal high,
         decimal low,
         decimal close,
-        decimal volume) => Increment(
+        decimal volume,
+        double prevAdl)
+        => Increment(
             timestamp,
-            prevAdl,
             (double)high,
             (double)low,
             (double)close,
-            (double)volume);
+            (double)volume,
+            prevAdl);
 }

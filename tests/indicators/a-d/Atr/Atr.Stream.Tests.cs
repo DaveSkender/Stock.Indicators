@@ -1,7 +1,7 @@
 namespace Stream;
 
 [TestClass]
-public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
+public class AtrTests : StreamTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -21,11 +21,11 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        EmaHub<Quote> observer = provider
-            .ToEma(5);
+        StreamHub<Quote, AtrResult> observer = provider
+            .ToAtr(14);
 
         // fetch initial results (early)
-        IReadOnlyList<EmaResult> streamList
+        IReadOnlyList<AtrResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -55,8 +55,8 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList = quotesList
-            .GetEma(5);
+        IReadOnlyList<AtrResult> seriesList = quotesList
+            .GetAtr(14);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -67,9 +67,8 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainProvider()
     {
-        int emaPeriods = 12;
         int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes
@@ -81,74 +80,17 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        EmaHub<SmaResult> observer = provider
-            .ToSma(smaPeriods)
-            .ToEma(emaPeriods);
+        IChainProvider<AtrResult> adlHub = provider
+            .ToAtr(14);
+
+        SmaHub<AtrResult> observer = adlHub
+            .ToSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
             provider.Add(quotesList[i]);
         }
-
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = observer.Results;
-
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
-            .GetSma(smaPeriods)
-            .GetEma(emaPeriods);
-
-        // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void ChainProvider()
-    {
-        int emaPeriods = 20;
-        int smaPeriods = 10;
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
-
-        // initialize observer
-        SmaHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
-            .ToSma(smaPeriods);
-
-        // emulate adding quotes to provider
-        for (int i = 0; i < length; i++)
-        {
-            // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
-
-            Quote q = quotesList[i];
-            provider.Add(q);
-
-            // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                provider.Add(q);
-            }
-        }
-
-        // late arrival
-        provider.Add(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -159,9 +101,8 @@ public class EmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
-           = quotesList
-            .GetEma(emaPeriods)
+        IReadOnlyList<SmaResult> seriesList = quotesList
+            .GetAtr(14)
             .GetSma(smaPeriods);
 
         // assert, should equal series

@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // QUOTEPART TYPE UTILITIES
 
-public static class QuotePartUtility
+public static partial class QuotePartUtility
 {
     // convert TQuote element to a basic QuotePart class
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
@@ -29,13 +29,13 @@ public static class QuotePartUtility
         };
 
     // conditional HL2 value if IQuote type
-    internal static double HL2ifQuote<T>(
+    internal static double Hl2orValue<T>(
         this T item)
         where T : IReusable
-        => item.QuotePartIfQuote(CandlePart.HL2);
+        => item.QuotePartOrValue(CandlePart.HL2);
 
     // conditional CandlePart value if IQuote type
-    internal static double QuotePartIfQuote<T>(
+    internal static double QuotePartOrValue<T>(
         this T item, CandlePart candlePart)
         where T : IReusable
         => item is IQuote q

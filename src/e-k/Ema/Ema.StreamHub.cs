@@ -17,7 +17,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 {
     #region constructors
 
-    public EmaHub(
+    internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {
@@ -36,14 +36,9 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         double ema;
 
-        int i = index ?? Supplier.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, false);
 
         if (i >= LookbackPeriods - 1)
         {
@@ -55,7 +50,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
                 ? Ema.Increment(K, last.Value, newIn.Value)
 
                 // re/initialize
-                : Sma.Increment(Supplier.Results, i, LookbackPeriods);
+                : Sma.Increment(Provider.Results, i, LookbackPeriods);
         }
 
         // warmup periods are never calculable

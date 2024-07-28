@@ -51,7 +51,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         provider.Add(quotesList[80]);
 
         // delete
-        provider.Delete(quotesList[400]);
+        provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -60,17 +60,8 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             .GetSma(5);
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            SmaResult s = seriesList[i];
-            SmaResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Sma.Should().Be(s.Sma);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -108,23 +99,14 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> staticList
+        IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(CandlePart.OC2)
             .GetSma(11);
 
         // assert, should equal series
-        for (int i = 0; i < length; i++)
-        {
-            Quote q = quotesList[i];
-            SmaResult s = staticList[i];
-            SmaResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Sma.Should().Be(s.Sma);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -157,7 +139,7 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // delete
-        provider.Delete(quotesList[400]);
+        provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -171,17 +153,8 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
             .GetEma(emaPeriods);
 
         // assert, should equal series
-        for (int i = 0; i < length - 1; i++)
-        {
-            Quote q = quotesList[i];
-            EmaResult s = seriesList[i];
-            EmaResult r = streamList[i];
-
-            r.Timestamp.Should().Be(q.Timestamp);
-            r.Timestamp.Should().Be(s.Timestamp);
-            r.Ema.Should().Be(s.Ema);
-            r.Should().Be(s);
-        }
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
         provider.EndTransmission();

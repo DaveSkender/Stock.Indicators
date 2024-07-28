@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (SERIES)
 
-public static partial class Indicator
+public static partial class Tr
 {
     // calculate series
     private static List<TrResult> CalcTr(
@@ -24,10 +24,9 @@ public static partial class Indicator
         {
             QuoteD q = source[i];
 
-            results.Add(new(
+            results.Add(new TrResult(
                 Timestamp: q.Timestamp,
-                Tr: Tr.Increment(source[i - 1].Close, q.High, q.Low)
-                      .NaN2Null()));
+                Tr: Increment(q.High, q.Low, source[i - 1].Close)));
         }
 
         return results;

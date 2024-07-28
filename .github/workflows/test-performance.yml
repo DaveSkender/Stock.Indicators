@@ -42,7 +42,7 @@ jobs:
           --configuration Release
           --property:ContinuousIntegrationBuild=true
 
-      - name: Benchmark indicators
+      - name: Test performance
         working-directory: tests/performance
         run: dotnet run -c Release
 
@@ -57,7 +57,7 @@ jobs:
         run: |
           echo "### Package version ${{ steps.gitversion.outputs.fullSemVer }}" >> $GITHUB_STEP_SUMMARY
 
-          echo "## Static indicators" >> $GITHUB_STEP_SUMMARY
+          echo "## Series indicators" >> $GITHUB_STEP_SUMMARY
           cat Performance.SeriesIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
 
           echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY

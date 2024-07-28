@@ -17,7 +17,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 {
     #region constructors
 
-    public RenkoHub(
+    internal RenkoHub(
         IQuoteProvider<TIn> provider,
         decimal brickSize,
         EndType endType) : base(provider)
@@ -37,11 +37,6 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         // get last brick
         RenkoResult lastBrick;
 
@@ -54,14 +49,14 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
         else // no bricks yet
         {
             // skip first quote
-            if (Supplier.Results.Count <= 1)
+            if (Provider.Results.Count <= 1)
             {
                 return;
             }
 
             int decimals = BrickSize.GetDecimalPlaces();
 
-            TIn q0 = Supplier.Results[0];
+            TIn q0 = Provider.Results[0];
 
             decimal baseline
                 = Math.Round(q0.Close,
@@ -90,12 +85,12 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = index ?? Supplier.GetIndex(newIn, false);
-            int lastBrickIndex = Supplier.GetIndex(lastBrick.Timestamp, false);
+            int inboundIndex = index ?? Provider.GetIndex(newIn, false);
+            int lastBrickIndex = Provider.GetIndex(lastBrick.Timestamp, false);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
             {
-                TIn pq = Supplier.Results[w];
+                TIn pq = Provider.Results[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -120,6 +115,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
                     c = o - BrickSize;
                 }
 
+                // candidate result
                 RenkoResult r
                     = new(newIn.Timestamp, o, h, l, c, v, isUp);
 

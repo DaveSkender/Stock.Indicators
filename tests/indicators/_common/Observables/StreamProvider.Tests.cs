@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class ProviderTests : TestBase
+public class ProviderTests : TestBase, ITestChainProvider
 {
     [TestMethod]
     public void Prefill()
@@ -16,10 +16,7 @@ public class ProviderTests : TestBase
         QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        provider.Add(quotesList);
 
         // initialize observer
         QuotePartHub<Quote> observer = provider
@@ -43,117 +40,73 @@ public class ProviderTests : TestBase
     }
 
     [TestMethod]
-    public void ClearCache()
+    public void Subscription()
     {
-        // setup quote provider
-
-        IReadOnlyList<Quote> quotesList = Quotes
-            .Take(10)
-            .ToList();
-
-        int length = quotesList.Count;
-
+        // setup quote provider, observer
         QuoteHub<Quote> provider = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer
+            = provider.ToQuotePart(CandlePart.OHLC4);
 
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        // assert: subscribed
+        provider.SubscriberCount.Should().Be(1);
+        provider.HasSubscribers.Should().BeTrue();
+        observer.IsSubscribed.Should().BeTrue();
 
-        // act: clear cache
-        observer.ClearCache();
+        // act: unsubscribe
+        observer.Unsubscribe();
 
-        // assert: cache is empty
-        observer.Cache.Should().BeEmpty();
-        provider.Cache.Should().HaveCount(10);
+        // assert: not subscribed
+        provider.SubscriberCount.Should().Be(0);
+        provider.HasSubscribers.Should().BeFalse();
+        observer.IsSubscribed.Should().BeFalse();
+
+        // act: resubscribe
+        provider.Subscribe(observer);
+
+        // assert: subscribed
+        provider.SubscriberCount.Should().Be(1);
+        provider.HasSubscribers.Should().BeTrue();
+        observer.IsSubscribed.Should().BeTrue();
+
+        // act: end all subscriptions
+        provider.EndTransmission();
+
+        // assert: not subscribed
+        provider.SubscriberCount.Should().Be(0);
+        provider.HasSubscribers.Should().BeFalse();
+        observer.IsSubscribed.Should().BeFalse();
     }
 
     [TestMethod]
-    public void ClearCacheByTimestamp()
+    public void ChainProvider()
     {
-
         // setup quote provider
-
-        IReadOnlyList<Quote> quotesList = Quotes
-            .Take(10)
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
         QuoteHub<Quote> provider = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        // initialize observer
+        EmaHub<QuotePart> observer = provider
+            .ToQuotePart(CandlePart.HL2)
+            .ToEma(11);
 
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
+        // emulate adding quotes to provider
+        provider.Add(Quotes);
+        provider.EndTransmission();
 
-        Quote q3 = quotesList[3];
+        // stream results
+        IReadOnlyList<EmaResult> streamList
+            = observer.Results;
 
-        // act: clear cache
-        observer.ClearCache(q3.Timestamp);
+        // time-series, for comparison
+        IReadOnlyList<EmaResult> seriesList = Quotes
+            .Use(CandlePart.HL2)
+            .GetEma(11);
 
-        // assert: cache is empty
-        observer.Cache.Should().HaveCount(3);
-        provider.Cache.Should().HaveCount(10);
+        // assert, should equal series
+        streamList.Should().HaveCount(Quotes.Count);
+        streamList.Should().BeEquivalentTo(seriesList);
 
-        IReadOnlyList<QuotePart> cacheOver
-            = observer.Results
-                .Where(c => c.Timestamp >= q3.Timestamp).ToList();
-
-        IReadOnlyList<QuotePart> cacheUndr
-            = observer.Results
-                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
-
-        cacheOver.Should().BeEmpty();
-        cacheUndr.Should().HaveCount(3);
-    }
-
-    [TestMethod]
-    public void ClearCacheByIndex()
-    {
-
-        // setup quote provider
-
-        IReadOnlyList<Quote> quotesList = Quotes
-            .Take(10)
-            .ToList();
-
-        int length = quotesList.Count;
-
-        QuoteHub<Quote> provider = new();
-
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
-
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        Quote q3 = quotesList[3];
-
-        // act: clear cache
-        observer.ClearCache(3);
-
-        // assert: cache is empty
-        observer.Cache.Should().HaveCount(3);
-        provider.Cache.Should().HaveCount(10);
-
-        IReadOnlyList<QuotePart> cacheOver
-            = observer.Results
-                .Where(c => c.Timestamp >= q3.Timestamp).ToList();
-
-        IReadOnlyList<QuotePart> cacheUndr
-            = observer.Results
-                .Where(c => c.Timestamp <= q3.Timestamp).ToList();
-
-        cacheOver.Should().BeEmpty();
-        cacheUndr.Should().HaveCount(3);
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 }

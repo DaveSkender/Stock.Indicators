@@ -17,7 +17,7 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 {
     #region constructors
 
-    public QuotePartHub(
+    internal QuotePartHub(
         IQuoteProvider<TQuote> provider,
         CandlePart candlePart)
         : base(provider)
@@ -34,13 +34,7 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 
     internal override void Add(Act act, TQuote newIn, int? index)
     {
-        if (newIn is null)
-        {
-            throw new ArgumentNullException(nameof(newIn));
-        }
-
         // candidate result
-
         QuotePart r
             = newIn.ToQuotePart(CandlePartSelection);
 

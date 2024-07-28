@@ -34,6 +34,12 @@ public class StreamIndicators
     public object AdlHub() => provider.ToAdl().Results;
 
     [Benchmark]
+    public object AtrHub() => provider.ToAtr(14).Results;
+
+    [Benchmark]
+    public object AtrStopHub() => provider.ToAtrStop().Results;
+
+    [Benchmark]
     public object AlligatorHub() => provider.ToAlligator().Results;
 
     [Benchmark]
@@ -50,4 +56,7 @@ public class StreamIndicators
 
     [Benchmark]
     public object SmaHub() => provider.ToSma(10).Results;
+
+    [Benchmark]
+    public object TrHub() => provider.ToTr().Results;
 }
