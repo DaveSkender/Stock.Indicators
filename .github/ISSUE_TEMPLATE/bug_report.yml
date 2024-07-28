@@ -5,8 +5,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you &#128150; for taking the time report a bug in the [Skender.Stock.Indicators NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)!
-        > Please review known [issues](https://github.com/DaveSkender/Stock.Indicators/issues?q=is%3Aissue), community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions), and [Help! Results don't match TradingView!](https://github.com/DaveSkender/Stock.Indicators/discussions/801) before submitting a new bug report.
+        Thank you &#128150; for taking the time report a bug in the [`Skender.Stock.Indicators` NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)!
+        > Before reporting, please review known [issues](https://github.com/DaveSkender/Stock.Indicators/issues?q=is%3Aissue), community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions), and [Help! Results don't match TradingView!](https://github.com/DaveSkender/Stock.Indicators/discussions/801)
   - type: textarea
     id: what-happened
     attributes:

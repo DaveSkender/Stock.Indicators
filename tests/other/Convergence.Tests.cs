@@ -20,6 +20,21 @@ public class ConvergenceTests : TestBase
     }
 
     [TestMethod]
+    public void Alligator()
+    {
+        foreach (int qty in QuotesQuantities)
+        {
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<AlligatorResult> r = quotes.GetAlligator();
+
+            AlligatorResult l = r.LastOrDefault();
+            Console.WriteLine(
+                "ALLIGATOR(13,8,5) on {0:d} with {1,4} periods: Jaw {2:N8}",
+                l.Date, quotes.Count(), l.Jaw);
+        }
+    }
+
+    [TestMethod]
     public void Atr()
     {
         foreach (int qty in QuotesQuantities)
@@ -107,6 +122,21 @@ public class ConvergenceTests : TestBase
 
             FisherTransformResult l = r.LastOrDefault();
             Console.WriteLine($"FT(10) on {l.Timestamp:d} with {qts.Count(),4} periods: {l.Fisher:N8}");
+        }
+    }
+
+    [TestMethod]
+    public void Gator()
+    {
+        foreach (int qty in QuotesQuantities)
+        {
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<GatorResult> r = quotes.GetGator();
+
+            GatorResult l = r.LastOrDefault();
+            Console.WriteLine(
+                "GATOR() on {0:d} with {1,4} periods: Upper {2:N8}  Lower {3:N8}",
+                l.Date, quotes.Count(), l.Upper, l.Lower);
         }
     }
 
