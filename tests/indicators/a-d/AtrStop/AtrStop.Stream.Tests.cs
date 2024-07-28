@@ -31,7 +31,7 @@ public class AtrStopTests : StreamTestBase
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
-            if (i == 80)
+            if (i is 30 or 80)
             {
                 continue;
             }
@@ -46,8 +46,9 @@ public class AtrStopTests : StreamTestBase
             }
         }
 
-        // late arrival
-        provider.Add(quotesList[80]);
+        // late arrivals
+        provider.Add(quotesList[30]);  // rebuilds complete series
+        provider.Add(quotesList[80]);  // rebuilds from last reversal
 
         // delete
         provider.Remove(quotesList[400]);
@@ -60,6 +61,38 @@ public class AtrStopTests : StreamTestBase
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void QuoteObserverHighLow()
+    {
+        // simple test, just to check High/Low variant
+
+        // setup quote provider
+        QuoteHub<Quote> provider = new();
+
+        // initialize observer
+        AtrStopHub<Quote> observer = provider
+            .ToAtrStop(endType: EndType.HighLow);
+
+        // add quotes to provider
+        provider.Add(Quotes);
+
+        // stream results
+        IReadOnlyList<AtrStopResult> streamList
+            = observer.Results;
+
+        // time-series, for comparison
+        IEnumerable<AtrStopResult> seriesList
+           = Quotes
+            .GetAtrStop(endType: EndType.HighLow);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(Quotes.Count);
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();

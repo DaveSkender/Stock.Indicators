@@ -88,12 +88,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
-        // should only processes "new" instructions
-        if (act != Act.AddNew)
-        {
-            throw new InvalidOperationException(
-                "AtrStopHub should only receive new data.");
-        }
+        // reminder: should only processes "new" instructions
 
         int i = index ?? Provider.GetIndex(newIn, false);
 
@@ -163,13 +158,13 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         // new upper band: can only go down, or reverse
         if (upperEval < UpperBand || prevQ.Close > UpperBand)
         {
-            UpperBand = (double)upperEval;
+            UpperBand = upperEval;
         }
 
         // new lower band: can only go up, or reverse
         if (lowerEval > LowerBand || prevQ.Close < LowerBand)
         {
-            LowerBand = (double)lowerEval;
+            LowerBand = lowerEval;
         }
 
         // trailing stop: based on direction
