@@ -81,4 +81,17 @@ public class QuoteTests : StreamTestBase, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        QuoteHub<Quote> hub = new();
+
+        hub.ToString().Should().Be("QUOTES<Quote>: 0 items");
+
+        hub.Add(Quotes[0]);
+        hub.Add(Quotes[1]);
+
+        hub.ToString().Should().Be("QUOTES<Quote>: 2 items");
+    }
 }

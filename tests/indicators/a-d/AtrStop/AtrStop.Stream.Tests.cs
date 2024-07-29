@@ -98,4 +98,11 @@ public class AtrStopTests : StreamTestBase
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        AtrStopHub<Quote> hub = new(new QuoteHub<Quote>(), 14, 3, EndType.Close);
+        hub.ToString().Should().Be("ATR-STOP(14,3,CLOSE)");
+    }
 }

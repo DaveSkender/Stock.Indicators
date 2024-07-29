@@ -134,4 +134,11 @@ public class UseTests : StreamTestBase, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        QuotePartHub<Quote> hub = new(new QuoteHub<Quote>(), CandlePart.Close);
+        hub.ToString().Should().Be("QUOTE-PART(CLOSE)");
+    }
 }

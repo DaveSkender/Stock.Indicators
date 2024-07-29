@@ -128,5 +128,5 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
     }
 
     public override string ToString()
-        => $"RENKO({BrickSize}, {EndType})";
+        => $"RENKO({BrickSize},{EndType.ToString().ToUpperInvariant()})";
 }

@@ -24,6 +24,8 @@ public abstract class TestBase
     internal static readonly IReadOnlyList<Quote> Onequote = Data.GetDefault(1);
     internal static readonly IReadOnlyList<Quote> RandomQuotes = Data.GetRandom(1000);
     internal static readonly IReadOnlyList<Quote> ZeroesQuotes = Data.GetZeros();
+
+    protected static readonly double DoublePrecision = 1E-13;
 }
 
 /// <summary>
@@ -55,6 +57,9 @@ public abstract class StreamTestBase : TestBase
 {
     [TestMethod]
     public abstract void QuoteObserver();
+
+    [TestMethod]
+    public abstract void CustomToString();
 }
 
 /// <summary>

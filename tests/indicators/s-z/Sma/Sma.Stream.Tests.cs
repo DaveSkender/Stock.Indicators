@@ -159,4 +159,11 @@ public class SmaTests : StreamTestBase, ITestChainObserver, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        SmaHub<Quote> hub = new(new QuoteHub<Quote>(), 5);
+        hub.ToString().Should().Be("SMA(5)");
+    }
 }

@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 namespace Skender.Stock.Indicators;
 
 public record AdlResult

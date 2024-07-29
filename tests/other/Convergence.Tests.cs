@@ -24,13 +24,13 @@ public class ConvergenceTests : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<Quote> quotes = Data.GetLongish(qty);
             IEnumerable<AlligatorResult> r = quotes.GetAlligator();
 
             AlligatorResult l = r.LastOrDefault();
             Console.WriteLine(
                 "ALLIGATOR(13,8,5) on {0:d} with {1,4} periods: Jaw {2:N8}",
-                l.Date, quotes.Count(), l.Jaw);
+                l.Timestamp, quotes.Count(), l.Jaw);
         }
     }
 
@@ -130,13 +130,13 @@ public class ConvergenceTests : TestBase
     {
         foreach (int qty in QuotesQuantities)
         {
-            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<Quote> quotes = Data.GetLongish(qty);
             IEnumerable<GatorResult> r = quotes.GetGator();
 
             GatorResult l = r.LastOrDefault();
             Console.WriteLine(
                 "GATOR() on {0:d} with {1,4} periods: Upper {2:N8}  Lower {3:N8}",
-                l.Date, quotes.Count(), l.Upper, l.Lower);
+                l.Timestamp, quotes.Count(), l.Upper, l.Lower);
         }
     }
 

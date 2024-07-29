@@ -202,5 +202,5 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
     }
 
     public override string ToString()
-        => $"ATR-STOP({LookbackPeriods},{Multiplier},{EndType})";
+        => $"ATR-STOP({LookbackPeriods},{Multiplier},{EndType.ToString().ToUpperInvariant()})";
 }
