@@ -57,23 +57,20 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             return;
         }
 
-        // find last synchronized band position (before deviance)
-        int lastSyncIndex = Cache.FindLastIndex(
-            x => x.Timestamp < item.Timestamp
-              && x.AtrStop == (IsBullish ? x.SellStop : x.BuyStop));
+        int i = index ?? Provider.GetIndex(item, false);
 
-        // rebuild from last know reversal point
-        if (lastSyncIndex > LookbackPeriods)
+        // reset to the prior stop points
+        if (i > LookbackPeriods)
         {
-            AtrStopResult lastSyncPoint = Cache[lastSyncIndex];
+            AtrStopResult resetStop = Cache[i - 1];
 
             // reset prevailing direction and bands
-            IsBullish = lastSyncPoint.AtrStop == lastSyncPoint.SellStop;
-            UpperBand = (double?)lastSyncPoint.BuyStop ?? default;
-            LowerBand = (double?)lastSyncPoint.SellStop ?? default;
+            IsBullish = resetStop.AtrStop >= resetStop.SellStop;
+            UpperBand = resetStop.BuyStop ?? default;
+            LowerBand = resetStop.SellStop ?? default;
 
             // rebuild cache AFTER last sync point
-            RebuildCache(lastSyncIndex + 1, lastSyncIndex + 1);
+            RebuildCache(i, i);
         }
 
         // full rebuild if no prior reversal
@@ -100,12 +97,12 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
 
         QuoteD newQ = newIn.ToQuoteD();
-        QuoteD prevQ = Provider.Results[i - 1].ToQuoteD();
+        double prevClose = (double)Provider.Results[i - 1].Close;
 
         // initialize direction on first evaluation
         if (i == LookbackPeriods)
         {
-            IsBullish = newQ.Close >= prevQ.Close;
+            IsBullish = newQ.Close >= prevClose;
         }
 
         // calculate ATR
@@ -117,7 +114,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
                 LookbackPeriods,
                 newQ.High,
                 newQ.Low,
-                prevQ.Close,
+                prevClose,
                 Cache[i - 1].Atr ?? double.NaN);
         }
 
@@ -156,13 +153,13 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
 
         // new upper band: can only go down, or reverse
-        if (upperEval < UpperBand || prevQ.Close > UpperBand)
+        if (upperEval < UpperBand || prevClose > UpperBand)
         {
             UpperBand = upperEval;
         }
 
         // new lower band: can only go up, or reverse
-        if (lowerEval > LowerBand || prevQ.Close < LowerBand)
+        if (lowerEval > LowerBand || prevClose < LowerBand)
         {
             LowerBand = lowerEval;
         }
@@ -178,8 +175,8 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
             r = new(
                 Timestamp: newQ.Timestamp,
-                AtrStop: (decimal)UpperBand,
-                BuyStop: (decimal)UpperBand,
+                AtrStop: UpperBand,
+                BuyStop: UpperBand,
                 SellStop: null,
                 Atr: atr);
         }
@@ -191,9 +188,9 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
             r = new(
                 Timestamp: newQ.Timestamp,
-                AtrStop: (decimal)LowerBand,
+                AtrStop: LowerBand,
                 BuyStop: null,
-                SellStop: (decimal)LowerBand,
+                SellStop: LowerBand,
                 Atr: atr);
         }
 

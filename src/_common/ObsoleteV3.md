@@ -93,6 +93,8 @@ Items marked with &#128681; require special attention since they will not produc
 
 - `GetBaseQuote()` indicator and related `BasicData` return types were removed since they are redundant to the `Use()` method and `QuotePart` return types, respectively.
 
+- `AtrStopResult` values were changed from `decimal` to `double` numeric return types.
+
 - `SyncSeries()` utility function and related `SyncType` enum were removed.  This was primarily an internal utility, but was part of the public API to support user who wanted to build custom indicator development.  Internally, we've refactored indicators to auto-initialize and heal, so they no longer require re-sizing to support explicit warmup periods.
 
 - `ToTupleCollection<TQuote>()` utility method was deprecated.  This was available to support custom indicator development, but is no longer needed.  We've discontinued using _tuples_ as an interface to chainable indicators.

@@ -84,8 +84,8 @@ public static partial class AtrStop
 
                 r = new(
                     Timestamp: q.Timestamp,
-                    AtrStop: (decimal)upperBand,
-                    BuyStop: (decimal)upperBand,
+                    AtrStop: upperBand,
+                    BuyStop: upperBand,
                     SellStop: null,
                     Atr: atr);
             }
@@ -97,9 +97,9 @@ public static partial class AtrStop
 
                 r = new(
                     Timestamp: q.Timestamp,
-                    AtrStop: (decimal)lowerBand,
+                    AtrStop: lowerBand,
                     BuyStop: null,
-                    SellStop: (decimal)lowerBand,
+                    SellStop: lowerBand,
                     Atr: atr);
             }
 

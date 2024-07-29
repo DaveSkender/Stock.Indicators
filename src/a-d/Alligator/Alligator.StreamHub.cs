@@ -91,7 +91,6 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         if (i >= TeethPeriods + TeethOffset - 1)
         {
             AlligatorResult prev = Cache[i - 1];
-
             double prevTooth = prev.Teeth.Null2NaN();
 
             // first/reset value: calculate SMA
@@ -118,13 +117,11 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         if (i >= LipsPeriods + LipsOffset - 1)
         {
             AlligatorResult prev = Cache[i - 1];
-
             double prevLips = prev.Lips.Null2NaN();
 
             // first/reset value: calculate SMA
             if (double.IsNaN(prevLips))
             {
-                // TODO: refactor - add offset to, and use Sma.Increment(...,offset)
                 double sum = 0;
                 for (int p = i - LipsPeriods - LipsOffset + 1; p <= i - LipsOffset; p++)
                 {

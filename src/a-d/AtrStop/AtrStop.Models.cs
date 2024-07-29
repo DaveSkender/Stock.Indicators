@@ -20,8 +20,8 @@ namespace Skender.Stock.Indicators;
 /// </param>
 public record AtrStopResult(
     DateTime Timestamp,
-    decimal? AtrStop = null,
-    decimal? BuyStop = null,
-    decimal? SellStop = null,
+    double? AtrStop = null,
+    double? BuyStop = null,
+    double? SellStop = null,
     double? Atr = null
 ) : ISeries;
