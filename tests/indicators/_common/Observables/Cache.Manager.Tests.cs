@@ -10,7 +10,7 @@ public class CacheMgmtTests : TestBase
     public void ModifyWithAct() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void Purge()
+    public void Remove()
     {
         QuoteHub<Quote> provider = new();
         SmaHub<Quote> observer = provider.ToSma(20);
