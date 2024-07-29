@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class WmaTests : StaticSeriesTestBase
+public class Wma : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

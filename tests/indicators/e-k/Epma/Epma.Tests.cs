@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class EpmaTests : StaticSeriesTestBase
+public class Epma : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

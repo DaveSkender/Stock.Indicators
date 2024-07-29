@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AtrTests : StreamHubTestBase, ITestChainProvider
+public class Atr : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()

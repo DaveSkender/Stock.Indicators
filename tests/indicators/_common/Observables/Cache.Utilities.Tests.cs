@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class CacheUtilsTests : TestBase
+public class CacheUtilities : TestBase
 {
     [TestMethod]
     public void ClearCache()

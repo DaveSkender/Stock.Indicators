@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class DojiTests : StaticSeriesTestBase
+public class Doji : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

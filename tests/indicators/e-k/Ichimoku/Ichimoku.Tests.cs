@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class IchimokuTests : StaticSeriesTestBase
+public class Ichimoku : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class ElderRayTests : StaticSeriesTestBase
+public class ElderRay : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class MacdTests : StaticSeriesTestBase
+public class Macd : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

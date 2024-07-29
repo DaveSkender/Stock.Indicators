@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class PivotsTests : StaticSeriesTestBase
+public class Pivots : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

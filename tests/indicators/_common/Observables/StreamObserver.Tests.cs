@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class ObserverTests : TestBase
+public class StreamObservers : TestBase
 {
     [TestMethod]
     public void RebuildCache()

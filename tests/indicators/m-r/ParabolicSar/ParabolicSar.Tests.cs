@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class ParabolicSarTests : StaticSeriesTestBase
+public class ParabolicSar : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

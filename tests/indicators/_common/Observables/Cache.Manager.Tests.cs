@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class CacheMgmtTests : TestBase
+public class CacheManagement : TestBase
 {
     [TestMethod]
     public void ModifyWithAnalysis() => Assert.Inconclusive("test not implemented");

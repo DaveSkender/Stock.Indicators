@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class SmaTests : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class Sma : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()

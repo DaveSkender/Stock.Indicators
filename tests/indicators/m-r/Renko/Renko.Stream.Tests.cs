@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class RenkoTests : StreamHubTestBase, ITestChainProvider
+public class Renko : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()

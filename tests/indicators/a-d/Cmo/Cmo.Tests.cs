@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class CmoTests : StaticSeriesTestBase
+public class Cmo : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

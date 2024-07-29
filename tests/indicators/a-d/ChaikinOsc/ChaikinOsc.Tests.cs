@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class ChaikinOscTests : StaticSeriesTestBase
+public class ChaikinOsc : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

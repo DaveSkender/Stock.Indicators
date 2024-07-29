@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class HeikinAshiTests : StaticSeriesTestBase
+public class HeikinAshi : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

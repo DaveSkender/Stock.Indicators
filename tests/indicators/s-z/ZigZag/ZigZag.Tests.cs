@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace StaticSeries;
 
 [TestClass]
-public class ZigZagTests : StaticSeriesTestBase
+public class ZigZag : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard() // on Close

@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class MarubozuTests : StaticSeriesTestBase
+public class Marubozu : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

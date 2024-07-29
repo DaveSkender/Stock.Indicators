@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class StochTests : StaticSeriesTestBase
+public class Stoch : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard() // Slow

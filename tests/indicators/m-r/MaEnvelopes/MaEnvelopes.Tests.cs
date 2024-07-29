@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class MaEnvelopesTests : StaticSeriesTestBase
+public class MaEnvelopes : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard() // SMA

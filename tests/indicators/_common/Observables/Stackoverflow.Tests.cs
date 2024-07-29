@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class StackoverflowTests : TestBase
+public class Stackoverflow : TestBase
 {
     [TestMethod]
     public void FatLongStack()

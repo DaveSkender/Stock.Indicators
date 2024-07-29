@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AtrStopTests : StreamHubTestBase
+public class AtrStop : StreamHubTestBase
 {
     [TestMethod]
     public override void QuoteObserver()

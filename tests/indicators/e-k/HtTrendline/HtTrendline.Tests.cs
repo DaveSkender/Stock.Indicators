@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class HtTrendlineTests : StaticSeriesTestBase
+public class HtTrendline : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

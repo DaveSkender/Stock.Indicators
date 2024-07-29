@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class ChopTests : StaticSeriesTestBase
+public class Chop : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

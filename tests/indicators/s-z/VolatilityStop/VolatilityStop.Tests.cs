@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class VolatilityStopTests : StaticSeriesTestBase
+public class VolatilityStop : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

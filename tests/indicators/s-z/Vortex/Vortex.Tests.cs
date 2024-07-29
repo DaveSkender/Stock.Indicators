@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class VortexTests : StaticSeriesTestBase
+public class Vortex : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

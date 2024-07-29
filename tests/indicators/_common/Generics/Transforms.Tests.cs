@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace Utilities;
 
+[TestClass]
 public class Transforms : TestBase
 {
     [TestMethod]

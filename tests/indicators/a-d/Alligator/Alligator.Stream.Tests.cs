@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class AlligatorTests : StreamHubTestBase, ITestChainObserver
+public class Alligator : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
     public override void QuoteObserver()

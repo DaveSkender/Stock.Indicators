@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class FractalTests : StaticSeriesTestBase
+public class Fractal : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard() // Span 2

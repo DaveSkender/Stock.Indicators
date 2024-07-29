@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class WilliamsRTests : StaticSeriesTestBase
+public class WilliamsR : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

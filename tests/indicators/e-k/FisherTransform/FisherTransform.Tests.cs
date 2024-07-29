@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class FisherTransformTests : StaticSeriesTestBase
+public class FisherTransform : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

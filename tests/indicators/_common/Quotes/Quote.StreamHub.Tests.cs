@@ -1,6 +1,6 @@
 namespace StreamHub;
 
-public class QuoteTests : StreamHubTestBase, ITestChainProvider
+public class QuoteHub : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -92,5 +92,43 @@ public class QuoteTests : StreamHubTestBase, ITestChainProvider
         hub.Add(Quotes[1]);
 
         hub.ToString().Should().Be("QUOTES<Quote>: 2 items");
+    }
+
+    [TestMethod]
+    public void AddQuote()
+    {
+        // covers both single and batch add
+
+        List<Quote> quotesList = Quotes
+            .ToSortedList();
+
+        int length = Quotes.Count;
+
+        // add base quotes (batch)
+        QuoteHub<Quote> provider = new();
+
+        provider.Add(quotesList.Take(200));
+
+        // add incremental quotes
+        for (int i = 200; i < length; i++)
+        {
+            Quote q = quotesList[i];
+            provider.Add(q);
+        }
+
+        // assert same as original
+        for (int i = 0; i < length; i++)
+        {
+            Quote o = quotesList[i];
+            Quote q = provider.Cache[i];
+
+            Assert.AreEqual(o, q);  // same ref
+        }
+
+        // confirm public interfaces
+        Assert.AreEqual(provider.Cache.Count, provider.Quotes.Count);
+
+        // close observations
+        provider.EndTransmission();
     }
 }

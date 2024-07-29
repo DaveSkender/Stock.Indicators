@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class VwapTests : StaticSeriesTestBase
+public class Vwap : StaticSeriesTestBase
 {
     private readonly IEnumerable<Quote> intraday = Data.GetIntraday()
         .OrderBy(x => x.Timestamp)

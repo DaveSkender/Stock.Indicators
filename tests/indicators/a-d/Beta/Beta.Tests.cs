@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class BetaTests : StaticSeriesTestBase
+public class Beta : StaticSeriesTestBase
 {
     [TestMethod]
     public void All()

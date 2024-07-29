@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class AlligatorTests : StaticSeriesTestBase
+public class Alligator : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

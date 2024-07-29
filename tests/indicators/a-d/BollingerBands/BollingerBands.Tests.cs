@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class BollingerBandsTests : StaticSeriesTestBase
+public class BollingerBands : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()
