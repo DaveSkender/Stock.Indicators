@@ -2,9 +2,9 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// QUOTE UTILITIES
+// QUOTE UTILITIES (CONVERTERS)
 
-public static partial class QuoteUtility
+public static partial class Utility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 

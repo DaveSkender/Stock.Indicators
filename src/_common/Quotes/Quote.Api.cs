@@ -1,6 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class QuoteUtility
+// QUOTE (API)
+
+public static partial class Utility
 {
     // OBSERVER, from Quote Provider (redistribution)
     public static QuoteHub<TQuote> ToQuote<TQuote>(

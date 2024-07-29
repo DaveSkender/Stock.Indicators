@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public static class Numerix
+public static class Numerical
 {
     // STANDARD DEVIATION
     public static double StdDev(this double[] values)

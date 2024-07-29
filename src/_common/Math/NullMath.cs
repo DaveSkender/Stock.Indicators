@@ -1,9 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-// NULLABLE SYSTEM.MATH
-// System.Math does not allow or handle null input values.
-// Instead of putting a lot of inline defensive code
-// we're building nullable equivalents here.
+/// <summary>
+/// Nullable System.<see cref="Math"/> functions.
+/// </summary>
+/// <remarks>
+/// <c>System.Math</c> infamously does not allow
+/// or handle nullable input values.
+/// Instead of adding repetitive inline defensive code,
+/// we're using these equivalents.  Most are simple wrappers.
+/// </remarks>
 public static class NullMath
 {
     public static double? Abs(this double? value)
