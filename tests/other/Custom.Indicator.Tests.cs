@@ -1,79 +1,13 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using Sut;
 
 namespace Customization;
 
-public sealed record MyResult : IReusable
-{
-    public DateTime Timestamp { get; init; }
-    public double? Sma { get; init; }
-
-    double IReusable.Value
-        => Sma.Null2NaN();
-}
-
-public static class CustomIndicator
-{
-    // SERIES, from CHAIN
-    public static IReadOnlyList<MyResult> GetIndicator<T>(
-        this IEnumerable<T> source,
-        int lookbackPeriods)
-        where T : IReusable
-        => source
-            .ToSortedCollection()
-            .CalcIndicator(lookbackPeriods);
-
-    private static List<MyResult> CalcIndicator<T>(
-        this Collection<T> source,
-        int lookbackPeriods)
-        where T : IReusable
-    {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for SMA.");
-        }
-
-        // initialize
-        int length = source.Count;
-        List<MyResult> results = new(length);
-
-        // roll through source values
-        for (int i = 0; i < length; i++)
-        {
-            T s = source[i];
-
-            double? sma;
-
-            if (i >= lookbackPeriods - 1)
-            {
-                double sum = 0;
-                for (int p = i - lookbackPeriods + 1; p <= i; p++)
-                {
-                    T ps = source[p];
-                    sum += ps.Value;
-                }
-
-                sma = (sum / lookbackPeriods).NaN2Null();
-            }
-            else
-            {
-                sma = null;
-            }
-
-            results.Add(new() {
-                Timestamp = s.Timestamp,
-                Sma = sma
-            });
-        }
-
-        return results;
-    }
-}
+// CUSTOM INDICATORS
 
 [TestClass]
-public class CustomIndicatorTests
+public class CustomIndicators
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
@@ -85,7 +19,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void Standard()
     {
-        IReadOnlyList<MyResult> results = quotes
+        IReadOnlyList<CustomReusable> results = quotes
             .GetIndicator(20);
 
         // proper quantities
@@ -104,7 +38,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void CandlePartOpen()
     {
-        IReadOnlyList<MyResult> results = quotes
+        IReadOnlyList<CustomReusable> results = quotes
             .Use(CandlePart.Open)
             .GetIndicator(20);
 
@@ -123,7 +57,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void CandlePartVolume()
     {
-        IReadOnlyList<MyResult> results = quotes
+        IReadOnlyList<CustomReusable> results = quotes
             .Use(CandlePart.Volume)
             .GetIndicator(20);
 
@@ -131,13 +65,13 @@ public class CustomIndicatorTests
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
-        MyResult r24 = results[24];
+        CustomReusable r24 = results[24];
         Assert.AreEqual(77293768.2, r24.Sma);
 
-        MyResult r290 = results[290];
+        CustomReusable r290 = results[290];
         Assert.AreEqual(157958070.8, r290.Sma);
 
-        MyResult r501 = results[501];
+        CustomReusable r501 = results[501];
         Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture), r501.Timestamp);
         Assert.AreEqual(163695200, r501.Sma);
     }
@@ -179,7 +113,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void NaN()
     {
-        IReadOnlyList<MyResult> r = Data.GetBtcUsdNan()
+        IReadOnlyList<CustomReusable> r = Data.GetBtcUsdNan()
             .GetIndicator(50);
 
         Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
@@ -188,7 +122,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void BadData()
     {
-        IReadOnlyList<MyResult> r = badQuotes
+        IReadOnlyList<CustomReusable> r = badQuotes
             .GetIndicator(15);
 
         Assert.AreEqual(502, r.Count);
@@ -198,12 +132,12 @@ public class CustomIndicatorTests
     [TestMethod]
     public void NoQuotesExist()
     {
-        IReadOnlyList<MyResult> r0 = noquotes
+        IReadOnlyList<CustomReusable> r0 = noquotes
             .GetIndicator(5);
 
         Assert.AreEqual(0, r0.Count);
 
-        IReadOnlyList<MyResult> r1 = onequote
+        IReadOnlyList<CustomReusable> r1 = onequote
             .GetIndicator(5);
 
         Assert.AreEqual(1, r1.Count);
@@ -212,7 +146,7 @@ public class CustomIndicatorTests
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<MyResult> results = quotes
+        IReadOnlyList<CustomReusable> results = quotes
             .GetIndicator(20)
             .RemoveWarmupPeriods(19);
 

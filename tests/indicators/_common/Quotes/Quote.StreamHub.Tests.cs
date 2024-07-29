@@ -1,5 +1,8 @@
 namespace StreamHub;
 
+// QUOTEHUB
+
+[TestClass]
 public class QuoteHub : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]

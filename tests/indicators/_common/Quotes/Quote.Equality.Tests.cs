@@ -1,9 +1,11 @@
 namespace Utilities;
 
+// quotes equality
+
 public partial class Quotes : TestBase
 {
     [TestMethod]
-    public void EqualQuotes()
+    public void Equality()
     {
         Quote q1 = new(EvalDate, 1m, 1m, 1m, 1m, 100);
         Quote q2 = new(EvalDate, 1m, 1m, 1m, 1m, 100);
