@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class Ema : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()

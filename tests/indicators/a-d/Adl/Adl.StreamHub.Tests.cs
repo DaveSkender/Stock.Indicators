@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class Alligator : StreamHubTestBase, ITestChainObserver
+public class AdlHub : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -21,11 +21,11 @@ public class Alligator : StreamHubTestBase, ITestChainObserver
         }
 
         // initialize observer
-        AlligatorHub<Quote> observer = provider
-            .ToAlligator();
+        StreamHub<Quote, AdlResult> observer = provider
+            .ToAdl();
 
         // fetch initial results (early)
-        IReadOnlyList<AlligatorResult> streamList
+        IReadOnlyList<AdlResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -55,9 +55,8 @@ public class Alligator : StreamHubTestBase, ITestChainObserver
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<AlligatorResult> seriesList
-           = quotesList
-            .GetAlligator();
+        IReadOnlyList<AdlResult> seriesList = quotesList
+            .GetAdl();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -68,8 +67,10 @@ public class Alligator : StreamHubTestBase, ITestChainObserver
     }
 
     [TestMethod]
-    public void ChainObserver()
+    public void ChainProvider()
     {
+        int smaPeriods = 8;
+
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
@@ -79,46 +80,30 @@ public class Alligator : StreamHubTestBase, ITestChainObserver
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        AlligatorHub<SmaResult> observer = provider
-            .ToSma(10)
-            .ToAlligator();
+        IChainProvider<AdlResult> adlHub = provider
+            .ToAdl();
 
-        // emulate adding quotes out of order
-        // note: this works when graceful order
+        SmaHub<AdlResult> observer = adlHub
+            .ToSma(smaPeriods);
+
+        // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            // skip one (add later)
-            if (i == 80)
-            {
-                continue;
-            }
-
-            Quote q = quotesList[i];
-            provider.Add(q);
-
-            // resend duplicate quotes
-            if (i is > 100 and < 105)
-            {
-                provider.Add(q);
-            }
+            provider.Add(quotesList[i]);
         }
-
-        // late arrival
-        provider.Add(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
-        IReadOnlyList<AlligatorResult> streamList
+        IReadOnlyList<SmaResult> streamList
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<AlligatorResult> seriesList
-           = quotesList
-            .GetSma(10)
-            .GetAlligator();
+        IReadOnlyList<SmaResult> seriesList = quotesList
+            .GetAdl()
+            .GetSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -131,7 +116,15 @@ public class Alligator : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public override void CustomToString()
     {
-        AlligatorHub<Quote> hub = new(new QuoteHub<Quote>(), 13, 8, 7, 5, 4, 3);
-        hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");
+        QuoteHub<Quote> provider = new();
+
+        AdlHub<Quote> hub = new(provider);
+        hub.ToString().Should().Be("ADL");
+
+        provider.Add(Quotes[0]);
+        provider.Add(Quotes[1]);
+
+        string s = $"ADL({Quotes[0].Timestamp:d})";
+        hub.ToString().Should().Be(s);
     }
 }

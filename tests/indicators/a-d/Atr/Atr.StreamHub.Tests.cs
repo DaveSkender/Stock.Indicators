@@ -1,14 +1,11 @@
 namespace StreamHub;
 
 [TestClass]
-public class Renko : StreamHubTestBase, ITestChainProvider
+public class AtrHub : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()
     {
-        decimal brickSize = 2.5m;
-        EndType endType = EndType.Close;
-
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
@@ -18,21 +15,21 @@ public class Renko : StreamHubTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // prefill quotes to provider
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 20; i++)
         {
             provider.Add(quotesList[i]);
         }
 
         // initialize observer
-        RenkoHub<Quote> observer = provider
-            .ToRenko(brickSize, endType);
+        StreamHub<Quote, AtrResult> observer = provider
+            .ToAtr(14);
 
         // fetch initial results (early)
-        IReadOnlyList<RenkoResult> streamList
+        IReadOnlyList<AtrResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
-        for (int i = 50; i < length; i++)
+        for (int i = 20; i < length; i++)
         {
             // skip one (add later)
             if (i == 80)
@@ -58,11 +55,11 @@ public class Renko : StreamHubTestBase, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<RenkoResult> seriesList = quotesList
-            .GetRenko(brickSize, endType);
+        IReadOnlyList<AtrResult> seriesList = quotesList
+            .GetAtr(14);
 
         // assert, should equal series
-        streamList.Should().HaveCount(112);
+        streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
@@ -72,8 +69,6 @@ public class Renko : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        decimal brickSize = 2.5m;
-        EndType endType = EndType.Close;
         int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes
@@ -85,8 +80,10 @@ public class Renko : StreamHubTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        SmaHub<RenkoResult> observer = provider
-            .ToRenko(brickSize, endType)
+        IChainProvider<AtrResult> adlHub = provider
+            .ToAtr(14);
+
+        SmaHub<AtrResult> observer = adlHub
             .ToSma(smaPeriods);
 
         // emulate quote stream
@@ -105,11 +102,11 @@ public class Renko : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
-            .GetRenko(brickSize, endType)
+            .GetAtr(14)
             .GetSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(112);
+        streamList.Should().HaveCount(length - 1);
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
@@ -119,7 +116,7 @@ public class Renko : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        RenkoHub<Quote> hub = new(new QuoteHub<Quote>(), 2.5m, EndType.Close);
-        hub.ToString().Should().Be("RENKO(2.5,CLOSE)");
+        AtrHub<Quote> hub = new(new QuoteHub<Quote>(), 20);
+        hub.ToString().Should().Be("ATR(20)");
     }
 }
