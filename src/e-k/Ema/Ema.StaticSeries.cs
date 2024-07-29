@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (SERIES)
 
-public static partial class Ema
+public static partial class EmaUtility
 {
     internal static List<EmaResult> CalcEma<T>(
         this List<T> source,
@@ -49,7 +49,7 @@ public static partial class Ema
             // normal EMA
             else
             {
-                ema = Ema.Increment(k, lastEma, s.Value);
+                ema = Increment(k, lastEma, s.Value);
             }
 
             EmaResult r = new(

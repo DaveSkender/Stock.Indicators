@@ -2,17 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
-#region hub interface
-
-public interface IEmaHub
-{
-    int LookbackPeriods { get; }
-    double K { get; }
-}
-#endregion
-
 public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
-    IReusableHub<TIn, EmaResult>, IEmaHub
+    IReusableHub<TIn, EmaResult>, IEma
     where TIn : IReusable
 {
     #region constructors
@@ -21,7 +12,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {
-        Ema.Validate(lookbackPeriods);
+        EmaUtility.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
@@ -47,7 +38,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
             ema = !double.IsNaN(last.Value)
 
                 // normal
-                ? Ema.Increment(K, last.Value, newIn.Value)
+                ? EmaUtility.Increment(K, last.Value, newIn.Value)
 
                 // re/initialize
                 : Sma.Increment(Provider.Results, i, LookbackPeriods);

@@ -55,6 +55,9 @@ public abstract class IncrementsTestBase : TestBase
 {
     [TestMethod]
     public abstract void Standard();
+
+    [TestMethod]
+    public abstract void ValueBased();
 }
 
 /// <summary>

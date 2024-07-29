@@ -68,7 +68,7 @@ public class Sma : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> results = Quotes
             .GetSma(10)
-            .GetEma(10);
+            .ToEma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));
