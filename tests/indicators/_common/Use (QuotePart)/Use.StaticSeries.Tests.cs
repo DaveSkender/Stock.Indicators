@@ -1,22 +1,22 @@
 namespace StaticSeries;
 
 [TestClass]
-public class UseTests : StaticSeriesTestBase
+public class Use : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()
     {
-        // compose basic data
-        IReadOnlyList<QuotePart> o = Quotes.Use(CandlePart.Open).ToList();
-        IReadOnlyList<QuotePart> h = Quotes.Use(CandlePart.High).ToList();
-        IReadOnlyList<QuotePart> l = Quotes.Use(CandlePart.Low).ToList();
-        IReadOnlyList<QuotePart> c = Quotes.Use(CandlePart.Close).ToList();
-        IReadOnlyList<QuotePart> v = Quotes.Use(CandlePart.Volume).ToList();
-        IReadOnlyList<QuotePart> hl = Quotes.Use(CandlePart.HL2).ToList();
-        IReadOnlyList<QuotePart> hlc = Quotes.Use(CandlePart.HLC3).ToList();
-        IReadOnlyList<QuotePart> oc = Quotes.Use(CandlePart.OC2).ToList();
-        IReadOnlyList<QuotePart> ohl = Quotes.Use(CandlePart.OHL3).ToList();
-        IReadOnlyList<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4).ToList();
+        // compose data
+        IReadOnlyList<QuotePart> o = Quotes.Use(CandlePart.Open);
+        IReadOnlyList<QuotePart> h = Quotes.Use(CandlePart.High);
+        IReadOnlyList<QuotePart> l = Quotes.Use(CandlePart.Low);
+        IReadOnlyList<QuotePart> c = Quotes.Use(CandlePart.Close);
+        IReadOnlyList<QuotePart> v = Quotes.Use(CandlePart.Volume);
+        IReadOnlyList<QuotePart> hl = Quotes.Use(CandlePart.HL2);
+        IReadOnlyList<QuotePart> hlc = Quotes.Use(CandlePart.HLC3);
+        IReadOnlyList<QuotePart> oc = Quotes.Use(CandlePart.OC2);
+        IReadOnlyList<QuotePart> ohl = Quotes.Use(CandlePart.OHL3);
+        IReadOnlyList<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4);
 
         // proper quantities
         Assert.AreEqual(502, c.Count);
@@ -49,15 +49,6 @@ public class UseTests : StaticSeriesTestBase
         Assert.AreEqual(245.1, roc.Value);
         Assert.AreEqual(244.4433, rohl.Value.Round(4));
         Assert.AreEqual(244.6525, rohlc.Value);
-    }
-
-    [TestMethod]
-    public void Use()
-    {
-        IReadOnlyList<QuotePart> results = Quotes
-            .Use(CandlePart.Close);
-
-        Assert.AreEqual(502, results.Count);
     }
 
     [TestMethod]
