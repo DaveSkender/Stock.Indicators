@@ -22,11 +22,4 @@ public static partial class Utility
             .OrderBy(q => q.Timestamp)
             .Select(q => q.ToQuotePart(candlePart))
             .ToList();
-
-    // OBSERVER, from Quote Provider
-    public static QuotePartHub<TIn> ToQuotePart<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        CandlePart candlePart)
-        where TIn : IQuote
-        => new(quoteProvider, candlePart);
 }

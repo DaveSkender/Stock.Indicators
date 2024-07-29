@@ -1,5 +1,7 @@
 namespace Utilities;
 
+// quote aggregates
+
 public partial class Quotes : TestBase
 {
     [TestMethod]
@@ -126,7 +128,7 @@ public partial class Quotes : TestBase
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
-    public void BadAggregationSize() =>
+    public void AggregateBadSize() =>
 
     // bad period size
     Quotes.Aggregate(TimeSpan.Zero);

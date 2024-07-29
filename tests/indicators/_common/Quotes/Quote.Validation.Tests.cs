@@ -1,5 +1,7 @@
 namespace Utilities;
 
+// quote validation
+
 public partial class Quotes : TestBase
 {
     [TestMethod]
@@ -75,7 +77,7 @@ public partial class Quotes : TestBase
     /* BAD QUOTES EXCEPTIONS */
     [TestMethod]
     [ExpectedException(typeof(InvalidQuotesException), "Duplicate date found.")]
-    public void DuplicateHistory()
+    public void ValidateDuplicates()
     {
         IReadOnlyList<Quote> badHistory =
         [
