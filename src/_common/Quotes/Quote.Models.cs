@@ -110,5 +110,5 @@ internal record QuoteD
     double Volume
 ) : Reusable(Timestamp)
 {
-    public override double Value => (double)Close;
+    public override double Value => Close;
 }

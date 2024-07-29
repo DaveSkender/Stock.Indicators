@@ -10,7 +10,19 @@ public class CacheMgmtTests : TestBase
     public void ModifyWithAct() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
-    public void Purge() => Assert.Inconclusive("test not implemented");
+    public void Purge()
+    {
+        QuoteHub<Quote> provider = new();
+        SmaHub<Quote> observer = provider.ToSma(20);
+        provider.Add(Quotes.Take(21));
+
+        observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: DoublePrecision);
+
+        provider.Remove(Quotes[14]);
+        provider.EndTransmission();
+
+        observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: DoublePrecision);
+    }
 
     [TestMethod]  // TODO: tests should include all Act enum methods
     public void ActInstructions() => Assert.Inconclusive("test not implemented");
