@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class StarcBandsTests : SeriesTestBase
+public class StarcBandsTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

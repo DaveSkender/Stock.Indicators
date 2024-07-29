@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class RenkoTests : SeriesTestBase
+public class RenkoTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()  // close

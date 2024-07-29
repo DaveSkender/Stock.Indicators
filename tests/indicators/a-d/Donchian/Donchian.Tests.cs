@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class DonchianTests : SeriesTestBase
+public class DonchianTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

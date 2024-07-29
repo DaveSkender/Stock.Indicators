@@ -2,8 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace Utilities;
 
-[TestClass]
-public class QuoteUtilityTests : TestBase
+public partial class Quotes : TestBase
 {
     [TestMethod]
     public void QuoteToSortedCollection()

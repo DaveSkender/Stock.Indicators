@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class Aroon : SeriesTestBase
+public class Aroon : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

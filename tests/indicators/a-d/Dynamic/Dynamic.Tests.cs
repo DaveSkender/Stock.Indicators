@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class McGinleyDynamicTests : SeriesTestBase
+public class McGinleyDynamicTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

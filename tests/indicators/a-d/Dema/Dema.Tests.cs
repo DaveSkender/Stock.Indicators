@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class DemaTests : SeriesTestBase
+public class DemaTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class EmaTests : SeriesTestBase
+public class EmaTests : StaticSeriesTestBase
 {
     [TestMethod]
     public void Increment()

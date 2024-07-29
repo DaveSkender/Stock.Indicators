@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class AtrStopTests : SeriesTestBase
+public class AtrStopTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

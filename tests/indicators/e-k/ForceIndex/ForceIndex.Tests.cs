@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class ForceIndexTests : SeriesTestBase
+public class ForceIndexTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class CorrelationTests : SeriesTestBase
+public class CorrelationTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()
