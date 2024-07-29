@@ -1,7 +1,7 @@
-namespace Convergence;
+namespace Behavioral;
 
 [TestClass]
-public class ConvergenceTests : TestBase
+public class Convergence : TestBase
 {
     private static readonly int[] QuotesQuantities =
         [5, 14, 28, 40, 50, 75, 100, 110, 120, 130, 140, 150, 160, 175, 200, 250, 350, 500, 600, 700, 800, 900, 1000];
@@ -105,7 +105,7 @@ public class ConvergenceTests : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IEnumerable<Quote> qts = Data.GetLongish(qty);
-            IEnumerable<EmaResult> r = qts.GetEma(15);
+            IEnumerable<EmaResult> r = qts.ToEma(15);
 
             EmaResult l = r.LastOrDefault();
             Console.WriteLine($"EMA(15) on {l.Timestamp:d} with {qts.Count(),4} periods: {l.Ema:N8}");

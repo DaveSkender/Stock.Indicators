@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 // SORTED of SERIES
 
-public static class Sorting
+public static partial class Utility
 {
     public static Collection<TSeries> ToSortedCollection<TSeries>(
         this IEnumerable<TSeries> series)

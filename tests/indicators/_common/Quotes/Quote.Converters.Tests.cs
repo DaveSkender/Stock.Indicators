@@ -1,12 +1,14 @@
 using System.Collections.ObjectModel;
 
+// quote list converters
+
 namespace Utilities;
 
 [TestClass]
-public class QuoteUtilityTests : TestBase
+public partial class Quotes : TestBase
 {
     [TestMethod]
-    public void QuoteToSortedCollection()
+    public void ToSortedCollection()
     {
         IReadOnlyList<Quote> quotes = Data.GetMismatch();
 
@@ -29,7 +31,7 @@ public class QuoteUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void QuoteToSortedList()
+    public void ToSortedList()
     {
         IReadOnlyList<Quote> quotes = Data.GetMismatch();
 

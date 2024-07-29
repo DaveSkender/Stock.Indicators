@@ -26,7 +26,7 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
     }
     #endregion
 
-    public int LookbackPeriods { get; }
+    public int LookbackPeriods { get; init; }
 
     // METHODS
 

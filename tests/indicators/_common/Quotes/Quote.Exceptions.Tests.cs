@@ -1,21 +1,21 @@
 namespace Utilities;
 
-[TestClass]
-public class ExceptionTests : TestBase
+// invalid quotes exceptions
+
+public partial class Quotes : TestBase
 {
-    // bad quotes exceptions
     [TestMethod]
     [ExpectedException(typeof(InvalidQuotesException), "Bad quotes without message.")]
-    public void BadHistory()
+    public void InvalidQuotesExceptionThrow()
         => throw new InvalidQuotesException();
 
     [TestMethod]
     [ExpectedException(typeof(InvalidQuotesException), "Bad quotes with message.")]
-    public void BadHistoryWithMessage()
+    public void InvalidQuotesExceptionThrowWithMessage()
         => throw new InvalidQuotesException("This is a quotes exception.");
 
     [TestMethod]
     [ExpectedException(typeof(InvalidQuotesException), "Bad quotes with inner Exception.")]
-    public void BadHistoryWithInner()
+    public void InvalidQuotesExceptionThrowWithInner()
         => throw new InvalidQuotesException("This has an inner Exception.", new ArgumentException());
 }

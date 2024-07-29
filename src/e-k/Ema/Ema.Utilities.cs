@@ -19,6 +19,12 @@ public static partial class Ema
         return Increment(k, lastEma, newPrice);
     }
 
+    public static double? Increment(
+        double k,
+        double? lastEma,
+        double newPrice)
+        => lastEma + k * (newPrice - lastEma);
+
     // remove recommended periods
     public static IReadOnlyList<EmaResult> RemoveWarmupPeriods(
         this IEnumerable<EmaResult> results)

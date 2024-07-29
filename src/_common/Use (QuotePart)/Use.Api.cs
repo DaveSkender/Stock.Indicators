@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // USE (API)
 
-public static partial class QuotePartUtility
+public static partial class Utility
 {
     // SERIES, from Quotes
     public static IReadOnlyList<QuotePart> Use<TQuote>(
@@ -24,11 +24,4 @@ public static partial class QuotePartUtility
             .OrderBy(q => q.Timestamp)
             .Select(q => q.ToQuotePart(candlePart))
             .ToList();
-
-    // OBSERVER, from Quote Provider
-    public static QuotePartHub<TIn> ToQuotePart<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
-        CandlePart candlePart)
-        where TIn : IQuote
-        => new(quoteProvider, candlePart);
 }

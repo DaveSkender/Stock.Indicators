@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="ReusableUtility.Condense{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
     public static IReadOnlyList<SuperTrendResult> Condense(
         this IEnumerable<SuperTrendResult> results)
     {
@@ -18,7 +18,7 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <inheritdoc cref="ReusableUtility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
     public static IReadOnlyList<SuperTrendResult> RemoveWarmupPeriods(
         this IEnumerable<SuperTrendResult> results)
     {

@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 namespace Test.Data;
 
 [TestClass]
-public abstract class TestBase
+public abstract class TestBase  // base for all tests
 {
     internal static readonly CultureInfo englishCulture = new("en-US", false);
 
@@ -26,18 +26,17 @@ public abstract class TestBase
     internal static readonly IReadOnlyList<Quote> ZeroesQuotes = Data.GetZeros();
 
     protected static readonly double DoublePrecision = 1E-13;
+
+    protected static readonly DateTime EvalDate
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
 }
 
 /// <summary>
-/// Base tests that all static indicators (series) should have.
-/// You'll get a placeholder result where not implemented.
+/// Base tests that all series indicators should have.
 /// </summary>
 [TestClass]
-public abstract class SeriesTestBase : TestBase
+public abstract class StaticSeriesTestBase : TestBase
 {
-    internal readonly DateTime EvalDate
-        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
-
     [TestMethod]
     public abstract void Standard();
 
@@ -49,11 +48,23 @@ public abstract class SeriesTestBase : TestBase
 }
 
 /// <summary>
-/// Base tests that all streamed indicators should have.
-/// You'll get a placeholder result where not implemented.
+/// Base tests that all static indicators (series) should have.
 /// </summary>
 [TestClass]
-public abstract class StreamTestBase : TestBase
+public abstract class IncrementsTestBase : TestBase
+{
+    [TestMethod]
+    public abstract void Standard();
+
+    [TestMethod]
+    public abstract void ValueBased();
+}
+
+/// <summary>
+/// Base tests that all streamed indicators should have.
+/// </summary>
+[TestClass]
+public abstract class StreamHubTestBase : TestBase  // default: quote observer
 {
     [TestMethod]
     public abstract void QuoteObserver();
@@ -64,7 +75,6 @@ public abstract class StreamTestBase : TestBase
 
 /// <summary>
 /// Add this to stream chainee indicator tests.
-/// You'll get a placeholder result where not implemented.
 /// </summary>
 public interface ITestChainObserver
 {
@@ -74,7 +84,6 @@ public interface ITestChainObserver
 
 /// <summary>
 /// Add this to all stream chainor indicator tests.
-/// You'll get a placeholder result where not implemented.
 /// </summary>
 public interface ITestChainProvider
 {

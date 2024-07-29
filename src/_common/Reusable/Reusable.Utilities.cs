@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // REUSABLE TYPE UTILITIES
 
-public static class ReusableUtility
+public static partial class Utility
 {
     // convert IQuote type list to IReusable list
     public static IReadOnlyList<IReusable> ToReusableList<TQuote>(
