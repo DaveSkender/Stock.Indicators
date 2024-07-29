@@ -1,7 +1,7 @@
 namespace Utilities;
 
 [TestClass]
-public class NumerixTests : TestBase
+public class Numericals : TestBase
 {
     private readonly double[] _closePrice = LongishQuotes
         .Select(x => (double)x.Close)
@@ -20,27 +20,27 @@ public class NumerixTests : TestBase
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException), "Null parameter.")]
-    public void StdDevNull() => Numerix.StdDev(null);
+    public void StdDevNull() => Numerical.StdDev(null);
 
     [TestMethod]
     public void Slope()
     {
-        double s = Numerix.Slope(_x, _x);
+        double s = Numerical.Slope(_x, _x);
 
         Assert.AreEqual(1d, s);
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException), "Null X parameter.")]
-    public void SlopeXnull() => Numerix.Slope(null, _x);
+    public void SlopeXnull() => Numerical.Slope(null, _x);
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException), "Null Y parameter.")]
-    public void SlopeYnull() => Numerix.Slope(_x, null);
+    public void SlopeYnull() => Numerical.Slope(_x, null);
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentException), "X and Y different lengths.")]
-    public void SlopeMismatch() => Numerix.Slope(_x, _y);
+    public void SlopeMismatch() => Numerical.Slope(_x, _y);
 
     [TestMethod]
     public void RoundDownDate()

@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class StochRsiTests : SeriesTestBase
+public class StochRsiTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard() // Fast RSI

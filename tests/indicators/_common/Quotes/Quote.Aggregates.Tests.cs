@@ -1,7 +1,6 @@
 namespace Utilities;
 
-[TestClass]
-public class QuoteAggregateTests : TestBase
+public partial class Quotes : TestBase
 {
     [TestMethod]
     public void Aggregate()

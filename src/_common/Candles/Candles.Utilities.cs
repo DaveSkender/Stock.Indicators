@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public static class CandleUtility
+public static partial class Utility
 {
     public static IReadOnlyList<CandleResult> Condense(
         this IEnumerable<CandleResult> candleResults) => candleResults

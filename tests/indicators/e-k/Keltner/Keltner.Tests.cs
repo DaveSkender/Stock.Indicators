@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class KeltnerTests : SeriesTestBase
+public class KeltnerTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

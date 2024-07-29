@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // USE (API)
 
-public static partial class QuotePartUtility
+public static partial class Utility
 {
     // SERIES, from Quotes
     public static IReadOnlyList<QuotePart> Use(

@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class AwesomeTests : SeriesTestBase
+public class AwesomeTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

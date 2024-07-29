@@ -53,7 +53,7 @@ Items marked with &#128681; require special attention since they will not produc
 
 - `IQuote` is now a reusable (chainable) type.  It auto-selects `Close` price as the _default_ consumed value.
 
-- `TQuote` custom quote types now have to implement the `IReusable` interface to support chaining operations.  The best way to fix is to change your `TQuote` to implement a `IReusable.Value` pointer to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
+- `TQuote` custom quote types now have to implement the `IReusable` interface to support chaining operations.  The best way to fix is to change your `TQuote` to implement the `IReusable.Value` pointer to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
 
   ```csharp
   public record MyCustomQuote (
@@ -69,13 +69,14 @@ Items marked with &#128681; require special attention since they will not produc
       // custom properties
       string? MyCustomProperty = default
 
-  ) : IQuote // base: IReusable, IEquality<IQuote>
+  ) : IQuote // » IQuote now inherits an IReusable
   {
       // custom mapped properties
       decimal IQuote.Close
         => MyClose;
 
-      // `IReusable` compliance
+      // `IReusable` requires a default 'Value' property.
+      // Map it to your 'Close' price.
       double IReusable.Value
         => (double)Close;
   }
@@ -85,11 +86,13 @@ Items marked with &#128681; require special attention since they will not produc
 
 - &#128681; `IReusableResult.Value` property was changed to non-nullable and returns `double.NaN` instead of `null` for incalculable periods.  The standard results (e.g. `EmaResult.Ema`) continue to return `null` for incalculable periods.  This was done to improve internal chaining and streaming performance.
 
-- Indicator return types were changed from `sealed class` to _**immutable**_ `record` types to improve internal chaining and streaming performance.  This should not impact negatively; however, these can now be inherited as base classes.
+- Indicator return types, like `EmaResult`, were changed from `sealed class` to _**immutable**_ `record` types to improve internal chaining and streaming performance.  This should not impact negatively; however, these can now be inherited as base classes.
 
 ### Less common breaking changes
 
-- Return type for the `Use()` utility method was renamed from `UseResult` to `QuotePart` for clarity of its wider purpose.
+- Return type for the `Use()` utility method was renamed from `UseResult` to `QuotePart` for clarity and for of its wider purpose.
+
+- `Numerixs` class was renamed to `Numerical`.
 
 - `GetBaseQuote()` indicator and related `BasicData` return types were removed since they are redundant to the `Use()` method and `QuotePart` return types, respectively.
 

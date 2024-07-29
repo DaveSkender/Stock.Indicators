@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
 // REMOVE AND PRUNING of SERIES
-public static class Pruning
+
+public static partial class Utility
 {
     // REMOVE SPECIFIC PERIODS
     public static IReadOnlyList<T> RemoveWarmupPeriods<T>(

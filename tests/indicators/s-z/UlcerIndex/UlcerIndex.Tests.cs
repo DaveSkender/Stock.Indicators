@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class UlcerIndexTests : SeriesTestBase
+public class UlcerIndexTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

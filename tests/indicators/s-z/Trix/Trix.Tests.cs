@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class TrixTests : SeriesTestBase
+public class TrixTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

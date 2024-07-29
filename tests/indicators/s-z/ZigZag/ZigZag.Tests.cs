@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class ZigZagTests : SeriesTestBase
+public class ZigZagTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard() // on Close

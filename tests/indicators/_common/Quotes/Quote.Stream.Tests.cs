@@ -1,7 +1,6 @@
-namespace Stream;
+namespace StreamHub;
 
-[TestClass]
-public class QuoteTests : StreamTestBase, ITestChainProvider
+public class QuoteTests : StreamHubTestBase, ITestChainProvider
 {
     [TestMethod]
     public override void QuoteObserver()

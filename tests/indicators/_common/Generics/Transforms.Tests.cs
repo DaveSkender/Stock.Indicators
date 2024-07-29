@@ -2,8 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace Utilities;
 
-[TestClass]
-public class TransformTests : TestBase
+public class Transforms : TestBase
 {
     [TestMethod]
     public void ToCollection()
@@ -19,7 +18,7 @@ public class TransformTests : TestBase
 
     // null ToCollection
     [TestMethod]
-    public void Exceptions()
+    public void ToCollectionNullExceptions()
     {
         IReadOnlyList<Quote> nullQuotes = null;
 

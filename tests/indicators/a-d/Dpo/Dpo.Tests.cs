@@ -1,7 +1,7 @@
-namespace Series;
+namespace StaticSeries;
 
 [TestClass]
-public class DpoTests : SeriesTestBase
+public class DpoTests : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

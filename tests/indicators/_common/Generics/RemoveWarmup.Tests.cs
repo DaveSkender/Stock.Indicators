@@ -1,10 +1,10 @@
 namespace Utilities;
 
 [TestClass]
-public class Pruning : TestBase
+public class RemoveWarmup : TestBase
 {
     [TestMethod]
-    public void Remove()
+    public void Standard()
     {
         // specific periods
         IReadOnlyList<HeikinAshiResult> results = Quotes
@@ -19,7 +19,7 @@ public class Pruning : TestBase
     }
 
     [TestMethod]
-    public void RemoveTooMany()
+    public void TooMany()
     {
         // more than available
         IReadOnlyList<HeikinAshiResult> results = Quotes
