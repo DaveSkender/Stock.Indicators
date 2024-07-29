@@ -1,7 +1,7 @@
 namespace StreamHub;
 
 [TestClass]
-public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
+public class AlligatorHub : StreamHubTestBase, ITestChainObserver
 {
     [TestMethod]
     public override void QuoteObserver()
@@ -21,11 +21,11 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // initialize observer
-        EmaHub<Quote> observer = provider
-            .ToEma(5);
+        AlligatorHub<Quote> observer = provider
+            .ToAlligator();
 
         // fetch initial results (early)
-        IReadOnlyList<EmaResult> streamList
+        IReadOnlyList<AlligatorResult> streamList
             = observer.Results;
 
         // emulate adding quotes to provider
@@ -55,8 +55,9 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList = quotesList
-            .GetEma(5);
+        IReadOnlyList<AlligatorResult> seriesList
+           = quotesList
+            .GetAlligator();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -69,9 +70,6 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        int emaPeriods = 12;
-        int smaPeriods = 8;
-
         List<Quote> quotesList = Quotes
             .ToSortedList();
 
@@ -81,54 +79,12 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        EmaHub<SmaResult> observer = provider
-            .ToSma(smaPeriods)
-            .ToEma(emaPeriods);
+        AlligatorHub<SmaResult> observer = provider
+            .ToSma(10)
+            .ToAlligator();
 
-        // emulate quote stream
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // final results
-        IReadOnlyList<EmaResult> streamList
-            = observer.Results;
-
-        // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList
-           = quotesList
-            .GetSma(smaPeriods)
-            .GetEma(emaPeriods);
-
-        // assert, should equal series
-        streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
-
-        observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void ChainProvider()
-    {
-        int emaPeriods = 20;
-        int smaPeriods = 10;
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
-
-        int length = quotesList.Count;
-
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
-
-        // initialize observer
-        SmaHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
-            .ToSma(smaPeriods);
-
-        // emulate adding quotes to provider
+        // emulate adding quotes out of order
+        // note: this works when graceful order
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
@@ -155,14 +111,14 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // final results
-        IReadOnlyList<SmaResult> streamList
+        IReadOnlyList<AlligatorResult> streamList
             = observer.Results;
 
         // time-series, for comparison
-        IReadOnlyList<SmaResult> seriesList
+        IReadOnlyList<AlligatorResult> seriesList
            = quotesList
-            .GetEma(emaPeriods)
-            .GetSma(smaPeriods);
+            .GetSma(10)
+            .GetAlligator();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -175,7 +131,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void CustomToString()
     {
-        EmaHub<Quote> hub = new(new QuoteHub<Quote>(), 14);
-        hub.ToString().Should().Be("EMA(14)");
+        AlligatorHub<Quote> hub = new(new QuoteHub<Quote>(), 13, 8, 7, 5, 4, 3);
+        hub.ToString().Should().Be("ALLIGATOR(13,8,7,5,4,3)");
     }
 }
