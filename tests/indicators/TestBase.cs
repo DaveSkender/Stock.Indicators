@@ -48,6 +48,19 @@ public abstract class StaticSeriesTestBase : TestBase
 }
 
 /// <summary>
+/// Base tests that all static indicators (series) should have.
+/// </summary>
+[TestClass]
+public abstract class IncrementsTestBase : TestBase
+{
+    [TestMethod]
+    public abstract void Standard();
+
+    [TestMethod]
+    public abstract void ValueBased();
+}
+
+/// <summary>
 /// Base tests that all streamed indicators should have.
 /// </summary>
 [TestClass]

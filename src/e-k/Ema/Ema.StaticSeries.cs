@@ -49,7 +49,7 @@ public static partial class Ema
             // normal EMA
             else
             {
-                ema = Ema.Increment(k, lastEma, s.Value);
+                ema = Increment(k, lastEma, s.Value);
             }
 
             EmaResult r = new(

@@ -28,7 +28,7 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
     }
     #endregion
 
-    public CandlePart CandlePartSelection { get; }
+    public CandlePart CandlePartSelection { get; init; }
 
     // METHODS
 

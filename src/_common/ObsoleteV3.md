@@ -13,6 +13,8 @@ In addition there are [breaking changes](#breaking-changes) that will require yo
 
 See your compiler `Warning` to identify these in your code.
 
+- All static time-series API method prefix were renamed from `GetX()` to `ToX()` to better reflect their purpose as a conversion utility.  The former "Get" prefix innaccurately implied a retrieval operation.
+
 - `Use()` method parameter `candlePart` is now required and no longer defaults to `CandlePart.Close`.
 - `Use()` now returns a chainable `QuotePart` instead of a tuple.  These also replace the redundant `GetBaseQuote()` and `BaseQuote` items, respectively.
 

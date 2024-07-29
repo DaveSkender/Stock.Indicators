@@ -34,9 +34,9 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
     }
     #endregion
 
-    public int LookbackPeriods { get; }
-    public double Multiplier { get; }
-    public EndType EndType { get; }
+    public int LookbackPeriods { get; init; }
+    public double Multiplier { get; init; }
+    public EndType EndType { get; init; }
 
     // prevailing direction and band thresholds
     private bool IsBullish { get; set; } = true;

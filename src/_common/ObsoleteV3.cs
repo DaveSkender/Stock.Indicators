@@ -34,6 +34,13 @@ public static partial class Indicator
         => quotes.ToSortedList().CalcAdl();
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Replace `GetEma(..)` with `ToEma(..)`", true)] // v3.0.0
+    public static IEnumerable<EmaResult> GetEma<TQuote>(
+        this IEnumerable<TQuote> quotes, int lookbackPeriods)
+        where TQuote : IQuote
+        => quotes.ToEma(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<ObvResult> GetObv<TQuote>(
         this IEnumerable<TQuote> quotes, int smaPeriods)

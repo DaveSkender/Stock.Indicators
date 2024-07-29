@@ -150,7 +150,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         IReadOnlyList<EmaResult> seriesList
            = quotesList
             .GetSma(smaPeriods)
-            .GetEma(emaPeriods);
+            .ToEma(emaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

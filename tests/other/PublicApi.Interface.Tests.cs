@@ -15,7 +15,7 @@ public class UserInterface
 
         enumerable.Validate();
         enumerable.GetSma(6);
-        enumerable.GetEma(5);
+        enumerable.ToEma(5);
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class UserInterface
         IReadOnlyList<AtrResult> staticAtr = quotes.GetAtr();
         IReadOnlyList<AtrStopResult> staticAtrStop = quotes.GetAtrStop();
         IEnumerable<AlligatorResult> staticAlligator = quotes.GetAlligator();
-        IEnumerable<EmaResult> staticEma = quotes.GetEma(20);
+        IEnumerable<EmaResult> staticEma = quotes.ToEma(20);
         IEnumerable<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
         IEnumerable<SmaResult> staticSma = quotes.GetSma(20);
         IReadOnlyList<TrResult> staticTr = quotes.GetTr();
