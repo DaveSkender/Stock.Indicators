@@ -6,7 +6,7 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Increment()
     {
-        double ema = EmaUtility.Increment(20, 217.5693, 222.10);
+        double ema = Ema.Increment(20, 217.5693, 222.10);
 
         Assert.AreEqual(218.0008, ema.Round(4));
     }

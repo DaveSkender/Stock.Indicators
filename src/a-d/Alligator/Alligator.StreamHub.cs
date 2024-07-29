@@ -44,12 +44,12 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
     }
     #endregion
 
-    public int JawPeriods { get; }
-    public int JawOffset { get; }
-    public int TeethPeriods { get; }
-    public int TeethOffset { get; }
-    public int LipsPeriods { get; }
-    public int LipsOffset { get; }
+    public int JawPeriods { get; init; }
+    public int JawOffset { get; init; }
+    public int TeethPeriods { get; init; }
+    public int TeethOffset { get; init; }
+    public int LipsPeriods { get; init; }
+    public int LipsOffset { get; init; }
 
     // METHODS
 

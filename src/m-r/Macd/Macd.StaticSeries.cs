@@ -47,7 +47,7 @@ public static partial class Indicator
             }
             else
             {
-                emaFast = EmaUtility.Increment(kFast, lastEmaFast, s.Value);
+                emaFast = Ema.Increment(kFast, lastEmaFast, s.Value);
             }
 
             // re-initialize Slow EMA
@@ -66,7 +66,7 @@ public static partial class Indicator
             }
             else
             {
-                emaSlow = EmaUtility.Increment(kSlow, lastEmaSlow, s.Value);
+                emaSlow = Ema.Increment(kSlow, lastEmaSlow, s.Value);
             }
 
             double macd = emaFast - emaSlow;
@@ -86,7 +86,7 @@ public static partial class Indicator
             }
             else
             {
-                signal = EmaUtility.Increment(kMacd, lastEmaMacd, macd);
+                signal = Ema.Increment(kMacd, lastEmaMacd, macd);
             }
 
             // write results

@@ -27,7 +27,7 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
     }
     #endregion
 
-    public int LookbackPeriods { get; }
+    public int LookbackPeriods { get; init; }
 
     // METHODS
 

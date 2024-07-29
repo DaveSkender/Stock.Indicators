@@ -93,7 +93,7 @@ public static partial class Indicator
             }
             else
             {
-                signal = EmaUtility.Increment(smoothingConstant3, prevSignal, pm[i]);
+                signal = Ema.Increment(smoothingConstant3, prevSignal, pm[i]);
             }
 
             PmoResult r = new(

@@ -12,7 +12,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {
-        EmaUtility.Validate(lookbackPeriods);
+        Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
@@ -20,8 +20,8 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
     }
     #endregion
 
-    public int LookbackPeriods { get; }
-    public double K { get; }
+    public int LookbackPeriods { get; init; }
+    public double K { get; init; }
 
     // METHODS
 
@@ -38,7 +38,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
             ema = !double.IsNaN(last.Value)
 
                 // normal
-                ? EmaUtility.Increment(K, last.Value, newIn.Value)
+                ? Ema.Increment(K, last.Value, newIn.Value)
 
                 // re/initialize
                 : Sma.Increment(Provider.Results, i, LookbackPeriods);

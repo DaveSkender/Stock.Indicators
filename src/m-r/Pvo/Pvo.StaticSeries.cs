@@ -47,7 +47,7 @@ public static partial class Indicator
             }
             else
             {
-                emaFast = EmaUtility.Increment(kFast, lastEmaFast, s.Value);
+                emaFast = Ema.Increment(kFast, lastEmaFast, s.Value);
             }
 
             // re-initialize Slow EMA
@@ -66,7 +66,7 @@ public static partial class Indicator
             }
             else
             {
-                emaSlow = EmaUtility.Increment(kSlow, lastEmaSlow, s.Value);
+                emaSlow = Ema.Increment(kSlow, lastEmaSlow, s.Value);
             }
 
             double pvo = emaSlow != 0 ?
@@ -87,7 +87,7 @@ public static partial class Indicator
             }
             else
             {
-                signal = EmaUtility.Increment(kPvo, lastEmaPvo, pvo);
+                signal = Ema.Increment(kPvo, lastEmaPvo, pvo);
             }
 
             // write results
