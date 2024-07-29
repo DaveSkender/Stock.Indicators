@@ -17,8 +17,9 @@ public static partial class QuotePartUtility
     // SERIES, from Quotes (QuotePart alias)
     /// <inheritdoc cref="Use{TQuote}(IEnumerable{TQuote}, CandlePart)"/>
     public static IReadOnlyList<QuotePart> GetQuotePart<TQuote>(
-        this IEnumerable<IQuote> quotes,
+        this IEnumerable<TQuote> quotes,
         CandlePart candlePart)
+        where TQuote : IQuote
         => quotes
             .OrderBy(q => q.Timestamp)
             .Select(q => q.ToQuotePart(candlePart))
