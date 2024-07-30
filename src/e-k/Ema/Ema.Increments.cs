@@ -8,7 +8,8 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
 {
-    private readonly List<double> _buffer;
+    private readonly Queue<double> _buffer;
+    private double _bufferSum;
 
     public EmaInc(int lookbackPeriods)
     {
@@ -17,6 +18,7 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
         K = 2d / (lookbackPeriods + 1);
 
         _buffer = new(lookbackPeriods);
+        _bufferSum = 0;
     }
 
     public int LookbackPeriods { get; init; }
@@ -25,12 +27,12 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
     public void Add(DateTime timestamp, double value)
     {
         // update buffer
-        _buffer.Add(value);
-
-        if (_buffer.Count > LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
-            _buffer.RemoveAt(0);
+            _bufferSum -= _buffer.Dequeue();
         }
+        _buffer.Enqueue(value);
+        _bufferSum += value;
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
@@ -39,19 +41,12 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
             return;
         }
 
-        // re/initialize
+        // re/initialize as SMA
         if (this[^1].Ema is null)
         {
-            double sum = 0;
-            for (int i = 0; i < LookbackPeriods; i++)
-            {
-                sum += _buffer[i];
-            }
-
             base.Add(new EmaResult(
                 timestamp,
-                sum / LookbackPeriods));
-
+                _bufferSum / LookbackPeriods));
             return;
         }
 
@@ -96,12 +91,13 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
 
 /// <summary>
 /// Exponential Moving Average (EMA)
-/// from incremental primatives, without date context.
+/// from incremental primitives, without date context.
 /// </summary>
 /// <inheritdoc cref="IIncrementPrimitive"/>
 public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
 {
-    private readonly List<double> _buffer;
+    private readonly Queue<double> _buffer;
+    private double _bufferSum;
 
     public EmaIncPrimitive(int lookbackPeriods)
     {
@@ -110,6 +106,7 @@ public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
         K = 2d / (lookbackPeriods + 1);
 
         _buffer = new(lookbackPeriods);
+        _bufferSum = 0;
     }
 
     public int LookbackPeriods { get; init; }
@@ -118,12 +115,12 @@ public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
     public void Add(double value)
     {
         // update buffer
-        _buffer.Add(value);
-
-        if (_buffer.Count > LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
-            _buffer.RemoveAt(0);
+            _bufferSum -= _buffer.Dequeue();
         }
+        _buffer.Enqueue(value);
+        _bufferSum += value;
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
@@ -132,16 +129,10 @@ public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
             return;
         }
 
-        // re/initialize
+        // re/initialize as SMA
         if (this[^1] is null)
         {
-            double sum = 0;
-            for (int i = 0; i < LookbackPeriods; i++)
-            {
-                sum += _buffer[i];
-            }
-
-            base.Add(sum / LookbackPeriods);
+            base.Add(_bufferSum / LookbackPeriods);
             return;
         }
 

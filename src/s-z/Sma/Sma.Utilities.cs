@@ -35,7 +35,7 @@ public static partial class Sma
     /// <summary>
     /// Simple moving average calculation
     /// </summary>
-    /// <param name="values">List of chainable values</param>
+    /// <param name="source">List of chainable values</param>
     /// <param name="lookbackPeriods">Window to evaluate, prior to 'endIndex'</param>
     /// <param name="endIndex">Index position to evaluate.</param>
     /// <typeparam name="T">IReusable (chainable) type</typeparam>
@@ -44,24 +44,20 @@ public static partial class Sma
     /// when incalculable.
     /// </returns>
     internal static double Increment<T>(
-        IReadOnlyList<T> values,
+        IReadOnlyList<T> source,
         int lookbackPeriods,
         int endIndex)
         where T : IReusable
     {
-        int offset = lookbackPeriods - 1;
-
-        if (endIndex < offset || endIndex >= values.Count)
+        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
         {
             return double.NaN;
         }
 
         double sum = 0;
-        int startIndex = endIndex - offset;
-
-        for (int i = startIndex; i <= endIndex; i++)
+        for (int i = endIndex - lookbackPeriods + 1; i <= endIndex; i++)
         {
-            sum += values[i].Value;
+            sum += source[i].Value;
         }
 
         return sum / lookbackPeriods;
