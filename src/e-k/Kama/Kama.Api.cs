@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (API)
-public static partial class Indicator
+
+public static partial class Kama
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<KamaResult> GetKama<T>(

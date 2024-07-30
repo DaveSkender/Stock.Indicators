@@ -37,7 +37,7 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
         // candidate result
         SmaResult r = new(
             Timestamp: newIn.Timestamp,
-            Sma: Sma.Increment(Provider.Results, i, LookbackPeriods).NaN2Null());
+            Sma: Sma.Increment(Provider.Results, LookbackPeriods, i).NaN2Null());
 
         // save and send
         Motify(act, r, i);
