@@ -8,8 +8,10 @@ namespace Skender.Stock.Indicators;
 // OBSOLETE IN v3
 public static partial class Indicator
 {
+    // GENERAL INDICATOR METHODS
+
     [ExcludeFromCodeCoverage]
-    [Obsolete("Use alternate 'GetX' variant.", false)] // v3.0.0
+    [Obsolete("Use alternate 'GetX' variant.  Tuple arguments were removed.", false)] // v3.0.0
     public static IEnumerable<AlligatorResult> GetAlligator(
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int jawPeriods = 13,
@@ -27,18 +29,20 @@ public static partial class Indicator
             lipsPeriods, lipsOffset);
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Replace `GetEma(..)` with `ToEma(..)`", false)] // v3.0.0
+    public static IEnumerable<EmaResult> GetEma<TQuote>(
+        this IEnumerable<TQuote> quotes, int lookbackPeriods)
+        where TQuote : IQuote
+        => Api.ToEma(quotes, lookbackPeriods);
+
+    // REMOVAL OF INTEGRATED SMAs (evaluates to ERRORs)
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
         this IEnumerable<TQuote> quotes, int smaPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().CalcAdl();
-
-    [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetEma(..)` with `ToEma(..)`", true)] // v3.0.0
-    public static IEnumerable<EmaResult> GetEma<TQuote>(
-        this IEnumerable<TQuote> quotes, int lookbackPeriods)
-        where TQuote : IQuote
-        => quotes.ToEma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
@@ -75,6 +79,8 @@ public static partial class Indicator
         where TQuote : IQuote
         => quotes.Use(CandlePart.Close).ToList().CalcTrix(lookbackPeriods);
 
+    // UTILITIES
+
     [ExcludeFromCodeCoverage]
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)] // v3.0.0
     public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
@@ -89,7 +95,6 @@ public static partial class Indicator
         where TResult : IReusable
         => reusable.Select(x => (x.Timestamp, x.Value)).OrderBy(x => x.Timestamp).ToCollection();
 
-
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `List.First(c => c.Timestamp == lookupDate)`", false)] // v3.0.0
     public static TSeries Find<TSeries>(this IEnumerable<TSeries> series, DateTime lookupDate)
@@ -100,6 +105,8 @@ public static partial class Indicator
     public static int FindIndex<TSeries>(this List<TSeries> series, DateTime lookupDate)
         where TSeries : ISeries => series?.FindIndex(x => x.Timestamp == lookupDate) ?? -1;
 }
+
+// CLASSES AND INTERFACES
 
 [Obsolete("Rename `IReusableResult` to `IReusable`", true)] // v3.0.0
 public interface IReusableResult : IReusable;
