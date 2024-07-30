@@ -29,57 +29,30 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
+            // Fast EMA
+            double emaFast
+                = i >= fastPeriods - 1 && results[i - 1].FastEma is null
+                ? Sma.Increment(source, fastPeriods, i)
+                : Ema.Increment(kFast, lastEmaFast, source[i].Value);
 
-            // re-initialize Fast EMA
-            double emaFast;
+            // Slow EMA
+            double emaSlow
+                = i >= slowPeriods - 1 && results[i - 1].SlowEma is null
+                ? Sma.Increment(source, slowPeriods, i)
+                : Ema.Increment(kSlow, lastEmaSlow, source[i].Value);
 
-            if (double.IsNaN(lastEmaFast) && i >= fastPeriods - 1)
-            {
-                double sum = 0;
-                for (int p = i - fastPeriods + 1; p <= i; p++)
-                {
-                    T ps = source[p];
-                    sum += ps.Value;
-                }
-
-                emaFast = sum / fastPeriods;
-            }
-            else
-            {
-                emaFast = Ema.Increment(kFast, lastEmaFast, s.Value);
-            }
-
-            // re-initialize Slow EMA
-            double emaSlow;
-
-            if (double.IsNaN(lastEmaSlow) && i >= slowPeriods - 1)
-            {
-                double sum = 0;
-                for (int p = i - slowPeriods + 1; p <= i; p++)
-                {
-                    T ps = source[p];
-                    sum += ps.Value;
-                }
-
-                emaSlow = sum / slowPeriods;
-            }
-            else
-            {
-                emaSlow = Ema.Increment(kSlow, lastEmaSlow, s.Value);
-            }
-
+            // MACD
             double macd = emaFast - emaSlow;
 
-            // re-initialize Signal EMA
+            // Signal
             double signal;
 
-            if (double.IsNaN(lastEmaMacd) && i >= signalPeriods + slowPeriods - 2)
+            if (i >= signalPeriods + slowPeriods - 2 && results[i - 1].Signal is null)
             {
                 double sum = macd;
                 for (int p = i - signalPeriods + 1; p < i; p++)
                 {
-                    sum += ((IReusable)results[p]).Value;
+                    sum += results[p].Value;
                 }
 
                 signal = sum / signalPeriods;
@@ -89,9 +62,9 @@ public static partial class Indicator
                 signal = Ema.Increment(kMacd, lastEmaMacd, macd);
             }
 
-            // write results
-            results.Add(new(
-                Timestamp: s.Timestamp,
+            // results
+            results.Add(new MacdResult(
+                Timestamp: source[i].Timestamp,
                 Macd: macd.NaN2Null(),
                 Signal: signal.NaN2Null(),
                 Histogram: (macd - signal).NaN2Null(),
