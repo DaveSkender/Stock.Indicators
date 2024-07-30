@@ -64,7 +64,7 @@ internal static class Data
             .Take(days)
             .ToSortedList();
 
-    // LONGEST DATA ~62 years of S&P 500 daily data
+    // LONGEST DATA ~62 years of S&P 500 daily data (15,821)
     internal static IReadOnlyList<Quote> GetLongest()
         => File.ReadAllLines("_testdata/data/longest.csv")
             .Skip(1)

@@ -62,10 +62,15 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
     }
 
     public void Add(IReusable value)
-        => Add(value.Timestamp, value.Value);
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        Add(value.Timestamp, value.Value);
+    }
 
     public void Add(IReadOnlyList<IReusable> values)
     {
+        ArgumentNullException.ThrowIfNull(values);
+
         for (int i = 0; i < values.Count; i++)
         {
             Add(values[i].Timestamp, values[i].Value);
@@ -73,10 +78,15 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
     }
 
     public void Add(IQuote quote)
-        => Add(quote.Timestamp, quote.Value);
+    {
+        ArgumentNullException.ThrowIfNull(quote);
+        Add(quote.Timestamp, quote.Value);
+    }
 
     public void Add(IReadOnlyList<IQuote> quotes)
     {
+        ArgumentNullException.ThrowIfNull(quotes);
+
         for (int i = 0; i < quotes.Count; i++)
         {
             Add(quotes[i]);
@@ -141,6 +151,8 @@ public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
 
     public void Add(double[] values)
     {
+        ArgumentNullException.ThrowIfNull(values);
+
         for (int i = 0; i < values.Length; i++)
         {
             Add(values[i]);
