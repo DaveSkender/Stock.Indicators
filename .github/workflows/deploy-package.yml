@@ -41,14 +41,14 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v1.1.1
+        uses: gittools/actions/gitversion/setup@v1.2.0
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
 
       - name: Determine version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v1.1.1
+        uses: gittools/actions/gitversion/execute@v1.2.0
         with:
           updateAssemblyInfo: true
           useConfigFile: true
@@ -78,7 +78,7 @@ jobs:
           -p:PackageVersion=${{ steps.compose.outputs.version }}
 
       - name: Save package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: packages
           path: NuGet
@@ -132,7 +132,7 @@ jobs:
           nuget-version: '6.x'
 
       - name: Download package
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: packages
           path: NuGet
