@@ -3,6 +3,8 @@ namespace Increments;
 [TestClass]
 public class Ema : IncrementsTestBase
 {
+    private const int lookbackPeriods = 14;
+
     private static readonly double[] primatives
        = Quotes
         .Select(x => (double)x.Close)
@@ -13,18 +15,23 @@ public class Ema : IncrementsTestBase
         .Cast<IReusable>()
         .ToList();
 
+    private static readonly IReadOnlyList<EmaResult> series
+       = Quotes
+        .ToEma(lookbackPeriods);
+
+    private static readonly List<double?> seriesArray = series
+        .Select(x => x.Ema)
+        .ToList();
+
     [TestMethod]
-    public void FromReusable()
+    public void FromReusableSplit()
     {
-        EmaInc sut = new(14);
+        EmaInc sut = new(lookbackPeriods);
 
         foreach (IReusable item in reusables)
         {
-            sut.AddValue(item.Timestamp, item.Value);
+            sut.Add(item.Timestamp, item.Value);
         }
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(14);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
@@ -33,15 +40,9 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public void FromReusableItem()
     {
-        EmaInc sut = new(14);
+        EmaInc sut = new(lookbackPeriods);
 
-        foreach (IReusable item in reusables)
-        {
-            sut.AddValue(item);
-        }
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(14);
+        foreach (IReusable item in reusables) { sut.Add(item); }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
@@ -50,12 +51,7 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public void FromReusableBatch()
     {
-        EmaInc sut = new(14);
-
-        sut.AddValues(reusables);
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(14);
+        EmaInc sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
@@ -64,15 +60,9 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public override void FromQuote()
     {
-        EmaInc sut = new(14);
+        EmaInc sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes)
-        {
-            sut.AddValue(q);
-        }
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(14);
+        foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
@@ -81,12 +71,10 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public override void FromQuoteBatch()
     {
-        EmaInc sut = new(14);
-
-        sut.AddValues(Quotes);
+        EmaInc sut = new(lookbackPeriods) { Quotes };
 
         IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(14);
+            = Quotes.ToEma(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
@@ -95,35 +83,20 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public void FromPrimitive()
     {
-        EmaIncPrimitive sut = new(14);
+        EmaIncPrimitive sut = new(lookbackPeriods);
 
-        foreach (double p in primatives)
-        {
-            sut.AddValue(p);
-        }
-
-        List<double?> series = Quotes
-            .ToEma(14)
-            .Select(x => x.Ema)
-            .ToList();
+        foreach (double p in primatives) { sut.Add(p); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(seriesArray);
     }
 
     [TestMethod]
     public void FromPrimitiveBatch()
     {
-        EmaIncPrimitive sut = new(14);
-
-        sut.AddValues(primatives);
-
-        List<double?> series = Quotes
-            .ToEma(14)
-            .Select(x => x.Ema)
-            .ToList();
+        EmaIncPrimitive sut = new(lookbackPeriods) { primatives };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(seriesArray);
     }
 }

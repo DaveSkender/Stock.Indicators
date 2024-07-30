@@ -9,7 +9,7 @@ public interface IIncrementReusable
     /// </summary>
     /// <param name="timestamp">Date context</param>
     /// <param name="value">Next value</param>
-    void AddValue(DateTime timestamp, double value);
+    void Add(DateTime timestamp, double value);
 
     /// <summary>
     /// Converts an incremental reusable value into
@@ -17,7 +17,7 @@ public interface IIncrementReusable
     /// and added it to the list.
     /// </summary>
     /// <param name="value">Next value</param>
-    void AddValue(IReusable value);
+    void Add(IReusable value);
 
     /// <summary>
     /// Converts batch of reusable values into
@@ -27,7 +27,7 @@ public interface IIncrementReusable
     /// <param name="values">
     /// Chronologically ordered batch of IReuslable info
     /// </param>
-    void AddValues(IReadOnlyList<IReusable> values);
+    void Add(IReadOnlyList<IReusable> values);
 }
 
 public interface IIncrementQuote
@@ -38,7 +38,7 @@ public interface IIncrementQuote
     /// and added it to the list.
     /// </summary>
     /// <param name="quote">Next quote value</param>
-    void AddValue(IQuote quote);
+    void Add(IQuote quote);
 
     /// <summary>
     /// Converts batch of quotes into
@@ -48,21 +48,21 @@ public interface IIncrementQuote
     /// <param name="quotes">
     /// Chronologically ordered batch of quotes
     /// </param>
-    void AddValues(IReadOnlyList<IQuote> quotes);
+    void Add(IReadOnlyList<IQuote> quotes);
 }
 
 /// <remarks>
 /// This produces the same results as the equivalent
 /// time-series indicator, but is optimized for primitive type operations.
 /// Since it does not retain a date context,
-/// all new values provided to the <see cref="AddValue(double)"/>
+/// all new values provided to the <see cref="Add(double)"/>
 /// method are expected to be in chronological order.
 /// </remarks>
 public interface IIncrementPrimitive
 {
-    /// <inheritdoc cref="IIncrementReusable.AddValue(DateTime, double)"/>
-    void AddValue(double value);
+    /// <inheritdoc cref="IIncrementReusable.Add(DateTime, double)"/>
+    void Add(double value);
 
-    /// <inheritdoc cref="IIncrementReusable.AddValues(IReadOnlyList{IReusable})"/>
-    void AddValues(double[] values);
+    /// <inheritdoc cref="IIncrementReusable.Add(IReadOnlyList{IReusable})"/>
+    void Add(double[] values);
 }

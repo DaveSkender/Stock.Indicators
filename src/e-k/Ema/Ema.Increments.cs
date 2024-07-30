@@ -22,7 +22,7 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
     public int LookbackPeriods { get; init; }
     public double K { get; init; }
 
-    public void AddValue(DateTime timestamp, double value)
+    public void Add(DateTime timestamp, double value)
     {
         // update buffer
         _buffer.Add(value);
@@ -61,25 +61,25 @@ public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
             Ema.Increment(K, this[^1].Ema, value)));
     }
 
-    public void AddValue(IReusable value)
-        => AddValue(value.Timestamp, value.Value);
+    public void Add(IReusable value)
+        => Add(value.Timestamp, value.Value);
 
-    public void AddValues(IReadOnlyList<IReusable> values)
+    public void Add(IReadOnlyList<IReusable> values)
     {
         for (int i = 0; i < values.Count; i++)
         {
-            AddValue(values[i].Timestamp, values[i].Value);
+            Add(values[i].Timestamp, values[i].Value);
         }
     }
 
-    public void AddValue(IQuote quote)
-        => AddValue(quote.Timestamp, quote.Value);
+    public void Add(IQuote quote)
+        => Add(quote.Timestamp, quote.Value);
 
-    public void AddValues(IReadOnlyList<IQuote> quotes)
+    public void Add(IReadOnlyList<IQuote> quotes)
     {
         for (int i = 0; i < quotes.Count; i++)
         {
-            AddValue(quotes[i]);
+            Add(quotes[i]);
         }
     }
 }
@@ -105,7 +105,7 @@ public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
     public int LookbackPeriods { get; init; }
     public double K { get; init; }
 
-    public void AddValue(double value)
+    public void Add(double value)
     {
         // update buffer
         _buffer.Add(value);
@@ -139,11 +139,11 @@ public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
         base.Add(Ema.Increment(K, this[^1], value));
     }
 
-    public void AddValues(double[] values)
+    public void Add(double[] values)
     {
         for (int i = 0; i < values.Length; i++)
         {
-            AddValue(values[i]);
+            Add(values[i]);
         }
     }
 }

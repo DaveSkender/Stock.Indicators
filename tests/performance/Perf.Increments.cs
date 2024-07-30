@@ -37,19 +37,31 @@ public class Incrementals
     [Benchmark]
     public object EmaIncRusBatch()
     {
-        EmaInc sut = new(14);
-        sut.AddValues(reusables);
+        EmaInc sut = new(14) { reusables };
         return sut;
     }
 
     [Benchmark]
-    public object EmaIncRus()
+    public object EmaIncRusItem()
     {
         EmaInc sut = new(14);
 
         for (int i = 0; i < reusables.Count; i++)
         {
-            sut.AddValue(reusables[i].Timestamp, reusables[i].Value);
+            sut.Add(reusables[i]);
+        }
+
+        return sut;
+    }
+
+    [Benchmark]
+    public object EmaIncRusSplit()
+    {
+        EmaInc sut = new(14);
+
+        for (int i = 0; i < reusables.Count; i++)
+        {
+            sut.Add(reusables[i].Timestamp, reusables[i].Value);
         }
 
         return sut;
@@ -58,8 +70,7 @@ public class Incrementals
     [Benchmark]
     public object EmaIncQotBatch()
     {
-        EmaInc sut = new(14);
-        sut.AddValues(quotes);
+        EmaInc sut = new(14) { quotes };
         return sut;
     }
 
@@ -70,7 +81,7 @@ public class Incrementals
 
         for (int i = 0; i < quotes.Count; i++)
         {
-            sut.AddValue(quotes[i]);
+            sut.Add(quotes[i]);
         }
 
         return sut;
@@ -79,8 +90,7 @@ public class Incrementals
     [Benchmark]
     public object EmaIncPrmBatch()
     {
-        EmaIncPrimitive sut = new(14);
-        sut.AddValues(primatives);
+        EmaIncPrimitive sut = new(14) { primatives };
         return sut;
     }
 
@@ -91,7 +101,7 @@ public class Incrementals
 
         for (int i = 0; i < primatives.Length; i++)
         {
-            sut.AddValue(primatives[i]);
+            sut.Add(primatives[i]);
         }
 
         return sut;
@@ -108,8 +118,7 @@ public class Incrementals
     [Benchmark]
     public object EmaIncremEqiv()
     {
-        EmaInc ema = new(14);
-        ema.AddValues(quotes.ToSortedList());
+        EmaInc ema = new(14) { quotes.ToSortedList() };
         return ema;
     }
 
