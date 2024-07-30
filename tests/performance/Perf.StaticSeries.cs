@@ -87,6 +87,9 @@ public class SeriesIndicators
     public object GetDpo() => q.GetDpo(14);
 
     [Benchmark]
+    public object GetDynamic() => q.GetDynamic(20);
+
+    [Benchmark]
     public object GetElderRay() => q.GetElderRay();
 
     [Benchmark]
