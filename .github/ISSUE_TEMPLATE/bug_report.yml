@@ -1,0 +1,39 @@
+name: Bug report
+description: File a bug report.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you &#128150; for taking the time report a bug in the [`Skender.Stock.Indicators` NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)!
+        > Before reporting, please review known [issues](https://github.com/DaveSkender/Stock.Indicators/issues?q=is%3Aissue), community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions), and [Help! Results don't match TradingView!](https://github.com/DaveSkender/Stock.Indicators/discussions/801)
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect to happen?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: usage
+    attributes:
+      label: Code usage
+      description: How did you write your code? Provide a code snippet. _This will be auto-formatted as code, so no need for \`backticks\`_. Also, consider providing your source _quotes_ as a _JSON, CSV, or Excel_ file in the "What happened?" field.
+      render: csharp
+      placeholder: |
+        // example (put your own code here)
+        IEnumerable<EmaResult> results = quotes.GetEma(14);
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log output
+      description: Please copy and paste any relevant log output. _This will be auto-formatted as code, so no need for \`backticks\`_.
+      render: bash
+    validations:
+      required: false
+  - type: markdown
+    attributes:
+      value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, contact [Skender Co.](https://skenderco.com)
