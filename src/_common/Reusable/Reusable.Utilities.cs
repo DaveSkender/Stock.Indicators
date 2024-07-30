@@ -37,6 +37,9 @@ public static partial class Utility
                 x => double.IsNaN(x.Value));
 
         return resultsList;
+
+        // TODO: remove specific indicator 'Condense()' methods
+        // that are now redundant to this generic method (not all are)
     }
 
     /// <summary>
@@ -62,6 +65,9 @@ public static partial class Utility
             .FindIndex(x => !double.IsNaN(x.Value));
 
         return results.Remove(removePeriods);
+
+        // TODO: remove specific indicator 'RemoveWarmupPeriods()' methods
+        // that are now redundant to this generic method (not all are)
     }
 
     // convert TQuote element to a basic chainable class

@@ -33,8 +33,8 @@ public class StreamExternal
     // TODO: replace with external data cache model, when available
 
     [Benchmark(Baseline = true)]
-    public object GetEma() => quotes.ToEma(14);
+    public object EmaSeries() => quotes.ToEma(14);
 
     [Benchmark]
-    public object EmaHub() => provider.ToEma(14).Results;
+    public object EmaStream() => provider.ToEma(14).Results;
 }

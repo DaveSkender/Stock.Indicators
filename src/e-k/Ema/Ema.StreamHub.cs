@@ -33,15 +33,13 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
         if (i >= LookbackPeriods - 1)
         {
-            IReusable last = Cache[i - 1];
-
-            ema = !double.IsNaN(last.Value)
+            ema = Cache[i - 1].Ema is not null
 
                 // normal
-                ? Ema.Increment(K, last.Value, newIn.Value)
+                ? Ema.Increment(K, Cache[i - 1].Value, newIn.Value)
 
-                // re/initialize
-                : Sma.Increment(Provider.Results, i, LookbackPeriods);
+                // re/initialize as SMA
+                : Sma.Increment(Provider.Results, LookbackPeriods, i);
         }
 
         // warmup periods are never calculable
