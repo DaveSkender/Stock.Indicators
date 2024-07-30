@@ -4,6 +4,7 @@ using Tests.Common;
 
 namespace Tests.Performance;
 
+[ShortRunJob]
 public class IndicatorsStatic
 {
     private static IEnumerable<Quote> q;
@@ -41,9 +42,6 @@ public class IndicatorsStatic
 
     [Benchmark]
     public object GetAdl() => q.GetAdl();
-
-    [Benchmark]
-    public object GetAdlWithSma() => q.GetAdl(14);
 
     [Benchmark]
     public object GetAdx() => q.GetAdx();
@@ -119,6 +117,9 @@ public class IndicatorsStatic
 
     [Benchmark]
     public object GetDpo() => q.GetDpo(14);
+
+    [Benchmark]
+    public object GetDynamic() => q.GetDynamic(20);
 
     [Benchmark]
     public object GetElderRay() => q.GetElderRay();

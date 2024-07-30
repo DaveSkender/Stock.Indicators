@@ -2,6 +2,7 @@ namespace Tests.Performance;
 
 // HELPERS, both public and private
 
+[ShortRunJob]
 public class HelperPerformance
 {
     private static IEnumerable<Quote> h;

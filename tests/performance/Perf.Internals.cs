@@ -2,6 +2,7 @@ namespace Tests.Performance;
 
 // INTERNAL FUNCTIONS
 
+[ShortRunJob]
 public class InternalsPerformance
 {
     [Params(20, 50, 250, 1000)]
