@@ -5,7 +5,7 @@ on:
     branches: ["main","v3"]
 
   pull_request:
-    branches: ["main","v3"]
+    types: [opened, synchronize, reopened]
 
 jobs:
   test:
@@ -14,7 +14,8 @@ jobs:
 
     permissions:
       contents: read
-      pull-requests: write
+      actions: read
+      checks: write
 
     strategy:
       matrix:
@@ -82,14 +83,12 @@ jobs:
           --results-directory ./test-other
 
       - name: Post test summary
-        uses: bibipkins/dotnet-test-reporter@v1.4.1
+        uses: dorny/test-reporter@v1
         if: env.IS_PRIMARY == 'true' && always()
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          comment-title: ""
-          results-path:  ./test-indicators/**/*.trx
-          coverage-path: ./test-indicators/**/coverage.cobertura.xml
-          coverage-type: cobertura
+          name: Test results
+          path: ./test-indicators/**/*.trx
+          reporter: dotnet-trx
 
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
