@@ -5,7 +5,9 @@ namespace Performance;
 [ShortRunJob]
 public class StreamExternal
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotes
+        = Data.GetDefault();
+
     private readonly QuoteHub<Quote> provider = new();
 
     /* SETUP/CLEANUP - runs before and after each.

@@ -2,12 +2,15 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (INCREMENTING LIST)
 
-public class EmaList<TQuote> : List<EmaResult>, IEma, IIncrementalPrice<TQuote>
-    where TQuote : IQuote
+/// <summary>
+/// Exponential Moving Average (EMA)
+/// from incremental reusable values.
+/// </summary>
+public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
 {
     private readonly List<double> _buffer;
 
-    public EmaList(int lookbackPeriods)
+    public EmaInc(int lookbackPeriods)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
@@ -19,10 +22,10 @@ public class EmaList<TQuote> : List<EmaResult>, IEma, IIncrementalPrice<TQuote>
     public int LookbackPeriods { get; init; }
     public double K { get; init; }
 
-    public void Add(DateTime timestamp, double price)
+    public void AddValue(DateTime timestamp, double value)
     {
         // update buffer
-        _buffer.Add(price);
+        _buffer.Add(value);
 
         if (_buffer.Count > LookbackPeriods)
         {
@@ -55,22 +58,42 @@ public class EmaList<TQuote> : List<EmaResult>, IEma, IIncrementalPrice<TQuote>
         // calculate EMA normally
         base.Add(new EmaResult(
             timestamp,
-            Ema.Increment(K, this[^1].Ema, price)));
+            Ema.Increment(K, this[^1].Ema, value)));
     }
 
-    public void Add(TQuote quote)
-        => Add(quote.Timestamp, quote.Value);
+    public void AddValue(IReusable value)
+        => AddValue(value.Timestamp, value.Value);
+
+    public void AddValues(IReadOnlyList<IReusable> values)
+    {
+        for (int i = 0; i < values.Count; i++)
+        {
+            AddValue(values[i].Timestamp, values[i].Value);
+        }
+    }
+
+    public void AddValue(IQuote quote)
+        => AddValue(quote.Timestamp, quote.Value);
+
+    public void AddValues(IReadOnlyList<IQuote> quotes)
+    {
+        for (int i = 0; i < quotes.Count; i++)
+        {
+            AddValue(quotes[i]);
+        }
+    }
 }
 
 /// <summary>
-/// Exponential Moving Average (EMA) without date context (array-based).
+/// Exponential Moving Average (EMA)
+/// from incremental primatives, without date context.
 /// </summary>
-/// <inheritdoc cref="IIncrementalValue"/>
-public class EmaArray : List<double?>, IEma, IIncrementalValue
+/// <inheritdoc cref="IIncrementPrimitive"/>
+public class EmaIncPrimitive : List<double?>, IEma, IIncrementPrimitive
 {
     private readonly List<double> _buffer;
 
-    public EmaArray(int lookbackPeriods)
+    public EmaIncPrimitive(int lookbackPeriods)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
@@ -82,10 +105,10 @@ public class EmaArray : List<double?>, IEma, IIncrementalValue
     public int LookbackPeriods { get; init; }
     public double K { get; init; }
 
-    public void Add(double price)
+    public void AddValue(double value)
     {
         // update buffer
-        _buffer.Add(price);
+        _buffer.Add(value);
 
         if (_buffer.Count > LookbackPeriods)
         {
@@ -95,7 +118,7 @@ public class EmaArray : List<double?>, IEma, IIncrementalValue
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            Add(null);
+            base.Add(null);
             return;
         }
 
@@ -113,6 +136,14 @@ public class EmaArray : List<double?>, IEma, IIncrementalValue
         }
 
         // calculate EMA normally
-        base.Add(Ema.Increment(K, this[^1], price));
+        base.Add(Ema.Increment(K, this[^1], value));
+    }
+
+    public void AddValues(double[] values)
+    {
+        for (int i = 0; i < values.Length; i++)
+        {
+            AddValue(values[i]);
+        }
     }
 }

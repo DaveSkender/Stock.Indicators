@@ -5,8 +5,23 @@ namespace Performance;
 [ShortRunJob]
 public class Incrementals
 {
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
-    private static readonly double[] values = Data.GetDefault().Select(x => x.Value).ToArray();
+    private static readonly IReadOnlyList<Quote> quotes
+       = Data.GetDefault();
+
+    private static readonly List<Quote> quotesList
+       = quotes
+        .ToSortedList();
+
+    private static readonly double[] primatives
+       = quotes
+        .Select(x => x.Value)
+        .ToArray();
+
+    private static readonly IReadOnlyList<IReusable> reusables
+       = quotes
+        .Cast<IReusable>()
+        .ToList();
+
     private readonly QuoteHub<Quote> provider = new();
 
     [GlobalSetup]
@@ -20,47 +35,84 @@ public class Incrementals
     }
 
     [Benchmark]
-    public object EmaListQ()
+    public object EmaIncRusBatch()
     {
-        EmaList<Quote> sut = new(14);
+        EmaInc sut = new(14);
+        sut.AddValues(reusables);
+        return sut;
+    }
+
+    [Benchmark]
+    public object EmaIncRus()
+    {
+        EmaInc sut = new(14);
+
+        for (int i = 0; i < reusables.Count; i++)
+        {
+            sut.AddValue(reusables[i].Timestamp, reusables[i].Value);
+        }
+
+        return sut;
+    }
+
+    [Benchmark]
+    public object EmaIncQotBatch()
+    {
+        EmaInc sut = new(14);
+        sut.AddValues(quotes);
+        return sut;
+    }
+
+    [Benchmark]
+    public object EmaIncQot()
+    {
+        EmaInc sut = new(14);
 
         for (int i = 0; i < quotes.Count; i++)
         {
-            sut.Add(quotes[i]);
+            sut.AddValue(quotes[i]);
         }
 
         return sut;
     }
 
     [Benchmark]
-    public object EmaListP()
+    public object EmaIncPrmBatch()
     {
-        EmaList<Quote> sut = new(14);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            sut.Add(quotes[i].Timestamp, quotes[i].Value);
-        }
-
+        EmaIncPrimitive sut = new(14);
+        sut.AddValues(primatives);
         return sut;
     }
 
     [Benchmark]
-    public object EmaArray()
+    public object EmaIncPrm()
     {
-        EmaArray sut = new(14);
+        EmaIncPrimitive sut = new(14);
 
-        for (int i = 0; i < values.Length; i++)
+        for (int i = 0; i < primatives.Length; i++)
         {
-            sut.Add(values[i]);
+            sut.AddValue(primatives[i]);
         }
 
         return sut;
     }
 
-    [Benchmark]
-    public object EmaSeries() => quotes.ToEma(14);
+    // TIME-SERIES EQUIVALENTS
 
-    // [Benchmark]
-    // public object EmaStream() => provider.ToEma(14).Results;
+    [Benchmark(Baseline = true)]
+    public object EmaSeriesEqiv() => quotesList.CalcEma(14);
+
+    [Benchmark]
+    public object EmaSeriesOrig() => quotes.ToEma(14);
+
+    [Benchmark]
+    public object EmaIncremEqiv()
+    {
+        EmaInc ema = new(14);
+        ema.AddValues(quotes.ToSortedList());
+        return ema;
+    }
+
+    [Benchmark]
+    public object EmaStreamEqiv() => provider.ToEma(14).Results;
 }

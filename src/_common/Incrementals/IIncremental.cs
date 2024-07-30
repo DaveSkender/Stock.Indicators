@@ -1,44 +1,68 @@
 namespace Skender.Stock.Indicators;
 
-public interface IIncrementalPrice<TQuote>
-    where TQuote : IQuote
+public interface IIncrementReusable
 {
     /// <summary>
-    /// Converts incremental price into
+    /// Converts an incremental value into
     /// the next incremental indicator value
     /// and added it to the list.
     /// </summary>
     /// <param name="timestamp">Date context</param>
-    /// <param name="price">Next price value</param>
-    void Add(DateTime timestamp, double price);
+    /// <param name="value">Next value</param>
+    void AddValue(DateTime timestamp, double value);
 
     /// <summary>
-    /// Converts incremental quotes into
+    /// Converts an incremental reusable value into
+    /// the next incremental indicator value
+    /// and added it to the list.
+    /// </summary>
+    /// <param name="value">Next value</param>
+    void AddValue(IReusable value);
+
+    /// <summary>
+    /// Converts batch of reusable values into
+    /// the next incremental indicator values
+    /// and added them to the list.
+    /// </summary>
+    /// <param name="values">
+    /// Chronologically ordered batch of IReuslable info
+    /// </param>
+    void AddValues(IReadOnlyList<IReusable> values);
+}
+
+public interface IIncrementQuote
+{
+    /// <summary>
+    /// Converts an incremental quote into
     /// the next incremental indicator value
     /// and added it to the list.
     /// </summary>
     /// <param name="quote">Next quote value</param>
-    void Add(TQuote quote);
+    void AddValue(IQuote quote);
 
-    // TODO: convert ToStreamHub();
-}
-
-public interface IIncrementalQuote<TQuote>
-    where TQuote : IQuote
-{
-    /// <inheritdoc cref="IIncrementalPrice{TQuote}.Add(TQuote)"/>
-    void Add(TQuote quote);
+    /// <summary>
+    /// Converts batch of quotes into
+    /// the next incremental indicator values
+    /// and added them to the list.
+    /// </summary>
+    /// <param name="quotes">
+    /// Chronologically ordered batch of quotes
+    /// </param>
+    void AddValues(IReadOnlyList<IQuote> quotes);
 }
 
 /// <remarks>
 /// This produces the same results as the equivalent
-/// time-series indicator, but is optimized for array-based operations.
+/// time-series indicator, but is optimized for primitive type operations.
 /// Since it does not retain a date context,
-/// all new values provided to the <see cref="Add(double)"/>
+/// all new values provided to the <see cref="AddValue(double)"/>
 /// method are expected to be in chronological order.
 /// </remarks>
-public interface IIncrementalValue
+public interface IIncrementPrimitive
 {
-    /// <inheritdoc cref="IIncrementalPrice{TQuote}.Add(DateTime, double)"/>
-    void Add(double price);
+    /// <inheritdoc cref="IIncrementReusable.AddValue(DateTime, double)"/>
+    void AddValue(double value);
+
+    /// <inheritdoc cref="IIncrementReusable.AddValues(IReadOnlyList{IReusable})"/>
+    void AddValues(double[] values);
 }
