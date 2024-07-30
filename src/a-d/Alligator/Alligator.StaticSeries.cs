@@ -37,10 +37,8 @@ public static partial class Alligator
             // calculate alligator's jaw, when in range
             if (i >= jawPeriods + jawOffset - 1)
             {
-                double prevJaw = results[i - 1].Jaw.Null2NaN();
-
                 // first/reset value: calculate SMA
-                if (double.IsNaN(prevJaw))
+                if (results[i - 1].Jaw is null)
                 {
                     double sum = 0;
                     for (int p = i - jawPeriods - jawOffset + 1; p <= i - jawOffset; p++)
@@ -54,6 +52,8 @@ public static partial class Alligator
                 // remaining values: SMMA
                 else
                 {
+                    double prevJaw = results[i - 1].Jaw.Null2NaN();
+
                     jaw = ((prevJaw * (jawPeriods - 1)) + source[i - jawOffset].Value) / jawPeriods;
                 }
             }
@@ -61,10 +61,8 @@ public static partial class Alligator
             // calculate alligator's teeth, when in range
             if (i >= teethPeriods + teethOffset - 1)
             {
-                double prevTooth = results[i - 1].Teeth.Null2NaN();
-
                 // first/reset value: calculate SMA
-                if (double.IsNaN(prevTooth))
+                if (results[i - 1].Teeth is null)
                 {
                     double sum = 0;
                     for (int p = i - teethPeriods - teethOffset + 1; p <= i - teethOffset; p++)
@@ -78,6 +76,8 @@ public static partial class Alligator
                 // remaining values: SMMA
                 else
                 {
+                    double prevTooth = results[i - 1].Teeth.Null2NaN();
+
                     teeth = ((prevTooth * (teethPeriods - 1)) + source[i - teethOffset].Value) / teethPeriods;
                 }
             }
@@ -85,10 +85,8 @@ public static partial class Alligator
             // calculate alligator's lips, when in range
             if (i >= lipsPeriods + lipsOffset - 1)
             {
-                double prevLips = results[i - 1].Lips.Null2NaN();
-
                 // first/reset value: calculate SMA
-                if (double.IsNaN(prevLips))
+                if (results[i - 1].Lips is null)
                 {
                     double sum = 0;
                     for (int p = i - lipsPeriods - lipsOffset + 1; p <= i - lipsOffset; p++)
@@ -102,13 +100,18 @@ public static partial class Alligator
                 // remaining values: SMMA
                 else
                 {
+                    double prevLips = results[i - 1].Lips.Null2NaN();
+
                     lips = ((prevLips * (lipsPeriods - 1)) + source[i - lipsOffset].Value) / lipsPeriods;
                 }
             }
 
             // result
             results.Add(new AlligatorResult(
-                source[i].Timestamp, jaw.NaN2Null(), teeth.NaN2Null(), lips.NaN2Null()));
+                source[i].Timestamp,
+                jaw.NaN2Null(),
+                teeth.NaN2Null(),
+                lips.NaN2Null()));
         }
 
         return results;
