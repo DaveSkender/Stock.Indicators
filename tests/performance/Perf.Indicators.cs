@@ -1,5 +1,6 @@
 namespace Tests.Performance;
 
+[ShortRunJob]
 public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
@@ -35,9 +36,6 @@ public class IndicatorPerformance
 
     [Benchmark]
     public object GetAdl() => h.GetAdl();
-
-    [Benchmark]
-    public object GetAdlWithSma() => h.GetAdl(14);
 
     [Benchmark]
     public object GetAdx() => h.GetAdx();
@@ -115,24 +113,13 @@ public class IndicatorPerformance
     public object GetDpo() => h.GetDpo(14);
 
     [Benchmark]
+    public object GetDynamic() => h.GetDynamic(20);
+
+    [Benchmark]
     public object GetElderRay() => h.GetElderRay();
 
     [Benchmark]
     public object GetEma() => h.GetEma(14);
-
-    [Benchmark]
-    public object GetEmaStream()
-    {
-        EmaBase emaBase = hList.Take(15).InitEma(14);
-
-        for (int i = 15; i < hList.Count; i++)
-        {
-            Quote q = hList[i];
-            _ = emaBase.Add(q);
-        }
-
-        return emaBase.Results;
-    }
 
     [Benchmark]
     public object GetEpma() => h.GetEpma(14);
