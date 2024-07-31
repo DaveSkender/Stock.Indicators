@@ -31,14 +31,14 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, true);
 
         // skip incalculable periods
         if (i == 0)
         {
-            Motify(act, new AtrResult(newIn.Timestamp), i);
+            Motify(new AtrResult(newIn.Timestamp), i);
             return;
         }
 
@@ -80,7 +80,7 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
         }
 
         // save and send
-        Motify(act, r, i);
+        Motify(r, i);
     }
 
     public override string ToString() => $"ATR({LookbackPeriods})";

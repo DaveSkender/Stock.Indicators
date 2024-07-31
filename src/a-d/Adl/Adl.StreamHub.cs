@@ -17,9 +17,9 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, true);
 
         // candidate result
         AdlResult r = Adl.Increment(
@@ -31,7 +31,7 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
             i > 0 ? Cache[i - 1].Value : 0);
 
         // save and send
-        Motify(act, r, i);
+        Motify(r, i);
     }
 
     public override string ToString()

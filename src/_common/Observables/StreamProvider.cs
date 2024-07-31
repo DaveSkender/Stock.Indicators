@@ -2,12 +2,12 @@ namespace Skender.Stock.Indicators;
 
 // STREAM PROVIDER (OBSERVABLE BASE)
 
-/// <inheritdoc cref="IStreamProvider{TSeries}"/>
+/// <inheritdoc cref="IStreamObservable{TSeries}"/>
 public abstract partial class StreamProvider<TSeries>
-    : StreamCache<TSeries>, IStreamProvider<TSeries>
+    : StreamCache<TSeries>, IStreamObservable<TSeries>
     where TSeries : ISeries
 {
-    private readonly HashSet<IObserver<(Act, TSeries, int?)>> _subscribers = [];
+    private readonly HashSet<IStreamObserver<(Act, TSeries, int?)>> _subscribers = [];
 
     public bool HasSubscribers => _subscribers.Count > 0;
 
@@ -18,7 +18,7 @@ public abstract partial class StreamProvider<TSeries>
     // SUBSCRIPTION SERVICES
 
     // subscribe observer
-    public IDisposable Subscribe(IObserver<(Act, TSeries, int?)> observer)
+    public IDisposable Subscribe(IStreamObserver<(Act, TSeries, int?)> observer)
     {
         _subscribers.Add(observer);
         return new Subscription(_subscribers, observer);
@@ -26,7 +26,7 @@ public abstract partial class StreamProvider<TSeries>
 
     // check if observer is subscribed
     public bool HasSubscriber(
-        IObserver<(Act, TSeries, int?)> observer)
+        IStreamObserver<(Act, TSeries, int?)> observer)
             => _subscribers.Contains(observer);
 
     /// <summary>
@@ -40,8 +40,8 @@ public abstract partial class StreamProvider<TSeries>
     /// Your unique subscription as provided.
     /// </param>
     private class Subscription(
-        ISet<IObserver<(Act, TSeries, int?)>> subscribers,
-        IObserver<(Act, TSeries, int?)> subscriber) : IDisposable
+        ISet<IStreamObserver<(Act, TSeries, int?)>> subscribers,
+        IStreamObserver<(Act, TSeries, int?)> subscriber) : IDisposable
     {
         // remove single observer
         public void Dispose() => subscribers.Remove(subscriber);
@@ -50,7 +50,7 @@ public abstract partial class StreamProvider<TSeries>
     // unsubscribe all observers
     public void EndTransmission()
     {
-        foreach (IObserver<(Act, TSeries, int?)> subscriber
+        foreach (IStreamObserver<(Act, TSeries, int?)> subscriber
             in _subscribers.ToArray())
         {
             if (_subscribers.Contains(subscriber))

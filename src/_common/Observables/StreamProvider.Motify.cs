@@ -6,33 +6,86 @@ public abstract partial class StreamProvider<TSeries>
 {
     /// clear cache without restore, from timestamp
     /// <inheritdoc/>
-    public override void ClearCache(DateTime fromTimestamp)
+    public void ClearCache(DateTime fromTimestamp)
     {
         // start of range
-        int fromIndex = GetInsertIndex(fromTimestamp);
+        int fromIndex = GetIndexGte(fromTimestamp);
 
-        // something to do
-        if (fromIndex != -1)
+        // clear, from index (-1 okay)
+        ClearCache(fromIndex);
+    }
+
+    /// clear cache from index to end
+    /// <inheritdoc/>
+    public void ClearCache(int fromIndex)
+    {
+        // nothing to do
+        if (Cache.Count == 0 || fromIndex >= Cache.Count)
         {
-            ClearCache(fromIndex);
+            return;
+        }
+
+        // clear, with time context
+        DateTime timestamp = fromIndex < 0
+            ? DateTime.MinValue
+            : Cache[fromIndex].Timestamp;
+
+        ClearCache(fromIndex, timestamp);
+    }
+
+    /// <summary>
+    /// Clear cache without restore,
+    /// from valid index and time context.
+    /// </summary>
+    private void ClearCache(int fromIndex, DateTime fromTimestamp)
+    {
+        // clear all
+        if (fromIndex <= 0)
+        {
+            Cache.Clear();
+        }
+
+        // clear partial
+        else
+        {
+            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
+        }
+
+        // notify subscribers
+        RebuildObservers(fromTimestamp);
+    }
+
+    /// <summary>
+    /// Modify cache (attempt to add) and notify observers.
+    /// </summary>
+    /// <param name="result"><c>TSeries</c> item to cache</param>
+    /// <param name="index">Cached index position (hint)</param>
+    protected void Motify(TSeries result, int? index)
+    {
+        try
+        {
+            Act actTaken = TryAdd(result);
+            NotifyObservers(actTaken, result, index);
+        }
+        catch (OverflowException ox)
+        {
+            NotifyObserversOfError(ox);
+            EndTransmission();
+            throw;
         }
     }
 
-    /// clear cache without restore, from index
-    /// <inheritdoc/>
-    public override void ClearCache(int fromIndex)
-        => ClearCache(fromIndex, toIndex: Cache.Count - 1);
-
     /// <summary>
-    /// Modify cache and notify observers.
+    /// Rebuilds all subscriber caches from point in time.
     /// </summary>
-    /// <param name="act" cref="Act">Caching instruction</param>
-    /// <param name="result"><c>TSeries</c> item to send</param>
-    /// <param name="index">Cached index position</param>
-    protected void Motify(Act act, TSeries result, int? index)
+    /// <param name="timestamp">Rebuild starting positions</param>
+    protected void RebuildObservers(DateTime timestamp)
     {
-        Act actTaken = Modify(act, result, index);
-        NotifyObservers(actTaken, result, index);
+        foreach (IStreamObserver<(Act, TSeries, int?)> obs
+            in _subscribers.ToArray())
+        {
+            obs.RebuildCache(timestamp);
+        }
     }
 
     /// <summary>
@@ -41,16 +94,16 @@ public abstract partial class StreamProvider<TSeries>
     /// <param name="act" cref="Act">Caching instruction</param>
     /// <param name="item"><c>TSeries</c> item to send</param>
     /// <param name="index">Provider index hint</param>
-    protected void NotifyObservers(Act act, TSeries? item, int? index)
+    private void NotifyObservers(Act act, TSeries? item, int? index)
     {
         // do not propogate "do nothing" acts
-        if (act == Act.DoNothing || item is null)
+        if (act == Act.Ignore || item is null)
         {
             return;
         }
 
         // send to subscribers
-        foreach (IObserver<(Act, TSeries, int?)> obs
+        foreach (IStreamObserver<(Act, TSeries, int?)> obs
             in _subscribers.ToArray())
         {
             obs.OnNext((act, item, index));
@@ -58,34 +111,16 @@ public abstract partial class StreamProvider<TSeries>
     }
 
     /// <summary>
-    /// Deletes cache entries between index range values.
+    /// Sends error (exception) to all subscribers
     /// </summary>
-    /// <remarks>
-    /// This is implemented in inheriting (provider) class
-    /// due to unique requirement to notify subscribers.
-    /// </remarks>
-    /// <param name="fromIndex">First element to delete</param>
-    /// <param name="toIndex">Last element to delete</param>
-    /// clears cache segment
-    /// <inheritdoc />
-    private void ClearCache(
-        int fromIndex, int toIndex)
+    /// <param name="exception"></param>
+    private void NotifyObserversOfError(Exception exception)
     {
-        // nothing to do
-        if (Cache.Count is 0)
+        // send to subscribers
+        foreach (IStreamObserver<(Act, TSeries, int?)> obs
+            in _subscribers.ToArray())
         {
-            return;
-        }
-
-        // determine in-range start/end indices
-        int fr = Math.Max(0, Math.Min(fromIndex, toIndex));
-        int to = Math.Min(Cache.Count - 1, Math.Max(fromIndex, toIndex));
-
-        // delete and deliver instruction in reverse
-        // order to prevent recursive recompositions
-        for (int i = to; i >= fr; i--)
-        {
-            Motify(Act.Delete, Cache[i], i);
+            obs.OnError(exception);
         }
     }
 }

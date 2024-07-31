@@ -50,14 +50,26 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
     {
         (Act act, TIn item, int? index) = value;
 
-        // add next value
-        if (act is Act.AddNew)
+        // analyze action
+        if (act is Act.Unknown)
         {
-            Add(act, item, index);
+            act = CheckSequence(item.Timestamp);
+        }
+
+        // add next value
+        if (act is Act.Add)
+        {
+            Add(item, index);
             return;
         }
 
-        int i = index ?? Provider.GetIndex(item, false);
+        // should only be rebuild at this point
+        if (act is not Act.Rebuild)
+        {
+            throw new InvalidOperationException("Invalid action type.");
+        }
+
+        int i = index ?? Provider.GetIndex(item, true);
 
         // reset to the prior stop points
         if (i > LookbackPeriods)
@@ -70,7 +82,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             LowerBand = resetStop.SellStop ?? default;
 
             // rebuild cache AFTER last sync point
-            RebuildCache(i, i);
+            RebuildCache(resetStop.Timestamp);
         }
 
         // full rebuild if no prior reversal
@@ -83,16 +95,16 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
     }
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
         // reminder: should only processes "new" instructions
 
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, true);
 
         // handle warmup periods
         if (i < LookbackPeriods)
         {
-            Motify(act, new(newIn.Timestamp), null);
+            Motify(new(newIn.Timestamp), null);
             return;
         }
 
@@ -195,7 +207,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
 
         // save and send
-        Motify(act, r, null);
+        Motify(r, null);
     }
 
     public override string ToString()

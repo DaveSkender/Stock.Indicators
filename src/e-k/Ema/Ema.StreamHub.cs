@@ -25,11 +25,11 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
         double ema;
 
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, true);
 
         if (i >= LookbackPeriods - 1)
         {
@@ -54,7 +54,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
             Ema: ema.NaN2Null());
 
         // save and send
-        Motify(act, r, i);
+        Motify(r, i);
     }
 
     public override string ToString()

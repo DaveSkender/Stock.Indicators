@@ -30,9 +30,9 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, true);
 
         // candidate result
         SmaResult r = new(
@@ -40,7 +40,7 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
             Sma: Sma.Increment(Provider.Results, LookbackPeriods, i).NaN2Null());
 
         // save and send
-        Motify(act, r, i);
+        Motify(r, i);
     }
 
     public override string ToString()

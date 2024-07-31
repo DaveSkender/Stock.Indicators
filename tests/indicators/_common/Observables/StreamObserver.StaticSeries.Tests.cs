@@ -37,7 +37,7 @@ public class StreamObservers : TestBase
         Quote q1000modified = quotesList[1000] with { Close = 12345m };
         QuotePart r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
 
-        observer.Modify(r1000modified);  // add directly to observer
+        observer.Add(q1000modified);  // add directly to observer
 
         IReadOnlyList<QuotePart> modified = observer.Results.ToList();
 

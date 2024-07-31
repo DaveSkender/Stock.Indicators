@@ -31,7 +31,7 @@ public class Incrementals
     public void Cleanup()
     {
         provider.EndTransmission();
-        provider.ClearCache();
+        provider.ClearCache(0);
     }
 
     [Benchmark]

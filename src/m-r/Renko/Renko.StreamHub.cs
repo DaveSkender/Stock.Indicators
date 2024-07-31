@@ -35,7 +35,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
         // get last brick
         RenkoResult lastBrick;
@@ -85,8 +85,8 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = index ?? Provider.GetIndex(newIn, false);
-            int lastBrickIndex = Provider.GetIndex(lastBrick.Timestamp, false);
+            int inboundIndex = index ?? Provider.GetIndex(newIn, true);
+            int lastBrickIndex = Provider.GetIndex(lastBrick.Timestamp, true);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
             {
@@ -122,7 +122,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
                 lastBrick = r;
 
                 // save and send
-                Motify(act, r, null);
+                Motify(r, null);
             }
         }
     }

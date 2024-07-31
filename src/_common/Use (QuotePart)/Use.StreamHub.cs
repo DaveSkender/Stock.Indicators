@@ -32,14 +32,14 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 
     // METHODS
 
-    internal override void Add(Act act, TQuote newIn, int? index)
+    internal override void Add(TQuote newIn, int? index)
     {
         // candidate result
         QuotePart r
             = newIn.ToQuotePart(CandlePartSelection);
 
         // save and send
-        Motify(act, r, index);
+        Motify(r, index);
     }
 
     public override string ToString()

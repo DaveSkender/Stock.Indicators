@@ -1,4 +1,3 @@
-
 namespace Skender.Stock.Indicators;
 
 // STREAM HUB (ADD/REMOVE)
@@ -8,45 +7,57 @@ public abstract partial class StreamHub<TIn, TOut>
     public void Add(TIn newIn)
         => OnNext((Act.Unknown, newIn, null));
 
-    public void Add(IEnumerable<TIn> newIn)
+    public void Add(IEnumerable<TIn> batchIn)
     {
-        foreach (TIn quote in newIn.ToSortedList())
+        foreach (TIn newIn in batchIn.ToSortedList())
         {
-            OnNext((Act.Unknown, quote, null));
+            OnNext((Act.Unknown, newIn, null));
         }
     }
 
-    public virtual Act Remove(TOut cachedItem)
-        => RemoveAt(GetIndex(cachedItem, false));
-
-    public Act RemoveAt(int cacheIndex)
+    public Act Remove(TOut cachedItem)
     {
-        TOut thisItem = Cache[cacheIndex];
+        Act? act;
 
+        // handle overflow condition
         try
         {
-            Act act = Purge(cacheIndex);
-            NotifyObservers(act, thisItem, cacheIndex);
-            return act;
+            act = CheckOverflow(cachedItem);
         }
         catch (OverflowException)
         {
             EndTransmission();
             throw;
         }
+
+        // handle duplicates
+        if (act is Act.Ignore)
+        {
+            return Act.Ignore;
+        }
+
+        // remove/rebuild
+        return RemoveAt(GetIndex(cachedItem, true));
+    }
+
+    public Act RemoveAt(int cacheIndex)
+    {
+        RebuildCache(cacheIndex);
+        return Act.Rebuild;
     }
 
     /// <summary>
     /// Builds incremental indicator and adds to cache.
     /// </summary>
-    /// <param name="act">
-    /// Caching instruction hint from provider
-    /// </param>
+    /// <remarks>
+    /// It is expected that pre-cache analysis has already been done
+    /// and "new" is the most expected action to take.
+    /// </remarks>
     /// <param name="item">
     /// New inbound item from provider
     /// </param>
     /// <param name="index">
-    /// Index position of item in provider cache
+    /// Index position of item in provider cache or null if unknown).
     /// </param>
-    internal abstract void Add(Act act, TIn item, int? index);
+    internal abstract void Add(TIn item, int? index);
 }

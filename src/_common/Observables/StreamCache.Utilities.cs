@@ -7,12 +7,6 @@ public abstract partial class StreamCache<TSeries>
     : IStreamCache<TSeries>
     where TSeries : ISeries
 {
-    // clear cache without restore
-    /// <inheritdoc/>
-    public void ClearCache() => ClearCache(0);
-    public abstract void ClearCache(DateTime fromTimestamp);
-    public abstract void ClearCache(int fromIndex);
-
     // reset fault flag and condition
     /// <inheritdoc/>
     public void ResetFault()
@@ -31,7 +25,7 @@ public abstract partial class StreamCache<TSeries>
 
     // get the cache index based on item equality
     /// <inheritdoc/>
-    public int GetIndex(TSeries cachedItem, bool noException)
+    public int GetIndex(TSeries cachedItem, bool throwOnFail)
     {
         int low = 0;
         int high = Cache.Count - 1;
@@ -94,21 +88,16 @@ public abstract partial class StreamCache<TSeries>
             }
         }
 
-        if (noException)
-        {
-            return -1;
-        }
-        else
-        {
-            // not found
-            throw new ArgumentException(
-                "Matching source history not found.", nameof(cachedItem));
-        }
+        // not found
+        return throwOnFail
+            ? throw new ArgumentException(
+                "Matching source history not found.", nameof(cachedItem))
+            : -1;
     }
 
     // get the cache index based on a timestamp
     /// <inheritdoc/>
-    public int GetIndex(DateTime timestamp, bool noException)
+    public int GetIndex(DateTime timestamp, bool throwOnFail)
     {
         int low = 0;
         int high = Cache.Count - 1;
@@ -132,21 +121,16 @@ public abstract partial class StreamCache<TSeries>
             }
         }
 
-        if (noException)
-        {
-            return -1;
-        }
-        else
-        {
-            // not found
-            throw new ArgumentException(
-                "Matching source history not found.", nameof(timestamp));
-        }
+        // not found
+        return throwOnFail
+            ? throw new ArgumentException(
+                "Matching source history not found.", nameof(timestamp))
+            : -1;
     }
 
     // get first cache index at or greater than timestamp
     /// <inheritdoc/>
-    public int GetInsertIndex(DateTime timestamp)
+    public int GetIndexGte(DateTime timestamp)
     {
         int low = 0;
         int high = Cache.Count;

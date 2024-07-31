@@ -17,14 +17,14 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    internal override void Add(TIn newIn, int? index)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = index ?? Provider.GetIndex(newIn, true);
 
         // skip first period
         if (i == 0)
         {
-            Motify(act, new TrResult(newIn.Timestamp, null), i);
+            Motify(new TrResult(newIn.Timestamp, null), i);
             return;
         }
 
@@ -39,7 +39,7 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
                 (double)prev.Close));
 
         // save and send
-        Motify(act, r, i);
+        Motify(r, i);
     }
 
     public override string ToString() => "TRUE RANGE";

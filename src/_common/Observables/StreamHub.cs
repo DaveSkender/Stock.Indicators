@@ -22,7 +22,7 @@ public abstract class ReusableObserver<TIn, TOut>(
 /// Streaming hub (abstract observer/provider)
 /// </summary>
 public abstract partial class StreamHub<TIn, TOut>(
-    IStreamProvider<TIn> provider
+    IStreamObservable<TIn> provider
 ) : StreamProvider<TOut>, IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
@@ -31,7 +31,7 @@ public abstract partial class StreamHub<TIn, TOut>(
 
     protected internal IDisposable? Subscription { get; set; }
 
-    protected IStreamProvider<TIn> Provider => provider;
+    protected IStreamObservable<TIn> Provider => provider;
 
     // observer methods
 
@@ -39,19 +39,30 @@ public abstract partial class StreamHub<TIn, TOut>(
     {
         (Act act, TIn item, int? index) = value;
 
-        if (act is Act.Unknown or Act.AddNew)
+        // analyze (pre-check)
+        if (act is Act.Unknown)
         {
-            Add(act, item, index);
+            act = CheckSequence(item.Timestamp);
+        }
+
+        // pass-thru to implementation
+        if (act is Act.Add)
+        {
+            Add(item, index);
             return;
         }
 
-        // TODO: handle revision/recursion differently
-        // for different indicators; and may also need
-        // to breakout OnDeleted(TIn deleted), etc.
+        // should only be rebuild at this point
+        if (act is Act.Rebuild)
+        {
+            throw new InvalidOperationException("Invalid action type.");
+        }
+
+        // rebuild from provider
         RebuildCache(item.Timestamp);
     }
 
-    public void OnError(Exception error) => throw error;
+    public void OnError(Exception exception) => throw exception;
 
     public void OnCompleted() => Unsubscribe();
 

@@ -20,19 +20,8 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
 
     // METHODS
 
-    internal override void Add(Act act, TQuote newIn, int? index)
-    {
-        try
-        {
-            // save and send
-            Motify(act, newIn, index);
-        }
-        catch (OverflowException)
-        {
-            EndTransmission();
-            throw;
-        }
-    }
+    internal override void Add(TQuote newIn, int? index)
+        => Motify(newIn, index);
 
     public override string ToString()
         => $"QUOTES<{typeof(TQuote).Name}>: {Quotes.Count} items";

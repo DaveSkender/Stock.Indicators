@@ -4,36 +4,6 @@ namespace Observables;
 public class CacheUtilities : TestBase
 {
     [TestMethod]
-    public void ClearCache()
-    {
-        // setup quote provider
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
-            .Take(10)
-            .ToList();
-
-        int length = quotesList.Count;
-
-        QuoteHub<Quote> provider = new();
-
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
-
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // act: clear cache
-        observer.ClearCache();
-
-        // assert: cache is empty
-        observer.Cache.Should().BeEmpty();
-        provider.Cache.Should().HaveCount(10);
-    }
-
-    [TestMethod]
     public void ClearCacheByTimestamp()
     {
 
@@ -79,7 +49,6 @@ public class CacheUtilities : TestBase
     [TestMethod]
     public void ClearCacheByIndex()
     {
-
         // setup quote provider
 
         List<Quote> quotesList = Quotes
@@ -141,8 +110,8 @@ public class CacheUtilities : TestBase
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndexEx = provider.GetIndex(q, false);
-        int timeIndexEx = provider.GetIndex(q.Timestamp, false);
+        int itemIndexEx = provider.GetIndex(q, true);
+        int timeIndexEx = provider.GetIndex(q.Timestamp, true);
 
         // assert: same index
         itemIndexEx.Should().Be(4);
@@ -152,22 +121,22 @@ public class CacheUtilities : TestBase
         Quote o = Quotes[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.GetIndex(o, false);
+            provider.GetIndex(o, true);
         });
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.GetIndex(o.Timestamp, false);
+            provider.GetIndex(o.Timestamp, true);
         });
 
         // out of range (no exceptions)
-        int itemIndexNo = provider.GetIndex(o, true);
-        int timeIndexNo = provider.GetIndex(o.Timestamp, true);
+        int itemIndexNo = provider.GetIndex(o, false);
+        int timeIndexNo = provider.GetIndex(o.Timestamp, false);
 
         itemIndexNo.Should().Be(-1);
         timeIndexNo.Should().Be(-1);
 
-        int timeInsertOut = provider.GetInsertIndex(o.Timestamp);
-        int timeInsertIn = provider.GetInsertIndex(quotesList[2].Timestamp);
+        int timeInsertOut = provider.GetIndexGte(o.Timestamp);
+        int timeInsertIn = provider.GetIndexGte(quotesList[2].Timestamp);
 
         timeInsertOut.Should().Be(-1);
         timeInsertIn.Should().Be(2);

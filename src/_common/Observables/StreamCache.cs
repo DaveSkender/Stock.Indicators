@@ -21,12 +21,12 @@ public abstract partial class StreamCache<TSeries>
     internal List<TSeries> Cache { get; private set; } = [];
 
     /// <summary>
-    /// Most recent arrival to cache.
+    /// Most recent item saved to cache.
     /// </summary>
-    internal TSeries? LastArrival { get; private set; }
+    internal TSeries? LastItem { get; private set; }
 
     /// <summary>
-    /// Current count of repeated arrivals.
+    /// Current count of repeated caching attempts.
     /// An overflow condition is triggered after 100.
     /// </summary>
     internal byte OverflowCount { get; private set; }
@@ -35,219 +35,75 @@ public abstract partial class StreamCache<TSeries>
     // CACHE MODIFICATION
 
     /// <summary>
-    /// Analyze new arrival to determine caching instruction;
-    /// then follow-on with caching action.
+    /// Analyze cache candidate to determine caching instruction.
     /// </summary>
     /// <param name="item">Cacheable time-series object</param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
+    /// <returns cref="Act">Action to take</returns>
     /// <exception cref="ArgumentException">
     /// Item to modify is not found.
     /// </exception>
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    internal Act Modify(TSeries item)
+    private protected Act Analyze(TSeries item)
     {
-        // check overflow
-        if (CheckOverflow(item) is Act.DoNothing)
+        // check overflow/duplicates
+        if (CheckOverflow(item) is Act.Ignore)
         {
             // duplicate found
-            return Act.DoNothing;
+            return Act.Ignore;
         }
 
-        // DETERMINE ACTion INSTRUCTION
-
-        Act act;
-        int length = Cache.Count;
-        int? index = null;
-
-        // first
-        if (length == 0)
-        {
-            act = Act.AddNew;
-            return Modify(act, item, index);
-        }
-
-        TSeries last = Cache[length - 1];
-
-        // newer
-        if (item.Timestamp > last.Timestamp)
-        {
-            act = Act.AddNew;
-        }
-
-        // repeat or late arrival
-        else
-        {
-            // seek duplicate
-            index = GetIndex(item.Timestamp, true);
-
-            // replace duplicate
-            if (index >= 0)
-            {
-                act = Act.Update;
-            }
-            else
-            {
-                act = Act.AddOld;
-                index = null;
-            }
-        }
-
-        // perform actual modification, return final action
-        return Modify(act, item, index);
+        // get caching instruction
+        return CheckSequence(item.Timestamp);
     }
 
     /// <summary>
-    /// Update cache, per "act" instruction, without analysis.
+    /// Quick check to determine if date implies
+    /// whether we'll add or need to rebuild the cache.
+    /// </summary>
+    /// <param name="timestamp">Date to evaluate</param>
+    /// <returns cref="Act">Action to take</returns>
+    private protected Act CheckSequence(DateTime timestamp)
+    {
+        // first
+        if (Cache.Count == 0)
+        {
+            return Act.Add;
+        }
+
+        // new (or rebuild if old)
+        return timestamp > Cache[^1].Timestamp ? Act.Add : Act.Rebuild;
+    }
+
+    /// <summary>
+    /// Adds item to cache and resets overflow counter.
     /// </summary>
     /// <remarks>
     /// Since this does not analyze the action, it is not
     /// recommended for use outside of the cache management system.
     /// For example, it will not prevent duplicates or overflow.
     /// </remarks>
-    /// <param name="act" cref="Act">Caching instruction</param>
     /// <param name="item">Cacheable time-series object</param>
-    /// <param name="index">Index, if already known (optional)</param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="ArgumentException">
-    /// Item to modify is not found.
-    /// </exception>
-    /// <exception cref="OverflowException">
-    /// Too many sequential duplicates were detected.
-    /// </exception>
+    /// <returns name="act" cref="Act">Caching action taken</returns>
     /// <exception cref="InvalidOperationException">
-    /// Action type is unknown.
+    /// A non-add action was attempted.
     /// </exception>
-    protected Act Modify(Act act, TSeries item, int? index)
+    private protected Act TryAdd(TSeries item)
     {
-        // execute action
-        switch (act)
+        Act act = Analyze(item);
+
+        if (act is Act.Add)
         {
-            case Act.AddNew:
-
-                Cache.Add(item);
-
-                break;
-
-            case Act.AddOld:
-
-                // find
-                int ao = index ?? GetInsertIndex(item.Timestamp);
-
-                // insert
-                if (ao != -1)
-                {
-                    Cache.Insert(ao, item);
-                }
-
-                // failure to find newer index
-                else
-                {
-                    Cache.Add(item);
-                }
-
-                break;
-
-            case Act.Update:
-
-                // find
-                int uo = index ?? GetIndex(item.Timestamp, false);
-
-                // duplicate
-                if (item.Equals(Cache[uo]))
-                {
-                    return Act.DoNothing;
-                }
-
-                // replace
-                Cache[uo] = item;
-
-                break;
-
-            case Act.Delete:
-
-                // find
-                int d = index ?? GetIndex(item.Timestamp, false);
-
-                // delete
-                Cache.RemoveAt(d);
-
-                break;
-
-            case Act.DoNothing:
-
-                break;
-
-            case Act.Unknown:
-
-                return Modify(item);
-
-            // should never get here
-            default:
-
-                throw new InvalidOperationException(
-                    "Undefined cache action.");
+            Cache.Add(item);
+            IsFaulted = false;
         }
 
-        IsFaulted = false;
         return act;
     }
 
     /// <summary>
-    /// Analyze and DELETE new arrivals from cache,
-    /// after validating best instruction.
-    /// </summary>
-    /// <param name="item">Cacheable time-series object</param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="OverflowException">
-    /// Too many sequential duplicates were detected.
-    /// </exception>
-    protected Act Purge(TSeries item)
-    {
-        // check format and overflow
-        if (CheckOverflow(item) is Act.DoNothing)
-        {
-            return Act.DoNothing;
-        }
-
-        // find position
-        int index = GetIndex(item, true);
-
-        if (index < 0)
-        {
-            // not found
-            return Act.DoNothing;
-        }
-
-        // delete
-        return Modify(Act.Delete, item, index);
-    }
-
-    /// <summary>
-    /// DELETE item from cache at index position,
-    /// without validating or analyzing the action
-    /// </summary>
-    /// <returns cref="Act">Action taken (outcome)</returns>
-    /// <exception cref="ArgumentOutOfRangeException">
-    /// Index is out of range (not found).
-    /// </exception>
-    protected Act Purge(int index)
-    {
-        if (index < 0 || index >= Cache.Count)
-        {
-            // not found
-            return Act.DoNothing;
-        }
-
-        TSeries item = Cache[index];
-
-        // delete
-        return Modify(Act.Delete, item, index);
-    }
-
-    /// <summary>
-    /// Validate inbound item and compare to prior arrivals
+    /// Validate outbound item and compare to prior sent item,
     /// to gracefully manage and prevent overflow conditions.
     /// </summary>
     /// <param name="item">Cacheable time-series object</param>
@@ -258,19 +114,19 @@ public abstract partial class StreamCache<TSeries>
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    private Act? CheckOverflow(TSeries item)
+    private protected Act? CheckOverflow(TSeries item)
     {
         Act? act = null;
 
         // skip first arrival
-        if (LastArrival is null)
+        if (LastItem is null)
         {
-            LastArrival = item;
+            LastItem = item;
             return act;
         }
 
         // check for overflow condition
-        if (item.Timestamp == LastArrival.Timestamp)
+        if (item.Timestamp == LastItem.Timestamp)
         {
             // note: we have a better IsEqual() comparison method below,
             // but it is too expensive as an initial quick evaluation.
@@ -294,25 +150,24 @@ public abstract partial class StreamCache<TSeries>
             }
 
             // aggressive property value comparison
-            // TODO: not handling add-back after delete, registers as dup
-            if (item.Equals(LastArrival))
+            if (item.Equals(LastItem))
             {
                 // to prevent propogation
                 // of identical cache entry
-                act = Act.DoNothing;
+                act = Act.Ignore;
             }
 
             // same date with different values
             // continues as an update
             else
             {
-                LastArrival = item;
+                LastItem = item;
             }
         }
         else
         {
             OverflowCount = 0;
-            LastArrival = item;
+            LastItem = item;
         }
 
         return act;

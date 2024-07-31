@@ -34,9 +34,8 @@ public interface IStreamCache<TSeries>
     /// </summary>
     /// <remarks>
     /// You may also need to
-    /// <see cref="IStreamHub{TIn, TOut}.Reinitialize()"/>,
-    /// <see cref="IStreamHub{TIn, TOut}.RebuildCache()"/>, or
-    /// <see cref="ClearCache()"/> before resuming.
+    /// <see cref="IStreamObserver{T}.Reinitialize()"/>, or
+    /// <see cref="IStreamObserver{T}.RebuildCache()"/>.
     /// </remarks>
     void ResetFault();
 
@@ -56,14 +55,14 @@ public interface IStreamCache<TSeries>
     /// <param name="cachedItem">
     /// Timeseries object to find in cache
     /// </param>
-    /// <param name="noException">
-    /// Disable exception when item is not found
+    /// <param name="throwOnFail">
+    /// Throw exception when item is not found
     /// </param>
     /// <returns>Index position</returns>
     /// <exception cref="ArgumentException">
     /// When items is not found (should never happen).
     /// </exception>
-    int GetIndex(TSeries cachedItem, bool noException);
+    int GetIndex(TSeries cachedItem, bool throwOnFail);
 
     /// <summary>
     /// Get the cache index based on a timestamp.
@@ -76,14 +75,14 @@ public interface IStreamCache<TSeries>
     /// <param name="timestamp">
     /// Timestamp of cached item
     /// </param>
-    /// <param name="noException">
-    /// Disable exception when item is not found
+    /// <param name="throwOnFail">
+    /// Throw exception when timestamp is not found
     /// </param>
     /// <returns>Index position</returns>
     /// <exception cref="ArgumentException">
     /// When timestamp is not found (should never happen).
     /// </exception>
-    int GetIndex(DateTime timestamp, bool noException);
+    int GetIndex(DateTime timestamp, bool throwOnFail);
 
     /// <summary>
     /// Get the first cache index on or after a timestamp.
@@ -97,42 +96,5 @@ public interface IStreamCache<TSeries>
     /// Timestamp of cached item
     /// </param>
     /// <returns>First index position or -1 if not found</returns>
-    int GetInsertIndex(DateTime timestamp);
-
-    /// <summary>
-    /// Deletes all cached time-series records,
-    /// without restore.  When applicable,
-    /// it will cascade delete commands to subscribers.
-    /// </summary>
-    /// <remarks>
-    /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamHub{TIn, TOut}.RebuildCache()"/>.
-    /// </remarks>
-    void ClearCache();
-
-    /// <summary>
-    /// Deletes newer cached records from point in time,
-    /// without restore.  When applicable, it will cascade delete
-    /// commands to subscribers.
-    /// </summary>
-    /// <remarks>
-    /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamHub{TIn, TOut}.RebuildCache(DateTime)"/>.
-    /// </remarks>
-    /// <param name="fromTimestamp">
-    /// All periods (inclusive) after this DateTime will be removed.
-    /// </param>
-    void ClearCache(DateTime fromTimestamp);
-
-    /// <summary>
-    /// Deletes newer cached records from an index position (inclusive),
-    /// without restore.  When applicable, it will cascade delete
-    /// commands to subscribers.
-    /// </summary>
-    /// <remarks>
-    /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamHub{TIn, TOut}.RebuildCache(int)"/>.
-    /// </remarks>
-    /// <param name="fromIndex">From index, inclusive</param>
-    void ClearCache(int fromIndex);
+    int GetIndexGte(DateTime timestamp);
 }
