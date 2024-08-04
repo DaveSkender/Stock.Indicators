@@ -19,6 +19,40 @@ public interface IStreamObserver<in T>
     void Unsubscribe();
 
     /// <summary>
+    /// Provides the observer with new data.
+    /// </summary>
+    /// <param name="item">
+    /// The current notification information.
+    /// </param>
+    /// <param name="indexHint">
+    /// Optional. Index position of item in
+    /// provider cache or null if unknown.
+    /// </param>
+    void OnNextArrival(T item, int? indexHint);
+
+    /// <summary>
+    /// Provides the observer with removed item point in timeline.
+    /// </summary>
+    /// <param name="timestamp"></param>
+    void OnRemoval(DateTime timestamp) => RebuildCache(timestamp);
+
+    /// <summary>
+    /// Notifies the observer that the provider has
+    /// experienced an error condition.
+    /// </summary>
+    /// <param name="exception">
+    /// An object that provides additional information
+    /// about the error.
+    /// </param>
+    void OnError(Exception exception);
+
+    /// <summary>
+    /// Notifies the observer that the provider has
+    /// finished sending push-based notifications.
+    /// </summary>
+    void OnCompleted();
+
+    /// <summary>
     /// Full reset of the provider subscription.
     /// </summary>
     /// <remarks>
@@ -26,7 +60,7 @@ public interface IStreamObserver<in T>
     /// rebuilds the cache, resets faulted states,
     /// and then will re-subscribe to the provider.
     /// <para>
-    /// This is done automatically on on hub
+    /// This is done automatically on hub
     /// construction, so it's only needed if you
     /// want to manually reset the hub.
     /// </para>
@@ -69,28 +103,4 @@ public interface IStreamObserver<in T>
     /// will be removed and recalculated.
     /// </param>
     void RebuildCache(int fromIndex);
-
-    /// <summary>
-    /// Notifies the observer that the provider has
-    /// finished sending push-based notifications.
-    /// </summary>
-    void OnCompleted();
-
-    /// <summary>
-    /// Notifies the observer that the provider has
-    /// experienced an error condition.
-    /// </summary>
-    /// <param name="exception">
-    /// An object that provides additional information
-    /// about the error.
-    /// </param>
-    void OnError(Exception exception);
-
-    /// <summary>
-    /// Provides the observer with new data.
-    /// </summary>
-    /// <param name="value">
-    /// The current notification information.
-    /// </param>
-    void OnNext(T value);
 }

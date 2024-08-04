@@ -110,8 +110,8 @@ public class CacheUtilities : TestBase
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndexEx = provider.GetIndex(q, true);
-        int timeIndexEx = provider.GetIndex(q.Timestamp, true);
+        int itemIndexEx = provider.Cache.GetIndex(q, true);
+        int timeIndexEx = provider.Cache.GetIndex(q.Timestamp, true);
 
         // assert: same index
         itemIndexEx.Should().Be(4);
@@ -121,22 +121,22 @@ public class CacheUtilities : TestBase
         Quote o = Quotes[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.GetIndex(o, true);
+            provider.Cache.GetIndex(o, true);
         });
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.GetIndex(o.Timestamp, true);
+            provider.Cache.GetIndex(o.Timestamp, true);
         });
 
         // out of range (no exceptions)
-        int itemIndexNo = provider.GetIndex(o, false);
-        int timeIndexNo = provider.GetIndex(o.Timestamp, false);
+        int itemIndexNo = provider.Cache.GetIndex(o, false);
+        int timeIndexNo = provider.Cache.GetIndex(o.Timestamp, false);
 
         itemIndexNo.Should().Be(-1);
         timeIndexNo.Should().Be(-1);
 
-        int timeInsertOut = provider.GetIndexGte(o.Timestamp);
-        int timeInsertIn = provider.GetIndexGte(quotesList[2].Timestamp);
+        int timeInsertOut = provider.Cache.GetIndexGte(o.Timestamp);
+        int timeInsertIn = provider.Cache.GetIndexGte(quotesList[2].Timestamp);
 
         timeInsertOut.Should().Be(-1);
         timeInsertIn.Should().Be(2);
@@ -167,7 +167,7 @@ public class CacheUtilities : TestBase
         // act: find index of quote
 
         // assert: correct index
-        if (provider.TryFindIndex(q.Timestamp, out int goodIndex))
+        if (provider.Cache.TryFindIndex(q.Timestamp, out int goodIndex))
         {
             goodIndex.Should().Be(4);
         }
@@ -177,7 +177,7 @@ public class CacheUtilities : TestBase
         }
 
         // assert: out of range
-        if (provider.TryFindIndex(DateTime.MaxValue, out int badIndex))
+        if (provider.Cache.TryFindIndex(DateTime.MaxValue, out int badIndex))
         {
             Assert.Fail("unexpected index found");
         }

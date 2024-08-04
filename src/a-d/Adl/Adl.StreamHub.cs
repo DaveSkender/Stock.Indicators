@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAM HUB)
 
-public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
-    IReusableHub<TIn, AdlResult>
+public class AdlHub<TIn>
+    : ChainProvider<TIn, AdlResult>
     where TIn : IQuote
 {
     #region constructors
@@ -17,17 +17,17 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
     // METHODS
 
-    internal override void Add(TIn newIn, int? index)
+    protected override void Add(TIn item, int? indexHint)
     {
-        int i = index ?? Provider.GetIndex(newIn, true);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // candidate result
         AdlResult r = Adl.Increment(
-            newIn.Timestamp,
-            newIn.High,
-            newIn.Low,
-            newIn.Close,
-            newIn.Volume,
+            item.Timestamp,
+            item.High,
+            item.Low,
+            item.Close,
+            item.Volume,
             i > 0 ? Cache[i - 1].Value : 0);
 
         // save and send

@@ -1,16 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM CACHE (BASE)
+// STREAM HUB (CACHE)
 
-/// <inheritdoc cref="IStreamCache{TSeries}"/>
-public abstract partial class StreamCache<TSeries>
-    : IStreamCache<TSeries>
-    where TSeries : ISeries
+public abstract partial class StreamHub<TIn, TOut> : IStreamCache<TOut>
 {
     #region PROPERTIES
 
     /// <inheritdoc/>
-    public IReadOnlyList<TSeries> Results => Cache;
+    public IReadOnlyList<TOut> Results => Cache;
 
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
@@ -18,21 +15,49 @@ public abstract partial class StreamCache<TSeries>
     /// <summary>
     /// Cache of stored values (base).
     /// </summary>
-    internal List<TSeries> Cache { get; private set; } = [];
-
-    /// <summary>
-    /// Most recent item saved to cache.
-    /// </summary>
-    internal TSeries? LastItem { get; private set; }
+    internal List<TOut> Cache { get; } = [];
 
     /// <summary>
     /// Current count of repeated caching attempts.
     /// An overflow condition is triggered after 100.
     /// </summary>
     internal byte OverflowCount { get; private set; }
+
+    /// <summary>
+    /// Most recent item saved to cache.
+    /// </summary>
+    private TOut? LastItem { get; set; }
+
     #endregion
 
     // CACHE MODIFICATION
+
+    /// <summary>
+    /// Adds item to cache.
+    /// </summary>
+    /// <remarks>
+    /// When the cache management system cannot add the item
+    /// to the cache due to an overflow condition or other issue,
+    /// the caller will be given an alternate instruction.
+    /// </remarks>
+    /// <param name="item">Time-series object to cache</param>
+    /// <returns name="act" cref="Act">Caching action</returns>
+    private Act TryAdd(TOut item)
+    {
+        Act act = Analyze(item);
+
+        // return alternate instruction
+        if (act is not Act.Add)
+        {
+            return act;
+        }
+
+        // add to cache
+        Cache.Add(item);
+        IsFaulted = false;
+
+        return act;
+    }
 
     /// <summary>
     /// Analyze cache candidate to determine caching instruction.
@@ -45,7 +70,7 @@ public abstract partial class StreamCache<TSeries>
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    private protected Act Analyze(TSeries item)
+    private Act Analyze(TOut item)
     {
         // check overflow/duplicates
         if (CheckOverflow(item) is Act.Ignore)
@@ -54,8 +79,10 @@ public abstract partial class StreamCache<TSeries>
             return Act.Ignore;
         }
 
-        // get caching instruction
-        return CheckSequence(item.Timestamp);
+        // consider scenarios
+        return Cache.Count == 0
+            ? Act.Add
+            : CheckSequence(item.Timestamp);
     }
 
     /// <summary>
@@ -64,42 +91,15 @@ public abstract partial class StreamCache<TSeries>
     /// </summary>
     /// <param name="timestamp">Date to evaluate</param>
     /// <returns cref="Act">Action to take</returns>
-    private protected Act CheckSequence(DateTime timestamp)
+    protected Act CheckSequence(DateTime timestamp)
     {
-        // first
-        if (Cache.Count == 0)
-        {
-            return Act.Add;
-        }
-
         // new (or rebuild if old)
-        return timestamp > Cache[^1].Timestamp ? Act.Add : Act.Rebuild;
-    }
+        return timestamp > Cache[^1].Timestamp
+            ? Act.Add
+            : Act.Rebuild;
 
-    /// <summary>
-    /// Adds item to cache and resets overflow counter.
-    /// </summary>
-    /// <remarks>
-    /// Since this does not analyze the action, it is not
-    /// recommended for use outside of the cache management system.
-    /// For example, it will not prevent duplicates or overflow.
-    /// </remarks>
-    /// <param name="item">Cacheable time-series object</param>
-    /// <returns name="act" cref="Act">Caching action taken</returns>
-    /// <exception cref="InvalidOperationException">
-    /// A non-add action was attempted.
-    /// </exception>
-    private protected Act TryAdd(TSeries item)
-    {
-        Act act = Analyze(item);
-
-        if (act is Act.Add)
-        {
-            Cache.Add(item);
-            IsFaulted = false;
-        }
-
-        return act;
+        // note: this is a quick timeline check that can
+        // also be used before composing a new cache candidate.
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public abstract partial class StreamCache<TSeries>
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    private protected Act? CheckOverflow(TSeries item)
+    private Act? CheckOverflow(TOut item)
     {
         Act? act = null;
 
@@ -152,7 +152,7 @@ public abstract partial class StreamCache<TSeries>
             // aggressive property value comparison
             if (item.Equals(LastItem))
             {
-                // to prevent propogation
+                // to prevent propagation
                 // of identical cache entry
                 act = Act.Ignore;
             }

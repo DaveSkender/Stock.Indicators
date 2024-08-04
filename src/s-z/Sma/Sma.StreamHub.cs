@@ -9,8 +9,8 @@ public interface ISmaHub
 }
 #endregion
 
-public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
-    IReusableHub<TIn, SmaResult>, ISmaHub
+public class SmaHub<TIn>
+    : ChainProvider<TIn, SmaResult>, ISmaHub
     where TIn : IReusable
 {
     #region constructors
@@ -30,14 +30,14 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
 
     // METHODS
 
-    internal override void Add(TIn newIn, int? index)
+    protected override void Add(TIn item, int? indexHint)
     {
-        int i = index ?? Provider.GetIndex(newIn, true);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // candidate result
         SmaResult r = new(
-            Timestamp: newIn.Timestamp,
-            Sma: Sma.Increment(Provider.Results, LookbackPeriods, i).NaN2Null());
+            Timestamp: item.Timestamp,
+            Sma: Sma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
 
         // save and send
         Motify(r, i);

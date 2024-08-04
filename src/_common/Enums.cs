@@ -19,11 +19,6 @@ public enum Act
     Ignore,
 
     /// <summary>
-    /// Instruction has not yet been determined
-    /// </summary>
-    Unknown,
-
-    /// <summary>
     /// Reset and rebuild from marker position.
     /// </summary>
     Rebuild

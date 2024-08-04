@@ -2,8 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
-public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
-    IReusableHub<TIn, EmaResult>, IEma
+public class EmaHub<TIn>
+    : ChainProvider<TIn, EmaResult>, IEma
     where TIn : IReusable
 {
     #region constructors
@@ -25,21 +25,21 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     // METHODS
 
-    internal override void Add(TIn newIn, int? index)
+    protected override void Add(TIn item, int? indexHint)
     {
         double ema;
 
-        int i = index ?? Provider.GetIndex(newIn, true);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         if (i >= LookbackPeriods - 1)
         {
             ema = Cache[i - 1].Ema is not null
 
                 // normal
-                ? Ema.Increment(K, Cache[i - 1].Value, newIn.Value)
+                ? Ema.Increment(K, Cache[i - 1].Value, item.Value)
 
                 // re/initialize as SMA
-                : Sma.Increment(Provider.Results, LookbackPeriods, i);
+                : Sma.Increment(ProviderCache, LookbackPeriods, i);
         }
 
         // warmup periods are never calculable
@@ -50,7 +50,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
         // candidate result
         EmaResult r = new(
-            Timestamp: newIn.Timestamp,
+            Timestamp: item.Timestamp,
             Ema: ema.NaN2Null());
 
         // save and send

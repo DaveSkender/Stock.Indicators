@@ -2,36 +2,12 @@ namespace Skender.Stock.Indicators;
 
 // STREAM HUB INTERFACES
 
-#region hub variants
-
-public interface IQuoteHub<TIn, TOut>
-    : IStreamHub<TIn, TOut>, IQuoteProvider<TOut>, IChainProvider<TOut>
-    where TIn : IQuote
-    where TOut : IQuote;
-
-/// <inheritdoc />
-public interface IReusableHub<TIn, TOut>
-    : IStreamHub<TIn, TOut>, IChainProvider<TOut>
-    where TIn : ISeries
-    where TOut : IReusable;
-
-/// <inheritdoc />
-public interface IResultHub<TIn, TOut>
-    : IStreamHub<TIn, TOut>
-    where TIn : ISeries
-    where TOut : ISeries;
-#endregion
-
 /// <summary>
 /// Streaming hub (observer and observable provider).
 /// </summary>
-public interface IStreamHub<TIn, TOut>
-    : IStreamObserver<(Act, TIn, int?)>, IStreamObservable<TOut>
+public interface IStreamHub<in TIn, in TOut>
     where TIn : ISeries
-    where TOut : ISeries
 {
-
-
     /// <summary>
     /// Add a single new observed item.
     /// We'll determine if it's new or an update.
@@ -55,7 +31,7 @@ public interface IStreamHub<TIn, TOut>
     /// </summary>
     /// <param name="cachedItem">Cached item to delete</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
-    Act Remove(TOut cachedItem);
+    public void Remove(TOut cachedItem);
 
     /// <summary>
     /// Delete an item from the cache.
@@ -63,7 +39,7 @@ public interface IStreamHub<TIn, TOut>
     /// <param name="cacheIndex">Position in cache to delete</param>
     /// <returns cref="Act">Action taken (outcome)</returns>
     /// <exception cref="ArgumentOutOfRangeException"/>
-    Act RemoveAt(int cacheIndex);
+    void RemoveAt(int cacheIndex);
 
     /// <summary>
     /// Returns a short text label for the hub

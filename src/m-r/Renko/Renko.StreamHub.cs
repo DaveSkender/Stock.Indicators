@@ -11,8 +11,8 @@ public interface IRenkoHub
 }
 #endregion
 
-public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
-    IQuoteHub<TIn, RenkoResult>, IRenkoHub
+public class RenkoHub<TIn>
+    : QuoteProvider<TIn, RenkoResult>, IRenkoHub
     where TIn : IQuote
 {
     #region constructors
@@ -35,7 +35,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
     // METHODS
 
-    internal override void Add(TIn newIn, int? index)
+    protected override void Add(TIn item, int? indexHint)
     {
         // get last brick
         RenkoResult lastBrick;
@@ -43,20 +43,19 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
         if (Cache.Count != 0)
         {
             lastBrick = Cache
-                .Where(c => c.Timestamp <= newIn.Timestamp)
-                .Last();
+                .Last(c => c.Timestamp <= item.Timestamp);
         }
         else // no bricks yet
         {
             // skip first quote
-            if (Provider.Results.Count <= 1)
+            if (ProviderCache.Count <= 1)
             {
                 return;
             }
 
             int decimals = BrickSize.GetDecimalPlaces();
 
-            TIn q0 = Provider.Results[0];
+            TIn q0 = ProviderCache[0];
 
             decimal baseline
                 = Math.Round(q0.Close,
@@ -71,7 +70,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
         // determine new brick quantity
         int newBrickQty
             = Renko.GetNewBrickQuantity(
-                newIn, lastBrick, BrickSize, EndType);
+                item, lastBrick, BrickSize, EndType);
 
         int absBrickQty = Math.Abs(newBrickQty);
         bool isUp = newBrickQty >= 0;
@@ -85,12 +84,12 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = index ?? Provider.GetIndex(newIn, true);
-            int lastBrickIndex = Provider.GetIndex(lastBrick.Timestamp, true);
+            int inboundIndex = indexHint ?? ProviderCache.GetIndex(item, true);
+            int lastBrickIndex = ProviderCache.GetIndex(lastBrick.Timestamp, true);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
             {
-                TIn pq = Provider.Results[w];
+                TIn pq = ProviderCache[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -117,7 +116,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
                 // candidate result
                 RenkoResult r
-                    = new(newIn.Timestamp, o, h, l, c, v, isUp);
+                    = new(item.Timestamp, o, h, l, c, v, isUp);
 
                 lastBrick = r;
 

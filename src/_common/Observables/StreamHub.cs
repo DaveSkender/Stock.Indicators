@@ -1,21 +1,23 @@
-
 namespace Skender.Stock.Indicators;
 
-// STREAM HUB (OBSERVER BASE)
+// STREAM HUB (BASE)
 
-# region hub observer variants
+#region chain and quote variants
 
-public abstract class QuoteObserver<TIn, TOut>(
-    IQuoteProvider<TIn> provider
-) : StreamHub<TIn, TOut>(provider)
-    where TIn : IQuote
-    where TOut : ISeries;
-
-public abstract class ReusableObserver<TIn, TOut>(
-    IChainProvider<TIn> provider
-) : StreamHub<TIn, TOut>(provider)
+public abstract class QuoteProvider<TIn, TOut>(
+    IStreamObservable<TIn> provider
+) : StreamHub<TIn, TOut>(provider), IQuoteProvider<TOut>
     where TIn : IReusable
-    where TOut : ISeries;
+    where TOut : IQuote
+{
+    public IReadOnlyList<TOut> Quotes => Cache;
+};
+
+public abstract class ChainProvider<TIn, TOut>(
+    IStreamObservable<TIn> provider
+) : StreamHub<TIn, TOut>(provider), IChainProvider<TOut>
+    where TIn : IReusable
+    where TOut : IReusable;
 #endregion
 
 /// <summary>
@@ -23,50 +25,53 @@ public abstract class ReusableObserver<TIn, TOut>(
 /// </summary>
 public abstract partial class StreamHub<TIn, TOut>(
     IStreamObservable<TIn> provider
-) : StreamProvider<TOut>, IStreamHub<TIn, TOut>
+) : IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
-    public bool IsSubscribed => Provider.HasSubscriber(this);
-
-    protected internal IDisposable? Subscription { get; set; }
-
-    protected IStreamObservable<TIn> Provider => provider;
-
-    // observer methods
-
-    public virtual void OnNext((Act, TIn, int?) value)
-    {
-        (Act act, TIn item, int? index) = value;
-
-        // analyze (pre-check)
-        if (act is Act.Unknown)
-        {
-            act = CheckSequence(item.Timestamp);
-        }
-
-        // pass-thru to implementation
-        if (act is Act.Add)
-        {
-            Add(item, index);
-            return;
-        }
-
-        // should only be rebuild at this point
-        if (act is Act.Rebuild)
-        {
-            throw new InvalidOperationException("Invalid action type.");
-        }
-
-        // rebuild from provider
-        RebuildCache(item.Timestamp);
-    }
-
-    public void OnError(Exception exception) => throw exception;
-
-    public void OnCompleted() => Unsubscribe();
-
-    public void Unsubscribe() => Subscription?.Dispose();
+    protected IReadOnlyList<TIn> ProviderCache { get; }
+        = provider.GetReadOnlyCache();
 
     public abstract override string ToString();
+
+    /// <summary>
+    /// Delete an item from the cache.
+    /// </summary>
+    /// <param name="cachedItem">Cached item to delete</param>
+    /// <returns cref="Act">Action taken (outcome)</returns>
+    public void Remove(TOut cachedItem)
+    {
+        int cacheIndex = Cache.GetIndex(cachedItem, true);
+        Cache.RemoveAt(cacheIndex);
+        RebuildObservers(cachedItem.Timestamp);
+    }
+
+    public void RemoveAt(int cacheIndex)
+    {
+        TOut cacheItem = Cache[cacheIndex];
+        Cache.RemoveAt(cacheIndex);
+        RebuildObservers(cacheItem.Timestamp);
+    }
+
+    public void Add(TIn newIn)
+        => OnNextArrival(newIn, null);
+
+    public void Add(IEnumerable<TIn> batchIn)
+    {
+        foreach (TIn newIn in batchIn.ToSortedList())
+        {
+            OnNextArrival(newIn, null);
+        }
+    }
+
+    /// <summary>
+    /// Builds incremental indicator and adds to cache.
+    /// </summary>
+    /// <param name="item">
+    /// New inbound item from provider
+    /// </param>
+    /// <param name="indexHint">
+    /// Index position of item in provider cache or null if unknown.
+    /// </param>
+    protected abstract void Add(TIn item, int? indexHint);
 }

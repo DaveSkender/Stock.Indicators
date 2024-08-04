@@ -3,24 +3,26 @@ namespace Skender.Stock.Indicators;
 // STREAM PROVIDER (OBSERVABLE) INTERFACES
 
 /// <inheritdoc />
-public interface IQuoteProvider<TQuote>
-    : IChainProvider<TQuote>
-    where TQuote : IQuote;
+public interface IQuoteProvider<out T> : IChainProvider<T>
+    where T : IQuote
+{
+    IReadOnlyList<T> Quotes { get; }
+}
 
-/// <inheritdoc />
-public interface IChainProvider<TReusable>
-    : IStreamObservable<TReusable>
-    where TReusable : IReusable;
+/// <inheritdoc cref="IStreamObservable{T}" />
+public interface IChainProvider<out T> : IStreamObservable<T>
+    where T : IReusable;
 
 /// <summary>
 /// Streaming provider (observable cache)
 /// </summary>
-public interface IStreamObservable<TSeries>
-    : IStreamCache<TSeries>
-    where TSeries : ISeries
+/// <typeparam name="T">
+/// The object that provides notification information.
+/// </typeparam>
+public interface IStreamObservable<out T>
 {
     /// <summary>
-    /// Currently has subscribers
+    /// Provider currently has subscribers
     /// </summary>
     bool HasSubscribers { get; }
 
@@ -28,6 +30,15 @@ public interface IStreamObservable<TSeries>
     /// Current number of subscribers
     /// </summary>
     int SubscriberCount { get; }
+
+    /// <summary>
+    /// Checks if a specific observer is subscribed
+    /// </summary>
+    /// <param name="observer">
+    /// Subscriber <c>IStreamObserver</c> reference
+    /// </param>
+    /// <returns>True if subscribed/registered</returns>
+    bool HasSubscriber(IStreamObserver<T> observer);
 
     /// <summary>
     /// Notifies the provider that an observer is to receive notifications.
@@ -40,17 +51,12 @@ public interface IStreamObservable<TSeries>
     /// to stop receiving notifications before the provider
     /// has finished sending them.
     /// </returns>
-    IDisposable Subscribe(IStreamObserver<(Act, TSeries, int?)> observer);
+    IDisposable Subscribe(IStreamObserver<T> observer);
 
     /// <summary>
-    /// Checks if a specific observer is subscribed
+    /// Unsubscribe from the data provider.
     /// </summary>
-    /// <param name="observer">
-    /// Subscriber <c>IStreamObserver</c> reference
-    /// </param>
-    /// <returns>True if subscribed/registered</returns>
-    bool HasSubscriber(
-        IStreamObserver<(Act, TSeries, int?)> observer);
+    void Unsubscribe(IStreamObserver<T> observer);
 
     /// <summary>
     /// Unsubscribe all observers (subscribers)
@@ -58,24 +64,8 @@ public interface IStreamObservable<TSeries>
     void EndTransmission();
 
     /// <summary>
-    /// Deletes newer cached records from point in time.
+    /// Get a readonly reference of the observable cache.
     /// </summary>
-    /// <remarks>
-    /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamObserver{T}.RebuildCache(DateTime)"/>.
-    /// </remarks>
-    /// <param name="fromTimestamp">
-    /// All periods (inclusive) after this DateTime will be removed.
-    /// </param>
-    void ClearCache(DateTime fromTimestamp);
-
-    /// <summary>
-    /// Deletes newer cached records from an index position (inclusive).
-    /// </summary>
-    /// <remarks>
-    /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamObserver{T}.RebuildCache(int)"/>.
-    /// </remarks>
-    /// <param name="fromIndex">From index, inclusive</param>
-    void ClearCache(int fromIndex);
+    /// <returns>Read-only list of cached items.</returns>
+    IReadOnlyList<T> GetReadOnlyCache();
 }

@@ -69,7 +69,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 8;
+        const int smaPeriods = 8;
 
         List<Quote> quotesList = Quotes
             .ToSortedList();
@@ -80,7 +80,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        IChainProvider<AdlResult> adlHub = provider
+        AdlHub<Quote> adlHub = provider
             .ToAdl();
 
         SmaHub<AdlResult> observer = adlHub

@@ -34,7 +34,7 @@ public abstract partial class StreamHub<TIn, TOut>
     public void RebuildCache(
         DateTime fromTimestamp)
     {
-        int fromIndex = GetIndexGte(fromTimestamp);
+        int fromIndex = Cache.GetIndexGte(fromTimestamp);
 
         // nothing to rebuild
         if (fromIndex < 0)
@@ -70,20 +70,79 @@ public abstract partial class StreamHub<TIn, TOut>
         else
         {
             timestamp = Cache[fromIndex].Timestamp;
-            provIndex = Provider.GetIndexGte(timestamp);
+            provIndex = ProviderCache.GetIndexGte(timestamp);
             Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
         }
 
         // rebuild cache from provider
         if (provIndex >= 0)
         {
-            for (int i = provIndex; i < Provider.Results.Count; i++)
+            for (int i = provIndex; i < ProviderCache.Count; i++)
             {
-                Add(Provider.Results[i], i);
+                Add(ProviderCache[i], i);
             }
         }
 
         // rebuild observers
         RebuildObservers(timestamp);
+    }
+
+    /// <summary>
+    /// Rebuilds all subscriber caches from point in time.
+    /// </summary>
+    /// <param name="timestamp">Rebuild starting positions</param>
+    private void RebuildObservers(DateTime timestamp)
+    {
+        foreach (IStreamObserver<TOut> obs
+                 in _observers.ToArray())
+        {
+            obs.RebuildCache(timestamp);
+        }
+    }
+
+    // reset fault flag and condition
+    /// <inheritdoc/>
+    public void ResetFault()
+    {
+        OverflowCount = 0;
+        IsFaulted = false;
+    }
+
+    // fetch cache reference
+    /// <inheritdoc/>
+    public IReadOnlyList<TOut> GetReadOnlyCache() => Cache;
+
+    /// clear cache without restore, from timestamp.
+    /// <inheritdoc/>
+    public void ClearCache(DateTime fromTimestamp)
+    {
+        // start of range
+        int fromIndex = Cache.GetIndexGte(fromTimestamp);
+
+        // clear, from index (-1 okay)
+        ClearCache(fromIndex);
+    }
+
+    /// clear cache without restore, from index.
+    /// <inheritdoc/>
+    public void ClearCache(int fromIndex)
+    {
+        // nothing to do
+        if (Cache.Count == 0 || fromIndex >= Cache.Count)
+        {
+            return;
+        }
+
+        // clear all
+        if (fromIndex <= 0)
+        {
+            Cache.Clear();
+        }
+
+        // clear partial
+        else
+        {
+            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
+        }
     }
 }

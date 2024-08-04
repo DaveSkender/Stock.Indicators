@@ -12,23 +12,23 @@ public interface IAtrStopHub
 }
 #endregion
 
-public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
-    IResultHub<TIn, AtrStopResult>, IAtrStopHub
+public class AtrStopHub<TIn>
+    : StreamHub<TIn, AtrStopResult>, IAtrStopHub
     where TIn : IQuote
 {
     #region constructors
 
     internal AtrStopHub(
         IQuoteProvider<TIn> provider,
-        int LookbackPeriods,
-        double Multiplier,
-        EndType EndType) : base(provider)
+        int lookbackPeriods,
+        double multiplier,
+        EndType endType) : base(provider)
     {
-        AtrStop.Validate(LookbackPeriods, Multiplier);
+        AtrStop.Validate(lookbackPeriods, multiplier);
 
-        this.LookbackPeriods = LookbackPeriods;
-        this.Multiplier = Multiplier;
-        this.EndType = EndType;
+        this.LookbackPeriods = lookbackPeriods;
+        this.Multiplier = multiplier;
+        this.EndType = endType;
 
         Reinitialize();
     }
@@ -46,30 +46,25 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
     // METHODS
 
     // overridden to handle non-standard arrival scenarios
-    public override void OnNext((Act, TIn, int?) value)
+    public override void OnNextArrival(TIn item, int? indexHint)
     {
-        (Act act, TIn item, int? index) = value;
-
-        // analyze action
-        if (act is Act.Unknown)
-        {
-            act = CheckSequence(item.Timestamp);
-        }
+        // determine action (overrides provided)
+        Act act = CheckSequence(item.Timestamp);
 
         // add next value
         if (act is Act.Add)
         {
-            Add(item, index);
+            Add(item, indexHint);
             return;
         }
 
-        // should only be rebuild at this point
+        // should only be rebuilt at this point
         if (act is not Act.Rebuild)
         {
             throw new InvalidOperationException("Invalid action type.");
         }
 
-        int i = index ?? Provider.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // reset to the prior stop points
         if (i > LookbackPeriods)
@@ -95,21 +90,21 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
     }
 
-    internal override void Add(TIn newIn, int? index)
+    protected override void Add(TIn item, int? indexHint)
     {
-        // reminder: should only processes "new" instructions
+        // reminder: should only process "new" instructions
 
-        int i = index ?? Provider.GetIndex(newIn, true);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // handle warmup periods
         if (i < LookbackPeriods)
         {
-            Motify(new(newIn.Timestamp), null);
+            Motify(new AtrStopResult(item.Timestamp), i);
             return;
         }
 
-        QuoteD newQ = newIn.ToQuoteD();
-        double prevClose = (double)Provider.Results[i - 1].Close;
+        QuoteD newQ = item.ToQuoteD();
+        double prevClose = (double)ProviderCache[i - 1].Close;
 
         // initialize direction on first evaluation
         if (i == LookbackPeriods)
@@ -138,9 +133,9 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
                 sumTr += Tr.Increment(
-                    (double)Provider.Results[p].High,
-                    (double)Provider.Results[p].Low,
-                    (double)Provider.Results[p - 1].Close);
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
             }
 
             atr = sumTr / LookbackPeriods;
@@ -185,7 +180,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         {
             IsBullish = false;
 
-            r = new(
+            r = new AtrStopResult(
                 Timestamp: newQ.Timestamp,
                 AtrStop: UpperBand,
                 BuyStop: UpperBand,
@@ -198,7 +193,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         {
             IsBullish = true;
 
-            r = new(
+            r = new AtrStopResult(
                 Timestamp: newQ.Timestamp,
                 AtrStop: LowerBand,
                 BuyStop: null,
@@ -207,7 +202,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
 
         // save and send
-        Motify(r, null);
+        Motify(r, i);
     }
 
     public override string ToString()

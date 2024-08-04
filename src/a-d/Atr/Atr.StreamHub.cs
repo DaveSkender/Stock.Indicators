@@ -10,8 +10,8 @@ public interface IAtrHub
 }
 #endregion
 
-public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
-    IReusableHub<TIn, AtrResult>, IAtrHub
+public class AtrHub<TIn>
+    : ChainProvider<TIn, AtrResult>, IAtrHub
     where TIn : IQuote
 {
     #region constructors
@@ -31,14 +31,14 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
 
     // METHODS
 
-    internal override void Add(TIn newIn, int? index)
+    protected override void Add(TIn item, int? indexHint)
     {
-        int i = index ?? Provider.GetIndex(newIn, true);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // skip incalculable periods
         if (i == 0)
         {
-            Motify(new AtrResult(newIn.Timestamp), i);
+            Motify(new AtrResult(item.Timestamp), i);
             return;
         }
 
@@ -53,9 +53,9 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
                 tr = Tr.Increment(
-                    (double)Provider.Results[p].High,
-                    (double)Provider.Results[p].Low,
-                    (double)Provider.Results[p - 1].Close);
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
 
                 sumTr += tr;
             }
@@ -63,10 +63,10 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
             double atr = sumTr / LookbackPeriods;
 
             r = new AtrResult(
-                newIn.Timestamp,
+                item.Timestamp,
                 tr,
                 atr,
-                atr / (double)newIn.Close * 100);
+                atr / (double)item.Close * 100);
         }
 
         // calculate ATR (normally)
@@ -74,8 +74,8 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
         {
             r = Atr.Increment(
                 LookbackPeriods,
-                newIn,
-                (double)Provider.Results[i - 1].Close,
+                item,
+                (double)ProviderCache[i - 1].Close,
                 Cache[i - 1].Atr);
         }
 
