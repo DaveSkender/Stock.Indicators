@@ -128,7 +128,7 @@ public class RenkoHub<TIn>
                 lastBrick = r;
 
                 // save and send
-                Motify(r, null);
+                AppendCache(r, null);
             }
         }
     }

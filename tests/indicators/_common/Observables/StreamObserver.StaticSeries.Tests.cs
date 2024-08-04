@@ -37,13 +37,13 @@ public class StreamObservers : TestBase
         Quote q1000modified = quotesList[1000] with { Close = 12345m };
         QuotePart r1000modified = q1000modified.ToQuotePart(CandlePart.Close);
 
-        observer.Add(q1000modified);  // add directly to observer
+        observer.Cache.Insert(1000, r1000modified); // add directly to cache
 
         IReadOnlyList<QuotePart> modified = observer.Results.ToList();
 
         // precondition: prefilled, modified
         provider.Cache.Should().HaveCount(length);
-        observer.Cache.Should().HaveCount(length);
+        observer.Cache.Should().HaveCount(length + 1);
 
         observer.Cache[1000].Value.Should().Be(12345);
         observer.Cache.Should().NotBeEquivalentTo(original);

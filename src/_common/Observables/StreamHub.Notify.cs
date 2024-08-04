@@ -10,7 +10,7 @@ public abstract partial class StreamHub<TIn, TOut>
     /// <param name="result"><c>TSeries</c> item to cache</param>
     /// <param name="indexHint">Provider index hint</param>
     /// <exception cref="InvalidOperationException"></exception>
-    protected void Motify(TOut result, int? indexHint)
+    protected void AppendCache(TOut result, int? indexHint)
     {
         try
         {

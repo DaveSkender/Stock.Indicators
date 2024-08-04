@@ -61,7 +61,7 @@ public abstract partial class StreamHub<TIn, TOut>(
         // normal add
         else
         {
-            Motify(result, index);
+            AppendCache(result, index);
         }
     }
 

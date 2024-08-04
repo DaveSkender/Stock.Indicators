@@ -16,7 +16,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     {
         // pass-thru, usually
         (TOut result, int? index) = ToCandidate(item, indexHint);
-        Motify(result, index);
+        AppendCache(result, index);
     }
 
     public void OnNextRemoval(DateTime timestamp)
