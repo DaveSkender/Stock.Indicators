@@ -15,6 +15,7 @@ jobs:
 
     environment:
       name: stockindicators.dev
+      url: https://dotnet.stockindicators.dev
 
     steps:
       - name: Checkout source
