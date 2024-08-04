@@ -2,6 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // STREAM PROVIDER (OBSERVABLE) INTERFACES
 
+#region chain and quote variants
+
 /// <inheritdoc />
 public interface IQuoteProvider<out T> : IChainProvider<T>
     where T : IQuote
@@ -12,6 +14,7 @@ public interface IQuoteProvider<out T> : IChainProvider<T>
 /// <inheritdoc cref="IStreamObservable{T}" />
 public interface IChainProvider<out T> : IStreamObservable<T>
     where T : IReusable;
+#endregion
 
 /// <summary>
 /// Streaming provider (observable cache)

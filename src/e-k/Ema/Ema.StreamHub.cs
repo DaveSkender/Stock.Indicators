@@ -27,26 +27,19 @@ public class EmaHub<TIn>
 
     protected override void Add(TIn item, int? indexHint)
     {
-        double ema;
-
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
-        if (i >= LookbackPeriods - 1)
-        {
-            ema = Cache[i - 1].Ema is not null
+        double ema = i >= LookbackPeriods - 1
+            ? Cache[i - 1].Ema is not null
 
                 // normal
                 ? Ema.Increment(K, Cache[i - 1].Value, item.Value)
 
                 // re/initialize as SMA
-                : Sma.Increment(ProviderCache, LookbackPeriods, i);
-        }
+                : Sma.Increment(ProviderCache, LookbackPeriods, i)
 
-        // warmup periods are never calculable
-        else
-        {
-            ema = double.NaN;
-        }
+            // warmup periods are never calculable
+            : double.NaN;
 
         // candidate result
         EmaResult r = new(

@@ -26,9 +26,9 @@ public class AtrStopHub<TIn>
     {
         AtrStop.Validate(lookbackPeriods, multiplier);
 
-        this.LookbackPeriods = lookbackPeriods;
-        this.Multiplier = multiplier;
-        this.EndType = endType;
+        LookbackPeriods = lookbackPeriods;
+        Multiplier = multiplier;
+        EndType = endType;
 
         Reinitialize();
     }

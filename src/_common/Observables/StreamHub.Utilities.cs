@@ -17,7 +17,7 @@ public static class StreamHub
         this IReadOnlyList<T> cache,
         DateTime timestamp,
         out int index)
-        where T: ISeries
+        where T : ISeries
     {
         index = cache.GetIndex(timestamp, true);
         return index != -1;
@@ -41,7 +41,7 @@ public static class StreamHub
         this IReadOnlyList<T> cache,
         T cachedItem,
         bool throwOnFail)
-        where T: ISeries
+        where T : ISeries
     {
         int low = 0;
         int high = cache.Count - 1;
@@ -134,7 +134,7 @@ public static class StreamHub
         this IReadOnlyList<T> cache,
         DateTime timestamp,
         bool throwOnFail)
-        where T: ISeries
+        where T : ISeries
     {
         int low = 0;
         int high = cache.Count - 1;
@@ -181,7 +181,7 @@ public static class StreamHub
     internal static int GetIndexGte<T>(
         this IReadOnlyList<T> cache,
         DateTime timestamp)
-        where T: ISeries
+        where T : ISeries
     {
         int low = 0;
         int high = cache.Count;

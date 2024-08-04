@@ -22,9 +22,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     }
 
     public void Unsubscribe(IStreamObserver<TOut> observer)
-    {
-        _observers.Remove(observer);
-    }
+        => _observers.Remove(observer);
 
     // check if observer is subscribed
     public bool HasSubscriber(IStreamObserver<TOut> observer)

@@ -92,15 +92,14 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamCache<TOut>
     /// <param name="timestamp">Date to evaluate</param>
     /// <returns cref="Act">Action to take</returns>
     protected Act CheckSequence(DateTime timestamp)
-    {
-        // new (or rebuild if old)
-        return timestamp > Cache[^1].Timestamp
-            ? Act.Add
-            : Act.Rebuild;
 
         // note: this is a quick timeline check that can
         // also be used before composing a new cache candidate.
-    }
+
+        // new (or rebuild if old)
+        => timestamp > Cache[^1].Timestamp
+            ? Act.Add
+            : Act.Rebuild;
 
     /// <summary>
     /// Validate outbound item and compare to prior sent item,

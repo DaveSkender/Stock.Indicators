@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // STREAM HUB (OBSERVER)
 
-public abstract partial class StreamHub<TIn, TOut>: IStreamObserver<TIn>
+public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 {
     public bool IsSubscribed => Provider.HasSubscriber(this);
 
@@ -18,8 +18,6 @@ public abstract partial class StreamHub<TIn, TOut>: IStreamObserver<TIn>
     public void OnError(Exception exception) => throw exception;
 
     public void OnCompleted() => Unsubscribe();
-
-    //public void Unsubscribe() => Subscription?.Dispose();
 
     public void Unsubscribe()
     {
