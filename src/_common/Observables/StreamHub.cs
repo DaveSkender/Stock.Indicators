@@ -30,20 +30,45 @@ public abstract partial class StreamHub<TIn, TOut>(
     where TOut : ISeries
 {
     protected IReadOnlyList<TIn> ProviderCache { get; }
-        = provider.GetReadOnlyCache();
+        = provider.GetCacheRef();
 
     public abstract override string ToString();
 
-    /// <summary>
-    /// Delete an item from the cache.
-    /// </summary>
-    /// <param name="cachedItem">Cached item to delete</param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
+    public void Add(TIn newIn)
+        => OnNextAddition(newIn, null);
+
+    public void Add(IEnumerable<TIn> batchIn)
+    {
+        foreach (TIn newIn in batchIn.ToSortedList())
+        {
+            OnNextAddition(newIn, null);
+        }
+    }
+
+    public void Insert(TIn newIn)
+    {
+        // generate candidate result
+        (TOut result, int? index) = ToCandidate(newIn, null);
+
+        // insert, then rebuild observers
+        if (index > 0)
+        {
+            // note: not rebuilding self
+            Cache.Insert((int)index, result);
+            RebuildObservers(result.Timestamp);
+        }
+
+        // normal add
+        else
+        {
+            Motify(result, index);
+        }
+    }
+
     public void Remove(TOut cachedItem)
     {
         int cacheIndex = Cache.GetIndex(cachedItem, true);
-        Cache.RemoveAt(cacheIndex);
-        RebuildObservers(cachedItem.Timestamp);
+        RemoveAt(cacheIndex);
     }
 
     public void RemoveAt(int cacheIndex)
@@ -53,25 +78,17 @@ public abstract partial class StreamHub<TIn, TOut>(
         RebuildObservers(cacheItem.Timestamp);
     }
 
-    public void Add(TIn newIn)
-        => OnNextArrival(newIn, null);
-
-    public void Add(IEnumerable<TIn> batchIn)
-    {
-        foreach (TIn newIn in batchIn.ToSortedList())
-        {
-            OnNextArrival(newIn, null);
-        }
-    }
-
     /// <summary>
-    /// Builds incremental indicator and adds to cache.
+    /// Converts incremental value into
+    /// an indicator candidate and cache position.
     /// </summary>
     /// <param name="item">
-    /// New inbound item from provider
+    /// New inbound item from source provider
     /// </param>
-    /// <param name="indexHint">
-    /// Index position of item in provider cache or null if unknown.
-    /// </param>
-    protected abstract void Add(TIn item, int? indexHint);
+    /// <param name="indexHint">Provider index hint</param>
+    /// <returns>
+    /// Cacheable item candidate and index hint
+    /// </returns>
+    protected abstract (TOut result, int? index)
+        ToCandidate(TIn item, int? indexHint);
 }

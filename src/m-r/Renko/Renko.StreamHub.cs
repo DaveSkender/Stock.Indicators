@@ -35,7 +35,14 @@ public class RenkoHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    public override void OnNextAddition(TIn item, int? indexHint)
+        => BuildMany(item, indexHint);
+
+    protected override (RenkoResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
+        => throw new InvalidOperationException();
+
+    private void BuildMany(TIn item, int? indexHint)
     {
         // get last brick
         RenkoResult lastBrick;
@@ -128,4 +135,5 @@ public class RenkoHub<TIn>
 
     public override string ToString()
         => $"RENKO({BrickSize},{EndType.ToString().ToUpperInvariant()})";
+
 }

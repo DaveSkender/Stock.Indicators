@@ -17,7 +17,8 @@ public class AdlHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (AdlResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
@@ -30,8 +31,7 @@ public class AdlHub<TIn>
             item.Volume,
             i > 0 ? Cache[i - 1].Value : 0);
 
-        // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString()

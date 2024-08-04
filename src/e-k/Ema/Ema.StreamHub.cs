@@ -25,7 +25,8 @@ public class EmaHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (EmaResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
@@ -47,7 +48,7 @@ public class EmaHub<TIn>
             Ema: ema.NaN2Null());
 
         // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString()

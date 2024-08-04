@@ -31,8 +31,7 @@ public abstract partial class StreamHub<TIn, TOut>
 
     // rebuild cache from timestamp
     /// <inheritdoc/>
-    public void RebuildCache(
-        DateTime fromTimestamp)
+    public void RebuildCache(DateTime fromTimestamp)
     {
         int fromIndex = Cache.GetIndexGte(fromTimestamp);
 
@@ -42,12 +41,13 @@ public abstract partial class StreamHub<TIn, TOut>
             return;
         }
 
-        RebuildCache(fromIndex);
+        int provIndex = ProviderCache.GetIndexGte(fromTimestamp);
+        RebuildCache(fromIndex, provIndex);
     }
 
     // rebuild cache from index
     /// <inheritdoc/>
-    public void RebuildCache(int fromIndex)
+    public void RebuildCache(int fromIndex, int? provIndex = null)
     {
         // nothing to do
         if (fromIndex >= Cache.Count)
@@ -56,7 +56,6 @@ public abstract partial class StreamHub<TIn, TOut>
         }
 
         DateTime timestamp;
-        int provIndex;
 
         // full rebuild scenario
         if (fromIndex <= 0 || Cache.Count is 0)
@@ -70,16 +69,16 @@ public abstract partial class StreamHub<TIn, TOut>
         else
         {
             timestamp = Cache[fromIndex].Timestamp;
-            provIndex = ProviderCache.GetIndexGte(timestamp);
+            provIndex ??= ProviderCache.GetIndexGte(timestamp);
             Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
         }
 
         // rebuild cache from provider
         if (provIndex >= 0)
         {
-            for (int i = provIndex; i < ProviderCache.Count; i++)
+            for (int i = (int)provIndex; i < ProviderCache.Count; i++)
             {
-                Add(ProviderCache[i], i);
+                OnNextAddition(ProviderCache[i], i);
             }
         }
 
@@ -90,13 +89,13 @@ public abstract partial class StreamHub<TIn, TOut>
     /// <summary>
     /// Rebuilds all subscriber caches from point in time.
     /// </summary>
-    /// <param name="timestamp">Rebuild starting positions</param>
-    private void RebuildObservers(DateTime timestamp)
+    /// <param name="fromTimestamp">Rebuild starting positions</param>
+    private void RebuildObservers(DateTime fromTimestamp)
     {
         foreach (IStreamObserver<TOut> obs
                  in _observers.ToArray())
         {
-            obs.RebuildCache(timestamp);
+            obs.RebuildCache(fromTimestamp);
         }
     }
 
@@ -110,7 +109,7 @@ public abstract partial class StreamHub<TIn, TOut>
 
     // fetch cache reference
     /// <inheritdoc/>
-    public IReadOnlyList<TOut> GetReadOnlyCache() => Cache;
+    public IReadOnlyList<TOut> GetCacheRef() => Cache;
 
     /// clear cache without restore, from timestamp.
     /// <inheritdoc/>

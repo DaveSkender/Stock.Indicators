@@ -25,14 +25,14 @@ public interface IChainProvider<out T> : IStreamObservable<T>
 public interface IStreamObservable<out T>
 {
     /// <summary>
-    /// Provider currently has subscribers
-    /// </summary>
-    bool HasSubscribers { get; }
-
-    /// <summary>
     /// Current number of subscribers
     /// </summary>
-    int SubscriberCount { get; }
+    int ObserverCount { get; }
+
+    /// <summary>
+    /// Provider currently has subscribers
+    /// </summary>
+    bool HasObservers { get; }
 
     /// <summary>
     /// Checks if a specific observer is subscribed
@@ -59,7 +59,8 @@ public interface IStreamObservable<out T>
     /// <summary>
     /// Unsubscribe from the data provider.
     /// </summary>
-    void Unsubscribe(IStreamObserver<T> observer);
+    /// <inheritdoc cref="HashSet{T}.Remove(T)"/>
+    bool Unsubscribe(IStreamObserver<T> observer);
 
     /// <summary>
     /// Unsubscribe all observers (subscribers)
@@ -70,5 +71,5 @@ public interface IStreamObservable<out T>
     /// Get a readonly reference of the observable cache.
     /// </summary>
     /// <returns>Read-only list of cached items.</returns>
-    IReadOnlyList<T> GetReadOnlyCache();
+    IReadOnlyList<T> GetCacheRef();
 }

@@ -79,27 +79,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamCache<TOut>
             return Act.Ignore;
         }
 
-        // consider scenarios
-        return Cache.Count == 0
-            ? Act.Add
-            : CheckSequence(item.Timestamp);
-    }
-
-    /// <summary>
-    /// Quick check to determine if date implies
-    /// whether we'll add or need to rebuild the cache.
-    /// </summary>
-    /// <param name="timestamp">Date to evaluate</param>
-    /// <returns cref="Act">Action to take</returns>
-    protected Act CheckSequence(DateTime timestamp)
-
-        // note: this is a quick timeline check that can
-        // also be used before composing a new cache candidate.
-
-        // new (or rebuild if old)
-        => timestamp > Cache[^1].Timestamp
+        // consider late-arrival (need to rebuild)
+        return Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp
             ? Act.Add
             : Act.Rebuild;
+    }
 
     /// <summary>
     /// Validate outbound item and compare to prior sent item,

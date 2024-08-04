@@ -32,14 +32,14 @@ public class QuotePartHub<TQuote>
 
     // METHODS
 
-    protected override void Add(TQuote item, int? indexHint)
+    protected override (QuotePart result, int? index)
+        ToCandidate(TQuote item, int? indexHint)
     {
         // candidate result
         QuotePart r
             = item.ToQuotePart(CandlePartSelection);
 
-        // save and send
-        Motify(r, indexHint);
+        return (r, indexHint);
     }
 
     public override string ToString()

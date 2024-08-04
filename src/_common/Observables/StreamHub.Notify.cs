@@ -23,19 +23,22 @@ public abstract partial class StreamHub<TIn, TOut>
                     NotifyObservers(result, indexHint);
                     break;
 
+                case Act.Ignore:
+                    // duplicate found, usually
+                    break;
+
                 case Act.Rebuild:
+                    RebuildCache(result.Timestamp);
                     RebuildObservers(result.Timestamp);
                     break;
 
                 // should never happen
-                case Act.Ignore:
                 default:
                     throw new InvalidOperationException();
             }
         }
-        catch (OverflowException ox)
+        catch (OverflowException)
         {
-            NotifyObserversOfError(ox);
             EndTransmission();
             throw;
         }
@@ -59,7 +62,7 @@ public abstract partial class StreamHub<TIn, TOut>
         foreach (IStreamObserver<TOut> obs
                  in _observers.ToArray())
         {
-            obs.OnNextArrival(item, indexHint);
+            obs.OnNextAddition(item, indexHint);
         }
     }
 

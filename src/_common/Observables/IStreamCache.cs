@@ -56,7 +56,7 @@ public interface IStreamCache<out T>
     /// </summary>
     /// <remarks>
     /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamObserver{T}.RebuildCache(int)"/>.
+    /// use alternate <see cref="IStreamObserver{T}.RebuildCache(int,int?)"/>.
     /// </remarks>
     /// <param name="fromIndex">From index, inclusive</param>
     void ClearCache(int fromIndex);

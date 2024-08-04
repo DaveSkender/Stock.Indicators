@@ -30,7 +30,8 @@ public class SmaHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (SmaResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
@@ -39,8 +40,7 @@ public class SmaHub<TIn>
             Timestamp: item.Timestamp,
             Sma: Sma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
 
-        // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString()

@@ -21,20 +21,22 @@ public interface IStreamObserver<in T>
     /// <summary>
     /// Provides the observer with new data.
     /// </summary>
+    /// <remarks>
+    /// This usually passed through to indicator calculations;
+    /// however, some indicators override this method to
+    /// perform custom pre-flight actions.
+    /// </remarks>
     /// <param name="item">
     /// The current notification information.
     /// </param>
-    /// <param name="indexHint">
-    /// Optional. Index position of item in
-    /// provider cache or null if unknown.
-    /// </param>
-    void OnNextArrival(T item, int? indexHint);
+    /// <param name="indexHint">Provider index hint</param>
+    void OnNextAddition(T item, int? indexHint);
 
     /// <summary>
     /// Provides the observer with removed item point in timeline.
     /// </summary>
     /// <param name="timestamp"></param>
-    void OnRemoval(DateTime timestamp) => RebuildCache(timestamp);
+    void OnNextRemoval(DateTime timestamp);
 
     /// <summary>
     /// Notifies the observer that the provider has
@@ -48,9 +50,9 @@ public interface IStreamObserver<in T>
 
     /// <summary>
     /// Notifies the observer that the provider has
-    /// finished sending push-based notifications.
+    /// stopped sending push-based notifications.
     /// </summary>
-    void OnCompleted();
+    void OnStopped();
 
     /// <summary>
     /// Full reset of the provider subscription.
@@ -58,10 +60,10 @@ public interface IStreamObserver<in T>
     /// <remarks>
     /// This unsubscribes from the provider,
     /// rebuilds the cache, resets faulted states,
-    /// and then will re-subscribe to the provider.
+    /// and then re-subscribe to the provider.
     /// <para>
     /// This is done automatically on hub
-    /// construction, so it's only needed if you
+    /// instantiation, so it's only needed if you
     /// want to manually reset the hub.
     /// </para>
     /// <para>
@@ -72,7 +74,7 @@ public interface IStreamObserver<in T>
     void Reinitialize();
 
     /// <summary>
-    /// Reset the entire results cache
+    /// Resets the entire results cache
     /// and rebuild it from provider sources,
     /// with cascading updates to subscribers.
     /// </summary>
@@ -83,7 +85,7 @@ public interface IStreamObserver<in T>
     void RebuildCache();
 
     /// <summary>
-    /// Reset the entire results cache from a point in time
+    /// Resets the results cache from a point in time
     /// and rebuilds it from provider sources,
     /// with cascading updates to subscribers.
     /// </summary>
@@ -102,5 +104,8 @@ public interface IStreamObserver<in T>
     /// All periods (inclusive) after this index position
     /// will be removed and recalculated.
     /// </param>
-    void RebuildCache(int fromIndex);
+    /// <param name="provIndex">
+    /// Matching provider index, if known.
+    /// </param>
+    void RebuildCache(int fromIndex, int? provIndex = null);
 }

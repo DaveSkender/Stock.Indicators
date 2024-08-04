@@ -12,15 +12,31 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 
     // observer methods
 
-    public virtual void OnNextArrival(TIn item, int? indexHint)
-        => Add(item, indexHint); // pass-thru to implementation
+    public virtual void OnNextAddition(TIn item, int? indexHint)
+    {
+        // pass-thru, usually
+        (TOut result, int? index) = ToCandidate(item, indexHint);
+        Motify(result, index);
+    }
 
-    public void OnError(Exception exception) => throw exception;
+    public void OnNextRemoval(DateTime timestamp)
+        => RebuildCache(timestamp);
 
-    public void OnCompleted() => Unsubscribe();
+    public void OnError(Exception exception)
+    {
+        OnStopped();
+        throw exception;
+    }
+
+    public void OnStopped()
+        => Unsubscribe();
 
     public void Unsubscribe()
     {
+        // TODO: check for thread-safety for
+        // EndTransmission > OnCompleted-type race conditions
+        // see https://learn.microsoft.com/en-us/dotnet/standard/events/observer-design-pattern-best-practices
+
         if (IsSubscribed)
         {
             Provider.Unsubscribe(this);

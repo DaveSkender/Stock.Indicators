@@ -19,7 +19,7 @@ public static class StreamHub
         out int index)
         where T : ISeries
     {
-        index = cache.GetIndex(timestamp, true);
+        index = cache.GetIndex(timestamp, false);
         return index != -1;
     }
 

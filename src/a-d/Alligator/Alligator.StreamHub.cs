@@ -53,7 +53,8 @@ public class AlligatorHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (AlligatorResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         double jaw = double.NaN;
         double lips = double.NaN;
@@ -143,8 +144,7 @@ public class AlligatorHub<TIn>
             teeth.NaN2Null(),
             lips.NaN2Null());
 
-        // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString()

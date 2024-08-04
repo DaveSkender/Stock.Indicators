@@ -6,17 +6,22 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Cache action instruction or outcome
 /// </summary>
-public enum Act
+internal enum Act
 {
     /// <summary>
-    /// Adds to end of cache
+    /// Adds item to end of cache or rebuild if older.
     /// </summary>
     Add,
 
     /// <summary>
-    /// Does nothing to cache (aborted)
+    /// Does nothing to cache (aborted).
     /// </summary>
     Ignore,
+
+    /// <summary>
+    /// Insert item without rebuilding cache.
+    /// </summary>
+    Insert,
 
     /// <summary>
     /// Reset and rebuild from marker position.

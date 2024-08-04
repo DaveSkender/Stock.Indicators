@@ -31,15 +31,15 @@ public class AtrHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (AtrResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // skip incalculable periods
         if (i == 0)
         {
-            Motify(new AtrResult(item.Timestamp), i);
-            return;
+            return (new AtrResult(item.Timestamp), i);
         }
 
         AtrResult r;
@@ -79,8 +79,7 @@ public class AtrHub<TIn>
                 Cache[i - 1].Atr);
         }
 
-        // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString() => $"ATR({LookbackPeriods})";

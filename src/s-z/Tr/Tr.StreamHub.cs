@@ -17,15 +17,15 @@ public class TrHub<TIn>
 
     // METHODS
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (TrResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // skip first period
         if (i == 0)
         {
-            Motify(new TrResult(item.Timestamp, null), i);
-            return;
+            return (new TrResult(item.Timestamp, null), i);
         }
 
         TIn prev = ProviderCache[i - 1];
@@ -38,8 +38,7 @@ public class TrHub<TIn>
                 (double)item.Low,
                 (double)prev.Close));
 
-        // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString() => "TRUE RANGE";

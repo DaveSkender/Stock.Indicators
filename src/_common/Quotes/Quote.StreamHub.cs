@@ -18,8 +18,14 @@ public class QuoteHub<TQuote>
 
     // METHODS
 
-    protected override void Add(TQuote item, int? indexHint)
-        => Motify(item, indexHint);
+    protected override (TQuote result, int? index)
+        ToCandidate(TQuote item, int? indexHint)
+    {
+        int? index = indexHint
+            ?? Cache.GetIndexGte(item.Timestamp);
+
+        return (item, index == -1 ? null : index);
+    }
 
     public override string ToString()
         => $"QUOTES<{typeof(TQuote).Name}>: {Quotes.Count} items";
@@ -37,8 +43,12 @@ internal class QuoteProvider<TQuote>
     // option is to make Provider nullable in StreamHub;
     // which will require significant defensive coding elsewhere.
 
-    public bool HasSubscribers => true;
-    public int SubscriberCount => 1;
+    // TODO: QuoteProvider<T> name may be confused with the StreamHub variant
+
+    public bool HasObservers => true;
+    public int ObserverCount => 1;
+
+    public IReadOnlyList<TQuote> GetCacheRef() => [];
 
     public IReadOnlyList<TQuote> Quotes { get; } = [];
 
@@ -48,12 +58,10 @@ internal class QuoteProvider<TQuote>
     public IDisposable Subscribe(IStreamObserver<TQuote> observer)
         => throw new InvalidOperationException();
 
-    public void Unsubscribe(IStreamObserver<TQuote> observer)
+    public bool Unsubscribe(IStreamObserver<TQuote> observer)
         => throw new InvalidOperationException();
 
     public void EndTransmission()
         => throw new InvalidOperationException();
 
-    public IReadOnlyList<TQuote> GetReadOnlyCache()
-        => throw new InvalidOperationException();
 }

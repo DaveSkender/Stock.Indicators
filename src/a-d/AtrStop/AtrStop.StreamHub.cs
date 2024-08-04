@@ -45,28 +45,20 @@ public class AtrStopHub<TIn>
 
     // METHODS
 
-    // overridden to handle non-standard arrival scenarios
-    public override void OnNextArrival(TIn item, int? indexHint)
+    // overridden to restore rebuild position/state (if needed)
+    public override void OnNextAddition(TIn item, int? indexHint)
     {
-        // determine action (overrides provided)
-        Act act = CheckSequence(item.Timestamp);
-
-        // add next value
-        if (act is Act.Add)
+        // add next value (standard)
+        if (item.Timestamp > Cache[^1].Timestamp)
         {
-            Add(item, indexHint);
+            base.OnNextAddition(item, indexHint);
             return;
         }
 
         // should only be rebuilt at this point
-        if (act is not Act.Rebuild)
-        {
-            throw new InvalidOperationException("Invalid action type.");
-        }
-
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
-        // reset to the prior stop points
+        // rebuild from prior stop point
         if (i > LookbackPeriods)
         {
             AtrStopResult resetStop = Cache[i - 1];
@@ -80,7 +72,7 @@ public class AtrStopHub<TIn>
             RebuildCache(resetStop.Timestamp);
         }
 
-        // full rebuild if no prior reversal
+        // or full rebuild if no prior stop found
         else
         {
             IsBullish = default;
@@ -90,7 +82,8 @@ public class AtrStopHub<TIn>
         }
     }
 
-    protected override void Add(TIn item, int? indexHint)
+    protected override (AtrStopResult result, int? index)
+        ToCandidate(TIn item, int? indexHint)
     {
         // reminder: should only process "new" instructions
 
@@ -99,8 +92,7 @@ public class AtrStopHub<TIn>
         // handle warmup periods
         if (i < LookbackPeriods)
         {
-            Motify(new AtrStopResult(item.Timestamp), i);
-            return;
+            return (new AtrStopResult(item.Timestamp), i);
         }
 
         QuoteD newQ = item.ToQuoteD();
@@ -201,8 +193,7 @@ public class AtrStopHub<TIn>
                 Atr: atr);
         }
 
-        // save and send
-        Motify(r, i);
+        return (r, i);
     }
 
     public override string ToString()
