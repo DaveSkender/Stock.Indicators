@@ -9,17 +9,6 @@ public static partial class QuoteUtility
 {
     private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
-    /* STANDARD DECIMAL QUOTES */
-
-    // convert TQuotes to basic double tuple list
-    /// <include file='./info.xml' path='info/type[@name="UseCandlePart"]/*' />
-    ///
-    public static IEnumerable<(DateTime Date, double Value)> Use<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        CandlePart candlePart = CandlePart.Close)
-        where TQuote : IQuote => quotes
-            .Select(x => x.ToTuple(candlePart));
-
     // TUPLE QUOTES
 
     // convert quotes to tuple list

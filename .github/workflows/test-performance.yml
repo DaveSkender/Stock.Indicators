@@ -50,4 +50,4 @@ jobs:
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
         run: |
           echo "### Package version ${{ steps.gitversion.outputs.fullSemVer }}" >> $GITHUB_STEP_SUMMARY
-          cat Tests.Performance.IndicatorPerformance-report-github.md >> $GITHUB_STEP_SUMMARY
+          cat Tests.Performance.IndicatorsStatic-report-github.md >> $GITHUB_STEP_SUMMARY
