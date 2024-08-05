@@ -30,7 +30,7 @@ public class SmaHub<TIn>
 
     // METHODS
 
-    protected override (SmaResult result, int? index)
+    protected override (SmaResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);

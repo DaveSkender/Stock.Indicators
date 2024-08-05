@@ -31,7 +31,7 @@ public class AtrHub<TIn>
 
     // METHODS
 
-    protected override (AtrResult result, int? index)
+    protected override (AtrResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);

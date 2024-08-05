@@ -25,7 +25,7 @@ public class EmaHub<TIn>
 
     // METHODS
 
-    protected override (EmaResult result, int? index)
+    protected override (EmaResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);

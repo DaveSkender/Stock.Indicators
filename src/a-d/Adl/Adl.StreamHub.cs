@@ -17,7 +17,7 @@ public class AdlHub<TIn>
 
     // METHODS
 
-    protected override (AdlResult result, int? index)
+    protected override (AdlResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);

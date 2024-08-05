@@ -18,13 +18,13 @@ public class QuoteHub<TQuote>
 
     // METHODS
 
-    protected override (TQuote result, int? index)
+    protected override (TQuote result, int index)
         ToCandidate(TQuote item, int? indexHint)
     {
-        int? index = indexHint
+        int index = indexHint
             ?? Cache.GetIndexGte(item.Timestamp);
 
-        return (item, index == -1 ? null : index);
+        return (item, index == -1 ? Cache.Count : index);
     }
 
     public override string ToString()

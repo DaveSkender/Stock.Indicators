@@ -49,7 +49,7 @@ public class AtrStopHub<TIn>
     public override void OnNextAddition(TIn item, int? indexHint)
     {
         // add next value (standard)
-        if (item.Timestamp > Cache[^1].Timestamp)
+        if (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp)
         {
             base.OnNextAddition(item, indexHint);
             return;
@@ -82,7 +82,7 @@ public class AtrStopHub<TIn>
         }
     }
 
-    protected override (AtrStopResult result, int? index)
+    protected override (AtrStopResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         // reminder: should only process "new" instructions

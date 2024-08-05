@@ -17,7 +17,7 @@ public class TrHub<TIn>
 
     // METHODS
 
-    protected override (TrResult result, int? index)
+    protected override (TrResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);

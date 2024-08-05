@@ -53,7 +53,7 @@ public class AlligatorHub<TIn>
 
     // METHODS
 
-    protected override (AlligatorResult result, int? index)
+    protected override (AlligatorResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
         double jaw = double.NaN;

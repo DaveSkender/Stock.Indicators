@@ -38,7 +38,7 @@ public class RenkoHub<TIn>
     public override void OnNextAddition(TIn item, int? indexHint)
         => BuildMany(item, indexHint);
 
-    protected override (RenkoResult result, int? index)
+    protected override (RenkoResult result, int index)
         ToCandidate(TIn item, int? indexHint)
         => throw new InvalidOperationException();
 

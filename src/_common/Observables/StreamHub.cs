@@ -48,13 +48,13 @@ public abstract partial class StreamHub<TIn, TOut>(
     public void Insert(TIn newIn)
     {
         // generate candidate result
-        (TOut result, int? index) = ToCandidate(newIn, null);
+        (TOut result, int index) = ToCandidate(newIn, null);
 
         // insert, then rebuild observers
         if (index > 0)
         {
             // note: not rebuilding self
-            Cache.Insert((int)index, result);
+            Cache.Insert(index, result);
             RebuildObservers(result.Timestamp);
         }
 
@@ -89,6 +89,6 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// <returns>
     /// Cacheable item candidate and index hint
     /// </returns>
-    protected abstract (TOut result, int? index)
+    protected abstract (TOut result, int index)
         ToCandidate(TIn item, int? indexHint);
 }
