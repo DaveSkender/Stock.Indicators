@@ -16,12 +16,15 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal AtrHub(IQuoteProvider<TIn> provider,
         int lookbackPeriods)
         : base(provider)
     {
         Atr.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        hubName = $"ATR({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -30,6 +33,8 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
     public int LookbackPeriods { get; init; }
 
     // METHODS
+
+    public override string ToString() => hubName;
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
@@ -82,6 +87,4 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
         // save and send
         Motify(act, r, i);
     }
-
-    public override string ToString() => $"ATR({LookbackPeriods})";
 }
