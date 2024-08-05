@@ -8,6 +8,8 @@ public class EmaHub<TIn>
 {
     #region constructors
 
+    private readonly string hubName;
+    
     internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -15,6 +17,7 @@ public class EmaHub<TIn>
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
+        hubName = $"EMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -25,6 +28,8 @@ public class EmaHub<TIn>
 
     // METHODS
 
+    public override string ToString() => hubName;
+    
     protected override (EmaResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
@@ -50,7 +55,4 @@ public class EmaHub<TIn>
         // save and send
         return (r, i);
     }
-
-    public override string ToString()
-        => $"EMA({LookbackPeriods})";
 }

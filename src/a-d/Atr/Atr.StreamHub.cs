@@ -16,12 +16,15 @@ public class AtrHub<TIn>
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal AtrHub(IQuoteProvider<TIn> provider,
         int lookbackPeriods)
         : base(provider)
     {
         Atr.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        hubName = $"ATR({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -31,6 +34,8 @@ public class AtrHub<TIn>
 
     // METHODS
 
+    public override string ToString() => hubName;
+    
     protected override (AtrResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
@@ -81,6 +86,4 @@ public class AtrHub<TIn>
 
         return (r, i);
     }
-
-    public override string ToString() => $"ATR({LookbackPeriods})";
 }

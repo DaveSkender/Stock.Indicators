@@ -17,6 +17,8 @@ public class RenkoHub<TIn>
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal RenkoHub(
         IQuoteProvider<TIn> provider,
         decimal brickSize,
@@ -25,6 +27,7 @@ public class RenkoHub<TIn>
         Renko.Validate(brickSize);
         BrickSize = brickSize;
         EndType = endType;
+        hubName = $"RENKO({brickSize},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -34,6 +37,8 @@ public class RenkoHub<TIn>
     public EndType EndType { get; }
 
     // METHODS
+    
+    public override string ToString() => hubName;
 
     public override void OnNextAddition(TIn item, int? indexHint)
         => BuildMany(item, indexHint);
@@ -132,8 +137,4 @@ public class RenkoHub<TIn>
             }
         }
     }
-
-    public override string ToString()
-        => $"RENKO({BrickSize},{EndType.ToString().ToUpperInvariant()})";
-
 }

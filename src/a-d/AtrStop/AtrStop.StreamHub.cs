@@ -18,6 +18,8 @@ public class AtrStopHub<TIn>
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal AtrStopHub(
         IQuoteProvider<TIn> provider,
         int lookbackPeriods,
@@ -29,6 +31,7 @@ public class AtrStopHub<TIn>
         LookbackPeriods = lookbackPeriods;
         Multiplier = multiplier;
         EndType = endType;
+        hubName = $"ATR-STOP({lookbackPeriods},{multiplier},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -45,6 +48,8 @@ public class AtrStopHub<TIn>
 
     // METHODS
 
+    public override string ToString() => hubName;
+    
     // overridden to restore rebuild position/state (if needed)
     public override void OnNextAddition(TIn item, int? indexHint)
     {
@@ -195,7 +200,4 @@ public class AtrStopHub<TIn>
 
         return (r, i);
     }
-
-    public override string ToString()
-        => $"ATR-STOP({LookbackPeriods},{Multiplier},{EndType.ToString().ToUpperInvariant()})";
 }

@@ -15,12 +15,15 @@ public class SmaHub<TIn>
 {
     #region constructors
 
+    private readonly string hubName;
+    
     internal SmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        hubName = $"SMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -30,6 +33,8 @@ public class SmaHub<TIn>
 
     // METHODS
 
+    public override string ToString() => hubName;
+    
     protected override (SmaResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
@@ -42,7 +47,4 @@ public class SmaHub<TIn>
 
         return (r, i);
     }
-
-    public override string ToString()
-        => $"SMA({LookbackPeriods})";
 }

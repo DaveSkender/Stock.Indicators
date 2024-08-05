@@ -8,6 +8,8 @@ public class TrHub<TIn>
 {
     #region constructors
 
+    private const string hubName = "TRUE RANGE";
+
     internal TrHub(IQuoteProvider<TIn> provider)
         : base(provider)
     {
@@ -17,6 +19,8 @@ public class TrHub<TIn>
 
     // METHODS
 
+    public override string ToString() => hubName;
+    
     protected override (TrResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
@@ -40,6 +44,4 @@ public class TrHub<TIn>
 
         return (r, i);
     }
-
-    public override string ToString() => "TRUE RANGE";
 }

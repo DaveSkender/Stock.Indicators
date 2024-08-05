@@ -21,6 +21,8 @@ public class AlligatorHub<TIn>
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal AlligatorHub(
         IChainProvider<TIn> provider,
         int jawPeriods, int jawOffset,
@@ -40,6 +42,8 @@ public class AlligatorHub<TIn>
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
 
+        hubName = $"ALLIGATOR({jawPeriods},{jawOffset},{teethPeriods},{teethOffset},{lipsPeriods},{lipsOffset})";
+
         Reinitialize();
     }
     #endregion
@@ -52,7 +56,9 @@ public class AlligatorHub<TIn>
     public int LipsOffset { get; init; }
 
     // METHODS
-
+    
+    public override string ToString() => hubName;
+    
     protected override (AlligatorResult result, int index)
         ToCandidate(TIn item, int? indexHint)
     {
@@ -146,7 +152,4 @@ public class AlligatorHub<TIn>
 
         return (r, i);
     }
-
-    public override string ToString()
-        => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 }
