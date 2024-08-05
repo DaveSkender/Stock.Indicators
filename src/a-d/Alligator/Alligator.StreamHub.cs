@@ -21,6 +21,8 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal AlligatorHub(
         IChainProvider<TIn> provider,
         int jawPeriods, int jawOffset,
@@ -40,6 +42,8 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         LipsPeriods = lipsPeriods;
         LipsOffset = lipsOffset;
 
+        hubName = $"ALLIGATOR({jawPeriods},{jawOffset},{teethPeriods},{teethOffset},{lipsPeriods},{lipsOffset})";
+
         Reinitialize();
     }
     #endregion
@@ -52,6 +56,8 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
     public int LipsOffset { get; init; }
 
     // METHODS
+
+    public override string ToString() => hubName;
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
@@ -149,7 +155,4 @@ public class AlligatorHub<TIn> : ReusableObserver<TIn, AlligatorResult>,
         // save and send
         Motify(act, r, i);
     }
-
-    public override string ToString()
-        => $"ALLIGATOR({JawPeriods},{JawOffset},{TeethPeriods},{TeethOffset},{LipsPeriods},{LipsOffset})";
 }
