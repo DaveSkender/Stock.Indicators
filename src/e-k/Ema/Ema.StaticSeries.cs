@@ -31,26 +31,13 @@ public static partial class Ema
                 continue;
             }
 
-            double ema;
+            double ema = results[i - 1].Ema is not null
 
-            // when no prior EMA, reset as SMA
-            if (double.IsNaN(lastEma))
-            {
-                double sum = 0;
-                for (int p = i - lookbackPeriods + 1; p <= i; p++)
-                {
-                    T ps = source[p];
-                    sum += ps.Value;
-                }
+                // calculate EMA (normally)
+                ? Ema.Increment(k, lastEma, s.Value)
 
-                ema = sum / lookbackPeriods;
-            }
-
-            // normal EMA
-            else
-            {
-                ema = Increment(k, lastEma, s.Value);
-            }
+                // when no prior EMA, reset as SMA
+                : Sma.Increment(source, lookbackPeriods, i);
 
             EmaResult r = new(
                 Timestamp: s.Timestamp,

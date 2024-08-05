@@ -1,19 +1,26 @@
 ---
-title: Basic quote transform
+title: Quote parts and basic transforms
 description: Basic quote transforms (e.g. HL2, OHL3, etc.) and isolation of individual price quote candle parts from a full OHLCV quote.
-permalink: /indicators/Use/
+permalink: /indicators/quotepart/
+redirect-from:
+  - /indicators/Use/
+  - /indicators/BasicQuote/
 type: price-transform
 layout: indicator
 ---
 
 # {{ page.title }}
 
-Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by isolating a single value or calculated value from the full OHLCV quote candle parts.
+Returns a reusable (chainable) basic quote transform (e.g. HL2, OHL3, etc.) by isolating a single component part value or calculated value from the full OHLCV quote candle parts.
 
 ```csharp
 // C# usage syntax
 IReadOnlyList<QuotePart> results =
   quotes.Use(candlePart);
+
+// alternate syntax
+IReadOnlyList<QuotePart> results =
+  quotes.GetQuotePart(candlePart);
 ```
 
 ## Parameters

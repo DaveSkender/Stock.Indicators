@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // McGINLEY DYNAMIC (SERIES)
 
-public static partial class Indicator
+public static partial class MgDynamic
 {
     private static List<DynamicResult> CalcDynamic<T>(
         this List<T> source,
@@ -17,33 +17,25 @@ public static partial class Indicator
         int length = source.Count;
         List<DynamicResult> results = new(length);
 
-        double prevDyn = double.NaN;
-
-        // roll through source values, to get preliminary data
-        for (int i = 0; i < length; i++)
+        // skip first period
+        if (length > 0)
         {
-            T s = source[i];
-            double dyn;
+            results.Add(new(source[0].Timestamp, null));
+        }
 
-            // re/initialize
-            if (double.IsNaN(prevDyn))
-            {
-                dyn = double.NaN;
-                prevDyn = s.Value;
-            }
+        // roll through source values
+        for (int i = 1; i < length; i++)
+        {
+            double? dyn = Increment(
+                lookbackPeriods,
+                kFactor,
+                newVal: source[i].Value,
+                prevDyn: results[i - 1].Dynamic ?? source[i - 1].Value
+                ).NaN2Null();
 
-            // normal Dynamic
-            else
-            {
-                dyn = prevDyn + (s.Value - prevDyn) /
-                    (kFactor * lookbackPeriods * Math.Pow(s.Value / prevDyn, 4));
-
-                prevDyn = dyn;
-            }
-
-            results.Add(new(
-                Timestamp: s.Timestamp,
-                Dynamic: dyn.NaN2Null()));
+            results.Add(new DynamicResult(
+                Timestamp: source[i].Timestamp,
+                Dynamic: dyn));
         }
 
         return results;

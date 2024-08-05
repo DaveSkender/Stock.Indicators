@@ -54,10 +54,10 @@ public abstract class StaticSeriesTestBase : TestBase
 public abstract class IncrementsTestBase : TestBase
 {
     [TestMethod]
-    public abstract void Standard();
+    public abstract void FromQuote();
 
     [TestMethod]
-    public abstract void ValueBased();
+    public abstract void FromQuoteBatch();
 }
 
 /// <summary>
