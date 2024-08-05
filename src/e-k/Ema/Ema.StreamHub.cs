@@ -8,6 +8,8 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 {
     #region constructors
 
+    private readonly string hubName;
+    
     internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -15,6 +17,7 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
+        hubName = $"EMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -24,6 +27,8 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
     public double K { get; init; }
 
     // METHODS
+
+    public override string ToString() => hubName;
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
@@ -56,7 +61,4 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
         // save and send
         Motify(act, r, i);
     }
-
-    public override string ToString()
-        => $"EMA({LookbackPeriods})";
 }

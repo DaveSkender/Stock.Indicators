@@ -18,17 +18,20 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal AtrStopHub(
         IQuoteProvider<TIn> provider,
-        int LookbackPeriods,
-        double Multiplier,
-        EndType EndType) : base(provider)
+        int lookbackPeriods,
+        double multiplier,
+        EndType endType) : base(provider)
     {
-        AtrStop.Validate(LookbackPeriods, Multiplier);
+        AtrStop.Validate(lookbackPeriods, multiplier);
 
-        this.LookbackPeriods = LookbackPeriods;
-        this.Multiplier = Multiplier;
-        this.EndType = EndType;
+        LookbackPeriods = lookbackPeriods;
+        Multiplier = multiplier;
+        EndType = endType;
+        hubName = $"ATR-STOP({lookbackPeriods},{multiplier},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -44,6 +47,8 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
     private double LowerBand { get; set; } = double.MinValue;
 
     // METHODS
+
+    public override string ToString() => hubName;
 
     // overridden to handle non-standard arrival scenarios
     public override void OnNext((Act, TIn, int?) value)
@@ -197,7 +202,4 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         // save and send
         Motify(act, r, null);
     }
-
-    public override string ToString()
-        => $"ATR-STOP({LookbackPeriods},{Multiplier},{EndType.ToString().ToUpperInvariant()})";
 }

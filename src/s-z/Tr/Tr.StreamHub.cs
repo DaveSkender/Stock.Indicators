@@ -8,6 +8,8 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
 {
     #region constructors
 
+    private const string hubName = "TRUE RANGE";
+
     internal TrHub(IQuoteProvider<TIn> provider)
         : base(provider)
     {
@@ -16,6 +18,8 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
     #endregion
 
     // METHODS
+
+    public override string ToString() => hubName;
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
@@ -41,6 +45,4 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
         // save and send
         Motify(act, r, i);
     }
-
-    public override string ToString() => "TRUE RANGE";
 }
