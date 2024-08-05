@@ -15,12 +15,15 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
 {
     #region constructors
 
+    private readonly string hubName;
+    
     internal SmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        hubName = $"SMA({lookbackPeriods})";
 
         Reinitialize();
     }
@@ -29,6 +32,8 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
     public int LookbackPeriods { get; init; }
 
     // METHODS
+
+    public override string ToString() => hubName;
 
     internal override void Add(Act act, TIn newIn, int? index)
     {
@@ -42,7 +47,4 @@ public class SmaHub<TIn> : ReusableObserver<TIn, SmaResult>,
         // save and send
         Motify(act, r, i);
     }
-
-    public override string ToString()
-        => $"SMA({LookbackPeriods})";
 }

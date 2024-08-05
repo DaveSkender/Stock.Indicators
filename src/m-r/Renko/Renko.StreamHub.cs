@@ -17,6 +17,8 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 {
     #region constructors
 
+    private readonly string hubName;
+
     internal RenkoHub(
         IQuoteProvider<TIn> provider,
         decimal brickSize,
@@ -25,6 +27,7 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
         Renko.Validate(brickSize);
         BrickSize = brickSize;
         EndType = endType;
+        hubName = $"RENKO({brickSize},{endType.ToString().ToUpperInvariant()})";
 
         Reinitialize();
     }
@@ -34,7 +37,9 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
     public EndType EndType { get; }
 
     // METHODS
-
+    
+    public override string ToString() => hubName;
+    
     internal override void Add(Act act, TIn newIn, int? index)
     {
         // get last brick
@@ -126,7 +131,4 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
             }
         }
     }
-
-    public override string ToString()
-        => $"RENKO({BrickSize},{EndType.ToString().ToUpperInvariant()})";
 }
