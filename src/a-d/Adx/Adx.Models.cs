@@ -1,17 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AdxResult : ResultBase, IReusableResult
+public record AdxResult
+(
+    DateTime Timestamp,
+    double? Pdi = null,
+    double? Mdi = null,
+    double? Adx = null,
+    double? Adxr = null
+) : Reusable(Timestamp)
 {
-    public AdxResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Pdi { get; set; }
-    public double? Mdi { get; set; }
-    public double? Adx { get; set; }
-    public double? Adxr { get; set; }
-
-    double? IReusableResult.Value => Adx;
+    public override double Value => Adx.Null2NaN();
 }

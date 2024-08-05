@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class UltimateResult : ResultBase, IReusableResult
+public record UltimateResult
+(
+    DateTime Timestamp,
+    double? Ultimate
+) : Reusable(Timestamp)
 {
-    public UltimateResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Ultimate { get; set; }
-
-    double? IReusableResult.Value => Ultimate;
+    public override double Value => Ultimate.Null2NaN();
 }

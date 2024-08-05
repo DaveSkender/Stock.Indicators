@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
+    public static IReadOnlyList<ZigZagResult> GetZigZag<TQuote>(
         this IEnumerable<TQuote> quotes,
         EndType endType = EndType.Close,
         decimal percentChange = 5)

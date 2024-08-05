@@ -16,11 +16,11 @@ The [Volume Weighted Average Price](https://en.wikipedia.org/wiki/Volume-weighte
 
 ```csharp
 // C# usage syntax
-IEnumerable<VwapResult> results =
+IReadOnlyList<VwapResult> results =
   quotes.GetVwap();
 
 // usage with optional anchored start date
-IEnumerable<VwapResult> results =
+IReadOnlyList<VwapResult> results =
   quotes.GetVwap(startDate);
 ```
 
@@ -37,7 +37,7 @@ You must have at least one historical quote to calculate; however, more is often
 ## Response
 
 ```csharp
-IEnumerable<VwapResult>
+IReadOnlyList<VwapResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -48,7 +48,7 @@ IEnumerable<VwapResult>
 
 ### VwapResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Vwap`** _`double`_ - Volume Weighted Average Price
 

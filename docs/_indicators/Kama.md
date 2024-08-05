@@ -16,7 +16,7 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 
 ```csharp
 // C# usage syntax
-IEnumerable<KamaResult> results =
+IReadOnlyList<KamaResult> results =
   quotes.GetKama(erPeriods, fastPeriods, slowPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `6×E` or `E+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<KamaResult>
+IReadOnlyList<KamaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<KamaResult>
 
 ### KamaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ER`** _`double`_ - Efficiency Ratio is the fractal efficiency of price changes
 

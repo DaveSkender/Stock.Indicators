@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <info>
+  
   <type name="standard">
     <summary>
       Exponential Moving Average (EMA) of price or any other specified OHLCV element.
@@ -10,38 +11,10 @@
         for more information.
       </para>
     </summary>
-    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
+    <typeparam name="TQuote">Configurable Quote type. See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
     <returns>Time series of EMA values.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  </type>
-  <type name="observer">
-    <summary>
-      Establish an observable streaming Exponential Moving Average (EMA).
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <param name="provider">Observable quote provider.</param>
-    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <returns>Observable EMA instance.</returns>
-    <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
-  </type>
-  <type name="chainee">
-    <summary>
-      Chain from an observable streaming Exponential Moving Average (EMA).
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/indicators/Ema/#streaming?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <param name="tupleProvider">Observable from chained indicator.</param>
-    <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <returns>Observable EMA instance.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>
 </info>

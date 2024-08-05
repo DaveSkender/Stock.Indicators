@@ -3,31 +3,12 @@ namespace Skender.Stock.Indicators;
 // TRIPLE EMA OSCILLATOR - TRIX (API)
 public static partial class Indicator
 {
-    // SERIES, from TQuote
-    /// <include file='./info.xml' path='info/*' />
-    ///
-    public static IEnumerable<TrixResult> GetTrix<TQuote>(
-        this IEnumerable<TQuote> quotes,
-        int lookbackPeriods,
-        int? signalPeriods = null)
-        where TQuote : IQuote => quotes
-            .ToTuple(CandlePart.Close)
-            .CalcTrix(lookbackPeriods, signalPeriods);
-
     // SERIES, from CHAIN
-    public static IEnumerable<TrixResult> GetTrix(
-        this IEnumerable<IReusableResult> results,
-        int lookbackPeriods,
-        int? signalPeriods = null) => results
-            .ToTuple()
-            .CalcTrix(lookbackPeriods, signalPeriods)
-            .SyncIndex(results, SyncType.Prepend);
-
-    // SERIES, from TUPLE
-    public static IEnumerable<TrixResult> GetTrix(
-        this IEnumerable<(DateTime, double)> priceTuples,
-        int lookbackPeriods,
-        int? signalPeriods = null) => priceTuples
+    public static IReadOnlyList<TrixResult> GetTrix<T>(
+        this IEnumerable<T> results,
+        int lookbackPeriods)
+        where T : IReusable
+        => results
             .ToSortedList()
-            .CalcTrix(lookbackPeriods, signalPeriods);
+            .CalcTrix(lookbackPeriods);
 }

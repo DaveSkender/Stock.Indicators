@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class ChopResult : ResultBase, IReusableResult
+public record ChopResult
+(
+    DateTime Timestamp,
+    double? Chop
+) : Reusable(Timestamp)
 {
-    public ChopResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Chop { get; set; }
-
-    double? IReusableResult.Value => Chop;
+    public override double Value => Chop.Null2NaN();
 }

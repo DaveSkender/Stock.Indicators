@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 // GENERIC TRANSFORMS
 
-public static class Transforms
+public static partial class Utility
 {
     // TO COLLECTION
     internal static Collection<T> ToCollection<T>(this IEnumerable<T> source)

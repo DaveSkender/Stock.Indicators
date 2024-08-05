@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class CciResult : ResultBase, IReusableResult
+public record CciResult
+(
+    DateTime Timestamp,
+    double? Cci
+) : Reusable(Timestamp)
 {
-    public CciResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Cci { get; set; }
-
-    double? IReusableResult.Value => Cci;
+    public override double Value => Cci.Null2NaN();
 }
