@@ -41,8 +41,6 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
             return "ADL";
         }
 
-        AdlResult first = Cache[0];
-
-        return $"ADL({first.Timestamp:d})";
+        return $"ADL({Cache[0].Timestamp:d})";
     }
 }
