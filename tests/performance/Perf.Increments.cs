@@ -109,7 +109,7 @@ public class Incrementals
 
     // TIME-SERIES EQUIVALENTS
 
-    [Benchmark(Baseline = true)]
+    [Benchmark]
     public object EmaSeriesEqiv() => quotesList.CalcEma(14);
 
     [Benchmark]
@@ -125,7 +125,7 @@ public class Incrementals
     [Benchmark]
     public object EmaStreamEqiv() => provider.ToEma(14).Results;
 
-    [Benchmark(Baseline = true)]
+    [Benchmark]
     public object SmaArrOrig()
     {
         int periods = 20;
