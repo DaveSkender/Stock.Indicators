@@ -26,7 +26,7 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public void FromReusableSplit()
     {
-        EmaInc sut = new(lookbackPeriods);
+        EmaList sut = new(lookbackPeriods);
 
         foreach (IReusable item in reusables)
         {
@@ -40,7 +40,7 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public void FromReusableItem()
     {
-        EmaInc sut = new(lookbackPeriods);
+        EmaList sut = new(lookbackPeriods);
 
         foreach (IReusable item in reusables) { sut.Add(item); }
 
@@ -51,7 +51,7 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public void FromReusableBatch()
     {
-        EmaInc sut = new(lookbackPeriods) { reusables };
+        EmaList sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
@@ -60,7 +60,7 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public override void FromQuote()
     {
-        EmaInc sut = new(lookbackPeriods);
+        EmaList sut = new(lookbackPeriods);
 
         foreach (Quote q in Quotes) { sut.Add(q); }
 
@@ -71,7 +71,7 @@ public class Ema : IncrementsTestBase
     [TestMethod]
     public override void FromQuoteBatch()
     {
-        EmaInc sut = new(lookbackPeriods) { Quotes };
+        EmaList sut = new(lookbackPeriods) { Quotes };
 
         IReadOnlyList<EmaResult> series
             = Quotes.ToEma(lookbackPeriods);

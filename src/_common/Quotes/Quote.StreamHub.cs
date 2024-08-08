@@ -19,7 +19,7 @@ public class QuoteHub<TQuote>
     // METHODS
 
     protected override (TQuote result, int index)
-        ToCandidate(TQuote item, int? indexHint)
+        ToIndicator(TQuote item, int? indexHint)
     {
         int index = indexHint
             ?? Cache.GetIndexGte(item.Timestamp);

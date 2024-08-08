@@ -37,14 +37,14 @@ public class Incrementals
     [Benchmark]
     public object EmaIncRusBatch()
     {
-        EmaInc sut = new(14) { reusables };
+        EmaList sut = new(14) { reusables };
         return sut;
     }
 
     [Benchmark]
     public object EmaIncRusItem()
     {
-        EmaInc sut = new(14);
+        EmaList sut = new(14);
 
         for (int i = 0; i < reusables.Count; i++)
         {
@@ -57,7 +57,7 @@ public class Incrementals
     [Benchmark]
     public object EmaIncRusSplit()
     {
-        EmaInc sut = new(14);
+        EmaList sut = new(14);
 
         for (int i = 0; i < reusables.Count; i++)
         {
@@ -70,14 +70,14 @@ public class Incrementals
     [Benchmark]
     public object EmaIncQotBatch()
     {
-        EmaInc sut = new(14) { quotes };
+        EmaList sut = new(14) { quotes };
         return sut;
     }
 
     [Benchmark]
     public object EmaIncQot()
     {
-        EmaInc sut = new(14);
+        EmaList sut = new(14);
 
         for (int i = 0; i < quotes.Count; i++)
         {
@@ -118,7 +118,7 @@ public class Incrementals
     [Benchmark]
     public object EmaIncremEqiv()
     {
-        EmaInc ema = new(14) { quotes.ToSortedList() };
+        EmaList ema = new(14) { quotes.ToSortedList() };
         return ema;
     }
 

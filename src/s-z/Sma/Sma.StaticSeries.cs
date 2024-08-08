@@ -14,7 +14,7 @@ public static partial class Sma
 
         // initialize
         int length = source.Count;
-        List<SmaResult> results = new(length);
+        SmaResult[] results = new SmaResult[length];
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -39,13 +39,11 @@ public static partial class Sma
                 sma = double.NaN;
             }
 
-            SmaResult result = new(
+            results[i] = new SmaResult(
                 Timestamp: s.Timestamp,
                 Sma: sma.NaN2Null());
-
-            results.Add(result);
         }
 
-        return results;
+        return results.ToList();
     }
 }

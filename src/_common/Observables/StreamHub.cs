@@ -48,7 +48,7 @@ public abstract partial class StreamHub<TIn, TOut>(
     public void Insert(TIn newIn)
     {
         // generate candidate result
-        (TOut result, int index) = ToCandidate(newIn, null);
+        (TOut result, int index) = ToIndicator(newIn, null);
 
         // insert, then rebuild observers
         if (index > 0)
@@ -90,5 +90,5 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// Cacheable item candidate and index hint
     /// </returns>
     protected abstract (TOut result, int index)
-        ToCandidate(TIn item, int? indexHint);
+        ToIndicator(TIn item, int? indexHint);
 }

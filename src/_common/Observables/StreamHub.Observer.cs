@@ -15,7 +15,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     public virtual void OnNextAddition(TIn item, int? indexHint)
     {
         // pass-thru, usually
-        (TOut result, int index) = ToCandidate(item, indexHint);
+        (TOut result, int index) = ToIndicator(item, indexHint);
         AppendCache(result, index);
     }
 

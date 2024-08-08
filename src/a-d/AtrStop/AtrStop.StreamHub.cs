@@ -49,7 +49,7 @@ public class AtrStopHub<TIn>
     // METHODS
 
     public override string ToString() => hubName;
-    
+
     // overridden to restore rebuild position/state (if needed)
     public override void OnNextAddition(TIn item, int? indexHint)
     {
@@ -88,7 +88,7 @@ public class AtrStopHub<TIn>
     }
 
     protected override (AtrStopResult result, int index)
-        ToCandidate(TIn item, int? indexHint)
+        ToIndicator(TIn item, int? indexHint)
     {
         // reminder: should only process "new" instructions
 

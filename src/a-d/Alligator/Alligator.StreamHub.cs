@@ -56,11 +56,11 @@ public class AlligatorHub<TIn>
     public int LipsOffset { get; init; }
 
     // METHODS
-    
+
     public override string ToString() => hubName;
-    
+
     protected override (AlligatorResult result, int index)
-        ToCandidate(TIn item, int? indexHint)
+        ToIndicator(TIn item, int? indexHint)
     {
         double jaw = double.NaN;
         double lips = double.NaN;

@@ -14,7 +14,7 @@ public static partial class Ema
 
         // initialize
         int length = source.Count;
-        List<EmaResult> results = new(length);
+        EmaResult[] results = new EmaResult[length];
 
         double lastEma = double.NaN;
         double k = 2d / (lookbackPeriods + 1);
@@ -27,7 +27,7 @@ public static partial class Ema
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results.Add(new(Timestamp: s.Timestamp));
+                results[i] = new(Timestamp: s.Timestamp);
                 continue;
             }
 
@@ -39,15 +39,13 @@ public static partial class Ema
                 // when no prior EMA, reset as SMA
                 : Sma.Increment(source, lookbackPeriods, i);
 
-            EmaResult r = new(
+            results[i] = new EmaResult(
                 Timestamp: s.Timestamp,
                 Ema: ema.NaN2Null());
-
-            results.Add(r);
 
             lastEma = ema;
         }
 
-        return results;
+        return results.ToList();
     }
 }

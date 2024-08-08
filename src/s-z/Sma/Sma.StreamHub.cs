@@ -16,7 +16,7 @@ public class SmaHub<TIn>
     #region constructors
 
     private readonly string hubName;
-    
+
     internal SmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -34,9 +34,9 @@ public class SmaHub<TIn>
     // METHODS
 
     public override string ToString() => hubName;
-    
+
     protected override (SmaResult result, int index)
-        ToCandidate(TIn item, int? indexHint)
+        ToIndicator(TIn item, int? indexHint)
     {
         int i = indexHint ?? ProviderCache.GetIndex(item, true);
 

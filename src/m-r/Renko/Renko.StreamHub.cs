@@ -37,14 +37,14 @@ public class RenkoHub<TIn>
     public EndType EndType { get; }
 
     // METHODS
-    
+
     public override string ToString() => hubName;
 
     public override void OnNextAddition(TIn item, int? indexHint)
         => BuildMany(item, indexHint);
 
     protected override (RenkoResult result, int index)
-        ToCandidate(TIn item, int? indexHint)
+        ToIndicator(TIn item, int? indexHint)
         => throw new InvalidOperationException();
 
     private void BuildMany(TIn item, int? indexHint)
