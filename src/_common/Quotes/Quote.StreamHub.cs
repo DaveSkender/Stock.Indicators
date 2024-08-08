@@ -3,8 +3,8 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Quote provider (abstract base)
 /// </summary>
-public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
-    IQuoteHub<TQuote, TQuote>
+public class QuoteHub<TQuote>
+    : QuoteProvider<TQuote, TQuote>
     where TQuote : IQuote
 {
     public QuoteHub() : base(new QuoteProvider<TQuote>()) { }
@@ -16,22 +16,15 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
         Reinitialize();
     }
 
-    public IReadOnlyList<TQuote> Quotes => Cache;
-
     // METHODS
 
-    internal override void Add(Act act, TQuote newIn, int? index)
+    protected override (TQuote result, int index)
+        ToIndicator(TQuote item, int? indexHint)
     {
-        try
-        {
-            // save and send
-            Motify(act, newIn, index);
-        }
-        catch (OverflowException)
-        {
-            EndTransmission();
-            throw;
-        }
+        int index = indexHint
+            ?? Cache.GetIndexGte(item.Timestamp);
+
+        return (item, index == -1 ? Cache.Count : index);
     }
 
     public override string ToString()
@@ -43,5 +36,32 @@ public class QuoteHub<TQuote> : QuoteObserver<TQuote, TQuote>,
 /// </summary>
 /// <typeparam name="TQuote"></typeparam>
 internal class QuoteProvider<TQuote>
-    : StreamProvider<TQuote>, IQuoteProvider<TQuote>
-    where TQuote : IQuote;
+    : IQuoteProvider<TQuote>
+    where TQuote : IQuote
+{
+    // TODO: this doesn't smell right, but the only other
+    // option is to make Provider nullable in StreamHub;
+    // which will require significant defensive coding elsewhere.
+
+    // TODO: QuoteProvider<T> name may be confused with the StreamHub variant
+
+    public bool HasObservers => true;
+    public int ObserverCount => 1;
+
+    public IReadOnlyList<TQuote> GetCacheRef() => [];
+
+    public IReadOnlyList<TQuote> Quotes { get; } = [];
+
+    public bool HasSubscriber(IStreamObserver<TQuote> observer)
+        => throw new InvalidOperationException();
+
+    public IDisposable Subscribe(IStreamObserver<TQuote> observer)
+        => throw new InvalidOperationException();
+
+    public bool Unsubscribe(IStreamObserver<TQuote> observer)
+        => throw new InvalidOperationException();
+
+    public void EndTransmission()
+        => throw new InvalidOperationException();
+
+}

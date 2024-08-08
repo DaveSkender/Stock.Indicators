@@ -48,7 +48,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -104,7 +104,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);

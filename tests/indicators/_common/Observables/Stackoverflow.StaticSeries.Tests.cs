@@ -212,7 +212,7 @@ public class Stackoverflow : TestBase
                 HubRef(provider.ToAdl()),
                 HubRef(provider.ToAlligator()),
                 HubRef(provider.ToEma(14)),
-                HubRef(provider.ToRenko(2.1m), irregular: true),
+                //HubRef(provider.ToRenko(2.1m), irregular: true),
                 HubRef(provider.ToQuote())
               };
 

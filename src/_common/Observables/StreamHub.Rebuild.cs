@@ -11,21 +11,29 @@ public abstract partial class StreamHub<TIn, TOut>
     {
         Unsubscribe();
         ResetFault();
-        ClearCache();
-        Subscription = Provider.Subscribe(this);
         RebuildCache();
+        Subscription = Provider.Subscribe(this);
+
+        // TODO: make reinitialization abstract,
+        // and build initial Cache from faster static method
+
+        // TODO: evaluate race condition between rebuild
+        // and subscribe; will it miss any high frequency data?
     }
 
     // rebuild cache
     /// <inheritdoc/>
-    public void RebuildCache() => RebuildCache(0);
+    public void RebuildCache()
+    {
+        Cache.Clear();
+        RebuildCache(-1);
+    }
 
     // rebuild cache from timestamp
     /// <inheritdoc/>
-    public void RebuildCache(
-        DateTime fromTimestamp)
+    public void RebuildCache(DateTime fromTimestamp)
     {
-        int fromIndex = GetInsertIndex(fromTimestamp);
+        int fromIndex = Cache.GetIndexGte(fromTimestamp);
 
         // nothing to rebuild
         if (fromIndex < 0)
@@ -33,58 +41,107 @@ public abstract partial class StreamHub<TIn, TOut>
             return;
         }
 
-        int provIndex = Provider.GetInsertIndex(fromTimestamp);
-
-        // nothing to restore
-        if (provIndex < 0)
-        {
-            provIndex = int.MaxValue;
-        }
-
+        int provIndex = ProviderCache.GetIndexGte(fromTimestamp);
         RebuildCache(fromIndex, provIndex);
     }
 
     // rebuild cache from index
     /// <inheritdoc/>
-    public void RebuildCache(int fromIndex)
+    public void RebuildCache(int fromIndex, int? provIndex = null)
     {
-        // get equivalent provider index
-        int provIndex;
-
-        if (fromIndex <= 0)
+        // nothing to do
+        if (fromIndex >= Cache.Count)
         {
-            provIndex = 0;
+            return;
         }
+
+        DateTime timestamp;
+
+        // full rebuild scenario
+        if (fromIndex <= 0 || Cache.Count is 0)
+        {
+            timestamp = DateTime.MinValue;
+            provIndex = 0;
+            Cache.Clear();
+        }
+
+        // partial rebuild scenario
         else
         {
-            TOut item = Cache[fromIndex];
+            timestamp = Cache[fromIndex].Timestamp;
+            provIndex ??= ProviderCache.GetIndexGte(timestamp);
+            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
+        }
 
-            provIndex = Provider.GetInsertIndex(item.Timestamp);
-
-            if (provIndex < 0)
+        // rebuild cache from provider
+        if (provIndex >= 0)
+        {
+            for (int i = (int)provIndex; i < ProviderCache.Count; i++)
             {
-                // nothing to restore
-                provIndex = int.MaxValue;
+                OnNextAddition(ProviderCache[i], i);
             }
         }
 
-        RebuildCache(fromIndex, provIndex);
+        // rebuild observers
+        RebuildObservers(timestamp);
     }
 
     /// <summary>
-    /// Rebuild cache from index and provider index positions.
+    /// Rebuilds all subscriber caches from point in time.
     /// </summary>
-    /// <param name="thisIndex">Cache starting position to purge.</param>
-    /// <param name="provIndex">Provider starting position to add back.</param>
-    internal void RebuildCache(int thisIndex, int provIndex)
+    /// <param name="fromTimestamp">Rebuild starting positions</param>
+    private void RebuildObservers(DateTime fromTimestamp)
     {
-        // clear outdated cache
-        ClearCache(thisIndex);
-
-        // rebuild cache from provider
-        for (int i = provIndex; i < Provider.Results.Count; i++)
+        foreach (IStreamObserver<TOut> obs
+                 in _observers.ToArray())
         {
-            OnNext((Act.AddNew, Provider.Results[i], i));
+            obs.RebuildCache(fromTimestamp);
+        }
+    }
+
+    // reset fault flag and condition
+    /// <inheritdoc/>
+    public void ResetFault()
+    {
+        OverflowCount = 0;
+        IsFaulted = false;
+    }
+
+    // fetch cache reference
+    /// <inheritdoc/>
+    public IReadOnlyList<TOut> GetCacheRef() => Cache;
+
+    /// clear cache without restore, from timestamp.
+    /// <inheritdoc/>
+    public void ClearCache(DateTime fromTimestamp)
+    {
+        // start of range
+        int fromIndex = Cache.GetIndexGte(fromTimestamp);
+
+        // clear, from index (-1 okay)
+        ClearCache(fromIndex);
+    }
+
+    /// clear cache without restore, from index.
+    /// <inheritdoc/>
+    public void ClearCache(int fromIndex)
+    {
+        // nothing to do
+        if (Cache.Count == 0 || fromIndex >= Cache.Count)
+        {
+            return;
+        }
+
+        // clear all
+        if (fromIndex <= 0)
+        {
+            Cache.Clear();
+        }
+
+        // clear partial
+        else
+        {
+            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
         }
     }
 }

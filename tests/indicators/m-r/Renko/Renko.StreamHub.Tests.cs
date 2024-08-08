@@ -51,7 +51,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);

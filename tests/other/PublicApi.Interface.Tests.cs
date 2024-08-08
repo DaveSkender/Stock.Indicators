@@ -78,7 +78,7 @@ public class UserInterface
         }
 
         // late arrival
-        provider.Add(quotes[80]);
+        provider.Insert(quotes[80]);
 
         // end all observations
         provider.EndTransmission();

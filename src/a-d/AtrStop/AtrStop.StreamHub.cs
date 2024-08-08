@@ -12,8 +12,8 @@ public interface IAtrStopHub
 }
 #endregion
 
-public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
-    IResultHub<TIn, AtrStopResult>, IAtrStopHub
+public class AtrStopHub<TIn>
+    : StreamHub<TIn, AtrStopResult>, IAtrStopHub
     where TIn : IQuote
 {
     #region constructors
@@ -50,21 +50,20 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
     public override string ToString() => hubName;
 
-    // overridden to handle non-standard arrival scenarios
-    public override void OnNext((Act, TIn, int?) value)
+    // overridden to restore rebuild position/state (if needed)
+    public override void OnNextAddition(TIn item, int? indexHint)
     {
-        (Act act, TIn item, int? index) = value;
-
-        // add next value
-        if (act is Act.AddNew)
+        // add next value (standard)
+        if (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp)
         {
-            Add(act, item, index);
+            base.OnNextAddition(item, indexHint);
             return;
         }
 
-        int i = index ?? Provider.GetIndex(item, false);
+        // should only be rebuilt at this point
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
-        // reset to the prior stop points
+        // rebuild from prior stop point
         if (i > LookbackPeriods)
         {
             AtrStopResult resetStop = Cache[i - 1];
@@ -75,10 +74,10 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             LowerBand = resetStop.SellStop ?? default;
 
             // rebuild cache AFTER last sync point
-            RebuildCache(i, i);
+            RebuildCache(resetStop.Timestamp);
         }
 
-        // full rebuild if no prior reversal
+        // or full rebuild if no prior stop found
         else
         {
             IsBullish = default;
@@ -88,21 +87,21 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         }
     }
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    protected override (AtrStopResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        // reminder: should only processes "new" instructions
+        // reminder: should only process "new" instructions
 
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // handle warmup periods
         if (i < LookbackPeriods)
         {
-            Motify(act, new(newIn.Timestamp), null);
-            return;
+            return (new AtrStopResult(item.Timestamp), i);
         }
 
-        QuoteD newQ = newIn.ToQuoteD();
-        double prevClose = (double)Provider.Results[i - 1].Close;
+        QuoteD newQ = item.ToQuoteD();
+        double prevClose = (double)ProviderCache[i - 1].Close;
 
         // initialize direction on first evaluation
         if (i == LookbackPeriods)
@@ -131,9 +130,9 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
                 sumTr += Tr.Increment(
-                    (double)Provider.Results[p].High,
-                    (double)Provider.Results[p].Low,
-                    (double)Provider.Results[p - 1].Close);
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
             }
 
             atr = sumTr / LookbackPeriods;
@@ -178,7 +177,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         {
             IsBullish = false;
 
-            r = new(
+            r = new AtrStopResult(
                 Timestamp: newQ.Timestamp,
                 AtrStop: UpperBand,
                 BuyStop: UpperBand,
@@ -191,7 +190,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         {
             IsBullish = true;
 
-            r = new(
+            r = new AtrStopResult(
                 Timestamp: newQ.Timestamp,
                 AtrStop: LowerBand,
                 BuyStop: null,
@@ -199,7 +198,6 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
                 Atr: atr);
         }
 
-        // save and send
-        Motify(act, r, null);
+        return (r, i);
     }
 }

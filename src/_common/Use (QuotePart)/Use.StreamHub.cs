@@ -11,8 +11,8 @@ public interface IQuotePartHub
 }
 #endregion
 
-public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
-    IReusableHub<TQuote, QuotePart>, IQuotePartHub
+public class QuotePartHub<TQuote>
+    : ChainProvider<TQuote, QuotePart>, IQuotePartHub
     where TQuote : IQuote
 {
     #region constructors
@@ -32,14 +32,14 @@ public class QuotePartHub<TQuote> : QuoteObserver<TQuote, QuotePart>,
 
     // METHODS
 
-    internal override void Add(Act act, TQuote newIn, int? index)
+    protected override (QuotePart result, int index)
+        ToIndicator(TQuote item, int? indexHint)
     {
         // candidate result
         QuotePart r
-            = newIn.ToQuotePart(CandlePartSelection);
+            = item.ToQuotePart(CandlePartSelection);
 
-        // save and send
-        Motify(act, r, index);
+        return (r, indexHint ?? Cache.Count);
     }
 
     public override string ToString()

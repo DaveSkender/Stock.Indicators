@@ -41,7 +41,7 @@ public static partial class Indicator
             tick.isUp = double.IsNaN(tick.value) || s.Value == prevValue
                 ? null
                 : s.Value > prevValue;
-            
+
             ticks.Add(tick);
 
             // calculate CMO

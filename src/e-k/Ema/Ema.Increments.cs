@@ -6,12 +6,12 @@ namespace Skender.Stock.Indicators;
 /// Exponential Moving Average (EMA)
 /// from incremental reusable values.
 /// </summary>
-public class EmaInc : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
+public class EmaList : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
-    public EmaInc(int lookbackPeriods)
+    public EmaList(int lookbackPeriods)
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
