@@ -40,7 +40,7 @@ public interface IStreamCache<out T>
     void ResetFault();
 
     /// <summary>
-    /// Deletes newer cached records from point in time.
+    /// Deletes newer cached records from point in time (inclusive).
     /// </summary>
     /// <remarks>
     /// For observers, if your intention is to rebuild from a provider,
@@ -60,4 +60,22 @@ public interface IStreamCache<out T>
     /// </remarks>
     /// <param name="fromIndex">From index, inclusive</param>
     void ClearCache(int fromIndex);
+
+    /// <summary>
+    /// Deletes newer cached records from a point in time (inclusive)
+    /// and cascades the removal to all subscribers.
+    /// </summary>
+    /// <param name="fromTimestamp">
+    /// The timestamp from which to start removing cache entries.
+    /// </param>
+    void CascadeCacheRemoval(DateTime fromTimestamp);
+
+    /// <summary>
+    /// Deletes newer cached records from an index position (inclusive)
+    /// and cascades the removal to all subscribers.
+    /// </summary>
+    /// <param name="fromIndex">
+    /// The index from which to start removing cache entries.
+    /// </param>
+    void CascadeCacheRemoval(int fromIndex);
 }
