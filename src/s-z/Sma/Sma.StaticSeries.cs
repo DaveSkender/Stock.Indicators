@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (SERIES)
@@ -33,26 +31,16 @@ public static partial class Sma
 
             if (i >= lookbackPeriods - 1)
             {
-                double sumSma = 0;
-                int start = i - lookbackPeriods + 1;
+                double sum = 0;
                 int end = i + 1;
+                int start = end - lookbackPeriods;
 
-                // SIMD optimization
-                int vectorSize = Vector<double>.Count;
-                int simdEnd = start + ((end - start) / vectorSize * vectorSize);
-
-                for (int p = start; p < simdEnd; p += vectorSize)
+                for (int p = start; p < end; p++)
                 {
-                    Vector<double> vector = new(values, p);
-                    sumSma += Vector.Sum(vector);
+                    sum += source[p].Value;
                 }
 
-                for (int p = simdEnd; p < end; p++)
-                {
-                    sumSma += values[p];
-                }
-
-                sma = sumSma / lookbackPeriods;
+                sma = sum / lookbackPeriods;
             }
             else
             {

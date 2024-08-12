@@ -22,7 +22,7 @@ public static partial class Sma
             }
 
             double sum = 0;
-            for (; j < period; j++) // Remainder loop
+            for (; j < period; j++) // remainder loop
             {
                 sum += prices[i + j];
             }
