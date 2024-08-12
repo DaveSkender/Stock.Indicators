@@ -60,6 +60,9 @@ exclude:
     "vendor",
   ]
 
+include:
+  - _headers
+
 permalink: pretty
 
 defaults:

@@ -15,6 +15,7 @@ jobs:
 
     environment:
       name: stockindicators.dev
+      url: https://dotnet.stockindicators.dev
 
     steps:
       - name: Checkout source
@@ -24,7 +25,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           working-directory: docs
-          ruby-version: 3.2
+          ruby-version: 3.3
 
       - name: Define tag
         id: tag
