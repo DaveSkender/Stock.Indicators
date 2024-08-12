@@ -19,8 +19,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
         AppendCache(result, index);
     }
 
-    public void OnNextRemoval(DateTime timestamp)
-        => RebuildCache(timestamp);
+    public void OnCacheRemoval(DateTime timestamp)
+        => CascadeCacheRemoval(timestamp);
 
     public void OnError(Exception exception)
     {

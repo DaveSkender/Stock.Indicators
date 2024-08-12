@@ -111,6 +111,40 @@ public abstract partial class StreamHub<TIn, TOut>
     /// <inheritdoc/>
     public IReadOnlyList<TOut> GetCacheRef() => Cache;
 
+
+    /// <summary>
+    /// Clears the cache from a point in time and
+    /// cascades the removal of cache entries to all subscribers.
+    /// </summary>
+    /// <param name="fromTimestamp">
+    /// The timestamp from which to start removing cache entries.
+    /// </param>
+    public void CascadeCacheRemoval(DateTime fromTimestamp)
+    {
+        ClearCache(fromTimestamp);
+
+        foreach (IStreamObserver<TOut> observer
+            in _observers.ToArray())
+        {
+            observer.OnCacheRemoval(fromTimestamp);
+        }
+    }
+
+    /// <summary>
+    /// Cascades the removal of cache entries to all subscribers.
+    /// </summary>
+    /// <param name="fromIndex">
+    /// The index from which to start removing cache entries.
+    /// </param>
+    public void CascadeCacheRemoval(int fromIndex)
+    {
+        DateTime fromTimestamp = fromIndex <= 0
+            ? DateTime.MinValue
+            : Cache[fromIndex].Timestamp;
+
+        CascadeCacheRemoval(fromTimestamp);
+    }
+
     /// clear cache without restore, from timestamp.
     /// <inheritdoc/>
     public void ClearCache(DateTime fromTimestamp)

@@ -33,10 +33,11 @@ public interface IStreamObserver<in T>
     void OnNextAddition(T item, int? indexHint);
 
     /// <summary>
-    /// Provides the observer with removed item point in timeline.
+    /// Provides the observer with removed item point in timeline
+    /// and cascades the removal to all its own subscribers.
     /// </summary>
     /// <param name="timestamp"></param>
-    void OnNextRemoval(DateTime timestamp);
+    void OnCacheRemoval(DateTime timestamp);
 
     /// <summary>
     /// Notifies the observer that the provider has

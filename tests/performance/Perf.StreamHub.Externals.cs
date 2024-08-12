@@ -27,7 +27,7 @@ public class StreamExternal
     public void Cleanup()
     {
         provider.EndTransmission();
-        provider.ClearCache(0);
+        provider.Cache.Clear();
     }
 
     // BENCHMARKS
