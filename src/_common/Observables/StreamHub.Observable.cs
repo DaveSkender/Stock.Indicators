@@ -12,7 +12,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
     public IReadOnlyList<TOut> ReadCache => Cache;
 
-    // SUBSCRIPTION SERVICES
+    #region SUBSCRIPTION SERVICES
 
     // subscribe observer
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
@@ -55,10 +55,53 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
             if (_observers.Contains(observer))
             {
                 // subscriber removes itself
-                observer.OnStopped();
+                observer.OnCompleted();
             }
         }
 
         _observers.Clear();
     }
+    #endregion
+
+    #region SUBSCRIBER NOTIFICATIONS
+
+    /// <summary>
+    /// Sends new <c>TSeries</c> item to subscribers
+    /// </summary>
+    /// <param name="item"><c>TSeries</c> item to send</param>
+    /// <param name="indexHint">Provider index hint</param>
+    private void NotifyObserversOnAdd(TOut item, int? indexHint)
+    {
+        // send to subscribers
+        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        {
+            o.OnAdd(item, indexHint);
+        }
+    }
+
+    /// <summary>
+    /// Sends rebuilds point in time to all subscribers.
+    /// </summary>
+    /// <param name="fromTimestamp">Rebuild starting positions</param>
+    private void NotifyObserversOnChange(DateTime fromTimestamp)
+    {
+        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        {
+            o.OnChange(fromTimestamp);
+        }
+    }
+
+    /// <summary>
+    /// Sends error (exception) to all subscribers
+    /// </summary>
+    /// <param name="exception"></param>
+    private void NotifyObserversOnError(Exception exception)
+    {
+        // send to subscribers
+        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        {
+            o.OnError(exception);
+        }
+    }
+    #endregion
 }

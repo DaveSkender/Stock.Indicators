@@ -1,13 +1,44 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM HUB INTERFACES
+// STREAM HUB INTERFACE
 
 /// <summary>
 /// Streaming hub (observer and observable provider).
 /// </summary>
-public interface IStreamHub<in TIn, in TOut>
+public interface IStreamHub<in TIn, TOut>
     where TIn : ISeries
 {
+    /// <summary>
+    /// Read-only list of the stored cache values.
+    /// </summary>
+    IReadOnlyList<TOut> Results { get; }
+
+    /// <summary>
+    /// The cache and provider failed and is no longer operational.
+    /// </summary>
+    /// <remarks>
+    /// This occurs when there is an overflow condition
+    /// from a circular chain or
+    /// when there were too many sequential duplicates.
+    /// <para>
+    /// Use <see cref="ResetFault()"/>
+    /// to remove this flag.
+    /// </para>
+    /// </remarks>
+    bool IsFaulted { get; }
+
+    /// <summary>
+    /// Resets the <see cref="IsFaulted"/> flag and
+    /// overflow counter.  Use this after recovering
+    /// from an error.
+    /// </summary>
+    /// <remarks>
+    /// You may also need to
+    /// <see cref="IStreamObserver{T}.Reinitialize()"/>, or
+    /// <see cref="IStreamObserver{T}.Rebuild()"/>.
+    /// </remarks>
+    void ResetFault();
+
     /// <summary>
     /// Add a single new item.
     /// We'll determine if it's new or an update.
@@ -52,6 +83,34 @@ public interface IStreamHub<in TIn, in TOut>
     /// <param name="cacheIndex">Position in cache to delete</param>
     /// <exception cref="ArgumentOutOfRangeException"/>
     void RemoveAt(int cacheIndex);
+
+    /// <summary>
+    /// Deletes newer cached records from point in time (inclusive).
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{T}.Rebuild(DateTime)"/>.
+    /// </remarks>
+    /// <param name="fromTimestamp">
+    /// All periods (inclusive) after this DateTime will be removed.
+    /// </param>
+    /// <param name="notify">
+    /// Send delete point to subscribers.
+    /// </param>
+    void RemoveRange(DateTime fromTimestamp, bool notify);
+
+    /// <summary>
+    /// Deletes newer cached records from an index position (inclusive).
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{T}.Rebuild(int,int?)"/>.
+    /// </remarks>
+    /// <param name="fromIndex">From index, inclusive</param>
+    /// <param name="notify">
+    /// Send delete point to subscribers.
+    /// </param>
+    void RemoveRange(int fromIndex, bool notify);
 
     /// <summary>
     /// Returns a short text label for the hub

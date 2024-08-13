@@ -50,7 +50,7 @@ public class StreamObservers : TestBase
         observer.Cache.Should().BeEquivalentTo(modified);
 
         // act: Rebuild()
-        observer.RebuildCache();
+        observer.Rebuild();
 
         // assert: restored to original
         observer.Results.Should().HaveCount(length);

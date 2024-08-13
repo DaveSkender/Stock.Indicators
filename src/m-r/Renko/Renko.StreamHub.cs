@@ -40,7 +40,7 @@ public class RenkoHub<TIn>
 
     public override string ToString() => hubName;
 
-    public override void OnNextAddition(TIn item, int? indexHint)
+    public override void OnAdd(TIn item, int? indexHint)
         => BuildMany(item, indexHint);
 
     protected override (RenkoResult result, int index)

@@ -12,23 +12,24 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 
     // observer methods
 
-    public virtual void OnNextAddition(TIn item, int? indexHint)
+    public virtual void OnAdd(TIn item, int? indexHint)
     {
         // pass-thru, usually
         (TOut result, int index) = ToIndicator(item, indexHint);
         AppendCache(result, index);
     }
 
-    public void OnCacheRemoval(DateTime timestamp)
-        => CascadeCacheRemoval(timestamp);
+    public void OnChange(DateTime fromTimestamp)
+    {
+        Rebuild(fromTimestamp);
+    }
 
     public void OnError(Exception exception)
     {
-        OnStopped();
         throw exception;
     }
 
-    public void OnStopped()
+    public void OnCompleted()
         => Unsubscribe();
 
     public void Unsubscribe()

@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM PROVIDER (OBSERVABLE) INTERFACES
+// STREAM (OBSERVABLE) INTERFACE
 
 #region chain and quote variants
 

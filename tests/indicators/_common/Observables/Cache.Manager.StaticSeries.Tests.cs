@@ -135,7 +135,7 @@ public class CacheManagement : TestBase
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeTrue();
         provider.OverflowCount.Should().Be(101);
-        provider.HasObservers.Should().BeFalse();
+        provider.HasObservers.Should().BeTrue();
 
         // act: reset
 
@@ -152,7 +152,7 @@ public class CacheManagement : TestBase
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeFalse();
         provider.OverflowCount.Should().Be(100);
-        provider.HasObservers.Should().BeFalse(); // expected
+        provider.HasObservers.Should().BeTrue(); // not lost
 
         provider.EndTransmission();
     }

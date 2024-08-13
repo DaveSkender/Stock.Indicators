@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// STREAM (OBSERVER) INTERFACE
+
 /// <summary>
 /// Provides a mechanism for receiving push-based notifications.
 /// </summary>
@@ -30,30 +32,36 @@ public interface IStreamObserver<in T>
     /// The current notification information.
     /// </param>
     /// <param name="indexHint">Provider index hint</param>
-    void OnNextAddition(T item, int? indexHint);
+    void OnAdd(T item, int? indexHint);
 
     /// <summary>
-    /// Provides the observer with removed item point in timeline
-    /// and cascades the removal to all its own subscribers.
+    /// Provides the observer with starting point in timeline
+    /// to rebuild and cascade to all its own subscribers.
     /// </summary>
-    /// <param name="timestamp"></param>
-    void OnCacheRemoval(DateTime timestamp);
+    /// <param name="fromTimestamp">
+    /// Starting point in timeline to rebuild.
+    /// </param>
+    void OnChange(DateTime fromTimestamp);
 
     /// <summary>
-    /// Notifies the observer that the provider has
-    /// experienced an error condition.
+    /// Provides the observer with errors from the provider
+    /// that have produced a faulted state.
     /// </summary>
     /// <param name="exception">
-    /// An object that provides additional information
-    /// about the error.
+    /// An exception with additional information about the error.
     /// </param>
     void OnError(Exception exception);
 
     /// <summary>
-    /// Notifies the observer that the provider has
-    /// stopped sending push-based notifications.
+    /// Provides the observer with final notice that the data
+    /// provider has finished sending push-based notifications.
     /// </summary>
-    void OnStopped();
+    /// <remarks>
+    /// Completion indicates that publisher will never send
+    /// additional data.  This is only used for finite data
+    /// streams; and is different from faulted OnError().
+    /// </remarks>
+    void OnCompleted();
 
     /// <summary>
     /// Full reset of the provider subscription.
@@ -69,7 +77,7 @@ public interface IStreamObserver<in T>
     /// </para>
     /// <para>
     /// If you only need to rebuild the cache,
-    /// use <see cref="RebuildCache()"/> instead.
+    /// use <see cref="Rebuild()"/> instead.
     /// </para>
     /// </remarks>
     void Reinitialize();
@@ -83,7 +91,7 @@ public interface IStreamObserver<in T>
     /// This is different from <see cref="Reinitialize()"/>.
     /// It does not reset the provider subscription.
     /// </remarks>
-    void RebuildCache();
+    void Rebuild();
 
     /// <summary>
     /// Resets the results cache from a point in time
@@ -94,7 +102,7 @@ public interface IStreamObserver<in T>
     /// All periods (inclusive) after this date/time
     /// will be removed and recalculated.
     /// </param>
-    void RebuildCache(DateTime fromTimestamp);
+    void Rebuild(DateTime fromTimestamp);
 
     /// <summary>
     /// Resets the results cache from an index position
@@ -108,5 +116,5 @@ public interface IStreamObserver<in T>
     /// <param name="provIndex">
     /// Matching provider index, if known.
     /// </param>
-    void RebuildCache(int fromIndex, int? provIndex = null);
+    void Rebuild(int fromIndex, int? provIndex = null);
 }

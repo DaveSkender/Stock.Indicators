@@ -51,12 +51,12 @@ public class AtrStopHub<TIn>
     public override string ToString() => hubName;
 
     // overridden to restore rebuild position/state (if needed)
-    public override void OnNextAddition(TIn item, int? indexHint)
+    public override void OnAdd(TIn item, int? indexHint)
     {
         // add next value (standard)
         if (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp)
         {
-            base.OnNextAddition(item, indexHint);
+            base.OnAdd(item, indexHint);
             return;
         }
 
@@ -74,7 +74,7 @@ public class AtrStopHub<TIn>
             LowerBand = resetStop.SellStop ?? default;
 
             // rebuild cache AFTER last sync point
-            RebuildCache(resetStop.Timestamp);
+            Rebuild(resetStop.Timestamp);
         }
 
         // or full rebuild if no prior stop found
@@ -83,7 +83,7 @@ public class AtrStopHub<TIn>
             IsBullish = default;
             UpperBand = default;
             LowerBand = default;
-            RebuildCache();
+            Rebuild();
         }
     }
 
