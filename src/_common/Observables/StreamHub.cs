@@ -133,22 +133,25 @@ public abstract partial class StreamHub<TIn, TOut>(
     {
         try
         {
-            Act act = TryAdd(result);
+            Act act = Analyze(result);
 
             // handle action taken
             switch (act)
             {
+                // add to cache
                 case Act.Add:
+
+                    Cache.Add(result);
+                    IsFaulted = false;
                     NotifyObserversOnAdd(result, indexHint);
                     break;
 
+                // duplicate found, usually
                 case Act.Ignore:
-                    // duplicate found, usually
                     break;
 
                 case Act.Rebuild:
                     Rebuild(result.Timestamp);
-                    NotifyObserversOnChange(result.Timestamp);
                     break;
 
                 // should never happen
@@ -161,33 +164,6 @@ public abstract partial class StreamHub<TIn, TOut>(
             NotifyObserversOnError(ox);
             throw;
         }
-    }
-
-    /// <summary>
-    /// Adds item to cache.
-    /// </summary>
-    /// <remarks>
-    /// When the cache management system cannot add the item
-    /// to the cache due to an overflow condition or other issue,
-    /// the caller will be given an alternate instruction.
-    /// </remarks>
-    /// <param name="item">Time-series object to cache</param>
-    /// <returns name="act" cref="Act">Caching action</returns>
-    private Act TryAdd(TOut item)
-    {
-        Act act = Analyze(item);
-
-        // return alternate instruction
-        if (act is not Act.Add)
-        {
-            return act;
-        }
-
-        // add to cache
-        Cache.Add(item);
-        IsFaulted = false;
-
-        return act;
     }
 
     /// <summary>
