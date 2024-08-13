@@ -51,12 +51,12 @@ public class AtrStopHub<TIn>
     public override string ToString() => hubName;
 
     // overridden to restore rebuild position/state (if needed)
-    public override void OnAdd(TIn item, int? indexHint)
+    public override void OnAdd(TIn item, bool notify, int? indexHint)
     {
         // add next value (standard)
         if (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp)
         {
-            base.OnAdd(item, indexHint);
+            base.OnAdd(item, notify, indexHint);
             return;
         }
 

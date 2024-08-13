@@ -12,11 +12,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 
     // observer methods
 
-    public virtual void OnAdd(TIn item, int? indexHint)
+    public virtual void OnAdd(TIn item, bool notify, int? indexHint)
     {
         // pass-thru, usually
         (TOut result, int index) = ToIndicator(item, indexHint);
-        AppendCache(result, index);
+        AppendCache(result, notify);
     }
 
     public void OnChange(DateTime fromTimestamp)

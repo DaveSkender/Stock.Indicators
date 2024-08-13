@@ -28,7 +28,7 @@ public class CacheUtilities : TestBase
         Quote q3 = quotesList[3];
 
         // act: clear cache
-        observer.RemoveRange(q3.Timestamp, false);
+        observer.RemoveRange(q3.Timestamp, notify: false);
 
         // assert: cache is empty
         observer.Cache.Should().HaveCount(3);
@@ -71,7 +71,7 @@ public class CacheUtilities : TestBase
         Quote q3 = quotesList[3];
 
         // act: clear cache
-        observer.RemoveRange(3, true);
+        observer.RemoveRange(3, notify: true);
 
         // assert: cache is empty
         observer.Cache.Should().HaveCount(3);

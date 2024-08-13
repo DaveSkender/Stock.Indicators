@@ -95,7 +95,7 @@ public interface IStreamHub<in TIn, TOut>
     /// All periods (inclusive) after this DateTime will be removed.
     /// </param>
     /// <param name="notify">
-    /// Send delete point to subscribers.
+    /// Notify subscribers of the delete point.
     /// </param>
     void RemoveRange(DateTime fromTimestamp, bool notify);
 
@@ -104,11 +104,11 @@ public interface IStreamHub<in TIn, TOut>
     /// </summary>
     /// <remarks>
     /// For observers, if your intention is to rebuild from a provider,
-    /// use alternate <see cref="IStreamObserver{T}.Rebuild(int,int?)"/>.
+    /// use alternate <see cref="IStreamObserver{T}.Rebuild(int)"/>.
     /// </remarks>
     /// <param name="fromIndex">From index, inclusive</param>
     /// <param name="notify">
-    /// Send delete point to subscribers.
+    /// Notify subscribers of the delete position.
     /// </param>
     void RemoveRange(int fromIndex, bool notify);
 

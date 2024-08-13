@@ -40,7 +40,7 @@ internal class QuoteProvider<TQuote>
     where TQuote : IQuote
 {
     // TODO: this doesn't smell right, but the only other
-    // option is to make Provider nullable in StreamHub;
+    // option is to make Provider nullable in StreamHub,
     // which will require significant defensive coding elsewhere.
 
     // TODO: QuoteProvider<T> name may be confused with the StreamHub variant

@@ -55,7 +55,7 @@ public class StreamIndicators
 
         for (int i = 0; i < quotes.Count; i++)
         {
-            observer.OnAdd(quotes[i], i);
+            observer.OnAdd(quotes[i], notify: false, i);
         }
 
         return observer.Results;

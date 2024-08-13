@@ -79,38 +79,42 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// Converts incremental value into
     /// an indicator candidate and cache position.
     /// </summary>
-    /// <param name="item">
-    /// New inbound item from source provider
-    /// </param>
+    /// <param name="item">New item from provider</param>
     /// <param name="indexHint">Provider index hint</param>
-    /// <returns>
-    /// Cacheable item candidate and index hint
-    /// </returns>
+    /// <returns>Cacheable item candidate and index hint</returns>
     protected abstract (TOut result, int index)
         ToIndicator(TIn item, int? indexHint);
 
     #region ADD & ANALYZE
 
     public void Add(TIn newIn)
-        => OnAdd(newIn, null);
+        => OnAdd(newIn, notify: true, null);
 
     public void Add(IEnumerable<TIn> batchIn)
     {
         foreach (TIn newIn in batchIn.ToSortedList())
         {
-            OnAdd(newIn, null);
+            OnAdd(newIn, notify: true, null);
         }
     }
 
     public void Insert(TIn newIn)
     {
+        // note: should only be used when newer timestamps
+        // are not impacted by the insertion of an older item
+
         // generate candidate result
         (TOut result, int index) = ToIndicator(newIn, null);
 
-        // insert, then rebuild observers
+        // insert, then rebuild observers (no self-rebuild)
         if (index > 0)
         {
-            // note: not rebuilding self
+            // check overflow/duplicates
+            if (IsOverflowing(result))
+            {
+                return; // duplicate found
+            }
+
             Cache.Insert(index, result);
             NotifyObserversOnChange(result.Timestamp);
         }
@@ -118,149 +122,123 @@ public abstract partial class StreamHub<TIn, TOut>(
         // normal add
         else
         {
-            AppendCache(result, index);
+            AppendCache(result, notify: true);
         }
     }
 
     /// <summary>
-    /// Modify cache (attempt to add) and notify observers.
+    /// Add item to cache and notify observers.
     /// </summary>
-    /// <param name="result"><c>TSeries</c> item to cache</param>
-    /// <param name="indexHint">Provider index hint</param>
-    /// <exception cref="InvalidOperationException"></exception>
-    /// <exception cref="OverflowException"></exception>
-    protected void AppendCache(TOut result, int? indexHint)
+    /// <param name="item">Item to add to end of cache</param>
+    /// <param name="notify">Notify subscribers of new item</param>
+    private void Add(TOut item, bool notify)
     {
-        try
+        /* notes:
+         * 
+         * 1. Should only be called from AppendCache()
+         * 2. Notify is optional to support rebuild case
+         *    that needs to add many without incremental notifying,
+         *    to avoid excessive cascading impacts. */
+
+        // add to cache
+        Cache.Add(item);
+        IsFaulted = false;
+
+        // notify subscribers
+        if (notify)
         {
-            Act act = Analyze(result);
-
-            // handle action taken
-            switch (act)
-            {
-                // add to cache
-                case Act.Add:
-
-                    Cache.Add(result);
-                    IsFaulted = false;
-                    NotifyObserversOnAdd(result, indexHint);
-                    break;
-
-                // duplicate found, usually
-                case Act.Ignore:
-                    break;
-
-                case Act.Rebuild:
-                    Rebuild(result.Timestamp);
-                    break;
-
-                // should never happen
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
-        catch (OverflowException ox)
-        {
-            NotifyObserversOnError(ox);
-            throw;
+            NotifyObserversOnAdd(item, Cache.Count - 1);
         }
     }
 
     /// <summary>
-    /// Analyze cache candidate to determine caching instruction.
+    /// Perform appropriate caching action after analysis.
+    /// It will add if new, ignore if duplicate, or rebuild if late-arrival.
     /// </summary>
-    /// <param name="item">Cacheable time-series object</param>
-    /// <returns cref="Act">Action to take</returns>
-    /// <exception cref="ArgumentException">
-    /// Item to modify is not found.
-    /// </exception>
-    /// <exception cref="OverflowException">
-    /// Too many sequential duplicates were detected.
-    /// </exception>
-    private Act Analyze(TOut item)
+    /// <param name="result"><c>TSeries</c> item to cache.</param>
+    /// <param name="notify">Notify subscribers of change, if appropriate.</param>
+    /// <exception cref="InvalidOperationException"></exception>
+    protected void AppendCache(TOut result, bool notify)
     {
         // check overflow/duplicates
-        if (CheckOverflow(item) is Act.Ignore)
+        if (IsOverflowing(result))
         {
-            // duplicate found
-            return Act.Ignore;
+            return;
         }
 
-        // consider late-arrival (need to rebuild)
-        return Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp
+        // consider timeline
+        Act act = Cache.Count == 0 || result.Timestamp > Cache[^1].Timestamp
             ? Act.Add
             : Act.Rebuild;
+
+        // fulfill action
+        switch (act)
+        {
+            // add to cache
+            case Act.Add:
+                Add(result, notify);
+                break;
+
+            // rebuild cache
+            case Act.Rebuild:
+                Rebuild(result.Timestamp);
+                break;
+
+            // should never happen
+            default:
+                throw new InvalidOperationException();
+        }
     }
 
     /// <summary>
-    /// Validate outbound item and compare to prior sent item,
+    /// Validate outbound item and compare to prior cached item,
     /// to gracefully manage and prevent overflow conditions.
     /// </summary>
     /// <param name="item">Cacheable time-series object</param>
-    /// <returns cref="Act">
-    /// A "do nothing" act instruction if duplicate or 'null'
-    /// when no overflow condition is detected.
-    /// </returns>
+    /// <returns>True if item is repeating.</returns>
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    private Act? CheckOverflow(TOut item)
+    private bool IsOverflowing(TOut item)
     {
-        Act? act = null;
-
         // skip first arrival
         if (LastItem is null)
         {
             LastItem = item;
-            return act;
+            return false;
         }
 
-        // check for overflow condition
-        if (item.Timestamp == LastItem.Timestamp)
+        // track/check for overflow condition
+        if (item.Timestamp == LastItem.Timestamp && item.Equals(LastItem))
         {
-            // note: we have a better IsEqual() comparison method below,
-            // but it is too expensive as an initial quick evaluation.
+            // ^^ using progressive check to avoid Equals() on every item
 
             OverflowCount++;
 
+            // handle overflow
             if (OverflowCount > 100)
             {
                 const string msg = """
-                   A repeated stream update exceeded the 100 attempt threshold.
-                   Check and remove circular chains or check your stream provider.
-                   Provider terminated.
-                   """;
+                A repeated stream update exceeded the 100 attempt threshold.
+                Check and remove circular chains or check your stream provider.
+                Provider terminated.
+                """;
 
                 IsFaulted = true;
 
-                throw new OverflowException(msg);
-
-                // note: overflow exception is also further handled by providers,
-                // who will notify with OnError(); and then throw error to user.
+                // emit error
+                OverflowException exception = new(msg);
+                NotifyObserversOnError(exception);
+                throw exception;
             }
 
-            // aggressive property value comparison
-            if (item.Equals(LastItem))
-            {
-                // to prevent propagation
-                // of identical cache entry
-                act = Act.Ignore;
-            }
-
-            // same date with different values
-            // continues as an update
-            else
-            {
-                LastItem = item;
-            }
-        }
-        else
-        {
-            OverflowCount = 0;
-            LastItem = item;
+            return true;
         }
 
-        return act;
+        // not repeating
+        OverflowCount = 0;
+        LastItem = item;
+        return false;
     }
     #endregion
 
@@ -270,41 +248,24 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// <inheritdoc/>
     public void Remove(TOut cachedItem)
     {
-        int cacheIndex = Cache.GetIndex(cachedItem, true);
-        RemoveAt(cacheIndex);
+        Cache.Remove(cachedItem);
+        NotifyObserversOnChange(cachedItem.Timestamp);
     }
 
     /// remove cached item at index position
     /// <inheritdoc/>
     public void RemoveAt(int cacheIndex)
     {
-        TOut cacheItem = Cache[cacheIndex];
+        TOut cachedItem = Cache[cacheIndex];
         Cache.RemoveAt(cacheIndex);
-        NotifyObserversOnChange(cacheItem.Timestamp);
+        NotifyObserversOnChange(cachedItem.Timestamp);
     }
 
     /// remove cache range from timestamp
     /// <inheritdoc/>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
-        // nothing to do
-        if (Cache.Count == 0 || fromTimestamp > Cache[^1].Timestamp)
-        {
-            return;
-        }
-
-        // clear all
-        if (fromTimestamp < Cache[0].Timestamp)
-        {
-            Cache.Clear();
-        }
-
-        // clear partial
-        else
-        {
-            int fromIndex = Cache.GetIndexGte(fromTimestamp);
-            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
-        }
+        Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
 
         // notify observers
         if (notify)
@@ -323,27 +284,12 @@ public abstract partial class StreamHub<TIn, TOut>(
             return;
         }
 
-        DateTime fromTimestamp;
+        // remove cache entries
+        DateTime fromTimestamp = fromIndex <= 0
+            ? DateTime.MinValue
+            : Cache[fromIndex].Timestamp;
 
-        // clear all
-        if (fromIndex <= 0)
-        {
-            fromTimestamp = DateTime.MinValue;
-            Cache.Clear();
-        }
-
-        // clear partial
-        else
-        {
-            fromTimestamp = Cache[fromIndex].Timestamp;
-            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
-        }
-
-        // notify observers
-        if (notify)
-        {
-            NotifyObserversOnChange(fromTimestamp);
-        }
+        RemoveRange(fromTimestamp, notify);
     }
     #endregion
 
@@ -368,66 +314,42 @@ public abstract partial class StreamHub<TIn, TOut>(
     // rebuild cache
     /// <inheritdoc/>
     public void Rebuild()
-    {
-        Cache.Clear();
-        Rebuild(-1);
-    }
+        => Rebuild(DateTime.MinValue);
 
     // rebuild cache from timestamp
     /// <inheritdoc/>
     public void Rebuild(DateTime fromTimestamp)
     {
-        int fromIndex = Cache.GetIndexGte(fromTimestamp);
+        // clear cache
+        RemoveRange(fromTimestamp, notify: false);
 
-        // nothing to rebuild
-        if (fromIndex < 0)
-        {
-            return;
-        }
-
+        // get provider position
         int provIndex = ProviderCache.GetIndexGte(fromTimestamp);
-        Rebuild(fromIndex, provIndex);
-    }
 
-    // rebuild cache from index
-    /// <inheritdoc/>
-    public void Rebuild(int fromIndex, int? provIndex = null)
-    {
-        // nothing to do
-        if (fromIndex >= Cache.Count)
-        {
-            return;
-        }
-
-        DateTime timestamp;
-
-        // full rebuild scenario
-        if (fromIndex <= 0 || Cache.Count is 0)
-        {
-            timestamp = DateTime.MinValue;
-            provIndex = 0;
-            Cache.Clear();
-        }
-
-        // partial rebuild scenario
-        else
-        {
-            timestamp = Cache[fromIndex].Timestamp;
-            provIndex ??= ProviderCache.GetIndexGte(timestamp);
-            Cache.RemoveRange(fromIndex, Cache.Count - fromIndex);
-        }
-
-        // rebuild cache from provider
+        // rebuild cache
         if (provIndex >= 0)
         {
-            for (int i = (int)provIndex; i < ProviderCache.Count; i++)
+            for (int i = provIndex; i < ProviderCache.Count; i++)
             {
-                OnAdd(ProviderCache[i], i);
+                OnAdd(ProviderCache[i], notify: false, i);
             }
         }
 
         // notify observers
-        NotifyObserversOnChange(timestamp);
+        NotifyObserversOnChange(fromTimestamp);
+    }
+
+    // rebuild cache from index
+    /// <inheritdoc/>
+    public void Rebuild(int fromIndex)
+    {
+        // find timestamp
+        DateTime fromTimestamp = fromIndex <= 0 || Cache.Count == 0
+            ? DateTime.MinValue
+            : Cache[fromIndex].Timestamp;
+
+        // rebuild & notify
+        Rebuild(fromTimestamp);
     }
     #endregion
 }

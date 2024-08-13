@@ -75,7 +75,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         // send to subscribers
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnAdd(item, indexHint);
+            o.OnAdd(item, notify: true, indexHint);
         }
     }
 

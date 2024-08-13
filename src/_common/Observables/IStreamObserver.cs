@@ -31,8 +31,13 @@ public interface IStreamObserver<in T>
     /// <param name="item">
     /// The current notification information.
     /// </param>
-    /// <param name="indexHint">Provider index hint</param>
-    void OnAdd(T item, int? indexHint);
+    /// <param name="notify">
+    /// Notify subsribers of the new item.
+    /// </param>
+    /// <param name="indexHint">
+    /// Provider index hint, if known.
+    /// </param>
+    void OnAdd(T item, bool notify, int? indexHint);
 
     /// <summary>
     /// Provides the observer with starting point in timeline
@@ -113,8 +118,5 @@ public interface IStreamObserver<in T>
     /// All periods (inclusive) after this index position
     /// will be removed and recalculated.
     /// </param>
-    /// <param name="provIndex">
-    /// Matching provider index, if known.
-    /// </param>
-    void Rebuild(int fromIndex, int? provIndex = null);
+    void Rebuild(int fromIndex);
 }

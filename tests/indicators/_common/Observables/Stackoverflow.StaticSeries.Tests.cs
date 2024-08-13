@@ -62,7 +62,7 @@ public class Stackoverflow : TestBase
 
         // act: clear provider cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.RemoveRange(cutoff, true);
+        provider.RemoveRange(cutoff, notify: true);
 
         provider.Quotes.Count.Should().Be(cutoff);
 
@@ -146,7 +146,7 @@ public class Stackoverflow : TestBase
 
         // act: clear provider cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.RemoveRange(cutoff, true);
+        provider.RemoveRange(cutoff, notify: true);
 
         provider.Quotes.Count.Should().Be(cutoff);
 
@@ -230,7 +230,7 @@ public class Stackoverflow : TestBase
 
         // act: clear provider cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.RemoveRange(cutoff, true);
+        provider.RemoveRange(cutoff, notify: true);
 
         provider.Quotes.Count.Should().Be(cutoff);
 

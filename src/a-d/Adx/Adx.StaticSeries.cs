@@ -96,7 +96,7 @@ public static partial class Indicator
             prevPdm = pdm;
             prevMdm = mdm;
 
-            if (trs is 0)
+            if (trs == 0)
             {
                 results.Add(new(Timestamp: q.Timestamp));
                 continue;

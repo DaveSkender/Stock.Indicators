@@ -40,14 +40,14 @@ public class RenkoHub<TIn>
 
     public override string ToString() => hubName;
 
-    public override void OnAdd(TIn item, int? indexHint)
-        => BuildMany(item, indexHint);
+    public override void OnAdd(TIn item, bool notify, int? indexHint)
+        => BuildMany(item, notify, indexHint);
 
     protected override (RenkoResult result, int index)
         ToIndicator(TIn item, int? indexHint)
         => throw new InvalidOperationException();
 
-    private void BuildMany(TIn item, int? indexHint)
+    private void BuildMany(TIn item, bool notify, int? indexHint)
     {
         // get last brick
         RenkoResult lastBrick;
@@ -133,7 +133,7 @@ public class RenkoHub<TIn>
                 lastBrick = r;
 
                 // save and send
-                AppendCache(r, null);
+                AppendCache(r, notify);
             }
         }
     }
