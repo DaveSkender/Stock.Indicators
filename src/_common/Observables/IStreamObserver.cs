@@ -23,11 +23,6 @@ public interface IStreamObserver<in T>
     /// <summary>
     /// Provides the observer with new data.
     /// </summary>
-    /// <remarks>
-    /// This usually passed through to indicator calculations;
-    /// however, some indicators override this method to
-    /// perform custom pre-flight actions.
-    /// </remarks>
     /// <param name="item">
     /// The current notification information.
     /// </param>

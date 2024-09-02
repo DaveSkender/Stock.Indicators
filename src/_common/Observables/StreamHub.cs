@@ -133,12 +133,9 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// <param name="notify">Notify subscribers of new item</param>
     private void Add(TOut item, bool notify)
     {
-        /* notes:
-         * 
-         * 1. Should only be called from AppendCache()
-         * 2. Notify is optional to support rebuild case
-         *    that needs to add many without incremental notifying,
-         *    to avoid excessive cascading impacts. */
+        // notes:
+        // 1. Should only be called from AppendCache()
+        // 2. Notify has to be disabled for bulk operations, like rebuild
 
         // add to cache
         Cache.Add(item);
@@ -265,6 +262,10 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// <inheritdoc/>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
+        // rollback internal state
+        RollbackState(fromTimestamp);
+
+        // remove cache entries
         Cache.RemoveAll(c => c.Timestamp >= fromTimestamp);
 
         // notify observers
@@ -326,7 +327,7 @@ public abstract partial class StreamHub<TIn, TOut>(
         // get provider position
         int provIndex = ProviderCache.GetIndexGte(fromTimestamp);
 
-        // rebuild cache
+        // rebuild
         if (provIndex >= 0)
         {
             for (int i = provIndex; i < ProviderCache.Count; i++)
@@ -350,6 +351,22 @@ public abstract partial class StreamHub<TIn, TOut>(
 
         // rebuild & notify
         Rebuild(fromTimestamp);
+    }
+
+    /// <summary>
+    /// Rollback internal state to a point in time.
+    /// </summary>
+    /// <remarks>
+    /// Override when indicator needs to rollback state
+    /// to a point in time (e.g. when rebuilding cache).
+    /// </remarks>
+    /// <param name="timestamp">
+    /// Point in time to restore.
+    /// </param>
+    protected virtual void RollbackState(DateTime timestamp)
+    {
+        // default: do nothing
+        // see AtrStopHub() for example
     }
     #endregion
 }

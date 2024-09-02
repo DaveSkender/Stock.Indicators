@@ -50,43 +50,6 @@ public class AtrStopHub<TIn>
 
     public override string ToString() => hubName;
 
-    // overridden to restore rebuild position/state (if needed)
-    public override void OnAdd(TIn item, bool notify, int? indexHint)
-    {
-        // add next value (standard)
-        if (Cache.Count == 0 || item.Timestamp > Cache[^1].Timestamp)
-        {
-            base.OnAdd(item, notify, indexHint);
-            return;
-        }
-
-        // should only be rebuilt at this point
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
-
-        // rebuild from prior stop point
-        if (i > LookbackPeriods)
-        {
-            AtrStopResult resetStop = Cache[i - 1];
-
-            // reset prevailing direction and bands
-            IsBullish = resetStop.AtrStop >= resetStop.SellStop;
-            UpperBand = resetStop.BuyStop ?? default;
-            LowerBand = resetStop.SellStop ?? default;
-
-            // rebuild cache AFTER last sync point
-            Rebuild(resetStop.Timestamp);
-        }
-
-        // or full rebuild if no prior stop found
-        else
-        {
-            IsBullish = default;
-            UpperBand = default;
-            LowerBand = default;
-            Rebuild();
-        }
-    }
-
     protected override (AtrStopResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
@@ -199,5 +162,29 @@ public class AtrStopHub<TIn>
         }
 
         return (r, i);
+    }
+
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int i = ProviderCache.GetIndexGte(timestamp);
+
+        // rebuild from prior stop point
+        if (i > LookbackPeriods)
+        {
+            AtrStopResult resetStop = Cache[i - 1];
+
+            // reset prevailing direction and bands
+            IsBullish = resetStop.AtrStop >= resetStop.SellStop;
+            UpperBand = resetStop.BuyStop ?? default;
+            LowerBand = resetStop.SellStop ?? default;
+        }
+
+        // or full rebuild if no prior stop found
+        else
+        {
+            IsBullish = default;
+            UpperBand = default;
+            LowerBand = default;
+        }
     }
 }

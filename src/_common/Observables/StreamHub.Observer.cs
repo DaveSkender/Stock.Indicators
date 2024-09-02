@@ -14,22 +14,20 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 
     public virtual void OnAdd(TIn item, bool notify, int? indexHint)
     {
-        // pass-thru, usually
+        // note: override when not indexed 1:1 to provide or
+        // when rollback of internals is needed (late-arrivals)
+
         (TOut result, int index) = ToIndicator(item, indexHint);
         AppendCache(result, notify);
     }
 
-    public void OnChange(DateTime fromTimestamp)
-    {
-        Rebuild(fromTimestamp);
-    }
+    public virtual void OnChange(DateTime fromTimestamp)
+        => Rebuild(fromTimestamp);
 
-    public void OnError(Exception exception)
-    {
-        throw exception;
-    }
+    public virtual void OnError(Exception exception)
+        => throw exception;
 
-    public void OnCompleted()
+    public virtual void OnCompleted()
         => Unsubscribe();
 
     public void Unsubscribe()

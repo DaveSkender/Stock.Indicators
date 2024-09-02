@@ -47,8 +47,8 @@ public class AtrStop : StreamHubTestBase
         }
 
         // late arrivals
-        provider.Add(quotesList[30]);  // rebuilds complete series
-        provider.Add(quotesList[80]);  // rebuilds from last reversal
+        provider.Insert(quotesList[30]);  // rebuilds complete series
+        provider.Insert(quotesList[80]);  // rebuilds from last reversal
 
         // delete
         provider.Remove(quotesList[400]);
