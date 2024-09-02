@@ -41,13 +41,14 @@ public class RenkoHub<TIn>
     public override string ToString() => hubName;
 
     public override void OnAdd(TIn item, bool notify, int? indexHint)
-        => BuildMany(item, notify, indexHint);
+        => ToIndicator(item, notify, indexHint);
 
     protected override (RenkoResult result, int index)
         ToIndicator(TIn item, int? indexHint)
         => throw new InvalidOperationException();
 
-    private void BuildMany(TIn item, bool notify, int? indexHint)
+    // custom: build 0 to many bricks per quote
+    private void ToIndicator(TIn item, bool notify, int? indexHint)
     {
         // get last brick
         RenkoResult lastBrick;
@@ -57,7 +58,7 @@ public class RenkoHub<TIn>
             lastBrick = Cache
                 .Last(c => c.Timestamp <= item.Timestamp);
         }
-        else // no bricks yet
+        else // no bricks yet, set baseline brick
         {
             // skip first quote
             if (ProviderCache.Count <= 1)
@@ -96,7 +97,7 @@ public class RenkoHub<TIn>
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = indexHint ?? ProviderCache.GetIndex(item, true);
+            int inboundIndex = indexHint ?? ProviderCache.GetIndex(item, true);  // TODO: should never be calculated?
             int lastBrickIndex = ProviderCache.GetIndex(lastBrick.Timestamp, true);
 
             for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
@@ -132,8 +133,17 @@ public class RenkoHub<TIn>
 
                 lastBrick = r;
 
+                // check overflow/duplicates
+                if (IsOverflowing(r))
+                {
+                    return;
+                }
+
                 // save and send
-                AppendCache(r, notify);
+                // note: we're using Add() and overflow checks here since we're
+                // adding multiple bricks with not-newer (same) dates that would
+                // cause the normal AppendCache(..) to rebuild w/ stack overflow.
+                Add(r, notify);
             }
         }
     }

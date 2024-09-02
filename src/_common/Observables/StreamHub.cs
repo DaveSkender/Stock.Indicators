@@ -131,7 +131,7 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// </summary>
     /// <param name="item">Item to add to end of cache</param>
     /// <param name="notify">Notify subscribers of new item</param>
-    private void Add(TOut item, bool notify)
+    protected void Add(TOut item, bool notify)
     {
         // notes:
         // 1. Should only be called from AppendCache()
@@ -196,7 +196,7 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    private bool IsOverflowing(TOut item)
+    protected bool IsOverflowing(TOut item)
     {
         // skip first arrival
         if (LastItem is null)
