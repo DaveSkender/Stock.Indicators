@@ -89,6 +89,7 @@ jobs:
         with:
           name: packages
           path: NuGet
+          include-hidden-files: true
 
       - name: Summary output
         run: |
