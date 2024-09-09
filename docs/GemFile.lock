@@ -288,6 +288,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  faraday
   github-pages
   jekyll-github-metadata
   jekyll-last-modified-at
