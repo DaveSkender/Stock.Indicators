@@ -4,8 +4,13 @@
 
 {%- if jekyll.environment == 'production' -%}
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
-<script async src="/assets/js/ga.js"></script>
+<script defer src="https://www.googletagmanager.com/gtag/js?id=G-7602GXEZ0R"></script>
+<script defer>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-7602GXEZ0R', { cookie_flags: 'SameSite=Lax; Secure' });
+</script>
 
 {%- if site.clarity == 'true' -%}
 <!-- Clarity -->
