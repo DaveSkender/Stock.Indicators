@@ -1,9 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'eventmachine', '1.2.7', git: 'https://github.com/eventmachine/eventmachine', tag: 'v1.2.7'
-gem 'wdm', '>= 0.1.1' if Gem.win_platform? # windows compatibilty pack
-gem 'faraday-retry'
-
 # jekyll plugins
 # local dev: bundle exec jekyll serve
 group :jekyll_plugins do
@@ -16,4 +12,5 @@ group :jekyll_plugins do
   gem 'jekyll-minifier'
 end
 
+gem 'wdm', '>= 0.2.0' if Gem.win_platform? # windows compatibilty pack
 gem "webrick" # needed for ruby > v3.0
