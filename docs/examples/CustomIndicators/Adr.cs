@@ -33,6 +33,9 @@ public static partial class CustomIndicators
         int lookbackPeriods)
         where TQuote : IQuote
     {
+        // TODO: this a bit of a hack, only to demonstrate the concept
+        // of a custom indicator.  This may be added to the library in the future.
+
         // sort quotes and convert to collection or list
         Collection<TQuote> quotesList = quotes
             .ToSortedCollection();
@@ -40,14 +43,15 @@ public static partial class CustomIndicators
         // initialize
         int length = quotes.Count();
 
-        // average daily range
+        // daily range
         List<DrResult> drResult = quotes
-        .Select(x => new DrResult
-        {
-            Date = x.Date,
-            Dr = x.High - x.Low
-        }).ToList();
+            .Select(x => new DrResult
+            {
+                Date = x.Date,
+                Dr = x.High - x.Low
+            }).ToList();
 
+        // average daily range
         List<AdrResult> results = drResult
             .GetSma(lookbackPeriods)
             .Select(x => new AdrResult
@@ -56,6 +60,7 @@ public static partial class CustomIndicators
                 Adr = x.Sma
             }).ToList();
 
+        // combine, add average daily range percentage
         for (int i = 0; i < length; i++)
         {
             results[i].Dr = drResult[i].Dr;
