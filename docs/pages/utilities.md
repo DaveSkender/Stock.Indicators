@@ -2,8 +2,7 @@
 title: Utilities and helpers
 description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results, and to create custom indicators.
 permalink: /utilities/
-relative_path: pages/utilities.md
-layout: page
+relative_path: utilities.md
 ---
 
 # {{ page.title }}
@@ -34,7 +33,7 @@ var results = quotes
 
 ### Sort quotes
 
-`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Date`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators](/CustomIndicators) it's important to analyze `quotes` in a proper sequence.
 
 ### Resize quote history
 
@@ -104,7 +103,7 @@ var results = quotes
 
 ### Condense
 
-`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns](/indicators/#candlestick-pattern), it will only return records where a signal is generated.
 
 ```csharp
 // example: only show Marubozu signals
@@ -142,7 +141,7 @@ IEnumerable<AdxResult> results =
   quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
-See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
@@ -154,17 +153,17 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 `results.ToTupleNaN()` converts results to simpler `(DateTime Date, double Value)` tuple `Collection` with `null` values converted to `double.NaN`.
 
-`results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators]({{site.baseurl}}/custom-indicators/#content) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
+`results.ToTupleChainable()` is a specialty converter used to prepare [custom indicators](/CustomIndicators) for chaining by removing `null` warmup periods and converting all remaining `null` values to `double.NaN`.
 
 > &#128681; **Warning**: warmup periods are pruned when using `.ToTupleChainable()`, resulting in fewer records.
 
 ### Sort results
 
-`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Date`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/CustomIndicators).
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators]({{site.baseurl}}/custom-indicators/).
+This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators](/CustomIndicators/).
 
 ### Numerical methods
 

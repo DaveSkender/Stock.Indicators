@@ -10,9 +10,9 @@ layout: indicator
 # {{ page.title }}
 
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/255 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{page.image}})
 
 ```csharp
 // C# usage syntax
@@ -32,7 +32,7 @@ The total evaluation window size is `2×S+1`, representing `±S` from the evalua
 
 You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ### EndType options
 
@@ -63,11 +63,11 @@ IEnumerable<FractalResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

@@ -7,7 +7,7 @@
       Simple Moving Average (SMA) of the price.
       <para>
         See
-        <see href="https://dotnet.StockIndicators.dev/indicators/Sma/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/indicators/Sma?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>
@@ -50,7 +50,7 @@
       Simple Moving Average (SMA) is the average of price over a lookback window.  This extended variant includes mean absolute deviation (MAD), mean square error (MSE), and mean absolute percentage error (MAPE).
       <para>
         See
-        <see href="https://dotnet.StockIndicators.dev/indicators/Sma/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+        <see href="https://dotnet.StockIndicators.dev/indicators/Sma?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
         for more information.
       </para>
     </summary>

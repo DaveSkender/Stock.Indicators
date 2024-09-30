@@ -10,9 +10,9 @@ layout: indicator
 # {{ page.title }}
 
 [Zig Zag](https://school.stockcharts.com/doku.php?id=technical_indicators:zigzag) is a price chart overlay that simplifies the up and down movements and transitions based on a percent change smoothing threshold.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/226 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/226 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{page.image}})
 
 ```csharp
 // C# usage syntax
@@ -30,7 +30,7 @@ IEnumerable<ZigZagResult> results =
 
 You must have at least two periods of `quotes` to cover the warmup periods, but notably more is needed to be useful.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ### EndType options
 
@@ -69,11 +69,11 @@ IEnumerable<ZigZagResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

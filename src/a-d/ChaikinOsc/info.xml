@@ -5,7 +5,7 @@
     Chaikin Oscillator is the difference between fast and slow Exponential Moving Averages (EMA) of the Accumulation/Distribution Line (ADL).
     <para>
       See
-      <see href="https://dotnet.StockIndicators.dev/indicators/ChaikinOsc/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/ChaikinOsc?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
       for more information.
     </para>
   </summary>

@@ -2,8 +2,7 @@
 title: Performance benchmarks
 description: The Stock Indicators for .NET library is built for speed and production workloads.  Compare our execution times with other options.
 permalink: /performance/
-relative_path: pages/performance.md
-layout: page
+relative_path: performance.md
 ---
 
 # {{ page.title }} for v2.4.11

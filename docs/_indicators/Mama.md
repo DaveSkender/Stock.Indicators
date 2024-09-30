@@ -10,9 +10,9 @@ layout: indicator
 # {{ page.title }}
 
 Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of high/low price that uses classic electrical radio-frequency signal processing algorithms to reduce noise.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/211 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{page.image}})
 
 ```csharp
 // C# usage syntax
@@ -28,9 +28,9 @@ IEnumerable<MamaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `50` periods of `quotes` to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.
+You must have at least `50` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ## Response
 
@@ -55,12 +55,12 @@ IEnumerable<MamaResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](pages/utilities.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

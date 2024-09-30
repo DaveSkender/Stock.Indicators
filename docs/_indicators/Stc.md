@@ -10,9 +10,9 @@ layout: indicator
 # {{ page.title }}
 
 Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/articles/forex/10/schaff-trend-cycle-indicator.asp) is a stochastic oscillator view of two converging/diverging exponential moving averages.  In other words, it's a Stochastic Oscillator of Moving Average Convergence / Divergence (MACD).
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/570 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/570 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{page.image}})
 
 ```csharp
 // C# usage syntax
@@ -30,9 +30,9 @@ IEnumerable<StcResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `2×(S+C)` or `S+C+100` worth of `quotes`, whichever is more, to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+C+250` data points prior to the intended usage date for better precision.
+You must have at least `2×(S+C)` or `S+C+100` worth of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `S+C+250` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ## Response
 
@@ -55,12 +55,12 @@ IEnumerable<StcResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](pages/utilities.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

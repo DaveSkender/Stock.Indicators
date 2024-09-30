@@ -9,10 +9,10 @@ layout: indicator
 
 # {{ page.title }}
 
-Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also <a href="{{site.baseurl}}/indicators/Keltner/#content" rel="nofollow">Keltner Channels</a> for an EMA centerline equivalent.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/292 "Community discussion about this indicator")
+Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also <a href="/indicators/Keltner" rel="nofollow">Keltner Channels</a> for an EMA centerline equivalent.
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/292 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{page.image}})
 
 ```csharp
 // C# usage syntax
@@ -30,9 +30,9 @@ IEnumerable<StarcBandsResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `S` or `A+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
+You must have at least `S` or `A+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `A+150` data points prior to the intended usage date for better precision.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ## Response
 
@@ -59,12 +59,12 @@ IEnumerable<StarcBandsResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](pages/utilities.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

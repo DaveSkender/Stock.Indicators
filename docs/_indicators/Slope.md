@@ -10,10 +10,10 @@ layout: indicator
 # {{ page.title }}
 
 [Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/241 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
 
-![image]({{site.baseurl}}/assets/charts/Linear.png)
-![image]({{site.baseurl}}/assets/charts/Slope.png)
+![image](/assets/charts/Linear.png)
+![image](/assets/charts/Slope.png)
 
 ```csharp
 // C# usage syntax
@@ -29,7 +29,7 @@ IEnumerable<SlopeResult> results =
 
 You must have at least `N` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ## Response
 
@@ -61,12 +61,12 @@ IEnumerable<SlopeResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](pages/utilities.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

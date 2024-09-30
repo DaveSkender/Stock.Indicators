@@ -18,13 +18,13 @@ IEnumerable<BasicData> results =
 
 ## Parameters
 
-**`candlePart`** _`CandlePart`_ - The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
+**`candlePart`** _`CandlePart`_ - The [OHLCV](pages/guide.md#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
 
 ### Historical quotes requirements
 
 You must have at least 1 period of `quotes`.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 {% include candlepart-options.md %}
 
@@ -46,9 +46,9 @@ IEnumerable<BasicData>
 
 ### Utilities
 
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

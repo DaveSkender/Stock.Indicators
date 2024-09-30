@@ -1,0 +1,69 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "**/*.csproj"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "globalMetadata": {
+      "_appName": " Stock Indicators for .NET",
+      "_appTitle": "Stock Indicators for .NET",
+      "_appLogoPath": "assets/favicon.svg",
+      "_appFaviconPath": "assets/favicon.ico",
+      "_disableToc": false,
+      "_enableSearch": true
+    },
+    "template": [
+      "default",
+      "templates/material",
+      "modern"
+    ],
+    "output": "_site",
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "exclude": [
+          "README.md",
+          "_indicators/",
+          "_data/",
+          "_includes/",
+          ".offline/",
+          "node_modules/",
+          "_site/"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "assets/**",
+          "**/*.png",
+          "**/*.webp",
+          "**/*.svg",
+          "**/*.zip"
+        ]
+      }
+    ],
+    "sitemap": {
+      "baseUrl": "https://dotnet.stockindicators.dev"
+    }
+  }
+}

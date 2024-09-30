@@ -1,20 +1,18 @@
 ---
 title: Custom indicators
 description: The Stock Indicators for .NET library includes extra features to make it easy for you to extend and to add your own custom indicators.  Here's an example.
-permalink: /custom-indicators/
-relative_path: examples/CustomIndicators/README.md
-layout: page
+permalink: /CustomIndicators/
 ---
 
 # Custom indicators
 
 At some point in your journey, you may want to create your own custom indicators.
 The following is an example of how you'd create your own.
-This example is also included in our [example usage code]({{site.baseurl}}/examples/#content).
+This example is also included in our [example usage code](../README.md).
 
 ## STEP 1: Create the Results class
 
-Create your results class by extending the library `ResultBase` class.  This will allow you to inherit many of the [utility functions]({{site.baseurl}}/utilities/#utilities-for-indicator-results), such as `RemoveWarmupPeriods()`.
+Create your results class by extending the library `ResultBase` class.  This will allow you to inherit many of the [utility functions](../../pages/utilities.md#utilities-for-indicator-results), such as `RemoveWarmupPeriods()`.
 
 ```csharp
 using Skender.Stock.Indicators;
