@@ -5,7 +5,7 @@
     Volume Weighted Average Price (VWAP) is a Volume weighted average of price, typically used on intraday data.
     <para>
       See
-      <see href="https://dotnet.StockIndicators.dev/indicators/Vwap/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
+      <see href="https://dotnet.StockIndicators.dev/indicators/Vwap?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
       for more information.
     </para>
   </summary>

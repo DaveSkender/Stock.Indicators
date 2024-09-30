@@ -10,9 +10,9 @@ layout: indicator
 # {{ page.title }}
 
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/288 "Community discussion about this indicator")
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/288 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for {{page.title}}]({{page.image}})
 
 ```csharp
 // C# usage syntax
@@ -32,29 +32,29 @@ IEnumerable<MaEnvelopeResult> results =
 
 See links in the supported [MaType options](#matype-options) section below for details on the inherited requirements for `quotes` and `lookbackPeriods`.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ### MaType options
 
 These are the supported moving average types:
 
-**`MaType.ALMA`** - [Arnaud Legoux Moving Average]({{site.baseurl}}/indicators/Alma/#content)
+**`MaType.ALMA`** - [Arnaud Legoux Moving Average](/indicators/Alma)
 
-**`MaType.DEMA`** - [Double Exponential Moving Average]({{site.baseurl}}/indicators/Dema/#content)
+**`MaType.DEMA`** - [Double Exponential Moving Average](/indicators/Dema)
 
-**`MaType.EPMA`** - [Endpoint Moving Average]({{site.baseurl}}/indicators/Epma/#content)
+**`MaType.EPMA`** - [Endpoint Moving Average](/indicators/Epma)
 
-**`MaType.EMA`** - [Exponential Moving Average]({{site.baseurl}}/indicators/Ema/#content)
+**`MaType.EMA`** - [Exponential Moving Average](/indicators/Ema)
 
-**`MaType.HMA`** - [Hull Moving Average]({{site.baseurl}}/indicators/Hma/#content)
+**`MaType.HMA`** - [Hull Moving Average](/indicators/Hma)
 
-**`MaType.SMA`** - [Simple Moving Average]({{site.baseurl}}/indicators/Sma/#content) (default)
+**`MaType.SMA`** - [Simple Moving Average](/indicators/Sma) (default)
 
-**`MaType.SMMA`** - [Smoothed Moving Average]({{site.baseurl}}/indicators/Smma/#content)
+**`MaType.SMMA`** - [Smoothed Moving Average](/indicators/Smma)
 
-**`MaType.TEMA`** - [Triple Exponential Moving Average]({{site.baseurl}}/indicators/Tema/#content)
+**`MaType.TEMA`** - [Triple Exponential Moving Average](/indicators/Tema)
 
-**`MaType.WMA`** - [Weighted Moving Average]({{site.baseurl}}/indicators/Wma/#content)
+**`MaType.WMA`** - [Weighted Moving Average](/indicators/Wma)
 
 > &#128681;  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
 
@@ -85,11 +85,11 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](pages/utilities.md#condense)
+- [.Find(lookupDate)](pages/utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](pages/utilities.md#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](pages/utilities.md#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
