@@ -46,7 +46,7 @@ jobs:
         with:
           updateAssemblyInfo: true
           useConfigFile: true
-          configFilePath: gitversion.yml
+          configFilePath: src/gitversion.yml
 
       - name: Compose version
         id: compose
