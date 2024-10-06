@@ -1,18 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class SlopeResult : ResultBase, IReusableResult
+public record SlopeResult
+(
+    DateTime Timestamp,
+    double? Slope = null,
+    double? Intercept = null,
+    double? StdDev = null,
+    double? RSquared = null,
+    decimal? Line = null // last line segment only
+) : Reusable(Timestamp)
 {
-    public SlopeResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Slope { get; set; }
-    public double? Intercept { get; set; }
-    public double? StdDev { get; set; }
-    public double? RSquared { get; set; }
-    public decimal? Line { get; set; } // last line segment only
-
-    double? IReusableResult.Value => Slope;
+    public override double Value => Slope.Null2NaN();
 }

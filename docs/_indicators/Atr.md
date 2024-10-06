@@ -16,15 +16,15 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 
 ```csharp
 // C# usage syntax
-IEnumerable<AtrResult> results =
+IReadOnlyList<AtrResult> results =
   quotes.GetAtr(lookbackPeriods);
 
 // ATR with custom moving average
-IEnumerable<SmmaResult> results =
+IReadOnlyList<SmmaResult> results =
   quotes.GetTr().GetSmma(lookbackPeriods);
 
 // raw True Range (TR) only
-IEnumerable<TrResult> results =
+IReadOnlyList<TrResult> results =
   quote.GetTr();
 ```
 
@@ -41,7 +41,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<AtrResult>
+IReadOnlyList<AtrResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -53,7 +53,7 @@ IEnumerable<AtrResult>
 
 ### AtrResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tr`** _`double`_ - True Range for current period
 

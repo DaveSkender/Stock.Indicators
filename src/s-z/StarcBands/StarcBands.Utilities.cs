@@ -3,9 +3,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<StarcBandsResult> Condense(
+    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    public static IReadOnlyList<StarcBandsResult> Condense(
         this IEnumerable<StarcBandsResult> results)
     {
         List<StarcBandsResult> resultsList = results
@@ -19,9 +18,8 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StarcBandsResult> RemoveWarmupPeriods(
+    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    public static IReadOnlyList<StarcBandsResult> RemoveWarmupPeriods(
         this IEnumerable<StarcBandsResult> results)
     {
         int n = results

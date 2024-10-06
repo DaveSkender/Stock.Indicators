@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class TsiResult : ResultBase, IReusableResult
+public record TsiResult
+(
+    DateTime Timestamp,
+    double? Tsi = null,
+    double? Signal = null
+) : Reusable(Timestamp)
 {
-    public TsiResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Tsi { get; set; }
-    public double? Signal { get; set; }
-
-    double? IReusableResult.Value => Tsi;
+    public override double Value => Tsi.Null2NaN();
 }

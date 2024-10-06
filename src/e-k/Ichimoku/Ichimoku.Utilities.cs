@@ -3,9 +3,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<IchimokuResult> Condense(
+    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    public static IReadOnlyList<IchimokuResult> Condense(
         this IEnumerable<IchimokuResult> results)
     {
         List<IchimokuResult> resultsList = results

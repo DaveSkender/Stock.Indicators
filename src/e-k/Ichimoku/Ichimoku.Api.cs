@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     /// <include file='./info.xml' path='info/type[@name="Standard"]/*' />
     ///
-    public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
+    public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,
         int tenkanPeriods = 9,
         int kijunPeriods = 26,
@@ -21,7 +21,7 @@ public static partial class Indicator
 
     /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
-    public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
+    public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,
         int tenkanPeriods,
         int kijunPeriods,
@@ -38,7 +38,7 @@ public static partial class Indicator
 
     /// <include file='./info.xml' path='info/type[@name="Full"]/*' />
     ///
-    public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
+    public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,
         int tenkanPeriods,
         int kijunPeriods,

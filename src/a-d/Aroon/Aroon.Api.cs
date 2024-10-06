@@ -6,10 +6,10 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<AroonResult> GetAroon<TQuote>(
+    public static IReadOnlyList<AroonResult> GetAroon<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 25)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcAroon(lookbackPeriods);
 }

@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class SmiResult : ResultBase, IReusableResult
+public record SmiResult
+(
+    DateTime Timestamp,
+    double? Smi,
+    double? Signal
+) : Reusable(Timestamp)
 {
-    public SmiResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Smi { get; set; }
-    public double? Signal { get; set; }
-
-    double? IReusableResult.Value => Smi;
+    public override double Value => Smi.Null2NaN();
 }

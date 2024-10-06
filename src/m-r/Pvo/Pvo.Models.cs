@@ -1,16 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class PvoResult : ResultBase, IReusableResult
+public record PvoResult
+(
+    DateTime Timestamp,
+    double? Pvo,
+    double? Signal,
+    double? Histogram
+) : Reusable(Timestamp)
 {
-    public PvoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Pvo { get; set; }
-    public double? Signal { get; set; }
-    public double? Histogram { get; set; }
-
-    double? IReusableResult.Value => Pvo;
+    public override double Value => Pvo.Null2NaN();
 }

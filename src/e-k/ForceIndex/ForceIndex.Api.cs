@@ -6,10 +6,10 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IEnumerable<ForceIndexResult> GetForceIndex<TQuote>(
+    public static IReadOnlyList<ForceIndexResult> GetForceIndex<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 2)
         where TQuote : IQuote => quotes
-            .ToQuoteD()
+            .ToQuoteDList()
             .CalcForceIndex(lookbackPeriods);
 }

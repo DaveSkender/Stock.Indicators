@@ -2,12 +2,12 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES
 
-public static partial class QuoteUtility
+public static partial class Utility
 {
     // VALIDATION
     /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
     ///
-    public static IEnumerable<TQuote> Validate<TQuote>(
+    public static IReadOnlyList<TQuote> Validate<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote
     {
@@ -17,15 +17,15 @@ public static partial class QuoteUtility
 
         // check for duplicates
         DateTime lastDate = DateTime.MinValue;
-        foreach (var q in quotesList)
+        foreach (TQuote q in quotesList)
         {
-            if (lastDate == q.Date)
+            if (lastDate == q.Timestamp)
             {
                 throw new InvalidQuotesException(
-                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
+                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Timestamp));
             }
 
-            lastDate = q.Date;
+            lastDate = q.Timestamp;
         }
 
         return quotesList;

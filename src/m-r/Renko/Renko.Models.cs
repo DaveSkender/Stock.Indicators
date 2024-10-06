@@ -1,17 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class RenkoResult : ResultBase, IQuote
-{
-    public RenkoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
-    public bool IsUp { get; set; }
-}
+/// <inheritdoc cref="Quote"/>
+public record RenkoResult
+(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume,
+    bool IsUp
+) : Quote(Timestamp, Open, High, Low, Close, Volume);

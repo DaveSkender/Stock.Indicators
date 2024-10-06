@@ -1,14 +1,10 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class TemaResult : ResultBase, IReusableResult
+public record TemaResult
+(
+    DateTime Timestamp,
+    double? Tema = null
+) : Reusable(Timestamp)
 {
-    public TemaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Tema { get; set; }
-
-    double? IReusableResult.Value => Tema;
+    public override double Value => Tema.Null2NaN();
 }

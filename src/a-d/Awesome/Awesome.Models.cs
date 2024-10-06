@@ -1,15 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class AwesomeResult : ResultBase, IReusableResult
+public record AwesomeResult
+(
+    DateTime Timestamp,
+    double? Oscillator,
+    double? Normalized
+) : Reusable(Timestamp)
 {
-    public AwesomeResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Oscillator { get; set; }
-    public double? Normalized { get; set; }
-
-    double? IReusableResult.Value => Oscillator;
+    public override double Value => Oscillator.Null2NaN();
 }

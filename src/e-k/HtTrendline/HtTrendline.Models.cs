@@ -1,16 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-[Serializable]
-public sealed class HtlResult : ResultBase, IReusableResult
+public record HtlResult
+(
+    DateTime Timestamp,
+    int? DcPeriods,
+    double? Trendline,
+    double? SmoothPrice
+) : Reusable(Timestamp)
 {
-    public HtlResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public int? DcPeriods { get; set; }
-    public double? Trendline { get; set; }
-    public double? SmoothPrice { get; set; }
-
-    double? IReusableResult.Value => Trendline;
+    public override double Value => Trendline.Null2NaN();
 }
