@@ -182,6 +182,9 @@ public class IndicatorPerformance
     public object GetMfi() => h.GetMfi();
 
     [Benchmark]
+    public object GetNewHighsNewLows() => h.GetNewHighsNewLows();
+
+    [Benchmark]
     public object GetObv() => h.GetObv();
 
     [Benchmark]
