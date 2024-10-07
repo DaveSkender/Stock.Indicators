@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class StreamProviders : TestBase, ITestChainProvider
+public class StreamObservables : TestBase, ITestChainProvider
 {
     [TestMethod]
     public void Prefill()
