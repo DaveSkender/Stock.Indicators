@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE ENVELOPES (SERIES)
@@ -32,7 +34,7 @@ public static partial class Indicator
             _ => throw new ArgumentOutOfRangeException(
                      nameof(movingAverageType), movingAverageType,
                      string.Format(
-                         EnglishCulture,
+                         CultureInfo.InvariantCulture,
                          "Moving Average Envelopes does not support {0}.",
                          Enum.GetName(typeof(MaType), movingAverageType)))
         };

@@ -12,13 +12,17 @@ namespace Skender.Stock.Indicators;
 ///  the Guide</see> for more information.</summary>
 public static partial class Indicator
 {
-    private static readonly CultureInfo EnglishCulture = new("en-US", false);
-    private static readonly Calendar EnglishCalendar = EnglishCulture.Calendar;
+    // Culture info for error messages only (important)
+
+    private const string culture = "en-US";
+
+    private static readonly Calendar EnglishCalendar
+        = new CultureInfo(culture, false).Calendar;
 
     // Gets the DTFI properties required by GetWeekOfYear.
     private static readonly CalendarWeekRule EnglishCalendarWeekRule
-        = EnglishCulture.DateTimeFormat.CalendarWeekRule;
+        = new CultureInfo(culture, false).DateTimeFormat.CalendarWeekRule;
 
     private static readonly DayOfWeek EnglishFirstDayOfWeek
-        = EnglishCulture.DateTimeFormat.FirstDayOfWeek;
+        = new CultureInfo(culture, false).DateTimeFormat.FirstDayOfWeek;
 }
