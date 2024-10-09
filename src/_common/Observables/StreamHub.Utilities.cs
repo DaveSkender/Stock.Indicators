@@ -88,16 +88,10 @@ public static class StreamHub
         if (firstMatchIndex != -1)
         {
             // Find the last occurrence of the matching timestamp
-            int lastMatchIndex = firstMatchIndex;
-            for (int i = firstMatchIndex + 1; i < cache.Count && cache[i].Timestamp == cachedItem.Timestamp; i++)
+            for (int i = cache.Count - 1; i >= firstMatchIndex; i--)
             {
-                lastMatchIndex = i;
-            }
-
-            // Search for an exact match starting from the last occurrence
-            for (int i = lastMatchIndex; i >= firstMatchIndex; i--)
-            {
-                if (cache[i].Equals(cachedItem))
+                if (cache[i].Timestamp == cachedItem.Timestamp
+                 && cache[i].Equals(cachedItem))
                 {
                     return i; // exact match found among duplicates
                 }

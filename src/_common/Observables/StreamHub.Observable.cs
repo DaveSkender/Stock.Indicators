@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 {
-    private readonly HashSet<IStreamObserver<TOut>> _observers = [];
+    private readonly HashSet<IStreamObserver<TOut>> _observers = new();
 
     public bool HasObservers => _observers.Count > 0;
 
@@ -44,8 +44,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         ISet<IStreamObserver<TOut>> observers,
         IStreamObserver<TOut> observer) : IDisposable
     {
+        private readonly ISet<IStreamObserver<TOut>> _observers = observers;
+        private readonly IStreamObserver<TOut> _observer = observer;
+
         // remove single observer
-        public void Dispose() => observers.Remove(observer);
+        public void Dispose() => _observers.Remove(_observer);
     }
 
     // unsubscribe all observers

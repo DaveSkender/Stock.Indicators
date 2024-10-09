@@ -54,7 +54,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Cache of stored values (base).
     /// </summary>
-    internal List<TOut> Cache { get; } = [];
+    internal List<TOut> Cache { get; } = new();
 
     /// <summary>
     /// Current count of repeated caching attempts.
@@ -105,7 +105,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
     public void Add(IEnumerable<TIn> batchIn)
     {
-        foreach (TIn newIn in batchIn.ToSortedList())
+        foreach (TIn newIn in batchIn.OrderBy(x => x.Timestamp))
         {
             OnAdd(newIn, notify: true, null);
         }

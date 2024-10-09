@@ -27,7 +27,7 @@ public interface IStreamObserver<in T>
     /// The current notification information.
     /// </param>
     /// <param name="notify">
-    /// Notify subsribers of the new item.
+    /// Notify subscribers of the new item.
     /// </param>
     /// <param name="indexHint">
     /// Provider index hint, if known.
@@ -69,7 +69,7 @@ public interface IStreamObserver<in T>
     /// <remarks>
     /// This unsubscribes from the provider,
     /// rebuilds the cache, resets faulted states,
-    /// and then re-subscribe to the provider.
+    /// and then re-subscribes to the provider.
     /// <para>
     /// This is done automatically on hub
     /// instantiation, so it's only needed if you
@@ -84,7 +84,7 @@ public interface IStreamObserver<in T>
 
     /// <summary>
     /// Resets the entire results cache
-    /// and rebuild it from provider sources,
+    /// and rebuilds it from provider sources,
     /// with cascading updates to subscribers.
     /// </summary>
     /// <remarks>
