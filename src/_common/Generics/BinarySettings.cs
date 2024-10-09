@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -26,21 +23,16 @@ namespace Skender.Stock.Indicators;
 /// settings = settings with { [1] = false }; // set bit 1 to false
 /// </code>
 /// </remarks>
-public readonly struct BinarySettings : IEquatable<BinarySettings>
+public readonly struct BinarySettings(
+    byte settings = 0b00000000, // Binary literal for 0
+    byte mask = 0b11111111)     // Binary literal for 255 (default: all inheritable)
+    : IEquatable<BinarySettings>
 {
-    public byte Settings { get; }
-    public byte Mask { get; }
-
-    public BinarySettings(
-        byte settings = 0b00000000, // Binary literal for 0
-        byte mask = 0b11111111)     // Binary literal for 255 (default: all inheritable)
-    {
-        Settings = settings;
-        Mask = mask;
-    }
+    public byte Settings { get; } = settings;
+    public byte Mask { get; } = mask;
 
     // explicit parameterless ctor required for struct,
-    // otherwise it will default to byte default (0)
+    // otherwise args default to byte default (0)
     public BinarySettings() : this(settings: 0b00000000, mask: 0b11111111) { }
 
     /// <summary>
@@ -56,7 +48,11 @@ public readonly struct BinarySettings : IEquatable<BinarySettings>
     /// using a bitwise OR operation, excluding the bits masked by the parent settings.
     /// </summary>
     /// <param name="parentSettings">The parent <see cref="BinarySettings"/> instance to combine with.</param>
-    /// <returns>A new <see cref="BinarySettings"/> instance with combined settings.</returns>
+    /// <returns>
+    /// A new <see cref="BinarySettings"/> instance with combined settings.
+    /// Notably, it does not modify the current read-only instance.
+    /// </returns>
+    /// 
     /// <remarks>
     /// The mask is used to determine which bits from the parent settings should be excluded
     /// during the combination. By default, the mask is set to 0b11111111, meaning all bits

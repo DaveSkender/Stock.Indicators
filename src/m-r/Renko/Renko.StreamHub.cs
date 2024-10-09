@@ -19,6 +19,10 @@ public class RenkoHub<TIn>
 
     private readonly string hubName;
 
+    private RenkoResult lastBrick
+        = new(default, default, default,
+            default, default, default, default);
+
     internal RenkoHub(
         IQuoteProvider<TIn> provider,
         decimal brickSize,
@@ -33,7 +37,22 @@ public class RenkoHub<TIn>
     }
     #endregion
 
+    /// <summary>
+    /// Renko hub settings.  Since it can produce 0 or many bricks per quote,
+    /// the default 1:1 in/out is not used and must be skipped to prevent
+    /// same-date triggerred rebuilds when caching.
+    /// </summary>
+    public override BinarySettings Properties { get; init; } = new(0b00000010);  // custom
+
+    /// <summary>
+    /// Standard brick size for Renko chart.
+    /// </summary>
     public decimal BrickSize { get; }
+
+    /// <summary>
+    /// Close or High/Low price used to determine when threshold
+    /// is met to generate new bricks.
+    /// </summary>
     public EndType EndType { get; }
 
     // METHODS
@@ -45,39 +64,74 @@ public class RenkoHub<TIn>
 
     protected override (RenkoResult result, int index)
         ToIndicator(TIn item, int? indexHint)
-        => throw new InvalidOperationException();
+        => throw new InvalidOperationException(); // not used
+
+    // TODO: see if returning array of results is possible ^^
+    // for all indicators, so we don't have to do this goofy override
+
+    /// <summary>
+    /// Restore last brick marker.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int i = ProviderCache.GetIndexGte(timestamp);
+
+        // restore last brick marker
+        if (Cache.Count != 0)
+        {
+            lastBrick = Cache
+                .Last(c => c.Timestamp <= timestamp);
+
+            return;
+        }
+
+        // skip first quote
+        if (ProviderCache.Count <= 1)
+        {
+            return;
+        }
+
+        SetBaselineBrick();
+    }
+
+    // re/initialize last brick marker
+    private void SetBaselineBrick()
+    {
+        int decimals = BrickSize.GetDecimalPlaces();
+
+        TIn q0 = ProviderCache[0];
+
+        decimal baseline
+            = Math.Round(q0.Close,
+                Math.Max(decimals - 1, 0));
+
+        lastBrick = new(
+            q0.Timestamp,
+            Open: baseline,
+            High: 0,
+            Low: 0,
+            Close: baseline,
+            Volume: 0,
+            IsUp: false);
+    }
 
     // custom: build 0 to many bricks per quote
     private void ToIndicator(TIn item, bool notify, int? indexHint)
     {
-        // get last brick
-        RenkoResult lastBrick;
+        int providerIndex = indexHint
+            ?? throw new InvalidOperationException($"{nameof(indexHint)} cannot be empty");
 
-        if (Cache.Count != 0)
+        // nothing to do
+        if (providerIndex <= 0)
         {
-            lastBrick = Cache
-                .Last(c => c.Timestamp <= item.Timestamp);
+            return;
         }
-        else // no bricks yet, set baseline brick
+
+        // establish baseline brick
+        if (providerIndex == 1)
         {
-            // skip first quote
-            if (ProviderCache.Count <= 1)
-            {
-                return;
-            }
-
-            int decimals = BrickSize.GetDecimalPlaces();
-
-            TIn q0 = ProviderCache[0];
-
-            decimal baseline
-                = Math.Round(q0.Close,
-                    Math.Max(decimals - 1, 0));
-
-            lastBrick = new(
-                q0.Timestamp,
-                Open: baseline, 0, 0,
-                Close: baseline, 0, false);
+            SetBaselineBrick();
         }
 
         // determine new brick quantity
@@ -97,10 +151,9 @@ public class RenkoHub<TIn>
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = indexHint ?? ProviderCache.GetIndex(item, true);  // TODO: should never be calculated?
             int lastBrickIndex = ProviderCache.GetIndex(lastBrick.Timestamp, true);
 
-            for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
+            for (int w = lastBrickIndex + 1; w <= providerIndex; w++)
             {
                 TIn pq = ProviderCache[w];
 
@@ -113,19 +166,13 @@ public class RenkoHub<TIn>
 
             for (int b = 0; b < absBrickQty; b++)
             {
-                decimal o;
-                decimal c;
+                decimal o = isUp
+                    ? Math.Max(lastBrick.Open, lastBrick.Close)
+                    : Math.Min(lastBrick.Open, lastBrick.Close);
 
-                if (isUp)
-                {
-                    o = Math.Max(lastBrick.Open, lastBrick.Close);
-                    c = o + BrickSize;
-                }
-                else
-                {
-                    o = Math.Min(lastBrick.Open, lastBrick.Close);
-                    c = o - BrickSize;
-                }
+                decimal c = isUp
+                    ? o + BrickSize
+                    : o - BrickSize;
 
                 // candidate result
                 RenkoResult r
@@ -133,17 +180,12 @@ public class RenkoHub<TIn>
 
                 lastBrick = r;
 
-                // check overflow/duplicates
-                if (IsOverflowing(r))
-                {
-                    return;
-                }
-
                 // save and send
-                // note: we're using Add() and overflow checks here since we're
-                // adding multiple bricks with not-newer (same) dates that would
-                // cause the normal AppendCache(..) to rebuild w/ stack overflow.
-                Add(r, notify);
+                AppendCache(r, notify);
+
+                // note: bypass rebuild bit set in Properties to allow
+                // sequential bricks with duplicate dates that would
+                // normally trigger rebuild, causing stack overflow.
             }
         }
     }

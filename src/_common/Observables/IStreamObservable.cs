@@ -25,6 +25,39 @@ public interface IChainProvider<out T> : IStreamObservable<T>
 public interface IStreamObservable<out T>
 {
     /// <summary>
+    /// Hub observable properties and behaviors.
+    /// </summary>
+    /// <remarks>
+    /// This <see cref="BinarySettings"/> struct holds cumulative overrides for
+    /// a streaming hub.  Observer hubs inherit these values cumulatively when
+    /// instantiated as a <see cref="StreamHub{TIn, TOut}"/>, except where masked.
+    /// <para>
+    /// Default settings are a binary set of 0b00000000, where 1 values represent
+    /// exceptional (atypical) behaviors.
+    /// </para>
+    /// <list type="table">
+    /// <item>
+    ///   <term>0</term>
+    ///   <description>
+    ///   Disable observer: a non-observing observable (e.g. base provider).
+    ///   </description>
+    /// </item>
+    /// <item>
+    ///   <term>1</term>
+    ///   <description>
+    ///   Allow duplicates:
+    ///   bypass rebuild analysis and duplicate prevention when caching new results.
+    ///   </description>
+    /// </item>
+    /// <item>
+    ///   <term>2-7</term>
+    ///   <description>[unused positions]</description>
+    /// </item>
+    /// </list>
+    /// </remarks>
+    BinarySettings Properties { get; }
+
+    /// <summary>
     /// Current number of subscribers
     /// </summary>
     int ObserverCount { get; }

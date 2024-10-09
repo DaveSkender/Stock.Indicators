@@ -3,6 +3,8 @@ namespace Utilities;
 [TestClass]
 public class BinarySettingsTests : TestBase
 {
+    // see Renko Hub tests for inheritance
+
     [TestMethod]
     public void InitializationDefault()
     {

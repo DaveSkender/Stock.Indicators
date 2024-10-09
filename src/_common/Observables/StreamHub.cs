@@ -23,12 +23,26 @@ public abstract class ChainProvider<TIn, TOut>(
 /// <summary>
 /// Streaming hub (abstract observer/provider)
 /// </summary>
-public abstract partial class StreamHub<TIn, TOut>(
-    IStreamObservable<TIn> provider
-) : IStreamHub<TIn, TOut>
+public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
+    #region constructor
+
+    internal StreamHub(IStreamObservable<TIn> provider)
+    {
+        // store provider reference
+        Provider = provider;
+
+        // set provider cache reference
+        ProviderCache = provider.GetCacheRef();
+
+        // inherit settings (reinstantiate struct on heap)
+        Properties = Properties.Combine(provider.Properties);
+    }
+
+    #endregion
+
     #region PROPERTIES
 
     /// <inheritdoc/>
@@ -52,7 +66,6 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// Reference to this hub's provider's cache.
     /// </summary>
     protected IReadOnlyList<TIn> ProviderCache { get; }
-        = provider.GetCacheRef();
 
     /// <summary>
     /// Most recent item saved to cache.
@@ -127,34 +140,14 @@ public abstract partial class StreamHub<TIn, TOut>(
     }
 
     /// <summary>
-    /// Add item to cache and notify observers.
-    /// </summary>
-    /// <param name="item">Item to add to end of cache</param>
-    /// <param name="notify">Notify subscribers of new item</param>
-    protected void Add(TOut item, bool notify)
-    {
-        // notes:
-        // 1. Should only be called from AppendCache()
-        // 2. Notify has to be disabled for bulk operations, like rebuild
-
-        // add to cache
-        Cache.Add(item);
-        IsFaulted = false;
-
-        // notify subscribers
-        if (notify)
-        {
-            NotifyObserversOnAdd(item, Cache.Count - 1);
-        }
-    }
-
-    /// <summary>
     /// Perform appropriate caching action after analysis.
     /// It will add if new, ignore if duplicate, or rebuild if late-arrival.
     /// </summary>
     /// <param name="result"><c>TSeries</c> item to cache.</param>
-    /// <param name="notify">Notify subscribers of change, if appropriate.</param>
-    /// <exception cref="InvalidOperationException"></exception>
+    /// <param name="notify">
+    /// Notify subscribers of change (send to observers).
+    /// This is disabled for bulk operations like rebuild.
+    /// </param>
     protected void AppendCache(TOut result, bool notify)
     {
         // check overflow/duplicates
@@ -163,8 +156,10 @@ public abstract partial class StreamHub<TIn, TOut>(
             return;
         }
 
+        bool bypassRebuild = Properties[1]; // forced add/caching w/o rebuild
+
         // consider timeline
-        Act act = Cache.Count == 0 || result.Timestamp > Cache[^1].Timestamp
+        Act act = bypassRebuild || Cache.Count == 0 || result.Timestamp > Cache[^1].Timestamp
             ? Act.Add
             : Act.Rebuild;
 
@@ -181,9 +176,32 @@ public abstract partial class StreamHub<TIn, TOut>(
                 Rebuild(result.Timestamp);
                 break;
 
-            // should never happen
+            // would never happen
             default:
                 throw new InvalidOperationException();
+        }
+    }
+
+    /// <summary>
+    /// Add item to cache and notify observers.
+    /// </summary>
+    /// <param name="item">Item to add to end of cache</param>
+    /// <param name="notify">Inherited notification instructions.</param>
+    private void Add(TOut item, bool notify)
+    {
+        // notes:
+        // 1. Should only be called from AppendCache()
+        // 2. Notify has to be disabled for bulk operations, like rebuild.
+        // 3. Forced caching (rebuild analysis bypass) is inherited property.
+
+        // add to cache
+        Cache.Add(item);
+        IsFaulted = false;
+
+        // notify subscribers
+        if (notify)
+        {
+            NotifyObserversOnAdd(item, Cache.Count - 1);
         }
     }
 
@@ -192,11 +210,13 @@ public abstract partial class StreamHub<TIn, TOut>(
     /// to gracefully manage and prevent overflow conditions.
     /// </summary>
     /// <param name="item">Cacheable time-series object</param>
-    /// <returns>True if item is repeating.</returns>
+    /// <returns>
+    /// True if item is repeating and duplicate was suppressed.
+    /// </returns>
     /// <exception cref="OverflowException">
     /// Too many sequential duplicates were detected.
     /// </exception>
-    protected bool IsOverflowing(TOut item)
+    private bool IsOverflowing(TOut item)
     {
         // skip first arrival
         if (LastItem is null)
@@ -227,6 +247,16 @@ public abstract partial class StreamHub<TIn, TOut>(
                 OverflowException exception = new(msg);
                 NotifyObserversOnError(exception);
                 throw exception;
+            }
+
+            // bypass duplicate prevention
+            // when forced caching is enabled
+            if (Properties[1])
+            {
+                return false;
+
+                // note: will still overflow
+                // when the 100 limit is reached
             }
 
             return true;
@@ -355,16 +385,19 @@ public abstract partial class StreamHub<TIn, TOut>(
 
     /// <summary>
     /// Rollback internal state to a point in time.
+    /// Behavior varies by indicator.
     /// </summary>
     /// <remarks>
-    /// Override when indicator needs to rollback state
-    /// to a point in time (e.g. when rebuilding cache).
+    /// Override when indicator needs to rollback state to a
+    /// point in time (e.g. when rebuilding cache). Example:
+    /// <see cref="AtrStopHub{TIn}.RollbackState(DateTime)"/>
     /// </remarks>
     /// <param name="timestamp">
     /// Point in time to restore.
     /// </param>
     protected virtual void RollbackState(DateTime timestamp)
     {
+        // note: override when rollback is needed
         // default: do nothing
         // see AtrStopHub() for example
     }

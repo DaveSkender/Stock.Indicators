@@ -12,6 +12,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 
     public IReadOnlyList<TOut> ReadCache => Cache;
 
+    public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
+
     #region SUBSCRIPTION SERVICES
 
     // subscribe observer

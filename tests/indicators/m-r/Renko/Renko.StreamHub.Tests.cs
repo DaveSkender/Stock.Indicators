@@ -7,7 +7,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
     public override void QuoteObserver()
     {
         decimal brickSize = 2.5m;
-        EndType endType = EndType.Close;
+        EndType endType = EndType.HighLow;
 
         List<Quote> quotesList = Quotes
             .ToSortedList();
@@ -62,8 +62,8 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
             .GetRenko(brickSize, endType);
 
         // assert, should equal series
-        streamList.Should().HaveCount(112);
         streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().HaveCount(159);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -74,7 +74,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
     {
         decimal brickSize = 2.5m;
         EndType endType = EndType.Close;
-        int smaPeriods = 8;
+        int smaPeriods = 50;
 
         List<Quote> quotesList = Quotes
             .ToSortedList();
@@ -109,8 +109,8 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
             .GetSma(smaPeriods);
 
         // assert, should equal series
-        streamList.Should().HaveCount(112);
         streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().HaveCount(112);
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -121,5 +121,29 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
     {
         RenkoHub<Quote> hub = new(new QuoteHub<Quote>(), 2.5m, EndType.Close);
         hub.ToString().Should().Be("RENKO(2.5,CLOSE)");
+    }
+
+    [TestMethod]
+    public void SettingsInheritance()
+    {
+        // setup quote hub (1st level)
+        QuoteHub<Quote> quoteHub = new();
+
+        // setup renko hub (2nd level)
+        RenkoHub<Quote> renkoHub = quoteHub
+            .ToRenko(brickSize: 2.5m, endType: EndType.Close);
+
+        // setup child hub (3rd level)
+        SmaHub<RenkoResult> childHub = renkoHub
+            .ToSma(lookbackPeriods: 5);
+
+        // note: dispite `quoteHub` being parentless,
+        // it has default properties; it should not
+        // inherit its own empty provider settings
+
+        // assert
+        quoteHub.Properties.Settings.Should().Be(0b00000000, "is has default settings, not inherited");
+        renkoHub.Properties.Settings.Should().Be(0b00000010, "it has custom Renko properties");
+        childHub.Properties.Settings.Should().Be(0b00000010, "it inherits Renko properties");
     }
 }
