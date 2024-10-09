@@ -75,8 +75,6 @@ public class RenkoHub<TIn>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        int i = ProviderCache.GetIndexGte(timestamp);
-
         // restore last brick marker
         if (Cache.Count != 0)
         {
