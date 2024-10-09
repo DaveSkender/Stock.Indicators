@@ -31,8 +31,7 @@ namespace Skender.Stock.Indicators;
 /// Mask for settings inheritence.
 /// Default is 0b11111111 (binary literal of 255).
 /// </param>
-public readonly struct BinarySettings(byte settings, byte mask)
- : IEquatable<BinarySettings>
+public readonly struct BinarySettings(byte settings, byte mask) : IEquatable<BinarySettings>
 {
     public byte Settings { get; } = settings;
     public byte Mask { get; } = mask;
@@ -95,24 +94,18 @@ public readonly struct BinarySettings(byte settings, byte mask)
     }
 
     public override bool Equals(object? obj)
-        => obj is BinarySettings other
-            && Equals(other);
+        => obj is BinarySettings other && Equals(other);
 
     public bool Equals(BinarySettings other)
-        => Settings == other.Settings
-            && Mask == other.Mask;
+        => Settings == other.Settings && Mask == other.Mask;
 
     public override int GetHashCode()
         => HashCode.Combine(Settings, Mask);
 
     public static bool operator ==(BinarySettings left, BinarySettings right)
-    {
-        return left.Equals(right);
-    }
+        => left.Equals(right);
 
     public static bool operator !=(BinarySettings left, BinarySettings right)
-    {
-        return !(left == right);
-    }
+        => !(left == right);
 }
 
