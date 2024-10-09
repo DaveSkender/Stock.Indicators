@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class Use : StaticSeriesTestBase
+public class QuoteParts : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

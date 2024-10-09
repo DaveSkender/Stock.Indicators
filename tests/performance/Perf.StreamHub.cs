@@ -8,7 +8,8 @@ public class StreamIndicators
     private static readonly IReadOnlyList<Quote> quotes
         = Data.GetDefault();
 
-    private readonly QuoteHub<Quote> provider = new();
+    private readonly QuoteHub<Quote> provider = new();  // prepopulated
+    private readonly QuoteHub<Quote> supplier = new();  // empty
 
     /* SETUP/CLEANUP - runs before and after each.
      *
@@ -27,7 +28,7 @@ public class StreamIndicators
     public void Cleanup()
     {
         provider.EndTransmission();
-        provider.ClearCache();
+        provider.Cache.Clear();
     }
 
     // BENCHMARKS
@@ -46,6 +47,19 @@ public class StreamIndicators
 
     [Benchmark]
     public object EmaHub() => provider.ToEma(14).Results;
+
+    [Benchmark]
+    public object EmaHub2()
+    {
+        EmaHub<Quote> observer = supplier.ToEma(14);
+
+        for (int i = 0; i < quotes.Count; i++)
+        {
+            observer.OnAdd(quotes[i], notify: false, i);
+        }
+
+        return observer.Results;
+    }
 
     [Benchmark]
     public object QuoteHub() => provider.ToQuote().Results;

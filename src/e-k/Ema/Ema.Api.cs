@@ -6,6 +6,9 @@ public static partial class Api
 {
     //SERIES, from CHAIN
     public static IReadOnlyList<EmaResult> ToEma<T>(
+        // FIX: "GetEma" or "ToEma"?
+        // No longer works as extension method.
+        // Related to "Api" vs "Ema" namespace.
         this IEnumerable<T> results,
         int lookbackPeriods)
         where T : IReusable

@@ -1,123 +1,123 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM HUB INTERFACES
-
-#region hub variants
-
-public interface IQuoteHub<TIn, TOut>
-    : IStreamHub<TIn, TOut>, IQuoteProvider<TOut>, IChainProvider<TOut>
-    where TIn : IQuote
-    where TOut : IQuote;
-
-/// <inheritdoc />
-public interface IReusableHub<TIn, TOut>
-    : IStreamHub<TIn, TOut>, IChainProvider<TOut>
-    where TIn : ISeries
-    where TOut : IReusable;
-
-/// <inheritdoc />
-public interface IResultHub<TIn, TOut>
-    : IStreamHub<TIn, TOut>
-    where TIn : ISeries
-    where TOut : ISeries;
-#endregion
+// STREAM HUB INTERFACE
 
 /// <summary>
-/// Streaming hub (observer and observable provider).
+/// Streaming hub: management of observer
+/// and observable indicator data
 /// </summary>
-public interface IStreamHub<TIn, TOut>
-    : IObserver<(Act, TIn, int?)>, IStreamProvider<TOut>
+/// <typeparam name="TIn">
+/// Type of inbound provider data.
+/// </typeparam>
+/// <typeparam name="TOut">
+/// Type of outbound indicator data.
+/// </typeparam>
+public interface IStreamHub<in TIn, TOut>
     where TIn : ISeries
-    where TOut : ISeries
 {
     /// <summary>
-    /// Current state of subscription to provider.
+    /// Read-only list of the stored cache values.
     /// </summary>
-    bool IsSubscribed { get; }
+    IReadOnlyList<TOut> Results { get; }
 
     /// <summary>
-    /// Unsubscribe from the data provider.
-    /// </summary>
-    void Unsubscribe();
-
-    /// <summary>
-    /// Full reset of the provider subscription.
+    /// The cache and provider failed and is no longer operational.
     /// </summary>
     /// <remarks>
-    /// This unsubscribes from the provider,
-    /// clears cache, cascading deletes to subscribers,
-    /// then re-subscribes to the provider (with rebuild).
+    /// This occurs when there is an overflow condition
+    /// from a circular chain or
+    /// when there were too many sequential duplicates.
     /// <para>
-    /// This is also used on startup to invoke provider
-    /// <see cref="IObservable{T}.Subscribe(IObserver{T})"/>.
+    /// Use <see cref="ResetFault()"/>
+    /// to remove this flag.
     /// </para>
     /// </remarks>
-    void Reinitialize();
+    bool IsFaulted { get; }
 
     /// <summary>
-    /// Reset the entire results cache
-    /// and rebuild it from provider sources,
-    /// with cascading updates to subscribers.
+    /// Resets the <see cref="IsFaulted"/> flag and
+    /// overflow counter.  Use this after recovering
+    /// from an error.
     /// </summary>
     /// <remarks>
-    /// This is different from <see cref="Reinitialize()"/>.
-    /// It does not reset the provider subscription.
+    /// You may also need to
+    /// <see cref="IStreamObserver{T}.Reinitialize()"/>, or
+    /// <see cref="IStreamObserver{T}.Rebuild()"/>.
     /// </remarks>
-    void RebuildCache();
+    void ResetFault();
 
     /// <summary>
-    /// Reset the entire results cache from a point in time
-    /// and rebuilds it from provider sources,
-    /// with cascading updates to subscribers.
-    /// </summary>
-    /// <param name="fromTimestamp">
-    /// All periods (inclusive) after this date/time will
-    /// be removed and recalculated.
-    /// </param>
-    void RebuildCache(DateTime fromTimestamp);
-
-    /// <summary>
-    /// Resets the results cache from an index position
-    /// and rebuilds it from provider sources,
-    /// with cascading updates to subscribers.
-    /// </summary>
-    /// <param name="fromIndex">
-    /// All periods (inclusive) after this index position will
-    /// be removed and recalculated.
-    /// </param>
-    void RebuildCache(int fromIndex);
-
-    /// <summary>
-    /// Add a single new observed item.
+    /// Add a single new item.
     /// We'll determine if it's new or an update.
     /// </summary>
-    /// <param name="newIn" cref="ISeries">
-    /// Observed item to add or update
+    /// <param name="newIn">
+    /// New item to add
     /// </param>
     void Add(TIn newIn);
 
     /// <summary>
-    /// Add a batch of observed items.
+    /// Add a batch of new items.
     /// We'll determine if they're new or updated.
     /// </summary>
-    /// <param name="newIn" cref="ISeries">
-    /// Batch of observed items to add or update
+    /// <param name="batchIn">
+    /// Batch of new items to add
     /// </param>
-    void Add(IEnumerable<TIn> newIn);
+    void Add(IEnumerable<TIn> batchIn);
+
+    /// <summary>
+    /// Insert a new item without rebuilding the cache.
+    /// </summary>
+    /// <remarks>
+    /// This is used in situations when inserting an older item
+    /// and where newer cache entries do not need to be rebuilt.
+    /// Typically, this is only used for provider-only hubs.
+    /// </remarks>
+    /// <param name="newIn">
+    /// Item to insert
+    /// </param>
+    void Insert(TIn newIn);
 
     /// <summary>
     /// Delete an item from the cache.
     /// </summary>
     /// <param name="cachedItem">Cached item to delete</param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
-    Act Remove(TOut cachedItem);
+    /// <exception cref="ArgumentOutOfRangeException"/>
+    void Remove(TOut cachedItem);
 
     /// <summary>
-    /// Delete an item from the cache.
+    /// Delete an item from the cache, from a specific position.
     /// </summary>
     /// <param name="cacheIndex">Position in cache to delete</param>
-    /// <returns cref="Act">Action taken (outcome)</returns>
-    Act RemoveAt(int cacheIndex);
+    /// <exception cref="ArgumentOutOfRangeException"/>
+    void RemoveAt(int cacheIndex);
+
+    /// <summary>
+    /// Deletes newer cached records from point in time (inclusive).
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{T}.Rebuild(DateTime)"/>.
+    /// </remarks>
+    /// <param name="fromTimestamp">
+    /// All periods (inclusive) after this DateTime will be removed.
+    /// </param>
+    /// <param name="notify">
+    /// Notify subscribers of the delete point.
+    /// </param>
+    void RemoveRange(DateTime fromTimestamp, bool notify);
+
+    /// <summary>
+    /// Deletes newer cached records from an index position (inclusive).
+    /// </summary>
+    /// <remarks>
+    /// For observers, if your intention is to rebuild from a provider,
+    /// use alternate <see cref="IStreamObserver{T}.Rebuild(int)"/>.
+    /// </remarks>
+    /// <param name="fromIndex">From index, inclusive</param>
+    /// <param name="notify">
+    /// Notify subscribers of the delete position.
+    /// </param>
+    void RemoveRange(int fromIndex, bool notify);
 
     /// <summary>
     /// Returns a short text label for the hub

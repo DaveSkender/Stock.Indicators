@@ -12,8 +12,8 @@ public interface IAtrStopHub
 }
 #endregion
 
-public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
-    IResultHub<TIn, AtrStopResult>, IAtrStopHub
+public class AtrStopHub<TIn>
+    : StreamHub<TIn, AtrStopResult>, IAtrStopHub
     where TIn : IQuote
 {
     #region constructors
@@ -50,59 +50,21 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
 
     public override string ToString() => hubName;
 
-    // overridden to handle non-standard arrival scenarios
-    public override void OnNext((Act, TIn, int?) value)
+    protected override (AtrStopResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        (Act act, TIn item, int? index) = value;
+        // reminder: should only process "new" instructions
 
-        // add next value
-        if (act is Act.AddNew)
-        {
-            Add(act, item, index);
-            return;
-        }
-
-        int i = index ?? Provider.GetIndex(item, false);
-
-        // reset to the prior stop points
-        if (i > LookbackPeriods)
-        {
-            AtrStopResult resetStop = Cache[i - 1];
-
-            // reset prevailing direction and bands
-            IsBullish = resetStop.AtrStop >= resetStop.SellStop;
-            UpperBand = resetStop.BuyStop ?? default;
-            LowerBand = resetStop.SellStop ?? default;
-
-            // rebuild cache AFTER last sync point
-            RebuildCache(i, i);
-        }
-
-        // full rebuild if no prior reversal
-        else
-        {
-            IsBullish = default;
-            UpperBand = default;
-            LowerBand = default;
-            RebuildCache();
-        }
-    }
-
-    internal override void Add(Act act, TIn newIn, int? index)
-    {
-        // reminder: should only processes "new" instructions
-
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // handle warmup periods
         if (i < LookbackPeriods)
         {
-            Motify(act, new(newIn.Timestamp), null);
-            return;
+            return (new AtrStopResult(item.Timestamp), i);
         }
 
-        QuoteD newQ = newIn.ToQuoteD();
-        double prevClose = (double)Provider.Results[i - 1].Close;
+        QuoteD newQ = item.ToQuoteD();
+        double prevClose = (double)ProviderCache[i - 1].Close;
 
         // initialize direction on first evaluation
         if (i == LookbackPeriods)
@@ -131,9 +93,9 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
                 sumTr += Tr.Increment(
-                    (double)Provider.Results[p].High,
-                    (double)Provider.Results[p].Low,
-                    (double)Provider.Results[p - 1].Close);
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
             }
 
             atr = sumTr / LookbackPeriods;
@@ -178,7 +140,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         {
             IsBullish = false;
 
-            r = new(
+            r = new AtrStopResult(
                 Timestamp: newQ.Timestamp,
                 AtrStop: UpperBand,
                 BuyStop: UpperBand,
@@ -191,7 +153,7 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
         {
             IsBullish = true;
 
-            r = new(
+            r = new AtrStopResult(
                 Timestamp: newQ.Timestamp,
                 AtrStop: LowerBand,
                 BuyStop: null,
@@ -199,7 +161,34 @@ public class AtrStopHub<TIn> : QuoteObserver<TIn, AtrStopResult>,
                 Atr: atr);
         }
 
-        // save and send
-        Motify(act, r, null);
+        return (r, i);
+    }
+
+    /// <summary>
+    /// Restore prior ATR Stop
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int i = ProviderCache.GetIndexGte(timestamp);
+
+        // restore prior stop point
+        if (i > LookbackPeriods)
+        {
+            AtrStopResult resetStop = Cache[i - 1];
+
+            // prevailing direction and bands
+            IsBullish = resetStop.AtrStop >= resetStop.SellStop;
+            UpperBand = resetStop.BuyStop ?? default;
+            LowerBand = resetStop.SellStop ?? default;
+        }
+
+        // or reset if no prior stop found
+        else
+        {
+            IsBullish = default;
+            UpperBand = default;
+            LowerBand = default;
+        }
     }
 }

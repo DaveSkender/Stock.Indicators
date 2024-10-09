@@ -13,7 +13,7 @@ public static partial class Adl
     /// <para>See <see href="https://dotnet.StockIndicators.dev/indicators/Adl/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded"> documentation</see>
     /// for more information.</para>
     /// </summary>
-    /// <param name="timestamp">Timestamp</param>
+    /// <param name="timestamp">timestamp</param>
     /// <param name="high">High price, current period</param>
     /// <param name="low">Low price, current period</param>
     /// <param name="close">Close price, current period</param>

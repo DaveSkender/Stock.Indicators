@@ -1,4 +1,6 @@
 [assembly: CLSCompliant(true)]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+
 namespace PublicApi;
 
 // PUBLIC API (INTERFACES)
@@ -78,7 +80,7 @@ public class UserInterface
         }
 
         // late arrival
-        provider.Add(quotes[80]);
+        provider.Insert(quotes[80]);
 
         // end all observations
         provider.EndTransmission();

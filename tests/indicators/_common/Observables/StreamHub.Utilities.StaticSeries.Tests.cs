@@ -4,36 +4,6 @@ namespace Observables;
 public class CacheUtilities : TestBase
 {
     [TestMethod]
-    public void ClearCache()
-    {
-        // setup quote provider
-
-        List<Quote> quotesList = Quotes
-            .ToSortedList()
-            .Take(10)
-            .ToList();
-
-        int length = quotesList.Count;
-
-        QuoteHub<Quote> provider = new();
-
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
-
-        for (int i = 0; i < length; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // act: clear cache
-        observer.ClearCache();
-
-        // assert: cache is empty
-        observer.Cache.Should().BeEmpty();
-        provider.Cache.Should().HaveCount(10);
-    }
-
-    [TestMethod]
     public void ClearCacheByTimestamp()
     {
 
@@ -58,7 +28,7 @@ public class CacheUtilities : TestBase
         Quote q3 = quotesList[3];
 
         // act: clear cache
-        observer.ClearCache(q3.Timestamp);
+        observer.RemoveRange(q3.Timestamp, notify: false);
 
         // assert: cache is empty
         observer.Cache.Should().HaveCount(3);
@@ -79,7 +49,6 @@ public class CacheUtilities : TestBase
     [TestMethod]
     public void ClearCacheByIndex()
     {
-
         // setup quote provider
 
         List<Quote> quotesList = Quotes
@@ -102,7 +71,7 @@ public class CacheUtilities : TestBase
         Quote q3 = quotesList[3];
 
         // act: clear cache
-        observer.ClearCache(3);
+        observer.RemoveRange(3, notify: true);
 
         // assert: cache is empty
         observer.Cache.Should().HaveCount(3);
@@ -141,8 +110,8 @@ public class CacheUtilities : TestBase
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndexEx = provider.GetIndex(q, false);
-        int timeIndexEx = provider.GetIndex(q.Timestamp, false);
+        int itemIndexEx = provider.Cache.GetIndex(q, true);
+        int timeIndexEx = provider.Cache.GetIndex(q.Timestamp, true);
 
         // assert: same index
         itemIndexEx.Should().Be(4);
@@ -152,22 +121,22 @@ public class CacheUtilities : TestBase
         Quote o = Quotes[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.GetIndex(o, false);
+            provider.Cache.GetIndex(o, true);
         });
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.GetIndex(o.Timestamp, false);
+            provider.Cache.GetIndex(o.Timestamp, true);
         });
 
         // out of range (no exceptions)
-        int itemIndexNo = provider.GetIndex(o, true);
-        int timeIndexNo = provider.GetIndex(o.Timestamp, true);
+        int itemIndexNo = provider.Cache.GetIndex(o, false);
+        int timeIndexNo = provider.Cache.GetIndex(o.Timestamp, false);
 
         itemIndexNo.Should().Be(-1);
         timeIndexNo.Should().Be(-1);
 
-        int timeInsertOut = provider.GetInsertIndex(o.Timestamp);
-        int timeInsertIn = provider.GetInsertIndex(quotesList[2].Timestamp);
+        int timeInsertOut = provider.Cache.GetIndexGte(o.Timestamp);
+        int timeInsertIn = provider.Cache.GetIndexGte(quotesList[2].Timestamp);
 
         timeInsertOut.Should().Be(-1);
         timeInsertIn.Should().Be(2);
@@ -198,7 +167,7 @@ public class CacheUtilities : TestBase
         // act: find index of quote
 
         // assert: correct index
-        if (provider.TryFindIndex(q.Timestamp, out int goodIndex))
+        if (provider.Cache.TryFindIndex(q.Timestamp, out int goodIndex))
         {
             goodIndex.Should().Be(4);
         }
@@ -208,7 +177,7 @@ public class CacheUtilities : TestBase
         }
 
         // assert: out of range
-        if (provider.TryFindIndex(DateTime.MaxValue, out int badIndex))
+        if (provider.Cache.TryFindIndex(DateTime.MaxValue, out int badIndex))
         {
             Assert.Fail("unexpected index found");
         }

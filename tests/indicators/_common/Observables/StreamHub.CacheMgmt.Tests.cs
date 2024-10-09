@@ -52,7 +52,7 @@ public class CacheManagement : TestBase
         }
 
         // add late
-        provider.Add(Quotes[100]);
+        provider.Insert(Quotes[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)
@@ -62,7 +62,7 @@ public class CacheManagement : TestBase
 
             // compare quote to result cache
             r.Timestamp.Should().Be(q.Timestamp);
-            r.Value.Should().Be((double)q.Close);
+            r.Value.Should().Be(q.Value);
         }
 
         // close observations
@@ -98,7 +98,7 @@ public class CacheManagement : TestBase
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeFalse();
         provider.OverflowCount.Should().Be(100);
-        provider.HasSubscribers.Should().BeTrue();
+        provider.HasObservers.Should().BeTrue();
 
         provider.EndTransmission();
     }
@@ -135,7 +135,7 @@ public class CacheManagement : TestBase
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeTrue();
         provider.OverflowCount.Should().Be(101);
-        provider.HasSubscribers.Should().BeFalse();
+        provider.HasObservers.Should().BeTrue();
 
         // act: reset
 
@@ -152,7 +152,7 @@ public class CacheManagement : TestBase
         observer.Results.Should().HaveCount(1);
         provider.IsFaulted.Should().BeFalse();
         provider.OverflowCount.Should().Be(100);
-        provider.HasSubscribers.Should().BeFalse(); // expected
+        provider.HasObservers.Should().BeTrue(); // not lost
 
         provider.EndTransmission();
     }

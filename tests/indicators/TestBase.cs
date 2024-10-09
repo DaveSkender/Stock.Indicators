@@ -6,9 +6,10 @@ using System.Runtime.CompilerServices;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Tests.Other")]        // these use test data
 [assembly: InternalsVisibleTo("Tests.Performance")]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+
 namespace Test.Data;
 
-[TestClass]
 public abstract class TestBase  // base for all tests
 {
     internal static readonly CultureInfo englishCulture = new("en-US", false);
@@ -34,42 +35,32 @@ public abstract class TestBase  // base for all tests
 /// <summary>
 /// Base tests that all series indicators should have.
 /// </summary>
-[TestClass]
 public abstract class StaticSeriesTestBase : TestBase
 {
-    [TestMethod]
     public abstract void Standard();
 
-    [TestMethod]
     public abstract void BadData();
 
-    [TestMethod]
     public abstract void NoQuotes();
 }
 
 /// <summary>
 /// Base tests that all static indicators (series) should have.
 /// </summary>
-[TestClass]
 public abstract class IncrementsTestBase : TestBase
 {
-    [TestMethod]
     public abstract void FromQuote();
 
-    [TestMethod]
     public abstract void FromQuoteBatch();
 }
 
 /// <summary>
 /// Base tests that all streamed indicators should have.
 /// </summary>
-[TestClass]
 public abstract class StreamHubTestBase : TestBase  // default: quote observer
 {
-    [TestMethod]
     public abstract void QuoteObserver();
 
-    [TestMethod]
     public abstract void CustomToString();
 }
 
@@ -78,7 +69,6 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
 /// </summary>
 public interface ITestChainObserver
 {
-    [TestMethod]
     void ChainObserver();
 }
 
@@ -87,6 +77,5 @@ public interface ITestChainObserver
 /// </summary>
 public interface ITestChainProvider
 {
-    [TestMethod]
     void ChainProvider();
 }

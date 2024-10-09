@@ -25,8 +25,10 @@ public static partial class Indicator
 
             if (a.Timestamp != b.Timestamp)
             {
-                throw new InvalidQuotesException(nameof(sourceA), a.Timestamp,
-                    "Timestamp sequence does not match.  Correlation requires matching dates in provided histories.");
+                throw new InvalidQuotesException(
+                    nameof(sourceA), a.Timestamp,
+                    "Timestamp sequence does not match.  " +
+                    "Correlation requires matching dates in provided histories.");
             }
 
             CorrResult r;

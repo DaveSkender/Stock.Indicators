@@ -2,14 +2,14 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
-public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
-    IReusableHub<TIn, EmaResult>, IEma
+public class EmaHub<TIn>
+    : ChainProvider<TIn, EmaResult>, IEma
     where TIn : IReusable
 {
     #region constructors
 
     private readonly string hubName;
-    
+
     internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -30,35 +30,28 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     public override string ToString() => hubName;
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    protected override (EmaResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        double ema;
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
-        int i = index ?? Provider.GetIndex(newIn, false);
-
-        if (i >= LookbackPeriods - 1)
-        {
-            ema = Cache[i - 1].Ema is not null
+        double ema = i >= LookbackPeriods - 1
+            ? Cache[i - 1].Ema is not null
 
                 // normal
-                ? Ema.Increment(K, Cache[i - 1].Value, newIn.Value)
+                ? Ema.Increment(K, Cache[i - 1].Value, item.Value)
 
                 // re/initialize as SMA
-                : Sma.Increment(Provider.Results, LookbackPeriods, i);
-        }
+                : Sma.Increment(ProviderCache, LookbackPeriods, i)
 
-        // warmup periods are never calculable
-        else
-        {
-            ema = double.NaN;
-        }
+            // warmup periods are never calculable
+            : double.NaN;
 
         // candidate result
         EmaResult r = new(
-            Timestamp: newIn.Timestamp,
+            Timestamp: item.Timestamp,
             Ema: ema.NaN2Null());
 
-        // save and send
-        Motify(act, r, i);
+        return (r, i);
     }
 }
