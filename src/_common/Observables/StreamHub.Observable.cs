@@ -6,27 +6,32 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
 {
     private readonly HashSet<IStreamObserver<TOut>> _observers = new();
 
+    /// <inheritdoc />
     public bool HasObservers => _observers.Count > 0;
 
+    /// <inheritdoc />
     public int ObserverCount => _observers.Count;
 
+    /// <inheritdoc />
     public IReadOnlyList<TOut> ReadCache => Cache;
 
+    /// <inheritdoc />
     public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
 
     #region SUBSCRIPTION SERVICES
 
-    // subscribe observer
+    /// <inheritdoc />
     public IDisposable Subscribe(IStreamObserver<TOut> observer)
     {
         _observers.Add(observer);
         return new Unsubscriber(_observers, observer);
     }
 
+    /// <inheritdoc />
     public bool Unsubscribe(IStreamObserver<TOut> observer)
         => _observers.Remove(observer);
 
-    // check if observer is subscribed
+    /// <inheritdoc />
     public bool HasSubscriber(IStreamObserver<TOut> observer)
         => _observers.Contains(observer);
 
@@ -47,11 +52,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
         private readonly ISet<IStreamObserver<TOut>> _observers = observers;
         private readonly IStreamObserver<TOut> _observer = observer;
 
-        // remove single observer
+        /// <summary>
+        /// Remove single observer.
+        /// </summary>
         public void Dispose() => _observers.Remove(_observer);
     }
 
-    // unsubscribe all observers
+    /// <inheritdoc />
     public void EndTransmission()
     {
         foreach (IStreamObserver<TOut> observer
@@ -71,10 +78,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     #region SUBSCRIBER NOTIFICATIONS
 
     /// <summary>
-    /// Sends new <c>TSeries</c> item to subscribers
+    /// Sends new <c>TSeries</c> item to subscribers.
     /// </summary>
-    /// <param name="item"><c>TSeries</c> item to send</param>
-    /// <param name="indexHint">Provider index hint</param>
+    /// <param name="item"><c>TSeries</c> item to send.</param>
+    /// <param name="indexHint">Provider index hint.</param>
     private void NotifyObserversOnAdd(TOut item, int? indexHint)
     {
         // send to subscribers
@@ -87,7 +94,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <summary>
     /// Sends rebuilds point in time to all subscribers.
     /// </summary>
-    /// <param name="fromTimestamp">Rebuild starting positions</param>
+    /// <param name="fromTimestamp">Rebuild starting positions.</param>
     private void NotifyObserversOnChange(DateTime fromTimestamp)
     {
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
@@ -97,9 +104,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     }
 
     /// <summary>
-    /// Sends error (exception) to all subscribers
+    /// Sends error (exception) to all subscribers.
     /// </summary>
-    /// <param name="exception"></param>
+    /// <param name="exception">The exception to send.</param>
     private void NotifyObserversOnError(Exception exception)
     {
         // send to subscribers

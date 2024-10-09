@@ -3,8 +3,15 @@ namespace Skender.Stock.Indicators;
 // STREAM HUB INTERFACE
 
 /// <summary>
-/// Streaming hub (observer and observable provider).
+/// Streaming hub: management of observer
+/// and observable indicator data
 /// </summary>
+/// <typeparam name="TIn">
+/// Type of inbound provider data.
+/// </typeparam>
+/// <typeparam name="TOut">
+/// Type of outbound indicator data.
+/// </typeparam>
 public interface IStreamHub<in TIn, TOut>
     where TIn : ISeries
 {

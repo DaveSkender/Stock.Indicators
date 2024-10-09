@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 // STREAM (OBSERVER) INTERFACE
 
 /// <summary>
-/// Provides a mechanism for receiving push-based notifications.
+/// Management of observing + processing of streamed inbound data.
 /// </summary>
 /// <typeparam name="T">
 /// The object that provides notification information.
@@ -58,7 +58,7 @@ public interface IStreamObserver<in T>
     /// </summary>
     /// <remarks>
     /// Completion indicates that publisher will never send
-    /// additional data.  This is only used for finite data
+    /// additional data. This is only used for finite data
     /// streams; and is different from faulted OnError().
     /// </remarks>
     void OnCompleted();

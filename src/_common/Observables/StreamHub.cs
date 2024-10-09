@@ -2,33 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // STREAM HUB (BASE/CACHE)
 
-#region chain and quote variants
-
-public abstract class QuoteProvider<TIn, TOut>(
-    IStreamObservable<TIn> provider
-) : StreamHub<TIn, TOut>(provider), IQuoteProvider<TOut>
-    where TIn : IReusable
-    where TOut : IQuote
-{
-    public IReadOnlyList<TOut> Quotes => Cache;
-};
-
-public abstract class ChainProvider<TIn, TOut>(
-    IStreamObservable<TIn> provider
-) : StreamHub<TIn, TOut>(provider), IChainProvider<TOut>
-    where TIn : IReusable
-    where TOut : IReusable;
-#endregion
-
-/// <summary>
-/// Streaming hub (abstract observer/provider)
-/// </summary>
+/// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
 public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     where TIn : ISeries
     where TOut : ISeries
 {
     #region constructor
 
+    /// <param name="provider">
+    /// Streaming data provider
+    /// </param>
     internal StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
@@ -403,3 +386,23 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
     #endregion
 }
+
+#region chain and quote variants
+
+/// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
+public abstract class QuoteProvider<TIn, TOut>(
+    IStreamObservable<TIn> provider
+) : StreamHub<TIn, TOut>(provider), IQuoteProvider<TOut>
+    where TIn : IReusable
+    where TOut : IQuote
+{
+    public IReadOnlyList<TOut> Quotes => Cache;
+};
+
+/// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
+public abstract class ChainProvider<TIn, TOut>(
+    IStreamObservable<TIn> provider
+) : StreamHub<TIn, TOut>(provider), IChainProvider<TOut>
+    where TIn : IReusable
+    where TOut : IReusable;
+#endregion

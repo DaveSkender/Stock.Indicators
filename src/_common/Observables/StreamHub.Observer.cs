@@ -4,41 +4,63 @@ namespace Skender.Stock.Indicators;
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 {
+    /// <inheritdoc />
     public bool IsSubscribed => Provider.HasSubscriber(this);
 
+    /// <summary>
+    /// Data provider that this observer subscribes to.
+    /// </summary>
     protected IStreamObservable<TIn> Provider { get; init; }
 
+    /// <summary>
+    /// Subscription token for managing the subscription lifecycle.
+    /// </summary>
     private IDisposable? Subscription { get; set; }
 
-    // observer methods
+    /// <summary>
+    /// Lock object to ensure thread safety during unsubscription.
+    /// </summary>
+    private readonly object _unsubscribeLock = new();
 
+    // Observer methods
+
+    /// <inheritdoc />
     public virtual void OnAdd(TIn item, bool notify, int? indexHint)
     {
-        // note: override when not indexed 1:1
+        // Convert the input item to the output type and append it to the cache.
+        // Override this method if the input and output types are not indexed 1:1.
 
         (TOut result, int index) = ToIndicator(item, indexHint);  // TODO: make this return array, loop appendation?
         AppendCache(result, notify);
     }
 
+    /// <inheritdoc />
     public void OnChange(DateTime fromTimestamp)
         => Rebuild(fromTimestamp);
 
+    /// <inheritdoc />
     public void OnError(Exception exception)
         => throw exception;
 
+    /// <inheritdoc />
     public void OnCompleted()
         => Unsubscribe();
 
+    /// <inheritdoc />
     public void Unsubscribe()
     {
-        // TODO: check for thread-safety for EndTransmission > OnCompleted-type race conditions
+        // Ensure thread-safety for EndTransmission > OnCompleted-type race conditions
         // see https://learn.microsoft.com/en-us/dotnet/standard/events/observer-design-pattern-best-practices
 
-        if (IsSubscribed)
+        lock (_unsubscribeLock)
         {
-            Provider.Unsubscribe(this);
-        }
+            if (IsSubscribed)
+            {
+                Provider.Unsubscribe(this);
+            }
 
-        Subscription?.Dispose();
+            Subscription?.Dispose();
+            Subscription = null; // ensure the ref is cleared
+        }
     }
 }

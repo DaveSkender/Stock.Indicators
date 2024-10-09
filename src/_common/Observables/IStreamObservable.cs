@@ -11,13 +11,13 @@ public interface IQuoteProvider<out T> : IChainProvider<T>
     IReadOnlyList<T> Quotes { get; }
 }
 
-/// <inheritdoc cref="IStreamObservable{T}" />
+/// <inheritdoc />
 public interface IChainProvider<out T> : IStreamObservable<T>
     where T : IReusable;
 #endregion
 
 /// <summary>
-/// Streaming provider (observable cache)
+/// Provider of data + management of and notification to observing subscribers.
 /// </summary>
 /// <typeparam name="T">
 /// The object that provides notification information.
