@@ -3,6 +3,8 @@ namespace Skender.Stock.Indicators;
 // STREAM HUB (OBSERVABLE)
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
+    where TIn : ISeries
+    where TOut : ISeries
 {
     private readonly HashSet<IStreamObserver<TOut>> _observers = new();
 

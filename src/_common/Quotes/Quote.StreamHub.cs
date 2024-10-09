@@ -7,7 +7,7 @@ public class QuoteHub<TQuote>
     : QuoteProvider<TQuote, TQuote>
     where TQuote : IQuote
 {
-    public QuoteHub() : base(new DefaultQuoteProvider<TQuote>()) { }
+    public QuoteHub() : base(new EmptyQuoteProvider<TQuote>()) { }
 
     public QuoteHub(
         IQuoteProvider<TQuote> provider)
@@ -32,30 +32,24 @@ public class QuoteHub<TQuote>
 }
 
 /// <summary>
-/// Default quote provider for parent-less QuoteHub
+/// Empty quote provider for base Quote Hub initialization.
 /// </summary>
+/// <remarks>Internal use only. Do not use directly.</remarks>
 /// <typeparam name="TQuote"></typeparam>
-internal class DefaultQuoteProvider<TQuote>
+public class EmptyQuoteProvider<TQuote>
     : IQuoteProvider<TQuote>
     where TQuote : IQuote
 {
     /// <summary>
-    /// Default quote provider is parent-less;
-    /// but does not transfer that setting to its children.
+    /// Default quote provider is parent-less Quote Hub.
+    /// It does not transfer its setting to its children.
     /// </summary>
     public BinarySettings Properties { get; } = new(0b00000001, 0b11111110);
-
-    // TODO: are we using this ^^ "parent-less" property at all?
-    // Refactor to use it, or remove it.
-
-    public int ObserverCount => 1;
-    public bool HasObservers => true;
-
+    public int ObserverCount => 0;
+    public bool HasObservers => false;
     public IReadOnlyList<TQuote> Quotes { get; } = Array.Empty<TQuote>();
     public IReadOnlyList<TQuote> GetCacheRef() => Array.Empty<TQuote>();
-
-    public bool HasSubscriber(IStreamObserver<TQuote> observer)
-        => throw new InvalidOperationException();
+    public bool HasSubscriber(IStreamObserver<TQuote> observer) => false;
 
     public IDisposable Subscribe(IStreamObserver<TQuote> observer)
         => throw new InvalidOperationException();

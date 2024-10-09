@@ -3,6 +3,8 @@ namespace Skender.Stock.Indicators;
 // STREAM HUB (OBSERVER)
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
+    where TIn : ISeries
+    where TOut : ISeries
 {
     /// <inheritdoc />
     public bool IsSubscribed => Provider.HasSubscriber(this);
@@ -30,7 +32,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
         // Convert the input item to the output type and append it to the cache.
         // Override this method if the input and output types are not indexed 1:1.
 
-        (TOut result, int index) = ToIndicator(item, indexHint);  // TODO: make this return array, loop appendation?
+        (TOut result, int _) = ToIndicator(item, indexHint);  // TODO: make this return array, loop appendation?
         AppendCache(result, notify);
     }
 

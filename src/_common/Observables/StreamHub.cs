@@ -12,7 +12,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <param name="provider">
     /// Streaming data provider
     /// </param>
-    internal StreamHub(IStreamObservable<TIn> provider)
+    private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
         Provider = provider;
