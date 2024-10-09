@@ -23,17 +23,26 @@ namespace Skender.Stock.Indicators;
 /// settings = settings with { [1] = false }; // set bit 1 to false
 /// </code>
 /// </remarks>
-public readonly struct BinarySettings(
-    byte settings = 0b00000000, // Binary literal for 0
-    byte mask = 0b11111111)     // Binary literal for 255 (default: all inheritable)
-    : IEquatable<BinarySettings>
+/// <param name="settings">
+/// Binary settings.
+/// Default is 0b00000000 (binary literal of 0).
+/// </param>
+/// <param name="mask">
+/// Mask for settings inheritence.
+/// Default is 0b11111111 (binary literal of 255).
+/// </param>
+public readonly struct BinarySettings(byte settings, byte mask)
+ : IEquatable<BinarySettings>
 {
     public byte Settings { get; } = settings;
     public byte Mask { get; } = mask;
 
-    // explicit parameterless ctor required for struct,
-    // otherwise args default to byte default (0)
-    public BinarySettings() : this(settings: 0b00000000, mask: 0b11111111) { }
+    // use default mask (all bits pass through)
+    public BinarySettings(byte settings) : this(settings, mask: 0b11111111) { }
+
+    // use default settings (none) and mask
+    // important: this explicit parameterless ctor required for struct
+    public BinarySettings() : this(settings: 0b00000000) { }
 
     /// <summary>
     /// Gets the value of the bit at the specified index.
@@ -52,7 +61,7 @@ public readonly struct BinarySettings(
     /// A new <see cref="BinarySettings"/> instance with combined settings.
     /// Notably, it does not modify the current read-only instance.
     /// </returns>
-    /// 
+    ///
     /// <remarks>
     /// The mask is used to determine which bits from the parent settings should be excluded
     /// during the combination. By default, the mask is set to 0b11111111, meaning all bits
