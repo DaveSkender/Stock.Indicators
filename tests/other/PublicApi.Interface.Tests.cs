@@ -1,4 +1,6 @@
 [assembly: CLSCompliant(true)]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+
 namespace PublicApi;
 
 // PUBLIC API (INTERFACES)

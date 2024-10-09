@@ -52,7 +52,6 @@ public class EmaHub<TIn>
             Timestamp: item.Timestamp,
             Ema: ema.NaN2Null());
 
-        // save and send
         return (r, i);
     }
 }

@@ -164,22 +164,26 @@ public class AtrStopHub<TIn>
         return (r, i);
     }
 
+    /// <summary>
+    /// Restore prior ATR Stop
+    /// </summary>
+    /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
         int i = ProviderCache.GetIndexGte(timestamp);
 
-        // rebuild from prior stop point
+        // restore prior stop point
         if (i > LookbackPeriods)
         {
             AtrStopResult resetStop = Cache[i - 1];
 
-            // reset prevailing direction and bands
+            // prevailing direction and bands
             IsBullish = resetStop.AtrStop >= resetStop.SellStop;
             UpperBand = resetStop.BuyStop ?? default;
             LowerBand = resetStop.SellStop ?? default;
         }
 
-        // or full rebuild if no prior stop found
+        // or reset if no prior stop found
         else
         {
             IsBullish = default;
