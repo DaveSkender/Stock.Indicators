@@ -31,13 +31,13 @@ namespace Skender.Stock.Indicators;
 /// Mask for settings inheritence.
 /// Default is 0b11111111 (binary literal of 255).
 /// </param>
-public readonly struct BinarySettings(byte settings, byte mask) : IEquatable<BinarySettings>
+public readonly struct BinarySettings(
+    byte settings,
+    byte mask = 0b11111111)
+    : IEquatable<BinarySettings>
 {
     public byte Settings { get; } = settings;
     public byte Mask { get; } = mask;
-
-    // use default mask (all bits pass through)
-    public BinarySettings(byte settings) : this(settings, mask: 0b11111111) { }
 
     // use default settings (none) and mask
     // important: this explicit parameterless ctor required for struct

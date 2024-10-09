@@ -3,8 +3,6 @@ namespace Skender.Stock.Indicators;
 // STREAM HUB (OBSERVER)
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
-    where TIn : ISeries
-    where TOut : ISeries
 {
     /// <inheritdoc />
     public bool IsSubscribed => Provider.HasSubscriber(this);
