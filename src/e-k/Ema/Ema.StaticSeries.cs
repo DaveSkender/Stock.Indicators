@@ -27,11 +27,11 @@ public static partial class Ema
             // skip incalculable periods
             if (i < lookbackPeriods - 1)
             {
-                results[i] = new(Timestamp: s.Timestamp);
+                results[i] = new EmaResult(Timestamp: s.Timestamp);
                 continue;
             }
 
-            double ema = results[i - 1].Ema is not null
+            double ema = !double.IsNaN(lastEma)
 
                 // calculate EMA (normally)
                 ? Ema.Increment(k, lastEma, s.Value)
