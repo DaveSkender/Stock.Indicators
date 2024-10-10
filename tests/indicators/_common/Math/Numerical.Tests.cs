@@ -7,8 +7,8 @@ public class Numericals : TestBase
         .Select(x => (double)x.Close)
         .ToArray();
 
-    private readonly double[] _x = [1, 2, 3, 4, 5];
-    private readonly double[] _y = [0, 0, 0, 0];
+    private readonly double[] _x = { 1, 2, 3, 4, 5 };
+    private readonly double[] _y = { 0, 0, 0, 0 };
 
     [TestMethod]
     public void StdDev()
@@ -19,8 +19,10 @@ public class Numericals : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Null parameter.")]
-    public void StdDevNull() => Numerical.StdDev(null);
+    public void StdDevNull()
+    {
+        Assert.ThrowsException<ArgumentNullException>(() => Numerical.StdDev(null));
+    }
 
     [TestMethod]
     public void Slope()
@@ -31,16 +33,22 @@ public class Numericals : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Null X parameter.")]
-    public void SlopeXnull() => Numerical.Slope(null, _x);
+    public void SlopeXnull()
+    {
+        Assert.ThrowsException<ArgumentNullException>(() => Numerical.Slope(null, _x));
+    }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Null Y parameter.")]
-    public void SlopeYnull() => Numerical.Slope(_x, null);
+    public void SlopeYnull()
+    {
+        Assert.ThrowsException<ArgumentNullException>(() => Numerical.Slope(_x, null));
+    }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException), "X and Y different lengths.")]
-    public void SlopeMismatch() => Numerical.Slope(_x, _y);
+    public void SlopeMismatch()
+    {
+        Assert.ThrowsException<ArgumentException>(() => Numerical.Slope(_x, _y));
+    }
 
     [TestMethod]
     public void RoundDownDate()

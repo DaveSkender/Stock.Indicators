@@ -206,7 +206,7 @@ public class Do
     /// </summary>
     private static void Timewarp(int quotesPerMinute = 0)
     {
-        if (quotesPerMinute is 0)
+        if (quotesPerMinute == 0)
         {
             return;
         }

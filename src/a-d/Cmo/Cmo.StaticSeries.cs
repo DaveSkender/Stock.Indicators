@@ -38,10 +38,9 @@ public static partial class Indicator
             // determine tick direction and size
             (bool? isUp, double value) tick = (null, Math.Abs(s.Value - prevValue));
 
-            tick.isUp = double.IsNaN(tick.value) ? null
-                : (s.Value > prevValue ? true
-                    : (s.Value < prevValue ? false
-                        : null));
+            tick.isUp = double.IsNaN(tick.value) || s.Value == prevValue
+                ? null
+                : s.Value > prevValue;
 
             ticks.Add(tick);
 

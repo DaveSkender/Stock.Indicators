@@ -5,6 +5,10 @@
     <OutputType>Exe</OutputType>
     <StartupObject>Performance.Program</StartupObject>
 
+    <IsTestProject>false</IsTestProject>
+    <TestProjectType>None</TestProjectType>
+    <ExcludeFromTestDiscovery>true</ExcludeFromTestDiscovery>
+
     <ImplicitUsings>enable</ImplicitUsings>
 
     <EnableNETAnalyzers>true</EnableNETAnalyzers>

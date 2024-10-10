@@ -126,10 +126,8 @@ public partial class Quotes : TestBase
         Assert.AreEqual(3173255968m, r23.Volume);
     }
 
-    [TestMethod]
-    [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
-    public void AggregateBadSize() =>
-
-    // bad period size
-    Quotes.Aggregate(TimeSpan.Zero);
+    [TestMethod]  // bad period size
+    public void AggregateBadSize()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+            => Quotes.Aggregate(TimeSpan.Zero));
 }

@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// McGINLEY DYNAMIC (COMMON)
+// McGINLEY DYNAMIC (UTILITIES)
 
-public static class MgDynamic
+public static partial class MgDynamic
 {
+    // increment calculation
+    public static double Increment(
+        int lookbackPeriods,
+        double kFactor,
+        double newVal,
+        double prevDyn)
+        => prevDyn + (
+            (newVal - prevDyn)
+          / (kFactor * lookbackPeriods * Math.Pow(newVal / prevDyn, 4)));
+
     // parameter validation
     internal static void Validate(
         int lookbackPeriods,

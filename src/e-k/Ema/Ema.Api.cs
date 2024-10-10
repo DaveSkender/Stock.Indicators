@@ -4,8 +4,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Api
 {
-    // SERIES, from CHAIN
+    //SERIES, from CHAIN
     public static IReadOnlyList<EmaResult> ToEma<T>(
+
+        // FIX: Use "Ema" instead of "Api" class name (fails).
+
         this IEnumerable<T> results,
         int lookbackPeriods)
         where T : IReusable

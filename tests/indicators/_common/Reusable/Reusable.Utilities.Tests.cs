@@ -35,7 +35,7 @@ public class Reusable : TestBase
 
         Assert.IsNotNull(reusableList);
         Assert.AreEqual(502, reusableList.Count);
-        Assert.AreEqual(reusableList[^1].Value, 245.28d);
+        Assert.AreEqual(245.28d, reusableList[^1].Value);
     }
 
     [TestMethod]

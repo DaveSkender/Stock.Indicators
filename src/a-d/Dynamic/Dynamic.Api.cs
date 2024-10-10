@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// McGINLEY DYNAMIC
-public static partial class Indicator
+// McGINLEY DYNAMIC (API)
+
+public static partial class MgDynamic
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<DynamicResult> GetDynamic<T>(

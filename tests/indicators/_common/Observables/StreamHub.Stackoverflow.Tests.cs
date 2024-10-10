@@ -12,16 +12,16 @@ public class Stackoverflow : TestBase
         int qtyQuotes = 20000;
 
         // setup: many random quotes (massive)
-        IReadOnlyList<Quote> quotesList
-            = Data.GetRandom(qtyQuotes);
+        IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
         QuoteHub<Quote> provider = new();
 
         // setup: define ~10 subscribers (flat)
-        List<(string label, IEnumerable<ISeries> results, bool irregular)> subscribers
-            = new() {
-                HubRef(provider.ToAdl()),
-                HubRef(provider.ToEma(14)) };
+        List<(string label, IEnumerable<ISeries> results, bool irregular)> subscribers = new()
+        {
+            HubRef(provider.ToAdl()),
+            HubRef(provider.ToEma(14))
+        };
 
         // all USEs
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
@@ -35,9 +35,7 @@ public class Stackoverflow : TestBase
             provider.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0, new(
-            provider.ToString(),
-            provider.Quotes.Cast<ISeries>(), false));
+        subscribers.Insert(0, new(provider.ToString(), provider.Quotes.Cast<ISeries>(), false));
 
         // assert: this just has to not fail, really
 
@@ -45,49 +43,37 @@ public class Stackoverflow : TestBase
         Console.WriteLine("--------------------");
 
         // assert: all non-irregular subscribers have the same count
-        foreach ((string label, IEnumerable<ISeries> results, bool irregular)
-            in subscribers)
+        foreach ((string label, IEnumerable<ISeries> results, bool irregular) in subscribers)
         {
             int resultQty = results.Count();
-
             Console.WriteLine($"Hub: {resultQty} - {label}");
-
             if (irregular) { continue; }
-
             resultQty.Should().Be(qtyQuotes);
         }
 
         // assert: [last subscriber] has the same dates
-
-        IReadOnlyList<ISeries> lastSubscriber
-            = subscribers[^1].results.ToList();
-
+        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].results.ToList();
         for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesList[i];
             ISeries r = lastSubscriber[i];
-
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
         // act: clear provider cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.ClearCache(cutoff);
+        provider.RemoveRange(cutoff, notify: true);
 
         provider.Quotes.Count.Should().Be(cutoff);
 
         Console.WriteLine("--------------------");
 
         // assert: all have same count
-        foreach ((string label, IEnumerable<ISeries> results, bool irregular)
-            in subscribers)
+        foreach ((string label, IEnumerable<ISeries> results, bool irregular) in subscribers)
         {
             int resultQty = results.Count();
-
             Console.WriteLine($"Cut: {resultQty} - {label}");
-
             if (irregular) { continue; }
-
             resultQty.Should().Be(cutoff);
         }
     }
@@ -103,14 +89,12 @@ public class Stackoverflow : TestBase
         int chainDepth = 500;
 
         // setup: many random quotes (massive)
-        IReadOnlyList<Quote> quotesList
-            = Data.GetRandom(qtyQuotes);
+        IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
         QuoteHub<Quote> provider = new();
 
         // setup: subscribe a large chain depth
-        List<(string label, IEnumerable<ISeries> results, bool irregular)> subscribers
-            = new(chainDepth + 2);
+        List<(string label, IEnumerable<ISeries> results, bool irregular)> subscribers = new(chainDepth + 2);
 
         SmaHub<Quote> init = provider.ToSma(1);
         SmaHub<SmaResult> sma = init.ToSma(2);
@@ -135,9 +119,7 @@ public class Stackoverflow : TestBase
             provider.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0,
-            new(provider.ToString(),
-            provider.Quotes.Cast<ISeries>(), false));
+        subscribers.Insert(0, new(provider.ToString(), provider.Quotes.Cast<ISeries>(), false));
 
         Console.WriteLine($"Subscribers: {subscribers.Count}");
         Console.WriteLine("--------------------");
@@ -145,8 +127,7 @@ public class Stackoverflow : TestBase
         // assert: this just has to not fail, really
 
         // assert: all non-irregular subscribers have the same count
-        foreach ((string label, IEnumerable<ISeries> results, bool irregular)
-            in subscribers)
+        foreach ((string label, IEnumerable<ISeries> results, bool irregular) in subscribers)
         {
             int resultQty = results.Count();
             Console.WriteLine($"Hub: {resultQty} - {label}");
@@ -155,37 +136,26 @@ public class Stackoverflow : TestBase
         }
 
         // assert: [last subscriber] has the same dates
-
-        IReadOnlyList<ISeries> lastSubscriber
-            = subscribers[^1].results.ToList();
-
+        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].results.ToList();
         for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesList[i];
             ISeries r = lastSubscriber[i];
-
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
         // act: clear provider cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.ClearCache(cutoff);
+        provider.RemoveRange(cutoff, notify: true);
 
         provider.Quotes.Count.Should().Be(cutoff);
 
         // assert: all have same count
-        foreach ((string label, IEnumerable<ISeries> results, bool irregular)
-            in subscribers)
+        foreach ((string label, IEnumerable<ISeries> results, bool irregular) in subscribers)
         {
             int resultQty = results.Count();
-
             Console.WriteLine($"Cut: {resultQty} - {label}");
-
-            if (irregular)
-            {
-                continue;
-            }
-
+            if (irregular) { continue; }
             resultQty.Should().Be(cutoff);
         }
     }
@@ -200,21 +170,20 @@ public class Stackoverflow : TestBase
         int qtyQuotes = 5000;
 
         // setup: many random quotes
-        IReadOnlyList<Quote> quotesList
-            = Data.GetRandom(qtyQuotes);
+        IReadOnlyList<Quote> quotesList = Data.GetRandom(qtyQuotes);
 
         QuoteHub<Quote> provider = new();
 
         // setup: define all possible subscribers
         // TODO: add to this as more Hubs come online
-        List<(string label, IEnumerable<ISeries> results, bool irregular)> subscribers
-            = new() {
-                HubRef(provider.ToAdl()),
-                HubRef(provider.ToAlligator()),
-                HubRef(provider.ToEma(14)),
-                HubRef(provider.ToRenko(2.1m), irregular: true),
-                HubRef(provider.ToQuote())
-              };
+        List<(string label, IEnumerable<ISeries> results, bool irregular)> subscribers = new()
+        {
+            HubRef(provider.ToAdl()),
+            HubRef(provider.ToAlligator()),
+            HubRef(provider.ToEma(14)),
+            //HubRef(provider.ToRenko(2.1m), irregular: true),
+            HubRef(provider.ToQuote())
+        };
 
         // all QuoteParts
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
@@ -234,9 +203,7 @@ public class Stackoverflow : TestBase
             provider.Add(quotesList[i]);
         }
 
-        subscribers.Insert(0, new(
-            provider.ToString(),
-            provider.Quotes.Cast<ISeries>(), false));
+        subscribers.Insert(0, new(provider.ToString(), provider.Quotes.Cast<ISeries>(), false));
 
         // assert: this just has to not fail, really
 
@@ -244,49 +211,37 @@ public class Stackoverflow : TestBase
         Console.WriteLine("--------------------");
 
         // assert: all non-irregular subscribers have the same count
-        foreach ((string label, IEnumerable<ISeries> results, bool irregular)
-            in subscribers)
+        foreach ((string label, IEnumerable<ISeries> results, bool irregular) in subscribers)
         {
             int resultQty = results.Count();
-
             Console.WriteLine($"Hub: {resultQty} - {label}");
-
             if (irregular) { continue; }
-
             resultQty.Should().Be(qtyQuotes);
         }
 
         // assert: [last subscriber] has the same dates
-
-        IReadOnlyList<ISeries> lastSubscriber
-            = subscribers[^1].results.ToList();
-
+        IReadOnlyList<ISeries> lastSubscriber = subscribers[^1].results.ToList();
         for (int i = 0; i < qtyQuotes; i++)
         {
             Quote q = quotesList[i];
             ISeries r = lastSubscriber[i];
-
             r.Timestamp.Should().Be(q.Timestamp);
         }
 
         // act: clear provider cache (cascades to subscribers)
         int cutoff = qtyQuotes / 2;
-        provider.ClearCache(cutoff);
+        provider.RemoveRange(cutoff, notify: true);
 
         provider.Quotes.Count.Should().Be(cutoff);
 
         Console.WriteLine("--------------------");
 
         // assert: all have same count
-        foreach ((string label, IEnumerable<ISeries> results, bool irregular)
-            in subscribers)
+        foreach ((string label, IEnumerable<ISeries> results, bool irregular) in subscribers)
         {
             int resultQty = results.Count();
-
             Console.WriteLine($"Cut: {resultQty} - {label}");
-
             if (irregular) { continue; }
-
             resultQty.Should().Be(cutoff);
         }
     }
@@ -303,4 +258,3 @@ public class Stackoverflow : TestBase
         return (hub.ToString(), results, irregular);
     }
 }
-

@@ -1,7 +1,7 @@
 namespace Observables;
 
 [TestClass]
-public class StreamProviders : TestBase, ITestChainProvider
+public class StreamObservables : TestBase, ITestChainProvider
 {
     [TestMethod]
     public void Prefill()
@@ -49,32 +49,32 @@ public class StreamProviders : TestBase, ITestChainProvider
             = provider.ToQuotePart(CandlePart.OHLC4);
 
         // assert: subscribed
-        provider.SubscriberCount.Should().Be(1);
-        provider.HasSubscribers.Should().BeTrue();
+        provider.ObserverCount.Should().Be(1);
+        provider.HasObservers.Should().BeTrue();
         observer.IsSubscribed.Should().BeTrue();
 
         // act: unsubscribe
         observer.Unsubscribe();
 
         // assert: not subscribed
-        provider.SubscriberCount.Should().Be(0);
-        provider.HasSubscribers.Should().BeFalse();
+        provider.ObserverCount.Should().Be(0);
+        provider.HasObservers.Should().BeFalse();
         observer.IsSubscribed.Should().BeFalse();
 
         // act: resubscribe
         provider.Subscribe(observer);
 
         // assert: subscribed
-        provider.SubscriberCount.Should().Be(1);
-        provider.HasSubscribers.Should().BeTrue();
+        provider.ObserverCount.Should().Be(1);
+        provider.HasObservers.Should().BeTrue();
         observer.IsSubscribed.Should().BeTrue();
 
         // act: end all subscriptions
         provider.EndTransmission();
 
         // assert: not subscribed
-        provider.SubscriberCount.Should().Be(0);
-        provider.HasSubscribers.Should().BeFalse();
+        provider.ObserverCount.Should().Be(0);
+        provider.HasObservers.Should().BeFalse();
         observer.IsSubscribed.Should().BeFalse();
     }
 
