@@ -33,8 +33,8 @@ public class CustomQuotes
             })
             .ToList();
 
-        IReadOnlyList<EmaResult> results = myGenericHistory
-            .ToEma(20);
+        IReadOnlyList<EmaResult> results = Api.GetEma(myGenericHistory
+, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -160,8 +160,8 @@ public class CustomQuotes
                 MyOtherProperty: 123456))
             .ToList();
 
-        IReadOnlyList<EmaResult> results = myGenericHistory
-            .ToEma(20);
+        IReadOnlyList<EmaResult> results = Api.GetEma(myGenericHistory
+, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);

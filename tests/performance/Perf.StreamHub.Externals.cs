@@ -35,7 +35,7 @@ public class StreamExternal
     // TODO: replace with external data cache model, when available
 
     [Benchmark(Baseline = true)]
-    public object EmaSeries() => quotes.ToEma(14);
+    public object EmaSeries() => Api.GetEma(quotes, 14);
 
     [Benchmark]
     public object EmaStream() => provider.ToEma(14).Results;

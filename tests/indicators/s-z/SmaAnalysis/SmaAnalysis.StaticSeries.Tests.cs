@@ -48,7 +48,7 @@ public class SmaAnalyses : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> results = Quotes
             .GetSmaAnalysis(10)
-            .ToEma(10);
+            .GetEma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));

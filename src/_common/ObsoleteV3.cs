@@ -33,7 +33,7 @@ public static partial class Indicator
     public static IEnumerable<EmaResult> GetEma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
-        => Api.ToEma(quotes, lookbackPeriods);
+        => Api.GetEma(quotes, lookbackPeriods);
 
     // REMOVAL OF INTEGRATED SMAs (evaluates to ERRORs)
 

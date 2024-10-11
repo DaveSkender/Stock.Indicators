@@ -46,6 +46,6 @@ public static partial class Ema
             lastEma = ema;
         }
 
-        return results.ToList();
+        return new List<EmaResult>(results);
     }
 }

@@ -100,7 +100,7 @@ public class StreamObservables : TestBase, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<EmaResult> seriesList = Quotes
             .Use(CandlePart.HL2)
-            .ToEma(11);
+            .GetEma(11);
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);

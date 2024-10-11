@@ -16,8 +16,8 @@ public class Ema : IncrementsTestBase
         .ToList();
 
     private static readonly IReadOnlyList<EmaResult> series
-       = Quotes
-        .ToEma(lookbackPeriods);
+       = Api.GetEma(Quotes
+, lookbackPeriods);
 
     private static readonly List<double?> seriesArray = series
         .Select(x => x.Ema)
@@ -74,7 +74,7 @@ public class Ema : IncrementsTestBase
         EmaList sut = new(lookbackPeriods) { Quotes };
 
         IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(lookbackPeriods);
+            = Api.GetEma(Quotes, lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);

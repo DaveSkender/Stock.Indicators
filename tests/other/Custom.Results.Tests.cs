@@ -29,7 +29,7 @@ public class CustomResults
     [TestMethod]
     public void CustomSeriesClassLinq()
     {
-        IEnumerable<EmaResult> emaResults = quotes.ToEma(14);
+        IEnumerable<EmaResult> emaResults = Api.GetEma(quotes, 14);
 
         // can use a derive Indicator class using Linq
 
@@ -48,7 +48,7 @@ public class CustomResults
     public void CustomSeriesClassFind()
     {
         List<EmaResult> emaResults
-            = quotes.ToEma(20).ToList();
+            = Api.GetEma(quotes, 20).ToList();
 
         // can use a derive Indicator class using Linq
 

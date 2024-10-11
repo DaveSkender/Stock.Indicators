@@ -5,9 +5,10 @@ namespace Skender.Stock.Indicators;
 public static partial class Api
 {
     //SERIES, from CHAIN
-    public static IReadOnlyList<EmaResult> ToEma<T>(
+    public static IReadOnlyList<EmaResult> GetEma<T>(
 
-        // FIX: Use "Ema" instead of "Api" class name (fails).
+        // FIX: Use "Ema" instead of "Api" class name
+        // It fails when renaming this to ToEma()
 
         this IEnumerable<T> results,
         int lookbackPeriods)

@@ -113,7 +113,7 @@ public class Incrementals
     public object EmaSeriesEqiv() => quotesList.CalcEma(14);
 
     [Benchmark]
-    public object EmaSeriesOrig() => quotes.ToEma(14);
+    public object EmaSeriesOrig() => Api.GetEma(quotes, 14);
 
     [Benchmark]
     public object EmaIncremEqiv()

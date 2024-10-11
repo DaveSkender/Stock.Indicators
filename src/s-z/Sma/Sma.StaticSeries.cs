@@ -52,6 +52,6 @@ public static partial class Sma
                 Sma: sma.NaN2Null());
         }
 
-        return results.ToList();
+        return new List<SmaResult>(results);
     }
 }

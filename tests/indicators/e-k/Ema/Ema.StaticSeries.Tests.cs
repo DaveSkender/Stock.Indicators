@@ -14,8 +14,8 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        IReadOnlyList<EmaResult> results = Quotes
-            .ToEma(20);
+        IReadOnlyList<EmaResult> results = Api.GetEma(Quotes
+, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -37,7 +37,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> results = Quotes
             .Use(CandlePart.Open)
-            .ToEma(20);
+            .GetEma(20);
 
         // assertions
 
@@ -62,7 +62,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .ToEma(20);
+            .GetEma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
@@ -74,7 +74,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> results = Quotes
             .GetSma(2)
-            .ToEma(20);
+            .GetEma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
@@ -84,8 +84,8 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Chainor()
     {
-        IReadOnlyList<SmaResult> results = Quotes
-            .ToEma(20)
+        IReadOnlyList<SmaResult> results = Api.GetEma(Quotes
+, 20)
             .GetSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -98,7 +98,7 @@ public class EmaTests : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> results = Quotes
             .GetRsi()
-            .ToEma(20);
+            .GetEma(20);
 
         // assertions
         Assert.AreEqual(502, results.Count);
@@ -122,8 +122,8 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        IReadOnlyList<EmaResult> r = BadQuotes
-            .ToEma(15);
+        IReadOnlyList<EmaResult> r = Api.GetEma(BadQuotes
+, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Ema is double.NaN));
@@ -132,13 +132,13 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        IReadOnlyList<EmaResult> r0 = Noquotes
-            .ToEma(10);
+        IReadOnlyList<EmaResult> r0 = Api.GetEma(Noquotes
+, 10);
 
         Assert.AreEqual(0, r0.Count);
 
-        IReadOnlyList<EmaResult> r1 = Onequote
-            .ToEma(10);
+        IReadOnlyList<EmaResult> r1 = Api.GetEma(Onequote
+, 10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -146,8 +146,8 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<EmaResult> results = Quotes
-            .ToEma(20)
+        IReadOnlyList<EmaResult> results = Api.GetEma(Quotes
+, 20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -161,5 +161,5 @@ public class EmaTests : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToEma(0));
+            => Api.GetEma(Quotes, 0));
 }
