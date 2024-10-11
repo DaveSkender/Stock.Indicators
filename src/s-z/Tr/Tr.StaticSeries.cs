@@ -10,13 +10,12 @@ public static partial class Tr
     {
         // initialize
         int length = source.Count;
-        List<TrResult> results = new(length);
+        TrResult[] results = new TrResult[length];
 
         // skip first period
         if (length > 0)
         {
-            results.Add(
-                new(source[0].Timestamp, null));
+            results[0] = new TrResult(source[0].Timestamp, null);
         }
 
         // roll through source values
@@ -24,11 +23,11 @@ public static partial class Tr
         {
             QuoteD q = source[i];
 
-            results.Add(new TrResult(
+            results[i] = new TrResult(
                 Timestamp: q.Timestamp,
-                Tr: Increment(q.High, q.Low, source[i - 1].Close)));
+                Tr: Increment(q.High, q.Low, source[i - 1].Close));
         }
 
-        return results;
+        return new List<TrResult>(results);
     }
 }
