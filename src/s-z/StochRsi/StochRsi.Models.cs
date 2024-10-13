@@ -5,7 +5,7 @@ public record StochRsiResult
     DateTime Timestamp,
     double? StochRsi = null,
     double? Signal = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => StochRsi.Null2NaN();
+    public double Value => StochRsi.Null2NaN();
 }

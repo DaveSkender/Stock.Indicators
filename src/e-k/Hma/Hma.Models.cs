@@ -4,7 +4,7 @@ public record HmaResult
 (
     DateTime Timestamp,
     double? Hma = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Hma.Null2NaN();
+    public double Value => Hma.Null2NaN();
 }

@@ -51,9 +51,9 @@ public sealed record CustomReusable : IReusable
 public sealed record CustomReusableInherited(
     DateTime Timestamp,
     double? Sma
-    ) : Reusable(Timestamp)
+    ) : IReusable
 {
-    public override double Value
+    public double Value
         => Sma.Null2NaN();
 }
 

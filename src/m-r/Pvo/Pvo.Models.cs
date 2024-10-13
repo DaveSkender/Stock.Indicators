@@ -6,7 +6,7 @@ public record PvoResult
     double? Pvo,
     double? Signal,
     double? Histogram
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Pvo.Null2NaN();
+    public double Value => Pvo.Null2NaN();
 }

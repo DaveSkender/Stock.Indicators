@@ -5,7 +5,7 @@ public record SmiResult
     DateTime Timestamp,
     double? Smi,
     double? Signal
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Smi.Null2NaN();
+    public double Value => Smi.Null2NaN();
 }

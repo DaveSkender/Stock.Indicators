@@ -5,7 +5,7 @@ public record FisherTransformResult
     DateTime Timestamp,
     double? Fisher,
     double? Trigger
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Fisher.Null2NaN();
+    public double Value => Fisher.Null2NaN();
 }

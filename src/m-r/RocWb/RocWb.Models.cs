@@ -7,7 +7,7 @@ public record RocWbResult
     double? RocEma,
     double? UpperBand,
     double? LowerBand
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Roc.Null2NaN();
+    public double Value => Roc.Null2NaN();
 }

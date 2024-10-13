@@ -8,9 +8,9 @@ public record StochResult
     double? Oscillator,
     double? Signal,
     double? PercentJ
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Oscillator.Null2NaN();
+    public double Value => Oscillator.Null2NaN();
 
     // aliases
     public double? K => Oscillator;

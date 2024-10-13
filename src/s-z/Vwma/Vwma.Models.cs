@@ -4,7 +4,7 @@ public record VwmaResult
 (
     DateTime Timestamp,
     double? Vwma
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Vwma.Null2NaN();
+    public double Value => Vwma.Null2NaN();
 }
