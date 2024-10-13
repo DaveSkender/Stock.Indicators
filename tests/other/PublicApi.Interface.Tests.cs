@@ -9,15 +9,36 @@ namespace PublicApi;
 public class UserInterface
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotesBad = Data.GetBad();
 
     [TestMethod]
-    public void QuoteValidation()
+    public void QuoteValidationEnumerable()
     {
         IEnumerable<Quote> enumerable = quotes;
 
         enumerable.Validate();
         enumerable.GetSma(6);
         Api.GetEma(enumerable, 5);
+
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => quotesBad.Validate());
+    }
+
+    [TestMethod]
+    public void QuoteValidationReadOnlyList()
+    {
+        IReadOnlyList<Quote> clean = quotes;
+
+        clean.Validate();
+        clean.GetSma(6);
+        Api.GetEma(clean, 5);
+
+        IReadOnlyList<Quote> reverse = quotes
+            .OrderByDescending(x => x.Timestamp)
+            .ToList();
+
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => reverse.Validate());
     }
 
     [TestMethod]
