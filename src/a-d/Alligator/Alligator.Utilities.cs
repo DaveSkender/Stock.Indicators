@@ -2,6 +2,40 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Alligator
 {
+    private static double SmoothValue<T>(
+        List<T> source,
+        AlligatorResult[] results,
+        int i,
+        int periods,
+        int offset,
+        Func<AlligatorResult, double?> selector)
+    where T : IReusable
+    {
+        // skip warmup periods
+        if (i < periods + offset - 1)
+        {
+            return double.NaN;
+        }
+
+        // re/initialize
+        if (results[i - 1] is null || selector(results[i - 1]) is null)
+        {
+            double sum = 0;
+            for (int p = i - periods - offset + 1; p <= i - offset; p++)
+            {
+                sum += source[p].Value;
+            }
+            return sum / periods;
+        }
+
+        // normal smoothing
+        else
+        {
+            double prevValue = selector(results[i - 1]).Null2NaN();
+            return ((prevValue * (periods - 1)) + source[i - offset].Value) / periods;
+        }
+    }
+
     // CONDENSE (REMOVE null results)
     public static IReadOnlyList<AlligatorResult> Condense(
         this IEnumerable<AlligatorResult> results)
