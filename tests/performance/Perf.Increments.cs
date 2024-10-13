@@ -12,11 +12,6 @@ public class Incrementals
        = quotes
         .ToSortedList();
 
-    private static readonly double[] primitives
-       = quotes
-        .Select(x => x.Value)
-        .ToArray();
-
     private static readonly IReadOnlyList<IReusable> reusables
        = quotes
         .Cast<IReusable>()
@@ -87,26 +82,6 @@ public class Incrementals
         return sut;
     }
 
-    [Benchmark]
-    public object EmaIncPrmBatch()
-    {
-        EmaIncPrimitive sut = new(14) { primitives };
-        return sut;
-    }
-
-    [Benchmark]
-    public object EmaIncPrm()
-    {
-        EmaIncPrimitive sut = new(14);
-
-        for (int i = 0; i < primitives.Length; i++)
-        {
-            sut.Add(primitives[i]);
-        }
-
-        return sut;
-    }
-
     // TIME-SERIES EQUIVALENTS
 
     [Benchmark]
@@ -124,31 +99,4 @@ public class Incrementals
 
     [Benchmark]
     public object EmaStreamEqiv() => provider.ToEma(14).Results;
-
-    [Benchmark]
-    public object SmaArrOrig()
-    {
-        int periods = 20;
-        double[] results = new double[primitives.Length];
-
-        for (int i = 0; i < primitives.Length; i++)
-        {
-            if (i < periods - 1)
-            {
-                results[i] = double.NaN;
-                continue;
-            }
-
-            double sum = 0;
-            for (int w = i - periods + 1; w <= i; w++)
-            {
-                sum += primitives[i];
-            }
-            results[i] = sum / periods;
-        }
-        return results;
-    }
-
-    [Benchmark]
-    public object SmaArrSimd() => primitives.CalcSma(20);
 }

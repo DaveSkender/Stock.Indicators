@@ -50,19 +50,3 @@ public interface IIncrementQuote
     /// </param>
     void Add(IReadOnlyList<IQuote> quotes);
 }
-
-/// <remarks>
-/// This produces the same results as the equivalent
-/// time-series indicator, but is optimized for primitive type operations.
-/// Since it does not retain a date context,
-/// all new values provided to the <see cref="Add(double)"/>
-/// method are expected to be in chronological order.
-/// </remarks>
-public interface IIncrementPrimitive
-{
-    /// <inheritdoc cref="IIncrementReusable.Add(DateTime, double)"/>
-    void Add(double value);
-
-    /// <inheritdoc cref="IIncrementReusable.Add(IReadOnlyList{IReusable})"/>
-    void Add(double[] values);
-}

@@ -5,11 +5,6 @@ public class Ema : IncrementsTestBase
 {
     private const int lookbackPeriods = 14;
 
-    private static readonly double[] primatives
-       = Quotes
-        .Select(x => (double)x.Close)
-        .ToArray();
-
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
         .Cast<IReusable>()
@@ -18,10 +13,6 @@ public class Ema : IncrementsTestBase
     private static readonly IReadOnlyList<EmaResult> series
        = Api.GetEma(Quotes
 , lookbackPeriods);
-
-    private static readonly List<double?> seriesArray = series
-        .Select(x => x.Ema)
-        .ToList();
 
     [TestMethod]
     public void FromReusableSplit()
@@ -78,25 +69,5 @@ public class Ema : IncrementsTestBase
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromPrimitive()
-    {
-        EmaIncPrimitive sut = new(lookbackPeriods);
-
-        foreach (double p in primatives) { sut.Add(p); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesArray);
-    }
-
-    [TestMethod]
-    public void FromPrimitiveBatch()
-    {
-        EmaIncPrimitive sut = new(lookbackPeriods) { primatives };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(seriesArray);
     }
 }
