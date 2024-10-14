@@ -22,7 +22,7 @@ public class QuoteParts : TestBase
         QuotePart ohlc = Quotes[501].ToQuotePart(CandlePart.OHLC4);
 
         // proper last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, c.Timestamp);
 
         // last values should be correct
@@ -70,7 +70,7 @@ public class QuoteParts : TestBase
         QuotePart rohlc = ohlc[501];
 
         // proper last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, rc.Timestamp);
 
         // last values should be correct

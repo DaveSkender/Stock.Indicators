@@ -35,7 +35,7 @@ public class Vwap : StaticSeriesTestBase
     public void WithStartDate()
     {
         DateTime startDate =
-            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
+            DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", invariantCulture);
 
         IReadOnlyList<VwapResult> results = intraday
             .ToVwap(startDate);
@@ -109,7 +109,7 @@ public class Vwap : StaticSeriesTestBase
 
         // with start date
         DateTime startDate =
-        DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
+        DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", invariantCulture);
 
         IReadOnlyList<VwapResult> sdResults = intraday
             .ToVwap(startDate)
@@ -127,7 +127,7 @@ public class Vwap : StaticSeriesTestBase
     {
         // bad SMA period
         DateTime startDate =
-            DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", englishCulture);
+            DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", invariantCulture);
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             Quotes.ToVwap(startDate));

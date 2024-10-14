@@ -16,13 +16,13 @@ public class Candles : TestBase
         Assert.AreEqual(502, candles.Count);
 
         // sample values
-        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", englishCulture);
+        DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(firstDate, candles[0].Timestamp);
 
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, candles[^1].Timestamp);
 
-        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", englishCulture);
+        DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(spotDate, candles[50].Timestamp);
     }
 

@@ -12,7 +12,7 @@ namespace Test.Data;
 
 public abstract class TestBase  // base for all tests
 {
-    internal static readonly CultureInfo englishCulture = new("en-US", false);
+    internal static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
     internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
     internal static readonly IReadOnlyList<Quote> OtherQuotes = Data.GetCompare();
@@ -29,7 +29,7 @@ public abstract class TestBase  // base for all tests
     protected static readonly double DoublePrecision = 1E-13;
 
     protected static readonly DateTime EvalDate
-        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
 }
 
 /// <summary>

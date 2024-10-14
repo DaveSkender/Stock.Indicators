@@ -59,7 +59,7 @@ public class Sma : StaticSeriesTestBase
         Assert.AreEqual(157958070.8, r290.Sma);
 
         SmaResult r501 = results[501];
-        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture), r501.Timestamp);
+        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture), r501.Timestamp);
         Assert.AreEqual(163695200, r501.Sma);
     }
 

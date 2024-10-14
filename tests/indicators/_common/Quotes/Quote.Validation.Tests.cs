@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Utilities;
 
 // quote validation
@@ -15,10 +17,10 @@ public partial class Quotes : TestBase
         Assert.AreEqual(502, h.Count);
 
         // sample values
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, h[501].Timestamp);
 
-        DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
+        DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(spotDate, h[20].Timestamp);
     }
 
@@ -31,7 +33,7 @@ public partial class Quotes : TestBase
         Assert.AreEqual(5285, h.Count);
 
         // sample values
-        DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, h[5284].Timestamp);
     }
 
@@ -80,11 +82,11 @@ public partial class Quotes : TestBase
     {
         IReadOnlyList<Quote> dupQuotes = new List<Quote>
         {
-            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
-            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
-            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
-            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893),
-            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484)
+            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", invariantCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
+            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", invariantCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
+            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", invariantCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484)
         };
 
         InvalidQuotesException dx
@@ -92,7 +94,7 @@ public partial class Quotes : TestBase
                 () => dupQuotes.Validate());
 
         dx.Message.Should()
-            .Be("Duplicate date found on 1/6/2017 12:00:00 AM. (Parameter 'quotes')");
+            .Be("Duplicate date found on 01/06/2017. (Parameter 'quotes')");
     }
 
     [TestMethod]
@@ -100,11 +102,11 @@ public partial class Quotes : TestBase
     {
         IReadOnlyList<Quote> unorderedQuotes = new List<Quote>
         {
-            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
-            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
-            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484),
-            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
-            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893)
+            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", invariantCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
+            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", invariantCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484),
+            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", invariantCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893)
         };
 
         InvalidQuotesException dx
@@ -112,7 +114,6 @@ public partial class Quotes : TestBase
                 () => unorderedQuotes.Validate());
 
         dx.Message.Should()
-            .Be("Quotes are out of sequence on 1/5/2017 12:00:00 AM. (Parameter 'quotes')");
+            .Be("Quotes are out of sequence on 01/05/2017. (Parameter 'quotes')");
     }
-
 }

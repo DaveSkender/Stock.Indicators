@@ -34,7 +34,7 @@ public class QuoteParts : StaticSeriesTestBase
         QuotePart rohlc = ohlc[501];
 
         // proper last date
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, rc.Timestamp);
 
         // last values should be correct

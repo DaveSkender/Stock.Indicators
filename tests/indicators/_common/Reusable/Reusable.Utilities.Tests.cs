@@ -41,7 +41,7 @@ public class Reusable : TestBase
     [TestMethod]
     public void QuoteToReusable()
     {
-        DateTime t = DateTime.Parse("5/5/2055", englishCulture);
+        DateTime t = DateTime.Parse("5/5/2055", invariantCulture);
 
         decimal l = 111111111111111m;
         decimal o = 222222222222222m;

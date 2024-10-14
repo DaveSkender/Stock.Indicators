@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES (CONVERTERS)

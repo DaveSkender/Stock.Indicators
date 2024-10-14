@@ -17,7 +17,7 @@ public class Dpo : StaticSeriesTestBase
         for (int i = 0; i < csvData.Count; i++)
         {
             string[] csv = csvData[i].Split(",");
-            DateTime date = Convert.ToDateTime(csv[1], englishCulture);
+            DateTime date = Convert.ToDateTime(csv[1], invariantCulture);
 
             qot.Add(new Quote(date, 0, 0, 0, Close: csv[5].ToDecimal(), 0));
             exp.Add(new(date, csv[7].ToDoubleNull(), csv[6].ToDoubleNull()));
