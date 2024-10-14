@@ -51,7 +51,7 @@ public class StdDev : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<StdDevResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetStdDev(10);
 
         Assert.AreEqual(502, results.Count);
@@ -63,7 +63,7 @@ public class StdDev : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetStdDev(10)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));

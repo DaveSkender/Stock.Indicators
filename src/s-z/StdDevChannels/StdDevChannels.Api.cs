@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<StdDevChannelsResult> GetStdDevChannels<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int? lookbackPeriods = 20,
         double stdDeviations = 2)
         where T : IReusable

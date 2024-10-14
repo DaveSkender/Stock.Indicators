@@ -8,10 +8,6 @@ public class Incrementals
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();
 
-    private static readonly List<Quote> quotesList
-       = quotes
-        .ToSortedList();
-
     private static readonly IReadOnlyList<IReusable> reusables
        = quotes
         .Cast<IReusable>()
@@ -85,18 +81,15 @@ public class Incrementals
     // TIME-SERIES EQUIVALENTS
 
     [Benchmark]
-    public object EmaSeriesEqiv() => quotesList.CalcEma(14);
+    public object EmaSeries() => quotes.ToEma(14);
 
     [Benchmark]
-    public object EmaSeriesOrig() => Api.GetEma(quotes, 14);
-
-    [Benchmark]
-    public object EmaIncremEqiv()
+    public object EmaIncrem()
     {
-        EmaList ema = new(14) { quotes.ToSortedList() };
+        EmaList ema = new(14) { quotes };
         return ema;
     }
 
     [Benchmark]
-    public object EmaStreamEqiv() => provider.ToEma(14).Results;
+    public object EmaStream() => provider.ToEma(14).Results;
 }

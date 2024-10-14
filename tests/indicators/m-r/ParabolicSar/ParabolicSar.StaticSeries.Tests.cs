@@ -78,7 +78,7 @@ public class ParabolicSar : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetParabolicSar()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));

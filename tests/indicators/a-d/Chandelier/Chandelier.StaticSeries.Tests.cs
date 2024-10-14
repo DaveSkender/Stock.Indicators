@@ -35,7 +35,7 @@ public class Chandelier : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetChandelier()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));

@@ -42,7 +42,7 @@ public class Dema : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<DemaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetDema(20);
 
         Assert.AreEqual(502, results.Count);
@@ -54,7 +54,7 @@ public class Dema : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetDema(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

@@ -20,7 +20,7 @@ public static partial class Indicator
         int offset = (lookbackPeriods / 2) + 1;
 
         IReadOnlyList<SmaResult> sma
-            = source.CalcSma(lookbackPeriods);
+            = source.ToSma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

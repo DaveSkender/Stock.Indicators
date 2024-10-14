@@ -26,7 +26,7 @@ public static partial class Utility
     /// <param name="results">Indicator results to evaluate.</param>
     /// <returns>Time series of indicator results, condensed.</returns>
     public static IReadOnlyList<T> Condense<T>(
-        this IEnumerable<T> results)
+        this IReadOnlyList<T> results)
         where T : IReusable
     {
         List<T> resultsList = results
@@ -37,9 +37,6 @@ public static partial class Utility
                 x => double.IsNaN(x.Value));
 
         return resultsList;
-
-        // TODO: remove specific indicator 'Condense()' methods
-        // that are now redundant to this generic method (not all are)
     }
 
     /// <summary>
@@ -54,7 +51,7 @@ public static partial class Utility
     /// <param name="results">Indicator results to evaluate.</param>
     /// <returns>Time series of results, pruned.</returns>
     internal static IReadOnlyList<T> RemoveWarmupPeriods<T>(
-        this IEnumerable<T> results)
+        this IReadOnlyList<T> results)
         where T : IReusable
     {
         // this is the default implementation, it will

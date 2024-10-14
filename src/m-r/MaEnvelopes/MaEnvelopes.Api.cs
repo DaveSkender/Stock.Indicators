@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<MaEnvelopeResult> GetMaEnvelopes<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)

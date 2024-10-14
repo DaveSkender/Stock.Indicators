@@ -45,7 +45,7 @@ public class Prs : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = OtherQuotes
             .GetPrs(Quotes, 20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -55,8 +55,8 @@ public class Prs : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<PrsResult> results = Quotes
-            .GetSma(2)
-            .GetPrs(OtherQuotes.GetSma(2), 20);
+            .ToSma(2)
+            .GetPrs(OtherQuotes.ToSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Prs != null));

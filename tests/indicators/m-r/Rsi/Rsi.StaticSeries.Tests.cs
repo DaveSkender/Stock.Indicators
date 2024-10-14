@@ -49,7 +49,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void CryptoData()
     {
-        IEnumerable<Quote> btc = Data.GetBitcoin();
+        IReadOnlyList<Quote> btc = Data.GetBitcoin();
 
         IReadOnlyList<RsiResult> r = btc
             .GetRsi(1);
@@ -72,7 +72,7 @@ public class Rsi : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<RsiResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetRsi();
 
         Assert.AreEqual(502, results.Count);
@@ -84,7 +84,7 @@ public class Rsi : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetRsi()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
@@ -131,7 +131,7 @@ public class Rsi : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 10 * 14, results.Count);
+        Assert.AreEqual(502 - (10 * 14), results.Count);
 
         RsiResult last = results[^1];
         Assert.AreEqual(42.0773, last.Rsi.Round(4));

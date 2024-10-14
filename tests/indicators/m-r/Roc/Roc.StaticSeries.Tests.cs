@@ -43,7 +43,7 @@ public class Roc : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<RocResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetRoc(20);
 
         Assert.AreEqual(502, results.Count);
@@ -55,7 +55,7 @@ public class Roc : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetRoc(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));

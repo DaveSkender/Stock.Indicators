@@ -110,7 +110,7 @@ public class StdDevChannels : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<StdDevChannelsResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetStdDevChannels();
 
         Assert.AreEqual(502, results.Count);

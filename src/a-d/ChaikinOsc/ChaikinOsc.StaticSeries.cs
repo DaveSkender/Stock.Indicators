@@ -21,8 +21,8 @@ public static partial class Indicator
         List<AdlResult> adlResults = source.CalcAdl();
 
         // fast/slow EMA of ADL
-        List<EmaResult> adlEmaSlow = adlResults.CalcEma(slowPeriods);
-        List<EmaResult> adlEmaFast = adlResults.CalcEma(fastPeriods);
+        IReadOnlyList<EmaResult> adlEmaSlow = adlResults.ToEma(slowPeriods);
+        IReadOnlyList<EmaResult> adlEmaFast = adlResults.ToEma(fastPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

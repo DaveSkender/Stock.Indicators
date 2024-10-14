@@ -107,8 +107,8 @@ public class Renko : StaticSeriesTestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<RenkoResult> renkoQuotes = Quotes.GetRenko(2.5m);
-        IEnumerable<SmaResult> renkoSma = renkoQuotes.GetSma(5);
+        IReadOnlyList<RenkoResult> renkoQuotes = Quotes.GetRenko(2.5m);
+        IReadOnlyList<SmaResult> renkoSma = renkoQuotes.ToSma(5);
         Assert.AreEqual(108, renkoSma.Count(x => x.Sma != null));
     }
 

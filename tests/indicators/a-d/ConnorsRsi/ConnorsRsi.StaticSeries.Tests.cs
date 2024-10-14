@@ -49,7 +49,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<ConnorsRsiResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetConnorsRsi();
 
         Assert.AreEqual(502, results.Count);
@@ -61,7 +61,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetConnorsRsi()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(392, results.Count(x => x.Sma != null));

@@ -103,7 +103,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
             .GetAdl()
-            .GetSma(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

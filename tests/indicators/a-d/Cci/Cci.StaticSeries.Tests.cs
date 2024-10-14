@@ -23,7 +23,7 @@ public class Cci : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetCci()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

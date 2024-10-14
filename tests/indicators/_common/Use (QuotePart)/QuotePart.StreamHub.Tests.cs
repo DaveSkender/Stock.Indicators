@@ -116,7 +116,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(candlePart)
-            .GetSma(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

@@ -24,8 +24,8 @@ public class HeikinAshi : StaticSeriesTestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<HeikinAshiResult> haQuotes = Quotes.GetHeikinAshi();
-        IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
+        IReadOnlyList<HeikinAshiResult> haQuotes = Quotes.GetHeikinAshi();
+        IReadOnlyList<SmaResult> haSma = haQuotes.ToSma(5);
         Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
     }
 

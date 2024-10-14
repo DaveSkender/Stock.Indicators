@@ -66,7 +66,7 @@ public class Atr : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetAtr(10)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));

@@ -48,7 +48,7 @@ public partial class Quotes : TestBase
         Assert.AreEqual(200, h.Count);
 
         // should be 20 results and no index corruption
-        IReadOnlyList<SmaResult> r1 = h.TakeLast(20).GetSma(14).ToList();
+        IReadOnlyList<SmaResult> r1 = h.TakeLast(20).ToList().ToSma(14).ToList();
         Assert.AreEqual(20, r1.Count);
 
         for (int i = 1; i < r1.Count; i++)
@@ -57,7 +57,7 @@ public partial class Quotes : TestBase
         }
 
         // should be 50 results and no index corruption
-        IReadOnlyList<SmaResult> r2 = h.TakeLast(50).GetSma(14).ToList();
+        IReadOnlyList<SmaResult> r2 = h.TakeLast(50).ToList().ToSma(14).ToList();
         Assert.AreEqual(50, r2.Count);
 
         for (int i = 1; i < r2.Count; i++)

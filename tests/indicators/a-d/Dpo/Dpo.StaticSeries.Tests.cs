@@ -56,7 +56,7 @@ public class Dpo : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<DpoResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetDpo(14);
 
         Assert.AreEqual(502, results.Count);
@@ -68,7 +68,7 @@ public class Dpo : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetDpo(14)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));

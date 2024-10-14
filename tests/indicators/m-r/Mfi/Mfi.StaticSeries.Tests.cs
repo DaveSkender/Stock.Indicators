@@ -26,7 +26,7 @@ public class Mfi : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetMfi()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));

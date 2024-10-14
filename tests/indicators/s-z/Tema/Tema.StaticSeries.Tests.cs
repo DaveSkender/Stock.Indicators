@@ -42,7 +42,7 @@ public class Tema : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<TemaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetTema(20);
 
         Assert.AreEqual(502, results.Count);
@@ -54,7 +54,7 @@ public class Tema : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetTema(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

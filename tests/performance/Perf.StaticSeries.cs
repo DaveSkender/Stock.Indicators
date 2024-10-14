@@ -93,7 +93,7 @@ public class SeriesIndicators
     public object GetElderRay() => q.GetElderRay();
 
     [Benchmark]
-    public object GetEma() => Api.GetEma(q, 14);
+    public object GetEma() => q.ToEma(14);
 
     [Benchmark]
     public object GetEpma() => q.GetEpma(14);
@@ -198,7 +198,7 @@ public class SeriesIndicators
     public object GetSlope() => q.GetSlope(20);
 
     [Benchmark]
-    public object GetSma() => q.GetSma(10);
+    public object GetSma() => q.ToSma(10);
 
     [Benchmark]
     public object GetSmaAnalysis() => q.GetSmaAnalysis(10);

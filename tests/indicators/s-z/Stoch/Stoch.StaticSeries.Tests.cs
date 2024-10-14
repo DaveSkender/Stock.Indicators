@@ -116,7 +116,7 @@ public class Stoch : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetStoch()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(478, results.Count(x => x.Sma != null));

@@ -61,7 +61,7 @@ public class Mama : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<MamaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetMama();
 
         Assert.AreEqual(502, results.Count);
@@ -73,7 +73,7 @@ public class Mama : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetMama()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Sma != null));

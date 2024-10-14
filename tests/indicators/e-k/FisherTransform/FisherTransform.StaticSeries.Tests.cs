@@ -60,7 +60,7 @@ public class FisherTransform : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<FisherTransformResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetFisherTransform();
 
         Assert.AreEqual(502, results.Count);
@@ -72,7 +72,7 @@ public class FisherTransform : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetFisherTransform()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));

@@ -55,7 +55,7 @@ public class Tsi : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<TsiResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetTsi();
 
         Assert.AreEqual(502, results.Count);
@@ -67,7 +67,7 @@ public class Tsi : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetTsi()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(456, results.Count(x => x.Sma != null));

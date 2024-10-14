@@ -47,7 +47,7 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetAdx()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(466, results.Count(x => x.Sma != null));

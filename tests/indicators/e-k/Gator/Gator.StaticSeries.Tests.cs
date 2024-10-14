@@ -157,7 +157,7 @@ public class Gator : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<GatorResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetGator();
 
         Assert.AreEqual(502, results.Count);

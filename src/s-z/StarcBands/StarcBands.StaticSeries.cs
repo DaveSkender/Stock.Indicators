@@ -17,7 +17,7 @@ public static partial class Indicator
         int length = source.Count;
         List<StarcBandsResult> results = new(length);
         List<AtrResult> atrResults = source.CalcAtr(atrPeriods);
-        List<SmaResult> smaResults = source.CalcSma(smaPeriods);
+        IReadOnlyList<SmaResult> smaResults = source.ToSma(smaPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -28,8 +28,8 @@ public static partial class Indicator
             results.Add(new(
                 Timestamp: s.Timestamp,
                 Centerline: s.Sma,
-                UpperBand: s.Sma + multiplier * a.Atr,
-                LowerBand: s.Sma - multiplier * a.Atr));
+                UpperBand: s.Sma + (multiplier * a.Atr),
+                LowerBand: s.Sma - (multiplier * a.Atr)));
         }
 
         return results;

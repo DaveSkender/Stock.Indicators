@@ -53,7 +53,7 @@ public class Slope : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<SlopeResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetSlope(20);
 
         Assert.AreEqual(502, results.Count);
@@ -65,7 +65,7 @@ public class Slope : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetSlope(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

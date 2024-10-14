@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<AlmaResult> GetAlma<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int lookbackPeriods = 9,
         double offset = 0.85,
         double sigma = 6)

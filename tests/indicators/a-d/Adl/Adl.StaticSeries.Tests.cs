@@ -29,7 +29,7 @@ public class Adl : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetAdl()
-            .GetSma(10);
+            .ToSma(10);
 
         // assertions
 

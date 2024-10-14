@@ -33,7 +33,7 @@ public class UlcerIndex : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<UlcerIndexResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetUlcerIndex();
 
         Assert.AreEqual(502, results.Count);
@@ -45,7 +45,7 @@ public class UlcerIndex : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetUlcerIndex()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));

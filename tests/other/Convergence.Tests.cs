@@ -105,7 +105,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<EmaResult> r = Api.GetEma(qts, 15);
+            IReadOnlyList<EmaResult> r = qts.ToEma(15);
 
             EmaResult l = r[^1];
             Console.WriteLine($"EMA(15) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Ema:N8}");

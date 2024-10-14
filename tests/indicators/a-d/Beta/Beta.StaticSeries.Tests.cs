@@ -108,7 +108,7 @@ public class Beta : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = OtherQuotes
             .GetBeta(Quotes, 20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -118,8 +118,8 @@ public class Beta : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<BetaResult> results = Quotes
-            .GetSma(2)
-            .GetBeta(OtherQuotes.GetSma(2), 20);
+            .ToSma(2)
+            .GetBeta(OtherQuotes.ToSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Beta != null));

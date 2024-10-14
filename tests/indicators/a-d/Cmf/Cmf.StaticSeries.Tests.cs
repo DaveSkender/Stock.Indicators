@@ -35,7 +35,7 @@ public class Cmf : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetCmf()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

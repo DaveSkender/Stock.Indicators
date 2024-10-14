@@ -63,7 +63,7 @@ public class Kama : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<KamaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetKama();
 
         Assert.AreEqual(502, results.Count);
@@ -75,7 +75,7 @@ public class Kama : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetKama()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));

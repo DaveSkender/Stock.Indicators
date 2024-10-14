@@ -18,7 +18,7 @@ public static partial class Alligator
 
     // remove recommended periods
     public static IReadOnlyList<AlligatorResult> RemoveWarmupPeriods(
-        this IEnumerable<AlligatorResult> results)
+        this IReadOnlyList<AlligatorResult> results)
     {
         int removePeriods = results
           .ToList()

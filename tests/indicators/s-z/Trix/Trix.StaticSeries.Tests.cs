@@ -47,7 +47,7 @@ public class Trix : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<TrixResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetTrix(20);
 
         Assert.AreEqual(502, results.Count);
@@ -59,7 +59,7 @@ public class Trix : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetTrix(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));

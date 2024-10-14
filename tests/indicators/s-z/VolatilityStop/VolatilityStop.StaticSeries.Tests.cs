@@ -65,7 +65,7 @@ public class VolatilityStop : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetVolatilityStop()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(439, results.Count(x => x.Sma != null));

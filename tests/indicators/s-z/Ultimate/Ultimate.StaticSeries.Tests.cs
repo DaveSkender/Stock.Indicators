@@ -29,7 +29,7 @@ public class Ultimate : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetUltimate()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(465, results.Count(x => x.Sma != null));

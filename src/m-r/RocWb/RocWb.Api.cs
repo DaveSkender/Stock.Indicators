@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<RocWbResult> GetRocWb<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)

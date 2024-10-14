@@ -6,8 +6,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Utility
 {
-    private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
-
     /* LISTS */
 
     // convert TQuote type list to built-in Quote type list

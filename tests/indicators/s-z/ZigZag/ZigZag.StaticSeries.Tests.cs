@@ -112,7 +112,7 @@ public class ZigZag : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetZigZag(EndType.Close, 3)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(225, results.Count(x => x.Sma != null));

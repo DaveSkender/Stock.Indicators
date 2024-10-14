@@ -39,7 +39,7 @@ public class Pmo : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<PmoResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetPmo();
 
         Assert.AreEqual(502, results.Count);
@@ -51,7 +51,7 @@ public class Pmo : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetPmo()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(439, results.Count(x => x.Sma != null));

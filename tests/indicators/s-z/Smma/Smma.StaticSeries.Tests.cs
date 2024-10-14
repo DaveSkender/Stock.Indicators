@@ -40,7 +40,7 @@ public class Smma : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<SmmaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetSmma(20);
 
         Assert.AreEqual(502, results.Count);
@@ -52,7 +52,7 @@ public class Smma : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetSmma(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

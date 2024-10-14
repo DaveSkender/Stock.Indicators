@@ -36,7 +36,7 @@ public class Hma : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<HmaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetHma(19);
 
         Assert.AreEqual(502, results.Count);
@@ -48,7 +48,7 @@ public class Hma : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetHma(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));

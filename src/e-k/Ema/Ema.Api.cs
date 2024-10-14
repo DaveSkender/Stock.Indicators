@@ -2,21 +2,8 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (API)
 
-public static partial class Api
+public static partial class Ema
 {
-    //SERIES, from CHAIN
-    public static IReadOnlyList<EmaResult> GetEma<T>(
-
-        // FIX: Use "Ema" instead of "Api" class name
-        // It fails when renaming this to ToEma()
-
-        this IEnumerable<T> results,
-        int lookbackPeriods)
-        where T : IReusable
-        => results
-            .ToSortedList()
-            .CalcEma(lookbackPeriods);
-
     // HUB, from Chain Provider
     public static EmaHub<T> ToEma<T>(
         this IChainProvider<T> chainProvider,

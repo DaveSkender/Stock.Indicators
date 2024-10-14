@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<DonchianResult> Condense(
-        this IEnumerable<DonchianResult> results)
+        this IReadOnlyList<DonchianResult> results)
     {
         List<DonchianResult> resultsList = results
             .ToList();
@@ -18,9 +18,9 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<DonchianResult> RemoveWarmupPeriods(
-        this IEnumerable<DonchianResult> results)
+        this IReadOnlyList<DonchianResult> results)
     {
         int removePeriods = results
           .ToList()

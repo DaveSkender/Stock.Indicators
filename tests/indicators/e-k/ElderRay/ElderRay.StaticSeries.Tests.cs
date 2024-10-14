@@ -51,7 +51,7 @@ public class ElderRay : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetElderRay()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Sma != null));

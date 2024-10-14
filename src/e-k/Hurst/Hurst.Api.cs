@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<HurstResult> GetHurst<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int lookbackPeriods = 100)
         where T : IReusable
         => results

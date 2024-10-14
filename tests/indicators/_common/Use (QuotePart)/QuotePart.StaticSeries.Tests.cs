@@ -56,7 +56,7 @@ public class QuoteParts : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));

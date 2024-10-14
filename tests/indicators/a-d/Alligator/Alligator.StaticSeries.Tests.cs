@@ -46,7 +46,7 @@ public class Alligator : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<AlligatorResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetAlligator();
 
         Assert.AreEqual(502, results.Count);

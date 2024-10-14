@@ -29,7 +29,7 @@ public class Vwma : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetVwma(10)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));

@@ -12,31 +12,23 @@ public class UserInterface
     private static readonly IReadOnlyList<Quote> quotesBad = Data.GetBad();
 
     [TestMethod]
-    public void QuoteValidationEnumerable()
-    {
-        IEnumerable<Quote> enumerable = quotes;
-
-        enumerable.Validate();
-        enumerable.GetSma(6);
-        Api.GetEma(enumerable, 5);
-
-        Assert.ThrowsException<InvalidQuotesException>(
-            () => quotesBad.Validate());
-    }
-
-    [TestMethod]
-    public void QuoteValidationReadOnlyList()
+    public void QuoteValidation()
     {
         IReadOnlyList<Quote> clean = quotes;
 
         clean.Validate();
-        clean.GetSma(6);
-        Api.GetEma(clean, 5);
+        clean.ToSma(6);
+        clean.ToEma(5);
 
         IReadOnlyList<Quote> reverse = quotes
             .OrderByDescending(x => x.Timestamp)
             .ToList();
 
+        // has duplicates
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => quotesBad.Validate());
+
+        // out of order
         Assert.ThrowsException<InvalidQuotesException>(
             () => reverse.Validate());
     }
@@ -111,9 +103,9 @@ public class UserInterface
         IReadOnlyList<AtrResult> staticAtr = quotes.GetAtr();
         IReadOnlyList<AtrStopResult> staticAtrStop = quotes.GetAtrStop();
         IEnumerable<AlligatorResult> staticAlligator = quotes.GetAlligator();
-        IEnumerable<EmaResult> staticEma = Api.GetEma(quotes, 20);
+        IEnumerable<EmaResult> staticEma = quotes.ToEma(20);
         IEnumerable<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
-        IEnumerable<SmaResult> staticSma = quotes.GetSma(20);
+        IEnumerable<SmaResult> staticSma = quotes.ToSma(20);
         IReadOnlyList<TrResult> staticTr = quotes.GetTr();
 
         // final results should persist in scope

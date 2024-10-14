@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<DemaResult> GetDema<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int lookbackPeriods)
         where T : IReusable
         => results

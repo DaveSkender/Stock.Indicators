@@ -48,7 +48,7 @@ public class T3 : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<T3Result> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetT3();
 
         Assert.AreEqual(502, results.Count);
@@ -60,7 +60,7 @@ public class T3 : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetT3()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
     }

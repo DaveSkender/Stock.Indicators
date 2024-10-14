@@ -72,7 +72,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcEma(lookbackPeriods)
+        => source.ToEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Ema,
@@ -108,7 +108,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcSma(lookbackPeriods)
+        => source.ToSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Sma,

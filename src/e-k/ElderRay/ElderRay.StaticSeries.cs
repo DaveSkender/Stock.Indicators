@@ -16,8 +16,8 @@ public static partial class Indicator
         List<ElderRayResult> results = new(length);
 
         // EMA
-        List<EmaResult> emaResults
-            = source.CalcEma(lookbackPeriods);
+        IReadOnlyList<EmaResult> emaResults
+            = source.ToEma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

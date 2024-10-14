@@ -48,7 +48,7 @@ public class Correlation : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetCorrelation(OtherQuotes, 20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -58,8 +58,8 @@ public class Correlation : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<CorrResult> results = Quotes
-            .GetSma(2)
-            .GetCorrelation(OtherQuotes.GetSma(2), 20);
+            .ToSma(2)
+            .GetCorrelation(OtherQuotes.ToSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Correlation != null));

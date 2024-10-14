@@ -4,13 +4,14 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Sma
 {
-    internal static List<SmaResult> CalcSma<T>(
-        this List<T> source,
+    public static IReadOnlyList<SmaResult> ToSma<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Sma.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

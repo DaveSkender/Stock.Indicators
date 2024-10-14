@@ -41,7 +41,7 @@ public static partial class Atr
 
     // remove recommended periods
     public static IReadOnlyList<AtrResult> RemoveWarmupPeriods(
-        this IEnumerable<AtrResult> results)
+        this IReadOnlyList<AtrResult> results)
     {
         int removePeriods = results
             .ToList()

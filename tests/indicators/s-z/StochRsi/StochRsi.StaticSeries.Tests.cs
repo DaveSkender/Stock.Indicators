@@ -91,7 +91,7 @@ public class StochRsi : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<StochRsiResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetStochRsi(14, 14, 3);
 
         Assert.AreEqual(502, results.Count);
@@ -103,7 +103,7 @@ public class StochRsi : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetStochRsi(14, 14, 3, 3)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(464, results.Count(x => x.Sma != null));

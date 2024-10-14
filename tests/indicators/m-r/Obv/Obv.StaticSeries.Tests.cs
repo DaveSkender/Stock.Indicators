@@ -25,7 +25,7 @@ public class Obv : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetObv()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));

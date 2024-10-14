@@ -43,7 +43,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<DynamicResult> results = Quotes
-            .GetSma(10)
+            .ToSma(10)
             .GetDynamic(14);
 
         Assert.AreEqual(502, results.Count);
@@ -55,7 +55,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetDynamic(14)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Sma != null));

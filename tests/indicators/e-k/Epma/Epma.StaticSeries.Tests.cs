@@ -45,7 +45,7 @@ public class Epma : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<EpmaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetEpma(20);
 
         Assert.AreEqual(502, results.Count);
@@ -57,7 +57,7 @@ public class Epma : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetEpma(20)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

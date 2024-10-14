@@ -38,7 +38,7 @@ public class WilliamsR : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetWilliamsR()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));

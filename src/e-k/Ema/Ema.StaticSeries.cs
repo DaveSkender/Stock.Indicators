@@ -4,12 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Ema
 {
-    internal static List<EmaResult> CalcEma<T>(
-        this List<T> source,
+    public static IReadOnlyList<EmaResult> ToEma<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
         Validate(lookbackPeriods);
 
         // initialize

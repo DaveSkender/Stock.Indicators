@@ -18,7 +18,7 @@ public static partial class Indicator
         List<KeltnerResult> results = new(length);
 
         IReadOnlyList<EmaResult> emaResults
-            = source.CalcEma(emaPeriods);
+            = source.ToEma(emaPeriods);
 
         IReadOnlyList<AtrResult> atrResults
             = source.CalcAtr(atrPeriods);

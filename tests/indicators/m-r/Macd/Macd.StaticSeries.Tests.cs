@@ -57,7 +57,7 @@ public class Macd : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<MacdResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetMacd();
 
         Assert.AreEqual(502, results.Count);
@@ -69,7 +69,7 @@ public class Macd : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetMacd()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Sma != null));

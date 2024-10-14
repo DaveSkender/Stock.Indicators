@@ -106,7 +106,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
             .GetRenko(brickSize, endType)
-            .GetSma(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().BeEquivalentTo(seriesList);

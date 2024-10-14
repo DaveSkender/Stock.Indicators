@@ -80,7 +80,7 @@ public static class CustomIndicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<CustomReusable> GetIndicator<T>(
-        this IEnumerable<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
         => source

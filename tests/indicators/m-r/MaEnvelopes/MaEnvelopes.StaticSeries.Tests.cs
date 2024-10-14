@@ -251,7 +251,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<MaEnvelopeResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetMaEnvelopes(10);
 
         Assert.AreEqual(502, results.Count);

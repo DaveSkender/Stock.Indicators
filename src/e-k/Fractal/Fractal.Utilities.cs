@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FractalResult> Condense(
-        this IEnumerable<FractalResult> results)
+        this IReadOnlyList<FractalResult> results)
     {
         List<FractalResult> resultsList = results
             .ToList();

@@ -51,7 +51,7 @@ public class BollingerBands : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<BollingerBandsResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetBollingerBands();
 
         Assert.AreEqual(502, results.Count);
@@ -63,7 +63,7 @@ public class BollingerBands : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetBollingerBands()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));

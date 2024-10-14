@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 public static partial class Kama
 {
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<KamaResult> RemoveWarmupPeriods(
-        this IEnumerable<KamaResult> results)
+        this IReadOnlyList<KamaResult> results)
     {
         int erPeriods = results
             .ToList()

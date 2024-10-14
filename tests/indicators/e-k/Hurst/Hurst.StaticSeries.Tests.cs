@@ -36,7 +36,7 @@ public class Hurst : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetHurst()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(393, results.Count(x => x.Sma != null));
@@ -46,7 +46,7 @@ public class Hurst : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<HurstResult> results = Quotes
-            .GetSma(10)
+            .ToSma(10)
             .GetHurst();
 
         Assert.AreEqual(502, results.Count);

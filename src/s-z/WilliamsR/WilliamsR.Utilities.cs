@@ -3,9 +3,9 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<WilliamsResult> RemoveWarmupPeriods(
-        this IEnumerable<WilliamsResult> results)
+        this IReadOnlyList<WilliamsResult> results)
     {
         int removePeriods = results
             .ToList()

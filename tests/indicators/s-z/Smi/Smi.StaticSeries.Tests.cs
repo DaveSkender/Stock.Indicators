@@ -49,7 +49,7 @@ public class Smi : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetSmi(14, 20, 5)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));

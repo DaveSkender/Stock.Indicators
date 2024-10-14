@@ -46,7 +46,7 @@ public class Awesome : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<AwesomeResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetAwesome();
 
         Assert.AreEqual(502, results.Count);
@@ -58,7 +58,7 @@ public class Awesome : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetAwesome()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(460, results.Count(x => x.Sma != null));

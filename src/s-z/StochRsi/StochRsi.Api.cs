@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<StochRsiResult> GetStochRsi<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,

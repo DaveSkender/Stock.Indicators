@@ -55,7 +55,7 @@ public class Alma : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<AlmaResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetAlma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -71,7 +71,7 @@ public class Alma : StaticSeriesTestBase
 
         IReadOnlyList<SmaResult> results = Quotes
             .GetAlma(lookbackPeriods, offset, sigma)
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));

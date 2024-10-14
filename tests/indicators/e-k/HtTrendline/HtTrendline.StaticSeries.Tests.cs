@@ -71,7 +71,7 @@ public class HtTrendline : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<HtlResult> results = Quotes
-            .GetSma(2)
+            .ToSma(2)
             .GetHtTrendline();
 
         Assert.AreEqual(502, results.Count);
@@ -83,7 +83,7 @@ public class HtTrendline : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .GetHtTrendline()
-            .GetSma(10);
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));

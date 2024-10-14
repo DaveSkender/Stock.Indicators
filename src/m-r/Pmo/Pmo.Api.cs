@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     // SERIES, from CHAIN
     public static IReadOnlyList<PmoResult> GetPmo<T>(
-        this IEnumerable<T> results,
+        this IReadOnlyList<T> results,
         int timePeriods = 35,
         int smoothPeriods = 20,
         int signalPeriods = 10)
