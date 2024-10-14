@@ -25,12 +25,18 @@ public class UserInterface
             .ToList();
 
         // has duplicates
-        Assert.ThrowsException<InvalidQuotesException>(
-            () => quotesBad.Validate());
+        InvalidQuotesException dx
+            = Assert.ThrowsException<InvalidQuotesException>(
+                () => quotesBad.Validate());
+
+        dx.Message.Should().Contain("Duplicate date found");
 
         // out of order
-        Assert.ThrowsException<InvalidQuotesException>(
-            () => reverse.Validate());
+        InvalidQuotesException sx
+            = Assert.ThrowsException<InvalidQuotesException>(
+                () => reverse.Validate());
+
+        sx.Message.Should().Contain("Quotes are out of sequence");
     }
 
     [TestMethod]
