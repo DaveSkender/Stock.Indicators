@@ -7,7 +7,7 @@ public class Ultimate : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<UltimateResult> results = Quotes
-            .GetUltimate();
+            .ToUltimate();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,7 +28,7 @@ public class Ultimate : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetUltimate()
+            .ToUltimate()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -39,7 +39,7 @@ public class Ultimate : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<UltimateResult> r = BadQuotes
-            .GetUltimate(1, 2, 3);
+            .ToUltimate(1, 2, 3);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Ultimate is double.NaN));
@@ -49,12 +49,12 @@ public class Ultimate : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<UltimateResult> r0 = Noquotes
-            .GetUltimate();
+            .ToUltimate();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<UltimateResult> r1 = Onequote
-            .GetUltimate();
+            .ToUltimate();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -63,7 +63,7 @@ public class Ultimate : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<UltimateResult> results = Quotes
-            .GetUltimate()
+            .ToUltimate()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -78,14 +78,14 @@ public class Ultimate : StaticSeriesTestBase
     {
         // bad short period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetUltimate(0));
+            Quotes.ToUltimate(0));
 
         // bad middle period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetUltimate(7, 6));
+            Quotes.ToUltimate(7, 6));
 
         // bad long period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetUltimate(7, 14, 11));
+            Quotes.ToUltimate(7, 14, 11));
     }
 }

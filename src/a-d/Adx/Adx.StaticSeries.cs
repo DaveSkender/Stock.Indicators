@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Adx
 {
     private static List<AdxResult> CalcAdx(
         this List<QuoteD> source,

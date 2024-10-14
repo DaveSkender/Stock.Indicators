@@ -7,7 +7,7 @@ public class Adl : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<AdlResult> results = Quotes
-            .GetAdl();
+            .ToAdl();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,7 +28,7 @@ public class Adl : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetAdl()
+            .ToAdl()
             .ToSma(10);
 
         // assertions
@@ -42,7 +42,7 @@ public class Adl : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<AdlResult> r = BadQuotes
-            .GetAdl();
+            .ToAdl();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Adl)));
@@ -52,7 +52,7 @@ public class Adl : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<AdlResult> r = BigQuotes
-            .GetAdl();
+            .ToAdl();
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -61,7 +61,7 @@ public class Adl : StaticSeriesTestBase
     public void RandomData()
     {
         IReadOnlyList<AdlResult> r = RandomQuotes
-            .GetAdl();
+            .ToAdl();
 
         Assert.AreEqual(1000, r.Count);
     }
@@ -70,12 +70,12 @@ public class Adl : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<AdlResult> r0 = Noquotes
-            .GetAdl();
+            .ToAdl();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<AdlResult> r1 = Onequote
-            .GetAdl();
+            .ToAdl();
 
         Assert.AreEqual(1, r1.Count);
     }

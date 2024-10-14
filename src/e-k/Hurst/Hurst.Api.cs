@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<HurstResult> GetHurst<T>(
+    public static IReadOnlyList<HurstResult> ToHurst<T>(
         this IReadOnlyList<T> results,
         int lookbackPeriods = 100)
         where T : IReusable

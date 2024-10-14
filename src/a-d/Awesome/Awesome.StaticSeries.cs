@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // AWESOME OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Awesome
 {
     private static List<AwesomeResult> CalcAwesome<T>(
         this List<T> source,

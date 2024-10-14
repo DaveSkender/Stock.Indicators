@@ -11,7 +11,7 @@ public class Alma : StaticSeriesTestBase
         double sigma = 6;
 
         IReadOnlyList<AlmaResult> results = Quotes
-            .GetAlma(lookbackPeriods, offset, sigma);
+            .ToAlma(lookbackPeriods, offset, sigma);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -42,7 +42,7 @@ public class Alma : StaticSeriesTestBase
     {
         IReadOnlyList<AlmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetAlma(10);
+            .ToAlma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
@@ -56,7 +56,7 @@ public class Alma : StaticSeriesTestBase
     {
         IReadOnlyList<AlmaResult> results = Quotes
             .ToSma(2)
-            .GetAlma(10);
+            .ToAlma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Alma != null));
@@ -70,7 +70,7 @@ public class Alma : StaticSeriesTestBase
         double sigma = 6;
 
         IReadOnlyList<SmaResult> results = Quotes
-            .GetAlma(lookbackPeriods, offset, sigma)
+            .ToAlma(lookbackPeriods, offset, sigma)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -81,12 +81,12 @@ public class Alma : StaticSeriesTestBase
     public void NaN()
     {
         IReadOnlyList<AlmaResult> r1
-            = Data.GetBtcUsdNan().GetAlma();
+            = Data.GetBtcUsdNan().ToAlma();
 
         Assert.AreEqual(0, r1.Count(x => x.Alma is double.NaN));
 
         IReadOnlyList<AlmaResult> r2
-            = Data.GetBtcUsdNan().GetAlma(20);
+            = Data.GetBtcUsdNan().ToAlma(20);
 
         Assert.AreEqual(0, r2.Count(x => x.Alma is double.NaN));
     }
@@ -94,7 +94,7 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public override void BadData()
     {
-        IReadOnlyList<AlmaResult> r = BadQuotes.GetAlma(14, 0.5, 3);
+        IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Alma is double.NaN));
@@ -103,11 +103,11 @@ public class Alma : StaticSeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        IReadOnlyList<AlmaResult> r0 = Noquotes.GetAlma();
+        IReadOnlyList<AlmaResult> r0 = Noquotes.ToAlma();
 
         Assert.AreEqual(0, r0.Count);
 
-        IReadOnlyList<AlmaResult> r1 = Onequote.GetAlma();
+        IReadOnlyList<AlmaResult> r1 = Onequote.ToAlma();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -116,7 +116,7 @@ public class Alma : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<AlmaResult> results = Quotes
-            .GetAlma(10)
+            .ToAlma(10)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -131,14 +131,14 @@ public class Alma : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlma(0, 1, 5));
+            Quotes.ToAlma(0, 1, 5));
 
         // bad offset
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlma(15, 1.1, 3));
+            Quotes.ToAlma(15, 1.1, 3));
 
         // bad sigma
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlma(10, 0.5, 0));
+            Quotes.ToAlma(10, 0.5, 0));
     }
 }

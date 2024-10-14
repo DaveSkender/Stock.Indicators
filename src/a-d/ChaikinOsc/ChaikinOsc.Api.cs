@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<ChaikinOscResult> GetChaikinOsc<TQuote>(
+    public static IReadOnlyList<ChaikinOscResult> ToChaikinOsc<TQuote>(
         this IEnumerable<TQuote> quotes,
         int fastPeriods = 3,
         int slowPeriods = 10)

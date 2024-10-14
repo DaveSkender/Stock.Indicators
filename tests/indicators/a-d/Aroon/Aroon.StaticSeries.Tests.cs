@@ -7,7 +7,7 @@ public class Aroon : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<AroonResult> results = Quotes
-            .GetAroon();
+            .ToAroon();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -46,7 +46,7 @@ public class Aroon : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetAroon()
+            .ToAroon()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -57,7 +57,7 @@ public class Aroon : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<AroonResult> r = BadQuotes
-            .GetAroon(20);
+            .ToAroon(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -67,12 +67,12 @@ public class Aroon : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<AroonResult> r0 = Noquotes
-            .GetAroon();
+            .ToAroon();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<AroonResult> r1 = Onequote
-            .GetAroon();
+            .ToAroon();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -81,7 +81,7 @@ public class Aroon : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<AroonResult> results = Quotes
-            .GetAroon()
+            .ToAroon()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -97,5 +97,5 @@ public class Aroon : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetAroon(0));
+            => Quotes.ToAroon(0));
 }

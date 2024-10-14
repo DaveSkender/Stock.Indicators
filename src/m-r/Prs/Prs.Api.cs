@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAINS (both inputs reusable)
-    public static IReadOnlyList<PrsResult> GetPrs<T>(
+    public static IReadOnlyList<PrsResult> ToPrs<T>(
         this IEnumerable<T> quotesEval,
         IEnumerable<T> quotesBase,
         int? lookbackPeriods = null)

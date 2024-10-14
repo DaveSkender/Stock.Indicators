@@ -8,14 +8,14 @@ public class RemoveWarmup : TestBase
     {
         // specific periods
         IReadOnlyList<HeikinAshiResult> results = Quotes
-            .GetHeikinAshi()
+            .ToHeikinAshi()
             .RemoveWarmupPeriods(102);
 
         Assert.AreEqual(400, results.Count);
 
         // bad remove period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetAdx().RemoveWarmupPeriods(-1));
+            => Quotes.ToAdx().RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]
@@ -23,7 +23,7 @@ public class RemoveWarmup : TestBase
     {
         // more than available
         IReadOnlyList<HeikinAshiResult> results = Quotes
-            .GetHeikinAshi()
+            .ToHeikinAshi()
             .RemoveWarmupPeriods(600);
 
         Assert.AreEqual(0, results.Count);

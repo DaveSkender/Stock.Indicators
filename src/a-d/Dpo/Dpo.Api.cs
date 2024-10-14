@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<DpoResult> GetDpo<T>(
+    public static IReadOnlyList<DpoResult> ToDpo<T>(
         this IReadOnlyList<T> results,
         int lookbackPeriods)
         where T : IReusable

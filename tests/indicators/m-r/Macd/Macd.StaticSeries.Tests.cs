@@ -11,7 +11,7 @@ public class Macd : StaticSeriesTestBase
         int signalPeriods = 9;
 
         IReadOnlyList<MacdResult> results =
-            Quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
+            Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -47,7 +47,7 @@ public class Macd : StaticSeriesTestBase
     {
         IReadOnlyList<MacdResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMacd();
+            .ToMacd();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(477, results.Count(x => x.Macd != null));
@@ -58,7 +58,7 @@ public class Macd : StaticSeriesTestBase
     {
         IReadOnlyList<MacdResult> results = Quotes
             .ToSma(2)
-            .GetMacd();
+            .ToMacd();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(476, results.Count(x => x.Macd != null));
@@ -68,7 +68,7 @@ public class Macd : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetMacd()
+            .ToMacd()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -79,7 +79,7 @@ public class Macd : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<MacdResult> r = BadQuotes
-            .GetMacd(10, 20, 5);
+            .ToMacd(10, 20, 5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Macd is double.NaN));
@@ -89,12 +89,12 @@ public class Macd : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<MacdResult> r0 = Noquotes
-            .GetMacd();
+            .ToMacd();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<MacdResult> r1 = Onequote
-            .GetMacd();
+            .ToMacd();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -107,7 +107,7 @@ public class Macd : StaticSeriesTestBase
         int signalPeriods = 9;
 
         IReadOnlyList<MacdResult> results = Quotes
-            .GetMacd(fastPeriods, slowPeriods, signalPeriods)
+            .ToMacd(fastPeriods, slowPeriods, signalPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -124,14 +124,14 @@ public class Macd : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMacd(0));
+            Quotes.ToMacd(0));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMacd(12, 12));
+            Quotes.ToMacd(12, 12));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMacd(12, 26, -1));
+            Quotes.ToMacd(12, 26, -1));
     }
 }

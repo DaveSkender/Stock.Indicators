@@ -7,7 +7,7 @@ public class UlcerIndex : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<UlcerIndexResult> results = Quotes
-            .GetUlcerIndex();
+            .ToUlcerIndex();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -23,7 +23,7 @@ public class UlcerIndex : StaticSeriesTestBase
     {
         IReadOnlyList<UlcerIndexResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetUlcerIndex();
+            .ToUlcerIndex();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
@@ -34,7 +34,7 @@ public class UlcerIndex : StaticSeriesTestBase
     {
         IReadOnlyList<UlcerIndexResult> results = Quotes
             .ToSma(2)
-            .GetUlcerIndex();
+            .ToUlcerIndex();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.UlcerIndex != null));
@@ -44,7 +44,7 @@ public class UlcerIndex : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetUlcerIndex()
+            .ToUlcerIndex()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -55,7 +55,7 @@ public class UlcerIndex : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<UlcerIndexResult> r = BadQuotes
-            .GetUlcerIndex(15);
+            .ToUlcerIndex(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UlcerIndex is double.NaN));
@@ -65,12 +65,12 @@ public class UlcerIndex : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<UlcerIndexResult> r0 = Noquotes
-            .GetUlcerIndex();
+            .ToUlcerIndex();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<UlcerIndexResult> r1 = Onequote
-            .GetUlcerIndex();
+            .ToUlcerIndex();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -79,7 +79,7 @@ public class UlcerIndex : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<UlcerIndexResult> results = Quotes
-            .GetUlcerIndex()
+            .ToUlcerIndex()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -93,5 +93,5 @@ public class UlcerIndex : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetUlcerIndex(0));
+            => Quotes.ToUlcerIndex(0));
 }

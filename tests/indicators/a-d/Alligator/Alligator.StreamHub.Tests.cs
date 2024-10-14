@@ -57,7 +57,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         // time-series, for comparison
         IReadOnlyList<AlligatorResult> seriesList
            = quotesList
-            .GetAlligator();
+            .ToAlligator();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -118,7 +118,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         IReadOnlyList<AlligatorResult> seriesList
            = quotesList
             .ToSma(10)
-            .GetAlligator();
+            .ToAlligator();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

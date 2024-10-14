@@ -7,7 +7,7 @@ public class Smma : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<SmmaResult> results = Quotes
-            .GetSmma(20);
+            .ToSmma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -30,7 +30,7 @@ public class Smma : StaticSeriesTestBase
     {
         IReadOnlyList<SmmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetSmma(20);
+            .ToSmma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Smma != null));
@@ -41,7 +41,7 @@ public class Smma : StaticSeriesTestBase
     {
         IReadOnlyList<SmmaResult> results = Quotes
             .ToSma(2)
-            .GetSmma(20);
+            .ToSmma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Smma != null));
@@ -51,7 +51,7 @@ public class Smma : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetSmma(20)
+            .ToSmma(20)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -62,7 +62,7 @@ public class Smma : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<SmmaResult> r = BadQuotes
-            .GetSmma(15);
+            .ToSmma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Smma is double.NaN));
@@ -72,12 +72,12 @@ public class Smma : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<SmmaResult> r0 = Noquotes
-            .GetSmma(5);
+            .ToSmma(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<SmmaResult> r1 = Onequote
-            .GetSmma(5);
+            .ToSmma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -86,7 +86,7 @@ public class Smma : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<SmmaResult> results = Quotes
-            .GetSmma(20)
+            .ToSmma(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -98,5 +98,5 @@ public class Smma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetSmma(0));
+            => Quotes.ToSmma(0));
 }

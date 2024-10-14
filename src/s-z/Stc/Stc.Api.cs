@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<StcResult> GetStc<T>(
+    public static IReadOnlyList<StcResult> ToStc<T>(
         this IReadOnlyList<T> results,
         int cyclePeriods = 10,
         int fastPeriods = 23,

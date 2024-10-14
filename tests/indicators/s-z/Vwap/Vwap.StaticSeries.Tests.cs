@@ -10,7 +10,7 @@ public class Vwap : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        IReadOnlyList<VwapResult> results = intraday.GetVwap();
+        IReadOnlyList<VwapResult> results = intraday.ToVwap();
 
         // proper quantities
         Assert.AreEqual(391, results.Count);
@@ -37,7 +37,7 @@ public class Vwap : StaticSeriesTestBase
             DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
         IReadOnlyList<VwapResult> results = intraday
-            .GetVwap(startDate);
+            .ToVwap(startDate);
 
         // proper quantities
         Assert.AreEqual(391, results.Count);
@@ -61,7 +61,7 @@ public class Vwap : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetVwap()
+            .ToVwap()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -72,7 +72,7 @@ public class Vwap : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<VwapResult> r = BadQuotes
-            .GetVwap();
+            .ToVwap();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwap is double.NaN));
@@ -82,12 +82,12 @@ public class Vwap : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<VwapResult> r0 = Noquotes
-            .GetVwap();
+            .ToVwap();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<VwapResult> r1 = Onequote
-            .GetVwap();
+            .ToVwap();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -97,7 +97,7 @@ public class Vwap : StaticSeriesTestBase
     {
         // no start date
         IReadOnlyList<VwapResult> results = intraday
-            .GetVwap()
+            .ToVwap()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -111,7 +111,7 @@ public class Vwap : StaticSeriesTestBase
         DateTime.ParseExact("2020-12-15 10:00", "yyyy-MM-dd h:mm", englishCulture);
 
         IReadOnlyList<VwapResult> sdResults = intraday
-            .GetVwap(startDate)
+            .ToVwap(startDate)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -129,6 +129,6 @@ public class Vwap : StaticSeriesTestBase
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", englishCulture);
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetVwap(startDate));
+            Quotes.ToVwap(startDate));
     }
 }

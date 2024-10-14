@@ -11,7 +11,7 @@ public class Stc : StaticSeriesTestBase
         int slowPeriods = 26;
 
         IReadOnlyList<StcResult> results = Quotes
-            .GetStc(cyclePeriods, fastPeriods, slowPeriods);
+            .ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -39,7 +39,7 @@ public class Stc : StaticSeriesTestBase
     {
         IReadOnlyList<StcResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStc(9, 12, 26);
+            .ToStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(467, results.Count(x => x.Stc != null));
@@ -50,7 +50,7 @@ public class Stc : StaticSeriesTestBase
     {
         IReadOnlyList<StcResult> results = Quotes
             .ToSma(2)
-            .GetStc(9, 12, 26);
+            .ToStc(9, 12, 26);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(466, results.Count(x => x.Stc != null));
@@ -60,7 +60,7 @@ public class Stc : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetStc(9, 12, 26)
+            .ToStc(9, 12, 26)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -71,7 +71,7 @@ public class Stc : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<StcResult> r = BadQuotes
-            .GetStc();
+            .ToStc();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Stc is double.NaN));
@@ -81,12 +81,12 @@ public class Stc : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<StcResult> r0 = Noquotes
-            .GetStc();
+            .ToStc();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<StcResult> r1 = Onequote
-            .GetStc();
+            .ToStc();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -99,7 +99,7 @@ public class Stc : StaticSeriesTestBase
         RandomGbm quotes = new(58);
 
         IReadOnlyList<StcResult> results = quotes
-            .GetStc();
+            .ToStc();
 
         Assert.AreEqual(58, results.Count);
     }
@@ -112,7 +112,7 @@ public class Stc : StaticSeriesTestBase
         int slowPeriods = 26;
 
         IReadOnlyList<StcResult> results = Quotes
-            .GetStc(cyclePeriods, fastPeriods, slowPeriods)
+            .ToStc(cyclePeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -127,14 +127,14 @@ public class Stc : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStc(9, 0, 26));
+            Quotes.ToStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStc(9, 12, 12));
+            Quotes.ToStc(9, 12, 12));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStc(-1, 12, 26));
+            Quotes.ToStc(-1, 12, 26));
     }
 }

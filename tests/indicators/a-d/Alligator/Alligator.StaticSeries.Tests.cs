@@ -7,7 +7,7 @@ public class Alligator : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<AlligatorResult> results = Quotes
-            .GetAlligator();
+            .ToAlligator();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -47,7 +47,7 @@ public class Alligator : StaticSeriesTestBase
     {
         IReadOnlyList<AlligatorResult> results = Quotes
             .ToSma(2)
-            .GetAlligator();
+            .ToAlligator();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Jaw != null));
@@ -57,7 +57,7 @@ public class Alligator : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<AlligatorResult> r = BadQuotes
-            .GetAlligator(3, 3, 2, 1, 1, 1);
+            .ToAlligator(3, 3, 2, 1, 1, 1);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Jaw is double.NaN));
@@ -67,12 +67,12 @@ public class Alligator : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<AlligatorResult> r0 = Noquotes
-            .GetAlligator();
+            .ToAlligator();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<AlligatorResult> r1 = Onequote
-            .GetAlligator();
+            .ToAlligator();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -81,7 +81,7 @@ public class Alligator : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<AlligatorResult> results = Quotes
-            .GetAlligator()
+            .ToAlligator()
             .Condense();
 
         Assert.AreEqual(495, results.Count);
@@ -96,7 +96,7 @@ public class Alligator : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<AlligatorResult> results = Quotes
-            .GetAlligator()
+            .ToAlligator()
             .RemoveWarmupPeriods();
 
         Assert.AreEqual(502 - 21 - 250, results.Count);
@@ -123,34 +123,34 @@ public class Alligator : StaticSeriesTestBase
     {
         // bad jaw lookback periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 13));
+            Quotes.ToAlligator(13, 8, 13));
 
         // bad teeth lookback periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 8, 5, 8));
+            Quotes.ToAlligator(13, 8, 8, 5, 8));
 
         // bad lips lookback periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 8, 5, 0));
+            Quotes.ToAlligator(13, 8, 8, 5, 0));
 
         // bad jaw offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 0));
+            Quotes.ToAlligator(13, 0));
 
         // bad teeth offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 8, 0));
+            Quotes.ToAlligator(13, 8, 8, 0));
 
         // bad lips offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 8, 5, 5, 0));
+            Quotes.ToAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 12, 11));
+            Quotes.ToAlligator(13, 8, 12, 11));
 
         // bad teeth + offset periods
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAlligator(13, 8, 8, 5, 7, 7));
+            Quotes.ToAlligator(13, 8, 8, 5, 7, 7));
     }
 }

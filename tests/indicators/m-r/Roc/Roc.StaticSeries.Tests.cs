@@ -7,7 +7,7 @@ public class Roc : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<RocResult> results = Quotes
-            .GetRoc(20);
+            .ToRoc(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -33,7 +33,7 @@ public class Roc : StaticSeriesTestBase
     {
         IReadOnlyList<RocResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetRoc(20);
+            .ToRoc(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
@@ -44,7 +44,7 @@ public class Roc : StaticSeriesTestBase
     {
         IReadOnlyList<RocResult> results = Quotes
             .ToSma(2)
-            .GetRoc(20);
+            .ToRoc(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Roc != null));
@@ -54,7 +54,7 @@ public class Roc : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetRoc(20)
+            .ToRoc(20)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -65,7 +65,7 @@ public class Roc : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<RocResult> r = BadQuotes
-            .GetRoc(35);
+            .ToRoc(35);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double.NaN));
@@ -75,12 +75,12 @@ public class Roc : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<RocResult> r0 = Noquotes
-            .GetRoc(5);
+            .ToRoc(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<RocResult> r1 = Onequote
-            .GetRoc(5);
+            .ToRoc(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -89,7 +89,7 @@ public class Roc : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<RocResult> results = Quotes
-            .GetRoc(20)
+            .ToRoc(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -103,5 +103,5 @@ public class Roc : StaticSeriesTestBase
     public void Exceptions() =>
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetRoc(0));
+            Quotes.ToRoc(0));
 }

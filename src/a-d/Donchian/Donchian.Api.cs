@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<DonchianResult> GetDonchian<TQuote>(
+    public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes

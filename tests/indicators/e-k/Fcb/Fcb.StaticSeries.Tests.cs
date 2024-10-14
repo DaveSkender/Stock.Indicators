@@ -7,7 +7,7 @@ public class Fcb : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<FcbResult> results = Quotes
-            .GetFcb();
+            .ToFcb();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -44,7 +44,7 @@ public class Fcb : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<FcbResult> r = BadQuotes
-            .GetFcb();
+            .ToFcb();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -53,12 +53,12 @@ public class Fcb : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<FcbResult> r0 = Noquotes
-            .GetFcb();
+            .ToFcb();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<FcbResult> r1 = Onequote
-            .GetFcb();
+            .ToFcb();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -67,7 +67,7 @@ public class Fcb : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<FcbResult> results = Quotes
-            .GetFcb()
+            .ToFcb()
             .Condense();
 
         // assertions
@@ -82,7 +82,7 @@ public class Fcb : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<FcbResult> results = Quotes
-            .GetFcb()
+            .ToFcb()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -97,5 +97,5 @@ public class Fcb : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetFcb(1));
+            => Quotes.ToFcb(1));
 }

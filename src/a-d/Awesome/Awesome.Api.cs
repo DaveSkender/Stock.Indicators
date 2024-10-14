@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // AWESOME OSCILLATOR (API)
-public static partial class Indicator
+public static partial class Awesome
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<AwesomeResult> GetAwesome<T>(
+    public static IReadOnlyList<AwesomeResult> ToAwesome<T>(
         this IEnumerable<T> source,
         int fastPeriods = 5,
         int slowPeriods = 34)

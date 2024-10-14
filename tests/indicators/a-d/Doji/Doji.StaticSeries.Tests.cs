@@ -7,7 +7,7 @@ public class Doji : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<CandleResult> results = Quotes
-            .GetDoji();
+            .ToDoji();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -43,7 +43,7 @@ public class Doji : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<CandleResult> r = BadQuotes
-            .GetDoji();
+            .ToDoji();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -52,12 +52,12 @@ public class Doji : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<CandleResult> r0 = Noquotes
-            .GetDoji();
+            .ToDoji();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<CandleResult> r1 = Onequote
-            .GetDoji();
+            .ToDoji();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -66,7 +66,7 @@ public class Doji : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<CandleResult> results = Quotes
-            .GetDoji()
+            .ToDoji()
             .Condense();
 
         Assert.AreEqual(112, results.Count);
@@ -77,9 +77,9 @@ public class Doji : StaticSeriesTestBase
     {
         // bad maximum change value
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetDoji(-0.00001));
+            Quotes.ToDoji(-0.00001));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetDoji(0.50001));
+            Quotes.ToDoji(0.50001));
     }
 }

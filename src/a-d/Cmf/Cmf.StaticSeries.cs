@@ -19,7 +19,7 @@ public static partial class Indicator
         // initialize
         int length = volume.Length;
         List<CmfResult> results = new(length);
-        List<AdlResult> adlResults = source.CalcAdl();
+        IReadOnlyList<AdlResult> adlResults = source.ToAdl();
 
         // roll through source values
         for (int i = 0; i < length; i++)

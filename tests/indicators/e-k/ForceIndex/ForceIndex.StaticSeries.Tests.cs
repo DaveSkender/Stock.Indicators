@@ -6,7 +6,7 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public override void Standard()
     {
-        IReadOnlyList<ForceIndexResult> r = Quotes.GetForceIndex(13).ToList();
+        IReadOnlyList<ForceIndexResult> r = Quotes.ToForceIndex(13).ToList();
 
         // proper quantities
         Assert.AreEqual(502, r.Count);
@@ -26,7 +26,7 @@ public class ForceIndex : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetForceIndex(13)
+            .ToForceIndex(13)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -37,7 +37,7 @@ public class ForceIndex : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ForceIndexResult> r = BadQuotes
-            .GetForceIndex();
+            .ToForceIndex();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.ForceIndex is double.NaN));
@@ -47,12 +47,12 @@ public class ForceIndex : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ForceIndexResult> r0 = Noquotes
-            .GetForceIndex(5);
+            .ToForceIndex(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ForceIndexResult> r1 = Onequote
-            .GetForceIndex(5);
+            .ToForceIndex(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -61,7 +61,7 @@ public class ForceIndex : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<ForceIndexResult> results = Quotes
-            .GetForceIndex(13)
+            .ToForceIndex(13)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -75,5 +75,5 @@ public class ForceIndex : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetForceIndex(0));
+            => Quotes.ToForceIndex(0));
 }

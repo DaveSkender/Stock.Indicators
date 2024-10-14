@@ -7,7 +7,7 @@ public class Chop : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<ChopResult> results = Quotes
-            .GetChop();
+            .ToChop();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -31,7 +31,7 @@ public class Chop : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetChop()
+            .ToChop()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -43,7 +43,7 @@ public class Chop : StaticSeriesTestBase
     {
         int lookbackPeriods = 2;
         IReadOnlyList<ChopResult> results = Quotes
-            .GetChop(lookbackPeriods);
+            .ToChop(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -54,7 +54,7 @@ public class Chop : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ChopResult> r = BadQuotes
-            .GetChop(20);
+            .ToChop(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Chop is double.NaN));
@@ -64,12 +64,12 @@ public class Chop : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ChopResult> r0 = Noquotes
-            .GetChop();
+            .ToChop();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ChopResult> r1 = Onequote
-            .GetChop();
+            .ToChop();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -78,7 +78,7 @@ public class Chop : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<ChopResult> results = Quotes
-            .GetChop()
+            .ToChop()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -92,5 +92,5 @@ public class Chop : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetChop(1));
+            => Quotes.ToChop(1));
 }

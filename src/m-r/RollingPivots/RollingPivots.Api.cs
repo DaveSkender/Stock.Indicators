@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<RollingPivotsResult> GetRollingPivots<TQuote>(
+    public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
         this IEnumerable<TQuote> quotes,
         int windowPeriods,
         int offsetPeriods,

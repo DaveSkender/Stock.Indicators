@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // BETA COEFFICIENT (SERIES)
 
-public static partial class Indicator
+public static partial class Beta
 {
     // NOTE: sequence swapped from API
     private static List<BetaResult> CalcBeta<T>(
@@ -146,7 +146,7 @@ public static partial class Indicator
         }
 
         // calculate correlation, covariance, and variance
-        CorrResult c = PeriodCorrelation(
+        CorrResult c = Correlation.PeriodCorrelation(
             default,
             [.. dataA],
             [.. dataB]);

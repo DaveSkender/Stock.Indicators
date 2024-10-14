@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<BollingerBandsResult> GetBollingerBands<T>(
+    public static IReadOnlyList<BollingerBandsResult> ToBollingerBands<T>(
         this IReadOnlyList<T> results,
         int lookbackPeriods = 20,
         double standardDeviations = 2)

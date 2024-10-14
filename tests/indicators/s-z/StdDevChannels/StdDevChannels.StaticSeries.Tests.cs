@@ -10,7 +10,7 @@ public class StdDevChannels : StaticSeriesTestBase
         double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> results =
-            Quotes.GetStdDevChannels(lookbackPeriods, standardDeviations);
+            Quotes.ToStdDevChannels(lookbackPeriods, standardDeviations);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -68,7 +68,7 @@ public class StdDevChannels : StaticSeriesTestBase
         // null provided for lookback period
 
         IReadOnlyList<StdDevChannelsResult> results =
-            Quotes.GetStdDevChannels(null);
+            Quotes.ToStdDevChannels(null);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -100,7 +100,7 @@ public class StdDevChannels : StaticSeriesTestBase
     {
         IReadOnlyList<StdDevChannelsResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStdDevChannels();
+            .ToStdDevChannels();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
@@ -111,7 +111,7 @@ public class StdDevChannels : StaticSeriesTestBase
     {
         IReadOnlyList<StdDevChannelsResult> results = Quotes
             .ToSma(2)
-            .GetStdDevChannels();
+            .ToStdDevChannels();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(500, results.Count(x => x.Centerline != null));
@@ -121,7 +121,7 @@ public class StdDevChannels : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<StdDevChannelsResult> r = BadQuotes
-            .GetStdDevChannels();
+            .ToStdDevChannels();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperChannel is double.NaN));
@@ -131,12 +131,12 @@ public class StdDevChannels : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<StdDevChannelsResult> r0 = Noquotes
-            .GetStdDevChannels();
+            .ToStdDevChannels();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<StdDevChannelsResult> r1 = Onequote
-            .GetStdDevChannels();
+            .ToStdDevChannels();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -148,7 +148,7 @@ public class StdDevChannels : StaticSeriesTestBase
         double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> results = Quotes
-            .GetStdDevChannels(lookbackPeriods, standardDeviations)
+            .ToStdDevChannels(lookbackPeriods, standardDeviations)
             .Condense();
 
         // assertions
@@ -167,7 +167,7 @@ public class StdDevChannels : StaticSeriesTestBase
         double standardDeviations = 2;
 
         IReadOnlyList<StdDevChannelsResult> results = Quotes
-            .GetStdDevChannels(lookbackPeriods, standardDeviations)
+            .ToStdDevChannels(lookbackPeriods, standardDeviations)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -184,10 +184,10 @@ public class StdDevChannels : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStdDevChannels(0));
+            Quotes.ToStdDevChannels(0));
 
         // bad standard deviations
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStdDevChannels(20, 0));
+            Quotes.ToStdDevChannels(20, 0));
     }
 }

@@ -24,7 +24,7 @@ public class Dpo : StaticSeriesTestBase
         }
 
         // calculate actual data
-        IReadOnlyList<DpoResult> act = qot.GetDpo(14);
+        IReadOnlyList<DpoResult> act = qot.ToDpo(14);
 
         // assertions
         Assert.AreEqual(exp.Count, act.Count);
@@ -46,7 +46,7 @@ public class Dpo : StaticSeriesTestBase
     {
         IReadOnlyList<DpoResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetDpo(14);
+            .ToDpo(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(489, results.Count(x => x.Dpo != null));
@@ -57,7 +57,7 @@ public class Dpo : StaticSeriesTestBase
     {
         IReadOnlyList<DpoResult> results = Quotes
             .ToSma(2)
-            .GetDpo(14);
+            .ToDpo(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Dpo != null));
@@ -67,7 +67,7 @@ public class Dpo : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetDpo(14)
+            .ToDpo(14)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -78,7 +78,7 @@ public class Dpo : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<DpoResult> r = BadQuotes
-            .GetDpo(5);
+            .ToDpo(5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dpo is double.NaN));
@@ -88,12 +88,12 @@ public class Dpo : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<DpoResult> r0 = Noquotes
-            .GetDpo(5);
+            .ToDpo(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<DpoResult> r1 = Onequote
-            .GetDpo(5);
+            .ToDpo(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -102,5 +102,5 @@ public class Dpo : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetDpo(0));
+            => Quotes.ToDpo(0));
 }

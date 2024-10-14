@@ -10,7 +10,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double maxAccelerationFactor = 0.2;
 
         IReadOnlyList<ParabolicSarResult> results =
-            Quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+            Quotes.ToParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
         // proper quantities
@@ -77,7 +77,7 @@ public class ParabolicSar : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetParabolicSar()
+            .ToParabolicSar()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -95,7 +95,7 @@ public class ParabolicSar : StaticSeriesTestBase
             .Take(10);
 
         IReadOnlyList<ParabolicSarResult> results =
-            insufficientQuotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+            insufficientQuotes.ToParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
         // assertions
@@ -119,12 +119,12 @@ public class ParabolicSar : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ParabolicSarResult> r0 = Noquotes
-            .GetParabolicSar();
+            .ToParabolicSar();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ParabolicSarResult> r1 = Onequote
-            .GetParabolicSar();
+            .ToParabolicSar();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -136,7 +136,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double maxAccelerationFactor = 0.2;
 
         IReadOnlyList<ParabolicSarResult> results = Quotes
-            .GetParabolicSar(acclerationStep, maxAccelerationFactor)
+            .ToParabolicSar(acclerationStep, maxAccelerationFactor)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -152,15 +152,15 @@ public class ParabolicSar : StaticSeriesTestBase
     {
         // bad acceleration step
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(0, 1));
+            Quotes.ToParabolicSar(0, 1));
 
         // insufficient acceleration step
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(0.02, 0));
+            Quotes.ToParabolicSar(0.02, 0));
 
         // step larger than factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(6, 2));
+            Quotes.ToParabolicSar(6, 2));
 
         // insufficient initial factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>

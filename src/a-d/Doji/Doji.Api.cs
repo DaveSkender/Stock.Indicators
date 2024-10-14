@@ -17,7 +17,7 @@ public static partial class Indicator
     /// <param name = "maxPriceChangePercent" > Optional.Maximum absolute percent difference in open and close price.</param>
     /// <returns>Time series of Doji values.</returns>
     /// <exception cref = "ArgumentOutOfRangeException" > Invalid parameter value provided.</exception>
-    public static IReadOnlyList<CandleResult> GetDoji<TQuote>(
+    public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
         this IEnumerable<TQuote> quotes,
         double maxPriceChangePercent = 0.1)
         where TQuote : IQuote => quotes

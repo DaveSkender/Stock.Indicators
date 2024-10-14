@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+public static partial class Adx
 {
     // remove recommended periods
     /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
@@ -12,5 +12,17 @@ public static partial class Indicator
             .FindIndex(x => x.Pdi != null);
 
         return results.Remove(2 * n + 100);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for ADX.");
+        }
     }
 }

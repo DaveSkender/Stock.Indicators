@@ -10,7 +10,7 @@ public class AtrStop : StaticSeriesTestBase
         double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
-            .GetAtrStop(lookbackPeriods, multiplier);
+            .ToAtrStop(lookbackPeriods, multiplier);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -55,7 +55,7 @@ public class AtrStop : StaticSeriesTestBase
         double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
-            .GetAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
+            .ToAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -97,7 +97,7 @@ public class AtrStop : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<AtrStopResult> r = BadQuotes
-            .GetAtrStop(7);
+            .ToAtrStop(7);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -106,12 +106,12 @@ public class AtrStop : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<AtrStopResult> r0 = Noquotes
-            .GetAtrStop();
+            .ToAtrStop();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<AtrStopResult> r1 = Onequote
-            .GetAtrStop();
+            .ToAtrStop();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -123,7 +123,7 @@ public class AtrStop : StaticSeriesTestBase
         double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
-            .GetAtrStop(lookbackPeriods, multiplier)
+            .ToAtrStop(lookbackPeriods, multiplier)
             .Condense();
 
         // assertions
@@ -142,7 +142,7 @@ public class AtrStop : StaticSeriesTestBase
         double multiplier = 3;
 
         IReadOnlyList<AtrStopResult> results = Quotes
-            .GetAtrStop(lookbackPeriods, multiplier)
+            .ToAtrStop(lookbackPeriods, multiplier)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -159,10 +159,10 @@ public class AtrStop : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetAtrStop(1));
+            => Quotes.ToAtrStop(1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetAtrStop(7, 0));
+            => Quotes.ToAtrStop(7, 0));
     }
 }

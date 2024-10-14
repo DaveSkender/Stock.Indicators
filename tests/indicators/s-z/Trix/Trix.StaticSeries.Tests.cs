@@ -7,7 +7,7 @@ public class Trix : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<TrixResult> results = Quotes
-            .GetTrix(20);
+            .ToTrix(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -37,7 +37,7 @@ public class Trix : StaticSeriesTestBase
     {
         IReadOnlyList<TrixResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetTrix(20);
+            .ToTrix(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Trix != null));
@@ -48,7 +48,7 @@ public class Trix : StaticSeriesTestBase
     {
         IReadOnlyList<TrixResult> results = Quotes
             .ToSma(2)
-            .GetTrix(20);
+            .ToTrix(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Trix != null));
@@ -58,7 +58,7 @@ public class Trix : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetTrix(20)
+            .ToTrix(20)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -69,7 +69,7 @@ public class Trix : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<TrixResult> r = BadQuotes
-            .GetTrix(15);
+            .ToTrix(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trix is double.NaN));
@@ -79,12 +79,12 @@ public class Trix : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<TrixResult> r0 = Noquotes
-            .GetTrix(5);
+            .ToTrix(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<TrixResult> r1 = Onequote
-            .GetTrix(5);
+            .ToTrix(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -93,7 +93,7 @@ public class Trix : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<TrixResult> results = Quotes
-            .GetTrix(20)
+            .ToTrix(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -108,5 +108,5 @@ public class Trix : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetTrix(0));
+            => Quotes.ToTrix(0));
 }

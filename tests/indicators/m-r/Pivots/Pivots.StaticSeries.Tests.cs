@@ -7,7 +7,7 @@ public class Pivots : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<PivotsResult> results = Quotes
-            .GetPivots(4, 4);
+            .ToPivots(4, 4);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -88,7 +88,7 @@ public class Pivots : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<PivotsResult> r = BadQuotes
-            .GetPivots();
+            .ToPivots();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -97,12 +97,12 @@ public class Pivots : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<PivotsResult> r0 = Noquotes
-            .GetPivots();
+            .ToPivots();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<PivotsResult> r1 = Onequote
-            .GetPivots();
+            .ToPivots();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -111,7 +111,7 @@ public class Pivots : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<PivotsResult> results = Quotes
-            .GetPivots(4, 4)
+            .ToPivots(4, 4)
             .Condense();
 
         Assert.AreEqual(67, results.Count);
@@ -122,14 +122,14 @@ public class Pivots : StaticSeriesTestBase
     {
         // bad left span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetPivots(1));
+            Quotes.ToPivots(1));
 
         // bad right span
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetPivots(2, 1));
+            Quotes.ToPivots(2, 1));
 
         // bad lookback window
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetPivots(20, 10, 20, EndType.Close));
+            Quotes.ToPivots(20, 10, 20, EndType.Close));
     }
 }

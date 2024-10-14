@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<RocResult> GetRoc<T>(
+    public static IReadOnlyList<RocResult> ToRoc<T>(
         this IReadOnlyList<T> results,
         int lookbackPeriods)
         where T : IReusable

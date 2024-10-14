@@ -7,7 +7,7 @@ public class Hurst : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<HurstResult> results = LongestQuotes
-            .GetHurst(LongestQuotes.Count - 1);
+            .ToHurst(LongestQuotes.Count - 1);
 
         // assertions
 
@@ -25,7 +25,7 @@ public class Hurst : StaticSeriesTestBase
     {
         IReadOnlyList<HurstResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetHurst();
+            .ToHurst();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(402, results.Count(x => x.HurstExponent != null));
@@ -35,7 +35,7 @@ public class Hurst : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetHurst()
+            .ToHurst()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -47,7 +47,7 @@ public class Hurst : StaticSeriesTestBase
     {
         IReadOnlyList<HurstResult> results = Quotes
             .ToSma(10)
-            .GetHurst();
+            .ToHurst();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(393, results.Count(x => x.HurstExponent != null));
@@ -57,7 +57,7 @@ public class Hurst : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<HurstResult> r = BadQuotes
-            .GetHurst(150);
+            .ToHurst(150);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.HurstExponent is double.NaN));
@@ -67,12 +67,12 @@ public class Hurst : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<HurstResult> r0 = Noquotes
-            .GetHurst();
+            .ToHurst();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<HurstResult> r1 = Onequote
-            .GetHurst();
+            .ToHurst();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -80,7 +80,7 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void Removed()
     {
-        IReadOnlyList<HurstResult> results = LongestQuotes.GetHurst(LongestQuotes.Count - 1)
+        IReadOnlyList<HurstResult> results = LongestQuotes.ToHurst(LongestQuotes.Count - 1)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -94,5 +94,5 @@ public class Hurst : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetHurst(19));
+            => Quotes.ToHurst(19));
 }

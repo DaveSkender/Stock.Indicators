@@ -17,7 +17,7 @@ public static partial class Indicator
     /// </typeparam>
     /// <param name="source">Time-series values to transform.</param>
     /// <returns>Time series of HTL values and smoothed price.</returns>
-    public static IReadOnlyList<HtlResult> GetHtTrendline<T>(
+    public static IReadOnlyList<HtlResult> ToHtTrendline<T>(
         this IEnumerable<T> source)
         where T : IReusable
         => source

@@ -12,7 +12,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<AdxResult> r = qts.GetAdx();
+            IReadOnlyList<AdxResult> r = qts.ToAdx();
 
             AdxResult l = r[^1];
             Console.WriteLine($"ADX(14) on {l.Timestamp:d} with {qts.Count,4} historical qts: {l.Adx:N8}");
@@ -25,7 +25,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> quotes = Data.GetLongish(qty);
-            IReadOnlyList<AlligatorResult> r = quotes.GetAlligator();
+            IReadOnlyList<AlligatorResult> r = quotes.ToAlligator();
 
             AlligatorResult l = r[^1];
             Console.WriteLine(
@@ -40,7 +40,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<AtrResult> r = qts.GetAtr();
+            IReadOnlyList<AtrResult> r = qts.ToAtr();
 
             AtrResult l = r[^1];
             Console.WriteLine($"ATR(14) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Atr:N8}");
@@ -53,7 +53,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<ChaikinOscResult> r = qts.GetChaikinOsc();
+            IReadOnlyList<ChaikinOscResult> r = qts.ToChaikinOsc();
 
             ChaikinOscResult l = r[^1];
             Console.WriteLine($"CHAIKIN OSC on {l.Timestamp:d} with {qts.Count,4} periods: {l.Oscillator:N8}");
@@ -66,7 +66,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<ConnorsRsiResult> r = qts.GetConnorsRsi(3, 2, 10);
+            IReadOnlyList<ConnorsRsiResult> r = qts.ToConnorsRsi(3, 2, 10);
 
             ConnorsRsiResult l = r[^1];
             Console.WriteLine($"CRSI on {l.Timestamp:d} with {qts.Count,4} periods: {l.ConnorsRsi:N8}");
@@ -79,7 +79,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<DemaResult> r = qts.GetDema(15);
+            IReadOnlyList<DemaResult> r = qts.ToDema(15);
 
             DemaResult l = r[^1];
             Console.WriteLine($"DEMA(15) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Dema:N8}");
@@ -92,7 +92,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<DynamicResult> r = qts.GetDynamic(100);
+            IReadOnlyList<DynamicResult> r = qts.ToDynamic(100);
 
             DynamicResult l = r[^1];
             Console.WriteLine($"DYNAMIC(15) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Dynamic:N8}");
@@ -118,7 +118,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<FisherTransformResult> r = qts.GetFisherTransform();
+            IReadOnlyList<FisherTransformResult> r = qts.ToFisherTransform();
 
             FisherTransformResult l = r[^1];
             Console.WriteLine($"FT(10) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Fisher:N8}");
@@ -131,7 +131,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> quotes = Data.GetLongish(qty);
-            IReadOnlyList<GatorResult> r = quotes.GetGator();
+            IReadOnlyList<GatorResult> r = quotes.ToGator();
 
             GatorResult l = r[^1];
             Console.WriteLine(
@@ -146,7 +146,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<HtlResult> r = qts.GetHtTrendline();
+            IReadOnlyList<HtlResult> r = qts.ToHtTrendline();
 
             HtlResult l = r[^1];
             Console.WriteLine($"HTL on {l.Timestamp:d} with {qts.Count,4} periods: {l.Trendline:N8}");
@@ -159,7 +159,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<KamaResult> r = qts.GetKama();
+            IReadOnlyList<KamaResult> r = qts.ToKama();
 
             KamaResult l = r[^1];
             Console.WriteLine($"KAMA(10) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Kama:N8}");
@@ -172,7 +172,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<KeltnerResult> r = qts.GetKeltner(100);
+            IReadOnlyList<KeltnerResult> r = qts.ToKeltner(100);
 
             KeltnerResult l = r[^1];
             Console.WriteLine($"KC-UP on {l.Timestamp:d} with {qts.Count,4} periods: {l.UpperBand:N8}");
@@ -185,7 +185,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(15 + qty);
-            IReadOnlyList<MacdResult> r = qts.GetMacd();
+            IReadOnlyList<MacdResult> r = qts.ToMacd();
 
             MacdResult l = r[^1];
             Console.WriteLine($"MACD on {l.Timestamp:d} with {qts.Count,4} periods: {l.Macd:N8}");
@@ -198,7 +198,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<MamaResult> r = qts.GetMama();
+            IReadOnlyList<MamaResult> r = qts.ToMama();
 
             MamaResult l = r[^1];
             Console.WriteLine($"MAMA on {l.Timestamp:d} with {qts.Count,4} periods: {l.Mama:N8}");
@@ -211,7 +211,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<PmoResult> r = qts.GetPmo();
+            IReadOnlyList<PmoResult> r = qts.ToPmo();
 
             PmoResult l = r[^1];
             Console.WriteLine($"PMO on {l.Timestamp:d} with {qts.Count,4} periods: {l.Pmo:N8}");
@@ -224,7 +224,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<PvoResult> r = qts.GetPvo();
+            IReadOnlyList<PvoResult> r = qts.ToPvo();
 
             PvoResult l = r[^1];
             Console.WriteLine($"PVO on {l.Timestamp:d} with {qts.Count,4} periods: {l.Pvo:N8}");
@@ -237,7 +237,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<RsiResult> r = qts.GetRsi();
+            IReadOnlyList<RsiResult> r = qts.ToRsi();
 
             RsiResult l = r[^1];
             Console.WriteLine($"RSI(14) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Rsi:N8}");
@@ -250,7 +250,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetDefault(qty);
-            IReadOnlyList<SmiResult> r = qts.GetSmi(14, 20, 5);
+            IReadOnlyList<SmiResult> r = qts.ToSmi(14, 20, 5);
 
             SmiResult l = r[^1];
             Console.WriteLine($"SMI on {l.Timestamp:d} with {qts.Count,4} periods: {l.Smi:N8}");
@@ -263,7 +263,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<SmmaResult> r = qts.GetSmma(15);
+            IReadOnlyList<SmmaResult> r = qts.ToSmma(15);
 
             SmmaResult l = r[^1];
             Console.WriteLine($"SMMA(15) on {l.Timestamp:d} with {qts.Count,4} periods: {l.Smma:N8}");
@@ -276,7 +276,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<StarcBandsResult> r = qts.GetStarcBands(20);
+            IReadOnlyList<StarcBandsResult> r = qts.ToStarcBands(20);
 
             StarcBandsResult l = r[^1];
             Console.WriteLine($"STARC UPPER on {l.Timestamp:d} with {qts.Count,4} periods: {l.UpperBand:N8}");
@@ -289,7 +289,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities.Where(x => x <= 502))
         {
             IReadOnlyList<Quote> qts = Data.GetDefault(qty);
-            IReadOnlyList<StochRsiResult> r = qts.GetStochRsi(14, 14, 3);
+            IReadOnlyList<StochRsiResult> r = qts.ToStochRsi(14, 14, 3);
 
             StochRsiResult l = r[^1];
             Console.WriteLine($"SRSI on {l.Timestamp:d} with {qts.Count,4} periods: {l.StochRsi:N8}");
@@ -302,7 +302,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<T3Result> r = qts.GetT3(20);
+            IReadOnlyList<T3Result> r = qts.ToT3(20);
 
             T3Result l = r[^1];
             Console.WriteLine($"T3 on {l.Timestamp:d} with {qts.Count,4} periods: {l.T3:N8}");
@@ -315,7 +315,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<TemaResult> r = qts.GetTema(15);
+            IReadOnlyList<TemaResult> r = qts.ToTema(15);
 
             TemaResult l = r[^1];
             Console.WriteLine($"TEMA on {l.Timestamp:d} with {qts.Count,4} periods: {l.Tema:N8}");
@@ -328,7 +328,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<TrixResult> r = qts.GetTrix(15);
+            IReadOnlyList<TrixResult> r = qts.ToTrix(15);
 
             TrixResult l = r[^1];
             Console.WriteLine($"TRIX on {l.Timestamp:d} with {qts.Count,4} periods: {l.Trix:N8}");
@@ -341,7 +341,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(20 + qty);
-            IReadOnlyList<TsiResult> r = qts.GetTsi();
+            IReadOnlyList<TsiResult> r = qts.ToTsi();
 
             TsiResult l = r[^1];
             Console.WriteLine($"TSI on {l.Timestamp:d} with {qts.Count,4} periods: {l.Tsi:N8}");
@@ -354,7 +354,7 @@ public class Convergence : TestBase
         foreach (int qty in QuotesQuantities)
         {
             IReadOnlyList<Quote> qts = Data.GetLongish(qty);
-            IReadOnlyList<VortexResult> r = qts.GetVortex(14);
+            IReadOnlyList<VortexResult> r = qts.ToVortex(14);
 
             VortexResult l = r[^1];
             Console.WriteLine($"VI+ on {l.Timestamp:d} with {qts.Count,4} periods: {l.Pvi:N8}");

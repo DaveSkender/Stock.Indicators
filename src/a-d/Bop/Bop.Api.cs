@@ -6,7 +6,7 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<BopResult> GetBop<TQuote>(
+    public static IReadOnlyList<BopResult> ToBop<TQuote>(
         this IEnumerable<TQuote> quotes,
         int smoothPeriods = 14)
         where TQuote : IQuote => quotes

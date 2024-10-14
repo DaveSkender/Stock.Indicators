@@ -7,7 +7,7 @@ public class Cmf : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<CmfResult> results = Quotes
-            .GetCmf();
+            .ToCmf();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -34,7 +34,7 @@ public class Cmf : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetCmf()
+            .ToCmf()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -45,7 +45,7 @@ public class Cmf : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<CmfResult> r = BadQuotes
-            .GetCmf(15);
+            .ToCmf(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cmf is double.NaN));
@@ -55,7 +55,7 @@ public class Cmf : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<CmfResult> r = BigQuotes
-            .GetCmf(150);
+            .ToCmf(150);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -64,12 +64,12 @@ public class Cmf : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<CmfResult> r0 = Noquotes
-            .GetCmf();
+            .ToCmf();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<CmfResult> r1 = Onequote
-            .GetCmf();
+            .ToCmf();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -78,7 +78,7 @@ public class Cmf : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<CmfResult> results = Quotes
-            .GetCmf()
+            .ToCmf()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -94,5 +94,5 @@ public class Cmf : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetCmf(0));
+            => Quotes.ToCmf(0));
 }

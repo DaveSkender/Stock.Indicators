@@ -21,11 +21,11 @@ public static partial class Indicator
     /// <returns>Time series of Gator values.</returns>
 
     // See Alligator API for explanation of unusual setup.
-    public static IReadOnlyList<GatorResult> GetGator<T>(
+    public static IReadOnlyList<GatorResult> ToGator<T>(
         this IEnumerable<T> source)
         where T : IReusable
         => source
-            .GetAlligator()
+            .ToAlligator()
             .GetGator();
 
     // SERIES, from [custom] Alligator

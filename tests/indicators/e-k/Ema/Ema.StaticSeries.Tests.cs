@@ -96,7 +96,7 @@ public class EmaTests : StaticSeriesTestBase
     public void ChaineeMore()
     {
         IReadOnlyList<EmaResult> results = Quotes
-            .GetRsi()
+            .ToRsi()
             .ToEma(20);
 
         // assertions

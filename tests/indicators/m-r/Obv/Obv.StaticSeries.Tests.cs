@@ -7,7 +7,7 @@ public class Obv : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<ObvResult> results = Quotes
-            .GetObv();
+            .ToObv();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -24,7 +24,7 @@ public class Obv : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetObv()
+            .ToObv()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -35,7 +35,7 @@ public class Obv : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ObvResult> r = BadQuotes
-            .GetObv();
+            .ToObv();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
@@ -45,7 +45,7 @@ public class Obv : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<ObvResult> r = BigQuotes
-            .GetObv();
+            .ToObv();
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -54,12 +54,12 @@ public class Obv : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ObvResult> r0 = Noquotes
-            .GetObv();
+            .ToObv();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ObvResult> r1 = Onequote
-            .GetObv();
+            .ToObv();
 
         Assert.AreEqual(1, r1.Count);
     }

@@ -7,7 +7,7 @@ public class Awesome : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<AwesomeResult> results = Quotes
-            .GetAwesome();
+            .ToAwesome();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -36,7 +36,7 @@ public class Awesome : StaticSeriesTestBase
     {
         IReadOnlyList<AwesomeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetAwesome();
+            .ToAwesome();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
@@ -47,7 +47,7 @@ public class Awesome : StaticSeriesTestBase
     {
         IReadOnlyList<AwesomeResult> results = Quotes
             .ToSma(2)
-            .GetAwesome();
+            .ToAwesome();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(468, results.Count(x => x.Oscillator != null));
@@ -57,7 +57,7 @@ public class Awesome : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetAwesome()
+            .ToAwesome()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -68,7 +68,7 @@ public class Awesome : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<AwesomeResult> r = BadQuotes
-            .GetAwesome();
+            .ToAwesome();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -78,12 +78,12 @@ public class Awesome : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<AwesomeResult> r0 = Noquotes
-            .GetAwesome();
+            .ToAwesome();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<AwesomeResult> r1 = Onequote
-            .GetAwesome();
+            .ToAwesome();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -92,7 +92,7 @@ public class Awesome : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<AwesomeResult> results = Quotes
-            .GetAwesome()
+            .ToAwesome()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -108,10 +108,10 @@ public class Awesome : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAwesome(0));
+            Quotes.ToAwesome(0));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAwesome(25, 25));
+            Quotes.ToAwesome(25, 25));
     }
 }

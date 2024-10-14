@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CORRELATION COEFFICIENT (SERIES)
 
-public static partial class Indicator
+public static partial class Correlation
 {
     private static List<CorrResult> CalcCorrelation<T>(
         this List<T> sourceA,
@@ -62,7 +62,7 @@ public static partial class Indicator
     }
 
     // calculate correlation
-    private static CorrResult PeriodCorrelation(
+    internal static CorrResult PeriodCorrelation(
         DateTime timestamp,
         double[] dataA,
         double[] dataB)

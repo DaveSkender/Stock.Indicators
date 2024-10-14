@@ -2,14 +2,14 @@ namespace Skender.Stock.Indicators;
 
 // AROON OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Aroon
 {
     private static List<AroonResult> CalcAroon(
         this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Aroon.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

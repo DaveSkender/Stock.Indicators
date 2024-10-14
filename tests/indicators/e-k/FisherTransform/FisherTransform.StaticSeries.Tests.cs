@@ -7,7 +7,7 @@ public class FisherTransform : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<FisherTransformResult> results = Quotes
-            .GetFisherTransform();
+            .ToFisherTransform();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -50,7 +50,7 @@ public class FisherTransform : StaticSeriesTestBase
     {
         IReadOnlyList<FisherTransformResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetFisherTransform();
+            .ToFisherTransform();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
@@ -61,7 +61,7 @@ public class FisherTransform : StaticSeriesTestBase
     {
         IReadOnlyList<FisherTransformResult> results = Quotes
             .ToSma(2)
-            .GetFisherTransform();
+            .ToFisherTransform();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
@@ -71,7 +71,7 @@ public class FisherTransform : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetFisherTransform()
+            .ToFisherTransform()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -82,7 +82,7 @@ public class FisherTransform : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<FisherTransformResult> r = BadQuotes
-            .GetFisherTransform(9);
+            .ToFisherTransform(9);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Fisher is double.NaN));
@@ -92,12 +92,12 @@ public class FisherTransform : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<FisherTransformResult> r0 = Noquotes
-            .GetFisherTransform();
+            .ToFisherTransform();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<FisherTransformResult> r1 = Onequote
-            .GetFisherTransform();
+            .ToFisherTransform();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -106,5 +106,5 @@ public class FisherTransform : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetFisherTransform(0));
+            => Quotes.ToFisherTransform(0));
 }

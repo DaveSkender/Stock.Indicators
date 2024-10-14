@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<ConnorsRsiResult> GetConnorsRsi<T>(
+    public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
         this IReadOnlyList<T> results,
         int rsiPeriods = 3,
         int streakPeriods = 2,

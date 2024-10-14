@@ -7,7 +7,7 @@ public class Mfi : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<MfiResult> results = Quotes
-            .GetMfi();
+            .ToMfi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -25,7 +25,7 @@ public class Mfi : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetMfi()
+            .ToMfi()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -38,7 +38,7 @@ public class Mfi : StaticSeriesTestBase
         int lookbackPeriods = 4;
 
         IReadOnlyList<MfiResult> results = Quotes
-            .GetMfi(lookbackPeriods);
+            .ToMfi(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -56,7 +56,7 @@ public class Mfi : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<MfiResult> r = BadQuotes
-            .GetMfi(15);
+            .ToMfi(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mfi is double.NaN));
@@ -66,12 +66,12 @@ public class Mfi : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<MfiResult> r0 = Noquotes
-            .GetMfi();
+            .ToMfi();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<MfiResult> r1 = Onequote
-            .GetMfi();
+            .ToMfi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -82,7 +82,7 @@ public class Mfi : StaticSeriesTestBase
         int lookbackPeriods = 14;
 
         IReadOnlyList<MfiResult> results = Quotes
-            .GetMfi(lookbackPeriods)
+            .ToMfi(lookbackPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -96,5 +96,5 @@ public class Mfi : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetMfi(1));
+            => Quotes.ToMfi(1));
 }

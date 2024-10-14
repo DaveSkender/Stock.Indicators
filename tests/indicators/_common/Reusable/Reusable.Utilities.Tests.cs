@@ -7,7 +7,7 @@ public class Reusable : TestBase
     public void Condense()
     {
         List<AdxResult> original = Quotes
-            .GetAdx()
+            .ToAdx()
             .ToList();
 
         // make a few more in the middle null and NaN

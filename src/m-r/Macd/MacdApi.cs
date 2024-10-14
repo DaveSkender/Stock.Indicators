@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<MacdResult> GetMacd<T>(
+    public static IReadOnlyList<MacdResult> ToMacd<T>(
         this IReadOnlyList<T> results,
         int fastPeriods = 12,
         int slowPeriods = 26,

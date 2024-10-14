@@ -7,7 +7,7 @@ public class Correlation : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<CorrResult> results = Quotes
-            .GetCorrelation(OtherQuotes, 20);
+            .ToCorrelation(OtherQuotes, 20);
 
         // proper quantities
         // should always be the same number of results as there is quotes
@@ -37,7 +37,7 @@ public class Correlation : StaticSeriesTestBase
     {
         IReadOnlyList<CorrResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
+            .ToCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Correlation != null));
@@ -47,7 +47,7 @@ public class Correlation : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetCorrelation(OtherQuotes, 20)
+            .ToCorrelation(OtherQuotes, 20)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -59,7 +59,7 @@ public class Correlation : StaticSeriesTestBase
     {
         IReadOnlyList<CorrResult> results = Quotes
             .ToSma(2)
-            .GetCorrelation(OtherQuotes.ToSma(2), 20);
+            .ToCorrelation(OtherQuotes.ToSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Correlation != null));
@@ -70,7 +70,7 @@ public class Correlation : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<CorrResult> r = BadQuotes
-            .GetCorrelation(BadQuotes, 15);
+            .ToCorrelation(BadQuotes, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Correlation is double.NaN));
@@ -80,7 +80,7 @@ public class Correlation : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<CorrResult> r = BigQuotes
-            .GetCorrelation(BigQuotes, 150);
+            .ToCorrelation(BigQuotes, 150);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -89,12 +89,12 @@ public class Correlation : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<CorrResult> r0 = Noquotes
-            .GetCorrelation(Noquotes, 10);
+            .ToCorrelation(Noquotes, 10);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<CorrResult> r1 = Onequote
-            .GetCorrelation(Onequote, 10);
+            .ToCorrelation(Onequote, 10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -103,7 +103,7 @@ public class Correlation : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<CorrResult> results = Quotes
-            .GetCorrelation(OtherQuotes, 20)
+            .ToCorrelation(OtherQuotes, 20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -119,15 +119,15 @@ public class Correlation : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetCorrelation(OtherQuotes, 0));
+            Quotes.ToCorrelation(OtherQuotes, 0));
 
         // bad eval quotes
         IEnumerable<Quote> eval = Data.GetCompare(300);
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            Quotes.GetCorrelation(eval, 30));
+            Quotes.ToCorrelation(eval, 30));
 
         // mismatched quotes
         Assert.ThrowsException<InvalidQuotesException>(() =>
-            MismatchQuotes.GetCorrelation(OtherQuotes, 20));
+            MismatchQuotes.ToCorrelation(OtherQuotes, 20));
     }
 }

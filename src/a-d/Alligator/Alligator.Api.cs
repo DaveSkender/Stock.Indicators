@@ -29,7 +29,7 @@ public static partial class Alligator
     /// <exception cref="ArgumentOutOfRangeException">
     /// Invalid parameter value provided.
     /// </exception>
-    public static IReadOnlyList<AlligatorResult> GetAlligator<T>(
+    public static IReadOnlyList<AlligatorResult> ToAlligator<T>(
         this IEnumerable<T> source,
         int jawPeriods = 13,
         int jawOffset = 8,

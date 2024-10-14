@@ -18,7 +18,7 @@ public static partial class Indicator
         List<ChaikinOscResult> results = new(length);
 
         // money flow
-        List<AdlResult> adlResults = source.CalcAdl();
+        var adlResults = source.ToAdl();
 
         // fast/slow EMA of ADL
         IReadOnlyList<EmaResult> adlEmaSlow = adlResults.ToEma(slowPeriods);

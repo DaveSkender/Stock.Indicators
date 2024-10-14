@@ -7,7 +7,7 @@ public class Rsi : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<RsiResult> results = Quotes
-            .GetRsi();
+            .ToRsi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -32,7 +32,7 @@ public class Rsi : StaticSeriesTestBase
     {
         int lookbackPeriods = 1;
         IReadOnlyList<RsiResult> results = Quotes
-            .GetRsi(lookbackPeriods);
+            .ToRsi(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -52,7 +52,7 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<Quote> btc = Data.GetBitcoin();
 
         IReadOnlyList<RsiResult> r = btc
-            .GetRsi(1);
+            .ToRsi(1);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -62,7 +62,7 @@ public class Rsi : StaticSeriesTestBase
     {
         IReadOnlyList<RsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetRsi();
+            .ToRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Rsi != null));
@@ -73,7 +73,7 @@ public class Rsi : StaticSeriesTestBase
     {
         IReadOnlyList<RsiResult> results = Quotes
             .ToSma(2)
-            .GetRsi();
+            .ToRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(487, results.Count(x => x.Rsi != null));
@@ -83,7 +83,7 @@ public class Rsi : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetRsi()
+            .ToRsi()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -94,7 +94,7 @@ public class Rsi : StaticSeriesTestBase
     public void NaN()
     {
         IEnumerable<RsiResult> r = Data.GetBtcUsdNan()
-            .GetRsi();
+            .ToRsi();
 
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
     }
@@ -103,7 +103,7 @@ public class Rsi : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<RsiResult> r = BadQuotes
-            .GetRsi(20);
+            .ToRsi(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
@@ -113,12 +113,12 @@ public class Rsi : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<RsiResult> r0 = Noquotes
-            .GetRsi();
+            .ToRsi();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<RsiResult> r1 = Onequote
-            .GetRsi();
+            .ToRsi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -127,7 +127,7 @@ public class Rsi : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<RsiResult> results = Quotes
-            .GetRsi()
+            .ToRsi()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -141,5 +141,5 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetRsi(0));
+            => Quotes.ToRsi(0));
 }

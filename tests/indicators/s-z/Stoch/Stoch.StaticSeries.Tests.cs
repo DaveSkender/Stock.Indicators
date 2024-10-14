@@ -11,7 +11,7 @@ public class Stoch : StaticSeriesTestBase
         int smoothPeriods = 3;
 
         IReadOnlyList<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+            .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -72,7 +72,7 @@ public class Stoch : StaticSeriesTestBase
     public void Extended() // with extra parameters
     {
         IReadOnlyList<StochResult> results =
-            Quotes.GetStoch(9, 3, 3, 5, 4, MaType.SMMA);
+            Quotes.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -115,7 +115,7 @@ public class Stoch : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetStoch()
+            .ToStoch()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -130,7 +130,7 @@ public class Stoch : StaticSeriesTestBase
         const int smoothPeriods = 3;
 
         IReadOnlyList<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+            .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // signal equals oscillator
         StochResult r1 = results[487];
@@ -148,7 +148,7 @@ public class Stoch : StaticSeriesTestBase
         int smoothPeriods = 1;
 
         IReadOnlyList<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+            .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
         StochResult r1 = results[487];
@@ -168,7 +168,7 @@ public class Stoch : StaticSeriesTestBase
         int smoothPeriods = 1;
 
         IReadOnlyList<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+            .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // sample values
         StochResult r1 = results[70];
@@ -182,7 +182,7 @@ public class Stoch : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<StochResult> r = BadQuotes
-            .GetStoch(15);
+            .ToStoch(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -192,12 +192,12 @@ public class Stoch : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<StochResult> r0 = Noquotes
-            .GetStoch();
+            .ToStoch();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<StochResult> r1 = Onequote
-            .GetStoch();
+            .ToStoch();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -210,7 +210,7 @@ public class Stoch : StaticSeriesTestBase
         int smoothPeriods = 3;
 
         IReadOnlyList<StochResult> results = Quotes
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods)
+            .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -231,7 +231,7 @@ public class Stoch : StaticSeriesTestBase
 
         IReadOnlyList<StochResult> results = Data
             .GetRandom(2500)
-            .GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+            .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // test boundary condition
 
@@ -264,26 +264,26 @@ public class Stoch : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(0));
+            Quotes.ToStoch(0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(14, 0));
+            Quotes.ToStoch(14, 0));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(14, 3, 0));
+            Quotes.ToStoch(14, 3, 0));
 
         // bad kFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
+            Quotes.ToStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
+            Quotes.ToStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
+            Quotes.ToStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

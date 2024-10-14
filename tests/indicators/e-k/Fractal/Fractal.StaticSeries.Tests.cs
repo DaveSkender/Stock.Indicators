@@ -7,7 +7,7 @@ public class Fractal : StaticSeriesTestBase
     public override void Standard() // Span 2
     {
         IReadOnlyList<FractalResult> results = Quotes
-            .GetFractal();
+            .ToFractal();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -81,7 +81,7 @@ public class Fractal : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<FractalResult> r = BadQuotes
-            .GetFractal();
+            .ToFractal();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -90,12 +90,12 @@ public class Fractal : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<FractalResult> r0 = Noquotes
-            .GetFractal();
+            .ToFractal();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<FractalResult> r1 = Onequote
-            .GetFractal();
+            .ToFractal();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -104,7 +104,7 @@ public class Fractal : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<FractalResult> results = Quotes
-            .GetFractal()
+            .ToFractal()
             .Condense();
 
         Assert.AreEqual(129, results.Count);
@@ -114,5 +114,5 @@ public class Fractal : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetFractal(1));
+            => Quotes.ToFractal(1));
 }

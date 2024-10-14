@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class MgDynamic
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<DynamicResult> GetDynamic<T>(
+    public static IReadOnlyList<DynamicResult> ToDynamic<T>(
         this IReadOnlyList<T> results,
         int lookbackPeriods,
         double kFactor = 0.6)

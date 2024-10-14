@@ -7,7 +7,7 @@ public class Cci : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<CciResult> results = Quotes
-            .GetCci();
+            .ToCci();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -22,7 +22,7 @@ public class Cci : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetCci()
+            .ToCci()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -33,7 +33,7 @@ public class Cci : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<CciResult> r = BadQuotes
-            .GetCci(15);
+            .ToCci(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cci is double.NaN));
@@ -43,12 +43,12 @@ public class Cci : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<CciResult> r0 = Noquotes
-            .GetCci();
+            .ToCci();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<CciResult> r1 = Onequote
-            .GetCci();
+            .ToCci();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -57,7 +57,7 @@ public class Cci : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<CciResult> results = Quotes
-            .GetCci()
+            .ToCci()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -71,5 +71,5 @@ public class Cci : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetCci(0));
+            => Quotes.ToCci(0));
 }

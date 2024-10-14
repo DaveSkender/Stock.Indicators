@@ -57,7 +57,7 @@ public class AtrStop : StreamHubTestBase
         // time-series, for comparison
         IEnumerable<AtrStopResult> seriesList
            = quotesList
-            .GetAtrStop();
+            .ToAtrStop();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -89,7 +89,7 @@ public class AtrStop : StreamHubTestBase
         // time-series, for comparison
         IEnumerable<AtrStopResult> seriesList
            = Quotes
-            .GetAtrStop(endType: EndType.HighLow);
+            .ToAtrStop(endType: EndType.HighLow);
 
         // assert, should equal series
         streamList.Should().HaveCount(Quotes.Count);

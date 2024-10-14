@@ -7,7 +7,7 @@ public class Tema : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<TemaResult> results = Quotes
-            .GetTema(20);
+            .ToTema(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -32,7 +32,7 @@ public class Tema : StaticSeriesTestBase
     {
         IReadOnlyList<TemaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetTema(20);
+            .ToTema(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Tema != null));
@@ -43,7 +43,7 @@ public class Tema : StaticSeriesTestBase
     {
         IReadOnlyList<TemaResult> results = Quotes
             .ToSma(2)
-            .GetTema(20);
+            .ToTema(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Tema != null));
@@ -53,7 +53,7 @@ public class Tema : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetTema(20)
+            .ToTema(20)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -64,7 +64,7 @@ public class Tema : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<TemaResult> r = BadQuotes
-            .GetTema(15);
+            .ToTema(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tema is double.NaN));
@@ -74,12 +74,12 @@ public class Tema : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<TemaResult> r0 = Noquotes
-            .GetTema(5);
+            .ToTema(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<TemaResult> r1 = Onequote
-            .GetTema(5);
+            .ToTema(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -88,7 +88,7 @@ public class Tema : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<TemaResult> results = Quotes
-            .GetTema(20)
+            .ToTema(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -102,5 +102,5 @@ public class Tema : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetTema(0));
+            => Quotes.ToTema(0));
 }

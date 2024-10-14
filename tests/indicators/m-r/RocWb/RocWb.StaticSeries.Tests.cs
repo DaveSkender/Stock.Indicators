@@ -7,7 +7,7 @@ public class RocWb : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<RocWbResult> results = Quotes
-            .GetRocWb(20, 3, 20);
+            .ToRocWb(20, 3, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -71,7 +71,7 @@ public class RocWb : StaticSeriesTestBase
     {
         IReadOnlyList<RocWbResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetRocWb(20, 3, 20);
+            .ToRocWb(20, 3, 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
@@ -82,7 +82,7 @@ public class RocWb : StaticSeriesTestBase
     {
         IReadOnlyList<RocWbResult> results = Quotes
             .ToSma(2)
-            .GetRocWb(20, 3, 20);
+            .ToRocWb(20, 3, 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Roc != null));
@@ -92,7 +92,7 @@ public class RocWb : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetRocWb(20, 3, 20)
+            .ToRocWb(20, 3, 20)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -103,7 +103,7 @@ public class RocWb : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<RocWbResult> r = BadQuotes
-            .GetRocWb(35, 3, 35);
+            .ToRocWb(35, 3, 35);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Roc is double.NaN));
@@ -113,12 +113,12 @@ public class RocWb : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<RocWbResult> r0 = Noquotes
-            .GetRocWb(5, 3, 2);
+            .ToRocWb(5, 3, 2);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<RocWbResult> r1 = Onequote
-            .GetRocWb(5, 3, 2);
+            .ToRocWb(5, 3, 2);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -127,7 +127,7 @@ public class RocWb : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<RocWbResult> results = Quotes
-            .GetRocWb(20, 3, 20)
+            .ToRocWb(20, 3, 20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -145,14 +145,14 @@ public class RocWb : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetRocWb(0, 3, 12));
+            Quotes.ToRocWb(0, 3, 12));
 
         // bad EMA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetRocWb(14, 0, 14));
+            Quotes.ToRocWb(14, 0, 14));
 
         // bad STDDEV period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetRocWb(15, 3, 16));
+            Quotes.ToRocWb(15, 3, 16));
     }
 }

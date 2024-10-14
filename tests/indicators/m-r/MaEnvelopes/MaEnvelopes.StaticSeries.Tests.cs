@@ -7,7 +7,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public override void Standard() // SMA
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20);
+            Quotes.ToMaEnvelopes(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -34,7 +34,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Alma()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(10, 2.5, MaType.ALMA);
+            Quotes.ToMaEnvelopes(10, 2.5, MaType.ALMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -61,7 +61,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Dema()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.DEMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.DEMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -88,7 +88,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Epma()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.EPMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.EPMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -115,7 +115,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Ema()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.EMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.EMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -142,7 +142,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Hma()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.HMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.HMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -164,7 +164,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Smma()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.SMMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.SMMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -191,7 +191,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Tema()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.TEMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.TEMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -218,7 +218,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Wma()
     {
         IReadOnlyList<MaEnvelopeResult> results =
-            Quotes.GetMaEnvelopes(20, 2.5, MaType.WMA);
+            Quotes.ToMaEnvelopes(20, 2.5, MaType.WMA);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -241,7 +241,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     {
         IReadOnlyList<MaEnvelopeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMaEnvelopes(10);
+            .ToMaEnvelopes(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Centerline != null));
@@ -252,7 +252,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     {
         IReadOnlyList<MaEnvelopeResult> results = Quotes
             .ToSma(2)
-            .GetMaEnvelopes(10);
+            .ToMaEnvelopes(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Centerline != null));
@@ -262,42 +262,42 @@ public class MaEnvelopes : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<MaEnvelopeResult> a = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.ALMA);
+            .ToMaEnvelopes(5, 2.5, MaType.ALMA);
 
         Assert.AreEqual(502, a.Count);
 
         IReadOnlyList<MaEnvelopeResult> d = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.DEMA);
+            .ToMaEnvelopes(5, 2.5, MaType.DEMA);
 
         Assert.AreEqual(502, d.Count);
 
         IReadOnlyList<MaEnvelopeResult> p = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.EPMA);
+            .ToMaEnvelopes(5, 2.5, MaType.EPMA);
 
         Assert.AreEqual(502, p.Count);
 
         IReadOnlyList<MaEnvelopeResult> e = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.EMA);
+            .ToMaEnvelopes(5, 2.5, MaType.EMA);
 
         Assert.AreEqual(502, e.Count);
 
         IReadOnlyList<MaEnvelopeResult> h = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.HMA);
+            .ToMaEnvelopes(5, 2.5, MaType.HMA);
 
         Assert.AreEqual(502, h.Count);
 
         IReadOnlyList<MaEnvelopeResult> s = BadQuotes
-            .GetMaEnvelopes(5);
+            .ToMaEnvelopes(5);
 
         Assert.AreEqual(502, s.Count);
 
         IReadOnlyList<MaEnvelopeResult> t = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.TEMA);
+            .ToMaEnvelopes(5, 2.5, MaType.TEMA);
 
         Assert.AreEqual(502, t.Count);
 
         IReadOnlyList<MaEnvelopeResult> w = BadQuotes
-            .GetMaEnvelopes(5, 2.5, MaType.WMA);
+            .ToMaEnvelopes(5, 2.5, MaType.WMA);
 
         Assert.AreEqual(502, w.Count);
     }
@@ -306,12 +306,12 @@ public class MaEnvelopes : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<MaEnvelopeResult> r0 = Noquotes
-            .GetMaEnvelopes(10);
+            .ToMaEnvelopes(10);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<MaEnvelopeResult> r1 = Onequote
-            .GetMaEnvelopes(10);
+            .ToMaEnvelopes(10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -320,7 +320,7 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<MaEnvelopeResult> results = Quotes
-            .GetMaEnvelopes(20)
+            .ToMaEnvelopes(20)
             .Condense();
 
         Assert.AreEqual(483, results.Count);
@@ -331,11 +331,11 @@ public class MaEnvelopes : StaticSeriesTestBase
     {
         // bad offset period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMaEnvelopes(14, 0));
+            Quotes.ToMaEnvelopes(14, 0));
 
         // bad MA period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMaEnvelopes(14, 5, MaType.KAMA));
+            Quotes.ToMaEnvelopes(14, 5, MaType.KAMA));
 
         // note: insufficient quotes is tested elsewhere
     }

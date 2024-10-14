@@ -56,7 +56,7 @@ public class AtrHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<AtrResult> seriesList = quotesList
-            .GetAtr(14);
+            .ToAtr(14);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -102,7 +102,7 @@ public class AtrHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
-            .GetAtr(14)
+            .ToAtr(14)
             .ToSma(smaPeriods);
 
         // assert, should equal series

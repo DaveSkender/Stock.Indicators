@@ -7,7 +7,7 @@ public class Vwma : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<VwmaResult> results = Quotes
-            .GetVwma(10);
+            .ToVwma(10);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,7 +28,7 @@ public class Vwma : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetVwma(10)
+            .ToVwma(10)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -39,7 +39,7 @@ public class Vwma : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<VwmaResult> r = BadQuotes
-            .GetVwma(15);
+            .ToVwma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Vwma is double.NaN));
@@ -49,12 +49,12 @@ public class Vwma : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<VwmaResult> r0 = Noquotes
-            .GetVwma(4);
+            .ToVwma(4);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<VwmaResult> r1 = Onequote
-            .GetVwma(4);
+            .ToVwma(4);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -63,7 +63,7 @@ public class Vwma : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<VwmaResult> results = Quotes
-            .GetVwma(10)
+            .ToVwma(10)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -77,5 +77,5 @@ public class Vwma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetVwma(0));
+            => Quotes.ToVwma(0));
 }

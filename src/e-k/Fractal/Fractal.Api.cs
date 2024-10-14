@@ -5,7 +5,7 @@ public static partial class Indicator
 {
     /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
     ///
-    public static IReadOnlyList<FractalResult> GetFractal<TQuote>(
+    public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IEnumerable<TQuote> quotes,
         int windowSpan = 2,
         EndType endType = EndType.HighLow)

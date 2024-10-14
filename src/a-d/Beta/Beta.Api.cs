@@ -1,10 +1,10 @@
 namespace Skender.Stock.Indicators;
 
 // BETA COEFFICIENT (API)
-public static partial class Indicator
+public static partial class Beta
 {
     // SERIES, from CHAINS (both inputs reusable)
-    public static IReadOnlyList<BetaResult> GetBeta<T>(
+    public static IReadOnlyList<BetaResult> ToBeta<T>(
         this IEnumerable<T> evalSource,
         IEnumerable<T> mrktSource,
         int lookbackPeriods,

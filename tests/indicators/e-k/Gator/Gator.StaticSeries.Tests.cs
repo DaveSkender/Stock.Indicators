@@ -7,7 +7,7 @@ public class Gator : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<GatorResult> results = Quotes
-            .GetGator();
+            .ToGator();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -76,7 +76,7 @@ public class Gator : StaticSeriesTestBase
     public void FromAlligator()
     {
         IReadOnlyList<GatorResult> results = Quotes
-            .GetAlligator()
+            .ToAlligator()
             .GetGator();
 
         // proper quantities
@@ -147,7 +147,7 @@ public class Gator : StaticSeriesTestBase
     {
         IReadOnlyList<GatorResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetGator();
+            .ToGator();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Upper != null));
@@ -158,7 +158,7 @@ public class Gator : StaticSeriesTestBase
     {
         IReadOnlyList<GatorResult> results = Quotes
             .ToSma(2)
-            .GetGator();
+            .ToGator();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Upper != null));
@@ -168,7 +168,7 @@ public class Gator : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<GatorResult> r = BadQuotes
-            .GetGator();
+            .ToGator();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Upper is double.NaN));
@@ -178,12 +178,12 @@ public class Gator : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<GatorResult> r0 = Noquotes
-            .GetGator();
+            .ToGator();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<GatorResult> r1 = Onequote
-            .GetGator();
+            .ToGator();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -192,7 +192,7 @@ public class Gator : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<GatorResult> results = Quotes
-            .GetGator()
+            .ToGator()
             .Condense();
 
         // assertions
@@ -209,7 +209,7 @@ public class Gator : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<GatorResult> results = Quotes
-            .GetGator()
+            .ToGator()
             .RemoveWarmupPeriods();
 
         // assertions

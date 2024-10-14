@@ -7,7 +7,7 @@ public class Atr : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<AtrResult> results = Quotes
-            .GetAtr();
+            .ToAtr();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -44,10 +44,10 @@ public class Atr : StaticSeriesTestBase
     public void MatchingTrueRange()
     {
         IReadOnlyList<AtrResult> resultsAtr = Quotes
-            .GetAtr(14);
+            .ToAtr(14);
 
         IReadOnlyList<TrResult> resultsTr = Quotes
-            .GetTr();
+            .ToTr();
 
         for (int i = 0; i < Quotes.Count; i++)
         {
@@ -65,7 +65,7 @@ public class Atr : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetAtr(10)
+            .ToAtr(10)
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -76,7 +76,7 @@ public class Atr : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<AtrResult> r = BadQuotes
-            .GetAtr(20);
+            .ToAtr(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Atr is double.NaN));
@@ -86,12 +86,12 @@ public class Atr : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<AtrResult> r0 = Noquotes
-            .GetAtr();
+            .ToAtr();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<AtrResult> r1 = Onequote
-            .GetAtr();
+            .ToAtr();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -100,7 +100,7 @@ public class Atr : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<AtrResult> results = Quotes
-            .GetAtr()
+            .ToAtr()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -116,5 +116,5 @@ public class Atr : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetAtr(1));
+            Quotes.ToAtr(1));
 }

@@ -7,7 +7,7 @@ public class Klinger : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<KvoResult> results =
-            Quotes.GetKvo();
+            Quotes.ToKvo();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -48,7 +48,7 @@ public class Klinger : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetKvo()
+            .ToKvo()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -59,7 +59,7 @@ public class Klinger : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<KvoResult> r = BadQuotes
-            .GetKvo();
+            .ToKvo();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -69,12 +69,12 @@ public class Klinger : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<KvoResult> r0 = Noquotes
-            .GetKvo();
+            .ToKvo();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<KvoResult> r1 = Onequote
-            .GetKvo();
+            .ToKvo();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -83,7 +83,7 @@ public class Klinger : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<KvoResult> results = Quotes
-            .GetKvo()
+            .ToKvo()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -99,14 +99,14 @@ public class Klinger : StaticSeriesTestBase
     {
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetKvo(2));
+            Quotes.ToKvo(2));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetKvo(20, 20));
+            Quotes.ToKvo(20, 20));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetKvo(34, 55, 0));
+            Quotes.ToKvo(34, 55, 0));
     }
 }

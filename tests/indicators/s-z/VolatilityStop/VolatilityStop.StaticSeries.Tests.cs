@@ -7,7 +7,7 @@ public class VolatilityStop : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<VolatilityStopResult> results =
-            Quotes.GetVolatilityStop(14);
+            Quotes.ToVolatilityStop(14);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -64,7 +64,7 @@ public class VolatilityStop : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetVolatilityStop()
+            .ToVolatilityStop()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -75,7 +75,7 @@ public class VolatilityStop : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<VolatilityStopResult> r = BadQuotes
-            .GetVolatilityStop();
+            .ToVolatilityStop();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
@@ -85,12 +85,12 @@ public class VolatilityStop : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<VolatilityStopResult> r0 = Noquotes
-            .GetVolatilityStop();
+            .ToVolatilityStop();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<VolatilityStopResult> r1 = Onequote
-            .GetVolatilityStop();
+            .ToVolatilityStop();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -99,7 +99,7 @@ public class VolatilityStop : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<VolatilityStopResult> results = Quotes
-            .GetVolatilityStop(14)
+            .ToVolatilityStop(14)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -115,10 +115,10 @@ public class VolatilityStop : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetVolatilityStop(1));
+            Quotes.ToVolatilityStop(1));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetVolatilityStop(20, 0));
+            Quotes.ToVolatilityStop(20, 0));
     }
 }

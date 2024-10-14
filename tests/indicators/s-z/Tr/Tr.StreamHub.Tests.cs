@@ -56,7 +56,7 @@ public class TrHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<TrResult> seriesList = quotesList
-            .GetTr();
+            .ToTr();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -102,7 +102,7 @@ public class TrHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
-            .GetTr()
+            .ToTr()
             .ToSma(smaPeriods);
 
         // assert, should equal series

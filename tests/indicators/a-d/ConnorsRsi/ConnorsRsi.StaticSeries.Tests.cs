@@ -12,7 +12,7 @@ public class ConnorsRsi : StaticSeriesTestBase
         int startPeriod = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
         IReadOnlyList<ConnorsRsiResult> results1 = Quotes
-            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
+            .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results1.Count);
@@ -26,7 +26,7 @@ public class ConnorsRsi : StaticSeriesTestBase
         Assert.AreEqual(74.7662, r1.ConnorsRsi.Round(4));
 
         // different parameters
-        IReadOnlyList<ConnorsRsiResult> results2 = Quotes.GetConnorsRsi(14, 20, 10).ToList();
+        IReadOnlyList<ConnorsRsiResult> results2 = Quotes.ToConnorsRsi(14, 20, 10).ToList();
         ConnorsRsiResult r2 = results2[501];
         Assert.AreEqual(42.0773, r2.Rsi.Round(4));
         Assert.AreEqual(52.7386, r2.RsiStreak.Round(4));
@@ -39,7 +39,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     {
         IReadOnlyList<ConnorsRsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetConnorsRsi();
+            .ToConnorsRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
@@ -50,7 +50,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     {
         IReadOnlyList<ConnorsRsiResult> results = Quotes
             .ToSma(2)
-            .GetConnorsRsi();
+            .ToConnorsRsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
@@ -60,7 +60,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetConnorsRsi()
+            .ToConnorsRsi()
             .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -71,7 +71,7 @@ public class ConnorsRsi : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ConnorsRsiResult> r = BadQuotes
-            .GetConnorsRsi(4, 3, 25);
+            .ToConnorsRsi(4, 3, 25);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
@@ -81,12 +81,12 @@ public class ConnorsRsi : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ConnorsRsiResult> r0 = Noquotes
-            .GetConnorsRsi();
+            .ToConnorsRsi();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ConnorsRsiResult> r1 = Onequote
-            .GetConnorsRsi();
+            .ToConnorsRsi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -102,7 +102,7 @@ public class ConnorsRsi : StaticSeriesTestBase
         int removePeriods = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
         IReadOnlyList<ConnorsRsiResult> results = Quotes
-            .GetConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
+            .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -120,14 +120,14 @@ public class ConnorsRsi : StaticSeriesTestBase
     {
         // bad RSI period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetConnorsRsi(1));
+            Quotes.ToConnorsRsi(1));
 
         // bad Streak period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetConnorsRsi(3, 1));
+            Quotes.ToConnorsRsi(3, 1));
 
         // bad Rank period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetConnorsRsi(3, 2, 1));
+            Quotes.ToConnorsRsi(3, 2, 1));
     }
 }
