@@ -4,8 +4,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<MaEnvelopeResult> GetMaEnvelopes<T>(
-        this IEnumerable<T> results,
+    public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
+        this IReadOnlyList<T> results,
         int lookbackPeriods,
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)

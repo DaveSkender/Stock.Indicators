@@ -9,269 +9,269 @@ public class SeriesIndicators
     private static readonly IReadOnlyList<Quote> o = Data.GetCompare();
 
     [Benchmark]
-    public object GetAdl() => q.GetAdl();
+    public object ToAdl() => q.ToAdl();
 
     [Benchmark]
-    public object GetAdx() => q.GetAdx();
+    public object ToAdx() => q.ToAdx();
 
     [Benchmark]
-    public object GetAlligator() => q.GetAlligator();
+    public object ToAlligator() => q.ToAlligator();
 
     [Benchmark]
-    public object GetAlma() => q.GetAlma();
+    public object ToAlma() => q.ToAlma();
 
     [Benchmark]
-    public object GetAroon() => q.GetAroon();
+    public object ToAroon() => q.ToAroon();
 
     [Benchmark]
-    public object GetAtr() => q.GetAtr();
+    public object ToAtr() => q.ToAtr();
 
     [Benchmark]
-    public object GetAtrStop() => q.GetAtrStop();
+    public object ToAtrStop() => q.ToAtrStop();
 
     [Benchmark]
-    public object GetAwesome() => q.GetAwesome();
+    public object ToAwesome() => q.ToAwesome();
 
     [Benchmark]
-    public object GetBeta() => Indicator.GetBeta(q, o, 20, BetaType.Standard);
+    public object ToBeta() => Beta.ToBeta(q, o, 20, BetaType.Standard);
 
     [Benchmark]
-    public object GetBetaUp() => Indicator.GetBeta(q, o, 20, BetaType.Up);
+    public object ToBetaUp() => Beta.ToBeta(q, o, 20, BetaType.Up);
 
     [Benchmark]
-    public object GetBetaDown() => Indicator.GetBeta(q, o, 20, BetaType.Down);
+    public object ToBetaDown() => Beta.ToBeta(q, o, 20, BetaType.Down);
 
     [Benchmark]
-    public object GetBetaAll() => Indicator.GetBeta(q, o, 20, BetaType.All);
+    public object ToBetaAll() => Beta.ToBeta(q, o, 20, BetaType.All);
 
     [Benchmark]
-    public object GetBollingerBands() => q.GetBollingerBands();
+    public object ToBollingerBands() => q.ToBollingerBands();
 
     [Benchmark]
-    public object GetBop() => q.GetBop();
+    public object ToBop() => q.ToBop();
 
     [Benchmark]
-    public object GetCci() => q.GetCci();
+    public object ToCci() => q.ToCci();
 
     [Benchmark]
-    public object GetChaikinOsc() => q.GetChaikinOsc();
+    public object ToChaikinOsc() => q.ToChaikinOsc();
 
     [Benchmark]
-    public object GetChandelier() => q.GetChandelier();
+    public object ToChandelier() => q.ToChandelier();
 
     [Benchmark]
-    public object GetChop() => q.GetChop();
+    public object ToChop() => q.ToChop();
 
     [Benchmark]
-    public object GetCmf() => q.GetCmf();
+    public object ToCmf() => q.ToCmf();
 
     [Benchmark]
-    public object GetCmo() => q.GetCmo(14);
+    public object ToCmo() => q.ToCmo(14);
 
     [Benchmark]
-    public object GetConnorsRsi() => q.GetConnorsRsi();
+    public object ToConnorsRsi() => q.ToConnorsRsi();
 
     [Benchmark]
-    public object GetCorrelation() => q.GetCorrelation(o, 20);
+    public object ToCorrelation() => q.ToCorrelation(o, 20);
 
     [Benchmark]
-    public object GetDema() => q.GetDema(14);
+    public object ToDema() => q.ToDema(14);
 
     [Benchmark]
-    public object GetDoji() => q.GetDoji();
+    public object ToDoji() => q.ToDoji();
 
     [Benchmark]
-    public object GetDonchian() => q.GetDonchian();
+    public object ToDonchian() => q.ToDonchian();
 
     [Benchmark]
-    public object GetDpo() => q.GetDpo(14);
+    public object ToDpo() => q.ToDpo(14);
 
     [Benchmark]
-    public object GetDynamic() => q.GetDynamic(20);
+    public object ToDynamic() => q.ToDynamic(20);
 
     [Benchmark]
-    public object GetElderRay() => q.GetElderRay();
+    public object ToElderRay() => q.ToElderRay();
 
     [Benchmark]
-    public object GetEma() => q.ToEma(14);
+    public object ToEma() => q.ToEma(14);
 
     [Benchmark]
-    public object GetEpma() => q.GetEpma(14);
+    public object ToEpma() => q.ToEpma(14);
 
     [Benchmark]
-    public object GetFcb() => q.GetFcb(14);
+    public object ToFcb() => q.ToFcb(14);
 
     [Benchmark]
-    public object GetFisherTransform() => q.GetFisherTransform(10);
+    public object ToFisherTransform() => q.ToFisherTransform(10);
 
     [Benchmark]
-    public object GetForceIndex() => q.GetForceIndex(13);
+    public object ToForceIndex() => q.ToForceIndex(13);
 
     [Benchmark]
-    public object GetFractal() => q.GetFractal();
+    public object ToFractal() => q.ToFractal();
 
     [Benchmark]
-    public object GetGator() => q.GetGator();
+    public object ToGator() => q.ToGator();
 
     [Benchmark]
-    public object GetHeikinAshi() => q.GetHeikinAshi();
+    public object ToHeikinAshi() => q.ToHeikinAshi();
 
     [Benchmark]
-    public object GetHma() => q.GetHma(14);
+    public object ToHma() => q.ToHma(14);
 
     [Benchmark]
-    public object GetHtTrendline() => q.GetHtTrendline();
+    public object ToHtTrendline() => q.ToHtTrendline();
 
     [Benchmark]
-    public object GetHurst() => q.GetHurst();
+    public object ToHurst() => q.ToHurst();
 
     [Benchmark]
-    public object GetIchimoku() => q.GetIchimoku();
+    public object ToIchimoku() => q.ToIchimoku();
 
     [Benchmark]
-    public object GetKama() => q.GetKama();
+    public object ToKama() => q.ToKama();
 
     [Benchmark]
-    public object GetKlinger() => q.GetKvo();
+    public object ToKlinger() => q.ToKvo();
 
     [Benchmark]
-    public object GetKeltner() => q.GetKeltner();
+    public object ToKeltner() => q.ToKeltner();
 
     [Benchmark]
-    public object GetKvo() => q.GetKvo();
+    public object ToKvo() => q.ToKvo();
 
     [Benchmark]
-    public object GetMacd() => q.GetMacd();
+    public object ToMacd() => q.ToMacd();
 
     [Benchmark]
-    public object GetMaEnvelopes() => q.GetMaEnvelopes(20, 2.5, MaType.SMA);
+    public object ToMaEnvelopes() => q.ToMaEnvelopes(20, 2.5, MaType.SMA);
 
     [Benchmark]
-    public object GetMama() => q.GetMama();
+    public object ToMama() => q.ToMama();
 
     [Benchmark]
-    public object GetMarubozu() => q.GetMarubozu();
+    public object ToMarubozu() => q.ToMarubozu();
 
     [Benchmark]
-    public object GetMfi() => q.GetMfi();
+    public object ToMfi() => q.ToMfi();
 
     [Benchmark]
-    public object GetObv() => q.GetObv();
+    public object ToObv() => q.ToObv();
 
     [Benchmark]
-    public object GetParabolicSar() => q.GetParabolicSar();
+    public object ToParabolicSar() => q.ToParabolicSar();
 
     [Benchmark]
-    public object GetPivotPoints() => q.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
+    public object ToPivotPoints() => q.ToPivotPoints(PeriodSize.Month, PivotPointType.Standard);
 
     [Benchmark]
-    public object GetPivots() => q.GetPivots();
+    public object ToPivots() => q.ToPivots();
 
     [Benchmark]
-    public object GetPmo() => q.GetPmo();
+    public object ToPmo() => q.ToPmo();
 
     [Benchmark]
-    public object GetPrs() => q.GetPrs(o);
+    public object ToPrs() => q.ToPrs(o);
 
     [Benchmark]
-    public object GetPvo() => q.GetPvo();
+    public object ToPvo() => q.ToPvo();
 
     [Benchmark]
-    public object GetRenko() => q.GetRenko(2.5m);
+    public object ToRenko() => q.ToRenko(2.5m);
 
     [Benchmark]
-    public object GetRenkoAtr() => q.GetRenko(14);
+    public object ToRenkoAtr() => q.ToRenko(14);
 
     [Benchmark]
-    public object GetRoc() => q.GetRoc(20);
+    public object ToRoc() => q.ToRoc(20);
 
     [Benchmark]
-    public object GetRocWb() => q.GetRocWb(12, 3, 12);
+    public object ToRocWb() => q.ToRocWb(12, 3, 12);
 
     [Benchmark]
-    public object GetRollingPivots() => q.GetRollingPivots(14, 1);
+    public object ToRollingPivots() => q.ToRollingPivots(14, 1);
 
     [Benchmark]
-    public object GetRsi() => q.GetRsi();
+    public object ToRsi() => q.ToRsi();
 
     [Benchmark]
-    public object GetSlope() => q.GetSlope(20);
+    public object ToSlope() => q.ToSlope(20);
 
     [Benchmark]
-    public object GetSma() => q.GetSma(10);
+    public object ToSma() => q.ToSma(10);
 
     [Benchmark]
-    public object GetSmaAnalysis() => q.GetSmaAnalysis(10);
+    public object ToSmaAnalysis() => q.ToSmaAnalysis(10);
 
     [Benchmark]
-    public object GetSmi() => q.GetSmi(5, 20, 5, 3);
+    public object ToSmi() => q.ToSmi(5, 20, 5, 3);
 
     [Benchmark]
-    public object GetSmma() => q.GetSmma(10);
+    public object ToSmma() => q.ToSmma(10);
 
     [Benchmark]
-    public object GetStarcBands() => q.GetStarcBands(10);
+    public object ToStarcBands() => q.ToStarcBands(10);
 
     [Benchmark]
-    public object GetStc() => q.GetStc();
+    public object ToStc() => q.ToStc();
 
     [Benchmark]
-    public object GetStdDev() => q.GetStdDev(20);
+    public object ToStdDev() => q.ToStdDev(20);
 
     [Benchmark]
-    public object GetStdDevChannels() => q.GetStdDevChannels();
+    public object ToStdDevChannels() => q.ToStdDevChannels();
 
     [Benchmark]
-    public object GetStoch() => q.GetStoch();
+    public object ToStoch() => q.ToStoch();
 
     [Benchmark]
-    public object GetStochSMMA() => q.GetStoch(9, 3, 3, 3, 2, MaType.SMMA);
+    public object ToStochSMMA() => q.ToStoch(9, 3, 3, 3, 2, MaType.SMMA);
 
     [Benchmark]
-    public object GetStochRsi() => q.GetStochRsi(14, 14, 3);
+    public object ToStochRsi() => q.ToStochRsi(14, 14, 3);
 
     [Benchmark]
-    public object GetSuperTrend() => q.GetSuperTrend();
+    public object ToSuperTrend() => q.ToSuperTrend();
 
     [Benchmark]
-    public object GetT3() => q.GetT3();
+    public object ToT3() => q.ToT3();
 
     [Benchmark]
-    public object GetTema() => q.GetTema(14);
+    public object ToTema() => q.ToTema(14);
 
     [Benchmark]
-    public object GetTr() => q.GetTr();
+    public object ToTr() => q.ToTr();
 
     [Benchmark]
-    public object GetTrix() => q.GetTrix(14);
+    public object ToTrix() => q.ToTrix(14);
 
     [Benchmark]
-    public object GetTsi() => q.GetTsi();
+    public object ToTsi() => q.ToTsi();
 
     [Benchmark]
-    public object GetUlcerIndex() => q.GetUlcerIndex();
+    public object ToUlcerIndex() => q.ToUlcerIndex();
 
     [Benchmark]
-    public object GetUltimate() => q.GetUltimate();
+    public object ToUltimate() => q.ToUltimate();
 
     [Benchmark]
-    public object GetVolatilityStop() => q.GetVolatilityStop();
+    public object ToVolatilityStop() => q.ToVolatilityStop();
 
     [Benchmark]
-    public object GetVortex() => q.GetVortex(14);
+    public object ToVortex() => q.ToVortex(14);
 
     [Benchmark]
-    public object GetVwap() => q.GetVwap();
+    public object ToVwap() => q.ToVwap();
 
     [Benchmark]
-    public object GetVwma() => q.GetVwma(14);
+    public object ToVwma() => q.ToVwma(14);
 
     [Benchmark]
-    public object GetWilliamsR() => q.GetWilliamsR();
+    public object ToWilliamsR() => q.ToWilliamsR();
 
     [Benchmark]
-    public object GetWma() => q.GetWma(14);
+    public object ToWma() => q.ToWma(14);
 
     [Benchmark]
-    public object GetZigZag() => q.GetZigZag();
+    public object ToZigZag() => q.ToZigZag();
 }

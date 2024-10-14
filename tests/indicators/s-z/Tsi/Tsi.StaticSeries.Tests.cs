@@ -7,7 +7,7 @@ public class Tsi : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<TsiResult> results = Quotes
-            .GetTsi();
+            .ToTsi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -45,7 +45,7 @@ public class Tsi : StaticSeriesTestBase
     {
         IReadOnlyList<TsiResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetTsi();
+            .ToTsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(465, results.Count(x => x.Tsi != null));
@@ -55,8 +55,8 @@ public class Tsi : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<TsiResult> results = Quotes
-            .GetSma(2)
-            .GetTsi();
+            .ToSma(2)
+            .ToTsi();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(464, results.Count(x => x.Tsi != null));
@@ -66,8 +66,8 @@ public class Tsi : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetTsi()
-            .GetSma(10);
+            .ToTsi()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(456, results.Count(x => x.Sma != null));
@@ -77,7 +77,7 @@ public class Tsi : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<TsiResult> r = BadQuotes
-            .GetTsi();
+            .ToTsi();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tsi is double.NaN));
@@ -87,7 +87,7 @@ public class Tsi : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<TsiResult> r = BigQuotes
-            .GetTsi();
+            .ToTsi();
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -96,12 +96,12 @@ public class Tsi : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<TsiResult> r0 = Noquotes
-            .GetTsi();
+            .ToTsi();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<TsiResult> r1 = Onequote
-            .GetTsi();
+            .ToTsi();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -110,7 +110,7 @@ public class Tsi : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<TsiResult> results = Quotes
-            .GetTsi()
+            .ToTsi()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -126,14 +126,14 @@ public class Tsi : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetTsi(0));
+            Quotes.ToTsi(0));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetTsi(25, 0));
+            Quotes.ToTsi(25, 0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetTsi(25, 13, -1));
+            Quotes.ToTsi(25, 13, -1));
     }
 }

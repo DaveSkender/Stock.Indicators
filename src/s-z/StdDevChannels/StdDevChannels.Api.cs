@@ -4,8 +4,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // SERIES, from CHAIN
-    public static IReadOnlyList<StdDevChannelsResult> GetStdDevChannels<T>(
-        this IEnumerable<T> results,
+    public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
+        this IReadOnlyList<T> results,
         int? lookbackPeriods = 20,
         double stdDeviations = 2)
         where T : IReusable

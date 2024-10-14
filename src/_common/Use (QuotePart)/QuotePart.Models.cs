@@ -7,12 +7,12 @@ public record QuotePart
 (
     DateTime Timestamp,
     double Value
-) : Reusable(Timestamp)
+) : IReusable
 {
     public QuotePart(IReusable reusable)
         : this(reusable?.Timestamp ?? default,
                reusable?.Value ?? default)
     { }
 
-    public override double Value { get; } = Value;
+    public double Value { get; } = Value;
 }

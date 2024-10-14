@@ -5,7 +5,7 @@ public record PmoResult
     DateTime Timestamp,
     double? Pmo,
     double? Signal
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Pmo.Null2NaN();
+    public double Value => Pmo.Null2NaN();
 }

@@ -2,13 +2,13 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES
 
-public static partial class Utility
+public static partial class Quotes
 {
     // aggregation (quantization)
     /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
     ///
     public static IReadOnlyList<Quote> Aggregate<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         PeriodSize newSize)
         where TQuote : IQuote
     {
@@ -40,7 +40,7 @@ public static partial class Utility
     /// <include file='./info.xml' path='info/type[@name="AggregateTimeSpan"]/*' />
     ///
     public static IReadOnlyList<Quote> Aggregate<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         TimeSpan timeSpan)
         where TQuote : IQuote
     {

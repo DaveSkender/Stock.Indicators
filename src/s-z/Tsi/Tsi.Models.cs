@@ -5,7 +5,7 @@ public record TsiResult
     DateTime Timestamp,
     double? Tsi = null,
     double? Signal = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Tsi.Null2NaN();
+    public double Value => Tsi.Null2NaN();
 }

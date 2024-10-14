@@ -7,7 +7,7 @@ public class Tr : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<TrResult> results = Quotes
-            .GetTr();
+            .ToTr();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -41,11 +41,11 @@ public class Tr : StaticSeriesTestBase
     {
         // same as ATR
         IReadOnlyList<SmmaResult> results = Quotes
-            .GetTr()
-            .GetSmma(14);
+            .ToTr()
+            .ToSmma(14);
 
         IReadOnlyList<AtrResult> atrResults = Quotes
-            .GetAtr();
+            .ToAtr();
 
         for (int i = 0; i < results.Count; i++)
         {
@@ -61,7 +61,7 @@ public class Tr : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<TrResult> r = BadQuotes
-            .GetTr();
+            .ToTr();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Tr is double.NaN));
@@ -71,12 +71,12 @@ public class Tr : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<TrResult> r0 = Noquotes
-            .GetTr();
+            .ToTr();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<TrResult> r1 = Onequote
-            .GetTr();
+            .ToTr();
 
         Assert.AreEqual(1, r1.Count);
     }

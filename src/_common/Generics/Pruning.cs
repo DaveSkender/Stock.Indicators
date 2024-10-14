@@ -6,7 +6,7 @@ public static partial class Utility
 {
     // REMOVE SPECIFIC PERIODS
     public static IReadOnlyList<T> RemoveWarmupPeriods<T>(
-        this IEnumerable<T> series,
+        this IReadOnlyList<T> series,
         int removePeriods)
         => removePeriods < 0
             ? throw new ArgumentOutOfRangeException(nameof(removePeriods), removePeriods,
@@ -15,7 +15,7 @@ public static partial class Utility
 
     // REMOVE PERIODS
     internal static List<T> Remove<T>(
-        this IEnumerable<T> series,
+        this IReadOnlyList<T> series,
         int removePeriods)
     {
         List<T> seriesList = series.ToList();

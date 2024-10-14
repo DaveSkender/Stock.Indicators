@@ -6,7 +6,7 @@ public record AdlResult
     double Adl,
     double? MoneyFlowMultiplier = null,
     double? MoneyFlowVolume = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Adl;
+    public double Value => Adl;
 }

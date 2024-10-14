@@ -19,8 +19,8 @@ public static partial class Indicator
         // initialize
         int length = source.Count;
 
-        List<SlopeResult> slopeResults = source
-            .CalcSlope((int)lookbackPeriods);
+        IReadOnlyList<SlopeResult> slopeResults = source
+            .ToSlope((int)lookbackPeriods);
 
         List<StdDevChannelsResult> results = slopeResults
             .Select(x => new StdDevChannelsResult(x.Timestamp))

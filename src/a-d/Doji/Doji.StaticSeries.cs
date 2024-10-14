@@ -2,15 +2,36 @@ namespace Skender.Stock.Indicators;
 
 // DOJI (SERIES)
 
-public static partial class Indicator
+public static partial class Doji
 {
+    /// <summary>
+    /// Doji is a single candlestick pattern where open and close price
+    /// are virtually identical, representing market indecision.
+    /// </summary>
+    /// <typeparam name = "TQuote" > Configurable Quote type.
+    /// See Guide for more information.</typeparam>
+    /// <param name = "quotes" > Historical price quotes.</param>
+    /// <param name = "maxPriceChangePercent" >
+    /// Optional.Maximum absolute percent difference in open and close price.
+    /// </param>
+    /// <returns>Time series of Doji values.</returns>
+    /// <exception cref = "ArgumentOutOfRangeException" >
+    /// Invalid parameter value provided.
+    /// </exception>
+    public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        double maxPriceChangePercent = 0.1)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .CalcDoji(maxPriceChangePercent);
+
     private static List<CandleResult> CalcDoji<TQuote>(
         this List<TQuote> quotesList,
         double maxPriceChangePercent)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Doji.Validate(maxPriceChangePercent);
+        Validate(maxPriceChangePercent);
 
         // initialize
         int length = quotesList.Count;

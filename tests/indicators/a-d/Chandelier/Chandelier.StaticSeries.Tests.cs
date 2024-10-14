@@ -9,7 +9,7 @@ public class Chandelier : StaticSeriesTestBase
         int lookbackPeriods = 22;
 
         IReadOnlyList<ChandelierResult> longResult =
-            Quotes.GetChandelier(lookbackPeriods);
+            Quotes.ToChandelier(lookbackPeriods);
 
         // proper quantities
         Assert.AreEqual(502, longResult.Count);
@@ -24,7 +24,7 @@ public class Chandelier : StaticSeriesTestBase
 
         // short
         IReadOnlyList<ChandelierResult> shortResult =
-            Quotes.GetChandelier(lookbackPeriods, 3, ChandelierType.Short);
+            Quotes.ToChandelier(lookbackPeriods, 3, ChandelierType.Short);
 
         ChandelierResult c = shortResult[501];
         Assert.AreEqual(246.4240, c.ChandelierExit.Round(4));
@@ -34,8 +34,8 @@ public class Chandelier : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetChandelier()
-            .GetSma(10);
+            .ToChandelier()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
@@ -45,7 +45,7 @@ public class Chandelier : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ChandelierResult> r = BadQuotes
-            .GetChandelier(15, 2);
+            .ToChandelier(15, 2);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double.NaN));
@@ -55,12 +55,12 @@ public class Chandelier : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ChandelierResult> r0 = Noquotes
-            .GetChandelier();
+            .ToChandelier();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ChandelierResult> r1 = Onequote
-            .GetChandelier();
+            .ToChandelier();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -69,7 +69,7 @@ public class Chandelier : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<ChandelierResult> results = Quotes
-            .GetChandelier()
+            .ToChandelier()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -84,14 +84,14 @@ public class Chandelier : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetChandelier(0));
+            Quotes.ToChandelier(0));
 
         // bad multiplier
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetChandelier(25, 0));
+            Quotes.ToChandelier(25, 0));
 
         // bad type
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
+            Quotes.ToChandelier(25, 2, (ChandelierType)int.MaxValue));
     }
 }

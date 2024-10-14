@@ -5,13 +5,8 @@ public static class Numerical
     // STANDARD DEVIATION
     public static double StdDev(this double[] values)
     {
-        // validate parameters
-        if (values is null)
-        {
-            throw new ArgumentNullException(
-                nameof(values),
-                "StdDev values cannot be null.");
-        }
+        ArgumentNullException.ThrowIfNull(
+            values, "StdDev values cannot be null.");
 
         int n = values.Length;
 
@@ -43,17 +38,8 @@ public static class Numerical
     public static double Slope(double[] x, double[] y)
     {
         // validate parameters
-        if (x is null)
-        {
-            throw new ArgumentNullException(
-                nameof(x), "Slope X values cannot be null.");
-        }
-
-        if (y is null)
-        {
-            throw new ArgumentNullException(
-                nameof(y), "Slope Y values cannot be null.");
-        }
+        ArgumentNullException.ThrowIfNull(x, "Slope X values cannot be null.");
+        ArgumentNullException.ThrowIfNull(y, "Slope Y values cannot be null.");
 
         if (x.Length != y.Length)
         {

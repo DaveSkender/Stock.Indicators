@@ -3,37 +3,68 @@ namespace Increments;
 [TestClass]
 public class Ema : IncrementsTestBase
 {
+    private const int lookbackPeriods = 14;
+
+    private static readonly IReadOnlyList<IReusable> reusables
+       = Quotes
+        .Cast<IReusable>()
+        .ToList();
+
+    private static readonly IReadOnlyList<EmaResult> series
+       = Quotes.ToEma(lookbackPeriods);
+
     [TestMethod]
-    public override void Standard()
+    public void FromReusableSplit()
     {
-        EmaList<Quote> sut = new(14);
+        EmaList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
+        foreach (IReusable item in reusables)
         {
-            sut.Add(quote);
+            sut.Add(item.Timestamp, item.Value);
         }
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(14);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
-    public override void ValueBased()
+    public void FromReusableItem()
     {
-        EmaArray sut = new(14);
+        EmaList sut = new(lookbackPeriods);
 
-        foreach (Quote quote in Quotes)
-        {
-            sut.Add(quote.Value);
-        }
+        foreach (IReusable item in reusables) { sut.Add(item); }
 
-        List<double?> series = Quotes
-            .ToEma(14)
-            .Select(x => x.Ema)
-            .ToList();
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void FromReusableBatch()
+    {
+        EmaList sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public override void FromQuote()
+    {
+        EmaList sut = new(lookbackPeriods);
+
+        foreach (Quote q in Quotes) { sut.Add(q); }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public override void FromQuoteBatch()
+    {
+        EmaList sut = new(lookbackPeriods) { Quotes };
+
+        IReadOnlyList<EmaResult> series
+            = Quotes.ToEma(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);

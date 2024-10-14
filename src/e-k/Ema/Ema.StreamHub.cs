@@ -2,14 +2,33 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
-public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
-    IReusableHub<TIn, EmaResult>, IEma
+#region hub interface and initializer
+
+public interface IEma
+{
+    int LookbackPeriods { get; }
+    double K { get; }
+}
+
+public static partial class Ema
+{
+    // HUB, from Chain Provider
+    public static EmaHub<T> ToEma<T>(
+        this IChainProvider<T> chainProvider,
+        int lookbackPeriods)
+        where T : IReusable
+        => new(chainProvider, lookbackPeriods);
+}
+#endregion
+
+public class EmaHub<TIn>
+    : ChainProvider<TIn, EmaResult>, IEma
     where TIn : IReusable
 {
     #region constructors
 
     private readonly string hubName;
-    
+
     internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -30,37 +49,28 @@ public class EmaHub<TIn> : ReusableObserver<TIn, EmaResult>,
 
     public override string ToString() => hubName;
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    protected override (EmaResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        double ema;
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
-        int i = index ?? Provider.GetIndex(newIn, false);
-
-        if (i >= LookbackPeriods - 1)
-        {
-            IReusable last = Cache[i - 1];
-
-            ema = !double.IsNaN(last.Value)
+        double ema = i >= LookbackPeriods - 1
+            ? Cache[i - 1].Ema is not null
 
                 // normal
-                ? Ema.Increment(K, last.Value, newIn.Value)
+                ? Ema.Increment(K, Cache[i - 1].Value, item.Value)
 
-                // re/initialize
-                : Sma.Increment(Provider.Results, i, LookbackPeriods);
-        }
+                // re/initialize as SMA
+                : Sma.Increment(ProviderCache, LookbackPeriods, i)
 
-        // warmup periods are never calculable
-        else
-        {
-            ema = double.NaN;
-        }
+            // warmup periods are never calculable
+            : double.NaN;
 
         // candidate result
         EmaResult r = new(
-            Timestamp: newIn.Timestamp,
+            Timestamp: item.Timestamp,
             Ema: ema.NaN2Null());
 
-        // save and send
-        Motify(act, r, i);
+        return (r, i);
     }
 }

@@ -11,13 +11,17 @@ public interface IRenkoHub
 }
 #endregion
 
-public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
-    IQuoteHub<TIn, RenkoResult>, IRenkoHub
+public class RenkoHub<TIn>
+    : QuoteProvider<TIn, RenkoResult>, IRenkoHub
     where TIn : IQuote
 {
     #region constructors
 
     private readonly string hubName;
+
+    private RenkoResult lastBrick
+        = new(default, default, default,
+            default, default, default, default);
 
     internal RenkoHub(
         IQuoteProvider<TIn> provider,
@@ -33,50 +37,105 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
     }
     #endregion
 
+    /// <summary>
+    /// Renko hub settings.  Since it can produce 0 or many bricks per quote,
+    /// the default 1:1 in/out is not used and must be skipped to prevent
+    /// same-date triggerred rebuilds when caching.
+    /// </summary>
+    public override BinarySettings Properties { get; init; } = new(0b00000010);  // custom
+
+    /// <summary>
+    /// Standard brick size for Renko chart.
+    /// </summary>
     public decimal BrickSize { get; }
+
+    /// <summary>
+    /// Close or High/Low price used to determine when threshold
+    /// is met to generate new bricks.
+    /// </summary>
     public EndType EndType { get; }
 
     // METHODS
-    
-    public override string ToString() => hubName;
-    
-    internal override void Add(Act act, TIn newIn, int? index)
-    {
-        // get last brick
-        RenkoResult lastBrick;
 
+    public override string ToString() => hubName;
+
+    public override void OnAdd(TIn item, bool notify, int? indexHint)
+        => ToIndicator(item, notify, indexHint);
+
+    protected override (RenkoResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
+        => throw new InvalidOperationException(); // not used
+
+    // TODO: see if returning array of results is possible ^^
+    // for all indicators, so we don't have to do this goofy override
+
+    /// <summary>
+    /// Restore last brick marker.
+    /// </summary>
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        // restore last brick marker
         if (Cache.Count != 0)
         {
             lastBrick = Cache
-                .Where(c => c.Timestamp <= newIn.Timestamp)
-                .Last();
+                .Last(c => c.Timestamp <= timestamp);
+
+            return;
         }
-        else // no bricks yet
+
+        // skip first quote
+        if (ProviderCache.Count <= 1)
         {
-            // skip first quote
-            if (Provider.Results.Count <= 1)
-            {
-                return;
-            }
+            return;
+        }
 
-            int decimals = BrickSize.GetDecimalPlaces();
+        SetBaselineBrick();
+    }
 
-            TIn q0 = Provider.Results[0];
+    // re/initialize last brick marker
+    private void SetBaselineBrick()
+    {
+        int decimals = BrickSize.GetDecimalPlaces();
 
-            decimal baseline
-                = Math.Round(q0.Close,
-                    Math.Max(decimals - 1, 0));
+        TIn q0 = ProviderCache[0];
 
-            lastBrick = new(
-                q0.Timestamp,
-                Open: baseline, 0, 0,
-                Close: baseline, 0, false);
+        decimal baseline
+            = Math.Round(q0.Close,
+                Math.Max(decimals - 1, 0));
+
+        lastBrick = new(
+            q0.Timestamp,
+            Open: baseline,
+            High: 0,
+            Low: 0,
+            Close: baseline,
+            Volume: 0,
+            IsUp: false);
+    }
+
+    // custom: build 0 to many bricks per quote
+    private void ToIndicator(TIn item, bool notify, int? indexHint)
+    {
+        int providerIndex = indexHint
+            ?? throw new InvalidOperationException($"{nameof(indexHint)} cannot be empty");
+
+        // nothing to do
+        if (providerIndex <= 0)
+        {
+            return;
+        }
+
+        // establish baseline brick
+        if (providerIndex == 1)
+        {
+            SetBaselineBrick();
         }
 
         // determine new brick quantity
         int newBrickQty
             = Renko.GetNewBrickQuantity(
-                newIn, lastBrick, BrickSize, EndType);
+                item, lastBrick, BrickSize, EndType);
 
         int absBrickQty = Math.Abs(newBrickQty);
         bool isUp = newBrickQty >= 0;
@@ -90,12 +149,11 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int inboundIndex = index ?? Provider.GetIndex(newIn, false);
-            int lastBrickIndex = Provider.GetIndex(lastBrick.Timestamp, false);
+            int lastBrickIndex = ProviderCache.GetIndex(lastBrick.Timestamp, true);
 
-            for (int w = lastBrickIndex + 1; w <= inboundIndex; w++)
+            for (int w = lastBrickIndex + 1; w <= providerIndex; w++)
             {
-                TIn pq = Provider.Results[w];
+                TIn pq = ProviderCache[w];
 
                 h = Math.Max(h, pq.High);
                 l = Math.Min(l, pq.Low);
@@ -106,28 +164,26 @@ public class RenkoHub<TIn> : QuoteObserver<TIn, RenkoResult>,
 
             for (int b = 0; b < absBrickQty; b++)
             {
-                decimal o;
-                decimal c;
+                decimal o = isUp
+                    ? Math.Max(lastBrick.Open, lastBrick.Close)
+                    : Math.Min(lastBrick.Open, lastBrick.Close);
 
-                if (isUp)
-                {
-                    o = Math.Max(lastBrick.Open, lastBrick.Close);
-                    c = o + BrickSize;
-                }
-                else
-                {
-                    o = Math.Min(lastBrick.Open, lastBrick.Close);
-                    c = o - BrickSize;
-                }
+                decimal c = isUp
+                    ? o + BrickSize
+                    : o - BrickSize;
 
                 // candidate result
                 RenkoResult r
-                    = new(newIn.Timestamp, o, h, l, c, v, isUp);
+                    = new(item.Timestamp, o, h, l, c, v, isUp);
 
                 lastBrick = r;
 
                 // save and send
-                Motify(act, r, null);
+                AppendCache(r, notify);
+
+                // note: bypass rebuild bit set in Properties to allow
+                // sequential bricks with duplicate dates that would
+                // normally trigger rebuild, causing stack overflow.
             }
         }
     }

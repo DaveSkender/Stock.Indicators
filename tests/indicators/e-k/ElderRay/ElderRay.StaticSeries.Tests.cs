@@ -7,7 +7,7 @@ public class ElderRay : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<ElderRayResult> results = Quotes
-            .GetElderRay();
+            .ToElderRay();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -50,8 +50,8 @@ public class ElderRay : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetElderRay()
-            .GetSma(10);
+            .ToElderRay()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Sma != null));
@@ -61,7 +61,7 @@ public class ElderRay : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ElderRayResult> r = BadQuotes
-            .GetElderRay();
+            .ToElderRay();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.BullPower is double.NaN));
@@ -71,12 +71,12 @@ public class ElderRay : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ElderRayResult> r0 = Noquotes
-            .GetElderRay();
+            .ToElderRay();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ElderRayResult> r1 = Onequote
-            .GetElderRay();
+            .ToElderRay();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -85,7 +85,7 @@ public class ElderRay : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<ElderRayResult> results = Quotes
-            .GetElderRay()
+            .ToElderRay()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -101,5 +101,5 @@ public class ElderRay : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetElderRay(0));
+            => Quotes.ToElderRay(0));
 }

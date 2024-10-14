@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // HURST EXPONENT (SERIES)
 
-public static partial class Indicator
+public static partial class Hurst
 {
-    private static List<HurstResult> CalcHurst<T>(
-        this List<T> source,
-        int lookbackPeriods)
+    public static IReadOnlyList<HurstResult> ToHurst<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 100)
         where T : IReusable
     {
         // check parameter arguments
-        Hurst.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

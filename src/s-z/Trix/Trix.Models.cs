@@ -5,7 +5,7 @@ public record TrixResult
     DateTime Timestamp,
     double? Ema3 = null,
     double? Trix = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Trix.Null2NaN();
+    public double Value => Trix.Null2NaN();
 }

@@ -10,7 +10,7 @@ public class Mama : StaticSeriesTestBase
         double slowLimit = 0.05;
 
         IReadOnlyList<MamaResult> results = Quotes
-            .GetMama(fastLimit, slowLimit);
+            .ToMama(fastLimit, slowLimit);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -51,7 +51,7 @@ public class Mama : StaticSeriesTestBase
     {
         IReadOnlyList<MamaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetMama();
+            .ToMama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(497, results.Count(x => x.Mama != null));
@@ -61,8 +61,8 @@ public class Mama : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<MamaResult> results = Quotes
-            .GetSma(2)
-            .GetMama();
+            .ToSma(2)
+            .ToMama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(496, results.Count(x => x.Mama != null));
@@ -72,8 +72,8 @@ public class Mama : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetMama()
-            .GetSma(10);
+            .ToMama()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Sma != null));
@@ -83,7 +83,7 @@ public class Mama : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<MamaResult> r = BadQuotes
-            .GetMama();
+            .ToMama();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Mama is double.NaN));
@@ -92,11 +92,11 @@ public class Mama : StaticSeriesTestBase
     [TestMethod]
     public override void NoQuotes()
     {
-        IReadOnlyList<MamaResult> r0 = Noquotes.GetMama();
+        IReadOnlyList<MamaResult> r0 = Noquotes.ToMama();
 
         Assert.AreEqual(0, r0.Count);
 
-        IReadOnlyList<MamaResult> r1 = Onequote.GetMama();
+        IReadOnlyList<MamaResult> r1 = Onequote.ToMama();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -108,7 +108,7 @@ public class Mama : StaticSeriesTestBase
         double slowLimit = 0.05;
 
         IReadOnlyList<MamaResult> results = Quotes
-            .GetMama(fastLimit, slowLimit)
+            .ToMama(fastLimit, slowLimit)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -124,14 +124,14 @@ public class Mama : StaticSeriesTestBase
     {
         // bad fast period (same as slow period)
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMama(0.5, 0.5));
+            Quotes.ToMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMama(1, 0.5));
+            Quotes.ToMama(1, 0.5));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMama(0.5, 0));
+            Quotes.ToMama(0.5, 0));
     }
 }

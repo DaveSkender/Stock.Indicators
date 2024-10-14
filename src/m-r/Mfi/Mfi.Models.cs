@@ -4,7 +4,7 @@ public record MfiResult
 (
     DateTime Timestamp,
     double? Mfi
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Mfi.Null2NaN();
+    public double Value => Mfi.Null2NaN();
 }

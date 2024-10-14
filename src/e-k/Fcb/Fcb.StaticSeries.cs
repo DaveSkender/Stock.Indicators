@@ -2,22 +2,23 @@ namespace Skender.Stock.Indicators;
 
 // FRACTAL CHAOS BANDS (SERIES)
 
-public static partial class Indicator
+public static partial class Fcb
 {
-    private static List<FcbResult> CalcFcb<TQuote>(
-        this List<TQuote> quotesList,
-        int windowSpan)
+    public static IReadOnlyList<FcbResult> ToFcb<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int windowSpan = 2)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Fcb.Validate(windowSpan);
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(windowSpan);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<FcbResult> results = new(length);
 
-        List<FractalResult> fractals = quotesList
-            .CalcFractal(windowSpan, windowSpan, EndType.HighLow);
+        IReadOnlyList<FractalResult> fractals = quotes
+            .ToFractal(windowSpan, windowSpan, EndType.HighLow);
 
         decimal? upperLine = null;
         decimal? lowerLine = null;

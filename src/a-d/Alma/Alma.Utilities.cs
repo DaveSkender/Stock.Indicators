@@ -1,16 +1,32 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IReadOnlyList<AlmaResult> RemoveWarmupPeriods(
-        this IEnumerable<AlmaResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Alma != null);
+// ARNAUD LEGOUX MOVING AVERAGE (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class Alma
+{
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods,
+        double offset,
+        double sigma)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for ALMA.");
+        }
+
+        if (offset is < 0 or > 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(offset), offset,
+                "Offset must be between 0 and 1 for ALMA.");
+        }
+
+        if (sigma <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sigma), sigma,
+                "Sigma must be greater than 0 for ALMA.");
+        }
     }
 }

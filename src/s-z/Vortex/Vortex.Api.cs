@@ -6,8 +6,8 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<VortexResult> GetVortex<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

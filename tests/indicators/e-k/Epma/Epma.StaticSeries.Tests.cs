@@ -7,7 +7,7 @@ public class Epma : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<EpmaResult> results = Quotes
-            .GetEpma(20);
+            .ToEpma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -35,7 +35,7 @@ public class Epma : StaticSeriesTestBase
     {
         IReadOnlyList<EpmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetEpma(20);
+            .ToEpma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Epma != null));
@@ -45,8 +45,8 @@ public class Epma : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<EpmaResult> results = Quotes
-            .GetSma(2)
-            .GetEpma(20);
+            .ToSma(2)
+            .ToEpma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Epma != null));
@@ -56,8 +56,8 @@ public class Epma : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetEpma(20)
-            .GetSma(10);
+            .ToEpma(20)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -67,7 +67,7 @@ public class Epma : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<EpmaResult> r = BadQuotes
-            .GetEpma(15);
+            .ToEpma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Epma is double.NaN));
@@ -77,12 +77,12 @@ public class Epma : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<EpmaResult> r0 = Noquotes
-            .GetEpma(5);
+            .ToEpma(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<EpmaResult> r1 = Onequote
-            .GetEpma(5);
+            .ToEpma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -91,7 +91,7 @@ public class Epma : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<EpmaResult> results = Quotes
-            .GetEpma(20)
+            .ToEpma(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -105,5 +105,5 @@ public class Epma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetEpma(0));
+            => Quotes.ToEpma(0));
 }

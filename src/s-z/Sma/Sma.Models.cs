@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public record SmaResult(
     DateTime Timestamp,
     double? Sma
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Sma.Null2NaN();
+    public double Value => Sma.Null2NaN();
 }

@@ -7,7 +7,7 @@ public class T3 : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<T3Result> results = Quotes
-            .GetT3();
+            .ToT3();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -38,7 +38,7 @@ public class T3 : StaticSeriesTestBase
     {
         IReadOnlyList<T3Result> results = Quotes
             .Use(CandlePart.Close)
-            .GetT3();
+            .ToT3();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.T3 != null));
@@ -48,8 +48,8 @@ public class T3 : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<T3Result> results = Quotes
-            .GetSma(2)
-            .GetT3();
+            .ToSma(2)
+            .ToT3();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.T3 != null));
@@ -59,8 +59,8 @@ public class T3 : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetT3()
-            .GetSma(10);
+            .ToT3()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
     }
@@ -69,7 +69,7 @@ public class T3 : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<T3Result> r = BadQuotes
-            .GetT3();
+            .ToT3();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.T3 is double.NaN));
@@ -79,12 +79,12 @@ public class T3 : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<T3Result> r0 = Noquotes
-            .GetT3();
+            .ToT3();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<T3Result> r1 = Onequote
-            .GetT3();
+            .ToT3();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -94,10 +94,10 @@ public class T3 : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetT3(0));
+            Quotes.ToT3(0));
 
         // bad volume factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetT3(25, 0));
+            Quotes.ToT3(25, 0));
     }
 }

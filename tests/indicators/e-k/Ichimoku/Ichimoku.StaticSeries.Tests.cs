@@ -11,7 +11,7 @@ public class Ichimoku : StaticSeriesTestBase
         int senkouBPeriods = 52;
 
         IReadOnlyList<IchimokuResult> results = Quotes
-            .GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+            .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -64,7 +64,7 @@ public class Ichimoku : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<IchimokuResult> r = BadQuotes
-            .GetIchimoku();
+            .ToIchimoku();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -73,12 +73,12 @@ public class Ichimoku : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<IchimokuResult> r0 = Noquotes
-            .GetIchimoku();
+            .ToIchimoku();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<IchimokuResult> r1 = Onequote
-            .GetIchimoku();
+            .ToIchimoku();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -87,7 +87,7 @@ public class Ichimoku : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<IchimokuResult> results = Quotes
-            .GetIchimoku()
+            .ToIchimoku()
             .Condense();
 
         Assert.AreEqual(502, results.Count);
@@ -98,15 +98,15 @@ public class Ichimoku : StaticSeriesTestBase
     {
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetIchimoku(0));
+            Quotes.ToIchimoku(0));
 
         // bad short span period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetIchimoku(9, 0));
+            Quotes.ToIchimoku(9, 0));
 
         // bad long span period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetIchimoku(9, 26, 26));
+            Quotes.ToIchimoku(9, 26, 26));
 
         // invalid offsets
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>

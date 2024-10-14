@@ -7,7 +7,7 @@ public class Renko : StaticSeriesTestBase
     public override void Standard()  // close
     {
         IReadOnlyList<RenkoResult> results = Quotes
-            .GetRenko(2.5m);
+            .ToRenko(2.5m);
 
         // assertions
 
@@ -45,7 +45,7 @@ public class Renko : StaticSeriesTestBase
     public void StandardHighLow()
     {
         IReadOnlyList<RenkoResult> results = Quotes
-            .GetRenko(2.5m, EndType.HighLow);
+            .ToRenko(2.5m, EndType.HighLow);
 
         // assertions
 
@@ -107,8 +107,8 @@ public class Renko : StaticSeriesTestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<RenkoResult> renkoQuotes = Quotes.GetRenko(2.5m);
-        IEnumerable<SmaResult> renkoSma = renkoQuotes.GetSma(5);
+        IReadOnlyList<RenkoResult> renkoQuotes = Quotes.ToRenko(2.5m);
+        IReadOnlyList<SmaResult> renkoSma = renkoQuotes.ToSma(5);
         Assert.AreEqual(108, renkoSma.Count(x => x.Sma != null));
     }
 
@@ -116,7 +116,7 @@ public class Renko : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<RenkoResult> r = BadQuotes
-            .GetRenko(100m);
+            .ToRenko(100m);
 
         Assert.AreNotEqual(0, r.Count);
     }
@@ -125,7 +125,7 @@ public class Renko : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<RenkoResult> r0 = Noquotes
-            .GetRenko(0.01m);
+            .ToRenko(0.01m);
 
         Assert.AreEqual(0, r0.Count);
     }
@@ -135,10 +135,10 @@ public class Renko : StaticSeriesTestBase
     {
         // bad arguments
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetRenko(0));
+            => Quotes.ToRenko(0));
 
         // bad end type
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetRenko(2, (EndType)int.MaxValue));
+            => Quotes.ToRenko(2, (EndType)int.MaxValue));
     }
 }

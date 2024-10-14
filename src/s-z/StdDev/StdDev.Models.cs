@@ -6,7 +6,7 @@ public record StdDevResult
     double? StdDev,
     double? Mean,
     double? ZScore
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => StdDev.Null2NaN();
+    public double Value => StdDev.Null2NaN();
 }

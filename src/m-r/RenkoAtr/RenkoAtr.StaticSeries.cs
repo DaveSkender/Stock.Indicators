@@ -18,7 +18,7 @@ public static partial class RenkoAtr
         AtrResult? last = atrResults.LastOrDefault();
         decimal brickSize = (decimal?)last?.Atr ?? 0;
 
-        return brickSize is 0
+        return brickSize == 0
           ? []
           : quotesList.CalcRenko(brickSize, endType);
     }

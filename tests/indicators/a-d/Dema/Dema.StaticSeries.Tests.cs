@@ -7,7 +7,7 @@ public class Dema : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<DemaResult> results = Quotes
-            .GetDema(20);
+            .ToDema(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -32,7 +32,7 @@ public class Dema : StaticSeriesTestBase
     {
         IReadOnlyList<DemaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetDema(20);
+            .ToDema(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Dema != null));
@@ -42,8 +42,8 @@ public class Dema : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<DemaResult> results = Quotes
-            .GetSma(2)
-            .GetDema(20);
+            .ToSma(2)
+            .ToDema(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Dema != null));
@@ -53,8 +53,8 @@ public class Dema : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetDema(20)
-            .GetSma(10);
+            .ToDema(20)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -64,7 +64,7 @@ public class Dema : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<DemaResult> r = BadQuotes
-            .GetDema(15);
+            .ToDema(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dema is double.NaN));
@@ -74,12 +74,12 @@ public class Dema : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<DemaResult> r0 = Noquotes
-            .GetDema(5);
+            .ToDema(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<DemaResult> r1 = Onequote
-            .GetDema(5);
+            .ToDema(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -88,7 +88,7 @@ public class Dema : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<DemaResult> results = Quotes
-            .GetDema(20)
+            .ToDema(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -102,5 +102,5 @@ public class Dema : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions() =>
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetDema(0));
+            => Quotes.ToDema(0));
 }

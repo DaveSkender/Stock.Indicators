@@ -2,8 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // AWESOME OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Awesome
 {
+    public static IReadOnlyList<AwesomeResult> ToAwesome<T>(
+        this IReadOnlyList<T> source,
+        int fastPeriods = 5,
+        int slowPeriods = 34)
+        where T : IReusable
+        => source
+            .ToSortedList(CandlePart.HL2)
+            .CalcAwesome(fastPeriods, slowPeriods);
+
     private static List<AwesomeResult> CalcAwesome<T>(
         this List<T> source,
         int fastPeriods,
@@ -11,7 +20,7 @@ public static partial class Indicator
         where T : IReusable
     {
         // check parameter arguments
-        Awesome.Validate(fastPeriods, slowPeriods);
+        Validate(fastPeriods, slowPeriods);
 
         // initialize
         int length = source.Count;

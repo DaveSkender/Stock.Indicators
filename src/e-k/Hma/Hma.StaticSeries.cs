@@ -2,16 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // HULL MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Hma
 {
-    // calculate series
-    private static List<HmaResult> CalcHma<T>(
-        this List<T> source,
+    public static IReadOnlyList<HmaResult> ToHma<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Hma.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
@@ -19,10 +19,10 @@ public static partial class Indicator
         List<IReusable> synthHistory = [];
 
         IReadOnlyList<WmaResult> wmaN1
-            = source.CalcWma(lookbackPeriods);
+            = source.ToWma(lookbackPeriods);
 
         IReadOnlyList<WmaResult> wmaN2
-            = source.CalcWma(lookbackPeriods / 2);
+            = source.ToWma(lookbackPeriods / 2);
 
         // roll through source values, to get interim synthetic quotes
         for (int i = 0; i < length; i++)
@@ -53,7 +53,7 @@ public static partial class Indicator
             .ToList();
 
         // calculate final HMA = WMA with period SQRT(n)
-        List<HmaResult> hmaResults = synthHistory.CalcWma(sqN)
+        List<HmaResult> hmaResults = synthHistory.ToWma(sqN)
             .Select(x => new HmaResult(
                 Timestamp: x.Timestamp,
                 Hma: x.Wma

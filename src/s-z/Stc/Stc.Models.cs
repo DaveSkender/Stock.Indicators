@@ -4,7 +4,7 @@ public record StcResult
 (
     DateTime Timestamp,
     double? Stc
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Stc.Null2NaN();
+    public double Value => Stc.Null2NaN();
 }

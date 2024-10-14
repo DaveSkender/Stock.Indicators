@@ -1,16 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+public static partial class Hma
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IReadOnlyList<HmaResult> RemoveWarmupPeriods(
-        this IEnumerable<HmaResult> results)
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
     {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Hma != null);
-
-        return results.Remove(removePeriods);
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for HMA.");
+        }
     }
 }

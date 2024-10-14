@@ -7,8 +7,8 @@ public static partial class Tr
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/type[@name="standard"]/*' />
     ///
-    public static IReadOnlyList<TrResult> GetTr<TQuote>(
-        this IEnumerable<TQuote> quotes)
+    public static IReadOnlyList<TrResult> ToTr<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcTr();

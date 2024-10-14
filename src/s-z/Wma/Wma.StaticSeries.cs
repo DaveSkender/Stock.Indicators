@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // WEIGHTED MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Wma
 {
-    private static List<WmaResult> CalcWma<T>(
-        this List<T> source,
+    public static IReadOnlyList<WmaResult> ToWma<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Wma.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

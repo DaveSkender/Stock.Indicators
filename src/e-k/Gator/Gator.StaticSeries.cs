@@ -2,11 +2,31 @@ namespace Skender.Stock.Indicators;
 
 // GATOR OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Gator
 {
-    private static List<GatorResult> CalcGator(
-        this List<AlligatorResult> alligator)
+    /// <summary>
+    /// Gator Oscillator is an expanded view of Williams Alligator.
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    /// <typeparam name="T">
+    /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type
+    /// </typeparam>
+    /// <param name="source">Time-series values to transform.</param>
+    /// <returns>Time series of Gator values.</returns>
+    public static IReadOnlyList<GatorResult> ToGator<T>(
+        this IReadOnlyList<T> source)
+        where T : IReusable
+        => source
+            .ToAlligator()
+            .ToGator();
+
+    // from [custom] Alligator
+    public static IReadOnlyList<GatorResult> ToGator(
+        this IReadOnlyList<AlligatorResult> alligator)
     {
+        ArgumentNullException.ThrowIfNull(alligator);
+
         // initialize
         int length = alligator.Count;
         List<GatorResult> results = [];

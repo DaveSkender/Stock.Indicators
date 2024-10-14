@@ -2,8 +2,15 @@ namespace Skender.Stock.Indicators;
 
 // CHOPPINESS INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Chop
 {
+    public static IReadOnlyList<ChopResult> ToChop<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcChop(lookbackPeriods);
+
     private static List<ChopResult> CalcChop(
         this List<QuoteD> source,
         int lookbackPeriods)

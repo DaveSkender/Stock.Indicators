@@ -7,7 +7,7 @@ public class Marubozu : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<CandleResult> results = Quotes
-            .GetMarubozu();
+            .ToMarubozu();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -43,7 +43,7 @@ public class Marubozu : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<CandleResult> r = BadQuotes
-            .GetMarubozu();
+            .ToMarubozu();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -52,12 +52,12 @@ public class Marubozu : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<CandleResult> r0 = Noquotes
-            .GetMarubozu();
+            .ToMarubozu();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<CandleResult> r1 = Onequote
-            .GetMarubozu();
+            .ToMarubozu();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -66,7 +66,7 @@ public class Marubozu : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<CandleResult> results = Quotes
-            .GetMarubozu()
+            .ToMarubozu()
             .Condense();
 
         Assert.AreEqual(6, results.Count);
@@ -77,9 +77,9 @@ public class Marubozu : StaticSeriesTestBase
     {
         // bad minimum body percent values
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMarubozu(79.9));
+            Quotes.ToMarubozu(79.9));
 
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetMarubozu(100.1));
+            Quotes.ToMarubozu(100.1));
     }
 }

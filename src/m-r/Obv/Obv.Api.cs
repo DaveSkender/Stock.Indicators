@@ -6,8 +6,8 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<ObvResult> GetObv<TQuote>(
-        this IEnumerable<TQuote> quotes)
+    public static IReadOnlyList<ObvResult> ToObv<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcObv();

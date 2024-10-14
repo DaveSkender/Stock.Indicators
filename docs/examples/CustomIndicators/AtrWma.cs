@@ -18,7 +18,7 @@ public static class CustomIndicators
 {
     // Custom ATR WMA calculation
     public static IReadOnlyList<AtrWmaResult> GetAtrWma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote
     {

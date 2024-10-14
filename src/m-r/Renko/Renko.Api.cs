@@ -5,8 +5,8 @@ namespace Skender.Stock.Indicators;
 public static partial class Renko
 {
     // SERIES, from TQuote
-    public static IReadOnlyList<RenkoResult> GetRenko<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<RenkoResult> ToRenko<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         decimal brickSize,
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes

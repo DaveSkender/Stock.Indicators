@@ -11,7 +11,7 @@ public record MacdResult
     double? FastEma,
     double? SlowEma
 
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Macd.Null2NaN();
+    public double Value => Macd.Null2NaN();
 }

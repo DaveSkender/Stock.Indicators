@@ -10,7 +10,7 @@ public record VolatilityStopResult
     double? UpperBand = null,
     double? LowerBand = null
 
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Sar.Null2NaN();
+    public double Value => Sar.Null2NaN();
 }

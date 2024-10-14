@@ -50,7 +50,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -116,7 +116,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(candlePart)
-            .GetSma(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

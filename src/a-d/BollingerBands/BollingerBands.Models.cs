@@ -9,7 +9,7 @@ public record BollingerBandsResult
     double? PercentB = null,
     double? ZScore = null,
     double? Width = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => PercentB.Null2NaN();
+    public double Value => PercentB.Null2NaN();
 }

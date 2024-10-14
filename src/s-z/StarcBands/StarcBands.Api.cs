@@ -6,8 +6,8 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<StarcBandsResult> GetStarcBands<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         int smaPeriods,
         double multiplier = 2,
         int atrPeriods = 10)

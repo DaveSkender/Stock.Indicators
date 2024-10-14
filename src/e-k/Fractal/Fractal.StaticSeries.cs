@@ -2,30 +2,38 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS FRACTAL (SERIES)
 
-public static partial class Indicator
+public static partial class Fractal
 {
-    private static List<FractalResult> CalcFractal<TQuote>(
-        this List<TQuote> quotesList,
+    public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int windowSpan = 2,
+        EndType endType = EndType.HighLow)
+        where TQuote : IQuote => quotes
+            .ToFractal(windowSpan, windowSpan, endType);
+
+    public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         int leftSpan,
         int rightSpan,
-        EndType endType)
+        EndType endType = EndType.HighLow)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Fractal.Validate(Math.Min(leftSpan, rightSpan));
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(Math.Min(leftSpan, rightSpan));
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<FractalResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
             decimal? fractalBear = null;
             decimal? fractalBull = null;
 
-            if (i + 1 > leftSpan && i + 1 <= quotesList.Count - rightSpan)
+            if (i + 1 > leftSpan && i + 1 <= length - rightSpan)
             {
                 bool isHigh = true;
                 bool isLow = true;
@@ -46,7 +54,7 @@ public static partial class Indicator
                     }
 
                     // evaluate wing periods
-                    TQuote wing = quotesList[p];
+                    TQuote wing = quotes[p];
 
                     decimal wingHigh = endType == EndType.Close ?
                         wing.Close : wing.High;

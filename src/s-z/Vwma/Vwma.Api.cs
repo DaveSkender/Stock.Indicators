@@ -6,8 +6,8 @@ public static partial class Indicator
     // SERIES, from TQuote
     /// <include file='./info.xml' path='info/*' />
     ///
-    public static IReadOnlyList<VwmaResult> GetVwma<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<VwmaResult> ToVwma<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

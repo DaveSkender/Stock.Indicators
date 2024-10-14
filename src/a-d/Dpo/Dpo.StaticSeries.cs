@@ -2,16 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // DETRENDED PRICE OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Dpo
 {
-    // calculate series
-    private static List<DpoResult> CalcDpo<T>(
-        this List<T> source,
+    public static IReadOnlyList<DpoResult> ToDpo<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Dpo.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
@@ -20,7 +20,7 @@ public static partial class Indicator
         int offset = (lookbackPeriods / 2) + 1;
 
         IReadOnlyList<SmaResult> sma
-            = source.CalcSma(lookbackPeriods);
+            = source.ToSma(lookbackPeriods);
 
         // roll through source values
         for (int i = 0; i < length; i++)

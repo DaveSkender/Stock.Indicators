@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Kama
 {
-    private static List<KamaResult> CalcKama<T>(
-        this List<T> source,
-        int erPeriods,
-        int fastPeriods,
-        int slowPeriods)
+    public static IReadOnlyList<KamaResult> ToKama<T>(
+        this IReadOnlyList<T> source,
+        int erPeriods = 10,
+        int fastPeriods = 2,
+        int slowPeriods = 30)
         where T : IReusable
     {
         // check parameter arguments
-        Kama.Validate(erPeriods, fastPeriods, slowPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
         int length = source.Count;
@@ -26,27 +27,22 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T s = source[i];
-
             // skip incalculable periods
             if (i < erPeriods - 1)
             {
-                results.Add(new(s.Timestamp));
+                results.Add(new(source[i].Timestamp));
                 continue;
             }
 
             double er;
             double kama;
 
-            if (double.IsNaN(prevKama))
+            if (results[i - 1].Kama is not null)
             {
-                er = double.NaN;
-                kama = s.Value;
-            }
-            else
-            {
+                double newVal = source[i].Value;
+
                 // ER period change
-                double change = Math.Abs(s.Value - source[i - erPeriods].Value);
+                double change = Math.Abs(newVal - source[i - erPeriods].Value);
 
                 // volatility
                 double sumPv = 0;
@@ -64,19 +60,26 @@ public static partial class Indicator
                     double sc = (er * (scFast - scSlow)) + scSlow;  // squared later
 
                     // kama calculation
-                    kama = prevKama + (sc * sc * (s.Value - prevKama));
+                    kama = prevKama + (sc * sc * (newVal - prevKama));
                 }
 
                 // handle flatline case
                 else
                 {
                     er = 0;
-                    kama = s.Value;
+                    kama = source[i].Value;
                 }
             }
 
+            // re/initialize
+            else
+            {
+                er = double.NaN;
+                kama = source[i].Value;
+            }
+
             results.Add(new KamaResult(
-                Timestamp: s.Timestamp,
+                Timestamp: source[i].Timestamp,
                 Er: er.NaN2Null(),
                 Kama: kama.NaN2Null()));
 

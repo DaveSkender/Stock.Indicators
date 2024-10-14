@@ -7,7 +7,7 @@ public class HtTrendline : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<HtlResult> results = Quotes
-            .GetHtTrendline();
+            .ToHtTrendline();
 
         // proper quantities
         // should always be the same number of results as there is quotes
@@ -61,7 +61,7 @@ public class HtTrendline : StaticSeriesTestBase
     {
         IReadOnlyList<HtlResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetHtTrendline();
+            .ToHtTrendline();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(502, results.Count(x => x.Trendline != null));
@@ -71,8 +71,8 @@ public class HtTrendline : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<HtlResult> results = Quotes
-            .GetSma(2)
-            .GetHtTrendline();
+            .ToSma(2)
+            .ToHtTrendline();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Trendline != null));
@@ -82,8 +82,8 @@ public class HtTrendline : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetHtTrendline()
-            .GetSma(10);
+            .ToHtTrendline()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
@@ -93,7 +93,7 @@ public class HtTrendline : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<HtlResult> r = BadQuotes
-            .GetHtTrendline();
+            .ToHtTrendline();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Trendline is double.NaN));
@@ -103,7 +103,7 @@ public class HtTrendline : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<HtlResult> results = Quotes
-            .GetHtTrendline()
+            .ToHtTrendline()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -117,10 +117,10 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void PennyData()
     {
-        IEnumerable<Quote> penny = Data.GetPenny();
+        IReadOnlyList<Quote> penny = Data.GetPenny();
 
         IReadOnlyList<HtlResult> r = penny
-            .GetHtTrendline();
+            .ToHtTrendline();
 
         Assert.AreEqual(533, r.Count);
     }
@@ -129,12 +129,12 @@ public class HtTrendline : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<HtlResult> r0 = Noquotes
-            .GetHtTrendline();
+            .ToHtTrendline();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<HtlResult> r1 = Onequote
-            .GetHtTrendline();
+            .ToHtTrendline();
 
         Assert.AreEqual(1, r1.Count);
     }

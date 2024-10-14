@@ -4,7 +4,7 @@ public record EmaResult
 (
     DateTime Timestamp,
     double? Ema = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Ema.Null2NaN();
+    public double Value => Ema.Null2NaN();
 }

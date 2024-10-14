@@ -1,33 +1,61 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
-// QUOTE UTILITIES
+// QUOTE UTILITIES: VALIDATION
 
-public static partial class Utility
+public static partial class Quotes
 {
-    // VALIDATION
-    /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
-    ///
+    private static readonly CultureInfo invariantCulture
+        = CultureInfo.InvariantCulture;
+
+    /// <summary>
+    /// Check that quotes are valid and in ascending order.
+    /// </summary>
+    /// <typeparam name="TQuote">IQuote type</typeparam>
+    /// <param name="quotes">List of quotes</param>
+    /// <returns>Valid list of quotes</returns>
+    /// <exception cref="ArgumentNullException">
+    /// List of quotes cannot be a null reference.
+    /// </exception>
+    /// <exception cref="InvalidQuotesException">
+    /// Duplicate or out of sequence quotes found.
+    /// </exception>
     public static IReadOnlyList<TQuote> Validate<TQuote>(
-        this IEnumerable<TQuote> quotes)
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
     {
-        // we cannot rely on date consistency when looking back, so we force sort
+        ArgumentNullException.ThrowIfNull(quotes);
 
-        List<TQuote> quotesList = quotes.ToSortedList();
-
-        // check for duplicates
-        DateTime lastDate = DateTime.MinValue;
-        foreach (TQuote q in quotesList)
+        if (quotes.Count == 0)
         {
-            if (lastDate == q.Timestamp)
-            {
-                throw new InvalidQuotesException(
-                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Timestamp));
-            }
-
-            lastDate = q.Timestamp;
+            return quotes;
         }
 
-        return quotesList;
+        DateTime lastDate = quotes[0].Timestamp;
+        for (int i = 1; i < quotes.Count; i++)
+        {
+            DateTime currentDate = quotes[i].Timestamp;
+
+            if (lastDate == currentDate)
+            {
+                string msg =
+                    $"Duplicate date found on {currentDate.ToString("MM/dd/yyyy", invariantCulture)}.";
+
+                throw new InvalidQuotesException(nameof(quotes), msg);
+            }
+
+            if (lastDate > currentDate)
+            {
+                string msg =
+                    $"Quotes are out of sequence on {currentDate.ToString("MM/dd/yyyy", invariantCulture)}.";
+
+                throw new InvalidQuotesException(nameof(quotes), msg);
+            }
+
+            lastDate = currentDate;
+        }
+
+        return quotes;
     }
 }

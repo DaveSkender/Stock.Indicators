@@ -48,7 +48,7 @@ public class TrHub : StreamHubTestBase, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -56,7 +56,7 @@ public class TrHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<TrResult> seriesList = quotesList
-            .GetTr();
+            .ToTr();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -102,8 +102,8 @@ public class TrHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
-            .GetTr()
-            .GetSma(smaPeriods);
+            .ToTr()
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

@@ -2,16 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // BOLLINGER BANDS (SERIES)
 
-public static partial class Indicator
+public static partial class BollingerBands
 {
-    private static List<BollingerBandsResult> CalcBollingerBands<T>(
-        this List<T> source,
-        int lookbackPeriods,
-        double standardDeviations)
+    public static IReadOnlyList<BollingerBandsResult> ToBollingerBands<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 20,
+        double standardDeviations = 2)
         where T : IReusable
     {
         // check parameter arguments
-        BollingerBands.Validate(lookbackPeriods, standardDeviations);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, standardDeviations);
 
         // initialize
         int length = source.Count;

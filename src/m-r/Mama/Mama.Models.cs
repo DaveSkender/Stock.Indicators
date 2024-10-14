@@ -5,7 +5,7 @@ public record MamaResult
     DateTime Timestamp,
     double? Mama = null,
     double? Fama = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Mama.Null2NaN();
+    public double Value => Mama.Null2NaN();
 }

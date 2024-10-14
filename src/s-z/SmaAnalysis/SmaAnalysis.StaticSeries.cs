@@ -10,7 +10,7 @@ public static partial class Indicator
     {
         // initialize
         List<SmaAnalysis> results = source
-            .CalcSma(lookbackPeriods)
+            .ToSma(lookbackPeriods)
             .Select(s => new SmaAnalysis(s.Timestamp, s.Sma))
             .ToList();
 

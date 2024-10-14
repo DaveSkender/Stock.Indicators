@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
     // ANALYSIS, from CHAIN
-    public static IReadOnlyList<SmaAnalysis> GetSmaAnalysis<T>(
+    public static IReadOnlyList<SmaAnalysis> ToSmaAnalysis<T>(
         this IEnumerable<T> source,
         int lookbackPeriods)
         where T : IReusable

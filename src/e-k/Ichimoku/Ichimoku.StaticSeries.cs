@@ -2,8 +2,53 @@ namespace Skender.Stock.Indicators;
 
 // ICHIMOKU CLOUD (SERIES)
 
-public static partial class Indicator
+public static partial class Ichimoku
 {
+    public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int tenkanPeriods = 9,
+        int kijunPeriods = 26,
+        int senkouBPeriods = 52)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .CalcIchimoku(
+                tenkanPeriods,
+                kijunPeriods,
+                senkouBPeriods,
+                kijunPeriods,
+                kijunPeriods);
+
+    public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int offsetPeriods)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .CalcIchimoku(
+                tenkanPeriods,
+                kijunPeriods,
+                senkouBPeriods,
+                offsetPeriods,
+                offsetPeriods);
+
+    public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset,
+        int chikouOffset)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .CalcIchimoku(
+                tenkanPeriods,
+                kijunPeriods,
+                senkouBPeriods,
+                senkouOffset,
+                chikouOffset);
+
     private static List<IchimokuResult> CalcIchimoku<TQuote>(
         this List<TQuote> quotesList,
         int tenkanPeriods,

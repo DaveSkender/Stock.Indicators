@@ -9,7 +9,7 @@ public class ZigZag : StaticSeriesTestBase
     public override void Standard() // on Close
     {
         IReadOnlyList<ZigZagResult> results =
-            Quotes.GetZigZag(EndType.Close, 3);
+            Quotes.ToZigZag(EndType.Close, 3);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -60,7 +60,7 @@ public class ZigZag : StaticSeriesTestBase
     public void StandardHighLow()
     {
         IReadOnlyList<ZigZagResult> results =
-            Quotes.GetZigZag(EndType.HighLow, 3);
+            Quotes.ToZigZag(EndType.HighLow, 3);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -111,8 +111,8 @@ public class ZigZag : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetZigZag(EndType.Close, 3)
-            .GetSma(10);
+            .ToZigZag(EndType.Close, 3)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(225, results.Count(x => x.Sma != null));
@@ -124,11 +124,12 @@ public class ZigZag : StaticSeriesTestBase
         // thresholds are never met
         string json = File.ReadAllText("./s-z/ZigZag/data.ethusdt.json");
 
-        IReadOnlyCollection<Quote> quotes = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json);
+        IReadOnlyList<Quote> quotes = JsonConvert
+            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+            .ToList();
 
         IReadOnlyList<ZigZagResult> results = quotes
-            .GetZigZag();
+            .ToZigZag();
 
         Assert.AreEqual(0, results.Count(x => x.PointType != null));
     }
@@ -139,11 +140,12 @@ public class ZigZag : StaticSeriesTestBase
         // thresholds are never met
         string json = File.ReadAllText("./s-z/ZigZag/data.issue632.json");
 
-        IReadOnlyCollection<Quote> quotesList = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json);
+        IReadOnlyList<Quote> quotesList = JsonConvert
+            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+            .ToList();
 
         IReadOnlyList<ZigZagResult> resultsList = quotesList
-            .GetZigZag();
+            .ToZigZag();
 
         Assert.AreEqual(17, resultsList.Count);
     }
@@ -152,12 +154,12 @@ public class ZigZag : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ZigZagResult> r1 = BadQuotes
-            .GetZigZag();
+            .ToZigZag();
 
         Assert.AreEqual(502, r1.Count);
 
         IReadOnlyList<ZigZagResult> r2 = BadQuotes
-            .GetZigZag(EndType.HighLow);
+            .ToZigZag(EndType.HighLow);
 
         Assert.AreEqual(502, r2.Count);
     }
@@ -166,12 +168,12 @@ public class ZigZag : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ZigZagResult> r0 = Noquotes
-            .GetZigZag();
+            .ToZigZag();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ZigZagResult> r1 = Onequote
-            .GetZigZag();
+            .ToZigZag();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -180,7 +182,7 @@ public class ZigZag : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<ZigZagResult> results = Quotes
-            .GetZigZag(EndType.Close, 3)
+            .ToZigZag(EndType.Close, 3)
             .Condense();
 
         // assertions
@@ -192,16 +194,17 @@ public class ZigZag : StaticSeriesTestBase
     {
         string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
 
-        IOrderedEnumerable<Quote> h = JsonConvert
+        IReadOnlyList<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Timestamp);
+            .OrderBy(x => x.Timestamp)
+            .ToList();
 
-        IReadOnlyList<ZigZagResult> r1 = h.GetZigZag(EndType.Close, 0.25m).ToList();
+        IReadOnlyList<ZigZagResult> r1 = h.ToZigZag(EndType.Close, 0.25m).ToList();
         Assert.AreEqual(342, r1.Count);
 
         // first period has High/Low that exceeds threhold
         // where it is both a H and L pivot simultaenously
-        IReadOnlyList<ZigZagResult> r2 = h.GetZigZag(EndType.HighLow, 3).ToList();
+        IReadOnlyList<ZigZagResult> r2 = h.ToZigZag(EndType.HighLow, 3).ToList();
         Assert.AreEqual(342, r2.Count);
     }
 
@@ -210,10 +213,10 @@ public class ZigZag : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetZigZag(EndType.Close, 0));
+            => Quotes.ToZigZag(EndType.Close, 0));
 
         // bad end type
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetZigZag((EndType)int.MaxValue, 2));
+            => Quotes.ToZigZag((EndType)int.MaxValue, 2));
     }
 }

@@ -7,7 +7,7 @@ public class Donchian : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<DonchianResult> results = Quotes
-            .GetDonchian();
+            .ToDonchian();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -52,7 +52,7 @@ public class Donchian : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<DonchianResult> r = BadQuotes
-            .GetDonchian(15);
+            .ToDonchian(15);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -61,12 +61,12 @@ public class Donchian : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<DonchianResult> r0 = Noquotes
-            .GetDonchian();
+            .ToDonchian();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<DonchianResult> r1 = Onequote
-            .GetDonchian();
+            .ToDonchian();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -75,7 +75,7 @@ public class Donchian : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<DonchianResult> results = Quotes
-            .GetDonchian()
+            .ToDonchian()
             .Condense();
 
         // assertions
@@ -92,7 +92,7 @@ public class Donchian : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<DonchianResult> results = Quotes
-            .GetDonchian()
+            .ToDonchian()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -109,5 +109,5 @@ public class Donchian : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetDonchian(0));
+            => Quotes.ToDonchian(0));
 }

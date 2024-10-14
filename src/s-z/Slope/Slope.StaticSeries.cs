@@ -2,16 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // SLOPE AND LINEAR REGRESSION (SERIES)
 
-public static partial class Indicator
+public static partial class Slope
 {
-    // calculate series
-    private static List<SlopeResult> CalcSlope<T>(
-        this List<T> source,
+    public static IReadOnlyList<SlopeResult> ToSlope<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Slope.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

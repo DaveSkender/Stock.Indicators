@@ -4,10 +4,12 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Adl
 {
-    internal static List<AdlResult> CalcAdl<TQuote>(
-        this List<TQuote> source)
+    public static IReadOnlyList<AdlResult> ToAdl<TQuote>(
+        this IReadOnlyList<TQuote> source)
         where TQuote : IQuote
     {
+        ArgumentNullException.ThrowIfNull(source);
+
         // initialize
         int length = source.Count;
         List<AdlResult> results = new(length);

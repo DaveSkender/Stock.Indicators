@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // CONNORS RSI (SERIES)
 
-public static partial class Indicator
+public static partial class ConnorsRsi
 {
-    private static List<ConnorsRsiResult> CalcConnorsRsi<T>(
-        this List<T> source,
-        int rsiPeriods,
-        int streakPeriods,
-        int rankPeriods)
+    public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
+        this IReadOnlyList<T> source,
+        int rsiPeriods = 3,
+        int streakPeriods = 2,
+        int rankPeriods = 100)
         where T : IReusable
     {
         // check parameter arguments
-        ConnorsRsi.Validate(rsiPeriods, streakPeriods, rankPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(rsiPeriods, streakPeriods, rankPeriods);
 
         // initialize
         int length = source.Count;
@@ -28,7 +29,7 @@ public static partial class Indicator
         IReadOnlyList<RsiResult> rsiStreak = streakInfo
             .Select(si => new QuotePart(si.Timestamp, si.Streak))
             .ToList()
-            .CalcRsi(streakPeriods);
+            .ToRsi(streakPeriods);
 
         // compose final results
         for (int i = 0; i < length; i++)
@@ -64,13 +65,13 @@ public static partial class Indicator
 
     // calculate baseline streak and rank
     private static List<ConnorsRsiResult> CalcStreak<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int rsiPeriods,
         int rankPeriods)
         where T : IReusable
     {
         // initialize
-        List<RsiResult> rsiResults = CalcRsi(source, rsiPeriods);
+        IReadOnlyList<RsiResult> rsiResults = source.ToRsi(rsiPeriods);
 
         int length = source.Count;
         List<ConnorsRsiResult> results = new(length);

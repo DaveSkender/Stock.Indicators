@@ -6,8 +6,8 @@ public static partial class Indicator
     // SERIES, from TQuote (standard)
     /// <include file='./info.xml' path='info/type[@name="Main"]/*' />
     ///
-    public static IReadOnlyList<StochResult> GetStoch<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<StochResult> ToStoch<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
@@ -21,8 +21,8 @@ public static partial class Indicator
     // SERIES, from TQuote (extended)
     /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
-    public static IReadOnlyList<StochResult> GetStoch<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<StochResult> ToStoch<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,

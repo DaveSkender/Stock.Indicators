@@ -7,7 +7,7 @@ public class BollingerBands : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<BollingerBandsResult> results =
-            Quotes.GetBollingerBands();
+            Quotes.ToBollingerBands();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -41,7 +41,7 @@ public class BollingerBands : StaticSeriesTestBase
     {
         IReadOnlyList<BollingerBandsResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetBollingerBands();
+            .ToBollingerBands();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -51,8 +51,8 @@ public class BollingerBands : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<BollingerBandsResult> results = Quotes
-            .GetSma(2)
-            .GetBollingerBands();
+            .ToSma(2)
+            .ToBollingerBands();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
@@ -62,8 +62,8 @@ public class BollingerBands : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetBollingerBands()
-            .GetSma(10);
+            .ToBollingerBands()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -73,7 +73,7 @@ public class BollingerBands : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<BollingerBandsResult> r = BadQuotes
-            .GetBollingerBands(15, 3);
+            .ToBollingerBands(15, 3);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
@@ -83,12 +83,12 @@ public class BollingerBands : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<BollingerBandsResult> r0 = Noquotes
-            .GetBollingerBands();
+            .ToBollingerBands();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<BollingerBandsResult> r1 = Onequote
-            .GetBollingerBands();
+            .ToBollingerBands();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -97,7 +97,7 @@ public class BollingerBands : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<BollingerBandsResult> results = Quotes
-            .GetBollingerBands()
+            .ToBollingerBands()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -117,10 +117,10 @@ public class BollingerBands : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetBollingerBands(1));
+            Quotes.ToBollingerBands(1));
 
         // bad standard deviation
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetBollingerBands(2, 0));
+            Quotes.ToBollingerBands(2, 0));
     }
 }
