@@ -80,7 +80,7 @@ public record Quote
     decimal Low,
     decimal Close,
     decimal Volume
-) : IReusable, IQuote
+) : IQuote
 {
     public double Value => (double)Close;
 

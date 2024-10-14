@@ -1,10 +1,8 @@
-using System.Globalization;
-
 namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES: VALIDATION
 
-public static partial class Utility
+public static partial class Quotes
 {
     /// <summary>
     /// Check that quotes are valid and in ascending order.
@@ -36,14 +34,14 @@ public static partial class Utility
 
             if (lastDate == currentDate)
             {
-                throw new InvalidQuotesException(
-                    string.Format(CultureInfo.InvariantCulture, "Duplicate date found on {0}.", currentDate));
+                string msg = $"Duplicate date found on {currentDate}.";
+                throw new InvalidQuotesException(nameof(quotes), msg);
             }
 
             if (lastDate > currentDate)
             {
-                throw new InvalidQuotesException(
-                    string.Format(CultureInfo.InvariantCulture, "Quotes are out of sequence on {0}.", currentDate));
+                string msg = $"Quotes are out of sequence on {currentDate}.";
+                throw new InvalidQuotesException(nameof(quotes), msg);
             }
 
             lastDate = currentDate;

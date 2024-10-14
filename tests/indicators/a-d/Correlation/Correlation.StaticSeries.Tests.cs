@@ -122,7 +122,7 @@ public class Correlation : StaticSeriesTestBase
             Quotes.ToCorrelation(OtherQuotes, 0));
 
         // bad eval quotes
-        IEnumerable<Quote> eval = Data.GetCompare(300);
+        IReadOnlyList<Quote> eval = Data.GetCompare(300);
         Assert.ThrowsException<InvalidQuotesException>(() =>
             Quotes.ToCorrelation(eval, 30));
 

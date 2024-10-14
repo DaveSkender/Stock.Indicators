@@ -2,11 +2,11 @@ namespace Skender.Stock.Indicators;
 
 // REUSABLE TYPE UTILITIES
 
-public static partial class Utility
+public static partial class Reusable
 {
     // convert IQuote type list to IReusable list
     public static IReadOnlyList<IReusable> ToReusableList<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote
 
@@ -17,10 +17,6 @@ public static partial class Utility
 
     /// <summary>
     /// Removes non-essential records containing null or NaN values.
-    /// <para> See<see
-    /// href="https://dotnet.StockIndicators.dev/utilities/#condense?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-    /// documentation</see> for more information.
-    /// </para>
     /// </summary>
     /// <typeparam name="T">Any reusable result type.</typeparam>
     /// <param name="results">Indicator results to evaluate.</param>
@@ -42,10 +38,6 @@ public static partial class Utility
     /// <summary>
     /// Removes the recommended quantity of results from the beginning
     /// of the results list using a reverse-engineering approach.
-    /// <para> See
-    /// <see href="https://dotnet.StockIndicators.dev/utilities/#remove-warmup-periods?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">
-    /// documentation</see> for more information.
-    /// </para>
     /// </summary>
     /// <typeparam name="T">Any reusable result type.</typeparam>
     /// <param name="results">Indicator results to evaluate.</param>
@@ -64,7 +56,8 @@ public static partial class Utility
         return results.Remove(removePeriods);
 
         // TODO: remove specific indicator 'RemoveWarmupPeriods()' methods
-        // that are now redundant to this generic method (not all are)
+        // that are now redundant to this generic method (not all are).
+        // Note: Some or all of these may already be removed.
     }
 
     // convert TQuote element to a basic chainable class

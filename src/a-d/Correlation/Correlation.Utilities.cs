@@ -2,22 +2,10 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Correlation
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
-    public static IReadOnlyList<CorrResult> RemoveWarmupPeriods(
-        this IReadOnlyList<CorrResult> results)
-    {
-        int removePeriods = results
-          .ToList()
-          .FindIndex(x => x.Correlation != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     internal static void Validate<T>(
-        List<T> sourceA,
-        List<T> sourceB,
+        IReadOnlyList<T> sourceA,
+        IReadOnlyList<T> sourceB,
         int lookbackPeriods)
         where T : ISeries
     {

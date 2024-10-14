@@ -1,5 +1,15 @@
 namespace Skender.Stock.Indicators;
 
+#region hub initializer
+
+public static partial class Quotes
+{
+    public static QuoteHub<TQuote> ToQuote<TQuote>(
+        this IQuoteProvider<TQuote> quoteProvider)
+        where TQuote : IQuote => new(quoteProvider);
+}
+#endregion
+
 /// <summary>
 /// Quote provider (abstract base)
 /// </summary>

@@ -2,8 +2,15 @@ namespace Skender.Stock.Indicators;
 
 // COMMODITY CHANNEL INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Cci
 {
+    public static IReadOnlyList<CciResult> ToCci<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcCci(lookbackPeriods);
+
     private static List<CciResult> CalcCci(
         this List<QuoteD> source,
         int lookbackPeriods)

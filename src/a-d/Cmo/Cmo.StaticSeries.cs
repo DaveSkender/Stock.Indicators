@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // CHANDE MOMENTUM OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Cmo
 {
-    private static List<CmoResult> CalcCmo<T>(
-        this List<T> source,
+    public static IReadOnlyList<CmoResult> ToCmo<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Cmo.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
@@ -29,7 +30,7 @@ public static partial class Indicator
         results.Add(new(source[0].Timestamp));
         ticks.Add((null, double.NaN));
 
-        // roll through remaining prices
+        // roll through remaining values
         for (int i = 1; i < length; i++)
         {
             T s = source[i];

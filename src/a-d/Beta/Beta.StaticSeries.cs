@@ -4,16 +4,17 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Beta
 {
-    // NOTE: sequence swapped from API
-    private static List<BetaResult> CalcBeta<T>(
-        List<T> sourceEval,
-        List<T> sourceMrkt,
+    public static IReadOnlyList<BetaResult> ToBeta<T>(
+        this IReadOnlyList<T> sourceEval,
+        IReadOnlyList<T> sourceMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         where T : IReusable
     {
         // check parameter arguments
-        Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(sourceEval);
+        ArgumentNullException.ThrowIfNull(sourceMrkt);
+        Validate(sourceEval, sourceMrkt, lookbackPeriods);
 
         // initialize
         int length = sourceEval.Count;

@@ -1,12 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-// QUOTEPART (API)
+// USE / QUOTE CONVERTER (SERIES)
 
-public static partial class Utility
+public static partial class QuoteParts
 {
-    // SERIES, from Quotes
     /// <summary>
-    /// Converts <see cref="IEnumerable{IQuote}"/> to
+    /// Converts <see cref="IReadOnlyList{IQuote}"/> to
     /// an <see cref="IReadOnlyList{QuotePart}"/> list.
     /// </summary>
     /// <remarks>
@@ -14,22 +13,25 @@ public static partial class Utility
     /// use something other than the default Close price.
     /// </remarks>
     /// <typeparam name="TQuote"></typeparam>
-    /// <param name="quotes">List of IQuote or IReusable items</param>
+    /// <param name="quotes">Sorted list of IQuote or IReusable items</param>
     /// <param name="candlePart"></param>
     /// <returns>List of IReusable items</returns>
     public static IReadOnlyList<QuotePart> ToQuotePart<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote
         => quotes
-            .OrderBy(q => q.Timestamp)
             .Select(q => q.ToQuotePart(candlePart))
             .ToList();
 
-    // OBSERVER, from Quote Provider
-    public static QuotePartHub<TIn> ToQuotePart<TIn>(
-        this IQuoteProvider<TIn> quoteProvider,
+    // QuotePart alias
+    /// <inheritdoc cref="ToQuotePart{TQuote}(IReadOnlyList{TQuote}, CandlePart)" />
+    public static IReadOnlyList<QuotePart> Use<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
-        where TIn : IQuote
-        => new(quoteProvider, candlePart);
+        where TQuote : IQuote
+        => ToQuotePart(quotes, candlePart);
+
+    // TODO: should we deprecate Use in favor of "ToQuotePart"?
+    // Probably not, this is a fairly simply alias.
 }

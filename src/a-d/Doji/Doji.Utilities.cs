@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// DOJI (COMMON)
+// DOJI (UTILITIES)
 
-public static class Doji
+public static partial class Doji
 {
     // parameter validation
     internal static void Validate(
@@ -15,5 +15,4 @@ public static class Doji
                 "Maximum Percent Change must be between 0 and 0.5 for Doji (0% to 0.5%).");
         }
     }
-
 }

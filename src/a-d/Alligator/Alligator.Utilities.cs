@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// WILLIAMS ALLIGATOR (UTILITIES)
+
 public static partial class Alligator
 {
     // CONDENSE (REMOVE null results)

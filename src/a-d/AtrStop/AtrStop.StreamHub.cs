@@ -2,13 +2,24 @@ namespace Skender.Stock.Indicators;
 
 // ATR TRAILING STOP (STREAM HUB)
 
-#region hub interface
+#region hub interface and initializer
 
 public interface IAtrStopHub
 {
     int LookbackPeriods { get; }
     double Multiplier { get; }
     EndType EndType { get; }
+}
+
+public static partial class AtrStop
+{
+    public static AtrStopHub<TIn> ToAtrStop<TIn>(
+       this IQuoteProvider<TIn> quoteProvider,
+       int lookbackPeriods = 21,
+       double multiplier = 3,
+       EndType endType = EndType.Close)
+       where TIn : IQuote
+       => new(quoteProvider, lookbackPeriods, multiplier, endType);
 }
 #endregion
 

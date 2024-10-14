@@ -1,9 +1,11 @@
 namespace Skender.Stock.Indicators;
 
+// AVERAGE DIRECTIONAL INDEX (UTILITIES)
+
 public static partial class Adx
 {
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<AdxResult> RemoveWarmupPeriods(
         this IReadOnlyList<AdxResult> results)
     {
@@ -11,7 +13,7 @@ public static partial class Adx
             .ToList()
             .FindIndex(x => x.Pdi != null);
 
-        return results.Remove(2 * n + 100);
+        return results.Remove((2 * n) + 100);
     }
 
     // parameter validation

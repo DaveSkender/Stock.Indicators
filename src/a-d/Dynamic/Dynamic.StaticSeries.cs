@@ -4,14 +4,15 @@ namespace Skender.Stock.Indicators;
 
 public static partial class MgDynamic
 {
-    private static List<DynamicResult> CalcDynamic<T>(
-        this List<T> source,
+    public static IReadOnlyList<DynamicResult> ToDynamic<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
-        double kFactor)
+        double kFactor = 0.6)
         where T : IReusable
     {
         // check parameter arguments
-        MgDynamic.Validate(lookbackPeriods, kFactor);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, kFactor);
 
         // initialize
         int length = source.Count;

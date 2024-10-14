@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// DETRENDED PRICE OSCILLATOR (COMMON)
+// DETRENDED PRICE OSCILLATOR (UTILITIES)
 
-public static class Dpo
+public static partial class Dpo
 {
     // parameter validation
     internal static void Validate(

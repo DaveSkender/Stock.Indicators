@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // DOUBLE EXPONENTIAL MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Dema
 {
-    private static List<DemaResult> CalcDema<T>(
-        this List<T> source,
+    public static IReadOnlyList<DemaResult> ToDema<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Dema.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

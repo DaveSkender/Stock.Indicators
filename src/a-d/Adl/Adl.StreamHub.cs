@@ -2,8 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAM HUB)
 
-public class AdlHub<TIn>
-    : ChainProvider<TIn, AdlResult>
+#region hub initializer
+
+public static partial class Adl
+{
+    // OBSERVER, from Quote Provider
+    public static AdlHub<TIn> ToAdl<TIn>(
+        this IQuoteProvider<TIn> quoteProvider)
+        where TIn : IQuote
+        => new(quoteProvider);
+}
+#endregion
+
+public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>
     where TIn : IQuote
 {
     #region constructors
@@ -34,13 +45,5 @@ public class AdlHub<TIn>
         return (r, i);
     }
 
-    public override string ToString()
-    {
-        if (Cache.Count == 0)
-        {
-            return "ADL";
-        }
-
-        return $"ADL({Cache[0].Timestamp:d})";
-    }
+    public override string ToString() => Cache.Count == 0 ? "ADL" : $"ADL({Cache[0].Timestamp:d})";
 }

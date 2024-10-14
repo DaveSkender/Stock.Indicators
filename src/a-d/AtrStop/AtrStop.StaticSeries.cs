@@ -4,6 +4,15 @@ namespace Skender.Stock.Indicators;
 
 public static partial class AtrStop
 {
+    public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 21,
+        double multiplier = 3,
+        EndType endType = EndType.Close)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcAtrStop(lookbackPeriods, multiplier, endType);
+
     private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> source,
         int lookbackPeriods,

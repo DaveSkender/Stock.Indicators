@@ -4,14 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Correlation
 {
-    private static List<CorrResult> CalcCorrelation<T>(
-        this List<T> sourceA,
-        List<T> sourceB,
+    public static IReadOnlyList<CorrResult> ToCorrelation<T>(
+        this IReadOnlyList<T> sourceA,
+        IReadOnlyList<T> sourceB,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Correlation.Validate(sourceA, sourceB, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(sourceA);
+        ArgumentNullException.ThrowIfNull(sourceB);
+        Validate(sourceA, sourceB, lookbackPeriods);
 
         // initialize
         int length = sourceA.Count;

@@ -2,23 +2,24 @@ namespace Skender.Stock.Indicators;
 
 // CHAIKIN OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class ChaikinOsc
 {
-    private static List<ChaikinOscResult> CalcChaikinOsc<TQuote>(
-        this List<TQuote> source,
-        int fastPeriods,
-        int slowPeriods)
+    public static IReadOnlyList<ChaikinOscResult> ToChaikinOsc<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int fastPeriods = 3,
+        int slowPeriods = 10)
         where TQuote : IQuote
     {
         // check parameter arguments
-        ChaikinOsc.Validate(fastPeriods, slowPeriods);
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(fastPeriods, slowPeriods);
 
         // initialize
-        int length = source.Count;
+        int length = quotes.Count;
         List<ChaikinOscResult> results = new(length);
 
         // money flow
-        var adlResults = source.ToAdl();
+        IReadOnlyList<AdlResult> adlResults = quotes.ToAdl();
 
         // fast/slow EMA of ADL
         IReadOnlyList<EmaResult> adlEmaSlow = adlResults.ToEma(slowPeriods);

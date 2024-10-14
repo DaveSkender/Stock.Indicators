@@ -4,13 +4,13 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES (CONVERTERS)
 
-public static partial class Utility
+public static partial class Quotes
 {
     /* LISTS */
 
     // convert TQuote type list to built-in Quote type list
     public static IReadOnlyList<Quote> ToQuoteList<TQuote>(
-        this IEnumerable<TQuote> quotes)
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
 
         => quotes
@@ -20,11 +20,10 @@ public static partial class Utility
 
     // convert TQuote type list to QuoteD type list
     internal static List<QuoteD> ToQuoteDList<TQuote>(
-        this IEnumerable<TQuote> quotes)
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
 
           => quotes
-            .OrderBy(x => x.Timestamp)
             .Select(x => x.ToQuoteD())
             .ToList();
 

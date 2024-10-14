@@ -2,12 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // USE / QUOTE CONVERTER (STREAM HUB)
 
-#region hub interface
+#region hub interface and initializer
 public interface IQuotePartHub
 {
     CandlePart CandlePartSelection { get; }
 
     // TODO: consider renaming to IBarPartHub, with IQuote to IBar
+}
+
+public static partial class QuoteParts
+{
+    public static QuotePartHub<TIn> ToQuotePart<TIn>(
+    this IQuoteProvider<TIn> quoteProvider,
+    CandlePart candlePart)
+    where TIn : IQuote
+    => new(quoteProvider, candlePart);
 }
 #endregion
 

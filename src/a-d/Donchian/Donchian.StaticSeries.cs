@@ -2,15 +2,22 @@ namespace Skender.Stock.Indicators;
 
 // DONCHIAN CHANNEL (SERIES)
 
-public static partial class Indicator
+public static partial class Donchian
 {
+    public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .CalcDonchian(lookbackPeriods);
+
     private static List<DonchianResult> CalcDonchian<TQuote>(
         this List<TQuote> quotesList,
         int lookbackPeriods)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Donchian.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = quotesList.Count;

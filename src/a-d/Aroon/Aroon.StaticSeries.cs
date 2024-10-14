@@ -4,6 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Aroon
 {
+    public static IReadOnlyList<AroonResult> ToAroon<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 25)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcAroon(lookbackPeriods);
+
     private static List<AroonResult> CalcAroon(
         this List<QuoteD> source,
         int lookbackPeriods)

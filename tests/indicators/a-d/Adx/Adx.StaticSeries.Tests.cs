@@ -85,10 +85,11 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void Issue859()
     {
-        IOrderedEnumerable<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
+        List<Quote> test859 = File.ReadAllLines("a-d/Adx/issue859quotes.csv")
             .Skip(1)
             .Select(Imports.QuoteFromCsv)
-            .OrderByDescending(x => x.Timestamp);
+            .OrderByDescending(x => x.Timestamp)
+            .ToList();
 
         IReadOnlyList<AdxResult> r = test859.ToAdx();
 

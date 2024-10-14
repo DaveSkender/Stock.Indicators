@@ -19,7 +19,7 @@ public static partial class Utility
 
     // convert/sort quotes into candles list
     public static IReadOnlyList<CandleProperties> ToCandles<TQuote>(
-        this IEnumerable<TQuote> quotes)
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes
             .Select(x => x.ToCandle())
             .OrderBy(x => x.Timestamp)

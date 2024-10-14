@@ -2,11 +2,20 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (STREAM HUB)
 
-#region hub interface
+#region hub interface and initializer
 
 public interface IAtrHub
 {
     int LookbackPeriods { get; }
+}
+
+public static partial class Indicator
+{
+    public static AtrHub<TIn> ToAtr<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
+        int lookbackPeriods = 14)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods);
 }
 #endregion
 

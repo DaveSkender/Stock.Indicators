@@ -39,17 +39,6 @@ public static partial class Atr
             atrp.NaN2Null());
     }
 
-    // remove recommended periods
-    public static IReadOnlyList<AtrResult> RemoveWarmupPeriods(
-        this IReadOnlyList<AtrResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Atr != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     internal static void Validate(
         int lookbackPeriods)

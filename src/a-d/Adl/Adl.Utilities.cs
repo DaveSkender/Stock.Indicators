@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-// ACCUMULATION/DISTRIBUTION LINE (COMMON)
+// ACCUMULATION/DISTRIBUTION LINE (UTILITIES)
 
 /// <summary>
 /// See the <see href="https://dotnet.stockindicators.dev/indicators/Adl/">
@@ -10,8 +10,6 @@ public static partial class Adl
 {
     /// <summary>
     /// Get the next incremental Accumulation/Distribution Line(ADL) value.
-    /// <para>See <see href="https://dotnet.StockIndicators.dev/indicators/Adl/#content?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded"> documentation</see>
-    /// for more information.</para>
     /// </summary>
     /// <param name="timestamp">timestamp</param>
     /// <param name="high">High price, current period</param>

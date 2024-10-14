@@ -2,8 +2,15 @@ namespace Skender.Stock.Indicators;
 
 // CHAIKIN MONEY FLOW (SERIES)
 
-public static partial class Indicator
+public static partial class Cmf
 {
+    public static IReadOnlyList<CmfResult> ToCmf<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
+        where TQuote : IQuote => quotes
+            .ToSortedList()
+            .CalcCmf(lookbackPeriods);
+
     private static List<CmfResult> CalcCmf<TQuote>(
         this List<TQuote> source,
         int lookbackPeriods)
@@ -14,7 +21,7 @@ public static partial class Indicator
             = source.Select(v => (double)v.Volume).ToArray();
 
         // check parameter arguments
-        Cmf.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = volume.Length;

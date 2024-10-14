@@ -4,12 +4,19 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Adx
 {
+    public static IReadOnlyList<AdxResult> ToAdx<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    int lookbackPeriods = 14)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcAdx(lookbackPeriods);
+
     private static List<AdxResult> CalcAdx(
         this List<QuoteD> source,
-        int lookbackPeriods)
+        int lookbackPeriods = 14)
     {
         // check parameter arguments
-        Adx.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

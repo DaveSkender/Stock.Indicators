@@ -2,18 +2,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Awesome
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
-    public static IReadOnlyList<AwesomeResult> RemoveWarmupPeriods(
-        this IReadOnlyList<AwesomeResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Oscillator != null);
-
-        return results.Remove(removePeriods);
-    }
-
     // parameter validation
     internal static void Validate(
         int fastPeriods,

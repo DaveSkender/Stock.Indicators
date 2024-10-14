@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IReadOnlyList{T})"/>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<AtrStopResult> Condense(
         this IReadOnlyList<AtrStopResult> results)
     {
@@ -18,7 +18,7 @@ public static partial class AtrStop
     }
 
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<AtrStopResult> RemoveWarmupPeriods(
         this IReadOnlyList<AtrStopResult> results)
     {
