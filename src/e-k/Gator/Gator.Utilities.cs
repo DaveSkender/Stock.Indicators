@@ -1,9 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// GATOR OSCILLATOR (UTILITIES)
+
+public static partial class Gator
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IReadOnlyList{T})"/>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<GatorResult> Condense(
         this IReadOnlyList<GatorResult> results)
     {
@@ -18,7 +20,7 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<GatorResult> RemoveWarmupPeriods(
         this IReadOnlyList<GatorResult> results) => results.Remove(150);
 }

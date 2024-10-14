@@ -2,6 +2,25 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (STREAM HUB)
 
+#region hub interface and initializer
+
+public interface IEma
+{
+    int LookbackPeriods { get; }
+    double K { get; }
+}
+
+public static partial class Ema
+{
+    // HUB, from Chain Provider
+    public static EmaHub<T> ToEma<T>(
+        this IChainProvider<T> chainProvider,
+        int lookbackPeriods)
+        where T : IReusable
+        => new(chainProvider, lookbackPeriods);
+}
+#endregion
+
 public class EmaHub<TIn>
     : ChainProvider<TIn, EmaResult>, IEma
     where TIn : IReusable

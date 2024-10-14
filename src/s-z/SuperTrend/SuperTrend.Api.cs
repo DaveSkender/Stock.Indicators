@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<SuperTrendResult> ToSuperTrend<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 10,
         double multiplier = 3)
         where TQuote : IQuote => quotes

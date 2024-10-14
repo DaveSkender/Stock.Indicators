@@ -9,7 +9,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        IReadOnlyList<ParabolicSarResult> results =
+        List<ParabolicSarResult> results =
             Quotes.ToParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
@@ -42,7 +42,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double maxAccelerationFactor = 0.2;
         double initialStep = 0.01;
 
-        IReadOnlyList<ParabolicSarResult> results =
+        List<ParabolicSarResult> results =
             Quotes.GetParabolicSar(
                 acclerationStep, maxAccelerationFactor, initialStep)
                 .ToList();
@@ -90,13 +90,14 @@ public class ParabolicSar : StaticSeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        IEnumerable<Quote> insufficientQuotes = Data.GetDefault()
+        List<Quote> insufficientQuotes = Data.GetDefault()
             .OrderBy(x => x.Timestamp)
-            .Take(10);
+            .Take(10)
+            .ToList();
 
         IReadOnlyList<ParabolicSarResult> results =
-            insufficientQuotes.ToParabolicSar(acclerationStep, maxAccelerationFactor)
-                .ToList();
+            insufficientQuotes
+                .ToParabolicSar(acclerationStep, maxAccelerationFactor);
 
         // assertions
 

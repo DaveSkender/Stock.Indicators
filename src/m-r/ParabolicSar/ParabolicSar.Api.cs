@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/type[@name="Standard"]/*' />
     ///
     public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
         where TQuote : IQuote => quotes
@@ -21,7 +21,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/type[@name="Extended"]/*' />
     ///
     public static IReadOnlyList<ParabolicSarResult> GetParabolicSar<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)

@@ -3,9 +3,10 @@ namespace StaticSeries;
 [TestClass]
 public class Vwap : StaticSeriesTestBase
 {
-    private readonly IEnumerable<Quote> intraday = Data.GetIntraday()
+    private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday()
         .OrderBy(x => x.Timestamp)
-        .Take(391);
+        .Take(391)
+        .ToList();
 
     [TestMethod]
     public override void Standard()

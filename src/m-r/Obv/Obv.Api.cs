@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<ObvResult> ToObv<TQuote>(
-        this IEnumerable<TQuote> quotes)
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcObv();

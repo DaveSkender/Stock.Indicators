@@ -4,15 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Kama
 {
-    private static List<KamaResult> CalcKama<T>(
-        this List<T> source,
-        int erPeriods,
-        int fastPeriods,
-        int slowPeriods)
+    public static IReadOnlyList<KamaResult> ToKama<T>(
+        this IReadOnlyList<T> source,
+        int erPeriods = 10,
+        int fastPeriods = 2,
+        int slowPeriods = 30)
         where T : IReusable
     {
         // check parameter arguments
-        Kama.Validate(erPeriods, fastPeriods, slowPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(erPeriods, fastPeriods, slowPeriods);
 
         // initialize
         int length = source.Count;

@@ -48,7 +48,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcAlma(lookbackPeriods, offset: 0.85, sigma: 6)
+        => source.ToAlma(lookbackPeriods, offset: 0.85, sigma: 6)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Alma,
@@ -60,7 +60,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcDema(lookbackPeriods)
+        => source.ToDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Dema,
@@ -84,7 +84,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcEpma(lookbackPeriods)
+        => source.ToEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Epma,
@@ -96,7 +96,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcHma(lookbackPeriods)
+        => source.ToHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Hma,
@@ -144,7 +144,7 @@ public static partial class Indicator
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcWma(lookbackPeriods)
+        => source.ToWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Wma,

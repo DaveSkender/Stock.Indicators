@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

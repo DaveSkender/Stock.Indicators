@@ -44,7 +44,7 @@ public class Fractal : StaticSeriesTestBase
     public void StandardSpan4()
     {
         IReadOnlyList<FractalResult> results = Quotes
-            .GetFractal(4, 4);
+            .ToFractal(4, 4);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);

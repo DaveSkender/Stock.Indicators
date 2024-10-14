@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         int smaPeriods,
         double multiplier = 2,
         int atrPeriods = 10)

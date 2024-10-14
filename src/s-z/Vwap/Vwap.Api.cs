@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         DateTime? startDate = null)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

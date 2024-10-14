@@ -77,7 +77,7 @@ public class Gator : StaticSeriesTestBase
     {
         IReadOnlyList<GatorResult> results = Quotes
             .ToAlligator()
-            .GetGator();
+            .ToGator();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);

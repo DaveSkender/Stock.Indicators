@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<CandleResult> ToMarubozu<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         double minBodyPercent = 95)
         where TQuote : IQuote => quotes
             .ToSortedList()

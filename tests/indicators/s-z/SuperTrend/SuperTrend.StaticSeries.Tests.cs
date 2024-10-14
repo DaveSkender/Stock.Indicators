@@ -51,7 +51,7 @@ public class SuperTrend : StaticSeriesTestBase
     [TestMethod]
     public void Bitcoin()
     {
-        IEnumerable<Quote> h = Data.GetBitcoin();
+        IReadOnlyList<Quote> h = Data.GetBitcoin();
 
         IReadOnlyList<SuperTrendResult> results = h
             .ToSuperTrend();

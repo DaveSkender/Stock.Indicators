@@ -124,8 +124,9 @@ public class ZigZag : StaticSeriesTestBase
         // thresholds are never met
         string json = File.ReadAllText("./s-z/ZigZag/data.ethusdt.json");
 
-        IReadOnlyCollection<Quote> quotes = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json);
+        IReadOnlyList<Quote> quotes = JsonConvert
+            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+            .ToList();
 
         IReadOnlyList<ZigZagResult> results = quotes
             .ToZigZag();
@@ -139,8 +140,9 @@ public class ZigZag : StaticSeriesTestBase
         // thresholds are never met
         string json = File.ReadAllText("./s-z/ZigZag/data.issue632.json");
 
-        IReadOnlyCollection<Quote> quotesList = JsonConvert
-            .DeserializeObject<IReadOnlyCollection<Quote>>(json);
+        IReadOnlyList<Quote> quotesList = JsonConvert
+            .DeserializeObject<IReadOnlyCollection<Quote>>(json)
+            .ToList();
 
         IReadOnlyList<ZigZagResult> resultsList = quotesList
             .ToZigZag();
@@ -192,9 +194,10 @@ public class ZigZag : StaticSeriesTestBase
     {
         string json = File.ReadAllText("./s-z/ZigZag/data.schrodinger.json");
 
-        IOrderedEnumerable<Quote> h = JsonConvert
+        IReadOnlyList<Quote> h = JsonConvert
             .DeserializeObject<IReadOnlyCollection<Quote>>(json)
-            .OrderBy(x => x.Timestamp);
+            .OrderBy(x => x.Timestamp)
+            .ToList();
 
         IReadOnlyList<ZigZagResult> r1 = h.ToZigZag(EndType.Close, 0.25m).ToList();
         Assert.AreEqual(342, r1.Count);

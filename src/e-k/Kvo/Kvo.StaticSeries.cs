@@ -2,8 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // KLINGER VOLUME OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Kvo
 {
+    public static IReadOnlyList<KvoResult> ToKvo<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int fastPeriods = 34,
+        int slowPeriods = 55,
+        int signalPeriods = 13)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcKvo(fastPeriods, slowPeriods, signalPeriods);
+
     private static List<KvoResult> CalcKvo(
         this List<QuoteD> source,
         int fastPeriods,

@@ -90,8 +90,9 @@ public class PivotPoints : StaticSeriesTestBase
         PeriodSize periodSize = PeriodSize.Week;
         PivotPointType pointType = PivotPointType.Camarilla;
 
-        IEnumerable<Quote> h = Data.GetDefault(38);
-        IReadOnlyList<PivotPointsResult> results = h.ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<Quote> h = Data.GetDefault(38);
+        IReadOnlyList<PivotPointsResult> results
+            = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(38, results.Count);
@@ -245,8 +246,9 @@ public class PivotPoints : StaticSeriesTestBase
         PeriodSize periodSize = PeriodSize.OneHour;
         PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IEnumerable<Quote> h = Data.GetIntraday(300);
-        IReadOnlyList<PivotPointsResult> results = h.ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<Quote> h = Data.GetIntraday(300);
+        IReadOnlyList<PivotPointsResult> results
+            = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(300, results.Count);
@@ -316,8 +318,9 @@ public class PivotPoints : StaticSeriesTestBase
         PeriodSize periodSize = PeriodSize.Day;
         PivotPointType pointType = PivotPointType.Woodie;
 
-        IEnumerable<Quote> h = Data.GetIntraday();
-        IReadOnlyList<PivotPointsResult> results = h.ToPivotPoints(periodSize, pointType);
+        IReadOnlyList<Quote> h = Data.GetIntraday();
+        IReadOnlyList<PivotPointsResult> results
+            = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(1564, results.Count);

@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/type[@name="Main"]/*' />
     ///
     public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 13,
         int firstSmoothPeriods = 25,
         int secondSmoothPeriods = 2,

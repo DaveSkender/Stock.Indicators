@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // ELDER-RAY (SERIES)
 
-public static partial class Indicator
+public static partial class ElderRay
 {
+    public static IReadOnlyList<ElderRayResult> ToElderRay<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 13)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcElderRay(lookbackPeriods);
+
     private static List<ElderRayResult> CalcElderRay(
         this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ElderRay.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

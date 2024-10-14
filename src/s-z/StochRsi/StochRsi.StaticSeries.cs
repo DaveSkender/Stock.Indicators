@@ -30,8 +30,8 @@ public static partial class Indicator
         // get Stochastic of RSI
         List<StochResult> stoResults =
             source
-            .CalcRsi(rsiPeriods)
-            .Remove(Math.Min(rsiPeriods, length)) // TODO: still need to Remove() here?
+            .ToRsi(rsiPeriods)
+            .Remove(Math.Min(rsiPeriods, length)) // TODO: still need to Remove() here, or auto-healing?
             .Select(x => new QuoteD(
                 Timestamp: x.Timestamp,
                 Open: 0,

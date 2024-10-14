@@ -2,14 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // HEIKIN-ASHI (SERIES)
 
-public static partial class Indicator
+public static class HeikinAshi
 {
-    private static List<HeikinAshiResult> CalcHeikinAshi<TQuote>(
-        this List<TQuote> quotesList)
+    public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
     {
+        ArgumentNullException.ThrowIfNull(quotes);
+
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<HeikinAshiResult> results = new(length);
 
         decimal prevOpen = decimal.MinValue;
@@ -17,7 +19,7 @@ public static partial class Indicator
 
         if (length > 0)
         {
-            TQuote q = quotesList[0];
+            TQuote q = quotes[0];
             prevOpen = q.Open;
             prevClose = q.Close;
         }
@@ -25,7 +27,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
 
             // close
             decimal close = (q.Open + q.High + q.Low + q.Close) / 4;

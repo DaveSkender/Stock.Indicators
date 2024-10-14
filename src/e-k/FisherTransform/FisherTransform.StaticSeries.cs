@@ -2,8 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // FISHER TRANSFORM (SERIES)
 
-public static partial class Indicator
+public static partial class FisherTransform
 {
+    public static IReadOnlyList<FisherTransformResult> ToFisherTransform<T>(
+        this IReadOnlyList<T> results,
+        int lookbackPeriods = 10)
+        where T : IReusable
+        => results
+            .ToSortedList(CandlePart.HL2)
+            .CalcFisherTransform(lookbackPeriods);
+
     private static List<FisherTransformResult> CalcFisherTransform<T>(
         this List<T> source,
         int lookbackPeriods)

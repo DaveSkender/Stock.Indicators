@@ -1,9 +1,11 @@
 namespace Skender.Stock.Indicators;
 
+// KAUFMAN's ADAPTIVE MOVING AVERAGE (UTILITIES)
+
 public static partial class Kama
 {
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<KamaResult> RemoveWarmupPeriods(
         this IReadOnlyList<KamaResult> results)
     {

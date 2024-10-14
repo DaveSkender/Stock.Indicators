@@ -117,7 +117,7 @@ public class HtTrendline : StaticSeriesTestBase
     [TestMethod]
     public void PennyData()
     {
-        IEnumerable<Quote> penny = Data.GetPenny();
+        IReadOnlyList<Quote> penny = Data.GetPenny();
 
         IReadOnlyList<HtlResult> r = penny
             .ToHtTrendline();

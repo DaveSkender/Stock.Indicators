@@ -2,21 +2,22 @@ namespace Skender.Stock.Indicators;
 
 // PIVOTS (SERIES)
 
-public static partial class Indicator
+public static partial class Pivots
 {
-    private static List<PivotsResult> CalcPivots<TQuote>(
-        this List<TQuote> quotesList,
-        int leftSpan,
-        int rightSpan,
-        int maxTrendPeriods,
-        EndType endType)
+    public static IReadOnlyList<PivotsResult> ToPivots<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int leftSpan = 2,
+        int rightSpan = 2,
+        int maxTrendPeriods = 20,
+        EndType endType = EndType.HighLow)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Pivots.Validate(leftSpan, rightSpan, maxTrendPeriods);
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(leftSpan, rightSpan, maxTrendPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
 
         decimal?[] highLine = new decimal?[length];
         PivotTrend?[] highTrend = new PivotTrend?[length];
@@ -24,9 +25,9 @@ public static partial class Indicator
         decimal?[] lowLine = new decimal?[length];
         PivotTrend?[] lowTrend = new PivotTrend?[length];
 
-        List<(decimal? highPoint, decimal? lowPoint)> fractals
-           = quotesList
-            .CalcFractal(leftSpan, rightSpan, endType)
+        IReadOnlyList<(decimal? highPoint, decimal? lowPoint)> fractals
+           = quotes
+            .ToFractal(leftSpan, rightSpan, endType)
             .Select(f => (f.FractalBear, f.FractalBull))
             .ToList();
 
@@ -117,7 +118,7 @@ public static partial class Indicator
 
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
             (decimal? highPoint, decimal? lowPoint) = fractals[i];
 
             decimal? hl = highLine[i];

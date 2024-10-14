@@ -1,9 +1,11 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// ICHIMOKU CLOUD (UTILITIES)
+
+public static partial class Ichimoku
 {
-    // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IReadOnlyList{T})"/>
+    // remove null results
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<IchimokuResult> Condense(
         this IReadOnlyList<IchimokuResult> results)
     {
@@ -19,5 +21,38 @@ public static partial class Indicator
                 && x.ChikouSpan is null);
 
         return resultsList.ToSortedList();
+    }
+
+    // validate parameters
+    internal static void Validate(
+        int tenkanPeriods,
+        int kijunPeriods,
+        int senkouBPeriods,
+        int senkouOffset,
+        int chikouOffset)
+    {
+        if (tenkanPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(tenkanPeriods), tenkanPeriods,
+                "Tenkan periods must be greater than 0 for Ichimoku Cloud.");
+        }
+
+        if (kijunPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(kijunPeriods), kijunPeriods,
+                "Kijun periods must be greater than 0 for Ichimoku Cloud.");
+        }
+
+        if (senkouBPeriods <= kijunPeriods)
+        {
+            throw new ArgumentOutOfRangeException(nameof(senkouBPeriods), senkouBPeriods,
+                "Senkou B periods must be greater than Kijun periods for Ichimoku Cloud.");
+        }
+
+        if (senkouOffset < 0 || chikouOffset < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(senkouOffset), senkouOffset,
+                "Senkou and Chikou offset periods must be non-negative for Ichimoku Cloud.");
+        }
     }
 }

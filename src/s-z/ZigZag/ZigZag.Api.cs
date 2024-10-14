@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         EndType endType = EndType.Close,
         decimal percentChange = 5)
         where TQuote : IQuote => quotes

@@ -7,7 +7,7 @@ public static partial class Indicator
     /// <include file='./info.xml' path='info/*' />
     ///
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         PeriodSize windowSize,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote => quotes

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 public static partial class RenkoAtr
 {
     public static IReadOnlyList<RenkoResult> GetRenkoAtr<TQuote>(
-        this IEnumerable<TQuote> quotes,
+        this IReadOnlyList<TQuote> quotes,
         int atrPeriods,
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes
