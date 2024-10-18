@@ -25,7 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Observe.Streaming", "tests\
 		{8D0F1781-EDA3-4C51-B05D-D33FF1156E49} = {8D0F1781-EDA3-4C51-B05D-D33FF1156E49}
 	EndProjectSection
 EndProject
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Integration", "tests\Tests.Integration\Tests.Integration.csproj", "{16B980BD-8ACF-4E71-929B-120ED4BAF998}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +53,10 @@ Global
 		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14DEC3AF-9AF2-4A66-8BEE-C342C6CC4307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B980BD-8ACF-4E71-929B-120ED4BAF998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B980BD-8ACF-4E71-929B-120ED4BAF998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B980BD-8ACF-4E71-929B-120ED4BAF998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B980BD-8ACF-4E71-929B-120ED4BAF998}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
