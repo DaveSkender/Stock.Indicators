@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public record UlcerIndexResult
 (
     DateTime Timestamp,

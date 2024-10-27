@@ -28,6 +28,7 @@ public sealed record CustomQuote : IQuote
         => (double)CloseValue;
 }
 
+[Serializable]
 public record CustomQuoteInherited
 (
     DateTime CloseDate,

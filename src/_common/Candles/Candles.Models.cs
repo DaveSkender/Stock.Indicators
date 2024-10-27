@@ -2,6 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // CANDLESTICK MODELS
 
+[Serializable]
 public record CandleProperties
 (
     DateTime Timestamp,
@@ -28,6 +29,7 @@ public record CandleProperties
     public bool IsBearish => Close < Open;
 }
 
+[Serializable]
 public record CandleResult : ISeries
 {
     public CandleResult(

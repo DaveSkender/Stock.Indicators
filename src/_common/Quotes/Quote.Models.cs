@@ -72,6 +72,7 @@ public interface IQuote : IReusable
 /// Aggregate bar's tick volume
 /// </param>
 /// <inheritdoc cref="IQuote"/>
+[Serializable]
 public record Quote
 (
     DateTime Timestamp,
@@ -94,6 +95,7 @@ public record Quote
 /// Double-point precision Quote, for internal use only.
 /// </summary>
 /// <inheritdoc cref="Quote" />
+[Serializable]
 internal record QuoteD
 (
     DateTime Timestamp,

@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public record BollingerBandsResult
 (
     DateTime Timestamp,

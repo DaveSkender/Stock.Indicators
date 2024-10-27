@@ -18,6 +18,7 @@ namespace Skender.Stock.Indicators;
 /// <param name="Atr">
 /// Average True Range (ATR)
 /// </param>
+[Serializable]
 public record AtrStopResult(
     DateTime Timestamp,
     double? AtrStop = null,

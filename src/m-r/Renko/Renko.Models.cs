@@ -1,6 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <inheritdoc cref="Quote"/>
+[Serializable]
 public record RenkoResult
 (
     DateTime Timestamp,

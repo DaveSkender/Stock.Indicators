@@ -58,7 +58,8 @@ Items marked with &#128681; require special attention since they will not produc
 - `TQuote` custom quote types now have to implement the `IReusable` interface to support chaining operations.  The best way to fix is to change your `TQuote` to implement the `IReusable.Value` pointer to your `IQuote.Close` price. See [the Guide](/guide) for more information.  Example:
 
   ```csharp
-  public record MyCustomQuote (
+  [Serializable]
+public record MyCustomQuote (
 
       // `IQuote` properties
       DateTime Timestamp,

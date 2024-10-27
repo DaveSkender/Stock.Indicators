@@ -8,6 +8,7 @@ namespace Skender.Stock.Indicators;
 /// <param name="Mad">Mean absolute deviation</param>
 /// <param name="Mse">Mean square error</param>
 /// <param name="Mape">Mean absolute percentage error</param>
+[Serializable]
 public record SmaAnalysis
 (
     DateTime Timestamp,

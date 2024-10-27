@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public record HtlResult
 (
     DateTime Timestamp,

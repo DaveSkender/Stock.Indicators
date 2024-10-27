@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public record BetaResult(
     DateTime Timestamp,
     double? Beta = null,

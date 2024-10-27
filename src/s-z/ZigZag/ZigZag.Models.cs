@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+[Serializable]
 public record ZigZagResult
 (
     DateTime Timestamp,
