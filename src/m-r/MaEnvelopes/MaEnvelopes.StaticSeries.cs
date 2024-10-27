@@ -35,7 +35,7 @@ public static partial class Indicator
             _ => throw new ArgumentOutOfRangeException(
                     nameof(movingAverageType), movingAverageType,
                     string.Format(
-                        EnglishCulture,
+                        invCulture,
                         "Moving Average Envelopes does not support {0}.",
                         Enum.GetName(typeof(MaType), movingAverageType)))
         };
