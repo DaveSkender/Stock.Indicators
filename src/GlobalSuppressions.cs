@@ -29,3 +29,10 @@ using System.Diagnostics.CodeAnalysis;
     "Maintainability",
     "CA1510:Use ArgumentNullException throw helper",
     Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1716:Identifiers should not match keywords",
+    Justification = "Temporary, during deprecation period.",
+    Scope = "member",
+    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]

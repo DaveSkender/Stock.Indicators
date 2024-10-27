@@ -18,4 +18,7 @@ public interface ISeries
     /// From a practical perspective, Timestamp is the correlation ID.
     /// </remarks>
     DateTime Timestamp { get; }
+
+    [Obsolete("Deprecated. Use 'Timestamp' instead.")]
+    DateTime Date => Timestamp;
 }
