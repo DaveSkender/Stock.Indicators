@@ -76,7 +76,6 @@ public partial class Quotes : TestBase
         }
     }
 
-    /* BAD QUOTES EXCEPTIONS */
     [TestMethod]
     public void ValidateDuplicates()
     {
@@ -93,8 +92,7 @@ public partial class Quotes : TestBase
             = Assert.ThrowsException<InvalidQuotesException>(
                 () => dupQuotes.Validate());
 
-        dx.Message.Should()
-            .Be("Duplicate date found on 01/06/2017. (Parameter 'quotes')");
+        dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
     }
 
     [TestMethod]
@@ -114,6 +112,6 @@ public partial class Quotes : TestBase
                 () => unorderedQuotes.Validate());
 
         dx.Message.Should()
-            .Be("Quotes are out of sequence on 01/05/2017. (Parameter 'quotes')");
+            .Contain("Quotes are out of sequence on 2017-01-05T00:00:00.0000000.");
     }
 }

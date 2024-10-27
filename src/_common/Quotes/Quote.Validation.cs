@@ -40,7 +40,7 @@ public static partial class Quotes
             if (lastDate == currentDate)
             {
                 string msg =
-                    $"Duplicate date found on {currentDate.ToString("MM/dd/yyyy", invariantCulture)}.";
+                    $"Duplicate date found on {currentDate.ToString("o", invariantCulture)}.";
 
                 throw new InvalidQuotesException(nameof(quotes), msg);
             }
@@ -48,7 +48,7 @@ public static partial class Quotes
             if (lastDate > currentDate)
             {
                 string msg =
-                    $"Quotes are out of sequence on {currentDate.ToString("MM/dd/yyyy", invariantCulture)}.";
+                    $"Quotes are out of sequence on {currentDate.ToString("o", invariantCulture)}.";
 
                 throw new InvalidQuotesException(nameof(quotes), msg);
             }
