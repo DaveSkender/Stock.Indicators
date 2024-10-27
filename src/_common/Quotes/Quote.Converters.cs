@@ -7,7 +7,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class QuoteUtility
 {
-    private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
 
     // TUPLE QUOTES
 

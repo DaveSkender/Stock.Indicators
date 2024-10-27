@@ -9,7 +9,7 @@ public static partial class Indicator
     {
         // initialize
         List<TrResult> results = new(qdList.Count);
-        double prevClose = 0;
+        double prevClose = double.NaN;
 
         // roll through quotes
         for (int i = 0; i < qdList.Count; i++)
