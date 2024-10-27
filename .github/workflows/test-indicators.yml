@@ -19,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
         dotnet-version: ["6.x", "8.x"]
 
     env:
