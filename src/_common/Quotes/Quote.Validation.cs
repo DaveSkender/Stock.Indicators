@@ -1,9 +1,13 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES
 
 public static partial class QuoteUtility
 {
+    private static readonly CultureInfo invCulture = CultureInfo.InvariantCulture;
+
     // VALIDATION
     /// <include file='./info.xml' path='info/type[@name="Validate"]/*' />
     ///
@@ -12,17 +16,16 @@ public static partial class QuoteUtility
         where TQuote : IQuote
     {
         // we cannot rely on date consistency when looking back, so we force sort
-
         List<TQuote> quotesList = quotes.ToSortedList();
 
         // check for duplicates
         DateTime lastDate = DateTime.MinValue;
-        foreach (var q in quotesList)
+        foreach (TQuote q in quotesList)
         {
             if (lastDate == q.Date)
             {
                 throw new InvalidQuotesException(
-                    string.Format(NativeCulture, "Duplicate date found on {0}.", q.Date));
+                    $"Duplicate date found on {q.Date.ToString("o", invCulture)}.");
             }
 
             lastDate = q.Date;

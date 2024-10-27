@@ -92,7 +92,7 @@ public static partial class Indicator
         {
             string message = "Insufficient quotes provided for Price Relative Strength.  " +
                 string.Format(
-                    EnglishCulture,
+                    invCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryEval, minHistory);
 
