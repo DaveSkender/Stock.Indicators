@@ -4,22 +4,37 @@ namespace Skender.Stock.Indicators;
 
 public static class Seeking
 {
-    // FIND SERIES by DATE
-    /// <include file='./info.xml' path='info/type[@name="FindSeries"]/*' />
-    ///
-    public static TSeries? Find<TSeries>(
-        this IEnumerable<TSeries> series,
+    // FIND by DATE
+    public static T? Find<T>(
+        this IReadOnlyList<T> series,
         DateTime lookupDate)
-        where TSeries : ISeries => series
-            .FirstOrDefault(x => x.Date == lookupDate);
+        where T : ISeries
+    {
+        ArgumentNullException.ThrowIfNull(series);
 
-    // FIND INDEX by DATE
-    /// <include file='./info.xml' path='info/type[@name="FindIndex"]/*' />
-    ///
-    public static int FindIndex<TSeries>(
-        this List<TSeries> series,
-        DateTime lookupDate)
-        where TSeries : ISeries => series == null
-            ? -1
-            : series.FindIndex(x => x.Date == lookupDate);
+        int low = 0;
+        int high = series.Count - 1;
+
+        while (low <= high)
+        {
+            int mid = (low + high) >> 1;
+            DateTime midTimestamp = series[mid].Timestamp;
+
+            if (midTimestamp == lookupDate)
+            {
+                return series[mid]; // found
+            }
+            else if (midTimestamp < lookupDate)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        // not found
+        return default;
+    }
 }

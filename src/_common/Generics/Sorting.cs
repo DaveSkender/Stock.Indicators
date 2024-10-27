@@ -1,22 +1,13 @@
-using System.Collections.ObjectModel;
-
 namespace Skender.Stock.Indicators;
 
 // SORTED of SERIES
 
-public static class Sorting
+public static partial class Utility
 {
-    public static Collection<TSeries> ToSortedCollection<TSeries>(
+    public static IReadOnlyList<TSeries> ToSortedList<TSeries>(
         this IEnumerable<TSeries> series)
         where TSeries : ISeries
         => series
-            .OrderBy(x => x.Date)
-            .ToCollection();
-
-    internal static List<TSeries> ToSortedList<TSeries>(
-        this IEnumerable<TSeries> series)
-        where TSeries : ISeries
-        => series
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .ToList();
 }

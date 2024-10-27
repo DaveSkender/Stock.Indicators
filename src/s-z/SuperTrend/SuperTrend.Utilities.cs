@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// SUPERTREND (UTILITIES)
+
+public static partial class SuperTrend
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<SuperTrendResult> Condense(
-        this IEnumerable<SuperTrendResult> results)
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<SuperTrendResult> Condense(
+        this IReadOnlyList<SuperTrendResult> results)
     {
         List<SuperTrendResult> resultsList = results
             .ToList();
@@ -19,15 +20,33 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<SuperTrendResult> RemoveWarmupPeriods(
-        this IEnumerable<SuperTrendResult> results)
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<SuperTrendResult> RemoveWarmupPeriods(
+        this IReadOnlyList<SuperTrendResult> results)
     {
         int removePeriods = results
             .ToList()
             .FindIndex(x => x.SuperTrend != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods,
+        double multiplier)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for SuperTrend.");
+        }
+
+        if (multiplier <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(multiplier), multiplier,
+                "Multiplier must be greater than 0 for SuperTrend.");
+        }
     }
 }

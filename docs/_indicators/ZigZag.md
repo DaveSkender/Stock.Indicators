@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<ZigZagResult> results =
+IReadOnlyList<ZigZagResult> results =
   quotes.GetZigZag(endType, percentChange);
 ```
 
@@ -41,7 +41,7 @@ You must have at least two periods of `quotes` to cover the warmup periods, but 
 ## Response
 
 ```csharp
-IEnumerable<ZigZagResult>
+IReadOnlyList<ZigZagResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -57,7 +57,7 @@ IEnumerable<ZigZagResult>
 
 ### ZigZagResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`ZigZag`** _`decimal`_ - Zig Zag line for `percentChange`
 

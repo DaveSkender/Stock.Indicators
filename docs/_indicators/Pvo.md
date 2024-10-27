@@ -16,7 +16,7 @@ The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=te
 
 ```csharp
 // C# usage syntax
-IEnumerable<PvoResult> results =
+IReadOnlyList<PvoResult> results =
   quotes.GetPvo(fastPeriods, slowPeriods, signalPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `2×(S+P)` or `S+P+100` worth of `quotes`, whichever is m
 ## Response
 
 ```csharp
-IEnumerable<PvoResult>
+IReadOnlyList<PvoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<PvoResult>
 
 ### PvoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Pvo`** _`double`_ - Normalized difference between two Volume moving averages
 

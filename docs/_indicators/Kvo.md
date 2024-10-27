@@ -16,7 +16,7 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 
 ```csharp
 // C# usage syntax
-IEnumerable<KvoResult> results =
+IReadOnlyList<KvoResult> results =
   quotes.GetKvo(shortPeriods, longPeriods, signalPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `L+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<KvoResult>
+IReadOnlyList<KvoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<KvoResult>
 
 ### KvoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator`** _`double`_ - Klinger Oscillator
 

@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// STANDARD DEVIATION CHANNELS (UTILITIES)
+
+public static partial class StdDevChannels
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<StdDevChannelsResult> Condense(
-        this IEnumerable<StdDevChannelsResult> results)
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<StdDevChannelsResult> Condense(
+        this IReadOnlyList<StdDevChannelsResult> results)
     {
         List<StdDevChannelsResult> resultsList = results
             .ToList();
@@ -16,21 +17,39 @@ public static partial class Indicator
                x.UpperChannel is null
             && x.LowerChannel is null
             && x.Centerline is null
-            && x.BreakPoint is false);
+            && !x.BreakPoint);
 
         return resultsList.ToSortedList();
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StdDevChannelsResult> RemoveWarmupPeriods(
-        this IEnumerable<StdDevChannelsResult> results)
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<StdDevChannelsResult> RemoveWarmupPeriods(
+        this IReadOnlyList<StdDevChannelsResult> results)
     {
         int removePeriods = results
             .ToList()
             .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int? lookbackPeriods,
+        double stdDeviations)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for Standard Deviation Channels.");
+        }
+
+        if (stdDeviations <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stdDeviations), stdDeviations,
+                "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
+        }
     }
 }

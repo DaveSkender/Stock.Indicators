@@ -1,14 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class ForceIndexResult : ResultBase, IReusableResult
+public record ForceIndexResult
+(
+    DateTime Timestamp,
+    double? ForceIndex = null
+) : IReusable
 {
-    public ForceIndexResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? ForceIndex { get; set; }
-
-    double? IReusableResult.Value => ForceIndex;
+    public double Value => ForceIndex.Null2NaN();
 }

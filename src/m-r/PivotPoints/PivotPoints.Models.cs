@@ -2,30 +2,50 @@ namespace Skender.Stock.Indicators;
 
 internal interface IPivotPoint
 {
-    public decimal? R4 { get; set; }
-    public decimal? R3 { get; set; }
-    public decimal? R2 { get; set; }
-    public decimal? R1 { get; set; }
-    public decimal? PP { get; set; }
-    public decimal? S1 { get; set; }
-    public decimal? S2 { get; set; }
-    public decimal? S3 { get; set; }
-    public decimal? S4 { get; set; }
+    decimal? R4 { get; }
+    decimal? R3 { get; }
+    decimal? R2 { get; }
+    decimal? R1 { get; }
+    decimal? PP { get; }
+    decimal? S1 { get; }
+    decimal? S2 { get; }
+    decimal? S3 { get; }
+    decimal? S4 { get; }
 }
 
 [Serializable]
-public sealed class PivotPointsResult : ResultBase, IPivotPoint
+public record PivotPointsResult : ISeries, IPivotPoint
 {
-    public decimal? R4 { get; set; }
-    public decimal? R3 { get; set; }
-    public decimal? R2 { get; set; }
-    public decimal? R1 { get; set; }
-    public decimal? PP { get; set; }
-    public decimal? S1 { get; set; }
-    public decimal? S2 { get; set; }
-    public decimal? S3 { get; set; }
-    public decimal? S4 { get; set; }
+    public DateTime Timestamp { get; init; }
+
+    public decimal? PP { get; init; }
+
+    public decimal? S1 { get; init; }
+    public decimal? S2 { get; init; }
+    public decimal? S3 { get; init; }
+    public decimal? S4 { get; init; }
+
+    public decimal? R1 { get; init; }
+    public decimal? R2 { get; init; }
+    public decimal? R3 { get; init; }
+    public decimal? R4 { get; init; }
 }
+
+internal record WindowPoint : IPivotPoint
+{
+    public decimal? PP { get; init; }
+
+    public decimal? S1 { get; init; }
+    public decimal? S2 { get; init; }
+    public decimal? S3 { get; init; }
+    public decimal? S4 { get; init; }
+
+    public decimal? R1 { get; init; }
+    public decimal? R2 { get; init; }
+    public decimal? R3 { get; init; }
+    public decimal? R4 { get; init; }
+}
+
 
 public enum PivotPointType
 {

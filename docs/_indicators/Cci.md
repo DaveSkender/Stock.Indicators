@@ -16,7 +16,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 
 ```csharp
 // C# usage syntax
-IEnumerable<CciResult> results =
+IReadOnlyList<CciResult> results =
   quotes.GetCci(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<CciResult>
+IReadOnlyList<CciResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<CciResult>
 
 ### CciResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Cci`** _`double`_ - Commodity Channel Index
 

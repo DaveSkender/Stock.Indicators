@@ -4,15 +4,12 @@ namespace Skender.Stock.Indicators;
 
 // GENERIC TRANSFORMS
 
-public static class Transforms
+public static partial class Utility
 {
     // TO COLLECTION
     internal static Collection<T> ToCollection<T>(this IEnumerable<T> source)
     {
-        if (source is null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
+        ArgumentNullException.ThrowIfNull(source);
 
         Collection<T> collection = [.. source];
 

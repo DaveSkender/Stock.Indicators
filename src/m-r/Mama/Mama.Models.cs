@@ -1,15 +1,12 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class MamaResult : ResultBase, IReusableResult
+public record MamaResult
+(
+    DateTime Timestamp,
+    double? Mama = null,
+    double? Fama = null
+) : IReusable
 {
-    public MamaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Mama { get; set; }
-    public double? Fama { get; set; }
-
-    double? IReusableResult.Value => Mama;
+    public double Value => Mama.Null2NaN();
 }
