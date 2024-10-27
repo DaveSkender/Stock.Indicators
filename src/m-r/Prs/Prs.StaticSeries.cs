@@ -2,31 +2,33 @@ namespace Skender.Stock.Indicators;
 
 // PRICE RELATIVE STRENGTH (SERIES)
 
-public static partial class Indicator
+public static partial class Prs
 {
-    private static List<PrsResult> CalcPrs<T>(
-        List<T> listEval,
-        List<T> listBase,
+    public static IReadOnlyList<PrsResult> ToPrs<T>(
+        this IReadOnlyList<T> sourceEval,
+        IReadOnlyList<T> sourceBase,
         int? lookbackPeriods = null)
         where T : IReusable
     {
         // check parameter arguments
-        Prs.Validate(listEval, listBase, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(sourceEval);
+        ArgumentNullException.ThrowIfNull(sourceBase);
+        Validate(sourceEval, sourceBase, lookbackPeriods);
 
         // initialize
-        int length = listEval.Count;
+        int length = sourceEval.Count;
         List<PrsResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            T b = listBase[i];
-            T e = listEval[i];
+            T b = sourceBase[i];
+            T e = sourceEval[i];
 
             if (e.Timestamp != b.Timestamp)
             {
                 throw new InvalidQuotesException(
-                    nameof(listEval), e.Timestamp,
+                    nameof(sourceEval), e.Timestamp,
                     "Timestamp sequence does not match.  "
                   + "Price Relative requires matching dates in provided histories.");
             }
@@ -35,8 +37,8 @@ public static partial class Indicator
 
             if (lookbackPeriods is not null && i > lookbackPeriods - 1)
             {
-                T bo = listBase[i - (int)lookbackPeriods];
-                T eo = listEval[i - (int)lookbackPeriods];
+                T bo = sourceBase[i - (int)lookbackPeriods];
+                T eo = sourceEval[i - (int)lookbackPeriods];
 
                 if (bo.Value != 0 && eo.Value != 0)
                 {

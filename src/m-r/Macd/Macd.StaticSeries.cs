@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Macd
 {
-    private static List<MacdResult> CalcMacd<T>(
-        this List<T> source,
-        int fastPeriods,
-        int slowPeriods,
-        int signalPeriods)
+    public static IReadOnlyList<MacdResult> ToMacd<T>(
+        this IReadOnlyList<T> source,
+        int fastPeriods = 12,
+        int slowPeriods = 26,
+        int signalPeriods = 9)
         where T : IReusable
     {
         // check parameter arguments
-        Macd.Validate(fastPeriods, slowPeriods, signalPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int length = source.Count;

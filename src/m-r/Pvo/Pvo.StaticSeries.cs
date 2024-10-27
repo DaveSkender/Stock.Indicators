@@ -2,17 +2,26 @@ namespace Skender.Stock.Indicators;
 
 // PRICE VOLUME OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Pvo
 {
+    public static IReadOnlyList<PvoResult> ToPvo<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    int fastPeriods = 12,
+    int slowPeriods = 26,
+    int signalPeriods = 9)
+    where TQuote : IQuote => quotes
+        .Use(CandlePart.Volume)
+        .CalcPvo(fastPeriods, slowPeriods, signalPeriods);
+
     private static List<PvoResult> CalcPvo<T>(
-        this List<T> source,  // volume
+        this IReadOnlyList<T> source,  // volume
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Pvo.Validate(fastPeriods, slowPeriods, signalPeriods);
+        Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int length = source.Count;

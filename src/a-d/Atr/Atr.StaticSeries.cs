@@ -4,7 +4,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Atr
 {
-    // SERIES, from TQuote
     public static IReadOnlyList<AtrResult> ToAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)
@@ -12,9 +11,8 @@ public static partial class Atr
             .ToQuoteDList()
             .CalcAtr(lookbackPeriods);
 
-    // calculate series
     internal static List<AtrResult> CalcAtr(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

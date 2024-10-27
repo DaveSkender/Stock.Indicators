@@ -2,16 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // SMOOTHED MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Smma
 {
-    // calculate series
-    private static List<SmmaResult> CalcSmma<T>(
-        this List<T> source,
+    public static IReadOnlyList<SmmaResult> ToSmma<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Smma.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

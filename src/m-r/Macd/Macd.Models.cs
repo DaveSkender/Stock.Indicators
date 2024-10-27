@@ -7,7 +7,7 @@ public record MacdResult
     double? Signal,
     double? Histogram,
 
-    // extra interim data
+    // extra/interim data
     double? FastEma,
     double? SlowEma
 

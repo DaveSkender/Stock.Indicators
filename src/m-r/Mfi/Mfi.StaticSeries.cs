@@ -4,6 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Indicator
 {
+    public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    int lookbackPeriods = 14)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcMfi(lookbackPeriods);
+
     private static List<MfiResult> CalcMfi(
         this List<QuoteD> source,
         int lookbackPeriods)

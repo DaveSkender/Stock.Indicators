@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// MARUBOZU (COMMON)
+// MARUBOZU (UTILITIES)
 
-public static class Marubozu
+public static partial class Marubozu
 {
     // parameter validation
     internal static void Validate(
@@ -25,5 +25,4 @@ public static class Marubozu
                 "for Marubozu and is usually greater than 90 (90%).");
         }
     }
-
 }

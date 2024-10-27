@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (SERIES)
 
-public static partial class Indicator
+public static partial class Roc
 {
-    private static List<RocResult> CalcRoc<T>(
-        this List<T> source,
+    public static IReadOnlyList<RocResult> ToRoc<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Roc.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

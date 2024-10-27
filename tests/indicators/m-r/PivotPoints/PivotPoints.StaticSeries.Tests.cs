@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class PivotPoints : StaticSeriesTestBase
+public class PivotPointz : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()
@@ -236,7 +236,7 @@ public class PivotPoints : StaticSeriesTestBase
         Assert.AreEqual(null, r6.S4);
 
         // special Demark case: test close = open
-        WindowPoint d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
+        WindowPoint d1 = PivotPoints.GetPivotPointDemark(125, 200, 100, 125);
         Assert.AreEqual(550m / 4, d1.PP);
     }
 

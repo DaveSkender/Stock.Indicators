@@ -38,8 +38,8 @@ public static partial class Alligator
 #endregion
 
 public class AlligatorHub<TIn>
-: StreamHub<TIn, AlligatorResult>, IAlligatorHub
-where TIn : IReusable
+    : StreamHub<TIn, AlligatorResult>, IAlligatorHub
+    where TIn : IReusable
 {
     #region constructors
 

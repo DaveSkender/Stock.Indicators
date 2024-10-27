@@ -2,18 +2,18 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// PRICE RELATIVE STRENGTH (COMMON)
+// PRICE RELATIVE STRENGTH (UTILITIES)
 
-public static class Prs
+public static partial class Prs
 {
-    private static readonly CultureInfo EnglishCulture = new("en-US", false);
+    private static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
     // parameter validation
     internal static void Validate<T>(
-        List<T> quotesEval,
-        List<T> quotesBase,
+        IReadOnlyList<T> quotesEval,
+        IReadOnlyList<T> quotesBase,
         int? lookbackPeriods)
-        where T : ISeries
+        where T : IReusable
     {
         // check parameter arguments
         if (lookbackPeriods is <= 0)
@@ -31,7 +31,7 @@ public static class Prs
         {
             string message = "Insufficient quotes provided for Price Relative Strength.  " +
                 string.Format(
-                    EnglishCulture,
+                    invariantCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryEval, lookbackPeriods);
 

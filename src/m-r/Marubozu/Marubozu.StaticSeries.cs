@@ -2,18 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // MARUBOZU (SERIES)
 
-public static partial class Indicator
+public static partial class Marubozu
 {
-    private static List<CandleResult> CalcMarubozu<TQuote>(
-        this List<TQuote> quotesList,
-        double minBodyPercent)
+    public static IReadOnlyList<CandleResult> ToMarubozu<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        double minBodyPercent = 95)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Marubozu.Validate(minBodyPercent);
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(minBodyPercent);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<CandleResult> results = new(length);
 
         minBodyPercent /= 100;
@@ -21,7 +22,7 @@ public static partial class Indicator
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
             decimal? matchPrice = null;
             Match matchType = Match.None;
             CandleProperties candle = q.ToCandle();

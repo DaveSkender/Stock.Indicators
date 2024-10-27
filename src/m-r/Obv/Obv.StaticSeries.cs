@@ -2,8 +2,14 @@ namespace Skender.Stock.Indicators;
 
 // ON-BALANCE VOLUME (SERIES)
 
-public static partial class Indicator
+public static partial class Obv
 {
+    public static IReadOnlyList<ObvResult> ToObv<TQuote>(
+    this IReadOnlyList<TQuote> quotes)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcObv();
+
     private static List<ObvResult> CalcObv(
         this List<QuoteD> source)
     {

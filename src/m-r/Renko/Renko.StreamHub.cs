@@ -2,12 +2,22 @@ namespace Skender.Stock.Indicators;
 
 // RENKO CHART (STREAM HUB)
 
-#region hub interface
+#region hub interface and initializer
 
 public interface IRenkoHub
 {
     decimal BrickSize { get; }
     EndType EndType { get; }
+}
+
+public static partial class Renko
+{
+    public static RenkoHub<TIn> ToRenko<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
+        decimal brickSize,
+        EndType endType = EndType.Close)
+        where TIn : IQuote
+        => new(quoteProvider, brickSize, endType);
 }
 #endregion
 

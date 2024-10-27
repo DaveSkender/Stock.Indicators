@@ -2,8 +2,31 @@ namespace Skender.Stock.Indicators;
 
 // PARABOLIC SAR (SERIES)
 
-public static partial class Indicator
+public static partial class ParabolicSar
 {
+    public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    double accelerationStep = 0.02,
+    double maxAccelerationFactor = 0.2)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcParabolicSar(
+            accelerationStep,
+            maxAccelerationFactor,
+            accelerationStep);
+
+    public static IReadOnlyList<ParabolicSarResult> GetParabolicSar<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        double accelerationStep,
+        double maxAccelerationFactor,
+        double initialFactor)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcParabolicSar(
+                accelerationStep,
+                maxAccelerationFactor,
+                initialFactor);
+
     private static List<ParabolicSarResult> CalcParabolicSar(
         this List<QuoteD> source,
         double accelerationStep,

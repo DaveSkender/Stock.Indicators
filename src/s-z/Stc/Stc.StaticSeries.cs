@@ -20,7 +20,7 @@ public static partial class Indicator
 
         // get stochastic of macd
         IReadOnlyList<StochResult> stochMacd = source
-          .CalcMacd(fastPeriods, slowPeriods, 1)
+          .ToMacd(fastPeriods, slowPeriods, 1)
           .Select(x => new QuoteD(
               x.Timestamp, 0,
               x.Macd.Null2NaN(),

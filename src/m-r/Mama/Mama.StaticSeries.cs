@@ -1,8 +1,18 @@
 namespace Skender.Stock.Indicators;
 
 // MOTHER of ADAPTIVE MOVING AVERAGES (SERIES)
-public static partial class Indicator
+
+public static partial class Mama
 {
+    public static IReadOnlyList<MamaResult> ToMama<T>(
+        this IReadOnlyList<T> results,
+        double fastLimit = 0.5,
+        double slowLimit = 0.05)
+        where T : IReusable
+        => results
+            .ToSortedList(CandlePart.HL2)
+            .CalcMama(fastLimit, slowLimit);
+
     private static List<MamaResult> CalcMama<T>(
         this List<T> source,
         double fastLimit,

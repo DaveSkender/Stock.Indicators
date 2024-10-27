@@ -11,7 +11,7 @@ public static partial class Rsi
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
-        Rsi.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
