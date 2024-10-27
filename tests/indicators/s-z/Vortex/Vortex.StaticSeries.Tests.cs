@@ -7,7 +7,7 @@ public class Vortex : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<VortexResult> results = Quotes
-            .GetVortex(14);
+            .ToVortex(14);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -39,7 +39,7 @@ public class Vortex : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<VortexResult> r = BadQuotes
-            .GetVortex(20);
+            .ToVortex(20);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Pvi is double.NaN));
@@ -49,12 +49,12 @@ public class Vortex : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<VortexResult> r0 = Noquotes
-            .GetVortex(5);
+            .ToVortex(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<VortexResult> r1 = Onequote
-            .GetVortex(5);
+            .ToVortex(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -63,7 +63,7 @@ public class Vortex : StaticSeriesTestBase
     public void Condense()
     {
         IReadOnlyList<VortexResult> results = Quotes
-            .GetVortex(14)
+            .ToVortex(14)
             .Condense();
 
         // assertions
@@ -78,7 +78,7 @@ public class Vortex : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<VortexResult> results = Quotes
-            .GetVortex(14)
+            .ToVortex(14)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -93,5 +93,5 @@ public class Vortex : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetVortex(1));
+            => Quotes.ToVortex(1));
 }

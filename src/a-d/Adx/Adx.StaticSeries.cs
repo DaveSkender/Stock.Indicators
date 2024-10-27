@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE DIRECTIONAL INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Adx
 {
+    public static IReadOnlyList<AdxResult> ToAdx<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    int lookbackPeriods = 14)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcAdx(lookbackPeriods);
+
     private static List<AdxResult> CalcAdx(
-        this List<QuoteD> source,
-        int lookbackPeriods)
+        this IReadOnlyList<QuoteD> source,
+        int lookbackPeriods = 14)
     {
         // check parameter arguments
-        Adx.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
@@ -96,7 +103,7 @@ public static partial class Indicator
             prevPdm = pdm;
             prevMdm = mdm;
 
-            if (trs is 0)
+            if (trs == 0)
             {
                 results.Add(new(Timestamp: q.Timestamp));
                 continue;

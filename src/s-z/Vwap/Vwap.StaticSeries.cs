@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // VOLUME WEIGHTED AVERAGE PRICE (SERIES)
 
-public static partial class Indicator
+public static partial class Vwap
 {
+    public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        DateTime? startDate = null)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcVwap(startDate);
+
     private static List<VwapResult> CalcVwap(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         DateTime? startDate = null)
     {
         // check parameter arguments
-        Vwap.Validate(source, startDate);
+        Validate(source, startDate);
 
         // initialize
         int length = source.Count;

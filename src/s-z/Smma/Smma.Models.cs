@@ -4,7 +4,7 @@ public record SmmaResult
 (
     DateTime Timestamp,
     double? Smma = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Smma.Null2NaN();
+    public double Value => Smma.Null2NaN();
 }

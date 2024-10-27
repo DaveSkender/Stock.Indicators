@@ -6,8 +6,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -48,7 +47,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -57,7 +56,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
            = quotesList
-            .GetSma(5);
+            .ToSma(5);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -70,8 +69,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void ChainObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -102,7 +100,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(CandlePart.OC2)
-            .GetSma(11);
+            .ToSma(11);
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
@@ -118,8 +116,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int emaPeriods = 12;
         int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -149,7 +146,7 @@ public class SmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<EmaResult> seriesList
            = quotesList
-            .GetSma(smaPeriods)
+            .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series

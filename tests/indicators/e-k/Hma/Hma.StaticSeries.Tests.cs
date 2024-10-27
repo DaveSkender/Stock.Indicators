@@ -7,7 +7,7 @@ public class Hma : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<HmaResult> results = Quotes
-            .GetHma(20);
+            .ToHma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -26,7 +26,7 @@ public class Hma : StaticSeriesTestBase
     {
         IReadOnlyList<HmaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetHma(20);
+            .ToHma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
@@ -36,8 +36,8 @@ public class Hma : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<HmaResult> results = Quotes
-            .GetSma(2)
-            .GetHma(19);
+            .ToSma(2)
+            .ToHma(19);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Hma != null));
@@ -47,8 +47,8 @@ public class Hma : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetHma(20)
-            .GetSma(10);
+            .ToHma(20)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
@@ -58,7 +58,7 @@ public class Hma : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<HmaResult> r = BadQuotes
-            .GetHma(15);
+            .ToHma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Hma is double.NaN));
@@ -68,12 +68,12 @@ public class Hma : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<HmaResult> r0 = Noquotes
-            .GetHma(5);
+            .ToHma(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<HmaResult> r1 = Onequote
-            .GetHma(5);
+            .ToHma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -82,7 +82,7 @@ public class Hma : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<HmaResult> results = Quotes
-            .GetHma(20)
+            .ToHma(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -96,5 +96,5 @@ public class Hma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetHma(1));
+            => Quotes.ToHma(1));
 }

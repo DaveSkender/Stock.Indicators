@@ -2,16 +2,25 @@ namespace Skender.Stock.Indicators;
 
 // CHANDELIER EXIT (SERIES)
 
-public static partial class Indicator
+public static partial class Chandelier
 {
+    public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 22,
+        double multiplier = 3,
+        ChandelierType type = ChandelierType.Long)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcChandelier(lookbackPeriods, multiplier, type);
+
     private static List<ChandelierResult> CalcChandelier(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)
     {
         // check parameter arguments
-        Chandelier.Validate(lookbackPeriods, multiplier);
+        Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = source.Count;

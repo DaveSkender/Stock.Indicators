@@ -4,7 +4,7 @@ public record RsiResult
 (
     DateTime Timestamp,
     double? Rsi = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Rsi.Null2NaN();
+    public double Value => Rsi.Null2NaN();
 }

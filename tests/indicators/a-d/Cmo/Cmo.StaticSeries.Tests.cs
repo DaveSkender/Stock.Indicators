@@ -3,11 +3,14 @@ namespace StaticSeries;
 [TestClass]
 public class Cmo : StaticSeriesTestBase
 {
+    // TODO: test for CMO isUp works as expected
+    // when there’s no price change
+
     [TestMethod]
     public override void Standard()
     {
         IReadOnlyList<CmoResult> results = Quotes
-            .GetCmo(14);
+            .ToCmo(14);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -32,7 +35,7 @@ public class Cmo : StaticSeriesTestBase
     {
         IReadOnlyList<CmoResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetCmo(14);
+            .ToCmo(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(488, results.Count(x => x.Cmo != null));
@@ -42,8 +45,8 @@ public class Cmo : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<CmoResult> results = Quotes
-            .GetSma(2)
-            .GetCmo(20);
+            .ToSma(2)
+            .ToCmo(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Cmo != null));
@@ -53,8 +56,8 @@ public class Cmo : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetCmo(20)
-            .GetSma(10);
+            .ToCmo(20)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -64,7 +67,7 @@ public class Cmo : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<CmoResult> r = BadQuotes
-            .GetCmo(35);
+            .ToCmo(35);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Cmo is double.NaN));
@@ -74,12 +77,12 @@ public class Cmo : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<CmoResult> r0 = Noquotes
-            .GetCmo(5);
+            .ToCmo(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<CmoResult> r1 = Onequote
-            .GetCmo(5);
+            .ToCmo(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -88,7 +91,7 @@ public class Cmo : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<CmoResult> results = Quotes
-            .GetCmo(14)
+            .ToCmo(14)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -102,5 +105,5 @@ public class Cmo : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetCmo(0));
+            => Quotes.ToCmo(0));
 }

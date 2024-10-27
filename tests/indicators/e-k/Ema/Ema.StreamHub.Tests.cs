@@ -6,8 +6,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -48,15 +47,14 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<EmaResult> seriesList = quotesList
-            .ToEma(5);
+        IReadOnlyList<EmaResult> seriesList = quotesList.ToEma(5);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -72,8 +70,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int emaPeriods = 12;
         int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -98,7 +95,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // time-series, for comparison
         IReadOnlyList<EmaResult> seriesList
            = quotesList
-            .GetSma(smaPeriods)
+            .ToSma(smaPeriods)
             .ToEma(emaPeriods);
 
         // assert, should equal series
@@ -115,8 +112,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int emaPeriods = 20;
         int smaPeriods = 10;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -148,7 +144,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -160,9 +156,8 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList
-           = quotesList
-            .ToEma(emaPeriods)
-            .GetSma(smaPeriods);
+           = quotesList.ToEma(emaPeriods)
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

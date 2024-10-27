@@ -2,10 +2,14 @@ namespace Skender.Stock.Indicators;
 
 // EXPONENTIAL MOVING AVERAGE (INCREMENTING LIST)
 
-public class EmaList<TQuote> : List<EmaResult>, IEma, IIncrementalPrice<TQuote>
-    where TQuote : IQuote
+/// <summary>
+/// Exponential Moving Average (EMA)
+/// from incremental reusable values.
+/// </summary>
+public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
 {
-    private readonly List<double> _buffer;
+    private readonly Queue<double> _buffer;
+    private double _bufferSum;
 
     public EmaList(int lookbackPeriods)
     {
@@ -14,20 +18,21 @@ public class EmaList<TQuote> : List<EmaResult>, IEma, IIncrementalPrice<TQuote>
         K = 2d / (lookbackPeriods + 1);
 
         _buffer = new(lookbackPeriods);
+        _bufferSum = 0;
     }
 
     public int LookbackPeriods { get; init; }
     public double K { get; init; }
 
-    public void Add(DateTime timestamp, double price)
+    public void Add(DateTime timestamp, double value)
     {
         // update buffer
-        _buffer.Add(price);
-
-        if (_buffer.Count > LookbackPeriods)
+        if (_buffer.Count == LookbackPeriods)
         {
-            _buffer.RemoveAt(0);
+            _bufferSum -= _buffer.Dequeue();
         }
+        _buffer.Enqueue(value);
+        _bufferSum += value;
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
@@ -36,83 +41,50 @@ public class EmaList<TQuote> : List<EmaResult>, IEma, IIncrementalPrice<TQuote>
             return;
         }
 
-        // re/initialize
+        // re/initialize as SMA
         if (this[^1].Ema is null)
         {
-            double sum = 0;
-            for (int i = 0; i < LookbackPeriods; i++)
-            {
-                sum += _buffer[i];
-            }
-
             base.Add(new EmaResult(
                 timestamp,
-                sum / LookbackPeriods));
-
+                _bufferSum / LookbackPeriods));
             return;
         }
 
         // calculate EMA normally
         base.Add(new EmaResult(
             timestamp,
-            Ema.Increment(K, this[^1].Ema, price)));
+            Ema.Increment(K, this[^1].Ema, value)));
     }
 
-    public void Add(TQuote quote)
-        => Add(quote.Timestamp, quote.Value);
-}
-
-/// <summary>
-/// Exponential Moving Average (EMA) without date context (array-based).
-/// </summary>
-/// <inheritdoc cref="IIncrementalValue"/>
-public class EmaArray : List<double?>, IEma, IIncrementalValue
-{
-    private readonly List<double> _buffer;
-
-    public EmaArray(int lookbackPeriods)
+    public void Add(IReusable value)
     {
-        Ema.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-        K = 2d / (lookbackPeriods + 1);
-
-        _buffer = new(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(value);
+        Add(value.Timestamp, value.Value);
     }
 
-    public int LookbackPeriods { get; init; }
-    public double K { get; init; }
-
-    public void Add(double price)
+    public void Add(IReadOnlyList<IReusable> values)
     {
-        // update buffer
-        _buffer.Add(price);
+        ArgumentNullException.ThrowIfNull(values);
 
-        if (_buffer.Count > LookbackPeriods)
+        for (int i = 0; i < values.Count; i++)
         {
-            _buffer.RemoveAt(0);
+            Add(values[i].Timestamp, values[i].Value);
         }
+    }
 
-        // add nulls for incalculable periods
-        if (Count < LookbackPeriods - 1)
+    public void Add(IQuote quote)
+    {
+        ArgumentNullException.ThrowIfNull(quote);
+        Add(quote.Timestamp, quote.Value);
+    }
+
+    public void Add(IReadOnlyList<IQuote> quotes)
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
+
+        for (int i = 0; i < quotes.Count; i++)
         {
-            Add(null);
-            return;
+            Add(quotes[i]);
         }
-
-        // re/initialize
-        if (this[^1] is null)
-        {
-            double sum = 0;
-            for (int i = 0; i < LookbackPeriods; i++)
-            {
-                sum += _buffer[i];
-            }
-
-            base.Add(sum / LookbackPeriods);
-            return;
-        }
-
-        // calculate EMA normally
-        base.Add(Ema.Increment(K, this[^1], price));
     }
 }

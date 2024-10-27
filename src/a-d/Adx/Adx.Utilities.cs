@@ -1,16 +1,30 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// AVERAGE DIRECTIONAL INDEX (UTILITIES)
+
+public static partial class Adx
 {
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<AdxResult> RemoveWarmupPeriods(
-        this IEnumerable<AdxResult> results)
+        this IReadOnlyList<AdxResult> results)
     {
         int n = results
             .ToList()
             .FindIndex(x => x.Pdi != null);
 
-        return results.Remove(2 * n + 100);
+        return results.Remove((2 * n) + 100);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for ADX.");
+        }
     }
 }

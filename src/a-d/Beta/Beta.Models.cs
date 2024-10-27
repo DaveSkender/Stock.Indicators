@@ -9,9 +9,9 @@ public record BetaResult(
     double? Convexity = null,
     double? ReturnsEval = null,
     double? ReturnsMrkt = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Beta.Null2NaN();
+    public double Value => Beta.Null2NaN();
 }
 
 public enum BetaType

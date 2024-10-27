@@ -7,7 +7,7 @@ public class Beta : StaticSeriesTestBase
     public void All()
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20, BetaType.All);
+            .ToBeta(Quotes, 20, BetaType.All);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -51,7 +51,7 @@ public class Beta : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20);
+            .ToBeta(Quotes, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -66,7 +66,7 @@ public class Beta : StaticSeriesTestBase
     public void Up()
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20, BetaType.Up);
+            .ToBeta(Quotes, 20, BetaType.Up);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -81,7 +81,7 @@ public class Beta : StaticSeriesTestBase
     public void Down()
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20, BetaType.Down);
+            .ToBeta(Quotes, 20, BetaType.Down);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -97,7 +97,7 @@ public class Beta : StaticSeriesTestBase
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
             .Use(CandlePart.Close)
-            .GetBeta(Quotes.Use(CandlePart.Close), 20);
+            .ToBeta(Quotes.Use(CandlePart.Close), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Beta != null));
@@ -107,8 +107,8 @@ public class Beta : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20)
-            .GetSma(10);
+            .ToBeta(Quotes, 20)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
@@ -118,8 +118,8 @@ public class Beta : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<BetaResult> results = Quotes
-            .GetSma(2)
-            .GetBeta(OtherQuotes.GetSma(2), 20);
+            .ToSma(2)
+            .ToBeta(OtherQuotes.ToSma(2), 20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(481, results.Count(x => x.Beta != null));
@@ -130,19 +130,19 @@ public class Beta : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<BetaResult> r1 = BadQuotes
-            .GetBeta(BadQuotes, 15);
+            .ToBeta(BadQuotes, 15);
 
         Assert.AreEqual(502, r1.Count);
         Assert.AreEqual(0, r1.Count(x => x.Beta is double.NaN));
 
         IReadOnlyList<BetaResult> r2 = BadQuotes
-            .GetBeta(BadQuotes, 15, BetaType.Up);
+            .ToBeta(BadQuotes, 15, BetaType.Up);
 
         Assert.AreEqual(502, r2.Count);
         Assert.AreEqual(0, r2.Count(x => x.BetaUp is double.NaN));
 
         IReadOnlyList<BetaResult> r3 = BadQuotes
-            .GetBeta(BadQuotes, 15, BetaType.Down);
+            .ToBeta(BadQuotes, 15, BetaType.Down);
 
         Assert.AreEqual(502, r3.Count);
         Assert.AreEqual(0, r3.Count(x => x.BetaDown is double.NaN));
@@ -152,7 +152,7 @@ public class Beta : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<BetaResult> r = BigQuotes
-            .GetBeta(BigQuotes, 150, BetaType.All);
+            .ToBeta(BigQuotes, 150, BetaType.All);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -173,7 +173,7 @@ public class Beta : StaticSeriesTestBase
 
         IReadOnlyList<BetaResult> results = evalQuotes
             .Aggregate(PeriodSize.Month)
-            .GetBeta(mktQuotes.Aggregate(PeriodSize.Month), 60);
+            .ToBeta(mktQuotes.Aggregate(PeriodSize.Month), 60);
 
         Assert.AreEqual(0.91, results[385].Beta.Round(2));
     }
@@ -182,7 +182,7 @@ public class Beta : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<BetaResult> results = OtherQuotes
-            .GetBeta(Quotes, 20)
+            .ToBeta(Quotes, 20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -197,7 +197,7 @@ public class Beta : StaticSeriesTestBase
     {
         // Beta should be 1 if evaluating against self
         IReadOnlyList<BetaResult> results = Quotes
-            .GetBeta(Quotes, 20);
+            .ToBeta(Quotes, 20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -212,12 +212,12 @@ public class Beta : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<BetaResult> r0 = Noquotes
-            .GetBeta(Noquotes, 5);
+            .ToBeta(Noquotes, 5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<BetaResult> r1 = Onequote
-            .GetBeta(Onequote, 5);
+            .ToBeta(Onequote, 5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -227,32 +227,32 @@ public class Beta : StaticSeriesTestBase
     {
         IReadOnlyList<Quote> quoteA =
         [
-            new(DateTime.Parse("1/1/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/2/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/3/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/4/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/5/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/6/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/7/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/8/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/9/2020", englishCulture), 0, 0, 0, 1234, 0)
+            new(DateTime.Parse("1/1/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/2/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/3/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/4/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/5/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/6/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/7/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/8/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/9/2020", invariantCulture), 0, 0, 0, 1234, 0)
         ];
 
         IReadOnlyList<Quote> quoteB =
         [
-            new(DateTime.Parse("1/1/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/2/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/3/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("2/4/2020", englishCulture), 0, 0, 0, 1234, 0), // abberrant
-            new(DateTime.Parse("1/5/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/6/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/7/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/8/2020", englishCulture), 0, 0, 0, 1234, 0),
-            new(DateTime.Parse("1/9/2020", englishCulture), 0, 0, 0, 1234, 0)
+            new(DateTime.Parse("1/1/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/2/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/3/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("2/4/2020", invariantCulture), 0, 0, 0, 1234, 0), // abberrant
+            new(DateTime.Parse("1/5/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/6/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/7/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/8/2020", invariantCulture), 0, 0, 0, 1234, 0),
+            new(DateTime.Parse("1/9/2020", invariantCulture), 0, 0, 0, 1234, 0)
         ];
 
         Assert.ThrowsException<InvalidQuotesException>(()
-            => quoteA.GetBeta(quoteB, 3));
+            => quoteA.ToBeta(quoteB, 3));
     }
 
     [TestMethod]
@@ -260,12 +260,12 @@ public class Beta : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetBeta(OtherQuotes, 0));
+            => Quotes.ToBeta(OtherQuotes, 0));
 
         // bad evaluation quotes
         IReadOnlyList<Quote> eval = Data.GetCompare(300).ToList();
 
         Assert.ThrowsException<InvalidQuotesException>(()
-            => Quotes.GetBeta(eval, 30));
+            => Quotes.ToBeta(eval, 30));
     }
 }

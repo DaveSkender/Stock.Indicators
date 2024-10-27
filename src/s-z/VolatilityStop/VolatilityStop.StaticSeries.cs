@@ -2,10 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // VOLATILITY SYSTEM/STOP (SERIES)
 
-public static partial class Indicator
+public static partial class VolatilityStop
 {
+    public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 7,
+        double multiplier = 3)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcVolatilityStop(lookbackPeriods, multiplier);
+
     private static List<VolatilityStopResult> CalcVolatilityStop(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         double multiplier)
     {
@@ -15,7 +23,7 @@ public static partial class Indicator
             .ToList();
 
         // check parameter arguments
-        VolatilityStop.Validate(lookbackPeriods, multiplier);
+        Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = source.Count;

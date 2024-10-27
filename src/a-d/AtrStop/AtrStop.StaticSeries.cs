@@ -4,8 +4,17 @@ namespace Skender.Stock.Indicators;
 
 public static partial class AtrStop
 {
+    public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 21,
+        double multiplier = 3,
+        EndType endType = EndType.Close)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcAtrStop(lookbackPeriods, multiplier, endType);
+
     private static List<AtrStopResult> CalcAtrStop(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         EndType endType)
@@ -84,8 +93,8 @@ public static partial class AtrStop
 
                 r = new(
                     Timestamp: q.Timestamp,
-                    AtrStop: (decimal)upperBand,
-                    BuyStop: (decimal)upperBand,
+                    AtrStop: upperBand,
+                    BuyStop: upperBand,
                     SellStop: null,
                     Atr: atr);
             }
@@ -97,9 +106,9 @@ public static partial class AtrStop
 
                 r = new(
                     Timestamp: q.Timestamp,
-                    AtrStop: (decimal)lowerBand,
+                    AtrStop: lowerBand,
                     BuyStop: null,
-                    SellStop: (decimal)lowerBand,
+                    SellStop: lowerBand,
                     Atr: atr);
             }
 

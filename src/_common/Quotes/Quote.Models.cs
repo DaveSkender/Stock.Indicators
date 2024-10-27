@@ -16,12 +16,6 @@ namespace Skender.Stock.Indicators;
 /// <code>
 ///    double IReusable.Value => (double)Close;
 /// </code>
-/// or inherit the <see cref="Reusable"/> record class
-/// <code>
-///    public record MyQuote(DateTime MyTimestamp, decimal MyClosePrice, ...)
-///      : Reusable(MyTimestamp, (double)MyClosePrice), IQuote
-///    { ... }
-/// </code>
 /// </para>
 /// <para>
 /// TIP: If you do not need a custom quote type,
@@ -86,9 +80,9 @@ public record Quote
     decimal Low,
     decimal Close,
     decimal Volume
-) : Reusable(Timestamp), IQuote
+) : IQuote
 {
-    public override double Value => (double)Close;
+    public double Value => (double)Close;
 
     // TODO: add [Obsolete] auto-getter/setter for 'Date' property
     // but only for a short transition period.  See if there can be
@@ -108,7 +102,7 @@ internal record QuoteD
     double Low,
     double Close,
     double Volume
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Close;
+    public double Value => Close;
 }

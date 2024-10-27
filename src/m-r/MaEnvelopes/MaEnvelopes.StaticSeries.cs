@@ -1,20 +1,22 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
 // MOVING AVERAGE ENVELOPES (SERIES)
 
-public static partial class Indicator
+public static partial class MaEnvelopes
 {
     // calculate series
-    private static List<MaEnvelopeResult> CalcMaEnvelopes<T>(
-        this List<T> source,
+    public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
-        double percentOffset,
-        MaType movingAverageType)
+        double percentOffset = 2.5,
+        MaType movingAverageType = MaType.SMA)
         where T : IReusable
     {
         // check parameter arguments
         // note: most validations are done in variant methods
-        MaEnvelopes.Validate(percentOffset);
+        Validate(percentOffset);
 
         // initialize
         double offsetRatio = percentOffset / 100d;
@@ -35,7 +37,7 @@ public static partial class Indicator
             _ => throw new ArgumentOutOfRangeException(
                     nameof(movingAverageType), movingAverageType,
                     string.Format(
-                        invCulture,
+                        CultureInfo.InvariantCulture,
                         "Moving Average Envelopes does not support {0}.",
                         Enum.GetName(typeof(MaType), movingAverageType)))
         };
@@ -44,11 +46,11 @@ public static partial class Indicator
     }
 
     private static IEnumerable<MaEnvelopeResult> MaEnvAlma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcAlma(lookbackPeriods, offset: 0.85, sigma: 6)
+        => source.ToAlma(lookbackPeriods, offset: 0.85, sigma: 6)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Alma,
@@ -56,11 +58,11 @@ public static partial class Indicator
             LowerEnvelope: x.Alma - (x.Alma * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvDema<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcDema(lookbackPeriods)
+        => source.ToDema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Dema,
@@ -68,11 +70,11 @@ public static partial class Indicator
             LowerEnvelope: x.Dema - (x.Dema * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcEma(lookbackPeriods)
+        => source.ToEma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Ema,
@@ -80,11 +82,11 @@ public static partial class Indicator
             LowerEnvelope: x.Ema - (x.Ema * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvEpma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcEpma(lookbackPeriods)
+        => source.ToEpma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Epma,
@@ -92,11 +94,11 @@ public static partial class Indicator
             LowerEnvelope: x.Epma - (x.Epma * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvHma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcHma(lookbackPeriods)
+        => source.ToHma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Hma,
@@ -104,11 +106,11 @@ public static partial class Indicator
             LowerEnvelope: x.Hma - (x.Hma * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvSma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcSma(lookbackPeriods)
+        => source.ToSma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Sma,
@@ -116,11 +118,11 @@ public static partial class Indicator
             LowerEnvelope: x.Sma - (x.Sma * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvSmma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcSmma(lookbackPeriods)
+        => source.ToSmma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Smma,
@@ -128,11 +130,11 @@ public static partial class Indicator
             LowerEnvelope: x.Smma - (x.Smma * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvTema<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcTema(lookbackPeriods)
+        => source.ToTema(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Tema,
@@ -140,11 +142,11 @@ public static partial class Indicator
             LowerEnvelope: x.Tema - (x.Tema * offsetRatio)));
 
     private static IEnumerable<MaEnvelopeResult> MaEnvWma<T>(
-        this List<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         double offsetRatio)
         where T : IReusable
-        => source.CalcWma(lookbackPeriods)
+        => source.ToWma(lookbackPeriods)
         .Select(x => new MaEnvelopeResult(
             Timestamp: x.Timestamp,
             Centerline: x.Wma,

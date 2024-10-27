@@ -6,7 +6,7 @@ public record AtrResult
     double? Tr = null,
     double? Atr = null,
     double? Atrp = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Atrp.Null2NaN();
+    public double Value => Atrp.Null2NaN();
 }

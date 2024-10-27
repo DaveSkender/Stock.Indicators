@@ -7,7 +7,7 @@ public class Bop : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<BopResult> results = Quotes
-            .GetBop();
+            .ToBop();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -34,8 +34,8 @@ public class Bop : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetBop()
-            .GetSma(10);
+            .ToBop()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
@@ -44,8 +44,8 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<BopResult> r = Data.GetBtcUsdNan()
-            .GetBop(50);
+        IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
+            .ToBop(50);
 
         Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
     }
@@ -54,7 +54,7 @@ public class Bop : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<BopResult> r = BadQuotes
-            .GetBop();
+            .ToBop();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
@@ -64,11 +64,11 @@ public class Bop : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<BopResult> r0 = Noquotes
-            .GetBop();
+            .ToBop();
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<BopResult> r1 = Onequote
-            .GetBop();
+            .ToBop();
         Assert.AreEqual(1, r1.Count);
     }
 
@@ -76,7 +76,7 @@ public class Bop : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<BopResult> results = Quotes
-            .GetBop()
+            .ToBop()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -90,5 +90,5 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetBop(0));
+            => Quotes.ToBop(0));
 }

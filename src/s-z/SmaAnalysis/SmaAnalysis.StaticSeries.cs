@@ -1,16 +1,17 @@
 namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (ANALYSIS)
-public static partial class Indicator
+
+public static partial class Sma
 {
-    private static List<SmaAnalysis> CalcSmaAnalysis<T>(
-        this List<T> source,
+    public static IReadOnlyList<SmaAnalysis> ToSmaAnalysis<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // initialize
         List<SmaAnalysis> results = source
-            .CalcSma(lookbackPeriods)
+            .ToSma(lookbackPeriods)
             .Select(s => new SmaAnalysis(s.Timestamp, s.Sma))
             .ToList();
 

@@ -7,7 +7,7 @@ public class Smi : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<SmiResult> results = Quotes
-            .GetSmi(14, 20, 5);
+            .ToSmi(14, 20, 5);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -48,8 +48,8 @@ public class Smi : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetSmi(14, 20, 5)
-            .GetSma(10);
+            .ToSmi(14, 20, 5)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
@@ -59,7 +59,7 @@ public class Smi : StaticSeriesTestBase
     public void NoSignal()
     {
         IReadOnlyList<SmiResult> results = Quotes
-            .GetSmi(5, 20, 20, 1);
+            .ToSmi(5, 20, 20, 1);
 
         // signal equals oscillator
         SmiResult r1 = results[487];
@@ -73,7 +73,7 @@ public class Smi : StaticSeriesTestBase
     public void SmallPeriods()
     {
         IReadOnlyList<SmiResult> results = Quotes
-            .GetSmi(1, 1, 1, 5);
+            .ToSmi(1, 1, 1, 5);
 
         // sample values
         SmiResult r51 = results[51];
@@ -93,7 +93,7 @@ public class Smi : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<SmiResult> r = BadQuotes
-            .GetSmi(5, 5, 1, 5);
+            .ToSmi(5, 5, 1, 5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Smi is double.NaN));
@@ -103,12 +103,12 @@ public class Smi : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<SmiResult> r0 = Noquotes
-            .GetSmi(5, 5);
+            .ToSmi(5, 5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<SmiResult> r1 = Onequote
-            .GetSmi(5, 3, 3);
+            .ToSmi(5, 3, 3);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -117,7 +117,7 @@ public class Smi : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<SmiResult> results = Quotes
-            .GetSmi(14, 20, 5)
+            .ToSmi(14, 20, 5)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -133,18 +133,18 @@ public class Smi : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetSmi(0, 5, 5, 5));
+            Quotes.ToSmi(0, 5, 5, 5));
 
         // bad first smooth period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetSmi(14, 0, 5, 5));
+            Quotes.ToSmi(14, 0, 5, 5));
 
         // bad second smooth period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetSmi(14, 3, 0, 5));
+            Quotes.ToSmi(14, 3, 0, 5));
 
         // bad signal
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetSmi(9, 3, 1, 0));
+            Quotes.ToSmi(9, 3, 1, 0));
     }
 }

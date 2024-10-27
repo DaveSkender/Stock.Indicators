@@ -7,7 +7,7 @@ public class WilliamsR : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<WilliamsResult> results = Quotes
-            .GetWilliamsR();
+            .ToWilliamsR();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -37,8 +37,8 @@ public class WilliamsR : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetWilliamsR()
-            .GetSma(10);
+            .ToWilliamsR()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
@@ -48,7 +48,7 @@ public class WilliamsR : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<WilliamsResult> results = BadQuotes
-            .GetWilliamsR(20);
+            .ToWilliamsR(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(0, results.Count(x => x.WilliamsR is double.NaN));
@@ -58,12 +58,12 @@ public class WilliamsR : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<WilliamsResult> r0 = Noquotes
-            .GetWilliamsR();
+            .ToWilliamsR();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<WilliamsResult> r1 = Onequote
-            .GetWilliamsR();
+            .ToWilliamsR();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -72,7 +72,7 @@ public class WilliamsR : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<WilliamsResult> results = Quotes
-            .GetWilliamsR()
+            .ToWilliamsR()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -87,7 +87,7 @@ public class WilliamsR : StaticSeriesTestBase
     {
         IReadOnlyList<WilliamsResult> results = Data
             .GetRandom(2500)
-            .GetWilliamsR();
+            .ToWilliamsR();
 
         // analyze boundary
         for (int i = 0; i < results.Count; i++)
@@ -116,7 +116,7 @@ public class WilliamsR : StaticSeriesTestBase
 
         // get indicators
         IReadOnlyList<WilliamsResult> resultsList = quotesList
-            .GetWilliamsR();
+            .ToWilliamsR();
 
         Console.WriteLine($"%R from {length} quotes.");
 
@@ -140,5 +140,5 @@ public class WilliamsR : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetWilliamsR(0));
+            => Quotes.ToWilliamsR(0));
 }

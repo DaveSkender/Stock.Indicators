@@ -1,11 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// STANDARD DEVIATION CHANNELS (UTILITIES)
+
+public static partial class StdDevChannels
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<StdDevChannelsResult> Condense(
-        this IEnumerable<StdDevChannelsResult> results)
+        this IReadOnlyList<StdDevChannelsResult> results)
     {
         List<StdDevChannelsResult> resultsList = results
             .ToList();
@@ -21,14 +23,33 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<StdDevChannelsResult> RemoveWarmupPeriods(
-        this IEnumerable<StdDevChannelsResult> results)
+        this IReadOnlyList<StdDevChannelsResult> results)
     {
         int removePeriods = results
             .ToList()
             .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int? lookbackPeriods,
+        double stdDeviations)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for Standard Deviation Channels.");
+        }
+
+        if (stdDeviations <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stdDeviations), stdDeviations,
+                "Standard Deviations must be greater than 0 for Standard Deviation Channels.");
+        }
     }
 }

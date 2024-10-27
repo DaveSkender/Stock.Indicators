@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Utilities;
 
 // quote validation
@@ -15,10 +17,10 @@ public partial class Quotes : TestBase
         Assert.AreEqual(502, h.Count);
 
         // sample values
-        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, h[501].Timestamp);
 
-        DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", englishCulture);
+        DateTime spotDate = DateTime.ParseExact("02/01/2017", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(spotDate, h[20].Timestamp);
     }
 
@@ -31,7 +33,7 @@ public partial class Quotes : TestBase
         Assert.AreEqual(5285, h.Count);
 
         // sample values
-        DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", englishCulture);
+        DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", invariantCulture);
         Assert.AreEqual(lastDate, h[5284].Timestamp);
     }
 
@@ -48,7 +50,7 @@ public partial class Quotes : TestBase
         Assert.AreEqual(200, h.Count);
 
         // should be 20 results and no index corruption
-        IReadOnlyList<SmaResult> r1 = h.TakeLast(20).GetSma(14).ToList();
+        IReadOnlyList<SmaResult> r1 = h.TakeLast(20).ToList().ToSma(14).ToList();
         Assert.AreEqual(20, r1.Count);
 
         for (int i = 1; i < r1.Count; i++)
@@ -57,7 +59,7 @@ public partial class Quotes : TestBase
         }
 
         // should be 50 results and no index corruption
-        IReadOnlyList<SmaResult> r2 = h.TakeLast(50).GetSma(14).ToList();
+        IReadOnlyList<SmaResult> r2 = h.TakeLast(50).ToList().ToSma(14).ToList();
         Assert.AreEqual(50, r2.Count);
 
         for (int i = 1; i < r2.Count; i++)
@@ -77,19 +79,39 @@ public partial class Quotes : TestBase
     [TestMethod]
     public void ValidateDuplicates()
     {
-        IReadOnlyList<Quote> badHistory =
-        [
-            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", englishCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
-            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", englishCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
-            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", englishCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
-            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893),
-            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", englishCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484)
-        ];
+        IReadOnlyList<Quote> dupQuotes = new List<Quote>
+        {
+            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", invariantCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
+            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", invariantCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
+            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", invariantCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484)
+        };
 
-        InvalidQuotesException ex =
-            Assert.ThrowsException<InvalidQuotesException>(()
-                => badHistory.Validate());
+        InvalidQuotesException dx
+            = Assert.ThrowsException<InvalidQuotesException>(
+                () => dupQuotes.Validate());
 
-        ex.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
+        dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
+    }
+
+    [TestMethod]
+    public void ValidateOutOfSequence()
+    {
+        IReadOnlyList<Quote> unorderedQuotes = new List<Quote>
+        {
+            new(Timestamp: DateTime.ParseExact("2017-01-03", "yyyy-MM-dd", invariantCulture), Open: 214.86m, High: 220.33m, Low: 210.96m, Close: 216.99m, Volume: 5923254),
+            new(Timestamp: DateTime.ParseExact("2017-01-04", "yyyy-MM-dd", invariantCulture), Open: 214.75m, High: 228.00m, Low: 214.31m, Close: 226.99m, Volume: 11213471),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 228.97m, High: 231.92m, Low: 228.00m, Close: 231.28m, Volume: 3979484),
+            new(Timestamp: DateTime.ParseExact("2017-01-05", "yyyy-MM-dd", invariantCulture), Open: 226.42m, High: 227.48m, Low: 221.95m, Close: 226.75m, Volume: 5911695),
+            new(Timestamp: DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", invariantCulture), Open: 226.93m, High: 230.31m, Low: 225.45m, Close: 229.01m, Volume: 5527893)
+        };
+
+        InvalidQuotesException dx
+            = Assert.ThrowsException<InvalidQuotesException>(
+                () => unorderedQuotes.Validate());
+
+        dx.Message.Should()
+            .Contain("Quotes are out of sequence on 2017-01-05T00:00:00.0000000.");
     }
 }

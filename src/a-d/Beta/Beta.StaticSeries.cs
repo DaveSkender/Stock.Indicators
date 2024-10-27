@@ -2,18 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // BETA COEFFICIENT (SERIES)
 
-public static partial class Indicator
+public static partial class Beta
 {
-    // NOTE: sequence swapped from API
-    private static List<BetaResult> CalcBeta<T>(
-        List<T> sourceEval,
-        List<T> sourceMrkt,
+    public static IReadOnlyList<BetaResult> ToBeta<T>(
+        this IReadOnlyList<T> sourceEval,
+        IReadOnlyList<T> sourceMrkt,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         where T : IReusable
     {
         // check parameter arguments
-        Beta.Validate(sourceEval, sourceMrkt, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(sourceEval);
+        ArgumentNullException.ThrowIfNull(sourceMrkt);
+        Validate(sourceEval, sourceMrkt, lookbackPeriods);
 
         // initialize
         int length = sourceEval.Count;
@@ -146,7 +147,7 @@ public static partial class Indicator
         }
 
         // calculate correlation, covariance, and variance
-        CorrResult c = PeriodCorrelation(
+        CorrResult c = Correlation.PeriodCorrelation(
             default,
             [.. dataA],
             [.. dataB]);

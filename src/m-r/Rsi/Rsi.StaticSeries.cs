@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // RELATIVE STRENGTH INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Rsi
 {
-    private static List<RsiResult> CalcRsi<T>(
-        this List<T> source,
-        int lookbackPeriods)
+    public static IReadOnlyList<RsiResult> ToRsi<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments
-        Rsi.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
@@ -46,7 +47,7 @@ public static partial class Indicator
             double? rsi = null;
             prevValue = s.Value;
 
-            // initialize average gain
+            // re/initialize average gain
             if (i >= lookbackPeriods && (double.IsNaN(avgGain) || double.IsNaN(avgLoss)))
             {
                 double sumGain = 0;

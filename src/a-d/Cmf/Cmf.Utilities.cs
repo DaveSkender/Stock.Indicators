@@ -1,16 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
-    public static IReadOnlyList<CmfResult> RemoveWarmupPeriods(
-        this IEnumerable<CmfResult> results)
-    {
-        int removePeriods = results
-          .ToList()
-          .FindIndex(x => x.Cmf != null);
+// CHAIKIN MONEY FLOW (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class Cmf
+{
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Chaikin Money Flow.");
+        }
     }
+
 }

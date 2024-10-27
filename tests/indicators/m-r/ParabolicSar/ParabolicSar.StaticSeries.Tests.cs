@@ -9,8 +9,8 @@ public class ParabolicSar : StaticSeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        IReadOnlyList<ParabolicSarResult> results =
-            Quotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
+        List<ParabolicSarResult> results =
+            Quotes.ToParabolicSar(acclerationStep, maxAccelerationFactor)
                 .ToList();
 
         // proper quantities
@@ -42,7 +42,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double maxAccelerationFactor = 0.2;
         double initialStep = 0.01;
 
-        IReadOnlyList<ParabolicSarResult> results =
+        List<ParabolicSarResult> results =
             Quotes.GetParabolicSar(
                 acclerationStep, maxAccelerationFactor, initialStep)
                 .ToList();
@@ -77,8 +77,8 @@ public class ParabolicSar : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetParabolicSar()
-            .GetSma(10);
+            .ToParabolicSar()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
@@ -90,13 +90,14 @@ public class ParabolicSar : StaticSeriesTestBase
         double acclerationStep = 0.02;
         double maxAccelerationFactor = 0.2;
 
-        IEnumerable<Quote> insufficientQuotes = Data.GetDefault()
+        List<Quote> insufficientQuotes = Data.GetDefault()
             .OrderBy(x => x.Timestamp)
-            .Take(10);
+            .Take(10)
+            .ToList();
 
         IReadOnlyList<ParabolicSarResult> results =
-            insufficientQuotes.GetParabolicSar(acclerationStep, maxAccelerationFactor)
-                .ToList();
+            insufficientQuotes
+                .ToParabolicSar(acclerationStep, maxAccelerationFactor);
 
         // assertions
 
@@ -119,12 +120,12 @@ public class ParabolicSar : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ParabolicSarResult> r0 = Noquotes
-            .GetParabolicSar();
+            .ToParabolicSar();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ParabolicSarResult> r1 = Onequote
-            .GetParabolicSar();
+            .ToParabolicSar();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -136,7 +137,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double maxAccelerationFactor = 0.2;
 
         IReadOnlyList<ParabolicSarResult> results = Quotes
-            .GetParabolicSar(acclerationStep, maxAccelerationFactor)
+            .ToParabolicSar(acclerationStep, maxAccelerationFactor)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -152,15 +153,15 @@ public class ParabolicSar : StaticSeriesTestBase
     {
         // bad acceleration step
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(0, 1));
+            Quotes.ToParabolicSar(0, 1));
 
         // insufficient acceleration step
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(0.02, 0));
+            Quotes.ToParabolicSar(0.02, 0));
 
         // step larger than factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(6, 2));
+            Quotes.ToParabolicSar(6, 2));
 
         // insufficient initial factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>

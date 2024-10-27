@@ -2,8 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // ACCUMULATION/DISTRIBUTION LINE (STREAM HUB)
 
-public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
-    IReusableHub<TIn, AdlResult>
+#region hub initializer
+
+public static partial class Adl
+{
+    public static AdlHub<TIn> ToAdl<TIn>(
+        this IQuoteProvider<TIn> quoteProvider)
+        where TIn : IQuote
+        => new(quoteProvider);
+}
+#endregion
+
+public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>
     where TIn : IQuote
 {
     #region constructors
@@ -17,30 +27,22 @@ public class AdlHub<TIn> : QuoteObserver<TIn, AdlResult>,
 
     // METHODS
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    protected override (AdlResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // candidate result
         AdlResult r = Adl.Increment(
-            newIn.Timestamp,
-            newIn.High,
-            newIn.Low,
-            newIn.Close,
-            newIn.Volume,
+            item.Timestamp,
+            item.High,
+            item.Low,
+            item.Close,
+            item.Volume,
             i > 0 ? Cache[i - 1].Value : 0);
 
-        // save and send
-        Motify(act, r, i);
+        return (r, i);
     }
 
-    public override string ToString()
-    {
-        if (Cache.Count == 0)
-        {
-            return "ADL";
-        }
-
-        return $"ADL({Cache[0].Timestamp:d})";
-    }
+    public override string ToString() => Cache.Count == 0 ? "ADL" : $"ADL({Cache[0].Timestamp:d})";
 }

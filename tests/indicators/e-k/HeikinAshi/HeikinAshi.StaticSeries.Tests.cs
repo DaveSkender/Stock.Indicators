@@ -7,7 +7,7 @@ public class HeikinAshi : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<HeikinAshiResult> results = Quotes
-            .GetHeikinAshi();
+            .ToHeikinAshi();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -24,8 +24,8 @@ public class HeikinAshi : StaticSeriesTestBase
     [TestMethod]
     public void UseAsQuotes()
     {
-        IEnumerable<HeikinAshiResult> haQuotes = Quotes.GetHeikinAshi();
-        IEnumerable<SmaResult> haSma = haQuotes.GetSma(5);
+        IReadOnlyList<HeikinAshiResult> haQuotes = Quotes.ToHeikinAshi();
+        IReadOnlyList<SmaResult> haSma = haQuotes.ToSma(5);
         Assert.AreEqual(498, haSma.Count(x => x.Sma != null));
     }
 
@@ -33,7 +33,7 @@ public class HeikinAshi : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<HeikinAshiResult> r = BadQuotes
-            .GetHeikinAshi();
+            .ToHeikinAshi();
 
         Assert.AreEqual(502, r.Count);
     }
@@ -42,12 +42,12 @@ public class HeikinAshi : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<HeikinAshiResult> r0 = Noquotes
-            .GetHeikinAshi();
+            .ToHeikinAshi();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<HeikinAshiResult> r1 = Onequote
-            .GetHeikinAshi();
+            .ToHeikinAshi();
 
         Assert.AreEqual(1, r1.Count);
     }

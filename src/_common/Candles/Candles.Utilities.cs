@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Utility
 {
     public static IReadOnlyList<CandleResult> Condense(
-        this IEnumerable<CandleResult> candleResults) => candleResults
+        this IReadOnlyList<CandleResult> candleResults) => candleResults
             .Where(candle => candle.Match != Match.None)
             .ToList();
 
@@ -19,7 +19,7 @@ public static partial class Utility
 
     // convert/sort quotes into candles list
     public static IReadOnlyList<CandleProperties> ToCandles<TQuote>(
-        this IEnumerable<TQuote> quotes)
+        this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes
             .Select(x => x.ToCandle())
             .OrderBy(x => x.Timestamp)

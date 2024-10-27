@@ -1,11 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// ZIG ZAG (UTILITIES)
+
+public static partial class ZigZag
 {
     // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<ZigZagResult> Condense(
-        this IEnumerable<ZigZagResult> results)
+        this IReadOnlyList<ZigZagResult> results)
     {
         List<ZigZagResult> resultsList = results
             .ToList();
@@ -15,5 +17,17 @@ public static partial class Indicator
                 x => x.PointType is null);
 
         return resultsList.ToSortedList();
+    }
+
+    // parameter validation
+    internal static void Validate(
+        decimal percentChange)
+    {
+        // check parameter arguments
+        if (percentChange <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(percentChange), percentChange,
+                "Percent change must be greater than 0 for ZIGZAG.");
+        }
     }
 }

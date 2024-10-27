@@ -4,7 +4,7 @@ public record TemaResult
 (
     DateTime Timestamp,
     double? Tema = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Tema.Null2NaN();
+    public double Value => Tema.Null2NaN();
 }

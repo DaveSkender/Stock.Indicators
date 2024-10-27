@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // BALANCE OF POWER (SERIES)
 
-public static partial class Indicator
+public static partial class Bop
 {
+    public static IReadOnlyList<BopResult> ToBop<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int smoothPeriods = 14)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcBop(smoothPeriods);
+
     private static List<BopResult> CalcBop(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int smoothPeriods)
     {
         // check parameter arguments
-        Bop.Validate(smoothPeriods);
+        Validate(smoothPeriods);
 
         // initialize
         int length = source.Count;

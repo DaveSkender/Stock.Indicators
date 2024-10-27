@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // ULCER INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class UlcerIndex
 {
-    private static List<UlcerIndexResult> CalcUlcerIndex<T>(
-        this List<T> source,
-        int lookbackPeriods)
+    public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 14)
         where T : IReusable
     {
         // check parameter arguments
-        UlcerIndex.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

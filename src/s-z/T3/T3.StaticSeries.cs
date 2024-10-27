@@ -2,16 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // TILLSON T3 MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class T3
 {
-    private static List<T3Result> CalcT3<T>(
-        this List<T> source,
-        int lookbackPeriods,
-        double volumeFactor)
+    public static IReadOnlyList<T3Result> ToT3<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 5,
+        double volumeFactor = 0.7)
         where T : IReusable
     {
         // check parameter arguments
-        T3.Validate(lookbackPeriods, volumeFactor);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, volumeFactor);
 
         // initialize
         int length = source.Count;

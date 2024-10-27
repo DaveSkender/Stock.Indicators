@@ -1,19 +1,24 @@
 namespace Skender.Stock.Indicators;
 
 // MOTHER of ADAPTIVE MOVING AVERAGES (SERIES)
-public static partial class Indicator
+
+public static partial class Mama
 {
-    private static List<MamaResult> CalcMama<T>(
-        this List<T> source,
-        double fastLimit,
-        double slowLimit)
+    public static IReadOnlyList<MamaResult> ToMama<T>(
+        this IReadOnlyList<T> source,
+        double fastLimit = 0.5,
+        double slowLimit = 0.05)
         where T : IReusable
     {
         // check parameter arguments
-        Mama.Validate(fastLimit, slowLimit);
+        Validate(fastLimit, slowLimit);
+
+        // prefer HL2 when IQuote
+        IReadOnlyList<IReusable> values
+            = source.ToPreferredList(CandlePart.HL2);
 
         // initialize
-        int length = source.Count;
+        int length = values.Count;
         List<MamaResult> results = new(length);
 
         double prevMama = double.NaN;
@@ -38,7 +43,7 @@ public static partial class Indicator
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = source[i];
+            IReusable s = values[i];
             pr[i] = s.Value;
 
             // skip incalculable periods

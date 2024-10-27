@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // VORTEX INDICATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Vortex
 {
+    public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcVortex(lookbackPeriods);
+
     private static List<VortexResult> CalcVortex(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Vortex.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

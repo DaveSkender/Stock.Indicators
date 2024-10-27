@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 // QUOTEPART TYPE UTILITIES
 
-public static partial class Utility
+public static partial class QuoteParts
 {
     // convert TQuote element to a basic QuotePart class
     internal static QuotePart ToQuotePart(this IQuote q, CandlePart candlePart)
@@ -60,19 +60,19 @@ public static partial class Utility
     /// <param name="items">List of IQuote or IReusable items</param>
     /// <param name="candlePart"></param>
     /// <returns>List of IReusable items</returns>
-    internal static List<IReusable> ToSortedList<T>(
-        this IEnumerable<T> items, CandlePart candlePart)
-        where T : IReusable
+    internal static IReadOnlyList<IReusable> ToPreferredList<T>(
+    this IReadOnlyList<T> items, CandlePart candlePart)
+    where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(items);
 
-        => typeof(IQuote).IsAssignableFrom(typeof(T))
-
-            ? items
-             .Cast<IQuote>()
-             .Use(candlePart)
-             .Cast<IReusable>()
-             .ToSortedList()
-
-            : items
-             .Cast<IReusable>()
-             .ToSortedList();
+        if (items is IReadOnlyList<IQuote> quotes)
+        {
+            return quotes.ToQuotePart(candlePart);
+        }
+        else
+        {
+            return items.Cast<IReusable>().ToList();
+        }
+    }
 }

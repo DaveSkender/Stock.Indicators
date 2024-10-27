@@ -5,7 +5,7 @@ public record KvoResult
     DateTime Timestamp,
     double? Oscillator = null,
     double? Signal = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Oscillator.Null2NaN();
+    public double Value => Oscillator.Null2NaN();
 }

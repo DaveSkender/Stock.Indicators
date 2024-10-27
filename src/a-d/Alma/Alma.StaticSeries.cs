@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // ARNAUD LEGOUX MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Alma
 {
-    private static List<AlmaResult> CalcAlma<T>(
-        this List<T> source,
-        int lookbackPeriods,
-        double offset,
-        double sigma)
+    public static IReadOnlyList<AlmaResult> ToAlma<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 9,
+        double offset = 0.85,
+        double sigma = 6)
         where T : IReusable
     {
         // check parameter arguments
-        Alma.Validate(lookbackPeriods, offset, sigma);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, offset, sigma);
 
         // initialize
         int length = source.Count;

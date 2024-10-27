@@ -4,17 +4,24 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Sma
 {
-    internal static List<SmaResult> CalcSma<T>(
-        this List<T> source,
+    public static IReadOnlyList<SmaResult> ToSma<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Sma.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
-        List<SmaResult> results = new(length);
+        SmaResult[] results = new SmaResult[length];
+        double[] values = new double[length];
+
+        for (int i = 0; i < length; i++)
+        {
+            values[i] = source[i].Value;
+        }
 
         // roll through source values
         for (int i = 0; i < length; i++)
@@ -25,27 +32,27 @@ public static partial class Sma
 
             if (i >= lookbackPeriods - 1)
             {
-                double sumSma = 0;
-                for (int p = i - lookbackPeriods + 1; p <= i; p++)
+                double sum = 0;
+                int end = i + 1;
+                int start = end - lookbackPeriods;
+
+                for (int p = start; p < end; p++)
                 {
-                    T ps = source[p];
-                    sumSma += ps.Value;
+                    sum += source[p].Value;
                 }
 
-                sma = sumSma / lookbackPeriods;
+                sma = sum / lookbackPeriods;
             }
             else
             {
                 sma = double.NaN;
             }
 
-            SmaResult result = new(
+            results[i] = new SmaResult(
                 Timestamp: s.Timestamp,
                 Sma: sma.NaN2Null());
-
-            results.Add(result);
         }
 
-        return results;
+        return new List<SmaResult>(results);
     }
 }

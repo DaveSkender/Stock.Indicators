@@ -2,24 +2,25 @@ namespace Skender.Stock.Indicators;
 
 // DONCHIAN CHANNEL (SERIES)
 
-public static partial class Indicator
+public static partial class Donchian
 {
-    private static List<DonchianResult> CalcDonchian<TQuote>(
-        this List<TQuote> quotesList,
-        int lookbackPeriods)
+    public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
         where TQuote : IQuote
     {
         // check parameter arguments
-        Donchian.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<DonchianResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
 
             if (i >= lookbackPeriods)
             {
@@ -29,7 +30,7 @@ public static partial class Indicator
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)
                 {
-                    TQuote d = quotesList[p];
+                    TQuote d = quotes[p];
 
                     if (d.High > highHigh)
                     {

@@ -2,16 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // TRIPLE EXPONENTIAL MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Tema
 {
     // calculate series
-    private static List<TemaResult> CalcTema<T>(
-        this List<T> source,
+    public static IReadOnlyList<TemaResult> ToTema<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Tema.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

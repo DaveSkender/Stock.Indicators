@@ -4,13 +4,19 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Atr
 {
-    // calculate series
+    public static IReadOnlyList<AtrResult> ToAtr<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcAtr(lookbackPeriods);
+
     internal static List<AtrResult> CalcAtr(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Atr.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

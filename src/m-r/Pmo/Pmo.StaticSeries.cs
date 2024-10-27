@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // PRICE MOMENTUM OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Pmo
 {
-    private static List<PmoResult> CalcPmo<T>(
-        this List<T> source,
-        int timePeriods,
-        int smoothPeriods,
-        int signalPeriods)
+    public static IReadOnlyList<PmoResult> ToPmo<T>(
+        this IReadOnlyList<T> source,
+        int timePeriods = 35,
+        int smoothPeriods = 20,
+        int signalPeriods = 10)
         where T : IReusable
     {
         // check parameter arguments
-        Pmo.Validate(timePeriods, smoothPeriods, signalPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(timePeriods, smoothPeriods, signalPeriods);
 
         // initialize
         int length = source.Count;
@@ -36,7 +37,7 @@ public static partial class Indicator
             T s = source[i];
 
             // rate of change (ROC)
-            rc[i] = prevPrice == 0 ? double.NaN : 100 * (s.Value / prevPrice - 1);
+            rc[i] = prevPrice == 0 ? double.NaN : 100 * ((s.Value / prevPrice) - 1);
             prevPrice = s.Value;
 
             // ROC smoothed moving average
@@ -53,7 +54,7 @@ public static partial class Indicator
             }
             else
             {
-                rocEma = prevRocEma + smoothingConstant2 * (rc[i] - prevRocEma);
+                rocEma = prevRocEma + (smoothingConstant2 * (rc[i] - prevRocEma));
             }
 
             re[i] = rocEma * 10;
@@ -73,7 +74,7 @@ public static partial class Indicator
             }
             else
             {
-                pmo = prevPmo + smoothingConstant1 * (re[i] - prevPmo);
+                pmo = prevPmo + (smoothingConstant1 * (re[i] - prevPmo));
             }
 
             prevPmo = pm[i] = pmo;

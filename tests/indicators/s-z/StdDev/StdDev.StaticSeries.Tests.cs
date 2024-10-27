@@ -7,7 +7,7 @@ public class StdDev : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<StdDevResult> results = Quotes
-            .GetStdDev(10);
+            .ToStdDev(10);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -41,7 +41,7 @@ public class StdDev : StaticSeriesTestBase
     {
         IReadOnlyList<StdDevResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetStdDev(10);
+            .ToStdDev(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.StdDev != null));
@@ -51,8 +51,8 @@ public class StdDev : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<StdDevResult> results = Quotes
-            .GetSma(2)
-            .GetStdDev(10);
+            .ToSma(2)
+            .ToStdDev(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.StdDev != null));
@@ -62,8 +62,8 @@ public class StdDev : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetStdDev(10)
-            .GetSma(10);
+            .ToStdDev(10)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -73,7 +73,7 @@ public class StdDev : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<StdDevResult> r = BadQuotes
-            .GetStdDev(15);
+            .ToStdDev(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.StdDev is double.NaN));
@@ -83,7 +83,7 @@ public class StdDev : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<StdDevResult> r = BigQuotes
-            .GetStdDev(200);
+            .ToStdDev(200);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -92,12 +92,12 @@ public class StdDev : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<StdDevResult> r0 = Noquotes
-            .GetStdDev(10);
+            .ToStdDev(10);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<StdDevResult> r1 = Onequote
-            .GetStdDev(10);
+            .ToStdDev(10);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -106,7 +106,7 @@ public class StdDev : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<StdDevResult> results = Quotes
-            .GetStdDev(10)
+            .ToStdDev(10)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -123,5 +123,5 @@ public class StdDev : StaticSeriesTestBase
 
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetStdDev(1));
+            Quotes.ToStdDev(1));
 }

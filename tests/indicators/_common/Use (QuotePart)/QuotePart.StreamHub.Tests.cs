@@ -8,8 +8,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
     {
         CandlePart candlePart = CandlePart.HLC3;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -50,7 +49,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -84,8 +83,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         int smaPeriods = 8;
         CandlePart candlePart = CandlePart.OHLC4;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -116,7 +114,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         IReadOnlyList<SmaResult> seriesList
            = quotesList
             .Use(candlePart)
-            .GetSma(smaPeriods);
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         for (int i = 0; i < length - 1; i++)

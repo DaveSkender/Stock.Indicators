@@ -90,9 +90,9 @@ public class CustomIndicators
     [TestMethod]
     public void QuoteToSortedList()
     {
-        IEnumerable<Quote> mismatch = Data.GetMismatch();
+        IReadOnlyList<Quote> mismatch = Data.GetMismatch();
 
-        Collection<Quote> h = mismatch.ToSortedCollection();
+        IReadOnlyList<Quote> h = mismatch.ToSortedList();
 
         // proper quantities
         Assert.AreEqual(502, h.Count);
@@ -103,7 +103,7 @@ public class CustomIndicators
 
         // check last date
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
-        Assert.AreEqual(lastDate, h.LastOrDefault().Timestamp);
+        Assert.AreEqual(lastDate, h[^1].Timestamp);
 
         // spot check an out of sequence date
         DateTime spotDate = DateTime.ParseExact("03/16/2017", "MM/dd/yyyy", EnglishCulture);

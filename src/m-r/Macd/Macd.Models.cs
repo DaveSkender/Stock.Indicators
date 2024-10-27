@@ -7,11 +7,11 @@ public record MacdResult
     double? Signal,
     double? Histogram,
 
-    // extra interim data
+    // extra/interim data
     double? FastEma,
     double? SlowEma
 
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Macd.Null2NaN();
+    public double Value => Macd.Null2NaN();
 }

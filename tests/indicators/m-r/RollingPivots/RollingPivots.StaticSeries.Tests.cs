@@ -11,7 +11,7 @@ public class RollingPivots : StaticSeriesTestBase
         PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<RollingPivotsResult> results =
-            Quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType);
+            Quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -81,10 +81,10 @@ public class RollingPivots : StaticSeriesTestBase
         int offsetPeriods = 0;
         PivotPointType pointType = PivotPointType.Camarilla;
 
-        IEnumerable<Quote> h = Data.GetDefault(38);
+        IReadOnlyList<Quote> h = Data.GetDefault(38);
 
         IReadOnlyList<RollingPivotsResult> results = h
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType);
+            .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(38, results.Count);
@@ -155,7 +155,7 @@ public class RollingPivots : StaticSeriesTestBase
         PivotPointType pointType = PivotPointType.Demark;
 
         IReadOnlyList<RollingPivotsResult> results = Quotes
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType);
+            .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -236,10 +236,10 @@ public class RollingPivots : StaticSeriesTestBase
         int offsetPeriods = 15;
         PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IEnumerable<Quote> h = Data.GetIntraday(300);
+        IReadOnlyList<Quote> h = Data.GetIntraday(300);
 
         IReadOnlyList<RollingPivotsResult> results =
-            h.GetRollingPivots(windowPeriods, offsetPeriods, pointType);
+            h.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(300, results.Count);
@@ -310,10 +310,10 @@ public class RollingPivots : StaticSeriesTestBase
         int offsetPeriods = 16;
         PivotPointType pointType = PivotPointType.Woodie;
 
-        IEnumerable<Quote> h = Data.GetIntraday();
+        IReadOnlyList<Quote> h = Data.GetIntraday();
 
         IReadOnlyList<RollingPivotsResult> results = h
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType);
+            .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
         Assert.AreEqual(1564, results.Count);
@@ -372,7 +372,7 @@ public class RollingPivots : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<RollingPivotsResult> r = BadQuotes
-            .GetRollingPivots(5, 5);
+            .ToRollingPivots(5, 5);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -381,12 +381,12 @@ public class RollingPivots : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<RollingPivotsResult> r0 = Noquotes
-            .GetRollingPivots(5, 2);
+            .ToRollingPivots(5, 2);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<RollingPivotsResult> r1 = Onequote
-            .GetRollingPivots(5, 2);
+            .ToRollingPivots(5, 2);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -399,7 +399,7 @@ public class RollingPivots : StaticSeriesTestBase
         PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<RollingPivotsResult> results = Quotes
-            .GetRollingPivots(windowPeriods, offsetPeriods, pointType)
+            .ToRollingPivots(windowPeriods, offsetPeriods, pointType)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -422,10 +422,10 @@ public class RollingPivots : StaticSeriesTestBase
     {
         // bad window period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetRollingPivots(0, 10));
+            Quotes.ToRollingPivots(0, 10));
 
         // bad offset period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetRollingPivots(10, -1));
+            Quotes.ToRollingPivots(10, -1));
     }
 }

@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // MONEY FLOW INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Mfi
 {
+    public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    int lookbackPeriods = 14)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcMfi(lookbackPeriods);
+
     private static List<MfiResult> CalcMfi(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Mfi.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

@@ -2,10 +2,40 @@ namespace Skender.Stock.Indicators;
 
 // STOCHASTIC OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Stoch
 {
-    private static List<StochResult> CalcStoch(
-        this List<QuoteD> source,
+    public static IReadOnlyList<StochResult> ToStoch<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
+    int lookbackPeriods = 14,
+    int signalPeriods = 3,
+    int smoothPeriods = 3)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcStoch(
+            lookbackPeriods,
+            signalPeriods,
+            smoothPeriods, 3, 2, MaType.SMA);
+
+    public static IReadOnlyList<StochResult> ToStoch<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods,
+        int signalPeriods,
+        int smoothPeriods,
+        double kFactor,
+        double dFactor,
+        MaType movingAverageType)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcStoch(
+                lookbackPeriods,
+                signalPeriods,
+                smoothPeriods,
+                kFactor,
+                dFactor,
+                movingAverageType);
+
+    internal static List<StochResult> CalcStoch(
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -14,7 +44,7 @@ public static partial class Indicator
         MaType movingAverageType)
     {
         // check parameter arguments
-        Stoch.Validate(
+        Validate(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
@@ -109,7 +139,7 @@ public static partial class Indicator
                                 prevK = o[i];
                             }
 
-                            k[i] = (prevK * (smoothPeriods - 1) + o[i]) / smoothPeriods;
+                            k[i] = ((prevK * (smoothPeriods - 1)) + o[i]) / smoothPeriods;
                             prevK = k[i];
                             break;
                         }
@@ -160,7 +190,7 @@ public static partial class Indicator
                                 prevD = k[i];
                             }
 
-                            double d = (prevD * (signalPeriods - 1) + k[i]) / signalPeriods;
+                            double d = ((prevD * (signalPeriods - 1)) + k[i]) / signalPeriods;
                             signal = d;
                             prevD = d;
                             break;
@@ -179,7 +209,7 @@ public static partial class Indicator
                 Timestamp: q.Timestamp,
                 Oscillator: oscillator.NaN2Null(),
                 Signal: signal.NaN2Null(),
-                PercentJ: (kFactor * oscillator - dFactor * signal).NaN2Null()));
+                PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null()));
         }
         return results;
     }

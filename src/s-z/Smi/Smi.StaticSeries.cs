@@ -2,17 +2,31 @@ namespace Skender.Stock.Indicators;
 
 // STOCHASTIC MOMENTUM INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Smi
 {
+    public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 13,
+        int firstSmoothPeriods = 25,
+        int secondSmoothPeriods = 2,
+        int signalPeriods = 3)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcSmi(
+                lookbackPeriods,
+                firstSmoothPeriods,
+                secondSmoothPeriods,
+                signalPeriods);
+
     private static List<SmiResult> CalcSmi(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
         int signalPeriods)
     {
         // check parameter arguments
-        Smi.Validate(
+        Validate(
             lookbackPeriods,
             firstSmoothPeriods,
             secondSmoothPeriods,

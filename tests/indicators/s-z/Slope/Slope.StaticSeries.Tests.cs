@@ -7,7 +7,7 @@ public class Slope : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<SlopeResult> results = Quotes
-            .GetSlope(20);
+            .ToSlope(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -43,7 +43,7 @@ public class Slope : StaticSeriesTestBase
     {
         IReadOnlyList<SlopeResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetSlope(20);
+            .ToSlope(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Slope != null));
@@ -53,8 +53,8 @@ public class Slope : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<SlopeResult> results = Quotes
-            .GetSma(2)
-            .GetSlope(20);
+            .ToSma(2)
+            .ToSlope(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(482, results.Count(x => x.Slope != null));
@@ -64,8 +64,8 @@ public class Slope : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetSlope(20)
-            .GetSma(10);
+            .ToSlope(20)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
@@ -75,7 +75,7 @@ public class Slope : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<SlopeResult> r = BadQuotes
-            .GetSlope(15);
+            .ToSlope(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Slope is double.NaN));
@@ -85,7 +85,7 @@ public class Slope : StaticSeriesTestBase
     public void BigData()
     {
         IReadOnlyList<SlopeResult> r = BigQuotes
-            .GetSlope(250);
+            .ToSlope(250);
 
         Assert.AreEqual(1246, r.Count);
     }
@@ -94,12 +94,12 @@ public class Slope : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<SlopeResult> r0 = Noquotes
-            .GetSlope(5);
+            .ToSlope(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<SlopeResult> r1 = Onequote
-            .GetSlope(5);
+            .ToSlope(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -108,7 +108,7 @@ public class Slope : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<SlopeResult> results = Quotes
-            .GetSlope(20)
+            .ToSlope(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -126,5 +126,5 @@ public class Slope : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetSlope(1));
+            => Quotes.ToSlope(1));
 }

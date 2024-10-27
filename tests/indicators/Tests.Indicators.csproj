@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <None Update="_testdata\data\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

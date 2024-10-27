@@ -6,12 +6,13 @@ using System.Runtime.CompilerServices;
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("Tests.Other")]        // these use test data
 [assembly: InternalsVisibleTo("Tests.Performance")]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+
 namespace Test.Data;
 
-[TestClass]
 public abstract class TestBase  // base for all tests
 {
-    internal static readonly CultureInfo englishCulture = new("en-US", false);
+    internal static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
     internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
     internal static readonly IReadOnlyList<Quote> OtherQuotes = Data.GetCompare();
@@ -28,48 +29,38 @@ public abstract class TestBase  // base for all tests
     protected static readonly double DoublePrecision = 1E-13;
 
     protected static readonly DateTime EvalDate
-        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture);
+        = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
 }
 
 /// <summary>
 /// Base tests that all series indicators should have.
 /// </summary>
-[TestClass]
 public abstract class StaticSeriesTestBase : TestBase
 {
-    [TestMethod]
     public abstract void Standard();
 
-    [TestMethod]
     public abstract void BadData();
 
-    [TestMethod]
     public abstract void NoQuotes();
 }
 
 /// <summary>
 /// Base tests that all static indicators (series) should have.
 /// </summary>
-[TestClass]
 public abstract class IncrementsTestBase : TestBase
 {
-    [TestMethod]
-    public abstract void Standard();
+    public abstract void FromQuote();
 
-    [TestMethod]
-    public abstract void ValueBased();
+    public abstract void FromQuoteBatch();
 }
 
 /// <summary>
 /// Base tests that all streamed indicators should have.
 /// </summary>
-[TestClass]
 public abstract class StreamHubTestBase : TestBase  // default: quote observer
 {
-    [TestMethod]
     public abstract void QuoteObserver();
 
-    [TestMethod]
     public abstract void CustomToString();
 }
 
@@ -78,7 +69,6 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
 /// </summary>
 public interface ITestChainObserver
 {
-    [TestMethod]
     void ChainObserver();
 }
 
@@ -87,6 +77,5 @@ public interface ITestChainObserver
 /// </summary>
 public interface ITestChainProvider
 {
-    [TestMethod]
     void ChainProvider();
 }

@@ -7,7 +7,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<DynamicResult> results = Quotes
-            .GetDynamic(14);
+            .ToDynamic(14);
 
         // assertions
         Assert.AreEqual(502, results.Count);
@@ -32,7 +32,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     {
         IReadOnlyList<DynamicResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetDynamic(20);
+            .ToDynamic(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
@@ -43,8 +43,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<DynamicResult> results = Quotes
-            .GetSma(10)
-            .GetDynamic(14);
+            .ToSma(10)
+            .ToDynamic(14);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
@@ -54,8 +54,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetDynamic(14)
-            .GetSma(10);
+            .ToDynamic(14)
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Sma != null));
@@ -65,7 +65,7 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<DynamicResult> r = BadQuotes
-            .GetDynamic(15);
+            .ToDynamic(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Dynamic is double.NaN));
@@ -75,12 +75,12 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<DynamicResult> r0 = Noquotes
-            .GetDynamic(14);
+            .ToDynamic(14);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<DynamicResult> r1 = Onequote
-            .GetDynamic(14);
+            .ToDynamic(14);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -90,10 +90,10 @@ public class McGinleyDynamic : StaticSeriesTestBase
     {
         // bad lookback period
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetDynamic(0));
+            => Quotes.ToDynamic(0));
 
         // bad k-factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetDynamic(14, 0));
+            => Quotes.ToDynamic(14, 0));
     }
 }

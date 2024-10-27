@@ -23,7 +23,7 @@ body:
       render: csharp
       placeholder: |
         // example (put your own code here)
-        IEnumerable<EmaResult> results = quotes.GetEma(14);
+        IReadOnlyList<EmaResult> results = quotes.GetEma(14);
     validations:
       required: false
   - type: textarea

@@ -2,8 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (STREAM HUB)
 
-public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
-    IReusableHub<TIn, TrResult>
+#region initializer
+
+public static partial class Tr
+{
+    public static TrHub<TIn> ToTr<TIn>(
+        this IQuoteProvider<TIn> quoteProvider)
+        where TIn : IQuote
+        => new(quoteProvider);
+}
+#endregion
+
+public class TrHub<TIn>
+    : ChainProvider<TIn, TrResult>
     where TIn : IQuote
 {
     #region constructors
@@ -21,28 +32,27 @@ public class TrHub<TIn> : QuoteObserver<TIn, TrResult>,
 
     public override string ToString() => hubName;
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    protected override (TrResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // skip first period
         if (i == 0)
         {
-            Motify(act, new TrResult(newIn.Timestamp, null), i);
-            return;
+            return (new TrResult(item.Timestamp, null), i);
         }
 
-        TIn prev = Provider.Results[i - 1];
+        TIn prev = ProviderCache[i - 1];
 
         // candidate result
         TrResult r = new(
-            newIn.Timestamp,
+            item.Timestamp,
             Tr.Increment(
-                (double)newIn.High,
-                (double)newIn.Low,
+                (double)item.High,
+                (double)item.Low,
                 (double)prev.Close));
 
-        // save and send
-        Motify(act, r, i);
+        return (r, i);
     }
 }

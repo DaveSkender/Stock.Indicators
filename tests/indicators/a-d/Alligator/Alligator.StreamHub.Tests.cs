@@ -6,8 +6,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -48,7 +47,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -57,7 +56,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         // time-series, for comparison
         IReadOnlyList<AlligatorResult> seriesList
            = quotesList
-            .GetAlligator();
+            .ToAlligator();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -70,8 +69,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public void ChainObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -104,7 +102,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -117,8 +115,8 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
         // time-series, for comparison
         IReadOnlyList<AlligatorResult> seriesList
            = quotesList
-            .GetSma(10)
-            .GetAlligator();
+            .ToSma(10)
+            .ToAlligator();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

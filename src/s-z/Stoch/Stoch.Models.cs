@@ -1,16 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-/// <include file='./info.xml' path='info/type[@name="Results"]/*' />
-///
 public record StochResult
 (
     DateTime Timestamp,
     double? Oscillator,
     double? Signal,
     double? PercentJ
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Oscillator.Null2NaN();
+    public double Value => Oscillator.Null2NaN();
 
     // aliases
     public double? K => Oscillator;

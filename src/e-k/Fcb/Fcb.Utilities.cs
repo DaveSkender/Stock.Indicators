@@ -1,11 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// FRACTAL CHAOS BANDS (UTILITIES)
+
+public static partial class Fcb
 {
-    // CONDENSE (REMOVE null results)
-    /// <inheritdoc cref="Utility.Condense{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FcbResult> Condense(
-        this IEnumerable<FcbResult> results)
+        this IReadOnlyList<FcbResult> results)
     {
         List<FcbResult> resultsList = results
             .ToList();
@@ -17,15 +18,26 @@ public static partial class Indicator
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
-    /// <inheritdoc cref="Utility.RemoveWarmupPeriods{T}(IEnumerable{T})"/>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FcbResult> RemoveWarmupPeriods(
-        this IEnumerable<FcbResult> results)
+        this IReadOnlyList<FcbResult> results)
     {
         int removePeriods = results
             .ToList()
             .FindIndex(x => x.UpperBand != null || x.LowerBand != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int windowSpan)
+    {
+        // check parameter arguments
+        if (windowSpan < 2)
+        {
+            throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
+                "Window span must be at least 2 for FCB.");
+        }
     }
 }

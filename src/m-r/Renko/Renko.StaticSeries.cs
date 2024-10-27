@@ -4,17 +4,18 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Renko
 {
-    internal static List<RenkoResult> CalcRenko<TQuote>(
-        this List<TQuote> quotesList,
+    public static IReadOnlyList<RenkoResult> ToRenko<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         decimal brickSize,
-        EndType endType)
+        EndType endType = EndType.Close)
         where TQuote : IQuote
     {
         // check parameter arguments
+        ArgumentNullException.ThrowIfNull(quotes);
         Validate(brickSize);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<RenkoResult> results = new(length);
 
         if (length == 0)
@@ -23,7 +24,7 @@ public static partial class Renko
         }
 
         // first brick baseline
-        TQuote q0 = quotesList[0];
+        TQuote q0 = quotes[0];
 
         int decimals = brickSize.GetDecimalPlaces();
         decimal baseline = Math.Round(q0.Close, Math.Max(decimals - 1, 0));
@@ -41,7 +42,7 @@ public static partial class Renko
         // roll through source values
         for (int i = 1; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
 
             // track high/low/volume between bricks
             h = Math.Max(h, q.High);

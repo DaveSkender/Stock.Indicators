@@ -2,16 +2,25 @@ namespace Skender.Stock.Indicators;
 
 // AVERAGE TRUE RANGE (STREAM HUB)
 
-#region hub interface
+#region hub interface and initializer
 
 public interface IAtrHub
 {
     int LookbackPeriods { get; }
 }
+
+public static partial class Atr
+{
+    public static AtrHub<TIn> ToAtr<TIn>(
+        this IQuoteProvider<TIn> quoteProvider,
+        int lookbackPeriods = 14)
+        where TIn : IQuote
+        => new(quoteProvider, lookbackPeriods);
+}
 #endregion
 
-public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
-    IReusableHub<TIn, AtrResult>, IAtrHub
+public class AtrHub<TIn>
+    : ChainProvider<TIn, AtrResult>, IAtrHub
     where TIn : IQuote
 {
     #region constructors
@@ -36,15 +45,15 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
 
     public override string ToString() => hubName;
 
-    internal override void Add(Act act, TIn newIn, int? index)
+    protected override (AtrResult result, int index)
+        ToIndicator(TIn item, int? indexHint)
     {
-        int i = index ?? Provider.GetIndex(newIn, false);
+        int i = indexHint ?? ProviderCache.GetIndex(item, true);
 
         // skip incalculable periods
         if (i == 0)
         {
-            Motify(act, new AtrResult(newIn.Timestamp), i);
-            return;
+            return (new AtrResult(item.Timestamp), i);
         }
 
         AtrResult r;
@@ -58,9 +67,9 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
                 tr = Tr.Increment(
-                    (double)Provider.Results[p].High,
-                    (double)Provider.Results[p].Low,
-                    (double)Provider.Results[p - 1].Close);
+                    (double)ProviderCache[p].High,
+                    (double)ProviderCache[p].Low,
+                    (double)ProviderCache[p - 1].Close);
 
                 sumTr += tr;
             }
@@ -68,10 +77,10 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
             double atr = sumTr / LookbackPeriods;
 
             r = new AtrResult(
-                newIn.Timestamp,
+                item.Timestamp,
                 tr,
                 atr,
-                atr / (double)newIn.Close * 100);
+                atr / (double)item.Close * 100);
         }
 
         // calculate ATR (normally)
@@ -79,12 +88,11 @@ public class AtrHub<TIn> : QuoteObserver<TIn, AtrResult>,
         {
             r = Atr.Increment(
                 LookbackPeriods,
-                newIn,
-                (double)Provider.Results[i - 1].Close,
+                item,
+                (double)ProviderCache[i - 1].Close,
                 Cache[i - 1].Atr);
         }
 
-        // save and send
-        Motify(act, r, i);
+        return (r, i);
     }
 }

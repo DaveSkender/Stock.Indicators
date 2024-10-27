@@ -6,8 +6,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -48,7 +47,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
         }
 
         // late arrival
-        provider.Add(quotesList[80]);
+        provider.Insert(quotesList[80]);
 
         // delete
         provider.Remove(quotesList[400]);
@@ -56,7 +55,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<AdlResult> seriesList = quotesList
-            .GetAdl();
+            .ToAdl();
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
@@ -69,10 +68,9 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public void ChainProvider()
     {
-        int smaPeriods = 8;
+        const int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -80,7 +78,7 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
         QuoteHub<Quote> provider = new();
 
         // initialize observer
-        IChainProvider<AdlResult> adlHub = provider
+        AdlHub<Quote> adlHub = provider
             .ToAdl();
 
         SmaHub<AdlResult> observer = adlHub
@@ -102,8 +100,8 @@ public class AdlHub : StreamHubTestBase, ITestChainProvider
 
         // time-series, for comparison
         IReadOnlyList<SmaResult> seriesList = quotesList
-            .GetAdl()
-            .GetSma(smaPeriods);
+            .ToAdl()
+            .ToSma(smaPeriods);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);

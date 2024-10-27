@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // FORCE INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class ForceIndex
 {
+    public static IReadOnlyList<ForceIndexResult> ToForceIndex<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 2)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcForceIndex(lookbackPeriods);
+
     private static List<ForceIndexResult> CalcForceIndex(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ForceIndex.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

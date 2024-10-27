@@ -4,7 +4,7 @@ public record ChopResult
 (
     DateTime Timestamp,
     double? Chop
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Chop.Null2NaN();
+    public double Value => Chop.Null2NaN();
 }

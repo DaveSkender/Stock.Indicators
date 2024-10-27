@@ -6,7 +6,7 @@ public record ElderRayResult
     double? Ema,
     double? BullPower,
     double? BearPower
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => (BullPower + BearPower).Null2NaN();
+    public double Value => (BullPower + BearPower).Null2NaN();
 }

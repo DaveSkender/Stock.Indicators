@@ -7,7 +7,7 @@ public class Sma : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetSma(20);
+            .ToSma(20);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -27,7 +27,7 @@ public class Sma : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .Use(CandlePart.Open)
-            .GetSma(20);
+            .ToSma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -46,7 +46,7 @@ public class Sma : StaticSeriesTestBase
     {
         IReadOnlyList<SmaResult> results = Quotes
             .Use(CandlePart.Volume)
-            .GetSma(20);
+            .ToSma(20);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
@@ -59,7 +59,7 @@ public class Sma : StaticSeriesTestBase
         Assert.AreEqual(157958070.8, r290.Sma);
 
         SmaResult r501 = results[501];
-        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", englishCulture), r501.Timestamp);
+        Assert.AreEqual(DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture), r501.Timestamp);
         Assert.AreEqual(163695200, r501.Sma);
     }
 
@@ -67,7 +67,7 @@ public class Sma : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<EmaResult> results = Quotes
-            .GetSma(10)
+            .ToSma(10)
             .ToEma(10);
 
         Assert.AreEqual(502, results.Count);
@@ -78,7 +78,7 @@ public class Sma : StaticSeriesTestBase
     public void NaN()
     {
         IReadOnlyList<SmaResult> r = Data.GetBtcUsdNan()
-            .GetSma(50);
+            .ToSma(50);
 
         Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
     }
@@ -87,7 +87,7 @@ public class Sma : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<SmaResult> r = BadQuotes
-            .GetSma(15);
+            .ToSma(15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
@@ -97,12 +97,12 @@ public class Sma : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<SmaResult> r0 = Noquotes
-            .GetSma(5);
+            .ToSma(5);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<SmaResult> r1 = Onequote
-            .GetSma(5);
+            .ToSma(5);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -111,7 +111,7 @@ public class Sma : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetSma(20)
+            .ToSma(20)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -145,5 +145,5 @@ public class Sma : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.GetSma(0));
+            => Quotes.ToSma(0));
 }

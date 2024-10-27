@@ -1,17 +1,19 @@
 namespace Skender.Stock.Indicators;
 
 // RATE OF CHANGE (ROC) WITH BANDS (SERIES)
-public static partial class Indicator
+
+public static partial class RocWb
 {
-    private static List<RocWbResult> CalcRocWb<T>(
-        this List<T> source,
+    public static IReadOnlyList<RocWbResult> ToRocWb<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods,
         int emaPeriods,
         int stdDevPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        RocWb.Validate(lookbackPeriods, emaPeriods, stdDevPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, emaPeriods, stdDevPeriods);
 
         // initialize
         int length = source.Count;
@@ -20,10 +22,8 @@ public static partial class Indicator
         double k = 2d / (emaPeriods + 1);
         double prevEma = double.NaN;
 
-        List<IReusable> ogRoc = source
-            .CalcRoc(lookbackPeriods)
-            .Cast<IReusable>()
-            .ToSortedList();
+        IReadOnlyList<IReusable> ogRoc = source
+            .ToRoc(lookbackPeriods);
 
         double[] rocSq = ogRoc
             .Select(x => x.Value * x.Value)

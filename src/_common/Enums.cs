@@ -1,50 +1,32 @@
 namespace Skender.Stock.Indicators;
 
 // SHARED ENUMERATIONS
-// note: indicator unique ENUMS specified in indicator models
+// note: indicator unique ENUMS filed with their models
 
 /// <summary>
 /// Cache action instruction or outcome
 /// </summary>
-public enum Act
+internal enum Act
 {
     /// <summary>
-    /// Adds to end of cache
+    /// Adds item to end of cache or rebuild if older.
     /// </summary>
-    AddNew,
+    Add,
 
     /// <summary>
-    /// Adds new item to middle of cache
+    /// Does nothing to cache (aborted).
     /// </summary>
-    AddOld,
+    Ignore,
 
     /// <summary>
-    /// Updates existing item in cache
+    /// Insert item without rebuilding cache.
     /// </summary>
-    Update,
+    Insert,
 
     /// <summary>
-    /// Deletes existing item in cache
+    /// Reset and rebuild from marker position.
     /// </summary>
-    Delete,
-
-    /// <summary>
-    /// Does nothing to cache (aborted)
-    /// </summary>
-    DoNothing,
-
-    /// <summary>
-    /// Delete from first position of cache
-    /// without rebuilding or recalculating;
-    /// as part of the auto-pruning process
-    /// to maintain maximum cache size.
-    /// </summary>
-    AutoPrune,  // TODO: implement. May also have some integrity checks.
-
-    /// <summary>
-    /// Instruction has not yet been determined
-    /// </summary>
-    Unknown
+    Rebuild
 }
 
 /// <summary>

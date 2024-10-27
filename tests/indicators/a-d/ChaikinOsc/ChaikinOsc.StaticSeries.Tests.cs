@@ -10,7 +10,7 @@ public class ChaikinOsc : StaticSeriesTestBase
         int slowPeriods = 10;
 
         IReadOnlyList<ChaikinOscResult> results = Quotes
-            .GetChaikinOsc(fastPeriods, slowPeriods);
+            .ToChaikinOsc(fastPeriods, slowPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -28,8 +28,8 @@ public class ChaikinOsc : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetChaikinOsc()
-            .GetSma(10);
+            .ToChaikinOsc()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -39,7 +39,7 @@ public class ChaikinOsc : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ChaikinOscResult> r = BadQuotes
-            .GetChaikinOsc(5, 15);
+            .ToChaikinOsc(5, 15);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
@@ -49,12 +49,12 @@ public class ChaikinOsc : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<ChaikinOscResult> r0 = Noquotes
-            .GetChaikinOsc();
+            .ToChaikinOsc();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<ChaikinOscResult> r1 = Onequote
-            .GetChaikinOsc();
+            .ToChaikinOsc();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -66,7 +66,7 @@ public class ChaikinOsc : StaticSeriesTestBase
         int slowPeriods = 10;
 
         IReadOnlyList<ChaikinOscResult> results = Quotes
-            .GetChaikinOsc(fastPeriods, slowPeriods)
+            .ToChaikinOsc(fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -84,10 +84,10 @@ public class ChaikinOsc : StaticSeriesTestBase
     {
         // bad fast lookback
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetChaikinOsc(0));
+            Quotes.ToChaikinOsc(0));
 
         // bad slow lookback
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetChaikinOsc(10, 5));
+            Quotes.ToChaikinOsc(10, 5));
     }
 }

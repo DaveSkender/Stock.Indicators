@@ -4,7 +4,7 @@ public record ForceIndexResult
 (
     DateTime Timestamp,
     double? ForceIndex = null
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => ForceIndex.Null2NaN();
+    public double Value => ForceIndex.Null2NaN();
 }

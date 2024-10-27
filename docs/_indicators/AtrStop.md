@@ -57,11 +57,11 @@ IReadOnlyList<AtrStopResult>
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`AtrStop`** _`decimal`_ - ATR Trailing Stop line contains both Upper and Lower segments
+**`AtrStop`** _`double`_ - ATR Trailing Stop line contains both Upper and Lower segments
 
-**`BuyStop`** _`decimal`_ - Upper band only (green)
+**`BuyStop`** _`double`_ - Upper band only (green)
 
-**`SellStop`** _`decimal`_ - Lower band only (red)
+**`SellStop`** _`double`_ - Lower band only (red)
 
 **`Atr`** _`double`_ - Average True Range
 

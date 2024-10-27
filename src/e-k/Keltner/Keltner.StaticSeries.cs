@@ -2,23 +2,32 @@ namespace Skender.Stock.Indicators;
 
 // KELTNER CHANNELS (SERIES)
 
-public static partial class Indicator
+public static partial class Keltner
 {
+    public static IReadOnlyList<KeltnerResult> ToKeltner<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int emaPeriods = 20,
+        double multiplier = 2,
+        int atrPeriods = 10)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcKeltner(emaPeriods, multiplier, atrPeriods);
+
     private static List<KeltnerResult> CalcKeltner(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
     {
         // check parameter arguments
-        Keltner.Validate(emaPeriods, multiplier, atrPeriods);
+        Validate(emaPeriods, multiplier, atrPeriods);
 
         // initialize
         int length = source.Count;
         List<KeltnerResult> results = new(length);
 
         IReadOnlyList<EmaResult> emaResults
-            = source.CalcEma(emaPeriods);
+            = source.ToEma(emaPeriods);
 
         IReadOnlyList<AtrResult> atrResults
             = source.CalcAtr(atrPeriods);

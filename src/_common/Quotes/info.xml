@@ -2,21 +2,6 @@
 
 <info>
 
-  <type name="Validate">
-    <summary>
-      Validate historical quotes.
-      <para>
-        See
-        <see href="https://dotnet.StockIndicators.dev/utilities/#validate-quote-history?utm_source=library&amp;utm_medium=inline-help&amp;utm_campaign=embedded">documentation</see>
-        for more information.
-      </para>
-    </summary>
-    <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
-    <param name="quotes">Historical price quotes.</param>
-    <returns>Time series of historical quote values.</returns>
-    <exception cref="InvalidQuotesException">Validation check failed.</exception>
-  </type>
-
   <type name="Aggregate">
     <summary>
       Converts historical quotes into larger bar sizes.

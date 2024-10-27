@@ -7,7 +7,7 @@ public class Pmo : StaticSeriesTestBase
     public override void Standard()
     {
         IReadOnlyList<PmoResult> results = Quotes
-            .GetPmo();
+            .ToPmo();
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -29,7 +29,7 @@ public class Pmo : StaticSeriesTestBase
     {
         IReadOnlyList<PmoResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetPmo();
+            .ToPmo();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(448, results.Count(x => x.Pmo != null));
@@ -39,8 +39,8 @@ public class Pmo : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<PmoResult> results = Quotes
-            .GetSma(2)
-            .GetPmo();
+            .ToSma(2)
+            .ToPmo();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(447, results.Count(x => x.Pmo != null));
@@ -50,8 +50,8 @@ public class Pmo : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetPmo()
-            .GetSma(10);
+            .ToPmo()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(439, results.Count(x => x.Sma != null));
@@ -61,7 +61,7 @@ public class Pmo : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<PmoResult> r = BadQuotes
-            .GetPmo(25, 15, 5);
+            .ToPmo(25, 15, 5);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Pmo is double.NaN));
@@ -71,12 +71,12 @@ public class Pmo : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<PmoResult> r0 = Noquotes
-            .GetPmo();
+            .ToPmo();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<PmoResult> r1 = Onequote
-            .GetPmo();
+            .ToPmo();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -85,7 +85,7 @@ public class Pmo : StaticSeriesTestBase
     public void Removed()
     {
         IReadOnlyList<PmoResult> results = Quotes
-            .GetPmo()
+            .ToPmo()
             .RemoveWarmupPeriods();
 
         // assertions
@@ -101,14 +101,14 @@ public class Pmo : StaticSeriesTestBase
     {
         // bad time period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetPmo(1));
+            Quotes.ToPmo(1));
 
         // bad smoothing period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetPmo(5, 0));
+            Quotes.ToPmo(5, 0));
 
         // bad signal period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetPmo(5, 5, 0));
+            Quotes.ToPmo(5, 5, 0));
     }
 }

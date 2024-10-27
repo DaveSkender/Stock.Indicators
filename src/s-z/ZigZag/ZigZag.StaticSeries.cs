@@ -2,19 +2,20 @@ namespace Skender.Stock.Indicators;
 
 // ZIG ZAG (SERIES)
 
-public static partial class Indicator
+public static partial class ZigZag
 {
-    private static List<ZigZagResult> CalcZigZag<TQuote>(
-        this List<TQuote> quotesList,
+    public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         EndType endType = EndType.Close,
         decimal percentChange = 5)
         where TQuote : IQuote
     {
         // check parameter arguments
-        ZigZag.Validate(percentChange);
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(percentChange);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<ZigZagResult> results = new(length);
 
         if (length == 0)
@@ -22,7 +23,7 @@ public static partial class Indicator
             return results;
         }
 
-        TQuote q0 = quotesList[0];
+        TQuote q0 = quotes[0];
 
         ZigZagEval eval = GetZigZagEval(endType, 1, q0);
         decimal changeThreshold = percentChange / 100m;
@@ -48,7 +49,7 @@ public static partial class Indicator
         // roll through source values, to find initial trend
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
             int index = i + 1;
 
             eval = GetZigZagEval(endType, index, q);
@@ -88,12 +89,12 @@ public static partial class Indicator
         while (lastPoint.Index < length)
         {
             ZigZagPoint nextPoint = EvaluateNextPoint(
-                quotesList, endType, changeThreshold, lastPoint);
+                quotes, endType, changeThreshold, lastPoint);
 
             string lastDirection = lastPoint.PointType;
 
             // draw line (and reset last point)
-            DrawZigZagLine(results, quotesList, lastPoint, nextPoint);
+            DrawZigZagLine(results, quotes, lastPoint, nextPoint);
 
             // draw retrace line (and reset last high/low point)
             DrawRetraceLine(results, lastDirection, lastLowPoint,
@@ -105,7 +106,7 @@ public static partial class Indicator
 
     // internals
     private static ZigZagPoint EvaluateNextPoint<TQuote>(
-        List<TQuote> quotesList,
+        IReadOnlyList<TQuote> quotesList,
         EndType endType,
         decimal changeThreshold,
         ZigZagPoint lastPoint)
@@ -183,7 +184,7 @@ public static partial class Indicator
     }
 
     private static void DrawZigZagLine<TQuote>(
-        List<ZigZagResult> results, List<TQuote> quotesList,
+        List<ZigZagResult> results, IReadOnlyList<TQuote> quotes,
         ZigZagPoint lastPoint, ZigZagPoint nextPoint)
         where TQuote : IQuote
     {
@@ -196,7 +197,7 @@ public static partial class Indicator
             // add new line segment
             for (int i = lastPoint.Index; i < nextPoint.Index; i++)
             {
-                TQuote q = quotesList[i];
+                TQuote q = quotes[i];
                 int index = i + 1;
 
                 ZigZagResult result = new(

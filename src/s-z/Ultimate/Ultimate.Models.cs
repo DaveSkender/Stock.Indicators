@@ -4,7 +4,7 @@ public record UltimateResult
 (
     DateTime Timestamp,
     double? Ultimate
-) : Reusable(Timestamp)
+) : IReusable
 {
-    public override double Value => Ultimate.Null2NaN();
+    public double Value => Ultimate.Null2NaN();
 }

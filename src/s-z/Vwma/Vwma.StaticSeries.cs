@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // VOLUME WEIGHTED MOVING AVERAGE (SERIES)
 
-public static partial class Indicator
+public static partial class Vwma
 {
+    public static IReadOnlyList<VwmaResult> ToVwma<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcVwma(lookbackPeriods);
+
     private static List<VwmaResult> CalcVwma(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Vwma.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

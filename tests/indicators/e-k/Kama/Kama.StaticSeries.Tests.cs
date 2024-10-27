@@ -11,7 +11,7 @@ public class Kama : StaticSeriesTestBase
         int slowPeriods = 30;
 
         IReadOnlyList<KamaResult> results = Quotes
-            .GetKama(erPeriods, fastPeriods, slowPeriods);
+            .ToKama(erPeriods, fastPeriods, slowPeriods);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -53,7 +53,7 @@ public class Kama : StaticSeriesTestBase
     {
         IReadOnlyList<KamaResult> results = Quotes
             .Use(CandlePart.Close)
-            .GetKama();
+            .ToKama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
@@ -63,8 +63,8 @@ public class Kama : StaticSeriesTestBase
     public void Chainee()
     {
         IReadOnlyList<KamaResult> results = Quotes
-            .GetSma(2)
-            .GetKama();
+            .ToSma(2)
+            .ToKama();
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(492, results.Count(x => x.Kama != null));
@@ -74,8 +74,8 @@ public class Kama : StaticSeriesTestBase
     public void Chainor()
     {
         IReadOnlyList<SmaResult> results = Quotes
-            .GetKama()
-            .GetSma(10);
+            .ToKama()
+            .ToSma(10);
 
         Assert.AreEqual(502, results.Count);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
@@ -85,7 +85,7 @@ public class Kama : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<KamaResult> r = BadQuotes
-            .GetKama();
+            .ToKama();
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Kama is double.NaN));
@@ -95,12 +95,12 @@ public class Kama : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<KamaResult> r0 = Noquotes
-            .GetKama();
+            .ToKama();
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<KamaResult> r1 = Onequote
-            .GetKama();
+            .ToKama();
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -113,7 +113,7 @@ public class Kama : StaticSeriesTestBase
         int slowPeriods = 30;
 
         IReadOnlyList<KamaResult> results = Quotes
-            .GetKama(erPeriods, fastPeriods, slowPeriods)
+            .ToKama(erPeriods, fastPeriods, slowPeriods)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -129,14 +129,14 @@ public class Kama : StaticSeriesTestBase
     {
         // bad ER period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetKama(0));
+            Quotes.ToKama(0));
 
         // bad fast period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetKama(10, 0));
+            Quotes.ToKama(10, 0));
 
         // bad slow period
         Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetKama(10, 5, 5));
+            Quotes.ToKama(10, 5, 5));
     }
 }

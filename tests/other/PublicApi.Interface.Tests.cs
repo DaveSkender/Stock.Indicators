@@ -1,4 +1,6 @@
 [assembly: CLSCompliant(true)]
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
+
 namespace PublicApi;
 
 // PUBLIC API (INTERFACES)
@@ -7,15 +9,34 @@ namespace PublicApi;
 public class UserInterface
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotesBad = Data.GetBad();
 
     [TestMethod]
     public void QuoteValidation()
     {
-        IEnumerable<Quote> enumerable = quotes;
+        IReadOnlyList<Quote> clean = quotes;
 
-        enumerable.Validate();
-        enumerable.GetSma(6);
-        enumerable.ToEma(5);
+        clean.Validate();
+        clean.ToSma(6);
+        clean.ToEma(5);
+
+        IReadOnlyList<Quote> reverse = quotes
+            .OrderByDescending(x => x.Timestamp)
+            .ToList();
+
+        // has duplicates
+        InvalidQuotesException dx
+            = Assert.ThrowsException<InvalidQuotesException>(
+                () => quotesBad.Validate());
+
+        dx.Message.Should().Contain("Duplicate date found");
+
+        // out of order
+        InvalidQuotesException sx
+            = Assert.ThrowsException<InvalidQuotesException>(
+                () => reverse.Validate());
+
+        sx.Message.Should().Contain("Quotes are out of sequence");
     }
 
     [TestMethod]
@@ -78,20 +99,20 @@ public class UserInterface
         }
 
         // late arrival
-        provider.Add(quotes[80]);
+        provider.Insert(quotes[80]);
 
         // end all observations
         provider.EndTransmission();
 
         // get static equivalents for comparison
-        IEnumerable<AdlResult> staticAdl = quotes.GetAdl();
-        IReadOnlyList<AtrResult> staticAtr = quotes.GetAtr();
-        IReadOnlyList<AtrStopResult> staticAtrStop = quotes.GetAtrStop();
-        IEnumerable<AlligatorResult> staticAlligator = quotes.GetAlligator();
-        IEnumerable<EmaResult> staticEma = quotes.ToEma(20);
-        IEnumerable<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
-        IEnumerable<SmaResult> staticSma = quotes.GetSma(20);
-        IReadOnlyList<TrResult> staticTr = quotes.GetTr();
+        IReadOnlyList<AdlResult> staticAdl = quotes.ToAdl();
+        IReadOnlyList<AtrResult> staticAtr = quotes.ToAtr();
+        IReadOnlyList<AtrStopResult> staticAtrStop = quotes.ToAtrStop();
+        IReadOnlyList<AlligatorResult> staticAlligator = quotes.ToAlligator();
+        IReadOnlyList<EmaResult> staticEma = quotes.ToEma(20);
+        IReadOnlyList<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
+        IReadOnlyList<SmaResult> staticSma = quotes.ToSma(20);
+        IReadOnlyList<TrResult> staticTr = quotes.ToTr();
 
         // final results should persist in scope
         IReadOnlyList<AdlResult> streamAdl = adlHub.Results;

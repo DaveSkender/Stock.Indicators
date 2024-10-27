@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class PivotPoints : StaticSeriesTestBase
+public class PivotPointz : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()
@@ -10,7 +10,7 @@ public class PivotPoints : StaticSeriesTestBase
         PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<PivotPointsResult> results = Quotes
-            .GetPivotPoints(periodSize, pointType);
+            .ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -90,8 +90,9 @@ public class PivotPoints : StaticSeriesTestBase
         PeriodSize periodSize = PeriodSize.Week;
         PivotPointType pointType = PivotPointType.Camarilla;
 
-        IEnumerable<Quote> h = Data.GetDefault(38);
-        IReadOnlyList<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType);
+        IReadOnlyList<Quote> h = Data.GetDefault(38);
+        IReadOnlyList<PivotPointsResult> results
+            = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(38, results.Count);
@@ -161,7 +162,7 @@ public class PivotPoints : StaticSeriesTestBase
         PivotPointType pointType = PivotPointType.Demark;
 
         IReadOnlyList<PivotPointsResult> results = Quotes
-            .GetPivotPoints(periodSize, pointType);
+            .ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -235,7 +236,7 @@ public class PivotPoints : StaticSeriesTestBase
         Assert.AreEqual(null, r6.S4);
 
         // special Demark case: test close = open
-        WindowPoint d1 = Indicator.GetPivotPointDemark(125, 200, 100, 125);
+        WindowPoint d1 = PivotPoints.GetPivotPointDemark(125, 200, 100, 125);
         Assert.AreEqual(550m / 4, d1.PP);
     }
 
@@ -245,8 +246,9 @@ public class PivotPoints : StaticSeriesTestBase
         PeriodSize periodSize = PeriodSize.OneHour;
         PivotPointType pointType = PivotPointType.Fibonacci;
 
-        IEnumerable<Quote> h = Data.GetIntraday(300);
-        IReadOnlyList<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType);
+        IReadOnlyList<Quote> h = Data.GetIntraday(300);
+        IReadOnlyList<PivotPointsResult> results
+            = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(300, results.Count);
@@ -316,8 +318,9 @@ public class PivotPoints : StaticSeriesTestBase
         PeriodSize periodSize = PeriodSize.Day;
         PivotPointType pointType = PivotPointType.Woodie;
 
-        IEnumerable<Quote> h = Data.GetIntraday();
-        IReadOnlyList<PivotPointsResult> results = h.GetPivotPoints(periodSize, pointType);
+        IReadOnlyList<Quote> h = Data.GetIntraday();
+        IReadOnlyList<PivotPointsResult> results
+            = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
         Assert.AreEqual(1564, results.Count);
@@ -376,7 +379,7 @@ public class PivotPoints : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<PivotPointsResult> r = BadQuotes
-            .GetPivotPoints(PeriodSize.Week);
+            .ToPivotPoints(PeriodSize.Week);
 
         Assert.AreEqual(502, r.Count);
     }
@@ -385,12 +388,12 @@ public class PivotPoints : StaticSeriesTestBase
     public override void NoQuotes()
     {
         IReadOnlyList<PivotPointsResult> r0 = Noquotes
-            .GetPivotPoints(PeriodSize.Week);
+            .ToPivotPoints(PeriodSize.Week);
 
         Assert.AreEqual(0, r0.Count);
 
         IReadOnlyList<PivotPointsResult> r1 = Onequote
-            .GetPivotPoints(PeriodSize.Week);
+            .ToPivotPoints(PeriodSize.Week);
 
         Assert.AreEqual(1, r1.Count);
     }
@@ -402,7 +405,7 @@ public class PivotPoints : StaticSeriesTestBase
         PivotPointType pointType = PivotPointType.Standard;
 
         IReadOnlyList<PivotPointsResult> results = Quotes
-            .GetPivotPoints(periodSize, pointType)
+            .ToPivotPoints(periodSize, pointType)
             .RemoveWarmupPeriods();
 
         // assertions
@@ -426,11 +429,11 @@ public class PivotPoints : StaticSeriesTestBase
         // bad pointtype size
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => Quotes
-                .GetPivotPoints(PeriodSize.Week, (PivotPointType)999));
+                .ToPivotPoints(PeriodSize.Week, (PivotPointType)999));
 
         // bad window size
         Assert.ThrowsException<ArgumentOutOfRangeException>(()
             => Quotes
-                .GetPivotPoints(PeriodSize.ThreeMinutes));
+                .ToPivotPoints(PeriodSize.ThreeMinutes));
     }
 }

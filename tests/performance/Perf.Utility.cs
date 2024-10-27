@@ -12,9 +12,6 @@ public class Utility
     public object ToSortedList() => q.ToSortedList();
 
     [Benchmark]
-    public object ToSortedCollection() => q.ToSortedCollection();
-
-    [Benchmark]
     public object ToListQuoteD() => q.ToQuoteDList();
 
     [Benchmark]
