@@ -60,22 +60,19 @@ public static partial class QuoteParts
     /// <param name="items">List of IQuote or IReusable items</param>
     /// <param name="candlePart"></param>
     /// <returns>List of IReusable items</returns>
-    internal static List<IReusable> ToSortedList<T>(
-        this IReadOnlyList<T> items, CandlePart candlePart)
-        where T : IReusable
+    internal static IReadOnlyList<IReusable> ToPreferredList<T>(
+    this IReadOnlyList<T> items, CandlePart candlePart)
+    where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(items);
 
-        // TODO: optimize this to avoid double-casting
-
-        => typeof(IQuote).IsAssignableFrom(typeof(T))
-
-            ? items
-             .Cast<IQuote>()
-             .ToList()
-             .Use(candlePart)
-             .Cast<IReusable>()
-             .ToSortedList()
-
-            : items
-             .Cast<IReusable>()
-             .ToSortedList();
+        if (items is IReadOnlyList<IQuote> quotes)
+        {
+            return quotes.ToQuotePart(candlePart);
+        }
+        else
+        {
+            return items.Cast<IReusable>().ToList();
+        }
+    }
 }

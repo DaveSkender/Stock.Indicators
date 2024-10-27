@@ -93,7 +93,7 @@ public class Rsi : StaticSeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<RsiResult> r = Data.GetBtcUsdNan()
+        IReadOnlyList<RsiResult> r = Data.GetBtcUsdNan()
             .ToRsi();
 
         Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));

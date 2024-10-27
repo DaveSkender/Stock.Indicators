@@ -30,7 +30,7 @@ var results = quotes
 
 ### Sort quotes
 
-`quotes.ToSortedCollection()` sorts any collection of `TQuote` or `ISeries` and returns it as a `Collection` sorted by ascending `Timestamp`.  You do not need to sort quotes before using library indicators; however, if you are creating [custom indicators]({{site.baseurl}}/custom-indicators/#content) it's important to analyze `quotes` in a proper sequence.
+`quotes.ToSortedList()` sorts any collection of `TQuote` or `ISeries` and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  You **do need to sort quotes** before using library indicators.
 
 ### Resize quote history
 
@@ -38,7 +38,7 @@ var results = quotes
 
 ```csharp
 // aggregate into larger bars
-IEnumerable<Quote> dayBarQuotes =
+IReadOnlyList<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(PeriodSize.Day);
 ```
 
@@ -46,7 +46,7 @@ An alternate version of this utility is provided where you can use any native `T
 
 ```csharp
 // alternate usage with TimeSpan
-IEnumerable<Quote> dayBarQuotes =
+IReadOnlyList<Quote> dayBarQuotes =
   minuteBarQuotes.Aggregate(TimeSpan timeSpan);
 ```
 
@@ -87,7 +87,7 @@ IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 
 ```csharp
 // advanced validation
-IEnumerable<Quote> validatedQuotes = quotes.Validate();
+IReadOnlyList<Quote> validatedQuotes = quotes.Validate();
 
 // and can be used inline with chaining
 var results = quotes
@@ -148,7 +148,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Sort results
 
-`results.ToSortedCollection()` sorts any collection of indicator results and returns it as a `Collection` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 

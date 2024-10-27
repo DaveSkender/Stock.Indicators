@@ -5,23 +5,19 @@ namespace Skender.Stock.Indicators;
 public static partial class FisherTransform
 {
     public static IReadOnlyList<FisherTransformResult> ToFisherTransform<T>(
-        this IReadOnlyList<T> results,
+        this IReadOnlyList<T> source,
         int lookbackPeriods = 10)
-        where T : IReusable
-        => results
-            .ToSortedList(CandlePart.HL2)
-            .CalcFisherTransform(lookbackPeriods);
-
-    private static List<FisherTransformResult> CalcFisherTransform<T>(
-        this List<T> source,
-        int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
         Validate(lookbackPeriods);
 
+        // prefer HL2 when IQuote
+        IReadOnlyList<IReusable> values
+            = source.ToPreferredList(CandlePart.HL2);
+
         // initialize
-        int length = source.Count;
+        int length = values.Count;
         double[] pr = new double[length]; // median price
         double[] xv = new double[length]; // price transform "value"
         List<FisherTransformResult> results = new(length);
@@ -29,7 +25,7 @@ public static partial class FisherTransform
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = source[i];
+            IReusable s = values[i];
             pr[i] = s.Value;
 
             double minPrice = pr[i];

@@ -20,9 +20,17 @@ public static partial class QuoteParts
         this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
         where TQuote : IQuote
-        => quotes
-            .Select(q => q.ToQuotePart(candlePart))
-            .ToList();
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
+        int length = quotes.Count;
+        List<QuotePart> result = new(length);
+
+        for (int i = 0; i < length; i++)
+        {
+            result.Add(quotes[i].ToQuotePart(candlePart));
+        }
+        return result;
+    }
 
     // QuotePart alias
     /// <inheritdoc cref="ToQuotePart{TQuote}(IReadOnlyList{TQuote}, CandlePart)" />
@@ -33,5 +41,5 @@ public static partial class QuoteParts
         => ToQuotePart(quotes, candlePart);
 
     // TODO: should we deprecate Use in favor of "ToQuotePart"?
-    // Probably not, this is a fairly simply alias.
+    // Probably not, this is a fairly simple alias.
 }

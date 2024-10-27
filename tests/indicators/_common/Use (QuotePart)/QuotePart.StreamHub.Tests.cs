@@ -8,8 +8,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
     {
         CandlePart candlePart = CandlePart.HLC3;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -84,8 +83,7 @@ public class QuotePartHub : StreamHubTestBase, ITestChainProvider
         int smaPeriods = 8;
         CandlePart candlePart = CandlePart.OHLC4;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 

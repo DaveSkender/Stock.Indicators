@@ -84,11 +84,11 @@ public static class CustomIndicator
         int lookbackPeriods)
         where T : IReusable
         => source
-            .ToSortedCollection()
+            .ToSortedList()
             .CalcIndicator(lookbackPeriods);
 
     private static List<CustomReusable> CalcIndicator<T>(
-        this Collection<T> source,
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {

@@ -6,8 +6,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -70,8 +69,7 @@ public class AlligatorHub : StreamHubTestBase, ITestChainObserver
     [TestMethod]
     public void ChainObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 

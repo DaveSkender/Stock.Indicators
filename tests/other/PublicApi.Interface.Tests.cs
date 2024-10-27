@@ -105,13 +105,13 @@ public class UserInterface
         provider.EndTransmission();
 
         // get static equivalents for comparison
-        IEnumerable<AdlResult> staticAdl = quotes.ToAdl();
+        IReadOnlyList<AdlResult> staticAdl = quotes.ToAdl();
         IReadOnlyList<AtrResult> staticAtr = quotes.ToAtr();
         IReadOnlyList<AtrStopResult> staticAtrStop = quotes.ToAtrStop();
-        IEnumerable<AlligatorResult> staticAlligator = quotes.ToAlligator();
-        IEnumerable<EmaResult> staticEma = quotes.ToEma(20);
-        IEnumerable<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
-        IEnumerable<SmaResult> staticSma = quotes.ToSma(20);
+        IReadOnlyList<AlligatorResult> staticAlligator = quotes.ToAlligator();
+        IReadOnlyList<EmaResult> staticEma = quotes.ToEma(20);
+        IReadOnlyList<QuotePart> staticQuotePart = quotes.Use(CandlePart.OHL3);
+        IReadOnlyList<SmaResult> staticSma = quotes.ToSma(20);
         IReadOnlyList<TrResult> staticTr = quotes.ToTr();
 
         // final results should persist in scope

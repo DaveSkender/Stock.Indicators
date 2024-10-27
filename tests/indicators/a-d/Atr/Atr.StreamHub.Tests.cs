@@ -6,8 +6,7 @@ public class AtrHub : StreamHubTestBase, ITestChainProvider
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -71,8 +70,7 @@ public class AtrHub : StreamHubTestBase, ITestChainProvider
     {
         int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 

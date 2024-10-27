@@ -23,7 +23,7 @@ public static partial class Indicator
         => priceTuples
            .Select(t => new QuotePart(t.d, t.v))
            .ToList()
-           .CalcAlligator(
+           .ToAlligator(
             jawPeriods, jawOffset,
             teethPeriods, teethOffset,
             lipsPeriods, lipsOffset);
@@ -92,6 +92,15 @@ public static partial class Indicator
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
         => quotes.Select(x => (x.Timestamp, x.Value));
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `ToSortedList()`", true)] // v3.0.0
+    public static Collection<TSeries> ToSortedCollection<TSeries>(
+    this IReadOnlyList<TSeries> series)
+    where TSeries : ISeries
+        => series
+            .OrderBy(x => x.Timestamp)
+            .ToCollection();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `ToReusable()`", true)] // v3.0.0

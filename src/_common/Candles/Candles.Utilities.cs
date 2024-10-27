@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Utility
 {
     public static IReadOnlyList<CandleResult> Condense(
-        this IEnumerable<CandleResult> candleResults) => candleResults
+        this IReadOnlyList<CandleResult> candleResults) => candleResults
             .Where(candle => candle.Match != Match.None)
             .ToList();
 

@@ -6,7 +6,7 @@ namespace Utilities;
 public class Sorting : TestBase
 {
     [TestMethod]
-    public void ToSortedCollection()
+    public void ToSortedList()
     {
         // baseline for comparison
         IReadOnlyList<SmaResult> baseline =
@@ -22,11 +22,11 @@ public class Sorting : TestBase
             new(Timestamp: DateTime.Parse("1/8/2000", invariantCulture), Sma: double.NaN)
         ];
 
-        // PUBLIC VARIANT, generic sorted Collection
-        Collection<SmaResult> sortResults = baseline
-            .ToSortedCollection();
+        // PUBLIC VARIANT, generic sorted list
+        IReadOnlyList<SmaResult> sortResults = baseline
+            .ToSortedList();
 
         Assert.AreEqual(5, sortResults[4].Sma);
-        Assert.AreEqual(DateTime.Parse("1/9/2000", invariantCulture), sortResults.LastOrDefault().Timestamp);
+        Assert.AreEqual(DateTime.Parse("1/9/2000", invariantCulture), sortResults[^1].Timestamp);
     }
 }

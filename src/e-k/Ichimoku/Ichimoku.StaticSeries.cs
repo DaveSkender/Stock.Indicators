@@ -50,7 +50,7 @@ public static partial class Ichimoku
                 chikouOffset);
 
     private static List<IchimokuResult> CalcIchimoku<TQuote>(
-        this List<TQuote> quotesList,
+        this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods,
         int kijunPeriods,
         int senkouBPeriods,
@@ -67,7 +67,7 @@ public static partial class Ichimoku
             chikouOffset);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<IchimokuResult> results = new(length);
 
         int senkouStartPeriod = Math.Max(
@@ -77,15 +77,15 @@ public static partial class Ichimoku
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
 
             // tenkan-sen conversion line
             decimal? tenkanSen = CalcIchimokuTenkanSen(
-                i, quotesList, tenkanPeriods);
+                i, quotes, tenkanPeriods);
 
             // kijun-sen base line
             decimal? kijunSen = CalcIchimokuKijunSen(
-                i, quotesList, kijunPeriods);
+                i, quotes, kijunPeriods);
 
             // senkou span A
             decimal? senkouSpanA = null;
@@ -105,14 +105,14 @@ public static partial class Ichimoku
 
             // senkou span B
             decimal? senkouSpanB = CalcIchimokuSenkouB(
-                i, quotesList, senkouOffset, senkouBPeriods);
+                i, quotes, senkouOffset, senkouBPeriods);
 
             // chikou line
             decimal? chikouSpan = null;
 
-            if (i + chikouOffset < quotesList.Count)
+            if (i + chikouOffset < quotes.Count)
             {
-                chikouSpan = quotesList[i + chikouOffset].Close;
+                chikouSpan = quotes[i + chikouOffset].Close;
             }
 
             results.Add(new(
@@ -128,7 +128,7 @@ public static partial class Ichimoku
     }
 
     private static decimal? CalcIchimokuTenkanSen<TQuote>(
-        int i, List<TQuote> quotesList, int tenkanPeriods)
+        int i, IReadOnlyList<TQuote> quotes, int tenkanPeriods)
         where TQuote : IQuote
     {
         if (i < tenkanPeriods - 1)
@@ -141,7 +141,7 @@ public static partial class Ichimoku
 
         for (int p = i - tenkanPeriods + 1; p <= i; p++)
         {
-            TQuote d = quotesList[p];
+            TQuote d = quotes[p];
 
             if (d.High > max)
             {
@@ -160,7 +160,7 @@ public static partial class Ichimoku
 
     private static decimal? CalcIchimokuKijunSen<TQuote>(
         int i,
-        List<TQuote> quotesList,
+        IReadOnlyList<TQuote> quotes,
         int kijunPeriods)
         where TQuote : IQuote
     {
@@ -174,7 +174,7 @@ public static partial class Ichimoku
 
         for (int p = i - kijunPeriods + 1; p <= i; p++)
         {
-            TQuote d = quotesList[p];
+            TQuote d = quotes[p];
 
             if (d.High > max)
             {
@@ -192,7 +192,7 @@ public static partial class Ichimoku
 
     private static decimal? CalcIchimokuSenkouB<TQuote>(
         int i,
-        List<TQuote> quotesList,
+        IReadOnlyList<TQuote> quotes,
         int senkouOffset,
         int senkouBPeriods)
         where TQuote : IQuote
@@ -208,7 +208,7 @@ public static partial class Ichimoku
         for (int p = i - senkouOffset - senkouBPeriods + 1;
              p <= i - senkouOffset; p++)
         {
-            TQuote d = quotesList[p];
+            TQuote d = quotes[p];
 
             if (d.High > max)
             {

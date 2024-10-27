@@ -15,18 +15,15 @@ public static partial class HtTrendline
     /// <param name="source">Time-series values to transform.</param>
     /// <returns>Time series of HTL values and smoothed price.</returns>
     public static IReadOnlyList<HtlResult> ToHtTrendline<T>(
-    this IReadOnlyList<T> source)
-    where T : IReusable
-    => source
-        .ToSortedList(CandlePart.HL2)
-        .CalcHtTrendline();
-
-    private static List<HtlResult> CalcHtTrendline<T>(
         this IReadOnlyList<T> source)
         where T : IReusable
     {
+        // prefer HL2 when IQuote
+        IReadOnlyList<IReusable> values
+            = source.ToPreferredList(CandlePart.HL2);
+
         // initialize
-        int length = source.Count;
+        int length = values.Count;
         List<HtlResult> results = new(length);
 
         double[] pr = new double[length]; // price
@@ -49,7 +46,7 @@ public static partial class HtTrendline
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = source[i];
+            IReusable s = values[i];
             pr[i] = s.Value;
 
             if (i > 5)

@@ -6,8 +6,7 @@ public class AtrStop : StreamHubTestBase
     [TestMethod]
     public override void QuoteObserver()
     {
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -55,7 +54,7 @@ public class AtrStop : StreamHubTestBase
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IEnumerable<AtrStopResult> seriesList
+        IReadOnlyList<AtrStopResult> seriesList
            = quotesList
             .ToAtrStop();
 
@@ -87,7 +86,7 @@ public class AtrStop : StreamHubTestBase
             = observer.Results;
 
         // time-series, for comparison
-        IEnumerable<AtrStopResult> seriesList
+        IReadOnlyList<AtrStopResult> seriesList
            = Quotes
             .ToAtrStop(endType: EndType.HighLow);
 

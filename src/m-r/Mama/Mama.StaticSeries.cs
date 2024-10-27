@@ -5,25 +5,20 @@ namespace Skender.Stock.Indicators;
 public static partial class Mama
 {
     public static IReadOnlyList<MamaResult> ToMama<T>(
-        this IReadOnlyList<T> results,
+        this IReadOnlyList<T> source,
         double fastLimit = 0.5,
         double slowLimit = 0.05)
-        where T : IReusable
-        => results
-            .ToSortedList(CandlePart.HL2)
-            .CalcMama(fastLimit, slowLimit);
-
-    private static List<MamaResult> CalcMama<T>(
-        this List<T> source,
-        double fastLimit,
-        double slowLimit)
         where T : IReusable
     {
         // check parameter arguments
         Validate(fastLimit, slowLimit);
 
+        // prefer HL2 when IQuote
+        IReadOnlyList<IReusable> values
+            = source.ToPreferredList(CandlePart.HL2);
+
         // initialize
-        int length = source.Count;
+        int length = values.Count;
         List<MamaResult> results = new(length);
 
         double prevMama = double.NaN;
@@ -48,7 +43,7 @@ public static partial class Mama
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            IReusable s = source[i];
+            IReusable s = values[i];
             pr[i] = s.Value;
 
             // skip incalculable periods

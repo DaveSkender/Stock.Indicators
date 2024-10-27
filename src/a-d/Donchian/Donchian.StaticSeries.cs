@@ -7,26 +7,20 @@ public static partial class Donchian
     public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 20)
-        where TQuote : IQuote => quotes
-            .ToSortedList()
-            .CalcDonchian(lookbackPeriods);
-
-    private static List<DonchianResult> CalcDonchian<TQuote>(
-        this List<TQuote> quotesList,
-        int lookbackPeriods)
         where TQuote : IQuote
     {
         // check parameter arguments
+        ArgumentNullException.ThrowIfNull(quotes);
         Validate(lookbackPeriods);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<DonchianResult> results = new(length);
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
 
             if (i >= lookbackPeriods)
             {
@@ -36,7 +30,7 @@ public static partial class Donchian
                 // high/low over prior periods
                 for (int p = i - lookbackPeriods; p < i; p++)
                 {
-                    TQuote d = quotesList[p];
+                    TQuote d = quotes[p];
 
                     if (d.High > highHigh)
                     {

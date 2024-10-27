@@ -9,8 +9,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
         decimal brickSize = 2.5m;
         EndType endType = EndType.HighLow;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -76,8 +75,7 @@ public class RenkoHub : StreamHubTestBase, ITestChainProvider
         EndType endType = EndType.Close;
         int smaPeriods = 50;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 

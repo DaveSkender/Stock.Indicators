@@ -25,7 +25,7 @@ public interface IAddReusable
     /// and added them to the list.
     /// </summary>
     /// <param name="values">
-    /// Chronologically ordered batch of IReuslable info
+    /// Chronologically ordered batch of IReusable info
     /// </param>
     void Add(IReadOnlyList<IReusable> values);
 }

@@ -44,7 +44,7 @@ public class Bop : StaticSeriesTestBase
     [TestMethod]
     public void NaN()
     {
-        IEnumerable<BopResult> r = Data.GetBtcUsdNan()
+        IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
             .ToBop(50);
 
         Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));

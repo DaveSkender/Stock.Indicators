@@ -33,25 +33,6 @@ public static partial class Alligator
         int lipsPeriods = 5,
         int lipsOffset = 3)
         where T : IReusable
-        => source
-            .ToSortedList(CandlePart.HL2)
-            .CalcAlligator(
-                jawPeriods,
-                jawOffset,
-                teethPeriods,
-                teethOffset,
-                lipsPeriods,
-                lipsOffset);
-
-    internal static List<AlligatorResult> CalcAlligator<T>(
-        this List<T> source,
-        int jawPeriods,
-        int jawOffset,
-        int teethPeriods,
-        int teethOffset,
-        int lipsPeriods,
-        int lipsOffset)
-        where T : IReusable
     {
         // check parameter arguments
         Validate(
@@ -62,8 +43,12 @@ public static partial class Alligator
             lipsPeriods,
             lipsOffset);
 
+        // prefer HL2 when IQuote
+        IReadOnlyList<IReusable> values
+            = source.ToPreferredList(CandlePart.HL2);
+
         // initialize
-        int length = source.Count;
+        int length = values.Count;
         List<AlligatorResult> results = new(length);
 
         // roll through source values
@@ -82,7 +67,7 @@ public static partial class Alligator
                     double sum = 0;
                     for (int p = i - jawPeriods - jawOffset + 1; p <= i - jawOffset; p++)
                     {
-                        sum += source[p].Value;
+                        sum += values[p].Value;
                     }
 
                     jaw = sum / jawPeriods;
@@ -93,7 +78,7 @@ public static partial class Alligator
                 {
                     double prevJaw = results[i - 1].Jaw.Null2NaN();
 
-                    jaw = ((prevJaw * (jawPeriods - 1)) + source[i - jawOffset].Value) / jawPeriods;
+                    jaw = ((prevJaw * (jawPeriods - 1)) + values[i - jawOffset].Value) / jawPeriods;
                 }
             }
 
@@ -106,7 +91,7 @@ public static partial class Alligator
                     double sum = 0;
                     for (int p = i - teethPeriods - teethOffset + 1; p <= i - teethOffset; p++)
                     {
-                        sum += source[p].Value;
+                        sum += values[p].Value;
                     }
 
                     teeth = sum / teethPeriods;
@@ -117,7 +102,7 @@ public static partial class Alligator
                 {
                     double prevTooth = results[i - 1].Teeth.Null2NaN();
 
-                    teeth = ((prevTooth * (teethPeriods - 1)) + source[i - teethOffset].Value) / teethPeriods;
+                    teeth = ((prevTooth * (teethPeriods - 1)) + values[i - teethOffset].Value) / teethPeriods;
                 }
             }
 
@@ -130,7 +115,7 @@ public static partial class Alligator
                     double sum = 0;
                     for (int p = i - lipsPeriods - lipsOffset + 1; p <= i - lipsOffset; p++)
                     {
-                        sum += source[p].Value;
+                        sum += values[p].Value;
                     }
 
                     lips = sum / lipsPeriods;
@@ -141,13 +126,13 @@ public static partial class Alligator
                 {
                     double prevLips = results[i - 1].Lips.Null2NaN();
 
-                    lips = ((prevLips * (lipsPeriods - 1)) + source[i - lipsOffset].Value) / lipsPeriods;
+                    lips = ((prevLips * (lipsPeriods - 1)) + values[i - lipsOffset].Value) / lipsPeriods;
                 }
             }
 
             // result
             results.Add(new AlligatorResult(
-                source[i].Timestamp,
+                values[i].Timestamp,
                 jaw.NaN2Null(),
                 teeth.NaN2Null(),
                 lips.NaN2Null()));

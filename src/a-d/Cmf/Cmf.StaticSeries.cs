@@ -12,7 +12,7 @@ public static partial class Cmf
             .CalcCmf(lookbackPeriods);
 
     private static List<CmfResult> CalcCmf<TQuote>(
-        this List<TQuote> source,
+        this IReadOnlyList<TQuote> source,
         int lookbackPeriods)
         where TQuote : IQuote
     {

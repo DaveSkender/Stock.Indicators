@@ -9,7 +9,7 @@ public interface IAtrHub
     int LookbackPeriods { get; }
 }
 
-public static partial class Indicator
+public static partial class Atr
 {
     public static AtrHub<TIn> ToAtr<TIn>(
         this IQuoteProvider<TIn> quoteProvider,

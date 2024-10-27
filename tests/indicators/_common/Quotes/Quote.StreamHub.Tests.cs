@@ -10,8 +10,7 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
     {
         // tests quote redistribution
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = Quotes.Count;
 
@@ -43,8 +42,7 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
     {
         int smaPeriods = 8;
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = quotesList.Count;
 
@@ -102,8 +100,7 @@ public class QuoteHub : StreamHubTestBase, ITestChainProvider
     {
         // covers both single and batch add
 
-        List<Quote> quotesList = Quotes
-            .ToSortedList();
+        List<Quote> quotesList = Quotes.ToList();
 
         int length = Quotes.Count;
 

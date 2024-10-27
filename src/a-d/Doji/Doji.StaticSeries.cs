@@ -21,20 +21,14 @@ public static partial class Doji
     public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         double maxPriceChangePercent = 0.1)
-        where TQuote : IQuote => quotes
-            .ToSortedList()
-            .CalcDoji(maxPriceChangePercent);
-
-    private static List<CandleResult> CalcDoji<TQuote>(
-        this List<TQuote> quotesList,
-        double maxPriceChangePercent)
         where TQuote : IQuote
     {
         // check parameter arguments
+        ArgumentNullException.ThrowIfNull(quotes);
         Validate(maxPriceChangePercent);
 
         // initialize
-        int length = quotesList.Count;
+        int length = quotes.Count;
         List<CandleResult> results = new(length);
 
         maxPriceChangePercent /= 100;
@@ -42,7 +36,7 @@ public static partial class Doji
         // roll through candles
         for (int i = 0; i < length; i++)
         {
-            TQuote q = quotesList[i];
+            TQuote q = quotes[i];
             decimal? matchPrice = null;
             Match matchType = Match.None;
 

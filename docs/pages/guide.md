@@ -43,7 +43,7 @@ Most indicators require that you provide historical quote data and additional co
 
 You must get historical quotes from your own market data provider.  For clarification, the `GetQuotesFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
 
-Historical price data can be provided as a `List`, `IEnumerable`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
@@ -57,7 +57,7 @@ using Skender.Stock.Indicators;
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 20-period SMA
 IReadOnlyList<SmaResult> results = quotes
@@ -89,7 +89,7 @@ More examples available:
 
 ## Historical quotes
 
-You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price quotes to the library in the standard OHLCV `IReadOnlyList<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--
@@ -194,10 +194,10 @@ public class MyCustomQuote : IQuote
 ```csharp
 // USAGE
 // fetch historical quotes from your favorite feed
-IEnumerable<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
+IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
 
 // example: get 20-period simple moving average
-IEnumerable<SmaResult> results = myQuotes.GetSma(20);
+IReadOnlyList<SmaResult> results = myQuotes.GetSma(20);
 ```
 
 #### Using custom quote property names
@@ -247,7 +247,7 @@ Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("SPY");
 
 // calculate RSI of OBV
 IReadOnlyList<RsiResult> results
