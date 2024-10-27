@@ -206,12 +206,12 @@ public static partial class Indicator
     private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
         => windowSize switch {
             PeriodSize.Month => d.Month,
-            PeriodSize.Week => EnglishCalendar.GetWeekOfYear(d, EnglishCalendarWeekRule, EnglishFirstDayOfWeek),
+            PeriodSize.Week => invCalendar.GetWeekOfYear(d, invCalendarWeekRule, invFirstDayOfWeek),
             PeriodSize.Day => d.Day,
             PeriodSize.OneHour => d.Hour,
             _ => throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
                 string.Format(
-                    EnglishCulture,
+                    invCulture,
                     "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
                     Enum.GetName(typeof(PeriodSize), windowSize)))
         };
