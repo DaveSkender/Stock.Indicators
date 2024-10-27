@@ -3,6 +3,9 @@ namespace StaticSeries;
 [TestClass]
 public class Cmo : StaticSeriesTestBase
 {
+    // TODO: test for CMO isUp works as expected
+    // when there’s no price change
+
     [TestMethod]
     public override void Standard()
     {
