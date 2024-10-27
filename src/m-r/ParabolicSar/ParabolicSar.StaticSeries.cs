@@ -168,7 +168,7 @@ public static partial class ParabolicSar
         }
 
         // remove first trendline since it is an invalid guess
-        int cutIndex = results.FindIndex(x => x.IsReversal == true);
+        int cutIndex = results.FindIndex(x => x.IsReversal ?? false);
 
         cutIndex = cutIndex < 0 ? length - 1 : cutIndex;
 
