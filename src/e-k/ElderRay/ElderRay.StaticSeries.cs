@@ -12,7 +12,7 @@ public static partial class ElderRay
             .CalcElderRay(lookbackPeriods);
 
     private static List<ElderRayResult> CalcElderRay(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

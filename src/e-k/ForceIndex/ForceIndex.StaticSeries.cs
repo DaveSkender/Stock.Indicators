@@ -12,11 +12,11 @@ public static partial class ForceIndex
             .CalcForceIndex(lookbackPeriods);
 
     private static List<ForceIndexResult> CalcForceIndex(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        ForceIndex.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

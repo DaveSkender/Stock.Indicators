@@ -2,16 +2,25 @@ namespace Skender.Stock.Indicators;
 
 // ULTIMATE OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class Ultimate
 {
+    public static IReadOnlyList<UltimateResult> ToUltimate<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int shortPeriods = 7,
+        int middlePeriods = 14,
+        int longPeriods = 28)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcUltimate(shortPeriods, middlePeriods, longPeriods);
+
     private static List<UltimateResult> CalcUltimate(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
     {
         // check parameter arguments
-        Ultimate.Validate(shortPeriods, middlePeriods, longPeriods);
+        Validate(shortPeriods, middlePeriods, longPeriods);
 
         // initialize
         int length = source.Count;

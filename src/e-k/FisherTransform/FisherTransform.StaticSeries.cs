@@ -18,7 +18,7 @@ public static partial class FisherTransform
         where T : IReusable
     {
         // check parameter arguments
-        FisherTransform.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

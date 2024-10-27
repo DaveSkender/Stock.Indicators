@@ -75,14 +75,14 @@ public static partial class Indicator
     public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
         this IReadOnlyList<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-        => quotes.Use(CandlePart.Close).ToList().CalcStdDev(lookbackPeriods);
+        => quotes.Use(CandlePart.Close).ToStdDev(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.GetSma(smaPeriods)` to generate a moving average.", true)] // v3.0.0
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
         this IReadOnlyList<TQuote> quotes, int lookbackPeriods, int smaPeriods)
         where TQuote : IQuote
-        => quotes.Use(CandlePart.Close).ToList().CalcTrix(lookbackPeriods);
+        => quotes.Use(CandlePart.Close).ToTrix(lookbackPeriods);
 
     // UTILITIES
 

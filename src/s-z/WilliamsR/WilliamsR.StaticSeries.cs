@@ -2,14 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAM %R OSCILLATOR (SERIES)
 
-public static partial class Indicator
+public static partial class WilliamsR
 {
+    public static IReadOnlyList<WilliamsResult> ToWilliamsR<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcWilliamsR(lookbackPeriods);
+
     private static List<WilliamsResult> CalcWilliamsR(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        WilliamsR.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // convert Fast Stochastic to William %R
         return source.CalcStoch(lookbackPeriods, 1, 1, 3, 2, MaType.SMA)

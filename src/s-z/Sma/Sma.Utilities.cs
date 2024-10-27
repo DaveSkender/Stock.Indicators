@@ -1,4 +1,8 @@
+using System.Numerics;
+
 namespace Skender.Stock.Indicators;
+
+// SIMPLE MOVING AVERAGE (UTILITIES)
 
 public static partial class Sma
 {
@@ -63,6 +67,38 @@ public static partial class Sma
         return sum / lookbackPeriods;
 
         // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
+    }
+
+    internal static double[] Increment(this double[] prices, int period)
+    {
+        // TODO: is this used (probably just an experiment, has rounding errors)
+
+        int count = prices.Length - period + 1;
+        double[] sma = new double[count];
+
+        int simdWidth = Vector<double>.Count;
+        for (int i = 0; i < count; i++)
+        {
+            Vector<double> sumVector = Vector<double>.Zero;
+
+            int j;
+            for (j = 0; j <= period - simdWidth; j += simdWidth)
+            {
+                Vector<double> priceVector = new(prices, i + j);
+                sumVector += priceVector;
+            }
+
+            double sum = 0;
+            for (; j < period; j++) // remainder loop
+            {
+                sum += prices[i + j];
+            }
+            sum += Vector.Dot(sumVector, Vector<double>.One);
+
+            sma[i] = sum / period;
+        }
+
+        return sma;
     }
 
     // parameter validation

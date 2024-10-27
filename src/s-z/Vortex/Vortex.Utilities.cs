@@ -1,6 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// VORTEX INDICATOR (UTILITIES)
+
+public static partial class Vortex
 {
     // CONDENSE (REMOVE null results)
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
@@ -27,5 +29,17 @@ public static partial class Indicator
             .FindIndex(x => x.Pvi != null || x.Nvi != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for VI.");
+        }
     }
 }

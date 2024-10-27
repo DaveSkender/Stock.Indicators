@@ -14,7 +14,7 @@ public static partial class Chandelier
             .CalcChandelier(lookbackPeriods, multiplier, type);
 
     private static List<ChandelierResult> CalcChandelier(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)

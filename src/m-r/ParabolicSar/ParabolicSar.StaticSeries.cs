@@ -28,13 +28,13 @@ public static partial class ParabolicSar
                 initialFactor);
 
     private static List<ParabolicSarResult> CalcParabolicSar(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)
     {
         // check parameter arguments
-        ParabolicSar.Validate(
+        Validate(
             accelerationStep, maxAccelerationFactor, initialFactor);
 
         // initialize

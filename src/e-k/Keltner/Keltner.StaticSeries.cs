@@ -14,13 +14,13 @@ public static partial class Keltner
             .CalcKeltner(emaPeriods, multiplier, atrPeriods);
 
     private static List<KeltnerResult> CalcKeltner(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
     {
         // check parameter arguments
-        Keltner.Validate(emaPeriods, multiplier, atrPeriods);
+        Validate(emaPeriods, multiplier, atrPeriods);
 
         // initialize
         int length = source.Count;

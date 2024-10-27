@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // TRUE STRENGTH INDEX (SERIES)
 
-public static partial class Indicator
+public static partial class Tsi
 {
-    private static List<TsiResult> CalcTsi<T>(
-        this List<T> source,
-        int lookbackPeriods,
-        int smoothPeriods,
-        int signalPeriods)
+    public static IReadOnlyList<TsiResult> ToTsi<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 25,
+        int smoothPeriods = 13,
+        int signalPeriods = 7)
         where T : IReusable
     {
         // check parameter arguments
-        Tsi.Validate(lookbackPeriods, smoothPeriods, signalPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, smoothPeriods, signalPeriods);
 
         // initialize
         int length = source.Count;

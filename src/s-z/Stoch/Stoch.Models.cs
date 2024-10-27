@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-/// <include file='./info.xml' path='info/type[@name="Results"]/*' />
-///
 public record StochResult
 (
     DateTime Timestamp,

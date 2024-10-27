@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // STANDARD DEVIATION (SERIES)
 
-public static partial class Indicator
+public static partial class StdDev
 {
-    private static List<StdDevResult> CalcStdDev<T>(
-        this List<T> source,
+    public static IReadOnlyList<StdDevResult> ToStdDev<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        StdDev.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

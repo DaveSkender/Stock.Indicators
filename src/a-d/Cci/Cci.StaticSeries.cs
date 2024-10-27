@@ -12,11 +12,11 @@ public static partial class Cci
             .CalcCci(lookbackPeriods);
 
     private static List<CciResult> CalcCci(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Cci.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

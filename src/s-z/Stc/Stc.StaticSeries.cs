@@ -2,17 +2,18 @@ namespace Skender.Stock.Indicators;
 
 // SCHAFF TREND CYCLE (SERIES)
 
-public static partial class Indicator
+public static partial class Stc
 {
-    private static List<StcResult> CalcStc<T>(
-        this List<T> source,
-        int cyclePeriods,
-        int fastPeriods,
-        int slowPeriods)
+    public static IReadOnlyList<StcResult> ToStc<T>(
+        this IReadOnlyList<T> source,
+        int cyclePeriods = 10,
+        int fastPeriods = 23,
+        int slowPeriods = 50)
         where T : IReusable
     {
         // check parameter arguments
-        Stc.Validate(cyclePeriods, fastPeriods, slowPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(cyclePeriods, fastPeriods, slowPeriods);
 
         // initialize results
         int length = source.Count;

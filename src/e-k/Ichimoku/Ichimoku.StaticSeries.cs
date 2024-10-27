@@ -59,7 +59,7 @@ public static partial class Ichimoku
         where TQuote : IQuote
     {
         // check parameter arguments
-        Ichimoku.Validate(
+        Validate(
             tenkanPeriods,
             kijunPeriods,
             senkouBPeriods,

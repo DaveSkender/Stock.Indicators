@@ -14,7 +14,7 @@ public static partial class AtrStop
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
 
     private static List<AtrStopResult> CalcAtrStop(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         EndType endType)

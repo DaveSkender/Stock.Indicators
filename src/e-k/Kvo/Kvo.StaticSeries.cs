@@ -14,13 +14,13 @@ public static partial class Kvo
             .CalcKvo(fastPeriods, slowPeriods, signalPeriods);
 
     private static List<KvoResult> CalcKvo(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)
     {
         // check parameter arguments
-        Kvo.Validate(fastPeriods, slowPeriods, signalPeriods);
+        Validate(fastPeriods, slowPeriods, signalPeriods);
 
         // initialize
         int length = source.Count;

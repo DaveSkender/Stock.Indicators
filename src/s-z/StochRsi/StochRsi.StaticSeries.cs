@@ -2,18 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // STOCHASTIC RSI (SERIES)
 
-public static partial class Indicator
+public static partial class StochRsi
 {
-    private static List<StochRsiResult> CalcStochRsi<T>(
-        this List<T> source,
+    public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
+        this IReadOnlyList<T> source,
         int rsiPeriods,
         int stochPeriods,
         int signalPeriods,
-        int smoothPeriods)
+        int smoothPeriods = 1)
         where T : IReusable
     {
         // check parameter arguments
-        StochRsi.Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // initialize results
         int length = source.Count;

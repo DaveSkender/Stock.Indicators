@@ -11,7 +11,7 @@ public static partial class Obv
         .CalcObv();
 
     private static List<ObvResult> CalcObv(
-        this List<QuoteD> source)
+        this IReadOnlyList<QuoteD> source)
     {
         // initialize
         int length = source.Count;

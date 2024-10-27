@@ -2,15 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // TRIPLE EMA OSCILLATOR - TRIX (SERIES)
 
-public static partial class Indicator
+public static partial class Trix
 {
-    private static List<TrixResult> CalcTrix<T>(
-        this List<T> source,
+    public static IReadOnlyList<TrixResult> ToTrix<T>(
+        this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
-        Trix.Validate(lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

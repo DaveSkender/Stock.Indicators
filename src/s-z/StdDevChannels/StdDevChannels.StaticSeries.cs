@@ -1,22 +1,21 @@
 namespace Skender.Stock.Indicators;
 
-// STANDARD DEVIATION CHANNELS
+// STANDARD DEVIATION CHANNELS (SERIES)
 
-public static partial class Indicator
+public static partial class StdDevChannels
 {
-    private static List<StdDevChannelsResult> CalcStdDevChannels<T>(
-        this List<T> source,
-        int? lookbackPeriods,
-        double stdDeviations)
+    public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
+        this IReadOnlyList<T> source,
+        int? lookbackPeriods = 20,
+        double stdDeviations = 2)
         where T : IReusable
     {
-        // assume whole quotes when lookback is null
-        lookbackPeriods ??= source.Count;
-
         // check parameter arguments
-        StdDevChannels.Validate(lookbackPeriods, stdDeviations);
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods, stdDeviations);
 
         // initialize
+        lookbackPeriods ??= source.Count; // assume whole quotes when null
         int length = source.Count;
 
         IReadOnlyList<SlopeResult> slopeResults = source

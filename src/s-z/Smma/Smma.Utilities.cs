@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// SMOOTHED MOVING AVERAGE (UTILITIES)
+
 public static partial class Smma
 {
     // remove recommended periods

@@ -20,7 +20,7 @@ public static partial class Mama
         where T : IReusable
     {
         // check parameter arguments
-        Mama.Validate(fastLimit, slowLimit);
+        Validate(fastLimit, slowLimit);
 
         // initialize
         int length = source.Count;

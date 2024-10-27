@@ -12,11 +12,11 @@ public static partial class Bop
             .CalcBop(smoothPeriods);
 
     private static List<BopResult> CalcBop(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int smoothPeriods)
     {
         // check parameter arguments
-        Bop.Validate(smoothPeriods);
+        Validate(smoothPeriods);
 
         // initialize
         int length = source.Count;

@@ -1,8 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// TILLSON T3 MOVING AVERAGE (COMMON)
+// TILLSON T3 MOVING AVERAGE (UTILITIES)
 
-public static class T3
+public static partial class T3
 {
     // parameter validation
     internal static void Validate(
@@ -22,5 +22,4 @@ public static class T3
                 "Volume Factor must be greater than 0 for T3.");
         }
     }
-
 }

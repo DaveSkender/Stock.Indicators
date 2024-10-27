@@ -2,15 +2,23 @@ namespace Skender.Stock.Indicators;
 
 // SUPERTREND (SERIES)
 
-public static partial class Indicator
+public static partial class SuperTrend
 {
+    public static IReadOnlyList<SuperTrendResult> ToSuperTrend<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 10,
+        double multiplier = 3)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcSuperTrend(lookbackPeriods, multiplier);
+
     private static List<SuperTrendResult> CalcSuperTrend(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
         double multiplier)
     {
         // check parameter arguments
-        SuperTrend.Validate(lookbackPeriods, multiplier);
+        Validate(lookbackPeriods, multiplier);
 
         // initialize
         int length = source.Count;

@@ -12,7 +12,7 @@ public static partial class Adx
         .CalcAdx(lookbackPeriods);
 
     private static List<AdxResult> CalcAdx(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods = 14)
     {
         // check parameter arguments

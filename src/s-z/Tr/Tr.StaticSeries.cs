@@ -4,9 +4,14 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Tr
 {
-    // calculate series
+    public static IReadOnlyList<TrResult> ToTr<TQuote>(
+    this IReadOnlyList<TQuote> quotes)
+    where TQuote : IQuote => quotes
+        .ToQuoteDList()
+        .CalcTr();
+
     private static List<TrResult> CalcTr(
-        this List<QuoteD> source)
+        this IReadOnlyList<QuoteD> source)
     {
         // initialize
         int length = source.Count;

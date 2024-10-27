@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// WEIGHTED MOVING AVERAGE (UTILITIES)
+
 public static partial class Wma
 {
     // parameter validation

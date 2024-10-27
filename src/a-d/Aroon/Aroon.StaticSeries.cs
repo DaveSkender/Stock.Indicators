@@ -12,7 +12,7 @@ public static partial class Aroon
             .CalcAroon(lookbackPeriods);
 
     private static List<AroonResult> CalcAroon(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+// TRIPLE EXPONENTIAL MOVING AVERAGE (UTILITIES)
+
 public static partial class Tema
 {
     // remove recommended periods

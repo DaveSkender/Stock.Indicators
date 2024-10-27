@@ -12,11 +12,11 @@ public static partial class Chop
             .CalcChop(lookbackPeriods);
 
     private static List<ChopResult> CalcChop(
-        this List<QuoteD> source,
+        this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
-        Chop.Validate(lookbackPeriods);
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;

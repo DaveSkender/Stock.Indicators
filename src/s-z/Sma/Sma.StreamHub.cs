@@ -2,10 +2,20 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAM HUB)
 
-#region hub interface
+#region hub interface and initializer
+
 public interface ISmaHub
 {
     int LookbackPeriods { get; }
+}
+
+public static partial class Sma
+{
+    public static SmaHub<TIn> ToSma<TIn>(
+        this IChainProvider<TIn> chainProvider,
+        int lookbackPeriods)
+        where TIn : IReusable
+        => new(chainProvider, lookbackPeriods);
 }
 #endregion
 

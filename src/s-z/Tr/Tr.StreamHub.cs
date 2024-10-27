@@ -2,6 +2,17 @@ namespace Skender.Stock.Indicators;
 
 // TRUE RANGE (STREAM HUB)
 
+#region initializer
+
+public static partial class Tr
+{
+    public static TrHub<TIn> ToTr<TIn>(
+        this IQuoteProvider<TIn> quoteProvider)
+        where TIn : IQuote
+        => new(quoteProvider);
+}
+#endregion
+
 public class TrHub<TIn>
     : ChainProvider<TIn, TrResult>
     where TIn : IQuote
