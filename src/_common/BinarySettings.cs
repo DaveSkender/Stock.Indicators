@@ -33,8 +33,7 @@ namespace Skender.Stock.Indicators;
 /// </param>
 public readonly struct BinarySettings(
     byte settings,
-    byte mask = 0b11111111)
-    : IEquatable<BinarySettings>
+    byte mask = 0b11111111) : IEquatable<BinarySettings>
 {
     public byte Settings { get; } = settings;
     public byte Mask { get; } = mask;
