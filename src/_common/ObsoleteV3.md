@@ -31,8 +31,8 @@ See your compiler `Warning` to identify these in your code.
   ```csharp
   // To refactor, here's an example replacement for ADL:
 
-  var results = quotes.GetAdl(10);
-  var adlSma  = results.GetSma(5);
+  var results = quotes.ToAdl(10);
+  var adlSma  = results.ToSma(5);
 
   // ref: old usage example
 
