@@ -46,11 +46,12 @@ public static class StreamHub
         int low = 0;
         int high = cache.Count - 1;
         int firstMatchIndex = -1;
+        DateTime targetTimestamp = cachedItem.Timestamp;
 
         while (low <= high)
         {
-            int mid = low + ((high - low) / 2);
-            int comparison = cache[mid].Timestamp.CompareTo(cachedItem.Timestamp);
+            int mid = (low + high) >> 1;
+            int comparison = cache[mid].Timestamp.CompareTo(targetTimestamp);
 
             if (comparison == 0)
             {
@@ -67,9 +68,7 @@ public static class StreamHub
                     return mid; // exact match found
                 }
 
-                // Continue searching to the left for
-                // the first occurrence
-                high = mid - 1;
+                high = mid - 1; // continue searching to the left
             }
             else if (comparison < 0)
             {
@@ -90,7 +89,7 @@ public static class StreamHub
             // Find the last occurrence of the matching timestamp
             for (int i = cache.Count - 1; i >= firstMatchIndex; i--)
             {
-                if (cache[i].Timestamp == cachedItem.Timestamp
+                if (cache[i].Timestamp == targetTimestamp
                  && cache[i].Equals(cachedItem))
                 {
                     return i; // exact match found among duplicates
@@ -135,7 +134,7 @@ public static class StreamHub
 
         while (low <= high)
         {
-            int mid = low + ((high - low) / 2);
+            int mid = (low + high) >> 1;
             DateTime midTimestamp = cache[mid].Timestamp;
 
             if (midTimestamp == timestamp)
