@@ -1,6 +1,6 @@
 namespace Skender.Stock.Indicators;
 
-public interface IIncrementReusable
+public interface IAddReusable
 {
     /// <summary>
     /// Converts an incremental value into
@@ -30,7 +30,7 @@ public interface IIncrementReusable
     void Add(IReadOnlyList<IReusable> values);
 }
 
-public interface IIncrementQuote
+public interface IAddQuote
 {
     /// <summary>
     /// Converts an incremental quote into

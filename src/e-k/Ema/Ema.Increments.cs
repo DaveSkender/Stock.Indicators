@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// Exponential Moving Average (EMA)
 /// from incremental reusable values.
 /// </summary>
-public class EmaList : List<EmaResult>, IEma, IIncrementQuote, IIncrementReusable
+public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
