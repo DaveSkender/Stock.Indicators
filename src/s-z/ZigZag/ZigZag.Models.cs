@@ -1,24 +1,21 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class ZigZagResult : ResultBase, IReusableResult
+public record ZigZagResult
+(
+    DateTime Timestamp,
+    decimal? ZigZag = null,      // zig zag line
+    string? PointType = null,    // indicates a specific point and type e.g. H or L
+    decimal? RetraceHigh = null, // zig zag retrace high line
+    decimal? RetraceLow = null   // zig zag retrace low line
+) : IReusable
 {
-    public ZigZagResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public decimal? ZigZag { get; set; } // zig zag line
-    public string? PointType { get; set; } // indicates a specific point and type e.g. H or L
-    public decimal? RetraceHigh { get; set; } // zig zag retrace high line
-    public decimal? RetraceLow { get; set; } // zig zag retrace low line
-
-    double? IReusableResult.Value => (double?)ZigZag;
+    public double Value => ZigZag.Null2NaN();
 }
 
 internal class ZigZagEval
 {
-    internal int Index { get; set; }
+    internal int Index { get; init; }
     internal decimal? High { get; set; }
     internal decimal? Low { get; set; }
 }

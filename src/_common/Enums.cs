@@ -1,8 +1,37 @@
 namespace Skender.Stock.Indicators;
 
 // SHARED ENUMERATIONS
-// note: indicator unique ENUMS specified in indicator models
+// note: indicator unique ENUMS filed with their models
 
+/// <summary>
+/// Cache action instruction or outcome
+/// </summary>
+internal enum Act
+{
+    /// <summary>
+    /// Adds item to end of cache or rebuild if older.
+    /// </summary>
+    Add,
+
+    /// <summary>
+    /// Does nothing to cache (aborted).
+    /// </summary>
+    Ignore,
+
+    /// <summary>
+    /// Insert item without rebuilding cache.
+    /// </summary>
+    Insert,
+
+    /// <summary>
+    /// Reset and rebuild from marker position.
+    /// </summary>
+    Rebuild
+}
+
+/// <summary>
+/// Part or value of a quote candle
+/// </summary>
 public enum CandlePart
 {
     Open,
@@ -17,12 +46,18 @@ public enum CandlePart
     OHLC4
 }
 
+/// <summary>
+/// Candle close or high/low wick values
+/// </summary>
 public enum EndType
 {
     Close = 0,
     HighLow = 1
 }
 
+/// <summary>
+/// Candlestick pattern matching type
+/// </summary>
 public enum Match
 {
     BullConfirmed = 200,
@@ -35,6 +70,9 @@ public enum Match
     BearConfirmed = -200
 }
 
+/// <summary>
+/// Moving average type
+/// </summary>
 public enum MaType
 {
     ALMA,
@@ -50,6 +88,10 @@ public enum MaType
     WMA
 }
 
+/// <summary>
+/// Period size.  Usually referring to the
+/// time period represented in a quote candle.
+/// </summary>
 public enum PeriodSize
 {
     Month,
@@ -64,12 +106,4 @@ public enum PeriodSize
     ThreeMinutes,
     TwoMinutes,
     OneMinute
-}
-
-public enum SyncType
-{
-    Prepend,
-    AppendOnly,
-    RemoveOnly,
-    FullMatch
 }

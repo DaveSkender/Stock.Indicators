@@ -1,17 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<BopResult> RemoveWarmupPeriods(
-        this IEnumerable<BopResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Bop != null);
+// BALANCE OF POWER (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class Bop
+{
+    // parameter validation
+    internal static void Validate(
+        int smoothPeriods)
+    {
+        // check parameter arguments
+        if (smoothPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(smoothPeriods), smoothPeriods,
+                "Smoothing periods must be greater than 0 for BOP.");
+        }
     }
 }

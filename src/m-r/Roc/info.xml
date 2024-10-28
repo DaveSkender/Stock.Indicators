@@ -14,7 +14,6 @@
     <typeparam name="TQuote">Configurable Quote type.  See Guide for more information.</typeparam>
     <param name="quotes">Historical price quotes.</param>
     <param name="lookbackPeriods">Number of periods in the lookback window.</param>
-    <param name="smaPeriods">Optional.  Number of periods for an ROC SMA signal line.</param>
     <returns>Time series of ROC values.</returns>
     <exception cref="ArgumentOutOfRangeException">Invalid parameter value provided.</exception>
   </type>

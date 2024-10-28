@@ -1,14 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class WmaResult : ResultBase, IReusableResult
+public record WmaResult
+(
+    DateTime Timestamp,
+    double? Wma
+) : IReusable
 {
-    public WmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Wma { get; set; }
-
-    double? IReusableResult.Value => Wma;
+    public double Value => Wma.Null2NaN();
 }

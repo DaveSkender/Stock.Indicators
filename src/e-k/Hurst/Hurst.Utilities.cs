@@ -1,17 +1,30 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// HURST EXPONENT (UTILITIES)
+
+public static partial class Hurst
 {
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<HurstResult> RemoveWarmupPeriods(
-        this IEnumerable<HurstResult> results)
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<HurstResult> RemoveWarmupPeriods(
+        this IReadOnlyList<HurstResult> results)
     {
         int removePeriods = results
           .ToList()
           .FindIndex(x => x.HurstExponent != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods < 20)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be at least 20 for Hurst Exponent.");
+        }
     }
 }

@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// VORTEX INDICATOR (UTILITIES)
+
+public static partial class Vortex
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<VortexResult> Condense(
-        this IEnumerable<VortexResult> results)
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<VortexResult> Condense(
+        this IReadOnlyList<VortexResult> results)
     {
         List<VortexResult> resultsList = results
             .ToList();
@@ -19,15 +20,26 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<VortexResult> RemoveWarmupPeriods(
-        this IEnumerable<VortexResult> results)
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<VortexResult> RemoveWarmupPeriods(
+        this IReadOnlyList<VortexResult> results)
     {
         int removePeriods = results
             .ToList()
             .FindIndex(x => x.Pvi != null || x.Nvi != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for VI.");
+        }
     }
 }

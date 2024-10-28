@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// WILLIAMS FRACTAL (UTILITIES)
+
+public static partial class Fractal
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<FractalResult> Condense(
-        this IEnumerable<FractalResult> results)
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<FractalResult> Condense(
+        this IReadOnlyList<FractalResult> results)
     {
         List<FractalResult> resultsList = results
             .ToList();
@@ -16,5 +17,17 @@ public static partial class Indicator
                 x => x.FractalBull is null && x.FractalBear is null);
 
         return resultsList.ToSortedList();
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int windowSpan)
+    {
+        // check parameter arguments
+        if (windowSpan < 2)
+        {
+            throw new ArgumentOutOfRangeException(nameof(windowSpan), windowSpan,
+                "Window span must be at least 2 for Fractal.");
+        }
     }
 }

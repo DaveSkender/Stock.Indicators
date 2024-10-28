@@ -16,19 +16,13 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<RocResult> results =
+IReadOnlyList<RocResult> results =
   quotes.GetRoc(lookbackPeriods);
-
-// usage with optional SMA of ROC (shown above)
-IEnumerable<RocResult> results =
-  quotes.GetRoc(lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) to go back.  Must be greater than 0.
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods in the moving average of ROC.  Must be greater than 0, if specified.
 
 ### Historical quotes requirements
 
@@ -39,7 +33,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RocResult>
+IReadOnlyList<RocResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,13 +43,11 @@ IEnumerable<RocResult>
 
 ### RocResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Momentum`** _`double`_ - Raw change in price over `N` periods
 
 **`Roc`** _`double`_ - Percent change in price (%, not decimal)
-
-**`RocSma`** _`double`_ - Moving average (SMA) of ROC based on `smaPeriods` periods, if specified
 
 ### Utilities
 

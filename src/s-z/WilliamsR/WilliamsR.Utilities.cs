@@ -1,17 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<WilliamsResult> RemoveWarmupPeriods(
-        this IEnumerable<WilliamsResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.WilliamsR != null);
+// WILLIAM %R OSCILLATOR (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class WilliamsR
+{
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for William %R.");
+        }
     }
 }

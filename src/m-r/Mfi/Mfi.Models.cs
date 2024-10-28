@@ -1,14 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class MfiResult : ResultBase, IReusableResult
+public record MfiResult
+(
+    DateTime Timestamp,
+    double? Mfi
+) : IReusable
 {
-    public MfiResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Mfi { get; set; }
-
-    double? IReusableResult.Value => Mfi;
+    public double Value => Mfi.Null2NaN();
 }

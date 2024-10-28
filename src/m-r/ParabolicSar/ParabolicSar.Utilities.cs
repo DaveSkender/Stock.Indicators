@@ -1,17 +1,46 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<ParabolicSarResult> RemoveWarmupPeriods(
-        this IEnumerable<ParabolicSarResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Sar != null);
+// PARABOLIC SAR (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class ParabolicSar
+{
+    private static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+
+    // parameter validation
+    internal static void Validate(
+        double accelerationStep,
+        double maxAccelerationFactor,
+        double initialFactor)
+    {
+        // check parameter arguments
+        if (accelerationStep <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep,
+                "Acceleration Step must be greater than 0 for Parabolic SAR.");
+        }
+
+        if (maxAccelerationFactor <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(maxAccelerationFactor), maxAccelerationFactor,
+                "Max Acceleration Factor must be greater than 0 for Parabolic SAR.");
+        }
+
+        if (accelerationStep > maxAccelerationFactor)
+        {
+            string message = string.Format(
+                invariantCulture,
+                "Acceleration Step cannot be larger than the Max Acceleration Factor ({0}) for Parabolic SAR.",
+                maxAccelerationFactor);
+
+            throw new ArgumentOutOfRangeException(nameof(accelerationStep), accelerationStep, message);
+        }
+
+        if (initialFactor <= 0 || initialFactor > maxAccelerationFactor)
+        {
+            throw new ArgumentOutOfRangeException(nameof(initialFactor), initialFactor,
+                "Initial Factor must be greater than 0 and not larger than Max Acceleration Factor for Parabolic SAR.");
+        }
     }
 }

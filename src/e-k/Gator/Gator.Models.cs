@@ -1,16 +1,11 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public class GatorResult : ResultBase
-{
-    public GatorResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Upper { get; set; }
-    public double? Lower { get; set; }
-
-    public bool? UpperIsExpanding { get; set; }
-    public bool? LowerIsExpanding { get; set; }
-}
+public record GatorResult
+(
+    DateTime Timestamp,
+    double? Upper = null,
+    double? Lower = null,
+    bool? UpperIsExpanding = null,
+    bool? LowerIsExpanding = null
+) : ISeries;

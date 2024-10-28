@@ -1,17 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<StdDevResult> RemoveWarmupPeriods(
-        this IEnumerable<StdDevResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.StdDev != null);
+// STANDARD DEVIATION (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class StdDev
+{
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for Standard Deviation.");
+        }
     }
 }

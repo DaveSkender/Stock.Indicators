@@ -16,7 +16,7 @@ Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/
 
 ```csharp
 // C# usage syntax
-IEnumerable<ChaikinOscResult> results =
+IReadOnlyList<ChaikinOscResult> results =
   quotes.GetChaikinOsc(fastPeriods, slowPeriods);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `2×S` or `S+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<ChaikinOscResult>
+IReadOnlyList<ChaikinOscResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<ChaikinOscResult>
 
 ### ChaikinOscResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
 

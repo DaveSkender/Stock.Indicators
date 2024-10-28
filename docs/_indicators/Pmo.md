@@ -16,15 +16,15 @@ Created by Carl Swenlin, the DecisionPoint [Price Momentum Oscillator](https://s
 
 ```csharp
 // C# usage syntax
-IEnumerable<PmoResult> results =
+IReadOnlyList<PmoResult> results =
   quotes.GetPmo(timePeriods, smoothPeriods, signalPeriods);
 ```
 
 ## Parameters
 
-**`timePeriods`** _`int`_ - Number of periods (`T`) for ROC EMA smoothing.  Must be greater than 1.  Default is 35.
+**`timePeriods`** _`int`_ - Number of periods (`T`) for first ROC smoothing.  Must be greater than 1.  Default is 35.
 
-**`smoothPeriods`** _`int`_ - Number of periods (`S`) for PMO EMA smoothing.  Must be greater than 0.  Default is 20.
+**`smoothPeriods`** _`int`_ - Number of periods (`S`) for second PMO smoothing.  Must be greater than 0.  Default is 20.
 
 **`signalPeriods`** _`int`_ - Number of periods (`G`) for Signal line EMA.  Must be greater than 0.  Default is 10.
 
@@ -37,7 +37,7 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `T+S
 ## Response
 
 ```csharp
-IEnumerable<PmoResult>
+IReadOnlyList<PmoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<PmoResult>
 
 ### PmoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Pmo`** _`double`_ - Price Momentum Oscillator
 
