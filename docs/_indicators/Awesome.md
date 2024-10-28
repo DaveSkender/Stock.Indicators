@@ -16,7 +16,7 @@ Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of 
 
 ```csharp
 // C# usage syntax
-IEnumerable<AwesomeResult> results =
+IReadOnlyList<AwesomeResult> results =
   quotes.GetAwesome(fastPeriods, slowPeriods);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `S` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<AwesomeResult>
+IReadOnlyList<AwesomeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<AwesomeResult>
 
 ### AwesomeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Oscillator`** _`double`_ - Awesome Oscillator
 

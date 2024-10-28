@@ -1,19 +1,15 @@
 namespace Skender.Stock.Indicators;
 
 [Serializable]
-public sealed class ConnorsRsiResult : ResultBase, IReusableResult
+public record ConnorsRsiResult
+(
+    DateTime Timestamp,
+    double Streak,
+    double? Rsi = null,
+    double? RsiStreak = null,
+    double? PercentRank = null,
+    double? ConnorsRsi = null
+) : IReusable
 {
-    public ConnorsRsiResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Rsi { get; set; }
-    public double? RsiStreak { get; set; }
-    public double? PercentRank { get; set; }
-    public double? ConnorsRsi { get; set; }
-
-    // internal use only
-    internal int Streak { get; set; }
-    double? IReusableResult.Value => ConnorsRsi;
+    public double Value => ConnorsRsi.Null2NaN();
 }

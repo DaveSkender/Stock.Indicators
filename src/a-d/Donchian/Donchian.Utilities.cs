@@ -1,12 +1,13 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// DONCHIAN CHANNEL (UTILITIES)
+
+public static partial class Donchian
 {
     // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<DonchianResult> Condense(
-        this IEnumerable<DonchianResult> results)
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<DonchianResult> Condense(
+        this IReadOnlyList<DonchianResult> results)
     {
         List<DonchianResult> resultsList = results
             .ToList();
@@ -19,15 +20,26 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<DonchianResult> RemoveWarmupPeriods(
-        this IEnumerable<DonchianResult> results)
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<DonchianResult> RemoveWarmupPeriods(
+        this IReadOnlyList<DonchianResult> results)
     {
         int removePeriods = results
           .ToList()
           .FindIndex(x => x.Width != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for Donchian Channel.");
+        }
     }
 }

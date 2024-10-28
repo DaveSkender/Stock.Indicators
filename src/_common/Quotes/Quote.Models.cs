@@ -3,69 +3,108 @@ namespace Skender.Stock.Indicators;
 // QUOTE MODELS
 
 /// <summary>
-/// Quote interface can be used to modify or create your own quote class
-/// for compatibility to this library.
+/// Quote interface for standard OHLCV aggregate period.
+/// This is commonly known as a "bar" or "candle" and represents
+/// and asset price range over a specific time range,
+/// <para>
+/// If implementing your own custom <c>TQuote:IQuote</c> type:
+/// </para>
+/// <para>
+/// For chaining compatibility (<see cref="IReusable"/>
+/// compliance), add the following <c>TQuote</c> property
+/// (pointer) to your <see cref="IQuote.Close"/> price.
+/// <code>
+///    double IReusable.Value => (double)Close;
+/// </code>
+/// </para>
+/// <para>
+/// TIP: If you do not need a custom quote type,
+/// use the built-in <see cref="Quote"/>.
+/// </para>
 /// </summary>
-public interface IQuote : ISeries
+public interface IQuote : IReusable
 {
     /// <summary>
-    /// Opening ticker price of this bar
+    /// Aggregate bar's first tick price
     /// </summary>
     decimal Open { get; }
 
     /// <summary>
-    /// High ticker price of this bar
+    /// Aggregate bar's highest tick price
     /// </summary>
     decimal High { get; }
 
     /// <summary>
-    /// Low ticker price of this bar
+    /// Aggregate bar's lowest tick price
     /// </summary>
     decimal Low { get; }
 
     /// <summary>
-    /// Last ticker price of this bar
+    /// Aggregate bar's last tick price
     /// </summary>
     decimal Close { get; }
 
     /// <summary>
-    /// Quantity of units transacted during this bar
+    /// Aggregate bar's tick volume
     /// </summary>
     decimal Volume { get; }
 }
 
 /// <summary>
-/// Built-in Quote class can be used for providing quotes to this library.
-/// This is a good choice if you have no current intention of extending it.
+/// Built-in Quote type, representing an OHLCV aggregate price period.
 /// </summary>
-public record class Quote : IQuote
+/// <param name="Timestamp">
+/// Close date/time of the aggregate period
+/// </param>
+/// <param name="Open">
+/// Aggregate bar's first tick price
+/// </param>
+/// <param name="High">
+/// Aggregate bar's highest tick price
+/// </param>
+/// <param name="Low">
+/// Aggregate bar's lowest tick price
+/// </param>
+/// <param name="Close">
+/// Aggregate bar's last tick price
+/// </param>
+/// <param name="Volume">
+/// Aggregate bar's tick volume
+/// </param>
+/// <inheritdoc cref="IQuote"/>
+[Serializable]
+public record Quote
+(
+    DateTime Timestamp,
+    decimal Open,
+    decimal High,
+    decimal Low,
+    decimal Close,
+    decimal Volume
+) : IQuote
 {
-    /// <inheritdoc/>
-    public DateTime Date { get; set; }
+    public double Value => (double)Close;
 
-    /// <inheritdoc/>
-    public decimal Open { get; set; }
-
-    /// <inheritdoc/>
-    public decimal High { get; set; }
-
-    /// <inheritdoc/>
-    public decimal Low { get; set; }
-
-    /// <inheritdoc/>
-    public decimal Close { get; set; }
-
-    /// <inheritdoc/>
-    public decimal Volume { get; set; }
+    // TODO: add [Obsolete] auto-getter/setter for 'Date' property
+    // but only for a short transition period.  See if there can be
+    // a full overload of 'Quote' that has the 'Date' property and
+    // can support new(){ ... } initialization.
 }
 
-// internal use only, double variant
-internal record class QuoteD
+/// <summary>
+/// Double-point precision Quote, for internal use only.
+/// </summary>
+/// <inheritdoc cref="Quote" />
+[Serializable]
+internal record QuoteD
+(
+    DateTime Timestamp,
+    double Open,
+    double High,
+    double Low,
+    double Close,
+    double Volume
+) : IReusable
 {
-    internal DateTime Date { get; set; }
-    internal double Open { get; set; }
-    internal double High { get; set; }
-    internal double Low { get; set; }
-    internal double Close { get; set; }
-    internal double Volume { get; set; }
+    public double Value => Close;
 }

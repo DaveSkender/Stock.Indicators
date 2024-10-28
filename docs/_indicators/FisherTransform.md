@@ -16,7 +16,7 @@ Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/term
 
 ```csharp
 // C# usage syntax
-IEnumerable<FisherTransformResult> results =
+IReadOnlyList<FisherTransformResult> results =
   quotes.GetFisherTransform(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` periods of `quotes` to cover the [warmup and converge
 ## Response
 
 ```csharp
-IEnumerable<FisherTransformResult>
+IReadOnlyList<FisherTransformResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -44,7 +44,7 @@ IEnumerable<FisherTransformResult>
 
 ### FisherTransformResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Fisher`** _`double`_ - Fisher Transform
 

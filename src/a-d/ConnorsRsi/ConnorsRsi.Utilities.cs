@@ -1,17 +1,32 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<ConnorsRsiResult> RemoveWarmupPeriods(
-        this IEnumerable<ConnorsRsiResult> results)
-    {
-        int n = results
-          .ToList()
-          .FindIndex(x => x.ConnorsRsi != null);
+// CONNORS RSI (UTILITIES)
 
-        return results.Remove(n);
+public static partial class ConnorsRsi
+{
+    // parameter validation
+    internal static void Validate(
+        int rsiPeriods,
+        int streakPeriods,
+        int rankPeriods)
+    {
+        // check parameter arguments
+        if (rsiPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rsiPeriods), rsiPeriods,
+                "RSI period for Close price must be greater than 1 for ConnorsRsi.");
+        }
+
+        if (streakPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(streakPeriods), streakPeriods,
+                "RSI period for Streak must be greater than 1 for ConnorsRsi.");
+        }
+
+        if (rankPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rankPeriods), rankPeriods,
+                "Percent Rank periods must be greater than 1 for ConnorsRsi.");
+        }
     }
 }

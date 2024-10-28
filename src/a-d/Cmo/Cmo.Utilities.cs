@@ -1,17 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
-{
-    // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<CmoResult> RemoveWarmupPeriods(
-        this IEnumerable<CmoResult> results)
-    {
-        int removePeriods = results
-            .ToList()
-            .FindIndex(x => x.Cmo != null);
+// CHANDE MOMENTUM OSCILLATOR (UTILITIES)
 
-        return results.Remove(removePeriods);
+public static partial class Cmo
+{
+    // parameter validation
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 0 for CMO.");
+        }
     }
 }

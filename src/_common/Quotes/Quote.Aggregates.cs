@@ -2,45 +2,45 @@ namespace Skender.Stock.Indicators;
 
 // QUOTE UTILITIES
 
-public static partial class QuoteUtility
+public static partial class Quotes
 {
     // aggregation (quantization)
     /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
     ///
-    public static IEnumerable<Quote> Aggregate<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<Quote> Aggregate<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         PeriodSize newSize)
         where TQuote : IQuote
     {
-        if (newSize != PeriodSize.Month)
-        {
-            // parameter conversion
-            TimeSpan newTimeSpan = newSize.ToTimeSpan();
-
-            // convert
-            return quotes.Aggregate(newTimeSpan);
-        }
-        else // month
+        if (newSize == PeriodSize.Month)
         {
             return quotes
-            .OrderBy(x => x.Date)
-            .GroupBy(x => new DateTime(x.Date.Year, x.Date.Month, 1))
-            .Select(x => new Quote {
-                Date = x.Key,
-                Open = x.First().Open,
-                High = x.Max(t => t.High),
-                Low = x.Min(t => t.Low),
-                Close = x.Last().Close,
-                Volume = x.Sum(t => t.Volume)
-            });
+                .OrderBy(x => x.Timestamp)
+                .GroupBy(x => new DateTime(x.Timestamp.Year, x.Timestamp.Month, 1))
+                .Select(x => new Quote(
+                    Timestamp: x.Key,
+                    Open: x.First().Open,
+                    High: x.Max(t => t.High),
+                    Low: x.Min(t => t.Low),
+                    Close: x.Last().Close,
+                    Volume: x.Sum(t => t.Volume)))
+                .ToList();
         }
+
+        // parameter conversion
+        TimeSpan newTimeSpan = newSize.ToTimeSpan();
+
+        // convert
+        return quotes.Aggregate(newTimeSpan);
+
+        // month
     }
 
     // aggregation (quantization) using TimeSpan
     /// <include file='./info.xml' path='info/type[@name="AggregateTimeSpan"]/*' />
     ///
-    public static IEnumerable<Quote> Aggregate<TQuote>(
-        this IEnumerable<TQuote> quotes,
+    public static IReadOnlyList<Quote> Aggregate<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
         TimeSpan timeSpan)
         where TQuote : IQuote
     {
@@ -52,15 +52,15 @@ public static partial class QuoteUtility
 
         // return aggregation
         return quotes
-            .OrderBy(x => x.Date)
-            .GroupBy(x => x.Date.RoundDown(timeSpan))
-            .Select(x => new Quote {
-                Date = x.Key,
-                Open = x.First().Open,
-                High = x.Max(t => t.High),
-                Low = x.Min(t => t.Low),
-                Close = x.Last().Close,
-                Volume = x.Sum(t => t.Volume)
-            });
+            .OrderBy(x => x.Timestamp)
+            .GroupBy(x => x.Timestamp.RoundDown(timeSpan))
+            .Select(x => new Quote(
+                Timestamp: x.Key,
+                Open: x.First().Open,
+                High: x.Max(t => t.High),
+                Low: x.Min(t => t.Low),
+                Close: x.Last().Close,
+                Volume: x.Sum(t => t.Volume)))
+            .ToList();
     }
 }

@@ -1,10 +1,12 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+// HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (UTILITIES)
+
+public static partial class HtTrendline
 {
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<HtlResult> RemoveWarmupPeriods(
-        this IEnumerable<HtlResult> results) => results.Remove(100);
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<HtlResult> RemoveWarmupPeriods(
+        this IReadOnlyList<HtlResult> results)
+            => results.Remove(100);
 }

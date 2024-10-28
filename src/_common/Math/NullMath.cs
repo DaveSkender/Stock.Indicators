@@ -1,23 +1,28 @@
 namespace Skender.Stock.Indicators;
 
-// NULLABLE SYSTEM.MATH
-// System.Math does not allow or handle null input values.
-// Instead of putting a lot of inline defensive code
-// we're building nullable equivalents here.
+/// <summary>
+/// Nullable System.<see cref="Math"/> functions.
+/// </summary>
+/// <remarks>
+/// <c>System.Math</c> infamously does not allow
+/// or handle nullable input values.
+/// Instead of adding repetitive inline defensive code,
+/// we're using these equivalents.  Most are simple wrappers.
+/// </remarks>
 public static class NullMath
 {
     public static double? Abs(this double? value)
-        => (value is null)
+        => value is null
         ? null
         : value < 0 ? (double)-value : (double)value;
 
     public static decimal? Round(this decimal? value, int digits)
-        => (value is null)
+        => value is null
         ? null
         : Math.Round((decimal)value, digits);
 
     public static double? Round(this double? value, int digits)
-        => (value is null)
+        => value is null
         ? null
         : Math.Round((double)value, digits);
 
@@ -30,8 +35,13 @@ public static class NullMath
     public static double Null2NaN(this double? value)
         => value ?? double.NaN;
 
+    public static double Null2NaN(this decimal? value)
+        => value is null
+        ? double.NaN
+        : (double)value;
+
     public static double? NaN2Null(this double? value)
-        => (value is not null and double.NaN)
+        => value is double.NaN
         ? null
         : value;
 
