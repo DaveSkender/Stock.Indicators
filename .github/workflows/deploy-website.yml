@@ -7,6 +7,7 @@ concurrency:
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
 
 jobs:
   deploy:
@@ -16,7 +17,6 @@ jobs:
     environment:
       name: stockindicators.dev
       url: https://dotnet.stockindicators.dev
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
 
     steps:
       - name: Checkout source
