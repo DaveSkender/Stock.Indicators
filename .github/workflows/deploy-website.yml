@@ -15,7 +15,7 @@ jobs:
 
     environment:
       name: stockindicators.dev
-      url: https://dotnet.stockindicators.dev
+      url: ${{ steps.deploy.outputs.deployment-alias-url }}
 
     steps:
       - name: Checkout source
@@ -63,10 +63,12 @@ jobs:
         run: bundle exec jekyll build
 
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
-          directory: docs/_site
-          wranglerVersion: 'latest'
+          wranglerVersion: "latest"
+          command: >
+            pages deploy docs/_site
+            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
