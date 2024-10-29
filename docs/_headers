@@ -1,4 +1,4 @@
-https://:project.pages.dev/*
+https://*.:project.pages.dev/*
   X-Robots-Tag: noindex
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, POST, OPTIONS
