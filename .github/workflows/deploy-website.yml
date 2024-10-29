@@ -15,7 +15,7 @@ jobs:
 
     environment:
       name: stockindicators.dev
-      url: https://dotnet.stockindicators.dev
+      url: ${{ steps.deploy.outputs.deployment-alias-url }}
 
     steps:
       - name: Checkout source
@@ -72,7 +72,3 @@ jobs:
           command: >
             pages deploy docs/_site
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
-
-      - name: Publish summary
-        run: |
-          echo "URL: ${{ steps.deploy.outputs.deployment-alias-url }}" >> $GITHUB_STEP_SUMMARY
