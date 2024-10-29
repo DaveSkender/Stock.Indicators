@@ -7,7 +7,6 @@ concurrency:
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
 
 jobs:
   deploy:
@@ -41,6 +40,8 @@ jobs:
 
       - name: Install GEMs
         working-directory: docs
+        env:
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: |
           pwd
           bundle install
@@ -50,6 +51,7 @@ jobs:
         working-directory: docs
         env:
           JEKYLL_ENV: production
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Build site (preview)
@@ -57,6 +59,7 @@ jobs:
         working-directory: docs
         env:
           JEKYLL_ENV: preview
+          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Publish to Cloudflare Pages
