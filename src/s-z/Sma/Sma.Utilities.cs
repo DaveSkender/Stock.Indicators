@@ -22,19 +22,20 @@ public static partial class Sma
     /// if incalculable <see langword="double.NaN"/>
     /// values are in range.
     /// </returns>
-    internal static double? Average<T>(
+    public static double? Average<T>(
         this IReadOnlyList<T> values,
         int lookbackPeriods,
         int? endIndex = null)
         where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(values);
 
-        // TODO: unused SMA utility, either make public or remove
-
-        => Increment(
+        return Increment(
             values,
             lookbackPeriods,
             endIndex ?? values.Count - 1)
            .NaN2Null();
+    }
 
     /// <summary>
     /// Simple moving average calculation
