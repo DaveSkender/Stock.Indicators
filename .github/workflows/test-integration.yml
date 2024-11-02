@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: unit tests
+    name: integration tests
     runs-on: ${{ matrix.os }}
 
     permissions:
@@ -33,6 +33,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup .NET
+        id: dotnet-new
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
@@ -45,29 +46,34 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Test indicators
+      - name: Test public API
         run: >
-          dotnet test tests/indicators/Tests.Indicators.csproj
+          dotnet test tests/external/public-api/Tests.PublicApi.csproj
           --configuration Release
           --no-build
           --verbosity normal
           --logger trx
-          --collect:"XPlat Code Coverage"
-          --results-directory ./test-indicators
+          --results-directory ./test-other
 
       # the remaining steps are only needed from one primary instance
+
+      - name: Test integrations
+        if: env.IS_PRIMARY == 'true'
+        env:
+          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
+        run: >
+          dotnet test tests/external/integration/Tests.Integration.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --results-directory ./test-other
 
       - name: Post test summary
         uses: dorny/test-reporter@v1
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
-          path: ./test-indicators/**/*.trx
+          path: ./test-other/**/*.trx
           reporter: dotnet-trx
-
-      - name: Publish coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        if: env.IS_PRIMARY == 'true'
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-indicators/**/coverage.cobertura.xml
