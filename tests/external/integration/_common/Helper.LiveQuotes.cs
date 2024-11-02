@@ -1,4 +1,5 @@
 using Alpaca.Markets;
+
 using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
@@ -59,15 +60,15 @@ internal class FeedData
         IEnumerable<Quote> quotes = barSet
             .Items
             .Select(bar => new Quote
-            {
-                Date = bar.TimeUtc,
-                Open = bar.Open,
-                High = bar.High,
-                Low = bar.Low,
-                Close = bar.Close,
-                Volume = bar.Volume
-            })
-            .OrderBy(x => x.Date);
+             (
+                Timestamp: bar.TimeUtc,
+                Open: bar.Open,
+                High: bar.High,
+                Low: bar.Low,
+                Close: bar.Close,
+                Volume: bar.Volume
+             ))
+            .OrderBy(x => x.Timestamp);
 
         return quotes;
     }

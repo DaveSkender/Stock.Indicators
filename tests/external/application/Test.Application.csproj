@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Indicators.csproj" />
+    <ProjectReference Include="..\..\..\src\Indicators.csproj" />
   </ItemGroup>
 
   <ItemGroup>

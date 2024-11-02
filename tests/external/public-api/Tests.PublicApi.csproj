@@ -16,16 +16,20 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="MSTest.Analyzers" Version="3.6.1">
+    <PackageReference Include="MSTest.Analyzers" Version="3.6.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MSTest.TestAdapter" Version="3.6.1" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.6.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
+    <ProjectReference Include="..\..\indicators\Tests.Indicators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="utilities\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 namespace Behavioral;
 
 [TestClass]
+[TestCategory("Integration")]
 public class Convergence : TestBase
 {
     private static readonly int[] QuotesQuantities =

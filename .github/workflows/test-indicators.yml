@@ -58,9 +58,6 @@ jobs:
           -warnAsError
 
       - name: Test indicators
-        env:
-          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
-          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
@@ -72,10 +69,23 @@ jobs:
 
       # the remaining steps are only needed from one primary instance
 
-      - name: Test other items
+      - name: Test public API
         if: env.IS_PRIMARY == 'true'
         run: >
-          dotnet test tests/other/Tests.Other.csproj
+          dotnet test tests/external/public-api/Tests.PublicApi.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --results-directory ./test-other
+
+      - name: Test integrations
+        if: env.IS_PRIMARY == 'true'
+        env:
+          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
+        run: >
+          dotnet test tests/external/integration/Tests.Integration.csproj
           --configuration Release
           --no-build
           --verbosity normal

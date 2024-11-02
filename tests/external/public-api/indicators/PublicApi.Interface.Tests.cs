@@ -6,6 +6,7 @@ namespace PublicApi;
 // PUBLIC API (INTERFACES)
 
 [TestClass]
+[TestCategory("Integration")]
 public class UserInterface
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();

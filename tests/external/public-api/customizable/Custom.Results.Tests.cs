@@ -6,6 +6,7 @@ namespace Customization;
 // CUSTOM RESULTS
 
 [TestClass]
+[TestCategory("Integration")]
 public class CustomResults
 {
     private static readonly CultureInfo EnglishCulture

@@ -7,6 +7,7 @@ namespace Customization;
 // CUSTOM INDICATORS
 
 [TestClass]
+[TestCategory("Integration")]
 public class CustomIndicators
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
