@@ -53,7 +53,7 @@ jobs:
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./test-indicators
+          --results-directory ./test-results
 
       # the remaining steps are only needed from one primary instance
 
@@ -62,7 +62,7 @@ jobs:
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
-          path: ./test-indicators/**/*.trx
+          path: ./test-results/**/*.trx
           reporter: dotnet-trx
 
       - name: Publish coverage to Codacy
@@ -70,4 +70,4 @@ jobs:
         if: env.IS_PRIMARY == 'true'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-indicators/**/coverage.cobertura.xml
+          coverage-reports: ./test-results/**/coverage.cobertura.xml

@@ -10,22 +10,12 @@ on:
 jobs:
   test:
     name: integration tests
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
       actions: read
       checks: write
-
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["6.x", "8.x"]
-
-    env:
-
-      # identifying primary configuration so only one reports coverage
-      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.x' }}
 
     steps:
 
@@ -36,7 +26,7 @@ jobs:
         id: dotnet-new
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: "8.x"
           dotnet-quality: "ga"
 
       - name: Build library
@@ -53,12 +43,9 @@ jobs:
           --no-build
           --verbosity normal
           --logger trx
-          --results-directory ./test-other
-
-      # the remaining steps are only needed from one primary instance
+          --results-directory ./test-results
 
       - name: Test integrations
-        if: env.IS_PRIMARY == 'true'
         env:
           ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
           ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
@@ -68,12 +55,12 @@ jobs:
           --no-build
           --verbosity normal
           --logger trx
-          --results-directory ./test-other
+          --results-directory ./test-results
 
       - name: Post test summary
         uses: dorny/test-reporter@v1
-        if: env.IS_PRIMARY == 'true' && always()
+        if: always()
         with:
           name: Test results
-          path: ./test-other/**/*.trx
+          path: ./test-results/**/*.trx
           reporter: dotnet-trx
