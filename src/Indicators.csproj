@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net8.0;net6.0;</TargetFrameworks>
 
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
     <Copyright>@2020 Dave Skender</Copyright>
-    <Description>Transform financial market price data into technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, and more.</Description>
+    <Description>Transform financial market price data into technical analysis indicators such as MACD, Stochastic RSI, Average true Range, Parabolic SAR, and more.</Description>
 
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -43,24 +43,24 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\README.md">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
     <None Include="..\LICENSE">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
     <None Include="..\NOTICE">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
     <None Include="icon.png">
-      <Pack>True</Pack>
+      <Pack>true</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
