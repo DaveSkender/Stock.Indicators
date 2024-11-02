@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace Skender.Stock.Indicators;
@@ -22,6 +24,7 @@ public static partial class Sma
     /// if incalculable <see langword="double.NaN"/>
     /// values are in range.
     /// </returns>
+    [Category("Public API only")]
     public static double? Average<T>(
         this IReadOnlyList<T> values,
         int lookbackPeriods,
@@ -70,9 +73,11 @@ public static partial class Sma
         // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
     }
 
+    [ExcludeFromCodeCoverage]
+    [Category("Experimental")]
     internal static double[] Increment(this double[] prices, int period)
     {
-        // TODO: is this used (probably just an experiment, has rounding errors)
+        // TODO: remove/consider experiment, has rounding errors
 
         int count = prices.Length - period + 1;
         double[] sma = new double[count];
