@@ -6,7 +6,7 @@ public static partial class Quotes
 {
     /* LISTS */
 
-    // convert TQuote type list to built-in Quote type list
+    // convert TQuote type list to built-in Quote type list (public API only)
     public static IReadOnlyList<Quote> ToQuoteList<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
@@ -27,7 +27,7 @@ public static partial class Quotes
 
     /* TYPES */
 
-    // convert any IQuote type to native Quote type
+    // convert any IQuote type to native Quote type (public API only)
     public static Quote ToQuote<TQuote>(this TQuote quote)
         where TQuote : IQuote
 

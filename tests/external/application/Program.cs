@@ -1,6 +1,6 @@
 namespace Test.Application;
 
-internal class Program
+public class Program
 {
     private static void Main(string[] args)
     {
@@ -11,18 +11,20 @@ internal class Program
 
         string scenario = "C";
 
+        Go go = new();
+
         switch (scenario)
         {
-            case "A": Do.QuoteHub(); break;
-            case "B": Do.EmaHub(); break;
-            case "C": Do.MultipleSubscribers(); break;
+            case "A": go.QuoteHub(); break;
+            case "B": go.EmaHub(); break;
+            case "C": go.MultipleSubscribers(); break;
         }
     }
 }
 
-public class Do
+public class Go
 {
-    private static readonly bool verbose = true; // turn this off when profiling
+    private readonly bool verbose = true;
 
     private static readonly QuoteHub<Quote> provider = new();
 
@@ -30,9 +32,9 @@ public class Do
 
     private static readonly int quotesLength = quotesList.Count;
 
-    internal Do()
+    public Go()
     {
-        if (!verbose)
+        if (verbose)
         {
             Prefill();
         }
@@ -47,7 +49,7 @@ public class Do
         }
     }
 
-    internal static void QuoteHub()
+    internal void QuoteHub()
     {
         EmaHub<Quote> emaHub = provider.ToEma(14);
 
@@ -83,7 +85,7 @@ public class Do
     }
 
 
-    internal static void EmaHub()
+    internal void EmaHub()
     {
         EmaHub<Quote> emaHub = provider.ToEma(14);
 
@@ -131,7 +133,7 @@ public class Do
         Console.WriteLine(m);
     }
 
-    internal static void MultipleSubscribers()
+    internal void MultipleSubscribers()
     {
         SmaHub<Quote> smaHub = provider.ToSma(3);
         EmaHub<Quote> emaHub = provider.ToEma(5);

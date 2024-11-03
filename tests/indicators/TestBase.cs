@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 // GLOBALS & INITIALIZATION OF TEST DATA
 
 [assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("Tests.Other")]        // these use test data
+[assembly: InternalsVisibleTo("Tests.PublicApi")]    // these use test data
 [assembly: InternalsVisibleTo("Tests.Performance")]
 [assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
 

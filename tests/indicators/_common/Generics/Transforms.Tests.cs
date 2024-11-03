@@ -14,7 +14,7 @@ public class Transforms : TestBase
 
         Assert.IsNotNull(collection);
         Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(245.28m, collection.LastOrDefault().Close);
+        Assert.AreEqual(245.28m, collection[^1].Close);
     }
 
     // null ToCollection

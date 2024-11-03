@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace Skender.Stock.Indicators;
@@ -22,19 +23,20 @@ public static partial class Sma
     /// if incalculable <see langword="double.NaN"/>
     /// values are in range.
     /// </returns>
-    internal static double? Average<T>(
+    public static double? Average<T>(  // public API only
         this IReadOnlyList<T> values,
         int lookbackPeriods,
         int? endIndex = null)
         where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(values);
 
-        // TODO: unused SMA utility, either make public or remove
-
-        => Increment(
+        return Increment(
             values,
             lookbackPeriods,
             endIndex ?? values.Count - 1)
            .NaN2Null();
+    }
 
     /// <summary>
     /// Simple moving average calculation
@@ -69,9 +71,10 @@ public static partial class Sma
         // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
     }
 
+    [ExcludeFromCodeCoverage]  // experimental SIMD code
     internal static double[] Increment(this double[] prices, int period)
     {
-        // TODO: is this used (probably just an experiment, has rounding errors)
+        // TODO: remove/consider experiment, has rounding errors
 
         int count = prices.Length - period + 1;
         double[] sma = new double[count];
