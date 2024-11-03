@@ -4,14 +4,14 @@ namespace Skender.Stock.Indicators;
 
 #region chain and quote variants
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public interface IQuoteProvider<out T> : IChainProvider<T>
     where T : IQuote
 {
     IReadOnlyList<T> Quotes { get; }
 }
 
-/// <inheritdoc />
+/// <inheritdoc/>
 public interface IChainProvider<out T> : IStreamObservable<T>
     where T : IReusable;
 #endregion

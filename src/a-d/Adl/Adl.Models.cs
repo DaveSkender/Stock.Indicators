@@ -16,8 +16,6 @@ public record AdlResult
     double? MoneyFlowVolume = null
 ) : IReusable
 {
-    /// <summary>
-    /// Gets the value of the ADL.
-    /// </summary>
+    /// <inheritdoc/>
     public double Value => Adl;
 }

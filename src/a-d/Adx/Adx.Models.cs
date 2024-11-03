@@ -18,8 +18,6 @@ public record AdxResult
     double? Adxr = null
 ) : IReusable
 {
-    /// <summary>
-    /// Gets the ADX value or NaN if it is null.
-    /// </summary>
+    /// <inheritdoc/>
     public double Value => Adx.Null2NaN();
 }

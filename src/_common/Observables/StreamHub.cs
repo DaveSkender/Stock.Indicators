@@ -66,7 +66,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     // fetch cache reference
-    /// <inheritdoc/>
+    
     public IReadOnlyList<TOut> GetCacheRef() => Cache;
 
     public abstract override string ToString();
