@@ -3,8 +3,16 @@ namespace Utilities;
 [TestClass]
 public class QuoteParts : TestBase
 {
-    // this is an alias of Quotes.Use()
-    // so we're only testing the base utilities here
+    [TestMethod]
+    public void Instantiation()
+    {
+        Quote q = Quotes[1];
+
+        QuotePart sut0 = new(q.Timestamp, (double)q.Close);
+        QuotePart sut1 = new(q);
+
+        sut1.Should().Be(sut0);
+    }
 
     [TestMethod]
     public void ConvertQuote()
