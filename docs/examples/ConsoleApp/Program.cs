@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json;
 using Skender.Stock.Indicators;
 
 namespace ConsoleApp;
@@ -87,7 +87,8 @@ public static class Program
 
         string json = File.ReadAllText("quotes.data.json");
 
-        Collection<Quote> quotes = JsonConvert.DeserializeObject<IReadOnlyCollection<Quote>>(json)
+        Collection<Quote> quotes = JsonSerializer
+            .Deserialize<IReadOnlyCollection<Quote>>(json)
             .ToSortedCollection();
 
         return quotes;

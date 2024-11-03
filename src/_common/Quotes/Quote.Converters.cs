@@ -7,8 +7,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class QuoteUtility
 {
-    private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
-
     /* STANDARD DECIMAL QUOTES */
 
     // convert TQuotes to basic double tuple list
@@ -58,8 +56,7 @@ public static partial class QuoteUtility
     internal static List<QuoteD> ToQuoteD<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes
-            .Select(x => new QuoteD
-            {
+            .Select(x => new QuoteD {
                 Date = x.Date,
                 Open = (double)x.Open,
                 High = (double)x.High,
@@ -84,8 +81,7 @@ public static partial class QuoteUtility
     internal static (DateTime date, double value) ToTuple<TQuote>(
         this TQuote q,
         CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch
-        {
+        where TQuote : IQuote => candlePart switch {
             CandlePart.Open => (q.Date, (double)q.Open),
             CandlePart.High => (q.Date, (double)q.High),
             CandlePart.Low => (q.Date, (double)q.Low),
@@ -103,8 +99,7 @@ public static partial class QuoteUtility
     internal static BasicData ToBasicData<TQuote>(
         this TQuote q,
         CandlePart candlePart)
-        where TQuote : IQuote => candlePart switch
-        {
+        where TQuote : IQuote => candlePart switch {
             CandlePart.Open => new BasicData { Date = q.Date, Value = (double)q.Open },
             CandlePart.High => new BasicData { Date = q.Date, Value = (double)q.High },
             CandlePart.Low => new BasicData { Date = q.Date, Value = (double)q.Low },
@@ -121,8 +116,7 @@ public static partial class QuoteUtility
     // convert quoteD element to basic tuple
     internal static (DateTime, double) ToTuple(
         this QuoteD q,
-        CandlePart candlePart) => candlePart switch
-        {
+        CandlePart candlePart) => candlePart switch {
             CandlePart.Open => (q.Date, q.Open),
             CandlePart.High => (q.Date, q.High),
             CandlePart.Low => (q.Date, q.Low),

@@ -1,4 +1,4 @@
-name: "Lint PR"
+name: "Pull request"
 
 on:
   pull_request_target:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   main:
-    name: validate PR title
+    name: lint PR title
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v5
@@ -39,7 +39,7 @@ jobs:
           # event triggers in your workflow.
           ignoreLabels: |
             bot
-            ignore-semantic-pull-request
+            dependencies
 
       - uses: marocchino/sticky-pull-request-comment@v2
         # When the previous steps fails, the workflow would stop. By adding this
@@ -57,9 +57,15 @@ jobs:
             #### Pull request title naming convention
 
             Our PR title name taxonomy is `type: Subject`, where **type** is typically
-            *feat*, *fix*, or *chore*, and **subject** is a phrase (proper noun) that starts with a capitalized letter.
-            The *chore* type usually has a subject that starts with an action verb like *Add* or *Update*.
-            Examples: `feat: Admin portal login`, `fix: Divide by zero bug in SMA`, and `chore: Update user docs`.
+            *feat*, *fix*, or *chore*, and **subject** is a phrase (proper noun) that starts
+            with a capitalized letter.  The *chore* type usually has a subject that starts
+            with an action verb like *Add* or *Update*. Examples:
+
+            - _feat: Admin portal login_
+            - _fix: Divide by zero in X calculation_
+            - _chore: Update packages_
+            - _docs: Improve setup guidance_
+
             See the [Conventional Commits specification](https://www.conventionalcommits.org) for more information.
 
       # Delete a previous comment when the issue has been resolved

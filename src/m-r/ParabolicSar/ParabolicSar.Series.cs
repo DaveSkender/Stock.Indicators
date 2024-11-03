@@ -182,7 +182,7 @@ public static partial class Indicator
         if (accelerationStep > maxAccelerationFactor)
         {
             string message = string.Format(
-                EnglishCulture,
+                invCulture,
                 "Acceleration Step cannot be larger than the Max Acceleration Factor ({0}) for Parabolic SAR.",
                 maxAccelerationFactor);
 

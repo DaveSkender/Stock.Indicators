@@ -2,6 +2,7 @@ namespace Tests.Performance;
 
 // INTERNAL FUNCTIONS
 
+[ShortRunJob]
 public class InternalsPerformance
 {
     [Params(20, 50, 250, 1000)]
@@ -10,7 +11,7 @@ public class InternalsPerformance
     private double[] values;
 
     // standard deviation
-    [GlobalSetup(Targets = new[] { nameof(StdDev) })]
+    [GlobalSetup(Targets = [nameof(StdDev)])]
     public void Setup()
         => values = TestData.GetLongish(Periods)
             .Select(x => (double)x.Close)

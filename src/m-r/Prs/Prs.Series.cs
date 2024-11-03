@@ -27,8 +27,7 @@ public static partial class Indicator
                     "Date sequence does not match.  Price Relative requires matching dates in provided histories.");
             }
 
-            PrsResult r = new(eDate)
-            {
+            PrsResult r = new(eDate) {
                 Prs = (bValue == 0) ? null : (eValue / bValue).NaN2Null() // relative strength ratio
             };
             results.Add(r);
@@ -93,7 +92,7 @@ public static partial class Indicator
         {
             string message = "Insufficient quotes provided for Price Relative Strength.  " +
                 string.Format(
-                    EnglishCulture,
+                    invCulture,
                     "You provided {0} periods of quotes when at least {1} are required.",
                     qtyHistoryEval, minHistory);
 

@@ -72,9 +72,7 @@ public class QuoteValidation : TestBase
         }
     }
 
-    /* BAD QUOTES EXCEPTIONS */
     [TestMethod]
-    [ExpectedException(typeof(InvalidQuotesException), "Duplicate date found.")]
     public void DuplicateHistory()
     {
         List<Quote> badHistory =
@@ -86,6 +84,10 @@ public class QuoteValidation : TestBase
             new Quote { Date = DateTime.ParseExact("2017-01-06", "yyyy-MM-dd", EnglishCulture), Open = 228.97m, High = 231.92m, Low = 228.00m, Close = 231.28m, Volume = 3979484 }
         ];
 
-        badHistory.Validate();
+        InvalidQuotesException ex =
+            Assert.ThrowsException<InvalidQuotesException>(()
+                => badHistory.Validate());
+
+        ex.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
     }
 }

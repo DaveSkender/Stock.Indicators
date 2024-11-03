@@ -8,7 +8,7 @@ layout: page
 
 # {{ page.title }}
 
-To help you get started, here are a few minimalist [.NET 7.0](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) C# projects that you can review.  They are complete working examples.
+To help you get started, here are a few minimalist [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
@@ -25,12 +25,12 @@ We use an external API quote source for our **streaming** and **quote API** exam
 [get a free Alpaca API key and secret](https://alpaca.markets/docs/market-data/getting-started/),
 then set your local environment variables.
 
-Run the following command line items to set, after replacing the `ALPACA_API_KEY` and `ALPACA_SECRET` values.
+Run the following command line items to set, after replacing the `MY-ALPACA-KEY` and `MY-ALPACA-SECRET` values; then restart your IDE.
 
 ```bash
 # use your own keys
-setx AlpacaApiKey "ALPACA_API_KEY"
-setx AlpacaSecret "ALPACA_SECRET"
+setx ALPACA_KEY "MY-ALPACA-KEY"
+setx ALPACA_SECRET "MY-ALPACA-SECRET"
 ```
 
 ## Get and run the sample projects

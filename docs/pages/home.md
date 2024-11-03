@@ -9,21 +9,15 @@ lazy-images: true
 ---
 
 <p style="text-align:center;">
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package." class="not-mobile">
-  <img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet%20Package&color=blue&cacheSeconds=259200"
-  alt="" width="170" height="20" />
-</a>
-<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads." class="not-mobile">
-  <img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200"
-  alt="" width=130 height="20" />
-</a>
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Get the NuGet package." class="not-mobile"><img src="https://img.shields.io/nuget/v/skender.stock.indicators?logo=NuGet&label=NuGet%20Package&color=blue&cacheSeconds=259200" alt="" width="170" height="20" /></a>
+<a href="https://www.nuget.org/packages/Skender.Stock.Indicators" aria-label="Read more about package downloads." class="not-mobile"><img src="https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads&cacheSeconds=259200" alt="" width=130 height="20" /></a>
 </p>
 
 <h1 style="display:none;">{{ page.title }}</h1>
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
-Build your private technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV]({{site.baseurl}}/guide/#historical-quotes) price quotes sources for equities, commodities, forex, cryptocurrencies, and others.  [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
+Build your technical analysis, trading algorithms, machine learning, charting, or other intelligent market software with this library and your own [OHLCV]({{site.baseurl}}/guide/#historical-quotes) price quotes sources for equities, commodities, forex, cryptocurrencies, and others.  [Stock Indicators for Python](https://python.stockindicators.dev/) is also available.
 
 Explore more information:
 
@@ -40,10 +34,7 @@ Explore more information:
 
 You'll get all of the industry standard indicators out-of-the-box.  Additionally, you can create compatible [custom indicators]({{site.baseurl}}/custom-indicators/#content).
 
-<img alt="sample indicators shown in chart"
-  data-src="examples.webp"
-  style="aspect-ratio:900/748;"
-  class = "lazyload" />
+![sample indicators shown in chart](examples.webp)
 
 ## Easy to use in your application
 
@@ -97,7 +88,7 @@ This repository uses the standard Apache 2.0 open-source license.  Please review
 
 Thank you for your support!  This software is crafted with care by unpaid enthusiasts who &#128150; all forms of encouragement.  If you or your organization use this library or like what we're doing, add a &#11088; on the [GitHub Repo]({{site.github.repository_url}}) as a token of appreciation.
 
-If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/DaveSkender).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
+If you want to buy me a beer or are interested in ongoing support as a patron, [become a sponsor](https://github.com/sponsors/facioquo).  Patronage motivates continued maintenance and evolution of open-source projects, and to inspire new ones.
 
 ## Contribute to help others
 

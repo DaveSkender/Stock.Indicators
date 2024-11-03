@@ -26,7 +26,7 @@ IEnumerable<AdxResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `2×N+100` periods of `quotes` to allow for smoothing convergence.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
+You must have at least `2×N+100` periods of `quotes` to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.  We generally recommend you use at least `2×N+250` data points prior to the intended usage date for better precision.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 

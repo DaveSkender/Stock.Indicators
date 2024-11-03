@@ -28,8 +28,7 @@ public static partial class Indicator
         List<StochResult> stochMacd = tpList
           .CalcMacd(fastPeriods, slowPeriods, 1)
           .Remove(initPeriods)
-          .Select(x => new QuoteD
-          {
+          .Select(x => new QuoteD {
               Date = x.Date,
               High = x.Macd.Null2NaN(),
               Low = x.Macd.Null2NaN(),

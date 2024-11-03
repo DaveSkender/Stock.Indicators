@@ -67,8 +67,7 @@ public class QuoteUtility : TestBase
         decimal ohl3 = (o + h + l) / 3m;
         decimal ohlc4 = (o + h + l + c) / 4m;
 
-        Quote q = new()
-        {
+        Quote q = new() {
             Date = d,
             Open = o,
             High = h,
@@ -158,8 +157,7 @@ public class QuoteUtility : TestBase
         decimal ohl3 = (o + h + l) / 3m;
         decimal ohlc4 = (o + h + l + c) / 4m;
 
-        Quote q = new()
-        {
+        Quote q = new() {
             Date = d,
             Open = o,
             High = h,
@@ -220,8 +218,7 @@ public class QuoteUtility : TestBase
         double ohl3 = (o + h + l) / 3;
         double ohlc4 = (o + h + l + c) / 4;
 
-        QuoteD q = new()
-        {
+        QuoteD q = new() {
             Date = d,
             Open = o,
             High = h,

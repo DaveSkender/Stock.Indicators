@@ -26,7 +26,7 @@
   // markdown settings
   "markdownlint.config": {
     "MD033": false, // no-inline-html
-    "MD025": false // single-title/single-h1 --> fails with front-matter
+    "MD025": false  // single-title/single-h1 --> fails with front-matter
   },
   // dictionary exceptions
   "cSpell.words": [
@@ -193,8 +193,5 @@
     "pivottrend",
     "trendline",
     "webp"
-  ],
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Users/daves/Repos/Forks/Stock.Indicators/daveskender/.github/workflows/build.yml"
-  }
+  ]
 }

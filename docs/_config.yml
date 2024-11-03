@@ -47,7 +47,6 @@ exclude:
   [
     "*.cs",
     "*.csproj",
-    "*.json",
     "*.lock",
     "*.yml",
     "*.pptx",
@@ -60,6 +59,9 @@ exclude:
     "node_modules",
     "vendor",
   ]
+
+include:
+  - _headers
 
 permalink: pretty
 

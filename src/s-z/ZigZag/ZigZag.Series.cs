@@ -29,22 +29,19 @@ public static partial class Indicator
         ZigZagEval eval = GetZigZagEval(endType, 1, q0);
         decimal changeThreshold = percentChange / 100m;
 
-        ZigZagPoint lastPoint = new()
-        {
+        ZigZagPoint lastPoint = new() {
             Index = eval.Index,
             Value = q0.Close,
             PointType = "U"
         };
 
-        ZigZagPoint lastHighPoint = new()
-        {
+        ZigZagPoint lastHighPoint = new() {
             Index = eval.Index,
             Value = eval.High,
             PointType = "H"
         };
 
-        ZigZagPoint lastLowPoint = new()
-        {
+        ZigZagPoint lastLowPoint = new() {
             Index = eval.Index,
             Value = eval.Low,
             PointType = "L"
@@ -115,8 +112,7 @@ public static partial class Indicator
         bool trendUp = lastPoint.PointType == "L";
 
         // candidate
-        ZigZagPoint extremePoint = new()
-        {
+        ZigZagPoint extremePoint = new() {
             Index = lastPoint.Index,
             Value = lastPoint.Value,
             PointType = trendUp ? "H" : "L"
@@ -193,8 +189,7 @@ public static partial class Indicator
                 TQuote q = quotesList[i];
                 int index = i + 1;
 
-                ZigZagResult result = new(q.Date)
-                {
+                ZigZagResult result = new(q.Date) {
                     ZigZag = (lastPoint.Index != 1 || index == nextPoint.Index) ?
                         lastPoint.Value + (increment * (index - lastPoint.Index)) : null,
                     PointType = (index == nextPoint.Index) ? nextPoint.PointType : null
@@ -277,8 +272,7 @@ public static partial class Indicator
         TQuote q)
         where TQuote : IQuote
     {
-        ZigZagEval eval = new()
-        {
+        ZigZagEval eval = new() {
             Index = index
         };
 

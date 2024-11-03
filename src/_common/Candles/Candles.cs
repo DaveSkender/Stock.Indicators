@@ -9,8 +9,7 @@ public static class Candlesticks
 
     public static CandleProperties ToCandle<TQuote>(
         this TQuote quote)
-        where TQuote : IQuote => new()
-        {
+        where TQuote : IQuote => new() {
             Date = quote.Date,
             Open = quote.Open,
             High = quote.High,
@@ -39,8 +38,7 @@ public static class Candlesticks
         where TQuote : IQuote
     {
         List<CandleResult> candlesList = quotes
-            .Select(x => new CandleResult(x.Date)
-            {
+            .Select(x => new CandleResult(x.Date) {
                 Match = Match.None,
                 Candle = x.ToCandle()
             })
