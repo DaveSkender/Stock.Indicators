@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
@@ -24,8 +23,7 @@ public static partial class Sma
     /// if incalculable <see langword="double.NaN"/>
     /// values are in range.
     /// </returns>
-    [Category("Public API only")]
-    public static double? Average<T>(
+    public static double? Average<T>(  // public API only
         this IReadOnlyList<T> values,
         int lookbackPeriods,
         int? endIndex = null)
@@ -73,8 +71,7 @@ public static partial class Sma
         // TODO: apply this SMA increment method more widely in other indicators (see EMA example)
     }
 
-    [ExcludeFromCodeCoverage]
-    [Category("Experimental")]
+    [ExcludeFromCodeCoverage]  // experimental SIMD code
     internal static double[] Increment(this double[] prices, int period)
     {
         // TODO: remove/consider experiment, has rounding errors
