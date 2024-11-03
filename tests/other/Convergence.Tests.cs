@@ -1,7 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Convergence;
 
 [TestClass]
@@ -22,6 +18,21 @@ public class ConvergenceTests : TestBase
             Console.WriteLine(
                 "ADX(14) on {0:d} with {1,4} historical quotes: {2:N8}",
                 l.Date, quotes.Count(), l.Adx);
+        }
+    }
+
+    [TestMethod]
+    public void Alligator()
+    {
+        foreach (int qty in QuotesQuantities)
+        {
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<AlligatorResult> r = quotes.GetAlligator();
+
+            AlligatorResult l = r.LastOrDefault();
+            Console.WriteLine(
+                "ALLIGATOR(13,8,5) on {0:d} with {1,4} periods: Jaw {2:N8}",
+                l.Date, quotes.Count(), l.Jaw);
         }
     }
 
@@ -127,6 +138,21 @@ public class ConvergenceTests : TestBase
             Console.WriteLine(
                 "FT(10) on {0:d} with {1,4} periods: {2:N8}",
                 l.Date, quotes.Count(), l.Fisher);
+        }
+    }
+
+    [TestMethod]
+    public void Gator()
+    {
+        foreach (int qty in QuotesQuantities)
+        {
+            IEnumerable<Quote> quotes = TestData.GetLongish(qty);
+            IEnumerable<GatorResult> r = quotes.GetGator();
+
+            GatorResult l = r.LastOrDefault();
+            Console.WriteLine(
+                "GATOR() on {0:d} with {1,4} periods: Upper {2:N8}  Lower {3:N8}",
+                l.Date, quotes.Count(), l.Upper, l.Lower);
         }
     }
 

@@ -28,17 +28,15 @@ public static class NullMath
         => Math.Round(value, digits);
 
     public static double Null2NaN(this double? value)
-        => (value is null)
-        ? double.NaN
-        : (double)value;
+        => value ?? double.NaN;
 
     public static double? NaN2Null(this double? value)
-        => (value is double and double.NaN)
+        => (value is not null and double.NaN)
         ? null
         : value;
 
     public static double? NaN2Null(this double value)
-        => (value is double and double.NaN)
+        => double.IsNaN(value)
         ? null
         : value;
 }

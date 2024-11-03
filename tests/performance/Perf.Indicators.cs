@@ -1,9 +1,6 @@
-using BenchmarkDotNet.Attributes;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Performance;
 
+[ShortRunJob]
 public class IndicatorPerformance
 {
     private static IEnumerable<Quote> h;
@@ -19,8 +16,8 @@ public class IndicatorPerformance
         hList = h.ToList();
     }
 
-    [GlobalSetup(Targets = new[]
-    {
+    [GlobalSetup(Targets =
+    [
         nameof(GetBeta),
         nameof(GetBetaUp),
         nameof(GetBetaDown),
@@ -28,7 +25,7 @@ public class IndicatorPerformance
         nameof(GetCorrelation),
         nameof(GetPrs),
         nameof(GetPrsWithSma)
-    })]
+    ])]
     public static void SetupCompare()
     {
         h = TestData.GetDefault();
@@ -39,9 +36,6 @@ public class IndicatorPerformance
 
     [Benchmark]
     public object GetAdl() => h.GetAdl();
-
-    [Benchmark]
-    public object GetAdlWithSma() => h.GetAdl(14);
 
     [Benchmark]
     public object GetAdx() => h.GetAdx();
@@ -65,16 +59,16 @@ public class IndicatorPerformance
     public object GetAwesome() => h.GetAwesome();
 
     [Benchmark]
-    public object GetBeta() => Indicator.GetBeta(h, ho, 20, BetaType.Standard);
+    public object GetBeta() => h.GetBeta(ho, 20);
 
     [Benchmark]
-    public object GetBetaUp() => Indicator.GetBeta(h, ho, 20, BetaType.Up);
+    public object GetBetaUp() => h.GetBeta(ho, 20, BetaType.Up);
 
     [Benchmark]
-    public object GetBetaDown() => Indicator.GetBeta(h, ho, 20, BetaType.Down);
+    public object GetBetaDown() => h.GetBeta(ho, 20, BetaType.Down);
 
     [Benchmark]
-    public object GetBetaAll() => Indicator.GetBeta(h, ho, 20, BetaType.All);
+    public object GetBetaAll() => h.GetBeta(ho, 20, BetaType.All);
 
     [Benchmark]
     public object GetBollingerBands() => h.GetBollingerBands();
@@ -119,24 +113,13 @@ public class IndicatorPerformance
     public object GetDpo() => h.GetDpo(14);
 
     [Benchmark]
+    public object GetDynamic() => h.GetDynamic(20);
+
+    [Benchmark]
     public object GetElderRay() => h.GetElderRay();
 
     [Benchmark]
     public object GetEma() => h.GetEma(14);
-
-    [Benchmark]
-    public object GetEmaStream()
-    {
-        EmaBase emaBase = hList.Take(15).InitEma(14);
-
-        for (int i = 15; i < hList.Count; i++)
-        {
-            Quote q = hList[i];
-            _ = emaBase.Add(q);
-        }
-
-        return emaBase.Results;
-    }
 
     [Benchmark]
     public object GetEpma() => h.GetEpma(14);
@@ -145,7 +128,7 @@ public class IndicatorPerformance
     public object GetFcb() => h.GetFcb(14);
 
     [Benchmark]
-    public object GetFisherTransform() => h.GetFisherTransform(10);
+    public object GetFisherTransform() => h.GetFisherTransform();
 
     [Benchmark]
     public object GetForceIndex() => h.GetForceIndex(13);
@@ -187,7 +170,7 @@ public class IndicatorPerformance
     public object GetMacd() => h.GetMacd();
 
     [Benchmark]
-    public object GetMaEnvelopes() => h.GetMaEnvelopes(20, 2.5, MaType.SMA);
+    public object GetMaEnvelopes() => h.GetMaEnvelopes(20);
 
     [Benchmark]
     public object GetMama() => h.GetMama();
@@ -208,7 +191,7 @@ public class IndicatorPerformance
     public object GetParabolicSar() => h.GetParabolicSar();
 
     [Benchmark]
-    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month, PivotPointType.Standard);
+    public object GetPivotPoints() => h.GetPivotPoints(PeriodSize.Month);
 
     [Benchmark]
     public object GetPivots() => h.GetPivots();
@@ -256,7 +239,7 @@ public class IndicatorPerformance
     public object GetSmaAnalysis() => h.GetSmaAnalysis(10);
 
     [Benchmark]
-    public object GetSmi() => h.GetSmi(5, 20, 5, 3);
+    public object GetSmi() => h.GetSmi(5, 20, 5);
 
     [Benchmark]
     public object GetSmma() => h.GetSmma(10);

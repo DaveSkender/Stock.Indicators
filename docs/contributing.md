@@ -10,9 +10,8 @@ layout: page
 
 # Contributing guidelines
 
-[![build status](https://img.shields.io/azure-devops/build/skender/5123ca47-74f2-4d67-a5d4-c4d90b8d670a/21/main?logo=AzureDevops&label=Build%20Status)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main)
-[![code coverage](https://img.shields.io/azure-devops/coverage/skender/stock.indicators/21/main?logo=AzureDevOps&label=Test%20Coverage&cacheSeconds=259200)](https://dev.azure.com/skender/Stock.Indicators/_build/latest?definitionId=21&branchName=main&view=codecoverage-tab)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
+[![Codacy quality grade](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
+[![Codacy code coverage](https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
 
 **Thanks for taking the time to contribute!**
 
@@ -72,9 +71,10 @@ dotnet run -c Release --filter *.GetAdx
 
 ## Documentation
 
-This site uses [GitHub Pages](https://pages.github.com) and [Jekyll](https://jekyllrb.com) construction with Front Matter.
-The documentation site is in the `docs` folder.  Build the site locally to test that it works properly.
-See GitHub documentation for initial [Ruby and Jekyll setup instructions for Github Pages](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll).
+This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
+Our documentation site code is in the `docs` folder.
+Build the site locally to test that it works properly.
+See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 
 ```bash
 # from /docs folder
@@ -95,7 +95,7 @@ When adding or updating indicators:
 - build the site locally (see above), then:
 
 ```bash
-npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml"
+npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 ```
 
 ## Submitting changes
@@ -120,7 +120,7 @@ If you want to contribute administratively, do code reviews, or provide general 
 
 ## Versioning
 
-We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the [Azure DevOps build](https://dev.azure.com/skender/Stock.Indicators/_build?definitionId=21).
+We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the build.
 
 Type | Format | Description
 ------------ | ------ | -----------

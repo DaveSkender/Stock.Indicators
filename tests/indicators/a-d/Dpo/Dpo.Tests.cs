@@ -1,7 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Indicators;
 
 [TestClass]
@@ -23,14 +19,12 @@ public class DpoTests : TestBase
             string[] csv = csvData[i].Split(",");
             DateTime date = Convert.ToDateTime(csv[1], EnglishCulture);
 
-            qot.Add(new Quote
-            {
+            qot.Add(new Quote {
                 Date = date,
                 Close = csv[5].ToDecimal()
             });
 
-            exp.Add(new DpoResult(date)
-            {
+            exp.Add(new DpoResult(date) {
                 Sma = csv[6].ToDoubleNull(),
                 Dpo = csv[7].ToDoubleNull()
             });

@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		gitversion.yml = gitversion.yml
+		src\gitversion.yml = src\gitversion.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "src\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
@@ -18,13 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Other", "tests\other\Tests.Other.csproj", "{97905D26-4854-41FF-A4F7-CE042B2ACD02}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Performance", "tests\performance\Tests.Performance.csproj", "{3BD4837B-D197-41FD-A286-A3256D0770E1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3A4158F9-4165-4823-9526-0CFAACCF1ACC}"
-	ProjectSection(SolutionItems) = preProject
-		.github\build.main.yml = .github\build.main.yml
-		.github\workflows\build.yml = .github\workflows\build.yml
-		.github\dependabot.yml = .github\dependabot.yml
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

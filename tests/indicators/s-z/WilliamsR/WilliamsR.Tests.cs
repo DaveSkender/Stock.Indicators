@@ -1,7 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Indicators;
 
 [TestClass]
@@ -117,18 +113,19 @@ public class WilliamsRTests : TestBase
     }
 
     [TestMethod]
-    public async Task Issue1127()
+    public void Issue1127()
     {
         // initialize
-        IEnumerable<Quote> quotes = await FeedData
-            .GetQuotes("A", 365 * 3)
-            .ConfigureAwait(false);
+        IOrderedEnumerable<Quote> test1127 = File.ReadAllLines("s-z/WilliamsR/issue1127quotes.csv")
+            .Skip(1)
+            .Select(Importer.QuoteFromCsv)
+            .OrderByDescending(x => x.Date);
 
-        List<Quote> quotesList = quotes.ToList();
+        List<Quote> quotesList = test1127.ToList();
         int length = quotesList.Count;
 
         // get indicators
-        List<WilliamsResult> resultsList = quotes
+        List<WilliamsResult> resultsList = test1127
             .GetWilliamsR(14)
             .ToList();
 

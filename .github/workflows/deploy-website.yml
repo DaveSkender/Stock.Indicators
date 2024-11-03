@@ -1,9 +1,9 @@
 name: Deploy website
 
-on: [workflow_dispatch]
+on: workflow_dispatch
 
 concurrency:
-  group: cloudflare-pages
+  group: docs-website
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -14,18 +14,29 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: cloudflare-pages
+      name: stockindicators.dev
+      url: ${{ steps.deploy.outputs.deployment-alias-url }}
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install Ruby
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           working-directory: docs
-          ruby-version: 3.1.3
-          bundler-cache: false
+          ruby-version: 3.3
+
+      - name: Define tag
+        id: tag
+        run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
+
+      - name: Replace cache markers
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "YYYY.MM.DD"
+          replace: "${{ steps.tag.outputs.version }}"
+          regex: false
 
       - name: Install GEMs
         working-directory: docs
@@ -52,10 +63,12 @@ jobs:
         run: bundle exec jekyll build
 
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
-          directory: docs/_site
-          wranglerVersion: 'latest'
+          wranglerVersion: "latest"
+          command: >
+            pages deploy docs/_site
+            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}

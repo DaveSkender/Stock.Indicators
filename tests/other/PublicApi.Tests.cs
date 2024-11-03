@@ -1,7 +1,4 @@
 using System.Globalization;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-using Tests.Common;
 
 [assembly: CLSCompliant(true)]
 namespace Tests.PublicApi;
@@ -64,8 +61,7 @@ public class PublicClassTests
     public void DerivedQuoteClass()
     {
         // can use a derive Quote class
-        MyQuote myQuote = new()
-        {
+        MyQuote myQuote = new() {
             Date = DateTime.Now,
             MyProperty = true
         };
@@ -82,8 +78,7 @@ public class PublicClassTests
         // can use a derive Quote class using Linq
 
         IEnumerable<MyQuote> myHistory = quotes
-            .Select(x => new MyQuote
-            {
+            .Select(x => new MyQuote {
                 Date = x.Date,
                 MyClose = x.Close,
                 MyProperty = false
@@ -96,8 +91,7 @@ public class PublicClassTests
     public void CustomQuoteClass()
     {
         List<MyGenericQuote> myGenericHistory = TestData.GetDefault()
-            .Select(x => new MyGenericQuote
-            {
+            .Select(x => new MyGenericQuote {
                 CloseDate = x.Date,
                 Open = x.Open,
                 High = x.High,
@@ -130,8 +124,7 @@ public class PublicClassTests
     public void CustomQuoteAggregate()
     {
         List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote
-            {
+            .Select(x => new MyGenericQuote {
                 CloseDate = x.Date,
                 Open = x.Open,
                 High = x.High,
@@ -158,8 +151,7 @@ public class PublicClassTests
     public void CustomQuoteAggregateTimeSpan()
     {
         List<MyGenericQuote> myGenericHistory = TestData.GetIntraday()
-            .Select(x => new MyGenericQuote
-            {
+            .Select(x => new MyGenericQuote {
                 CloseDate = x.Date,
                 Open = x.Open,
                 High = x.High,
@@ -186,8 +178,7 @@ public class PublicClassTests
     public void CustomIndicatorClass()
     {
         // can use a derive Indicator class
-        MyEma myIndicator = new()
-        {
+        MyEma myIndicator = new() {
             Date = DateTime.Now,
             Ema = 123.456,
             MyProperty = false
@@ -206,8 +197,7 @@ public class PublicClassTests
 
         IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
-            .Select(x => new MyEma
-            {
+            .Select(x => new MyEma {
                 Date = x.Date,
                 Ema = x.Ema,
                 MyProperty = false
@@ -226,8 +216,7 @@ public class PublicClassTests
 
         IEnumerable<MyEma> myIndicatorResults = emaResults
             .Where(x => x.Ema != null)
-            .Select(x => new MyEma
-            {
+            .Select(x => new MyEma {
                 Id = 12345,
                 Date = x.Date,
                 Ema = x.Ema,

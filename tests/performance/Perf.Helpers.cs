@@ -1,11 +1,8 @@
-using BenchmarkDotNet.Attributes;
-using Skender.Stock.Indicators;
-using Tests.Common;
-
 namespace Tests.Performance;
 
 // HELPERS, both public and private
 
+[ShortRunJob]
 public class HelperPerformance
 {
     private static IEnumerable<Quote> h;
@@ -14,7 +11,7 @@ public class HelperPerformance
     [GlobalSetup]
     public static void Setup() => h = TestData.GetDefault();
 
-    [GlobalSetup(Targets = new[] { nameof(Aggregate) })]
+    [GlobalSetup(Targets = [nameof(Aggregate)])]
     public static void SetupIntraday() => i = TestData.GetIntraday();
 
     [Benchmark]

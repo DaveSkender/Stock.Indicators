@@ -22,8 +22,7 @@ public static partial class Indicator
         {
             TQuote q = quotesList[i];
 
-            RollingPivotsResult r = new()
-            {
+            RollingPivotsResult r = new() {
                 Date = q.Date
             };
 
@@ -45,18 +44,18 @@ public static partial class Indicator
                 }
 
                 // pivot points
-                RollingPivotsResult? wp = GetPivotPoint<RollingPivotsResult>(
+                RollingPivotsResult wp = GetPivotPoint<RollingPivotsResult>(
                         pointType, q.Open, windowHigh, windowLow, windowClose);
 
-                r.PP = wp?.PP;
-                r.S1 = wp?.S1;
-                r.S2 = wp?.S2;
-                r.S3 = wp?.S3;
-                r.S4 = wp?.S4;
-                r.R1 = wp?.R1;
-                r.R2 = wp?.R2;
-                r.R3 = wp?.R3;
-                r.R4 = wp?.R4;
+                r.PP = wp.PP;
+                r.S1 = wp.S1;
+                r.S2 = wp.S2;
+                r.S3 = wp.S3;
+                r.S4 = wp.S4;
+                r.R1 = wp.R1;
+                r.R2 = wp.R2;
+                r.R3 = wp.R3;
+                r.R4 = wp.R4;
             }
 
             results.Add(r);

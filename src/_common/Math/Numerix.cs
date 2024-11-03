@@ -72,8 +72,7 @@ public static class Numerix
 
         // least squares method
         double sumSqX = 0;
-        double sumSqY = 0;
-        double sumSqXY = 0;
+        double sumSqXy = 0;
 
         for (int i = 0; i < length; i++)
         {
@@ -81,11 +80,10 @@ public static class Numerix
             double devY = y[i] - avgY;
 
             sumSqX += devX * devX;
-            sumSqY += devY * devY;
-            sumSqXY += devX * devY;
+            sumSqXy += devX * devY;
         }
 
-        double slope = sumSqXY / sumSqX;
+        double slope = sumSqXy / sumSqX;
 
         return slope;
     }
@@ -99,8 +97,7 @@ public static class Numerix
 
     // PERIOD-SIZE to TIMESPAN CONVERSION
     internal static TimeSpan ToTimeSpan(this PeriodSize periodSize)
-        => periodSize switch
-        {
+        => periodSize switch {
             PeriodSize.OneMinute => TimeSpan.FromMinutes(1),
             PeriodSize.TwoMinutes => TimeSpan.FromMinutes(2),
             PeriodSize.ThreeMinutes => TimeSpan.FromMinutes(3),

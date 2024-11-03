@@ -1,0 +1,98 @@
+name: Indicators
+
+on:
+  push:
+    branches: ["main"]
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: unit tests
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ["2.0.x", "6.x", "8.x"]
+
+    env:
+
+      # identifying primary configuration so only one reports coverage
+      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '8.x' }}
+
+      # .NET SDK versions in the matrix that support `ga` quality spec
+      #   versions before 5.x do not support it
+      SUPPORT_GA: ${{ contains(fromJson('["6.x", "8.x"]'), matrix.dotnet-version) }}
+
+    steps:
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        id: dotnet-new
+        uses: actions/setup-dotnet@v4
+        if: env.SUPPORT_GA == 'true'
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-quality: "ga"
+
+      - name: Setup .NET (older)
+        uses: actions/setup-dotnet@v4
+        if: env.SUPPORT_GA == 'false'
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Test indicators
+        env:
+          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
+        run: >
+          dotnet test tests/indicators/Tests.Indicators.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --collect:"XPlat Code Coverage"
+          --results-directory ./test-indicators
+
+      # the remaining steps are only needed from one primary instance
+
+      - name: Test other items
+        if: env.IS_PRIMARY == 'true'
+        run: >
+          dotnet test tests/other/Tests.Other.csproj
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger trx
+          --results-directory ./test-other
+
+      - name: Post test summary
+        uses: dorny/test-reporter@v1
+        if: env.IS_PRIMARY == 'true' && always()
+        with:
+          name: Test results
+          path: ./test-indicators/**/*.trx
+          reporter: dotnet-trx
+
+      - name: Publish coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        if: env.IS_PRIMARY == 'true'
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./test-indicators/**/coverage.cobertura.xml
