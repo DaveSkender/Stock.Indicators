@@ -5,7 +5,7 @@ namespace Customization;
 
 // CUSTOM RESULTS
 
-[TestClass]
+[TestClass, TestCategory("Integration")]
 public class CustomResults
 {
     private static readonly CultureInfo EnglishCulture
@@ -74,13 +74,4 @@ public class CustomResults
         EmaResult r = emaResults.Find(x => x.Timestamp == findDate);
         Assert.AreEqual(249.3519m, Math.Round((decimal)r.Ema, 4));
     }
-
-    [TestMethod]
-    public void CustomReusable() => Assert.Inconclusive("Test not implemented");
-
-    [TestMethod]
-    public void CustomReusableInherited() => Assert.Inconclusive("Test not implemented");
-
-    [TestMethod]
-    public void CustomInheritedEma() => Assert.Inconclusive("Test not implemented");
 }

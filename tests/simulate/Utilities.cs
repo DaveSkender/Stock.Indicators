@@ -1,20 +1,23 @@
 using Skender.Stock.Indicators;
 
 namespace Utilities;
+#pragma warning disable CA5394 // Do not use insecure randomness
 
 internal static class Util
 {
     internal static List<Quote> Setup(int quantityToStream, int quotesPerMinute)
     {
+        // Log the simulation rate
         Console.WriteLine($"Simulating {quotesPerMinute:N0} quotes per minute");
         PrintHeader();
 
+        // Generate and return a list of quotes using Geometric Brownian Motion
         return new RandomGbm(bars: quantityToStream);
     }
 
     internal static void PrintHeader()
     {
-        // dislay header
+        // Display header for the output
         Console.WriteLine();
         Console.WriteLine("""
             Date              Close price       SMA(3)      EMA(5)  EMA(7,HL2)  SMA/EMA(8)
@@ -29,19 +32,22 @@ internal static class Util
         EmaHub<QuotePart> useChain,
         EmaHub<SmaResult> emaChain)
     {
-        // send output to console
+        // Format the initial part of the output string with timestamp and close price
         string m = $"{q.Timestamp:yyyy-MM-dd HH:mm}  {q.Close,11:N2}";
 
+        // Get the latest results from the hubs
         SmaResult s = smaHub.Results[^1];
         EmaResult e = emaHub.Results[^1];
         EmaResult u = useChain.Results[^1];
         EmaResult c = emaChain.Results[^1];
 
+        // Append SMA result if available
         if (s.Sma is not null)
         {
             m += $"{s.Sma,12:N1}";
         }
 
+        // Append EMA results if available
         if (e.Ema is not null)
         {
             m += $"{e.Ema,12:N1}";
@@ -57,6 +63,7 @@ internal static class Util
             m += $"{c.Ema,12:N1}";
         }
 
+        // Output the formatted string to the console
         Console.WriteLine(m);
     }
 }
@@ -80,13 +87,13 @@ internal static class Util
 /// Seed:       starting value of the random series; should not be 0.
 /// </code></summary>
 
-internal class RandomGbm : List<Quote>
+internal sealed class RandomGbm : List<Quote>
 {
     private readonly double _volatility;
     private readonly double _drift;
     private double _seed;
 
-    internal RandomGbm(
+    public RandomGbm(
         int bars = 250,
         double volatility = 1.0,
         double drift = 0.01,

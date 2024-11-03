@@ -4,12 +4,6 @@ namespace Observables;
 public class CacheManagement : TestBase
 {
     [TestMethod]
-    public void ModifyWithAnalysis() => Assert.Inconclusive("test not implemented");
-
-    [TestMethod]
-    public void ModifyWithAct() => Assert.Inconclusive("test not implemented");
-
-    [TestMethod]
     public void Remove()
     {
         QuoteHub<Quote> provider = new();
@@ -23,9 +17,6 @@ public class CacheManagement : TestBase
 
         observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: DoublePrecision);
     }
-
-    [TestMethod]  // TODO: tests should include all Act enum methods
-    public void ActInstructions() => Assert.Inconclusive("test not implemented");
 
     [TestMethod]
     public void ActAddOld()  // late arrival
