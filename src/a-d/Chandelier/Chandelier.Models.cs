@@ -7,6 +7,7 @@ public record ChandelierResult
     double? ChandelierExit
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => ChandelierExit.Null2NaN();
 }
 

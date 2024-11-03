@@ -8,5 +8,6 @@ public record TrixResult
     double? Trix = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Trix.Null2NaN();
 }

@@ -7,5 +7,6 @@ public record UltimateResult
     double? Ultimate
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Ultimate.Null2NaN();
 }

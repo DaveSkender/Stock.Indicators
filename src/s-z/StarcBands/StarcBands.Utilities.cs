@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StarcBands
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<StarcBandsResult> Condense(
         this IReadOnlyList<StarcBandsResult> results)

@@ -8,5 +8,6 @@ public record PrsResult
     double? PrsPercent
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Prs.Null2NaN();
 }

@@ -13,5 +13,6 @@ public record VolatilityStopResult
 
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Sar.Null2NaN();
 }

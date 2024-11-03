@@ -7,5 +7,6 @@ public record StcResult
     double? Stc
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Stc.Null2NaN();
 }

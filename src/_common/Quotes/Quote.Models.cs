@@ -106,5 +106,6 @@ internal record QuoteD
     double Volume
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Close;
 }

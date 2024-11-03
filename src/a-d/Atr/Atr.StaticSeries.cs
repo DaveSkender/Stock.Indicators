@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE TRUE RANGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the
+/// Average True Range (ATR) from a series of quotes.
+/// </summary>
 public static partial class Atr
 {
+    /// <summary>
+    /// Converts a list of quotes to a list of ATR results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation. Default is 14.</param>
+    /// <returns>A read-only list of ATR results.</returns>
     public static IReadOnlyList<AtrResult> ToAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)
@@ -11,6 +20,12 @@ public static partial class Atr
             .ToQuoteDList()
             .CalcAtr(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Average True Range (ATR) for a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation.</param>
+    /// <returns>A list of ATR results.</returns>
     internal static List<AtrResult> CalcAtr(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)

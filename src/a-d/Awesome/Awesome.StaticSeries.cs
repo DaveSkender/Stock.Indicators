@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// AWESOME OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Awesome Oscillator.
+/// </summary>
 public static partial class Awesome
 {
+    /// <summary>
+    /// Calculates the Awesome Oscillator for the given source data.
+    /// </summary>
+    /// <typeparam name="T">The type of the source data.</typeparam>
+    /// <param name="source">The source data.</param>
+    /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
+    /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
+    /// <returns>A list of Awesome Oscillator results.</returns>
     public static IReadOnlyList<AwesomeResult> ToAwesome<T>(
         this IReadOnlyList<T> source,
         int fastPeriods = 5,

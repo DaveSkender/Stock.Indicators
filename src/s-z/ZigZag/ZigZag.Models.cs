@@ -10,6 +10,7 @@ public record ZigZagResult
     decimal? RetraceLow = null   // zig zag retrace low line
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => ZigZag.Null2NaN();
 }
 

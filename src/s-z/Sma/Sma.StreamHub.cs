@@ -43,8 +43,10 @@ public class SmaHub<TIn>
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (SmaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {

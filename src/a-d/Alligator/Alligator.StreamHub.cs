@@ -4,19 +4,56 @@ namespace Skender.Stock.Indicators;
 
 #region hub interface and initializer
 
+/// <summary>
+/// Interface for Alligator Hub.
+/// </summary>
 public interface IAlligatorHub
 {
+    /// <summary>
+    /// Gets the number of periods for the jaw.
+    /// </summary>
     int JawPeriods { get; }
+
+    /// <summary>
+    /// Gets the offset for the jaw.
+    /// </summary>
     int JawOffset { get; }
+
+    /// <summary>
+    /// Gets the number of periods for the teeth.
+    /// </summary>
     int TeethPeriods { get; }
+
+    /// <summary>
+    /// Gets the offset for the teeth.
+    /// </summary>
     int TeethOffset { get; }
+
+    /// <summary>
+    /// Gets the number of periods for the lips.
+    /// </summary>
     int LipsPeriods { get; }
+
+    /// <summary>
+    /// Gets the offset for the lips.
+    /// </summary>
     int LipsOffset { get; }
 }
 
 public static partial class Alligator
 {
-    // HUB, from Chain Provider
+    /// <summary>
+    /// Converts a chain provider to an Alligator hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsOffset">The offset for the lips.</param>
+    /// <returns>An Alligator hub.</returns>
     public static AlligatorHub<TIn> ToAlligator<TIn>(
         this IChainProvider<TIn> chainProvider,
         int jawPeriods = 13,
@@ -37,14 +74,29 @@ public static partial class Alligator
 }
 #endregion
 
+/// <summary>
+/// Represents a stream hub for calculating the Alligator indicator.
+/// </summary>
+/// <typeparam name="TIn">The type of the input.</typeparam>
+/// <inheritdoc cref="IAlligatorHub"/>
 public class AlligatorHub<TIn>
-    : StreamHub<TIn, AlligatorResult>, IAlligatorHub
-    where TIn : IReusable
+   : StreamHub<TIn, AlligatorResult>, IAlligatorHub
+   where TIn : IReusable
 {
     #region constructors
 
     private readonly string hubName;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AlligatorHub{TIn}"/> class.
+    /// </summary>
+    /// <param name="provider">The chain provider.</param>
+    /// <param name="jawPeriods">The number of periods for the jaw.</param>
+    /// <param name="jawOffset">The offset for the jaw.</param>
+    /// <param name="teethPeriods">The number of periods for the teeth.</param>
+    /// <param name="teethOffset">The offset for the teeth.</param>
+    /// <param name="lipsPeriods">The number of periods for the lips.</param>
+    /// <param name="lipsOffset">The offset for the lips.</param>
     internal AlligatorHub(
         IChainProvider<TIn> provider,
         int jawPeriods, int jawOffset,
@@ -70,17 +122,42 @@ public class AlligatorHub<TIn>
     }
     #endregion
 
+    /// <summary>
+    /// Gets the number of periods for the jaw.
+    /// </summary>
     public int JawPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the offset for the jaw.
+    /// </summary>
     public int JawOffset { get; init; }
+
+    /// <summary>
+    /// Gets the number of periods for the teeth.
+    /// </summary>
     public int TeethPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the offset for the teeth.
+    /// </summary>
     public int TeethOffset { get; init; }
+
+    /// <summary>
+    /// Gets the number of periods for the lips.
+    /// </summary>
     public int LipsPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the offset for the lips.
+    /// </summary>
     public int LipsOffset { get; init; }
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (AlligatorResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {

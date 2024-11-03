@@ -12,6 +12,7 @@ public record BetaResult(
     double? ReturnsMrkt = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Beta.Null2NaN();
 }
 

@@ -7,5 +7,6 @@ public record MfiResult
     double? Mfi
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Mfi.Null2NaN();
 }

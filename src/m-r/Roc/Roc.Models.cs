@@ -8,5 +8,6 @@ public record RocResult
     double? Roc
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Roc.Null2NaN();
 }

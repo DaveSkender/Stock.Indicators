@@ -14,5 +14,6 @@ public record MacdResult
 
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Macd.Null2NaN();
 }

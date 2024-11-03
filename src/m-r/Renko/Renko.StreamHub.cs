@@ -67,11 +67,14 @@ public class RenkoHub<TIn>
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     public override void OnAdd(TIn item, bool notify, int? indexHint)
         => ToIndicator(item, notify, indexHint);
 
+    /// <inheritdoc/>
     protected override (RenkoResult result, int index)
         ToIndicator(TIn item, int? indexHint)
         => throw new InvalidOperationException(); // not used

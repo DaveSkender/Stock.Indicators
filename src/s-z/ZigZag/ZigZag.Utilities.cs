@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ZigZag
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<ZigZagResult> Condense(
         this IReadOnlyList<ZigZagResult> results)

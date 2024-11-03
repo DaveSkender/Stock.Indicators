@@ -1,32 +1,39 @@
 namespace Skender.Stock.Indicators;
 
-// ACCUMULATION/DISTRIBUTION LINE (STREAM HUB)
-
-#region hub initializer
-
+/// <summary>
+/// Provides extension methods for the Accumulation/Distribution Line (ADL) indicator.
+/// </summary>
 public static partial class Adl
 {
+    /// <summary>
+    /// Converts the quote provider to an ADL hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input quote.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <returns>An instance of <see cref="AdlHub{TIn}"/>.</returns>
     public static AdlHub<TIn> ToAdl<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote
         => new(quoteProvider);
 }
-#endregion
-
+/// <summary>
+/// Represents a hub for the Accumulation/Distribution Line (ADL) indicator.
+/// </summary>
+/// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>
     where TIn : IQuote
 {
-    #region constructors
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AdlHub{TIn}"/> class.
+    /// </summary>
+    /// <param name="provider">The quote provider.</param>
     internal AdlHub(IQuoteProvider<TIn> provider)
         : base(provider)
     {
         Reinitialize();
     }
-    #endregion
 
-    // METHODS
-
+    /// <inheritdoc/>
     protected override (AdlResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
@@ -44,5 +51,6 @@ public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>
         return (r, i);
     }
 
+    /// <inheritdoc/>
     public override string ToString() => Cache.Count == 0 ? "ADL" : $"ADL({Cache[0].Timestamp:d})";
 }

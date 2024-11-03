@@ -8,5 +8,6 @@ public record KvoResult
     double? Signal = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Oscillator.Null2NaN();
 }

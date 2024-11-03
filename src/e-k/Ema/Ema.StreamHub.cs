@@ -47,8 +47,10 @@ public class EmaHub<TIn>
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (EmaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {

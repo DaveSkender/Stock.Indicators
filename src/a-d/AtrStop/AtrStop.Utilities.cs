@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class AtrStop
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<AtrStopResult> Condense(
         this IReadOnlyList<AtrStopResult> results)

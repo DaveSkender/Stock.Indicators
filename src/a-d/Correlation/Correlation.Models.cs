@@ -11,5 +11,6 @@ public record CorrResult
     double? RSquared = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Correlation.Null2NaN();
 }

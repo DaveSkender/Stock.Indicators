@@ -12,5 +12,6 @@ public record BollingerBandsResult
     double? Width = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => PercentB.Null2NaN();
 }

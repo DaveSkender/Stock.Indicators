@@ -7,5 +7,6 @@ public record DynamicResult
     double? Dynamic
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Dynamic.Null2NaN();
 }

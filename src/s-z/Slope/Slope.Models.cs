@@ -11,5 +11,6 @@ public record SlopeResult
     decimal? Line = null // last line segment only
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Slope.Null2NaN();
 }

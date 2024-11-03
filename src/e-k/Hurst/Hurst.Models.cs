@@ -7,5 +7,6 @@ public record HurstResult
     double? HurstExponent
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => HurstExponent.Null2NaN();
 }

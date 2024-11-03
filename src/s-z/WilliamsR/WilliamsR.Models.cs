@@ -7,5 +7,6 @@ public record WilliamsResult
     double? WilliamsR
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => WilliamsR.Null2NaN();
 }

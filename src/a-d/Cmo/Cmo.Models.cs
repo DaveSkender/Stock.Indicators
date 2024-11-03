@@ -7,5 +7,6 @@ public record CmoResult
     double? Cmo = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Cmo.Null2NaN();
 }

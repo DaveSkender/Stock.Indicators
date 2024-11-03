@@ -4,15 +4,41 @@ namespace Skender.Stock.Indicators;
 
 #region hub interface and initializer
 
+/// <summary>
+/// Interface for ATR Stop Hub.
+/// </summary>
 public interface IAtrStopHub
 {
+    /// <summary>
+    /// Gets the number of periods to look back.
+    /// </summary>
     int LookbackPeriods { get; }
+
+    /// <summary>
+    /// Gets the multiplier for the ATR.
+    /// </summary>
     double Multiplier { get; }
+
+    /// <summary>
+    /// Gets the type of price to use for the calculation.
+    /// </summary>
     EndType EndType { get; }
 }
 
+/// <summary>
+/// Provides methods for calculating the ATR Trailing Stop using a stream hub.
+/// </summary>
 public static partial class AtrStop
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AtrStopHub{TIn}"/> class.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input quote.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
+    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
+    /// <returns>An instance of <see cref="AtrStopHub{TIn}"/>.</returns>
     public static AtrStopHub<TIn> ToAtrStop<TIn>(
        this IQuoteProvider<TIn> quoteProvider,
        int lookbackPeriods = 21,
@@ -23,6 +49,10 @@ public static partial class AtrStop
 }
 #endregion
 
+/// <summary>
+/// Represents a stream hub for calculating the ATR Trailing Stop.
+/// </summary>
+/// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class AtrStopHub<TIn>
     : StreamHub<TIn, AtrStopResult>, IAtrStopHub
     where TIn : IQuote
@@ -31,6 +61,13 @@ public class AtrStopHub<TIn>
 
     private readonly string hubName;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AtrStopHub{TIn}"/> class.
+    /// </summary>
+    /// <param name="provider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="endType">The type of price to use for the calculation.</param>
     internal AtrStopHub(
         IQuoteProvider<TIn> provider,
         int lookbackPeriods,
@@ -48,8 +85,19 @@ public class AtrStopHub<TIn>
     }
     #endregion
 
+    /// <summary>
+    /// Gets the number of periods to look back.
+    /// </summary>
     public int LookbackPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the multiplier for the ATR.
+    /// </summary>
     public double Multiplier { get; init; }
+
+    /// <summary>
+    /// Gets the type of price to use for the calculation.
+    /// </summary>
     public EndType EndType { get; init; }
 
     // prevailing direction and band thresholds
@@ -59,8 +107,10 @@ public class AtrStopHub<TIn>
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (AtrStopResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
@@ -176,8 +226,9 @@ public class AtrStopHub<TIn>
     }
 
     /// <summary>
-    /// Restore prior ATR Stop
+    /// Restores the prior ATR Stop state.
     /// </summary>
+    /// <param name="timestamp">The timestamp to restore to.</param>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

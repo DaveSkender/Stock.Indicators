@@ -9,5 +9,6 @@ public record CmfResult
     double? Cmf
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Cmf.Null2NaN();
 }

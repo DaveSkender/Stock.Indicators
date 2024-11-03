@@ -7,6 +7,7 @@ public record UlcerIndexResult
     double? UlcerIndex
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => UlcerIndex.Null2NaN();
 
     [Obsolete("Rename UI to UlcerIndex")] // v3.0.0

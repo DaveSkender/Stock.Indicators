@@ -6,5 +6,6 @@ public record TrResult(
     double? Tr
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Tr.Null2NaN();
 }

@@ -9,6 +9,7 @@ public record StochResult
     double? PercentJ
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Oscillator.Null2NaN();
 
     // aliases

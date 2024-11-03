@@ -8,5 +8,6 @@ public record DpoResult
     double? Sma = null
     ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Dpo.Null2NaN();
 }

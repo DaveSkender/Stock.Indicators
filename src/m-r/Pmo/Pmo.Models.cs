@@ -8,5 +8,6 @@ public record PmoResult
     double? Signal
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Pmo.Null2NaN();
 }

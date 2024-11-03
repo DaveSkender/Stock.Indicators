@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Gator
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<GatorResult> Condense(
         this IReadOnlyList<GatorResult> results)

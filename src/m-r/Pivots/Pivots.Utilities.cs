@@ -4,6 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pivots
 {
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<PivotsResult> Condense(
         this IReadOnlyList<PivotsResult> results)

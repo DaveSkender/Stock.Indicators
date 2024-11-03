@@ -10,5 +10,6 @@ public record RocWbResult
     double? LowerBand
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Roc.Null2NaN();
 }

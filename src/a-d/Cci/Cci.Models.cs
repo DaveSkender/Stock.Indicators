@@ -7,5 +7,6 @@ public record CciResult
     double? Cci
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Cci.Null2NaN();
 }

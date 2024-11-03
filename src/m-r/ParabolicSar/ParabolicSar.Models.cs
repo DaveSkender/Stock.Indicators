@@ -8,5 +8,6 @@ public record ParabolicSarResult
     bool? IsReversal = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Sar.Null2NaN();
 }

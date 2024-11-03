@@ -9,5 +9,6 @@ public record ElderRayResult
     double? BearPower
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => (BullPower + BearPower).Null2NaN();
 }

@@ -11,5 +11,6 @@ public record ConnorsRsiResult
     double? ConnorsRsi = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => ConnorsRsi.Null2NaN();
 }

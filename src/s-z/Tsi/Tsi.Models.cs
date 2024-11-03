@@ -8,5 +8,6 @@ public record TsiResult
     double? Signal = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Tsi.Null2NaN();
 }

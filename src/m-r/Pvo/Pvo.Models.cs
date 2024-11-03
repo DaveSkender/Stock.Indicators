@@ -9,5 +9,6 @@ public record PvoResult
     double? Histogram
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Pvo.Null2NaN();
 }

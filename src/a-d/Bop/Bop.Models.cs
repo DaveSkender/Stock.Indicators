@@ -7,5 +7,6 @@ public record BopResult
     double? Bop
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Bop.Null2NaN();
 }

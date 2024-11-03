@@ -9,5 +9,6 @@ public record StdDevResult
     double? ZScore
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => StdDev.Null2NaN();
 }

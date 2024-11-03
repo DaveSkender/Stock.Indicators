@@ -7,5 +7,6 @@ public record ForceIndexResult
     double? ForceIndex = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => ForceIndex.Null2NaN();
 }

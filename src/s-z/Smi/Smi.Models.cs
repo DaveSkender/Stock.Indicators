@@ -8,5 +8,6 @@ public record SmiResult
     double? Signal
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Smi.Null2NaN();
 }

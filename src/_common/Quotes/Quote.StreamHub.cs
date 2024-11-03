@@ -28,6 +28,7 @@ public class QuoteHub<TQuote>
 
     // METHODS
 
+    /// <inheritdoc/>
     protected override (TQuote result, int index)
         ToIndicator(TQuote item, int? indexHint)
     {

@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// ARNAUD LEGOUX MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Arnaud Legoux Moving Average (ALMA).
+/// </summary>
 public static partial class Alma
 {
+    /// <summary>
+    /// Calculates the Arnaud Legoux Moving Average (ALMA) for the given source series.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the source series.</typeparam>
+    /// <param name="source">The source series.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 9.</param>
+    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
+    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
+    /// <returns>A list of ALMA results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source series is null.</exception>
     public static IReadOnlyList<AlmaResult> ToAlma<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 9,

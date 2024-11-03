@@ -8,5 +8,6 @@ public record KamaResult
     double? Kama = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Kama.Null2NaN();
 }

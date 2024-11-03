@@ -7,5 +7,6 @@ public record EpmaResult
     double? Epma
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Epma.Null2NaN();
 }

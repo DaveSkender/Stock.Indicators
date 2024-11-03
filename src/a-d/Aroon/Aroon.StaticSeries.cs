@@ -1,9 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// AROON OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Aroon Oscillator.
+/// </summary>
 public static partial class Aroon
 {
+    /// <summary>
+    /// Calculates the Aroon Oscillator for the given quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
+    /// <returns>A list of Aroon results.</returns>
     public static IReadOnlyList<AroonResult> ToAroon<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 25)
@@ -11,6 +19,12 @@ public static partial class Aroon
             .ToQuoteDList()
             .CalcAroon(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Aroon Oscillator for the given source data.
+    /// </summary>
+    /// <param name="source">The source data.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <returns>A list of Aroon results.</returns>
     private static List<AroonResult> CalcAroon(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)

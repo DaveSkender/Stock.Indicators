@@ -7,5 +7,6 @@ public record EmaResult
     double? Ema = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Ema.Null2NaN();
 }

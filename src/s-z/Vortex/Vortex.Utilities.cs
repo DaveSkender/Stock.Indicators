@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Vortex
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VortexResult> Condense(
         this IReadOnlyList<VortexResult> results)

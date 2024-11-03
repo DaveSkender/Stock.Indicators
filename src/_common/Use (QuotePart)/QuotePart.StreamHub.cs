@@ -41,6 +41,7 @@ public class QuotePartHub<TQuote>
 
     // METHODS
 
+    /// <inheritdoc/>
     protected override (QuotePart result, int index)
         ToIndicator(TQuote item, int? indexHint)
     {
@@ -51,6 +52,7 @@ public class QuotePartHub<TQuote>
         return (r, indexHint ?? Cache.Count);
     }
 
+    /// <inheritdoc/>
     public override string ToString()
         => $"QUOTE-PART({CandlePartSelection.ToString().ToUpperInvariant()})";
 }

@@ -9,5 +9,6 @@ public record HtlResult
     double? SmoothPrice
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Trendline.Null2NaN();
 }

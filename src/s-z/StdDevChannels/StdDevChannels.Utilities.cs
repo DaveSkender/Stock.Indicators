@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StdDevChannels
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<StdDevChannelsResult> Condense(
         this IReadOnlyList<StdDevChannelsResult> results)

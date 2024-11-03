@@ -4,6 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Fcb
 {
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FcbResult> Condense(
         this IReadOnlyList<FcbResult> results)

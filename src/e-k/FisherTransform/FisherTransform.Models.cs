@@ -8,5 +8,6 @@ public record FisherTransformResult
     double? Trigger
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Fisher.Null2NaN();
 }

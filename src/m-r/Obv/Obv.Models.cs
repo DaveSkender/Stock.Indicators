@@ -7,5 +7,6 @@ public record ObvResult
     double Obv
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Obv;
 }

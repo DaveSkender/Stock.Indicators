@@ -7,5 +7,6 @@ public record VwapResult
     double? Vwap
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Vwap.Null2NaN();
 }

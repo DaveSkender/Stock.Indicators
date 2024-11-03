@@ -30,8 +30,10 @@ public class TrHub<TIn>
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (TrResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {

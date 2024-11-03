@@ -7,5 +7,6 @@ public record ChopResult
     double? Chop
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Chop.Null2NaN();
 }

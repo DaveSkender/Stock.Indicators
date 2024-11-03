@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Ichimoku
 {
-    // remove null results
+    // remove empty (null) periods
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<IchimokuResult> Condense(
         this IReadOnlyList<IchimokuResult> results)

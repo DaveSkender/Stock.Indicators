@@ -7,5 +7,6 @@ public record VwmaResult
     double? Vwma
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Vwma.Null2NaN();
 }

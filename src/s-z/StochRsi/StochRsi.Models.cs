@@ -8,5 +8,6 @@ public record StochRsiResult
     double? Signal = null
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => StochRsi.Null2NaN();
 }

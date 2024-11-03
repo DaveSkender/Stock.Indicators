@@ -6,5 +6,6 @@ public record SmaResult(
     double? Sma
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Sma.Null2NaN();
 }

@@ -10,5 +10,6 @@ public record ChaikinOscResult
     double? Oscillator
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Oscillator.Null2NaN();
 }
