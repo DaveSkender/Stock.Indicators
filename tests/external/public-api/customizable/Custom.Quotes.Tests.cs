@@ -5,8 +5,7 @@ namespace Customization;
 
 // CUSTOM QUOTES
 
-[TestClass]
-[TestCategory("Integration")]
+[TestClass, TestCategory("Integration")]
 public class CustomQuotes
 {
     private static readonly CultureInfo EnglishCulture

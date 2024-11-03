@@ -2,8 +2,7 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
 
-[TestClass]
-[TestCategory("Integration")]
+[TestClass, TestCategory("Integration")]
 public class WilliamsRTests
 {
     [TestMethod]

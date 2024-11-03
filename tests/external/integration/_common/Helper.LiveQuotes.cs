@@ -4,7 +4,7 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
 
-internal class FeedData
+internal static class FeedData
 {
     internal static async Task<IEnumerable<Quote>> GetQuotes(string symbol)
         => await GetQuotes(symbol, 365 * 2)

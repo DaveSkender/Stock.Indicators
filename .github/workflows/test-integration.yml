@@ -36,26 +36,18 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
-      - name: Test public API
-        run: >
-          dotnet test tests/external/public-api/Tests.PublicApi.csproj
-          --configuration Release
-          --no-build
-          --verbosity normal
-          --logger trx
-          --results-directory ./test-results
-
       - name: Test integrations
         env:
           ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
           ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
-          dotnet test tests/external/integration/Tests.Integration.csproj
+          dotnet test
           --configuration Release
+          --settings tests/tests.integration.runsettings
+          --results-directory ./test-results
           --no-build
           --verbosity normal
           --logger trx
-          --results-directory ./test-results
 
       - name: Post test summary
         uses: dorny/test-reporter@v1

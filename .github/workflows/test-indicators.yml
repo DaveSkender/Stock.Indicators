@@ -47,13 +47,14 @@ jobs:
 
       - name: Test indicators
         run: >
-          dotnet test tests/indicators/Tests.Indicators.csproj
+          dotnet test
           --configuration Release
+          --settings tests/tests.unit.runsettings
+          --results-directory ./test-results
           --no-build
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./test-results
 
       # the remaining steps are only needed from one primary instance
 
