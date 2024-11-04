@@ -1,13 +1,12 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the
-/// Average Directional Index (ADX) from a series of quotes.
+/// Provides methods for calculating the Average Directional Index (ADX).
 /// </summary>
 public static partial class Adx
 {
     /// <summary>
-    /// Converts a list of quotes to a list of ADX results.
+    /// Calculates the Average Directional Index (ADX) from a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>

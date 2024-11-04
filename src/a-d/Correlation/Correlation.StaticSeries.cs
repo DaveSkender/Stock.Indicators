@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// CORRELATION COEFFICIENT (SERIES)
-
+/// <summary>
+/// Provides extension methods for calculating the correlation coefficient on a series of quotes.
+/// </summary>
 public static partial class Correlation
 {
+    /// <summary>
+    /// Calculates the correlation coefficient for two series of quotes.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source lists, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="sourceA">The first source list of quotes.</param>
+    /// <param name="sourceB">The second source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <returns>A read-only list of <see cref="CorrResult"/> containing the correlation calculation results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when either sourceA or sourceB is null.</exception>
+    /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceA and sourceB do not match.</exception>
     public static IReadOnlyList<CorrResult> ToCorrelation<T>(
         this IReadOnlyList<T> sourceA,
         IReadOnlyList<T> sourceB,
@@ -63,7 +74,13 @@ public static partial class Correlation
         return results;
     }
 
-    // calculate correlation
+    /// <summary>
+    /// Calculates the correlation for a given period.
+    /// </summary>
+    /// <param name="timestamp">The timestamp of the result.</param>
+    /// <param name="dataA">The data series A.</param>
+    /// <param name="dataB">The data series B.</param>
+    /// <returns>A <see cref="CorrResult"/> containing the correlation calculation result for the given period.</returns>
     internal static CorrResult PeriodCorrelation(
         DateTime timestamp,
         double[] dataA,

@@ -1,9 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// CHANDE MOMENTUM OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides extension methods for calculating the Chande Momentum Oscillator (CMO) on a series of quotes.
+/// </summary>
 public static partial class Cmo
 {
+    /// <summary>
+    /// Calculates the Chande Momentum Oscillator (CMO) for a series of quotes.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <returns>A read-only list of <see cref="CmoResult"/> containing the CMO calculation results.</returns>
     public static IReadOnlyList<CmoResult> ToCmo<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

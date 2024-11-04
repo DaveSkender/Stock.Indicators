@@ -1,10 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// SEEK & FIND in SERIES
-
+/// <summary>
+/// Provides extension methods for seeking and finding elements in a series.
+/// </summary>
 public static class Seeking
 {
-    // FIND by DATE
+    /// <summary>
+    /// Finds an element in the series by its timestamp.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the series, which must implement <see cref="ISeries"/>.</typeparam>
+    /// <param name="series">The series of elements to search.</param>
+    /// <param name="lookupDate">The timestamp to look for.</param>
+    /// <returns>The element with the matching timestamp, or the default value if not found.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the series is null.</exception>
     public static T? Find<T>(
         this IReadOnlyList<T> series,
         DateTime lookupDate)

@@ -8,7 +8,7 @@ public interface ISeries
     // TODO: consider adding (long) UnixDate (seconds) to ISeries
 
     /// <summary>
-    /// Date/time of record.
+    /// Gets the date/time of the record.
     /// </summary>
     /// <remarks>
     /// For <see cref="ISeries"/> types, this is the
@@ -19,6 +19,12 @@ public interface ISeries
     /// </remarks>
     DateTime Timestamp { get; }
 
+    /// <summary>
+    /// Gets the date/time of the record.
+    /// </summary>
+    /// <remarks>
+    /// Deprecated. Use 'Timestamp' instead.
+    /// </remarks>
     [Obsolete("Deprecated. Use 'Timestamp' instead.")]
     DateTime Date => Timestamp;
 }

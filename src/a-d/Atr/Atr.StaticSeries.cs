@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Atr
 {
     /// <summary>
-    /// Converts a list of quotes to a list of ATR results.
+    /// Calculates Average True Range (ATR) for a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>

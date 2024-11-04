@@ -6,14 +6,17 @@ namespace Skender.Stock.Indicators;
 
 /// <inheritdoc/>
 public interface IQuoteProvider<out T> : IChainProvider<T>
-    where T : IQuote
+   where T : IQuote
 {
+    /// <summary>
+    /// Gets the read-only list of quotes.
+    /// </summary>
     IReadOnlyList<T> Quotes { get; }
 }
 
 /// <inheritdoc/>
 public interface IChainProvider<out T> : IStreamObservable<T>
-    where T : IReusable;
+   where T : IReusable;
 #endregion
 
 /// <summary>
@@ -25,7 +28,7 @@ public interface IChainProvider<out T> : IStreamObservable<T>
 public interface IStreamObservable<out T>
 {
     /// <summary>
-    /// Hub observable properties and behaviors.
+    /// Gets the hub observable properties and behaviors.
     /// </summary>
     /// <remarks>
     /// This <see cref="BinarySettings"/> struct holds cumulative overrides for
@@ -58,22 +61,22 @@ public interface IStreamObservable<out T>
     BinarySettings Properties { get; }
 
     /// <summary>
-    /// Current number of subscribers
+    /// Gets the current number of subscribers.
     /// </summary>
     int ObserverCount { get; }
 
     /// <summary>
-    /// Provider currently has subscribers
+    /// Gets a value indicating whether the provider currently has subscribers.
     /// </summary>
     bool HasObservers { get; }
 
     /// <summary>
-    /// Checks if a specific observer is subscribed
+    /// Checks if a specific observer is subscribed.
     /// </summary>
     /// <param name="observer">
-    /// Subscriber <c>IStreamObserver</c> reference
+    /// Subscriber <c>IStreamObserver</c> reference.
     /// </param>
-    /// <returns>True if subscribed/registered</returns>
+    /// <returns>True if subscribed/registered.</returns>
     bool HasSubscriber(IStreamObserver<T> observer);
 
     /// <summary>
@@ -96,7 +99,7 @@ public interface IStreamObservable<out T>
     bool Unsubscribe(IStreamObserver<T> observer);
 
     /// <summary>
-    /// Unsubscribe all observers (subscribers)
+    /// Unsubscribe all observers (subscribers).
     /// </summary>
     void EndTransmission();
 

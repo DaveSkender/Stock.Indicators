@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Awesome
 {
     /// <summary>
-    /// Calculates the Awesome Oscillator for the given source data.
+    /// Calculates the Awesome Oscillator for a series of data.
     /// </summary>
     /// <typeparam name="T">The type of the source data.</typeparam>
     /// <param name="source">The source data.</param>

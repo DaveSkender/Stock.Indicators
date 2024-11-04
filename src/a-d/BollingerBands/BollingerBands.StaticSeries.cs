@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// BOLLINGER BANDS (SERIES)
-
+/// <summary>
+/// Provides methods for calculating Bollinger Bands.
+/// </summary>
 public static partial class BollingerBands
 {
+    /// <summary>
+    /// Calculates the Bollinger Bands for a series of data.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source list of data.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
+    /// <param name="standardDeviations">The number of standard deviations to use for the bands. Default is 2.</param>
+    /// <returns>A read-only list of <see cref="BollingerBandsResult"/> containing the Bollinger Bands calculation results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<BollingerBandsResult> ToBollingerBands<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 20,

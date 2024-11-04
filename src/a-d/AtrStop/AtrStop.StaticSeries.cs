@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     /// <summary>
-    /// Calculates the ATR Trailing Stop for the given quotes.
+    /// Calculates the ATR Trailing Stop from a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>

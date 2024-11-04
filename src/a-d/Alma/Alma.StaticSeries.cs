@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Alma
 {
     /// <summary>
-    /// Calculates the Arnaud Legoux Moving Average (ALMA) for the given source series.
+    /// Calculates the Arnaud Legoux Moving Average (ALMA) for a series of data.
     /// </summary>
     /// <typeparam name="T">The type of elements in the source series.</typeparam>
     /// <param name="source">The source series.</param>

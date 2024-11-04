@@ -1,13 +1,12 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides methods for calculating the
-/// Accumulation/Distribution Line (ADL) from a series of quotes.
+/// Provides methods for calculating the Accumulation/Distribution Line (ADL).
 /// </summary>
 public static partial class Adl
 {
     /// <summary>
-    /// Converts a list of quotes to an Accumulation/Distribution Line (ADL) series.
+    /// Calculates the Accumulation/Distribution Line (ADL) from a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="source">The source list of quotes.</param>

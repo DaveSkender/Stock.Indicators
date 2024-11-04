@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for the Accumulation/Distribution Line (ADL) indicator.
+/// Provides methods for the Accumulation/Distribution Line (ADL) indicator.
 /// </summary>
 public static partial class Adl
 {
@@ -16,6 +16,7 @@ public static partial class Adl
         where TIn : IQuote
         => new(quoteProvider);
 }
+
 /// <summary>
 /// Represents a hub for the Accumulation/Distribution Line (ADL) indicator.
 /// </summary>

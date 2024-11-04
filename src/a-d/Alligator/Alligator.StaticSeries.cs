@@ -6,9 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Alligator
 {
     /// <summary>
-    /// Williams Alligator is an indicator that transposes multiple moving averages,
-    /// showing chart patterns that creator Bill Williams compared to an alligator's
-    /// feeding habits when describing market movement.
+    /// Calculates the Williams Alligator indicator for a series of data.
     /// </summary>
     /// <typeparam name="T">
     /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type

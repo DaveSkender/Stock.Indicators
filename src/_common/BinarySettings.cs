@@ -36,11 +36,20 @@ public readonly struct BinarySettings(
     byte settings,
     byte mask = 0b11111111) : IEquatable<BinarySettings>
 {
+    /// <summary>
+    /// Gets the binary settings.
+    /// </summary>
     public byte Settings { get; } = settings;
+
+    /// <summary>
+    /// Gets the mask for settings inheritance.
+    /// </summary>
     public byte Mask { get; } = mask;
 
-    // use default settings (none) and mask
-    // important: this explicit parameterless ctor required for struct
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BinarySettings"/> struct
+    /// with default settings (0b00000000) and mask (0b11111111).
+    /// </summary>
     public BinarySettings() : this(settings: 0b00000000) { }
 
     /// <summary>
@@ -93,18 +102,23 @@ public readonly struct BinarySettings(
         return new BinarySettings((byte)(Settings | maskedParentSettings), parentSettings.Mask);
     }
 
+    /// <inheritdoc/>
     public override bool Equals(object? obj)
         => obj is BinarySettings other && Equals(other);
 
+    /// <inheritdoc/>
     public bool Equals(BinarySettings other)
         => Settings == other.Settings && Mask == other.Mask;
 
+    /// <inheritdoc/>
     public override int GetHashCode()
         => HashCode.Combine(Settings, Mask);
 
+    /// <inheritdoc/>
     public static bool operator ==(BinarySettings left, BinarySettings right)
         => left.Equals(right);
 
+    /// <inheritdoc/>
     public static bool operator !=(BinarySettings left, BinarySettings right)
         => !(left == right);
 }

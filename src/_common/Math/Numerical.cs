@@ -1,8 +1,16 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Provides numerical utility methods.
+/// </summary>
 public static class Numerical
 {
-    // STANDARD DEVIATION
+    /// <summary>
+    /// Calculates the standard deviation of an array of double values.
+    /// </summary>
+    /// <param name="values">The array of double values.</param>
+    /// <returns>The standard deviation of the values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the values array is null.</exception>
     public static double StdDev(this double[] values)
     {
         ArgumentNullException.ThrowIfNull(
@@ -34,7 +42,14 @@ public static class Numerical
         return Math.Sqrt(sumSq / n);
     }
 
-    // SLOPE of BEST FIT LINE
+    /// <summary>
+    /// Calculates the slope of the best fit line for the given x and y values.
+    /// </summary>
+    /// <param name="x">The array of x values.</param>
+    /// <param name="y">The array of y values.</param>
+    /// <returns>The slope of the best fit line.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the x or y array is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when the x and y arrays are not the same size.</exception>
     public static double Slope(double[] x, double[] y)
     {
         // validate parameters
@@ -80,7 +95,12 @@ public static class Numerical
         return slope;
     }
 
-    // DATE ROUNDING
+    /// <summary>
+    /// Rounds down a DateTime to the nearest interval.
+    /// </summary>
+    /// <param name="dateTime">The DateTime value.</param>
+    /// <param name="interval">The interval to round down to.</param>
+    /// <returns>The rounded down DateTime value.</returns>
     internal static DateTime RoundDown(
         this DateTime dateTime, TimeSpan interval)
         => interval == TimeSpan.Zero
@@ -88,9 +108,14 @@ public static class Numerical
         : dateTime
             .AddTicks(-(dateTime.Ticks % interval.Ticks));
 
-    // PERIOD-SIZE to TIMESPAN CONVERSION
+    /// <summary>
+    /// Converts a PeriodSize to a TimeSpan.
+    /// </summary>
+    /// <param name="periodSize">The PeriodSize value.</param>
+    /// <returns>The corresponding TimeSpan value.</returns>
     internal static TimeSpan ToTimeSpan(this PeriodSize periodSize)
-        => periodSize switch {
+        => periodSize switch
+        {
             PeriodSize.OneMinute => TimeSpan.FromMinutes(1),
             PeriodSize.TwoMinutes => TimeSpan.FromMinutes(2),
             PeriodSize.ThreeMinutes => TimeSpan.FromMinutes(3),
@@ -105,7 +130,11 @@ public static class Numerical
             _ => TimeSpan.Zero
         };
 
-    // DETERMINE DECIMAL PLACES
+    /// <summary>
+    /// Determines the number of decimal places in a decimal value.
+    /// </summary>
+    /// <param name="n">The decimal value.</param>
+    /// <returns>The number of decimal places.</returns>
     internal static int GetDecimalPlaces(this decimal n)
     {
         // source: https://stackoverflow.com/a/30205131/4496145

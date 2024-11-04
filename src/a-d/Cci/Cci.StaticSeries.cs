@@ -1,9 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// COMMODITY CHANNEL INDEX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Commodity Channel Index (CCI) on a series of quotes.
+/// </summary>
 public static partial class Cci
 {
+    /// <summary>
+    /// Calculates the Commodity Channel Index (CCI) for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the quotes list, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
+    /// <returns>A read-only list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     public static IReadOnlyList<CciResult> ToCci<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 20)
@@ -11,6 +19,12 @@ public static partial class Cci
             .ToQuoteDList()
             .CalcCci(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Commodity Channel Index (CCI) for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <returns>A list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     private static List<CciResult> CalcCci(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)

@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Aroon
 {
     /// <summary>
-    /// Calculates the Aroon Oscillator for the given quotes.
+    /// Calculates the Aroon Oscillator from a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>

@@ -9,9 +9,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 {
     #region constructor
 
-    /// <param name="provider">
-    /// Streaming data provider
-    /// </param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StreamHub{TIn, TOut}"/> class.
+    /// </summary>
+    /// <param name="provider">Streaming data provider.</param>
     private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
@@ -35,29 +36,31 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public bool IsFaulted { get; private set; }
 
     /// <summary>
-    /// Cache of stored values (base).
+    /// Gets the cache of stored values (base).
     /// </summary>
     internal List<TOut> Cache { get; } = new();
 
     /// <summary>
-    /// Current count of repeated caching attempts.
+    /// Gets the current count of repeated caching attempts.
     /// An overflow condition is triggered after 100.
     /// </summary>
     internal byte OverflowCount { get; private set; }
 
     /// <summary>
-    /// Reference to this hub's provider's cache.
+    /// Gets the reference to this hub's provider's cache.
     /// </summary>
     protected IReadOnlyList<TIn> ProviderCache { get; }
 
     /// <summary>
-    /// Most recent item saved to cache.
+    /// Gets or sets the most recent item saved to cache.
     /// </summary>
     private TOut? LastItem { get; set; }
 
     #endregion
 
-    // reset fault flag and condition
+    /// <summary>
+    /// Resets the fault flag and condition.
+    /// </summary>
     /// <inheritdoc/>
     public void ResetFault()
     {
@@ -65,27 +68,35 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         IsFaulted = false;
     }
 
-    // fetch cache reference
-    
+    /// <summary>
+    /// Fetches the cache reference.
+    /// </summary>
+    /// <returns>The cache reference.</returns>
     public IReadOnlyList<TOut> GetCacheRef() => Cache;
 
+    /// <inheritdoc/>
     public abstract override string ToString();
 
     /// <summary>
-    /// Converts incremental value into
-    /// an indicator candidate and cache position.
+    /// Converts incremental value into an indicator candidate and cache position.
     /// </summary>
-    /// <param name="item">New item from provider</param>
-    /// <param name="indexHint">Provider index hint</param>
-    /// <returns>Cacheable item candidate and index hint</returns>
-    protected abstract (TOut result, int index)
-        ToIndicator(TIn item, int? indexHint);
+    /// <param name="item">New item from provider.</param>
+    /// <param name="indexHint">Provider index hint.</param>
+    /// <returns>Cacheable item candidate and index hint.</returns>
+    protected abstract (TOut result, int index) ToIndicator(TIn item, int? indexHint);
 
     #region ADD & ANALYZE
 
-    public void Add(TIn newIn)
-        => OnAdd(newIn, notify: true, null);
+    /// <summary>
+    /// Adds a new item to the stream.
+    /// </summary>
+    /// <param name="newIn">The new item to add.</param>
+    public void Add(TIn newIn) => OnAdd(newIn, notify: true, null);
 
+    /// <summary>
+    /// Adds a batch of new items to the stream.
+    /// </summary>
+    /// <param name="batchIn">The batch of new items to add.</param>
     public void Add(IEnumerable<TIn> batchIn)
     {
         foreach (TIn newIn in batchIn.OrderBy(x => x.Timestamp))
@@ -94,6 +105,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
     }
 
+    /// <summary>
+    /// Inserts a new item into the stream.
+    /// </summary>
+    /// <param name="newIn">The new item to insert.</param>
     public void Insert(TIn newIn)
     {
         // note: should only be used when newer timestamps
@@ -123,14 +138,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Perform appropriate caching action after analysis.
+    /// Performs appropriate caching action after analysis.
     /// It will add if new, ignore if duplicate, or rebuild if late-arrival.
     /// </summary>
-    /// <param name="result"><c>TSeries</c> item to cache.</param>
-    /// <param name="notify">
-    /// Notify subscribers of change (send to observers).
-    /// This is disabled for bulk operations like rebuild.
-    /// </param>
+    /// <param name="result">Item to cache.</param>
+    /// <param name="notify">Notify subscribers of change (send to observers). This is disabled for bulk operations like rebuild.</param>
     protected void AppendCache(TOut result, bool notify)
     {
         // check overflow/duplicates
@@ -166,9 +178,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Add item to cache and notify observers.
+    /// Adds an item to cache and notifies observers.
     /// </summary>
-    /// <param name="item">Item to add to end of cache</param>
+    /// <param name="item">Item to add to end of cache.</param>
     /// <param name="notify">Inherited notification instructions.</param>
     private void Add(TOut item, bool notify)
     {
@@ -189,16 +201,12 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Validate outbound item and compare to prior cached item,
+    /// Validates outbound item and compares to prior cached item,
     /// to gracefully manage and prevent overflow conditions.
     /// </summary>
-    /// <param name="item">Cacheable time-series object</param>
-    /// <returns>
-    /// True if item is repeating and duplicate was suppressed.
-    /// </returns>
-    /// <exception cref="OverflowException">
-    /// Too many sequential duplicates were detected.
-    /// </exception>
+    /// <param name="item">Cacheable time-series object.</param>
+    /// <returns>True if item is repeating and duplicate was suppressed.</returns>
+    /// <exception cref="OverflowException">Too many sequential duplicates were detected.</exception>
     private bool IsOverflowing(TOut item)
     {
         // skip first arrival
@@ -219,10 +227,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             if (OverflowCount > 100)
             {
                 const string msg = """
-                A repeated stream update exceeded the 100 attempt threshold.
-                Check and remove circular chains or check your stream provider.
-                Provider terminated.
-                """;
+                    A repeated stream update exceeded the 100 attempt threshold.
+                    Check and remove circular chains or check your stream provider.
+                    Provider terminated.
+                    """;
 
                 IsFaulted = true;
 
@@ -234,15 +242,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
             // bypass duplicate prevention
             // when forced caching is enabled
-            if (Properties[1])
-            {
-                return false;
-
-                // note: will still overflow
-                // when the 100 limit is reached
-            }
-
-            return true;
+            return !Properties[1];
         }
 
         // not repeating
@@ -254,7 +254,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
     #region REMOVE & REMOVE RANGE
 
-    /// remove cached item
+    /// <summary>
+    /// Removes a cached item.
+    /// </summary>
+    /// <param name="cachedItem">The cached item to remove.</param>
     /// <inheritdoc/>
     public void Remove(TOut cachedItem)
     {
@@ -262,7 +265,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         NotifyObserversOnChange(cachedItem.Timestamp);
     }
 
-    /// remove cached item at index position
+    /// <summary>
+    /// Removes a cached item at a specific index position.
+    /// </summary>
+    /// <param name="cacheIndex">The index position of the cached item to remove.</param>
     /// <inheritdoc/>
     public void RemoveAt(int cacheIndex)
     {
@@ -271,7 +277,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         NotifyObserversOnChange(cachedItem.Timestamp);
     }
 
-    /// remove cache range from timestamp
+    /// <summary>
+    /// Removes a range of cached items from a specific timestamp.
+    /// </summary>
+    /// <param name="fromTimestamp">The timestamp from which to start removing cached items.</param>
+    /// <param name="notify">Whether to notify observers of the change.</param>
     /// <inheritdoc/>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
@@ -288,7 +298,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
     }
 
-    /// remove cache range from index
+    /// <summary>
+    /// Removes a range of cached items from a specific index.
+    /// </summary>
+    /// <param name="fromIndex">The index from which to start removing cached items.</param>
+    /// <param name="notify">Whether to notify observers of the change.</param>
     /// <inheritdoc/>
     public void RemoveRange(int fromIndex, bool notify)
     {
@@ -309,7 +323,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
     #region REBUILD & REINITIALIZE
 
-    // full reset
+    /// <summary>
+    /// Fully resets the stream hub.
+    /// </summary>
     /// <inheritdoc/>
     public void Reinitialize()
     {
@@ -325,12 +341,16 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // and subscribe; will it miss any high frequency data?
     }
 
-    // rebuild cache
+    /// <summary>
+    /// Rebuilds the cache.
+    /// </summary>
     /// <inheritdoc/>
-    public void Rebuild()
-        => Rebuild(DateTime.MinValue);
+    public void Rebuild() => Rebuild(DateTime.MinValue);
 
-    // rebuild cache from timestamp
+    /// <summary>
+    /// Rebuilds the cache from a specific timestamp.
+    /// </summary>
+    /// <param name="fromTimestamp">The timestamp from which to start rebuilding the cache.</param>
     /// <inheritdoc/>
     public void Rebuild(DateTime fromTimestamp)
     {
@@ -353,7 +373,10 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         NotifyObserversOnChange(fromTimestamp);
     }
 
-    // rebuild cache from index
+    /// <summary>
+    /// Rebuilds the cache from a specific index.
+    /// </summary>
+    /// <param name="fromIndex">The index from which to start rebuilding the cache.</param>
     /// <inheritdoc/>
     public void Rebuild(int fromIndex)
     {
@@ -367,7 +390,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     }
 
     /// <summary>
-    /// Rollback internal state to a point in time.
+    /// Rollbacks internal state to a point in time.
     /// Behavior varies by indicator.
     /// </summary>
     /// <remarks>
@@ -375,9 +398,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// point in time (e.g. when rebuilding cache). Example:
     /// <see cref="AtrStopHub{TIn}.RollbackState(DateTime)"/>
     /// </remarks>
-    /// <param name="timestamp">
-    /// Point in time to restore.
-    /// </param>
+    /// <param name="timestamp">Point in time to restore.</param>
     protected virtual void RollbackState(DateTime timestamp)
     {
         // note: override when rollback is needed
@@ -396,6 +417,9 @@ public abstract class QuoteProvider<TIn, TOut>(
     where TIn : IReusable
     where TOut : IQuote
 {
+    /// <summary>
+    /// Gets the quotes.
+    /// </summary>
     public IReadOnlyList<TOut> Quotes => Cache;
 };
 
