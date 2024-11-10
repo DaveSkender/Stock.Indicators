@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// DOUBLE EXPONENTIAL MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Double Exponential Moving Average (DEMA) on a series of data.
+/// </summary>
 public static partial class Dema
 {
+    /// <summary>
+    /// Calculates the Double Exponential Moving Average (DEMA) for a series of data.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source list of data points.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback.</param>
+    /// <returns>A list of <see cref="DemaResult"/> containing the DEMA values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
     public static IReadOnlyList<DemaResult> ToDema<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

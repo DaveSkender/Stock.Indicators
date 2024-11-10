@@ -12,7 +12,7 @@ public static partial class Doji
     /// See Guide for more information.</typeparam>
     /// <param name = "quotes" > Historical price quotes.</param>
     /// <param name = "maxPriceChangePercent" >
-    /// Optional.Maximum absolute percent difference in open and close price.
+    /// Optional. Maximum absolute percent difference in open and close price.
     /// </param>
     /// <returns>Time series of Doji values.</returns>
     /// <exception cref = "ArgumentOutOfRangeException" >

@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// DONCHIAN CHANNEL (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Donchian Channel calculations.
+/// </summary>
 public static partial class Donchian
 {
-    // remove empty (null) periods
+    /// <summary>
+    /// Removes empty (null) periods from the Donchian Channel results.
+    /// </summary>
+    /// <param name="results">The list of Donchian Channel results.</param>
+    /// <returns>A list of Donchian Channel results with empty periods removed.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<DonchianResult> Condense(
         this IReadOnlyList<DonchianResult> results)
@@ -19,7 +24,11 @@ public static partial class Donchian
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
+    /// <summary>
+    /// Removes the recommended warmup periods from the Donchian Channel results.
+    /// </summary>
+    /// <param name="results">The list of Donchian Channel results.</param>
+    /// <returns>A list of Donchian Channel results with warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<DonchianResult> RemoveWarmupPeriods(
         this IReadOnlyList<DonchianResult> results)
@@ -31,7 +40,13 @@ public static partial class Donchian
         return results.Remove(removePeriods);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the lookback periods for Donchian Channel calculations.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 0.
+    /// </exception>
     internal static void Validate(
         int lookbackPeriods)
     {

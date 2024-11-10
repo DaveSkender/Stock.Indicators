@@ -56,8 +56,7 @@ public static partial class ConnorsRsi
                     crsi = (sInfo.Rsi + sRsi.Rsi + sInfo.PercentRank) / 3;
                 }
 
-                results.Add(sInfo with
-                {
+                results.Add(sInfo with {
                     ConnorsRsi = crsi,
                     RsiStreak = sRsi.Rsi
                 });

@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// DONCHIAN CHANNEL (SERIES)
-
+/// <summary>
+/// Provides extension methods for calculating Donchian Channels.
+/// </summary>
 public static partial class Donchian
 {
+    /// <summary>
+    /// Converts a list of quotes to Donchian Channel results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A list of Donchian Channel results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 20)
@@ -57,7 +67,6 @@ public static partial class Donchian
             else
             {
                 results.Add(new(q.Timestamp));
-
             }
         }
 

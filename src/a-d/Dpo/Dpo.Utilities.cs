@@ -1,10 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// DETRENDED PRICE OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Detrended Price Oscillator (DPO) calculations.
+/// </summary>
 public static partial class Dpo
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the lookback periods for DPO calculations.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 0.
+    /// </exception>
     internal static void Validate(
         int lookbackPeriods)
     {
@@ -15,5 +22,4 @@ public static partial class Dpo
                 "Lookback periods must be greater than 0 for DPO.");
         }
     }
-
 }

@@ -1,5 +1,10 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Dynamic calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Dynamic">The Dynamic value.</param>
 [Serializable]
 public record DynamicResult
 (
