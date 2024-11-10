@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// ULTIMATE OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Ultimate Oscillator indicator.
+/// </summary>
 public static partial class Ultimate
 {
+    /// <summary>
+    /// Calculates the Ultimate Oscillator for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="shortPeriods">The number of short lookback periods. Default is 7.</param>
+    /// <param name="middlePeriods">The number of middle lookback periods. Default is 14.</param>
+    /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
+    /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<UltimateResult> ToUltimate<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int shortPeriods = 7,
@@ -13,6 +24,14 @@ public static partial class Ultimate
             .ToQuoteDList()
             .CalcUltimate(shortPeriods, middlePeriods, longPeriods);
 
+    /// <summary>
+    /// Calculates the Ultimate Oscillator for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="shortPeriods">The number of short lookback periods.</param>
+    /// <param name="middlePeriods">The number of middle lookback periods.</param>
+    /// <param name="longPeriods">The number of long lookback periods.</param>
+    /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     private static List<UltimateResult> CalcUltimate(
         this IReadOnlyList<QuoteD> source,
         int shortPeriods,

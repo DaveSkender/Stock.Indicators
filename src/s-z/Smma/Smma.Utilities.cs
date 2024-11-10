@@ -1,11 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// SMOOTHED MOVING AVERAGE (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Smoothed Moving Average (SMMA) calculations.
+/// </summary>
 public static partial class Smma
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of SMMA results.</param>
+    /// <returns>A list of SMMA results with the warmup periods removed.</returns>
     public static IReadOnlyList<SmmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<SmmaResult> results)
     {
@@ -16,7 +20,11 @@ public static partial class Smma
         return results.Remove(n + 100);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the lookback periods parameter.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of lookback periods to validate.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

@@ -1,12 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// TRIPLE EMA OSCILLATOR - TRIX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Triple Exponential Moving Average (TRIX) oscillator.
+/// </summary>
 public static partial class Trix
 {
-    public static IReadOnlyList<TrixResult> ToTrix<T>(
-        this IReadOnlyList<T> source,
-        int lookbackPeriods)
+    /// <summary>
+    /// Converts a source list to a list of TRIX results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source elements, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source list of elements.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods for the TRIX calculation.</param>
+    /// <returns>A read-only list of <see cref="TrixResult"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    public static IReadOnlyList<TrixResult> ToTrix<T>(this IReadOnlyList<T> source, int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments

@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// SUPERTREND (SERIES)
-
+/// <summary>
+/// SuperTrend indicator calculation.
+/// </summary>
 public static partial class SuperTrend
 {
+    /// <summary>
+    /// Converts a list of quotes to a list of SuperTrend results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <returns>A list of SuperTrend results.</returns>
     public static IReadOnlyList<SuperTrendResult> ToSuperTrend<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 10,
@@ -12,6 +21,13 @@ public static partial class SuperTrend
             .ToQuoteDList()
             .CalcSuperTrend(lookbackPeriods, multiplier);
 
+    /// <summary>
+    /// Calculates the SuperTrend indicator.
+    /// </summary>
+    /// <param name="source">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <returns>A list of SuperTrend results.</returns>
     private static List<SuperTrendResult> CalcSuperTrend(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,
@@ -49,7 +65,6 @@ public static partial class SuperTrend
                 double? lowerEval = mid - multiplier * atr;
 
                 // initial values
-                // TODO: update healing, without requiring specific indexing
                 if (i == lookbackPeriods)
                 {
                     isBullish = q.Close >= mid;

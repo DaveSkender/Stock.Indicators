@@ -1,13 +1,14 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// SMA with extended analysis.
+/// Represents the result of a Simple Moving Average (SMA) calculation
+/// with extended analysis values.
 /// </summary>
-/// <param name="Timestamp">Timestamp</param>
-/// <param name="Sma">Simple moving average</param>
-/// <param name="Mad">Mean absolute deviation</param>
-/// <param name="Mse">Mean square error</param>
-/// <param name="Mape">Mean absolute percentage error</param>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Sma">The Simple Moving Average (SMA) at this point.</param>
+/// <param name="Mad">The Mean Absolute Deviation (MAD) at this point.</param>
+/// <param name="Mse">The Mean Square Error (MSE) at this point.</param>
+/// <param name="Mape">The Mean Absolute Percentage Error (MAPE) at this point.</param>
 [Serializable]
 public record SmaAnalysis
 (

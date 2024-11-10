@@ -1,9 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (ANALYSIS)
-
+/// <summary>
+/// Provides methods for calculating Simple Moving Average (SMA) with extended analysis.
+/// </summary>
 public static partial class Sma
 {
+    /// <summary>
+    /// Converts a source list to a list of SMA analysis results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
+    /// <param name="source">The source list to analyze.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
+    /// <returns>A read-only list of SMA analysis results.</returns>
     public static IReadOnlyList<SmaAnalysis> ToSmaAnalysis<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

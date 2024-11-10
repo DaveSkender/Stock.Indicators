@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAM %R OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Williams %R indicator.
+/// </summary>
 public static partial class WilliamsR
 {
+    /// <summary>
+    /// Calculates the Williams %R for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<WilliamsResult> ToWilliamsR<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)
@@ -11,6 +20,12 @@ public static partial class WilliamsR
             .ToQuoteDList()
             .CalcWilliamsR(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Williams %R for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     private static List<WilliamsResult> CalcWilliamsR(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)

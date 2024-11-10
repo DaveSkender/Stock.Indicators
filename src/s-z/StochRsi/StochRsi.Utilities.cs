@@ -2,10 +2,16 @@ namespace Skender.Stock.Indicators;
 
 // STOCHASTIC RSI (UTILITIES)
 
+/// <summary>
+/// Provides utility methods for the Stochastic RSI indicator.
+/// </summary>
 public static partial class StochRsi
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of Stochastic RSI results.</param>
+    /// <returns>A list of Stochastic RSI results with warmup periods removed.</returns>
     public static IReadOnlyList<StochRsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<StochRsiResult> results)
     {
@@ -16,7 +22,14 @@ public static partial class StochRsi
         return results.Remove(n + 100);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for Stochastic RSI calculation.
+    /// </summary>
+    /// <param name="rsiPeriods">The number of periods for the RSI calculation.</param>
+    /// <param name="stochPeriods">The number of periods for the Stochastic calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int rsiPeriods,
         int stochPeriods,

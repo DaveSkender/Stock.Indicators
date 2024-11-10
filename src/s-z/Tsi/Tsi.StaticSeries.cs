@@ -2,8 +2,21 @@ namespace Skender.Stock.Indicators;
 
 // TRUE STRENGTH INDEX (SERIES)
 
+/// <summary>
+/// Provides methods for calculating the True Strength Index (TSI) indicator.
+/// </summary>
 public static partial class Tsi
 {
+    /// <summary>
+    /// Calculates the True Strength Index (TSI) for a given source of data.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement IReusable.</typeparam>
+    /// <param name="source">The source list of data.</param>
+    /// <param name="lookbackPeriods">The number of periods for the lookback calculation. Default is 25.</param>
+    /// <param name="smoothPeriods">The number of periods for the smoothing calculation. Default is 13.</param>
+    /// <param name="signalPeriods">The number of periods for the signal calculation. Default is 7.</param>
+    /// <returns>A list of TsiResult containing the TSI and signal values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<TsiResult> ToTsi<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 25,

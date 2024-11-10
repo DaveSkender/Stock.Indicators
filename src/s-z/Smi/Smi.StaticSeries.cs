@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC MOMENTUM INDEX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Stochastic Momentum Index (SMI) indicator.
+/// </summary>
 public static partial class Smi
 {
+    /// <summary>
+    /// Converts a list of quotes to SMI results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <returns>A list of SMI results.</returns>
     public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 13,
@@ -18,6 +29,15 @@ public static partial class Smi
                 secondSmoothPeriods,
                 signalPeriods);
 
+    /// <summary>
+    /// Calculates the SMI for a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods for the lookback window.</param>
+    /// <param name="firstSmoothPeriods">The number of periods for the first smoothing.</param>
+    /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
+    /// <returns>A list of SMI results.</returns>
     private static List<SmiResult> CalcSmi(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,

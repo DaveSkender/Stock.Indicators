@@ -1,11 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// SUPERTREND (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the SuperTrend indicator.
+/// </summary>
 public static partial class SuperTrend
 {
-    // remove empty (null) periods
-    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes empty (null) periods from the results.
+    /// </summary>
+    /// <param name="results">The list of SuperTrend results.</param>
+    /// <returns>A condensed list of SuperTrend results without null periods.</returns>
     public static IReadOnlyList<SuperTrendResult> Condense(
         this IReadOnlyList<SuperTrendResult> results)
     {
@@ -19,8 +23,11 @@ public static partial class SuperTrend
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of SuperTrend results.</param>
+    /// <returns>A list of SuperTrend results with warmup periods removed.</returns>
     public static IReadOnlyList<SuperTrendResult> RemoveWarmupPeriods(
         this IReadOnlyList<SuperTrendResult> results)
     {
@@ -31,7 +38,12 @@ public static partial class SuperTrend
         return results.Remove(removePeriods);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for SuperTrend calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <param name="multiplier">The multiplier for the SuperTrend calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int lookbackPeriods,
         double multiplier)

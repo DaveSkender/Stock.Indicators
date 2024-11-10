@@ -1,10 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-// TILLSON T3 MOVING AVERAGE (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the T3 moving average indicator.
+/// </summary>
 public static partial class T3
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the T3 calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="volumeFactor">The volume factor.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods,
         double volumeFactor)

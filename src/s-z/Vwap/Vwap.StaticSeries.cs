@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// VOLUME WEIGHTED AVERAGE PRICE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the VWAP (Volume Weighted Average Price) indicator.
+/// </summary>
 public static partial class Vwap
 {
+    /// <summary>
+    /// Calculates the VWAP for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="startDate">The optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
+    /// <returns>A list of VwapResult containing the VWAP values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         DateTime? startDate = null)
@@ -11,6 +20,12 @@ public static partial class Vwap
             .ToQuoteDList()
             .CalcVwap(startDate);
 
+    /// <summary>
+    /// Calculates the VWAP for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="startDate">The optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
+    /// <returns>A list of VwapResult containing the VWAP values.</returns>
     private static List<VwapResult> CalcVwap(
         this IReadOnlyList<QuoteD> source,
         DateTime? startDate = null)

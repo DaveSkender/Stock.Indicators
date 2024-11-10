@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable all
+#pragma warning disable CS1591 // Missing XML comments
 
 namespace Skender.Stock.Indicators;
 

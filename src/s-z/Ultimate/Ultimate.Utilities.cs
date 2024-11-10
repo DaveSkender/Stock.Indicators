@@ -1,10 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// ULTIMATE OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Ultimate Oscillator indicator.
+/// </summary>
 public static partial class Ultimate
 {
     // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Ultimate Oscillator calculation.
+    /// </summary>
+    /// <param name="shortPeriods">The number of short lookback periods.</param>
+    /// <param name="middleAverage">The number of middle lookback periods.</param>
+    /// <param name="longPeriods">The number of long lookback periods.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the periods are less than or equal to 0, or when the periods are not in increasing order.
+    /// </exception>
     internal static void Validate(
         int shortPeriods,
         int middleAverage,

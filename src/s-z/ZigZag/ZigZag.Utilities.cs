@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// ZIG ZAG (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the ZigZag indicator.
+/// </summary>
 public static partial class ZigZag
 {
-    // remove empty (null) periods
+    /// <summary>
+    /// Removes empty (null) periods from the ZigZag results.
+    /// </summary>
+    /// <param name="results">The list of ZigZag results.</param>
+    /// <returns>A condensed list of ZigZag results without null periods.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<ZigZagResult> Condense(
         this IReadOnlyList<ZigZagResult> results)
@@ -19,7 +24,11 @@ public static partial class ZigZag
         return resultsList.ToSortedList();
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the ZigZag indicator.
+    /// </summary>
+    /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the percent change is less than or equal to 0.</exception>
     internal static void Validate(
         decimal percentChange)
     {

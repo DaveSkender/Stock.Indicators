@@ -1,5 +1,13 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Volatility Stop indicator calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Sar">The stop and reverse (SAR) value at this point.</param>
+/// <param name="IsStop">Indicates if the current point is a stop.</param>
+/// <param name="UpperBand">The upper band value at this point.</param>
+/// <param name="LowerBand">The lower band value at this point.</param>
 [Serializable]
 public record VolatilityStopResult
 (

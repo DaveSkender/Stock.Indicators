@@ -1,10 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-// TRUE STRENGTH INDEX (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for calculating the True Strength Index (TSI).
+/// </summary>
 public static partial class Tsi
 {
     // remove recommended periods
+    /// <summary>
+    /// Removes the warmup periods from the TSI results.
+    /// </summary>
+    /// <param name="results">The TSI results.</param>
+    /// <returns>The TSI results without the warmup periods.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<TsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<TsiResult> results)
@@ -17,6 +23,13 @@ public static partial class Tsi
     }
 
     // parameter validation
+    /// <summary>
+    /// Validates the parameters for the TSI calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The lookback periods.</param>
+    /// <param name="smoothPeriods">The smoothing periods.</param>
+    /// <param name="signalPeriods">The signal periods.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of range.</exception>
     internal static void Validate(
         int lookbackPeriods,
         int smoothPeriods,

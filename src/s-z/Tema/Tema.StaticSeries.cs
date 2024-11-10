@@ -2,9 +2,19 @@ namespace Skender.Stock.Indicators;
 
 // TRIPLE EXPONENTIAL MOVING AVERAGE (SERIES)
 
+/// <summary>
+/// Provides methods for calculating the Triple Exponential Moving Average (TEMA) series.
+/// </summary>
 public static partial class Tema
 {
-    // calculate series
+    /// <summary>
+    /// Calculates the TEMA series for the given source data.
+    /// </summary>
+    /// <typeparam name="T">The type of the source data, which must implement IReusable.</typeparam>
+    /// <param name="source">The source data to calculate the TEMA for.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods for the TEMA calculation.</param>
+    /// <returns>A read-only list of TEMA results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source data is null.</exception>
     public static IReadOnlyList<TemaResult> ToTema<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// ZIG ZAG (SERIES)
-
+/// <summary>
+/// Provides methods to convert a list of quotes to a ZigZag series.
+/// </summary>
 public static partial class ZigZag
 {
+    /// <summary>
+    /// Converts a list of quotes to a ZigZag series.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="endType">The type of end to use (Close or HighLow).</param>
+    /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
+    /// <returns>A list of ZigZag results.</returns>
     public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         EndType endType = EndType.Close,
@@ -104,7 +113,15 @@ public static partial class ZigZag
         return results;
     }
 
-    // internals
+    /// <summary>
+    /// Evaluates the next ZigZag point.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotesList">The list of quotes.</param>
+    /// <param name="endType">The type of end to use (Close or HighLow).</param>
+    /// <param name="changeThreshold">The percentage change threshold for ZigZag points.</param>
+    /// <param name="lastPoint">The last ZigZag point.</param>
+    /// <returns>The next ZigZag point.</returns>
     private static ZigZagPoint EvaluateNextPoint<TQuote>(
         IReadOnlyList<TQuote> quotesList,
         EndType endType,
@@ -183,6 +200,14 @@ public static partial class ZigZag
         return extremePoint;
     }
 
+    /// <summary>
+    /// Draws a ZigZag line between two points.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="results">The list of ZigZag results.</param>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lastPoint">The last ZigZag point.</param>
+    /// <param name="nextPoint">The next ZigZag point.</param>
     private static void DrawZigZagLine<TQuote>(
         List<ZigZagResult> results, IReadOnlyList<TQuote> quotes,
         ZigZagPoint lastPoint, ZigZagPoint nextPoint)
@@ -219,6 +244,14 @@ public static partial class ZigZag
         lastPoint.PointType = nextPoint.PointType;
     }
 
+    /// <summary>
+    /// Draws a retrace line between two points.
+    /// </summary>
+    /// <param name="results">The list of ZigZag results.</param>
+    /// <param name="lastDirection">The direction of the last ZigZag point.</param>
+    /// <param name="lastLowPoint">The last low ZigZag point.</param>
+    /// <param name="lastHighPoint">The last high ZigZag point.</param>
+    /// <param name="nextPoint">The next ZigZag point.</param>
     private static void DrawRetraceLine(
         List<ZigZagResult> results,
         string lastDirection,
@@ -298,6 +331,14 @@ public static partial class ZigZag
         }
     }
 
+    /// <summary>
+    /// Gets the ZigZag evaluation for a quote.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="endType">The type of end to use (Close or HighLow).</param>
+    /// <param name="index">The index of the quote.</param>
+    /// <param name="q">The quote.</param>
+    /// <returns>The ZigZag evaluation.</returns>
     private static ZigZagEval GetZigZagEval<TQuote>(
         EndType endType,
         int index,

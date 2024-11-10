@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// VOLUME WEIGHTED MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the VWMA (Volume Weighted Moving Average) indicator.
+/// </summary>
 public static partial class Vwma
 {
+    /// <summary>
+    /// Calculates the VWMA for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A list of VwmaResult containing the VWMA values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VwmaResult> ToVwma<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
@@ -11,6 +20,12 @@ public static partial class Vwma
             .ToQuoteDList()
             .CalcVwma(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the VWMA for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     private static List<VwmaResult> CalcVwma(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
