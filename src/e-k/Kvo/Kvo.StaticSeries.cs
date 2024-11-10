@@ -4,6 +4,16 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Kvo
 {
+    /// <summary>
+    /// Converts a list of quotes to KVO (Klinger Volume Oscillator) results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 34.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 55.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
+    /// <returns>A list of KVO results.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KvoResult> ToKvo<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int fastPeriods = 34,
@@ -13,6 +23,14 @@ public static partial class Kvo
             .ToQuoteDList()
             .CalcKvo(fastPeriods, slowPeriods, signalPeriods);
 
+    /// <summary>
+    /// Calculates the KVO (Klinger Volume Oscillator) for a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes to process.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <returns>A list of KVO results.</returns>
     private static List<KvoResult> CalcKvo(
         this IReadOnlyList<QuoteD> source,
         int fastPeriods,

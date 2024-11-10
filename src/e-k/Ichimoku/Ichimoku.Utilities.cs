@@ -4,8 +4,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Ichimoku
 {
-    // remove empty (null) periods
-    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes empty (null) periods from the Ichimoku Cloud results.
+    /// </summary>
+    /// <param name="results">The list of Ichimoku Cloud results to condense.</param>
+    /// <returns>A condensed list of Ichimoku Cloud results without null periods.</returns>
     public static IReadOnlyList<IchimokuResult> Condense(
         this IReadOnlyList<IchimokuResult> results)
     {
@@ -23,7 +26,17 @@ public static partial class Ichimoku
         return resultsList.ToSortedList();
     }
 
-    // validate parameters
+    /// <summary>
+    /// Validates the parameters for the Ichimoku Cloud calculation.
+    /// </summary>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the parameters are out of their valid range.
+    /// </exception>
     internal static void Validate(
         int tenkanPeriods,
         int kijunPeriods,

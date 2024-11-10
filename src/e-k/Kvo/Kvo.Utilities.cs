@@ -4,8 +4,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Kvo
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the KVO (Klinger Volume Oscillator) results.
+    /// </summary>
+    /// <param name="results">The list of KVO results to process.</param>
+    /// <returns>A list of KVO results with the warmup periods removed.</returns>
     public static IReadOnlyList<KvoResult> RemoveWarmupPeriods(
         this IReadOnlyList<KvoResult> results)
     {
@@ -16,7 +19,15 @@ public static partial class Kvo
         return results.Remove(l + 150);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the KVO (Klinger Volume Oscillator) calculation.
+    /// </summary>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the parameters are out of their valid range.
+    /// </exception>
     internal static void Validate(
         int fastPeriods,
         int slowPeriods,

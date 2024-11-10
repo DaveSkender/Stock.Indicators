@@ -1,34 +1,58 @@
 namespace Skender.Stock.Indicators;
 
-// EXPONENTIAL MOVING AVERAGE (STREAM HUB)
-
-#region hub interface and initializer
-
+/// <summary>
+/// Interface for Exponential Moving Average (EMA) calculations.
+/// </summary>
 public interface IEma
 {
+    /// <summary>
+    /// Gets the number of periods to look back for the calculation.
+    /// </summary>
     int LookbackPeriods { get; }
+
+    /// <summary>
+    /// Gets the smoothing factor for the calculation.
+    /// </summary>
     double K { get; }
 }
 
+/// <summary>
+/// Provides extension methods for calculating the Exponential Moving Average (EMA) indicator.
+/// </summary>
 public static partial class Ema
 {
-    // HUB, from Chain Provider
+    /// <summary>
+    /// Creates an EMA hub from a chain provider.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>An EMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static EmaHub<T> ToEma<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods)
         where T : IReusable
         => new(chainProvider, lookbackPeriods);
 }
-#endregion
-
+/// <summary>
+/// Represents a hub for Exponential Moving Average (EMA) calculations.
+/// </summary>
+/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class EmaHub<TIn>
     : ChainProvider<TIn, EmaResult>, IEma
     where TIn : IReusable
 {
-    #region constructors
-
     private readonly string hubName;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EmaHub{TIn}"/> class.
+    /// </summary>
+    /// <param name="provider">The chain provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal EmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -40,12 +64,12 @@ public class EmaHub<TIn>
 
         Reinitialize();
     }
-    #endregion
 
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-    public double K { get; init; }
 
-    // METHODS
+    /// <inheritdoc/>
+    public double K { get; init; }
 
     /// <inheritdoc/>
     public override string ToString() => hubName;

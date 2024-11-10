@@ -4,6 +4,15 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Epma
 {
+    /// <summary>
+    /// Converts a list of source data to EPMA results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source data.</typeparam>
+    /// <param name="source">The list of source data.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A list of EPMA results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static IReadOnlyList<EpmaResult> ToEpma<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

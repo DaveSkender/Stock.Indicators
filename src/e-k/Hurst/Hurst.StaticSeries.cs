@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// HURST EXPONENT (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Hurst Exponent indicator.
+/// </summary>
 public static partial class Hurst
 {
+    /// <summary>
+    /// Converts a list of time-series values to Hurst Exponent results.
+    /// </summary>
+    /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The list of time-series values to transform.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation. Default is 100.</param>
+    /// <returns>A list of Hurst Exponent results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     public static IReadOnlyList<HurstResult> ToHurst<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 100)
@@ -54,6 +64,11 @@ public static partial class Hurst
         return results;
     }
 
+    /// <summary>
+    /// Calculates the Hurst Exponent for a given window of values.
+    /// </summary>
+    /// <param name="values">The array of values to evaluate.</param>
+    /// <returns>The calculated Hurst Exponent.</returns>
     private static double CalcHurstWindow(double[] values)
     {
         int totalSize = values.Length;

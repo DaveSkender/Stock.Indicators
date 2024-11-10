@@ -1,19 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// HILBERT TRANSFORM - INSTANTANEOUS TRENDLINE (SERIES)
-
+/// <summary>
+/// Provides extension methods for calculating the Hilbert Transform Instantaneous Trendline (HTL) indicator.
+/// </summary>
 public static partial class HtTrendline
 {
-    // SERIES, from CHAIN
     /// <summary>
-    /// Hilbert Transform Instantaneous Trendline(HTL) is a 5-period trendline
-    /// of high/low price that uses signal processing to reduce noise.
+    /// Converts a list of time-series values to Hilbert Transform Instantaneous Trendline (HTL) results.
     /// </summary>
-    /// <typeparam name="T">
-    /// <c>T</c> must be <see cref="IReusable"/> type
-    /// </typeparam>
-    /// <param name="source">Time-series values to transform.</param>
-    /// <returns>Time series of HTL values and smoothed price.</returns>
+    /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The list of time-series values to transform.</param>
+    /// <returns>A list of HTL results and smoothed price.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<HtlResult> ToHtTrendline<T>(
         this IReadOnlyList<T> source)
         where T : IReusable

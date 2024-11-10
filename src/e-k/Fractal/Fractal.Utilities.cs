@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS FRACTAL (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Williams Fractal calculations.
+/// </summary>
 public static partial class Fractal
 {
-    // remove empty (null) periods
+    /// <summary>
+    /// Removes empty (null) periods from the Fractal results.
+    /// </summary>
+    /// <param name="results">The list of Fractal results.</param>
+    /// <returns>A list of Fractal results with empty periods removed.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FractalResult> Condense(
         this IReadOnlyList<FractalResult> results)
@@ -19,7 +24,13 @@ public static partial class Fractal
         return resultsList.ToSortedList();
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the window span for Fractal calculations.
+    /// </summary>
+    /// <param name="windowSpan">The number of periods to look back and forward for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the window span is less than 2.
+    /// </exception>
     internal static void Validate(
         int windowSpan)
     {

@@ -4,8 +4,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Kama
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the KAMA results.
+    /// </summary>
+    /// <param name="results">The list of KAMA results to process.</param>
+    /// <returns>A list of KAMA results with the warmup periods removed.</returns>
     public static IReadOnlyList<KamaResult> RemoveWarmupPeriods(
         this IReadOnlyList<KamaResult> results)
     {
@@ -16,7 +19,15 @@ public static partial class Kama
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the KAMA calculation.
+    /// </summary>
+    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the parameters are out of their valid range.
+    /// </exception>
     internal static void Validate(
         int erPeriods,
         int fastPeriods,

@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// FRACTAL CHAOS BANDS (SERIES)
-
+/// <summary>
+/// Provides extension methods for calculating the Fractal Chaos Bands (FCB) indicator.
+/// </summary>
 public static partial class Fcb
 {
+    /// <summary>
+    /// Converts a list of quotes to FCB results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="windowSpan">The window span for the calculation. Default is 2.</param>
+    /// <returns>A list of FCB results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
     public static IReadOnlyList<FcbResult> ToFcb<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int windowSpan = 2)
