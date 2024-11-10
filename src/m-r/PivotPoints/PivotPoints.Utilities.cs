@@ -2,23 +2,28 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// PIVOT POINTS (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for pivot points calculations.
+/// </summary>
 public static partial class PivotPoints
 {
-    private static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
+    private static readonly CultureInfo invariantCulture
+        = CultureInfo.InvariantCulture;
 
-    private static readonly Calendar calendar = invariantCulture.Calendar;
+    private static readonly Calendar calendar
+        = invariantCulture.Calendar;
 
-    // Gets the DTFI properties required by GetWeekOfYear.
     private static readonly CalendarWeekRule calendarWeekRule
         = invariantCulture.DateTimeFormat.CalendarWeekRule;
 
     private static readonly DayOfWeek firstDayOfWeek
         = invariantCulture.DateTimeFormat.FirstDayOfWeek;
 
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the warmup periods from the pivot points results.
+    /// </summary>
+    /// <param name="results">The list of pivot points results.</param>
+    /// <returns>A list of pivot points results without the warmup periods.</returns>
     public static IReadOnlyList<PivotPointsResult> RemoveWarmupPeriods(
         this IReadOnlyList<PivotPointsResult> results)
     {

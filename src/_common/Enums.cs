@@ -83,7 +83,8 @@ public enum CandlePart
 }
 
 /// <summary>
-/// Candle close or high/low wick values.
+/// Price candle end types used to select which aspect of the candle
+/// to use in indicator threshold calculations.
 /// </summary>
 public enum EndType
 {

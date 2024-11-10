@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// ICHIMOKU CLOUD (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Ichimoku Cloud calculations.
+/// </summary>
 public static partial class Ichimoku
 {
     /// <summary>

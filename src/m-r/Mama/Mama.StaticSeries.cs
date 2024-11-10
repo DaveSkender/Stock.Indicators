@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// MOTHER of ADAPTIVE MOVING AVERAGES (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the MESA Adaptive Moving Average (MAMA) for a series of quotes.
+/// </summary>
 public static partial class Mama
 {
+    /// <summary>
+    /// Converts a list of source values to MESA Adaptive Moving Average (MAMA) results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source values, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="fastLimit">The fast limit for the MAMA calculation. Default is 0.5.</param>
+    /// <param name="slowLimit">The slow limit for the MAMA calculation. Default is 0.05.</param>
+    /// <returns>A list of MESA Adaptive Moving Average (MAMA) results.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the fast or slow limit is out of range.</exception>
     public static IReadOnlyList<MamaResult> ToMama<T>(
         this IReadOnlyList<T> source,
         double fastLimit = 0.5,

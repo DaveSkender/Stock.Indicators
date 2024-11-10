@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// PRICE MOMENTUM OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Price Momentum Oscillator (PMO) series.
+/// </summary>
 public static partial class Pmo
 {
+    /// <summary>
+    /// Converts a list of source values to a list of PMO results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source values.</typeparam>
+    /// <param name="source">The list of source values.</param>
+    /// <param name="timePeriods">The number of periods for the time span.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <returns>A list of PMO results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<PmoResult> ToPmo<T>(
         this IReadOnlyList<T> source,
         int timePeriods = 35,

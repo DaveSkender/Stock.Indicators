@@ -4,6 +4,17 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Macd
 {
+    /// <summary>
+    /// Converts a list of source values to MACD (Moving Average Convergence Divergence) results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source values, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 12.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 26.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line. Default is 9.</param>
+    /// <returns>A list of MACD results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<MacdResult> ToMacd<T>(
         this IReadOnlyList<T> source,
         int fastPeriods = 12,

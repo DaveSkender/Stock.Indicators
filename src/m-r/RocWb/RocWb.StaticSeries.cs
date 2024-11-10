@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// RATE OF CHANGE (ROC) WITH BANDS (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Rate of Change with Bands (RocWb) series.
+/// </summary>
 public static partial class RocWb
 {
+    /// <summary>
+    /// Converts a list of reusable values to a list of RocWb results.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable values.</typeparam>
+    /// <param name="source">The list of reusable values.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
+    /// <param name="emaPeriods">The number of periods for the exponential moving average calculation.</param>
+    /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
+    /// <returns>A list of RocWb results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<RocWbResult> ToRocWb<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods,

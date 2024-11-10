@@ -1,9 +1,21 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOTS (SERIES)
-
+/// <summary>
+/// Provides methods for calculating pivot points series.
+/// </summary>
 public static partial class Pivots
 {
+    /// <summary>
+    /// Converts a list of quotes to a list of pivot points results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
+    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
+    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
+    /// <param name="endType">The type of end point for the pivot calculation.</param>
+    /// <returns>A list of pivot points results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public static IReadOnlyList<PivotsResult> ToPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int leftSpan = 2,

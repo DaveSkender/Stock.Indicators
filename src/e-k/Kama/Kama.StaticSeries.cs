@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Kaufman's Adaptive Moving Average (KAMA) indicator.
+/// </summary>
 public static partial class Kama
 {
     /// <summary>

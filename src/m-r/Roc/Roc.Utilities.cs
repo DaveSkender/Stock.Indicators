@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// RATE OF CHANGE (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Rate of Change (ROC) calculations.
+/// </summary>
 public static partial class Roc
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for ROC calculations.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

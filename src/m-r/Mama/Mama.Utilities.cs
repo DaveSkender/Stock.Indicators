@@ -1,15 +1,28 @@
 namespace Skender.Stock.Indicators;
 
-// MOTHER of ADAPTIVE MOVING AVERAGES (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the MESA Adaptive Moving Average (MAMA).
+/// </summary>
 public static partial class Mama
 {
-    // remove recommended periods
+    /// <summary>
+    /// Removes the recommended warmup periods from the MAMA results.
+    /// </summary>
+    /// <param name="results">The list of MAMA results.</param>
+    /// <returns>A list of MAMA results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<MamaResult> RemoveWarmupPeriods(
         this IReadOnlyList<MamaResult> results) => results.Remove(50);
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the MAMA calculation.
+    /// </summary>
+    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
+    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the fast limit is less than or equal to the slow limit, or greater than or equal to 1,
+    /// or when the slow limit is less than or equal to 0.
+    /// </exception>
     internal static void Validate(
         double fastLimit,
         double slowLimit)

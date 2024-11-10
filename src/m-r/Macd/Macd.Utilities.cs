@@ -1,11 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the MACD (Moving Average Convergence Divergence) oscillator.
+/// </summary>
 public static partial class Macd
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the MACD results.
+    /// </summary>
+    /// <param name="results">The list of MACD results.</param>
+    /// <returns>A list of MACD results with the warmup periods removed.</returns>
     public static IReadOnlyList<MacdResult> RemoveWarmupPeriods(
         this IReadOnlyList<MacdResult> results)
     {
@@ -16,7 +20,15 @@ public static partial class Macd
         return results.Remove(n + 250);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the MACD calculation.
+    /// </summary>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when any of the parameters are out of their valid range.
+    /// </exception>
     internal static void Validate(
         int fastPeriods,
         int slowPeriods,
