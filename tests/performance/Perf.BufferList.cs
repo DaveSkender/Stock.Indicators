@@ -1,6 +1,6 @@
 namespace Performance;
 
-// INCREMENTAL BUFFER-STYLE INDICATORS
+// BUFFER-STYLE INCREMENTING INDICATORS
 
 [ShortRunJob]
 public class BufferLists
@@ -8,12 +8,9 @@ public class BufferLists
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();
 
-    private static readonly IReadOnlyList<IReusable> reusables
-       = quotes
-        .Cast<IReusable>()
-        .ToList();
+    private static readonly QuoteHub<Quote> provider = new();
 
-    private readonly QuoteHub<Quote> provider = new();
+    private const int n = 14;
 
     [GlobalSetup]
     public void Setup() => provider.Add(quotes);
@@ -26,70 +23,22 @@ public class BufferLists
     }
 
     [Benchmark]
-    public object EmaIncRusBatch()
-    {
-        EmaList sut = new(14) { reusables };
-        return sut;
-    }
+    public AdxList AdxBuffer()
+        => new(n) { quotes };
 
     [Benchmark]
-    public object EmaIncRusItem()
-    {
-        EmaList sut = new(14);
-
-        for (int i = 0; i < reusables.Count; i++)
-        {
-            sut.Add(reusables[i]);
-        }
-
-        return sut;
-    }
+    public IReadOnlyList<AdxResult> AdxSeries()
+        => quotes.ToAdx(n);
 
     [Benchmark]
-    public object EmaIncRusSplit()
-    {
-        EmaList sut = new(14);
-
-        for (int i = 0; i < reusables.Count; i++)
-        {
-            sut.Add(reusables[i].Timestamp, reusables[i].Value);
-        }
-
-        return sut;
-    }
+    public EmaList EmaBuffer()
+        => new(n) { quotes };
 
     [Benchmark]
-    public object EmaIncQotBatch()
-    {
-        EmaList sut = new(14) { quotes };
-        return sut;
-    }
+    public IReadOnlyList<EmaResult> EmaSeries()
+        => quotes.ToEma(n);
 
     [Benchmark]
-    public object EmaIncQot()
-    {
-        EmaList sut = new(14);
-
-        for (int i = 0; i < quotes.Count; i++)
-        {
-            sut.Add(quotes[i]);
-        }
-
-        return sut;
-    }
-
-    // TIME-SERIES EQUIVALENTS
-
-    [Benchmark]
-    public object EmaSeries() => quotes.ToEma(14);
-
-    [Benchmark]
-    public object EmaIncrem()
-    {
-        EmaList ema = new(14) { quotes };
-        return ema;
-    }
-
-    [Benchmark]
-    public object EmaStream() => provider.ToEma(14).Results;
+    public IReadOnlyList<EmaResult> EmaStream()
+        => provider.ToEma(n).Results;
 }
