@@ -7,7 +7,7 @@
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
     <Copyright>@2020 Dave Skender</Copyright>
-    <Description>Transform financial market price data into technical analysis indicators such as MACD, Stochastic RSI, Average true Range, Parabolic SAR, and more.</Description>
+    <Description>Transform financial market price data into technical analysis indicators such as MACD, Stochastic RSI, Average True Range, Parabolic SAR, and more.</Description>
 
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

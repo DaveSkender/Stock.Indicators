@@ -5,8 +5,6 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public interface ISeries
 {
-    // TODO: consider adding (long) UnixDate (seconds) to ISeries
-
     /// <summary>
     /// Gets the date/time of the record.
     /// </summary>
@@ -18,6 +16,8 @@ public interface ISeries
     /// From a practical perspective, Timestamp is the correlation ID.
     /// </remarks>
     DateTime Timestamp { get; }
+
+    // TODO: consider adding (long) UnixDate (seconds) to ISeries
 
     /// <summary>
     /// Gets the date/time of the record.
