@@ -166,6 +166,7 @@ public static partial class Adx
                 Timestamp: q.Timestamp,
                 Pdi: pdi,
                 Mdi: mdi,
+                Dx: dx.NaN2Null(),
                 Adx: adx.NaN2Null(),
                 Adxr: adxr.NaN2Null());
 
