@@ -47,7 +47,7 @@ public class QuoteHub<TQuote>
         ToIndicator(TQuote item, int? indexHint)
     {
         int index = indexHint
-            ?? Cache.GetIndexGte(item.Timestamp);
+            ?? Cache.IndexGte(item.Timestamp);
 
         return (item, index == -1 ? Cache.Count : index);
     }

@@ -72,7 +72,7 @@ public class AtrHub<TIn>
     protected override (AtrResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip incalculable periods
         if (i == 0)

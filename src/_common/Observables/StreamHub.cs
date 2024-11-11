@@ -358,7 +358,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         RemoveRange(fromTimestamp, notify: false);
 
         // get provider position
-        int provIndex = ProviderCache.GetIndexGte(fromTimestamp);
+        int provIndex = ProviderCache.IndexGte(fromTimestamp);
 
         // rebuild
         if (provIndex >= 0)
