@@ -1,11 +1,5 @@
-# See ROOT for primary .editorconfig
-# This is only for minor SRC overrides.
+# code analysis for SRC only
 root = false
 
-# Be careful of automatically added values from IDE.
-# Add between "# HUMANS markers to differentiate intent.
-
 [*.cs]
-#HUMANS
-dotnet_diagnostic.CS1591.severity=suggestion
-#ENDHUMANS
+dotnet_diagnostic.CS1591.severity = suggestion  # Missing XML comment for public members

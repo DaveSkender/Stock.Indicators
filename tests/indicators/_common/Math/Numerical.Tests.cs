@@ -7,8 +7,8 @@ public class Numericals : TestBase
         .Select(x => (double)x.Close)
         .ToArray();
 
-    private readonly double[] _x = { 1, 2, 3, 4, 5 };
-    private readonly double[] _y = { 0, 0, 0, 0 };
+    private readonly double[] _x = [1, 2, 3, 4, 5];
+    private readonly double[] _y = [0, 0, 0, 0];
 
     [TestMethod]
     public void StdDev()

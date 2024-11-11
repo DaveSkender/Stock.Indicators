@@ -38,7 +38,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
-    internal List<TOut> Cache { get; } = new();
+    internal List<TOut> Cache { get; } = [];
 
     /// <summary>
     /// Gets the current count of repeated caching attempts.

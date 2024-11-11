@@ -44,11 +44,11 @@ public static class HeikinAshi
             decimal open = (prevOpen + prevClose) / 2;
 
             // high
-            decimal[] arrH = { q.High, open, close };
+            decimal[] arrH = [q.High, open, close];
             decimal high = arrH.Max();
 
             // low
-            decimal[] arrL = { q.Low, open, close };
+            decimal[] arrL = [q.Low, open, close];
             decimal low = arrL.Min();
 
             results.Add(new HeikinAshiResult(
