@@ -28,7 +28,7 @@ jobs:
         with:
           updateAssemblyInfo: true
           useConfigFile: true
-          configFilePath: gitversion.yml
+          configFilePath: src/gitversion.yml
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -42,12 +42,29 @@ jobs:
           --configuration Release
           --property:ContinuousIntegrationBuild=true
 
-      - name: Benchmark indicators
+      - name: Test performance
         working-directory: tests/performance
         run: dotnet run -c Release
+
+      - name: Save test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summaries
+          path: tests/performance/BenchmarkDotNet.Artifacts/results
 
       - name: Publish summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
         run: |
           echo "### Package version ${{ steps.gitversion.outputs.fullSemVer }}" >> $GITHUB_STEP_SUMMARY
-          cat Tests.Performance.IndicatorPerformance-report-github.md >> $GITHUB_STEP_SUMMARY
+
+          echo "## Series indicators" >> $GITHUB_STEP_SUMMARY
+          cat Performance.SeriesIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+
+          echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY
+          cat Performance.StreamIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+
+          echo "## Incremental indicators (with buffer)" >> $GITHUB_STEP_SUMMARY
+          cat Performance.Incrementals-report-github.md >> $GITHUB_STEP_SUMMARY
+
+          echo "## Utilities" >> $GITHUB_STEP_SUMMARY
+          cat Performance.Utility-report-github.md >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "codacy-app.codacy",
+        "adrianwilczynski.user-secrets",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "mechatroner.rainbow-csv",
+        "dotjoshjohnson.xml",
+        "redhat.vscode-yaml",
+        "vunguyentuan.vscode-css-variables"
+    ]
+}

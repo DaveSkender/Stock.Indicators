@@ -16,7 +16,7 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 
 ```csharp
 // C# usage syntax
-IEnumerable<KeltnerResult> results =
+IReadOnlyList<KeltnerResult> results =
   quotes.GetKeltner(emaPeriods, multiplier, atrPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<KeltnerResult>
+IReadOnlyList<KeltnerResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<KeltnerResult>
 
 ### KeltnerResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`double`_ - Upper band of Keltner Channel
 

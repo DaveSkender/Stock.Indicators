@@ -1,8 +1,10 @@
 name: Website
 
 on:
+  push:
+    branches: ["v3"]
   pull_request:
-    branches: [main]
+    branches: ["main"]
     paths:
       - 'docs/**'
       - ".github/workflows/test-website-a11y.yml"

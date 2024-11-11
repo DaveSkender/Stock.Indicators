@@ -1,25 +1,48 @@
 namespace Skender.Stock.Indicators;
 
-// SEEK & FIND in SERIES
-
+/// <summary>
+/// Provides extension methods for seeking and finding elements in a series.
+/// </summary>
 public static class Seeking
 {
-    // FIND SERIES by DATE
-    /// <include file='./info.xml' path='info/type[@name="FindSeries"]/*' />
-    ///
-    public static TSeries? Find<TSeries>(
-        this IEnumerable<TSeries> series,
+    /// <summary>
+    /// Finds an element in the series by its timestamp.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the series, which must implement <see cref="ISeries"/>.</typeparam>
+    /// <param name="series">The series of elements to search.</param>
+    /// <param name="lookupDate">The timestamp to look for.</param>
+    /// <returns>The element with the matching timestamp, or the default value if not found.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the series is null.</exception>
+    public static T? Find<T>(
+        this IReadOnlyList<T> series,
         DateTime lookupDate)
-        where TSeries : ISeries => series
-            .FirstOrDefault(x => x.Date == lookupDate);
+        where T : ISeries
+    {
+        ArgumentNullException.ThrowIfNull(series);
 
-    // FIND INDEX by DATE
-    /// <include file='./info.xml' path='info/type[@name="FindIndex"]/*' />
-    ///
-    public static int FindIndex<TSeries>(
-        this List<TSeries> series,
-        DateTime lookupDate)
-        where TSeries : ISeries => series == null
-            ? -1
-            : series.FindIndex(x => x.Date == lookupDate);
+        int low = 0;
+        int high = series.Count - 1;
+
+        while (low <= high)
+        {
+            int mid = (low + high) >> 1;
+            DateTime midTimestamp = series[mid].Timestamp;
+
+            if (midTimestamp == lookupDate)
+            {
+                return series[mid]; // found
+            }
+            else if (midTimestamp < lookupDate)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+
+        // not found
+        return default;
+    }
 }

@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<SmmaResult> results =
+IReadOnlyList<SmmaResult> results =
   quotes.GetSmma(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `2×N` or `N+100` periods of `quotes`, whichever is more,
 ## Response
 
 ```csharp
-IEnumerable<SmmaResult>
+IReadOnlyList<SmmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<SmmaResult>
 
 ### SmmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Smma`** _`double`_ - Smoothed moving average
 
