@@ -1,9 +1,9 @@
-using System.Globalization;
 using System.Runtime.CompilerServices;
 
 [assembly: CLSCompliant(true)]
-[assembly: InternalsVisibleTo("Tests.Indicators")]
+[assembly: InternalsVisibleTo("Tests.Indicators")]  // these test internals
 [assembly: InternalsVisibleTo("Tests.Performance")]
+<<<<<<< HEAD
 
 namespace Skender.Stock.Indicators;
 
@@ -22,3 +22,5 @@ public static partial class Indicator
     private static readonly DayOfWeek EnglishFirstDayOfWeek
         = EnglishCulture.DateTimeFormat.FirstDayOfWeek;
 }
+=======
+>>>>>>> v3

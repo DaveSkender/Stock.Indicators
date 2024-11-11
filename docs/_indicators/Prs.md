@@ -16,46 +16,38 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<PrsResult> results =
+IReadOnlyList<PrsResult> results =
   quotesEval.GetPrs(quotesBase);
-
-// usage with optional lookback period and SMA of PRS (shown above)
-IEnumerable<PrsResult> results =
-  quotesEval.GetPrs(quotesBase, lookbackPeriods, smaPeriods);
 ```
 
 ## Parameters
 
-**`quotesBase`** _`IEnumerable<TQuote>`_ - [Historical quotes](pages/guide.md#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
+**`quotesBase`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
 
 **`lookbackPeriods`** _`int`_ - Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
-
-**`smaPeriods`** _`int`_ - Optional.  Number of periods (`S`) in the SMA lookback period for `Prs`.  Must be greater than 0.
 
 ### Historical quotes requirements
 
 You must have at least `N` periods of `quotesEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesEval` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
+`quotesEval` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](pages/guide.md#historical-quotes) for more information.
 
 ## Response
 
 ```csharp
-IEnumerable<PrsResult>
+IReadOnlyList<PrsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It always returns the same number of elements as there are in the historical quotes.
 - It does not return a single incremental indicator value.
-- The `N` periods will have `null` values for `PrsPercent` and the first `S-1` periods will have `null` values for `Sma` since there's not enough data to calculate.
+- The `N` periods will have `null` values for `PrsPercent` since there's not enough data to calculate.
 
 ### PrResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Prs`** _`double`_ - Price Relative Strength compares `Eval` to `Base` histories
-
-**`PrsSma`** _`double`_ - Moving Average (SMA) of PRS over `S` periods
 
 **`PrsPercent`** _`double`_ - Percent change difference between `Eval` and `Base` over `N` periods
 

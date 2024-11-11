@@ -16,7 +16,7 @@ Pivots is an extended customizable version of <a href="/indicators/Fractal" rel=
 
 ```csharp
 // C# usage syntax
-IEnumerable<PivotsResult> results =
+IReadOnlyList<PivotsResult> results =
   quotes.GetPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
 ```
 
@@ -47,7 +47,7 @@ You must have at least `L+R+1` periods of `quotes` to cover the warmup periods; 
 ## Response
 
 ```csharp
-IEnumerable<PivotsResult>
+IReadOnlyList<PivotsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -59,7 +59,7 @@ IEnumerable<PivotsResult>
 
 ### PivotsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`HighPoint`** _`decimal`_ - Value indicates a **high** point; otherwise `null` is returned.
 

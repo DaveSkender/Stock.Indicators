@@ -14,7 +14,6 @@ relative_path: guide.md
   <li><a href="#example-usage">Example usage</a></li>
   <li><a href="#historical-quotes">Historical quotes</a></li>
   <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
-  <li><a href="#using-custom-results-classes">Using custom results classes</a></li>
   <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
   <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
   <li><a href="../examples/CustomIndicators/README.md">Creating custom indicators</a></li>
@@ -43,7 +42,7 @@ Most indicators require that you provide historical quote data and additional co
 
 You must get historical quotes from your own market data provider.  For clarification, the `GetQuotesFromFeed()` method shown in the example below **is not part of this library**, but rather an example to represent your own acquisition of historical quotes.
 
-Historical price data can be provided as a `List`, `IEnumerable`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
+Historical price data can be provided as a `List`, `IReadOnlyList`, or `ICollection` of the `Quote` class ([see below](#historical-quotes)); however, it can also be supplied as a generic [custom TQuote type](#using-custom-quote-classes) if you prefer to use your own quote model.
 
 For additional configuration parameters, default values are provided when there is an industry standard.  You can, of course, override these and provide your own values.
 
@@ -57,16 +56,16 @@ using Skender.Stock.Indicators;
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 20-period SMA
-IEnumerable<SmaResult> results = quotes
+IReadOnlyList<SmaResult> results = quotes
   .GetSma(20);
 
 // use results as needed for your use case (example only)
 foreach (SmaResult r in results)
 {
-    Console.WriteLine($"SMA on {r.Date:d} was ${r.Sma:N4}");
+    Console.WriteLine($"SMA on {r.Timestamp:d} was ${r.Sma:N4}");
 }
 ```
 
@@ -89,11 +88,11 @@ More examples available:
 
 ## Historical quotes
 
-You must provide historical price quotes to the library in the standard OHLCV `IEnumerable<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
+You must provide historical price quotes to the library in the standard OHLCV `IReadOnlyList<Quote>` or a compatible `List` or `ICollection` format.  It should have a consistent period frequency (day, hour, minute, etc).  See [using custom quote classes](#using-custom-quote-classes) if you prefer to use your own quote class.
 
 | name | type | notes
 | -- |-- |--
-| `Date` | DateTime | Date
+| `Timestamp` | DateTime | Close date
 | `Open` | decimal | Open price
 | `High` | decimal | High price
 | `Low` | decimal | Low price
@@ -116,17 +115,19 @@ Each indicator will need different amounts of price `quotes` to calculate.  You 
 
 ### Using custom quote classes
 
-If you would like to use your own custom `MyCustomQuote` class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
+If you would like to use your own custom `MyCustomQuote` class, to avoid needing to transpose into the built-in library `Quote` class, you only need to add the `IQuote` interface and ensure that you've implemented a correct and compatible quote `record` or class.
+
+> &#128681; **IMPORTANT!**
+> Your custom quote class needs to be [equatable using property values](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/how-to-define-value-equality-for-a-type).  Since this can be complicated to setup, we've provided the shown `EquatableQuote<TQuote>` base class.  You can exclude this base and write your own `IEquatable<IQuote>` interface by only implementing the `IQuote` interface; however, if you do not define it fully with `==` and `!=` operator overrides correctly, it may cause problems with streaming overflow handling.  **We recommend using the equatable `record` class** type for your custom quote class.
 
 ```csharp
 using Skender.Stock.Indicators;
 
-[..]
-
-public class MyCustomQuote : IQuote
+/// EASY METHOD (use record class)
+public record class MyCustomQuote : IQuote
 {
     // required base properties
-    public DateTime Date { get; set; }
+    public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
@@ -135,31 +136,81 @@ public class MyCustomQuote : IQuote
 
     // custom properties
     public int MyOtherProperty { get; set; }
+
+    // required mapping method for equality
+    public bool Equals(IQuote? other)
+        => base.Equals(other);
 }
 ```
 
 ```csharp
-// fetch historical quotes from your favorite feed
-IEnumerable<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
+/// EASY METHOD (use our base equatable class)
+public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
+{
+    // required inherited base properties do not need to be redefined,
+    // however, if you prefer to explicitly define for clarity,
+    // use the override keyword (optional)
 
-// example: get 20-period simple moving average
-IEnumerable<SmaResult> results = myQuotes.GetSma(20);
+    public override DateTime Timestamp { get; set; }
+    public override decimal Open { get; set; }
+    public override decimal High { get; set; }
+    public override decimal Low { get; set; }
+    public override decimal Close { get; set; }
+    public override decimal Volume { get; set; }
+
+    // custom properties
+    public int MyOtherProperty { get; set; }
+}
 ```
 
-#### Using custom quote property names
-
-If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `Date`, it could be represented like this:
-
 ```csharp
-public class MyCustomQuote : IQuote // + ISeries
+/// HARD METHOD (define your own equatable overrides)
+public class MyCustomQuote : IQuote
 {
     // required base properties
-    DateTime ISeries.Date => CloseDate;
+    public DateTime Timestamp { get; set; }
     public decimal Open { get; set; }
     public decimal High { get; set; }
     public decimal Low { get; set; }
     public decimal Close { get; set; }
-    decimal IQuote.Volume => Vol;
+    public decimal Volume { get; set; }
+
+    // custom properties
+    public int MyOtherProperty { get; set; }
+
+    // equatable overrides
+    public override bool Equals(object? obj) => this.Equals(obj);
+    public bool Equals(IQuote? other) => this.Equals(other);
+    public bool Equals(MyCustomQuote? other) { ... }
+    public static bool operator ==( ... ) { ... }
+    public static bool operator !=( ... ) { ... }
+    public override int GetHashCode()
+      => HashCode.Combine(
+         Timestamp, Open, High, Low, Close, Volume);
+}
+```
+
+```csharp
+// USAGE
+// fetch historical quotes from your favorite feed
+IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
+
+// example: get 20-period simple moving average
+IReadOnlyList<SmaResult> results = myQuotes.GetSma(20);
+```
+
+#### Using custom quote property names
+
+If you have a model that has different properties names, but the same meaning, you only need to map them.  For example, if your class has a property called `CloseDate` instead of `Timestamp`, it could be represented like this:
+
+```csharp
+// if using record type
+public record class MyCustomQuote : IQuote
+{
+    // redirect required base properties
+    // with your custom properties
+    public DateTime Timestamp => CloseDate;
+    public decimal Volume => Vol;
 
     // custom properties
     public int MyOtherProperty { get; set; }
@@ -168,49 +219,25 @@ public class MyCustomQuote : IQuote // + ISeries
 }
 ```
 
-Note the use of explicit interface (property declaration is `ISeries.Date`), this is because having two properties that expose the same information can be confusing, this way `Date` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Date` property will be hidden, avoiding confusion.
-
-For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide.mdinterfaces/explicit-interface-implementation).
-
-## Using custom results classes
-
-The indicator result classes can be customized in your code.  There are many ways to do this, but the benefit of using derived `ResultBase` is that your custom class will inherit all of the [utility results extension methods](utilities.md#utilities-for-indicator-results).  Here's one example:
-
 ```csharp
-// your custom class with an EMA profile
-public class MyEma : ResultBase
+// if using inherited equatable class type
+public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
 {
-  // my properties
-  public int MyId { get; set; }
-  public double? Ema { get; set; }
-}
+    // override inherited, required base properties
+    // with your custom properties
+    public override DateTime Timestamp => CloseDate;
+    public override decimal Volume => Vol;
 
-public void MyClass(){
-
-  // fetch historical quotes from your feed (your method)
-  IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
-
-  // compute indicator
-  INumerable<EmaResult> emaResults = quotes.GetEma(14);
-
-  // convert to my Ema class list [using LINQ]
-  List<MyEma> myEmaResults = emaResults
-    .Select(e => new MyEma
-      {
-        MyId = 123,
-        Date = e.Date,
-        Ema = e.Ema
-      })
-    .ToList();
-
-  // randomly selecting first record from the
-  // collection here for the example
-  MyEma r = myEmaResults.FirstOrDefault();
-
-  // use your custom quote data
-  Console.WriteLine($"On {r.Date}, EMA was {r.Ema} for my EMA ID {r.MyId}.");
+    // custom properties
+    public int MyOtherProperty { get; set; }
+    public DateTime CloseDate { get; set; }
+    public decimal Vol { get; set; }
 }
 ```
+
+Note the use of explicit interface (property declaration is `ISeries.Timestamp`), this is because having two properties that expose the same information can be confusing, this way `Timestamp` property is only accessible when working with the included `Quote` type, while if you are working with a `MyCustomQuote` the `Timestamp` property will be hidden, avoiding confusion.
+
+For more information on explicit interfaces, refer to the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/interfaces/explicit-interface-implementation).
 
 ## Generating indicator of indicators
 
@@ -219,17 +246,17 @@ Example:
 
 ```csharp
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("SPY");
 
 // calculate RSI of OBV
-IEnumerable<RsiResult> results
+IReadOnlyList<RsiResult> results
   = quotes
     .GetObv()
     .GetRsi(14);
 
 // or with two separate operations
-IEnumerable<ObvResult> obvResults = quotes.GetObv();
-IEnumerable<RsiResult> rsiOfObv = obvResults.GetRsi(14);
+IReadOnlyList<ObvResult> obvResults = quotes.GetObv();
+IReadOnlyList<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 ```
 
 ## Candlestick patterns

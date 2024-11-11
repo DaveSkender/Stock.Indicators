@@ -64,7 +64,7 @@ Running the `Tests.Performance` console application in `Release` mode will produ
 dotnet run -c Release
 
 # run individual performance benchmark
-dotnet run -c Release --filter *.GetAdx
+dotnet run -c Release --filter *.ToAdx
 ```
 
 ## Documentation

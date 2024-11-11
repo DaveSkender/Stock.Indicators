@@ -17,7 +17,7 @@ Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility band
 
 ```csharp
 // C# usage syntax
-IEnumerable<RocWbResult> results =
+IReadOnlyList<RocWbResult> results =
   quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
@@ -38,7 +38,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RocWbResult>
+IReadOnlyList<RocWbResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -48,7 +48,7 @@ IEnumerable<RocWbResult>
 
 ### RocWbResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Roc`** _`double`_ - Rate of Change over `N` lookback periods (%, not decimal)
 

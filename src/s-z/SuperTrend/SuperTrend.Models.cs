@@ -1,14 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a SuperTrend indicator calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="SuperTrend">The value of the SuperTrend at this point.</param>
+/// <param name="UpperBand">The upper band value at this point.</param>
+/// <param name="LowerBand">The lower band value at this point.</param>
 [Serializable]
-public sealed class SuperTrendResult : ResultBase
-{
-    public SuperTrendResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public decimal? SuperTrend { get; set; }
-    public decimal? UpperBand { get; set; }
-    public decimal? LowerBand { get; set; }
-}
+public record SuperTrendResult
+(
+    DateTime Timestamp,
+    decimal? SuperTrend,
+    decimal? UpperBand,
+    decimal? LowerBand
+) : ISeries;

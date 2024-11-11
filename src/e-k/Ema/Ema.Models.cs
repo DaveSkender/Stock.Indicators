@@ -1,14 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of an Exponential Moving Average (EMA) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Ema">The EMA value.</param>
 [Serializable]
-public sealed class EmaResult : ResultBase, IReusableResult
+public record EmaResult
+(
+    DateTime Timestamp,
+    double? Ema = null
+) : IReusable
 {
-    public EmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Ema { get; set; }
-
-    double? IReusableResult.Value => Ema;
+    /// <inheritdoc/>
+    public double Value => Ema.Null2NaN();
 }

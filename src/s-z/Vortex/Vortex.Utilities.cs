@@ -1,12 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Indicator
+/// <summary>
+/// Provides utility methods for the Vortex indicator.
+/// </summary>
+public static partial class Vortex
 {
-    // CONDENSE (REMOVE null results)
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Condense"]/*' />
-    ///
-    public static IEnumerable<VortexResult> Condense(
-        this IEnumerable<VortexResult> results)
+    // remove empty (null) periods
+    /// <summary>
+    /// Condenses the Vortex results by removing periods with null values.
+    /// </summary>
+    /// <param name="results">The list of Vortex results.</param>
+    /// <returns>A condensed list of Vortex results with null values removed.</returns>
+    /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<VortexResult> Condense(
+        this IReadOnlyList<VortexResult> results)
     {
         List<VortexResult> resultsList = results
             .ToList();
@@ -19,15 +26,38 @@ public static partial class Indicator
     }
 
     // remove recommended periods
-    /// <include file='../../_common/Results/info.xml' path='info/type[@name="Prune"]/*' />
-    ///
-    public static IEnumerable<VortexResult> RemoveWarmupPeriods(
-        this IEnumerable<VortexResult> results)
+    /// <summary>
+    /// Removes the warmup periods from the Vortex results.
+    /// </summary>
+    /// <param name="results">The list of Vortex results.</param>
+    /// <returns>A list of Vortex results with the warmup periods removed.</returns>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<VortexResult> RemoveWarmupPeriods(
+        this IReadOnlyList<VortexResult> results)
     {
         int removePeriods = results
             .ToList()
             .FindIndex(x => x.Pvi != null || x.Nvi != null);
 
         return results.Remove(removePeriods);
+    }
+
+    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Vortex calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 1.
+    /// </exception>
+    internal static void Validate(
+        int lookbackPeriods)
+    {
+        // check parameter arguments
+        if (lookbackPeriods <= 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), lookbackPeriods,
+                "Lookback periods must be greater than 1 for VI.");
+        }
     }
 }

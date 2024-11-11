@@ -16,7 +16,7 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA](https://github.com/
 
 ```csharp
 // C# usage syntax
-IEnumerable<AlmaResult> results =
+IReadOnlyList<AlmaResult> results =
   quotes.GetAlma(lookbackPeriods, offset, sigma);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<AlmaResult>
+IReadOnlyList<AlmaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<AlmaResult>
 
 ### AlmaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Alma`** _`double`_ - Arnaud Legoux Moving Average
 

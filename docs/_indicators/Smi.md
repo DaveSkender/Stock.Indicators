@@ -16,7 +16,7 @@ Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a dou
 
 ```csharp
 // C# usage syntax (standard)
-IEnumerable<SmiResult> results =
+IReadOnlyList<SmiResult> results =
   quotes.GetSmi(lookbackPeriods, firstSmoothPeriods,
                  secondSmoothPeriods, signalPeriods);
 ```
@@ -40,7 +40,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<SmiResult>
+IReadOnlyList<SmiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -52,7 +52,7 @@ IEnumerable<SmiResult>
 
 ### SmiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Smi`** _`double`_ - Stochastic Momentum Index (SMI)
 
