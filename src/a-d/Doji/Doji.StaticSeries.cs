@@ -43,7 +43,7 @@ public static partial class Doji
 
             // check for current signal
             if (q.Open != 0
-                && Math.abs((double)(q.Close / q.Open) - 1d) <= maxPriceChangePercent)
+                && Math.Abs((double)(q.Close / q.Open) - 1d) <= maxPriceChangePercent)
             {
                 matchPrice = q.Close;
                 matchType = Match.Neutral;
