@@ -1,25 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// ACCUMULATION/DISTRIBUTION LINE (UTILITIES)
-
-/// <summary>
-/// See the <see href="https://dotnet.stockindicators.dev/indicators/Adl/">
-/// Stock Indicators for .NET online guide</see> for more information.
-/// </summary>
 public static partial class Adl
 {
     /// <summary>
-    /// Get the next incremental Accumulation/Distribution Line(ADL) value.
+    /// Get the next incremental Accumulation/Distribution Line (ADL) value.
     /// </summary>
-    /// <param name="timestamp">timestamp</param>
-    /// <param name="high">High price, current period</param>
-    /// <param name="low">Low price, current period</param>
-    /// <param name="close">Close price, current period</param>
-    /// <param name="volume">Volume, current period</param>
-    /// <returns>New ADL result value</returns>
-    /// <param name="prevAdl">
-    /// Last ADL value, from prior period
-    /// </param>
+    /// <param name="timestamp">Timestamp of the current period.</param>
+    /// <param name="high">High price of the current period.</param>
+    /// <param name="low">Low price of the current period.</param>
+    /// <param name="close">Close price of the current period.</param>
+    /// <param name="volume">Volume of the current period.</param>
+    /// <param name="prevAdl">Last ADL value from the prior period.</param>
+    /// <returns>New ADL result value.</returns>
     public static AdlResult Increment(
         DateTime timestamp,
         double high,
@@ -43,6 +35,16 @@ public static partial class Adl
             MoneyFlowVolume: mfv);
     }
 
+    /// <summary>
+    /// Get the next incremental Accumulation/Distribution Line (ADL) value.
+    /// </summary>
+    /// <param name="timestamp">Timestamp of the current period.</param>
+    /// <param name="high">High price of the current period.</param>
+    /// <param name="low">Low price of the current period.</param>
+    /// <param name="close">Close price of the current period.</param>
+    /// <param name="volume">Volume of the current period.</param>
+    /// <param name="prevAdl">Last ADL value from the prior period.</param>
+    /// <returns>New ADL result value.</returns>
     internal static AdlResult Increment(
         DateTime timestamp,
         decimal high,

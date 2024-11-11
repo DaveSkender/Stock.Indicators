@@ -1,11 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// TRIPLE EXPONENTIAL MOVING AVERAGE (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Triple Exponential Moving Average (TEMA) indicator.
+/// </summary>
 public static partial class Tema
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of TEMA results.</param>
+    /// <returns>A list of TEMA results with warmup periods removed.</returns>
     public static IReadOnlyList<TemaResult> RemoveWarmupPeriods(
         this IReadOnlyList<TemaResult> results)
     {
@@ -16,7 +20,11 @@ public static partial class Tema
         return results.Remove(3 * n + 100);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for TEMA calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

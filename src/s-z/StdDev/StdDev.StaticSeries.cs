@@ -1,12 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// STANDARD DEVIATION (SERIES)
-
+/// <summary>
+/// Provides methods for calculating standard deviation on a series of data.
+/// </summary>
 public static partial class StdDev
 {
-    public static IReadOnlyList<StdDevResult> ToStdDev<T>(
-        this IReadOnlyList<T> source,
-        int lookbackPeriods)
+    /// <summary>
+    /// Calculates the standard deviation for a series of data.
+    /// </summary>
+    /// <typeparam name="T">The type of the data series, which must implement IReusable.</typeparam>
+    /// <param name="source">The source data series.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A list of StdDevResult containing the standard deviation, mean, and z-score for each data point.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when lookbackPeriods is less than 1.</exception>
+    public static IReadOnlyList<StdDevResult> ToStdDev<T>(this IReadOnlyList<T> source, int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments

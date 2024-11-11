@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// STARC BANDS (SERIES)
-
+/// <summary>
+/// Provides methods for STARC Band indicator calculations.
+/// </summary>
 public static partial class StarcBands
 {
+    /// <summary>
+    /// Converts a series of quotes to STARC Bands.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The source series of quotes.</param>
+    /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
+    /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
+    /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
+    /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int smaPeriods,
@@ -13,6 +23,14 @@ public static partial class StarcBands
             .ToQuoteDList()
             .CalcStarcBands(smaPeriods, multiplier, atrPeriods);
 
+    /// <summary>
+    /// Calculates the STARC Bands for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source series of quotes.</param>
+    /// <param name="smaPeriods">The number of periods for the Simple Moving Average (SMA).</param>
+    /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
+    /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
+    /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     private static List<StarcBandsResult> CalcStarcBands(
         this IReadOnlyList<QuoteD> source,
         int smaPeriods,

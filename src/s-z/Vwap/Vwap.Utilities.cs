@@ -1,10 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-// VOLUME WEIGHTED AVERAGE PRICE (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the VWAP (Volume Weighted Average Price) indicator.
+/// </summary>
 public static partial class Vwap
 {
     // remove recommended periods
+    /// <summary>
+    /// Removes the warmup periods from the VWAP results.
+    /// </summary>
+    /// <param name="results">The list of VWAP results.</param>
+    /// <returns>A list of VWAP results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VwapResult> RemoveWarmupPeriods(
         this IReadOnlyList<VwapResult> results)
@@ -17,6 +23,14 @@ public static partial class Vwap
     }
 
     // parameter validation
+    /// <summary>
+    /// Validates the parameters for the VWAP calculation.
+    /// </summary>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="startDate">The optional start date for the VWAP calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the start date is earlier than the first quote's timestamp.
+    /// </exception>
     internal static void Validate(
         IReadOnlyList<QuoteD> quotes,
         DateTime? startDate)

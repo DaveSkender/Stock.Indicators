@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// VORTEX INDICATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Vortex indicator.
+/// </summary>
 public static partial class Vortex
 {
+    /// <summary>
+    /// Calculates the Vortex indicator for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
@@ -11,6 +20,12 @@ public static partial class Vortex
             .ToQuoteDList()
             .CalcVortex(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Vortex indicator for a series of quotes.
+    /// </summary>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     private static List<VortexResult> CalcVortex(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)

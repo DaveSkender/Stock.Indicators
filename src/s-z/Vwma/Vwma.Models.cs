@@ -1,5 +1,10 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Volume Weighted Moving Average (VWMA) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Vwma">The value of the VWMA at this point.</param>
 [Serializable]
 public record VwmaResult
 (
@@ -7,5 +12,6 @@ public record VwmaResult
     double? Vwma
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Vwma.Null2NaN();
 }

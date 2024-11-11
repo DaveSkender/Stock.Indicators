@@ -1,9 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// HEIKIN-ASHI (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Heikin-Ashi indicator.
+/// </summary>
 public static class HeikinAshi
 {
+    /// <summary>
+    /// Converts a list of quotes to Heikin-Ashi results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <returns>A list of Heikin-Ashi results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote

@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STREAM (OBSERVER) INTERFACE
-
 /// <summary>
 /// Management of observing + processing of streamed inbound data.
 /// </summary>

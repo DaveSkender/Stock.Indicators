@@ -1,10 +1,17 @@
 namespace Skender.Stock.Indicators;
 
-// REUSABLE TYPE UTILITIES
-
+/// <summary>
+/// Provides utility methods for reusable types.
+/// </summary>
 public static partial class Reusable
 {
-    // convert IQuote type list to IReusable list
+    /// <summary>
+    /// Converts a list of quotes to a list of reusable types.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="candlePart">The part of the candle to use.</param>
+    /// <returns>A list of reusable types.</returns>
     public static IReadOnlyList<IReusable> ToReusableList<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
@@ -60,7 +67,12 @@ public static partial class Reusable
         // Note: Some or all of these may already be removed.
     }
 
-    // convert TQuote element to a basic chainable class
+    /// <summary>
+    /// Converts a quote to a basic chainable class.
+    /// </summary>
+    /// <param name="q">The quote to convert.</param>
+    /// <param name="candlePart">The part of the candle to use.</param>
+    /// <returns>A reusable type.</returns>
     internal static IReusable ToReusable(this IQuote q, CandlePart candlePart)
         => q.ToQuotePart(candlePart);
 }

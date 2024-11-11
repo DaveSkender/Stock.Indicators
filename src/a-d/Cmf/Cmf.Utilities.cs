@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// CHAIKIN MONEY FLOW (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the CMF (Chaikin Money Flow) indicator.
+/// </summary>
 public static partial class Cmf
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the CMF calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {
@@ -15,5 +20,4 @@ public static partial class Cmf
                 "Lookback periods must be greater than 0 for Chaikin Money Flow.");
         }
     }
-
 }

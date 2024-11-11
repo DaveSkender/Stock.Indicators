@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// CHANDE MOMENTUM OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the CMO (Chande Momentum Oscillator) indicator.
+/// </summary>
 public static partial class Cmo
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the CMO calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

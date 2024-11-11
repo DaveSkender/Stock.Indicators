@@ -1,15 +1,27 @@
 namespace Skender.Stock.Indicators;
 
-// ON-BALANCE VOLUME (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the On-Balance Volume (OBV) indicator.
+/// </summary>
 public static partial class Obv
 {
+    /// <summary>
+    /// Converts a list of quotes to OBV results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <returns>A list of OBV results.</returns>
     public static IReadOnlyList<ObvResult> ToObv<TQuote>(
     this IReadOnlyList<TQuote> quotes)
     where TQuote : IQuote => quotes
         .ToQuoteDList()
         .CalcObv();
 
+    /// <summary>
+    /// Calculates the OBV for a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes.</param>
+    /// <returns>A list of OBV results.</returns>
     private static List<ObvResult> CalcObv(
         this IReadOnlyList<QuoteD> source)
     {

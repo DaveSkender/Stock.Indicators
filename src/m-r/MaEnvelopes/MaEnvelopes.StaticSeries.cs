@@ -2,11 +2,21 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// MOVING AVERAGE ENVELOPES (SERIES)
-
+/// <summary>
+/// Provides methods for calculating Moving Average Envelopes for a series of quotes.
+/// </summary>
 public static partial class MaEnvelopes
 {
-    // calculate series
+    /// <summary>
+    /// Converts a list of source values to Moving Average Envelope results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source values, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="lookbackPeriods">The number of periods for the moving average.</param>
+    /// <param name="percentOffset">The percentage offset for the envelopes. Default is 2.5.</param>
+    /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
+    /// <returns>A list of Moving Average Envelope results.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the moving average type is not supported.</exception>
     public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods,

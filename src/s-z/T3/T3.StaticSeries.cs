@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// TILLSON T3 MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the T3 moving average indicator.
+/// </summary>
 public static partial class T3
 {
+    /// <summary>
+    /// Calculates the T3 moving average for a series of data.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement IReusable.</typeparam>
+    /// <param name="source">The source list of data.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 5.</param>
+    /// <param name="volumeFactor">The volume factor. Default is 0.7.</param>
+    /// <returns>A list of T3Result containing the T3 moving average values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<T3Result> ToT3<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 5,

@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// USE / QUOTE CONVERTER (SERIES)
-
+/// <summary>
+/// Provides extension methods for converting quotes to quote parts.
+/// </summary>
 public static partial class QuoteParts
 {
     /// <summary>
@@ -12,10 +13,10 @@ public static partial class QuoteParts
     /// Use this conversion if indicator needs to
     /// use something other than the default Close price.
     /// </remarks>
-    /// <typeparam name="TQuote"></typeparam>
-    /// <param name="quotes">Sorted list of IQuote or IReusable items</param>
-    /// <param name="candlePart"></param>
-    /// <returns>List of IReusable items</returns>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">Sorted list of IQuote or IReusable items.</param>
+    /// <param name="candlePart">The candle part to convert to.</param>
+    /// <returns>List of IReusable items.</returns>
     public static IReadOnlyList<QuotePart> ToQuotePart<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
@@ -32,7 +33,10 @@ public static partial class QuoteParts
         return result;
     }
 
-    // QuotePart alias
+    /// <summary>
+    /// Converts <see cref="IReadOnlyList{IQuote}"/> to
+    /// an <see cref="IReadOnlyList{QuotePart}"/> list.
+    /// </summary>
     /// <inheritdoc cref="ToQuotePart{TQuote}(IReadOnlyList{TQuote}, CandlePart)" />
     public static IReadOnlyList<QuotePart> Use<TQuote>(
         this IReadOnlyList<TQuote> quotes,

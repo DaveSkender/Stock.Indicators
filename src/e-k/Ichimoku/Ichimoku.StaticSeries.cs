@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// ICHIMOKU CLOUD (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Ichimoku Cloud indicator.
+/// </summary>
 public static partial class Ichimoku
 {
+    /// <summary>
+    /// Converts a list of quotes to Ichimoku Cloud results using default parameters.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line). Default is 9.</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
+    /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods = 9,
@@ -18,6 +28,16 @@ public static partial class Ichimoku
                 kijunPeriods,
                 kijunPeriods);
 
+    /// <summary>
+    /// Converts a list of quotes to Ichimoku Cloud results with specified parameters.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="offsetPeriods">The number of periods for the offset.</param>
+    /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods,
@@ -33,6 +53,18 @@ public static partial class Ichimoku
                 offsetPeriods,
                 offsetPeriods);
 
+
+    /// <summary>
+    /// Converts a list of quotes to Ichimoku Cloud results with specified parameters.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <returns>A list of Ichimoku Cloud results.</returns>
     public static IReadOnlyList<IchimokuResult> GetIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods,
@@ -49,6 +81,17 @@ public static partial class Ichimoku
                 senkouOffset,
                 chikouOffset);
 
+    /// <summary>
+    /// Calculates the Ichimoku Cloud indicator.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
+    /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
+    /// <returns>A list of Ichimoku Cloud results.</returns>
     private static List<IchimokuResult> CalcIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods,
@@ -127,6 +170,14 @@ public static partial class Ichimoku
         return results;
     }
 
+    /// <summary>
+    /// Calculates the Tenkan-sen (conversion line) for the Ichimoku Cloud indicator.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="i">The current index in the quotes list.</param>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="tenkanPeriods">The number of periods for the Tenkan-sen (conversion line).</param>
+    /// <returns>The Tenkan-sen value.</returns>
     private static decimal? CalcIchimokuTenkanSen<TQuote>(
         int i, IReadOnlyList<TQuote> quotes, int tenkanPeriods)
         where TQuote : IQuote
@@ -158,6 +209,14 @@ public static partial class Ichimoku
 
     }
 
+    /// <summary>
+    /// Calculates the Kijun-sen (base line) for the Ichimoku Cloud indicator.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="i">The current index in the quotes list.</param>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line).</param>
+    /// <returns>The Kijun-sen value.</returns>
     private static decimal? CalcIchimokuKijunSen<TQuote>(
         int i,
         IReadOnlyList<TQuote> quotes,
@@ -190,6 +249,15 @@ public static partial class Ichimoku
         return min == decimal.MaxValue ? null : (min + max) / 2;
     }
 
+    /// <summary>
+    /// Calculates the Senkou Span B (leading span B) for the Ichimoku Cloud indicator.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="i">The current index in the quotes list.</param>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
+    /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
+    /// <returns>The Senkou Span B value.</returns>
     private static decimal? CalcIchimokuSenkouB<TQuote>(
         int i,
         IReadOnlyList<TQuote> quotes,

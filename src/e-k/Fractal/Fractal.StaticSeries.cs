@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS FRACTAL (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Williams Fractal indicator.
+/// </summary>
 public static partial class Fractal
 {
+    /// <summary>
+    /// Converts a list of quotes to Fractal results using the same span for both left and right wings.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="windowSpan">The number of periods to look back and forward for the calculation. Default is 2.</param>
+    /// <param name="endType">The type of price to use for the calculation. Default is HighLow.</param>
+    /// <returns>A list of Fractal results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
     public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int windowSpan = 2,
@@ -11,6 +22,17 @@ public static partial class Fractal
         where TQuote : IQuote => quotes
             .ToFractal(windowSpan, windowSpan, endType);
 
+    /// <summary>
+    /// Converts a list of quotes to Fractal results using different spans for left and right wings.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="leftSpan">The number of periods to look back for the calculation.</param>
+    /// <param name="rightSpan">The number of periods to look forward for the calculation.</param>
+    /// <param name="endType">The type of price to use for the calculation. Default is HighLow.</param>
+    /// <returns>A list of Fractal results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the left or right span is invalid.</exception>
     public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int leftSpan,

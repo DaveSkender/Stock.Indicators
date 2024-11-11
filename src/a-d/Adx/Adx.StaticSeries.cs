@@ -1,16 +1,30 @@
 namespace Skender.Stock.Indicators;
 
-// AVERAGE DIRECTIONAL INDEX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Average Directional Index (ADX).
+/// </summary>
 public static partial class Adx
 {
+    /// <summary>
+    /// Calculates the Average Directional Index (ADX) from a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
+    /// <returns>A list of ADX results.</returns>
     public static IReadOnlyList<AdxResult> ToAdx<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
-    int lookbackPeriods = 14)
-    where TQuote : IQuote => quotes
-        .ToQuoteDList()
-        .CalcAdx(lookbackPeriods);
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcAdx(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the ADX from a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
+    /// <returns>A list of ADX results.</returns>
     private static List<AdxResult> CalcAdx(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods = 14)
@@ -94,9 +108,9 @@ public static partial class Adx
             }
             else
             {
-                trs = prevTrs - prevTrs / lookbackPeriods + tr;
-                pdm = prevPdm - prevPdm / lookbackPeriods + pdm1;
-                mdm = prevMdm - prevMdm / lookbackPeriods + mdm1;
+                trs = prevTrs - (prevTrs / lookbackPeriods) + tr;
+                pdm = prevPdm - (prevPdm / lookbackPeriods) + pdm1;
+                mdm = prevMdm - (prevMdm / lookbackPeriods) + mdm1;
             }
 
             prevTrs = trs;
@@ -123,9 +137,9 @@ public static partial class Adx
             double adx = double.NaN;
             double adxr = double.NaN;
 
-            if (i > 2 * lookbackPeriods - 1)
+            if (i > (2 * lookbackPeriods) - 1)
             {
-                adx = (prevAdx * (lookbackPeriods - 1) + dx) / lookbackPeriods;
+                adx = ((prevAdx * (lookbackPeriods - 1)) + dx) / lookbackPeriods;
 
                 double priorAdx = results[i - lookbackPeriods + 1].Adx.Null2NaN();
 
@@ -134,7 +148,7 @@ public static partial class Adx
             }
 
             // initial ADX
-            else if (i == 2 * lookbackPeriods - 1)
+            else if (i == (2 * lookbackPeriods) - 1)
             {
                 sumDx += dx;
                 adx = sumDx / lookbackPeriods;

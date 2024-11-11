@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// STANDARD DEVIATION (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Standard Deviation (StdDev) calculations.
+/// </summary>
 public static partial class StdDev
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the lookback periods parameter.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of lookback periods to validate.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// ULCER INDEX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Ulcer Index indicator.
+/// </summary>
 public static partial class UlcerIndex
 {
+    /// <summary>
+    /// Calculates the Ulcer Index for a series of data.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement IReusable.</typeparam>
+    /// <param name="source">The source list of data.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <returns>A list of UlcerIndexResult containing the Ulcer Index values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 14)

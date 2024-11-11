@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// WILLIAMS ALLIGATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Williams Alligator indicator.
+/// </summary>
 public static partial class Alligator
 {
-    // CONDENSE (REMOVE null results)
+    /// <summary>
+    /// Removes non-essential records containing null values for Jaw, Teeth, and Lips.
+    /// </summary>
+    /// <param name="results">The Alligator results to evaluate.</param>
+    /// <returns>A condensed list of Alligator results.</returns>
     public static IReadOnlyList<AlligatorResult> Condense(
         this IEnumerable<AlligatorResult> results)
     {
@@ -18,7 +23,11 @@ public static partial class Alligator
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
+    /// <summary>
+    /// Removes the recommended quantity of results from the beginning of the results list.
+    /// </summary>
+    /// <param name="results">The Alligator results to evaluate.</param>
+    /// <returns>A pruned list of Alligator results.</returns>
     public static IReadOnlyList<AlligatorResult> RemoveWarmupPeriods(
         this IReadOnlyList<AlligatorResult> results)
     {
@@ -29,7 +38,16 @@ public static partial class Alligator
         return results.Remove(removePeriods);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Williams Alligator indicator.
+    /// </summary>
+    /// <param name="jawPeriods">The lookback periods for the Jaw.</param>
+    /// <param name="jawOffset">The offset periods for the Jaw.</param>
+    /// <param name="teethPeriods">The lookback periods for the Teeth.</param>
+    /// <param name="teethOffset">The offset periods for the Teeth.</param>
+    /// <param name="lipsPeriods">The lookback periods for the Lips.</param>
+    /// <param name="lipsOffset">The offset periods for the Lips.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any parameter is out of range.</exception>
     internal static void Validate(
         int jawPeriods,
         int jawOffset,

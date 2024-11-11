@@ -1,16 +1,32 @@
 namespace Skender.Stock.Indicators;
 
-// MONEY FLOW INDEX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Money Flow Index (MFI) for a series of quotes.
+/// </summary>
 public static partial class Mfi
 {
+    /// <summary>
+    /// Converts a list of quotes to Money Flow Index (MFI) results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to analyze.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation. Default is 14.</param>
+    /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are out of range.</exception>
     public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
-    int lookbackPeriods = 14)
-    where TQuote : IQuote => quotes
-        .ToQuoteDList()
-        .CalcMfi(lookbackPeriods);
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcMfi(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Money Flow Index (MFI) for a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes to analyze.</param>
+    /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation.</param>
+    /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     private static List<MfiResult> CalcMfi(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)

@@ -1,17 +1,37 @@
 namespace Skender.Stock.Indicators;
 
-// RENKO CHART (STREAM HUB)
-
 #region hub interface and initializer
 
+/// <summary>
+/// Represents a hub for generating Renko chart results.
+/// </summary>
 public interface IRenkoHub
 {
+    /// <summary>
+    /// Gets the size of each Renko brick.
+    /// </summary>
     decimal BrickSize { get; }
+
+    /// <summary>
+    /// Gets the price candle end type used to determine when threshold
+    /// is met to generate new bricks.
+    /// </summary>
     EndType EndType { get; }
 }
 
+/// <summary>
+/// Provides methods for generating Renko chart series in a streaming manner.
+/// </summary>
 public static partial class Renko
 {
+    /// <summary>
+    /// Converts a quote provider to a Renko hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the quote values.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="brickSize">The size of each Renko brick.</param>
+    /// <param name="endType">The price candle end type to use as the brick threshold.</param>
+    /// <returns>A Renko hub.</returns>
     public static RenkoHub<TIn> ToRenko<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
         decimal brickSize,
@@ -21,6 +41,10 @@ public static partial class Renko
 }
 #endregion
 
+/// <summary>
+/// Represents a hub for generating Renko chart results from a stream of quotes.
+/// </summary>
+/// <typeparam name="TIn">The type of the quote values.</typeparam>
 public class RenkoHub<TIn>
     : QuoteProvider<TIn, RenkoResult>, IRenkoHub
     where TIn : IQuote
@@ -33,6 +57,12 @@ public class RenkoHub<TIn>
         = new(default, default, default,
             default, default, default, default);
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RenkoHub{TIn}"/> class.
+    /// </summary>
+    /// <param name="provider">The quote provider.</param>
+    /// <param name="brickSize">The size of each Renko brick.</param>
+    /// <param name="endType">The type of price to use for the end of the brick.</param>
     internal RenkoHub(
         IQuoteProvider<TIn> provider,
         decimal brickSize,
@@ -48,40 +78,34 @@ public class RenkoHub<TIn>
     #endregion
 
     /// <summary>
-    /// Renko hub settings.  Since it can produce 0 or many bricks per quote,
+    /// Renko hub settings. Since it can produce 0 or many bricks per quote,
     /// the default 1:1 in/out is not used and must be skipped to prevent
-    /// same-date triggerred rebuilds when caching.
+    /// same-date triggered rebuilds when caching.
     /// </summary>
     public override BinarySettings Properties { get; init; } = new(0b00000010);  // custom
 
-    /// <summary>
-    /// Standard brick size for Renko chart.
-    /// </summary>
+    /// <inheritdoc/>
     public decimal BrickSize { get; }
 
-    /// <summary>
-    /// Close or High/Low price used to determine when threshold
-    /// is met to generate new bricks.
-    /// </summary>
+    /// <inheritdoc/>
     public EndType EndType { get; }
 
-    // METHODS
-
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     public override void OnAdd(TIn item, bool notify, int? indexHint)
         => ToIndicator(item, notify, indexHint);
 
+    /// <inheritdoc/>
     protected override (RenkoResult result, int index)
         ToIndicator(TIn item, int? indexHint)
         => throw new InvalidOperationException(); // not used
 
-    // TODO: see if returning array of results is possible ^^
-    // for all indicators, so we don't have to do this goofy override
-
     /// <summary>
-    /// Restore last brick marker.
+    /// Restores the last brick marker to the state at the specified timestamp.
     /// </summary>
+    /// <param name="timestamp">The timestamp to restore to.</param>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

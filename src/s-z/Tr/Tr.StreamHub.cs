@@ -6,6 +6,12 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Tr
 {
+    /// <summary>
+    /// Converts a quote provider to a True Range (TR) hub.
+    /// </summary>
+    /// <typeparam name="TIn">The type of quote.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <returns>A True Range (TR) hub.</returns>
     public static TrHub<TIn> ToTr<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote
@@ -13,6 +19,10 @@ public static partial class Tr
 }
 #endregion
 
+/// <summary>
+/// Represents a True Range (TR) hub for streaming data.
+/// </summary>
+/// <typeparam name="TIn">The type of quote.</typeparam>
 public class TrHub<TIn>
     : ChainProvider<TIn, TrResult>
     where TIn : IQuote
@@ -21,6 +31,10 @@ public class TrHub<TIn>
 
     private const string hubName = "TRUE RANGE";
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TrHub{TIn}"/> class.
+    /// </summary>
+    /// <param name="provider">The quote provider.</param>
     internal TrHub(IQuoteProvider<TIn> provider)
         : base(provider)
     {
@@ -30,8 +44,10 @@ public class TrHub<TIn>
 
     // METHODS
 
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (TrResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {

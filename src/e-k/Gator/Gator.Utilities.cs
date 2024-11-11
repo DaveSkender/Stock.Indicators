@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// GATOR OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Gator Oscillator calculations.
+/// </summary>
 public static partial class Gator
 {
-    // CONDENSE (REMOVE null results)
+    /// <summary>
+    /// Removes empty (null) periods from the Gator Oscillator results.
+    /// </summary>
+    /// <param name="results">The list of Gator Oscillator results.</param>
+    /// <returns>A list of Gator Oscillator results with empty periods removed.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<GatorResult> Condense(
         this IReadOnlyList<GatorResult> results)
@@ -19,7 +24,11 @@ public static partial class Gator
         return resultsList.ToSortedList();
     }
 
-    // remove recommended periods
+    /// <summary>
+    /// Removes the recommended warmup periods from the Gator Oscillator results.
+    /// </summary>
+    /// <param name="results">The list of Gator Oscillator results.</param>
+    /// <returns>A list of Gator Oscillator results with warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<GatorResult> RemoveWarmupPeriods(
         this IReadOnlyList<GatorResult> results) => results.Remove(150);

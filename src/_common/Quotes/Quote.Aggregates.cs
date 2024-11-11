@@ -4,9 +4,13 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Quotes
 {
-    // aggregation (quantization)
-    /// <include file='./info.xml' path='info/type[@name="Aggregate"]/*' />
-    ///
+    /// <summary>
+    /// Aggregates the quotes to a specified period size.
+    /// </summary>
+    /// <typeparam name="TQuote">Type of the quotes, must implement IQuote.</typeparam>
+    /// <param name="quotes">The quotes to aggregate.</param>
+    /// <param name="newSize">The new period size to aggregate to.</param>
+    /// <returns>A list of aggregated quotes.</returns>
     public static IReadOnlyList<Quote> Aggregate<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         PeriodSize newSize)
@@ -36,9 +40,14 @@ public static partial class Quotes
         // month
     }
 
-    // aggregation (quantization) using TimeSpan
-    /// <include file='./info.xml' path='info/type[@name="AggregateTimeSpan"]/*' />
-    ///
+    /// <summary>
+    /// Aggregates the quotes to a specified time span.
+    /// </summary>
+    /// <typeparam name="TQuote">Type of the quotes, must implement IQuote.</typeparam>
+    /// <param name="quotes">The quotes to aggregate.</param>
+    /// <param name="timeSpan">The time span to aggregate to.</param>
+    /// <returns>A list of aggregated quotes.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the time span is less than or equal to zero.</exception>
     public static IReadOnlyList<Quote> Aggregate<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         TimeSpan timeSpan)

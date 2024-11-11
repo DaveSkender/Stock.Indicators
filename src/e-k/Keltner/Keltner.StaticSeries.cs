@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// KELTNER CHANNELS (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Keltner Channels for a series of quotes.
+/// </summary>
 public static partial class Keltner
 {
+    /// <summary>
+    /// Converts a list of quotes to Keltner Channel results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement <see cref="IQuote"/>.</typeparam>
+    /// <param name="quotes">The list of quotes to transform.</param>
+    /// <param name="emaPeriods">The number of periods for the EMA. Default is 20.</param>
+    /// <param name="multiplier">The multiplier for the ATR. Default is 2.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
+    /// <returns>A list of Keltner Channel results.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KeltnerResult> ToKeltner<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int emaPeriods = 20,
@@ -13,6 +24,14 @@ public static partial class Keltner
             .ToQuoteDList()
             .CalcKeltner(emaPeriods, multiplier, atrPeriods);
 
+    /// <summary>
+    /// Calculates the Keltner Channel for a list of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes to process.</param>
+    /// <param name="emaPeriods">The number of periods for the EMA.</param>
+    /// <param name="multiplier">The multiplier for the ATR.</param>
+    /// <param name="atrPeriods">The number of periods for the ATR.</param>
+    /// <returns>A list of Keltner Channel results.</returns>
     private static List<KeltnerResult> CalcKeltner(
         this IReadOnlyList<QuoteD> source,
         int emaPeriods,

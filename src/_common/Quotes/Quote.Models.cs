@@ -83,6 +83,7 @@ public record Quote
     decimal Volume
 ) : IQuote
 {
+    /// <inheritdoc/>
     public double Value => (double)Close;
 
     // TODO: add [Obsolete] auto-getter/setter for 'Date' property
@@ -106,5 +107,6 @@ internal record QuoteD
     double Volume
 ) : IReusable
 {
+    /// <inheritdoc/>
     public double Value => Close;
 }

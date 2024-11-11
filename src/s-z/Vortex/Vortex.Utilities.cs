@@ -1,10 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-// VORTEX INDICATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Vortex indicator.
+/// </summary>
 public static partial class Vortex
 {
-    // CONDENSE (REMOVE null results)
+    // remove empty (null) periods
+    /// <summary>
+    /// Condenses the Vortex results by removing periods with null values.
+    /// </summary>
+    /// <param name="results">The list of Vortex results.</param>
+    /// <returns>A condensed list of Vortex results with null values removed.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VortexResult> Condense(
         this IReadOnlyList<VortexResult> results)
@@ -20,6 +26,11 @@ public static partial class Vortex
     }
 
     // remove recommended periods
+    /// <summary>
+    /// Removes the warmup periods from the Vortex results.
+    /// </summary>
+    /// <param name="results">The list of Vortex results.</param>
+    /// <returns>A list of Vortex results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VortexResult> RemoveWarmupPeriods(
         this IReadOnlyList<VortexResult> results)
@@ -32,6 +43,13 @@ public static partial class Vortex
     }
 
     // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Vortex calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 1.
+    /// </exception>
     internal static void Validate(
         int lookbackPeriods)
     {

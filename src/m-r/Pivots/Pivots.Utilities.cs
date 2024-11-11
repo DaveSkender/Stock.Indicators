@@ -1,9 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOTS (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Pivot Points indicator.
+/// </summary>
 public static partial class Pivots
 {
+    /// <summary>
+    /// Removes empty (null) periods from the pivot points results.
+    /// </summary>
+    /// <param name="results">The list of pivot points results.</param>
+    /// <returns>A list of pivot points results without empty periods.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<PivotsResult> Condense(
         this IReadOnlyList<PivotsResult> results)
@@ -18,7 +24,14 @@ public static partial class Pivots
         return resultsList.ToSortedList();
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for pivot points calculations.
+    /// </summary>
+    /// <param name="leftSpan">The number of periods to the left of the pivot point.</param>
+    /// <param name="rightSpan">The number of periods to the right of the pivot point.</param>
+    /// <param name="maxTrendPeriods">The maximum number of periods for trend calculation.</param>
+    /// <param name="caller">The name of the calling method.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any parameter is out of range.</exception>
     internal static void Validate(
         int leftSpan,
         int rightSpan,

@@ -1,9 +1,20 @@
 namespace Skender.Stock.Indicators;
 
-// PRICE RELATIVE STRENGTH (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Price Relative Strength (PRS) series.
+/// </summary>
 public static partial class Prs
 {
+    /// <summary>
+    /// Converts a list of evaluation source values and base source values to a list of PRS results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source values.</typeparam>
+    /// <param name="sourceEval">The list of evaluation source values.</param>
+    /// <param name="sourceBase">The list of base source values.</param>
+    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
+    /// <returns>A list of PRS results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
     public static IReadOnlyList<PrsResult> ToPrs<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceBase,

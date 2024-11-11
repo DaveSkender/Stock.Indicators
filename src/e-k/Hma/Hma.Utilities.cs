@@ -1,8 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Provides utility methods for Hull Moving Average (HMA) calculations.
+/// </summary>
 public static partial class Hma
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the lookback periods for HMA calculations.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 1.
+    /// </exception>
     internal static void Validate(
         int lookbackPeriods)
     {

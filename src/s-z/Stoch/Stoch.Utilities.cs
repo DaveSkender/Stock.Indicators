@@ -1,11 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Stochastic Oscillator.
+/// </summary>
 public static partial class Stoch
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the results.
+    /// </summary>
+    /// <param name="results">The list of Stochastic Oscillator results.</param>
+    /// <returns>A list of Stochastic Oscillator results with warmup periods removed.</returns>
     public static IReadOnlyList<StochResult> RemoveWarmupPeriods(
         this IReadOnlyList<StochResult> results)
     {
@@ -16,7 +20,16 @@ public static partial class Stoch
         return results.Remove(removePeriods);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for Stochastic Oscillator calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods for the lookback.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing.</param>
+    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when a parameter is out of range.</exception>
     internal static void Validate(
         int lookbackPeriods,
         int signalPeriods,

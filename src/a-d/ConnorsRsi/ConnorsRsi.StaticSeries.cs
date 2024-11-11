@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// CONNORS RSI (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Connors RSI on a series of quotes.
+/// </summary>
 public static partial class ConnorsRsi
 {
+    /// <summary>
+    /// Calculates the Connors RSI for a series of quotes.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation. Default is 3.</param>
+    /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
+    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
+    /// <returns>A read-only list of <see cref="ConnorsRsiResult"/> containing the Connors RSI calculation results.</returns>
     public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
         this IReadOnlyList<T> source,
         int rsiPeriods = 3,
@@ -63,7 +73,14 @@ public static partial class ConnorsRsi
         return results;
     }
 
-    // calculate baseline streak and rank
+    /// <summary>
+    /// Calculates the baseline streak and rank for the Connors RSI.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the source list, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source list of quotes.</param>
+    /// <param name="rsiPeriods">The number of periods to use for the RSI calculation.</param>
+    /// <param name="rankPeriods">The number of periods to use for the percent rank calculation.</param>
+    /// <returns>A list of <see cref="ConnorsRsiResult"/> containing the baseline streak and rank calculation results.</returns>
     private static List<ConnorsRsiResult> CalcStreak<T>(
         this IReadOnlyList<T> source,
         int rsiPeriods,

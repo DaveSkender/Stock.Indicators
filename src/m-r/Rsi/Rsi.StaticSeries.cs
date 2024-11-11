@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// RELATIVE STRENGTH INDEX (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Relative Strength Index (RSI) series.
+/// </summary>
 public static partial class Rsi
 {
+    /// <summary>
+    /// Converts a list of reusable values to a list of RSI results.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable values.</typeparam>
+    /// <param name="source">The list of reusable values.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the RSI calculation.</param>
+    /// <returns>A list of RSI results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<RsiResult> ToRsi<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 14)

@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public bool IsSubscribed => Provider.HasSubscriber(this);
 
     /// <summary>
@@ -24,7 +24,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
 
     // Observer methods
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public virtual void OnAdd(TIn item, bool notify, int? indexHint)
     {
         // Convert the input item to the output type and append it to the cache.
@@ -34,19 +34,19 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
         AppendCache(result, notify);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public void OnChange(DateTime fromTimestamp)
         => Rebuild(fromTimestamp);
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public void OnError(Exception exception)
         => throw exception;
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public void OnCompleted()
         => Unsubscribe();
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public void Unsubscribe()
     {
         // Ensure thread-safety for EndTransmission > OnCompleted-type race conditions

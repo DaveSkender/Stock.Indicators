@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// ROLLING PIVOT POINTS (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for Rolling Pivot Points calculations.
+/// </summary>
 public static partial class RollingPivots
 {
-    // remove recommended periods
+    /// <summary>
+    /// Removes the recommended warmup periods from the Rolling Pivots results.
+    /// </summary>
+    /// <param name="results">The list of Rolling Pivots results.</param>
+    /// <returns>A list of Rolling Pivots results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<RollingPivotsResult> RemoveWarmupPeriods(
         this IReadOnlyList<RollingPivotsResult> results)
@@ -16,7 +21,12 @@ public static partial class RollingPivots
         return results.Remove(removePeriods);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for Rolling Pivots calculations.
+    /// </summary>
+    /// <param name="windowPeriods">The number of periods in the rolling window.</param>
+    /// <param name="offsetPeriods">The number of periods to offset the window.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of range.</exception>
     internal static void Validate(
         int windowPeriods,
         int offsetPeriods)

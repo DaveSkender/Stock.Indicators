@@ -1,21 +1,43 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Stochastic Oscillator.
+/// </summary>
 public static partial class Stoch
 {
+    /// <summary>
+    /// Calculates the Stochastic Oscillator for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <returns>A list of StochResult containing the oscillator values.</returns>
     public static IReadOnlyList<StochResult> ToStoch<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
-    int lookbackPeriods = 14,
-    int signalPeriods = 3,
-    int smoothPeriods = 3)
-    where TQuote : IQuote => quotes
-        .ToQuoteDList()
-        .CalcStoch(
-            lookbackPeriods,
-            signalPeriods,
-            smoothPeriods, 3, 2, MaType.SMA);
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 3)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcStoch(
+                lookbackPeriods,
+                signalPeriods,
+                smoothPeriods, 3, 2, MaType.SMA);
 
+    /// <summary>
+    /// Calculates the Stochastic Oscillator for a series of quotes with specified factors and moving average type.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="kFactor">The factor for the %K line.</param>
+    /// <param name="dFactor">The factor for the %D line.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <returns>A list of StochResult containing the oscillator values.</returns>
     public static IReadOnlyList<StochResult> ToStoch<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods,
@@ -34,6 +56,17 @@ public static partial class Stoch
                 dFactor,
                 movingAverageType);
 
+    /// <summary>
+    /// Calculates the Stochastic Oscillator for a series of quotes.
+    /// </summary>
+    /// <param name="source">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="kFactor">The factor for the %K line.</param>
+    /// <param name="dFactor">The factor for the %D line.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <returns>A list of StochResult containing the oscillator values.</returns>
     internal static List<StochResult> CalcStoch(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods,

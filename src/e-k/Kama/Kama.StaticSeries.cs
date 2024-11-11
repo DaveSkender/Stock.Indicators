@@ -1,9 +1,21 @@
 namespace Skender.Stock.Indicators;
 
-// KAUFMAN's ADAPTIVE MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Kaufman's Adaptive Moving Average (KAMA) indicator.
+/// </summary>
 public static partial class Kama
 {
+    /// <summary>
+    /// Converts a list of source values to KAMA (Kaufman's Adaptive Moving Average) results.
+    /// </summary>
+    /// <typeparam name="T">The type of the source values, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The list of source values to transform.</param>
+    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER). Default is 10.</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA. Default is 2.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA. Default is 30.</param>
+    /// <returns>A list of KAMA results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
     public static IReadOnlyList<KamaResult> ToKama<T>(
         this IReadOnlyList<T> source,
         int erPeriods = 10,

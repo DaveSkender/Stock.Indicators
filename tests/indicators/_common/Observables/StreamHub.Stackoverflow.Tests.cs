@@ -17,11 +17,11 @@ public class Stackoverflow : TestBase
         QuoteHub<Quote> provider = new();
 
         // setup: define ~10 subscribers (flat)
-        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers = new()
-        {
+        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
+        [
             HubRef(provider.ToAdl()),
             HubRef(provider.ToEma(14))
-        };
+        ];
 
         // all USEs
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())
@@ -176,14 +176,14 @@ public class Stackoverflow : TestBase
 
         // setup: define all possible subscribers
         // TODO: add to this as more Hubs come online
-        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers = new()
-        {
+        List<(string label, IReadOnlyList<ISeries> results, bool irregular)> subscribers =
+        [
             HubRef(provider.ToAdl()),
             HubRef(provider.ToAlligator()),
             HubRef(provider.ToEma(14)),
             //HubRef(provider.ToRenko(2.1m), irregular: true),
             HubRef(provider.ToQuote())
-        };
+        ];
 
         // all QuoteParts
         foreach (CandlePart candlePart in Enum.GetValues<CandlePart>())

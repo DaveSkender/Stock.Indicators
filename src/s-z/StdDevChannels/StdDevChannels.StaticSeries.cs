@@ -1,9 +1,18 @@
 namespace Skender.Stock.Indicators;
 
-// STANDARD DEVIATION CHANNELS (SERIES)
-
+/// <summary>
+/// Provides methods for calculating Standard Deviation Channels.
+/// </summary>
 public static partial class StdDevChannels
 {
+    /// <summary>
+    /// Converts a series of quotes to Standard Deviation Channels.
+    /// </summary>
+    /// <typeparam name="T">The type of the quote, which must implement <see cref="IReusable"/>.</typeparam>
+    /// <param name="source">The source series of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods for the lookback. Default is 20.</param>
+    /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
+    /// <returns>A list of <see cref="StdDevChannelsResult"/> containing the Standard Deviation Channels values.</returns>
     public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
         this IReadOnlyList<T> source,
         int? lookbackPeriods = 20,

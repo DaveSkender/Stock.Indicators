@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// PRICE VOLUME OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Percentage Volume Oscillator (PVO).
+/// </summary>
 public static partial class Pvo
 {
-    // remove recommended periods
+    /// <summary>
+    /// Removes the recommended warmup periods from the PVO results.
+    /// </summary>
+    /// <param name="results">The list of PVO results.</param>
+    /// <returns>A list of PVO results without the warmup periods.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<PvoResult> RemoveWarmupPeriods(
         this IReadOnlyList<PvoResult> results)
@@ -16,7 +21,13 @@ public static partial class Pvo
         return results.Remove(n + 250);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for PVO calculations.
+    /// </summary>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when any parameter is out of range.</exception>
     internal static void Validate(
         int fastPeriods,
         int slowPeriods,

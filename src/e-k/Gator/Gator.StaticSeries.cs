@@ -1,19 +1,16 @@
 namespace Skender.Stock.Indicators;
 
-// GATOR OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Gator Oscillator indicator.
+/// </summary>
 public static partial class Gator
 {
     /// <summary>
-    /// Gator Oscillator is an expanded view of Williams Alligator.
+    /// Converts a list of time-series values to Gator Oscillator results.
     /// </summary>
-    /// <remarks>
-    /// </remarks>
-    /// <typeparam name="T">
-    /// <c>T</c> must be <see cref="IReusable"/> or <see cref="IQuote"/> type
-    /// </typeparam>
-    /// <param name="source">Time-series values to transform.</param>
-    /// <returns>Time series of Gator values.</returns>
+    /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/> or <see cref="IQuote"/>.</typeparam>
+    /// <param name="source">The list of time-series values to transform.</param>
+    /// <returns>A list of Gator Oscillator results.</returns>
     public static IReadOnlyList<GatorResult> ToGator<T>(
         this IReadOnlyList<T> source)
         where T : IReusable
@@ -21,7 +18,12 @@ public static partial class Gator
             .ToAlligator()
             .ToGator();
 
-    // from [custom] Alligator
+    /// <summary>
+    /// Converts a list of Alligator results to Gator Oscillator results.
+    /// </summary>
+    /// <param name="alligator">The list of Alligator results.</param>
+    /// <returns>A list of Gator Oscillator results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the alligator list is null.</exception>
     public static IReadOnlyList<GatorResult> ToGator(
         this IReadOnlyList<AlligatorResult> alligator)
     {

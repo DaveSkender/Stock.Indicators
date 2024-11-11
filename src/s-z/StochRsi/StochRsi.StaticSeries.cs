@@ -1,9 +1,21 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC RSI (SERIES)
-
+/// <summary>
+/// Provides methods for Stochastic RSI (Relative Strength Index) calculations.
+/// </summary>
 public static partial class StochRsi
 {
+    /// <summary>
+    /// Converts a source list to a list of StochRsiResult.
+    /// </summary>
+    /// <typeparam name="T">The type of the source list elements.</typeparam>
+    /// <param name="source">The source list.</param>
+    /// <param name="rsiPeriods">The number of periods for RSI calculation.</param>
+    /// <param name="stochPeriods">The number of periods for Stochastic calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
+    /// <returns>A list of StochRsiResult.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
         this IReadOnlyList<T> source,
         int rsiPeriods,

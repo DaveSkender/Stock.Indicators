@@ -2,7 +2,15 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Atr
 {
-    // increment
+    /// <summary>
+    /// Calculates the Average True Range (ATR) incrementally.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="high">The high price of the current period.</param>
+    /// <param name="low">The low price of the current period.</param>
+    /// <param name="prevClose">The close price of the previous period.</param>
+    /// <param name="prevAtr">The ATR value of the previous period.</param>
+    /// <returns>The ATR value for the current period.</returns>
     internal static double Increment(
         int lookbackPeriods,
         double high,
@@ -16,7 +24,15 @@ public static partial class Atr
         // TODO: this may be unused, verify before making public
     }
 
-    // increment
+    /// <summary>
+    /// Calculates the Average True Range (ATR) incrementally for a given quote.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="quote">The current quote.</param>
+    /// <param name="prevClose">The close price of the previous period.</param>
+    /// <param name="prevAtr">The ATR value of the previous period.</param>
+    /// <returns>An <see cref="AtrResult"/> containing the ATR values for the current period.</returns>
     public static AtrResult Increment<TQuote>(
         int lookbackPeriods,
         TQuote quote,
@@ -39,7 +55,11 @@ public static partial class Atr
             atrp.NaN2Null());
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Average True Range (ATR) calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

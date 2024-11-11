@@ -1,9 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// ELDER-RAY (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the Elder Ray indicator.
+/// </summary>
 public static partial class ElderRay
 {
+    /// <summary>
+    /// Converts a list of quotes to Elder Ray results.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote data.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A list of Elder Ray results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static IReadOnlyList<ElderRayResult> ToElderRay<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 13)
@@ -11,6 +21,12 @@ public static partial class ElderRay
             .ToQuoteDList()
             .CalcElderRay(lookbackPeriods);
 
+    /// <summary>
+    /// Calculates the Elder Ray indicator.
+    /// </summary>
+    /// <param name="source">The list of source data.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A list of Elder Ray results.</returns>
     private static List<ElderRayResult> CalcElderRay(
         this IReadOnlyList<QuoteD> source,
         int lookbackPeriods)
