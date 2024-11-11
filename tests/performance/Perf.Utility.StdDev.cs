@@ -3,7 +3,7 @@ namespace Performance;
 // INTERNAL UTILITIES
 
 [ShortRunJob]
-public class UtilityMaths
+public class UtilityStdDev
 {
     [Params(20, 50, 250, 1000)]
     public int Periods;
