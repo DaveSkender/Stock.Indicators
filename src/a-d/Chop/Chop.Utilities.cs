@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// CHOPPINESS INDEX (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the CHOP (Choppiness Index) indicator.
+/// </summary>
 public static partial class Chop
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the CHOP calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
     internal static void Validate(
         int lookbackPeriods)
     {

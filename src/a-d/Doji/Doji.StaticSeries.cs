@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// DOJI (SERIES)
-
+/// <summary>
+/// Provides methods for identifying Doji candlestick patterns in a series of quotes.
+/// </summary>
 public static partial class Doji
 {
     /// <summary>
@@ -42,7 +43,7 @@ public static partial class Doji
 
             // check for current signal
             if (q.Open != 0
-                && Math.Abs((double)(q.Close / q.Open) - 1d) <= maxPriceChangePercent)
+                && Math.abs((double)(q.Close / q.Open) - 1d) <= maxPriceChangePercent)
             {
                 matchPrice = q.Close;
                 matchType = Match.Neutral;

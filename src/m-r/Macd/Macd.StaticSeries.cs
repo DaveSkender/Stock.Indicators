@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// MOVING AVERAGE CONVERGENCE/DIVERGENCE (MACD) OSCILLATOR (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the MACD (Moving Average Convergence Divergence) indicator.
+/// </summary>
 public static partial class Macd
 {
     /// <summary>

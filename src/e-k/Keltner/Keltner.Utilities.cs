@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// KELTNER CHANNELS (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Keltner Channel indicator.
+/// </summary>
 public static partial class Keltner
 {
     /// <summary>

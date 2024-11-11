@@ -2,8 +2,9 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
-// PRICE RELATIVE STRENGTH (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the PRS (Price Relative Strength) indicator.
+/// </summary>
 public static partial class Prs
 {
     private static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;

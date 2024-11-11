@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating the Williams Fractal indicator.
+/// Provides methods for calculating the Williams Fractal indicator.
 /// </summary>
 public static partial class Fractal
 {

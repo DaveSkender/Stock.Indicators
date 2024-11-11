@@ -1,10 +1,19 @@
 namespace Skender.Stock.Indicators;
 
-// CHANDELIER EXIT (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Chandelier Exit indicator.
+/// </summary>
 public static partial class Chandelier
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Chandelier Exit calculation.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="multiplier">The multiplier for the ATR calculation, must be greater than 0.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the lookback periods are less than or equal to 0,
+    /// or the multiplier is less than or equal to 0.
+    /// </exception>
     internal static void Validate(
         int lookbackPeriods,
         double multiplier)

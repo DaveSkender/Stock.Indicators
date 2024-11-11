@@ -1,11 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// CHAIKIN OSCILLATOR (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Chaikin Oscillator indicator.
+/// </summary>
 public static partial class ChaikinOsc
 {
-    // remove recommended periods
-    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    /// <summary>
+    /// Removes the recommended warmup periods from the Chaikin Oscillator results.
+    /// </summary>
+    /// <param name="results">The list of Chaikin Oscillator results.</param>
+    /// <returns>A list of Chaikin Oscillator results with the warmup periods removed.</returns>
     public static IReadOnlyList<ChaikinOscResult> RemoveWarmupPeriods(
         this IReadOnlyList<ChaikinOscResult> results)
     {
@@ -16,7 +20,15 @@ public static partial class ChaikinOsc
         return results.Remove(s + 100);
     }
 
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the Chaikin Oscillator calculation.
+    /// </summary>
+    /// <param name="fastPeriods">The number of fast lookback periods for the calculation.</param>
+    /// <param name="slowPeriods">The number of slow lookback periods for the calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when the fast lookback periods are less than or equal to 0,
+    /// or the slow lookback periods are less than or equal to the fast lookback periods.
+    /// </exception>
     internal static void Validate(
         int fastPeriods,
         int slowPeriods)

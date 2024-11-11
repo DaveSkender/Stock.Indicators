@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOT POINTS (SERIES)
-
 /// <summary>
 /// Provides methods for calculating pivot points from a series of quotes.
 /// </summary>

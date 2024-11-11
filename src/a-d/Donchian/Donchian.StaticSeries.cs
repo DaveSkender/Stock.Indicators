@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating Donchian Channels.
+/// Provides methods for calculating Donchian Channels.
 /// </summary>
 public static partial class Donchian
 {

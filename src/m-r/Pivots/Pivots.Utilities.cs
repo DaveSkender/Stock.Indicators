@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// PIVOTS (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the Pivot Points indicator.
+/// </summary>
 public static partial class Pivots
 {
     /// <summary>

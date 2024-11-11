@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating the McGinley Dynamic indicator.
+/// Provides methods for calculating the McGinley Dynamic indicator.
 /// </summary>
 public static partial class MgDynamic
 {

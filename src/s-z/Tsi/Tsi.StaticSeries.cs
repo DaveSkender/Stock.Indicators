@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// TRUE STRENGTH INDEX (SERIES)
-
 /// <summary>
 /// Provides methods for calculating the True Strength Index (TSI) indicator.
 /// </summary>

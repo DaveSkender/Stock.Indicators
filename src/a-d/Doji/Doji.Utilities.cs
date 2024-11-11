@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// DOJI (UTILITIES)
-
 /// <summary>
 /// Provides utility methods for Doji candlestick patterns.
 /// </summary>

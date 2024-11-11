@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating the Detrended Price Oscillator (DPO).
+/// Provides methods for calculating the Detrended Price Oscillator (DPO).
 /// </summary>
 public static partial class Dpo
 {

@@ -17,7 +17,7 @@ public interface IEma
 }
 
 /// <summary>
-/// Provides extension methods for calculating the Exponential Moving Average (EMA) indicator.
+/// Provides methods for calculating the Exponential Moving Average (EMA) indicator.
 /// </summary>
 public static partial class Ema
 {

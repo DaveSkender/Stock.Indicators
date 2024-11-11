@@ -1,10 +1,15 @@
 namespace Skender.Stock.Indicators;
 
-// BALANCE OF POWER (UTILITIES)
-
+/// <summary>
+/// Provides utility methods for the BOP (Balance of Power) indicator.
+/// </summary>
 public static partial class Bop
 {
-    // parameter validation
+    /// <summary>
+    /// Validates the parameters for the BOP calculation.
+    /// </summary>
+    /// <param name="smoothPeriods">The number of smoothing periods for the BOP calculation.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the smoothing periods are less than or equal to 0.</exception>
     internal static void Validate(
         int smoothPeriods)
     {

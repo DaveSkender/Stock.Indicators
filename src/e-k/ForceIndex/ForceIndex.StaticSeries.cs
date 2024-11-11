@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating the Force Index indicator.
+/// Provides methods for calculating the Force Index indicator.
 /// </summary>
 public static partial class ForceIndex
 {

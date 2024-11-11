@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating the Fractal Chaos Bands (FCB) indicator.
+/// Provides methods for calculating the Fractal Chaos Bands (FCB) indicator.
 /// </summary>
 public static partial class Fcb
 {

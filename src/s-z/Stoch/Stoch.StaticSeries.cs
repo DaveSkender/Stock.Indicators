@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC OSCILLATOR (SERIES)
-
 /// <summary>
 /// Provides methods for calculating the Stochastic Oscillator.
 /// </summary>

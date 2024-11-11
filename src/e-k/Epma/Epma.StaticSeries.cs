@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
-// ENDPOINT MOVING AVERAGE (SERIES)
-
+/// <summary>
+/// Provides methods for calculating the EPMA (Endpoint Moving Average) indicator.
+/// </summary>
 public static partial class Epma
 {
     /// <summary>

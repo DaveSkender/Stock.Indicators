@@ -3,8 +3,6 @@ using System.Numerics;
 
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (UTILITIES)
-
 /// <summary>
 /// Provides utility methods for Simple Moving Average (SMA) calculations.
 /// </summary>

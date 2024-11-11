@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides extension methods for calculating the Fisher Transform indicator.
+/// Provides methods for calculating the Fisher Transform indicator.
 /// </summary>
 public static partial class FisherTransform
 {

@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-// STOCHASTIC RSI (UTILITIES)
-
 /// <summary>
 /// Provides utility methods for the Stochastic RSI indicator.
 /// </summary>
