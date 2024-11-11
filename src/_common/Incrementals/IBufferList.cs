@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Interface for adding reusable incremental values to a list.
+/// Interface for adding input values to a buffered list.
 /// </summary>
-public interface IAddReusable
+public interface IBufferReusable
 {
     /// <summary>
     /// Converts an incremental value into the next incremental indicator value and adds it to the list.
@@ -26,9 +26,9 @@ public interface IAddReusable
 }
 
 /// <summary>
-/// Interface for adding incremental quotes to a list.
+/// Interface for adding buffered quotes to a list.
 /// </summary>
-public interface IAddQuote
+public interface IBufferQuote
 {
     /// <summary>
     /// Converts an incremental quote into the next incremental indicator value and adds it to the list.

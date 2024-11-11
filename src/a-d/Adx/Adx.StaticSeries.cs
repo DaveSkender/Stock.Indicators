@@ -157,6 +157,7 @@ public static partial class Adx
 
             // ADX initialization period
             // TODO: update healing, without requiring specific indexing
+            //       see ADX BufferList for hint
             else
             {
                 sumDx += dx;
@@ -166,6 +167,7 @@ public static partial class Adx
                 Timestamp: q.Timestamp,
                 Pdi: pdi,
                 Mdi: mdi,
+                Dx: dx.NaN2Null(),
                 Adx: adx.NaN2Null(),
                 Adxr: adxr.NaN2Null());
 

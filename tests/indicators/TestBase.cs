@@ -45,9 +45,9 @@ public abstract class StaticSeriesTestBase : TestBase
 }
 
 /// <summary>
-/// Base tests that all static indicators (series) should have.
+/// Base tests that all buffered list indicators should have.
 /// </summary>
-public abstract class IncrementsTestBase : TestBase
+public abstract class BufferListTestBase : TestBase
 {
     public abstract void FromQuote();
 

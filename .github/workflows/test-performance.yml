@@ -63,8 +63,8 @@ jobs:
           echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY
           cat Performance.StreamIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
 
-          echo "## Incremental indicators (with buffer)" >> $GITHUB_STEP_SUMMARY
-          cat Performance.Incrementals-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "## Incrementing buffer-style indicators" >> $GITHUB_STEP_SUMMARY
+          cat Performance.BufferLists-report-github.md >> $GITHUB_STEP_SUMMARY
 
           echo "## Utilities" >> $GITHUB_STEP_SUMMARY
           cat Performance.Utility-report-github.md >> $GITHUB_STEP_SUMMARY
