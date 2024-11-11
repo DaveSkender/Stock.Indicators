@@ -1,9 +1,9 @@
 namespace Performance;
 
-// TIME-SERIES INDICATORS
+// INCREMENTAL BUFFER-STYLE INDICATORS
 
 [ShortRunJob]
-public class Incrementals
+public class BufferLists
 {
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();

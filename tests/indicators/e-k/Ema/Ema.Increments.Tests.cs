@@ -1,7 +1,7 @@
 namespace Increments;
 
 [TestClass]
-public class Ema : IncrementsTestBase
+public class Ema : BufferListTestBase
 {
     private const int lookbackPeriods = 14;
 

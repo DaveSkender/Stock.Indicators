@@ -157,6 +157,7 @@ public static partial class Adx
 
             // ADX initialization period
             // TODO: update healing, without requiring specific indexing
+            //       see ADX BufferList for hint
             else
             {
                 sumDx += dx;
