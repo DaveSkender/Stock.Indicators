@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Exponential Moving Average (EMA) from incremental reusable values.
 /// </summary>
-public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
+public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -18,7 +18,7 @@ public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        _buffer = new(lookbackPeriods);
+        _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
     }
 
@@ -30,7 +30,7 @@ public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
     /// <summary>
     /// Gets the smoothing factor for the calculation.
     /// </summary>
-    public double K { get; init; }
+    public double K { get; private init; }
 
     /// <summary>
     /// Adds a new value to the EMA list.
@@ -44,6 +44,7 @@ public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
         {
             _bufferSum -= _buffer.Dequeue();
         }
+
         _buffer.Enqueue(value);
         _bufferSum += value;
 
@@ -54,8 +55,10 @@ public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
             return;
         }
 
+        double? lastEma = this[^1].Ema;
+
         // re/initialize as SMA
-        if (this[^1].Ema is null)
+        if (lastEma is null)
         {
             base.Add(new EmaResult(
                 timestamp,
@@ -66,7 +69,7 @@ public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
         // calculate EMA normally
         base.Add(new EmaResult(
             timestamp,
-            Ema.Increment(K, this[^1].Ema, value)));
+            Ema.Increment(K, lastEma.Value, value)));
     }
 
     /// <summary>
@@ -117,7 +120,7 @@ public class EmaList : List<EmaResult>, IEma, IAddQuote, IAddReusable
 
         for (int i = 0; i < quotes.Count; i++)
         {
-            Add(quotes[i]);
+            Add(quotes[i].Timestamp, quotes[i].Value);
         }
     }
 }

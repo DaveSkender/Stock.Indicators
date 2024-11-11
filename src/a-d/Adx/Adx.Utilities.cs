@@ -21,17 +21,6 @@ public static partial class Adx
     }
 
     /// <summary>
-    /// Increments the ADX value based on the last ADX value and the new price.
-    /// </summary>
-    /// <param name="lastAdx">The last ADX value.</param>
-    /// <param name="newPrice">The new price.</param>
-    /// <returns>The incremented ADX value.</returns>
-    public static double? Increment(
-        double? lastAdx,
-        double newPrice)
-        => throw new NotImplementedException();
-
-    /// <summary>
     /// Validates the parameters for the ADX calculation.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
