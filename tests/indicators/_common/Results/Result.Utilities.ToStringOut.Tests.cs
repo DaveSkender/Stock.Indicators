@@ -6,29 +6,33 @@ public class ResultsToString : TestBase
     [TestMethod]
     public void ToStringFixedWidth()
     {
-        var output = quotes.GetMacd().ToStringOut();
-        Console.WriteLine(output);
-        Assert.Fail();
+        List<string> output = Quotes.ToMacd().Select(m => m.ToString()).ToList();
+        Console.WriteLine(string.Join(Environment.NewLine, output));
+
+        Assert.Fail("Test not implemented, very wrong syntax.");
     }
 
     [TestMethod]
     public void ToStringCSV()
     {
         // import quotes from CSV file
-        var output = quotes.GetMacd().ToStringOut(OutType.CSV);
+        List<string> output = Quotes.ToMacd().Select(m => m.ToString()).ToList();
 
         // recompose into CSV string
+        string csvOutput = string.Join(",", output);
 
         // should be same as original
-        Console.WriteLine(output);
-        Assert.Fail();
+        Console.WriteLine(csvOutput);
+        Assert.Fail("Test not implemented, very wrong syntax.");
     }
 
     [TestMethod]
     public void ToStringJson()
     {
-        var output = quotes.GetMacd().ToStringOut(OutType.JSON);
-        Console.WriteLine(output);
-        Assert.Fail();
+        List<string> output = Quotes.ToMacd().Select(m => m.ToString()).ToList();
+        string jsonOutput = System.Text.Json.JsonSerializer.Serialize(output);
+
+        Console.WriteLine(jsonOutput);
+        Assert.Fail("Test not implemented, very wrong syntax.");
     }
 }

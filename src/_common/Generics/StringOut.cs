@@ -5,9 +5,10 @@ using System.Text.Json;
 
 namespace Skender.Stock.Indicators;
 
-// RESULTS UTILITIES: ToStringOut
-
-public static partial class ResultUtility
+/// <summary>
+/// Provides utility methods for converting results or quotes series into string formats for output.
+/// </summary>
+public static class StringOut
 {
     private static readonly JsonSerializerOptions prettyJsonOptions = new()
     {
@@ -20,24 +21,39 @@ public static partial class ResultUtility
     /// Use extension method as `results.ToStringOut()` or `quotes.ToStringOut()`.
     /// See other overrides to specify alternate output formats.
     /// </summary>
-    /// <typeparam name="TSeries"></typeparam>
+    /// <typeparam name="TSeries">The type of the series.</typeparam>
     /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
     /// <returns>
     /// String with fixed-width data columns, numbers with 4 decimals shown,
     /// and named headers.
     /// </returns>
     public static string ToStringOut<TSeries>(
-        this IEnumerable<TSeries> series)
+        this IReadOnlyList<TSeries> series)
         where TSeries : ISeries, new()
         => series.ToStringOut(OutType.FixedWidth, 4);
 
+    /// <summary>
+    /// Converts any results (or quotes) series into a string for output with specified output type.
+    /// </summary>
+    /// <typeparam name="TSeries">The type of the series.</typeparam>
+    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
+    /// <param name="outType">The output type.</param>
+    /// <returns>A string representation of the series.</returns>
     public static string ToStringOut<TSeries>(
-        this IEnumerable<TSeries> series, OutType outType)
+        this IReadOnlyList<TSeries> series, OutType outType)
         where TSeries : ISeries, new()
         => series.ToStringOut(outType, int.MaxValue);
 
+    /// <summary>
+    /// Converts any results (or quotes) series into a string for output with specified output type and decimal places.
+    /// </summary>
+    /// <typeparam name="TSeries">The type of the series.</typeparam>
+    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
+    /// <param name="outType">The output type.</param>
+    /// <param name="decimalsToDisplay">The number of decimal places to display.</param>
+    /// <returns>A string representation of the series.</returns>
     public static string ToStringOut<TSeries>(
-        this IEnumerable<TSeries> series,
+        this IReadOnlyList<TSeries> series,
         OutType outType, int decimalsToDisplay)
         where TSeries : ISeries, new()
     {
