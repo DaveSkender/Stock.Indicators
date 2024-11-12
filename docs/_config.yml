@@ -1,5 +1,4 @@
-# Ref: https://jekyllrb.com/docs/usage/
-# Local dev: bundle exec jekyll serve --livereload
+### YamlMime:ManagedReference
 
 title: Stock Indicators for .NET
 tagline: "Transform price quotes into trading insights."

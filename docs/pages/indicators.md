@@ -2,17 +2,17 @@
 title: Indicators and overlays
 description: The Stock Indicators for .NET library contains financial market technical analysis methods to view price patterns or to develop your own trading strategies in Microsoft .NET programming languages and developer platforms.  Categories include price trends, price channels, oscillators, stop and reverse, candlestick patterns, volume and momentum, moving averages, price transforms, price characteristics, and many classic numerical methods.
 permalink: /indicators/
-layout: base
 ---
 
 <h1>{{ page.title }}</h1>
 
-<!-- table of contents -->
+```html
+<!-- FIX AUTO GEN of table of contents -->
 <nav role="navigation" aria-label="indicator category page menu">
   <ul class="pipe-list">
     {% for c in site.data.categories %}
     <li>
-      <a href="{{site.baseurl}}{{page.permalink}}#{{c.type}}">
+      <a href="{{page.permalink}}#{{c.type}}">
         {{ c.name }}
       </a>
     </li>
@@ -28,7 +28,7 @@ layout: base
 {% assign all = indicators | concat: aliases | sort: "title" %}
 <ul>
   {% for i in all %}
-  <li><a href="{{site.baseurl}}{{i.permalink}}#content">{{i.title}}</a></li>
+  <li><a href="{{i.permalink}}">{{i.title}}</a></li>
   {% endfor %}
 </ul>
 
@@ -40,8 +40,9 @@ layout: base
 {% assign all = indicators | concat: aliases | sort: "title" %}
 <ul>
   {% for i in all %}
-  <li><a href="{{site.baseurl}}{{i.permalink}}#content">{{i.title}}</a></li>
+  <li><a href="{{i.permalink}}">{{i.title}}</a></li>
   {% endfor%}
 </ul>
 {% endfor %}
 {% endfor %}
+```
