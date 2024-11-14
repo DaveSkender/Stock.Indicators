@@ -77,7 +77,7 @@ public class StdDevChannelsTests : TestBase
         Assert.AreEqual(502, results.Count(x => x.Centerline != null));
         Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));
         Assert.AreEqual(502, results.Count(x => x.LowerChannel != null));
-        Assert.AreEqual(501, results.Count(x => x.BreakPoint == false));
+        Assert.AreEqual(501, results.Count(x => !x.BreakPoint));
 
         // sample value
         StdDevChannelsResult r1 = results[0];
