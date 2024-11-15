@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
@@ -8,16 +7,6 @@ namespace Skender.Stock.Indicators;
 public static partial class Indicator
 {
 #pragma warning disable CA1002 // Do not expose generic lists
-
-    private static readonly CultureInfo invCulture = CultureInfo.InvariantCulture;
-    private static readonly Calendar invCalendar = invCulture.Calendar;
-
-    // Gets the DTFI properties required by GetWeekOfYear.
-    private static readonly CalendarWeekRule invCalendarWeekRule
-        = invCulture.DateTimeFormat.CalendarWeekRule;
-
-    private static readonly DayOfWeek invFirstDayOfWeek
-        = invCulture.DateTimeFormat.FirstDayOfWeek;
 
     // 2.4.1
     [ExcludeFromCodeCoverage]
