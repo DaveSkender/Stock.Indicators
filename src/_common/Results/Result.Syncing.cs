@@ -94,7 +94,7 @@ public static partial class ResultUtility
                 }
             }
 
-            syncMeList.RemoveAll(x => toRemove.Contains(x));
+            syncMeList.RemoveAll(toRemove.Contains);
         }
 
         return syncMeList.ToSortedList();

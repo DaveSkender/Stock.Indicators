@@ -132,10 +132,8 @@ public class AdxTests : TestBase
         Assert.AreEqual(34.2987, last.Adx.Round(4));
     }
 
-    [TestMethod]
-    public void Exceptions() =>
-
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAdx(1));
+    [TestMethod] // bad lookback period
+    public void Exceptions()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => quotes.GetAdx(1));
 }

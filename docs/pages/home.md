@@ -69,8 +69,8 @@ See the [guide]({{site.baseurl}}/guide/#content) and the [full list of indicator
 
 Our [NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators) directly targets all current frameworks for peak performance, including the .NET Standard for older framework compatibility.
 
-- .NET 8.0, 7.0, 6.0
-- .NET Standard 2.1, 2.0
+- .NET 9.0, 8.0, 6.0
+- .NET Standard 2.1
 
 The compiled library package is [Common Language Specification (CLS) compliant](https://docs.microsoft.com/en-us/dotnet/standard/common-type-system) and can be used in other programming languages, including Python and everything in the .NET universe.
 

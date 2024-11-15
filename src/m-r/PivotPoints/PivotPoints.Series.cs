@@ -133,20 +133,11 @@ public static partial class Indicator
         decimal open, decimal high, decimal low, decimal close)
         where TPivotPoint : IPivotPoint, new()
     {
-        decimal? x;
-
-        if (close < open)
-        {
-            x = high + (2 * low) + close;
-        }
-        else if (close > open)
-        {
-            x = (2 * high) + low + close;
-        }
-        else // close == open
-        {
-            x = high + low + (2 * close);
-        }
+        decimal? x = close < open
+            ? high + (2 * low) + close
+            : close > open
+                ? (2 * high) + low + close
+                : high + low + (2 * close);
 
         return new TPivotPoint {
             PP = x / 4,
@@ -210,9 +201,9 @@ public static partial class Indicator
             PeriodSize.Day => d.Day,
             PeriodSize.OneHour => d.Hour,
             _ => throw new ArgumentOutOfRangeException(nameof(windowSize), windowSize,
-                string.Format(
-                    invCulture,
-                    "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
-                    Enum.GetName(typeof(PeriodSize), windowSize)))
+                    string.Format(
+                        invCulture,
+                        "Pivot Points does not support PeriodSize of {0}.  See documentation for valid options.",
+                        Enum.GetName(typeof(PeriodSize), windowSize)))
         };
 }

@@ -30,7 +30,8 @@ public static partial class Indicator
             MaType.WMA => tpList.MaEnvWma(lookbackPeriods, offsetRatio),
 
             _ => throw new ArgumentOutOfRangeException(
-                     nameof(movingAverageType), movingAverageType,
+                     nameof(movingAverageType),
+                     movingAverageType,
                      string.Format(
                          invCulture,
                          "Moving Average Envelopes does not support {0}.",

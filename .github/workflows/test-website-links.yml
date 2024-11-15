@@ -23,7 +23,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           working-directory: docs
-          ruby-version: 3.2
+          ruby-version: 3.3
 
       - name: Install GEMs
         working-directory: docs
