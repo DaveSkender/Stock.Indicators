@@ -111,9 +111,9 @@ public static partial class Correlation
         double avgB2 = sumB2 / length;
         double avgAb = sumAb / length;
 
-        double varA = avgA2 - avgA * avgA;
-        double varB = avgB2 - avgB * avgB;
-        double cov = avgAb - avgA * avgB;
+        double varA = avgA2 - (avgA * avgA);
+        double varB = avgB2 - (avgB * avgB);
+        double cov = avgAb - (avgA * avgB);
         double divisor = Math.Sqrt(varA * varB);
 
         double? corr = divisor == 0

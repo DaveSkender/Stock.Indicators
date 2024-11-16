@@ -1,5 +1,3 @@
-using System.Collections.ObjectModel;
-
 namespace Sut;
 
 // SUBJECT UNDER TEST (SUT)

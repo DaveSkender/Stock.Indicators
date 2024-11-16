@@ -26,7 +26,7 @@ public static partial class Adx
     /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
     /// <returns>A list of ADX results.</returns>
     private static List<AdxResult> CalcAdx(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods = 14)
     {
         // check parameter arguments

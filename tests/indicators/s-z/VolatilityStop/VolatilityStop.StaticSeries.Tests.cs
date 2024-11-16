@@ -114,11 +114,11 @@ public class VolatilityStop : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToVolatilityStop(1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToVolatilityStop(1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToVolatilityStop(20, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToVolatilityStop(20, 0));
     }
 }

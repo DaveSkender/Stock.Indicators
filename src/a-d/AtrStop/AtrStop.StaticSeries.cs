@@ -32,7 +32,7 @@ public static partial class AtrStop
     /// <param name="endType">The type of price to use for the calculation.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
     private static List<AtrStopResult> CalcAtrStop(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         EndType endType)

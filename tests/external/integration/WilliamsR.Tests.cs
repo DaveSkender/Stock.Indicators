@@ -13,7 +13,7 @@ public class WilliamsRTests
             .GetQuotes("A", 365 * 3)
             .ConfigureAwait(false);
 
-        IReadOnlyList<Quote> quotes = feedQuotes.ToList();
+        List<Quote> quotes = feedQuotes.ToList();
         int length = quotes.Count;
 
         // get indicators

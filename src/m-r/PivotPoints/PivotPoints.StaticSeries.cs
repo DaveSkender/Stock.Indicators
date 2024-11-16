@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+#pragma warning disable IDE0072 // Missing cases in switch statement
+
 /// <summary>
 /// Provides methods for calculating pivot points from a series of quotes.
 /// </summary>
@@ -138,6 +140,7 @@ public static partial class PivotPoints
     /// <param name="windowSize">The size of the window.</param>
     /// <returns>The window number.</returns>
     private static int GetWindowNumber(DateTime d, PeriodSize windowSize)
+
         => windowSize switch {
 
             PeriodSize.Month => d.Month,
@@ -152,9 +155,9 @@ public static partial class PivotPoints
                 nameof(windowSize), windowSize,
                 string.Format(
                     invariantCulture,
-                    "Pivot Points does not support PeriodSize of {0}.  " +
-                    "See documentation for valid options.",
-                    Enum.GetName(typeof(PeriodSize), windowSize)))
+                    "Pivot Points does not support PeriodSize of {0}. "
+                    + "See documentation for valid options.",
+                    Enum.GetName(windowSize)))
         };
 
     /// <summary>

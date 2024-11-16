@@ -16,7 +16,7 @@ public static partial class Ema
         double k,
         double lastEma,
         double newPrice)
-        => lastEma + k * (newPrice - lastEma);
+        => lastEma + (k * (newPrice - lastEma));
 
     /// <summary>
     /// Increments the EMA value using the lookback periods.
@@ -45,7 +45,7 @@ public static partial class Ema
         double k,
         double? lastEma,
         double newPrice)
-        => lastEma + k * (newPrice - lastEma);
+        => lastEma + (k * (newPrice - lastEma));
 
     /// <summary>
     /// Removes the recommended warmup periods from the EMA results.

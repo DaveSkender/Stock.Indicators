@@ -17,7 +17,7 @@ public static partial class Dema
           .ToList()
           .FindIndex(x => x.Dema != null) + 1;
 
-        return results.Remove(2 * n + 100);
+        return results.Remove((2 * n) + 100);
     }
 
     /// <summary>

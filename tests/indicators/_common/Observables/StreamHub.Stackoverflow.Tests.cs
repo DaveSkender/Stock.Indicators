@@ -48,6 +48,7 @@ public class Stackoverflow : TestBase
             int resultQty = results.Count;
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
+
             resultQty.Should().Be(qtyQuotes);
         }
 
@@ -74,6 +75,7 @@ public class Stackoverflow : TestBase
             int resultQty = results.Count;
             Console.WriteLine($"Cut: {resultQty} - {label}");
             if (irregular) { continue; }
+
             resultQty.Should().Be(cutoff);
         }
     }
@@ -132,6 +134,7 @@ public class Stackoverflow : TestBase
             int resultQty = results.Count;
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
+
             resultQty.Should().Be(qtyQuotes);
         }
 
@@ -156,6 +159,7 @@ public class Stackoverflow : TestBase
             int resultQty = results.Count;
             Console.WriteLine($"Cut: {resultQty} - {label}");
             if (irregular) { continue; }
+
             resultQty.Should().Be(cutoff);
         }
     }
@@ -216,6 +220,7 @@ public class Stackoverflow : TestBase
             int resultQty = results.Count;
             Console.WriteLine($"Hub: {resultQty} - {label}");
             if (irregular) { continue; }
+
             resultQty.Should().Be(qtyQuotes);
         }
 
@@ -242,6 +247,7 @@ public class Stackoverflow : TestBase
             int resultQty = results.Count;
             Console.WriteLine($"Cut: {resultQty} - {label}");
             if (irregular) { continue; }
+
             resultQty.Should().Be(cutoff);
         }
     }

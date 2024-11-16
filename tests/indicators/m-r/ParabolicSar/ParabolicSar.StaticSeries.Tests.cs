@@ -152,19 +152,19 @@ public class ParabolicSar : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad acceleration step
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToParabolicSar(0, 1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToParabolicSar(0, 1));
 
         // insufficient acceleration step
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToParabolicSar(0.02, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToParabolicSar(0.02, 0));
 
         // step larger than factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToParabolicSar(6, 2));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToParabolicSar(6, 2));
 
         // insufficient initial factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetParabolicSar(0.02, 0.5, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.GetParabolicSar(0.02, 0.5, 0));
     }
 }

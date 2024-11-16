@@ -76,10 +76,10 @@ public class Marubozu : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad minimum body percent values
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMarubozu(79.9));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMarubozu(79.9));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMarubozu(100.1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMarubozu(100.1));
     }
 }

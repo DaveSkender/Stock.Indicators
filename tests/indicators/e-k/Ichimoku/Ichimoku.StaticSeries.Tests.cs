@@ -97,25 +97,25 @@ public class Ichimoku : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToIchimoku(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToIchimoku(0));
 
         // bad short span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToIchimoku(9, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToIchimoku(9, 0));
 
         // bad long span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToIchimoku(9, 26, 26));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToIchimoku(9, 26, 26));
 
         // invalid offsets
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetIchimoku(9, 26, 52, -1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.GetIchimoku(9, 26, 52, -1));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetIchimoku(9, 26, 52, -1, 12));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.GetIchimoku(9, 26, 52, -1, 12));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.GetIchimoku(9, 26, 52, 12, -1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.GetIchimoku(9, 26, 52, 12, -1));
     }
 }

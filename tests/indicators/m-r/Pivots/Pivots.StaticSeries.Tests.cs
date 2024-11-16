@@ -121,15 +121,15 @@ public class Pivots : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad left span
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToPivots(1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToPivots(1));
 
         // bad right span
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToPivots(2, 1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToPivots(2, 1));
 
         // bad lookback window
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToPivots(20, 10, 20, EndType.Close));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToPivots(20, 10, 20, EndType.Close));
     }
 }

@@ -126,15 +126,15 @@ public class Stc : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToStc(9, 0, 26));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToStc(9, 12, 12));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToStc(9, 12, 12));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToStc(-1, 12, 26));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToStc(-1, 12, 26));
     }
 }

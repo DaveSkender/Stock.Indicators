@@ -32,7 +32,7 @@ public static partial class ConnorsRsi
         int startPeriod
             = Math.Max(rsiPeriods, Math.Max(streakPeriods, rankPeriods)) + 2;
 
-        IReadOnlyList<ConnorsRsiResult> streakInfo
+        List<ConnorsRsiResult> streakInfo
             = source.CalcStreak(rsiPeriods, rankPeriods);
 
         // RSI of streak

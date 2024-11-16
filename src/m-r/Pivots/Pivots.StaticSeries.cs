@@ -37,7 +37,7 @@ public static partial class Pivots
         decimal?[] lowLine = new decimal?[length];
         PivotTrend?[] lowTrend = new PivotTrend?[length];
 
-        IReadOnlyList<(decimal? highPoint, decimal? lowPoint)> fractals
+        List<(decimal? highPoint, decimal? lowPoint)> fractals
            = quotes
             .ToFractal(leftSpan, rightSpan, endType)
             .Select(f => (f.FractalBear, f.FractalBull))
@@ -84,7 +84,7 @@ public static partial class Pivots
                     for (int t = (int)lastHighIndex + 1; t <= i; t++)
                     {
                         highTrend[t] = trend;
-                        highLine[t] = highPoint + incr * (t - i);
+                        highLine[t] = highPoint + (incr * (t - i));
                     }
                 }
 
@@ -111,7 +111,7 @@ public static partial class Pivots
                     for (int t = (int)lastLowIndex + 1; t <= i; t++)
                     {
                         lowTrend[t] = trend;
-                        lowLine[t] = lowPoint + incr * (t - i);
+                        lowLine[t] = lowPoint + (incr * (t - i));
                     }
                 }
 

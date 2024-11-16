@@ -18,6 +18,7 @@ public class Program
             case "A": go.QuoteHub(); break;
             case "B": go.EmaHub(); break;
             case "C": go.MultipleSubscribers(); break;
+            default: break;
         }
     }
 }

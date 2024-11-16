@@ -421,11 +421,11 @@ public class RollingPivots : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad window period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToRollingPivots(0, 10));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToRollingPivots(0, 10));
 
         // bad offset period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToRollingPivots(10, -1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToRollingPivots(10, -1));
     }
 }

@@ -86,9 +86,9 @@ public class Bop : StaticSeriesTestBase
         Assert.AreEqual(-0.292788, last.Bop.Round(6));
     }
 
-    // bad smoothing period
+    // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToBop(0));
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToBop(0));
 }

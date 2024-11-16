@@ -128,15 +128,15 @@ public class Kama : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad ER period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToKama(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToKama(0));
 
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToKama(10, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToKama(10, 0));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToKama(10, 5, 5));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToKama(10, 5, 5));
     }
 }

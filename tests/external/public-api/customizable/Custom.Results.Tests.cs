@@ -11,7 +11,8 @@ public class CustomResults
     private static readonly CultureInfo EnglishCulture
     = new("en-US", false);
 
-    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> quotes =
+        Data.GetDefault();
 
     [TestMethod]
     public void CustomSeriesClass()

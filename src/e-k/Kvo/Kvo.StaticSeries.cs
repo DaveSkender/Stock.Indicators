@@ -33,7 +33,7 @@ public static partial class Kvo
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of KVO results.</returns>
     private static List<KvoResult> CalcKvo(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int fastPeriods,
         int slowPeriods,
         int signalPeriods)

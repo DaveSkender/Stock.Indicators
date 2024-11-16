@@ -91,6 +91,6 @@ public class Chop : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToChop(1));
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToChop(1));
 }

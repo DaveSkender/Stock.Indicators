@@ -23,7 +23,7 @@ public static partial class Tr
     /// <param name="source">The list of quotes.</param>
     /// <returns>A list of True Range (TR) results.</returns>
     private static List<TrResult> CalcTr(
-        this IReadOnlyList<QuoteD> source)
+        this List<QuoteD> source)
     {
         // initialize
         int length = source.Count;

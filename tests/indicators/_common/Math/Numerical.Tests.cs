@@ -20,9 +20,8 @@ public class Numericals : TestBase
 
     [TestMethod]
     public void StdDevNull()
-    {
-        Assert.ThrowsException<ArgumentNullException>(() => Numerical.StdDev(null));
-    }
+        => Assert.ThrowsException<ArgumentNullException>(
+            () => Numerical.StdDev(null));
 
     [TestMethod]
     public void Slope()
@@ -34,21 +33,18 @@ public class Numericals : TestBase
 
     [TestMethod]
     public void SlopeXnull()
-    {
-        Assert.ThrowsException<ArgumentNullException>(() => Numerical.Slope(null, _x));
-    }
+        => Assert.ThrowsException<ArgumentNullException>(
+            () => Numerical.Slope(null, _x));
 
     [TestMethod]
     public void SlopeYnull()
-    {
-        Assert.ThrowsException<ArgumentNullException>(() => Numerical.Slope(_x, null));
-    }
+        => Assert.ThrowsException<ArgumentNullException>(
+            () => Numerical.Slope(_x, null));
 
     [TestMethod]
     public void SlopeMismatch()
-    {
-        Assert.ThrowsException<ArgumentException>(() => Numerical.Slope(_x, _y));
-    }
+        => Assert.ThrowsException<ArgumentException>(
+            () => Numerical.Slope(_x, _y));
 
     [TestMethod]
     public void RoundDownDate()

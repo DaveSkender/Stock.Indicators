@@ -33,7 +33,7 @@ public static partial class Keltner
     /// <param name="atrPeriods">The number of periods for the ATR.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     private static List<KeltnerResult> CalcKeltner(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int emaPeriods,
         double multiplier,
         int atrPeriods)
@@ -48,7 +48,7 @@ public static partial class Keltner
         IReadOnlyList<EmaResult> emaResults
             = source.ToEma(emaPeriods);
 
-        IReadOnlyList<AtrResult> atrResults
+        List<AtrResult> atrResults
             = source.CalcAtr(atrPeriods);
 
         int lookbackPeriods = Math.Max(emaPeriods, atrPeriods);

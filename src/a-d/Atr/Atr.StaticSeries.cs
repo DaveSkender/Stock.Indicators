@@ -27,7 +27,7 @@ public static partial class Atr
     /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation.</param>
     /// <returns>A list of ATR results.</returns>
     internal static List<AtrResult> CalcAtr(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

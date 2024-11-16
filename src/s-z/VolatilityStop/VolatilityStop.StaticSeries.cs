@@ -30,7 +30,7 @@ public static partial class VolatilityStop
     /// <param name="multiplier">The multiplier for the Average True Range.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     private static List<VolatilityStopResult> CalcVolatilityStop(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier)
     {
