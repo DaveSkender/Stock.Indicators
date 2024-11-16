@@ -20,7 +20,10 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["2.1.x", "6.x", "9.x"]
+        dotnet-version: ["9.x"]
+        # TODO: restore when GitHub Action runners
+        #      have .NET 9.x SDK default installed
+        # ["2.1.x", "6.x", "9.x"]
 
     env:
 
