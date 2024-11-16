@@ -119,15 +119,15 @@ public class ConnorsRsi : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToConnorsRsi(1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToConnorsRsi(1));
 
         // bad Streak period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToConnorsRsi(3, 1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToConnorsRsi(3, 1));
 
         // bad Rank period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToConnorsRsi(3, 2, 1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToConnorsRsi(3, 2, 1));
     }
 }

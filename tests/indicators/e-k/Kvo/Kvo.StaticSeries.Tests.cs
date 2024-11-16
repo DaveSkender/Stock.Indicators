@@ -98,15 +98,15 @@ public class Klinger : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToKvo(2));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToKvo(2));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToKvo(20, 20));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToKvo(20, 20));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToKvo(34, 55, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToKvo(34, 55, 0));
     }
 }

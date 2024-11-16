@@ -28,7 +28,7 @@ public static partial class ElderRay
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>A list of Elder Ray results.</returns>
     private static List<ElderRayResult> CalcElderRay(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

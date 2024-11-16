@@ -39,7 +39,7 @@ public static partial class Smi
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
     private static List<SmiResult> CalcSmi(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods,
         int firstSmoothPeriods,
         int secondSmoothPeriods,
@@ -94,7 +94,7 @@ public static partial class Smi
                     }
                 }
 
-                double sm = q.Close - 0.5d * (hH + lL);
+                double sm = q.Close - (0.5d * (hH + lL));
                 double hl = hH - lL;
 
                 // initialize last EMA values
@@ -108,12 +108,12 @@ public static partial class Smi
                 }
 
                 // first smoothing
-                double smEma1 = lastSmEma1 + k1 * (sm - lastSmEma1);
-                double hlEma1 = lastHlEma1 + k1 * (hl - lastHlEma1);
+                double smEma1 = lastSmEma1 + (k1 * (sm - lastSmEma1));
+                double hlEma1 = lastHlEma1 + (k1 * (hl - lastHlEma1));
 
                 // second smoothing
-                double smEma2 = lastSmEma2 + k2 * (smEma1 - lastSmEma2);
-                double hlEma2 = lastHlEma2 + k2 * (hlEma1 - lastHlEma2);
+                double smEma2 = lastSmEma2 + (k2 * (smEma1 - lastSmEma2));
+                double hlEma2 = lastHlEma2 + (k2 * (hlEma1 - lastHlEma2));
 
                 // stochastic momentum index
                 smi = 100 * (smEma2 / (0.5 * hlEma2));
@@ -126,7 +126,7 @@ public static partial class Smi
                 }
 
                 // signal line
-                signal = lastSignal + kS * (smi - lastSignal);
+                signal = lastSignal + (kS * (smi - lastSignal));
 
                 // carryover values
                 lastSmEma1 = smEma1;

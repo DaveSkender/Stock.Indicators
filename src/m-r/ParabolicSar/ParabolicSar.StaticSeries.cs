@@ -58,7 +58,7 @@ public static partial class ParabolicSar
     /// <param name="initialFactor">The initial acceleration factor for the SAR calculation.</param>
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     private static List<ParabolicSarResult> CalcParabolicSar(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         double accelerationStep,
         double maxAccelerationFactor,
         double initialFactor)

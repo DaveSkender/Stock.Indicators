@@ -93,11 +93,11 @@ public class T3 : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToT3(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToT3(0));
 
         // bad volume factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToT3(25, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToT3(25, 0));
     }
 }

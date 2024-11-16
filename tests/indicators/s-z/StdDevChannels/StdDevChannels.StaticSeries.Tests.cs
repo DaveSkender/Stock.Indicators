@@ -75,7 +75,7 @@ public class StdDevChannels : StaticSeriesTestBase
         Assert.AreEqual(502, results.Count(x => x.Centerline != null));
         Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));
         Assert.AreEqual(502, results.Count(x => x.LowerChannel != null));
-        Assert.AreEqual(501, results.Count(x => x.BreakPoint == false));
+        Assert.AreEqual(501, results.Count(x => !x.BreakPoint));
 
         // sample value
         StdDevChannelsResult r1 = results[0];
@@ -183,11 +183,11 @@ public class StdDevChannels : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToStdDevChannels(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToStdDevChannels(0));
 
         // bad standard deviations
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToStdDevChannels(20, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToStdDevChannels(20, 0));
     }
 }

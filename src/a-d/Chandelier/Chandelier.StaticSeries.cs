@@ -32,7 +32,7 @@ public static partial class Chandelier
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
     /// <returns>A list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
     private static List<ChandelierResult> CalcChandelier(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
         ChandelierType type)
@@ -44,7 +44,7 @@ public static partial class Chandelier
         int length = source.Count;
         List<ChandelierResult> results = new(length);
 
-        IReadOnlyList<AtrResult> atrResult
+        List<AtrResult> atrResult
             = source.CalcAtr(lookbackPeriods);
 
         // roll through source values

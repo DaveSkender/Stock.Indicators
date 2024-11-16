@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+#pragma warning disable IDE0072 // Missing cases in switch statement
+
 /// <summary>
 /// Provides numerical utility methods.
 /// </summary>
@@ -126,6 +128,7 @@ public static class Numerical
             PeriodSize.FourHours => TimeSpan.FromHours(4),
             PeriodSize.Day => TimeSpan.FromDays(1),
             PeriodSize.Week => TimeSpan.FromDays(7),
+            // intentionally skipping Month
             _ => TimeSpan.Zero
         };
 

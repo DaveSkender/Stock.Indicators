@@ -123,15 +123,15 @@ public class Mama : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period (same as slow period)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMama(0.5, 0.5));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMama(1, 0.5));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMama(1, 0.5));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMama(0.5, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMama(0.5, 0));
     }
 }

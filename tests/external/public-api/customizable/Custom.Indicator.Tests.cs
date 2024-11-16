@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using System.Globalization;
 using Sut;
 
@@ -157,6 +156,6 @@ public class CustomIndicators
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetIndicator(0));
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => quotes.GetIndicator(0));
 }

@@ -83,11 +83,11 @@ public class ChaikinOsc : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast lookback
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToChaikinOsc(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToChaikinOsc(0));
 
         // bad slow lookback
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToChaikinOsc(10, 5));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToChaikinOsc(10, 5));
     }
 }

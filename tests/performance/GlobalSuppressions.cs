@@ -6,6 +6,11 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Required for BenchmarkDotNet")]
 
 [assembly: SuppressMessage(
+    "Maintainability",
+    "CA1515:Consider making public types internal",
+    Justification = "Test projects use public class types.")]
+
+[assembly: SuppressMessage(
     "Performance",
     "CA1822:Mark members as static",
     Justification = "Required for BenchmarkDotNet")]

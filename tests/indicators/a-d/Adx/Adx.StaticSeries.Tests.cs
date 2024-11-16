@@ -145,10 +145,9 @@ public class Adx : StaticSeriesTestBase
         Assert.AreEqual(34.2987, last.Adx.Round(4));
     }
 
+    // bad lookback period
     [TestMethod]
-    public void Exceptions() =>
-
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAdx(1));
+    public void Exceptions()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAdx(1));
 }

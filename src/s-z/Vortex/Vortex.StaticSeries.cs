@@ -27,7 +27,7 @@ public static partial class Vortex
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     private static List<VortexResult> CalcVortex(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

@@ -33,7 +33,7 @@ public static partial class Ultimate
     /// <param name="longPeriods">The number of long lookback periods.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     private static List<UltimateResult> CalcUltimate(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int shortPeriods,
         int middlePeriods,
         int longPeriods)
@@ -98,7 +98,7 @@ public static partial class Ultimate
                 double avg2 = sumTr2 == 0 ? double.NaN : sumBp2 / sumTr2;
                 double avg3 = sumTr3 == 0 ? double.NaN : sumBp3 / sumTr3;
 
-                ultimate = (100d * (4d * avg1 + 2d * avg2 + avg3) / 7d).NaN2Null();
+                ultimate = (100d * ((4d * avg1) + (2d * avg2) + avg3) / 7d).NaN2Null();
             }
             else
             {

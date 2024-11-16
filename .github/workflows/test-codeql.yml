@@ -1,0 +1,52 @@
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "main", "v3" ]
+
+  pull_request:
+    branches: [ "main", "v3" ]
+
+  schedule:
+    - cron: '37 14 * * 3'
+
+jobs:
+
+  analyze:
+    name: analyze
+    runs-on: 'ubuntu-latest'
+
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+        build-mode: manual
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.x
+        dotnet-quality: "ga"
+
+    - name: Build library
+      run: >
+        dotnet build
+        --configuration Release
+        --property:ContinuousIntegrationBuild=true
+        -warnAsError
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:csharp"

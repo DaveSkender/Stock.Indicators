@@ -9,8 +9,3 @@ using System.Diagnostics.CodeAnalysis;
     "Security",
     "CA5394:Do not use insecure randomness",
     Justification = "Okay for test rig, non-production code.")]
-
-[assembly: SuppressMessage(
-    "Performance",
-    "CA1859:Use concrete types when possible for improved performance",
-    Justification = "Test data reflects API interface type.")]

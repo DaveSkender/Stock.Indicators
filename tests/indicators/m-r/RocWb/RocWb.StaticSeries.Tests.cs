@@ -144,15 +144,15 @@ public class RocWb : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToRocWb(0, 3, 12));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToRocWb(0, 3, 12));
 
         // bad EMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToRocWb(14, 0, 14));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToRocWb(14, 0, 14));
 
         // bad STDDEV period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToRocWb(15, 3, 16));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToRocWb(15, 3, 16));
     }
 }

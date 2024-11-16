@@ -104,6 +104,6 @@ public class Cmo : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToCmo(0));
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToCmo(0));
 }

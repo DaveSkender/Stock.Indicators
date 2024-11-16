@@ -93,6 +93,7 @@ public static partial class Sma
             {
                 sum += prices[i + j];
             }
+
             sum += Vector.Dot(sumVector, Vector<double>.One);
 
             sma[i] = sum / period;

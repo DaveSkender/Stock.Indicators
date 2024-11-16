@@ -123,15 +123,15 @@ public class Macd : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMacd(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMacd(0));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMacd(12, 12));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMacd(12, 12));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToMacd(12, 26, -1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToMacd(12, 26, -1));
     }
 }
