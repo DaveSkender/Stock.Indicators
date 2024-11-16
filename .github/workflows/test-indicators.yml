@@ -65,7 +65,7 @@ jobs:
       # the remaining steps are only needed from one primary instance
 
       - name: Post test summary
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v1.9.1
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
