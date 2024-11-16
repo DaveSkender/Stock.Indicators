@@ -21,7 +21,8 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
         dotnet-version: ["9.x"]
-        # TODO: restore when runners have 9.x on all
+        # TODO: restore when GitHub Action runners
+        #      have .NET 9.x SDK default installed
         # ["2.1.x", "6.x", "9.x"]
 
     env:
@@ -29,8 +30,8 @@ jobs:
       # identifying primary configuration so only one reports coverage
       IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.x' }}
 
-      # .NET SDK versions in the matrix that support `ga` quality spec
-      #   versions before 5.x do not support it
+      # .NET SDK versions in the matrix that support
+      # `dotnet-quality: 'ga'`, not supported before 5.x
       SUPPORT_GA: ${{ contains(fromJson('["6.x", "9.x"]'), matrix.dotnet-version) }}
 
     steps:

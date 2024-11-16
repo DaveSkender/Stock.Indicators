@@ -46,12 +46,6 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
-  <!-- .NET 9 has conflicting "Fix formatting" rules, so others fail in CI matrix -->
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net8.0'">
-    <NoWarn>$(NoWarn);IDE0055</NoWarn>
-  </PropertyGroup>
-  <!-- end formatting fix -->
-
   <ItemGroup>
     <None Include="..\README.md">
       <Pack>true</Pack>
