@@ -43,7 +43,7 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <SignAssembly>true</SignAssembly>
+
   </PropertyGroup>
 
   <ItemGroup>
