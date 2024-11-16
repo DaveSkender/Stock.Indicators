@@ -3,3 +3,7 @@ root = false
 
 [*.cs]
 dotnet_diagnostic.CA1303.severity = none  # Do not pass literals as localized parameters
+
+# workaround for bug
+# https://github.com/dotnet/roslyn/issues/41640
+dotnet_diagnostic.IDE0005.severity = none

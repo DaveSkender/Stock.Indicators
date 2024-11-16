@@ -92,7 +92,7 @@ public class Tema : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
+        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TemaResult last = results[^1];
         Assert.AreEqual(238.7690, last.Tema.Round(4));

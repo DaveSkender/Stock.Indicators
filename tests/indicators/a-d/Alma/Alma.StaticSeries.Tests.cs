@@ -130,15 +130,15 @@ public class Alma : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlma(0, 1, 5));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlma(0, 1, 5));
 
         // bad offset
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlma(15, 1.1, 3));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlma(15, 1.1, 3));
 
         // bad sigma
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlma(10, 0.5, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlma(10, 0.5, 0));
     }
 }

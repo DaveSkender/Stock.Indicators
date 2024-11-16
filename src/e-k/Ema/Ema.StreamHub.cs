@@ -69,7 +69,7 @@ public class EmaHub<TIn>
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public double K { get; init; }
+    public double K { get; private init; }
 
     /// <inheritdoc/>
     public override string ToString() => hubName;

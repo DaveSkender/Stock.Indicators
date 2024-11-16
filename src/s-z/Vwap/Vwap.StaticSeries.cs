@@ -27,7 +27,7 @@ public static partial class Vwap
     /// <param name="startDate">The optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     private static List<VwapResult> CalcVwap(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         DateTime? startDate = null)
     {
         // check parameter arguments

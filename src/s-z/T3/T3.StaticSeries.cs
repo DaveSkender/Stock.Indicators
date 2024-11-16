@@ -32,9 +32,9 @@ public static partial class T3
         double a = volumeFactor;
 
         double c1 = -a * a * a;
-        double c2 = 3 * a * a + 3 * a * a * a;
-        double c3 = -6 * a * a - 3 * a - 3 * a * a * a;
-        double c4 = 1 + 3 * a + a * a * a + 3 * a * a;
+        double c2 = (3 * a * a) + (3 * a * a * a);
+        double c3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
+        double c4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
 
         double e1 = double.NaN;
         double e2 = double.NaN;
@@ -65,7 +65,7 @@ public static partial class T3
             // T3 moving average
             results.Add(new(
                 Timestamp: s.Timestamp,
-                T3: (c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3).NaN2Null()));
+                T3: ((c1 * e6) + (c2 * e5) + (c3 * e4) + (c4 * e3)).NaN2Null()));
         }
 
         return results;

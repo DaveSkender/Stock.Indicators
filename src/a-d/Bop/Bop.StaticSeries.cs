@@ -26,7 +26,7 @@ public static partial class Bop
     /// <param name="smoothPeriods">The number of periods to use for smoothing.</param>
     /// <returns>A list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
     private static List<BopResult> CalcBop(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int smoothPeriods)
     {
         // check parameter arguments

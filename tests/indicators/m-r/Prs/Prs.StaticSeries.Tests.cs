@@ -91,19 +91,19 @@ public class Prs : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            OtherQuotes.ToPrs(Quotes, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => OtherQuotes.ToPrs(Quotes, 0));
 
         // insufficient quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            Data.GetCompare(13).ToPrs(Quotes, 14));
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => Data.GetCompare(13).ToPrs(Quotes, 14));
 
         // insufficient eval quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            Data.GetCompare(300).ToPrs(Quotes, 14));
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => Data.GetCompare(300).ToPrs(Quotes, 14));
 
         // mismatch quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            OtherQuotes.ToPrs(MismatchQuotes, 14));
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => OtherQuotes.ToPrs(MismatchQuotes, 14));
     }
 }

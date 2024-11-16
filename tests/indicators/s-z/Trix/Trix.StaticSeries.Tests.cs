@@ -97,7 +97,7 @@ public class Trix : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (3 * 20 + 100), results.Count);
+        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
 
         TrixResult last = results[^1];
         Assert.AreEqual(263.3216, last.Ema3.Round(4));

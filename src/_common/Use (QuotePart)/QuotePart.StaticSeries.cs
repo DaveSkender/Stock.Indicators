@@ -30,6 +30,7 @@ public static partial class QuoteParts
         {
             result.Add(quotes[i].ToQuotePart(candlePart));
         }
+
         return result;
     }
 

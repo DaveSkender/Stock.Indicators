@@ -116,11 +116,11 @@ public class BollingerBands : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToBollingerBands(1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToBollingerBands(1));
 
         // bad standard deviation
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToBollingerBands(2, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToBollingerBands(2, 0));
     }
 }

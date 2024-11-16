@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace Utilities;
 
 // quote validation
@@ -92,7 +90,7 @@ public partial class Quotes : TestBase
             = Assert.ThrowsException<InvalidQuotesException>(
                 () => dupQuotes.Validate());
 
-        dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
+        _ = dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
     }
 
     [TestMethod]
@@ -111,7 +109,7 @@ public partial class Quotes : TestBase
             = Assert.ThrowsException<InvalidQuotesException>(
                 () => unorderedQuotes.Validate());
 
-        dx.Message.Should()
+        _ = dx.Message.Should()
             .Contain("Quotes are out of sequence on 2017-01-05T00:00:00.0000000.");
     }
 }

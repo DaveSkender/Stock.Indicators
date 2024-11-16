@@ -2,6 +2,8 @@ using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
+#pragma warning disable IDE0072 // Missing cases in switch statement
+
 /// <summary>
 /// Provides methods for calculating Moving Average Envelopes for a series of quotes.
 /// </summary>
@@ -49,7 +51,7 @@ public static partial class MaEnvelopes
                     string.Format(
                         CultureInfo.InvariantCulture,
                         "Moving Average Envelopes does not support {0}.",
-                        Enum.GetName(typeof(MaType), movingAverageType)))
+                        Enum.GetName(movingAverageType)))
         };
 
         return results.ToList();

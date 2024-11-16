@@ -99,9 +99,8 @@ public class Roc : StaticSeriesTestBase
         Assert.AreEqual(-8.2482, last.Roc.Round(4));
     }
 
-    [TestMethod]
-    public void Exceptions() =>
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToRoc(0));
+    [TestMethod] // bad lookback period
+    public void Exceptions()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToRoc(0));
 }

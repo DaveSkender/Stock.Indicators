@@ -26,7 +26,7 @@ public static partial class Adx
     /// <param name="lookbackPeriods">The number of periods to look back for the ADX calculation.</param>
     /// <returns>A list of ADX results.</returns>
     private static List<AdxResult> CalcAdx(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods = 14)
     {
         // check parameter arguments
@@ -157,6 +157,7 @@ public static partial class Adx
 
             // ADX initialization period
             // TODO: update healing, without requiring specific indexing
+            //       see ADX BufferList for hint
             else
             {
                 sumDx += dx;
@@ -166,6 +167,7 @@ public static partial class Adx
                 Timestamp: q.Timestamp,
                 Pdi: pdi,
                 Mdi: mdi,
+                Dx: dx.NaN2Null(),
                 Adx: adx.NaN2Null(),
                 Adxr: adxr.NaN2Null());
 

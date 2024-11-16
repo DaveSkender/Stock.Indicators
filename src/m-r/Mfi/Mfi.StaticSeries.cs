@@ -28,7 +28,7 @@ public static partial class Mfi
     /// <param name="lookbackPeriods">The number of periods to use for the MFI calculation.</param>
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     private static List<MfiResult> CalcMfi(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
@@ -92,7 +92,7 @@ public static partial class Mfi
                 if (sumNegMFs != 0)
                 {
                     double mfRatio = sumPosMFs / sumNegMFs;
-                    mfi = 100 - 100 / (1 + mfRatio);
+                    mfi = 100 - (100 / (1 + mfRatio));
                 }
 
                 // handle no negative case

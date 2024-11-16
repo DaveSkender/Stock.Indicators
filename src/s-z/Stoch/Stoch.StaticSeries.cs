@@ -1,5 +1,7 @@
 namespace Skender.Stock.Indicators;
 
+#pragma warning disable IDE0010 // Missing cases in switch expression
+
 /// <summary>
 /// Provides methods for calculating the Stochastic Oscillator.
 /// </summary>
@@ -68,7 +70,7 @@ public static partial class Stoch
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
     internal static List<StochResult> CalcStoch(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods,
         int signalPeriods,
         int smoothPeriods,
@@ -244,6 +246,7 @@ public static partial class Stoch
                 Signal: signal.NaN2Null(),
                 PercentJ: ((kFactor * oscillator) - (dFactor * signal)).NaN2Null()));
         }
+
         return results;
     }
 }

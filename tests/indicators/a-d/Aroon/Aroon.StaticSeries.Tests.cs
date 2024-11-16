@@ -96,6 +96,6 @@ public class Aroon : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToAroon(0));
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAroon(0));
 }

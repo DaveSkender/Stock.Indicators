@@ -118,16 +118,16 @@ public class Correlation : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToCorrelation(OtherQuotes, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToCorrelation(OtherQuotes, 0));
 
         // bad eval quotes
         IReadOnlyList<Quote> eval = Data.GetCompare(300);
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            Quotes.ToCorrelation(eval, 30));
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => Quotes.ToCorrelation(eval, 30));
 
         // mismatched quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            MismatchQuotes.ToCorrelation(OtherQuotes, 20));
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => MismatchQuotes.ToCorrelation(OtherQuotes, 20));
     }
 }

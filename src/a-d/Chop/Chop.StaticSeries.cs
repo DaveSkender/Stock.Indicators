@@ -26,7 +26,7 @@ public static partial class Chop
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <returns>A list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
     private static List<ChopResult> CalcChop(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

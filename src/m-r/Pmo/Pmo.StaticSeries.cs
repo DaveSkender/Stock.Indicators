@@ -61,6 +61,7 @@ public static partial class Pmo
                 {
                     sum += rc[p];
                 }
+
                 rocEma = sum / timePeriods;
             }
             else
@@ -81,6 +82,7 @@ public static partial class Pmo
                 {
                     sum += re[p];
                 }
+
                 pmo = sum / smoothPeriods;
             }
             else

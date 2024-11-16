@@ -27,7 +27,7 @@ public static partial class WilliamsR
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     private static List<WilliamsResult> CalcWilliamsR(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

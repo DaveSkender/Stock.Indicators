@@ -158,11 +158,11 @@ public class AtrStop : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToAtrStop(1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAtrStop(1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToAtrStop(7, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAtrStop(7, 0));
     }
 }
