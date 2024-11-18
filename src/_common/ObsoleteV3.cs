@@ -9,7 +9,7 @@ namespace Skender.Stock.Indicators;
 // OBSOLETE IN v3
 public static partial class Indicator
 {
-    // GENERAL INDICATOR METHODS
+    // OBSOLETE TUPLE VARIANTS
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use alternate 'ToAlligator' variant.  Tuple arguments were removed.", false)] // v3.0.0
@@ -28,13 +28,6 @@ public static partial class Indicator
             jawPeriods, jawOffset,
             teethPeriods, teethOffset,
             lipsPeriods, lipsOffset);
-
-    [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetEma(..)` with `ToEma(..)`", false)] // v3.0.0
-    public static IEnumerable<EmaResult> GetEma<TQuote>(
-        this IReadOnlyList<TQuote> quotes, int lookbackPeriods)
-        where TQuote : IQuote
-        => quotes.ToSortedList().ToEma(lookbackPeriods);
 
     // REMOVAL OF INTEGRATED SMAs (evaluates to ERRORs)
 

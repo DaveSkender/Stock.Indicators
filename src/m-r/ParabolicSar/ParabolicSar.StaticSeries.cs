@@ -37,7 +37,7 @@ public static partial class ParabolicSar
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step, maximum acceleration factor, or initial factor are out of range.</exception>
-    public static IReadOnlyList<ParabolicSarResult> GetParabolicSar<TQuote>(
+    public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         double accelerationStep,
         double maxAccelerationFactor,
