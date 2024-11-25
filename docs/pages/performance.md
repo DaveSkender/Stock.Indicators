@@ -16,6 +16,7 @@ AMD EPYC 7763, 1 CPU, 4 logical and 2 physical cores
 .NET SDK 9.0.100
   [Host]   : .NET 9.0.0 (9.0.24.52809), X64 RyuJIT AVX2
 ```
+
 | Method             | Mean      | Error      | StdDev   |
 |------------------- |----------:|-----------:|---------:|
 | GetAdl             |  34.89 μs |   2.409 μs | 0.132 μs |
