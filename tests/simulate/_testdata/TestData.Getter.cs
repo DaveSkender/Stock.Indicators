@@ -1,3 +1,5 @@
+using Skender.Stock.Indicators;
+
 namespace Test.Data;
 
 // TEST QUOTE GETTERs
@@ -11,7 +13,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/data/default.csv")
             .Skip(1)
             .Select(Imports.QuoteFromCsv)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
 
@@ -20,7 +22,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/data/compare.csv")
             .Skip(1)
             .Select(Imports.QuoteFromCsv)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
 
@@ -29,7 +31,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/data/intraday.csv")
             .Skip(1)
             .Select(Imports.QuoteFromCsv)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
 
@@ -38,7 +40,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/data/longest.csv")
             .Skip(1)
             .Select(Imports.QuoteFromCsv)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .ToList();
 
     // LONGISH DATA ~20 years of S&P 500 daily data
@@ -46,7 +48,7 @@ internal static class Data
         => File.ReadAllLines("_testdata/data/longish.csv")
             .Skip(1)
             .Select(Imports.QuoteFromCsv)
-            .OrderBy(x => x.Date)
+            .OrderBy(x => x.Timestamp)
             .Take(days)
             .ToList();
 }

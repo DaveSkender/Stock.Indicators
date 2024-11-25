@@ -22,7 +22,7 @@
     <PackageProjectUrl>https://dotnet.stockindicators.dev</PackageProjectUrl>
     <PackageId>Skender.Stock.Indicators</PackageId>
     <PackageTags>
-      Stock;Market;Indicators;Technical;Analysis;Algorithmic;Trading;Trade;Finance;
+     Stock;Market;Indicators;Technical;Analysis;Algorithmic;Trading;Trade;Finance;
     </PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
@@ -43,6 +43,7 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <NoWarn>$(NoWarn);NU1507</NoWarn>
 
   </PropertyGroup>
 
@@ -66,7 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

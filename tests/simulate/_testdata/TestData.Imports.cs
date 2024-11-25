@@ -1,4 +1,5 @@
 using System.Globalization;
+using Skender.Stock.Indicators;
 
 namespace Test.Data;
 
@@ -18,14 +19,14 @@ internal static class Imports
 
         string[] csv = csvLine.Split(',');
 
-        Quote quote = new() {
-            Date = DateTime.TryParse(csv[0], EnglishCulture, out DateTime d) ? d : default,
-            Open = csv[1].ToDecimalDefault(),
-            High = csv[2].ToDecimalDefault(),
-            Low = csv[3].ToDecimalDefault(),
-            Close = csv[4].ToDecimalDefault(),
-            Volume = csv[5].ToDecimalDefault()
-        };
+        Quote quote = new(
+            Timestamp: DateTime.TryParse(csv[0], EnglishCulture, out DateTime d) ? d : default,
+            Open: csv[1].ToDecimalDefault(),
+            High: csv[2].ToDecimalDefault(),
+            Low: csv[3].ToDecimalDefault(),
+            Close: csv[4].ToDecimalDefault(),
+            Volume: csv[5].ToDecimalDefault()
+        );
 
         return quote;
     }
