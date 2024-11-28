@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators;
 /// <para>
 /// For chaining compatibility (<see cref="IReusable"/>
 /// compliance), add the following <c>TQuote</c> property
-/// (pointer) to your <see cref="IQuote.Close"/> price.
+/// (pointer) to your <see cref="Close"/> price.
 /// <code>
 ///    double IReusable.Value => (double)Close;
 /// </code>
