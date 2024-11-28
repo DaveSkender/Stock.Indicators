@@ -8,13 +8,12 @@ layout: page
 
 # {{ page.title }}
 
-To help you get started, here are a few minimalist [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) C# projects that you can review.  They are complete working examples.
+To help you get started, here are a few minimalist [.NET 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results
 - `CustomIndicatorsLibrary` shows how you can [create your own custom indicators]({{site.baseurl}}/custom-indicators/#content)
-- `CustomIndicatorsUsage` shows how you'd use a custom indicator just like any other in the main library
-- `ObserveStream` [preview] shows how you'd use live quotes from WebSocket, using the Alpaca SDK for .NET
+- `CustomIndicatorsUsage` shows how you'd use custom indicators just like any other in the main library
 - `UseQuoteApi` shows how you'd get quotes from an API quote source, using the Alpaca SDK for .NET
 
 For more information on how to use this library overall, see the [Guide and Pro Tips]({{site.baseurl}}/guide/#content).
