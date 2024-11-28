@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Skender.Stock.Indicators" Version="2.6.0" />
+    <ProjectReference Include="..\..\..\src\Indicators.csproj" />
   </ItemGroup>
 
   <ItemGroup>
