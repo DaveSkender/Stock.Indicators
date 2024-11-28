@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CustomIndicators\CustomIndicatorsLibrary.csproj" />
+    <ProjectReference Include="..\CustomIndicatorsLibrary\CustomIndicatorsLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
