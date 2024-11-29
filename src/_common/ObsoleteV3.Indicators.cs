@@ -4,26 +4,26 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Skender.Stock.Indicators;
 
-// OBSOLETE IN v3
+// OBSOLETE IN v3.0.0
 public static partial class Indicator
 {
     // GENERAL INDICATOR METHODS
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAdl(..)` with `ToAdl(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAdl(..)` with `ToAdl(..)`", false)]
     public static IEnumerable<AdlResult> GetAdl<TQuote>(
     this IEnumerable<TQuote> quotes)
     where TQuote : IQuote
     => quotes.ToSortedList().ToAdl();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAdx(..)` with `ToAdx(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAdx(..)` with `ToAdx(..)`", false)]
     public static IEnumerable<AdxResult> GetAdx<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToAdx(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAlligator(..)` with `ToAlligator(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAlligator(..)` with `ToAlligator(..)`", false)]
     public static IEnumerable<AlligatorResult> GetAlligator<TQuote>(
         this IEnumerable<TQuote> quotes,
         int jawPeriods = 13,
@@ -39,7 +39,7 @@ public static partial class Indicator
             lipsPeriods, lipsOffset);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAlma(..)` with `ToAlma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAlma(..)` with `ToAlma(..)`", false)]
     public static IEnumerable<AlmaResult> GetAlma<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 9,
@@ -49,21 +49,21 @@ public static partial class Indicator
         => quotes.ToSortedList().ToAlma(lookbackPeriods, offset, sigma);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAroon(..)` with `ToAroon(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAroon(..)` with `ToAroon(..)`", false)]
     public static IEnumerable<AroonResult> GetAroon<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 25)
         where TQuote : IQuote
         => quotes.ToSortedList().ToAroon(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAtr(..)` with `ToAtr(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAtr(..)` with `ToAtr(..)`", false)]
     public static IEnumerable<AtrResult> GetAtr<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToAtr(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAtrStop(..)` with `ToAtrStop(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAtrStop(..)` with `ToAtrStop(..)`", false)]
     public static IEnumerable<AtrStopResult> GetAtrStop<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 21,
@@ -73,14 +73,14 @@ public static partial class Indicator
         => quotes.ToSortedList().ToAtrStop(lookbackPeriods, multiplier, endType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetAwesome(..)` with `ToAwesome(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetAwesome(..)` with `ToAwesome(..)`", false)]
     public static IEnumerable<AwesomeResult> GetAwesome<TQuote>(
         this IEnumerable<TQuote> quotes, int fastPeriods = 5, int slowPeriods = 34)
         where TQuote : IQuote
         => quotes.ToSortedList().ToAwesome(fastPeriods, slowPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetBeta(..)` with `ToBeta(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetBeta(..)` with `ToBeta(..)`", false)]
     public static IEnumerable<BetaResult> GetBeta<TQuote>(
         this IEnumerable<TQuote> sourceEval,
         IEnumerable<TQuote> sourceMrkt,
@@ -92,7 +92,7 @@ public static partial class Indicator
             .ToBeta(sourceMrkt.ToSortedList(), lookbackPeriods, type);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetBollingerBands(..)` with `ToBollingerBands(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetBollingerBands(..)` with `ToBollingerBands(..)`", false)]
     public static IEnumerable<BollingerBandsResult> GetBollingerBands<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 20,
@@ -104,28 +104,28 @@ public static partial class Indicator
                 standardDeviations);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetBop(..)` with `ToBop(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetBop(..)` with `ToBop(..)`", false)]
     public static IEnumerable<BopResult> GetBop<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToBop(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetCci(..)` with `ToCci(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetCci(..)` with `ToCci(..)`", false)]
     public static IEnumerable<CciResult> GetCci<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 20)
         where TQuote : IQuote
         => quotes.ToSortedList().ToCci(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetChaikinOsc(..)` with `ToChaikinOsc(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetChaikinOsc(..)` with `ToChaikinOsc(..)`", false)]
     public static IEnumerable<ChaikinOscResult> GetChaikinOsc<TQuote>(
         this IEnumerable<TQuote> quotes, int fastPeriods = 3, int slowPeriods = 10)
         where TQuote : IQuote
         => quotes.ToSortedList().ToChaikinOsc(fastPeriods, slowPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetChandelier(..)` with `ToChandelier(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetChandelier(..)` with `ToChandelier(..)`", false)]
     public static IEnumerable<ChandelierResult> GetChandelier<TQuote>(
         this IEnumerable<TQuote> quotes,
             int lookbackPeriods = 22,
@@ -136,28 +136,28 @@ public static partial class Indicator
             .ToChandelier(lookbackPeriods, multiplier, type);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetChop(..)` with `ToChop(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetChop(..)` with `ToChop(..)`", false)]
     public static IEnumerable<ChopResult> GetChop<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToChop(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetCmf(..)` with `ToCmf(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetCmf(..)` with `ToCmf(..)`", false)]
     public static IEnumerable<CmfResult> GetCmf<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 20)
         where TQuote : IQuote
         => quotes.ToSortedList().ToCmf(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetCmo(..)` with `ToCmo(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetCmo(..)` with `ToCmo(..)`", false)]
     public static IEnumerable<CmoResult> GetCmo<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToCmo(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetConnorsRsi(..)` with `ToConnorsRsi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetConnorsRsi(..)` with `ToConnorsRsi(..)`", false)]
     public static IEnumerable<ConnorsRsiResult> GetConnorsRsi<TQuote>(
         this IEnumerable<TQuote> quotes,
         int rsiPeriods = 3, int streakPeriods = 2, int rankPeriods = 100)
@@ -166,7 +166,7 @@ public static partial class Indicator
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetCorrelation(..)` with `ToCorrelation(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetCorrelation(..)` with `ToCorrelation(..)`", false)]
     public static IEnumerable<CorrResult> GetCorrelation<TQuote>(
         this IEnumerable<TQuote> sourceA,
         IEnumerable<TQuote> sourceB, int lookbackPeriods)
@@ -174,129 +174,129 @@ public static partial class Indicator
         => sourceA.ToSortedList().ToCorrelation(sourceB.ToSortedList(), lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetDema(..)` with `ToDema(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetDema(..)` with `ToDema(..)`", false)]
     public static IEnumerable<DemaResult> GetDema<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToDema(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetDoji(..)` with `ToDoji(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetDoji(..)` with `ToDoji(..)`", false)]
     public static IEnumerable<CandleResult> GetDoji<TQuote>(
         this IEnumerable<TQuote> quotes, double maxPriceChangePercent = 0.1)
         where TQuote : IQuote
         => quotes.ToSortedList().ToDoji(maxPriceChangePercent);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetDonchian(..)` with `ToDonchian(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetDonchian(..)` with `ToDonchian(..)`", false)]
     public static IEnumerable<DonchianResult> GetDonchian<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 20)
         where TQuote : IQuote
         => quotes.ToSortedList().ToDonchian(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetDpo(..)` with `ToDpo(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetDpo(..)` with `ToDpo(..)`", false)]
     public static IEnumerable<DpoResult> GetDpo<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToDpo(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetDynamic(..)` with `ToDynamic(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetDynamic(..)` with `ToDynamic(..)`", false)]
     public static IEnumerable<DynamicResult> GetDynamic<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods, double kFactor = 0.6)
         where TQuote : IQuote
         => quotes.ToSortedList().ToDynamic(lookbackPeriods, kFactor);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetElderRay(..)` with `ToElderRay(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetElderRay(..)` with `ToElderRay(..)`", false)]
     public static IEnumerable<ElderRayResult> GetElderRay<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 13)
         where TQuote : IQuote
         => quotes.ToSortedList().ToElderRay(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetEma(..)` with `ToEma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetEma(..)` with `ToEma(..)`", false)]
     public static IEnumerable<EmaResult> GetEma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToEma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetEpma(..)` with `ToEpma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetEpma(..)` with `ToEpma(..)`", false)]
     public static IEnumerable<EpmaResult> GetEpma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToEpma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetFcb(..)` with `ToFcb(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetFcb(..)` with `ToFcb(..)`", false)]
     public static IEnumerable<FcbResult> GetFcb<TQuote>(
         this IEnumerable<TQuote> quotes, int windowSpan = 2)
         where TQuote : IQuote
         => quotes.ToSortedList().ToFcb(windowSpan);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetFisherTransform(..)` with `ToFisherTransform(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetFisherTransform(..)` with `ToFisherTransform(..)`", false)]
     public static IEnumerable<FisherTransformResult> GetFisherTransform<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 10)
         where TQuote : IQuote
         => quotes.ToSortedList().ToFisherTransform(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetForceIndex(..)` with `ToForceIndex(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetForceIndex(..)` with `ToForceIndex(..)`", false)]
     public static IEnumerable<ForceIndexResult> GetForceIndex<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 2)
         where TQuote : IQuote
         => quotes.ToSortedList().ToForceIndex(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetFractal(..)` with `ToFractal(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetFractal(..)` with `ToFractal(..)`", false)]
     public static IEnumerable<FractalResult> GetFractal<TQuote>(
         this IEnumerable<TQuote> quotes, int windowSpan = 2, EndType endType = EndType.HighLow)
         where TQuote : IQuote
         => quotes.ToSortedList().ToFractal(windowSpan, windowSpan, endType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetFractal(..)` with `ToFractal(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetFractal(..)` with `ToFractal(..)`", false)]
     public static IEnumerable<FractalResult> GetFractal<TQuote>(
         this IEnumerable<TQuote> quotes, int leftSpan, int rightSpan, EndType endType = EndType.HighLow)
         where TQuote : IQuote
         => quotes.ToSortedList().ToFractal(leftSpan, rightSpan, endType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetGator(..)` with `ToGator(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetGator(..)` with `ToGator(..)`", false)]
     public static IEnumerable<GatorResult> GetGator<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes.ToSortedList().ToGator();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetHeikinAshi(..)` with `ToHeikinAshi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetHeikinAshi(..)` with `ToHeikinAshi(..)`", false)]
     public static IEnumerable<HeikinAshiResult> GetHeikinAshi<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes.ToSortedList().ToHeikinAshi();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetHma(..)` with `ToHma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetHma(..)` with `ToHma(..)`", false)]
     public static IEnumerable<HmaResult> GetHma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote => quotes.ToSortedList().ToHma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetHtTrendline(..)` with `ToHtTrendline(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetHtTrendline(..)` with `ToHtTrendline(..)`", false)]
     public static IEnumerable<HtlResult> GetHtTrendline<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes.ToSortedList().ToHtTrendline();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetHurst(..)` with `ToHurst(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetHurst(..)` with `ToHurst(..)`", false)]
     public static IEnumerable<HurstResult> GetHurst<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 100)
         where TQuote : IQuote
         => quotes.ToSortedList().ToHurst(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetIchimoku(..)` with `ToIchimoku(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetIchimoku(..)` with `ToIchimoku(..)`", false)]
     public static IEnumerable<IchimokuResult> GetIchimoku<TQuote>(
         this IEnumerable<TQuote> quotes,
             int tenkanPeriods = 9,
@@ -307,7 +307,7 @@ public static partial class Indicator
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetKama(..)` with `ToKama(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetKama(..)` with `ToKama(..)`", false)]
     public static IEnumerable<KamaResult> GetKama<TQuote>(
         this IEnumerable<TQuote> quotes,
             int erPeriods = 10,
@@ -317,7 +317,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToKama(erPeriods, fastPeriods, slowPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetKeltner(..)` with `ToKeltner(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetKeltner(..)` with `ToKeltner(..)`", false)]
     public static IEnumerable<KeltnerResult> GetKeltner<TQuote>(
         this IEnumerable<TQuote> quotes,
         int emaPeriods = 20,
@@ -327,7 +327,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToKeltner(emaPeriods, multiplier, atrPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetKvo(..)` with `ToKvo(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetKvo(..)` with `ToKvo(..)`", false)]
     public static IEnumerable<KvoResult> GetKvo<TQuote>(
         this IEnumerable<TQuote> quotes,
         int fastPeriods = 34,
@@ -338,7 +338,7 @@ public static partial class Indicator
         .ToKvo(fastPeriods, slowPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetMacd(..)` with `ToMacd(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetMacd(..)` with `ToMacd(..)`", false)]
     public static IEnumerable<MacdResult> GetMacd<TQuote>(
         this IEnumerable<TQuote> quotes,
         int fastPeriods = 12,
@@ -348,7 +348,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetMaEnvelopes(..)` with `ToMaEnvelopes(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetMaEnvelopes(..)` with `ToMaEnvelopes(..)`", false)]
     public static IEnumerable<MaEnvelopeResult> GetMaEnvelopes<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods,
@@ -359,34 +359,34 @@ public static partial class Indicator
             .ToMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetMama(..)` with `ToMama(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetMama(..)` with `ToMama(..)`", false)]
     public static IEnumerable<MamaResult> GetMama<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToMama(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetMarubozu(..)` with `ToMarubozu(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetMarubozu(..)` with `ToMarubozu(..)`", false)]
     public static IEnumerable<CandleResult> GetMarubozu<TQuote>(
         this IEnumerable<TQuote> quotes, double minBodyPercent = 95)
         where TQuote : IQuote
         => quotes.ToSortedList().ToMarubozu(minBodyPercent);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetMfi(..)` with `ToMfi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetMfi(..)` with `ToMfi(..)`", false)]
     public static IEnumerable<MfiResult> GetMfi<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToMfi(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetObv(..)` with `ToObv(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetObv(..)` with `ToObv(..)`", false)]
     public static IEnumerable<ObvResult> GetObv<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes.ToSortedList().ToObv();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetParabolicSar(..)` with `ToParabolicSar(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetParabolicSar(..)` with `ToParabolicSar(..)`", false)]
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
         double accelerationStep = 0.02,
@@ -396,7 +396,7 @@ public static partial class Indicator
             .ToParabolicSar(accelerationStep, maxAccelerationFactor);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetParabolicSar(..)` with `ToParabolicSar(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetParabolicSar(..)` with `ToParabolicSar(..)`", false)]
     public static IEnumerable<ParabolicSarResult> GetParabolicSar<TQuote>(
         this IEnumerable<TQuote> quotes,
         double accelerationStep,
@@ -407,14 +407,14 @@ public static partial class Indicator
             .ToParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetPivotPoints(..)` with `ToPivotPoints(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetPivotPoints(..)` with `ToPivotPoints(..)`", false)]
     public static IEnumerable<PivotPointsResult> GetPivotPoints<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToPivotPoints((PeriodSize)lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetPivots(..)` with `ToPivots(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetPivots(..)` with `ToPivots(..)`", false)]
     public static IEnumerable<PivotsResult> GetPivots<TQuote>(
         this IEnumerable<TQuote> quotes,
         int leftSpan = 2,
@@ -426,7 +426,7 @@ public static partial class Indicator
             .ToPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetPmo(..)` with `ToPmo(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetPmo(..)` with `ToPmo(..)`", false)]
     public static IEnumerable<PmoResult> GetPmo<TQuote>(
         this IEnumerable<TQuote> quotes,
         int timePeriods = 35,
@@ -436,7 +436,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToPmo(timePeriods, smoothPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetPrs(..)` with `ToPrs(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetPrs(..)` with `ToPrs(..)`", false)]
     public static IEnumerable<PrsResult> GetPrs<TQuote>(
         this IEnumerable<TQuote> sourceBase,
         IEnumerable<TQuote> sourceEval, int? lookbackPeriods = null)
@@ -445,7 +445,7 @@ public static partial class Indicator
             .ToPrs(sourceEval.ToSortedList(), lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetPvo(..)` with `ToPvo(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetPvo(..)` with `ToPvo(..)`", false)]
     public static IEnumerable<PvoResult> GetPvo<TQuote>(
         this IEnumerable<TQuote> quotes,
         int fastPeriods = 9, int slowPeriods = 12, int signalPeriods = 9)
@@ -453,28 +453,28 @@ public static partial class Indicator
         => quotes.ToSortedList().ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetRenko(..)` with `ToRenko(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetRenko(..)` with `ToRenko(..)`", false)]
     public static IEnumerable<RenkoResult> GetRenko<TQuote>(
         this IEnumerable<TQuote> quotes, decimal brickSize, EndType endType = EndType.Close)
         where TQuote : IQuote
         => quotes.ToSortedList().ToRenko(brickSize, endType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetRenkoAtr(..)` with `ToRenkoAtr(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetRenkoAtr(..)` with `ToRenkoAtr(..)`", false)]
     public static IEnumerable<RenkoResult> GetRenkoAtr<TQuote>(
         this IEnumerable<TQuote> quotes, int atrPeriods, EndType endType = EndType.Close)
         where TQuote : IQuote
         => quotes.ToSortedList().ToRenkoAtr(atrPeriods, endType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetRoc(..)` with `ToRoc(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetRoc(..)` with `ToRoc(..)`", false)]
     public static IEnumerable<RocResult> GetRoc<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToRoc(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetRocWb(..)` with `ToRocWb(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetRocWb(..)` with `ToRocWb(..)`", false)]
     public static IEnumerable<RocWbResult> GetRocWb<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods, int emaPeriods, int stdDevPeriods)
@@ -483,7 +483,7 @@ public static partial class Indicator
             .ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetRollingPivots(..)` with `ToRollingPivots(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetRollingPivots(..)` with `ToRollingPivots(..)`", false)]
     public static IEnumerable<RollingPivotsResult> GetRollingPivots<TQuote>(
         this IEnumerable<TQuote> quotes,
         int windowPeriods,
@@ -494,35 +494,35 @@ public static partial class Indicator
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetRsi(..)` with `ToRsi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetRsi(..)` with `ToRsi(..)`", false)]
     public static IEnumerable<RsiResult> GetRsi<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToRsi(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetSlope(..)` with `ToSlope(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetSlope(..)` with `ToSlope(..)`", false)]
     public static IEnumerable<SlopeResult> GetSlope<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSlope(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetSma(..)` with `ToSma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetSma(..)` with `ToSma(..)`", false)]
     public static IEnumerable<SmaResult> GetSma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetSmaAnalysis(..)` with `ToSmaAnalysis(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetSmaAnalysis(..)` with `ToSmaAnalysis(..)`", false)]
     public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSmaAnalysis(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetSmi(..)` with `ToSmi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetSmi(..)` with `ToSmi(..)`", false)]
     public static IEnumerable<SmiResult> GetSmi<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 13,
@@ -534,14 +534,14 @@ public static partial class Indicator
             .ToSmi(lookbackPeriods, firstSmoothPeriods, secondSmoothPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetSmma(..)` with `ToSmma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetSmma(..)` with `ToSmma(..)`", false)]
     public static IEnumerable<SmmaResult> GetSmma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSmma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStarcBands(..)` with `ToStarcBands(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStarcBands(..)` with `ToStarcBands(..)`", false)]
     public static IEnumerable<StarcBandsResult> GetStarcBands<TQuote>(
         this IEnumerable<TQuote> quotes,
         int smaPeriods,
@@ -551,7 +551,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToStarcBands(smaPeriods, multiplier, atrPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStc(..)` with `ToStc(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStc(..)` with `ToStc(..)`", false)]
     public static IEnumerable<StcResult> GetStc<TQuote>(
         this IEnumerable<TQuote> quotes,
         int cyclePeriods = 10,
@@ -561,21 +561,21 @@ public static partial class Indicator
         => quotes.ToSortedList().ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStdDev(..)` with `ToStdDev(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStdDev(..)` with `ToStdDev(..)`", false)]
     public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToStdDev(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStdDevChannels(..)` with `ToStdDevChannels(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStdDevChannels(..)` with `ToStdDevChannels(..)`", false)]
     public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
         this IEnumerable<TQuote> quotes, int? lookbackPeriods = 20, double stdDeviations = 2)
         where TQuote : IQuote
         => quotes.ToSortedList().ToStdDevChannels(lookbackPeriods, stdDeviations);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStoch(..)` with `ToStoch(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStoch(..)` with `ToStoch(..)`", false)]
     public static IEnumerable<StochResult> GetStoch<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 14,
@@ -585,7 +585,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStoch(..)` with `ToStoch(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStoch(..)` with `ToStoch(..)`", false)]
     public static IEnumerable<StochResult> GetStoch<TQuote>(
             this IEnumerable<TQuote> quotes,
             int lookbackPeriods,
@@ -604,7 +604,7 @@ public static partial class Indicator
             movingAverageType);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetStochRsi(..)` with `ToStochRsi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetStochRsi(..)` with `ToStochRsi(..)`", false)]
     public static IEnumerable<StochRsiResult> GetStochRsi<TQuote>(
             this IEnumerable<TQuote> quotes,
             int rsiPeriods,
@@ -619,40 +619,40 @@ public static partial class Indicator
             smoothPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetSuperTrend(..)` with `ToSuperTrend(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetSuperTrend(..)` with `ToSuperTrend(..)`", false)]
     public static IEnumerable<SuperTrendResult> GetSuperTrend<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 10, double multiplier = 3)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSuperTrend(lookbackPeriods, multiplier);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetT3(..)` with `ToT3(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetT3(..)` with `ToT3(..)`", false)]
     public static IEnumerable<T3Result> GetT3<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 5, double volumeFactor = 0.7)
         where TQuote : IQuote
         => quotes.ToSortedList().ToT3(lookbackPeriods, volumeFactor);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetTema(..)` with `ToTema(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetTema(..)` with `ToTema(..)`", false)]
     public static IEnumerable<TemaResult> GetTema<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToTema(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetTr(..)` with `ToTr(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetTr(..)` with `ToTr(..)`", false)]
     public static IEnumerable<TrResult> GetTr<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes.ToSortedList().ToTr();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetTrix(..)` with `ToTrix(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetTrix(..)` with `ToTrix(..)`", false)]
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote => quotes.ToSortedList().ToTrix(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetTsi(..)` with `ToTsi(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetTsi(..)` with `ToTsi(..)`", false)]
     public static IEnumerable<TsiResult> GetTsi<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 25,
@@ -663,14 +663,14 @@ public static partial class Indicator
             .ToTsi(lookbackPeriods, smoothPeriods, signalPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetUlcerIndex(..)` with `ToUlcerIndex(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetUlcerIndex(..)` with `ToUlcerIndex(..)`", false)]
     public static IEnumerable<UlcerIndexResult> GetUlcerIndex<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote
         => quotes.ToSortedList().ToUlcerIndex(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetUltimate(..)` with `ToUltimate(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetUltimate(..)` with `ToUltimate(..)`", false)]
     public static IEnumerable<UltimateResult> GetUltimate<TQuote>(
         this IEnumerable<TQuote> quotes,
         int shortPeriods = 7,
@@ -680,7 +680,7 @@ public static partial class Indicator
         => quotes.ToSortedList().ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetVolatilityStop(..)` with `ToVolatilityStop(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetVolatilityStop(..)` with `ToVolatilityStop(..)`", false)]
     public static IEnumerable<VolatilityStopResult> GetVolatilityStop<TQuote>(
         this IEnumerable<TQuote> quotes,
         int lookbackPeriods = 7,
@@ -689,37 +689,37 @@ public static partial class Indicator
         => quotes.ToSortedList().ToVolatilityStop(lookbackPeriods, multiplier);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetVortex(..)` with `ToVortex(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetVortex(..)` with `ToVortex(..)`", false)]
     public static IEnumerable<VortexResult> GetVortex<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote => quotes.ToSortedList().ToVortex(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetVwap(..)` with `ToVwap(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetVwap(..)` with `ToVwap(..)`", false)]
     public static IEnumerable<VwapResult> GetVwap<TQuote>(
         this IEnumerable<TQuote> quotes, DateTime? startDate = null)
         where TQuote : IQuote => quotes.ToSortedList().ToVwap(startDate);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetVwma(..)` with `ToVwma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetVwma(..)` with `ToVwma(..)`", false)]
     public static IEnumerable<VwmaResult> GetVwma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote => quotes.ToSortedList().ToVwma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetWilliamsR(..)` with `ToWilliamsR(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetWilliamsR(..)` with `ToWilliamsR(..)`", false)]
     public static IEnumerable<WilliamsResult> GetWilliamsR<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
         where TQuote : IQuote => quotes.ToSortedList().ToWilliamsR(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetWma(..)` with `ToWma(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetWma(..)` with `ToWma(..)`", false)]
     public static IEnumerable<WmaResult> GetWma<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote => quotes.ToSortedList().ToWma(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Replace `GetZigZag(..)` with `ToZigZag(..)`", false)] //v3.0.0
+    [Obsolete("Replace `GetZigZag(..)` with `ToZigZag(..)`", false)]
     public static IEnumerable<ZigZagResult> GetZigZag<TQuote>(
         this IEnumerable<TQuote> quotes,
         EndType endType = EndType.Close,

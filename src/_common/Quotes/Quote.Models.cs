@@ -86,6 +86,7 @@ public record Quote
     /// <inheritdoc/>
     public double Value => (double)Close;
 
+    /// <inheritdoc/>
     [Obsolete("Use 'Timestamp' property instead.")]
     public DateTime Date
     {
