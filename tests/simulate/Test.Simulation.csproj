@@ -22,19 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="_testdata\data\compare.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="_testdata\data\default.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="_testdata\data\intraday.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="_testdata\data\longest.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="_testdata\data\longish.csv">
+    <None Update="_testdata\data\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
