@@ -33,12 +33,17 @@ public class Program
             new Quote { Date = DateTime.Parse("2023-01-20", culture), Open = 149, High = 153, Low = 147, Close = 151, Volume = 2400 }  // Friday
         ];
 
+        // TUPLES for testings
+        IEnumerable<(DateTime d, double v)> tuples = quotes.Select(x => (x.Date, (double)x.Close));
+
         // SERIES INDICATORS
-        IEnumerable<AdlResult> adl = quotes.GetAdl();
-        IEnumerable<AdxResult> adx = quotes.GetAdx(lookbackPeriods: 14);
+        IEnumerable<AdlResult> adl1 = quotes.GetAdl();
+        IEnumerable<AdxResult> adx1 = quotes.GetAdx(lookbackPeriods: 14);
         IEnumerable<AlligatorResult> alligator1 = quotes.GetAlligator();
         IEnumerable<AlligatorResult> alligator2 = quotes.GetAlligator(jawPeriods: 13, jawOffset: 8, teethPeriods: 8, teethOffset: 5, lipsPeriods: 5, lipsOffset: 3);
-        IEnumerable<AlmaResult> alma = quotes.GetAlma(lookbackPeriods: 9, offset: 0.85, sigma: 6);
+        IEnumerable<AlligatorResult> alligatorT = tuples.GetAlligator(jawPeriods: 13, jawOffset: 8, teethPeriods: 8, teethOffset: 5, lipsPeriods: 5, lipsOffset: 3);
+        IEnumerable<AlmaResult> alma1 = quotes.GetAlma(lookbackPeriods: 9, offset: 0.85, sigma: 6);
+        IEnumerable<AlmaResult> almaT = tuples.GetAlma(lookbackPeriods: 9, offset: 0.85, sigma: 6);
         IEnumerable<AroonResult> aroon = quotes.GetAroon(lookbackPeriods: 25);
         IEnumerable<AtrResult> atr = quotes.GetAtr(lookbackPeriods: 14);
         IEnumerable<AtrStopResult> atrStop1 = quotes.GetAtrStop(lookbackPeriods: 14);

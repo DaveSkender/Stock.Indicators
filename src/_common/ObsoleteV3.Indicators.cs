@@ -16,6 +16,13 @@ public static partial class Indicator
     => quotes.ToSortedList().ToAdl();
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.ToSma(smaPeriods)` to generate a moving average.", true)]
+    public static IEnumerable<AdlResult> GetAdl<TQuote>(
+    this IReadOnlyList<TQuote> quotes, int smaPeriods)
+    where TQuote : IQuote
+    => quotes.ToSortedList().ToAdl();
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetAdx(..)` with `ToAdx(..)`", false)]
     public static IEnumerable<AdxResult> GetAdx<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods = 14)
@@ -39,6 +46,24 @@ public static partial class Indicator
             lipsPeriods, lipsOffset);
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use alternate 'ToAlligator' variant.  Tuple arguments were removed.", false)]
+    public static IEnumerable<AlligatorResult> GetAlligator(
+        this IEnumerable<(DateTime d, double v)> priceTuples,
+        int jawPeriods = 13,
+        int jawOffset = 8,
+        int teethPeriods = 8,
+        int teethOffset = 5,
+        int lipsPeriods = 5,
+        int lipsOffset = 3)
+        => priceTuples
+           .Select(t => new QuotePart(t.d, t.v))
+           .ToSortedList()
+           .ToAlligator(
+            jawPeriods, jawOffset,
+            teethPeriods, teethOffset,
+            lipsPeriods, lipsOffset);
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetAlma(..)` with `ToAlma(..)`", false)]
     public static IEnumerable<AlmaResult> GetAlma<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -47,6 +72,17 @@ public static partial class Indicator
         double sigma = 6)
         where TQuote : IQuote
         => quotes.ToSortedList().ToAlma(lookbackPeriods, offset, sigma);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Use alternate 'ToAlma' variant.  Tuple arguments were removed.", false)]
+    public static IEnumerable<AlmaResult> GetAlma(
+        this IEnumerable<(DateTime d, double v)> priceTuples,
+        int lookbackPeriods = 9,
+        double offset = 0.85,
+        double sigma = 6) => priceTuples
+            .Select(t => new QuotePart(t.d, t.v))
+            .ToSortedList()
+            .ToAlma(lookbackPeriods, offset, sigma);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetAroon(..)` with `ToAroon(..)`", false)]
@@ -83,13 +119,13 @@ public static partial class Indicator
     [Obsolete("Replace `GetBeta(..)` with `ToBeta(..)`", false)]
     public static IEnumerable<BetaResult> GetBeta<TQuote>(
         this IEnumerable<TQuote> sourceEval,
-        IEnumerable<TQuote> sourceMrkt,
+        IEnumerable<TQuote> quotesMarket,
         int lookbackPeriods,
         BetaType type = BetaType.Standard)
         where TQuote : IQuote
         => sourceEval
             .ToSortedList()
-            .ToBeta(sourceMrkt.ToSortedList(), lookbackPeriods, type);
+            .ToBeta(quotesMarket.ToSortedList(), lookbackPeriods, type);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetBollingerBands(..)` with `ToBollingerBands(..)`", false)]
@@ -361,9 +397,11 @@ public static partial class Indicator
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetMama(..)` with `ToMama(..)`", false)]
     public static IEnumerable<MamaResult> GetMama<TQuote>(
-        this IEnumerable<TQuote> quotes, int lookbackPeriods)
+        this IEnumerable<TQuote> quotes,
+        double fastLimit = 0.5,
+        double slowLimit = 0.05)
         where TQuote : IQuote
-        => quotes.ToSortedList().ToMama(lookbackPeriods);
+        => quotes.ToSortedList().ToMama(fastLimit, slowLimit);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetMarubozu(..)` with `ToMarubozu(..)`", false)]
@@ -384,6 +422,13 @@ public static partial class Indicator
     public static IEnumerable<ObvResult> GetObv<TQuote>(
         this IEnumerable<TQuote> quotes)
         where TQuote : IQuote => quotes.ToSortedList().ToObv();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.ToSma(smaPeriods)` to generate a moving average.", true)]
+    public static IEnumerable<ObvResult> GetObv<TQuote>(
+        this IReadOnlyList<TQuote> quotes, int smaPeriods)
+        where TQuote : IQuote
+        => quotes.ToObv();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetParabolicSar(..)` with `ToParabolicSar(..)`", false)]
@@ -445,6 +490,18 @@ public static partial class Indicator
             .ToPrs(sourceEval.ToSortedList(), lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.ToSma(smaPeriods)` to generate a moving average.", true)]
+    public static IEnumerable<PrsResult> GetPrs<TQuote>(
+        this IEnumerable<TQuote> quotesEval, IEnumerable<TQuote> quotesBase, int lookbackPeriods, int smaPeriods)
+        where TQuote : IQuote
+        => quotesEval
+            .ToSortedList()
+            .Use(CandlePart.Close)
+            .ToPrs(
+                quotesBase.ToSortedList()
+                .Use(CandlePart.Close), lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetPvo(..)` with `ToPvo(..)`", false)]
     public static IEnumerable<PvoResult> GetPvo<TQuote>(
         this IEnumerable<TQuote> quotes,
@@ -472,6 +529,13 @@ public static partial class Indicator
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToRoc(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.ToSma(smaPeriods)` to generate a moving average.", true)]
+    public static IEnumerable<RocResult> GetRoc<TQuote>(
+        this IReadOnlyList<TQuote> quotes, int lookbackPeriods, int smaPeriods)
+        where TQuote : IQuote
+        => quotes.Use(CandlePart.Close).ToRoc(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetRocWb(..)` with `ToRocWb(..)`", false)]
@@ -568,6 +632,13 @@ public static partial class Indicator
         => quotes.ToSortedList().ToStdDev(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.ToSma(smaPeriods)` to generate a moving average.", true)]
+    public static IEnumerable<StdDevResult> GetStdDev<TQuote>(
+        this IReadOnlyList<TQuote> quotes, int lookbackPeriods, int smaPeriods)
+        where TQuote : IQuote
+        => quotes.Use(CandlePart.Close).ToStdDev(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetStdDevChannels(..)` with `ToStdDevChannels(..)`", false)]
     public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
         this IEnumerable<TQuote> quotes, int? lookbackPeriods = 20, double stdDeviations = 2)
@@ -650,6 +721,13 @@ public static partial class Indicator
     public static IEnumerable<TrixResult> GetTrix<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote => quotes.ToSortedList().ToTrix(lookbackPeriods);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Use a chained `results.ToSma(smaPeriods)` to generate a moving average.", true)]
+    public static IEnumerable<TrixResult> GetTrix<TQuote>(
+        this IReadOnlyList<TQuote> quotes, int lookbackPeriods, int signalPeriods)
+        where TQuote : IQuote
+        => quotes.Use(CandlePart.Close).ToTrix(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Replace `GetTsi(..)` with `ToTsi(..)`", false)]

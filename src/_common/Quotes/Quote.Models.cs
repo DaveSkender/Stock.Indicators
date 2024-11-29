@@ -93,6 +93,12 @@ public record Quote
         get => Timestamp;
         init => Timestamp = value;
     }
+
+    // TODO: this can be removed when Date is removed
+    // It allows old `new Quote { Date: ... }` initialization.
+    /// <inheritdoc/>
+    public Quote()
+        : this(default, default, default, default, default, default) { }
 }
 
 /// <summary>
