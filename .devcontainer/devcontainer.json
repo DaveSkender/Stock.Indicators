@@ -15,10 +15,7 @@
         "ms-dotnettools.csharp",
         "rebornix.ruby",
         "streetsidesoftware.code-spell-checker",
-        "davidanson.vscode-markdownlint",
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
-        "ms-vscode.vscode-typescript-next"
+        "davidanson.vscode-markdownlint"
       ],
       "settings": {
         "files.autoSave": "afterDelay",
