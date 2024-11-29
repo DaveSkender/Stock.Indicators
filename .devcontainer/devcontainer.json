@@ -4,6 +4,9 @@
   "features": {
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
     }
   },
   "customizations": {
@@ -12,7 +15,10 @@
         "ms-dotnettools.csharp",
         "rebornix.ruby",
         "streetsidesoftware.code-spell-checker",
-        "davidanson.vscode-markdownlint"
+        "davidanson.vscode-markdownlint",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-typescript-next"
       ],
       "settings": {
         "files.autoSave": "afterDelay",
