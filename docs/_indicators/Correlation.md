@@ -16,13 +16,13 @@ Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/
 
 ```csharp
 // C# usage syntax
-IEnumerable<CorrResult> results =
+IReadOnlyList<CorrResult> results =
   quotesA.GetCorrelation(quotesB, lookbackPeriods);
 ```
 
 ## Parameters
 
-**`quotesB`** _`IEnumerable<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
+**`quotesB`** _`IReadOnlyList<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) (B) must have at least the same matching date elements of `quotesA`.
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback period.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size.
 
@@ -30,12 +30,12 @@ IEnumerable<CorrResult> results =
 
 You must have at least `N` periods for both versions of `quotes` to cover the warmup periods.  Mismatch histories will produce a `InvalidQuotesException`.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesA` is an `IEnumerable<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotesA` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
 
 ## Response
 
 ```csharp
-IEnumerable<CorrResult>
+IReadOnlyList<CorrResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<CorrResult>
 
 ### CorrResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`VarianceA`** _`double`_ - Variance of A
 

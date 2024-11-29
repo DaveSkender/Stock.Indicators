@@ -106,8 +106,9 @@ csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 
-# Expression-bodied Members
+# Expression-bodied members
 csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_operators = true:silent
 csharp_style_expression_bodied_properties = true:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
@@ -148,8 +149,7 @@ csharp_new_line_before_members_in_anonymous_types = false
 csharp_new_line_between_query_expression_clauses = false
 
 # Diagnostic analyzer suppressions
-dotnet_diagnostic.CA1303.severity  = none    # Passing literals as localized parameters
-dotnet_diagnostic.CA2263.severity  = none    # Prefer generic overload type parameter
-dotnet_diagnostic.CS1591.severity  = silent  # Missing XML comment for publicly visible type or member
-dotnet_diagnostic.IDE0058.severity = none    # Unused expression value
-dotnet_diagnostic.IDE0072.severity = silent  # Missing cases in switch statement
+dotnet_diagnostic.IDE0058.severity = none    # Unused expression value, use _ discard variable
+
+# remove this when no-longer supporting pre-9.0 frameworks
+dotnet_diagnostic.IDE0330.severity = none    # Prefer 'System.Threading.Lock'

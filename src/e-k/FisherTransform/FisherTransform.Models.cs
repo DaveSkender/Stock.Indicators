@@ -1,15 +1,19 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Fisher Transform calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Fisher">The Fisher Transform value.</param>
+/// <param name="Trigger">The trigger value.</param>
 [Serializable]
-public sealed class FisherTransformResult : ResultBase, IReusableResult
+public record FisherTransformResult
+(
+    DateTime Timestamp,
+    double? Fisher,
+    double? Trigger
+) : IReusable
 {
-    public FisherTransformResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Fisher { get; set; }
-    public double? Trigger { get; set; }
-
-    double? IReusableResult.Value => Fisher;
+    /// <inheritdoc/>
+    public double Value => Fisher.Null2NaN();
 }

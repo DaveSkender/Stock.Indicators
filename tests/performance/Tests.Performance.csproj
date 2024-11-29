@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-
     <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
+    <StartupObject>Performance.Program</StartupObject>
 
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
 
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -13,6 +14,10 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <IsTestProject>false</IsTestProject>
+    <TestProjectType>None</TestProjectType>
+    <ExcludeFromTestDiscovery>true</ExcludeFromTestDiscovery>
 
   </PropertyGroup>
 
@@ -22,21 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="helpers\data\compare.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="helpers\data\default.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="helpers\data\intraday.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="helpers\data\longish.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\indicators\Tests.Indicators.csproj" />
   </ItemGroup>
 
 </Project>

@@ -59,23 +59,23 @@
   type: price-characteristic
 
 - title: HL2
-  permalink: /indicators/BasicQuote/
+  permalink: /indicators/quotepart/
   type: price-transform
 
 - title: HLC3
-  permalink: /indicators/BasicQuote/
+  permalink: /indicators/quotepart/
   type: price-transform
 
 - title: OC2
-  permalink: /indicators/BasicQuote/
+  permalink: /indicators/quotepart/
   type: price-transform
 
 - title: OHL3
-  permalink: /indicators/BasicQuote/
+  permalink: /indicators/quotepart/
   type: price-transform
 
 - title: OHLC4
-  permalink: /indicators/BasicQuote/
+  permalink: /indicators/quotepart/
   type: price-transform
 
 - title: Price Channels
