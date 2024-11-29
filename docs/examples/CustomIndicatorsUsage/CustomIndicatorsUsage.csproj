@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Skender.Stock.Indicators" Version="2.5.1" />
+    <PackageReference Include="Skender.Stock.Indicators" Version="2.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CustomIndicators\CustomIndicatorsLibrary.csproj" />
+    <ProjectReference Include="..\CustomIndicatorsLibrary\CustomIndicatorsLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
