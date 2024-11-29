@@ -6,33 +6,61 @@ public class ResultsToString : TestBase
     [TestMethod]
     public void ToStringFixedWidth()
     {
-        List<string> output = Quotes.ToMacd().Select(m => m.ToString()).ToList();
-        Console.WriteLine(string.Join(Environment.NewLine, output));
+        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
+        Console.WriteLine(output);
 
-        Assert.Fail("Test not implemented, very wrong syntax.");
+        Assert.IsTrue(output.Contains("Timestamp"));
+        Assert.IsTrue(output.Contains("Open"));
+        Assert.IsTrue(output.Contains("High"));
+        Assert.IsTrue(output.Contains("Low"));
+        Assert.IsTrue(output.Contains("Close"));
+        Assert.IsTrue(output.Contains("Volume"));
     }
 
     [TestMethod]
     public void ToStringCSV()
     {
-        // import quotes from CSV file
-        List<string> output = Quotes.ToMacd().Select(m => m.ToString()).ToList();
+        string output = Quotes.ToMacd().ToStringOut(OutType.CSV);
+        Console.WriteLine(output);
 
-        // recompose into CSV string
-        string csvOutput = string.Join(",", output);
-
-        // should be same as original
-        Console.WriteLine(csvOutput);
-        Assert.Fail("Test not implemented, very wrong syntax.");
+        Assert.IsTrue(output.Contains("Timestamp,Open,High,Low,Close,Volume"));
     }
 
     [TestMethod]
     public void ToStringJson()
     {
-        List<string> output = Quotes.ToMacd().Select(m => m.ToString()).ToList();
-        string jsonOutput = System.Text.Json.JsonSerializer.Serialize(output);
+        string output = Quotes.ToMacd().ToStringOut(OutType.JSON);
+        Console.WriteLine(output);
 
-        Console.WriteLine(jsonOutput);
-        Assert.Fail("Test not implemented, very wrong syntax.");
+        Assert.IsTrue(output.StartsWith("["));
+        Assert.IsTrue(output.EndsWith("]"));
+    }
+
+    [TestMethod]
+    public void ToStringWithLimitQty()
+    {
+        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth, 4, 5);
+        Console.WriteLine(output);
+
+        Assert.IsTrue(output.Contains("Timestamp"));
+        Assert.IsTrue(output.Contains("Open"));
+        Assert.IsTrue(output.Contains("High"));
+        Assert.IsTrue(output.Contains("Low"));
+        Assert.IsTrue(output.Contains("Close"));
+        Assert.IsTrue(output.Contains("Volume"));
+    }
+
+    [TestMethod]
+    public void ToStringWithStartIndexAndEndIndex()
+    {
+        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth, 4, 2, 5);
+        Console.WriteLine(output);
+
+        Assert.IsTrue(output.Contains("Timestamp"));
+        Assert.IsTrue(output.Contains("Open"));
+        Assert.IsTrue(output.Contains("High"));
+        Assert.IsTrue(output.Contains("Low"));
+        Assert.IsTrue(output.Contains("Close"));
+        Assert.IsTrue(output.Contains("Volume"));
     }
 }

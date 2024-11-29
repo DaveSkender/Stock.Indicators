@@ -57,6 +57,41 @@ public static class StringOut
         OutType outType, int decimalsToDisplay)
         where TSeries : ISeries, new()
     {
+        return series.ToStringOut(outType, decimalsToDisplay, 0, series.Count);
+    }
+
+    /// <summary>
+    /// Converts any results (or quotes) series into a string for output with specified output type, decimal places, and limit quantity.
+    /// </summary>
+    /// <typeparam name="TSeries">The type of the series.</typeparam>
+    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
+    /// <param name="outType">The output type.</param>
+    /// <param name="decimalsToDisplay">The number of decimal places to display.</param>
+    /// <param name="limitQty">The maximum number of items to include in the output.</param>
+    /// <returns>A string representation of the series.</returns>
+    public static string ToStringOut<TSeries>(
+        this IReadOnlyList<TSeries> series,
+        OutType outType, int decimalsToDisplay, int limitQty)
+        where TSeries : ISeries, new()
+    {
+        return series.ToStringOut(outType, decimalsToDisplay, 0, limitQty);
+    }
+
+    /// <summary>
+    /// Converts any results (or quotes) series into a string for output with specified output type, decimal places, start index, and end index.
+    /// </summary>
+    /// <typeparam name="TSeries">The type of the series.</typeparam>
+    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
+    /// <param name="outType">The output type.</param>
+    /// <param name="decimalsToDisplay">The number of decimal places to display.</param>
+    /// <param name="startIndex">The start index of the items to include in the output.</param>
+    /// <param name="endIndex">The end index of the items to include in the output.</param>
+    /// <returns>A string representation of the series.</returns>
+    public static string ToStringOut<TSeries>(
+        this IReadOnlyList<TSeries> series,
+        OutType outType, int decimalsToDisplay, int startIndex, int endIndex)
+        where TSeries : ISeries, new()
+    {
         // JSON OUTPUT
         if (outType == OutType.JSON)
         {
@@ -67,11 +102,11 @@ public static class StringOut
                 Console.WriteLine(message);
             }
 
-            return JsonSerializer.Serialize(series, prettyJsonOptions);
+            return JsonSerializer.Serialize(series.Skip(startIndex).Take(endIndex - startIndex), prettyJsonOptions);
         }
 
         // initialize results
-        List<TSeries> seriesList = series.ToList();
+        List<TSeries> seriesList = series.Skip(startIndex).Take(endIndex - startIndex).ToList();
         int qtyResults = seriesList.Count;
 
         // compose content and format containers
