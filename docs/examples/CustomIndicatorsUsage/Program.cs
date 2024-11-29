@@ -26,21 +26,3 @@ foreach (AtrWmaResult r in results.Take(30))
     // only showing first 30 records for brevity
     Console.WriteLine($"ATR WMA on {r.Date:u} was ${r.AtrWma:N3}");
 }
-
-// optional: demo of a converter (nulls to NaN)
-
-Console.WriteLine();
-Console.WriteLine("ATR WMA Results with NaN (optional) -------");
-
-// TIP: converting ToList() and using For loops is faster to iterate
-List<AtrWmaResult> resultsList = results
-    .Take(30)
-    .ToList();
-
-for (int i = 0; i < resultsList.Count; i++)
-{
-    AtrWmaResult r = resultsList[i];
-    r.AtrWma = r.AtrWma.Null2NaN();
-
-    Console.WriteLine($"ATR WMA on {r.Date:u} was ${r.AtrWma:N3}");
-}
