@@ -1,254 +1,96 @@
-using System.Globalization;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides utility methods for converting results or quotes series into string formats for output.
+/// Provides extension methods for converting ISeries lists to formatted strings.
 /// </summary>
 public static class StringOut
 {
-    private static readonly JsonSerializerOptions prettyJsonOptions = new()
+    /// <summary>
+    /// Converts an IEnumerable of ISeries to a formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the list.</typeparam>
+    /// <param name="list">The list of elements to convert.</param>
+    /// <param name="outType">The output format type.</param>
+    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="startIndex">The starting index of the elements to include in the output.</param>
+    /// <param name="endIndex">The ending index of the elements to include in the output.</param>
+    /// <returns>A formatted string representing the list of elements.</returns>
+    public static string ToStringOut<T>(this IEnumerable<T> list, OutType outType = OutType.FixedWidth, int? limitQty = null, int? startIndex = null, int? endIndex = null) where T : ISeries
     {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true
-    };
+        if (list == null || !list.Any())
+        {
+            return string.Empty;
+        }
 
-    /// <summary>
-    /// Converts any results (or quotes) series into a string for output.
-    /// Use extension method as `results.ToStringOut()` or `quotes.ToStringOut()`.
-    /// See other overrides to specify alternate output formats.
-    /// </summary>
-    /// <typeparam name="TSeries">The type of the series.</typeparam>
-    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
-    /// <returns>
-    /// String with fixed-width data columns, numbers with 4 decimals shown,
-    /// and named headers.
-    /// </returns>
-    public static string ToStringOut<TSeries>(
-        this IReadOnlyList<TSeries> series)
-        where TSeries : ISeries, new()
-        => series.ToStringOut(OutType.FixedWidth, 4);
+        var limitedList = list;
 
-    /// <summary>
-    /// Converts any results (or quotes) series into a string for output with specified output type.
-    /// </summary>
-    /// <typeparam name="TSeries">The type of the series.</typeparam>
-    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
-    /// <param name="outType">The output type.</param>
-    /// <returns>A string representation of the series.</returns>
-    public static string ToStringOut<TSeries>(
-        this IReadOnlyList<TSeries> series, OutType outType)
-        where TSeries : ISeries, new()
-        => series.ToStringOut(outType, int.MaxValue);
+        if (limitQty.HasValue)
+        {
+            limitedList = limitedList.Take(limitQty.Value);
+        }
 
-    /// <summary>
-    /// Converts any results (or quotes) series into a string for output with specified output type and decimal places.
-    /// </summary>
-    /// <typeparam name="TSeries">The type of the series.</typeparam>
-    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
-    /// <param name="outType">The output type.</param>
-    /// <param name="decimalsToDisplay">The number of decimal places to display.</param>
-    /// <returns>A string representation of the series.</returns>
-    public static string ToStringOut<TSeries>(
-        this IReadOnlyList<TSeries> series,
-        OutType outType, int decimalsToDisplay)
-        where TSeries : ISeries, new()
-    {
-        return series.ToStringOut(outType, decimalsToDisplay, 0, series.Count);
+        if (startIndex.HasValue && endIndex.HasValue)
+        {
+            limitedList = limitedList.Skip(startIndex.Value).Take(endIndex.Value - startIndex.Value + 1);
+        }
+
+        switch (outType)
+        {
+            case OutType.CSV:
+                return ToCsv(limitedList);
+            case OutType.JSON:
+                return ToJson(limitedList);
+            case OutType.FixedWidth:
+            default:
+                return ToFixedWidth(limitedList);
+        }
     }
 
-    /// <summary>
-    /// Converts any results (or quotes) series into a string for output with specified output type, decimal places, and limit quantity.
-    /// </summary>
-    /// <typeparam name="TSeries">The type of the series.</typeparam>
-    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
-    /// <param name="outType">The output type.</param>
-    /// <param name="decimalsToDisplay">The number of decimal places to display.</param>
-    /// <param name="limitQty">The maximum number of items to include in the output.</param>
-    /// <returns>A string representation of the series.</returns>
-    public static string ToStringOut<TSeries>(
-        this IReadOnlyList<TSeries> series,
-        OutType outType, int decimalsToDisplay, int limitQty)
-        where TSeries : ISeries, new()
+    private static string ToCsv<T>(IEnumerable<T> list) where T : ISeries
     {
-        return series.ToStringOut(outType, decimalsToDisplay, 0, limitQty);
+        var sb = new StringBuilder();
+        var properties = typeof(T).GetProperties();
+
+        sb.AppendLine(string.Join(",", properties.Select(p => p.Name)));
+
+        foreach (var item in list)
+        {
+            sb.AppendLine(string.Join(",", properties.Select(p => p.GetValue(item))));
+        }
+
+        return sb.ToString();
     }
 
-    /// <summary>
-    /// Converts any results (or quotes) series into a string for output with specified output type, decimal places, start index, and end index.
-    /// </summary>
-    /// <typeparam name="TSeries">The type of the series.</typeparam>
-    /// <param name="series">Any IEnumerable<typeparamref name="TSeries"/></param>
-    /// <param name="outType">The output type.</param>
-    /// <param name="decimalsToDisplay">The number of decimal places to display.</param>
-    /// <param name="startIndex">The start index of the items to include in the output.</param>
-    /// <param name="endIndex">The end index of the items to include in the output.</param>
-    /// <returns>A string representation of the series.</returns>
-    public static string ToStringOut<TSeries>(
-        this IReadOnlyList<TSeries> series,
-        OutType outType, int decimalsToDisplay, int startIndex, int endIndex)
-        where TSeries : ISeries, new()
+    private static string ToJson<T>(IEnumerable<T> list) where T : ISeries
     {
-        // JSON OUTPUT
-        if (outType == OutType.JSON)
-        {
-            if (decimalsToDisplay != int.MaxValue)
-            {
-                string message
-                    = $"ToStringOut() for JSON output ignores number format N{decimalsToDisplay}.";
-                Console.WriteLine(message);
-            }
+        return JsonSerializer.Serialize(list);
+    }
 
-            return JsonSerializer.Serialize(series.Skip(startIndex).Take(endIndex - startIndex), prettyJsonOptions);
+    private static string ToFixedWidth<T>(IEnumerable<T> list) where T : ISeries
+    {
+        var sb = new StringBuilder();
+        var properties = typeof(T).GetProperties();
+
+        var headers = properties.Select(p => p.Name).ToArray();
+        var values = list.Select(item => properties.Select(p => p.GetValue(item)?.ToString() ?? string.Empty).ToArray()).ToArray();
+
+        var columnWidths = new int[headers.Length];
+
+        for (int i = 0; i < headers.Length; i++)
+        {
+            columnWidths[i] = Math.Max(headers[i].Length, values.Max(row => row[i].Length));
         }
 
-        // initialize results
-        List<TSeries> seriesList = series.Skip(startIndex).Take(endIndex - startIndex).ToList();
-        int qtyResults = seriesList.Count;
+        sb.AppendLine(string.Join(" ", headers.Select((header, index) => header.PadRight(columnWidths[index]))));
 
-        // compose content and format containers
-        PropertyInfo[] headerProps =
-        [.. typeof(TSeries).GetProperties()];
-
-        int qtyProps = headerProps.Length;
-
-        int[] stringSizeMax = new int[qtyProps];
-        string[] stringHeaders = new string[qtyProps];
-        string[] stringFormats = new string[qtyProps];
-        bool[] stringNumeric = new bool[qtyProps];
-
-        string[][] stringContent = new string[qtyResults][];
-
-        // use specified decimal format type
-        string numberFormat = decimalsToDisplay == int.MaxValue
-            ? string.Empty
-            : $"N{decimalsToDisplay}";
-
-        // define property formats
-        for (int p = 0; p < qtyProps; p++)
+        foreach (var row in values)
         {
-            PropertyInfo prop = headerProps[p];
-
-            // containers
-            stringHeaders[p] = prop.Name;
-
-            // determine type format and width
-            Type? nullableType = Nullable.GetUnderlyingType(prop.PropertyType);
-            TypeCode code = Type.GetTypeCode(nullableType ?? prop.PropertyType);
-
-            stringNumeric[p] = code switch
-            {
-                TypeCode.Double => true,
-                TypeCode.Decimal => true,
-                TypeCode.DateTime => false,
-                _ => false
-            };
-
-            string formatType = code switch
-            {
-                TypeCode.Double => numberFormat,
-                TypeCode.Decimal => numberFormat,
-                TypeCode.DateTime => "o",
-                _ => string.Empty
-            };
-
-            stringFormats[p] = string.IsNullOrEmpty(formatType)
-                ? $"{{0}}"
-                : $"{{0:{formatType}}}";
-
-            // is max length?
-            if (outType == OutType.FixedWidth
-                && prop.Name.Length > stringSizeMax[p])
-            {
-                stringSizeMax[p] = prop.Name.Length;
-            }
+            sb.AppendLine(string.Join(" ", row.Select((value, index) => value.PadRight(columnWidths[index]))));
         }
 
-        // get formatted result string values
-        for (int i = 0; i < qtyResults; i++)
-        {
-            TSeries s = seriesList[i];
-
-            PropertyInfo[] resultProps =
-            [.. s.GetType().GetProperties()];
-
-            stringContent[i] = new string[resultProps.Length];
-
-            for (int p = 0; p < resultProps.Length; p++)
-            {
-                object? value = resultProps[p].GetValue(s);
-
-                string formattedValue = string.Format(
-                    CultureInfo.InvariantCulture, stringFormats[p], value);
-
-                stringContent[i][p] = formattedValue;
-
-                // is max length?
-                if (outType == OutType.FixedWidth
-                    && formattedValue.Length > stringSizeMax[p])
-                {
-                    stringSizeMax[p] = formattedValue.Length;
-                }
-            }
-        }
-
-        // CSV OUTPUT
-        if (outType == OutType.CSV)
-        {
-            StringBuilder csv = new(string.Empty);
-
-            csv.AppendLine(string.Join(", ", stringHeaders));
-
-            for (int i = 0; i < stringContent.Length; i++)
-            {
-                string[] row = stringContent[i];
-                csv.AppendLine(string.Join(", ", row));
-            }
-
-            return csv.ToString();
-        }
-
-        // FIXED WIDTH OUTPUT
-        else if (outType == OutType.FixedWidth)
-        {
-            StringBuilder fw = new(string.Empty);
-
-            // recompose header strings to width
-            for (int p = 0; p < qtyProps; p++)
-            {
-                string s = stringHeaders[p];
-                int w = stringSizeMax[p];
-                int f = stringNumeric[p] ? w : -w;
-                stringHeaders[p] = string.Format(
-                    CultureInfo.InvariantCulture, $"{{0,{f}}}", s);
-            }
-            fw.AppendLine(string.Join("  ", stringHeaders));
-
-            // recompose body strings to width
-            for (int i = 0; i < qtyResults; i++)
-            {
-                for (int p = 0; p < qtyProps; p++)
-                {
-                    string s = stringContent[i][p];
-                    int w = stringSizeMax[p];
-                    int f = stringNumeric[p] ? w : -w;
-                    stringContent[i][p] = string.Format(
-                        CultureInfo.InvariantCulture, $"{{0,{f}}}", s);
-                }
-
-                string[] row = stringContent[i];
-                fw.AppendLine(string.Join("  ", row));
-            }
-
-            return fw.ToString();
-        }
-
-        else
-        {
-            throw new ArgumentOutOfRangeException(nameof(outType));
-        }
+        return sb.ToString();
     }
 }
