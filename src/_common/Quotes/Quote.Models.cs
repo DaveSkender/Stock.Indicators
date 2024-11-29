@@ -86,10 +86,12 @@ public record Quote
     /// <inheritdoc/>
     public double Value => (double)Close;
 
-    // TODO: add [Obsolete] auto-getter/setter for 'Date' property
-    // but only for a short transition period.  See if there can be
-    // a full overload of 'Quote' that has the 'Date' property and
-    // can support new(){ ... } initialization.
+    [Obsolete("Use 'Timestamp' property instead.")]
+    public DateTime Date
+    {
+        get => Timestamp;
+        init => Timestamp = value;
+    }
 }
 
 /// <summary>
