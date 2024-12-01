@@ -74,7 +74,7 @@ public class Program
         IEnumerable<ConnorsRsiResult> cRsi1 = quotes.GetConnorsRsi(rsiPeriods: 3, streakPeriods: 2, rankPeriods: 100);
         IEnumerable<ConnorsRsiResult> cRsiT = tuples.GetConnorsRsi(rsiPeriods: 3, streakPeriods: 2, rankPeriods: 100);
         IEnumerable<CorrResult> corr1 = quotes.GetCorrelation(quotesB: quotes, lookbackPeriods: 20);
-        IEnumerable<CorrResult> corrT = tuples.GetCorrelation(tuplesB: tuples, lookbackPeriods: 20);
+        IEnumerable<CorrResult> corrT = tuples.GetCorrelation(tpListB: tuples, lookbackPeriods: 20);
         IEnumerable<DemaResult> dema1 = quotes.GetDema(lookbackPeriods: 20);
         IEnumerable<DemaResult> demaT = tuples.GetDema(lookbackPeriods: 20);
         IEnumerable<DonchianResult> donchian1 = quotes.GetDonchian(lookbackPeriods: 20);
@@ -177,7 +177,7 @@ public class Program
         IEnumerable<TemaResult> temaT = tuples.GetTema(lookbackPeriods: 20);
         IEnumerable<TrixResult> trix1 = quotes.GetTrix(lookbackPeriods: 15);
         IEnumerable<TrixResult> trix2 = quotes.GetTrix(lookbackPeriods: 20, signalPeriods: 3);
-        IEnumerable<TrixResult> trixT = tuples.GetTrix(lookbackPeriods: 20, signalPeriods: 3);
+        IEnumerable<TrixResult> trixT = tuples.GetTrix(lookbackPeriods: 20);
         IEnumerable<TrResult> tr = quotes.GetTr();
         IEnumerable<TsiResult> tsi1 = quotes.GetTsi();
         IEnumerable<TsiResult> tsi2 = quotes.GetTsi(lookbackPeriods: 20, smoothPeriods: 13, signalPeriods: 7);
