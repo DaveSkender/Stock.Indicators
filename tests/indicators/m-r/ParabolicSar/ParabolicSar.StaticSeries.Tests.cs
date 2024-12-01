@@ -43,7 +43,7 @@ public class ParabolicSar : StaticSeriesTestBase
         double initialStep = 0.01;
 
         List<ParabolicSarResult> results =
-            Quotes.GetParabolicSar(
+            Quotes.ToParabolicSar(
                 acclerationStep, maxAccelerationFactor, initialStep)
                 .ToList();
 
@@ -110,7 +110,7 @@ public class ParabolicSar : StaticSeriesTestBase
     public override void BadData()
     {
         IReadOnlyList<ParabolicSarResult> r = BadQuotes
-            .GetParabolicSar(0.2, 0.2, 0.2);
+            .ToParabolicSar(0.2, 0.2, 0.2);
 
         Assert.AreEqual(502, r.Count);
         Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
@@ -165,6 +165,6 @@ public class ParabolicSar : StaticSeriesTestBase
 
         // insufficient initial factor
         Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.GetParabolicSar(0.02, 0.5, 0));
+            () => Quotes.ToParabolicSar(0.02, 0.5, 0));
     }
 }

@@ -7,6 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
@@ -17,6 +19,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Indicators.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="_testdata\data\*.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

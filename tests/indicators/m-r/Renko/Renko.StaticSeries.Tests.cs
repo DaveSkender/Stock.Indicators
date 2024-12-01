@@ -81,7 +81,7 @@ public class Renko : StaticSeriesTestBase
     public void Atr()
     {
         IReadOnlyList<RenkoResult> results = Quotes
-            .GetRenkoAtr(14);
+            .ToRenkoAtr(14);
 
         // proper quantities
         Assert.AreEqual(29, results.Count);

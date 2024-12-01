@@ -31,7 +31,7 @@ public class Reusable : TestBase
     public void ToReusableList()
     {
         IReadOnlyList<IReusable> reusableList = Quotes
-            .ToReusableList(CandlePart.Close);
+            .ToReusable(CandlePart.Close);
 
         Assert.IsNotNull(reusableList);
         Assert.AreEqual(502, reusableList.Count);

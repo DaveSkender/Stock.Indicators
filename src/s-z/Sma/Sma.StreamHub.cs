@@ -78,7 +78,7 @@ public class SmaHub<TIn>
     protected override (SmaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // candidate result
         SmaResult r = new(

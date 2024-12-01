@@ -1,7 +1,7 @@
 namespace StaticSeries;
 
 [TestClass]
-public class Klinger : StaticSeriesTestBase
+public class Kvo : StaticSeriesTestBase
 {
     [TestMethod]
     public override void Standard()

@@ -15,10 +15,10 @@ public class Utility
     public object ToListQuoteD() => q.ToQuoteDList();
 
     [Benchmark]
-    public object ToReusableClose() => q.ToReusableList(CandlePart.Close);
+    public object ToReusableClose() => q.ToReusable(CandlePart.Close);
 
     [Benchmark]
-    public object ToReusableOhlc4() => q.ToReusableList(CandlePart.OHLC4);
+    public object ToReusableOhlc4() => q.ToReusable(CandlePart.OHLC4);
 
     [Benchmark]
     public object ToCandleResults() => q.ToCandles();
