@@ -74,7 +74,7 @@ public class Program
         IEnumerable<ConnorsRsiResult> cRsi1 = quotes.GetConnorsRsi(rsiPeriods: 3, streakPeriods: 2, rankPeriods: 100);
         IEnumerable<ConnorsRsiResult> cRsiT = tuples.GetConnorsRsi(rsiPeriods: 3, streakPeriods: 2, rankPeriods: 100);
         IEnumerable<CorrResult> corr1 = quotes.GetCorrelation(quotesB: quotes, lookbackPeriods: 20);
-        IEnumerable<CorrResult> corrT = tuples.GetCorrelation(tpListB: tuples, lookbackPeriods: 20);
+        IEnumerable<CorrResult> corrT = tuples.GetCorrelation(tuplesB: tuples, lookbackPeriods: 20);
         IEnumerable<DemaResult> dema1 = quotes.GetDema(lookbackPeriods: 20);
         IEnumerable<DemaResult> demaT = tuples.GetDema(lookbackPeriods: 20);
         IEnumerable<DonchianResult> donchian1 = quotes.GetDonchian(lookbackPeriods: 20);
@@ -224,14 +224,12 @@ public class Program
         Collection<(DateTime Date, double Value)> reusable = sma1.ToTupleChainable();
         Collection<(DateTime Date, double Value)> nanny = sma1.ToTupleNaN();
 
-        IEnumerable<SmaResult> prunedSma1 = sma1.RemoveWarmupPeriods();
-        IEnumerable<SmaResult> prunedSma2 = sma1.RemoveWarmupPeriods(removePeriods: 5);
-        IEnumerable<SmaResult> condenseSma = sma1.Condense();
-
         /* OTHER NOTES
          * There were no breaking changes in:
          * - NullMath
          * - Numerix
+         * - RemoveWarmupPeriods() » resolved with new IReadOnlyList return type
+         * - Condense() » resolved with new IReadOnlyList return type
          */
     }
 }

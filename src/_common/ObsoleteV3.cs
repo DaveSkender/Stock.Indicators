@@ -12,6 +12,14 @@ public static partial class Indicator
     // UTILITIES
 
     [ExcludeFromCodeCoverage]
+    [Obsolete("This method no longer supports IEnumerable<TQuote> and tuple return types.", false)]
+    public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
+        this IEnumerable<TQuote> quotes,
+            CandlePart candlePart = CandlePart.Close)
+        where TQuote : IQuote
+        => quotes.Use(candlePart);
+
+    [ExcludeFromCodeCoverage]
     [Obsolete("This method no longer defaults to Close.  Rename Use() to Use(CandlePart.Close) for an explicit conversion.", false)]
     public static IEnumerable<(DateTime Timestamp, double Value)> Use<TQuote>(
         this IReadOnlyList<TQuote> quotes)
@@ -19,20 +27,65 @@ public static partial class Indicator
         => quotes.Select(x => (x.Timestamp, x.Value));
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Refactor to use `ToSortedList()`", true)]
+    [Obsolete("Refactor to use `ToSortedList()`", false)]
     public static Collection<TSeries> ToSortedCollection<TSeries>(
-    this IReadOnlyList<TSeries> series)
+    this IEnumerable<TSeries> series)
     where TSeries : ISeries
         => series
             .OrderBy(x => x.Timestamp)
             .ToCollection();
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Refactor to use `ToReusable()`", true)]
+    [Obsolete("Refactor to use `ToReusable()`", false)]
     public static Collection<(DateTime Timestamp, double Value)> ToTupleChainable<TResult>(
         this IEnumerable<TResult> reusable)
         where TResult : IReusable
-        => reusable.Select(x => (x.Timestamp, x.Value)).OrderBy(x => x.Timestamp).ToCollection();
+        => reusable
+            .Select(x => (x.Timestamp, x.Value))
+            .OrderBy(x => x.Timestamp)
+            .ToCollection();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Reference the `Value` property. Conversion is obsolete.", false)]
+    public static Collection<(DateTime Date, double Value)> ToTupleNaN(
+        this IEnumerable<IReusable> reusable)
+        => reusable
+            .ToSortedList()
+            .Select(x => (x.Timestamp, x.Value))
+            .ToCollection();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `ToReusable()`", false)]
+    public static Collection<(DateTime Timestamp, double Value)> ToTupleCollection<TQuote>(
+        this IEnumerable<TQuote> quotes,
+        CandlePart candlePart = CandlePart.Close)
+        where TQuote : IQuote
+        => quotes
+            .ToList()
+            .ToReusable(candlePart)
+            .Select(x => (x.Timestamp, x.Value))
+            .ToCollection();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
+    public static IReadOnlyList<TQuote> Validate<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+        => quotes.ToSortedList().Validate();
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
+    public static IEnumerable<Quote> Aggregate<TQuote>(
+        this IEnumerable<TQuote> quotes, PeriodSize newSize)
+        where TQuote : IQuote
+        => quotes.ToSortedList().Aggregate(newSize);
+
+    [ExcludeFromCodeCoverage]
+    [Obsolete("Refactor to use `List<TQuote> quotes` input.", false)]
+    public static IEnumerable<CandleProperties> ToCandles<TQuote>(
+        this IEnumerable<TQuote> quotes)
+        where TQuote : IQuote
+        => quotes.ToSortedList().ToCandles();
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Refactor to use `List.First(c => c.Timestamp == lookupDate)`", false)]
