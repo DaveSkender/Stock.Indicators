@@ -183,7 +183,7 @@ public class RenkoHub<TIn>
             decimal sumV = 0;  // cumulative
 
             // by aggregating provider cache range
-            int lastBrickIndex = ProviderCache.GetIndex(lastBrick.Timestamp, true);
+            int lastBrickIndex = ProviderCache.IndexOf(lastBrick.Timestamp, true);
 
             for (int w = lastBrickIndex + 1; w <= providerIndex; w++)
             {

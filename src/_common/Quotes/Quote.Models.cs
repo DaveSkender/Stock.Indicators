@@ -12,7 +12,7 @@ namespace Skender.Stock.Indicators;
 /// <para>
 /// For chaining compatibility (<see cref="IReusable"/>
 /// compliance), add the following <c>TQuote</c> property
-/// (pointer) to your <see cref="IQuote.Close"/> price.
+/// (pointer) to your <see cref="Close"/> price.
 /// <code>
 ///    double IReusable.Value => (double)Close;
 /// </code>
@@ -87,10 +87,19 @@ public record Quote
     [JsonIgnore]
     public double Value => (double)Close;
 
-    // TODO: add [Obsolete] auto-getter/setter for 'Date' property
-    // but only for a short transition period.  See if there can be
-    // a full overload of 'Quote' that has the 'Date' property and
-    // can support new(){ ... } initialization.
+    /// <inheritdoc/>
+    [Obsolete("Use 'Timestamp' property instead.")]
+    public DateTime Date
+    {
+        get => Timestamp;
+        init => Timestamp = value;
+    }
+
+    // TODO: this can be removed when Date is removed
+    // It allows old `new Quote { Date: ... }` initialization.
+    /// <inheritdoc/>
+    public Quote()
+        : this(default, default, default, default, default, default) { }
 }
 
 /// <summary>

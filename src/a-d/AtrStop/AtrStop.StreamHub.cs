@@ -116,7 +116,7 @@ public class AtrStopHub<TIn>
     {
         // reminder: should only process "new" instructions
 
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // handle warmup periods
         if (i < LookbackPeriods)
@@ -232,7 +232,7 @@ public class AtrStopHub<TIn>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
-        int i = ProviderCache.GetIndexGte(timestamp);
+        int i = ProviderCache.IndexGte(timestamp);
 
         // restore prior stop point
         if (i > LookbackPeriods)

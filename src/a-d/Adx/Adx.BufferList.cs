@@ -22,7 +22,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferQuote
     /// <summary>
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
-    public int LookbackPeriods { get; init; }
+    public int LookbackPeriods { get; private init; }
 
     /// <summary>
     /// Adds a new quote to the ADX list.

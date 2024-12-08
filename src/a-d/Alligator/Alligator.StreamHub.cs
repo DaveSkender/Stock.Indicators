@@ -165,7 +165,7 @@ public class AlligatorHub<TIn>
         double lips = double.NaN;
         double teeth = double.NaN;
 
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // calculate alligator's jaw, when in range
         if (i >= JawPeriods + JawOffset - 1)

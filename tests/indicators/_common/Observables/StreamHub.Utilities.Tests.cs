@@ -110,8 +110,8 @@ public class CacheUtilities : TestBase
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndexEx = provider.Cache.GetIndex(q, true);
-        int timeIndexEx = provider.Cache.GetIndex(q.Timestamp, true);
+        int itemIndexEx = provider.Cache.IndexOf(q, true);
+        int timeIndexEx = provider.Cache.IndexOf(q.Timestamp, true);
 
         // assert: same index
         itemIndexEx.Should().Be(4);
@@ -121,22 +121,22 @@ public class CacheUtilities : TestBase
         Quote o = Quotes[10];
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.Cache.GetIndex(o, true);
+            provider.Cache.IndexOf(o, true);
         });
 
         Assert.ThrowsException<ArgumentException>(() => {
-            provider.Cache.GetIndex(o.Timestamp, true);
+            provider.Cache.IndexOf(o.Timestamp, true);
         });
 
         // out of range (no exceptions)
-        int itemIndexNo = provider.Cache.GetIndex(o, false);
-        int timeIndexNo = provider.Cache.GetIndex(o.Timestamp, false);
+        int itemIndexNo = provider.Cache.IndexOf(o, false);
+        int timeIndexNo = provider.Cache.IndexOf(o.Timestamp, false);
 
         itemIndexNo.Should().Be(-1);
         timeIndexNo.Should().Be(-1);
 
-        int timeInsertOut = provider.Cache.GetIndexGte(o.Timestamp);
-        int timeInsertIn = provider.Cache.GetIndexGte(quotesList[2].Timestamp);
+        int timeInsertOut = provider.Cache.IndexGte(o.Timestamp);
+        int timeInsertIn = provider.Cache.IndexGte(quotesList[2].Timestamp);
 
         timeInsertOut.Should().Be(-1);
         timeInsertIn.Should().Be(2);
