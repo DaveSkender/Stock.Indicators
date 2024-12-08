@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backtest", "Backtest\Backtest.csproj", "{21707592-8CB6-40DB-8183-E1D107559EDB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsLibrary", "CustomIndicators\CustomIndicatorsLibrary.csproj", "{D201089E-E9F6-4A67-A763-4164C8318E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsLibrary", "CustomIndicatorsLibrary\CustomIndicatorsLibrary.csproj", "{D201089E-E9F6-4A67-A763-4164C8318E04}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomIndicatorsUsage", "CustomIndicatorsUsage\CustomIndicatorsUsage.csproj", "{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObserveStream", "ObserveStream\ObserveStream.csproj", "{5FAD383B-DFCD-42FD-A847-53D772876595}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseQuoteApi", "UseQuoteApi\UseQuoteApi.csproj", "{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}"
 EndProject
@@ -37,10 +35,6 @@ Global
 		{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C6528AB-8311-4F10-99D2-83A2AB2DFB53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FAD383B-DFCD-42FD-A847-53D772876595}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FAD383B-DFCD-42FD-A847-53D772876595}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FAD383B-DFCD-42FD-A847-53D772876595}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FAD383B-DFCD-42FD-A847-53D772876595}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6B2E0AE-6457-47F3-9BA5-01F4AA84118A}.Release|Any CPU.ActiveCfg = Release|Any CPU

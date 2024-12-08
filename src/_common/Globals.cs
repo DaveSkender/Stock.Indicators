@@ -7,18 +7,15 @@ using System.Runtime.CompilerServices;
 
 namespace Skender.Stock.Indicators;
 
-/// <summary>Technical indicators and overlays.  See
-/// <see href = "https://dotnet.stockindicators.dev/guide/">
-///  the Guide</see> for more information.</summary>
 public static partial class Indicator
 {
-    private static readonly CultureInfo EnglishCulture = new("en-US", false);
-    private static readonly Calendar EnglishCalendar = EnglishCulture.Calendar;
+    private static readonly CultureInfo invCulture = CultureInfo.InvariantCulture;
+    private static readonly Calendar invCalendar = invCulture.Calendar;
 
     // Gets the DTFI properties required by GetWeekOfYear.
-    private static readonly CalendarWeekRule EnglishCalendarWeekRule
-        = EnglishCulture.DateTimeFormat.CalendarWeekRule;
+    private static readonly CalendarWeekRule invCalendarWeekRule
+        = invCulture.DateTimeFormat.CalendarWeekRule;
 
-    private static readonly DayOfWeek EnglishFirstDayOfWeek
-        = EnglishCulture.DateTimeFormat.FirstDayOfWeek;
+    private static readonly DayOfWeek invFirstDayOfWeek
+        = invCulture.DateTimeFormat.FirstDayOfWeek;
 }

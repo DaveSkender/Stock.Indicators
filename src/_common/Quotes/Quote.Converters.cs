@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 
 namespace Skender.Stock.Indicators;
 
@@ -7,8 +6,6 @@ namespace Skender.Stock.Indicators;
 
 public static partial class QuoteUtility
 {
-    private static readonly CultureInfo NativeCulture = Thread.CurrentThread.CurrentUICulture;
-
     /* STANDARD DECIMAL QUOTES */
 
     // convert TQuotes to basic double tuple list
