@@ -13,6 +13,7 @@ public record UlcerIndexResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => UlcerIndex.Null2NaN();
 
     /// <summary>

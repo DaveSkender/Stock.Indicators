@@ -13,5 +13,6 @@ public record MfiResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Mfi.Null2NaN();
 }

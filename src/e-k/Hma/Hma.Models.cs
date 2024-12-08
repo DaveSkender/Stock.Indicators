@@ -13,5 +13,6 @@ public record HmaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Hma.Null2NaN();
 }

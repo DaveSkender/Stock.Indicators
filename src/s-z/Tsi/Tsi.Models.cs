@@ -15,5 +15,6 @@ public record TsiResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Tsi.Null2NaN();
 }

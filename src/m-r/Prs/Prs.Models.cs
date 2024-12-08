@@ -15,5 +15,6 @@ public record PrsResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Prs.Null2NaN();
 }

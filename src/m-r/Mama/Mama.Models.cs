@@ -15,5 +15,6 @@ public record MamaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Mama.Null2NaN();
 }

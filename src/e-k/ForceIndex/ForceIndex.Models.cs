@@ -13,5 +13,6 @@ public record ForceIndexResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => ForceIndex.Null2NaN();
 }

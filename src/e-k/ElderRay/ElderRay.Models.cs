@@ -17,5 +17,6 @@ public record ElderRayResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => (BullPower + BearPower).Null2NaN();
 }

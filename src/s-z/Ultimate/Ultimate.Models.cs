@@ -13,5 +13,6 @@ public record UltimateResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Ultimate.Null2NaN();
 }

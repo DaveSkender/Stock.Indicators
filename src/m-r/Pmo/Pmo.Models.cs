@@ -15,5 +15,6 @@ public record PmoResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Pmo.Null2NaN();
 }

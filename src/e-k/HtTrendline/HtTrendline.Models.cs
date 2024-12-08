@@ -17,5 +17,6 @@ public record HtlResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Trendline.Null2NaN();
 }

@@ -13,5 +13,6 @@ public record RsiResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Rsi.Null2NaN();
 }
