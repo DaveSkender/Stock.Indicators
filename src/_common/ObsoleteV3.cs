@@ -131,5 +131,7 @@ public interface IReusableResult : IReusable;
 public sealed class BasicData : IReusable
 {
     public DateTime Timestamp { get; set; }
+
+    [JsonIgnore]
     public double Value { get; set; }
 }

@@ -84,6 +84,7 @@ public record Quote
 ) : IQuote
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => (double)Close;
 
     // TODO: add [Obsolete] auto-getter/setter for 'Date' property
@@ -108,5 +109,6 @@ internal record QuoteD
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Close;
 }
