@@ -22,5 +22,6 @@ public record VolatilityStopResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Sar.Null2NaN();
 }

@@ -17,5 +17,6 @@ public record StdDevResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => StdDev.Null2NaN();
 }

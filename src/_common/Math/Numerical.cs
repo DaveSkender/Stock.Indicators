@@ -153,4 +153,26 @@ public static class Numerical
 
         return decimalPlaces;
     }
+
+    /// <summary>
+    /// Determines if a type is a numeric type.
+    /// </summary>
+    /// <param name="type">The data <see cref="Type"/></param>
+    /// <returns>True if numeric type.</returns>
+    internal static bool IsNumeric(this Type type)
+    {
+        Type realType = Nullable.GetUnderlyingType(type) ?? type;
+
+        return realType == typeof(byte) ||
+               realType == typeof(sbyte) ||
+               realType == typeof(short) ||
+               realType == typeof(ushort) ||
+               realType == typeof(int) ||
+               realType == typeof(uint) ||
+               realType == typeof(long) ||
+               realType == typeof(ulong) ||
+               realType == typeof(float) ||
+               realType == typeof(double) ||
+               realType == typeof(decimal);
+    }
 }

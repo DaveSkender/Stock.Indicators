@@ -17,6 +17,7 @@ public record StochResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Oscillator.Null2NaN();
 
     // aliases

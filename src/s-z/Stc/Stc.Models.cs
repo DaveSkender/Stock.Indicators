@@ -13,5 +13,6 @@ public record StcResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Stc.Null2NaN();
 }

@@ -21,5 +21,6 @@ public record AdxResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Adx.Null2NaN();
 }

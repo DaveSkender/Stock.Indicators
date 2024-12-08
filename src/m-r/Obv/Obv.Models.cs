@@ -13,5 +13,6 @@ public record ObvResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Obv;
 }

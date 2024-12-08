@@ -13,5 +13,6 @@ public record WilliamsResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => WilliamsR.Null2NaN();
 }

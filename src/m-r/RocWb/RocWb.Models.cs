@@ -19,5 +19,6 @@ public record RocWbResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Roc.Null2NaN();
 }

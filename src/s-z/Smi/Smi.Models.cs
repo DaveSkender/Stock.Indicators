@@ -15,5 +15,6 @@ public record SmiResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Smi.Null2NaN();
 }

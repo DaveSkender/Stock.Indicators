@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -9,5 +11,6 @@ public interface IReusable : ISeries
     /// <summary>
     /// Value that is passed to chained indicators.
     /// </summary>
+    [JsonIgnore]
     double Value { get; }
 }

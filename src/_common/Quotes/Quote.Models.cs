@@ -84,6 +84,7 @@ public record Quote
 ) : IQuote
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => (double)Close;
 
     /// <inheritdoc/>
@@ -117,5 +118,6 @@ internal record QuoteD
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Close;
 }

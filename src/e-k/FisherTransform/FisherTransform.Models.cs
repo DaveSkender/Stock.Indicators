@@ -15,5 +15,6 @@ public record FisherTransformResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Fisher.Null2NaN();
 }
