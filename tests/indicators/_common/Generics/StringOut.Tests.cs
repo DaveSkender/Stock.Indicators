@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Skender.Stock.Indicators;
 
 namespace Tests.Common;
 
@@ -50,6 +49,21 @@ public class StringOut : TestBase
         lines[25].Should().Be("2017-02-08,0.88,,,215.75,214.87");
         lines[33].Should().Be("2017-02-21,2.20,1.52,0.68,219.94,217.74");
         lines[501].Should().Be("2018-12-31,-6.22,-5.86,-0.36,245.50,251.72");
+    }
+
+    [TestMethod]
+    public void ToStringCSVRandomQuotes()
+    {
+        List<Quote> quotes = Data.GetRandom(
+            bars: 1000,
+            periodSize: PeriodSize.Day,
+            includeWeekends: false)
+            .ToList();
+
+        string output = quotes.ToStringOut(OutType.CSV, numberPrecision: 6);
+        Console.WriteLine(output);
+
+        Assert.Fail("test not implemented");
     }
 
     [TestMethod]
@@ -265,7 +279,7 @@ public class StringOut : TestBase
     }
 
     [TestMethod]
-    public void ToStringOutWith20Rows()
+    public void ToStringOutMinutes()
     {
         List<Quote> quotes = [];
         for (int i = 0; i < 20; i++)
@@ -277,6 +291,26 @@ public class StringOut : TestBase
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
-        lines.Length.Should().Be(21); // 1 header + 20 data rows
+        lines.Length.Should().Be(23); // 2 headers + 20 data rows
+
+        Assert.Fail("test not implemented");
+    }
+
+    [TestMethod]
+    public void ToStringOutSeconds()
+    {
+        List<Quote> quotes = [];
+        for (int i = 0; i < 20; i++)
+        {
+            quotes.Add(new Quote(new DateTime(2023, 1, 1, 9, 30, 0).AddSeconds(i), 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
+        }
+
+        string output = quotes.ToStringOut(OutType.FixedWidth);
+        Console.WriteLine(output);
+
+        string[] lines = output.Split(Environment.NewLine);
+        lines.Length.Should().Be(23); // 2 headers + 20 data rows
+
+        Assert.Fail("test not implemented");
     }
 }

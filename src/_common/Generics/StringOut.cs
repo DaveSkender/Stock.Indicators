@@ -2,7 +2,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 
 namespace Skender.Stock.Indicators;
@@ -92,11 +91,8 @@ public static class StringOut
 
         PropertyInfo[] properties = typeof(T).GetProperties();
 
-        // Exclude redundant IReusable 'Value' property
-        if (typeof(IReusable).IsAssignableFrom(typeof(T)) && typeof(T) != typeof(QuotePart))
-        {
-            properties = properties.Where(p => p.Name != "Value").ToArray();
-        }
+        // Exclude redundant IReusable 'Value' and 'Date' properties
+        properties = properties.Where(p => p.Name is not "Value" and not "Date").ToArray();
 
         // Determine date formats per DateTime property
         Dictionary<string, string> dateFormats = DetermineDateFormats(properties, list);
@@ -130,11 +126,8 @@ public static class StringOut
         StringBuilder sb = new();
         PropertyInfo[] properties = typeof(T).GetProperties();
 
-        // Exclude redundant IReusable 'Value' property
-        if (typeof(IReusable).IsAssignableFrom(typeof(T)) && typeof(T) != typeof(QuotePart))
-        {
-            properties = properties.Where(p => p.Name != "Value").ToArray();
-        }
+        // Exclude redundant IReusable 'Value' and 'Date' properties
+        properties = properties.Where(p => p.Name is not "Value" and not "Date").ToArray();
 
         // Determine date formats per DateTime property
         Dictionary<string, string> dateFormats = DetermineDateFormats(properties, list);
@@ -341,17 +334,11 @@ public static class StringOut
         }
         else
         {
-            if (numberPrecision.HasValue)
-            {
-                return value is IFormattable formattable
+            return numberPrecision.HasValue
+                ? value is IFormattable formattable
                     ? formattable.ToString($"F{numberPrecision}", Culture) ?? string.Empty
-                    : value?.ToString() ?? string.Empty;
-            }
-            else
-            {
-                return value?.ToString() ?? string.Empty;
-            }
+                    : value?.ToString() ?? string.Empty
+                : value?.ToString() ?? string.Empty;
         }
     }
-
 }
