@@ -1,9 +1,9 @@
-namespace Utilities;
+namespace Tests.Common;
 
 #pragma warning disable CA1805 // Do not initialize unnecessarily
 
 [TestClass]
-public class NullMathTests : TestBase
+public class NullMaths : TestBase
 {
     private readonly double? dblPos = 100.12345;
     private readonly double? dblNeg = -200.98765;
