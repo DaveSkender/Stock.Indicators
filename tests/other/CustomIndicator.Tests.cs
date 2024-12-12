@@ -80,7 +80,7 @@ public static class CustomIndicator
 }
 
 [TestClass]
-public class CustomIndicatorTests
+public class CustomIndicators
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 

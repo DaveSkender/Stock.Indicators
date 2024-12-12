@@ -1,7 +1,7 @@
 namespace Tests.Common;
 
 [TestClass]
-public class NumerixTests : TestBase
+public class Numerixs : TestBase
 {
     private readonly double[] closePrice = longishQuotes
         .Select(x => (double)x.Close)
