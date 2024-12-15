@@ -37,6 +37,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
 
+    /// <inheritdoc/>
+    public int MaxCacheSize { get; init; } = int.MaxValue;
+
     /// <summary>
     /// Gets the cache of stored values (base).
     /// </summary>
@@ -93,7 +96,11 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Adds a new item to the stream.
     /// </summary>
     /// <param name="newIn">The new item to add.</param>
-    public void Add(TIn newIn) => OnAdd(newIn, notify: true, null);
+    public void Add(TIn newIn)
+    {
+        OnAdd(newIn, notify: true, null);
+        PruneCache();
+    }
 
     /// <summary>
     /// Adds a batch of new items to the stream.
@@ -105,6 +112,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         {
             OnAdd(newIn, notify: true, null);
         }
+        PruneCache();
     }
 
     /// <summary>
@@ -166,6 +174,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             // add to cache
             case Act.Add:
                 Add(result, notify);
+                PruneCache();
                 break;
 
             // rebuild cache
@@ -320,6 +329,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             : Cache[fromIndex].Timestamp;
 
         RemoveRange(fromTimestamp, notify);
+    }
+
+    /// <summary>
+    /// Prunes the cache to the maximum size.
+    /// </summary>
+    public void PruneCache()
+    {
+        while (Cache.Count > MaxCacheSize)
+        {
+            Cache.RemoveAt(0);
+        }
     }
     #endregion
 

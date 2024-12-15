@@ -39,6 +39,13 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
         => Rebuild(fromTimestamp);
 
     /// <inheritdoc/>
+    public void OnPrune(DateTime timestamp)
+    {
+        // Handle prune notification
+        // Override this method if specific actions are needed on prune
+    }
+
+    /// <inheritdoc/>
     public void OnError(Exception exception)
         => throw exception;
 

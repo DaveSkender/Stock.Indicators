@@ -104,6 +104,17 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     }
 
     /// <summary>
+    /// Sends prune notification to all subscribers.
+    /// </summary>
+    private void NotifyObserversOnPrune()
+    {
+        foreach (IStreamObserver<TOut> o in _observers.ToArray())
+        {
+            o.OnChange(DateTime.MinValue);
+        }
+    }
+
+    /// <summary>
     /// Sends error (exception) to all subscribers.
     /// </summary>
     /// <param name="exception">The exception to send.</param>
