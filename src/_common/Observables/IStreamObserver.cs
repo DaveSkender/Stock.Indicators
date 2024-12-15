@@ -42,6 +42,14 @@ public interface IStreamObserver<in T>
     void OnChange(DateTime fromTimestamp);
 
     /// <summary>
+    /// Provides the observer with notification to prune data.
+    /// </summary>
+    /// <param name="timestamp">
+    /// Timestamp of the pruned data.
+    /// </param>
+    void OnPrune(DateTime timestamp);
+
+    /// <summary>
     /// Provides the observer with errors from the provider
     /// that have produced a faulted state.
     /// </summary>

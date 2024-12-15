@@ -19,6 +19,11 @@ public interface IStreamHub<in TIn, TOut>
     IReadOnlyList<TOut> Results { get; }
 
     /// <summary>
+    /// Gets the maximum size of the Cache list.
+    /// </summary>
+    int MaxCacheSize { get; }
+
+    /// <summary>
     /// The cache and provider failed and is no longer operational.
     /// </summary>
     /// <remarks>
@@ -116,6 +121,11 @@ public interface IStreamHub<in TIn, TOut>
     /// Notify subscribers of the delete position.
     /// </param>
     void RemoveRange(int fromIndex, bool notify);
+
+    /// <summary>
+    /// Prunes the cache to the maximum size.
+    /// </summary>
+    void PruneCache();
 
     /// <summary>
     /// Returns a short text label for the hub

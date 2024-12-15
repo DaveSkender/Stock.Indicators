@@ -147,4 +147,42 @@ public class CacheManagement : TestBase
 
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void MaxCacheSize()
+    {
+        // initialize
+        QuoteHub<Quote> provider = new();
+        SmaHub<Quote> observer = provider.ToSma(20);
+
+        // add quotes
+        provider.Add(Quotes.Take(50));
+
+        // set max cache size
+        int maxCacheSize = 30;
+        observer.MaxCacheSize.Should().Be(maxCacheSize);
+
+        // add more quotes to exceed max cache size
+        provider.Add(Quotes.Skip(50).Take(10));
+
+        // assert: cache size is pruned
+        observer.Results.Should().HaveCount(maxCacheSize);
+    }
+
+    [TestMethod]
+    public void PruneCache()
+    {
+        // initialize
+        QuoteHub<Quote> provider = new();
+        SmaHub<Quote> observer = provider.ToSma(20);
+
+        // add quotes
+        provider.Add(Quotes.Take(50));
+
+        // prune cache
+        observer.PruneCache();
+
+        // assert: cache size is pruned
+        observer.Results.Should().HaveCount(30);
+    }
 }
