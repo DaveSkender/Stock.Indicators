@@ -145,12 +145,10 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Publish to Azure Artifacts (staging)
+      - name: Publish to GitHub Packages (staging)
         if: inputs.environment == 'staging'
         run: |
-          dotnet new nugetconfig --force
-          nuget sources Add -Name "AzureArtifacts" -Source ${{ vars.NUGET_PUBLISH_URL }} -UserName DaveSkender -Password ${{ secrets.NUGET_TOKEN }} -NonInteractive -ConfigFile nuget.config
-          nuget push NuGet/*.nupkg -src AzureArtifacts -ApiKey AZ -NonInteractive -ConfigFile nuget.config
+          dotnet nuget push NuGet/*.nupkg --source "https://nuget.pkg.github.com/DaveSkender/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to NuGet.org
         if: inputs.environment == 'nuget.org'
