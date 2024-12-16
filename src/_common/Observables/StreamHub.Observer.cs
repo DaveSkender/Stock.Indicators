@@ -35,14 +35,18 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     }
 
     /// <inheritdoc/>
-    public void OnChange(DateTime fromTimestamp)
+    public void OnRebuild(DateTime fromTimestamp)
         => Rebuild(fromTimestamp);
 
     /// <inheritdoc/>
-    public void OnPrune(DateTime timestamp)
+    public void OnPrune(DateTime toTimestamp)
     {
-        // Handle prune notification
-        // Override this method if specific actions are needed on prune
+        while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp){
+            Cache.RemoveAt(0);
+        }
+
+        // notify observers
+        NotifyObserversOnPrune(toTimestamp);
     }
 
     /// <inheritdoc/>

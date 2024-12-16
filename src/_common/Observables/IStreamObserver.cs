@@ -39,15 +39,15 @@ public interface IStreamObserver<in T>
     /// <param name="fromTimestamp">
     /// Starting point in timeline to rebuild.
     /// </param>
-    void OnChange(DateTime fromTimestamp);
+    void OnRebuild(DateTime fromTimestamp);
 
     /// <summary>
     /// Provides the observer with notification to prune data.
     /// </summary>
-    /// <param name="timestamp">
-    /// Timestamp of the pruned data.
+    /// <param name="toTimestamp">
+    /// Ending point in timeline to prune.
     /// </param>
-    void OnPrune(DateTime timestamp);
+    void OnPrune(DateTime toTimestamp);
 
     /// <summary>
     /// Provides the observer with errors from the provider

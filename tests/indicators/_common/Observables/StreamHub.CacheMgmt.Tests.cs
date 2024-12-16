@@ -151,38 +151,54 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void MaxCacheSize()
     {
+        int maxCacheSize = 30;
+
         // initialize
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> provider = new(maxCacheSize);
         SmaHub<Quote> observer = provider.ToSma(20);
 
-        // add quotes
-        provider.Add(Quotes.Take(50));
+        // sets max cache size
+        provider.MaxCacheSize.Should().Be(maxCacheSize);
 
-        // set max cache size
-        int maxCacheSize = 30;
+        // inherits max cache size
         observer.MaxCacheSize.Should().Be(maxCacheSize);
-
-        // add more quotes to exceed max cache size
-        provider.Add(Quotes.Skip(50).Take(10));
-
-        // assert: cache size is pruned
-        observer.Results.Should().HaveCount(maxCacheSize);
     }
 
     [TestMethod]
-    public void PruneCache()
+    public void PrunedCache()
     {
+        int maxCacheSize = 30;
+
         // initialize
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> provider = new(maxCacheSize);
         SmaHub<Quote> observer = provider.ToSma(20);
+        IReadOnlyList<SmaResult> seriesList = Quotes.ToSma(20);
 
         // add quotes
-        provider.Add(Quotes.Take(50));
+        provider.Add(Quotes.Take(maxCacheSize));
 
-        // prune cache
-        observer.PruneCache();
+        // assert: cache size is full size
+        provider.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // add more quotes to exceed max cache size
+        provider.Add(Quotes.Skip(maxCacheSize).Take(10));
 
         // assert: cache size is pruned
-        observer.Results.Should().HaveCount(30);
+        provider.Results.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // assert: correct values remain
+        provider.Quotes.Should().BeEquivalentTo(
+            Quotes.Skip(10).Take(maxCacheSize));
+
+        observer.Results.Should().BeEquivalentTo(
+            seriesList.Skip(10).Take(maxCacheSize));
     }
+
+    [TestMethod]
+    public void PrunedAsymmetric() =>
+        // TODO: asymetric results (e.g. Renko)
+        // pruned to correct date, instead of count
+        Assert.Inconclusive("not implemented");
 }

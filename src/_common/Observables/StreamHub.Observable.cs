@@ -16,6 +16,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     public IReadOnlyList<TOut> ReadCache => Cache;
 
     /// <inheritdoc/>
+    public int MaxCacheSize { get; init; }
+
+    /// <inheritdoc/>
     public virtual BinarySettings Properties { get; init; } = new(0); // default 0b00000000
 
     #region SUBSCRIPTION SERVICES
@@ -94,23 +97,24 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>
     /// <summary>
     /// Sends rebuilds point in time to all subscribers.
     /// </summary>
-    /// <param name="fromTimestamp">Rebuild starting positions.</param>
-    private void NotifyObserversOnChange(DateTime fromTimestamp)
+    /// <param name="fromTimestamp">Rebuild starting date.</param>
+    private void NotifyObserversOnRebuild(DateTime fromTimestamp)
     {
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnChange(fromTimestamp);
+            o.OnRebuild(fromTimestamp);
         }
     }
 
     /// <summary>
     /// Sends prune notification to all subscribers.
     /// </summary>
-    private void NotifyObserversOnPrune()
+    /// <param name="toTimestamp">Prune ending date.</param>
+    private void NotifyObserversOnPrune(DateTime toTimestamp)
     {
         foreach (IStreamObserver<TOut> o in _observers.ToArray())
         {
-            o.OnChange(DateTime.MinValue);
+            o.OnPrune(toTimestamp);
         }
     }
 

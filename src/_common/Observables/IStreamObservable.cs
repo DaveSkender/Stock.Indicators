@@ -61,6 +61,11 @@ public interface IStreamObservable<out T>
     BinarySettings Properties { get; }
 
     /// <summary>
+    /// Gets the maximum size of the Cache list.
+    /// </summary>
+    int MaxCacheSize { get; }
+
+    /// <summary>
     /// Gets the current number of subscribers.
     /// </summary>
     int ObserverCount { get; }

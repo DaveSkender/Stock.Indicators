@@ -15,7 +15,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Initializes a new instance of the <see cref="StreamHub{TIn, TOut}"/> class.
     /// </summary>
     /// <param name="provider">Streaming data provider.</param>
-    private protected StreamHub(IStreamObservable<TIn> provider)
+    private protected StreamHub(
+        IStreamObservable<TIn> provider)
     {
         // store provider reference
         Provider = provider;
@@ -25,6 +26,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         // inherit settings (reinstantiate struct on heap)
         Properties = Properties.Combine(provider.Properties);
+
+        // inherit max cache size
+        MaxCacheSize = provider.MaxCacheSize;
     }
 
     #endregion
@@ -36,9 +40,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
     /// <inheritdoc/>
     public bool IsFaulted { get; private set; }
-
-    /// <inheritdoc/>
-    public int MaxCacheSize { get; init; } = int.MaxValue;
 
     /// <summary>
     /// Gets the cache of stored values (base).
@@ -112,7 +113,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         {
             OnAdd(newIn, notify: true, null);
         }
-        PruneCache();
     }
 
     /// <summary>
@@ -137,7 +137,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             }
 
             Cache.Insert(index, result);
-            NotifyObserversOnChange(result.Timestamp);
+            NotifyObserversOnRebuild(result.Timestamp);
         }
 
         // normal add
@@ -256,6 +256,9 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             return !Properties[1];
         }
 
+        // maintenance pruning
+        PruneCache();
+
         // not repeating
         OverflowCount = 0;
         LastItem = item;
@@ -273,7 +276,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     public void Remove(TOut cachedItem)
     {
         Cache.Remove(cachedItem);
-        NotifyObserversOnChange(cachedItem.Timestamp);
+        NotifyObserversOnRebuild(cachedItem.Timestamp);
     }
 
     /// <summary>
@@ -285,7 +288,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     {
         TOut cachedItem = Cache[cacheIndex];
         Cache.RemoveAt(cacheIndex);
-        NotifyObserversOnChange(cachedItem.Timestamp);
+        NotifyObserversOnRebuild(cachedItem.Timestamp);
     }
 
     /// <summary>
@@ -305,7 +308,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         // notify observers
         if (notify)
         {
-            NotifyObserversOnChange(fromTimestamp);
+            NotifyObserversOnRebuild(fromTimestamp);
         }
     }
 
@@ -334,12 +337,22 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Prunes the cache to the maximum size.
     /// </summary>
-    public void PruneCache()
+    protected void PruneCache()
     {
+        if (Cache.Count < MaxCacheSize)
+        {
+            return;
+        }
+
+        DateTime toTimestamp = DateTime.MinValue;
+
         while (Cache.Count > MaxCacheSize)
         {
+            toTimestamp = Cache[0].Timestamp;
             Cache.RemoveAt(0);
         }
+
+        NotifyObserversOnPrune(toTimestamp);
     }
     #endregion
 
@@ -392,7 +405,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
         }
 
         // notify observers
-        NotifyObserversOnChange(fromTimestamp);
+        NotifyObserversOnRebuild(fromTimestamp);
     }
 
     /// <summary>
@@ -433,6 +446,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 #region chain and quote variants
 
 /// <inheritdoc cref="IStreamHub{TIn, TOut}"/>
+/// <param name="provider">Streaming data provider.</param>
 public abstract class QuoteProvider<TIn, TOut>(
     IStreamObservable<TIn> provider
 ) : StreamHub<TIn, TOut>(provider), IQuoteProvider<TOut>
