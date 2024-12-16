@@ -148,6 +148,7 @@ jobs:
       - name: Publish to GitHub Packages (staging)
         if: inputs.environment == 'staging'
         run: |
+          dotnet nuget add source --username DaveSkender --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DaveSkender/index.json"
           dotnet nuget push NuGet/*.nupkg --source "https://nuget.pkg.github.com/DaveSkender/index.json" --api-key ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to NuGet.org
