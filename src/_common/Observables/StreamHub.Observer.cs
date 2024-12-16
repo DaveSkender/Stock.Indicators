@@ -41,7 +41,8 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamObserver<TIn>
     /// <inheritdoc/>
     public void OnPrune(DateTime toTimestamp)
     {
-        while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp){
+        while (Cache.Count > 0 && Cache[0].Timestamp <= toTimestamp)
+        {
             Cache.RemoveAt(0);
         }
 

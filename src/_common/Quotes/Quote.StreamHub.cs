@@ -29,7 +29,8 @@ public class QuoteHub<TQuote>
     /// </summary>
     /// <param name="maxCacheSize">Maximum in-memory cache size.</param>
     public QuoteHub(int? maxCacheSize = null)
-        : base(new BaseProvider<TQuote>()) {
+        : base(new BaseProvider<TQuote>())
+    {
 
         const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
 
