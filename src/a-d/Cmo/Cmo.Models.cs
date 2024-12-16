@@ -13,5 +13,6 @@ public record CmoResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Cmo.Null2NaN();
 }

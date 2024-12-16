@@ -13,5 +13,6 @@ public record TemaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Tema.Null2NaN();
 }

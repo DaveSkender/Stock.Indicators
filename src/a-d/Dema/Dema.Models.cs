@@ -13,5 +13,6 @@ public record DemaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Dema.Null2NaN();
 }

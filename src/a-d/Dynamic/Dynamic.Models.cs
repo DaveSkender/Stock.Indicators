@@ -13,5 +13,6 @@ public record DynamicResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Dynamic.Null2NaN();
 }

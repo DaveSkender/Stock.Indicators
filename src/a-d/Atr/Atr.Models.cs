@@ -17,5 +17,6 @@ public record AtrResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Atrp.Null2NaN();
 }

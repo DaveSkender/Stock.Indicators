@@ -13,5 +13,6 @@ public record EpmaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Epma.Null2NaN();
 }

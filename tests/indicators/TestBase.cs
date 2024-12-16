@@ -15,6 +15,7 @@ public abstract class TestBase  // base for all tests
     internal static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
     internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
+    internal static readonly IReadOnlyList<Quote> Intraday = Data.GetIntraday();
     internal static readonly IReadOnlyList<Quote> OtherQuotes = Data.GetCompare();
     internal static readonly IReadOnlyList<Quote> BadQuotes = Data.GetBad();
     internal static readonly IReadOnlyList<Quote> BigQuotes = Data.GetTooBig();

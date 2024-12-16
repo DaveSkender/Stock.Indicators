@@ -13,5 +13,6 @@ public record EmaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Ema.Null2NaN();
 }

@@ -13,5 +13,6 @@ public record BopResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Bop.Null2NaN();
 }

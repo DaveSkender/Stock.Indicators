@@ -15,5 +15,6 @@ public record DpoResult
     ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Dpo.Null2NaN();
 }

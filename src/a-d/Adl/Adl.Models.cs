@@ -17,5 +17,6 @@ public record AdlResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Adl;
 }

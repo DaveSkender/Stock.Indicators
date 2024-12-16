@@ -23,5 +23,6 @@ public record BollingerBandsResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => PercentB.Null2NaN();
 }

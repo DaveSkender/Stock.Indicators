@@ -13,6 +13,7 @@ public record ChandelierResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => ChandelierExit.Null2NaN();
 }
 

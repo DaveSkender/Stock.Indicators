@@ -15,5 +15,6 @@ public record TrixResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Trix.Null2NaN();
 }
