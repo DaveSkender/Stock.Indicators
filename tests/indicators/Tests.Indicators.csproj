@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
 
+  <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
 
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -13,18 +15,15 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.collector" PrivateAssets="All" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="MSTest.Analyzers" PrivateAssets="All" />
     <PackageReference Include="MSTest.TestAdapter" />
     <PackageReference Include="MSTest.TestFramework" />
-    <PackageReference Include="coverlet.collector">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -32,9 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="_common\data\*.csv">
+
+    <None Update="_testdata\data\*.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+
     <None Update="a-d\Adx\issue859quotes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
