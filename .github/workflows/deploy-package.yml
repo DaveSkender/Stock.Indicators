@@ -146,20 +146,6 @@ jobs:
           name: packages
           path: NuGet
 
-      - name: Delete existing package (staging)
-        if: inputs.environment == 'staging'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PACKAGE_NAME="Skender.Stock.Indicators"
-          VERSION=$(ls NuGet/*.nupkg | grep -oP '(?<=Skender.Stock.Indicators\.)\d+\.\d+\.\d+(?=\.nupkg)')
-          echo "Detected version: $VERSION"
-
-          # Attempt to delete the existing package version
-          curl -X DELETE \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            "https://api.github.com/users/DaveSkender/packages/nuget/$PACKAGE_NAME/versions/$VERSION" || echo "No existing package to delete."
-
       - name: Publish to GitHub Packages (staging)
         if: inputs.environment == 'staging'
         run: |
