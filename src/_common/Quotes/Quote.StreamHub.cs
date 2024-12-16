@@ -34,7 +34,7 @@ public class QuoteHub<TQuote>
 
         const int maxCacheSizeDefault = (int)(0.9 * int.MaxValue);
 
-        if (maxCacheSize != null && maxCacheSize > maxCacheSizeDefault)
+        if (maxCacheSize is not null and > maxCacheSizeDefault)
         {
             string message
                 = $"'{nameof(maxCacheSize)}' must be less than {maxCacheSizeDefault}.";
@@ -51,7 +51,8 @@ public class QuoteHub<TQuote>
     /// </summary>
     /// <param name="provider">The quote provider.</param>
     public QuoteHub(
-        IQuoteProvider<TQuote> provider) : base(provider)
+        IQuoteProvider<TQuote> provider)
+        : base(provider)
     {
         Reinitialize();
     }

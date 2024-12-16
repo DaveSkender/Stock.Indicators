@@ -15,8 +15,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Initializes a new instance of the <see cref="StreamHub{TIn, TOut}"/> class.
     /// </summary>
     /// <param name="provider">Streaming data provider.</param>
-    private protected StreamHub(
-        IStreamObservable<TIn> provider)
+    private protected StreamHub(IStreamObservable<TIn> provider)
     {
         // store provider reference
         Provider = provider;
@@ -97,11 +96,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// Adds a new item to the stream.
     /// </summary>
     /// <param name="newIn">The new item to add.</param>
-    public void Add(TIn newIn)
-    {
-        OnAdd(newIn, notify: true, null);
-        PruneCache();
-    }
+    public void Add(TIn newIn) => OnAdd(newIn, notify: true, null);
 
     /// <summary>
     /// Adds a batch of new items to the stream.
@@ -174,7 +169,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
             // add to cache
             case Act.Add:
                 Add(result, notify);
-                PruneCache();
                 break;
 
             // rebuild cache
@@ -346,7 +340,7 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
 
         DateTime toTimestamp = DateTime.MinValue;
 
-        while (Cache.Count > MaxCacheSize)
+        while (Cache.Count >= MaxCacheSize)
         {
             toTimestamp = Cache[0].Timestamp;
             Cache.RemoveAt(0);
