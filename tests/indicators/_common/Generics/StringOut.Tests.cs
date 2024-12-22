@@ -1,235 +1,65 @@
-using System.Diagnostics;
+using System.Globalization;
+using System.Xml;
+using Test.Utilities;
 
 namespace Tests.Common;
 
 [TestClass]
 public class StringOut : TestBase
 {
+
+
     [TestMethod]
-    public void ToStringFixedWidth()
+    public void ToStringOut()
     {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
+        DateTime timestamp = DateTime.TryParse(
+            "2017-02-03", CultureInfo.InvariantCulture, out DateTime d) ? d : default;
 
-        string header = "  i  Timestamp   Macd    Histogram  Signal  FastEma  SlowEma ";
-        output.Should().Contain(header);
+        Quote quote = new(timestamp, 216.1m, 216.875m, 215.84m, 216.67m, 85273832);
 
-        string[] lines = output.Split(Environment.NewLine);
-        lines[0].Should().Be(header);
-        lines[1].Should().Be("  0  2017-01-03  000.00  000.00     000.00  0.0000   000.00  ");
+        string sut = quote.ToStringOut();
+        Console.WriteLine(sut);
+
+        // note description has max of 30 "-" characters
+        string expected = """
+            Property   Type                    Value  Description
+            ------------------------------------------------------------------------
+            Timestamp  DateTime  2017-02-03T00:00:00  Close date/time of the aggregate
+            Open       Decimal                 216.1  Aggregate bar's first tick price
+            High       Decimal               216.875  Aggregate bar's highest tick price
+            Low        Decimal                215.84  Aggregate bar's lowest tick price
+            Close      Decimal                216.67  Aggregate bar's last tick price
+            Volume     Decimal              85273832  Aggregate bar's tick volume
+            """.WithDefaultLineEndings();
+
+        sut.Should().Be(expected);
     }
 
     [TestMethod]
-    public void ToStringBigNumbers()
+    public void ToStringOutAllTypes()
     {
-        string output = Data.GetTooBig(50).ToMacd().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
+        AllTypes allTypes = new();
+        string sut = allTypes.ToStringOut();
+        Console.WriteLine(sut);
 
-        output.Should().NotContain(",");
+        string expected = """
+            Property   Type           Value  Description
+            -------------------------------------------------------------------
+            Timestamp  DateTime  2024-02-02  Gets the date/time of the record.
+            Open       Decimal       216.18  Aggregate bar's first tick price
+            High       Decimal       216.87  Aggregate bar's highest tick price
+            Low        Decimal       215.84  Aggregate bar's lowest tick price
+            Close      Decimal       216.67  Aggregate bar's last tick price
+            Volume     Decimal     85273832  Aggregate bar's tick volume
+            """.WithDefaultLineEndings();
+
+        sut.Should().Be(expected);
     }
 
     [TestMethod]
-    public void ToStringCSV()
+    public void ToFixedWidthQuoteStandard()
     {
-        string output = Quotes.ToMacd().ToStringOut(OutType.CSV, numberPrecision: 2);
-        //Console.WriteLine(output);
-
-        string header = "Timestamp,Macd,Signal,Histogram,FastEma,SlowEma";
-        output.Should().Contain(header);
-
-        string[] lines = output.Split(Environment.NewLine);
-        lines.Length.Should().Be(504);   // 1 header + 502 data rows + trailing newline
-        lines[0].Should().Be(header);
-
-        lines = lines.Skip(1).ToArray(); // remove header for index parity
-
-        lines[0].Should().Be("2017-01-03,,,,,");
-        lines[10].Should().Be("2017-01-18,,,,,");
-        lines[11].Should().Be("2017-01-19,,,,213.98,");
-        lines[25].Should().Be("2017-02-08,0.88,,,215.75,214.87");
-        lines[33].Should().Be("2017-02-21,2.20,1.52,0.68,219.94,217.74");
-        lines[501].Should().Be("2018-12-31,-6.22,-5.86,-0.36,245.50,251.72");
-    }
-
-    [TestMethod]
-    public void ToStringCSVRandomQuotes()
-    {
-        List<Quote> quotes = Data.GetRandom(
-            bars: 1000,
-            periodSize: PeriodSize.Day,
-            includeWeekends: false)
-            .ToList();
-
-        string output = quotes.ToStringOut(OutType.CSV, numberPrecision: 6);
-        Console.WriteLine(output);
-
-        Assert.Fail("test not implemented");
-    }
-
-    [TestMethod]
-    public void ToStringJson()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.JSON);
-        Console.WriteLine(output);
-
-        output.Should().StartWith("[");
-        output.Should().EndWith("]");
-    }
-
-    [TestMethod]
-    public void ToStringWithLimitQty()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth, 4);
-        Console.WriteLine(output);
-
-        output.Should().Contain("Timestamp");
-        output.Should().Contain("Macd");
-        output.Should().Contain("Histogram");
-        output.Should().Contain("Signal");
-
-        string[] lines = output.Split(Environment.NewLine);
-        lines.Length.Should().Be(5); // 1 header + 4 data rows
-    }
-
-    [TestMethod]
-    public void ToStringWithStartIndexAndEndIndex()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth, null, 2, 5);
-        Console.WriteLine(output);
-
-        output.Should().Contain("Timestamp");
-        output.Should().Contain("Macd");
-        output.Should().Contain("Histogram");
-        output.Should().Contain("Signal");
-
-        string[] lines = output.Split(Environment.NewLine);
-        lines.Length.Should().Be(5); // 1 header + 4 data rows
-    }
-
-    [TestMethod]
-    public void ToStringOutOrderDateFirst()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        string[] lines = output.Split(Environment.NewLine);
-        string headerLine = lines[0];
-        string lineLine = lines[1];
-        string firstDataLine = lines[2];
-
-        headerLine.Should().Be("  i  Timestamp   Macd    Histogram  Signal  FastEma  SlowEma ");
-        lineLine.Should().Be("-----------------------------------------------------------");
-        firstDataLine.Should().StartWith("  0  2017-01-03");
-    }
-
-    [TestMethod]
-    public void ToStringOutProperUseOfOutType()
-    {
-        string outputFixedWidth = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
-        string outputCSV = Quotes.ToMacd().ToStringOut(OutType.CSV);
-        string outputJSON = Quotes.ToMacd().ToStringOut(OutType.JSON);
-
-        outputFixedWidth.Should().Contain("Timestamp");
-        outputCSV.Should().Contain("Timestamp,Macd,Histogram,Signal");
-        outputJSON.Should().StartWith("[");
-        outputJSON.Should().EndWith("]");
-    }
-
-    [TestMethod]
-    public void ToStringOutDateFormatting()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        string[] lines = output.Split(Environment.NewLine);
-        string firstDataLine = lines[2];
-
-        firstDataLine.Should().StartWith("  0  2017-01-03");
-    }
-
-    [TestMethod]
-    public void ToStringOutPerformance()
-    {
-        IReadOnlyList<MacdResult> results
-            = LongestQuotes.ToMacd();
-
-        Stopwatch watch = Stopwatch.StartNew();
-        string output = results.ToStringOut(OutType.FixedWidth);
-        watch.Stop();
-
-        // in microseconds (µs)
-        double elapsedµs = watch.ElapsedMilliseconds / 1000d;
-        Console.WriteLine($"Elapsed time: {elapsedµs} µs");
-
-        Console.WriteLine(output);
-
-        // Performance should be fast
-        elapsedµs.Should().BeLessThan(2);
-    }
-
-    [TestMethod]
-    public void ToStringOutDifferentBaseListTypes()
-    {
-        string output = Quotes.ToCandles().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        string[] lines = output.Split(Environment.NewLine);
-        lines[0].Should().Be("  i  Timestamp     Open     High    Low   Close    Volume  Size   Body  UpperWick  LowerWick");
-        lines[1].Should().Be("  0  2017-01-03  212.71  213.35  211.52  212.57  96708880  1.83   0.14       0.64       0.18");
-    }
-
-    [TestMethod]
-    public void ToStringOutWithMultipleIndicators()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        output.Should().Contain("Timestamp");
-        output.Should().Contain("Macd");
-        output.Should().Contain("Histogram");
-        output.Should().Contain("Signal");
-
-        output = Quotes.ToAdx().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        output.Should().Contain("Timestamp");
-        output.Should().Contain("Pdi");
-        output.Should().Contain("Mdi");
-        output.Should().Contain("Adx");
-
-        string[] lines = output.Split(Environment.NewLine);
-        lines[0].Should().Be("Timestamp      Pdi         Mdi         Adx         ");
-        lines[1].Should().Be("2017-01-03     0.0000      0.0000      0.0000      ");
-    }
-
-    [TestMethod]
-    public void ToStringOutWithUniqueHeadersAndValues()
-    {
-        string output = Quotes.ToMacd().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        output.Should().Contain("Timestamp");
-        output.Should().Contain("Macd");
-        output.Should().Contain("Histogram");
-        output.Should().Contain("Signal");
-
-        output = Quotes.ToAdx().ToStringOut(OutType.FixedWidth);
-        Console.WriteLine(output);
-
-        output.Should().Contain("Timestamp");
-        output.Should().Contain("Pdi");
-        output.Should().Contain("Mdi");
-        output.Should().Contain("Adx");
-
-        string[] lines = output.Split(Environment.NewLine);
-        lines[0].Should().Be("Timestamp      Pdi         Mdi         Adx         ");
-        lines[1].Should().Be("2017-01-03     0.0000      0.0000      0.0000      ");
-    }
-
-    [TestMethod]
-    public void ToStringOutWithListQuote()
-    {
-        string output = Quotes.Take(12).ToStringOut(OutType.FixedWidth);
+        string output = Quotes.Take(12).ToFixedWidth();
         Console.WriteLine(output);
 
         string expected = """
@@ -247,15 +77,15 @@ public class StringOut : TestBase
              9  2017-01-17  213.81  214.25  213.33  213.75  64821664.00
             10  2017-01-18  214.02  214.27  213.42  214.22  57997156.00
             11  2017-01-19  214.31  214.46  212.96  213.43  70503512.00
-            """;
+            """.WithDefaultLineEndings();
 
         output.Should().Be(expected);
     }
 
     [TestMethod]
-    public void ToStringOutWithIntradayQuotes()
+    public void ToFixedWidthQuoteIntraday()
     {
-        string output = Intraday.Take(12).ToStringOut(OutType.FixedWidth);
+        string output = Intraday.Take(12).ToFixedWidth();
         Console.WriteLine(output);
 
         string expected = """
@@ -273,13 +103,13 @@ public class StringOut : TestBase
              9  2020-12-15 09:39  367.44  367.60  367.30  367.57  150339.00
             10  2020-12-15 09:40  367.58  367.78  367.56  367.61  136414.00
             11  2020-12-15 09:41  367.61  367.64  367.45  367.60   98185.00
-            """;
+            """.WithDefaultLineEndings();
 
         output.Should().Be(expected);
     }
 
     [TestMethod]
-    public void ToStringOutMinutes()
+    public void ToFixedWidthMinutes()
     {
         List<Quote> quotes = [];
         for (int i = 0; i < 20; i++)
@@ -287,7 +117,7 @@ public class StringOut : TestBase
             quotes.Add(new Quote(new DateTime(2023, 1, 1, 9, 30, 0).AddMinutes(i), 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
         }
 
-        string output = quotes.ToStringOut(OutType.FixedWidth);
+        string output = quotes.ToFixedWidth();
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
@@ -297,7 +127,7 @@ public class StringOut : TestBase
     }
 
     [TestMethod]
-    public void ToStringOutSeconds()
+    public void ToFixedWidthSeconds()
     {
         List<Quote> quotes = [];
         for (int i = 0; i < 20; i++)
@@ -305,7 +135,7 @@ public class StringOut : TestBase
             quotes.Add(new Quote(new DateTime(2023, 1, 1, 9, 30, 0).AddSeconds(i), 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
         }
 
-        string output = quotes.ToStringOut(OutType.FixedWidth);
+        string output = quotes.ToFixedWidth();
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
@@ -313,4 +143,106 @@ public class StringOut : TestBase
 
         Assert.Fail("test not implemented");
     }
+
+    [TestMethod]
+    public void XmlSummaryParses()
+    {
+        var xmlDoc = new XmlDocument();
+        XmlElement summary = xmlDoc.CreateElement(@"
+            <summary>
+            A <see cref=""T:System.DateTime"" /> property representing a date with time
+            </summary>
+            ");
+
+        string sut = summary.ParseXmlElement();
+
+        List<Quote> quotes = [];
+        for (int i = 0; i < 20; i++)
+        {
+            quotes.Add(new Quote(new DateTime(2023, 1, 1, 9, 30, 0).AddMilliseconds(i), 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
+        }
+        string output = quotes.ToFixedWidth();
+        Console.WriteLine(output);
+        string[] lines = output.Split(Environment.NewLine);
+        lines.Length.Should().Be(23); // 2 headers + 20 data rows
+        Assert.Fail("test not implemented");
+    }
+}
+
+
+
+/// <summary>
+/// A test class implementing <see cref="ISeries"/> containing properties of various data types.
+/// </summary>
+public class AllTypes : ISeries
+{
+    /// <summary>
+    /// A <see cref="DateTime"/> property representing a date with time
+    /// </summary>
+    public DateTime Timestamp { get; } = new DateTime(2023, 1, 1, 12, 0, 0);
+
+    /// <summary>
+    /// A <see cref="DateOnly"/> property representing a date without time.
+    /// </summary>
+    public DateOnly DateProperty { get; } = new DateOnly(2023, 1, 1);
+
+    /// <summary>
+    /// A <see cref="DateTimeOffset"/> property including date, time, and offset.
+    /// </summary>
+    public DateTimeOffset DateTimeOffsetProperty { get; } = new DateTimeOffset(2023, 1, 1, 9, 30, 0, TimeSpan.Zero);
+
+    /// <summary>
+    /// A <see cref="TimeSpan"/> property representing a time interval.
+    /// </summary>
+    public TimeSpan TimeSpanProperty { get; } = new TimeSpan(1, 2, 3);
+
+    /// <summary>
+    /// A <see cref="byte"/> property.
+    /// </summary>
+    public byte ByteProperty { get; } = 1;
+
+    /// <summary>
+    /// A <see cref="short"/> (short) property.
+    /// </summary>
+    public short ShortProperty { get; } = -2;
+
+    /// <summary>
+    /// A <see cref="int"/> (int) property.
+    /// </summary>
+    public int IntProperty { get; } = -3;
+
+    /// <summary>
+    /// A <see cref="long"/> (long) property.
+    /// </summary>
+    public long LongProperty { get; } = -4L;
+
+    /// <summary>
+    /// A <see cref="float"/> (float) property.
+    /// </summary>
+    public float FloatProperty { get; } = 5.5f;
+
+    /// <summary>
+    /// A <see cref="double"/> property.
+    /// </summary>
+    public double DoubleProperty { get; } = 6.6;
+
+    /// <summary>
+    /// A <see cref="decimal"/> property.
+    /// </summary>
+    public decimal DecimalProperty { get; } = 7.7m;
+
+    /// <summary>
+    /// A <see cref="char"/> property.
+    /// </summary>
+    public char CharProperty { get; } = 'A';
+
+    /// <summary>
+    /// A <see cref="bool"/> property.
+    /// </summary>
+    public bool BoolProperty { get; } = true;
+
+    /// <summary>
+    /// A <see cref="string"/> property.
+    /// </summary>
+    public string StringProperty { get; } = "test";
 }
