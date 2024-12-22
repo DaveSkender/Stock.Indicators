@@ -113,12 +113,23 @@ public static class StringOut
         return sb.ToString().TrimEnd();
     }
 
+    /// <summary>
+    /// Calculates the maximum width of a column based on the header and values.
+    /// </summary>
+    /// <param name="header">The header of the column.</param>
+    /// <param name="values">The list of values in the column.</param>
+    /// <returns>The maximum width of the column.</returns>
     private static int MaxWidth(string header, List<string> values)
     {
         int maxValue = values.Count != 0 ? values.Max(v => v.Length) : 0;
         return Math.Max(header.Length, maxValue);
     }
 
+    /// <summary>
+    /// Retrieves property descriptions from the XML documentation file.
+    /// </summary>
+    /// <param name="type">The type whose property descriptions are to be retrieved.</param>
+    /// <returns>A dictionary containing property names and their descriptions.</returns>
     private static Dictionary<string, string> GetPropertyDescriptionsFromXml(Type type)
     {
         Dictionary<string, string> descriptions = [];
