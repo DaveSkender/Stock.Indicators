@@ -10,7 +10,7 @@ public class StringOut : TestBase
 
 
     [TestMethod]
-    public void ToStringOut()
+    public void ToStringOutQuoteType()
     {
         DateTime timestamp = DateTime.TryParse(
             "2017-02-03", CultureInfo.InvariantCulture, out DateTime d) ? d : default;
@@ -43,14 +43,23 @@ public class StringOut : TestBase
         Console.WriteLine(sut);
 
         string expected = """
-            Property   Type           Value  Description
-            -------------------------------------------------------------------
-            Timestamp  DateTime  2024-02-02  Gets the date/time of the record.
-            Open       Decimal       216.18  Aggregate bar's first tick price
-            High       Decimal       216.87  Aggregate bar's highest tick price
-            Low        Decimal       215.84  Aggregate bar's lowest tick price
-            Close      Decimal       216.67  Aggregate bar's last tick price
-            Volume     Decimal     85273832  Aggregate bar's tick volume
+            Property                Type                                          Value  Description
+            -----------------------------------------------------------------------------------------------------------
+            Timestamp               DateTime                       2023-01-01 14:30:00Z  A 'DateTime' type with time (UTC)
+            DateTimeProperty        DateTime                        2023-01-01T09:30:00  A 'DateTime' type with time
+            DateProperty            DateOnly                                 2023-01-01  A 'DateOnly' type without time.
+            DateTimeOffsetProperty  DateTimeOffset    2023-01-01T09:30:00.0000000-05:00  A 'DateTimeOffset' type with time and offset.
+            TimeSpanProperty        TimeSpan                                   01:02:03  A 'TimeSpan' type
+            ByteProperty            Byte                                            255  A 'Byte' type
+            ShortProperty           Int16                                         32767  A 'Int16' short integer type
+            IntProperty             Int32                                   -2147483648  A 'Int32' integer type
+            LongProperty            Int64                           9223372036854775803  'get' the 'Int64' long integer type
+            FloatProperty           Single                                   -125.25143  A get of 'Single' floating point type
+            DoubleProperty          Double                            5.251426433759354  A 'Double' floating point type
+            DecimalProperty         Decimal              7922815.2514264337593543950335  A 'Decimal' type
+            CharProperty            Char                                              A  A 'Char' type
+            BoolProperty            Boolean                                        True  A 'Boolean' type
+            StringProperty          String          The lazy dog jumped over the sly...  A 'String' type
             """.WithDefaultLineEndings();
 
         sut.Should().Be(expected);
@@ -143,30 +152,6 @@ public class StringOut : TestBase
 
         Assert.Fail("test not implemented");
     }
-
-    [TestMethod]
-    public void XmlSummaryParses()
-    {
-        var xmlDoc = new XmlDocument();
-        XmlElement summary = xmlDoc.CreateElement(@"
-            <summary>
-            A <see cref=""T:System.DateTime"" /> property representing a date with time
-            </summary>
-            ");
-
-        string sut = summary.ParseXmlElement();
-
-        List<Quote> quotes = [];
-        for (int i = 0; i < 20; i++)
-        {
-            quotes.Add(new Quote(new DateTime(2023, 1, 1, 9, 30, 0).AddMilliseconds(i), 100 + i, 105 + i, 95 + i, 102 + i, 1000 + i));
-        }
-        string output = quotes.ToFixedWidth();
-        Console.WriteLine(output);
-        string[] lines = output.Split(Environment.NewLine);
-        lines.Length.Should().Be(23); // 2 headers + 20 data rows
-        Assert.Fail("test not implemented");
-    }
 }
 
 
@@ -177,72 +162,77 @@ public class StringOut : TestBase
 public class AllTypes : ISeries
 {
     /// <summary>
-    /// A <see cref="DateTime"/> property representing a date with time
+    /// A <see cref="DateTime"/> type with time (UTC)
     /// </summary>
-    public DateTime Timestamp { get; } = new DateTime(2023, 1, 1, 12, 0, 0);
+    public DateTime Timestamp { get; } = new DateTime(2023, 1, 1, 14, 30, 0, DateTimeKind.Utc);
 
     /// <summary>
-    /// A <see cref="DateOnly"/> property representing a date without time.
+    /// A <see cref="DateTime"/> type with time
+    /// </summary>
+    public DateTime DateTimeProperty { get; } = new DateTime(2023, 1, 1, 9, 30, 0);
+
+    /// <summary>
+    /// A <see cref="DateOnly"/> type without time.
     /// </summary>
     public DateOnly DateProperty { get; } = new DateOnly(2023, 1, 1);
 
     /// <summary>
-    /// A <see cref="DateTimeOffset"/> property including date, time, and offset.
+    /// A <see cref="DateTimeOffset"/> type with time and offset.
     /// </summary>
-    public DateTimeOffset DateTimeOffsetProperty { get; } = new DateTimeOffset(2023, 1, 1, 9, 30, 0, TimeSpan.Zero);
+    public DateTimeOffset DateTimeOffsetProperty { get; } = new DateTimeOffset(2023, 1, 1, 9, 30, 0, TimeSpan.FromHours(-5));
 
     /// <summary>
-    /// A <see cref="TimeSpan"/> property representing a time interval.
+    /// A <see cref="TimeSpan"/> type
     /// </summary>
     public TimeSpan TimeSpanProperty { get; } = new TimeSpan(1, 2, 3);
 
     /// <summary>
-    /// A <see cref="byte"/> property.
+    /// A <see cref="byte"/> type
     /// </summary>
-    public byte ByteProperty { get; } = 1;
+    public byte ByteProperty { get; } = 255;
 
     /// <summary>
-    /// A <see cref="short"/> (short) property.
+    /// A <see cref="short"/> short integer type
     /// </summary>
-    public short ShortProperty { get; } = -2;
+    public short ShortProperty { get; } = 32767;
 
     /// <summary>
-    /// A <see cref="int"/> (int) property.
+    /// A <see cref="int"/> integer type
     /// </summary>
-    public int IntProperty { get; } = -3;
+    public int IntProperty { get; } = -2147483648;
 
     /// <summary>
-    /// A <see cref="long"/> (long) property.
+    /// <see langword="get"/> the <see cref="long"/> long integer type
     /// </summary>
-    public long LongProperty { get; } = -4L;
+    public long LongProperty { get; } = 9223372036854775803L;
 
     /// <summary>
-    /// A <see cref="float"/> (float) property.
+    /// A <code>get</code> of <see cref="float"/> floating point type
     /// </summary>
-    public float FloatProperty { get; } = 5.5f;
+    public float FloatProperty { get; } = -125.25143f;
 
     /// <summary>
-    /// A <see cref="double"/> property.
+    /// A <see cref="double"/> floating point type
     /// </summary>
-    public double DoubleProperty { get; } = 6.6;
+    public double DoubleProperty { get; } = 5.251426433759354d;
 
     /// <summary>
-    /// A <see cref="decimal"/> property.
+    /// A <see cref="decimal"/> type
     /// </summary>
-    public decimal DecimalProperty { get; } = 7.7m;
+    public decimal DecimalProperty { get; } = 7922815.2514264337593543950335m;
 
     /// <summary>
-    /// A <see cref="char"/> property.
+    /// A <see cref="char"/> type
     /// </summary>
     public char CharProperty { get; } = 'A';
 
     /// <summary>
-    /// A <see cref="bool"/> property.
+    /// A <see cref="bool"/> type
     /// </summary>
     public bool BoolProperty { get; } = true;
 
     /// <summary>
-    /// A <see cref="string"/> property.
+    /// A <see cref="string"/> type
     /// </summary>
-    public string StringProperty { get; } = "test";
+    public string StringProperty { get; } = "The lazy dog jumped over the sly brown fox.";
 }

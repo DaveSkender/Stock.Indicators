@@ -72,6 +72,13 @@ public static class StringOut
                 case DateTimeOffset dateTimeOffsetValue:
                     values.Add(dateTimeOffsetValue.ToString("o", culture));
                     break;
+                case string stringValue:
+                    if(stringValue.Length > 35)
+                    {
+                        stringValue = string.Concat(stringValue.AsSpan(0, 32), "...");
+                    }
+                    values.Add(stringValue);
+                    break;
                 default:
                     values.Add(value?.ToString() ?? string.Empty);
                     break;
@@ -146,10 +153,7 @@ public static class StringOut
 
                 // Get the summary element
                 XElement? summaryElement = memberElement.Element("summary");
-                if (summaryElement != null)
-                {
-                    descriptions[propName] = ParseXmlElement(summaryElement);
-                }
+                descriptions[propName] = summaryElement?.ParseXmlElement() ?? string.Empty;
             }
         }
 
@@ -160,7 +164,7 @@ public static class StringOut
     /// Ensures that the text content of an XML documentation properly
     /// converts HTML refs like <see cref="long"/> and <see langword="get"/>."/>
     /// </summary>
-    /// <param name="summaryElement"></param>
+    /// <param name="summaryElement"><see cref="XElement"/> to be cleaned.</param>
     /// <returns></returns>
     public static string ParseXmlElement(this XElement? summaryElement)
     {
@@ -169,34 +173,24 @@ public static class StringOut
             return string.Empty;
         }
 
-        foreach (XNode node in summaryElement.DescendantNodes())
+        // Handle <see> elements
+        foreach (XNode node in summaryElement.DescendantNodes().ToList())
         {
-            if (node is XElement element)
+            if (node is XElement element && element.Name.LocalName == "see")
             {
-                switch (element.Name.LocalName)
+                foreach (XAttribute attribute in element.Attributes().ToList())
                 {
-                    case "see":
-                        string? cref = element.Attribute("cref")?.Value;
-                        if (!string.IsNullOrEmpty(cref))
-                        {
-                            element.ReplaceWith(new XText(cref));
-                        }
-
-                        break;
-
-                    case "langword":
-                        string langword = element.Value;
-                        if (!string.IsNullOrEmpty(langword))
-                        {
-                            element.ReplaceWith(new XText(langword));
-                        }
-
-                        break;
+                    string word = attribute.Value.Split('.').Last();
+                    element.ReplaceWith($"'{new XText(word)}'");
                 }
             }
         }
 
-        return summaryElement.Value.Trim();
+        // Return summary text without line breaks
+        return summaryElement.Value
+            .Replace("\n", " ", StringComparison.Ordinal)
+            .Replace("\r", " ", StringComparison.Ordinal)
+            .Trim();
     }
 
     /// <summary>
