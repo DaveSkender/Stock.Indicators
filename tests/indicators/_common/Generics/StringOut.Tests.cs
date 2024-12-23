@@ -21,6 +21,15 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
+    public void ToConsoleQuoteList()
+    {
+        string sut = Quotes.ToConsole();
+        string val = Quotes.ToFixedWidth();
+
+        sut.Should().Be(val);
+    }
+
+    [TestMethod]
     public void ToStringOutQuoteType()
     {
         DateTime timestamp = DateTime.TryParse(
@@ -168,7 +177,7 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthMinutes()
+    public void ToFixedWidthQuoteMinutes()
     {
         List<Quote> quotes = [];
         for (int i = 0; i < 20; i++)
@@ -213,7 +222,7 @@ public class StringOutputs : TestBase
     }
 
     [TestMethod]
-    public void ToFixedWidthSeconds()
+    public void ToFixedWidthQuoteSeconds()
     {
         List<Quote> quotes = [];
         for (int i = 0; i < 20; i++)
@@ -253,6 +262,80 @@ public class StringOutputs : TestBase
 
         string[] lines = output.Split(Environment.NewLine);
         lines.Length.Should().Be(23); // 2 headers + 20 data rows + 1 eof line
+
+        output.Should().Be(expected);
+    }
+
+    [TestMethod]
+    public void ToFixedWidthResultEma()
+    {
+        string output = Quotes.ToEma(14).TakeLast(20).ToFixedWidth();
+        Console.WriteLine(output);
+
+        // TODO: fix after adding index range
+
+        string expected = """
+             i  Timestamp          Ema
+            --------------------------
+             0  2018-11-30  264.760868
+             1  2018-12-03  265.795419
+             2  2018-12-04  265.514696
+             3  2018-12-06  265.218070
+             4  2018-12-07  264.144994
+             5  2018-12-10  263.280328
+             6  2018-12-11  262.538951
+             7  2018-12-12  262.068424
+             8  2018-12-13  261.649968
+             9  2018-12-14  260.649972
+            10  2018-12-17  259.117976
+            11  2018-12-18  257.754246
+            12  2018-12-19  256.075013
+            13  2018-12-20  254.087678
+            14  2018-12-21  251.706654
+            15  2018-12-24  248.811100
+            16  2018-12-26  247.850954
+            17  2018-12-27  247.265493
+            18  2018-12-28  246.716761
+            19  2018-12-31  246.525193
+
+            """.WithDefaultLineEndings();
+
+        output.Should().Be(expected);
+    }
+
+    [TestMethod]
+    public void ToFixedWidthResultHtTrendline()
+    {
+        string output = Quotes.ToHtTrendline().TakeLast(20).ToFixedWidth();
+        Console.WriteLine(output);
+
+        // TODO: fix after adding index range
+
+        string expected = """
+             i  Timestamp   DcPeriods   Trendline  SmoothPrice
+            --------------------------------------------------
+             0  2018-11-30         18  265.182611   266.504500
+             1  2018-12-03         18  265.333361   269.283000
+             2  2018-12-04         18  265.339500   269.112000
+             3  2018-12-06         18  265.021528   265.465500
+             4  2018-12-07         18  264.534000   262.859000
+             5  2018-12-10         18  263.902778   259.063500
+             6  2018-12-11         18  263.325333   258.217000
+             7  2018-12-12         18  262.901750   259.052000
+             8  2018-12-13         18  262.576694   259.251000
+             9  2018-12-14         17  262.116395   258.051000
+            10  2018-12-17         17  261.638544   254.952000
+            11  2018-12-18         16  261.162755   252.068500
+            12  2018-12-19         16  260.575757   249.830000
+            13  2018-12-20         15  259.602137   246.270500
+            14  2018-12-21         15  258.224379   243.332000
+            15  2018-12-24         15  256.363465   238.586500
+            16  2018-12-26         16  254.677550   236.418000
+            17  2018-12-27         17  253.349104   236.952000
+            18  2018-12-28         18  252.457014   239.867000
+            19  2018-12-31         20  252.217179   242.343500
+
+            """.WithDefaultLineEndings();
 
         output.Should().Be(expected);
     }

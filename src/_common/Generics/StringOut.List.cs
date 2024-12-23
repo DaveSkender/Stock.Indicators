@@ -35,6 +35,19 @@ public static partial class StringOut
     };
 
     /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="list">The list of ISeries elements to convert.</param>
+    /// <returns>The fixed-width formatted string representation of the list.</returns>
+    public static string ToConsole<T>(this IEnumerable<T> list) where T : ISeries
+    {
+        string? output = list.ToFixedWidth();
+        Console.WriteLine(output);
+        return output ?? string.Empty;
+    }
+
+    /// <summary>
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
@@ -50,7 +63,7 @@ public static partial class StringOut
 
         Dictionary<string, string> formatArgs = defaultArgs
             .Concat(args ?? [])
-            .GroupBy(kvp => kvp.Key.ToLower(culture))
+            .GroupBy(kvp => kvp.Key.ToUpperInvariant())
             .ToDictionary(g => g.Key, g => g.Last().Value);
 
         // Get properties of the object,
@@ -83,13 +96,15 @@ public static partial class StringOut
 
             // try by property type
             formats[i] = formatArgs.TryGetValue(
-                property.PropertyType.Name.ToLower(culture), out string? typeFormat)
+                ColloquialTypeName(property.PropertyType).ToUpperInvariant(),
+                    out string? typeFormat)
                 ? typeFormat
                 : string.Empty;
 
             // try by property name (overrides type)
             formats[i] = formatArgs.TryGetValue(
-                property.Name.ToLower(culture), out string? nameFormat)
+                property.Name.ToUpperInvariant(),
+                    out string? nameFormat)
                 ? nameFormat
                 : formats[i];
 
@@ -201,6 +216,33 @@ public static partial class StringOut
         else
         {
             return string.Empty;
+        }
+    }
+
+
+    public static string ColloquialTypeName(Type type)
+    {
+        if (type == null)
+        {
+            return string.Empty;
+        }
+
+        // Handle nullable types
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+        {
+            type = Nullable.GetUnderlyingType(type) ?? type; // Extract the underlying type
+        }
+
+        // Return the type's C# alias if it exists, or the type's name otherwise
+        if (type.IsPrimitive || type == typeof(string) || type == typeof(decimal) || type == typeof(DateTime))
+        {
+            // Return the type's C# alias if it exists, or the type's name otherwise
+            return type.Name;
+        }
+        else
+        {
+            // Return the type's C# alias if it exists, or the type's name otherwise
+            return type.Name;
         }
     }
 }

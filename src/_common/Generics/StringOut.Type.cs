@@ -205,7 +205,7 @@ public static partial class StringOut
     /// converts HTML refs like <see cref="long"/> and <see langword="get"/>."/>
     /// </summary>
     /// <param name="summaryElement"><see cref="XElement"/> to be cleaned.</param>
-    /// <returns></returns>
+    /// <returns>The cleaned text content of the XML documentation.</returns>
     private static string ParseXmlElement(this XElement? summaryElement)
     {
         if (summaryElement == null)
