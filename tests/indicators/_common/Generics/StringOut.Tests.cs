@@ -1,13 +1,24 @@
 using System.Globalization;
-using System.Xml;
 using Test.Utilities;
 
 namespace Tests.Common;
 
 [TestClass]
-public class StringOut : TestBase
+public class StringOutputs : TestBase
 {
+    [TestMethod]
+    public void ToConsoleQuoteType()
+    {
+        DateTime timestamp = DateTime.TryParse(
+            "2017-02-03", CultureInfo.InvariantCulture, out DateTime d) ? d : default;
 
+        Quote quote = new(timestamp, 216.1579m, 216.875m, 215.84m, 216.67m, 98765432832);
+
+        string sut = quote.ToConsole();
+        string val = quote.ToStringOut();
+
+        sut.Should().Be(val);
+    }
 
     [TestMethod]
     public void ToStringOutQuoteType()
@@ -17,7 +28,7 @@ public class StringOut : TestBase
 
         Quote quote = new(timestamp, 216.1m, 216.875m, 215.84m, 216.67m, 85273832);
 
-        string sut = quote.ToStringOut();
+        string sut = StringOut.ToStringOut(quote);
         Console.WriteLine(sut);
 
         // note description has max of 30 "-" characters
@@ -36,10 +47,10 @@ public class StringOut : TestBase
     }
 
     [TestMethod]
-    public void ToStringOutAllTypes()
+    public void ToStringOutMostTypes()
     {
         AllTypes allTypes = new();
-        string sut = allTypes.ToStringOut();
+        string sut = StringOut.ToStringOut(allTypes);
         Console.WriteLine(sut);
 
         string expected = """
@@ -59,6 +70,7 @@ public class StringOut : TestBase
             DecimalProperty         Decimal              7922815.2514264337593543950335  A 'Decimal' type
             CharProperty            Char                                              A  A 'Char' type
             BoolProperty            Boolean                                        True  A 'Boolean' type
+            NoXmlProperty           Boolean                                       False  
             StringProperty          String          The lazy dog jumped over the sly...  A 'String' type
             """.WithDefaultLineEndings();
 
@@ -230,6 +242,8 @@ public class AllTypes : ISeries
     /// A <see cref="bool"/> type
     /// </summary>
     public bool BoolProperty { get; } = true;
+
+    public bool NoXmlProperty { get; }  // false
 
     /// <summary>
     /// A <see cref="string"/> type

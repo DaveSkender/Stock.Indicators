@@ -13,6 +13,19 @@ public static class StringOut
     private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
 
     /// <summary>
+    /// Writes the string representation of an ISeries instance to the console.
+    /// </summary>
+    /// <typeparam name="T">The type of the ISeries instance.</typeparam>
+    /// <param name="obj">The ISeries instance to write to the console.</param>
+    /// <returns>The string representation of the ISeries instance.</returns>
+    public static string ToConsole<T>(this T obj) where T : ISeries
+    {
+        string? output = obj.ToStringOut();
+        Console.WriteLine(output);
+        return output ?? string.Empty;
+    }
+
+    /// <summary>
     /// Converts an ISeries instance to a formatted string.
     /// </summary>
     /// <typeparam name="T">The type of the ISeries instance.</typeparam>
@@ -51,10 +64,6 @@ public static class StringOut
             string type = prop.PropertyType.Name;
             object? value = prop.GetValue(obj);
 
-            // get description from dictionary
-            descriptionDict.TryGetValue(name, out string? description);
-            description ??= string.Empty;
-
             // add values to lists
             names.Add(name);
             types.Add(type);
@@ -62,27 +71,47 @@ public static class StringOut
             switch (value)
             {
                 case DateTime dateTimeValue:
+
                     values.Add(dateTimeValue.Kind == DateTimeKind.Utc
                         ? dateTimeValue.ToString("u", culture)
                         : dateTimeValue.ToString("s", culture));
                     break;
+
                 case DateOnly dateOnlyValue:
+
                     values.Add(dateOnlyValue.ToString("yyyy-MM-dd", culture));
                     break;
+
                 case DateTimeOffset dateTimeOffsetValue:
+
                     values.Add(dateTimeOffsetValue.ToString("o", culture));
                     break;
+
                 case string stringValue:
-                    if(stringValue.Length > 35)
+
+                    // limit string size
+                    if (stringValue.Length > 35)
                     {
                         stringValue = string.Concat(stringValue.AsSpan(0, 32), "...");
                     }
+
                     values.Add(stringValue);
                     break;
+
                 default:
+
                     values.Add(value?.ToString() ?? string.Empty);
                     break;
             }
+
+            // get/add description from XML documentation
+            descriptionDict.TryGetValue(name, out string? description);
+
+            description = description == null
+                ? string.Empty
+                : description.Length > 50
+                  ? string.Concat(description.AsSpan(0, 47), "...")
+                  : description;
 
             descriptions.Add(description);
         }
@@ -177,7 +206,7 @@ public static class StringOut
     /// </summary>
     /// <param name="summaryElement"><see cref="XElement"/> to be cleaned.</param>
     /// <returns></returns>
-    public static string ParseXmlElement(this XElement? summaryElement)
+    private static string ParseXmlElement(this XElement? summaryElement)
     {
         if (summaryElement == null)
         {
