@@ -8,7 +8,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides extension methods for converting ISeries instances to formatted strings.
 /// </summary>
-public static class StringOut
+public static partial class StringOut
 {
     private static readonly CultureInfo culture = CultureInfo.InvariantCulture;
 
@@ -231,24 +231,5 @@ public static class StringOut
             .Replace("\n", " ", StringComparison.Ordinal)
             .Replace("\r", " ", StringComparison.Ordinal)
             .Trim();
-    }
-
-    /// <summary>
-    /// Converts a list of ISeries to a fixed-width formatted string.
-    /// </summary>
-    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="list">The list of ISeries elements to convert.</param>
-    /// <returns>A fixed-width formatted string representation of the list.</returns>
-    public static string ToFixedWidth<T>(
-        this IEnumerable<T> list)
-        where T : ISeries
-    {
-        ArgumentNullException.ThrowIfNull(list);
-
-        StringBuilder sb = new();
-        PropertyInfo[] properties = typeof(T).GetProperties();
-
-        // Implementation for ToFixedWidth (if needed)
-        return sb.ToString();  // includes a trailing newline
     }
 }
