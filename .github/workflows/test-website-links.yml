@@ -2,7 +2,7 @@ name: Website
 
 on:
   pull_request:
-    branches: [main]
+    branches: ["*"]
     paths:
       - 'docs/**'
       - ".github/workflows/test-website-links.yml"
