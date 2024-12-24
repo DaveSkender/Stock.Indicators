@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+#pragma warning disable IDE0066 // Convert switch statement to expression
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
@@ -161,6 +162,7 @@ public static class Numerical
     /// <returns>True if numeric type.</returns>
     internal static bool IsNumeric(this Type type)
     {
+
         if (type == typeof(DateTime) ||
             type == typeof(DateTimeOffset) ||
             type == typeof(DateOnly))

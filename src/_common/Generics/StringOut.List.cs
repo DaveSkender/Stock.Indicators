@@ -38,11 +38,13 @@ public static partial class StringOut
     /// Converts a list of ISeries to a fixed-width formatted string and writes it to the console.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="list">The list of ISeries elements to convert.</param>
+    /// <param name="source">The list of ISeries elements to convert.</param>
     /// <returns>The fixed-width formatted string representation of the list.</returns>
-    public static string ToConsole<T>(this IEnumerable<T> list) where T : ISeries
+    public static string ToConsole<T>(
+        this IReadOnlyList<T> source)
+        where T : ISeries
     {
-        string? output = list.ToFixedWidth();
+        string? output = source.ToStringOut();
         Console.WriteLine(output);
         return output ?? string.Empty;
     }
@@ -51,18 +53,153 @@ public static partial class StringOut
     /// Converts a list of ISeries to a fixed-width formatted string.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
-    /// <param name="list">The list of ISeries elements to convert.</param>
-    /// <param name="args">Optional formatting overrides.</param>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
     /// <returns>A fixed-width formatted string representation of the list.</returns>
-    public static string ToFixedWidth<T>(
-        this IEnumerable<T> list,
-        Dictionary<string, string>? args = null)
+    /// <remarks>
+    /// Examples:
+    /// <code>
+    /// Dictionary&lt;string, string&gt; args = new()
+    /// {
+    ///     { "Decimal", "N2" },
+    ///     { "DateTime", "MM/dd/yyyy" },
+    ///     { "MyPropertyName", "C" }
+    /// };
+    /// </code>
+    /// </remarks>
+    public static string ToStringOut<T>(
+        this IEnumerable<T> source, IDictionary<string, string>? args = null)
+        where T : ISeries => source.ToList().ToStringOut(0, int.MaxValue, args);
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
+    /// <remarks>
+    /// Examples:
+    /// <code>
+    /// Dictionary&lt;string, string&gt; args = new()
+    /// {
+    ///     { "Decimal", "N2" },
+    ///     { "DateTime", "MM/dd/yyyy" },
+    ///     { "MyPropertyName", "C" }
+    /// };
+    /// </code>
+    /// </remarks>
+    public static string ToStringOut<T>(
+        this IEnumerable<T> source, int limitQty, IDictionary<string, string>? args = null)
+        where T : ISeries => source.ToList().ToStringOut(0, limitQty - 1, args);
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="startIndex">The starting index of the elements to include in the output.</param>
+    /// <param name="endIndex">The ending index of the elements to include in the output.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
+    /// <remarks>
+    /// Examples:
+    /// <code>
+    /// Dictionary&lt;string, string&gt; args = new()
+    /// {
+    ///     { "Decimal", "N2" },
+    ///     { "DateTime", "MM/dd/yyyy" },
+    ///     { "MyPropertyName", "C" }
+    /// };
+    /// </code>
+    /// </remarks>
+    public static string ToStringOut<T>(
+        this IEnumerable<T> source, int startIndex, int endIndex, IDictionary<string, string>? args = null)
+        where T : ISeries => source.ToList().ToStringOut(startIndex, endIndex, args);
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
+    /// <remarks>
+    /// Examples:
+    /// <code>
+    /// Dictionary&lt;string, string&gt; args = new()
+    /// {
+    ///     { "Decimal", "N2" },
+    ///     { "DateTime", "MM/dd/yyyy" },
+    ///     { "MyPropertyName", "C" }
+    /// };
+    /// </code>
+    /// </remarks>
+    public static string ToStringOut<T>(
+        this IReadOnlyList<T> source,
+        IDictionary<string, string>? args = null)
+        where T : ISeries => source.ToStringOut(0, int.MaxValue, args);
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="limitQty">The maximum number of elements to include in the output.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
+    /// <remarks>
+    /// Examples:
+    /// <code>
+    /// Dictionary&lt;string, string&gt; args = new()
+    /// {
+    ///     { "Decimal", "N2" },
+    ///     { "DateTime", "MM/dd/yyyy" },
+    ///     { "MyPropertyName", "C" }
+    /// };
+    /// </code>
+    /// </remarks>
+    public static string ToStringOut<T>(
+        this IReadOnlyList<T> source,
+        int limitQty,
+        IDictionary<string, string>? args = null)
+        where T : ISeries => source.ToStringOut(0, limitQty - 1, args);
+
+    /// <summary>
+    /// Converts a list of ISeries to a fixed-width formatted string.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the list, which must implement ISeries.</typeparam>
+    /// <param name="source">The list of ISeries elements to convert.</param>
+    /// <param name="startIndex">The starting index of the elements to include in the output.</param>
+    /// <param name="endIndex">The ending index of the elements to include in the output.</param>
+    /// <param name="args">Optional overrides for `ToString()` formatter. Key values can be type or property name.</param>
+    /// <returns>A fixed-width formatted string representation of the list.</returns>
+    /// <remarks>
+    /// Examples:
+    /// <code>
+    /// Dictionary&lt;string, string&gt; args = new()
+    /// {
+    ///     { "Decimal", "N2" },
+    ///     { "DateTime", "MM/dd/yyyy" },
+    ///     { "MyPropertyName", "C" }
+    /// };
+    /// </code>
+    /// </remarks>
+    public static string ToStringOut<T>(
+        this IReadOnlyList<T> source,
+        int startIndex,
+        int endIndex,
+        IDictionary<string, string>? args = null)
         where T : ISeries
     {
-        ArgumentNullException.ThrowIfNull(list);
+        ArgumentNullException.ThrowIfNull(source);
+
+        int endIndexReal = Math.Min(endIndex, source.Count - 1);
+        T[] sourceSubset = source.Skip(startIndex).Take(endIndexReal - startIndex + 1).ToArray();
 
         Dictionary<string, string> formatArgs = defaultArgs
-            .Concat(args ?? [])
+            .Concat(args ?? Enumerable.Empty<KeyValuePair<string, string>>())
             .GroupBy(kvp => kvp.Key.ToUpperInvariant())
             .ToDictionary(g => g.Key, g => g.Last().Value);
 
@@ -111,7 +248,7 @@ public static partial class StringOut
             // handle auto-detect
             if (formats[i] == "auto")
             {
-                formats[i] = AutoFormat(property, list);
+                formats[i] = AutoFormat(property, sourceSubset);
             }
 
             // set alignment
@@ -119,10 +256,10 @@ public static partial class StringOut
         }
 
         // Compile formatted values
-        string[][] dataRows = list.Select((item, index) => {
+        string[][] dataRows = sourceSubset.Select((item, index) => {
             string[] row = new string[columnCount];
 
-            row[0] = index.ToString(formats[0], culture);
+            row[0] = (index + startIndex).ToString(formats[0], culture);
 
             for (int i = 1; i < columnCount; i++)
             {
@@ -219,7 +356,11 @@ public static partial class StringOut
         }
     }
 
-
+    /// <summary>
+    /// Returns the colloquial type name for a given type.
+    /// </summary>
+    /// <param name="type">The type to get the colloquial name for.</param>
+    /// <returns>The colloquial type name.</returns>
     public static string ColloquialTypeName(Type type)
     {
         if (type == null)

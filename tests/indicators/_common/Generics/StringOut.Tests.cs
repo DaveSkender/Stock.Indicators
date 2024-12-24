@@ -24,9 +24,11 @@ public class StringOutputs : TestBase
     public void ToConsoleQuoteList()
     {
         string sut = Quotes.ToConsole();
-        string val = Quotes.ToFixedWidth();
+        string val = Quotes.ToStringOut();
+        int length = sut.Split(Environment.NewLine).Length;
 
         sut.Should().Be(val);
+        length.Should().Be(505); // 2 headers + 502 data rows + 1 eof line
     }
 
     [TestMethod]
@@ -91,7 +93,7 @@ public class StringOutputs : TestBase
     {
         /* based on what we know about the test data precision */
 
-        string output = Quotes.Take(12).ToFixedWidth();
+        string output = Quotes.ToStringOut(limitQty:12);
         Console.WriteLine(output);
 
         string expected = """
@@ -125,7 +127,7 @@ public class StringOutputs : TestBase
             { "Volume", "N0" }
         };
 
-        string output = Quotes.Take(12).ToFixedWidth(args);
+        string output = Quotes.Take(12).ToStringOut(args);
         Console.WriteLine(output);
 
         string expected = """
@@ -152,7 +154,7 @@ public class StringOutputs : TestBase
     [TestMethod]
     public void ToFixedWidthQuoteIntraday()
     {
-        string output = Intraday.Take(12).ToFixedWidth();
+        string output = Intraday.ToStringOut(limitQty: 12);
         Console.WriteLine(output);
 
         string expected = """
@@ -212,7 +214,7 @@ public class StringOutputs : TestBase
 
             """.WithDefaultLineEndings();
 
-        string output = quotes.ToFixedWidth();
+        string output = quotes.ToStringOut();
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
@@ -257,7 +259,7 @@ public class StringOutputs : TestBase
 
             """.WithDefaultLineEndings();
 
-        string output = quotes.ToFixedWidth();
+        string output = quotes.ToStringOut();
         Console.WriteLine(output);
 
         string[] lines = output.Split(Environment.NewLine);
@@ -269,34 +271,36 @@ public class StringOutputs : TestBase
     [TestMethod]
     public void ToFixedWidthResultEma()
     {
-        string output = Quotes.ToEma(14).TakeLast(20).ToFixedWidth();
+        IReadOnlyList<EmaResult> ema = Quotes.ToEma(14);
+        string output = ema.ToStringOut(startIndex: ema.Count - 21, endIndex: ema.Count - 1);
         Console.WriteLine(output);
 
         // TODO: fix after adding index range
 
         string expected = """
-             i  Timestamp          Ema
-            --------------------------
-             0  2018-11-30  264.760868
-             1  2018-12-03  265.795419
-             2  2018-12-04  265.514696
-             3  2018-12-06  265.218070
-             4  2018-12-07  264.144994
-             5  2018-12-10  263.280328
-             6  2018-12-11  262.538951
-             7  2018-12-12  262.068424
-             8  2018-12-13  261.649968
-             9  2018-12-14  260.649972
-            10  2018-12-17  259.117976
-            11  2018-12-18  257.754246
-            12  2018-12-19  256.075013
-            13  2018-12-20  254.087678
-            14  2018-12-21  251.706654
-            15  2018-12-24  248.811100
-            16  2018-12-26  247.850954
-            17  2018-12-27  247.265493
-            18  2018-12-28  246.716761
-            19  2018-12-31  246.525193
+              i  Timestamp          Ema
+            ---------------------------
+            481  2018-11-29  264.114847
+            482  2018-11-30  264.760868
+            483  2018-12-03  265.795419
+            484  2018-12-04  265.514696
+            485  2018-12-06  265.218070
+            486  2018-12-07  264.144994
+            487  2018-12-10  263.280328
+            488  2018-12-11  262.538951
+            489  2018-12-12  262.068424
+            490  2018-12-13  261.649968
+            491  2018-12-14  260.649972
+            492  2018-12-17  259.117976
+            493  2018-12-18  257.754246
+            494  2018-12-19  256.075013
+            495  2018-12-20  254.087678
+            496  2018-12-21  251.706654
+            497  2018-12-24  248.811100
+            498  2018-12-26  247.850954
+            499  2018-12-27  247.265493
+            500  2018-12-28  246.716761
+            501  2018-12-31  246.525193
 
             """.WithDefaultLineEndings();
 
@@ -306,34 +310,35 @@ public class StringOutputs : TestBase
     [TestMethod]
     public void ToFixedWidthResultHtTrendline()
     {
-        string output = Quotes.ToHtTrendline().TakeLast(20).ToFixedWidth();
+        string output = Quotes.ToHtTrendline().ToStringOut(startIndex: 90, endIndex: 110);
         Console.WriteLine(output);
 
         // TODO: fix after adding index range
 
         string expected = """
-             i  Timestamp   DcPeriods   Trendline  SmoothPrice
-            --------------------------------------------------
-             0  2018-11-30         18  265.182611   266.504500
-             1  2018-12-03         18  265.333361   269.283000
-             2  2018-12-04         18  265.339500   269.112000
-             3  2018-12-06         18  265.021528   265.465500
-             4  2018-12-07         18  264.534000   262.859000
-             5  2018-12-10         18  263.902778   259.063500
-             6  2018-12-11         18  263.325333   258.217000
-             7  2018-12-12         18  262.901750   259.052000
-             8  2018-12-13         18  262.576694   259.251000
-             9  2018-12-14         17  262.116395   258.051000
-            10  2018-12-17         17  261.638544   254.952000
-            11  2018-12-18         16  261.162755   252.068500
-            12  2018-12-19         16  260.575757   249.830000
-            13  2018-12-20         15  259.602137   246.270500
-            14  2018-12-21         15  258.224379   243.332000
-            15  2018-12-24         15  256.363465   238.586500
-            16  2018-12-26         16  254.677550   236.418000
-            17  2018-12-27         17  253.349104   236.952000
-            18  2018-12-28         18  252.457014   239.867000
-            19  2018-12-31         20  252.217179   242.343500
+              i  Timestamp   DcPeriods   Trendline  SmoothPrice
+            ---------------------------------------------------
+             90  2017-05-12         18  225.587904   226.912000
+             91  2017-05-15         19  225.755992   227.174500
+             92  2017-05-16         19  225.969113   227.481500
+             93  2017-05-17         19  226.155297   226.608000
+             94  2017-05-18         20  226.224826   225.659000
+             95  2017-05-19         21  226.246929   225.548000
+             96  2017-05-22         22  226.251725   226.017000
+             97  2017-05-23         22  226.340184   226.802000
+             98  2017-05-24         22  226.487975   227.505000
+             99  2017-05-25         22  226.646455   228.305000
+            100  2017-05-26         23  226.790405   228.846000
+            101  2017-05-30         24  226.905861   229.084500
+            102  2017-05-31         25  226.999587   229.089000
+            103  2017-06-01         26  227.098513   229.479000
+            104  2017-06-02         26  227.227763   230.233000
+            105  2017-06-05         25  227.413835   230.913000
+            106  2017-06-06         24  227.634324   231.168500
+            107  2017-06-07         23  227.889454   231.138500
+            108  2017-06-08         22  228.143057   231.170500
+            109  2017-06-09         21  228.386085   231.095000
+            110  2017-06-12         21  228.603337   230.852000
 
             """.WithDefaultLineEndings();
 
