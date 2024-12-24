@@ -13,5 +13,6 @@ public record SmmaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Smma.Null2NaN();
 }

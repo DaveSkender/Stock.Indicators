@@ -24,5 +24,6 @@ public record MacdResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Macd.Null2NaN();
 }

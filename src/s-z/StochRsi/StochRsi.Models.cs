@@ -15,5 +15,6 @@ public record StochRsiResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => StochRsi.Null2NaN();
 }

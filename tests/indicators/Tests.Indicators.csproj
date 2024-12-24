@@ -8,7 +8,9 @@
     <Nullable>disable</Nullable>
 
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);NU1507;CS1591</NoWarn>
+    
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>

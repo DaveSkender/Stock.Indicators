@@ -14,5 +14,6 @@ public record AlmaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Alma.Null2NaN();
 }

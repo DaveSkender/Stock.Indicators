@@ -54,7 +54,7 @@ public interface IQuote : IReusable
 /// Built-in Quote type, representing an OHLCV aggregate price period.
 /// </summary>
 /// <param name="Timestamp">
-/// Close date/time of the aggregate period
+/// Close date/time of the aggregate
 /// </param>
 /// <param name="Open">
 /// Aggregate bar's first tick price
@@ -84,6 +84,7 @@ public record Quote
 ) : IQuote
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => (double)Close;
 
     /// <inheritdoc/>
@@ -117,5 +118,6 @@ internal record QuoteD
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Close;
 }

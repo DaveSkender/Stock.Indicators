@@ -19,6 +19,7 @@ public record ZigZagResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => ZigZag.Null2NaN();
 }
 

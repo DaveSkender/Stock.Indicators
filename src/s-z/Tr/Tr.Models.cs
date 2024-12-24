@@ -12,5 +12,6 @@ public record TrResult(
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Tr.Null2NaN();
 }

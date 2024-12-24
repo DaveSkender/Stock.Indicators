@@ -207,6 +207,27 @@ public enum MaType
 }
 
 /// <summary>
+/// String output format type.
+/// </summary>
+public enum OutType
+{
+    /// <summary>
+    /// Fixed width format.
+    /// </summary>
+    FixedWidth,
+
+    /// <summary>
+    /// Comma-separated values format.
+    /// </summary>
+    CSV,
+
+    /// <summary>
+    /// JSON format.
+    /// </summary>
+    JSON
+}
+
+/// <summary>
 /// Period size, usually referring to the time period represented in a quote candle.
 /// </summary>
 public enum PeriodSize

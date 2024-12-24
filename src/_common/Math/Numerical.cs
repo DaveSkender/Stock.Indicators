@@ -1,5 +1,6 @@
 namespace Skender.Stock.Indicators;
 
+#pragma warning disable IDE0066 // Convert switch statement to expression
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>
@@ -152,5 +153,41 @@ public static class Numerical
         }
 
         return decimalPlaces;
+    }
+
+    /// <summary>
+    /// Determines if a type is a numeric non-date type.
+    /// </summary>
+    /// <param name="type">The data <see cref="Type"/></param>
+    /// <returns>True if numeric type.</returns>
+    internal static bool IsNumeric(this Type type)
+    {
+
+        if (type == typeof(DateTime) ||
+            type == typeof(DateTimeOffset) ||
+            type == typeof(DateOnly))
+        {
+            return false;
+        }
+
+        Type realType = Nullable.GetUnderlyingType(type) ?? type;
+
+        switch (Type.GetTypeCode(realType))
+        {
+            case TypeCode.Byte:
+            case TypeCode.SByte:
+            case TypeCode.Int16:
+            case TypeCode.UInt16:
+            case TypeCode.Int32:
+            case TypeCode.UInt32:
+            case TypeCode.Int64:
+            case TypeCode.UInt64:
+            case TypeCode.Single:
+            case TypeCode.Double:
+            case TypeCode.Decimal:
+                return true;
+            default:
+                return false;
+        }
     }
 }

@@ -24,6 +24,7 @@ public record BetaResult(
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Beta.Null2NaN();
 }
 
