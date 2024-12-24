@@ -39,13 +39,8 @@ public static partial class StringOut
         // Header names
         string[] headers = ["Property", "Type", "Value", "Description"];
 
-        // Get properties of the object, excluding those with JsonIgnore or Obsolete attributes
-        PropertyInfo[] properties = typeof(T)
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(prop =>
-                !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)) &&
-                !Attribute.IsDefined(prop, typeof(ObsoleteAttribute)))
-            .ToArray();
+        // Get properties of the object
+        PropertyInfo[] properties = GetStringOutProperties(typeof(T));
 
         // Lists to hold column data
         List<string> names = [];
@@ -232,4 +227,16 @@ public static partial class StringOut
             .Replace("\r", " ", StringComparison.Ordinal)
             .Trim();
     }
+
+    /// <summary>
+    /// Retrieves the public instance properties of a type that are not marked with
+    /// <see cref="JsonIgnoreAttribute"/> or <see cref="ObsoleteAttribute"/>.
+    /// </summary>
+    /// <param name="type">The type whose properties are to be retrieved.</param>
+    /// <returns>An array of <see cref="PropertyInfo"/> objects representing the properties of the type.</returns>
+    private static PropertyInfo[] GetStringOutProperties(Type type)
+        => type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.GetCustomAttribute<JsonIgnoreAttribute>() == null
+                     && p.GetCustomAttribute<ObsoleteAttribute>() == null)
+            .ToArray();
 }

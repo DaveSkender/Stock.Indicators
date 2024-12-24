@@ -203,14 +203,8 @@ public static partial class StringOut
             .GroupBy(kvp => kvp.Key.ToUpperInvariant())
             .ToDictionary(g => g.Key, g => g.Last().Value);
 
-        // Get properties of the object,
-        // excluding those with JsonIgnore or Obsolete attributes
-        PropertyInfo[] properties = typeof(T)
-            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(prop =>
-                !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)) &&
-                !Attribute.IsDefined(prop, typeof(ObsoleteAttribute)))
-            .ToArray();
+        // Get properties of the object
+        PropertyInfo[] properties = GetStringOutProperties(typeof(T));
 
         // Define header values
         string[] headers = IndexHeaderName
