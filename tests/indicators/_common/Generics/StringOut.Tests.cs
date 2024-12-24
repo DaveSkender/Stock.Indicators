@@ -93,7 +93,7 @@ public class StringOutputs : TestBase
     {
         /* based on what we know about the test data precision */
 
-        string output = Quotes.ToStringOut(limitQty:12);
+        string output = Quotes.ToStringOut(limitQty: 12);
         Console.WriteLine(output);
 
         string expected = """

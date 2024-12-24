@@ -5,27 +5,34 @@ namespace Performance;
 [ShortRunJob]
 public class Utility
 {
-    private static readonly IReadOnlyList<Quote> q = Data.GetDefault();
-    private static readonly IReadOnlyList<Quote> i = Data.GetIntraday();
+    private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
+    private static readonly IReadOnlyList<Quote> intraday = Data.GetIntraday();
+    private static readonly Quote quote = quotes[0];
 
     [Benchmark]
-    public object ToSortedList() => q.ToSortedList();
+    public object ToSortedList() => quotes.ToSortedList();
 
     [Benchmark]
-    public object ToListQuoteD() => q.ToQuoteDList();
+    public object ToListQuoteD() => quotes.ToQuoteDList();
 
     [Benchmark]
-    public object ToReusableClose() => q.ToReusable(CandlePart.Close);
+    public object ToReusableClose() => quotes.ToReusable(CandlePart.Close);
 
     [Benchmark]
-    public object ToReusableOhlc4() => q.ToReusable(CandlePart.OHLC4);
+    public object ToReusableOhlc4() => quotes.ToReusable(CandlePart.OHLC4);
 
     [Benchmark]
-    public object ToCandleResults() => q.ToCandles();
+    public object ToCandleResults() => quotes.ToCandles();
 
     [Benchmark]
-    public object Validate() => q.Validate();
+    public object ToStringOutType() => quote.ToStringOut();
 
     [Benchmark]
-    public object Aggregate() => i.Aggregate(PeriodSize.FifteenMinutes);
+    public object ToStringOutList() => quotes.ToStringOut();
+
+    [Benchmark]
+    public object Validate() => quotes.Validate();
+
+    [Benchmark]
+    public object Aggregate() => intraday.Aggregate(PeriodSize.FifteenMinutes);
 }
