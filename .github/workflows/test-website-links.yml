@@ -1,10 +1,10 @@
-name: Website
+name: Website URLs
 
 on:
   push:
     branches: ["v3"]
   pull_request:
-    branches: ["main"]
+    branches: ["*"]
     paths:
       - 'docs/**'
       - ".github/workflows/test-website-links.yml"
@@ -14,7 +14,7 @@ env:
 
 jobs:
   test:
-    name: test URLs
+    name: test
     runs-on: ubuntu-latest
 
     steps:
