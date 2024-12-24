@@ -2,19 +2,19 @@ name: Examples
 
 on:
   push:
-    branches: ["main","v3"]
+    branches: ["main"]
     paths:
       - docs/examples/**
 
   pull_request:
-    branches: ["main","v3"]
+    branches: ["*"]
     paths:
       - docs/examples/**
-      - ".github/workflows/test-examples.yml"
+      - .github/workflows/test-examples.yml
 
 jobs:
   build:
-    name: build only
+    name: build
     runs-on: ubuntu-latest
 
     steps:

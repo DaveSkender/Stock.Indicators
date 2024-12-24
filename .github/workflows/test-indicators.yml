@@ -2,10 +2,10 @@ name: Indicators
 
 on:
   push:
-    branches: ["main","v3"]
+    branches: ["main"]
 
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: ["*"]
 
 jobs:
   test:
