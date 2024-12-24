@@ -15,6 +15,9 @@ jobs:
     name: test
     runs-on: ubuntu-latest
 
+    env:
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -27,22 +30,16 @@ jobs:
 
       - name: Install GEMs
         working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: |
           pwd
           bundle install
 
       - name: Build site
         working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Serve site
         working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll serve --detach
 
       - name: Show environment
