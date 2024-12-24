@@ -43,10 +43,10 @@ public static partial class StringOut
         PropertyInfo[] properties = GetStringOutProperties(typeof(T));
 
         // Lists to hold column data
-        List<string> names = [];
-        List<string> types = [];
-        List<string> values = [];
-        List<string> descriptions = [];
+        List<string> names = new(properties.Length);
+        List<string> types = new(properties.Length);
+        List<string> values = new(properties.Length);
+        List<string> descriptions = new(properties.Length);
 
         // Get descriptions from XML documentation
         Dictionary<string, string> descriptionDict
@@ -66,24 +66,20 @@ public static partial class StringOut
             switch (value)
             {
                 case DateTime dateTimeValue:
-
                     values.Add(dateTimeValue.Kind == DateTimeKind.Utc
                         ? dateTimeValue.ToString("u", culture)
                         : dateTimeValue.ToString("s", culture));
                     break;
 
                 case DateOnly dateOnlyValue:
-
                     values.Add(dateOnlyValue.ToString("yyyy-MM-dd", culture));
                     break;
 
                 case DateTimeOffset dateTimeOffsetValue:
-
                     values.Add(dateTimeOffsetValue.ToString("o", culture));
                     break;
 
                 case string stringValue:
-
                     // limit string size
                     if (stringValue.Length > 35)
                     {
@@ -94,7 +90,6 @@ public static partial class StringOut
                     break;
 
                 default:
-
                     values.Add(value?.ToString() ?? string.Empty);
                     break;
             }
@@ -182,7 +177,7 @@ public static partial class StringOut
         {
             string? nameAttribute = memberElement.Attribute("name")?.Value;
 
-            if (nameAttribute != null && nameAttribute.StartsWith(memberPrefix, false, culture))
+            if (nameAttribute != null && nameAttribute.StartsWith(memberPrefix, StringComparison.Ordinal))
             {
                 string propName = nameAttribute[memberPrefix.Length..];
 

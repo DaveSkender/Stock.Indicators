@@ -306,7 +306,7 @@ public static partial class StringOut
     /// <returns>Format to be used in ToString()</returns>
     private static string AutoFormat<T>(
         PropertyInfo property,
-        IEnumerable<T> list)
+        IReadOnlyList<T> list)
         where T : ISeries
     {
         Type propertyType = property.PropertyType;
@@ -321,7 +321,8 @@ public static partial class StringOut
         {
             List<string> dateValues = list
                 .Take(1000)
-                .Select(item => ((DateTime)property.GetValue(item)!).ToString("o", culture)).ToList();
+                .Select(item => ((DateTime)property.GetValue(item)!).ToString("o", culture))
+                .ToList();
 
             bool sameHour = dateValues.Select(d => d.Substring(11, 2)).Distinct().Count() == 1;
             bool sameMinute = dateValues.Select(d => d.Substring(14, 2)).Distinct().Count() == 1;
