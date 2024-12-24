@@ -6,7 +6,7 @@ public class Seeking : TestBase
     [TestMethod]
     public void Find()
     {
-        var emaResults = Quotes.ToEma(20);
+        IReadOnlyList<EmaResult> emaResults = Quotes.ToEma(20);
 
         // find specific date
         DateTime findDate = DateTime.ParseExact("2018-12-31", "yyyy-MM-dd", invariantCulture);

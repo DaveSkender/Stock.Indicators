@@ -93,6 +93,6 @@ public class Cmf : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToCmf(0));
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToCmf(0));
 }

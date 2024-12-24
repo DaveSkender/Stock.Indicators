@@ -15,5 +15,6 @@ public record KamaResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Kama.Null2NaN();
 }

@@ -15,5 +15,6 @@ public record AwesomeResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Oscillator.Null2NaN();
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <OutputType>Exe</OutputType>
 
     <ImplicitUsings>enable</ImplicitUsings>
@@ -13,10 +13,14 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- [Obsolete] warnings are expected here -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Indicators.csproj" />
+    <PackageReference Include="Skender.Stock.Indicators" Version="2.6.0" />
+    <!-- <ProjectReference Include="..\..\..\src\Indicators.csproj" /> -->
   </ItemGroup>
 
   <ItemGroup>

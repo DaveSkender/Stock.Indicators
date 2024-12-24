@@ -114,7 +114,7 @@ public class Atr : StaticSeriesTestBase
 
     // bad lookback period
     [TestMethod]
-    public void Exceptions() =>
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAtr(1));
+    public void Exceptions()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAtr(1));
 }

@@ -23,7 +23,7 @@ public static partial class Obv
     /// <param name="source">The list of quotes.</param>
     /// <returns>A list of OBV results.</returns>
     private static List<ObvResult> CalcObv(
-        this IReadOnlyList<QuoteD> source)
+        this List<QuoteD> source)
     {
         // initialize
         int length = source.Count;

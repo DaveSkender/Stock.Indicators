@@ -122,35 +122,35 @@ public class Alligator : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad jaw lookback periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 13));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 13));
 
         // bad teeth lookback periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 8, 5, 8));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 8, 5, 8));
 
         // bad lips lookback periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 8, 5, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 8, 5, 0));
 
         // bad jaw offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 0));
 
         // bad teeth offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 8, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 8, 0));
 
         // bad lips offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 8, 5, 5, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 12, 11));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 12, 11));
 
         // bad teeth + offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAlligator(13, 8, 8, 5, 7, 7));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAlligator(13, 8, 8, 5, 7, 7));
     }
 }

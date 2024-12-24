@@ -132,9 +132,6 @@ public class SeriesIndicators
     public object ToKama() => q.ToKama();
 
     [Benchmark]
-    public object ToKlinger() => q.ToKvo();
-
-    [Benchmark]
     public object ToKeltner() => q.ToKeltner();
 
     [Benchmark]

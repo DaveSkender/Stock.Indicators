@@ -14,8 +14,14 @@ internal static class Data
             .ToSortedList();
 
     // RANDOM: gaussian brownaian motion
-    internal static IReadOnlyList<Quote> GetRandom(int days = 502)
-        => new RandomGbm(bars: days);
+    internal static IReadOnlyList<Quote> GetRandom(
+        int bars = 502,
+        PeriodSize periodSize = PeriodSize.OneMinute,
+        bool includeWeekends = true)
+        => new RandomGbm(
+            bars: bars,
+            periodSize: periodSize,
+            includeWeekends: includeWeekends);
 
     // sorted by filename
 

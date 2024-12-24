@@ -129,7 +129,7 @@ public class Vwap : StaticSeriesTestBase
         DateTime startDate =
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", invariantCulture);
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToVwap(startDate));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToVwap(startDate));
     }
 }

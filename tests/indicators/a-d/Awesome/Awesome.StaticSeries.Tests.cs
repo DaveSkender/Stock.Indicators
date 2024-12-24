@@ -107,11 +107,11 @@ public class Awesome : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAwesome(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAwesome(0));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToAwesome(25, 25));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToAwesome(25, 25));
     }
 }

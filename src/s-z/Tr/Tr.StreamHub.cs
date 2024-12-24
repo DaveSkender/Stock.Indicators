@@ -51,7 +51,7 @@ public class TrHub<TIn>
     protected override (TrResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // skip first period
         if (i == 0)

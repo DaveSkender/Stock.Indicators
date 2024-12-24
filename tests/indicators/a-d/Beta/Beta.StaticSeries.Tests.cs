@@ -259,13 +259,13 @@ public class Beta : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToBeta(OtherQuotes, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToBeta(OtherQuotes, 0));
 
         // bad evaluation quotes
         IReadOnlyList<Quote> eval = Data.GetCompare(300).ToList();
 
-        Assert.ThrowsException<InvalidQuotesException>(()
-            => Quotes.ToBeta(eval, 30));
+        Assert.ThrowsException<InvalidQuotesException>(
+            () => Quotes.ToBeta(eval, 30));
     }
 }

@@ -125,15 +125,15 @@ public class Tsi : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToTsi(0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToTsi(0));
 
         // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToTsi(25, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToTsi(25, 0));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToTsi(25, 13, -1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToTsi(25, 13, -1));
     }
 }

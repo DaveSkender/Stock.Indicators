@@ -7,7 +7,7 @@ relative_path: examples/README.md
 
 # {{ page.title }}
 
-To help you get started, here are a few minimalist [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) C# projects that you can review.  They are complete working examples.
+To help you get started, here are a few minimalist [.NET 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0) C# projects that you can review.  They are complete working examples.
 
 - `ConsoleApp` is a minimalist example of how to use the library (start here)
 - `Backtest` is a slightly more complicated example of how to analyze results

@@ -118,10 +118,8 @@ public class StdDev : StaticSeriesTestBase
         Assert.AreEqual(0.524312, last.ZScore.Round(6));
     }
 
-    [TestMethod]
-    public void Exceptions() =>
-
-        // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToStdDev(1));
+    [TestMethod] // bad lookback period
+    public void Exceptions()
+        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToStdDev(1));
 }

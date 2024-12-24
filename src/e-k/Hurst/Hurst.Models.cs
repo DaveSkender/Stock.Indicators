@@ -13,5 +13,6 @@ public record HurstResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => HurstExponent.Null2NaN();
 }

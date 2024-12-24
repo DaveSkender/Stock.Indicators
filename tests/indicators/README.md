@@ -43,7 +43,7 @@ dotnet run -c Release --filter **
 dotnet run --list
 ...
 # Available Benchmarks:
-  #0 Incrementals
+  #0 BufferLists
   #1 SeriesIndicators
   #2 StreamExternal
   #3 StreamIndicators

@@ -21,5 +21,6 @@ public record ConnorsRsiResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => ConnorsRsi.Null2NaN();
 }

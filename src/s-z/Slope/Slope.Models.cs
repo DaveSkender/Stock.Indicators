@@ -21,5 +21,6 @@ public record SlopeResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Slope.Null2NaN();
 }

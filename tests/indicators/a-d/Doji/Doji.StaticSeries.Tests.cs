@@ -76,10 +76,10 @@ public class Doji : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad maximum change value
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToDoji(-0.00001));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToDoji(-0.00001));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToDoji(0.50001));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToDoji(0.50001));
     }
 }

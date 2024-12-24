@@ -66,13 +66,12 @@ public static partial class QuoteParts
     {
         ArgumentNullException.ThrowIfNull(items);
 
-        if (items is IReadOnlyList<IQuote> quotes)
-        {
-            return quotes.ToQuotePart(candlePart);
-        }
-        else
-        {
-            return items.Cast<IReusable>().ToList();
-        }
+        return items is IReadOnlyList<IQuote> quotes
+
+            ? quotes.ToQuotePart(candlePart)
+
+            : (IReadOnlyList<IReusable>)items
+                .Cast<IReusable>()
+                .ToList();
     }
 }

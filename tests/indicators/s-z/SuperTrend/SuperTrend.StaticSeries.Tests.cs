@@ -127,11 +127,11 @@ public class SuperTrend : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToSuperTrend(1));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToSuperTrend(1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            Quotes.ToSuperTrend(7, 0));
+        Assert.ThrowsException<ArgumentOutOfRangeException>(
+            () => Quotes.ToSuperTrend(7, 0));
     }
 }

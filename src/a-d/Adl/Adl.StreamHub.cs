@@ -38,7 +38,7 @@ public class AdlHub<TIn> : ChainProvider<TIn, AdlResult>
     protected override (AdlResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // candidate result
         AdlResult r = Adl.Increment(

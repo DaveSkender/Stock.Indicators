@@ -32,7 +32,7 @@ public static partial class Stc
         List<StcResult> results = new(length);
 
         // get stochastic of macd
-        IReadOnlyList<StochResult> stochMacd = source
+        List<StochResult> stochMacd = source
           .ToMacd(fastPeriods, slowPeriods, 1)
           .Select(x => new QuoteD(
               x.Timestamp, 0,

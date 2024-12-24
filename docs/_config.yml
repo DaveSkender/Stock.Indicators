@@ -57,6 +57,7 @@ exclude:
     "GemFile",
     "node_modules",
     "vendor",
+    ".devcontainer"
   ]
 
 include:

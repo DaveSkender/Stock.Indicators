@@ -17,5 +17,6 @@ public record CmfResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Cmf.Null2NaN();
 }

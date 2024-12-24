@@ -15,6 +15,7 @@ public abstract class TestBase  // base for all tests
     internal static readonly CultureInfo invariantCulture = CultureInfo.InvariantCulture;
 
     internal static readonly IReadOnlyList<Quote> Quotes = Data.GetDefault();
+    internal static readonly IReadOnlyList<Quote> Intraday = Data.GetIntraday();
     internal static readonly IReadOnlyList<Quote> OtherQuotes = Data.GetCompare();
     internal static readonly IReadOnlyList<Quote> BadQuotes = Data.GetBad();
     internal static readonly IReadOnlyList<Quote> BigQuotes = Data.GetTooBig();
@@ -45,9 +46,9 @@ public abstract class StaticSeriesTestBase : TestBase
 }
 
 /// <summary>
-/// Base tests that all static indicators (series) should have.
+/// Base tests that all buffered list indicators should have.
 /// </summary>
-public abstract class IncrementsTestBase : TestBase
+public abstract class BufferListTestBase : TestBase
 {
     public abstract void FromQuote();
 

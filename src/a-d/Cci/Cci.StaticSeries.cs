@@ -26,7 +26,7 @@ public static partial class Cci
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <returns>A list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
     private static List<CciResult> CalcCci(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments

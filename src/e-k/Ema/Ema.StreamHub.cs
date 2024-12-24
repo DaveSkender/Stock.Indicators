@@ -69,7 +69,7 @@ public class EmaHub<TIn>
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc/>
-    public double K { get; init; }
+    public double K { get; private init; }
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -78,7 +78,7 @@ public class EmaHub<TIn>
     protected override (EmaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int i = indexHint ?? ProviderCache.GetIndex(item, true);
+        int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double ema = i >= LookbackPeriods - 1
             ? Cache[i - 1].Ema is not null

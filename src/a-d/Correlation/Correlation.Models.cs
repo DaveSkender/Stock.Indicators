@@ -21,5 +21,6 @@ public record CorrResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Correlation.Null2NaN();
 }

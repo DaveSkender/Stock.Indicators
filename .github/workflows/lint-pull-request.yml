@@ -1,4 +1,4 @@
-name: "Pull request"
+name: Pull request
 
 on:
   pull_request_target:
@@ -47,7 +47,7 @@ jobs:
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
         with:
           header: pr-title-lint-error
-          message: >
+          message: |
             ### Hey there and thank you for opening this pull request! 👋🏼
 
             It looks like your proposed **_Pull request title_** needs to be adjusted.

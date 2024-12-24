@@ -32,7 +32,7 @@ public static partial class StarcBands
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
     private static List<StarcBandsResult> CalcStarcBands(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int smaPeriods,
         double multiplier,
         int atrPeriods)

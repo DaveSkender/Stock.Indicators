@@ -147,4 +147,58 @@ public class CacheManagement : TestBase
 
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void MaxCacheSize()
+    {
+        int maxCacheSize = 30;
+
+        // initialize
+        QuoteHub<Quote> provider = new(maxCacheSize);
+        SmaHub<Quote> observer = provider.ToSma(20);
+
+        // sets max cache size
+        provider.MaxCacheSize.Should().Be(maxCacheSize);
+
+        // inherits max cache size
+        observer.MaxCacheSize.Should().Be(maxCacheSize);
+    }
+
+    [TestMethod]
+    public void PrunedCache()
+    {
+        int maxCacheSize = 30;
+
+        // initialize
+        QuoteHub<Quote> provider = new(maxCacheSize);
+        SmaHub<Quote> observer = provider.ToSma(20);
+        IReadOnlyList<SmaResult> seriesList = Quotes.ToSma(20);
+
+        // add quotes
+        provider.Add(Quotes.Take(maxCacheSize));
+
+        // assert: cache size is full size
+        provider.Quotes.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // add more quotes to exceed max cache size
+        provider.Add(Quotes.Skip(maxCacheSize).Take(10));
+
+        // assert: cache size is pruned
+        provider.Results.Should().HaveCount(maxCacheSize);
+        observer.Results.Should().HaveCount(maxCacheSize);
+
+        // assert: correct values remain
+        provider.Quotes.Should().BeEquivalentTo(
+            Quotes.Skip(10).Take(maxCacheSize));
+
+        observer.Results.Should().BeEquivalentTo(
+            seriesList.Skip(10).Take(maxCacheSize));
+    }
+
+    [TestMethod]
+    public void PrunedAsymmetric() =>
+        // TODO: asymetric results (e.g. Renko)
+        // pruned to correct date, instead of count
+        Assert.Inconclusive("not implemented");
 }

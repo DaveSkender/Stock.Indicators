@@ -38,7 +38,7 @@ IReadOnlyList<AdlResult>
 
 ### AdlResult
 
-**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - Date from evaluated `TQuote`
 
 **`MoneyFlowMultiplier`** _`double`_ - Money Flow Multiplier
 

@@ -15,5 +15,6 @@ public record KvoResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Oscillator.Null2NaN();
 }

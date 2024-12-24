@@ -19,7 +19,7 @@ public static class StreamHub
         out int index)
         where T : ISeries
     {
-        index = cache.GetIndex(timestamp, false);
+        index = cache.IndexOf(timestamp, false);
         return index != -1;
     }
 
@@ -32,7 +32,7 @@ public static class StreamHub
     /// <param name="throwOnFail">Throw exception when item is not found.</param>
     /// <returns>Index position.</returns>
     /// <exception cref="ArgumentException">When item is not found (should never happen).</exception>
-    internal static int GetIndex<T>(
+    internal static int IndexOf<T>(
         this IReadOnlyList<T> cache,
         T cachedItem,
         bool throwOnFail)
@@ -105,7 +105,7 @@ public static class StreamHub
     /// <remarks>
     /// Only use this when you are looking for a point in time
     /// without a matching item for context. In most cases
-    /// <see cref="GetIndex{T}(IReadOnlyList{T},T,bool)"/> is more appropriate.
+    /// <see cref="IndexOf{T}(IReadOnlyList{T},T,bool)"/> is more appropriate.
     /// </remarks>
     /// <typeparam name="T">Type of the items in the cache, must implement ISeries.</typeparam>
     /// <param name="cache">The cache to search.</param>
@@ -113,7 +113,7 @@ public static class StreamHub
     /// <param name="throwOnFail">Throw exception when timestamp is not found.</param>
     /// <returns>Index position.</returns>
     /// <exception cref="ArgumentException">When timestamp is not found (should never happen).</exception>
-    internal static int GetIndex<T>(
+    internal static int IndexOf<T>(
         this IReadOnlyList<T> cache,
         DateTime timestamp,
         bool throwOnFail)
@@ -154,13 +154,13 @@ public static class StreamHub
     /// <remarks>
     /// Only use this when you are looking for a point in time
     /// without a matching item for context. In most cases
-    /// <see cref="GetIndex{T}(IReadOnlyList{T},T,bool)"/> is more appropriate.
+    /// <see cref="IndexOf{T}(IReadOnlyList{T},T,bool)"/> is more appropriate.
     /// </remarks>
     /// <typeparam name="T">Type of the items in the cache, must implement ISeries.</typeparam>
     /// <param name="cache">The cache to search.</param>
     /// <param name="timestamp">Timestamp of cached item.</param>
     /// <returns>First index position or -1 if not found.</returns>
-    internal static int GetIndexGte<T>(
+    internal static int IndexGte<T>(
         this IReadOnlyList<T> cache,
         DateTime timestamp)
         where T : ISeries

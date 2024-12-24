@@ -13,5 +13,6 @@ public record ChopResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Chop.Null2NaN();
 }

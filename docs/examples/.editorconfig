@@ -1,5 +1,37 @@
-# code analysis for EXAMPLES only
-root = false
+# top-most EditorConfig file
+# isolated for distro
+root = true
+
+# global baselines
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+max_line_length = 150
 
 [*.cs]
-dotnet_diagnostic.CS1591.severity = none  # Missing XML comment for public members
+
+tab_width = 4
+indent_size = 4
+
+# File headers are disabled
+file_header_template = unset
+
+# Organize 'using' directives
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Allow singular 'using' directive
+dotnet_style_namespace_match_folder = false:none
+
+# Suppress intentional syntax that would
+# otherwise trigger a diagnostic message
+dotnet_diagnostic.IDE0058.severity = none
+dotnet_diagnostic.IDE0305.severity = none
+dotnet_diagnostic.CA1859.severity  = none

@@ -13,5 +13,6 @@ public record VwapResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => Vwap.Null2NaN();
 }

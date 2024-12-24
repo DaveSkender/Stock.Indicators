@@ -13,11 +13,10 @@ public record UlcerIndexResult
 ) : IReusable
 {
     /// <inheritdoc/>
+    [JsonIgnore]
     public double Value => UlcerIndex.Null2NaN();
 
-    /// <summary>
-    /// Gets the value of the Ulcer Index.
-    /// </summary>
-    [Obsolete("Rename UI to UlcerIndex")] // v3.0.0
+    /// <inheritdoc/>
+    [Obsolete("Rename UI to UlcerIndex")]
     public double? UI => UlcerIndex;
 }

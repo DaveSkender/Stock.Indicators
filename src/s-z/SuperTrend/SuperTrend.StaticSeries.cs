@@ -29,7 +29,7 @@ public static partial class SuperTrend
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
     private static List<SuperTrendResult> CalcSuperTrend(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier)
     {
@@ -61,8 +61,8 @@ public static partial class SuperTrend
                 double? prevClose = source[i - 1].Close;
 
                 // potential bands
-                double? upperEval = mid + multiplier * atr;
-                double? lowerEval = mid - multiplier * atr;
+                double? upperEval = mid + (multiplier * atr);
+                double? lowerEval = mid - (multiplier * atr);
 
                 // initial values
                 if (i == lookbackPeriods)

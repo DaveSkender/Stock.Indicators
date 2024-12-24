@@ -26,7 +26,7 @@ public static partial class Aroon
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     /// <returns>A list of Aroon results.</returns>
     private static List<AroonResult> CalcAroon(
-        this IReadOnlyList<QuoteD> source,
+        this List<QuoteD> source,
         int lookbackPeriods)
     {
         // check parameter arguments
