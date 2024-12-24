@@ -1,13 +1,11 @@
 name: Website a11y
 
 on:
-  push:
-    branches: ["v3"]
   pull_request:
     branches: ["*"]
     paths:
-      - 'docs/**'
-      - ".github/workflows/test-website-a11y.yml"
+      - docs/**
+      - .github/workflows/test-website-a11y.yml
 
 env:
   JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

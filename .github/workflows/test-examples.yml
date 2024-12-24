@@ -2,7 +2,7 @@ name: Examples
 
 on:
   push:
-    branches: ["main","v3"]
+    branches: ["main"]
     paths:
       - docs/examples/**
 
@@ -10,7 +10,7 @@ on:
     branches: ["*"]
     paths:
       - docs/examples/**
-      - ".github/workflows/test-examples.yml"
+      - .github/workflows/test-examples.yml
 
 jobs:
   build:
