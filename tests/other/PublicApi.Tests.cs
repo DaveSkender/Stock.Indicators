@@ -33,7 +33,7 @@ internal sealed class MyGenericQuote : IQuote
 }
 
 [TestClass]
-public class PublicClassTests
+public class PublicClasses
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);
 

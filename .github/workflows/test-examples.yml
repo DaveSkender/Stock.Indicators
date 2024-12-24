@@ -7,14 +7,14 @@ on:
       - docs/examples/**
 
   pull_request:
-    branches: ["main"]
+    branches: ["*"]
     paths:
       - docs/examples/**
       - ".github/workflows/test-examples.yml"
 
 jobs:
   build:
-    name: build only
+    name: build
     runs-on: ubuntu-latest
 
     steps:

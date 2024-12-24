@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace Tests.CustomIndicators;
+namespace Tests.Customizations;
 
 public sealed class MyResult : ResultBase, IReusableResult
 {
@@ -80,7 +80,7 @@ public static class CustomIndicator
 }
 
 [TestClass]
-public class CustomIndicatorTests
+public class CustomIndicators
 {
     private static readonly CultureInfo EnglishCulture = new("en-US", false);
 
