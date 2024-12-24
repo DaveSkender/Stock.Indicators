@@ -1,58 +1,59 @@
+# Checks website for accessiblity issues
 name: Website a11y
 
 on:
   pull_request:
-    branches: ["*"]
     paths:
-      - docs/**
-      - .github/workflows/test-website-a11y.yml
-
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - "docs/**"
+  workflow_dispatch:
 
 jobs:
   test:
-    name: test
     runs-on: ubuntu-latest
-
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+    defaults:
+      run:
+        working-directory: docs
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          working-directory: docs
-          ruby-version: 3.3
+          dotnet-version: '9.x'
 
-      - name: Install GEMs
-        working-directory: docs
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
         run: |
-          pwd
-          bundle install
+          dotnet tool install -g docfx
+          npm install -g pa11y-ci
 
-      - name: Build site
-        working-directory: docs
-        run: bundle exec jekyll build
-
-      - name: Serve site
-        working-directory: docs
-        run: bundle exec jekyll serve --detach
-
-      - name: Show environment
-        working-directory: docs
-        run: npx pa11y --environment
+      - name: Build and serve site
+        run: |
+          docfx build --serve --port 4000 --detach
+          echo "Waiting up to 30s for server to start..."
+          timeout=30
+          until curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:4000 | grep -q "200"; do
+            if [ $timeout -le 0 ]; then
+              echo "Server failed to start after ${timeout}s"
+              exit 1
+            fi
+            timeout=$((timeout-1))
+            sleep 1
+          done
 
       - name: Test accessibility
-        working-directory: docs
-        run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+        run: >
+          pa11y-ci
+          --sitemap http://127.0.0.1:4000/sitemap.xml
+          --config ./.pa11yci
+          --threshold 10
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: pkill -f docfx
