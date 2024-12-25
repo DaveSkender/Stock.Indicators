@@ -1,0 +1,86 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Indicators.csproj"
+          ],
+          "src": "../src"
+        }      ],
+      "dest": "api",
+      "properties": {
+        "TargetFramework": "net9.0"
+      }
+    }
+  ],
+  "build": {
+    "globalMetadata": {
+      "_appName": "Stock Indicators for .NET",
+      "_appTitle": "Stock Indicators for .NET",
+      "_appDescription": "Transform financial market prices into technical analysis insights with this best in class C# NuGet library. Go further with chaining and custom indicators, and with live data streaming.",
+      "_appFooter": "Stock Indicators for .NET is a free, open-source library available on NuGet.org as FacioQuo.Stock.Indicators",
+      "_appFaviconPath": "assets/favicon.ico",
+      "_appLogoPath": "assets/favicon.svg",
+      "_enableSearch": true,
+      "_disableContribution" : false,
+      "_disableToc": false,
+      "_gitContribute": {
+        "repo": "https://github.com/DaveSkender/Stock.Indicators",
+        "branch": "v3"
+      },
+      "_gitUrlPattern": "github",
+      "_googleAnalyticsTagId": "G-7602GXEZ0R",
+      "_lang": "en-US",
+      "_noindex": true
+    },
+    "template": [
+      "default",
+      "templates/material",
+      "modern"
+    ],
+    "output": "",
+    "content": [
+      {
+        "files": [
+          "**/*.md",
+          "**/*.yml"
+        ],
+        "exclude": [
+          ".offline/",
+          "node_modules/",
+          "_site/",
+          "**include**",
+          "README.md"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "assets/**",
+          "**/*.png",
+          "**/*.webp",
+          "**/*.svg",
+          "**/*.zip"
+        ]
+      }
+    ],
+    "sitemap": {
+      "baseUrl": "https://dotnet.stockindicators.dev",
+      "changefreq": "weekly",
+      "priority": 0.5
+    },
+    "dest": "_site",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false
+  }
+}

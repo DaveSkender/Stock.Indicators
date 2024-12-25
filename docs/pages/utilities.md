@@ -2,8 +2,7 @@
 title: Utilities and helpers
 description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results, and to create custom indicators.
 permalink: /utilities/
-relative_path: pages/utilities.md
-layout: page
+relative_path: utilities.md
 ---
 
 # {{ page.title }}
@@ -100,7 +99,7 @@ var results = quotes
 
 ### Condense
 
-`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns](/indicators/#candlestick-pattern), it will only return records where a signal is generated.
 
 ```csharp
 // example: only show Marubozu signals
@@ -140,7 +139,7 @@ IReadOnlyList<AdxResult> results =
   quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
-See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
@@ -152,7 +151,7 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators]({{site.baseurl}}/custom-indicators/).
+This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators](/CustomIndicators/).
 
 ### Numerical methods
 

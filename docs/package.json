@@ -1,0 +1,6 @@
+{
+    "scripts": {
+      "build": "docfx docfx.json",
+      "start": "docfx docfx.json --serve --port 4000 --open-browser"
+    }
+  }

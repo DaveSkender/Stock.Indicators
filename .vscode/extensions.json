@@ -1,12 +1,11 @@
 {
-    "recommendations": [
-        "codacy-app.codacy",
-        "adrianwilczynski.user-secrets",
-        "github.vscode-github-actions",
-        "github.vscode-pull-request-github",
-        "mechatroner.rainbow-csv",
-        "dotjoshjohnson.xml",
-        "redhat.vscode-yaml",
-        "vunguyentuan.vscode-css-variables"
-    ]
+  "recommendations": [
+    "yandeu.five-server",
+    "DavidAnson.vscode-markdownlint",
+    "streetsidesoftware.code-spell-checker",
+    "ms-dotnettools.csharp",
+    "dotjoshjohnson.xml",
+    "editorconfig.editorconfig",
+    "GitHub.vscode-pull-request-github"
+  ]
 }
