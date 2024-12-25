@@ -36,6 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "::error::Nothing to install yet"
+          exit 1
 
       - name: Use local website URL
         uses: jacobtomlinson/gha-find-replace@v3
@@ -48,6 +49,7 @@ jobs:
       - name: Build and serve site
         run: |
           echo "Nothing to build or serve yet"
+          exit 1
 
       - name: Test for broken URLs
         run: |

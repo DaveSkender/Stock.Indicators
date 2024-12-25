@@ -31,10 +31,12 @@ jobs:
       - name: Install dependencies
         run: |
           echo "::error::Nothing to install yet"
+          exit 1
 
       - name: Build and serve site
         run: |
           echo "::error::Nothing to build or serve yet"
+          exit 1
 
       - name: Test accessibility
         run: >

@@ -29,6 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "::error::Nothing to install yet"
+          exit 1
 
       - name: Define tag
         id: tag
@@ -44,6 +45,7 @@ jobs:
       - name: Build site
         run: |
           echo "::error::Nothing to build yet"
+          exit 1
 
       - name: Publish to Cloudflare Pages
         id: deploy
