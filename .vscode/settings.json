@@ -10,7 +10,7 @@
   },
   // search settings, auto excludes files.exclude
   "search.exclude": {
-    "**/_api/**": true,
+    "**/api/**": true,
     "**/_site/**": true,
     "**/node_modules/**": true,
     "**/bin/**": true,
