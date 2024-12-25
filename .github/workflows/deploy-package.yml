@@ -34,6 +34,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v1.2.0
         with:
@@ -51,7 +57,18 @@ jobs:
       - name: Compose version
         id: compose
         run: |
-          ver=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || inputs.preview && github.run_number || '' }}
+          # get base version
+          base="${{ steps.gitversion.outputs.majorMinorPatch }}"
+
+          # determine preview suffix
+          preview_tag="${{ inputs.preview && '-preview.' || '' }}"
+
+          # determine preview number
+          preview_num="${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}"
+
+          # combine all parts
+          ver="${base}${preview_tag}${preview_num}"
+
           echo "version=$ver" >> "$GITHUB_OUTPUT"
 
       - name: Update release notes URL
@@ -60,12 +77,6 @@ jobs:
           find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
           replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
           regex: false
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.x"
-          dotnet-quality: "ga"
 
       - name: Build library
         run: >
