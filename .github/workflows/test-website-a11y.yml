@@ -35,7 +35,8 @@ jobs:
 
       - name: Build and serve site
         run: |
-          docfx build --serve --port 4000 --detach
+          dotnet build -c Release ../src/Indicators.csproj
+          docfx docfx.json --serve --port 4000 --detach
           echo "Waiting up to 30s for server to start..."
           timeout=30
           until curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:4000 | grep -q "200"; do

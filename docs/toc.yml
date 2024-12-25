@@ -1,3 +1,7 @@
 - name: Get started
-- href: contributing.md
-- href: index.md
+  items:
+  - name: Introduction
+    href: index.md
+  - href: contributing.md
+- name: .NET API Reference
+  href: api/toc.yml

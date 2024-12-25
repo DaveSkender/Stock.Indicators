@@ -4,36 +4,42 @@
       "src": [
         {
           "files": [
-            "**/*.csproj"
-          ],
-          "exclude": [
-            "**/bin/**",
-            "**/obj/**"
+            "Indicators.csproj"
           ],
           "src": "../src"
-        }
-      ],
+        }      ],
       "dest": "api",
       "properties": {
-        "TargetFramework": "net8.0"
+        "TargetFramework": "net9.0"
       }
     }
   ],
   "build": {
     "globalMetadata": {
-      "_appName": " Stock Indicators for .NET",
+      "_appName": "Stock Indicators for .NET",
       "_appTitle": "Stock Indicators for .NET",
-      "_appLogoPath": "assets/favicon.svg",
+      "_appDescription": "Transform financial market prices into technical analysis insights with this best in class C# NuGet library. Go further with chaining and custom indicators, and with live data streaming.",
+      "_appFooter": "Stock Indicators for .NET is a free, open-source library available on NuGet.org as FacioQuo.Stock.Indicators",
       "_appFaviconPath": "assets/favicon.ico",
+      "_appLogoPath": "assets/favicon.svg",
+      "_enableSearch": true,
+      "_disableContribution" : false,
       "_disableToc": false,
-      "_enableSearch": true
+      "_gitContribute": {
+        "repo": "https://github.com/DaveSkender/Stock.Indicators",
+        "branch": "v3"
+      },
+      "_gitUrlPattern": "github",
+      "_googleAnalyticsTagId": "G-7602GXEZ0R",
+      "_lang": "en-US",
+      "_noindex": true
     },
     "template": [
       "default",
       "templates/material",
       "modern"
     ],
-    "output": "_site",
+    "output": "",
     "content": [
       {
         "files": [
@@ -41,13 +47,11 @@
           "**/*.yml"
         ],
         "exclude": [
-          "README.md",
-          "_indicators/",
-          "_data/",
-          "_includes/",
           ".offline/",
           "node_modules/",
-          "_site/"
+          "_site/",
+          "**include**",
+          "README.md"
         ]
       }
     ],
@@ -63,7 +67,20 @@
       }
     ],
     "sitemap": {
-      "baseUrl": "https://dotnet.stockindicators.dev"
-    }
+      "baseUrl": "https://dotnet.stockindicators.dev",
+      "changefreq": "weekly",
+      "priority": 0.5
+    },
+    "dest": "_site",
+    "globalMetadataFiles": [],
+    "fileMetadataFiles": [],
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ],
+    "markdownEngineName": "markdig",
+    "noLangKeyword": false,
+    "keepFileLink": false,
+    "cleanupCacheHistory": false,
+    "disableGitFeatures": false
   }
 }

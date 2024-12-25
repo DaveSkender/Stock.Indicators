@@ -1,4 +1,4 @@
-name: Deploy website
+name: Deploy vNext website
 
 on: workflow_dispatch
 
@@ -21,11 +21,14 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          working-directory: docs
-          ruby-version: 3.3
+          dotnet-version: '9.x'
+
+      - name: Install dependencies
+        run: |
+          dotnet tool install -g docfx
 
       - name: Define tag
         id: tag
@@ -38,29 +41,10 @@ jobs:
           replace: "${{ steps.tag.outputs.version }}"
           regex: false
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+      - name: Build site
         run: |
-          pwd
-          bundle install
-
-      - name: Build site (production)
-        if: github.ref == 'refs/heads/main'
-        working-directory: docs
-        env:
-          JEKYLL_ENV: production
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll build
-
-      - name: Build site (preview)
-        if: github.ref != 'refs/heads/main'
-        working-directory: docs
-        env:
-          JEKYLL_ENV: preview
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll build
+          dotnet build -c Release src/Indicators.csproj
+          docfx docs/docfx.json
 
       - name: Publish to Cloudflare Pages
         id: deploy
@@ -71,4 +55,4 @@ jobs:
           wranglerVersion: "latest"
           command: >
             pages deploy docs/_site
-            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
+            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME_VNEXT }}

@@ -1,28 +1,6 @@
-  {
+{
     "scripts": {
-      "watch": "npm-watch build",
-      "build.api": "docfx metadata",
-      "build": "docfx build --serve"
-    },
-    "watch": {
-      "build": {
-        "patterns": [
-          "docfx.json",
-          "api",
-          "toc",
-          "toc.yml",
-          "index",
-          "index.md",
-          "pages",
-          "assets",
-          "examples",
-          "_indicators"
-        ],
-        "extensions": "md,yml",
-        "quiet": false
-      }
-    },
-    "devDependencies": {
-      "npm-watch": "^0.13.0"
+      "build": "docfx docfx.json",
+      "start": "docfx docfx.json --serve --port 4000 --open-browser"
     }
   }

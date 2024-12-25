@@ -48,6 +48,7 @@ jobs:
 
       - name: Build and serve site
         run: |
+          dotnet build -c Release ../src/Indicators.csproj
           docfx build --serve --port 4000 --detach
           echo "Waiting up to 30s for server to start..."
           timeout=30
