@@ -1,19 +1,18 @@
-name: Website URLs
+# Checks website for broken links
+name: Website Links
 
 on:
   pull_request:
-    branches: ["*"]
     paths:
-      - docs/**
-      - .github/workflows/test-website-links.yml
-
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - "docs/**"
+  workflow_dispatch:
 
 jobs:
-  test:
-    name: test
+  test-links:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
 
     steps:
       - name: Checkout source
@@ -22,59 +21,42 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: docs
-          ruby-version: 3.3
+          ruby-version: '3.2'
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: |
-          pwd
-          bundle install
-
-      - name: Setup HTML Proofer
-        run: |
-          gem install html-proofer
-          htmlproofer --help
-
-      - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          find: "data-src"
-          replace: "src"
-          regex: false
+          dotnet-version: '9.x'
 
-      - name: Replace "dotnet.stockindicators.dev"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: |
+          echo "::error::Nothing to install yet"
+
+      - name: Use local website URL
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
           regex: false
+          include: "docs/**"
 
-      - name: Build site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll build --trace
+      - name: Build and serve site
+        run: |
+          echo "Nothing to build or serve yet"
 
-      - name: Serve site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll serve --detach
-
-        # see help in setup step
       - name: Test for broken URLs
-        working-directory: docs
         run: |
           htmlproofer _site \
             --no-enforce-https \
             --no-check-external-hash \
             --ignore-status-codes "0,302,403,406,408,429,503,999" \
-            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
             --ignore-urls "/fonts.gstatic.com/"
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: pkill -f docfx
