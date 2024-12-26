@@ -4,8 +4,13 @@ name: Website a11y
 on:
   pull_request:
     paths:
-      - "docs/**"
-  workflow_dispatch:
+      - docs/**
+      - .github/workflows/test-website-a11y.yml
+
+# Prevent multiple concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -30,8 +35,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "::error::Nothing to install yet"
-          exit 1
+          npm install -g pa11y-ci
 
       - name: Build and serve site
         run: |

@@ -4,11 +4,16 @@ name: Website Links
 on:
   pull_request:
     paths:
-      - "docs/**"
-  workflow_dispatch:
+      - docs/**
+      - .github/workflows/test-website-links.yml
+
+# Prevent multiple concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test-links:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,7 +26,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: 3.3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -35,10 +40,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "::error::Nothing to install yet"
-          exit 1
+          gem install html-proofer
 
-      - name: Use local website URL
+      - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "https://dotnet.stockindicators.dev"
@@ -52,12 +56,12 @@ jobs:
           exit 1
 
       - name: Test for broken URLs
-        run: |
-          htmlproofer _site \
-            --no-enforce-https \
-            --no-check-external-hash \
-            --ignore-status-codes "0,302,403,406,408,429,503,999" \
-            --ignore-urls "/fonts.gstatic.com/"
+        run: >
+          htmlproofer _site
+          --no-enforce-https
+          --no-check-external-hash
+          --ignore-status-codes "0,302,403,406,408,429,503,999"
+          --ignore-urls "/fonts.gstatic.com/"
 
       - name: Kill site (failsafe)
         if: always()

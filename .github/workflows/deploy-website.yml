@@ -5,17 +5,17 @@ on: workflow_dispatch
 concurrency:
   group: docs-website
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   deploy:
     name: Cloudflare Pages
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
 
     environment:
       name: stockindicators.dev
-      url: ${{ steps.deploy.outputs.deployment-alias-url }}
+      url: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
 
     steps:
       - name: Checkout source
