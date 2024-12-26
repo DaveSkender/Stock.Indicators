@@ -7,16 +7,20 @@ on:
       - docs/**
       - .github/workflows/test-website-a11y.yml
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# Prevent multiple concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
-    name: test
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: docs
     env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
+      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
@@ -25,33 +29,34 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: docs
           ruby-version: 3.3
 
-      - name: Install GEMs
-        working-directory: docs
+      - name: Install dependencies
         run: |
-          pwd
           bundle install
+          npm install -g pa11y-ci
+
+      - name: Use 'localhost'
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "https://dotnet.stockindicators.dev"
+          replace: "http://127.0.0.1:4000"
+          regex: false
 
       - name: Build site
-        working-directory: docs
         run: bundle exec jekyll build
 
       - name: Serve site
-        working-directory: docs
-        run: bundle exec jekyll serve --detach
+        run: bundle exec jekyll serve --port 4000 --detach
 
       - name: Show environment
-        working-directory: docs
         run: npx pa11y --environment
 
       - name: Test accessibility
-        working-directory: docs
-        run: |
-          npx pa11y-ci \
-            --sitemap http://127.0.0.1:4000/sitemap.xml \
-            --sitemap-exclude "/*.pdf"
+        run: >
+          pa11y-ci
+          --sitemap http://127.0.0.1:4000/sitemap.xml
+          --config ./.pa11yci
 
       - name: Kill site (failsafe)
         if: always()

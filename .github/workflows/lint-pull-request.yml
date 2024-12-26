@@ -14,6 +14,7 @@ jobs:
   main:
     name: lint PR title
     runs-on: ubuntu-latest
+
     steps:
       - uses: amannn/action-semantic-pull-request@v5
         id: lint_pr_title
@@ -29,9 +30,8 @@ jobs:
           # the default error message that is shown when the pattern doesn't match.
           # The variables `subject` and `title` can be used within the message.
           subjectPatternError: >
-            The subject "**{subject}**" found in the pull request title "*{title}*"
-            didn't match the configured pattern. Please ensure that the subject
-            starts with an uppercase character.
+            The subject "**{subject}**" in pull request "*{title}*"
+            needs to start with an uppercase character.
 
           # If the PR contains one of these newline-delimited labels, the
           # validation is skipped. If you want to rerun the validation when
@@ -48,24 +48,21 @@ jobs:
         with:
           header: pr-title-lint-error
           message: |
-            ### Hey there and thank you for opening this pull request! 👋🏼
+            ### ⚠️ Pull Request title needs adjustment
 
-            It looks like your proposed **_Pull request title_** needs to be adjusted.
+            Your PR title doesn't match our naming convention: `type: Subject`
 
-            >🚩 **Error** » ${{ steps.lint_pr_title.outputs.error_message }}
+            > [!CAUTION]
+            > ${{ steps.lint_pr_title.outputs.error_message }}
 
-            #### Pull request title naming convention
+            #### Valid examples
 
-            Our PR title name taxonomy is `type: Subject`, where **type** is typically
-            *feat*, *fix*, or *chore*, and **subject** is a phrase (proper noun) that starts
-            with a capitalized letter.  The *chore* type usually has a subject that starts
-            with an action verb like *Add* or *Update*. Examples:
-
-            - _feat: Admin portal login_
-            - _fix: Divide by zero in X calculation_
-            - _chore: Update packages_
-            - _docs: Improve setup guidance_
-
+            - `feat: Add new RSI indicator`
+            - `fix: Correct MACD calculation`
+            - `chore: Update documentation`
+            - `test: Add unit tests for EMA`
+            - `refactor: Optimize moving average logic`
+            
             See the [Conventional Commits specification](https://www.conventionalcommits.org) for more information.
 
       # Delete a previous comment when the issue has been resolved

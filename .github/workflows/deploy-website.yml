@@ -12,10 +12,16 @@ jobs:
   deploy:
     name: Cloudflare Pages
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    env:
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
+      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: stockindicators.dev
-      url: ${{ steps.deploy.outputs.deployment-alias-url }}
+      url: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
 
     steps:
       - name: Checkout source
@@ -24,8 +30,10 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: docs
           ruby-version: 3.3
+
+      - name: Install dependencies
+        run: bundle install
 
       - name: Define tag
         id: tag
@@ -38,28 +46,16 @@ jobs:
           replace: "${{ steps.tag.outputs.version }}"
           regex: false
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: |
-          pwd
-          bundle install
-
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
-        working-directory: docs
         env:
           JEKYLL_ENV: production
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
-        working-directory: docs
         env:
           JEKYLL_ENV: preview
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
         run: bundle exec jekyll build
 
       - name: Publish to Cloudflare Pages
