@@ -157,7 +157,7 @@ jobs:
       - name: Compose package info
         id: package_info
         run: |
-          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" Directory.Build.props || xmllint --xpath "//PropertyGroup/PackageId/text()" **/*.csproj)
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
           echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
           if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
             echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ needs.build.outputs.version }}" >> $GITHUB_OUTPUT
