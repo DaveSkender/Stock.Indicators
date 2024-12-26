@@ -17,7 +17,7 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 
 ```csharp
 // C# usage syntax
-IEnumerable<DonchianResult> results =
+IReadOnlyList<DonchianResult> results =
   quotes.GetDonchian(lookbackPeriods);
 ```
 
@@ -34,7 +34,7 @@ You must have at least `N+1` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<DonchianResult>
+IReadOnlyList<DonchianResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -44,7 +44,7 @@ IEnumerable<DonchianResult>
 
 ### DonchianResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - Upper line is the highest High over `N` periods
 

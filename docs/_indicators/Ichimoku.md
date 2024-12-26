@@ -16,15 +16,15 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 
 ```csharp
 // C# usage syntax
-IEnumerable<IchimokuResult> results =
+IReadOnlyList<IchimokuResult> results =
   quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
 // usage with custom offset
-IEnumerable<IchimokuResult> results =
+IReadOnlyList<IchimokuResult> results =
   quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
 
 // usage with different custom offsets
-IEnumerable<IchimokuResult> results =
+IReadOnlyList<IchimokuResult> results =
   quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 ```
 
@@ -53,7 +53,7 @@ You must have at least the greater of `T`,`K`, `S`, and offset periods for `quot
 ## Response
 
 ```csharp
-IEnumerable<IchimokuResult>
+IReadOnlyList<IchimokuResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -63,7 +63,7 @@ IEnumerable<IchimokuResult>
 
 ### IchimokuResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`TenkanSen`** _`decimal`_ - Conversion / signal line
 

@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<DpoResult> results =
+IReadOnlyList<DpoResult> results =
   quotes.GetDpo(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N` historical quotes to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<DpoResult>
+IReadOnlyList<DpoResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -43,7 +43,7 @@ IEnumerable<DpoResult>
 
 ### DpoResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average offset by `N/2+1` periods
 

@@ -1,6 +1,6 @@
 {
   // file settings
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
   "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
   "files.exclude": {
