@@ -30,7 +30,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.compose.outputs.version }}
+      version: ${{ steps.version_info.outputs.version }}
+      pkg_url: ${{ steps.package_info.outputs.pkg_url }}
+      pkg_name: ${{ steps.package_info.outputs.pkg_name }}
 
     steps:
 
@@ -56,6 +58,9 @@ jobs:
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
+  
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
       - name: Determine version
         id: gitversion
@@ -66,7 +71,7 @@ jobs:
           configFilePath: src/gitversion.yml
 
       - name: Compose version
-        id: compose
+        id: version_info
         run: |
           # get base version
           base="${{ steps.gitversion.outputs.majorMinorPatch }}"
@@ -82,11 +87,22 @@ jobs:
 
           echo "version=$ver" >> "$GITHUB_OUTPUT"
 
+      - name: Compose package info
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
+          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
+            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "pkg_url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build library
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
-          --property:Version=${{ steps.compose.outputs.version }}
+          --property:Version=${{ steps.version_info.outputs.version }}
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -97,7 +113,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion=${{ steps.compose.outputs.version }}
+          -p:PackageVersion=${{ steps.version_info.outputs.version }}
 
       - name: Save package
         uses: actions/upload-artifact@v4
@@ -115,7 +131,7 @@ jobs:
             echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
             echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed    | ${{ steps.compose.outputs.version }}            |"
+            echo "| Composed    | ${{ steps.version_info.outputs.version }}       |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
@@ -129,7 +145,7 @@ jobs:
 
     environment:
       name: ${{ !inputs.dry_run && inputs.environment || '' }}
-      url: ${{ steps.package_info.outputs.url }}
+      url: ${{ needs.build.outputs.pkg_url }}
 
     steps:
 
@@ -145,25 +161,12 @@ jobs:
           nuget-api-key: ${{ secrets.NUGET_TOKEN }}
           nuget-version: '6.x'
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
       - name: Download package
         uses: actions/download-artifact@v4
         with:
           name: packages
           path: NuGet
-
-      - name: Compose package info
-        id: package_info
-        run: |
-          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
-          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
-            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ needs.build.outputs.version }}" >> $GITHUB_OUTPUT
-          else
-            echo "pkg_url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ needs.build.outputs.version }}" >> $GITHUB_OUTPUT
-          fi
 
       - name: Publish package
         if: ${{ !inputs.dry_run }}
@@ -182,10 +185,10 @@ jobs:
           body: |
             ## Release ${{ needs.build.outputs.version }}
 
-            📦 Package deployed to [${{ inputs.environment }}](${{ steps.package_info.outputs.pkg_url }})
+            📦 Package deployed to [${{ inputs.environment }}](${{ needs.build.outputs.pkg_url }})
 
             ### Package Details
-            - **Name**: ${{ steps.package_info.outputs.pkg_name }}
+            - **Name**: ${{ needs.build.outputs.pkg_name }}
             - **Version**: ${{ needs.build.outputs.version }}
             - **Preview**: ${{ inputs.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
@@ -207,6 +210,6 @@ jobs:
             echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
             echo "| Environment | ${{ inputs.environment }} |"
             echo "| Version     | ${{ needs.build.outputs.version }} |"
-            echo "| Package     | [${{ steps.package_info.outputs.pkg_name }}](${{ steps.package_info.outputs.pkg_url }}) |"
+            echo "| Package     | [${{ needs.build.outputs.pkg_name }}](${{ needs.build.outputs.pkg_url }}) |"
             echo "| Preview     | ${{ inputs.preview && '✓' || '✗' }} |"
           } >> $GITHUB_STEP_SUMMARY
