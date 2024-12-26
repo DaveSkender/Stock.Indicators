@@ -47,14 +47,27 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+      - name: Extract package info
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
+          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
+            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "pkg_url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v1.2.0
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
-  
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+          useConfigFile: true
+          configFilePath: src/gitversion.yml
 
       - name: Determine version
         id: gitversion
@@ -80,17 +93,6 @@ jobs:
           ver="${base}${preview_tag}${preview_num}"
 
           echo "version=$ver" >> "$GITHUB_OUTPUT"
-
-      - name: Compose package info
-        id: package_info
-        run: |
-          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
-          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
-            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
-          else
-            echo "pkg_url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
-          fi
 
       - name: Build library
         run: >
