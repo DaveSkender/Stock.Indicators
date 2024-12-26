@@ -204,6 +204,6 @@ jobs:
             echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
             echo "| Environment | ${{ inputs.environment }} |"
             echo "| Version     | ${{ needs.build.outputs.version }} |"
-            echo "| Package     | [${{ needs.build.outputs.pkg_name }}](${{ needs.build.outputs..pkg_url }}) |"
+            echo "| Package     | [${{ needs.build.outputs.pkg_name }}](${{ needs.build.outputs.pkg_url }}) |"
             echo "| Preview     | ${{ inputs.preview && '✓' || '✗' }} |"
           } >> $GITHUB_STEP_SUMMARY
