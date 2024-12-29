@@ -3,7 +3,7 @@ name: Deploy NuGet package
 on:
   push:
     branches:
-      - DaveSkender-patch-1
+      - fix-deployer
 
   workflow_dispatch:
     inputs:
@@ -51,7 +51,7 @@ jobs:
             echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
             echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
           else
-            echo "environ=no_env" >> $GITHUB_OUTPUT
+            echo "environ='NO ENVIRONMENT" >> $GITHUB_OUTPUT
             echo "preview=true"   >> $GITHUB_OUTPUT
             echo "dry_run=true"   >> $GITHUB_OUTPUT
           fi
