@@ -1,6 +1,10 @@
 name: Deploy NuGet package
 
 on:
+  push:
+    branches:
+      - fix-a11y-workflow
+
   workflow_dispatch:
     inputs:
       environment:
@@ -27,14 +31,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  package:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_info.outputs.version }}
-      pkg_url: ${{ steps.package_info.outputs.pkg_url }}
-      pkg_name: ${{ steps.package_info.outputs.pkg_name }}
+      url: ${{ steps.package_info.outputs.url }}
+      name: ${{ steps.package_info.outputs.name }}
+      environ: ${{ steps.settings.outputs.environ }}
+      preview: ${{ steps.settings.outputs.preview }}
+      dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
+
+      - name: Set default inputs for dispatch
+        id: settings
+        run: |
+          if [[ "${{ github.event_name }}" == "worfklow_dispatch" ]]; then
+            echo "environ=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+            echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
+            echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
+          else
+            echo "environ=no_env" >> $GITHUB_OUTPUT
+            echo "preview=true"   >> $GITHUB_OUTPUT
+            echo "dry_run=true"   >> $GITHUB_OUTPUT
+          fi
 
       - name: Checkout source
         uses: actions/checkout@v4
@@ -58,7 +78,7 @@ jobs:
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
-  
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
@@ -77,10 +97,10 @@ jobs:
           base="${{ steps.gitversion.outputs.majorMinorPatch }}"
 
           # determine preview suffix
-          preview_tag="${{ inputs.preview && '-preview.' || '' }}"
+          preview_tag="${{ steps.settings.outputs.preview && '-preview.' || '' }}"
 
           # determine preview number
-          preview_num="${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}"
+          preview_num="${{ steps.settings.outputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}"
 
           # combine all parts
           ver="${base}${preview_tag}${preview_num}"
@@ -91,11 +111,11 @@ jobs:
         id: package_info
         run: |
           PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
-          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
-            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          if [[ "${{ steps.settings.outputs.environ }}" == "nuget.org" ]]; then
+            echo "url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
           else
-            echo "pkg_url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+            echo "url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Build library
@@ -132,10 +152,12 @@ jobs:
             echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
             echo "| Composed    | ${{ steps.version_info.outputs.version }}       |"
+            echo "| Package     | ${{ steps.package_info.outputs.name }}       |"
+            echo "| Package URL | ${{ steps.package_info.outputs.url }}       |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
-    needs: build
+    needs: package
     runs-on: ubuntu-latest
     if: success()
 
@@ -144,8 +166,18 @@ jobs:
       packages: write
 
     environment:
-      name: ${{ !inputs.dry_run && inputs.environment || '' }}
-      url: ${{ needs.build.outputs.pkg_url }}
+      name: ${{ needs.package.outputs.environ }}
+      url: ${{ needs.package.outputs.url }}
+
+    env:
+      version: ${{ needs.package.outputs.version }}
+      preview: ${{ needs.package.outputs.preview }}
+      dry_run: ${{ needs.package.outputs.dry_run }}
+      environ: ${{ needs.package.outputs.environ }}
+      url: ${{ needs.package.outputs.url }}
+      name: ${{ needs.package.outputs.name }}
+      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org' && 'https://api.nuget.org/v3/index.json' || 'https://nuget.pkg.github.com/${{ github.repository }}/index.json' }}
+      NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
 
@@ -155,13 +187,6 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v2
-        with:
-          nuget-api-key: ${{ secrets.NUGET_TOKEN }}
-          nuget-version: '6.x'
-
-
       - name: Download package
         uses: actions/download-artifact@v4
         with:
@@ -169,33 +194,31 @@ jobs:
           path: NuGet
 
       - name: Publish package
-        if: ${{ !inputs.dry_run }}
-        env:
-          API_KEY: ${{ inputs.environment == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
+        if: ${{ !env.dry_run }}
         run: >
           dotnet nuget push NuGet/*.nupkg
-          --source "${{ vars.NUGET_PUBLISH_URL }}"
-          --api-key "$API_KEY"
+          --source "${{ env.NUGET_PUBLISH_URL }}"
+          --api-key "${{ env.NUGET_API_KEY }}"
           --skip-duplicate
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
-        if: ${{ !inputs.dry_run && inputs.environment == 'nuget.org' }}
+        if: ${{ !env.dry_run && env.environ == 'nuget.org' }}
         with:
           body: |
-            ## Release ${{ needs.build.outputs.version }}
+            ## Release ${{ env.version }}
 
-            📦 Package deployed to [${{ inputs.environment }}](${{ needs.build.outputs.pkg_url }})
+            📦 Package deployed to [${{ env.environ }}](${{ env.url }})
 
             ### Package Details
-            - **Name**: ${{ needs.build.outputs.pkg_name }}
-            - **Version**: ${{ needs.build.outputs.version }}
-            - **Preview**: ${{ inputs.preview && 'Yes' || 'No' }}
+            - **Name**: ${{ env.name }}
+            - **Version**: ${{ env.version }}
+            - **Preview**: ${{ env.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
           draft: true
-          makeLatest: ${{ !inputs.preview }}
-          prerelease: ${{ inputs.preview }}
-          tag: v${{ needs.build.outputs.version }}
+          makeLatest: ${{ !env.preview }}
+          prerelease: ${{ env.preview }}
+          tag: v${{ env.version }}
           commit: ${{ github.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -206,10 +229,10 @@ jobs:
             echo "## Package Deployment"
             echo "| Parameter   | Value |"
             echo "|:------------|:------|"
-            echo "| Mode        | ${{ inputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
+            echo "| Mode        | ${{ env.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
             echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Environment | ${{ inputs.environment }} |"
-            echo "| Version     | ${{ needs.build.outputs.version }} |"
-            echo "| Package     | [${{ needs.build.outputs.pkg_name }}](${{ needs.build.outputs.pkg_url }}) |"
-            echo "| Preview     | ${{ inputs.preview && '✓' || '✗' }} |"
+            echo "| Environment | ${{ env.environ }} |"
+            echo "| Version     | ${{ env.version }} |"
+            echo "| Package     | [${{ env.name }}](${{ env.url }}) |"
+            echo "| Preview     | ${{ env.preview && '✓' || '✗' }} |"
           } >> $GITHUB_STEP_SUMMARY
