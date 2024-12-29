@@ -46,26 +46,20 @@ jobs:
       - name: Set default inputs for dispatch
         id: settings
         run: |
-          if [[ "${{ github.event_name }}" == "worfklow_dispatch" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "environ=${{ inputs.environment }}" >> $GITHUB_OUTPUT
             echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
             echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
           else
-            echo "environ='NO ENVIRONMENT" >> $GITHUB_OUTPUT
-            echo "preview=true"   >> $GITHUB_OUTPUT
-            echo "dry_run=true"   >> $GITHUB_OUTPUT
+            echo "environ=NO_ENVIRONMENT" >> $GITHUB_OUTPUT
+            echo "preview=true" >> $GITHUB_OUTPUT
+            echo "dry_run=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.x"
-          dotnet-quality: "ga"
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -93,16 +87,19 @@ jobs:
       - name: Compose version
         id: version_info
         run: |
-          # get base version
+          # get base version from GitVersion (respects tags on main, next-version on others)
           base="${{ steps.gitversion.outputs.majorMinorPatch }}"
 
-          # determine preview suffix
-          preview_tag="${{ steps.settings.outputs.preview && '-preview.' || '' }}"
+          # preview suffix controlled by workflow input + gitversion config
+          if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
+            # respect GitVersion preview tag config from gitversion.yml
+            preview_tag="-${{ steps.gitversion.outputs.preReleaseTag }}."
+            preview_num="${{ steps.gitversion.outputs.preReleaseNumber }}"
+          else
+            preview_tag=""
+            preview_num=""
+          fi
 
-          # determine preview number
-          preview_num="${{ steps.settings.outputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}"
-
-          # combine all parts
           ver="${base}${preview_tag}${preview_num}"
 
           echo "version=$ver" >> "$GITHUB_OUTPUT"

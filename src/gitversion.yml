@@ -1,5 +1,5 @@
 mode: ContinuousDelivery
-next-version: 3.0.0
+next-version: 3.0.0  # only affects non-main branches
 
 commit-message-incrementing: Enabled
 major-version-bump-message: '\+semver:\s?(breaking|major)'
@@ -8,7 +8,22 @@ patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
 
 branches:
+  main:
+    regex: ^main$
+    increment: Patch
+    is-release-branch: true
+    is-mainline: true
+    pre-release-weight: 0
+    prevent-increment-of-merged-branch-version: true
+    tag: ''
   pull-request:
     tag: preview
+    increment: PreReleaseNumber
+    prevent-increment-of-merged-branch-version: false
+    source-branches: ['main']
   feature:
+    regex: ^v\d+\..*
     tag: preview
+    increment: PreReleaseNumber
+    prevent-increment-of-merged-branch-version: false
+    source-branches: ['main']
