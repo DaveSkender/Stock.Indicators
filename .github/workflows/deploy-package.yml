@@ -58,7 +58,7 @@ jobs:
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
-  
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 

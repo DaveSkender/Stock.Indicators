@@ -1,12 +1,9 @@
-name: Deploy website
+name: Deploy vNext website
 
 on: workflow_dispatch
 
 concurrency:
   group: docs-website
-
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   deploy:
@@ -15,9 +12,6 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     environment:
       name: stockindicators.dev
@@ -27,13 +21,15 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          ruby-version: 3.3
+          dotnet-version: '9.x'
 
       - name: Install dependencies
-        run: bundle install
+        run: |
+          echo "::error::Nothing to install yet"
+          exit 1
 
       - name: Define tag
         id: tag
@@ -46,20 +42,14 @@ jobs:
           replace: "${{ steps.tag.outputs.version }}"
           regex: false
 
-      - name: Build site (production)
-        if: github.ref == 'refs/heads/main'
-        env:
-          JEKYLL_ENV: production
-        run: bundle exec jekyll build
-
-      - name: Build site (preview)
-        if: github.ref != 'refs/heads/main'
-        env:
-          JEKYLL_ENV: preview
-        run: bundle exec jekyll build
+      - name: Build site
+        run: |
+          echo "::error::Nothing to build yet"
+          exit 1
 
       - name: Publish to Cloudflare Pages
         id: deploy
+        if: github.ref != 'refs/heads/v3'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
@@ -67,4 +57,4 @@ jobs:
           wranglerVersion: "latest"
           command: >
             pages deploy docs/_site
-            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}
+            --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME_VNEXT }}
