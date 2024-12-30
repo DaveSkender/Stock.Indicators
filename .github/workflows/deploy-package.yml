@@ -54,17 +54,17 @@ jobs:
       - name: Debug GitVersion config presence
         run: cat src/gitversion.yml
 
-      - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v3.1.1
-        with:
-          versionSpec: "6.0.4"
+      - name: Setup GitVersion Tool
+        run: |
+          # Install GitVersion as a global tool
+          dotnet tool install --global GitVersion.Tool --version 6.0.5
+          # Add the tool to PATH
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Show GitVersion config
-        uses: gittools/actions/gitversion/execute@v3.1.1
-        with:
-          useConfigFile: true
-          targetPath: ${{ github.workspace }}
-          configFilePath: "src/gitversion.yml"
+        run: |
+          # Execute GitVersion and output JSON
+          gitversion /output json /config src/gitversion.yml
 
       - name: Validate preview settings
         run: |
@@ -121,19 +121,25 @@ jobs:
           git status
           git log --oneline -n 5
 
-      - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v3.1.1
-        with:
-          versionSpec: "6.0.5"
+      - name: Setup GitVersion Tool
+        run: |
+          # Install GitVersion as a global tool
+          dotnet tool install --global GitVersion.Tool --version 6.0.5
+          # Add the tool to PATH
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Determine version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v3.1.1
-        with:
-          useConfigFile: true
-          targetPath: ${{ github.workspace }}
-          configFilePath: "src/gitversion.yml"
-          updateAssemblyInfo: true
+        run: |
+          # Execute GitVersion and capture JSON output
+          gitversion /output json /config src/gitversion.yml > gitversion.json
+          # Extract desired outputs
+          version=$(jq -r '.SemVer' gitversion.json)
+          prerelease_tag=$(jq -r '.PreReleaseTag' gitversion.json)
+          prerelease_number=$(jq -r '.PreReleaseNumber' gitversion.json)
+          echo "SemVer=$version" >> $GITHUB_OUTPUT
+          echo "PreReleaseTag=$prerelease_tag" >> $GITHUB_OUTPUT
+          echo "PreReleaseNumber=$prerelease_number" >> $GITHUB_OUTPUT
 
       - name: Compose version
         id: version_info
