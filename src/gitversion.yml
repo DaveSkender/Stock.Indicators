@@ -18,6 +18,7 @@ branches:
 
   vNext:
     regex: v[0-9].*
+    source-branches: [main]
     increment: Patch
 
 ignore:
