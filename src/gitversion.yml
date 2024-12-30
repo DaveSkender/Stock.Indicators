@@ -10,7 +10,6 @@ no-bump-message: '\+semver:\s?(none|skip)'
 branches:
   main:
     increment: Patch
-    is-mainline: true
 
   v[0-9].*:
     label: preview.
