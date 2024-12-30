@@ -13,11 +13,11 @@ branches:
     is-mainline: true
 
   v[0-9].*:
-    tag: preview.
+    label: preview.
     increment: Patch
 
   .*:
-    tag: preview.
+    label: useBranchName
     increment: Patch
     source-branches: ['main', 'v[0-9].*']
 
