@@ -1,0 +1,19 @@
+mode: ContinuousDeployment
+next-version: 3.0.0
+
+commit-message-incrementing: Enabled
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
+
+branches:
+  main:
+    regex: ^main$
+    increment: Patch
+    is-mainline: true
+  feature:
+    regex: ^(v\d+|fix|feature|dev).*
+    tag: preview
+    increment: Inherit
+    source-branches: ['main']

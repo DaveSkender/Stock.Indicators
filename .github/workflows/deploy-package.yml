@@ -105,7 +105,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3
         with:
           useConfigFile: true
-          configFilePath: src/gitversion.yml
+          configFilePath: gitversion.yml
           updateAssemblyInfo: true
 
       - name: Compose version
