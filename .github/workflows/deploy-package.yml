@@ -3,13 +3,17 @@ name: Deploy NuGet package
 # Version format: major.minor.patch[-preview.suffix]
 # - Versioning managed by GitVersion
 # - Preview suffix toggled by "preview" input
-# - Non-preview versions restricted to main branch
+# - Non-preview versions on nuget.org restricted to main branch;
+#   runs targeting nuget.org from non-"main" branches will fail early.
 # - Default: patch increment unless "+semver:" message found
+#   or will use "next-version" if set in config
 # - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
 
 on:
   push:
     branches:
+      - main
+      - 'v*'
       - fix-deployer
 
   workflow_dispatch:
@@ -38,7 +42,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate preview settings
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "nuget.org" ]] && \
+             [[ "${{ github.ref }}" != "refs/heads/main" ]] && \
+             [[ "${{ github.event.inputs.preview }}" != "true" ]]; then
+            echo "::error::Non-preview versions on nuget.org are only allowed from main branch"
+            exit 1
+          fi
+
   package:
+    needs: validate
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version_info.outputs.version }}
