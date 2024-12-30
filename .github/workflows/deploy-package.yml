@@ -55,10 +55,10 @@ jobs:
         run: cat src/gitversion.yml
 
       - name: Show GitVersion config
-        run: |
-          dotnet tool install --global GitVersion.Tool --version 6.0.5
-          export PATH="$PATH:$HOME/.dotnet/tools"
-          dotnet-gitversion /showconfig -c src/gitversion.yml
+        uses: gittools/actions/gitversion/execute@v3
+        with:
+          useConfigFile: true
+          configFilePath: src/gitversion.yml
 
       - name: Validate preview settings
         run: |
@@ -133,13 +133,13 @@ jobs:
         id: version_info
         run: |
           # get base version from GitVersion (respects tags on main, next-version on others)
-          base="${{ steps.gitversion.outputs.majorMinorPatch }}"
+          base="${{ steps.gitversion.outputs.SemVer }}"
 
           # preview suffix controlled by workflow input + gitversion config
           if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
             # respect GitVersion preview tag config from gitversion.yml
-            preview_tag="-${{ steps.gitversion.outputs.preReleaseTag }}."
-            preview_num="${{ steps.gitversion.outputs.preReleaseNumber }}"
+            preview_tag="-${{ steps.gitversion.outputs.PreReleaseTag }}."
+            preview_num="${{ steps.gitversion.outputs.PreReleaseNumber }}"
           else
             preview_tag=""
             preview_num=""
@@ -187,15 +187,14 @@ jobs:
       - name: Summary output
         run: |
           {
-            echo "| Version No. | Component                                       |"
-            echo "| :---------- | :---------------------------------------------- |"
-            echo "| Major       | ${{ steps.gitversion.outputs.major }}           |"
-            echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
-            echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
-            echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed    | ${{ steps.version_info.outputs.version }}       |"
-            echo "| Package     | ${{ steps.package_info.outputs.name }}       |"
-            echo "| Package URL | ${{ steps.package_info.outputs.url }}       |"
+            echo "| Version No.       | Component                                        |"
+            echo "| :---------------- | :----------------------------------------------- |"
+            echo "| SemVer            | ${{ steps.gitversion.outputs.SemVer }}           |"
+            echo "| PreReleaseTag     | ${{ steps.gitversion.outputs.PreReleaseTag }}    |"
+            echo "| PreReleaseNumber  | ${{ steps.gitversion.outputs.PreReleaseNumber }} |"
+            echo "| Composed          | ${{ steps.version_info.outputs.version }}        |"
+            echo "| Package           | ${{ steps.package_info.outputs.name }}           |"
+            echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
