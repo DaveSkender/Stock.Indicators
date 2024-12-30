@@ -54,6 +54,11 @@ jobs:
       - name: Debug GitVersion config presence
         run: cat src/gitversion.yml
 
+      - name: Setup GitVersion
+        uses: gittools/actions/gitversion/setup@v3
+        with:
+          versionSpec: "6.0.5"
+
       - name: Show GitVersion config
         uses: gittools/actions/gitversion/execute@v3
         with:
@@ -119,7 +124,6 @@ jobs:
         uses: gittools/actions/gitversion/setup@v3
         with:
           versionSpec: "6.0.5"
-          preferLatestVersion: true
 
       - name: Determine version
         id: gitversion
