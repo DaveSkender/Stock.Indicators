@@ -45,6 +45,14 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug GitVersion config presence
+        run: cat src/gitversion.yml
+
       - name: Validate preview settings
         run: |
           if [[ "${{ github.event.inputs.environment }}" == "nuget.org" ]] && \
@@ -105,7 +113,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3
         with:
           useConfigFile: true
-          configFilePath: gitversion.yml
+          configFilePath: src/gitversion.yml
           updateAssemblyInfo: true
 
       - name: Compose version
