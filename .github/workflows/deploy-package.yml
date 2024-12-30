@@ -63,8 +63,8 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3.1.1
         with:
           useConfigFile: true
-          targetPath: ${{ github.workspace }}/src
-          configFilePath: "gitversion.yml"
+          targetPath: ${{ github.workspace }}
+          configFilePath: "src/gitversion.yml"
 
 
       - name: Validate preview settings
@@ -132,8 +132,8 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3.1.1
         with:
           useConfigFile: true
-          targetPath: ${{ github.workspace }}/src
-          configFilePath: "gitversion.yml"
+          targetPath: ${{ github.workspace }}
+          configFilePath: "src/gitversion.yml"
           updateAssemblyInfo: true
 
       - name: Compose version
