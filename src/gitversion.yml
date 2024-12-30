@@ -12,6 +12,7 @@ no-bump-message: '\+semver:\s?(none|skip)'
 branches:
   main:
     increment: Patch
+    is-main-branch: true
 
   vNext:
     regex: v[0-9].*
