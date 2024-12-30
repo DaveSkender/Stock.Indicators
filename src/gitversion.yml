@@ -11,16 +11,11 @@ branches:
   main:
     regex: ^main$
     increment: Patch
-    is-release-branch: true
     is-mainline: true
     prevent-increment-of-merged-branch-version: true
-    source-branches: []
 
   feature:
-    regex: ^(v\d+|fix|feature|dev).*
-    mode: ContinuousDelivery
     tag: preview
     increment: Inherit
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
-    source-branches: ['main']
