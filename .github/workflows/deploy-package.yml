@@ -103,6 +103,12 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
+      - name: Debug Git state
+        run: |
+          git branch
+          git status
+          git log --oneline -n 5
+
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v3
         with:
@@ -114,7 +120,6 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3
         with:
           useConfigFile: true
-          targetPath: .
           configFilePath: src/gitversion.yml
           updateAssemblyInfo: true
 
