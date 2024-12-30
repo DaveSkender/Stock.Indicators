@@ -54,6 +54,12 @@ jobs:
       - name: Debug GitVersion config presence
         run: cat src/gitversion.yml
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v3.1.1
         with:
@@ -65,7 +71,6 @@ jobs:
           useConfigFile: true
           targetPath: ${{ github.workspace }}
           configFilePath: "src/gitversion.yml"
-
 
       - name: Validate preview settings
         run: |
