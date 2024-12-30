@@ -55,15 +55,13 @@ jobs:
         run: cat src/gitversion.yml
 
       - name: Setup GitVersion Tool
-        run: |
-          # Install GitVersion as a global tool
-          dotnet tool install --global GitVersion.Tool --version 6.0.5
-          dotnet-gitversion /showconfig -c src/gitversion.yml
+        run: dotnet tool install --global GitVersion.Tool --version 6.0.5
 
       - name: Show GitVersion config
-        run: |
-          # Execute GitVersion and output JSON
-          dotnet-gitversion /output json /l console /config src/gitversion.yml
+        run: dotnet-gitversion /showconfig /config src/gitversion.yml
+
+      - name: Show GitVersion config (with Json output)
+        run: dotnet-gitversion /output json /l console /config src/gitversion.yml
 
       - name: Validate preview settings
         run: |
