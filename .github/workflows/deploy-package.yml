@@ -63,7 +63,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3
         with:
           useConfigFile: true
-          configFilePath: src/gitversion.yml
+          configFilePath: "${{ github.workspace }}/src/gitversion.yml"
 
       - name: Validate preview settings
         run: |
