@@ -55,15 +55,17 @@ jobs:
         run: cat src/gitversion.yml
 
       - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v3
+        uses: gittools/actions/gitversion/setup@v3.1.1
         with:
           versionSpec: "6.0.5"
 
       - name: Show GitVersion config
-        uses: gittools/actions/gitversion/execute@v3
+        uses: gittools/actions/gitversion/execute@v3.1.1
         with:
           useConfigFile: true
-          configFilePath: "${{ github.workspace }}/src/gitversion.yml"
+          targetPath: ${{ github.workspace }}/src
+          configFilePath: "gitversion.yml"
+
 
       - name: Validate preview settings
         run: |
@@ -121,16 +123,17 @@ jobs:
           git log --oneline -n 5
 
       - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v3
+        uses: gittools/actions/gitversion/setup@v3.1.1
         with:
           versionSpec: "6.0.5"
 
       - name: Determine version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v3
+        uses: gittools/actions/gitversion/execute@v3.1.1
         with:
           useConfigFile: true
-          configFilePath: src/gitversion.yml
+          targetPath: ${{ github.workspace }}/src
+          configFilePath: "gitversion.yml"
           updateAssemblyInfo: true
 
       - name: Compose version
