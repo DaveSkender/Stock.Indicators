@@ -56,15 +56,8 @@ jobs:
 
       - name: Setup GitVersion Tool
         run: |
-          # Install GitVersion as a global tool
           dotnet tool install --global GitVersion.Tool --version 6.0.5
-          # Add the tool to PATH
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
-
-      - name: Show GitVersion config
-        run: |
-          # Execute GitVersion and output JSON
-          gitversion /output json /config src/gitversion.yml
+          dotnet tool run gitversion /showconfig -c src/gitversion.yml
 
       - name: Validate preview settings
         run: |
