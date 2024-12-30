@@ -8,6 +8,7 @@ name: Deploy NuGet package
 # - Default: patch increment unless "+semver:" message found
 #   or will use "next-version" if set in config
 # - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
+# - Branches are only tagged with the version after deployments to nuget.org
 
 on:
   push:
@@ -113,6 +114,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3
         with:
           useConfigFile: true
+          targetPath: "$(System.DefaultWorkingDirectory)"
           configFilePath: src/gitversion.yml
           updateAssemblyInfo: true
 
