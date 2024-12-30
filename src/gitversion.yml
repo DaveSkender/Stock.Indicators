@@ -1,5 +1,5 @@
 mode: ContinuousDelivery
-next-version: 3.0.0  # only affects non-main branches
+next-version: 3.0.0
 
 commit-message-incrementing: Enabled
 major-version-bump-message: '\+semver:\s?(breaking|major)'
@@ -13,17 +13,23 @@ branches:
     increment: Patch
     is-release-branch: true
     is-mainline: true
-    pre-release-weight: 0
-    prevent-increment-of-merged-branch-version: true
-    tag: ''
+    source-branches: []
+    tracks-release-branches: false
+    is-source-branch-for: ['feature', 'pull-request']
+    pre-release-weight: 55000
   pull-request:
+    mode: ContinuousDelivery
     tag: preview
-    increment: PreReleaseNumber
+    increment: Inherit
     prevent-increment-of-merged-branch-version: false
+    tag-number-pattern: '[/-](?<number>\d+)'
+    track-merge-target: true
     source-branches: ['main']
   feature:
     regex: ^v\d+\..*
+    mode: ContinuousDelivery
     tag: preview
-    increment: PreReleaseNumber
+    increment: Inherit
     prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
     source-branches: ['main']

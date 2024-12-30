@@ -1,5 +1,12 @@
 name: Deploy NuGet package
 
+# Version format: major.minor.patch[-preview.suffix]
+# - Versioning managed by GitVersion
+# - Preview suffix toggled by "preview" input
+# - Non-preview versions restricted to main branch
+# - Default: patch increment unless "+semver:" message found
+# - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
+
 on:
   push:
     branches:
@@ -61,6 +68,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -73,21 +83,13 @@ jobs:
           versionSpec: "6.0.x"
           preferLatestVersion: true
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
-
-      - name: Display GitVersion config
-        uses: gittools/actions/gitversion/command@v3
-        with:
-          arguments: '/showConfig'
-
       - name: Determine version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v3
         with:
-          updateAssemblyInfo: true
           useConfigFile: true
           configFilePath: src/gitversion.yml
+          updateAssemblyInfo: true
 
       - name: Compose version
         id: version_info
