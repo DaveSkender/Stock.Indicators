@@ -57,7 +57,8 @@ jobs:
       - name: Show GitVersion config
         run: |
           dotnet tool install --global GitVersion.Tool --version 6.0.5
-          dotnet tool run gitversion /showconfig -c src/gitversion.yml
+          export PATH="$PATH:$HOME/.dotnet/tools"
+          dotnet-gitversion /showconfig -c src/gitversion.yml
 
       - name: Validate preview settings
         run: |
