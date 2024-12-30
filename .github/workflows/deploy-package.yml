@@ -56,7 +56,7 @@ jobs:
 
       - name: Show GitVersion config
         run: |
-          dotnet tool install --global GitVersion.Tool --version 6.0.x
+          dotnet tool install --global GitVersion.Tool --version 6.0.5
           export PATH="$PATH:$HOME/.dotnet/tools"
           gitversion /showconfig -c src/gitversion.yml
 
@@ -118,7 +118,7 @@ jobs:
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v3
         with:
-          versionSpec: "6.0.x"
+          versionSpec: "6.0.5"
           preferLatestVersion: true
 
       - name: Determine version
