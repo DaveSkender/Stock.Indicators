@@ -16,11 +16,6 @@ branches:
     label: preview.
     increment: Patch
 
-  .*:
-    label: useBranchName
-    increment: Patch
-    source-branches: ['main', 'v[0-9].*']
-
 ignore:
   sha: []
 
