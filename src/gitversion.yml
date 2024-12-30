@@ -11,7 +11,8 @@ branches:
   main:
     increment: Patch
 
-  v[0-9].*:
+  vNext:
+    regex: v[0-9].*
     label: preview.
     increment: Patch
 
