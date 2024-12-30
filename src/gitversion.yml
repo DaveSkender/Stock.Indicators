@@ -13,6 +13,7 @@ branches:
     is-mainline: true
 
   v[0-9].*:
+    tag: preview.
     increment: Patch
 
   .*:
