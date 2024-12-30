@@ -58,8 +58,6 @@ jobs:
         run: |
           # Install GitVersion as a global tool
           dotnet tool install --global GitVersion.Tool --version 6.0.5
-          # Add the tool to PATH
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
           dotnet-gitversion /showconfig -c src/gitversion.yml
 
       - name: Show GitVersion config
