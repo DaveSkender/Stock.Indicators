@@ -68,17 +68,22 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v1.2.0
+        uses: gittools/actions/gitversion/setup@v3
         with:
-          versionSpec: "5.x"
+          versionSpec: "6.x"
           preferLatestVersion: true
 
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
+      - name: Display GitVersion config
+        uses: gittools/actions/gitversion/command@v3
+        with:
+          arguments: '/showConfig'
+
       - name: Determine version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v1.2.0
+        uses: gittools/actions/gitversion/execute@v3
         with:
           updateAssemblyInfo: true
           useConfigFile: true
