@@ -65,7 +65,7 @@ jobs:
       - name: Show GitVersion config
         run: |
           # Execute GitVersion and output JSON
-          gitversion /output json /config src/gitversion.yml
+          dotnet-gitversion /output json /l console /config src/gitversion.yml
 
       - name: Validate preview settings
         run: |
