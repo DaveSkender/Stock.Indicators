@@ -8,14 +8,24 @@ patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
 
 branches:
+
   main:
-    regex: ^main$
+    tag: ''
     increment: Patch
-    is-mainline: true
     prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    is-release-branch: true
+    is-mainline: true
 
   feature:
-    tag: preview
+    tag: preview.
+    increment: Patch
+
+  pull-request:
+    tag: preview.
     increment: Inherit
-    prevent-increment-of-merged-branch-version: false
-    track-merge-target: true
+
+ignore:
+  sha: []
+
+merge-message-formats: {}
