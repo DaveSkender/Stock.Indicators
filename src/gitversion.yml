@@ -22,6 +22,10 @@ branches:
     source-branches: [main]
     label: preview
 
+  unknown:
+    increment: Inherit
+    label: preview
+
 label: preview
 
 ignore:
