@@ -9,21 +9,18 @@ minor-version-bump-message: '\+semver:\s?(feature|minor)'
 patch-version-bump-message: '\+semver:\s?(fix|patch)'
 no-bump-message: '\+semver:\s?(none|skip)'
 
+label: "preview"
+
 branches:
   main:
     increment: Patch
     source-branches: []
     is-main-branch: true
-    label: ""
 
   release:
     regex: ^v[0-9]+\.*
     increment: Patch
     source-branches: [main]
-    label: "preview."
-
-  unknown:
-    label: "preview."
 
 ignore:
   sha: []
