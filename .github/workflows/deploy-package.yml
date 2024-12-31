@@ -59,10 +59,10 @@ jobs:
         run: dotnet tool install --global GitVersion.Tool --version 6.0.5
 
       - name: Show GitVersion config
-        run: dotnet gitversion -showconfig -config src/gitversion.yml
+        run: dotnet gitversion -config src/gitversion.yml -showconfig
 
-      - name: Show GitVersion config (with Json output)
-        run: dotnet gitversion -output json -l console -config src/gitversion.yml
+      - name: Show GitVersion output
+        run: dotnet gitversion -config src/gitversion.yml -output json -l console
 
       - name: Validate preview settings
         run: |
@@ -105,58 +105,38 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Debug Git state
+      - name: Install dependencies
         run: |
-          git branch
-          git status
-          git log --oneline -n 5
-
-      - name: Setup GitVersion Tool
-        run: |
-          # Install GitVersion as a global tool
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
           dotnet tool install --global GitVersion.Tool --version 6.0.5
-          # Add the tool to PATH
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
-      - name: Determine version
+      - name: Show GitVersion config
+        run: dotnet-gitversion -config src/gitversion.yml -showconfig
+          
+      - name: Generate version info
         id: gitversion
-        run: |
-          # Execute GitVersion and capture JSON output
-          dotnet gitversion -output json -config src/gitversion.yml > gitversion.json
-          # Extract desired outputs
-          version=$(jq -r '.SemVer' gitversion.json)
-          prerelease_tag=$(jq -r '.PreReleaseTag' gitversion.json)
-          prerelease_number=$(jq -r '.PreReleaseNumber' gitversion.json)
-          echo "SemVer=$version" >> $GITHUB_OUTPUT
-          echo "PreReleaseTag=$prerelease_tag" >> $GITHUB_OUTPUT
-          echo "PreReleaseNumber=$prerelease_number" >> $GITHUB_OUTPUT
+        run: dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
 
       - name: Compose version
         id: version_info
         run: |
-          # get base version from GitVersion (respects tags on main, next-version on others)
-          base="${{ steps.gitversion.outputs.SemVer }}"
+          # base version
+          base="${{ steps.gitversion.outputs.MajorMinorPatch }}"
 
-          # preview suffix controlled by workflow input + gitversion config
+          # conditional suffix
           if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
-            # respect GitVersion preview tag config from gitversion.yml
-            preview_tag="-${{ steps.gitversion.outputs.PreReleaseTag }}."
-            preview_num="${{ steps.gitversion.outputs.PreReleaseNumber }}"
+            suffix="${{ steps.gitversion.outputs.PreReleaseTagWithDash }}"
           else
-            preview_tag=""
-            preview_num=""
+            suffix=""
           fi
 
-          ver="${base}${preview_tag}${preview_num}"
+          ver="${base}${suffix}"
 
           echo "version=$ver" >> "$GITHUB_OUTPUT"
 
@@ -200,7 +180,7 @@ jobs:
           {
             echo "| Version No.       | Component                                        |"
             echo "| :---------------- | :----------------------------------------------- |"
-            echo "| SemVer            | ${{ steps.gitversion.outputs.SemVer }}           |"
+            echo "| Base version      | ${{ steps.gitversion.outputs.MajorMinorPatch }}  |"
             echo "| PreReleaseTag     | ${{ steps.gitversion.outputs.PreReleaseTag }}    |"
             echo "| PreReleaseNumber  | ${{ steps.gitversion.outputs.PreReleaseNumber }} |"
             echo "| Composed          | ${{ steps.version_info.outputs.version }}        |"
