@@ -62,7 +62,7 @@ jobs:
         run: dotnet gitversion -config src/gitversion.yml -showconfig
 
       - name: Show GitVersion output
-        run: dotnet gitversion -config src/gitversion.yml -output json -l console
+        run: dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
 
       - name: Validate preview settings
         run: |
@@ -138,7 +138,7 @@ jobs:
 
           ver="${base}${suffix}"
 
-          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          echo "version=$ver" >> $GITHUB_OUTPUT
 
       - name: Compose package info
         id: package_info
