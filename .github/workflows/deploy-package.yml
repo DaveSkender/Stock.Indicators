@@ -176,6 +176,7 @@ jobs:
           include-hidden-files: true
 
       - name: Summary output
+        if: always()
         run: |
           {
             echo "| Version No.       | Component                                        |"
