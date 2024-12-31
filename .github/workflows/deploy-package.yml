@@ -181,10 +181,10 @@ jobs:
           {
             echo "| Version No.       | Component                                        |"
             echo "| :---------------- | :----------------------------------------------- |"
-            echo "| Mode              | ${{ steps,settings.outputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
+            echo "| Mode              | ${{ steps.settings.outputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
             echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Environment.      | ${{ steps,settings.outputs.environ }} |"
-            echo "| Preview           | ${{ steps,settings.outputs.preview && '✓' || '✗' }} |"
+            echo "| Environment.      | ${{ steps.settings.outputs.environ }} |"
+            echo "| Preview           | ${{ steps.settings.outputs.preview && '✓' || '✗' }} |"
             echo "| Base version      | ${{ steps.gitversion.outputs.MajorMinorPatch }}  |"
             echo "| PreReleaseTag     | ${{ steps.gitversion.outputs.PreReleaseTag }}    |"
             echo "| PreReleaseNumber  | ${{ steps.gitversion.outputs.PreReleaseNumber }} |"
