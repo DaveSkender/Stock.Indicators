@@ -26,7 +26,6 @@ jobs:
             The subject "**{subject}**" must start with an uppercase character.
             Example: "Add feature" instead of "add feature"
           ignoreLabels: |
-            auto-pr
             bot
             dependencies
 
