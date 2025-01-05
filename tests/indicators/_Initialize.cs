@@ -37,29 +37,32 @@ public abstract class TestBase
 /// Test class for the startup of the test project.
 /// </summary>
 [TestClass]
-public static class Startup
+public class Startup
 {
     /// <summary>
     /// Displays the assembly location, name, version, and target framework
     /// as a sanity check for test runner targeting.
     /// </summary>
-    [AssemblyInitialize]
-    public static void ShowFramework(TestContext context)
+    [TestMethod]
+    [TestCategory("ShowMe")]
+    public void ShowFramework()
     {
-        ArgumentNullException.ThrowIfNull(context);
-
         // Get the assembly of any type from your Indicators project
         Assembly assembly = typeof(Indicator).Assembly;
 
-        context.WriteLine($"Assembly Location: {assembly.Location}");
-        context.WriteLine($"Assembly Name: {assembly.GetName().Name}");
-        context.WriteLine($"Assembly Version: {assembly.GetName().Version}");
+        Console.WriteLine($"Assembly Location: {assembly.Location}");
+        Console.WriteLine($"Assembly Name: {assembly.GetName().Name}");
+        Console.WriteLine($"Assembly Version: {assembly.GetName().Version}");
 
         // Get the target framework the assembly was built for
         TargetFrameworkAttribute targetFrameworkAttribute = assembly
             .GetCustomAttribute<TargetFrameworkAttribute>();
 
-        context.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
-        Console.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
+        string frameworkName
+            = targetFrameworkAttribute?.FrameworkName ?? "Unknown";
+
+        Console.WriteLine($"Target Framework: {frameworkName}");
+
+        frameworkName.Should().NotBe("Unknown");
     }
 }

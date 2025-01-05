@@ -30,6 +30,13 @@ jobs:
       # .NET SDK versions not included in .NET 9 SDK
       OLDER_SDK: ${{ contains(fromJson('["2.0.x", "2.1.x"]'), matrix.dotnet-version) }}
 
+      # Identifies the current target framework
+      TARGET_FRAMEWORK: >
+        ${{ matrix.dotnet-version == '2.0.x' && 'netstandard2.0' ||
+            matrix.dotnet-version == '2.1.x' && 'netstandard2.1' ||
+            matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+            matrix.dotnet-version == '9.0.x' && 'net9.0' }}
+
     steps:
 
       - name: Checkout source
@@ -55,22 +62,29 @@ jobs:
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
+      - name: Show test subject info
+        run: |
+          dotnet --info
+          dotnet --list-sdks
+          dotnet --list-runtimes
+          dotnet test tests/indicators/Tests.Indicators.csproj /
+          --configuration Release /
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" /
+          --filter "TestCategory=ShowMe" /
+          --logger "html;verbosity=detailed;testResults.html"
+          echo "### Test environment" > $GITHUB_STEP_SUMMARY
+          cat testResults.html >> $GITHUB_STEP_SUMMARY
+
       - name: Test indicators
         env:
           ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
           ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
-          TARGET_FRAMEWORK: >
-            ${{ matrix.dotnet-version == '2.0.x' && 'netstandard2.0' ||
-                matrix.dotnet-version == '2.1.x' && 'netstandard2.1' ||
-                matrix.dotnet-version == '6.0.x' && 'net6.0' ||
-                matrix.dotnet-version == '9.0.x' && 'net9.0' }}
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
-          --logger console
           --logger trx
           --collect:"XPlat Code Coverage"
           --results-directory ./test-indicators
@@ -87,11 +101,12 @@ jobs:
           --logger trx
           --results-directory ./test-other
 
-      - name: Post test summary
-        uses: dorny/test-reporter@v1
+      - name: Post test results
+        uses: dorny/test-reporter@v1.9.1
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
+          only-summary: "true"
           path: ./test-indicators/**/*.trx
           reporter: dotnet-trx
 
