@@ -102,7 +102,7 @@ jobs:
           --results-directory ./test-other
 
       - name: Post test results
-        uses: dorny/test-reporter@v1.9.1
+        uses: dorny/test-reporter@v1
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
