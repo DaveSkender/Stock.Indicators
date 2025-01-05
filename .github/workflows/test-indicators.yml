@@ -3,9 +3,9 @@ name: Test Indicators
 on:
   push:
     branches: ["main"]
-
   pull_request:
     branches: ["*"]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -54,8 +54,15 @@ jobs:
         run: >
           dotnet build
           --configuration Release
+          --framework ${{ env.TARGET_FRAMEWORK }}
           --property:ContinuousIntegrationBuild=true
           -warnAsError
+        env:
+          TARGET_FRAMEWORK: >
+            ${{ matrix.dotnet-version == '2.0.x' && 'netstandard2.0' ||
+                matrix.dotnet-version == '2.1.x' && 'netstandard2.1' ||
+                matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+                matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
       - name: Test indicators
         env:
