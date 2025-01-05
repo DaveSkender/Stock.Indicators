@@ -20,16 +20,16 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["2.0.x", "2.1.x", "6.x", "9.x"]
+        dotnet-version: ["2.0.x", "2.1.x", "6.0.x", "9.0.x"]
 
     env:
 
       # identifying primary configuration so only one reports coverage
-      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.x' }}
+      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
 
       # .NET SDK versions in the matrix that support `ga` quality spec
       #   versions before 5.x do not support it
-      SUPPORT_GA: ${{ contains(fromJson('["6.x", "9.x"]'), matrix.dotnet-version) }}
+      SUPPORT_GA: ${{ contains(fromJson('["6.0.x", "9.0.x"]'), matrix.dotnet-version) }}
 
     steps:
 
