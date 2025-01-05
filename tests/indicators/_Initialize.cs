@@ -33,15 +33,17 @@ public abstract class TestBase
     internal static readonly IEnumerable<(DateTime, double)> tupleNanny = TestData.GetTupleNaN();
 }
 
-[TestClass]
-public class Initialize : TestBase
+/// <summary>
+/// Test class for the startup of the test project.
+/// </summary>
+public static class Startup
 {
     /// <summary>
     /// Displays the assembly location, name, version, and target framework
     /// as a sanity check for test runner targeting.
     /// </summary>
-    [TestMethod]
-    public void ShowFramework()
+    [AssemblyInitialize]
+    public static void ShowFramework()
     {
         // Get the assembly of any type from your Indicators project
         Assembly assembly = typeof(Indicator).Assembly;
