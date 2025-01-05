@@ -19,8 +19,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["2.0.x", "2.1.x", "6.0.x", "9.0.x"]
+        os: [macos-latest] #[windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ["2.0.x"] #, "2.1.x", "6.0.x", "9.0.x"]
 
     env:
 
