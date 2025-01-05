@@ -81,7 +81,6 @@ jobs:
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
-          only-summary: "true"
           path: ./test-indicators/**/*.trx
           reporter: dotnet-trx
 
