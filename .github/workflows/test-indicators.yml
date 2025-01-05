@@ -83,6 +83,7 @@ jobs:
           --configuration Release
           --no-build
           --verbosity normal
+          --logger "console;verbosity=detailed"
           --logger trx
           --results-directory ./test-other
 
