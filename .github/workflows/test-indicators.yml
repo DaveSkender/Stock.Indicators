@@ -19,22 +19,17 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest] #[windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["2.0.x"] #, "2.1.x", "6.0.x", "9.0.x"]
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ["6.0.x", "9.0.x"]
 
     env:
 
       # identifying primary configuration so only one reports coverage
       IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
 
-      # .NET SDK versions not included in .NET 9 SDK
-      OLDER_SDK: ${{ contains(fromJson('["2.0.x", "2.1.x"]'), matrix.dotnet-version) }}
-
       # Identifies the current target framework
       TARGET_FRAMEWORK: >
-        ${{ matrix.dotnet-version == '2.0.x' && 'netstandard2.0' ||
-            matrix.dotnet-version == '2.1.x' && 'netstandard2.1' ||
-            matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:
@@ -48,30 +43,12 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Setup .NET (older)
-        uses: actions/setup-dotnet@v4
-        if: env.OLDER_SDK == 'true'
-        with:
-          # .NET 6 supports .NET Standards 2.0 and 2.1
-          dotnet-version: "6.x"
-          dotnet-quality: "ga"
-
       - name: Build library
         run: >
           dotnet build
           --configuration Release
           --property:ContinuousIntegrationBuild=true
           -warnAsError
-
-      - name: Show test subject info
-        run: |
-          dotnet --info
-          dotnet test tests/indicators/Tests.Indicators.csproj \
-          --configuration Release \
-          --no-build \
-          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" \
-          --filter "TestCategory=ShowMe" \
-          --logger "console;verbosity=detailed"
 
       - name: Test indicators
         env:
