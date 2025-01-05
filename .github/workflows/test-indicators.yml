@@ -56,11 +56,6 @@ jobs:
           dotnet-version: "6.x"
           dotnet-quality: "ga"
 
-      - name: Install dependencies
-        run: |
-          dotnet tool install --global HtmlTestLogger
-          export PATH="$PATH:$HOME/.dotnet/tools"
-
       - name: Build library
         run: >
           dotnet build
@@ -79,7 +74,7 @@ jobs:
           --filter "TestCategory=ShowMe" \
           --no-build \
           --verbosity detailed \
-          --logger "Html;LogFilePath=./test-indicators/testResults.html"
+          --logger "html;logfilename=./test-indicators/testResults.html"
           echo "### Test environment" > $GITHUB_STEP_SUMMARY
           cat ./test-indicators/testResults.html >> $GITHUB_STEP_SUMMARY
 
@@ -93,7 +88,6 @@ jobs:
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
-          --logger "Html;LogFilePath=./test-indicators/testResults.html"
           --logger trx
           --collect:"XPlat Code Coverage"
           --results-directory ./test-indicators
