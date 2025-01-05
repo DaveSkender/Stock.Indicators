@@ -45,7 +45,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         if: env.OLDER_SDK == 'true'
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          # .NET 6 supports .NET Standards 2.0 and 2.1
+          dotnet-version: "6.x"
 
       - name: Build library
         run: >
@@ -66,7 +67,7 @@ jobs:
         run: >
           dotnet test tests/indicators/Tests.Indicators.csproj
           --configuration Release
-          --property:TestFramework=${{ env.TARGET_FRAMEWORK }}
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
           --logger trx
