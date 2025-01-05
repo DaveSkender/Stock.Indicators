@@ -43,19 +43,21 @@ public static class Startup
     /// as a sanity check for test runner targeting.
     /// </summary>
     [AssemblyInitialize]
-    public static void ShowFramework()
+    public static void ShowFramework(TestContext context)
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         // Get the assembly of any type from your Indicators project
         Assembly assembly = typeof(Indicator).Assembly;
 
-        Console.WriteLine($"Assembly Location: {assembly.Location}");
-        Console.WriteLine($"Assembly Name: {assembly.GetName().Name}");
-        Console.WriteLine($"Assembly Version: {assembly.GetName().Version}");
+        context.WriteLine($"Assembly Location: {assembly.Location}");
+        context.WriteLine($"Assembly Name: {assembly.GetName().Name}");
+        context.WriteLine($"Assembly Version: {assembly.GetName().Version}");
 
         // Get the target framework the assembly was built for
         TargetFrameworkAttribute targetFrameworkAttribute = assembly
             .GetCustomAttribute<TargetFrameworkAttribute>();
 
-        Console.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
+        context.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
     }
 }
