@@ -76,7 +76,7 @@ jobs:
           --verbosity normal \
           --logger "html;logfilename=testResults.html"
           echo "### Test environment" > $GITHUB_STEP_SUMMARY
-          cat TestResults/testResults.html >> $GITHUB_STEP_SUMMARY
+          cat tests/indicators/TestResults/testResults.html >> $GITHUB_STEP_SUMMARY
 
       - name: Test indicators
         env:
