@@ -68,12 +68,10 @@ jobs:
           dotnet --info
           dotnet test tests/indicators/Tests.Indicators.csproj \
           --configuration Release \
+          --no-build \
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" \
           --filter "TestCategory=ShowMe" \
-          --no-build \
           --logger "console;verbosity=detailed"
-          echo "### Test environment" > $GITHUB_STEP_SUMMARY
-          cat tests/indicators/TestResults/testResults.html >> $GITHUB_STEP_SUMMARY
 
       - name: Test indicators
         env:
