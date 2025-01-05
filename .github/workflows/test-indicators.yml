@@ -64,13 +64,10 @@ jobs:
 
       - name: Show test subject info
         run: |
-          dotnet --info
-          dotnet --list-sdks
-          dotnet --list-runtimes
-          dotnet test tests/indicators/Tests.Indicators.csproj /
-          --configuration Release /
-          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" /
-          --filter "TestCategory=ShowMe" /
+          dotnet test tests/indicators/Tests.Indicators.csproj \
+          --configuration Release \
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" \
+          --filter "TestCategory=ShowMe" \
           --logger "html;verbosity=detailed;testResults.html"
           echo "### Test environment" > $GITHUB_STEP_SUMMARY
           cat testResults.html >> $GITHUB_STEP_SUMMARY
