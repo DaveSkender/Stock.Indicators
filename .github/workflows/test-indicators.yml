@@ -70,7 +70,6 @@ jobs:
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
-          --logger "console;verbosity=detailed"
           --logger trx
           --collect:"XPlat Code Coverage"
           --results-directory ./test-indicators

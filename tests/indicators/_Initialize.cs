@@ -36,6 +36,7 @@ public abstract class TestBase
 /// <summary>
 /// Test class for the startup of the test project.
 /// </summary>
+[TestClass]
 public static class Startup
 {
     /// <summary>
@@ -59,5 +60,6 @@ public static class Startup
             .GetCustomAttribute<TargetFrameworkAttribute>();
 
         context.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
+        Console.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
     }
 }
