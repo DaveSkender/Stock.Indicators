@@ -1,4 +1,4 @@
-name: Indicators
+name: Test Indicators
 
 on:
   push:
