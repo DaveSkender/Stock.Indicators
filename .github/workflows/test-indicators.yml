@@ -56,6 +56,11 @@ jobs:
           dotnet-version: "6.x"
           dotnet-quality: "ga"
 
+      - name: Install dependencies
+        run: |
+          dotnet tool install --global HtmlTestLogger
+          export PATH="$PATH:$HOME/.dotnet/tools"
+
       - name: Build library
         run: >
           dotnet build
@@ -68,12 +73,12 @@ jobs:
           dotnet --info
           dotnet --list-sdks
           dotnet --list-runtimes
-          dotnet test tests/indicators/Tests.Indicators.csproj /
-          --configuration Release /
-          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" /
-          --filter "TestCategory=ShowMe" /
-          --no-build /
-          --verbosity detailed /
+          dotnet test tests/indicators/Tests.Indicators.csproj \
+          --configuration Release \
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" \
+          --filter "TestCategory=ShowMe" \
+          --no-build \
+          --verbosity detailed \
           --logger "Html;LogFilePath=./test-indicators/testResults.html"
           echo "### Test environment" > $GITHUB_STEP_SUMMARY
           cat ./test-indicators/testResults.html >> $GITHUB_STEP_SUMMARY
