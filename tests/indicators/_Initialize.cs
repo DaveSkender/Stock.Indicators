@@ -1,5 +1,7 @@
 using System.Globalization;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 
 // GLOBALS & INITIALIZATION OF TEST DATA
 
@@ -8,6 +10,9 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Tests.Performance")]
 namespace Tests.Common;
 
+/// <summary>
+/// Base class for all test classes, providing common test data and utilities.
+/// </summary>
 [TestClass]
 public abstract class TestBase
 {
@@ -26,4 +31,29 @@ public abstract class TestBase
     internal static readonly IEnumerable<Quote> randomQuotes = TestData.GetRandom(1000);
     internal static readonly IEnumerable<Quote> zeroesQuotes = TestData.GetZeros();
     internal static readonly IEnumerable<(DateTime, double)> tupleNanny = TestData.GetTupleNaN();
+}
+
+[TestClass]
+public class Initialize : TestBase
+{
+    /// <summary>
+    /// Displays the assembly location, name, version, and target framework
+    /// as a sanity check for test runner targeting.
+    /// </summary>
+    [TestMethod]
+    public void ShowFramework()
+    {
+        // Get the assembly of any type from your Indicators project
+        Assembly assembly = typeof(Indicator).Assembly;
+
+        Console.WriteLine($"Assembly Location: {assembly.Location}");
+        Console.WriteLine($"Assembly Name: {assembly.GetName().Name}");
+        Console.WriteLine($"Assembly Version: {assembly.GetName().Version}");
+
+        // Get the target framework the assembly was built for
+        TargetFrameworkAttribute targetFrameworkAttribute = assembly
+            .GetCustomAttribute<TargetFrameworkAttribute>();
+
+        Console.WriteLine($"Target Framework: {targetFrameworkAttribute?.FrameworkName}");
+    }
 }
