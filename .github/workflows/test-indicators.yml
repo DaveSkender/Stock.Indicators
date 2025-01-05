@@ -73,10 +73,10 @@ jobs:
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}" \
           --filter "TestCategory=ShowMe" \
           --no-build \
-          --verbosity detailed \
-          --logger "html;logfilename=./test-indicators/testResults.html"
+          --verbosity normal \
+          --logger "html;logfilename=testResults.html"
           echo "### Test environment" > $GITHUB_STEP_SUMMARY
-          cat ./test-indicators/testResults.html >> $GITHUB_STEP_SUMMARY
+          cat TestResults/testResults.html >> $GITHUB_STEP_SUMMARY
 
       - name: Test indicators
         env:
