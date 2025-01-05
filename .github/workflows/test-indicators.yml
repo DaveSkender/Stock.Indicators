@@ -74,7 +74,7 @@ jobs:
           --filter "TestCategory=ShowMe" \
           --no-build \
           --verbosity normal \
-          --logger "html;logfilename=testResults.html"
+          --logger "console;logfilename=testResults.html"
           echo "### Test environment" > $GITHUB_STEP_SUMMARY
           cat tests/indicators/TestResults/testResults.html >> $GITHUB_STEP_SUMMARY
 
