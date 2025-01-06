@@ -7,12 +7,17 @@ on:
         description: Deployment environment
         type: choice
         options:
-          - staging
+          - pkg.github.com
           - nuget.org
-        default: staging
+        default: pkg.github.com
         required: true
       preview:
         description: Append preview suffix
+        type: boolean
+        default: true
+        required: true
+      dry_run:
+        description: 'Dry-run only (no deploy)'
         type: boolean
         default: true
         required: true
@@ -25,7 +30,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.compose.outputs.version }}
+      version: ${{ steps.version_info.outputs.version }}
+      pkg_url: ${{ steps.package_info.outputs.pkg_url }}
+      pkg_name: ${{ steps.package_info.outputs.pkg_name }}
 
     steps:
 
@@ -34,11 +41,20 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v1.2.0
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
       - name: Determine version
         id: gitversion
@@ -49,29 +65,38 @@ jobs:
           configFilePath: src/gitversion.yml
 
       - name: Compose version
-        id: compose
+        id: version_info
         run: |
-          ver=${{ steps.gitversion.outputs.majorMinorPatch }}${{ inputs.preview && '-preview.' || '' }}${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || inputs.preview && github.run_number || '' }}
+          # get base version
+          base="${{ steps.gitversion.outputs.majorMinorPatch }}"
+
+          # determine preview suffix
+          preview_tag="${{ inputs.preview && '-preview.' || '' }}"
+
+          # determine preview number
+          preview_num="${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}"
+
+          # combine all parts
+          ver="${base}${preview_tag}${preview_num}"
+
           echo "version=$ver" >> "$GITHUB_OUTPUT"
 
-      - name: Update release notes URL
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases</PackageReleaseNotes>"
-          replace: "<PackageReleaseNotes>https://github.com/DaveSkender/Stock.Indicators/releases/tag/${{ steps.compose.outputs.version }}</PackageReleaseNotes>"
-          regex: false
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.x"
-          dotnet-quality: "ga"
+      - name: Compose package info
+        id: package_info
+        run: |
+          PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
+          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
+            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "pkg_url=https://github.com/${{ github.repository }}/pkgs/nuget/${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Build library
         run: >
           dotnet build src/Indicators.csproj
           --configuration Release
-          --property:Version=${{ steps.compose.outputs.version }}
+          --property:Version=${{ steps.version_info.outputs.version }}
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 
@@ -82,7 +107,7 @@ jobs:
           --no-build
           --include-symbols
           --output NuGet
-          -p:PackageVersion=${{ steps.compose.outputs.version }}
+          -p:PackageVersion=${{ steps.version_info.outputs.version }}
 
       - name: Save package
         uses: actions/upload-artifact@v4
@@ -100,33 +125,23 @@ jobs:
             echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
             echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
             echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed    | ${{ steps.compose.outputs.version }}            |"
+            echo "| Composed    | ${{ steps.version_info.outputs.version }}       |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: success()
 
     permissions:
       contents: write
       packages: write
 
     environment:
-      name: ${{ inputs.environment }}
-      url: "${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}"
+      name: ${{ !inputs.dry_run && inputs.environment || '' }}
+      url: ${{ needs.build.outputs.pkg_url }}
 
     steps:
-
-      - name: Pre-flight summary
-        run: |
-          {
-            echo "| Parameter       | Value                              |"
-            echo "| :-------------- | :--------------------------------- |"
-            echo "| Environment     | ${{ inputs.environment }}          |"
-            echo "| Publishing URL  | ${{ vars.NUGET_PUBLISH_URL }}      |"
-            echo "| Download URL    | ${{ vars.NUGET_DOWNLOAD_PREFIX }}  |"
-            echo "| Version ID      | ${{ needs.build.outputs.version }} |"
-          } >> $GITHUB_STEP_SUMMARY
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -134,40 +149,54 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v2
-        with:
-          nuget-api-key: ${{ secrets.NUGET_TOKEN }}
-          nuget-version: '6.x'
-
       - name: Download package
         uses: actions/download-artifact@v4
         with:
           name: packages
           path: NuGet
 
-      - name: Publish to GitHub Packages (staging)
-        if: inputs.environment == 'staging'
-        run: |
-            dotnet nuget push NuGet/*.nupkg --source "https://nuget.pkg.github.com/DaveSkender/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
-
-      - name: Publish to NuGet.org
-        if: inputs.environment == 'nuget.org'
-        run: |
-          dotnet new nugetconfig --force
-          nuget setApiKey ${{ secrets.NUGET_TOKEN }} -src nuget -ConfigFile nuget.config
-          nuget push NuGet/*.nupkg -src nuget -NonInteractive -ConfigFile nuget.config -Verbosity Detailed
+      - name: Publish package
+        if: ${{ !inputs.dry_run }}
+        env:
+          API_KEY: ${{ inputs.environment == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
+        run: >
+          dotnet nuget push NuGet/*.nupkg
+          --source "${{ vars.NUGET_PUBLISH_URL }}"
+          --api-key "$API_KEY"
+          --skip-duplicate
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
-        if: inputs.environment == 'nuget.org'
+        if: ${{ !inputs.dry_run && inputs.environment == 'nuget.org' }}
         with:
           body: |
-            We’ve released a new Stock Indicators for .NET NuGet package.
-            See [Skender.Stock.Indicators @ NuGet.org](${{ vars.NUGET_DOWNLOAD_PREFIX }}${{ needs.build.outputs.version }}) for more information.
+            ## Release ${{ needs.build.outputs.version }}
+
+            📦 Package deployed to [${{ inputs.environment }}](${{ needs.build.outputs.pkg_url }})
+
+            ### Package Details
+            - **Name**: ${{ needs.build.outputs.pkg_name }}
+            - **Version**: ${{ needs.build.outputs.version }}
+            - **Preview**: ${{ inputs.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
           draft: true
           makeLatest: ${{ !inputs.preview }}
           prerelease: ${{ inputs.preview }}
-          tag: ${{ needs.build.outputs.version }}
-          commit: ${{ github.ref_name }}
+          tag: v${{ needs.build.outputs.version }}
+          commit: ${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          {
+            echo "## Package Deployment"
+            echo "| Parameter   | Value |"
+            echo "|:------------|:------|"
+            echo "| Mode        | ${{ inputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
+            echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
+            echo "| Environment | ${{ inputs.environment }} |"
+            echo "| Version     | ${{ needs.build.outputs.version }} |"
+            echo "| Package     | [${{ needs.build.outputs.pkg_name }}](${{ needs.build.outputs.pkg_url }}) |"
+            echo "| Preview     | ${{ inputs.preview && '✓' || '✗' }} |"
+          } >> $GITHUB_STEP_SUMMARY

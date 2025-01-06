@@ -4,16 +4,23 @@ on:
   pull_request:
     branches: ["*"]
     paths:
-      - 'docs/**'
-      - ".github/workflows/test-website-links.yml"
+      - docs/**
+      - .github/workflows/test-website-links.yml
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# Prevent multiple concurrent runs
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
-    name: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
+    env:
+      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
+      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
@@ -22,21 +29,12 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: docs
           ruby-version: 3.3
 
-      - name: Install GEMs
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
+      - name: Install dependencies
         run: |
-          pwd
           bundle install
-
-      - name: Setup HTML Proofer
-        run: |
           gem install html-proofer
-          htmlproofer --help
 
       - name: Replace "data-src"
         uses: jacobtomlinson/gha-find-replace@v3
@@ -45,7 +43,7 @@ jobs:
           replace: "src"
           regex: false
 
-      - name: Replace "dotnet.stockindicators.dev"
+      - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "https://dotnet.stockindicators.dev"
@@ -53,27 +51,19 @@ jobs:
           regex: false
 
       - name: Build site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll build --trace
+        run: bundle exec jekyll build
 
       - name: Serve site
-        working-directory: docs
-        env:
-          BUNDLE_GEMFILE: ${{github.workspace}}/docs/GemFile
-        run: bundle exec jekyll serve --detach
+        run: bundle exec jekyll serve --port 4000 --detach
 
         # see help in setup step
       - name: Test for broken URLs
-        working-directory: docs
-        run: |
-          htmlproofer _site \
-            --no-enforce-https \
-            --no-check-external-hash \
-            --ignore-status-codes "0,302,403,406,408,429,503,999" \
-            --swap-urls "https\://dotnet.stockindicators.dev:http\://127.0.0.1:4000" \
-            --ignore-urls "/fonts.gstatic.com/"
+        run: >
+          htmlproofer _site
+          --no-enforce-https
+          --no-check-external-hash
+          --ignore-status-codes "0,302,403,406,408,429,503,999"
+          --ignore-urls "/fonts.gstatic.com/"
 
       - name: Kill site (failsafe)
         if: always()

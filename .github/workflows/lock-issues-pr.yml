@@ -16,6 +16,8 @@ concurrency:
 jobs:
   lock:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - uses: dessant/lock-threads@v5
         with:
