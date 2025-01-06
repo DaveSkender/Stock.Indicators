@@ -16,7 +16,7 @@ Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/ar
 
 ```csharp
 // C# usage syntax
-IEnumerable<StcResult> results =
+IReadOnlyList<StcResult> results =
   quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `2×(S+C)` or `S+C+100` worth of `quotes`, whichever is m
 ## Response
 
 ```csharp
-IEnumerable<StcResult>
+IReadOnlyList<StcResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<StcResult>
 
 ### StcResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Stc`** _`double`_ - Schaff Trend Cycle
 
