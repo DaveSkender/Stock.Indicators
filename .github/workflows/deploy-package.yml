@@ -115,8 +115,7 @@ jobs:
           if [[ "${{ steps.settings.outputs.environ }}" == "nuget.org" ]]; then
             echo "url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
           else
-            echo "url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
-          fi
+            echo "url=https://github.com/${{ github.repository }}/pkgs/nuget/${PACKAGE_NAME}" >> $GITHUB_OUTPUT
 
       - name: Build library
         run: >

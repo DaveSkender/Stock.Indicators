@@ -1,2 +1,2 @@
 # Normalize line endings.
-* text=lf
+* text=auto eol=lf
