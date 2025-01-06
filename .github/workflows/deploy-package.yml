@@ -58,7 +58,7 @@ jobs:
         with:
           versionSpec: "5.x"
           preferLatestVersion: true
-  
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
@@ -95,7 +95,7 @@ jobs:
           if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
             echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
           else
-            echo "pkg_url=https://github.com/${{ github.repository }}/packages/nuget/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+            echo "pkg_url=https://github.com/${{ github.repository }}/pkgs/nuget/${PACKAGE_NAME}" >> $GITHUB_OUTPUT
           fi
 
       - name: Build library
@@ -154,13 +154,6 @@ jobs:
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
-
-      - name: Setup NuGet
-        uses: nuget/setup-nuget@v2
-        with:
-          nuget-api-key: ${{ secrets.NUGET_TOKEN }}
-          nuget-version: '6.x'
-
 
       - name: Download package
         uses: actions/download-artifact@v4
