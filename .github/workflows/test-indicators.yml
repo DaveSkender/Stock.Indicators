@@ -1,11 +1,11 @@
-name: Indicators
+name: Test Indicators
 
 on:
   push:
     branches: ["main"]
-
   pull_request:
     branches: ["*"]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -20,19 +20,17 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["9.x"]
-        # TODO: restore when GitHub Action runners
-        #      have .NET 9.x SDK default installed
-        # ["2.1.x", "6.x", "9.x"]
+        dotnet-version: ["6.0.x", "9.0.x"]
 
     env:
 
       # identifying primary configuration so only one reports coverage
-      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.x' }}
+      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
 
-      # .NET SDK versions in the matrix that support
-      # `dotnet-quality: 'ga'`, not supported before 5.x
-      SUPPORT_GA: ${{ contains(fromJson('["6.x", "9.x"]'), matrix.dotnet-version) }}
+      # Identifies the current target framework
+      TARGET_FRAMEWORK: >
+        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+            matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:
 
@@ -42,7 +40,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: "9.x"
           dotnet-quality: "ga"
 
       - name: Build library
@@ -58,6 +56,7 @@ jobs:
           --configuration Release
           --settings tests/tests.unit.runsettings
           --results-directory ./test-results
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
           --logger trx
