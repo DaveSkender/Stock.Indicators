@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides utility methods for Force Index calculations.
 /// </summary>

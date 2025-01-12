@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Represents the result of a Parabolic SAR calculation.
 /// </summary>

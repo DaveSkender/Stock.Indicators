@@ -1,7 +1,5 @@
 {
   // file settings
-  "files.autoSave": "off",
-  "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
   "files.exclude": {
     "**/.vs/**": true,

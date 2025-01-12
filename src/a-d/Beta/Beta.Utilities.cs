@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 public static partial class Beta
 {
     // parameter validation

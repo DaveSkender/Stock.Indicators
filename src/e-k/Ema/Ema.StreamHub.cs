@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Interface for Exponential Moving Average (EMA) calculations.
 /// </summary>

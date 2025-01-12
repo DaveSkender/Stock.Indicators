@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 // WILLIAMS ALLIGATOR (STREAM HUB)
 
 #region hub interface and initializer

@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 #pragma warning disable IDE0072 // Missing cases in switch statement
 
 /// <summary>

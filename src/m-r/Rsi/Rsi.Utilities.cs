@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides utility methods for Relative Strength Index (RSI) calculations.
 /// </summary>

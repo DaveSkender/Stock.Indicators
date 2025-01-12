@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating standard deviation on a series of data.
 /// </summary>

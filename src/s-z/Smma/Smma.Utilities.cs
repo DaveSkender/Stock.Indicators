@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides utility methods for Smoothed Moving Average (SMMA) calculations.
 /// </summary>

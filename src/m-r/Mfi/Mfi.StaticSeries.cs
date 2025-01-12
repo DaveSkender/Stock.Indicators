@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating the Money Flow Index (MFI) for a series of quotes.
 /// </summary>

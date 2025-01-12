@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating the VWAP (Volume Weighted Average Price) indicator.
 /// </summary>

@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 // QUOTE MODELS
 
 /// <summary>

@@ -1,7 +1,5 @@
 using Alpaca.Markets;
 
-using Skender.Stock.Indicators;
-
 namespace Tests.Indicators;
 
 internal static class FeedData

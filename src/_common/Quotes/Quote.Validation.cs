@@ -1,7 +1,5 @@
 using System.Globalization;
 
-namespace Skender.Stock.Indicators;
-
 // QUOTE UTILITIES: VALIDATION
 
 public static partial class Quotes

@@ -1,5 +1,4 @@
 using System.Globalization;
-using Skender.Stock.Indicators;
 
 namespace Test.Data;
 

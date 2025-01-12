@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating the Double Exponential Moving Average (DEMA) on a series of data.
 /// </summary>

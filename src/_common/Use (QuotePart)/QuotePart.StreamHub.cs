@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 // USE / QUOTE CONVERTER (STREAM HUB)
 
 #region hub interface and initializer

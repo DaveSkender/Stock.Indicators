@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides utility methods for Kaufman's Adaptive Moving Average (KAMA) calculations.
 /// </summary>

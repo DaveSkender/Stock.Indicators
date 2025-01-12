@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods to convert a list of quotes to a ZigZag series.
 /// </summary>

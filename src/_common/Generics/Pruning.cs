@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Utility for removing and pruning series data.
 /// </summary>

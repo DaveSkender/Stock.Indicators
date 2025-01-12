@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Streaming hub: management of observer
 /// and observable indicator data
