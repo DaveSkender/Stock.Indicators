@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Binary on/off switches for high performance access
 /// to behaviors and characteristics.

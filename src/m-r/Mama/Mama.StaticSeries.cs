@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating the MESA Adaptive Moving Average (MAMA) for a series of quotes.
 /// </summary>

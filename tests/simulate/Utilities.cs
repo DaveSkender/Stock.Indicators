@@ -1,5 +1,3 @@
-using Skender.Stock.Indicators;
-
 namespace Utilities;
 #pragma warning disable CA5394 // Do not use insecure randomness
 

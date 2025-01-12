@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 // STREAM HUB (OBSERVABLE)
 
 public abstract partial class StreamHub<TIn, TOut> : IStreamObservable<TOut>

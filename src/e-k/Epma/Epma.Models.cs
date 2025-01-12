@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Represents the result of an Exponential Polynomial Moving Average (EPMA) calculation.
 /// </summary>

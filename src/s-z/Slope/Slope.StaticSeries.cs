@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating the Slope and Linear Regression for a given source list and lookback period.
 /// </summary>

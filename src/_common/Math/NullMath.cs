@@ -1,7 +1,5 @@
 using System.Runtime.CompilerServices;
 
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Nullable <c>System.<see cref="Math"/></c> functions.
 /// </summary>

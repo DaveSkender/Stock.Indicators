@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for identifying Marubozu candlestick patterns in a series of quotes.
 /// </summary>

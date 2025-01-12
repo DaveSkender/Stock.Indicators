@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Represents the result of the Chande Momentum Oscillator (CMO) calculation.
 /// </summary>

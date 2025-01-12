@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for the Accumulation/Distribution Line (ADL) indicator.
 /// </summary>

@@ -1,6 +1,5 @@
 using System.Globalization;
 
-namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Provides utility methods for the Parabolic SAR.

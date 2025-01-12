@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating the Fractal Chaos Bands (FCB) indicator.
 /// </summary>

@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 // TRUE RANGE (STREAM HUB)
 
 #region initializer

@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 /// <summary>
 /// Provides methods for calculating Simple Moving Average (SMA) with extended analysis.
 /// </summary>

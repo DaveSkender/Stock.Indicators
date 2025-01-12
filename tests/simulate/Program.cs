@@ -1,4 +1,3 @@
-using Skender.Stock.Indicators;
 using Utilities;
 
 // define simulated quotes, arrival rate

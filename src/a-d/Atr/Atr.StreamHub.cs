@@ -1,5 +1,3 @@
-namespace Skender.Stock.Indicators;
-
 #region hub interface and initializer
 
 /// <summary>
