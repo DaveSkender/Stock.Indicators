@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: dessant/lock-threads@v5.1.1
+      - uses: dessant/lock-threads@v5.0.1
         with:
           process-only: issues, prs
           issue-inactive-days: "90"
