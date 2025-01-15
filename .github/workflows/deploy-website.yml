@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.151.0
         with:
           ruby-version: 3.3
 
@@ -43,7 +43,7 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@v3.1.1
         with:
           find: "YYYY.MM.DD"
           replace: "${{ steps.tag.outputs.version }}"
@@ -63,7 +63,7 @@ jobs:
 
       - name: Publish to Cloudflare Pages
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v3.1.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

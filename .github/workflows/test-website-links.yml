@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.151.0
         with:
           ruby-version: 3.3
 
@@ -40,14 +40,14 @@ jobs:
           gem install html-proofer
 
       - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@v3.1.1
         with:
           find: "data-src"
           replace: "src"
           regex: false
 
       - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@v3.1.1
         with:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
