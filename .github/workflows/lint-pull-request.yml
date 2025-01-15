@@ -60,19 +60,19 @@ jobs:
             - `style: Format trading strategy classes`
             - `refactor: Restructure trading engine components`
             - `perf: Optimize trade order execution flow`
-            
+
             #### Documentation & testing
             - `docs: Update API documentation`
             - `test: Add unit tests for sign-in flow`
-            
+
             #### Infrastructure
             - `build: Update .NET SDK version to 8.0`
             - `ci: Add workflow for performance testing`
             - `chore: Update NuGet dependencies`
-            
+
             #### Other
             - `revert: Remove faulty market data provider`
-            
+
             See [Conventional Commits](https://www.conventionalcommits.org) for more details.
             </details>
 
