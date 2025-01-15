@@ -40,14 +40,14 @@ jobs:
           gem install html-proofer
 
       - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@v3.1.1
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "data-src"
           replace: "src"
           regex: false
 
       - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@v3.1.1
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"

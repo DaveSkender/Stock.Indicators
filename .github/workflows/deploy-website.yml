@@ -43,7 +43,7 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@v3.1.1
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "YYYY.MM.DD"
           replace: "${{ steps.tag.outputs.version }}"
