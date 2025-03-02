@@ -1,48 +1,78 @@
-/// <summary>
-/// Provides metadata for stock indicators.
-/// </summary>
-public static class MetaInventory
+public static class MetadataHelpers
 {
-    // colors from Material Design (M2) color palettes
-    // ref: https://m2.material.io/design/color/the-color-system.html
+    public static ChartConfig GetOscillatorConfig(float min = 0, float max = 100, float upperThreshold = 80, float lowerThreshold = 20)
+        => new {
+            MinimumYAxis = min,
+            MaximumYAxis = max,
+            Thresholds = [
+                new ChartThreshold {
+                    Value = upperThreshold,
+                    Color = ChartColors.ThresholdRed,
+                    Style = "dash",
+                    Fill = new {
+                        Target = "+2",
+                        ColorAbove = "transparent",
+                        ColorBelow = ChartColors.ThresholdGreen
+                    }
+                },
+                new {
+                    Value = lowerThreshold,
+                    Color = ChartColors.ThresholdGreen,
+                    Style = "dash",
+                    Fill = new {
+                        Target = "+1",
+                        ColorAbove = ChartColors.ThresholdRed,
+                        ColorBelow = "transparent"
+                    }
+                }
+            ]
+        };
 
-    // notably other dark/light theme chart colors (Sept. 2024):
-    // gridlines:  #2E2E2E / #E0E0E0
-    // background: #121316 / #FAF9FD
+    public static List<IndicatorResultConfig> GetPriceBandResults(string name, string? color = null)
+    {
+        color ??= ChartColors.StandardOrange;
+        return [
+            new IndicatorResultConfig {
+                DisplayName = "Upper Band",
+                TooltipTemplate = $"{name} Upper Band",
+                DataName = "upperBand",
+                DataType = "number",
+                LineType = "solid",
+                LineWidth = 1,
+                DefaultColor = color,
+                Fill = new ChartFill {
+                    Target = "+2",
+                    ColorAbove = ChartColors.DarkGrayTransparent,
+                    ColorBelow = ChartColors.DarkGrayTransparent
+                }
+            },
+            new IndicatorResultConfig {
+                DisplayName = "Centerline",
+                TooltipTemplate = $"{name} Centerline",
+                DataName = "centerline",
+                DataType = "number",
+                LineType = "dash",
+                LineWidth = 1,
+                DefaultColor = color
+            },
+            new IndicatorResultConfig {
+                DisplayName = "Lower Band",
+                TooltipTemplate = $"{name} Lower Band",
+                DataName = "lowerBand",
+                DataType = "number",
+                LineType = "solid",
+                LineWidth = 1,
+                DefaultColor = color
+            }
+        ];
+    }
+}
 
-    // indicator colors
-    // (a) more are available in UI for user selection
-    // (b) these should be consistently defined in UI colors
-    // TODO: make these available from API, cached in UI for selection
-    private const string standardRed = "#DD2C00";                 // deep orange A700 (red)
-    private const string standardOrange = "#EF6C00";              // orange 800
-    private const string standardGreen = "#2E7D32";               // green 800
-    private const string standardBlue = "#1E88E5";                // blue 600
-    private const string standardPurple = "#8E24AA";              // purple 600
-    private const string standardGrayTransparent = "#9E9E9E50";   // gray 500
-    private const string darkGray = "#616161CC";                  // gray 600
-    private const string darkGrayTransparent = "#61616110";       // gray 600
-
-    // threshold colors (different from indicator colors)
-    private const string thresholdRed = "#B71C1C70";              // red 900
-    private const string thresholdRedTransparent = "#B71C1C20";   // red 900
-    private const string thresholdGrayTransparent = "#42424280";  // gray 800
-    private const string thresholdGreen = "#1B5E2070";            // green 900
-    private const string thresholdGreenTransparent = "#1B5E2020"; // green 900
-
-    /// <summary>
-    /// Gets the listing of indicators.
-    /// </summary>
-    /// <param name="baseUrl">
-    /// The base URL for the indicator endpoints.
-    /// </param>
-    /// <returns>
-    /// The listing of indicators.
-    /// </returns>
+public static class Metadata
+{
     public static IEnumerable<IndicatorListing> IndicatorListing(string baseUrl)
     {
-        List<IndicatorListing> listing =
-        [
+        List<IndicatorListing> listing = [
             // Accumulation Distribution Line (ADL)
             new IndicatorListing {
                 Name = "Accumulation Distribution Line (ADL)",
@@ -51,9 +81,8 @@ public static class MetaInventory
                 Endpoint = $"{baseUrl}/ADL/",
                 Category = "volume-based",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new() {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -63,21 +92,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
-                        DisplayName = "Accumulation Distribution Line",
+                    new IndicatorResultConfig {
+                        DisplayName = "ADL",
                         TooltipTemplate = "ADL",
                         DataName = "adl",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new IndicatorResultConfig {
                         DisplayName = "SMA of ADL",
                         TooltipTemplate = "ADL SMA([P1])",
                         DataName = "adlSma",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -93,21 +122,21 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 40,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         },
-                        new() {
+                        new {
                             Value = 20,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -117,38 +146,38 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "ADX",
                         TooltipTemplate = "ADX([P1])",
                         DataName = "adx",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "DI+",
                         TooltipTemplate = "DI+([P1])",
                         DataName = "pdi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "DI-",
                         TooltipTemplate = "DI-([P1])",
                         DataName = "mdi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     },
-                    new() {
+                    new {
                         DisplayName = "ADX Rating",
                         TooltipTemplate = "ADXR([P1])",
                         DataName = "adxr",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 2,
-                        DefaultColor = standardGrayTransparent
+                        DefaultColor = ChartColors.StandardGrayTransparent
                     }
                 ]
             },
@@ -163,7 +192,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -171,7 +200,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Offset",
                         ParamName = "offset",
                         DataType = "number",
@@ -179,7 +208,7 @@ public static class MetaInventory
                         Minimum = 0,
                         Maximum = 1
                     },
-                    new() {
+                    new {
                         DisplayName = "Sigma",
                         ParamName = "sigma",
                         DataType = "number",
@@ -189,13 +218,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "ALMA",
                         TooltipTemplate = "ALMA([P1],[P2],[P3])",
                         DataName = "alma",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -214,26 +243,26 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 70,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "solid"
                         },
-                        new() {
+                        new {
                             Value = 50,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         },
-                        new() {
+                        new {
                             Value = 30,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "solid"
                         }
                     ]
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -243,21 +272,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Aroon Up",
                         TooltipTemplate = "Aroon Up",
                         DataName = "aroonUp",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Aroon Down",
                         TooltipTemplate = "Aroon Down",
                         DataName = "aroonDown",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -276,16 +305,16 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 0,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -295,13 +324,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Oscillator",
                         TooltipTemplate = "AROON([P1]) Oscillator",
                         DataName = "oscillator",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -317,7 +346,7 @@ public static class MetaInventory
                 Order = Order.Front,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -325,7 +354,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -335,23 +364,23 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Buy Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
                         DataName = "buyStop",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 2,
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Sell Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
                         DataName = "sellStop",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 2,
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -367,7 +396,7 @@ public static class MetaInventory
                 Order = Order.Front,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -375,7 +404,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -385,23 +414,23 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Buy Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
                         DataName = "buyStop",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 2,
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Sell Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
                         DataName = "sellStop",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 2,
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -416,7 +445,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -426,13 +455,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Average True Range",
                         TooltipTemplate = "ATR([P1])",
                         DataName = "atr",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -447,7 +476,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -457,13 +486,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Average True Range Percent",
                         TooltipTemplate = "ATR([P1]) %",
                         DataName = "atrp",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -479,16 +508,16 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 1,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -498,29 +527,29 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Beta",
                         TooltipTemplate = "Beta",
                         DataName = "beta",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Beta+",
                         TooltipTemplate = "Beta+",
                         DataName = "betaUp",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Beta-",
                         TooltipTemplate = "Beta-",
                         DataName = "betaDown",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -536,7 +565,7 @@ public static class MetaInventory
                 Order = Order.BehindPrice,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -544,7 +573,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Standard Deviations",
                         ParamName = "standardDeviations",
                         DataType = "number",
@@ -554,37 +583,37 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Upper Band",
                         TooltipTemplate = "BB([P1],[P2]) Upper Band",
                         DataName = "upperBand",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 1,
-                        DefaultColor = darkGray,
+                        DefaultColor = ChartColors.DarkGray,
                         Fill = new ChartFill {
                             Target = "+2",
-                            ColorAbove = darkGrayTransparent,
-                            ColorBelow = darkGrayTransparent
+                            ColorAbove = ChartColors.DarkGrayTransparent,
+                            ColorBelow = ChartColors.DarkGrayTransparent
                         }
                     },
-                    new() {
+                    new {
                         DisplayName = "Centerline",
                         TooltipTemplate = "BB([P1],[P2]) Centerline",
                         DataName = "sma",
                         DataType = "number",
                         LineType = "dash",
                         LineWidth = 1,
-                        DefaultColor = darkGray
+                        DefaultColor = ChartColors.DarkGray
                     },
-                    new() {
+                    new {
                         DisplayName = "Lower Band",
                         TooltipTemplate = "BB([P1],[P2]) Lower Band",
                         DataName = "lowerBand",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 1,
-                        DefaultColor = darkGray
+                        DefaultColor = ChartColors.DarkGray
                     }
                 ]
             },
@@ -600,23 +629,23 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 1,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 0,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -624,7 +653,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -632,7 +661,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Standard Deviations",
                         ParamName = "standardDeviations",
                         DataType = "number",
@@ -642,13 +671,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "%B",
                         TooltipTemplate = "BB([P1],[P2]) %B",
                         DataName = "percentB",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue,
+                        DefaultColor = ChartColors.StandardBlue,
                     }
                 ]
             },
@@ -664,16 +693,16 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 0,
-                            Color = thresholdGrayTransparent,
+                            Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -683,13 +712,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "CMF",
                         TooltipTemplate = "Chaikin Money Flow",
                         DataName = "cmf",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -704,7 +733,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -714,13 +743,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Chande Momentum Oscillator",
                         TooltipTemplate = "CMO([P1])",
                         DataName = "cmo",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -735,7 +764,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -743,7 +772,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -753,13 +782,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Chandelier Exit",
                         TooltipTemplate = "CHANDELIER([P1],[P2],LONG)",
                         DataName = "chandelierExit",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardOrange
+                        DefaultColor = ChartColors.StandardOrange
                     }
                 ]
             },
@@ -774,7 +803,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -782,7 +811,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -792,13 +821,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Chandelier Exit",
                         TooltipTemplate = "CHANDELIER([P1],[P2],LONG)",
                         DataName = "chandelierExit",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = standardOrange
+                        DefaultColor = ChartColors.StandardOrange
                     }
                 ]
             },
@@ -817,23 +846,23 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 61.8,
-                            Color = darkGrayTransparent,
+                            Color = ChartColors.DarkGrayTransparent,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdRed
+                                ColorBelow = ChartColors.ThresholdRed
                             }
                         },
-                        new() {
+                        new {
                             Value = 38.2,
-                            Color = darkGrayTransparent,
+                            Color = ChartColors.DarkGrayTransparent,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdGreen,
+                                ColorAbove = ChartColors.ThresholdGreen,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -841,7 +870,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -851,13 +880,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Choppiness",
                         TooltipTemplate = "Choppiness",
                         DataName = "chop",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -876,23 +905,23 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 90,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 10,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -900,7 +929,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "rsiPeriods",
                         DataType = "int",
@@ -908,7 +937,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Streak Periods",
                         ParamName = "streakPeriods",
                         DataType = "int",
@@ -916,7 +945,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Rank Periods",
                         ParamName = "rankPeriods",
                         DataType = "int",
@@ -926,13 +955,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "CRSI",
                         TooltipTemplate = "CRSI([P1],[P2],[P3])",
                         DataName = "connorsRsi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -947,7 +976,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Max Price Change %",
                         ParamName = "maxPriceChangePercent",
                         DataType = "number",
@@ -957,14 +986,14 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         TooltipTemplate = "DOJI([P1]%)",
                         DisplayName = "Doji",
                         DataName = "price",
                         DataType = "number",
                         LineType = "pointer",
                         LineWidth = 8,
-                        DefaultColor = darkGray
+                        DefaultColor = ChartColors.DarkGray
                     }
                 ]
             },
@@ -981,13 +1010,13 @@ public static class MetaInventory
                     MinimumYAxis = 0
                 },
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "DC PERIODS",
                         TooltipTemplate = "DC PERIODS",
                         DataName = "dcPeriods",
                         DataType = "number",
                         LineType = "bar",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1003,7 +1032,7 @@ public static class MetaInventory
                 Order = Order.BehindPrice,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1012,40 +1041,7 @@ public static class MetaInventory
                         Maximum = 250
                     }
                 ],
-                Results = [
-                    new() {
-                        DisplayName = "Upper Band",
-                        TooltipTemplate = "DONCHIAN([P1]) Upper Band",
-                        DataName = "upperBand",
-                        DataType = "number",
-                        LineType = "solid",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange,
-                        Fill = new ChartFill {
-                            Target = "+2",
-                            ColorAbove = darkGrayTransparent,
-                            ColorBelow = darkGrayTransparent
-                        }
-                    },
-                    new() {
-                        DisplayName = "Centerline",
-                        TooltipTemplate = "DONCHIAN([P1]) Centerline",
-                        DataName = "centerline",
-                        DataType = "number",
-                        LineType = "dash",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange
-                    },
-                    new() {
-                        DisplayName = "Lower Band",
-                        TooltipTemplate = "DONCHIAN([P1]) Lower Band",
-                        DataName = "lowerBand",
-                        DataType = "number",
-                        LineType = "solid",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange
-                    }
-                ]
+                Results = MetadataHelpers.GetPriceBandResults("DONCHIAN", ChartColors.StandardOrange)
             },
 
             // Dynamic, McGinley
@@ -1058,7 +1054,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1068,13 +1064,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Dynamic",
                         TooltipTemplate = "DYNAMIC([P1])",
                         DataName = "dynamic",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1089,7 +1085,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1099,23 +1095,23 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Bull Power",
                         TooltipTemplate = "Bull Power",
                         DataName = "bullPower",
                         DataType = "number",
                         LineType = "bar",
                         Stack = "eray",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Bear Power",
                         TooltipTemplate = "Bear Power",
                         DataName = "bearPower",
                         DataType = "number",
                         LineType = "bar",
                         Stack = "eray",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -1130,7 +1126,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1140,13 +1136,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "EPMA",
                         TooltipTemplate = "EPMA([P1])",
                         DataName = "epma",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1161,7 +1157,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1171,13 +1167,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "EMA",
                         TooltipTemplate = "EMA([P1])",
                         DataName = "ema",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1192,7 +1188,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1202,21 +1198,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Fisher Transform",
                         TooltipTemplate = "Fisher Transform",
                         DataName = "fisher",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Trigger",
                         TooltipTemplate = "Trigger",
                         DataName = "trigger",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -1231,7 +1227,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Window Span",
                         ParamName = "windowSpan",
                         DataType = "int",
@@ -1241,23 +1237,23 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Fractal Bull",
                         TooltipTemplate = "Fractal Bull ([P1])",
                         DataName = "fractalBull",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 3,
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     },
-                    new() {
+                    new {
                         DisplayName = "Fractal Bear",
                         TooltipTemplate = "Fractal Bear ([P1])",
                         DataName = "fractalBear",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 3,
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     }
                 ]
             },
@@ -1273,7 +1269,7 @@ public static class MetaInventory
                 Order = Order.Front,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Window Span",
                         ParamName = "windowSpan",
                         DataType = "int",
@@ -1283,21 +1279,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         TooltipTemplate = "Upper Band",
                         DisplayName = "FCB([P1]) Upper Band",
                         DataName = "upperBand",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Lower Band",
                         TooltipTemplate = "FCB([P1]) Lower Band",
                         DataName = "lowerBand",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -1311,21 +1307,21 @@ public static class MetaInventory
                 Category = "moving-average",
                 ChartType = "overlay",
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "HT Trendline",
                         TooltipTemplate = "HT Trendline",
                         DataName = "trendline",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "HT Smoothed Price",
                         TooltipTemplate = "HT Smooth Price",
                         DataName = "smoothPrice",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardOrange
+                        DefaultColor = ChartColors.StandardOrange
                     }
                 ]
             },
@@ -1341,7 +1337,7 @@ public static class MetaInventory
                 Order = Order.BehindPrice,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Tenkan Periods",
                         ParamName = "tenkanPeriods",
                         DataType = "int",
@@ -1349,7 +1345,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Kijun Periods",
                         ParamName = "kijunPeriods",
                         DataType = "int",
@@ -1357,7 +1353,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Senkou Periods",
                         ParamName = "senkouBPeriods",
                         DataType = "int",
@@ -1367,54 +1363,54 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Tenkan-sen",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Tenkan-sen",
                         DataName = "tenkanSen",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 2,
-                        DefaultColor = standardBlue,
+                        DefaultColor = ChartColors.StandardBlue,
                     },
-                    new() {
+                    new {
                         DisplayName = "Kijun-sen",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Kijun-sen",
                         DataName = "kijunSen",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 2,
-                        DefaultColor = standardPurple,
+                        DefaultColor = ChartColors.StandardPurple,
                     },
-                    new() {
+                    new {
                         DisplayName = "Chikou span",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Chikou span",
                         DataName = "chikouSpan",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 2,
-                        DefaultColor = darkGray,
+                        DefaultColor = ChartColors.DarkGray,
                     },
-                    new() {
+                    new {
                         DisplayName = "Senkou span A",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Senkou span A",
                         DataName = "senkouSpanA",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 1.5f,
-                        DefaultColor = thresholdGreen,
+                        DefaultColor = ChartColors.ThresholdGreen,
                     },
-                    new() {
+                    new {
                         DisplayName = "Senkou span B",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Senkou span B",
                         DataName = "senkouSpanB",
                         DataType = "number",
                         LineType = "solid",
                         LineWidth = 1.5f,
-                        DefaultColor = thresholdRed,
+                        DefaultColor = ChartColors.ThresholdRed,
                         Fill = new ChartFill {
                             Target = "-1",
-                            ColorAbove = thresholdRedTransparent,
-                            ColorBelow = thresholdGreenTransparent
+                            ColorAbove = ChartColors.ThresholdRedTransparent,
+                            ColorBelow = ChartColors.ThresholdGreenTransparent
                         }
                     }
                 ]
@@ -1432,7 +1428,7 @@ public static class MetaInventory
                 Order = Order.BehindPrice,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "EMA Periods",
                         ParamName = "emaPeriods",
                         DataType = "int",
@@ -1440,7 +1436,7 @@ public static class MetaInventory
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -1448,7 +1444,7 @@ public static class MetaInventory
                         Minimum = 0.01,
                         Maximum = 10
                     },
-                    new() {
+                    new {
                         DisplayName = "ATR Periods",
                         ParamName = "atrPeriods",
                         DataType = "number",
@@ -1457,40 +1453,7 @@ public static class MetaInventory
                         Maximum = 250
                     }
                 ],
-                Results = [
-                    new() {
-                        DisplayName = "Upper Band",
-                        TooltipTemplate = "KELTNER([P1],[P2],[P3]) Upper Band",
-                        DataName = "upperBand",
-                        DataType = "number",
-                        LineType = "solid",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange,
-                        Fill = new ChartFill {
-                            Target = "+2",
-                            ColorAbove = darkGrayTransparent,
-                            ColorBelow = darkGrayTransparent
-                        }
-                    },
-                    new() {
-                        DisplayName = "Centerline",
-                        TooltipTemplate = "KELTNER([P1],[P2],[P3]) Centerline",
-                        DataName = "centerline",
-                        DataType = "number",
-                        LineType = "dash",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange
-                    },
-                    new() {
-                        DisplayName = "Lower Band",
-                        TooltipTemplate = "KELTNER([P1],[P2],[P3]) Lower Band",
-                        DataName = "lowerBand",
-                        DataType = "number",
-                        LineType = "solid",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange
-                    }
-                ]
+                Results = MetadataHelpers.GetPriceBandResults("KELTNER", ChartColors.StandardOrange)
             },
 
             // Marubozu
@@ -1503,7 +1466,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Min Body Percent %",
                         ParamName = "minBodyPercent",
                         DataType = "number",
@@ -1513,14 +1476,14 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Marubozu",
                         TooltipTemplate = "MARUBOZU([P1]%)",
                         DataName = "price",
                         DataType = "number",
                         LineType = "pointer",
                         LineWidth = 8,
-                        DefaultColor = darkGray
+                        DefaultColor = ChartColors.DarkGray
                     }
                 ]
             },
@@ -1539,23 +1502,23 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 80,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 20,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -1563,7 +1526,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1573,13 +1536,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "MFI",
                         TooltipTemplate = "MFI([P1])",
                         DataName = "mfi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1595,16 +1558,16 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 0,
-                            Color = darkGrayTransparent,
+                            Color = ChartColors.DarkGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Fast Periods",
                         ParamName = "fastPeriods",
                         DataType = "int",
@@ -1612,7 +1575,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 200
                     },
-                    new() {
+                    new {
                         DisplayName = "Slow Periods",
                         ParamName = "slowPeriods",
                         DataType = "int",
@@ -1620,7 +1583,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal Periods",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -1630,29 +1593,29 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "MACD",
                         TooltipTemplate = "MACD",
                         DataName = "macd",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal",
                         TooltipTemplate = "Signal",
                         DataName = "signal",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     },
-                    new() {
+                    new {
                         DisplayName = "Histogram",
                         TooltipTemplate = "Histogram",
                         DataName = "histogram",
                         DataType = "number",
                         LineType = "bar",
-                        DefaultColor = standardGrayTransparent
+                        DefaultColor = ChartColors.StandardGrayTransparent
                     }
                 ]
             },
@@ -1668,7 +1631,7 @@ public static class MetaInventory
 
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Step Size",
                         ParamName = "accelerationStep",
                         DataType = "number",
@@ -1676,7 +1639,7 @@ public static class MetaInventory
                         Minimum = 0.000001,
                         Maximum = 2500
                     },
-                    new() {
+                    new {
                         DisplayName = "Max Factor",
                         ParamName = "maxAccelerationFactor",
                         DataType = "number",
@@ -1686,14 +1649,14 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Parabolic SAR",
                         TooltipTemplate = "PSAR([P1],[P2])",
                         DataName = "sar",
                         DataType = "number",
                         LineType = "dots",
                         LineWidth = 2,
-                        DefaultColor = standardPurple
+                        DefaultColor = ChartColors.StandardPurple
                     }
                 ]
             },
@@ -1708,7 +1671,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1716,7 +1679,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -1726,21 +1689,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Rate of Change",
                         TooltipTemplate = "ROC([P1],[P2])",
                         DataName = "roc",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "SMA of ROC",
                         TooltipTemplate = "STO %D([P2])",
                         DataName = "rocSma",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -1759,23 +1722,23 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 70,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 30,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -1783,7 +1746,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1793,13 +1756,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "RSI",
                         TooltipTemplate = "RSI([P1])",
                         DataName = "rsi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1818,23 +1781,23 @@ public static class MetaInventory
 
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 75,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "solid",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 25,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "solid",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -1842,7 +1805,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Cycle Periods",
                         ParamName = "cyclePeriods",
                         DataType = "int",
@@ -1850,7 +1813,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Fast Periods",
                         ParamName = "fastPeriods",
                         DataType = "int",
@@ -1858,7 +1821,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Slow Periods",
                         ParamName = "slowPeriods",
                         DataType = "int",
@@ -1868,13 +1831,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Schaff Trend Cycle",
                         TooltipTemplate = "Schaff Trend Cycle",
                         DataName = "stc",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1889,7 +1852,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1899,13 +1862,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Slope",
                         TooltipTemplate = "SLOPE([P1])",
                         DataName = "slope",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1920,7 +1883,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1930,13 +1893,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Linear Regression",
                         TooltipTemplate = "LINEAR([P1])",
                         DataName = "line",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1951,7 +1914,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1961,13 +1924,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "SMA",
                         TooltipTemplate = "SMA([P1])",
                         DataName = "sma",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -1982,7 +1945,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1990,7 +1953,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -2000,21 +1963,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Standard Deviation",
                         TooltipTemplate = "STDEV([P1])",
                         DataName = "stdDev",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "SMA of Standard Deviation",
                         TooltipTemplate = "STDEV([P1]) SMA",
                         DataName = "stdDevSma",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -2029,7 +1992,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2039,13 +2002,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Z-Score",
                         TooltipTemplate = "Z-Score([P1])",
                         DataName = "zScore",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -2061,7 +2024,7 @@ public static class MetaInventory
                 Order = Order.BehindPrice,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -2069,7 +2032,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -2077,7 +2040,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 10
                     },
-                    new() {
+                    new {
                         DisplayName = "ATR Periods",
                         ParamName = "atrPeriods",
                         DataType = "int",
@@ -2086,40 +2049,7 @@ public static class MetaInventory
                         Maximum = 50
                     }
                 ],
-                Results = [
-                    new() {
-                        DisplayName = "Upper Band",
-                        TooltipTemplate = "STARC([P1],[P2],[P3]) Upper Band",
-                        DataName = "upperBand",
-                        DataType = "number",
-                        LineType = "solid",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange,
-                        Fill = new ChartFill {
-                            Target = "+2",
-                            ColorAbove = darkGrayTransparent,
-                            ColorBelow = darkGrayTransparent
-                        }
-                    },
-                    new() {
-                        DisplayName = "Centerline",
-                        TooltipTemplate = "STARC([P1],[P2],[P3]) Centerline",
-                        DataName = "centerline",
-                        DataType = "number",
-                        LineType = "dash",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange
-                    },
-                    new() {
-                        DisplayName = "Lower Band",
-                        TooltipTemplate = "STARC([P1],[P2],[P3]) Lower Band",
-                        DataName = "lowerBand",
-                        DataType = "number",
-                        LineType = "solid",
-                        LineWidth = 1,
-                        DefaultColor = standardOrange
-                    }
-                ]
+                Results = MetadataHelpers.GetPriceBandResults("STARC", ChartColors.StandardOrange)
             },
 
             // Stochastic Momentum Index
@@ -2133,23 +2063,23 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 40,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = -40,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -2157,7 +2087,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2165,7 +2095,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 300
                     },
-                    new() {
+                    new {
                         DisplayName = "First Smooth Periods",
                         ParamName = "firstSmoothPeriods",
                         DataType = "int",
@@ -2173,7 +2103,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 300
                     },
-                    new() {
+                    new {
                         DisplayName = "Second Smooth Periods",
                         ParamName = "secondSmoothPeriods",
                         DataType = "int",
@@ -2181,7 +2111,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal Periods",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -2191,21 +2121,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "SMI",
                         TooltipTemplate = "SMI",
                         DataName = "smi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal",
                         TooltipTemplate = "Signal",
                         DataName = "signal",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -2221,23 +2151,23 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 80,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 20,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -2245,7 +2175,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods (%K)",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2253,7 +2183,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal Periods (%D)",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -2263,21 +2193,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "%K",
                         TooltipTemplate = "STO %K([P1])",
                         DataName = "k",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "%D",
                         TooltipTemplate = "STO %D([P2])",
                         DataName = "d",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -2293,23 +2223,23 @@ public static class MetaInventory
                 ChartConfig = new ChartConfig {
                     Thresholds =
                     [
-                        new() {
+                        new {
                             Value = 80,
-                            Color = thresholdRed,
+                            Color = ChartColors.ThresholdRed,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+2",
                                 ColorAbove = "transparent",
-                                ColorBelow = thresholdGreen
+                                ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new() {
+                        new {
                             Value = 20,
-                            Color = thresholdGreen,
+                            Color = ChartColors.ThresholdGreen,
                             Style = "dash",
                             Fill = new ChartFill {
                                 Target = "+1",
-                                ColorAbove = thresholdRed,
+                                ColorAbove = ChartColors.ThresholdRed,
                                 ColorBelow = "transparent"
                             }
                         }
@@ -2317,7 +2247,7 @@ public static class MetaInventory
                 },
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "RSI Periods",
                         ParamName = "rsiPeriods",
                         DataType = "int",
@@ -2325,7 +2255,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Stochastic Periods",
                         ParamName = "stochPeriods",
                         DataType = "int",
@@ -2333,7 +2263,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal Periods",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -2341,7 +2271,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Smooth Periods",
                         ParamName = "smoothPeriods",
                         DataType = "int",
@@ -2351,21 +2281,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Oscillator",
                         TooltipTemplate = "StochRSI Oscillator",
                         DataName = "stochRsi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Signal line",
                         TooltipTemplate = "Signal line",
                         DataName = "signal",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -2381,7 +2311,7 @@ public static class MetaInventory
                 Order = Order.Front,
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2389,7 +2319,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new() {
+                    new {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -2399,30 +2329,30 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Upper Band",
                         TooltipTemplate = "SUPERTREND([P1],[P2]) Upper Band",
                         DataName = "upperBand",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     },
-                    new() {
+                    new {
                         DisplayName = "Lower Band",
                         TooltipTemplate = "SUPERTREND([P1],[P2]) Lower Band",
                         DataName = "lowerBand",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "Transition line",
                         TooltipTemplate = "SUPERTREND([P1],[P2]) Transition Line",
                         DataName = "superTrend",
                         DataType = "number",
                         LineType = "dash",
                         LineWidth = 1,
-                        DefaultColor = darkGrayTransparent
+                        DefaultColor = ChartColors.DarkGrayTransparent
                     }
                 ]
             },
@@ -2437,7 +2367,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2447,13 +2377,13 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Ulcer Index",
                         TooltipTemplate = "UI([P1])",
                         DataName = "ui",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     }
                 ]
             },
@@ -2468,7 +2398,7 @@ public static class MetaInventory
                 ChartType = "oscillator",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2478,21 +2408,21 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "VI+",
                         TooltipTemplate = "VI+",
                         DataName = "pvi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     },
-                    new() {
+                    new {
                         DisplayName = "VI+",
                         TooltipTemplate = "VI-",
                         DataName = "nvi",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     }
                 ]
             },
@@ -2507,7 +2437,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Jaw Periods",
                         ParamName = "jawPeriods",
                         DataType = "int",
@@ -2515,7 +2445,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Jaw Offset",
                         ParamName = "jawOffset",
                         DataType = "int",
@@ -2523,7 +2453,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 30
                     },
-                    new() {
+                    new {
                         DisplayName = "Teeth Periods",
                         ParamName = "teethPeriods",
                         DataType = "int",
@@ -2531,7 +2461,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Teeth Offset",
                         ParamName = "teethOffset",
                         DataType = "int",
@@ -2539,7 +2469,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 30
                     },
-                    new() {
+                    new {
                         DisplayName = "Lips Periods",
                         ParamName = "lipsPeriods",
                         DataType = "int",
@@ -2547,7 +2477,7 @@ public static class MetaInventory
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new() {
+                    new {
                         DisplayName = "Lips Offset",
                         ParamName = "lipsOffset",
                         DataType = "int",
@@ -2557,29 +2487,29 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Jaw",
                         TooltipTemplate = "Jaw([P1]/[P2])",
                         DataName = "jaw",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Teeth",
                         TooltipTemplate = "Teeth([P3]/[P4])",
                         DataName = "teeth",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardRed
+                        DefaultColor = ChartColors.StandardRed
                     },
-                    new() {
+                    new {
                         DisplayName = "Lips",
                         TooltipTemplate = "Lips([P4]/[P5])",
                         DataName = "lips",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardGreen
+                        DefaultColor = ChartColors.StandardGreen
                     }
                 ]
             },
@@ -2594,7 +2524,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Percent Change",
                         ParamName = "percentChange",
                         DataType = "number",
@@ -2604,29 +2534,29 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Zig Zag",
                         TooltipTemplate = "ZIGZAG([P1]% CLOSE)",
                         DataName = "zigZag",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Zig Zag Retrace High",
                         TooltipTemplate = "ZIGZAG([P1]% CLOSE) Retrace High",
                         DataName = "retraceHigh",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = thresholdGrayTransparent
+                        DefaultColor = ChartColors.ThresholdGrayTransparent
                     },
-                    new() {
+                    new {
                         DisplayName = "Zig Zag Retrace Low",
                         TooltipTemplate = "ZIGZAG([P1]% CLOSE) Retrace Low",
                         DataName = "retraceLow",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = thresholdGrayTransparent
+                        DefaultColor = ChartColors.ThresholdGrayTransparent
                     }
                 ]
             },
@@ -2641,7 +2571,7 @@ public static class MetaInventory
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new() {
+                    new {
                         DisplayName = "Percent Change",
                         ParamName = "percentChange",
                         DataType = "number",
@@ -2651,29 +2581,29 @@ public static class MetaInventory
                     }
                 ],
                 Results = [
-                    new() {
+                    new {
                         DisplayName = "Zig Zag",
                         TooltipTemplate = "ZIGZAG([P1]% HIGH/LOW)",
                         DataName = "zigZag",
                         DataType = "number",
                         LineType = "solid",
-                        DefaultColor = standardBlue
+                        DefaultColor = ChartColors.StandardBlue
                     },
-                    new() {
+                    new {
                         DisplayName = "Zig Zag Retrace High",
                         TooltipTemplate = "ZIGZAG([P1]% HIGH/LOW) Retrace High",
                         DataName = "retraceHigh",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = thresholdGrayTransparent
+                        DefaultColor = ChartColors.ThresholdGrayTransparent
                     },
-                    new() {
+                    new {
                         DisplayName = "Zig Zag Retrace Low",
                         TooltipTemplate = "ZIGZAG([P1]% HIGH/LOW) Retrace Low",
                         DataName = "retraceLow",
                         DataType = "number",
                         LineType = "dash",
-                        DefaultColor = thresholdGrayTransparent
+                        DefaultColor = ChartColors.ThresholdGrayTransparent
                     }
                 ]
             }
