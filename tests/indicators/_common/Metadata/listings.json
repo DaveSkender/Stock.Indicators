@@ -803,7 +803,7 @@
     "results": [
       {
         "displayName": "Chandelier Exit",
-        "tooltipTemplate": "CHANDELIER([P1],[P2],LONG)",
+        "tooltipTemplate": "CHANDELIER([P1],[P2],SHORT)",
         "dataName": "chandelierExit",
         "dataType": "number",
         "lineType": "dash",

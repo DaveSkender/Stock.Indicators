@@ -43,6 +43,6 @@ public static partial class Tr
                 Tr: Increment(q.High, q.Low, source[i - 1].Close));
         }
 
-        return new List<TrResult>(results);
+        return [.. results];
     }
 }

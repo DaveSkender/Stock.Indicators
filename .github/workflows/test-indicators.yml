@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["6.0.x", "9.0.x"]
+        dotnet-version: ["8.0.x", "9.0.x"]
 
     env:
 
@@ -29,7 +29,7 @@ jobs:
 
       # Identifies the current target framework
       TARGET_FRAMEWORK: >
-        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+        ${{ matrix.dotnet-version == '8.0.x' && 'net8.0' ||
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:

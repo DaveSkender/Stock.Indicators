@@ -1,76 +1,18 @@
-public static class MetadataHelpers
-{
-    public static ChartConfig GetOscillatorConfig(float min = 0, float max = 100, float upperThreshold = 80, float lowerThreshold = 20)
-        => new {
-            MinimumYAxis = min,
-            MaximumYAxis = max,
-            Thresholds = [
-                new ChartThreshold {
-                    Value = upperThreshold,
-                    Color = ChartColors.ThresholdRed,
-                    Style = "dash",
-                    Fill = new {
-                        Target = "+2",
-                        ColorAbove = "transparent",
-                        ColorBelow = ChartColors.ThresholdGreen
-                    }
-                },
-                new {
-                    Value = lowerThreshold,
-                    Color = ChartColors.ThresholdGreen,
-                    Style = "dash",
-                    Fill = new {
-                        Target = "+1",
-                        ColorAbove = ChartColors.ThresholdRed,
-                        ColorBelow = "transparent"
-                    }
-                }
-            ]
-        };
-
-    public static List<IndicatorResultConfig> GetPriceBandResults(string name, string? color = null)
-    {
-        color ??= ChartColors.StandardOrange;
-        return [
-            new IndicatorResultConfig {
-                DisplayName = "Upper Band",
-                TooltipTemplate = $"{name} Upper Band",
-                DataName = "upperBand",
-                DataType = "number",
-                LineType = "solid",
-                LineWidth = 1,
-                DefaultColor = color,
-                Fill = new ChartFill {
-                    Target = "+2",
-                    ColorAbove = ChartColors.DarkGrayTransparent,
-                    ColorBelow = ChartColors.DarkGrayTransparent
-                }
-            },
-            new IndicatorResultConfig {
-                DisplayName = "Centerline",
-                TooltipTemplate = $"{name} Centerline",
-                DataName = "centerline",
-                DataType = "number",
-                LineType = "dash",
-                LineWidth = 1,
-                DefaultColor = color
-            },
-            new IndicatorResultConfig {
-                DisplayName = "Lower Band",
-                TooltipTemplate = $"{name} Lower Band",
-                DataName = "lowerBand",
-                DataType = "number",
-                LineType = "solid",
-                LineWidth = 1,
-                DefaultColor = color
-            }
-        ];
-    }
-}
-
+/// <summary>
+/// Provides methods for generating indicator listings.
+/// </summary>
 public static class Metadata
 {
-    public static IEnumerable<IndicatorListing> IndicatorListing(string baseUrl)
+    /// <summary>
+    /// Generates a list of indicator listings based on the specified base URL.
+    /// </summary>
+    /// <param name="baseUrl">
+    /// The base URL for the indicator endpoints. Example: <c>https://example.com</c>
+    /// </param>
+    /// <returns>
+    /// An enumerable collection of <see cref="IndicatorListing"/> objects.
+    /// </returns>
+    public static IEnumerable<IndicatorListing> IndicatorCatalog(Uri baseUrl)
     {
         List<IndicatorListing> listing = [
             // Accumulation Distribution Line (ADL)
@@ -120,23 +62,21 @@ public static class Metadata
                 Category = "price-trend",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 40,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 20,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -146,7 +86,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "ADX",
                         TooltipTemplate = "ADX([P1])",
                         DataName = "adx",
@@ -154,7 +94,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "DI+",
                         TooltipTemplate = "DI+([P1])",
                         DataName = "pdi",
@@ -162,7 +102,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "DI-",
                         TooltipTemplate = "DI-([P1])",
                         DataName = "mdi",
@@ -170,7 +110,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardRed
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "ADX Rating",
                         TooltipTemplate = "ADXR([P1])",
                         DataName = "adxr",
@@ -190,9 +130,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ALMA/",
                 Category = "moving-average",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -200,7 +139,7 @@ public static class Metadata
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Offset",
                         ParamName = "offset",
                         DataType = "number",
@@ -208,7 +147,7 @@ public static class Metadata
                         Minimum = 0,
                         Maximum = 1
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Sigma",
                         ParamName = "sigma",
                         DataType = "number",
@@ -218,7 +157,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "ALMA",
                         TooltipTemplate = "ALMA([P1],[P2],[P3])",
                         DataName = "alma",
@@ -241,28 +180,26 @@ public static class Metadata
                     MinimumYAxis = 0,
                     MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 70,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "solid"
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 50,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 30,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "solid"
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -272,7 +209,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Aroon Up",
                         TooltipTemplate = "Aroon Up",
                         DataName = "aroonUp",
@@ -280,7 +217,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Aroon Down",
                         TooltipTemplate = "Aroon Down",
                         DataName = "aroonDown",
@@ -303,18 +240,16 @@ public static class Metadata
                     MinimumYAxis = -100,
                     MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 0,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -324,7 +259,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Oscillator",
                         TooltipTemplate = "AROON([P1]) Oscillator",
                         DataName = "oscillator",
@@ -344,9 +279,8 @@ public static class Metadata
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.Front,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -354,7 +288,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -364,7 +298,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Buy Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],CLOSE) Buy Stop",
                         DataName = "buyStop",
@@ -373,7 +307,7 @@ public static class Metadata
                         LineWidth = 2,
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Sell Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],CLOSE) Sell Stop",
                         DataName = "sellStop",
@@ -390,13 +324,12 @@ public static class Metadata
                 Name = "ATR Trailing Stop (High/Low offset)",
                 Uiid = "ATR-STOP-HL",
                 LegendTemplate = "ATR-STOP([P1],[P2],HIGH/LOW)",
-                Endpoint = $"{baseUrl}/ATR-STOP-CLOSE/",
+                Endpoint = $"{baseUrl}/ATR-STOP-HL/",
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.Front,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -404,7 +337,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -414,7 +347,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Buy Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],HIGH/LOW) Buy Stop",
                         DataName = "buyStop",
@@ -423,7 +356,7 @@ public static class Metadata
                         LineWidth = 2,
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Sell Stop",
                         TooltipTemplate = "ATR-STOP([P1],[P2],HIGH/LOW) Sell Stop",
                         DataName = "sellStop",
@@ -443,9 +376,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ATR/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -455,7 +387,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Average True Range",
                         TooltipTemplate = "ATR([P1])",
                         DataName = "atr",
@@ -474,9 +406,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ATR/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -486,7 +417,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Average True Range Percent",
                         TooltipTemplate = "ATR([P1]) %",
                         DataName = "atrp",
@@ -506,18 +437,16 @@ public static class Metadata
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 1,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -527,7 +456,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Beta",
                         TooltipTemplate = "Beta",
                         DataName = "beta",
@@ -535,7 +464,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Beta+",
                         TooltipTemplate = "Beta+",
                         DataName = "betaUp",
@@ -543,7 +472,7 @@ public static class Metadata
                         LineType = "dash",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Beta-",
                         TooltipTemplate = "Beta-",
                         DataName = "betaDown",
@@ -563,9 +492,8 @@ public static class Metadata
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -573,7 +501,7 @@ public static class Metadata
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Standard Deviations",
                         ParamName = "standardDeviations",
                         DataType = "number",
@@ -583,7 +511,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Upper Band",
                         TooltipTemplate = "BB([P1],[P2]) Upper Band",
                         DataName = "upperBand",
@@ -597,7 +525,7 @@ public static class Metadata
                             ColorBelow = ChartColors.DarkGrayTransparent
                         }
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Centerline",
                         TooltipTemplate = "BB([P1],[P2]) Centerline",
                         DataName = "sma",
@@ -606,7 +534,7 @@ public static class Metadata
                         LineWidth = 1,
                         DefaultColor = ChartColors.DarkGray
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Lower Band",
                         TooltipTemplate = "BB([P1],[P2]) Lower Band",
                         DataName = "lowerBand",
@@ -627,9 +555,8 @@ public static class Metadata
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 1,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -639,7 +566,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 0,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -651,9 +578,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -661,7 +587,7 @@ public static class Metadata
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Standard Deviations",
                         ParamName = "standardDeviations",
                         DataType = "number",
@@ -671,7 +597,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "%B",
                         TooltipTemplate = "BB([P1],[P2]) %B",
                         DataName = "percentB",
@@ -691,18 +617,16 @@ public static class Metadata
                 Category = "volume-based",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 0,
                             Color = ChartColors.ThresholdGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -712,7 +636,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "CMF",
                         TooltipTemplate = "Chaikin Money Flow",
                         DataName = "cmf",
@@ -731,9 +655,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/CMO/",
                 Category = "oscillator",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -743,7 +666,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Chande Momentum Oscillator",
                         TooltipTemplate = "CMO([P1])",
                         DataName = "cmo",
@@ -762,9 +685,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/CHEXIT-LONG/",
                 Category = "stop-and-reverse",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -772,7 +694,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -782,7 +704,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Chandelier Exit",
                         TooltipTemplate = "CHANDELIER([P1],[P2],LONG)",
                         DataName = "chandelierExit",
@@ -801,9 +723,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/CHEXIT-SHORT/",
                 Category = "stop-and-reverse",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -811,7 +732,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -821,9 +742,9 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Chandelier Exit",
-                        TooltipTemplate = "CHANDELIER([P1],[P2],LONG)",
+                        TooltipTemplate = "CHANDELIER([P1],[P2],SHORT)",
                         DataName = "chandelierExit",
                         DataType = "number",
                         LineType = "dash",
@@ -844,9 +765,8 @@ public static class Metadata
                     //MinimumYAxis = 0,
                     //MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 61.8,
                             Color = ChartColors.DarkGrayTransparent,
                             Style = "dash",
@@ -856,7 +776,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdRed
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 38.2,
                             Color = ChartColors.DarkGrayTransparent,
                             Style = "dash",
@@ -868,9 +788,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -880,7 +799,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Choppiness",
                         TooltipTemplate = "Choppiness",
                         DataName = "chop",
@@ -903,9 +822,8 @@ public static class Metadata
                     MinimumYAxis = 0,
                     MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 90,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -915,7 +833,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 10,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -927,17 +845,16 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
-                        DisplayName = "Lookback Periods",
+                Parameters = [
+                    new IndicatorParamConfig {
+                        DisplayName = "RSI Periods",
                         ParamName = "rsiPeriods",
                         DataType = "int",
                         DefaultValue = 3,
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Streak Periods",
                         ParamName = "streakPeriods",
                         DataType = "int",
@@ -945,7 +862,7 @@ public static class Metadata
                         Minimum = 2,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Rank Periods",
                         ParamName = "rankPeriods",
                         DataType = "int",
@@ -955,7 +872,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "CRSI",
                         TooltipTemplate = "CRSI([P1],[P2],[P3])",
                         DataName = "connorsRsi",
@@ -974,9 +891,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/DOJI/",
                 Category = "candlestick-pattern",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Max Price Change %",
                         ParamName = "maxPriceChangePercent",
                         DataType = "number",
@@ -986,7 +902,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         TooltipTemplate = "DOJI([P1]%)",
                         DisplayName = "Doji",
                         DataName = "price",
@@ -1010,7 +926,7 @@ public static class Metadata
                     MinimumYAxis = 0
                 },
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "DC PERIODS",
                         TooltipTemplate = "DC PERIODS",
                         DataName = "dcPeriods",
@@ -1030,9 +946,8 @@ public static class Metadata
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1052,9 +967,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/DYN/",
                 Category = "moving-average",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1064,7 +978,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Dynamic",
                         TooltipTemplate = "DYNAMIC([P1])",
                         DataName = "dynamic",
@@ -1083,9 +997,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ELDER-RAY/",
                 Category = "price-trend",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1095,7 +1008,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Bull Power",
                         TooltipTemplate = "Bull Power",
                         DataName = "bullPower",
@@ -1104,7 +1017,7 @@ public static class Metadata
                         Stack = "eray",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Bear Power",
                         TooltipTemplate = "Bear Power",
                         DataName = "bearPower",
@@ -1126,7 +1039,7 @@ public static class Metadata
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new {
+                    new IndicatorParamConfig{
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1136,7 +1049,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig{
                         DisplayName = "EPMA",
                         TooltipTemplate = "EPMA([P1])",
                         DataName = "epma",
@@ -1157,7 +1070,7 @@ public static class Metadata
                 ChartType = "overlay",
                 Parameters =
                 [
-                    new {
+                    new IndicatorParamConfig{
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1167,7 +1080,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig{
                         DisplayName = "EMA",
                         TooltipTemplate = "EMA([P1])",
                         DataName = "ema",
@@ -1186,9 +1099,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/FISHER/",
                 Category = "price-transform",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1198,7 +1110,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Fisher Transform",
                         TooltipTemplate = "Fisher Transform",
                         DataName = "fisher",
@@ -1206,7 +1118,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Trigger",
                         TooltipTemplate = "Trigger",
                         DataName = "trigger",
@@ -1225,9 +1137,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/FRACTAL/",
                 Category = "price-pattern",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Window Span",
                         ParamName = "windowSpan",
                         DataType = "int",
@@ -1237,7 +1148,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Fractal Bull",
                         TooltipTemplate = "Fractal Bull ([P1])",
                         DataName = "fractalBull",
@@ -1246,7 +1157,7 @@ public static class Metadata
                         LineWidth = 3,
                         DefaultColor = ChartColors.StandardRed
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Fractal Bear",
                         TooltipTemplate = "Fractal Bear ([P1])",
                         DataName = "fractalBear",
@@ -1267,9 +1178,8 @@ public static class Metadata
                 Category = "price-channels",
                 ChartType = "overlay",
                 Order = Order.Front,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Window Span",
                         ParamName = "windowSpan",
                         DataType = "int",
@@ -1279,7 +1189,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         TooltipTemplate = "Upper Band",
                         DisplayName = "FCB([P1]) Upper Band",
                         DataName = "upperBand",
@@ -1287,7 +1197,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Lower Band",
                         TooltipTemplate = "FCB([P1]) Lower Band",
                         DataName = "lowerBand",
@@ -1307,7 +1217,7 @@ public static class Metadata
                 Category = "moving-average",
                 ChartType = "overlay",
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "HT Trendline",
                         TooltipTemplate = "HT Trendline",
                         DataName = "trendline",
@@ -1315,7 +1225,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "HT Smoothed Price",
                         TooltipTemplate = "HT Smooth Price",
                         DataName = "smoothPrice",
@@ -1335,9 +1245,8 @@ public static class Metadata
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Tenkan Periods",
                         ParamName = "tenkanPeriods",
                         DataType = "int",
@@ -1345,7 +1254,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Kijun Periods",
                         ParamName = "kijunPeriods",
                         DataType = "int",
@@ -1353,7 +1262,7 @@ public static class Metadata
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Senkou Periods",
                         ParamName = "senkouBPeriods",
                         DataType = "int",
@@ -1363,7 +1272,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Tenkan-sen",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Tenkan-sen",
                         DataName = "tenkanSen",
@@ -1372,7 +1281,7 @@ public static class Metadata
                         LineWidth = 2,
                         DefaultColor = ChartColors.StandardBlue,
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Kijun-sen",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Kijun-sen",
                         DataName = "kijunSen",
@@ -1381,7 +1290,7 @@ public static class Metadata
                         LineWidth = 2,
                         DefaultColor = ChartColors.StandardPurple,
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Chikou span",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Chikou span",
                         DataName = "chikouSpan",
@@ -1390,7 +1299,7 @@ public static class Metadata
                         LineWidth = 2,
                         DefaultColor = ChartColors.DarkGray,
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Senkou span A",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Senkou span A",
                         DataName = "senkouSpanA",
@@ -1399,7 +1308,7 @@ public static class Metadata
                         LineWidth = 1.5f,
                         DefaultColor = ChartColors.ThresholdGreen,
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Senkou span B",
                         TooltipTemplate = "ICHIMOKU([P1],[P2],[P3] Senkou span B",
                         DataName = "senkouSpanB",
@@ -1426,9 +1335,8 @@ public static class Metadata
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "EMA Periods",
                         ParamName = "emaPeriods",
                         DataType = "int",
@@ -1436,7 +1344,7 @@ public static class Metadata
                         Minimum = 2,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -1444,7 +1352,7 @@ public static class Metadata
                         Minimum = 0.01,
                         Maximum = 10
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "ATR Periods",
                         ParamName = "atrPeriods",
                         DataType = "number",
@@ -1464,9 +1372,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/MARUBOZU/",
                 Category = "candlestick-pattern",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Min Body Percent %",
                         ParamName = "minBodyPercent",
                         DataType = "number",
@@ -1476,7 +1383,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Marubozu",
                         TooltipTemplate = "MARUBOZU([P1]%)",
                         DataName = "price",
@@ -1500,9 +1407,8 @@ public static class Metadata
                     MinimumYAxis = 0,
                     MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 80,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -1512,7 +1418,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 20,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -1524,9 +1430,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1536,7 +1441,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "MFI",
                         TooltipTemplate = "MFI([P1])",
                         DataName = "mfi",
@@ -1556,18 +1461,16 @@ public static class Metadata
                 Category = "price-trend",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 0,
                             Color = ChartColors.DarkGrayTransparent,
                             Style = "dash"
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Fast Periods",
                         ParamName = "fastPeriods",
                         DataType = "int",
@@ -1575,7 +1478,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 200
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Slow Periods",
                         ParamName = "slowPeriods",
                         DataType = "int",
@@ -1583,7 +1486,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Signal Periods",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -1593,7 +1496,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "MACD",
                         TooltipTemplate = "MACD",
                         DataName = "macd",
@@ -1601,7 +1504,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Signal",
                         TooltipTemplate = "Signal",
                         DataName = "signal",
@@ -1609,7 +1512,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardRed
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Histogram",
                         TooltipTemplate = "Histogram",
                         DataName = "histogram",
@@ -1629,9 +1532,8 @@ public static class Metadata
                 Category = "stop-and-reverse",
                 ChartType = "overlay",
 
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Step Size",
                         ParamName = "accelerationStep",
                         DataType = "number",
@@ -1639,7 +1541,7 @@ public static class Metadata
                         Minimum = 0.000001,
                         Maximum = 2500
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Max Factor",
                         ParamName = "maxAccelerationFactor",
                         DataType = "number",
@@ -1649,7 +1551,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Parabolic SAR",
                         TooltipTemplate = "PSAR([P1],[P2])",
                         DataName = "sar",
@@ -1669,9 +1571,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ROC/",
                 Category = "oscillator",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1679,7 +1580,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -1689,7 +1590,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Rate of Change",
                         TooltipTemplate = "ROC([P1],[P2])",
                         DataName = "roc",
@@ -1697,7 +1598,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "SMA of ROC",
                         TooltipTemplate = "STO %D([P2])",
                         DataName = "rocSma",
@@ -1720,9 +1621,8 @@ public static class Metadata
                     MinimumYAxis = 0,
                     MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 70,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -1732,7 +1632,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 30,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -1744,9 +1644,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1756,7 +1655,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "RSI",
                         TooltipTemplate = "RSI([P1])",
                         DataName = "rsi",
@@ -1779,9 +1678,8 @@ public static class Metadata
                     MinimumYAxis = 0,
                     MaximumYAxis = 100,
 
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 75,
                             Color = ChartColors.ThresholdGreen,
                             Style = "solid",
@@ -1791,7 +1689,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 25,
                             Color = ChartColors.ThresholdRed,
                             Style = "solid",
@@ -1803,9 +1701,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Cycle Periods",
                         ParamName = "cyclePeriods",
                         DataType = "int",
@@ -1813,7 +1710,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Fast Periods",
                         ParamName = "fastPeriods",
                         DataType = "int",
@@ -1821,7 +1718,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Slow Periods",
                         ParamName = "slowPeriods",
                         DataType = "int",
@@ -1831,7 +1728,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Schaff Trend Cycle",
                         TooltipTemplate = "Schaff Trend Cycle",
                         DataName = "stc",
@@ -1850,9 +1747,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/SLOPE/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1862,7 +1758,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Slope",
                         TooltipTemplate = "SLOPE([P1])",
                         DataName = "slope",
@@ -1881,9 +1777,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/SLOPE/",
                 Category = "price-characteristic",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1893,7 +1788,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Linear Regression",
                         TooltipTemplate = "LINEAR([P1])",
                         DataName = "line",
@@ -1912,9 +1807,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/SMA/",
                 Category = "moving-average",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1924,7 +1818,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "SMA",
                         TooltipTemplate = "SMA([P1])",
                         DataName = "sma",
@@ -1943,9 +1837,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/STDEV/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -1953,7 +1846,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -1963,7 +1856,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Standard Deviation",
                         TooltipTemplate = "STDEV([P1])",
                         DataName = "stdDev",
@@ -1971,7 +1864,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "SMA of Standard Deviation",
                         TooltipTemplate = "STDEV([P1]) SMA",
                         DataName = "stdDevSma",
@@ -1990,9 +1883,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/STDEV/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2002,7 +1894,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Z-Score",
                         TooltipTemplate = "Z-Score([P1])",
                         DataName = "zScore",
@@ -2022,9 +1914,8 @@ public static class Metadata
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "SMA Periods",
                         ParamName = "smaPeriods",
                         DataType = "int",
@@ -2032,7 +1923,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -2040,7 +1931,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 10
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "ATR Periods",
                         ParamName = "atrPeriods",
                         DataType = "int",
@@ -2061,9 +1952,8 @@ public static class Metadata
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 40,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -2073,7 +1963,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = -40,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -2085,9 +1975,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2095,7 +1984,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 300
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "First Smooth Periods",
                         ParamName = "firstSmoothPeriods",
                         DataType = "int",
@@ -2103,7 +1992,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 300
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Second Smooth Periods",
                         ParamName = "secondSmoothPeriods",
                         DataType = "int",
@@ -2111,7 +2000,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Signal Periods",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -2121,7 +2010,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "SMI",
                         TooltipTemplate = "SMI",
                         DataName = "smi",
@@ -2129,7 +2018,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Signal",
                         TooltipTemplate = "Signal",
                         DataName = "signal",
@@ -2149,9 +2038,8 @@ public static class Metadata
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 80,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -2161,7 +2049,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 20,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -2173,9 +2061,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods (%K)",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2183,7 +2070,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Signal Periods (%D)",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -2193,7 +2080,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "%K",
                         TooltipTemplate = "STO %K([P1])",
                         DataName = "k",
@@ -2201,7 +2088,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "%D",
                         TooltipTemplate = "STO %D([P2])",
                         DataName = "d",
@@ -2221,9 +2108,8 @@ public static class Metadata
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
-                    Thresholds =
-                    [
-                        new {
+                    Thresholds = [
+                        new ChartThreshold {
                             Value = 80,
                             Color = ChartColors.ThresholdRed,
                             Style = "dash",
@@ -2233,7 +2119,7 @@ public static class Metadata
                                 ColorBelow = ChartColors.ThresholdGreen
                             }
                         },
-                        new {
+                        new ChartThreshold {
                             Value = 20,
                             Color = ChartColors.ThresholdGreen,
                             Style = "dash",
@@ -2245,9 +2131,8 @@ public static class Metadata
                         }
                     ]
                 },
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "RSI Periods",
                         ParamName = "rsiPeriods",
                         DataType = "int",
@@ -2255,7 +2140,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Stochastic Periods",
                         ParamName = "stochPeriods",
                         DataType = "int",
@@ -2263,7 +2148,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Signal Periods",
                         ParamName = "signalPeriods",
                         DataType = "int",
@@ -2271,7 +2156,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Smooth Periods",
                         ParamName = "smoothPeriods",
                         DataType = "int",
@@ -2281,7 +2166,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Oscillator",
                         TooltipTemplate = "StochRSI Oscillator",
                         DataName = "stochRsi",
@@ -2289,7 +2174,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Signal line",
                         TooltipTemplate = "Signal line",
                         DataName = "signal",
@@ -2309,9 +2194,8 @@ public static class Metadata
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.Front,
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2319,7 +2203,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 50
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Multiplier",
                         ParamName = "multiplier",
                         DataType = "number",
@@ -2329,7 +2213,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Upper Band",
                         TooltipTemplate = "SUPERTREND([P1],[P2]) Upper Band",
                         DataName = "upperBand",
@@ -2337,7 +2221,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardRed
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Lower Band",
                         TooltipTemplate = "SUPERTREND([P1],[P2]) Lower Band",
                         DataName = "lowerBand",
@@ -2345,7 +2229,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Transition line",
                         TooltipTemplate = "SUPERTREND([P1],[P2]) Transition Line",
                         DataName = "superTrend",
@@ -2365,9 +2249,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ULCER/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2377,7 +2260,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Ulcer Index",
                         TooltipTemplate = "UI([P1])",
                         DataName = "ui",
@@ -2396,9 +2279,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/VORTEX/",
                 Category = "price-trend",
                 ChartType = "oscillator",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Lookback Periods",
                         ParamName = "lookbackPeriods",
                         DataType = "int",
@@ -2408,7 +2290,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "VI+",
                         TooltipTemplate = "VI+",
                         DataName = "pvi",
@@ -2416,7 +2298,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardGreen
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "VI+",
                         TooltipTemplate = "VI-",
                         DataName = "nvi",
@@ -2435,9 +2317,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ALLIGATOR/",
                 Category = "price-trend",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Jaw Periods",
                         ParamName = "jawPeriods",
                         DataType = "int",
@@ -2445,7 +2326,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Jaw Offset",
                         ParamName = "jawOffset",
                         DataType = "int",
@@ -2453,7 +2334,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 30
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Teeth Periods",
                         ParamName = "teethPeriods",
                         DataType = "int",
@@ -2461,7 +2342,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Teeth Offset",
                         ParamName = "teethOffset",
                         DataType = "int",
@@ -2469,7 +2350,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 30
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Lips Periods",
                         ParamName = "lipsPeriods",
                         DataType = "int",
@@ -2477,7 +2358,7 @@ public static class Metadata
                         Minimum = 1,
                         Maximum = 250
                     },
-                    new {
+                    new IndicatorParamConfig {
                         DisplayName = "Lips Offset",
                         ParamName = "lipsOffset",
                         DataType = "int",
@@ -2487,7 +2368,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Jaw",
                         TooltipTemplate = "Jaw([P1]/[P2])",
                         DataName = "jaw",
@@ -2495,7 +2376,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Teeth",
                         TooltipTemplate = "Teeth([P3]/[P4])",
                         DataName = "teeth",
@@ -2503,7 +2384,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardRed
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Lips",
                         TooltipTemplate = "Lips([P4]/[P5])",
                         DataName = "lips",
@@ -2522,9 +2403,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ZIGZAG-CLOSE/",
                 Category = "price-transform",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Percent Change",
                         ParamName = "percentChange",
                         DataType = "number",
@@ -2534,7 +2414,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Zig Zag",
                         TooltipTemplate = "ZIGZAG([P1]% CLOSE)",
                         DataName = "zigZag",
@@ -2542,7 +2422,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Zig Zag Retrace High",
                         TooltipTemplate = "ZIGZAG([P1]% CLOSE) Retrace High",
                         DataName = "retraceHigh",
@@ -2550,7 +2430,7 @@ public static class Metadata
                         LineType = "dash",
                         DefaultColor = ChartColors.ThresholdGrayTransparent
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Zig Zag Retrace Low",
                         TooltipTemplate = "ZIGZAG([P1]% CLOSE) Retrace Low",
                         DataName = "retraceLow",
@@ -2569,9 +2449,8 @@ public static class Metadata
                 Endpoint = $"{baseUrl}/ZIGZAG-HIGHLOW/",
                 Category = "price-transform",
                 ChartType = "overlay",
-                Parameters =
-                [
-                    new {
+                Parameters = [
+                    new IndicatorParamConfig {
                         DisplayName = "Percent Change",
                         ParamName = "percentChange",
                         DataType = "number",
@@ -2581,7 +2460,7 @@ public static class Metadata
                     }
                 ],
                 Results = [
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Zig Zag",
                         TooltipTemplate = "ZIGZAG([P1]% HIGH/LOW)",
                         DataName = "zigZag",
@@ -2589,7 +2468,7 @@ public static class Metadata
                         LineType = "solid",
                         DefaultColor = ChartColors.StandardBlue
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Zig Zag Retrace High",
                         TooltipTemplate = "ZIGZAG([P1]% HIGH/LOW) Retrace High",
                         DataName = "retraceHigh",
@@ -2597,7 +2476,7 @@ public static class Metadata
                         LineType = "dash",
                         DefaultColor = ChartColors.ThresholdGrayTransparent
                     },
-                    new {
+                    new IndicatorResultConfig {
                         DisplayName = "Zig Zag Retrace Low",
                         TooltipTemplate = "ZIGZAG([P1]% HIGH/LOW) Retrace Low",
                         DataName = "retraceLow",

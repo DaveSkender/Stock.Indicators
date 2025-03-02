@@ -1,18 +1,23 @@
 using System.Text.Json;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
 
 namespace Tests.Indicators;
 
 [TestClass]
 public class MetadataTests
 {
-    private const string BaseUrl = "https://example.com";
-    private const string ListingsFilePath = "tests/indicators/_common/Metadata/listings.json";
+    private static readonly Uri BaseUrl = new("https://example.com");
+    private const string TestData = "_common/Metadata/listings.json";
 
     [TestMethod]
     public void IndicatorListing_ShouldReturnExpectedData()
     {
         // Arrange
-        string json = File.ReadAllText(ListingsFilePath);
+        string json = File.ReadAllText(TestData);
         List<IndicatorListing> expectedListings = JsonSerializer.Deserialize<List<IndicatorListing>>(json);
 
         // Act
