@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the configuration for a chart, including Y-axis limits and thresholds.
 /// </summary>

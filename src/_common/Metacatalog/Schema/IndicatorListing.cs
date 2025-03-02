@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents an indicator listing with its configuration and parameters.
 /// </summary>

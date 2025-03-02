@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 #pragma warning disable CA1008 // Enums should have zero value
 // TODO: fix or add zero value
 

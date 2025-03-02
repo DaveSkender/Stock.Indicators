@@ -44,7 +44,6 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <NoWarn>$(NoWarn);CA1050</NoWarn>   <!-- CA1050: Declare types in namespaces (using Root) -->
 
   </PropertyGroup>
 

@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides helper methods for generating chart configurations and indicator result configurations.
 /// </summary>
