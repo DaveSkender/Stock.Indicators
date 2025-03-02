@@ -1,3 +1,6 @@
+
+using Skender.Stock.Indicators;
+
 namespace Test.Application;
 
 public static class Simulate

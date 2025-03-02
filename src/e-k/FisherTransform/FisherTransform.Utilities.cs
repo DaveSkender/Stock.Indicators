@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides utility methods for Fisher Transform calculations.
 /// </summary>

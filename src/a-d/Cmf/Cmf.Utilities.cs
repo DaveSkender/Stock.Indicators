@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides utility methods for the CMF (Chaikin Money Flow) indicator.
 /// </summary>

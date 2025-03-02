@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides utility methods for the DEMA (Double Exponential Moving Average) indicator.
 /// </summary>

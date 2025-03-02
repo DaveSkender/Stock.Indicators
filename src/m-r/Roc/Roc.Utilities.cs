@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides utility methods for Rate of Change (ROC) calculations.
 /// </summary>

@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of a Volume Weighted Moving Average (VWMA) calculation.
 /// </summary>

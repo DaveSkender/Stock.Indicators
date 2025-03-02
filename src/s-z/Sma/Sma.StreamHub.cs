@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 // SIMPLE MOVING AVERAGE (STREAM HUB)
 
 #region hub interface and initializer

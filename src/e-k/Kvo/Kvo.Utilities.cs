@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 // KLINGER VOLUME OSCILLATOR (UTILIITES)
 
 public static partial class Kvo

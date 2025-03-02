@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides static utility methods for stream hub operations.
 /// </summary>

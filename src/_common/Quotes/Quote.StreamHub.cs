@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 #region hub initializer
 
 public static partial class Quotes

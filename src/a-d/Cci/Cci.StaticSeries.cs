@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for calculating the Commodity Channel Index (CCI) on a series of quotes.
 /// </summary>

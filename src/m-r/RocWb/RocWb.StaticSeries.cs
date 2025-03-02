@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for calculating the Rate of Change with Bands (RocWb) series.
 /// </summary>

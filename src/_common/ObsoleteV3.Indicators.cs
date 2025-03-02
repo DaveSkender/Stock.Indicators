@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CS1591 // Missing XML comments
 
+namespace Skender.Stock.Indicators;
+
 // OBSOLETE IN v3.0.0
 public static partial class Indicator
 {

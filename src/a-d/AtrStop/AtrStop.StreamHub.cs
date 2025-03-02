@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 // ATR TRAILING STOP (STREAM HUB)
 
 #region hub interface and initializer

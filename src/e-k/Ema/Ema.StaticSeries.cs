@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for calculating the Exponential Moving Average (EMA) indicator.
 /// </summary>

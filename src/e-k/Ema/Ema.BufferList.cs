@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Exponential Moving Average (EMA) from incremental reusable values.
 /// </summary>

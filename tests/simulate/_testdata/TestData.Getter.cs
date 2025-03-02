@@ -1,3 +1,5 @@
+using Skender.Stock.Indicators;
+
 namespace Test.Data;
 
 // TEST QUOTE GETTERs

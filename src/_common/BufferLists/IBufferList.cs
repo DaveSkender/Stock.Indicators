@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Interface for adding input values to a buffered list.
 /// </summary>

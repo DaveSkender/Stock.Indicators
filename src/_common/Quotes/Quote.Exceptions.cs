@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Exception thrown when invalid quotes are encountered.
 /// </summary>

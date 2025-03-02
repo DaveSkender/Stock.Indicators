@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for STARC Band indicator calculations.
 /// </summary>

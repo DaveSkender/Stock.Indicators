@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides utility methods for the VWMA (Volume Weighted Moving Average) indicator.
 /// </summary>

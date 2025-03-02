@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for Stochastic RSI (Relative Strength Index) calculations.
 /// </summary>

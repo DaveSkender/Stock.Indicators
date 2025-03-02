@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of Bollinger Bands calculation.
 /// </summary>

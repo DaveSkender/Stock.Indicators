@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of a Hilbert Transform Trendline (HTL) calculation.
 /// </summary>

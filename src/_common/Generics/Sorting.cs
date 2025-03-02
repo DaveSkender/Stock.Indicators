@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides extension methods for sorting a series of elements.
 /// </summary>

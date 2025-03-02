@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of a Percentage Volume Oscillator (PVO) calculation.
 /// </summary>

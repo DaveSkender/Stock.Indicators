@@ -15,20 +15,20 @@ using System.Diagnostics.CodeAnalysis;
     "CA1720:Identifier contains type name",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~F:ChandelierType.Long")]
+    Target = "~F:Skender.Stock.Indicators.ChandelierType.Long")]
 
 [assembly: SuppressMessage("Naming",
     "CA1720:Identifier contains type name"
     , Justification = "Not really an issue.",
     Scope = "type",
-    Target = "~T:ChandelierType")]
+    Target = "~T:Skender.Stock.Indicators.ChandelierType")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1720:Identifier contains type name",
     Justification = "Not really an issue.",
     Scope = "member",
-    Target = "~F:ChandelierType.Short")]
+    Target = "~F:Skender.Stock.Indicators.ChandelierType.Short")]
 
 [assembly: SuppressMessage(
     "Maintainability",
@@ -40,4 +40,4 @@ using System.Diagnostics.CodeAnalysis;
     "CA1716:Identifiers should not match keywords",
     Justification = "Temporary, during deprecation period.",
     Scope = "member",
-    Target = "~P:ISeries.Date")]
+    Target = "~P:Skender.Stock.Indicators.ISeries.Date")]

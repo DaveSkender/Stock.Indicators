@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Interface for Average Directional Index (ADX) streaming and buffered list.
 /// </summary>

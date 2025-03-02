@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
+namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Provides utility methods for Simple Moving Average (SMA) calculations.

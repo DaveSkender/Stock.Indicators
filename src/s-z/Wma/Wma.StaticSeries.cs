@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for calculating the WMA (Weighted Moving Average) indicator.
 /// </summary>

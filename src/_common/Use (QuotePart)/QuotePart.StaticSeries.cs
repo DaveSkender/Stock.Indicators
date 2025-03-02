@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides extension methods for converting quotes to quote parts.
 /// </summary>

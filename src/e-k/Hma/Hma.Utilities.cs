@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides utility methods for Hull Moving Average (HMA) calculations.
 /// </summary>

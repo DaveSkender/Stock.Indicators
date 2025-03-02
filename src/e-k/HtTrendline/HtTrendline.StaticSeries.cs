@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for calculating the Hilbert Transform Instantaneous Trendline (HTL) indicator.
 /// </summary>

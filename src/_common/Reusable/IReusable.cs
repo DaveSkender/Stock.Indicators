@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// A time-series type that identifies
 /// a single chainable value.

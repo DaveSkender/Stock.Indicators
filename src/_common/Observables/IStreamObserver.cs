@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Management of observing + processing of streamed inbound data.
 /// </summary>

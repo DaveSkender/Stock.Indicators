@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of a Simple Moving Average (SMA) calculation
 /// with extended analysis values.

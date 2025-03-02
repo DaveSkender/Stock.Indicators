@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 public static partial class Aroon
 {
     // parameter validation

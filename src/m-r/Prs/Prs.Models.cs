@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of a Price Relative Strength (PRS) calculation.
 /// </summary>

@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Average Directional Index (ADX) from incremental reusable values.
 /// </summary>

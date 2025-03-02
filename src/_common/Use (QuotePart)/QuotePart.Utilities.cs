@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 // QUOTEPART TYPE UTILITIES
 
 public static partial class QuoteParts

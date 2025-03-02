@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides extension methods for transforming collections.
 /// </summary>

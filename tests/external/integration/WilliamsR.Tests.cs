@@ -1,3 +1,5 @@
+using Skender.Stock.Indicators;
+
 namespace Tests.Indicators;
 
 [TestClass, TestCategory("Integration")]

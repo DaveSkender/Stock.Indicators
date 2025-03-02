@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Provides methods for generating Renko chart series using ATR (Average True Range).
 /// </summary>

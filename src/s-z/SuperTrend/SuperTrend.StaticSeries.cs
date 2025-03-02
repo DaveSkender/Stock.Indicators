@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// SuperTrend indicator calculation.
 /// </summary>

@@ -1,3 +1,5 @@
+namespace Skender.Stock.Indicators;
+
 /// <summary>
 /// Represents the result of the Average True Range (ATR) indicator calculation.
 /// </summary>

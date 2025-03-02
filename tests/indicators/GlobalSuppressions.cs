@@ -14,8 +14,3 @@ using System.Diagnostics.CodeAnalysis;
     "Performance",
     "CA1859:Use concrete types when possible for improved performance",
     Justification = "Test data reflects API interface type.")]
-
-[assembly: SuppressMessage(
-    "Naming",
-    "CA1707:Identifiers should not contain underscores",
-    Justification = "Standard practice for test class naming.")]

@@ -1,9 +1,4 @@
 using System.Text.Json;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FluentAssertions;
 
 namespace Utilities;
 
@@ -25,7 +20,7 @@ public class Metacatalogger
             = JsonSerializer.Deserialize<List<IndicatorListing>>(json, JsonOptions);
 
         // Act
-        var result = Metacatalog.IndicatorCatalog(BaseUrl).ToList();
+        List<IndicatorListing> result = Metacatalog.IndicatorCatalog(BaseUrl).ToList();
 
         // Assert
         result.Should().NotBeEmpty();
