@@ -1,26 +1,75 @@
-/// <summary>
-/// Provides methods for generating indicator listings.
-/// </summary>
-public static class Metadata
+using System.Text.Json;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+
+namespace Utilities;
+
+[TestClass]
+public class Metacatalogger
 {
+    private static readonly Uri BaseUrl = new("https://example.com");
+    private const string TestCatalog = "_common/Metacatalog/listings.json";
+    private static readonly JsonSerializerOptions JsonOptions = new() {
+        PropertyNameCaseInsensitive = true
+    };
+
+    [TestMethod]
+    public void IndicatorCatalogActual()
+    {
+        // Arrange
+        string json = File.ReadAllText(TestCatalog);
+        List<IndicatorListing> expectedListings
+            = JsonSerializer.Deserialize<List<IndicatorListing>>(json, JsonOptions);
+
+        // Act
+        var result = Metacatalog.IndicatorCatalog(BaseUrl).ToList();
+
+        // Assert
+        result.Should().NotBeEmpty();
+        result.Should().BeEquivalentTo(expectedListings);
+    }
+
+
+    [TestMethod]
+    public void IndicatorCatalogWithTestData()
+    {
+        // Arrange
+        string json = File.ReadAllText(TestCatalog);
+        List<IndicatorListing> expectedListings
+            = JsonSerializer.Deserialize<List<IndicatorListing>>(json, JsonOptions);
+
+        // Act
+        List<IndicatorListing> result = TestData(BaseUrl);
+
+        // Assert
+        result.Should().NotBeEmpty();
+        result.Should().BeEquivalentTo(expectedListings);
+    }
+
     /// <summary>
     /// Generates a list of indicator listings based on the specified base URL.
     /// </summary>
     /// <param name="baseUrl">
-    /// The base URL for the indicator endpoints. Example: <c>https://example.com</c>
+    /// The base URL for the indicator endpoints. Example: <c>https://example.com</c>.
+    /// Omitting the baseUrl will generate relative URLs.
     /// </param>
     /// <returns>
     /// An enumerable collection of <see cref="IndicatorListing"/> objects.
     /// </returns>
-    public static IEnumerable<IndicatorListing> IndicatorCatalog(Uri baseUrl)
+    private static List<IndicatorListing> TestData(Uri baseUrl = null)
     {
+        string baseEndpoint = baseUrl?.ToString().TrimEnd('/') ?? string.Empty;
+
         List<IndicatorListing> listing = [
             // Accumulation Distribution Line (ADL)
             new IndicatorListing {
                 Name = "Accumulation Distribution Line (ADL)",
                 Uiid = "ADL",
                 LegendTemplate = "ADL w/ SMA([P1])",
-                Endpoint = $"{baseUrl}/ADL/",
+                Endpoint = $"{baseEndpoint}/ADL/",
                 Category = "volume-based",
                 ChartType = "oscillator",
                 Parameters = [
@@ -58,7 +107,7 @@ public static class Metadata
                 Name = "Average Directional Index (ADX)",
                 Uiid = "ADX",
                 LegendTemplate = "ADX([P1])",
-                Endpoint = $"{baseUrl}/ADX/",
+                Endpoint = $"{baseEndpoint}/ADX/",
                 Category = "price-trend",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -127,7 +176,7 @@ public static class Metadata
                 Name = "Arnaud Legoux Moving Average (ALMA)",
                 Uiid = "ALMA",
                 LegendTemplate = "ALMA([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/ALMA/",
+                Endpoint = $"{baseEndpoint}/ALMA/",
                 Category = "moving-average",
                 ChartType = "overlay",
                 Parameters = [
@@ -173,7 +222,7 @@ public static class Metadata
                 Name = "Aroon Up/Down",
                 Uiid = "AROON UP/DOWN",
                 LegendTemplate = "AROON([P1]) Up/Down",
-                Endpoint = $"{baseUrl}/AROON/",
+                Endpoint = $"{baseEndpoint}/AROON/",
                 Category = "price-trend",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -233,7 +282,7 @@ public static class Metadata
                 Name = "Aroon Oscillator",
                 Uiid = "AROON OSC",
                 LegendTemplate = "AROON([P1]) Oscillator",
-                Endpoint = $"{baseUrl}/AROON/",
+                Endpoint = $"{baseEndpoint}/AROON/",
                 Category = "price-trend",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -275,7 +324,7 @@ public static class Metadata
                 Name = "ATR Trailing Stop (Close offset)",
                 Uiid = "ATR-STOP-CLOSE",
                 LegendTemplate = "ATR-STOP([P1],[P2],CLOSE)",
-                Endpoint = $"{baseUrl}/ATR-STOP-CLOSE/",
+                Endpoint = $"{baseEndpoint}/ATR-STOP-CLOSE/",
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.Front,
@@ -324,7 +373,7 @@ public static class Metadata
                 Name = "ATR Trailing Stop (High/Low offset)",
                 Uiid = "ATR-STOP-HL",
                 LegendTemplate = "ATR-STOP([P1],[P2],HIGH/LOW)",
-                Endpoint = $"{baseUrl}/ATR-STOP-HL/",
+                Endpoint = $"{baseEndpoint}/ATR-STOP-HL/",
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.Front,
@@ -373,7 +422,7 @@ public static class Metadata
                 Name = "Average True Range (ATR)",
                 Uiid = "ATR",
                 LegendTemplate = "ATR([P1])",
-                Endpoint = $"{baseUrl}/ATR/",
+                Endpoint = $"{baseEndpoint}/ATR/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 Parameters = [
@@ -403,7 +452,7 @@ public static class Metadata
                 Name = "Average True Range (ATR) Percent",
                 Uiid = "ATRP",
                 LegendTemplate = "ATR([P1]) %",
-                Endpoint = $"{baseUrl}/ATR/",
+                Endpoint = $"{baseEndpoint}/ATR/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 Parameters = [
@@ -433,7 +482,7 @@ public static class Metadata
                 Name = "Beta",
                 Uiid = "BETA",
                 LegendTemplate = "BETA([P1])",
-                Endpoint = $"{baseUrl}/BETA/",
+                Endpoint = $"{baseEndpoint}/BETA/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -488,7 +537,7 @@ public static class Metadata
                 Name = "Bollinger Bands®",
                 Uiid = "BB",
                 LegendTemplate = "BB([P1],[P2])",
-                Endpoint = $"{baseUrl}/BB/",
+                Endpoint = $"{baseEndpoint}/BB/",
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
@@ -551,7 +600,7 @@ public static class Metadata
                 Name = "Bollinger Bands® %B",
                 Uiid = "BB-PCTB",
                 LegendTemplate = "BB([P1],[P2]) %B",
-                Endpoint = $"{baseUrl}/BB/",
+                Endpoint = $"{baseEndpoint}/BB/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -613,7 +662,7 @@ public static class Metadata
                 Name = "Chaikin Money Flow (CMF)",
                 Uiid = "CMF",
                 LegendTemplate = "CMF([P1])",
-                Endpoint = $"{baseUrl}/CMF/",
+                Endpoint = $"{baseEndpoint}/CMF/",
                 Category = "volume-based",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -652,7 +701,7 @@ public static class Metadata
                 Name = "Chande Momentum Oscillator",
                 Uiid = "CMO",
                 LegendTemplate = "CMO([P1])",
-                Endpoint = $"{baseUrl}/CMO/",
+                Endpoint = $"{baseEndpoint}/CMO/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 Parameters = [
@@ -682,7 +731,7 @@ public static class Metadata
                 Name = "Chandelier Exit (long)",
                 Uiid = "CHEXIT-LONG",
                 LegendTemplate = "CHANDELIER([P1],[P2],LONG)",
-                Endpoint = $"{baseUrl}/CHEXIT-LONG/",
+                Endpoint = $"{baseEndpoint}/CHEXIT-LONG/",
                 Category = "stop-and-reverse",
                 ChartType = "overlay",
                 Parameters = [
@@ -720,7 +769,7 @@ public static class Metadata
                 Name = "Chandelier Exit (short)",
                 Uiid = "CHEXIT-SHORT",
                 LegendTemplate = "CHANDELIER([P1],[P2],SHORT)",
-                Endpoint = $"{baseUrl}/CHEXIT-SHORT/",
+                Endpoint = $"{baseEndpoint}/CHEXIT-SHORT/",
                 Category = "stop-and-reverse",
                 ChartType = "overlay",
                 Parameters = [
@@ -758,7 +807,7 @@ public static class Metadata
                 Name = "Choppiness Index",
                 Uiid = "CHOP",
                 LegendTemplate = "CHOP([P1])",
-                Endpoint = $"{baseUrl}/CHOP/",
+                Endpoint = $"{baseEndpoint}/CHOP/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -815,7 +864,7 @@ public static class Metadata
                 Name = "ConnorsRSI (CRSI)",
                 Uiid = "CRSI",
                 LegendTemplate = "CRSI([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/CRSI/",
+                Endpoint = $"{baseEndpoint}/CRSI/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -888,7 +937,7 @@ public static class Metadata
                 Name = "Doji",
                 Uiid = "DOJI",
                 LegendTemplate = "DOJI([P1]%)",
-                Endpoint = $"{baseUrl}/DOJI/",
+                Endpoint = $"{baseEndpoint}/DOJI/",
                 Category = "candlestick-pattern",
                 ChartType = "overlay",
                 Parameters = [
@@ -919,7 +968,7 @@ public static class Metadata
                 Name = "Dominant Cycle Periods",
                 Uiid = "DCPERIOD",
                 LegendTemplate = "DC PERIODS",
-                Endpoint = $"{baseUrl}/HTL/",
+                Endpoint = $"{baseEndpoint}/HTL/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -942,7 +991,7 @@ public static class Metadata
                 Name = "Donchian Channels",
                 Uiid = "DONCHIAN",
                 LegendTemplate = "DONCHIAN([P1])",
-                Endpoint = $"{baseUrl}/DONCHIAN/",
+                Endpoint = $"{baseEndpoint}/DONCHIAN/",
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
@@ -956,7 +1005,7 @@ public static class Metadata
                         Maximum = 250
                     }
                 ],
-                Results = MetadataHelpers.GetPriceBandResults("DONCHIAN", ChartColors.StandardOrange)
+                Results = MetacatalogHelpers.GetPriceBandResults("DONCHIAN", ChartColors.StandardOrange)
             },
 
             // Dynamic, McGinley
@@ -964,7 +1013,7 @@ public static class Metadata
                 Name = "McGinley Dynamic",
                 Uiid = "DYN",
                 LegendTemplate = "DYNAMIC([P1])",
-                Endpoint = $"{baseUrl}/DYN/",
+                Endpoint = $"{baseEndpoint}/DYN/",
                 Category = "moving-average",
                 ChartType = "overlay",
                 Parameters = [
@@ -994,7 +1043,7 @@ public static class Metadata
                 Name = "Elder-ray Index",
                 Uiid = "ELDER-RAY",
                 LegendTemplate = "ELDER-RAY([P1])",
-                Endpoint = $"{baseUrl}/ELDER-RAY/",
+                Endpoint = $"{baseEndpoint}/ELDER-RAY/",
                 Category = "price-trend",
                 ChartType = "oscillator",
                 Parameters = [
@@ -1034,7 +1083,7 @@ public static class Metadata
                 Name = "Endpoint Moving Average (EPMA)",
                 Uiid = "EPMA",
                 LegendTemplate = "EPMA([P1])",
-                Endpoint = $"{baseUrl}/EPMA/",
+                Endpoint = $"{baseEndpoint}/EPMA/",
                 Category = "moving-average",
                 ChartType = "overlay",
                 Parameters =
@@ -1065,7 +1114,7 @@ public static class Metadata
                 Name = "Exponential Moving Average (EMA)",
                 Uiid = "EMA",
                 LegendTemplate = "EMA([P1])",
-                Endpoint = $"{baseUrl}/EMA/",
+                Endpoint = $"{baseEndpoint}/EMA/",
                 Category = "moving-average",
                 ChartType = "overlay",
                 Parameters =
@@ -1096,7 +1145,7 @@ public static class Metadata
                 Name = "Ehlers Fisher Transform",
                 Uiid = "FISHER",
                 LegendTemplate = "FISHER([P1])",
-                Endpoint = $"{baseUrl}/FISHER/",
+                Endpoint = $"{baseEndpoint}/FISHER/",
                 Category = "price-transform",
                 ChartType = "oscillator",
                 Parameters = [
@@ -1134,7 +1183,7 @@ public static class Metadata
                 Name = "Williams Fractal (high/low)",
                 Uiid = "FRACTAL",
                 LegendTemplate = "FRACTAL([P1])",
-                Endpoint = $"{baseUrl}/FRACTAL/",
+                Endpoint = $"{baseEndpoint}/FRACTAL/",
                 Category = "price-pattern",
                 ChartType = "overlay",
                 Parameters = [
@@ -1174,7 +1223,7 @@ public static class Metadata
                 Name = "Fractal Chaos Bands",
                 Uiid = "FCB",
                 LegendTemplate = "FCB([P1])",
-                Endpoint = $"{baseUrl}/FCB/",
+                Endpoint = $"{baseEndpoint}/FCB/",
                 Category = "price-channels",
                 ChartType = "overlay",
                 Order = Order.Front,
@@ -1213,7 +1262,7 @@ public static class Metadata
                 Name = "Hilbert Transform Instantaneous Trendline",
                 Uiid = "HT Trendline",
                 LegendTemplate = "HT TRENDLINE",
-                Endpoint = $"{baseUrl}/HTL/",
+                Endpoint = $"{baseEndpoint}/HTL/",
                 Category = "moving-average",
                 ChartType = "overlay",
                 Results = [
@@ -1241,7 +1290,7 @@ public static class Metadata
                 Name = "Ichimoku Cloud",
                 Uiid = "ICHIMOKU",
                 LegendTemplate = "ICHIMOKU([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/ICHIMOKU/",
+                Endpoint = $"{baseEndpoint}/ICHIMOKU/",
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
@@ -1331,7 +1380,7 @@ public static class Metadata
                 Name = "Keltner Channels",
                 Uiid = "KELTNER",
                 LegendTemplate = "KELTNER([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/KELTNER/",
+                Endpoint = $"{baseEndpoint}/KELTNER/",
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
@@ -1361,7 +1410,7 @@ public static class Metadata
                         Maximum = 250
                     }
                 ],
-                Results = MetadataHelpers.GetPriceBandResults("KELTNER", ChartColors.StandardOrange)
+                Results = MetacatalogHelpers.GetPriceBandResults("KELTNER", ChartColors.StandardOrange)
             },
 
             // Marubozu
@@ -1369,7 +1418,7 @@ public static class Metadata
                 Name = "Marubozu",
                 Uiid = "MARUBOZU",
                 LegendTemplate = "MARUBOZU([P1]%)",
-                Endpoint = $"{baseUrl}/MARUBOZU/",
+                Endpoint = $"{baseEndpoint}/MARUBOZU/",
                 Category = "candlestick-pattern",
                 ChartType = "overlay",
                 Parameters = [
@@ -1400,7 +1449,7 @@ public static class Metadata
                 Name = "Money Flow Index (MFI)",
                 Uiid = "MFI",
                 LegendTemplate = "MFI([P1])",
-                Endpoint = $"{baseUrl}/MFI/",
+                Endpoint = $"{baseEndpoint}/MFI/",
                 Category = "volume-based",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -1457,7 +1506,7 @@ public static class Metadata
                 Name = "Moving Average Convergence/Divergence (MACD)",
                 Uiid = "MACD",
                 LegendTemplate = "MACD([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/MACD/",
+                Endpoint = $"{baseEndpoint}/MACD/",
                 Category = "price-trend",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -1528,7 +1577,7 @@ public static class Metadata
                 Name = "Parabolic Stop and Reverse (SAR)",
                 Uiid = "PSAR",
                 LegendTemplate = "PSAR([P1],[P2])",
-                Endpoint = $"{baseUrl}/PSAR/",
+                Endpoint = $"{baseEndpoint}/PSAR/",
                 Category = "stop-and-reverse",
                 ChartType = "overlay",
 
@@ -1568,7 +1617,7 @@ public static class Metadata
                 Name = "Rate of Change",
                 Uiid = "ROC",
                 LegendTemplate = "ROC([P1],[P2])",
-                Endpoint = $"{baseUrl}/ROC/",
+                Endpoint = $"{baseEndpoint}/ROC/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 Parameters = [
@@ -1614,7 +1663,7 @@ public static class Metadata
                 Name = "Relative Strength Index (RSI)",
                 Uiid = "RSI",
                 LegendTemplate = "RSI([P1])",
-                Endpoint = $"{baseUrl}/RSI/",
+                Endpoint = $"{baseEndpoint}/RSI/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -1671,7 +1720,7 @@ public static class Metadata
                 Name = "Schaff Trend Cycle (STC)",
                 Uiid = "STC",
                 LegendTemplate = "STC([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/STC/",
+                Endpoint = $"{baseEndpoint}/STC/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -1744,7 +1793,7 @@ public static class Metadata
                 Name = "Slope",
                 Uiid = "SLOPE",
                 LegendTemplate = "SLOPE([P1])",
-                Endpoint = $"{baseUrl}/SLOPE/",
+                Endpoint = $"{baseEndpoint}/SLOPE/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 Parameters = [
@@ -1774,7 +1823,7 @@ public static class Metadata
                 Name = "Linear Regression",
                 Uiid = "LINEAR",
                 LegendTemplate = "LINEAR([P1])",
-                Endpoint = $"{baseUrl}/SLOPE/",
+                Endpoint = $"{baseEndpoint}/SLOPE/",
                 Category = "price-characteristic",
                 ChartType = "overlay",
                 Parameters = [
@@ -1804,7 +1853,7 @@ public static class Metadata
                 Name = "Simple Moving Average (SMA)",
                 Uiid = "SMA",
                 LegendTemplate = "SMA([P1])",
-                Endpoint = $"{baseUrl}/SMA/",
+                Endpoint = $"{baseEndpoint}/SMA/",
                 Category = "moving-average",
                 ChartType = "overlay",
                 Parameters = [
@@ -1834,7 +1883,7 @@ public static class Metadata
                 Name = "Standard Deviation (absolute)",
                 Uiid = "STDEV",
                 LegendTemplate = "STDEV([P1])",
-                Endpoint = $"{baseUrl}/STDEV/",
+                Endpoint = $"{baseEndpoint}/STDEV/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 Parameters = [
@@ -1880,7 +1929,7 @@ public static class Metadata
                 Name = "Standard Deviation (Z-Score)",
                 Uiid = "STDEV-ZSCORE",
                 LegendTemplate = "STDEV-ZSCORE([P1])",
-                Endpoint = $"{baseUrl}/STDEV/",
+                Endpoint = $"{baseEndpoint}/STDEV/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 Parameters = [
@@ -1910,7 +1959,7 @@ public static class Metadata
                 Name = "STARC Bands",
                 Uiid = "STARC",
                 LegendTemplate = "STARC([P1],[P2],[P3])",
-                Endpoint = $"{baseUrl}/STARC/",
+                Endpoint = $"{baseEndpoint}/STARC/",
                 Category = "price-channel",
                 ChartType = "overlay",
                 Order = Order.BehindPrice,
@@ -1940,7 +1989,7 @@ public static class Metadata
                         Maximum = 50
                     }
                 ],
-                Results = MetadataHelpers.GetPriceBandResults("STARC", ChartColors.StandardOrange)
+                Results = MetacatalogHelpers.GetPriceBandResults("STARC", ChartColors.StandardOrange)
             },
 
             // Stochastic Momentum Index
@@ -1948,7 +1997,7 @@ public static class Metadata
                 Name = "Stochastic Momentum Index",
                 Uiid = "SMI",
                 LegendTemplate = "SMI([P1],[P2],[P3],[P4])",
-                Endpoint = $"{baseUrl}/SMI/",
+                Endpoint = $"{baseEndpoint}/SMI/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -2034,7 +2083,7 @@ public static class Metadata
                 Name = "Stochastic Oscillator",
                 Uiid = "STO",
                 LegendTemplate = "STOCH %K([P1]) %D([P2])",
-                Endpoint = $"{baseUrl}/STO/",
+                Endpoint = $"{baseEndpoint}/STO/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -2104,7 +2153,7 @@ public static class Metadata
                 Name = "Stochastic RSI",
                 Uiid = "STOCHRSI",
                 LegendTemplate = "STOCH-RSI ([P1],[P2],[P3],[P4])",
-                Endpoint = $"{baseUrl}/STORSI/",
+                Endpoint = $"{baseEndpoint}/STORSI/",
                 Category = "oscillator",
                 ChartType = "oscillator",
                 ChartConfig = new ChartConfig {
@@ -2190,7 +2239,7 @@ public static class Metadata
                 Name = "SuperTrend",
                 Uiid = "SUPERTREND",
                 LegendTemplate = "SUPERTREND([P1],[P2])",
-                Endpoint = $"{baseUrl}/SUPERTREND/",
+                Endpoint = $"{baseEndpoint}/SUPERTREND/",
                 Category = "price-trend",
                 ChartType = "overlay",
                 Order = Order.Front,
@@ -2246,7 +2295,7 @@ public static class Metadata
                 Name = "Ulcer Index (UI)",
                 Uiid = "ULCER",
                 LegendTemplate = "ULCER([P1])",
-                Endpoint = $"{baseUrl}/ULCER/",
+                Endpoint = $"{baseEndpoint}/ULCER/",
                 Category = "price-characteristic",
                 ChartType = "oscillator",
                 Parameters = [
@@ -2276,7 +2325,7 @@ public static class Metadata
                 Name = "Vortex Indicator",
                 Uiid = "VORTEX",
                 LegendTemplate = "VORTEX([P1])",
-                Endpoint = $"{baseUrl}/VORTEX/",
+                Endpoint = $"{baseEndpoint}/VORTEX/",
                 Category = "price-trend",
                 ChartType = "oscillator",
                 Parameters = [
@@ -2314,7 +2363,7 @@ public static class Metadata
                 Name = "Williams Alligator",
                 Uiid = "ALLIGATOR",
                 LegendTemplate = "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
-                Endpoint = $"{baseUrl}/ALLIGATOR/",
+                Endpoint = $"{baseEndpoint}/ALLIGATOR/",
                 Category = "price-trend",
                 ChartType = "overlay",
                 Parameters = [
@@ -2400,7 +2449,7 @@ public static class Metadata
                 Name = "Zig Zag (close)",
                 Uiid = "ZIGZAG-CL",
                 LegendTemplate = "ZIGZAG([P1]% CLOSE)",
-                Endpoint = $"{baseUrl}/ZIGZAG-CLOSE/",
+                Endpoint = $"{baseEndpoint}/ZIGZAG-CLOSE/",
                 Category = "price-transform",
                 ChartType = "overlay",
                 Parameters = [
@@ -2446,7 +2495,7 @@ public static class Metadata
                 Name = "Zig Zag (high/low)",
                 Uiid = "ZIGZAG-HL",
                 LegendTemplate = "ZIGZAG([P1]% HIGH/LOW)",
-                Endpoint = $"{baseUrl}/ZIGZAG-HIGHLOW/",
+                Endpoint = $"{baseEndpoint}/ZIGZAG-HIGHLOW/",
                 Category = "price-transform",
                 ChartType = "overlay",
                 Parameters = [

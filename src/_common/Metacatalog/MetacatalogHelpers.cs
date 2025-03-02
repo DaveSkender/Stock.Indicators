@@ -1,7 +1,7 @@
 /// <summary>
 /// Provides helper methods for generating chart configurations and indicator result configurations.
 /// </summary>
-internal static class MetadataHelpers
+internal static class MetacatalogHelpers
 {
     /// <summary>
     /// Generates a default oscillator chart configuration.

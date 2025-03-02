@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		src\gitversion.yml = src\gitversion.yml
-		tests\tests.integration.runsettings = tests\tests.integration.runsettings
-		tests\tests.unit.runsettings = tests\tests.unit.runsettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indicators", "src\Indicators.csproj", "{8D0F1781-EDA3-4C51-B05D-D33FF1156E49}"
@@ -26,6 +24,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Integration", "tests\external\integration\Tests.Integration.csproj", "{88C59340-F6C6-497B-A7F3-08ACCC8873EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.PublicApi", "tests\external\public-api\Tests.PublicApi.csproj", "{D6CF664F-8232-4EE9-B044-CA34A0BA522E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestConfiguration", "TestConfiguration", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Packages.props = tests\Directory.Packages.props
+		tests\tests.integration.runsettings = tests\tests.integration.runsettings
+		tests\tests.unit.runsettings = tests\tests.unit.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

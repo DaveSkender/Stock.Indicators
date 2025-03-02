@@ -259,7 +259,7 @@
     "name": "ATR Trailing Stop (High/Low offset)",
     "uiid": "ATR-STOP-HL",
     "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
-    "endpoint": "https://example.com/ATR-STOP-CLOSE/",
+    "endpoint": "https://example.com/ATR-STOP-HL/",
     "category": "price-trend",
     "chartType": "overlay",
     "order": 1,
@@ -908,7 +908,7 @@
     },
     "parameters": [
       {
-        "displayName": "Lookback Periods",
+        "displayName": "RSI Periods",
         "paramName": "rsiPeriods",
         "dataType": "int",
         "minimum": 2,
