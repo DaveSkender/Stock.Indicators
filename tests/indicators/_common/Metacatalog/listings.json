@@ -2,7 +2,6 @@
   {
     "name": "Accumulation Distribution Line (ADL)",
     "uiid": "ADL",
-    "legendTemplate": "ADL w/ SMA([P1])",
     "endpoint": "https://example.com/ADL/",
     "category": "volume-based",
     "chartType": "oscillator",
@@ -46,8 +45,6 @@
   {
     "name": "Arnaud Legoux Moving Average (ALMA)",
     "uiid": "ALMA",
-    "legendTemplate": "ALMA([P1],[P2],[P3])",
-    "endpoint": "https://example.com/ALMA/",
     "category": "moving-average",
     "chartType": "overlay",
     "order": 1,
@@ -93,53 +90,9 @@
     ]
   },
   {
-    "name": "Aroon Oscillator",
-    "uiid": "AROON OSC",
-    "legendTemplate": "AROON([P1]) Oscillator",
-    "endpoint": "https://example.com/AROON/",
-    "category": "price-trend",
-    "chartType": "oscillator",
-    "order": 1,
-    "chartConfig": {
-      "minimumYAxis": -100,
-      "maximumYAxis": 100,
-      "thresholds": [
-        {
-          "value": 0,
-          "color": "#42424280",
-          "style": "dash",
-          "fill": null
-        }
-      ]
-    },
-    "parameters": [
-      {
-        "displayName": "Lookback Periods",
-        "paramName": "lookbackPeriods",
-        "dataType": "int",
-        "minimum": 1,
-        "maximum": 250,
-        "defaultValue": 25
-      }
-    ],
-    "results": [
-      {
-        "displayName": "Oscillator",
-        "tooltipTemplate": "AROON([P1]) Oscillator",
-        "dataName": "oscillator",
-        "dataType": "number",
-        "lineType": "solid",
-        "stack": null,
-        "lineWidth": 2,
-        "defaultColor": "#1E88E5",
-        "fill": null
-      }
-    ]
-  },
-  {
     "name": "Aroon Up/Down",
-    "uiid": "AROON UP/DOWN",
-    "legendTemplate": "AROON([P1]) Up/Down",
+    "uiid": "AROON",
+    "legendOverride": "AROON([P1]) Up/Down",
     "endpoint": "https://example.com/AROON/",
     "category": "price-trend",
     "chartType": "oscillator",
@@ -204,9 +157,54 @@
     ]
   },
   {
+    "name": "Aroon Oscillator",
+    "uiid": "AROON-OSC",
+    "uiidEndpoint": "AROON",
+    "legendOverride": "AROON([P1]) Oscillator",
+    "endpoint": "https://example.com/AROON/",
+    "category": "price-trend",
+    "chartType": "oscillator",
+    "order": 1,
+    "chartConfig": {
+      "minimumYAxis": -100,
+      "maximumYAxis": 100,
+      "thresholds": [
+        {
+          "value": 0,
+          "color": "#42424280",
+          "style": "dash",
+          "fill": null
+        }
+      ]
+    },
+    "parameters": [
+      {
+        "displayName": "Lookback Periods",
+        "paramName": "lookbackPeriods",
+        "dataType": "int",
+        "minimum": 1,
+        "maximum": 250,
+        "defaultValue": 25
+      }
+    ],
+    "results": [
+      {
+        "displayName": "Oscillator",
+        "tooltipTemplate": "AROON([P1]) Oscillator",
+        "dataName": "oscillator",
+        "dataType": "number",
+        "lineType": "solid",
+        "stack": null,
+        "lineWidth": 2,
+        "defaultColor": "#1E88E5",
+        "fill": null
+      }
+    ]
+  },
+  {
     "name": "ATR Trailing Stop (Close offset)",
     "uiid": "ATR-STOP-CLOSE",
-    "legendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
+    "legendOverride": "ATR-STOP([P1],[P2],CLOSE)",
     "endpoint": "https://example.com/ATR-STOP-CLOSE/",
     "category": "price-trend",
     "chartType": "overlay",
@@ -258,7 +256,7 @@
   {
     "name": "ATR Trailing Stop (High/Low offset)",
     "uiid": "ATR-STOP-HL",
-    "legendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
+    "legendOverride": "ATR-STOP([P1],[P2],HIGH/LOW)",
     "endpoint": "https://example.com/ATR-STOP-HL/",
     "category": "price-trend",
     "chartType": "overlay",
@@ -310,8 +308,6 @@
   {
     "name": "Average Directional Index (ADX)",
     "uiid": "ADX",
-    "legendTemplate": "ADX([P1])",
-    "endpoint": "https://example.com/ADX/",
     "category": "price-trend",
     "chartType": "oscillator",
     "order": 1,
@@ -393,8 +389,6 @@
   {
     "name": "Average True Range (ATR)",
     "uiid": "ATR",
-    "legendTemplate": "ATR([P1])",
-    "endpoint": "https://example.com/ATR/",
     "category": "price-characteristic",
     "chartType": "oscillator",
     "order": 1,
@@ -426,7 +420,8 @@
   {
     "name": "Average True Range (ATR) Percent",
     "uiid": "ATRP",
-    "legendTemplate": "ATR([P1]) %",
+    "uiidEndpoint": "ATR",
+    "legendOverride": "ATR([P1]) %",
     "endpoint": "https://example.com/ATR/",
     "category": "price-characteristic",
     "chartType": "oscillator",
@@ -459,7 +454,6 @@
   {
     "name": "Beta",
     "uiid": "BETA",
-    "legendTemplate": "BETA([P1])",
     "endpoint": "https://example.com/BETA/",
     "category": "price-characteristic",
     "chartType": "oscillator",
@@ -525,8 +519,6 @@
   {
     "name": "Bollinger Bands®",
     "uiid": "BB",
-    "legendTemplate": "BB([P1],[P2])",
-    "endpoint": "https://example.com/BB/",
     "category": "price-channel",
     "chartType": "overlay",
     "order": 80,
@@ -592,7 +584,8 @@
   {
     "name": "Bollinger Bands® %B",
     "uiid": "BB-PCTB",
-    "legendTemplate": "BB([P1],[P2]) %B",
+    "uiidEndpoint": "BB",
+    "legendOverride": "BB([P1],[P2]) %B",
     "endpoint": "https://example.com/BB/",
     "category": "oscillator",
     "chartType": "oscillator",
@@ -658,8 +651,6 @@
   {
     "name": "Chaikin Money Flow (CMF)",
     "uiid": "CMF",
-    "legendTemplate": "CMF([P1])",
-    "endpoint": "https://example.com/CMF/",
     "category": "volume-based",
     "chartType": "oscillator",
     "order": 1,
@@ -702,8 +693,6 @@
   {
     "name": "Chande Momentum Oscillator",
     "uiid": "CMO",
-    "legendTemplate": "CMO([P1])",
-    "endpoint": "https://example.com/CMO/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -735,7 +724,7 @@
   {
     "name": "Chandelier Exit (long)",
     "uiid": "CHEXIT-LONG",
-    "legendTemplate": "CHANDELIER([P1],[P2],LONG)",
+    "legendOverride": "CHANDELIER([P1],[P2],LONG)",
     "endpoint": "https://example.com/CHEXIT-LONG/",
     "category": "stop-and-reverse",
     "chartType": "overlay",
@@ -776,7 +765,7 @@
   {
     "name": "Chandelier Exit (short)",
     "uiid": "CHEXIT-SHORT",
-    "legendTemplate": "CHANDELIER([P1],[P2],SHORT)",
+    "legendOverride": "CHANDELIER([P1],[P2],SHORT)",
     "endpoint": "https://example.com/CHEXIT-SHORT/",
     "category": "stop-and-reverse",
     "chartType": "overlay",
@@ -817,8 +806,6 @@
   {
     "name": "Choppiness Index",
     "uiid": "CHOP",
-    "legendTemplate": "CHOP([P1])",
-    "endpoint": "https://example.com/CHOP/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -875,8 +862,6 @@
   {
     "name": "ConnorsRSI (CRSI)",
     "uiid": "CRSI",
-    "legendTemplate": "CRSI([P1],[P2],[P3])",
-    "endpoint": "https://example.com/CRSI/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -949,8 +934,6 @@
   {
     "name": "Doji",
     "uiid": "DOJI",
-    "legendTemplate": "DOJI([P1]%)",
-    "endpoint": "https://example.com/DOJI/",
     "category": "candlestick-pattern",
     "chartType": "overlay",
     "order": 1,
@@ -982,7 +965,8 @@
   {
     "name": "Dominant Cycle Periods",
     "uiid": "DCPERIOD",
-    "legendTemplate": "DC PERIODS",
+    "uiidEndpoint": "HTL",
+    "legendOverride": "DC PERIODS",
     "endpoint": "https://example.com/HTL/",
     "category": "price-characteristic",
     "chartType": "oscillator",
@@ -1010,8 +994,6 @@
   {
     "name": "Donchian Channels",
     "uiid": "DONCHIAN",
-    "legendTemplate": "DONCHIAN([P1])",
-    "endpoint": "https://example.com/DONCHIAN/",
     "category": "price-channel",
     "chartType": "overlay",
     "order": 80,
@@ -1069,8 +1051,6 @@
   {
     "name": "Ehlers Fisher Transform",
     "uiid": "FISHER",
-    "legendTemplate": "FISHER([P1])",
-    "endpoint": "https://example.com/FISHER/",
     "category": "price-transform",
     "chartType": "oscillator",
     "order": 1,
@@ -1113,8 +1093,6 @@
   {
     "name": "Elder-ray Index",
     "uiid": "ELDER-RAY",
-    "legendTemplate": "ELDER-RAY([P1])",
-    "endpoint": "https://example.com/ELDER-RAY/",
     "category": "price-trend",
     "chartType": "oscillator",
     "order": 1,
@@ -1157,8 +1135,6 @@
   {
     "name": "Endpoint Moving Average (EPMA)",
     "uiid": "EPMA",
-    "legendTemplate": "EPMA([P1])",
-    "endpoint": "https://example.com/EPMA/",
     "category": "moving-average",
     "chartType": "overlay",
     "order": 1,
@@ -1190,8 +1166,6 @@
   {
     "name": "Exponential Moving Average (EMA)",
     "uiid": "EMA",
-    "legendTemplate": "EMA([P1])",
-    "endpoint": "https://example.com/EMA/",
     "category": "moving-average",
     "chartType": "overlay",
     "order": 1,
@@ -1223,8 +1197,6 @@
   {
     "name": "Fractal Chaos Bands",
     "uiid": "FCB",
-    "legendTemplate": "FCB([P1])",
-    "endpoint": "https://example.com/FCB/",
     "category": "price-channels",
     "chartType": "overlay",
     "order": 1,
@@ -1266,8 +1238,8 @@
   },
   {
     "name": "Hilbert Transform Instantaneous Trendline",
-    "uiid": "HT Trendline",
-    "legendTemplate": "HT TRENDLINE",
+    "uiid": "HTL",
+    "legendOverride": "HT TRENDLINE",
     "endpoint": "https://example.com/HTL/",
     "category": "moving-average",
     "chartType": "overlay",
@@ -1302,8 +1274,6 @@
   {
     "name": "Ichimoku Cloud",
     "uiid": "ICHIMOKU",
-    "legendTemplate": "ICHIMOKU([P1],[P2],[P3])",
-    "endpoint": "https://example.com/ICHIMOKU/",
     "category": "price-trend",
     "chartType": "overlay",
     "order": 80,
@@ -1399,8 +1369,6 @@
   {
     "name": "Keltner Channels",
     "uiid": "KELTNER",
-    "legendTemplate": "KELTNER([P1],[P2],[P3])",
-    "endpoint": "https://example.com/KELTNER/",
     "category": "price-channel",
     "chartType": "overlay",
     "order": 80,
@@ -1474,7 +1442,7 @@
   {
     "name": "Linear Regression",
     "uiid": "LINEAR",
-    "legendTemplate": "LINEAR([P1])",
+    "uiidEndpoint": "SLOPE",
     "endpoint": "https://example.com/SLOPE/",
     "category": "price-characteristic",
     "chartType": "overlay",
@@ -1507,7 +1475,7 @@
   {
     "name": "Marubozu",
     "uiid": "MARUBOZU",
-    "legendTemplate": "MARUBOZU([P1]%)",
+    "legendOverride": "MARUBOZU([P1]%)",
     "endpoint": "https://example.com/MARUBOZU/",
     "category": "candlestick-pattern",
     "chartType": "overlay",
@@ -1539,9 +1507,7 @@
   },
   {
     "name": "McGinley Dynamic",
-    "uiid": "DYN",
-    "legendTemplate": "DYNAMIC([P1])",
-    "endpoint": "https://example.com/DYN/",
+    "uiid": "DYNAMIC",
     "category": "moving-average",
     "chartType": "overlay",
     "order": 1,
@@ -1573,8 +1539,6 @@
   {
     "name": "Money Flow Index (MFI)",
     "uiid": "MFI",
-    "legendTemplate": "MFI([P1])",
-    "endpoint": "https://example.com/MFI/",
     "category": "volume-based",
     "chartType": "oscillator",
     "order": 1,
@@ -1631,8 +1595,6 @@
   {
     "name": "Moving Average Convergence/Divergence (MACD)",
     "uiid": "MACD",
-    "legendTemplate": "MACD([P1],[P2],[P3])",
-    "endpoint": "https://example.com/MACD/",
     "category": "price-trend",
     "chartType": "oscillator",
     "order": 1,
@@ -1713,8 +1675,6 @@
   {
     "name": "Parabolic Stop and Reverse (SAR)",
     "uiid": "PSAR",
-    "legendTemplate": "PSAR([P1],[P2])",
-    "endpoint": "https://example.com/PSAR/",
     "category": "stop-and-reverse",
     "chartType": "overlay",
     "order": 1,
@@ -1754,8 +1714,6 @@
   {
     "name": "Rate of Change",
     "uiid": "ROC",
-    "legendTemplate": "ROC([P1],[P2])",
-    "endpoint": "https://example.com/ROC/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -1806,8 +1764,6 @@
   {
     "name": "Relative Strength Index (RSI)",
     "uiid": "RSI",
-    "legendTemplate": "RSI([P1])",
-    "endpoint": "https://example.com/RSI/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -1864,8 +1820,6 @@
   {
     "name": "Schaff Trend Cycle (STC)",
     "uiid": "STC",
-    "legendTemplate": "STC([P1],[P2],[P3])",
-    "endpoint": "https://example.com/STC/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -1938,8 +1892,6 @@
   {
     "name": "Simple Moving Average (SMA)",
     "uiid": "SMA",
-    "legendTemplate": "SMA([P1])",
-    "endpoint": "https://example.com/SMA/",
     "category": "moving-average",
     "chartType": "overlay",
     "order": 1,
@@ -1971,8 +1923,6 @@
   {
     "name": "Slope",
     "uiid": "SLOPE",
-    "legendTemplate": "SLOPE([P1])",
-    "endpoint": "https://example.com/SLOPE/",
     "category": "price-characteristic",
     "chartType": "oscillator",
     "order": 1,
@@ -2004,8 +1954,6 @@
   {
     "name": "Standard Deviation (absolute)",
     "uiid": "STDEV",
-    "legendTemplate": "STDEV([P1])",
-    "endpoint": "https://example.com/STDEV/",
     "category": "price-characteristic",
     "chartType": "oscillator",
     "order": 1,
@@ -2056,7 +2004,7 @@
   {
     "name": "Standard Deviation (Z-Score)",
     "uiid": "STDEV-ZSCORE",
-    "legendTemplate": "STDEV-ZSCORE([P1])",
+    "uiidEndpoint": "STDEV",
     "endpoint": "https://example.com/STDEV/",
     "category": "price-characteristic",
     "chartType": "oscillator",
@@ -2089,8 +2037,6 @@
   {
     "name": "STARC Bands",
     "uiid": "STARC",
-    "legendTemplate": "STARC([P1],[P2],[P3])",
-    "endpoint": "https://example.com/STARC/",
     "category": "price-channel",
     "chartType": "overlay",
     "order": 80,
@@ -2164,8 +2110,6 @@
   {
     "name": "Stochastic Momentum Index",
     "uiid": "SMI",
-    "legendTemplate": "SMI([P1],[P2],[P3],[P4])",
-    "endpoint": "https://example.com/SMI/",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -2257,7 +2201,7 @@
   {
     "name": "Stochastic Oscillator",
     "uiid": "STO",
-    "legendTemplate": "STOCH %K([P1]) %D([P2])",
+    "legendOverride": "STOCH %K([P1]) %D([P2])",
     "endpoint": "https://example.com/STO/",
     "category": "oscillator",
     "chartType": "oscillator",
@@ -2333,9 +2277,7 @@
   },
   {
     "name": "Stochastic RSI",
-    "uiid": "STOCHRSI",
-    "legendTemplate": "STOCH-RSI ([P1],[P2],[P3],[P4])",
-    "endpoint": "https://example.com/STORSI/",
+    "uiid": "STOCH-RSI",
     "category": "oscillator",
     "chartType": "oscillator",
     "order": 1,
@@ -2427,8 +2369,6 @@
   {
     "name": "SuperTrend",
     "uiid": "SUPERTREND",
-    "legendTemplate": "SUPERTREND([P1],[P2])",
-    "endpoint": "https://example.com/SUPERTREND/",
     "category": "price-trend",
     "chartType": "overlay",
     "order": 1,
@@ -2490,8 +2430,6 @@
   {
     "name": "Ulcer Index (UI)",
     "uiid": "ULCER",
-    "legendTemplate": "ULCER([P1])",
-    "endpoint": "https://example.com/ULCER/",
     "category": "price-characteristic",
     "chartType": "oscillator",
     "order": 1,
@@ -2523,8 +2461,6 @@
   {
     "name": "Vortex Indicator",
     "uiid": "VORTEX",
-    "legendTemplate": "VORTEX([P1])",
-    "endpoint": "https://example.com/VORTEX/",
     "category": "price-trend",
     "chartType": "oscillator",
     "order": 1,
@@ -2567,8 +2503,6 @@
   {
     "name": "Williams Alligator",
     "uiid": "ALLIGATOR",
-    "legendTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
-    "endpoint": "https://example.com/ALLIGATOR/",
     "category": "price-trend",
     "chartType": "overlay",
     "order": 1,
@@ -2662,8 +2596,6 @@
   {
     "name": "Williams Fractal (high/low)",
     "uiid": "FRACTAL",
-    "legendTemplate": "FRACTAL([P1])",
-    "endpoint": "https://example.com/FRACTAL/",
     "category": "price-pattern",
     "chartType": "overlay",
     "order": 1,
@@ -2705,9 +2637,8 @@
   },
   {
     "name": "Zig Zag (close)",
-    "uiid": "ZIGZAG-CL",
-    "legendTemplate": "ZIGZAG([P1]% CLOSE)",
-    "endpoint": "https://example.com/ZIGZAG-CLOSE/",
+    "uiid": "ZIGZAG-CLOSE",
+    "legendOverride": "ZIGZAG([P1]% CLOSE)",
     "category": "price-transform",
     "chartType": "overlay",
     "order": 1,
@@ -2760,8 +2691,8 @@
   },
   {
     "name": "Zig Zag (high/low)",
-    "uiid": "ZIGZAG-HL",
-    "legendTemplate": "ZIGZAG([P1]% HIGH/LOW)",
+    "uiid": "ZIGZAG-HIGHLOW",
+    "legendOverride": "ZIGZAG([P1]% HIGH/LOW)",
     "endpoint": "https://example.com/ZIGZAG-HIGHLOW/",
     "category": "price-transform",
     "chartType": "overlay",

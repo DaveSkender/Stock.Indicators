@@ -14,8 +14,11 @@ public static partial class Ema
     /// <returns>A list of EMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    [Series("EMA", "Exponential Moving Average")]
     public static IReadOnlyList<EmaResult> ToEma<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Lookback Periods", 2, 250, 20)]
         int lookbackPeriods)
         where T : IReusable
     {
