@@ -70,4 +70,9 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
   </ItemGroup>
 
+  <!-- Source generator reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\tools\CatalogGenerator\CatalogGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
 </Project>

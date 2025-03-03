@@ -1,6 +1,10 @@
 {
   // file settings
   "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.autoGuessEncoding": false,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
   "files.exclude": {
     "**/.vs/**": true,
     "**/bin/**": true,
@@ -17,10 +21,18 @@
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
   "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   // language settings
   "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
   "scss.validate": false, // false-positives on SCSS files with Jekyll front matter
+  // C# specific settings
+  "[csharp]": {
+    "files.encoding": "utf8",
+    "files.eol": "\n",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
   // markdown settings
   "markdownlint.config": {
     "MD033": false, // no-inline-html
