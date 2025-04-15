@@ -3,16 +3,14 @@
   "files.autoSave": "off",
   "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
-  "files.exclude": {
+  // search settings, auto excludes files.exclude
+  "search.exclude": {
+    "**/_site/**": true,
     "**/.vs/**": true,
     "**/bin/**": true,
     "**/obj/**": true,
     "**/TestResults/**": true,
     "**/*.csproj.user": true
-  },
-  // search settings, auto excludes files.exclude
-  "search.exclude": {
-    "**/_site/**": true
   },
   // editor settings
   "editor.codeLens": false,
