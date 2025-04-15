@@ -9,8 +9,6 @@ public static partial class VolatilityStop
     /// <summary>
     /// Removes the warmup periods from the Volatility Stop results.
     /// </summary>
-    /// <param name="results">The list of Volatility Stop results.</param>
-    /// <returns>A list of Volatility Stop results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VolatilityStopResult> RemoveWarmupPeriods(
         this IReadOnlyList<VolatilityStopResult> results)

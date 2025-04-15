@@ -8,8 +8,6 @@ public static partial class Hurst
     /// <summary>
     /// Removes the recommended warmup periods from the Hurst Exponent results.
     /// </summary>
-    /// <param name="results">The list of Hurst Exponent results.</param>
-    /// <returns>A list of Hurst Exponent results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<HurstResult> RemoveWarmupPeriods(
         this IReadOnlyList<HurstResult> results)

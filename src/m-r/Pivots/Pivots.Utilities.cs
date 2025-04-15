@@ -8,8 +8,6 @@ public static partial class Pivots
     /// <summary>
     /// Removes empty (null) periods from the pivot points results.
     /// </summary>
-    /// <param name="results">The list of pivot points results.</param>
-    /// <returns>A list of pivot points results without empty periods.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<PivotsResult> Condense(
         this IReadOnlyList<PivotsResult> results)
