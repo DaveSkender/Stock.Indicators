@@ -7,6 +7,11 @@ on:
     branches: ["*"]
   workflow_dispatch:
 
+permissions:
+  contents: read   # Required for checkout
+  actions: read    # Required for workflow runs
+  checks: write    # Required for test results
+
 jobs:
   test:
     name: unit tests

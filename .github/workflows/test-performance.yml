@@ -5,6 +5,9 @@ concurrency:
 
 on: workflow_dispatch
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
     runs-on: ubuntu-22.04
