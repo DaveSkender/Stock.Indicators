@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest an idea for this project.
-labels: ["enhancement"]
+type: Feature
 body:
   - type: markdown
     attributes:
@@ -14,23 +14,6 @@ body:
       placeholder: I'm always frustrated when [...]
     validations:
       required: true
-  - type: textarea
-    id: solution
-    attributes:
-      label: an idea
-      description: Any suggestions for a solution? Include any alternative solutions you've considered. If requesting a new [reputable indicator](https://github.com/DaveSkender/Stock.Indicators/discussions/1024), please provide the original author's publication of its recipe.
-      placeholder: I'd love it if the library could [...]
-    validations:
-      required: false
-  - type: textarea
-    id: usage
-    attributes:
-      label: code example
-      description: Any proposed implementation syntax? _This will be auto-formatted as code, so no need for \`backticks\`_.
-      render: shell
-      placeholder: var foo = quotes.AwesomeNewFeature(whatDaYaThink);
-    validations:
-      required: false
   - type: markdown
     attributes:
       value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, contact [Skender Co.](https://skenderco.com)
