@@ -105,7 +105,6 @@ public class RenkoHub<TIn>
     /// <summary>
     /// Restores the last brick marker to the state at the specified timestamp.
     /// </summary>
-    /// <param name="timestamp">The timestamp to restore to.</param>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
