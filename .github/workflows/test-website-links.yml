@@ -1,8 +1,8 @@
-name: Website URLs
+# Checks website for broken links
+name: Website Links
 
 on:
   pull_request:
-    branches: ["*"]
     paths:
       - docs/**
       - .github/workflows/test-website-links.yml
@@ -21,9 +21,6 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
@@ -34,17 +31,19 @@ jobs:
         with:
           ruby-version: 3.3
 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
       - name: Install dependencies
         run: |
-          bundle install
           gem install html-proofer
-
-      - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "data-src"
-          replace: "src"
-          regex: false
 
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
@@ -52,14 +51,13 @@ jobs:
           find: "https://dotnet.stockindicators.dev"
           replace: "http://127.0.0.1:4000"
           regex: false
+          include: "docs/**"
 
-      - name: Build site
-        run: bundle exec jekyll build
+      - name: Build and serve site
+        run: |
+          echo "Nothing to build or serve yet"
+          exit 1
 
-      - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
-
-        # see help in setup step
       - name: Test for broken URLs
         run: >
           htmlproofer _site
@@ -70,4 +68,4 @@ jobs:
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: pkill -f docfx
