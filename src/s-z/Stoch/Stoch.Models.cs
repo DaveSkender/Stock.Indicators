@@ -1,23 +1,42 @@
 namespace Skender.Stock.Indicators;
 
-/// <include file='./info.xml' path='info/type[@name="Results"]/*' />
-///
+/// <summary>
+/// Represents the result of a Stochastic Oscillator calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the data point.</param>
+/// <param name="Oscillator">The Stochastic Oscillator (%K) at this point.</param>
+/// <param name="Signal">The %D signal at this point.</param>
+/// <param name="PercentJ">The %J at this point.</param>
 [Serializable]
-public sealed class StochResult : ResultBase, IReusableResult
+public record StochResult
+(
+    DateTime Timestamp,
+    double? Oscillator,
+    double? Signal,
+    double? PercentJ
+) : IReusable
 {
-    public StochResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Oscillator { get; set; }
-    public double? Signal { get; set; }
-    public double? PercentJ { get; set; }
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Oscillator.Null2NaN();
 
     // aliases
-    public double? K => Oscillator;
-    public double? D => Signal;
-    public double? J => PercentJ;
 
-    double? IReusableResult.Value => Oscillator;
+    /// <summary>
+    /// Gets the value of the Stochastic Oscillator (%K) at this point.
+    /// It is an alias of the <see cref="Oscillator"/> property.
+    /// </summary>
+    public double? K => Oscillator;
+
+    /// <summary>
+    /// Gets the signal line value (%D) at this point.
+    /// It is an alias of the <see cref="Signal"/> property.
+    /// </summary>
+    public double? D => Signal;
+
+    /// <summary>
+    /// Gets the value of the %J line at this point.
+    /// It is an alias of the <see cref="PercentJ"/> property.
+    /// </summary>
+    public double? J => PercentJ;
 }

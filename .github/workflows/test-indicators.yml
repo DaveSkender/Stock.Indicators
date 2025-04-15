@@ -56,37 +56,25 @@ jobs:
           -warnAsError
 
       - name: Test indicators
-        env:
-          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
-          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
-          dotnet test tests/indicators/Tests.Indicators.csproj
+          dotnet test
           --configuration Release
+          --settings tests/tests.unit.runsettings
+          --results-directory ./test-results
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./test-indicators
 
       # the remaining steps are only needed from one primary instance
 
-      - name: Test other items
-        if: env.IS_PRIMARY == 'true'
-        run: >
-          dotnet test tests/other/Tests.Other.csproj
-          --configuration Release
-          --no-build
-          --verbosity normal
-          --logger trx
-          --results-directory ./test-other
-
-      - name: Post test results
-        uses: dorny/test-reporter@v1.9.1
+      - name: Post test summary
+        uses: dorny/test-reporter@v1
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
-          path: ./test-indicators/**/*.trx
+          path: ./test-results/**/*.trx
           reporter: dotnet-trx
 
       - name: Publish coverage to Codacy
@@ -94,4 +82,4 @@ jobs:
         if: env.IS_PRIMARY == 'true'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-indicators/**/coverage.cobertura.xml
+          coverage-reports: ./test-results/**/coverage.cobertura.xml

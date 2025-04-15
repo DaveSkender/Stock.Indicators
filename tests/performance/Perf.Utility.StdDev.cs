@@ -1,4 +1,4 @@
-namespace Tests.Performance;
+namespace Performance;
 
 // INTERNAL UTILITIES
 
@@ -13,7 +13,7 @@ public class UtilityStdDev
     // standard deviation
     [GlobalSetup(Targets = [nameof(StdDev)])]
     public void Setup()
-        => _values = TestData.GetLongish(Periods)
+        => _values = Data.GetLongish(Periods)
             .Select(x => (double)x.Close)
             .ToArray();
 

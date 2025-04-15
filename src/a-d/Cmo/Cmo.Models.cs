@@ -1,14 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of the Chande Momentum Oscillator (CMO) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Cmo">The Chande Momentum Oscillator value.</param>
 [Serializable]
-public sealed class CmoResult : ResultBase, IReusableResult
+public record CmoResult
+(
+    DateTime Timestamp,
+    double? Cmo = null
+) : IReusable
 {
-    public CmoResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Cmo { get; set; }
-
-    double? IReusableResult.Value => Cmo;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Cmo.Null2NaN();
 }
