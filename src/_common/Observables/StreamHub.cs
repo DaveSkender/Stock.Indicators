@@ -265,7 +265,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Removes a cached item.
     /// </summary>
-    /// <param name="cachedItem">The cached item to remove.</param>
     /// <inheritdoc/>
     public void Remove(TOut cachedItem)
     {
@@ -276,7 +275,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Removes a cached item at a specific index position.
     /// </summary>
-    /// <param name="cacheIndex">The index position of the cached item to remove.</param>
     /// <inheritdoc/>
     public void RemoveAt(int cacheIndex)
     {
@@ -288,8 +286,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Removes a range of cached items from a specific timestamp.
     /// </summary>
-    /// <param name="fromTimestamp">The timestamp from which to start removing cached items.</param>
-    /// <param name="notify">Whether to notify observers of the change.</param>
     /// <inheritdoc/>
     public void RemoveRange(DateTime fromTimestamp, bool notify)
     {
@@ -309,8 +305,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Removes a range of cached items from a specific index.
     /// </summary>
-    /// <param name="fromIndex">The index from which to start removing cached items.</param>
-    /// <param name="notify">Whether to notify observers of the change.</param>
     /// <inheritdoc/>
     public void RemoveRange(int fromIndex, bool notify)
     {
@@ -379,7 +373,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Rebuilds the cache from a specific timestamp.
     /// </summary>
-    /// <param name="fromTimestamp">The timestamp from which to start rebuilding the cache.</param>
     /// <inheritdoc/>
     public void Rebuild(DateTime fromTimestamp)
     {
@@ -405,7 +398,6 @@ public abstract partial class StreamHub<TIn, TOut> : IStreamHub<TIn, TOut>
     /// <summary>
     /// Rebuilds the cache from a specific index.
     /// </summary>
-    /// <param name="fromIndex">The index from which to start rebuilding the cache.</param>
     /// <inheritdoc/>
     public void Rebuild(int fromIndex)
     {

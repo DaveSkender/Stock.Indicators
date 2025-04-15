@@ -8,8 +8,6 @@ public static partial class ForceIndex
     /// <summary>
     /// Removes the recommended warmup periods from the Force Index results.
     /// </summary>
-    /// <param name="results">The list of Force Index results.</param>
-    /// <returns>A list of Force Index results with warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<ForceIndexResult> RemoveWarmupPeriods(
         this IReadOnlyList<ForceIndexResult> results)
