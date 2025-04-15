@@ -12,7 +12,11 @@ public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
     /// Initializes a new instance of the <see cref="EmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    public EmaList(int lookbackPeriods)
+    [Buffer("EMA", "Exponential Moving Average")]
+    public EmaList(
+        [Param("Lookback Periods", 2, 250, 20)]
+        int lookbackPeriods
+    )
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;

@@ -27,8 +27,11 @@ public static partial class Sma
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>An SMA hub.</returns>
+    [StreamHub("SMA", "Simple Moving Average")]
     public static SmaHub<TIn> ToSma<TIn>(
         this IChainProvider<TIn> chainProvider,
+
+        [Param("Lookback Periods", 2, 250, 20)]
         int lookbackPeriods)
         where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
@@ -39,6 +42,7 @@ public static partial class Sma
 /// Represents a Simple Moving Average (SMA) stream hub.
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
+
 public class SmaHub<TIn>
     : ChainProvider<TIn, SmaResult>, ISmaHub
     where TIn : IReusable
