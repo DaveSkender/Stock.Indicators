@@ -9,8 +9,6 @@ public static partial class Vortex
     /// <summary>
     /// Condenses the Vortex results by removing periods with null values.
     /// </summary>
-    /// <param name="results">The list of Vortex results.</param>
-    /// <returns>A condensed list of Vortex results with null values removed.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VortexResult> Condense(
         this IReadOnlyList<VortexResult> results)
@@ -29,8 +27,6 @@ public static partial class Vortex
     /// <summary>
     /// Removes the warmup periods from the Vortex results.
     /// </summary>
-    /// <param name="results">The list of Vortex results.</param>
-    /// <returns>A list of Vortex results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VortexResult> RemoveWarmupPeriods(
         this IReadOnlyList<VortexResult> results)

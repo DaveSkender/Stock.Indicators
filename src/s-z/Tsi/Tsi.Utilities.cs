@@ -9,8 +9,6 @@ public static partial class Tsi
     /// <summary>
     /// Removes the warmup periods from the TSI results.
     /// </summary>
-    /// <param name="results">The TSI results.</param>
-    /// <returns>The TSI results without the warmup periods.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<TsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<TsiResult> results)

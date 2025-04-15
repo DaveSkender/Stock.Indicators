@@ -5,6 +5,12 @@ on: workflow_dispatch
 concurrency:
   group: docs-website
 
+env:
+  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Cloudflare Pages
@@ -36,7 +42,7 @@ jobs:
         run: echo "version=$(date +'%Y.%m.%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Replace cache markers
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "YYYY.MM.DD"
           replace: "${{ steps.tag.outputs.version }}"
@@ -50,7 +56,7 @@ jobs:
       - name: Publish to Cloudflare Pages
         id: deploy
         if: github.ref != 'refs/heads/v3'
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v3.1.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
