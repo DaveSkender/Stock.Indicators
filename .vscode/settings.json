@@ -1,6 +1,8 @@
 {
   // file settings
   "files.encoding": "utf8",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 3000,
   // search settings, auto excludes files.exclude
   "search.exclude": {
     "**/_site/**": true,
@@ -16,9 +18,6 @@
   "editor.codeLens": false,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "editor.formatOnType": true,
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "all",
   "editor.rulers": [80, 120],
