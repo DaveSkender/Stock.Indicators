@@ -14,6 +14,7 @@ It then generates a catalog of all indicators with their metadata, parameters, a
 ## How it Works
 
 During compilation, the source generator:
+
 1. Scans the codebase for methods and constructors with the appropriate indicator attributes
 2. Extracts metadata like ID, name, and parameters
 3. Generates a static class `GeneratedIndicatorCatalog` with a method to access all indicators
@@ -51,16 +52,3 @@ The catalog generator is integrated as an analyzer in the main Stock.Indicators 
 - No need for manual catalog maintenance
 - Complete coverage of all indicators in the codebase
 - Consistent metadata for all indicators
-
-## New Content and Instructions
-
-The CatalogGenerator now includes additional features and improvements:
-
-- Support for new indicator attributes: `IndicatorAttribute` and `IndicatorParamAttribute`
-- Enhanced metacatalog functionality with `Metacatalog.cs` and `MetacatalogHelpers.cs`
-- New schema classes for chart configurations: `ChartColors.cs`, `ChartConfig.cs`, `ChartFill.cs`, `ChartThreshold.cs`, `Emum.cs`, `IndicatorListing.cs`, `IndicatorParamConfig.cs`, `IndicatorResultConfig.cs`
-- Improved validation with `UrlSafeAttribute.cs`
-- Updated methods for EMA, SMA, and True Range calculations
-- Comprehensive tests for indicators and metacatalog
-- New project references and global usings for CatalogGenerator
-- Detailed documentation and examples for using the generated catalog

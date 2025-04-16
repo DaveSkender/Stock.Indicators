@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Sma
 {
-    /// <summary>
+/// <summary>
     /// Calculates the Simple Moving Average (SMA) for a given source list and lookback period.
     /// </summary>
     /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
@@ -69,3 +69,4 @@ public static partial class Sma
         return new List<SmaResult>(results);
     }
 }
+

@@ -1,3 +1,6 @@
+// This is just a simple test program to verify that attributes are correctly recognized
+// by our source generator
+
 namespace Stock.Indicators.Generator.Test;
 #pragma warning disable CS9113 // Parameter is unread
 
