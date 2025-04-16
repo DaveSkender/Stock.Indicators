@@ -210,4 +210,77 @@ public class Metacatalogger
         // Act & Assert
         indicator.LegendTemplate.Should().Be("Custom Legend");
     }
+
+    [TestMethod]
+    public void CatalogListingsOnlyForIndicatorsWithAttribute()
+    {
+        // Act
+        IReadOnlyList<IndicatorListing> result = Metacatalog.IndicatorCatalog();
+
+        // Assert
+        result.Should().OnlyContain(x => x.Category != null && x.ChartType != null,
+            "Catalog listings should only be generated for indicators with the IndicatorAttribute");
+    }
+
+    [TestMethod]
+    public void CodeAnalysisWarningWhenAttributeNotSpecified()
+    {
+        // Arrange
+        var compilation = CSharpCompilation.Create("TestAssembly")
+            .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location))
+            .AddSyntaxTrees(CSharpSyntaxTree.ParseText(@"
+                namespace TestNamespace
+                {
+                    public class TestClass
+                    {
+                        public void TestMethod() { }
+                    }
+                }
+            "));
+
+        var diagnostics = compilation.GetDiagnostics();
+
+        // Act
+        var warning = diagnostics.FirstOrDefault(d => d.Id == "CS1591");
+
+        // Assert
+        warning.Should().NotBeNull("Code analysis warning should be emitted when IndicatorAttribute is not specified");
+    }
+
+    [TestMethod]
+    public void ErrorWhenUIIDNotDefinedUniquely()
+    {
+        // Arrange
+        var duplicateIndicator = new IndicatorListing
+        {
+            Name = "Duplicate Indicator",
+            Uiid = "DUPLICATE",
+            Category = "test-category",
+            ChartType = "overlay",
+            Parameters = [],
+            Results = [
+                new IndicatorResultConfig
+                {
+                    DisplayName = "Test Result",
+                    TooltipTemplate = "TEST([P1])",
+                    DataName = "testResult",
+                    DataType = "number",
+                    LineType = "solid",
+                    DefaultColor = ChartColors.StandardBlue
+                }
+            ]
+        };
+
+        var catalog = new List<IndicatorListing>
+        {
+            duplicateIndicator,
+            duplicateIndicator // Adding the same indicator twice to simulate duplicate UIID
+        };
+
+        // Act
+        Action act = () => Metacatalog.ValidateUniqueUIID(catalog);
+
+        // Assert
+        act.Should().Throw<InvalidOperationException>("An error should be thrown when UIID is not defined uniquely");
+    }
 }

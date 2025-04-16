@@ -120,4 +120,22 @@ public static class Metacatalog
 
         return [.. listing.OrderBy(x => x.Name)];
     }
+
+    /// <summary>
+    /// Validates that each UIID is unique within the catalog.
+    /// </summary>
+    /// <param name="catalog">The catalog to validate.</param>
+    public static void ValidateUniqueUIID(IEnumerable<IndicatorListing> catalog)
+    {
+        var duplicateUIIDs = catalog
+            .GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateUIIDs.Any())
+        {
+            throw new InvalidOperationException($"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
+        }
+    }
 }

@@ -12,44 +12,6 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         "quotes"
     };
 
-    private static string DetermineCategory(string indicatorId, string type)
-    {
-        // For test/generated indicators (those with Series, StreamHub, or Buffer attributes)
-        // use the Generated category
-        if (!string.IsNullOrEmpty(type))
-        {
-            return "Generated";
-        }
-
-        // For standard hardcoded indicators, use the specific category
-        return indicatorId switch {
-            var id when id.Contains("MA", StringComparison.OrdinalIgnoreCase) ||
-                       id is "SMA" or "EMA" or "HMA" or "WMA" or "TEMA" or "DEMA" => "moving-average",
-            var id when id is "ADX" or "AROON" => "price-trend",
-            var id when id is "ADL" or "CMF" or "MFI" => "volume-based",
-            var id when id.EndsWith("OSC", StringComparison.OrdinalIgnoreCase) ||
-                       id is "RSI" or "MACD" or "CCI" => "oscillator",
-            var id when id.Contains("PATTERN", StringComparison.OrdinalIgnoreCase) ||
-                       id.Contains("CANDLESTICK", StringComparison.OrdinalIgnoreCase) => "pattern",
-            var id when id.EndsWith("BAND", StringComparison.OrdinalIgnoreCase) ||
-                       id.Contains("CHANNEL", StringComparison.OrdinalIgnoreCase) ||
-                       id is "BB" or "KC" or "DONCHIAN" => "price-channel",
-            _ => "Generated" // Default to Generated for any unknown types
-        };
-    }
-
-    private static string DetermineChartType(string indicatorId) =>
-        indicatorId switch {
-            var id when id.EndsWith("BAND", StringComparison.OrdinalIgnoreCase) ||
-                       id.Contains("CHANNEL", StringComparison.OrdinalIgnoreCase) ||
-                       id is "BB" or "KC" or "DONCHIAN" => "overlay",
-            var id when id.Contains("OSC", StringComparison.OrdinalIgnoreCase) ||
-                       id is "RSI" or "MACD" or "CCI" or "ADX" or "AROON" or "MFI" => "oscillator",
-            var id when id.Contains("MA", StringComparison.OrdinalIgnoreCase) ||
-                       id is "SMA" or "EMA" or "HMA" or "WMA" or "TEMA" or "DEMA" => "overlay",
-            _ => "indicator"
-        };
-
     public void Initialize(GeneratorInitializationContext context) => context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
 
     public void Execute(GeneratorExecutionContext context)
@@ -100,9 +62,11 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
+                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
                     List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Series", methodSymbol.ContainingType.Name, methodSymbol.Name, parameters));
+                    indicators.Add(new(id, name, "Series", methodSymbol.ContainingType.Name, methodSymbol.Name, category, chartType, parameters));
                 }
             }
         }
@@ -128,9 +92,11 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
+                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
                     List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Stream", methodSymbol.ContainingType.Name, methodSymbol.Name, parameters));
+                    indicators.Add(new(id, name, "Stream", methodSymbol.ContainingType.Name, methodSymbol.Name, category, chartType, parameters));
                 }
             }
         }
@@ -156,9 +122,11 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
+                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
                     List<ParameterInfo> parameters = GetMethodParameters(constructorSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Buffer", constructorSymbol.ContainingType.Name, "Constructor", parameters));
+                    indicators.Add(new(id, name, "Buffer", constructorSymbol.ContainingType.Name, "Constructor", category, chartType, parameters));
                 }
             }
         }
@@ -199,8 +167,8 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
 
             sourceBuilder.AppendLine($"                Name = \"{displayName}\",");
             sourceBuilder.AppendLine($"                Uiid = \"{indicator.Id}\",");
-            sourceBuilder.AppendLine($"                Category = \"{DetermineCategory(indicator.Id, indicator.Type)}\",");
-            sourceBuilder.AppendLine($"                ChartType = \"{DetermineChartType(indicator.Id)}\",");
+            sourceBuilder.AppendLine($"                Category = \"{indicator.Category}\",");
+            sourceBuilder.AppendLine($"                ChartType = \"{indicator.ChartType}\",");
             sourceBuilder.AppendLine($"                Order = Order.Front,");
             sourceBuilder.AppendLine($"                ChartConfig = null,");
 
@@ -305,6 +273,8 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         string Type,
         string ContainingType,
         string MemberName,
+        string Category,
+        string ChartType,
         List<ParameterInfo> Parameters);
 
     private sealed record ParameterInfo(
