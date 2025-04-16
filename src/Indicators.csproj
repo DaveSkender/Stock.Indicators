@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0;net6.0</TargetFrameworks>
+    <OutputType>Library</OutputType>
     <LangVersion>13.0</LangVersion>
+
+    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
+    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
+    <NeutralLanguage>en-US</NeutralLanguage>
 
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
@@ -12,10 +17,6 @@
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-
-    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
-    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
-    <NeutralLanguage>en-US</NeutralLanguage>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -43,7 +44,6 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <NoWarn>$(NoWarn);NU1507</NoWarn>
 
   </PropertyGroup>
 
@@ -68,6 +68,11 @@
 
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- Source generator reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\tools\CatalogGenerator\CatalogGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

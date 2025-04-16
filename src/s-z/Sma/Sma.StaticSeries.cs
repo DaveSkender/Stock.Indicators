@@ -14,8 +14,11 @@ public static partial class Sma
     /// <returns>A read-only list of SMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
+    [Series("SMA", "Simple Moving Average")]
     public static IReadOnlyList<SmaResult> ToSma<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Lookback Periods", 2, 250, 20)]
         int lookbackPeriods)
         where T : IReusable
     {

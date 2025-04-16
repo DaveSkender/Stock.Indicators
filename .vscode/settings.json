@@ -1,7 +1,5 @@
 {
   // file settings
-  "files.autoSave": "off",
-  "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
   // search settings, auto excludes files.exclude
   "search.exclude": {
@@ -10,13 +8,22 @@
     "**/bin/**": true,
     "**/obj/**": true,
     "**/TestResults/**": true,
-    "**/*.csproj.user": true
+    "**/*.csproj.user": true,
+    "**/*.log": true,
+    "**/*.tmp": true
   },
   // editor settings
   "editor.codeLens": false,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
   "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [80, 120],
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   // language settings
   "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",

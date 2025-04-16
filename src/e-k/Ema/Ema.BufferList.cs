@@ -12,7 +12,11 @@ public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
     /// Initializes a new instance of the <see cref="EmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    public EmaList(int lookbackPeriods)
+    [Buffer("EMA", "Exponential Moving Average")]
+    public EmaList(
+        [Param("Lookback Periods", 2, 250, 20)]
+        int lookbackPeriods
+    )
     {
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
@@ -122,5 +126,51 @@ public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
         {
             Add(quotes[i].Timestamp, quotes[i].Value);
         }
+    }
+
+    /// <summary>
+    /// Adds a new value to the EMA list with a specified timestamp.
+    /// </summary>
+    /// <param name="timestamp">The timestamp of the value.</param>
+    /// <param name="value">The value to add.</param>
+    public void AddValue(DateTime timestamp, double value)
+    {
+        Add(timestamp, value);
+    }
+
+    /// <summary>
+    /// Adds a new reusable value to the EMA list with a specified timestamp.
+    /// </summary>
+    /// <param name="value">The reusable value to add.</param>
+    public void AddReusable(IReusable value)
+    {
+        Add(value);
+    }
+
+    /// <summary>
+    /// Adds a list of reusable values to the EMA list with specified timestamps.
+    /// </summary>
+    /// <param name="values">The list of reusable values to add.</param>
+    public void AddReusables(IReadOnlyList<IReusable> values)
+    {
+        Add(values);
+    }
+
+    /// <summary>
+    /// Adds a new quote to the EMA list with a specified timestamp.
+    /// </summary>
+    /// <param name="quote">The quote to add.</param>
+    public void AddQuote(IQuote quote)
+    {
+        Add(quote);
+    }
+
+    /// <summary>
+    /// Adds a list of quotes to the EMA list with specified timestamps.
+    /// </summary>
+    /// <param name="quotes">The list of quotes to add.</param>
+    public void AddQuotes(IReadOnlyList<IQuote> quotes)
+    {
+        Add(quotes);
     }
 }

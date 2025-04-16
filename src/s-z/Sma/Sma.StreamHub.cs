@@ -1,57 +1,57 @@
 namespace Skender.Stock.Indicators;
 
-// SIMPLE MOVING AVERAGE (STREAM HUB)
-
-#region hub interface and initializer
-
 /// <summary>
-/// Interface for Simple Moving Average (SMA) hub.
+/// Interface for Simple Moving Average (SMA) calculations.
 /// </summary>
-public interface ISmaHub
+public interface ISma
 {
     /// <summary>
-    /// Gets the number of lookback periods.
+    /// Gets the number of periods to look back for the calculation.
     /// </summary>
     int LookbackPeriods { get; }
 }
 
 /// <summary>
-/// Provides methods for creating SMA hubs.
+/// Provides methods for calculating the Simple Moving Average (SMA) indicator.
 /// </summary>
 public static partial class Sma
 {
     /// <summary>
-    /// Converts the chain provider to an SMA hub.
+    /// Creates an SMA hub from a chain provider.
     /// </summary>
-    /// <typeparam name="TIn">The type of the input.</typeparam>
+    /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>An SMA hub.</returns>
-    public static SmaHub<TIn> ToSma<TIn>(
-        this IChainProvider<TIn> chainProvider,
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    [StreamHub("SMA", "Simple Moving Average")]
+    public static SmaHub<T> ToSma<T>(
+        this IChainProvider<T> chainProvider,
+
+        [Param("Lookback Periods", 2, 250, 20)]
         int lookbackPeriods)
-        where TIn : IReusable
+        where T : IReusable
         => new(chainProvider, lookbackPeriods);
 }
-#endregion
 
 /// <summary>
-/// Represents a Simple Moving Average (SMA) stream hub.
+/// Represents a hub for Simple Moving Average (SMA) calculations.
 /// </summary>
-/// <typeparam name="TIn">The type of the input.</typeparam>
+/// <typeparam name="TIn">The type of the input data.</typeparam>
 public class SmaHub<TIn>
-    : ChainProvider<TIn, SmaResult>, ISmaHub
+    : ChainProvider<TIn, SmaResult>, ISma
     where TIn : IReusable
 {
-    #region constructors
-
     private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaHub{TIn}"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal SmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -62,14 +62,9 @@ public class SmaHub<TIn>
 
         Reinitialize();
     }
-    #endregion
 
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
-
-    // METHODS
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
@@ -80,10 +75,22 @@ public class SmaHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        double sma = i >= LookbackPeriods - 1
+            ? Cache[i - 1].Sma is not null
+
+                // normal
+                ? Sma.Increment(ProviderCache, LookbackPeriods, i)
+
+                // re/initialize as SMA
+                : Sma.Increment(ProviderCache, LookbackPeriods, i)
+
+            // warmup periods are never calculable
+            : double.NaN;
+
         // candidate result
         SmaResult r = new(
             Timestamp: item.Timestamp,
-            Sma: Sma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
+            Sma: sma.NaN2Null());
 
         return (r, i);
     }
