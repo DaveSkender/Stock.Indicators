@@ -34,7 +34,7 @@ public static partial class Ema
     public static EmaHub<T> ToEma<T>(
         this IChainProvider<T> chainProvider,
 
-        [Param("Lookback Periods", 2, 250, 20)]
+        [Param("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods)
         where T : IReusable
         => new(chainProvider, lookbackPeriods);
