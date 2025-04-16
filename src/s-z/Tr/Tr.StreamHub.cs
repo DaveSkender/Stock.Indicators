@@ -12,6 +12,7 @@ public static partial class Tr
     /// <typeparam name="TIn">The type of quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>A True Range (TR) hub.</returns>
+    [StreamHub("TR", "True Range", IndicatorCategory.PriceTrend, IndicatorChartType.Overlay)]
     public static TrHub<TIn> ToTr<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote
