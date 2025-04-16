@@ -261,7 +261,7 @@ public static partial class StringOut
                     ? formattable.ToString(formats[i], culture) ?? string.Empty
                     : value?.ToString() ?? string.Empty;
 
-                columnWidth[i] = Math.max(columnWidth[i], row[i].Length);
+                columnWidth[i] = Math.Max(columnWidth[i], row[i].Length);
             }
 
             return row;
