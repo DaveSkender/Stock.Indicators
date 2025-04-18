@@ -15,7 +15,7 @@ public class Doji : StaticSeriesTestBase
 
         // sample values
         CandleResult r1 = results[1];
-        Assert.AreEqual(null, r1.Price);
+        Assert.IsNull(r1.Price);
         Assert.AreEqual(0, (int)r1.Match);
 
         CandleResult r23 = results[23];
@@ -23,11 +23,11 @@ public class Doji : StaticSeriesTestBase
         Assert.AreEqual(Match.Neutral, r23.Match);
 
         CandleResult r46 = results[46];
-        Assert.AreEqual(null, r46.Price);
+        Assert.IsNull(r46.Price);
         Assert.AreEqual(Match.None, r46.Match);
 
         CandleResult r392 = results[392];
-        Assert.AreEqual(null, r392.Price);
+        Assert.IsNull(r392.Price);
         Assert.AreEqual(Match.None, r392.Match);
 
         CandleResult r451 = results[451];
@@ -76,10 +76,10 @@ public class Doji : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad maximum change value
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToDoji(-0.00001));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToDoji(0.50001));
     }
 }

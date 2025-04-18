@@ -15,8 +15,8 @@ public class Awesome : StaticSeriesTestBase
 
         // sample values
         AwesomeResult r1 = results[32];
-        Assert.AreEqual(null, r1.Oscillator);
-        Assert.AreEqual(null, r1.Normalized);
+        Assert.IsNull(r1.Oscillator);
+        Assert.IsNull(r1.Normalized);
 
         AwesomeResult r2 = results[33];
         Assert.AreEqual(5.4756, r2.Oscillator.Round(4));
@@ -107,11 +107,11 @@ public class Awesome : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAwesome(0));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAwesome(25, 25));
     }
 }

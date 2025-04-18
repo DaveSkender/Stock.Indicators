@@ -78,7 +78,7 @@ public static class Metacatalog
         ]);
 
         // Add generated indicators
-        var generatedCatalog = GeneratedIndicatorCatalog.GetIndicators();
+        var generatedCatalog = GeneratedIndicatorCatalog.Indicators;
         catalog.AddRange(generatedCatalog);
 
         // Return sorted catalog
@@ -103,8 +103,7 @@ public static class Metacatalog
         // Add hardcoded indicators with base URL
         foreach (var indicator in IndicatorCatalog())
         {
-            listing.Add(new IndicatorListing(baseEndpoint)
-            {
+            listing.Add(new IndicatorListing(baseEndpoint) {
                 Name = indicator.Name,
                 Uiid = indicator.Uiid,
                 UiidEndpoint = indicator.UiidEndpoint,
@@ -119,5 +118,24 @@ public static class Metacatalog
         }
 
         return [.. listing.OrderBy(x => x.Name)];
+    }
+
+    /// <summary>
+    /// Validates that each UIID is unique within the catalog.
+    /// </summary>
+    /// <param name="catalog">The catalog to validate.</param>
+    public static void ValidateUniqueUIID(IEnumerable<IndicatorListing> catalog)
+    {
+        var duplicateUIIDs = catalog
+            .GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateUIIDs.Count != 0)
+        {
+            throw new InvalidOperationException(
+                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
+        }
     }
 }

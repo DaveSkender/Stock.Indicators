@@ -27,14 +27,14 @@ public class UserInterface
 
         // has duplicates
         InvalidQuotesException dx
-            = Assert.ThrowsException<InvalidQuotesException>(
+            = Assert.ThrowsExactly<InvalidQuotesException>(
                 () => quotesBad.Validate());
 
         dx.Message.Should().Contain("Duplicate date found");
 
         // out of order
         InvalidQuotesException sx
-            = Assert.ThrowsException<InvalidQuotesException>(
+            = Assert.ThrowsExactly<InvalidQuotesException>(
                 () => reverse.Validate());
 
         sx.Message.Should().Contain("Quotes are out of sequence");

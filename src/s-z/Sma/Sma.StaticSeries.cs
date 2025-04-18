@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Sma
 {
-/// <summary>
+    /// <summary>
     /// Calculates the Simple Moving Average (SMA) for a given source list and lookback period.
     /// </summary>
     /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
@@ -14,7 +14,7 @@ public static partial class Sma
     /// <returns>A read-only list of SMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
-    [Series("SMA", "Simple Moving Average")]
+    [Series("SMA", "Simple Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<SmaResult> ToSma<T>(
         this IReadOnlyList<T> source,
 

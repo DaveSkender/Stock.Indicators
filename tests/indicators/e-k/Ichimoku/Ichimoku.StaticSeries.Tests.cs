@@ -26,7 +26,7 @@ public class Ichimoku : StaticSeriesTestBase
         Assert.AreEqual(224.465m, r1.TenkanSen);
         Assert.AreEqual(221.94m, r1.KijunSen);
         Assert.AreEqual(214.8325m, r1.SenkouSpanA);
-        Assert.AreEqual(null, r1.SenkouSpanB);
+        Assert.IsNull(r1.SenkouSpanB);
         Assert.AreEqual(226.35m, r1.ChikouSpan);
 
         IchimokuResult r2 = results[249];
@@ -48,7 +48,7 @@ public class Ichimoku : StaticSeriesTestBase
         Assert.AreEqual(251.505m, r4.KijunSen);
         Assert.AreEqual(264.77m, r4.SenkouSpanA);
         Assert.AreEqual(269.82m, r4.SenkouSpanB);
-        Assert.AreEqual(null, r4.ChikouSpan);
+        Assert.IsNull(r4.ChikouSpan);
     }
 
     [TestMethod]
@@ -97,25 +97,25 @@ public class Ichimoku : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToIchimoku(0));
 
         // bad short span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToIchimoku(9, 0));
 
         // bad long span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToIchimoku(9, 26, 26));
 
         // invalid offsets
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.GetIchimoku(9, 26, 52, -1));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.GetIchimoku(9, 26, 52, -1, 12));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.GetIchimoku(9, 26, 52, 12, -1));
     }
 }

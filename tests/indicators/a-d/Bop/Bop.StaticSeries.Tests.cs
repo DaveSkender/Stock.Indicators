@@ -15,7 +15,7 @@ public class Bop : StaticSeriesTestBase
 
         // sample values
         BopResult r1 = results[12];
-        Assert.AreEqual(null, r1.Bop);
+        Assert.IsNull(r1.Bop);
 
         BopResult r2 = results[13];
         Assert.AreEqual(0.081822, r2.Bop.Round(6));
@@ -89,6 +89,6 @@ public class Bop : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToBop(0));
 }

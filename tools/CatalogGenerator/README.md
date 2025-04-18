@@ -5,6 +5,7 @@ This is a .NET source generator that automatically creates catalog entries for i
 ## Purpose
 
 The CatalogGenerator analyzes indicator classes decorated with attribute flavors:
+
 - `SeriesAttribute` (for indicator methods)
 - `StreamHubAttribute` (for streaming indicators)
 - `BufferAttribute` (for buffer-style indicators)
@@ -14,6 +15,7 @@ It then generates a catalog of all indicators with their metadata, parameters, a
 ## How it Works
 
 During compilation, the source generator:
+
 1. Scans the codebase for methods and constructors with the appropriate indicator attributes
 2. Extracts metadata like ID, name, and parameters
 3. Generates a static class `GeneratedIndicatorCatalog` with a method to access all indicators

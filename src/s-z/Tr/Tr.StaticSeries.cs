@@ -11,6 +11,7 @@ public static partial class Tr
     /// <typeparam name="TQuote">The type of quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <returns>A list of True Range (TR) results.</returns>
+    [Series("TR", "True Range", Category.PriceTrend, ChartType.Indicator)]
     public static IReadOnlyList<TrResult> ToTr<TQuote>(
     this IReadOnlyList<TQuote> quotes)
     where TQuote : IQuote => quotes

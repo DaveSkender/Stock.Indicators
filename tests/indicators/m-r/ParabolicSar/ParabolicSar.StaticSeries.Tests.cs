@@ -20,19 +20,19 @@ public class ParabolicSar : StaticSeriesTestBase
         // sample values
         ParabolicSarResult r14 = results[14];
         Assert.AreEqual(212.83, r14.Sar);
-        Assert.AreEqual(true, r14.IsReversal);
+        Assert.IsTrue(r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
         Assert.AreEqual(212.9924, r16.Sar.Round(4));
-        Assert.AreEqual(false, r16.IsReversal);
+        Assert.IsFalse(r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
         Assert.AreEqual(228.3600, r94.Sar.Round(4));
-        Assert.AreEqual(false, r94.IsReversal);
+        Assert.IsFalse(r94.IsReversal);
 
         ParabolicSarResult r501 = results[501];
         Assert.AreEqual(229.7662, r501.Sar.Round(4));
-        Assert.AreEqual(false, r501.IsReversal);
+        Assert.IsFalse(r501.IsReversal);
     }
 
     [TestMethod]
@@ -54,23 +54,23 @@ public class ParabolicSar : StaticSeriesTestBase
         // sample values
         ParabolicSarResult r14 = results[14];
         Assert.AreEqual(212.83, r14.Sar);
-        Assert.AreEqual(true, r14.IsReversal);
+        Assert.IsTrue(r14.IsReversal);
 
         ParabolicSarResult r16 = results[16];
         Assert.AreEqual(212.9518, r16.Sar.Round(4));
-        Assert.AreEqual(false, r16.IsReversal);
+        Assert.IsFalse(r16.IsReversal);
 
         ParabolicSarResult r94 = results[94];
         Assert.AreEqual(228.36, r94.Sar);
-        Assert.AreEqual(false, r94.IsReversal);
+        Assert.IsFalse(r94.IsReversal);
 
         ParabolicSarResult r486 = results[486];
         Assert.AreEqual(273.4148, r486.Sar.Round(4));
-        Assert.AreEqual(false, r486.IsReversal);
+        Assert.IsFalse(r486.IsReversal);
 
         ParabolicSarResult r501 = results[501];
         Assert.AreEqual(246.73, r501.Sar);
-        Assert.AreEqual(false, r501.IsReversal);
+        Assert.IsFalse(r501.IsReversal);
     }
 
     [TestMethod]
@@ -145,26 +145,26 @@ public class ParabolicSar : StaticSeriesTestBase
 
         ParabolicSarResult last = results[^1];
         Assert.AreEqual(229.7662, last.Sar.Round(4));
-        Assert.AreEqual(false, last.IsReversal);
+        Assert.IsFalse(last.IsReversal);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad acceleration step
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToParabolicSar(0, 1));
 
         // insufficient acceleration step
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToParabolicSar(0.02, 0));
 
         // step larger than factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToParabolicSar(6, 2));
 
         // insufficient initial factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToParabolicSar(0.02, 0.5, 0));
     }
 }

@@ -21,9 +21,9 @@ public class Pvo : StaticSeriesTestBase
 
         // sample values
         PvoResult r1 = results[24];
-        Assert.AreEqual(null, r1.Pvo);
-        Assert.AreEqual(null, r1.Signal);
-        Assert.AreEqual(null, r1.Histogram);
+        Assert.IsNull(r1.Pvo);
+        Assert.IsNull(r1.Signal);
+        Assert.IsNull(r1.Histogram);
 
         PvoResult r2 = results[33];
         Assert.AreEqual(1.5795, r2.Pvo.Round(4));
@@ -105,15 +105,15 @@ public class Pvo : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToPvo(0));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToPvo(12, 12));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToPvo(12, 26, -1));
     }
 }
