@@ -88,11 +88,11 @@ public class Reusable : TestBase
             q.ToReusable(CandlePart.OHLC4).Value.Round(10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => q.ToReusable((CandlePart)999));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => q.ToReusable((CandlePart)999));
     }
 }

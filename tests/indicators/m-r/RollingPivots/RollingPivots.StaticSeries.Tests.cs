@@ -19,59 +19,59 @@ public class RollingPivots : StaticSeriesTestBase
 
         // sample values
         RollingPivotsResult r1 = results[19];
-        Assert.AreEqual(null, r1.PP);
-        Assert.AreEqual(null, r1.S1);
-        Assert.AreEqual(null, r1.S2);
-        Assert.AreEqual(null, r1.S3);
-        Assert.AreEqual(null, r1.S4);
-        Assert.AreEqual(null, r1.R1);
-        Assert.AreEqual(null, r1.R2);
-        Assert.AreEqual(null, r1.R3);
-        Assert.AreEqual(null, r1.R4);
+        Assert.IsNull(r1.PP);
+        Assert.IsNull(r1.S1);
+        Assert.IsNull(r1.S2);
+        Assert.IsNull(r1.S3);
+        Assert.IsNull(r1.S4);
+        Assert.IsNull(r1.R1);
+        Assert.IsNull(r1.R2);
+        Assert.IsNull(r1.R3);
+        Assert.IsNull(r1.R4);
 
         RollingPivotsResult r2 = results[20];
         Assert.AreEqual(213.6367m, r2.PP.Round(4));
         Assert.AreEqual(212.1033m, r2.S1.Round(4));
         Assert.AreEqual(209.9867m, r2.S2.Round(4));
         Assert.AreEqual(208.4533m, r2.S3.Round(4));
-        Assert.AreEqual(null, r2.S4);
+        Assert.IsNull(r2.S4);
         Assert.AreEqual(215.7533m, r2.R1.Round(4));
         Assert.AreEqual(217.2867m, r2.R2.Round(4));
         Assert.AreEqual(219.4033m, r2.R3.Round(4));
-        Assert.AreEqual(null, r2.R4);
+        Assert.IsNull(r2.R4);
 
         RollingPivotsResult r3 = results[149];
         Assert.AreEqual(233.6333m, r3.PP.Round(4));
         Assert.AreEqual(231.3567m, r3.S1.Round(4));
         Assert.AreEqual(227.3733m, r3.S2.Round(4));
         Assert.AreEqual(225.0967m, r3.S3.Round(4));
-        Assert.AreEqual(null, r3.S4);
+        Assert.IsNull(r3.S4);
         Assert.AreEqual(237.6167m, r3.R1.Round(4));
         Assert.AreEqual(239.8933m, r3.R2.Round(4));
         Assert.AreEqual(243.8767m, r3.R3.Round(4));
-        Assert.AreEqual(null, r3.R4);
+        Assert.IsNull(r3.R4);
 
         RollingPivotsResult r4 = results[249];
         Assert.AreEqual(253.9533m, r4.PP.Round(4));
         Assert.AreEqual(251.5267m, r4.S1.Round(4));
         Assert.AreEqual(247.4433m, r4.S2.Round(4));
         Assert.AreEqual(245.0167m, r4.S3.Round(4));
-        Assert.AreEqual(null, r4.S4);
+        Assert.IsNull(r4.S4);
         Assert.AreEqual(258.0367m, r4.R1.Round(4));
         Assert.AreEqual(260.4633m, r4.R2.Round(4));
         Assert.AreEqual(264.5467m, r4.R3.Round(4));
-        Assert.AreEqual(null, r4.R4);
+        Assert.IsNull(r4.R4);
 
         RollingPivotsResult r5 = results[501];
         Assert.AreEqual(260.0267m, r5.PP.Round(4));
         Assert.AreEqual(246.4633m, r5.S1.Round(4));
         Assert.AreEqual(238.7767m, r5.S2.Round(4));
         Assert.AreEqual(225.2133m, r5.S3.Round(4));
-        Assert.AreEqual(null, r5.S4);
+        Assert.IsNull(r5.S4);
         Assert.AreEqual(267.7133m, r5.R1.Round(4));
         Assert.AreEqual(281.2767m, r5.R2.Round(4));
         Assert.AreEqual(288.9633m, r5.R3.Round(4));
-        Assert.AreEqual(null, r5.R4);
+        Assert.IsNull(r5.R4);
     }
 
     [TestMethod]
@@ -92,15 +92,15 @@ public class RollingPivots : StaticSeriesTestBase
 
         // sample values
         RollingPivotsResult r1 = results[9];
-        Assert.AreEqual(null, r1.R4);
-        Assert.AreEqual(null, r1.R3);
-        Assert.AreEqual(null, r1.PP);
-        Assert.AreEqual(null, r1.S1);
-        Assert.AreEqual(null, r1.S2);
-        Assert.AreEqual(null, r1.R1);
-        Assert.AreEqual(null, r1.R2);
-        Assert.AreEqual(null, r1.S3);
-        Assert.AreEqual(null, r1.S4);
+        Assert.IsNull(r1.R4);
+        Assert.IsNull(r1.R3);
+        Assert.IsNull(r1.PP);
+        Assert.IsNull(r1.S1);
+        Assert.IsNull(r1.S2);
+        Assert.IsNull(r1.R1);
+        Assert.IsNull(r1.R2);
+        Assert.IsNull(r1.S3);
+        Assert.IsNull(r1.S4);
 
         RollingPivotsResult r2 = results[10];
         Assert.AreEqual(267.0800m, r2.PP.Round(4));
@@ -163,70 +163,70 @@ public class RollingPivots : StaticSeriesTestBase
 
         // sample values
         RollingPivotsResult r1 = results[19];
-        Assert.AreEqual(null, r1.PP);
-        Assert.AreEqual(null, r1.S1);
-        Assert.AreEqual(null, r1.S2);
-        Assert.AreEqual(null, r1.S3);
-        Assert.AreEqual(null, r1.S4);
-        Assert.AreEqual(null, r1.R1);
-        Assert.AreEqual(null, r1.R2);
-        Assert.AreEqual(null, r1.R3);
-        Assert.AreEqual(null, r1.R4);
+        Assert.IsNull(r1.PP);
+        Assert.IsNull(r1.S1);
+        Assert.IsNull(r1.S2);
+        Assert.IsNull(r1.S3);
+        Assert.IsNull(r1.S4);
+        Assert.IsNull(r1.R1);
+        Assert.IsNull(r1.R2);
+        Assert.IsNull(r1.R3);
+        Assert.IsNull(r1.R4);
 
         RollingPivotsResult r2 = results[20];
         Assert.AreEqual(212.9900m, r2.PP.Round(4));
         Assert.AreEqual(210.8100m, r2.S1.Round(4));
         Assert.AreEqual(214.4600m, r2.R1.Round(4));
-        Assert.AreEqual(null, r2.R2);
-        Assert.AreEqual(null, r2.R3);
-        Assert.AreEqual(null, r2.R4);
-        Assert.AreEqual(null, r2.S2);
-        Assert.AreEqual(null, r2.S3);
-        Assert.AreEqual(null, r2.S4);
+        Assert.IsNull(r2.R2);
+        Assert.IsNull(r2.R3);
+        Assert.IsNull(r2.R4);
+        Assert.IsNull(r2.S2);
+        Assert.IsNull(r2.S3);
+        Assert.IsNull(r2.S4);
 
         RollingPivotsResult r3 = results[149];
         Assert.AreEqual(232.6525m, r3.PP.Round(4));
         Assert.AreEqual(229.3950m, r3.S1.Round(4));
         Assert.AreEqual(235.6550m, r3.R1.Round(4));
-        Assert.AreEqual(null, r3.R2);
-        Assert.AreEqual(null, r3.R3);
-        Assert.AreEqual(null, r3.R4);
-        Assert.AreEqual(null, r3.S2);
-        Assert.AreEqual(null, r3.S3);
-        Assert.AreEqual(null, r3.S4);
+        Assert.IsNull(r3.R2);
+        Assert.IsNull(r3.R3);
+        Assert.IsNull(r3.R4);
+        Assert.IsNull(r3.S2);
+        Assert.IsNull(r3.S3);
+        Assert.IsNull(r3.S4);
 
         RollingPivotsResult r4 = results[250];
         Assert.AreEqual(252.9325m, r4.PP.Round(4));
         Assert.AreEqual(249.4850m, r4.S1.Round(4));
         Assert.AreEqual(255.9950m, r4.R1.Round(4));
-        Assert.AreEqual(null, r4.R2);
-        Assert.AreEqual(null, r4.R3);
-        Assert.AreEqual(null, r4.R4);
-        Assert.AreEqual(null, r4.S2);
-        Assert.AreEqual(null, r4.S3);
-        Assert.AreEqual(null, r4.S4);
+        Assert.IsNull(r4.R2);
+        Assert.IsNull(r4.R3);
+        Assert.IsNull(r4.R4);
+        Assert.IsNull(r4.S2);
+        Assert.IsNull(r4.S3);
+        Assert.IsNull(r4.S4);
 
         RollingPivotsResult r5 = results[251];
         Assert.AreEqual(252.6700m, r5.PP.Round(4));
         Assert.AreEqual(248.9600m, r5.S1.Round(4));
         Assert.AreEqual(255.4700m, r5.R1.Round(4));
-        Assert.AreEqual(null, r5.R2);
-        Assert.AreEqual(null, r5.R3);
-        Assert.AreEqual(null, r5.R4);
-        Assert.AreEqual(null, r5.S2);
-        Assert.AreEqual(null, r5.S3);
-        Assert.AreEqual(null, r5.S4);
+        Assert.IsNull(r5.R2);
+        Assert.IsNull(r5.R3);
+        Assert.IsNull(r5.R4);
+        Assert.IsNull(r5.S2);
+        Assert.IsNull(r5.S3);
+        Assert.IsNull(r5.S4);
 
         RollingPivotsResult r6 = results[501];
         Assert.AreEqual(264.6125m, r6.PP.Round(4));
         Assert.AreEqual(255.6350m, r6.S1.Round(4));
         Assert.AreEqual(276.8850m, r6.R1.Round(4));
-        Assert.AreEqual(null, r6.R2);
-        Assert.AreEqual(null, r6.R3);
-        Assert.AreEqual(null, r6.R4);
-        Assert.AreEqual(null, r6.S2);
-        Assert.AreEqual(null, r6.S3);
-        Assert.AreEqual(null, r6.S4);
+        Assert.IsNull(r6.R2);
+        Assert.IsNull(r6.R3);
+        Assert.IsNull(r6.R4);
+        Assert.IsNull(r6.S2);
+        Assert.IsNull(r6.S3);
+        Assert.IsNull(r6.S4);
     }
 
     [TestMethod]
@@ -247,15 +247,15 @@ public class RollingPivots : StaticSeriesTestBase
 
         // sample values
         RollingPivotsResult r1 = results[58];
-        Assert.AreEqual(null, r1.R4);
-        Assert.AreEqual(null, r1.R3);
-        Assert.AreEqual(null, r1.PP);
-        Assert.AreEqual(null, r1.S1);
-        Assert.AreEqual(null, r1.S2);
-        Assert.AreEqual(null, r1.R1);
-        Assert.AreEqual(null, r1.R2);
-        Assert.AreEqual(null, r1.S3);
-        Assert.AreEqual(null, r1.S4);
+        Assert.IsNull(r1.R4);
+        Assert.IsNull(r1.R3);
+        Assert.IsNull(r1.PP);
+        Assert.IsNull(r1.S1);
+        Assert.IsNull(r1.S2);
+        Assert.IsNull(r1.R1);
+        Assert.IsNull(r1.R2);
+        Assert.IsNull(r1.S3);
+        Assert.IsNull(r1.S4);
 
         RollingPivotsResult r2 = results[59];
         Assert.AreEqual(368.4283m, r2.PP.Round(4));
@@ -321,15 +321,15 @@ public class RollingPivots : StaticSeriesTestBase
 
         // sample values
         RollingPivotsResult r2 = results[390];
-        Assert.AreEqual(null, r2.R4);
-        Assert.AreEqual(null, r2.R3);
-        Assert.AreEqual(null, r2.PP);
-        Assert.AreEqual(null, r2.S1);
-        Assert.AreEqual(null, r2.S2);
-        Assert.AreEqual(null, r2.R1);
-        Assert.AreEqual(null, r2.R2);
-        Assert.AreEqual(null, r2.S3);
-        Assert.AreEqual(null, r2.S4);
+        Assert.IsNull(r2.R4);
+        Assert.IsNull(r2.R3);
+        Assert.IsNull(r2.PP);
+        Assert.IsNull(r2.S1);
+        Assert.IsNull(r2.S2);
+        Assert.IsNull(r2.R1);
+        Assert.IsNull(r2.R2);
+        Assert.IsNull(r2.S3);
+        Assert.IsNull(r2.S4);
 
         RollingPivotsResult r3 = results[391];
         Assert.AreEqual(368.7850m, r3.PP.Round(4));
@@ -410,22 +410,22 @@ public class RollingPivots : StaticSeriesTestBase
         Assert.AreEqual(246.4633m, last.S1.Round(4));
         Assert.AreEqual(238.7767m, last.S2.Round(4));
         Assert.AreEqual(225.2133m, last.S3.Round(4));
-        Assert.AreEqual(null, last.S4);
+        Assert.IsNull(last.S4);
         Assert.AreEqual(267.7133m, last.R1.Round(4));
         Assert.AreEqual(281.2767m, last.R2.Round(4));
         Assert.AreEqual(288.9633m, last.R3.Round(4));
-        Assert.AreEqual(null, last.R4);
+        Assert.IsNull(last.R4);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad window period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToRollingPivots(0, 10));
 
         // bad offset period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToRollingPivots(10, -1));
     }
 }

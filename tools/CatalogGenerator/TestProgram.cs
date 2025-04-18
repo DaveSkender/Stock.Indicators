@@ -105,14 +105,7 @@ public class TestBuffer(
 public interface IEnumerable<T> { }
 public interface IQuote { }
 
-internal class Program
-{
-    private static void Main()
-    {
-        Console.WriteLine("This is a test program for the CatalogGenerator.");
-        Console.WriteLine("The source generator should process the following attribute types:");
-        Console.WriteLine("- SeriesAttribute (for standard indicators)");
-        Console.WriteLine("- StreamHubAttribute (for streaming indicators)");
-        Console.WriteLine("- BufferAttribute (for buffer-style indicators)");
-    }
-}
+//internal class Program
+//{
+//    private static void Main() { }
+//}

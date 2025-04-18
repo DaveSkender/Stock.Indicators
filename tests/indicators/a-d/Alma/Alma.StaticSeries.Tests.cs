@@ -19,7 +19,7 @@ public class Alma : StaticSeriesTestBase
 
         // sample values
         AlmaResult r1 = results[8];
-        Assert.AreEqual(null, r1.Alma);
+        Assert.IsNull(r1.Alma);
 
         AlmaResult r2 = results[9];
         Assert.AreEqual(214.1839, r2.Alma.Round(4));
@@ -130,15 +130,15 @@ public class Alma : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAlma(0, 1, 5));
 
         // bad offset
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAlma(15, 1.1, 3));
 
         // bad sigma
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAlma(10, 0.5, 0));
     }
 }

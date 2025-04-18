@@ -78,7 +78,7 @@ public static class Metacatalog
         ]);
 
         // Add generated indicators
-        var generatedCatalog = GeneratedIndicatorCatalog.GetIndicators();
+        var generatedCatalog = GeneratedIndicatorCatalog.Indicators;
         catalog.AddRange(generatedCatalog);
 
         // Return sorted catalog
@@ -103,8 +103,7 @@ public static class Metacatalog
         // Add hardcoded indicators with base URL
         foreach (var indicator in IndicatorCatalog())
         {
-            listing.Add(new IndicatorListing(baseEndpoint)
-            {
+            listing.Add(new IndicatorListing(baseEndpoint) {
                 Name = indicator.Name,
                 Uiid = indicator.Uiid,
                 UiidEndpoint = indicator.UiidEndpoint,
@@ -133,9 +132,10 @@ public static class Metacatalog
             .Select(g => g.Key)
             .ToList();
 
-        if (duplicateUIIDs.Any())
+        if (duplicateUIIDs.Count != 0)
         {
-            throw new InvalidOperationException($"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
+            throw new InvalidOperationException(
+                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
         }
     }
 }

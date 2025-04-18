@@ -46,7 +46,7 @@ public class Vwap : StaticSeriesTestBase
 
         // sample values
         VwapResult r1 = results[29];
-        Assert.AreEqual(null, r1.Vwap);
+        Assert.IsNull(r1.Vwap);
 
         VwapResult r2 = results[30];
         Assert.AreEqual(366.8100, r2.Vwap.Round(4));
@@ -129,7 +129,7 @@ public class Vwap : StaticSeriesTestBase
         DateTime startDate =
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", invariantCulture);
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToVwap(startDate));
     }
 }

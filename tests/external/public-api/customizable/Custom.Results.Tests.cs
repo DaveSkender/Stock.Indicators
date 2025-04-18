@@ -24,7 +24,7 @@ public class CustomResults
             MyProperty = false
         };
 
-        Assert.AreEqual(false, myIndicator.MyProperty);
+        Assert.IsFalse(myIndicator.MyProperty);
     }
 
     [TestMethod]

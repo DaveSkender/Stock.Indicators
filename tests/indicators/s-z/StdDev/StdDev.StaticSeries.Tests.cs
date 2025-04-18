@@ -16,9 +16,9 @@ public class StdDev : StaticSeriesTestBase
 
         // sample values
         StdDevResult r1 = results[8];
-        Assert.AreEqual(null, r1.StdDev);
-        Assert.AreEqual(null, r1.Mean);
-        Assert.AreEqual(null, r1.ZScore);
+        Assert.IsNull(r1.StdDev);
+        Assert.IsNull(r1.Mean);
+        Assert.IsNull(r1.ZScore);
 
         StdDevResult r2 = results[9];
         Assert.AreEqual(0.5020, r2.StdDev.Round(4));
@@ -120,6 +120,6 @@ public class StdDev : StaticSeriesTestBase
 
     [TestMethod] // bad lookback period
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStdDev(1));
 }

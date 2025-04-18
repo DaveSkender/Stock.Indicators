@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Test.Data;
 
@@ -251,8 +253,7 @@ public class Metacatalogger
     public void ErrorWhenUIIDNotDefinedUniquely()
     {
         // Arrange
-        var duplicateIndicator = new IndicatorListing
-        {
+        var duplicateIndicator = new IndicatorListing {
             Name = "Duplicate Indicator",
             Uiid = "DUPLICATE",
             Category = "test-category",

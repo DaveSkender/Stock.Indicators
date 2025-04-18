@@ -101,6 +101,6 @@ public class Roc : StaticSeriesTestBase
 
     [TestMethod] // bad lookback period
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToRoc(0));
 }

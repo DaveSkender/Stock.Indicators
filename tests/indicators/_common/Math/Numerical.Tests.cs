@@ -20,7 +20,7 @@ public class Numericals : TestBase
 
     [TestMethod]
     public void StdDevNull()
-        => Assert.ThrowsException<ArgumentNullException>(
+        => Assert.ThrowsExactly<ArgumentNullException>(
             () => Numerical.StdDev(null));
 
     [TestMethod]
@@ -33,17 +33,17 @@ public class Numericals : TestBase
 
     [TestMethod]
     public void SlopeXnull()
-        => Assert.ThrowsException<ArgumentNullException>(
+        => Assert.ThrowsExactly<ArgumentNullException>(
             () => Numerical.Slope(null, _x));
 
     [TestMethod]
     public void SlopeYnull()
-        => Assert.ThrowsException<ArgumentNullException>(
+        => Assert.ThrowsExactly<ArgumentNullException>(
             () => Numerical.Slope(_x, null));
 
     [TestMethod]
     public void SlopeMismatch()
-        => Assert.ThrowsException<ArgumentException>(
+        => Assert.ThrowsExactly<ArgumentException>(
             () => Numerical.Slope(_x, _y));
 
     [TestMethod]

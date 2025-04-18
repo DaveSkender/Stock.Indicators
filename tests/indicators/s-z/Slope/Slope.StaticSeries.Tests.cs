@@ -21,7 +21,7 @@ public class Slope : StaticSeriesTestBase
         Assert.AreEqual(180.4164, r1.Intercept.Round(4));
         Assert.AreEqual(0.8056, r1.RSquared.Round(4));
         Assert.AreEqual(2.0071, r1.StdDev.Round(4));
-        Assert.AreEqual(null, r1.Line);
+        Assert.IsNull(r1.Line);
 
         SlopeResult r2 = results[482];
         Assert.AreEqual(-0.337015, r2.Slope.Round(6));
@@ -125,6 +125,6 @@ public class Slope : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToSlope(1));
 }

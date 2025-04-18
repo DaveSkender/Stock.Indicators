@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.PublicApi", "tests\ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogGenerator", "tools\CatalogGenerator\CatalogGenerator.csproj", "{0326F1AB-4BA2-41D6-BAE8-68B25D8AD1B1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{5167F48E-E874-4B30-BD8F-9F3878EA7FDA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{F21525B6-C524-4CA8-A2DF-0E2B6E6C98D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -146,7 +146,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0326F1AB-4BA2-41D6-BAE8-68B25D8AD1B1} = {5167F48E-E874-4B30-BD8F-9F3878EA7FDA}
+		{0326F1AB-4BA2-41D6-BAE8-68B25D8AD1B1} = {F21525B6-C524-4CA8-A2DF-0E2B6E6C98D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8BDD5593-A28F-4DC3-859F-1E267864898D}

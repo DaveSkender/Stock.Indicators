@@ -25,7 +25,7 @@ public static partial class Sma
     /// <returns>An SMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [StreamHub("SMA", "Simple Moving Average", IndicatorCategory.MovingAverage, IndicatorChartType.Overlay)]
+    [StreamHub("SMA", "Simple Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static SmaHub<T> ToSma<T>(
         this IChainProvider<T> chainProvider,
 

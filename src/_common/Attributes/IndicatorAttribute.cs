@@ -11,9 +11,9 @@ namespace Skender.Stock.Indicators;
 internal sealed class SeriesAttribute(
     string Id,
     string Name,
-    IndicatorCategory Category,
-    IndicatorChartType ChartType
-) : IndicatorAttribute(Id, Name, IndicatorType.Series, Category, ChartType)
+    Category Category,
+    ChartType ChartType
+) : IndicatorAttribute(Id, Name, Style.Series, Category, ChartType)
 { }
 
 /// <summary>
@@ -27,9 +27,9 @@ internal sealed class SeriesAttribute(
 internal sealed class StreamHubAttribute(
     string Id,
     string Name,
-    IndicatorCategory Category,
-    IndicatorChartType ChartType
-) : IndicatorAttribute(Id, Name, IndicatorType.Stream, Category, ChartType)
+    Category Category,
+    ChartType ChartType
+) : IndicatorAttribute(Id, Name, Style.Stream, Category, ChartType)
 { }
 
 /// <summary>
@@ -43,9 +43,9 @@ internal sealed class StreamHubAttribute(
 internal sealed class BufferAttribute(
     string Id,
     string Name,
-    IndicatorCategory Category,
-    IndicatorChartType ChartType
-) : IndicatorAttribute(Id, Name, IndicatorType.Buffer, Category, ChartType)
+    Category Category,
+    ChartType ChartType
+) : IndicatorAttribute(Id, Name, Style.Buffer, Category, ChartType)
 { }
 
 /// <summary>
@@ -59,29 +59,29 @@ internal sealed class BufferAttribute(
 internal abstract class IndicatorAttribute(
     string Id,
     string Name,
-    IndicatorType Type,
-    IndicatorCategory Category,
-    IndicatorChartType ChartType
+    Style Type,
+    Category Category,
+    ChartType ChartType
 ) : Attribute
 {
     public string Id { get; } = Id;
     public string Name { get; } = Name;
-    public IndicatorType Type { get; } = Type;
-    public IndicatorCategory Category { get; } = Category;
-    public IndicatorChartType ChartType { get; } = ChartType;
+    public Style Style { get; } = Type;
+    public Category Category { get; } = Category;
+    public ChartType ChartType { get; } = ChartType;
 
     /// <inheritdoc/>
-    public override string ToString() => $"{Type}: {Name} ({Id})";
+    public override string ToString() => $"{Style}: {Name} ({Id})";
 }
 
-internal enum IndicatorType
+internal enum Style
 {
     Series,
     Buffer,
     Stream
 }
 
-internal enum IndicatorCategory
+internal enum Category
 {
     MovingAverage,
     PriceTrend,
@@ -92,7 +92,7 @@ internal enum IndicatorCategory
     Generated
 }
 
-internal enum IndicatorChartType
+internal enum ChartType
 {
     Overlay,
     Oscillator,

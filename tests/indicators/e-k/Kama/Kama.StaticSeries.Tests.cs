@@ -20,11 +20,11 @@ public class Kama : StaticSeriesTestBase
 
         // sample values
         KamaResult r1 = results[8];
-        Assert.AreEqual(null, r1.Er);
-        Assert.AreEqual(null, r1.Kama);
+        Assert.IsNull(r1.Er);
+        Assert.IsNull(r1.Kama);
 
         KamaResult r2 = results[9];
-        Assert.AreEqual(null, r2.Er);
+        Assert.IsNull(r2.Er);
         Assert.AreEqual(213.7500, r2.Kama.Round(4));
 
         KamaResult r3 = results[10];
@@ -128,15 +128,15 @@ public class Kama : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad ER period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToKama(0));
 
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToKama(10, 0));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToKama(10, 5, 5));
     }
 }
