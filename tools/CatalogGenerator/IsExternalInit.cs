@@ -1,5 +1,6 @@
-// This polyfill allows record types in netstandard2.0
 using System.ComponentModel;
+
+// This polyfill allows record types in netstandard2.0
 
 namespace System.Runtime.CompilerServices;
 

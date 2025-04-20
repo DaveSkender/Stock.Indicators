@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Stock.Indicators.Generator;
 
 [Generator]
-public class IndicatorsCatalogGenerator : IIncrementalGenerator
+public class CatalogGenerator : IIncrementalGenerator
 {
     private static readonly HashSet<string> IgnoredParameterNames = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -41,54 +35,45 @@ public class IndicatorsCatalogGenerator : IIncrementalGenerator
             .Where(static c => c is not null)!;
 
         // Combine all providers and compilation
-        var methodsWithSeriesAttributeProvider = methodsWithSeriesAttribute.Collect();
-        var methodsWithStreamHubAttributeProvider = methodsWithStreamHubAttribute.Collect();
-        var constructorsWithBufferAttributeProvider = constructorsWithBufferAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithSeriesAttributeProvider = methodsWithSeriesAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithStreamHubAttributeProvider = methodsWithStreamHubAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<ConstructorDeclarationSyntax>> constructorsWithBufferAttributeProvider = constructorsWithBufferAttribute.Collect();
 
         // Create a combined provider with the compilation and all three collections
-        var combined = context.CompilationProvider.Combine(
+        IncrementalValueProvider<(((Compilation Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<ConstructorDeclarationSyntax> Right)> combined = context.CompilationProvider.Combine(
             methodsWithSeriesAttributeProvider).Combine(
                 methodsWithStreamHubAttributeProvider).Combine(
                     constructorsWithBufferAttributeProvider);
 
         // Register the source output generation
         context.RegisterSourceOutput(combined, (spc, tuple) => {
-            var compilation = tuple.Left.Left.Left;
-            var seriesAttributes = tuple.Left.Left.Right;
-            var streamHubAttributes = tuple.Left.Right;
-            var bufferAttributes = tuple.Right;
+            Compilation compilation = tuple.Left.Left.Left;
+            ImmutableArray<MethodDeclarationSyntax> seriesAttributes = tuple.Left.Left.Right;
+            ImmutableArray<MethodDeclarationSyntax> streamHubAttributes = tuple.Left.Right;
+            ImmutableArray<ConstructorDeclarationSyntax> bufferAttributes = tuple.Right;
 
             Execute(spc, compilation, seriesAttributes, streamHubAttributes, bufferAttributes);
         });
     }
 
-    private static bool IsCandidateForSeriesAttribute(SyntaxNode node)
-    {
-        return node is MethodDeclarationSyntax method &&
+    private static bool IsCandidateForSeriesAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
             method.AttributeLists.Count > 0 &&
             method.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "Series" or "SeriesAttribute"));
-    }
 
-    private static bool IsCandidateForStreamHubAttribute(SyntaxNode node)
-    {
-        return node is MethodDeclarationSyntax method &&
+    private static bool IsCandidateForStreamHubAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
             method.AttributeLists.Count > 0 &&
             method.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "StreamHub" or "StreamHubAttribute"));
-    }
 
-    private static bool IsCandidateForBufferAttribute(SyntaxNode node)
-    {
-        return node is ConstructorDeclarationSyntax constructor &&
+    private static bool IsCandidateForBufferAttribute(SyntaxNode node) => node is ConstructorDeclarationSyntax constructor &&
             constructor.AttributeLists.Count > 0 &&
             constructor.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "Buffer" or "BufferAttribute"));
-    }
 
     private static MethodDeclarationSyntax? GetMethodWithSeriesAttribute(GeneratorSyntaxContext context)
     {
-        var methodDeclaration = (MethodDeclarationSyntax)context.Node;
+        MethodDeclarationSyntax methodDeclaration = (MethodDeclarationSyntax)context.Node;
         foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
         {
             foreach (AttributeSyntax attribute in attributeList.Attributes)
@@ -100,12 +85,13 @@ public class IndicatorsCatalogGenerator : IIncrementalGenerator
                 }
             }
         }
+
         return null;
     }
 
     private static MethodDeclarationSyntax? GetMethodWithStreamHubAttribute(GeneratorSyntaxContext context)
     {
-        var methodDeclaration = (MethodDeclarationSyntax)context.Node;
+        MethodDeclarationSyntax methodDeclaration = (MethodDeclarationSyntax)context.Node;
         foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
         {
             foreach (AttributeSyntax attribute in attributeList.Attributes)
@@ -117,12 +103,13 @@ public class IndicatorsCatalogGenerator : IIncrementalGenerator
                 }
             }
         }
+
         return null;
     }
 
     private static ConstructorDeclarationSyntax? GetConstructorWithBufferAttribute(GeneratorSyntaxContext context)
     {
-        var constructorDeclaration = (ConstructorDeclarationSyntax)context.Node;
+        ConstructorDeclarationSyntax constructorDeclaration = (ConstructorDeclarationSyntax)context.Node;
         foreach (AttributeListSyntax attributeList in constructorDeclaration.AttributeLists)
         {
             foreach (AttributeSyntax attribute in attributeList.Attributes)
@@ -134,6 +121,7 @@ public class IndicatorsCatalogGenerator : IIncrementalGenerator
                 }
             }
         }
+
         return null;
     }
 
