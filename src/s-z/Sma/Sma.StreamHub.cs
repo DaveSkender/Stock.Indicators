@@ -75,22 +75,10 @@ public class SmaHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double sma = i >= LookbackPeriods - 1
-            ? Cache[i - 1].Sma is not null
-
-                // normal
-                ? Sma.Increment(ProviderCache, LookbackPeriods, i)
-
-                // re/initialize as SMA
-                : Sma.Increment(ProviderCache, LookbackPeriods, i)
-
-            // warmup periods are never calculable
-            : double.NaN;
-
         // candidate result
         SmaResult r = new(
             Timestamp: item.Timestamp,
-            Sma: sma.NaN2Null());
+            Sma: Sma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
 
         return (r, i);
     }
