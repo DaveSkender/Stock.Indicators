@@ -1,57 +1,59 @@
 namespace Skender.Stock.Indicators;
 
+// SIMPLE MOVING AVERAGE (STREAM HUB)
+
+#region hub interface and initializer
+
 /// <summary>
-/// Interface for Simple Moving Average (SMA) calculations.
+/// Interface for Simple Moving Average (SMA) hub.
 /// </summary>
 public interface ISma
 {
     /// <summary>
-    /// Gets the number of periods to look back for the calculation.
+    /// Gets the number of lookback periods.
     /// </summary>
     int LookbackPeriods { get; }
 }
 
 /// <summary>
-/// Provides methods for calculating the Simple Moving Average (SMA) indicator.
+/// Provides methods for creating SMA hubs.
 /// </summary>
 public static partial class Sma
 {
     /// <summary>
-    /// Creates an SMA hub from a chain provider.
+    /// Converts the chain provider to an SMA hub.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <typeparam name="TIn">The type of the input.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>An SMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [StreamHub("SMA", "Simple Moving Average", Category.MovingAverage, ChartType.Overlay)]
-    public static SmaHub<T> ToSma<T>(
-        this IChainProvider<T> chainProvider,
-
-        [Param("Lookback Periods", 2, 250, 20)]
+    public static SmaHub<TIn> ToSma<TIn>(
+        this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
-        where T : IReusable
+        where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
 }
+#endregion
 
 /// <summary>
-/// Represents a hub for Simple Moving Average (SMA) calculations.
+/// Represents a Simple Moving Average (SMA) stream hub.
 /// </summary>
-/// <typeparam name="TIn">The type of the input data.</typeparam>
+/// <typeparam name="TIn">The type of the input.</typeparam>
 public class SmaHub<TIn>
     : ChainProvider<TIn, SmaResult>, ISma
     where TIn : IReusable
 {
+    #region constructors
+
     private readonly string hubName;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaHub{TIn}"/> class.
     /// </summary>
     /// <param name="provider">The chain provider.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the provider is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal SmaHub(
         IChainProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
@@ -62,9 +64,14 @@ public class SmaHub<TIn>
 
         Reinitialize();
     }
+    #endregion
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Gets the number of lookback periods.
+    /// </summary>
     public int LookbackPeriods { get; init; }
+
+    // METHODS
 
     /// <inheritdoc/>
     public override string ToString() => hubName;
