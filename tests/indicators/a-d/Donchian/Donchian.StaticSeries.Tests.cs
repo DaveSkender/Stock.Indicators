@@ -18,10 +18,10 @@ public class Donchian : StaticSeriesTestBase
 
         // sample values
         DonchianResult r1 = results[19];
-        Assert.AreEqual(null, r1.Centerline);
-        Assert.AreEqual(null, r1.UpperBand);
-        Assert.AreEqual(null, r1.LowerBand);
-        Assert.AreEqual(null, r1.Width);
+        Assert.IsNull(r1.Centerline);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
+        Assert.IsNull(r1.Width);
 
         DonchianResult r2 = results[20];
         Assert.AreEqual(214.2700m, r2.Centerline.Round(4));
@@ -108,6 +108,6 @@ public class Donchian : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToDonchian(0));
 }

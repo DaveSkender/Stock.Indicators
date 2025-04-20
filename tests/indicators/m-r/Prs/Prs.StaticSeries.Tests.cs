@@ -18,7 +18,7 @@ public class Prs : StaticSeriesTestBase
         // sample values
         PrsResult r1 = results[8];
         Assert.AreEqual(1.108340, r1.Prs.Round(6));
-        Assert.AreEqual(null, r1.PrsPercent);
+        Assert.IsNull(r1.PrsPercent);
 
         PrsResult r2 = results[249];
         Assert.AreEqual(1.222373, r2.Prs.Round(6));
@@ -91,19 +91,19 @@ public class Prs : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => OtherQuotes.ToPrs(Quotes, 0));
 
         // insufficient quotes
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => Data.GetCompare(13).ToPrs(Quotes, 14));
 
         // insufficient eval quotes
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => Data.GetCompare(300).ToPrs(Quotes, 14));
 
         // mismatch quotes
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => OtherQuotes.ToPrs(MismatchQuotes, 14));
     }
 }

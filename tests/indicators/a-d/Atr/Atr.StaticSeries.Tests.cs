@@ -16,8 +16,8 @@ public class Atr : StaticSeriesTestBase
         // sample values
         AtrResult r13 = results[13];
         Assert.AreEqual(1.45, r13.Tr.Round(8));
-        Assert.AreEqual(null, r13.Atr);
-        Assert.AreEqual(null, r13.Atrp);
+        Assert.IsNull(r13.Atr);
+        Assert.IsNull(r13.Atrp);
 
         AtrResult r14 = results[14];
         Assert.AreEqual(1.82, r14.Tr.Round(8));
@@ -115,6 +115,6 @@ public class Atr : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAtr(1));
 }

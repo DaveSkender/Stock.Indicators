@@ -10,7 +10,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);NU1507;CS1591</NoWarn>
-    
+
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" PrivateAssets="All" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="MSTest.Analyzers" PrivateAssets="All" />
     <PackageReference Include="MSTest.TestAdapter" />

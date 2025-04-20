@@ -89,5 +89,27 @@ internal static class MetacatalogHelpers
             }
         ];
     }
-}
 
+    /// <summary>
+    /// Generates a list of indicator result configurations for moving averages.
+    /// </summary>
+    /// <param name="name">The name of the moving average.</param>
+    /// <param name="color">The color of the moving average. If null, a default color is used.</param>
+    /// <returns>A list of <see cref="IndicatorResultConfig"/> objects.</returns>
+    internal static List<IndicatorResultConfig> GetMovingAverageResults(string name, string? color = null)
+    {
+        color ??= ChartColors.StandardBlue;
+
+        return [
+            new IndicatorResultConfig {
+                DisplayName = $"{name} Moving Average",
+                TooltipTemplate = $"{name}([P1])",
+                DataName = "movingAverage",
+                DataType = "number",
+                LineType = "solid",
+                LineWidth = 2,
+                DefaultColor = color
+            }
+        ];
+    }
+}

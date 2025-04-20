@@ -26,7 +26,7 @@ public class TestData : TestBase
         BadQuotes.Should().HaveCount(502);
 
         // duplicates
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => BadQuotes.Validate());
     }
 
@@ -57,7 +57,7 @@ public class TestData : TestBase
         MismatchQuotes.Should().HaveCount(502);
 
         // out of sequence
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => MismatchQuotes.Validate());
     }
 

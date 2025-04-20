@@ -1,9 +1,10 @@
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Stock.Indicators.Generator;
 
 [Generator]
-public class IndicatorsCatalogGenerator : ISourceGenerator
+public class CatalogGenerator : IIncrementalGenerator
 {
     private static readonly HashSet<string> IgnoredParameterNames = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -12,63 +13,140 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         "quotes"
     };
 
-    private static string DetermineCategory(string indicatorId, string type)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // For test/generated indicators (those with Series, StreamHub, or Buffer attributes)
-        // use the Generated category
-        if (!string.IsNullOrEmpty(type))
-        {
-            return "Generated";
-        }
+        // Register the syntax providers
+        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithSeriesAttribute = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsCandidateForSeriesAttribute(s),
+                transform: static (ctx, _) => GetMethodWithSeriesAttribute(ctx))
+            .Where(static m => m is not null)!;
 
-        // For standard hardcoded indicators, use the specific category
-        return indicatorId switch {
-            var id when id.Contains("MA", StringComparison.OrdinalIgnoreCase) ||
-                       id is "SMA" or "EMA" or "HMA" or "WMA" or "TEMA" or "DEMA" => "moving-average",
-            var id when id is "ADX" or "AROON" => "price-trend",
-            var id when id is "ADL" or "CMF" or "MFI" => "volume-based",
-            var id when id.EndsWith("OSC", StringComparison.OrdinalIgnoreCase) ||
-                       id is "RSI" or "MACD" or "CCI" => "oscillator",
-            var id when id.Contains("PATTERN", StringComparison.OrdinalIgnoreCase) ||
-                       id.Contains("CANDLESTICK", StringComparison.OrdinalIgnoreCase) => "pattern",
-            var id when id.EndsWith("BAND", StringComparison.OrdinalIgnoreCase) ||
-                       id.Contains("CHANNEL", StringComparison.OrdinalIgnoreCase) ||
-                       id is "BB" or "KC" or "DONCHIAN" => "price-channel",
-            _ => "Generated" // Default to Generated for any unknown types
-        };
+        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithStreamHubAttribute = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsCandidateForStreamHubAttribute(s),
+                transform: static (ctx, _) => GetMethodWithStreamHubAttribute(ctx))
+            .Where(static m => m is not null)!;
+
+        IncrementalValuesProvider<ConstructorDeclarationSyntax> constructorsWithBufferAttribute = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsCandidateForBufferAttribute(s),
+                transform: static (ctx, _) => GetConstructorWithBufferAttribute(ctx))
+            .Where(static c => c is not null)!;
+
+        // Combine all providers and compilation
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithSeriesAttributeProvider = methodsWithSeriesAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithStreamHubAttributeProvider = methodsWithStreamHubAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<ConstructorDeclarationSyntax>> constructorsWithBufferAttributeProvider = constructorsWithBufferAttribute.Collect();
+
+        // Create a combined provider with the compilation and all three collections
+        IncrementalValueProvider<(((Compilation Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<ConstructorDeclarationSyntax> Right)> combined = context.CompilationProvider.Combine(
+            methodsWithSeriesAttributeProvider).Combine(
+                methodsWithStreamHubAttributeProvider).Combine(
+                    constructorsWithBufferAttributeProvider);
+
+        // Register the source output generation
+        context.RegisterSourceOutput(combined, (spc, tuple) => {
+            Compilation compilation = tuple.Left.Left.Left;
+            ImmutableArray<MethodDeclarationSyntax> seriesAttributes = tuple.Left.Left.Right;
+            ImmutableArray<MethodDeclarationSyntax> streamHubAttributes = tuple.Left.Right;
+            ImmutableArray<ConstructorDeclarationSyntax> bufferAttributes = tuple.Right;
+
+            Execute(spc, compilation, seriesAttributes, streamHubAttributes, bufferAttributes);
+        });
     }
 
-    private static string DetermineChartType(string indicatorId) =>
-        indicatorId switch {
-            var id when id.EndsWith("BAND", StringComparison.OrdinalIgnoreCase) ||
-                       id.Contains("CHANNEL", StringComparison.OrdinalIgnoreCase) ||
-                       id is "BB" or "KC" or "DONCHIAN" => "overlay",
-            var id when id.Contains("OSC", StringComparison.OrdinalIgnoreCase) ||
-                       id is "RSI" or "MACD" or "CCI" or "ADX" or "AROON" or "MFI" => "oscillator",
-            var id when id.Contains("MA", StringComparison.OrdinalIgnoreCase) ||
-                       id is "SMA" or "EMA" or "HMA" or "WMA" or "TEMA" or "DEMA" => "overlay",
-            _ => "indicator"
-        };
+    private static bool IsCandidateForSeriesAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
+            method.AttributeLists.Count > 0 &&
+            method.AttributeLists.Any(al => al.Attributes.Any(a =>
+                a.Name.ToString() is "Series" or "SeriesAttribute"));
 
-    public void Initialize(GeneratorInitializationContext context) => context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
+    private static bool IsCandidateForStreamHubAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
+            method.AttributeLists.Count > 0 &&
+            method.AttributeLists.Any(al => al.Attributes.Any(a =>
+                a.Name.ToString() is "StreamHub" or "StreamHubAttribute"));
 
-    public void Execute(GeneratorExecutionContext context)
+    private static bool IsCandidateForBufferAttribute(SyntaxNode node) => node is ConstructorDeclarationSyntax constructor &&
+            constructor.AttributeLists.Count > 0 &&
+            constructor.AttributeLists.Any(al => al.Attributes.Any(a =>
+                a.Name.ToString() is "Buffer" or "BufferAttribute"));
+
+    private static MethodDeclarationSyntax? GetMethodWithSeriesAttribute(GeneratorSyntaxContext context)
     {
-        if (context.SyntaxReceiver is not SyntaxReceiver receiver)
+        MethodDeclarationSyntax methodDeclaration = (MethodDeclarationSyntax)context.Node;
+        foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
+        {
+            foreach (AttributeSyntax attribute in attributeList.Attributes)
+            {
+                string attributeName = attribute.Name.ToString();
+                if (attributeName is "Series" or "SeriesAttribute")
+                {
+                    return methodDeclaration;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static MethodDeclarationSyntax? GetMethodWithStreamHubAttribute(GeneratorSyntaxContext context)
+    {
+        MethodDeclarationSyntax methodDeclaration = (MethodDeclarationSyntax)context.Node;
+        foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
+        {
+            foreach (AttributeSyntax attribute in attributeList.Attributes)
+            {
+                string attributeName = attribute.Name.ToString();
+                if (attributeName is "StreamHub" or "StreamHubAttribute")
+                {
+                    return methodDeclaration;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static ConstructorDeclarationSyntax? GetConstructorWithBufferAttribute(GeneratorSyntaxContext context)
+    {
+        ConstructorDeclarationSyntax constructorDeclaration = (ConstructorDeclarationSyntax)context.Node;
+        foreach (AttributeListSyntax attributeList in constructorDeclaration.AttributeLists)
+        {
+            foreach (AttributeSyntax attribute in attributeList.Attributes)
+            {
+                string attributeName = attribute.Name.ToString();
+                if (attributeName is "Buffer" or "BufferAttribute")
+                {
+                    return constructorDeclaration;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static void Execute(
+        SourceProductionContext context,
+        Compilation compilation,
+        ImmutableArray<MethodDeclarationSyntax> methodsWithSeriesAttribute,
+        ImmutableArray<MethodDeclarationSyntax> methodsWithStreamHubAttribute,
+        ImmutableArray<ConstructorDeclarationSyntax> constructorsWithBufferAttribute)
+    {
+        if (methodsWithSeriesAttribute.IsDefaultOrEmpty &&
+            methodsWithStreamHubAttribute.IsDefaultOrEmpty &&
+            constructorsWithBufferAttribute.IsDefaultOrEmpty)
         {
             return;
         }
 
-        Compilation compilation = context.Compilation;
-
         INamedTypeSymbol? seriesAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.SeriesAttribute") ??
-                                  compilation.GetTypeByMetadataName("Skender.Stock.Indicators.SeriesAttribute");
+                                compilation.GetTypeByMetadataName("Skender.Stock.Indicators.SeriesAttribute");
         INamedTypeSymbol? streamHubAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.StreamHubAttribute") ??
-                                     compilation.GetTypeByMetadataName("Skender.Stock.Indicators.StreamHubAttribute");
+                                   compilation.GetTypeByMetadataName("Skender.Stock.Indicators.StreamHubAttribute");
         INamedTypeSymbol? bufferAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.BufferAttribute") ??
-                                   compilation.GetTypeByMetadataName("Skender.Stock.Indicators.BufferAttribute");
+                                 compilation.GetTypeByMetadataName("Skender.Stock.Indicators.BufferAttribute");
         INamedTypeSymbol? paramAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.ParamAttribute") ??
-                                  compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
+                                compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
 
         if (seriesAttributeSymbol is null || streamHubAttributeSymbol is null ||
             bufferAttributeSymbol is null || paramAttributeSymbol is null)
@@ -80,7 +158,7 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         HashSet<string> processedIds = [];
 
         // Process methods with SeriesAttribute
-        foreach (MethodDeclarationSyntax methodSyntax in receiver.CandidateMethodsWithSeriesAttribute)
+        foreach (MethodDeclarationSyntax methodSyntax in methodsWithSeriesAttribute)
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(methodSyntax.SyntaxTree);
             if (semanticModel.GetDeclaredSymbol(methodSyntax) is not IMethodSymbol methodSymbol)
@@ -100,15 +178,17 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
+                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
                     List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Series", methodSymbol.ContainingType.Name, methodSymbol.Name, parameters));
+                    indicators.Add(new(id, name, "Series", methodSymbol.ContainingType.Name, methodSymbol.Name, category, chartType, parameters));
                 }
             }
         }
 
         // Process methods with StreamHubAttribute
-        foreach (MethodDeclarationSyntax methodSyntax in receiver.CandidateMethodsWithStreamHubAttribute)
+        foreach (MethodDeclarationSyntax methodSyntax in methodsWithStreamHubAttribute)
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(methodSyntax.SyntaxTree);
             if (semanticModel.GetDeclaredSymbol(methodSyntax) is not IMethodSymbol methodSymbol)
@@ -128,15 +208,17 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
+                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
                     List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Stream", methodSymbol.ContainingType.Name, methodSymbol.Name, parameters));
+                    indicators.Add(new(id, name, "Stream", methodSymbol.ContainingType.Name, methodSymbol.Name, category, chartType, parameters));
                 }
             }
         }
 
         // Process constructors with BufferAttribute
-        foreach (ConstructorDeclarationSyntax constructorSyntax in receiver.CandidateConstructorsWithBufferAttribute)
+        foreach (ConstructorDeclarationSyntax constructorSyntax in constructorsWithBufferAttribute)
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(constructorSyntax.SyntaxTree);
             if (semanticModel.GetDeclaredSymbol(constructorSyntax) is not IMethodSymbol constructorSymbol)
@@ -156,9 +238,11 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
+                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
                     List<ParameterInfo> parameters = GetMethodParameters(constructorSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Buffer", constructorSymbol.ContainingType.Name, "Constructor", parameters));
+                    indicators.Add(new(id, name, "Buffer", constructorSymbol.ContainingType.Name, "Constructor", category, chartType, parameters));
                 }
             }
         }
@@ -174,16 +258,13 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         sourceBuilder.AppendLine("/// <summary>");
         sourceBuilder.AppendLine("/// Auto-generated catalog of all indicators in the library");
         sourceBuilder.AppendLine("/// </summary>");
-        sourceBuilder.AppendLine("public static class GeneratedIndicatorCatalog");
+        sourceBuilder.AppendLine("public static partial class GeneratedIndicatorCatalog");
         sourceBuilder.AppendLine("{");
         sourceBuilder.AppendLine("    /// <summary>");
-        sourceBuilder.AppendLine("    /// Gets the complete list of indicators");
+        sourceBuilder.AppendLine("    /// Gets the auto-generated list of indicators");
         sourceBuilder.AppendLine("    /// </summary>");
-        sourceBuilder.AppendLine("    /// <returns>A list of indicator information</returns>");
-        sourceBuilder.AppendLine("    public static IReadOnlyList<IndicatorListing> GetIndicators()");
+        sourceBuilder.AppendLine("    public static IReadOnlyList<IndicatorListing> AutoGeneratedIndicators => new List<IndicatorListing>");
         sourceBuilder.AppendLine("    {");
-        sourceBuilder.AppendLine("        return new List<IndicatorListing>");
-        sourceBuilder.AppendLine("        {");
 
         foreach (IndicatorInfo? indicator in indicators.OrderBy(i => i.Name))
         {
@@ -199,8 +280,8 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
 
             sourceBuilder.AppendLine($"                Name = \"{displayName}\",");
             sourceBuilder.AppendLine($"                Uiid = \"{indicator.Id}\",");
-            sourceBuilder.AppendLine($"                Category = \"{DetermineCategory(indicator.Id, indicator.Type)}\",");
-            sourceBuilder.AppendLine($"                ChartType = \"{DetermineChartType(indicator.Id)}\",");
+            sourceBuilder.AppendLine($"                Category = \"{indicator.Category}\",");
+            sourceBuilder.AppendLine($"                ChartType = \"{indicator.ChartType}\",");
             sourceBuilder.AppendLine($"                Order = Order.Front,");
             sourceBuilder.AppendLine($"                ChartConfig = null,");
 
@@ -256,7 +337,6 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         }
 
         sourceBuilder.AppendLine("        };");
-        sourceBuilder.AppendLine("    }");
         sourceBuilder.AppendLine("}");
 
         context.AddSource("GeneratedIndicatorCatalog.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
@@ -305,6 +385,8 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         string Type,
         string ContainingType,
         string MemberName,
+        string Category,
+        string ChartType,
         List<ParameterInfo> Parameters);
 
     private sealed record ParameterInfo(
@@ -313,53 +395,4 @@ public class IndicatorsCatalogGenerator : ISourceGenerator
         double MinValue,
         double MaxValue,
         double DefaultValue);
-
-    private sealed class SyntaxReceiver : ISyntaxReceiver
-    {
-        public List<MethodDeclarationSyntax> CandidateMethodsWithSeriesAttribute { get; } = [];
-        public List<MethodDeclarationSyntax> CandidateMethodsWithStreamHubAttribute { get; } = [];
-        public List<ConstructorDeclarationSyntax> CandidateConstructorsWithBufferAttribute { get; } = [];
-
-        public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
-        {
-            // Look for methods with attributes
-            if (syntaxNode is MethodDeclarationSyntax methodDeclaration &&
-                methodDeclaration.AttributeLists.Count > 0)
-            {
-                foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
-                {
-                    foreach (AttributeSyntax attribute in attributeList.Attributes)
-                    {
-                        string attributeName = attribute.Name.ToString();
-                        if (attributeName is "Series" or "SeriesAttribute")
-                        {
-                            CandidateMethodsWithSeriesAttribute.Add(methodDeclaration);
-                        }
-                        else if (attributeName is "StreamHub" or "StreamHubAttribute")
-                        {
-                            CandidateMethodsWithStreamHubAttribute.Add(methodDeclaration);
-                        }
-                    }
-                }
-            }
-
-            // Look for constructors with attributes
-            if (syntaxNode is ConstructorDeclarationSyntax constructorDeclaration &&
-                constructorDeclaration.AttributeLists.Count > 0)
-            {
-                foreach (AttributeListSyntax attributeList in constructorDeclaration.AttributeLists)
-                {
-                    foreach (AttributeSyntax attribute in attributeList.Attributes)
-                    {
-                        string attributeName = attribute.Name.ToString();
-                        if (attributeName is "Buffer" or "BufferAttribute")
-                        {
-                            CandidateConstructorsWithBufferAttribute.Add(constructorDeclaration);
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
-

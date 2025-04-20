@@ -23,7 +23,7 @@ public class Transforms : TestBase
     {
         IReadOnlyList<Quote> nullQuotes = null;
 
-        Assert.ThrowsException<ArgumentNullException>(()
+        Assert.ThrowsExactly<ArgumentNullException>(()
             => nullQuotes.ToCollection());
     }
 }

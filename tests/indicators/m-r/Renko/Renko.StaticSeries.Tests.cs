@@ -134,11 +134,11 @@ public class Renko : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad arguments
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToRenko(0));
 
         // bad end type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToRenko(2, (EndType)int.MaxValue));
     }
 }

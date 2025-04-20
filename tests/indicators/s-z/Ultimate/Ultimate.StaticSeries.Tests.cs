@@ -77,15 +77,15 @@ public class Ultimate : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad short period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToUltimate(0));
 
         // bad middle period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToUltimate(7, 6));
 
         // bad long period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToUltimate(7, 14, 11));
     }
 }
