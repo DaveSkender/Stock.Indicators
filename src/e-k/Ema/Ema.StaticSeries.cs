@@ -62,19 +62,4 @@ public static partial class Ema
 
         return new List<EmaResult>(results);
     }
-
-    /// <summary>
-    /// Converts a list of quotes to EMA results.
-    /// </summary>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>A list of EMA results.</returns>
-    public static IReadOnlyList<EmaResult> ToEma(
-        this IReadOnlyList<IQuote> quotes,
-        int lookbackPeriods)
-    {
-        return quotes
-            .ToQuoteDList()
-            .ToEma(lookbackPeriods);
-    }
 }
