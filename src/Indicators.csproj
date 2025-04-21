@@ -71,7 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Source generator reference -->
+    <!-- generator and analyzers for internal dev-only use -->
     <ProjectReference Include="..\tools\generators\Generators.csproj"
         OutputItemType="Analyzer"
         ReferenceOutputAssembly="false"

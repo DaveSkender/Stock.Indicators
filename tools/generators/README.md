@@ -9,7 +9,7 @@ The Generator analyzes indicator classes decorated with attribute flavors:
 | Attribute Flavor | Description |
 |------------------|-------------|
 | `SeriesAttribute` | For indicators that operate on series data |
-| `StreamHubAttribute` | For indicators that stream data |
+| `StreamAttribute` | For indicators that stream data |
 | `BufferAttribute` | For indicators that use buffer-style data |
 | `CatalogAttribute` | Base attribute for all indicators |
 
@@ -29,9 +29,9 @@ The package includes Roslyn analyzers that help enforce conventions:
 
 | Rule ID | Description |
 |---------|-------------|
-| IND001  | Identifies series-style indicator methods missing the required `SeriesAttribute` |
-| IND002  | Identifies stream-style indicator methods missing the required `StreamHubAttribute` |
-| IND003  | Identifies buffer-style indicator methods missing the required `BufferAttribute` |
+| IND001  | Identifies series-style indicator methods missing the required `Series` attribute |
+| IND002  | Identifies stream-style indicator methods missing the required `Stream` attribute |
+| IND003  | Identifies buffer-style indicator methods missing the required `Buffer` attribute |
 
 The analyzer intelligently identifies indicator types based on their return types:
 

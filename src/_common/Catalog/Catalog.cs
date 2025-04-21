@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// It contains opinionated parameter defaults, ranges, colors, and other values.
 /// </remarks>
 /// </summary>
-public static class Metacatalog
+public static class Catalog
 {
     /// <inheritdoc cref="IndicatorCatalog(Uri)"/>"
     public static IReadOnlyList<IndicatorListing> IndicatorCatalog()

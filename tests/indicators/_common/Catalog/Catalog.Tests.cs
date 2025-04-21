@@ -3,10 +3,10 @@ using System.Globalization;
 using System.Text.Json;
 using Microsoft.CodeAnalysis;
 
-namespace Test.Data;
+namespace Tests.Common;
 
 [TestClass]
-public class Metacatalogger
+public class Catalogging
 {
     private static readonly Uri BaseUrl = new("https://example.com");
 
@@ -19,7 +19,7 @@ public class Metacatalogger
     public void GeneratedCatalog()
     {
         // Act
-        IReadOnlyList<IndicatorListing> result = Metacatalog.IndicatorCatalog();
+        IReadOnlyList<IndicatorListing> result = Catalog.IndicatorCatalog();
 
         // Assert
         // Check that the catalog contains indicators from different categories
@@ -60,79 +60,11 @@ public class Metacatalogger
         validate.Should().NotThrow<ValidationException>();
     }
 
-    /// <summary>
-    /// Outputs a legible representation of indicators to the console.
-    /// </summary>
-    private static void OutputIndicators(IEnumerable<IndicatorListing> indicators)
-    {
-        JsonSerializerOptions options = new() {
-            WriteIndented = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-
-        foreach (IndicatorListing indicator in indicators.OrderBy(i => i.Name))
-        {
-            var summary = new {
-                indicator.Name,
-                indicator.Uiid,
-                indicator.Category,
-                indicator.ChartType,
-                indicator.LegendTemplate,
-                indicator.Endpoint,
-                ParameterCount = indicator.Parameters?.Count ?? 0,
-                ResultCount = indicator.Results?.Count ?? 0,
-                Parameters = indicator.Parameters?.Select(static p => new {
-                    p.DisplayName,
-                    p.ParamName,
-                    p.DataType,
-                    DefaultValue = p.DefaultValue?.ToString(CultureInfo.InvariantCulture),
-                    p.Minimum,
-                    p.Maximum
-                }).ToList(),
-                Results = indicator.Results?.Select(r => new {
-                    r.DisplayName,
-                    r.DataName,
-                    r.TooltipTemplate,
-                    r.LineType,
-                    r.DefaultColor
-                }).ToList()
-            };
-
-            Console.WriteLine($"\n[{indicator.Uiid}] {indicator.Name}");
-            Console.WriteLine($"Category: {indicator.Category}, ChartType: {indicator.ChartType}");
-            Console.WriteLine($"Endpoint: {indicator.Endpoint}");
-            Console.WriteLine($"LegendTemplate: {indicator.LegendTemplate}");
-            Console.WriteLine($"Parameters: {summary.ParameterCount}, Results: {summary.ResultCount}");
-
-            if (summary.ParameterCount > 0)
-            {
-                Console.WriteLine("Parameters:");
-                foreach (var param in summary.Parameters)
-                {
-                    Console.WriteLine($"  * {param.DisplayName} ({param.ParamName}): {param.DataType}, " +
-                                    $"Default: {param.DefaultValue}, Range: {param.Minimum} - {param.Maximum}");
-                }
-            }
-
-            if (summary.ResultCount > 0)
-            {
-                Console.WriteLine("Results:");
-                foreach (var result in summary.Results)
-                {
-                    Console.WriteLine($"  * {result.DisplayName} ({result.DataName}): {result.LineType}, " +
-                                    $"Color: {result.DefaultColor}, Template: {result.TooltipTemplate}");
-                }
-            }
-
-            Console.WriteLine(new string('-', 80));
-        }
-    }
-
     [TestMethod]
     public void ManualCatalog()
     {
         // Act
-        IReadOnlyList<IndicatorListing> result = Metacatalog.IndicatorCatalog(BaseUrl);
+        IReadOnlyList<IndicatorListing> result = Catalog.IndicatorCatalog(BaseUrl);
 
         // Assert
         Action validate = () => Validator.ValidateObject(
@@ -300,7 +232,7 @@ public class Metacatalogger
     public void CatalogListingsOnlyForIndicatorsWithAttribute()
     {
         // Act
-        IReadOnlyList<IndicatorListing> result = Metacatalog.IndicatorCatalog();
+        IReadOnlyList<IndicatorListing> result = Catalog.IndicatorCatalog();
 
         // Assert
         result.Should().OnlyContain(x => x.Category != null && x.ChartType != null,
@@ -361,7 +293,7 @@ public class Metacatalogger
         ];
 
         // Act
-        Action act = () => Metacatalog.ValidateUniqueUIID(catalog);
+        Action act = () => Catalog.ValidateUniqueUIID(catalog);
 
         // Assert
         act.Should().Throw<InvalidOperationException>("An error should be thrown when UIID is not defined uniquely");

@@ -4,6 +4,6 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-IND001 | Usage | Warning | Series indicator method missing SeriesAttribute.
-IND002 | Usage | Warning | Stream hub indicator method missing StreamHubAttribute.
-IND003 | Usage | Warning | Buffer indicator method missing BufferAttribute.
+IND001 | Usage | Warning | Series indicator method missing Series attribute.
+IND002 | Usage | Warning | Stream hub indicator method missing Stream attribute.
+IND003 | Usage | Warning | Buffer indicator method missing Buffer attribute.

@@ -1,7 +1,7 @@
 namespace CatalogAnalyzer;
 
 [TestClass]
-public class CatalogAnalyzerTests
+public class CatalogAnalyzing
 {
     [TestMethod]
     public void CatalogAnalyzer_ShouldDetectPublicMethods_WithoutRequiredAttributes()

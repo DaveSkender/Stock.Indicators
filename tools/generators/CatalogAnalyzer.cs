@@ -7,19 +7,19 @@ namespace Stock.Indicators.Generator;
 /// Analyzer that checks if indicator methods have the required style-specific catalog attributes.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
+public class CatalogAnalyzer : DiagnosticAnalyzer
 {
     public const string SeriesDiagnosticId = "IND001";
-    public const string StreamHubDiagnosticId = "IND002";
+    public const string StreamDiagnosticId = "IND002";
     public const string BufferDiagnosticId = "IND003";
 
-    private const string SeriesTitle = "Series indicator method missing SeriesAttribute";
-    private const string StreamHubTitle = "Stream hub indicator method missing StreamHubAttribute";
-    private const string BufferTitle = "Buffer indicator method missing BufferAttribute";
+    private const string SeriesTitle = "Series indicator method missing Series attribute";
+    private const string StreamTitle = "Stream hub indicator method missing Stream attribute";
+    private const string BufferTitle = "Buffer indicator method missing Buffer attribute";
 
-    private const string SeriesMessageFormat = "Series indicator method '{0}' must have the SeriesAttribute";
-    private const string StreamHubMessageFormat = "Stream hub indicator method '{0}' must have the StreamHubAttribute";
-    private const string BufferMessageFormat = "Buffer indicator method '{0}' must have the BufferAttribute";
+    private const string SeriesMessageFormat = "Series indicator method '{0}' must have the Series attribute";
+    private const string StreamMessageFormat = "Stream hub indicator method '{0}' must have the Stream attribute";
+    private const string BufferMessageFormat = "Buffer indicator method '{0}' must have the Buffer attribute";
 
     private const string Description = "Indicator methods should have the appropriate catalog attribute based on their style.";
     private const string Category = "Usage";
@@ -62,10 +62,10 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly DiagnosticDescriptor StreamHubRule = new(
-        StreamHubDiagnosticId,
-        StreamHubTitle,
-        StreamHubMessageFormat,
+    private static readonly DiagnosticDescriptor StreamRule = new(
+        StreamDiagnosticId,
+        StreamTitle,
+        StreamMessageFormat,
         Category,
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
@@ -87,7 +87,7 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
     /// Gets the diagnostics supported by this analyzer.
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        [SeriesRule, StreamHubRule, BufferRule];
+        [SeriesRule, StreamRule, BufferRule];
 
     /// <summary>
     /// Initializes the analyzer.
@@ -151,11 +151,11 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
-        else if (styleValue == 2 && !HasAttributeOfType(methodDeclaration, "StreamHubAttribute", context.SemanticModel))
+        else if (styleValue == 2 && !HasAttributeOfType(methodDeclaration, "StreamAttribute", context.SemanticModel))
         {
-            // Stream style indicator missing StreamHubAttribute
+            // Stream style indicator missing StreamAttribute
             context.ReportDiagnostic(Diagnostic.Create(
-                StreamHubRule,
+                StreamRule,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
@@ -186,8 +186,8 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
         // Get the return type
         ITypeSymbol returnType = methodSymbol.ReturnType;
 
-        // Check if the method returns a StreamHub type
-        if (IsStreamHubType(returnType, compilation))
+        // Check if the method returns a Stream type
+        if (IsStreamType(returnType, compilation))
         {
             return 2; // Style.Stream
         }
@@ -208,7 +208,7 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
         return StyleNone;
     }
 
-    private static bool IsStreamHubType(ITypeSymbol type, Compilation compilation)
+    private static bool IsStreamType(ITypeSymbol type, Compilation compilation)
     {
         // Check if the type implements IStreamHub
         INamedTypeSymbol? streamHubInterface = compilation.GetTypeByMetadataName("Skender.Stock.Indicators.IStreamHub`2");

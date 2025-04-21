@@ -2,7 +2,7 @@ namespace GeneratedCatalog;
 
 // Tests for the analyzer itself
 [TestClass]
-public class CatalogGeneratorTests
+public class CatalogGenerating
 {
     [TestMethod]
     public void CatalogGenerator_MethodWithSeriesAttribute_IsIdentified()

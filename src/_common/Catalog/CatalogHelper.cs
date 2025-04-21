@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides helper methods for generating chart configurations and indicator result configurations.
 /// </summary>
-internal static class MetacatalogHelpers
+internal static class CatalogHelper
 {
     /// <summary>
     /// Generates a default oscillator chart configuration.

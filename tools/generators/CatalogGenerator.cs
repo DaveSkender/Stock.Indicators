@@ -22,10 +22,10 @@ public class CatalogGenerator : IIncrementalGenerator
                 transform: static (ctx, _) => GetMethodWithSeriesAttribute(ctx))
             .Where(static m => m is not null)!;
 
-        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithStreamHubAttribute = context.SyntaxProvider
+        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithStreamAttribute = context.SyntaxProvider
             .CreateSyntaxProvider(
-                predicate: static (s, _) => IsCandidateForStreamHubAttribute(s),
-                transform: static (ctx, _) => GetMethodWithStreamHubAttribute(ctx))
+                predicate: static (s, _) => IsCandidateForStreamAttribute(s),
+                transform: static (ctx, _) => GetMethodWithStreamAttribute(ctx))
             .Where(static m => m is not null)!;
 
         IncrementalValuesProvider<ConstructorDeclarationSyntax> constructorsWithBufferAttribute = context.SyntaxProvider
@@ -36,23 +36,23 @@ public class CatalogGenerator : IIncrementalGenerator
 
         // Combine all providers and compilation
         IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithSeriesAttributeProvider = methodsWithSeriesAttribute.Collect();
-        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithStreamHubAttributeProvider = methodsWithStreamHubAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithStreamAttributeProvider = methodsWithStreamAttribute.Collect();
         IncrementalValueProvider<ImmutableArray<ConstructorDeclarationSyntax>> constructorsWithBufferAttributeProvider = constructorsWithBufferAttribute.Collect();
 
         // Create a combined provider with the compilation and all three collections
         IncrementalValueProvider<(((Compilation Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<ConstructorDeclarationSyntax> Right)> combined = context.CompilationProvider.Combine(
             methodsWithSeriesAttributeProvider).Combine(
-                methodsWithStreamHubAttributeProvider).Combine(
+                methodsWithStreamAttributeProvider).Combine(
                     constructorsWithBufferAttributeProvider);
 
         // Register the source output generation
         context.RegisterSourceOutput(combined, (spc, tuple) => {
             Compilation compilation = tuple.Left.Left.Left;
             ImmutableArray<MethodDeclarationSyntax> seriesAttributes = tuple.Left.Left.Right;
-            ImmutableArray<MethodDeclarationSyntax> streamHubAttributes = tuple.Left.Right;
+            ImmutableArray<MethodDeclarationSyntax> StreamAttributes = tuple.Left.Right;
             ImmutableArray<ConstructorDeclarationSyntax> bufferAttributes = tuple.Right;
 
-            Execute(spc, compilation, seriesAttributes, streamHubAttributes, bufferAttributes);
+            Execute(spc, compilation, seriesAttributes, StreamAttributes, bufferAttributes);
         });
     }
 
@@ -61,10 +61,10 @@ public class CatalogGenerator : IIncrementalGenerator
             method.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "Series" or "SeriesAttribute"));
 
-    private static bool IsCandidateForStreamHubAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
+    private static bool IsCandidateForStreamAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
             method.AttributeLists.Count > 0 &&
             method.AttributeLists.Any(al => al.Attributes.Any(a =>
-                a.Name.ToString() is "StreamHub" or "StreamHubAttribute"));
+                a.Name.ToString() is "StreamHub" or "StreamAttribute"));
 
     private static bool IsCandidateForBufferAttribute(SyntaxNode node) => node is ConstructorDeclarationSyntax constructor &&
             constructor.AttributeLists.Count > 0 &&
@@ -89,7 +89,7 @@ public class CatalogGenerator : IIncrementalGenerator
         return null;
     }
 
-    private static MethodDeclarationSyntax? GetMethodWithStreamHubAttribute(GeneratorSyntaxContext context)
+    private static MethodDeclarationSyntax? GetMethodWithStreamAttribute(GeneratorSyntaxContext context)
     {
         MethodDeclarationSyntax methodDeclaration = (MethodDeclarationSyntax)context.Node;
         foreach (AttributeListSyntax attributeList in methodDeclaration.AttributeLists)
@@ -97,7 +97,7 @@ public class CatalogGenerator : IIncrementalGenerator
             foreach (AttributeSyntax attribute in attributeList.Attributes)
             {
                 string attributeName = attribute.Name.ToString();
-                if (attributeName is "StreamHub" or "StreamHubAttribute")
+                if (attributeName is "StreamHub" or "StreamAttribute")
                 {
                     return methodDeclaration;
                 }
@@ -129,11 +129,11 @@ public class CatalogGenerator : IIncrementalGenerator
         SourceProductionContext context,
         Compilation compilation,
         ImmutableArray<MethodDeclarationSyntax> methodsWithSeriesAttribute,
-        ImmutableArray<MethodDeclarationSyntax> methodsWithStreamHubAttribute,
+        ImmutableArray<MethodDeclarationSyntax> methodsWithStreamAttribute,
         ImmutableArray<ConstructorDeclarationSyntax> constructorsWithBufferAttribute)
     {
         if (methodsWithSeriesAttribute.IsDefaultOrEmpty &&
-            methodsWithStreamHubAttribute.IsDefaultOrEmpty &&
+            methodsWithStreamAttribute.IsDefaultOrEmpty &&
             constructorsWithBufferAttribute.IsDefaultOrEmpty)
         {
             return;
@@ -141,14 +141,14 @@ public class CatalogGenerator : IIncrementalGenerator
 
         INamedTypeSymbol? seriesAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.SeriesAttribute") ??
                                 compilation.GetTypeByMetadataName("Skender.Stock.Indicators.SeriesAttribute");
-        INamedTypeSymbol? streamHubAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.StreamHubAttribute") ??
-                                   compilation.GetTypeByMetadataName("Skender.Stock.Indicators.StreamHubAttribute");
+        INamedTypeSymbol? StreamAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.StreamAttribute") ??
+                                   compilation.GetTypeByMetadataName("Skender.Stock.Indicators.StreamAttribute");
         INamedTypeSymbol? bufferAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.BufferAttribute") ??
                                  compilation.GetTypeByMetadataName("Skender.Stock.Indicators.BufferAttribute");
         INamedTypeSymbol? paramAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.ParamAttribute") ??
                                 compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
 
-        if (seriesAttributeSymbol is null || streamHubAttributeSymbol is null ||
+        if (seriesAttributeSymbol is null || StreamAttributeSymbol is null ||
             bufferAttributeSymbol is null || paramAttributeSymbol is null)
         {
             return;
@@ -187,8 +187,8 @@ public class CatalogGenerator : IIncrementalGenerator
             }
         }
 
-        // Process methods with StreamHubAttribute
-        foreach (MethodDeclarationSyntax methodSyntax in methodsWithStreamHubAttribute)
+        // Process methods with StreamAttribute
+        foreach (MethodDeclarationSyntax methodSyntax in methodsWithStreamAttribute)
         {
             SemanticModel semanticModel = compilation.GetSemanticModel(methodSyntax.SyntaxTree);
             if (semanticModel.GetDeclaredSymbol(methodSyntax) is not IMethodSymbol methodSymbol)
@@ -199,7 +199,7 @@ public class CatalogGenerator : IIncrementalGenerator
             foreach (AttributeData attributeData in methodSymbol.GetAttributes())
             {
                 INamedTypeSymbol? attributeClass = attributeData.AttributeClass;
-                if (attributeClass?.Equals(streamHubAttributeSymbol, SymbolEqualityComparer.Default) == true)
+                if (attributeClass?.Equals(StreamAttributeSymbol, SymbolEqualityComparer.Default) == true)
                 {
                     string id = attributeData.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
                     if (string.IsNullOrWhiteSpace(id) || !processedIds.Add(id))
