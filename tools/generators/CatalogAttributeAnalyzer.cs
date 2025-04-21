@@ -11,7 +11,7 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "IND001";
     private const string Title = "Indicator method missing required attribute";
-    private const string MessageFormat = "Public indicator method '{0}' must have one of the derived attribute types of IndicatorAttribute";
+    private const string MessageFormat = "Indicator method '{0}' must have one of the derived attribute types of 'CatalogAttribute'";
     private const string Description = "All indicator public instantiation methods should have one of the derived attribute types of IndicatorAttribute abstract class.";
     private const string Category = "Usage";
 

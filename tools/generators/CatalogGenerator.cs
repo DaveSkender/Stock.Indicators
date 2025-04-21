@@ -258,7 +258,7 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("/// <summary>");
         sourceBuilder.AppendLine("/// Auto-generated catalog of all indicators in the library");
         sourceBuilder.AppendLine("/// </summary>");
-        sourceBuilder.AppendLine("public static partial class GeneratedIndicatorCatalog");
+        sourceBuilder.AppendLine("public static partial class GeneratedCatalog");
         sourceBuilder.AppendLine("{");
         sourceBuilder.AppendLine("    /// <summary>");
         sourceBuilder.AppendLine("    /// Gets the auto-generated list of indicators");
@@ -339,7 +339,7 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("        };");
         sourceBuilder.AppendLine("}");
 
-        context.AddSource("GeneratedIndicatorCatalog.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
+        context.AddSource("GeneratedCatalog.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
     }
 
     private static List<ParameterInfo> GetMethodParameters(IMethodSymbol methodSymbol, INamedTypeSymbol? paramAttributeSymbol)

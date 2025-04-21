@@ -127,7 +127,8 @@ dotnet_code_quality_explicit_tuple_names = true:suggestion
 dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
 
 # Diagnostic analyzer suppressions
-dotnet_diagnostic.IDE0058.severity = none    # Unused expression value, use _ discard variable
+dotnet_diagnostic.IDE0058.severity = none        # Unused expression value, use _ discard variable
+dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when beneficial
 
 # remove this when no-longer supporting pre-9.0 frameworks
 dotnet_diagnostic.IDE0330.severity = none    # Prefer 'System.Threading.Lock'

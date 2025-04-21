@@ -77,7 +77,7 @@ public static class Metacatalog
         ];
 
         // Add generated indicators
-        IReadOnlyList<IndicatorListing> generatedCatalog = GeneratedIndicatorCatalog.Indicators;
+        IReadOnlyList<IndicatorListing> generatedCatalog = GeneratedCatalog.Indicators;
         catalog.AddRange(generatedCatalog);
 
         // Return sorted catalog

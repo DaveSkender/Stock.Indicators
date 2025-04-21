@@ -1,24 +1,27 @@
-# Stock.Indicators CatalogGenerator
+# Generators and analyzers
 
 This is a .NET source generator that automatically creates catalog entries for indicators in the Stock.Indicators library.
 
 ## Purpose
 
-The CatalogGenerator analyzes indicator classes decorated with attribute flavors:
+The Generator analyzes indicator classes decorated with attribute flavors:
 
-- `SeriesAttribute` (for indicator methods)
-- `StreamHubAttribute` (for streaming indicators)
-- `BufferAttribute` (for buffer-style indicators)
+| Attribute Flavor | Description |
+|------------------|-------------|
+| `SeriesAttribute` | For indicators that operate on series data |
+| `StreamHubAttribute` | For indicators that stream data |
+| `BufferAttribute` | For indicators that use buffer-style data |
+| `CatalogAttribute` | Base attribute for all indicators |
 
 It then generates a catalog of all indicators with their metadata, parameters, and default configurations.
 
-## How it Works
+## How it works
 
 During compilation, the source generator:
 
 1. Scans the codebase for methods and constructors with the appropriate indicator attributes
 2. Extracts metadata like ID, name, and parameters
-3. Generates a static class `GeneratedIndicatorCatalog` with a method to access all indicators
+3. Generates a static class `GeneratedCatalog` with a method to access all indicators
 
 ## Usage
 
@@ -28,7 +31,7 @@ The generated catalog is accessible via:
 using Skender.Stock.Indicators;
 
 // Get all indicators from the generated catalog
-var indicators = GeneratedIndicatorCatalog.GetIndicators();
+var indicators = GeneratedCatalog.GetIndicators();
 
 // Use the indicators
 foreach (var indicator in indicators)

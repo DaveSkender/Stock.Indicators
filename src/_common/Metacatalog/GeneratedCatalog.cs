@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Auto-generated catalog of all indicators in the library.
 /// This is a placeholder class that will be replaced by the source generator.
 /// </summary>
-public static partial class GeneratedIndicatorCatalog
+public static partial class GeneratedCatalog
 {
     /// <summary>
     /// Gets the complete list of indicators

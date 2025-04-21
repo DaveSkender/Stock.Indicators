@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
@@ -67,12 +67,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <!-- Source generator reference -->
   <ItemGroup>
-    <ProjectReference Include="..\tools\CatalogGenerator\CatalogGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <!-- Source generator reference -->
+    <ProjectReference Include="..\tools\generators\Generators.csproj"
+        OutputItemType="Analyzer"
+        ReferenceOutputAssembly="false"
+        PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
