@@ -1,7 +1,8 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Classification attribute for a series-style indicator.
+/// Classification attribute for a series-style indicator
+/// for catalog generation.
 /// </summary>
 /// <param name="displayName"></param>
 /// <param name="minValue"></param>

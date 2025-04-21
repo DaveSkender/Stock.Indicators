@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable CS1591 // Missing XML comments
+#pragma warning disable CS1591, IND001
 
 namespace Skender.Stock.Indicators;
 

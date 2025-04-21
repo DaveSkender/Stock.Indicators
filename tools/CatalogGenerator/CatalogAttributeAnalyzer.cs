@@ -7,9 +7,9 @@ namespace Stock.Indicators.Generator;
 /// Analyzer that checks if indicator public instantiation methods have the required IndicatorAttribute-derived attributes.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public class IndicatorAttributeAnalyzer : DiagnosticAnalyzer
+public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "SKI0001";
+    public const string DiagnosticId = "IND001";
     private const string Title = "Indicator method missing required attribute";
     private const string MessageFormat = "Public indicator method '{0}' must have one of the derived attribute types of IndicatorAttribute";
     private const string Description = "All indicator public instantiation methods should have one of the derived attribute types of IndicatorAttribute abstract class.";

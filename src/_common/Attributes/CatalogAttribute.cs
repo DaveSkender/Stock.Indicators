@@ -15,7 +15,7 @@ internal sealed class SeriesAttribute(
     Category category,
     ChartType chartType,
     string? legendOverride = null
-) : IndicatorAttribute(id, name, Style.Series, category, chartType, legendOverride)
+) : CatalogAttribute(id, name, Style.Series, category, chartType, legendOverride)
 { }
 
 /// <summary>
@@ -33,7 +33,7 @@ internal sealed class StreamHubAttribute(
     Category category,
     ChartType chartType,
     string? legendOverride = null
-) : IndicatorAttribute(id, name, Style.Stream, category, chartType, legendOverride)
+) : CatalogAttribute(id, name, Style.Stream, category, chartType, legendOverride)
 { }
 
 /// <summary>
@@ -51,11 +51,12 @@ internal sealed class BufferAttribute(
     Category category,
     ChartType chartType,
     string? legendOverride = null
-) : IndicatorAttribute(id, name, Style.Buffer, category, chartType, legendOverride)
+) : CatalogAttribute(id, name, Style.Buffer, category, chartType, legendOverride)
 { }
 
 /// <summary>
-/// Classification attribute for an indicator.
+/// Classification attribute for an indicator
+/// for catalog generation.
 /// </summary>
 /// <param name="id">Unique code of the indicator (e.g. "SMA")</param>
 /// <param name="name">Name of the indicator</param>
@@ -63,7 +64,7 @@ internal sealed class BufferAttribute(
 /// <param name="category">Category of the indicator</param>
 /// <param name="chartType">Chart type of the indicator</param>
 /// <param name="legendOverride">Optional custom legend format to override the automatic format</param>
-internal abstract class IndicatorAttribute(
+internal abstract class CatalogAttribute(
     string id,
     string name,
     Style style,

@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators.Tests;
 
-// This class contains a method that should trigger our SKI0001 analyzer warning
+// This class contains a method that should trigger our IND001 analyzer warning
 public static class TestIndicator
 {
-    // This method will trigger SKI0001 because it's missing the required IndicatorAttribute
+    // This method will trigger IND001 because it's missing the required IndicatorAttribute
     public static IReadOnlyList<EmaResult> ToTestIndicator(this IReadOnlyList<Quote> quotes, int period) =>
         // This is just a simple test method to trigger our analyzer
         quotes.ToEma(period);
@@ -17,6 +17,6 @@ public class IndicatorAttributeAnalyzerTests
     public void TestAnalyzer() =>
         // This test is just a placeholder. The actual test is whether
         // the analyzer flags the TestIndicator.ToTestIndicator method correctly.
-        // When building the project, you should see a SKI0001 warning for that method.
+        // When building the project, you should see a IND001 warning for that method.
         Assert.IsTrue(true);
 }

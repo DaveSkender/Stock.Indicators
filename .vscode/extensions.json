@@ -1,12 +1,14 @@
 {
-    "recommendations": [
-        "codacy-app.codacy",
-        "adrianwilczynski.user-secrets",
-        "github.vscode-github-actions",
-        "github.vscode-pull-request-github",
-        "mechatroner.rainbow-csv",
-        "dotjoshjohnson.xml",
-        "redhat.vscode-yaml",
-        "vunguyentuan.vscode-css-variables"
-    ]
+  "recommendations": [
+    "adrianwilczynski.user-secrets",
+    "codacy-app.codacy",
+    "DavidAnson.vscode-markdownlint",
+    "dotjoshjohnson.xml",
+    "github.vscode-github-actions",
+    "github.vscode-pull-request-github",
+    "ms-dotnettools.csdevkit",
+    "redhat.vscode-yaml",
+    "bierner.github-markdown-preview",
+    "editorconfig.editorconfig"
+  ]
 }

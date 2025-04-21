@@ -12,34 +12,15 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "files.autoSave": "afterDelay",
-        "files.autoSaveDelay": 3000,
-        "files.encoding": "utf8",
-        "files.exclude": {
-          "**/.vs/**": true,
-          "**/bin/**": true,
-          "**/obj/**": true,
-          "**/TestResults/**": true,
-          "**/*.csproj.user": true
-        },
-        "search.exclude": {
-          "**/_site/**": true
-        },
-        "editor.codeLens": false,
-        "editor.bracketPairColorization.enabled": true,
-        "editor.guides.bracketPairs": "active",
-        "editor.formatOnPaste": true,
-        "terminal.integrated.defaultProfile.windows": "Git Bash",
-        "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
-        "scss.validate": false,
-        "markdownlint.config": {
-          "MD033": false,
-          "MD025": false
-        }
+        "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
+        "DavidAnson.vscode-markdownlint",
         "ms-dotnettools.csdevkit",
-        "DavidAnson.vscode-markdownlint"
+        "DotJoshJohnson.xml",
+        "redhat.vscode-yaml",
+        "bierner.github-markdown-preview",
+        "EditorConfig.EditorConfig"
       ]
     }
   },

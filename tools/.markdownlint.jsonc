@@ -1,0 +1,5 @@
+{
+  // MD041/first-line-heading/first-line-h1: First line in a file should be a top-level heading
+  // incompatible with AnalyzerReleases.*.md file standards
+  "MD041": false
+}

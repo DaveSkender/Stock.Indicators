@@ -1,8 +1,17 @@
 {
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
   "markdownlint.config": {
+    "MD025": { // allow front-matter titles
+      "level": 1,
+      "front_matter_title": "# {{ page.title }}"
+    },
     "MD033": false,
-    "MD025": false
+    "MD041": { // allow front-matter titles
+      "level": 1,
+      "front_matter_title": "^\\s*title\\s*[:=]"
+    }
   },
   "search.exclude": {
     "**/_site/**": true,
