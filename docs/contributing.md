@@ -49,6 +49,16 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 - If you are adding a new indicator, the easiest way to do this is to copy the folder of an existing indicator and rename everything using the same naming conventions and taxonomy.  All new indicators should include [tests](#testing).
 - Do not commingle multiple contributions on different topics.  Please keep changes small and separate.
 
+### Code analyzers
+
+The library includes intelligent Roslyn analyzers that help ensure proper usage of indicator attributes:
+
+- **Style-specific diagnostics** - Provides distinct warnings for different indicator styles (Series, Stream Hub, Buffer)
+- **Smart type detection** - Automatically identifies indicator types based on their return types and interfaces
+- **Exclusion support** - Methods can be excluded from analysis using the `[ExcludeFromCatalog]` attribute
+
+See the [generators documentation](../tools/generators/README.md) for more information.
+
 ## Testing
 
 - Review the `tests/indicators` folder for examples of unit tests.  Just copy one of these.
@@ -105,7 +115,7 @@ By submitting changes to this repo you are also acknowledging and agree to the t
 When ready, submit a [Pull Request](https://help.github.com/pull-requests) with a clear description of what you've done and why it's important.
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 

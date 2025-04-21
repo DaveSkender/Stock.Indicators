@@ -23,6 +23,24 @@ During compilation, the source generator:
 2. Extracts metadata like ID, name, and parameters
 3. Generates a static class `GeneratedCatalog` with a method to access all indicators
 
+## Analyzers
+
+The package includes Roslyn analyzers that help enforce conventions:
+
+| Rule ID | Description |
+|---------|-------------|
+| IND001  | Identifies series-style indicator methods missing the required `SeriesAttribute` |
+| IND002  | Identifies stream-style indicator methods missing the required `StreamHubAttribute` |
+| IND003  | Identifies buffer-style indicator methods missing the required `BufferAttribute` |
+
+The analyzer intelligently identifies indicator types based on their return types:
+
+- **Series indicators**: Methods returning collections where the element type implements `IIndicatorResult`
+- **Stream indicators**: Methods returning types that implement `IStreamHub` interface
+- **Buffer indicators**: Methods returning types that implement `IBufferQuote` interface
+
+To exclude specific methods from analyzer checks, apply the `[ExcludeFromCatalog]` attribute.
+
 ## Usage
 
 The generated catalog is accessible via:
@@ -56,3 +74,4 @@ The catalog generator is integrated as an analyzer in the main Stock.Indicators 
 - No need for manual catalog maintenance
 - Complete coverage of all indicators in the codebase
 - Consistent metadata for all indicators
+- Style-specific analyzer warnings for proper attribute usage
