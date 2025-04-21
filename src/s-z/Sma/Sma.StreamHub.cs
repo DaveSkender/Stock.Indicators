@@ -2,19 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAM HUB)
 
-#region hub interface and initializer
-
-/// <summary>
-/// Interface for Simple Moving Average (SMA) hub.
-/// </summary>
-public interface ISma
-{
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
-    int LookbackPeriods { get; }
-}
-
 /// <summary>
 /// Provides methods for creating SMA hubs.
 /// </summary>
@@ -35,7 +22,6 @@ public static partial class Sma
         where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
 }
-#endregion
 
 /// <summary>
 /// Represents a Simple Moving Average (SMA) stream hub.

@@ -2,44 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // WILLIAMS ALLIGATOR (STREAM HUB)
 
-#region hub interface and initializer
-
-/// <summary>
-/// Interface for Alligator Hub.
-/// </summary>
-public interface IAlligatorHub
-{
-    /// <summary>
-    /// Gets the number of periods for the jaw.
-    /// </summary>
-    int JawPeriods { get; }
-
-    /// <summary>
-    /// Gets the offset for the jaw.
-    /// </summary>
-    int JawOffset { get; }
-
-    /// <summary>
-    /// Gets the number of periods for the teeth.
-    /// </summary>
-    int TeethPeriods { get; }
-
-    /// <summary>
-    /// Gets the offset for the teeth.
-    /// </summary>
-    int TeethOffset { get; }
-
-    /// <summary>
-    /// Gets the number of periods for the lips.
-    /// </summary>
-    int LipsPeriods { get; }
-
-    /// <summary>
-    /// Gets the offset for the lips.
-    /// </summary>
-    int LipsOffset { get; }
-}
-
 public static partial class Alligator
 {
     /// <summary>
@@ -72,15 +34,14 @@ public static partial class Alligator
             lipsPeriods,
             lipsOffset);
 }
-#endregion
 
 /// <summary>
 /// Represents a stream hub for calculating the Alligator indicator.
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
-/// <inheritdoc cref="IAlligatorHub"/>
+/// <inheritdoc cref="IAlligator"/>
 public class AlligatorHub<TIn>
-   : StreamHub<TIn, AlligatorResult>, IAlligatorHub
+   : StreamHub<TIn, AlligatorResult>, IAlligator
    where TIn : IReusable
 {
     #region constructors

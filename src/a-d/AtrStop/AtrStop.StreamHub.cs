@@ -2,29 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // ATR TRAILING STOP (STREAM HUB)
 
-#region hub interface and initializer
-
-/// <summary>
-/// Interface for ATR Stop Hub.
-/// </summary>
-public interface IAtrStopHub
-{
-    /// <summary>
-    /// Gets the number of periods to look back.
-    /// </summary>
-    int LookbackPeriods { get; }
-
-    /// <summary>
-    /// Gets the multiplier for the ATR.
-    /// </summary>
-    double Multiplier { get; }
-
-    /// <summary>
-    /// Gets the type of price to use for the calculation.
-    /// </summary>
-    EndType EndType { get; }
-}
-
 /// <summary>
 /// Provides methods for calculating the ATR Trailing Stop using a stream hub.
 /// </summary>
@@ -47,14 +24,13 @@ public static partial class AtrStop
        where TIn : IQuote
        => new(quoteProvider, lookbackPeriods, multiplier, endType);
 }
-#endregion
 
 /// <summary>
 /// Represents a stream hub for calculating the ATR Trailing Stop.
 /// </summary>
 /// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class AtrStopHub<TIn>
-    : StreamHub<TIn, AtrStopResult>, IAtrStopHub
+    : StreamHub<TIn, AtrStopResult>, IAtrStop
     where TIn : IQuote
 {
     #region constructors

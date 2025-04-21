@@ -15,6 +15,35 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
     private const string Description = "All indicator public instantiation methods should have one of the derived attribute types of IndicatorAttribute abstract class.";
     private const string Category = "Usage";
 
+    // Define the list of known utility method names that should be excluded
+    private static readonly HashSet<string> UtilityMethodNames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "RemoveWarmupPeriods",
+        "Condense",
+        "Find",
+        "Reset",
+        "GetHashCode",
+        "ToString",
+        "Equals",
+        "GetEnumerator"
+    };
+
+    // Define the list of utility-like method name prefixes
+    private static readonly HashSet<string> UtilityPrefixes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Get",
+        "Set",
+        "Is",
+        "Has",
+        "Add",
+        "Remove",
+        "Update",
+        "Calculate",
+        "Convert",
+        "Validate",
+        "Format"
+    };
+
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId,
         Title,
@@ -53,8 +82,33 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
+        // Get the method symbol
+        var methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodDeclaration);
+        if (methodSymbol == null)
+        {
+            return;
+        }
+
+        // Check if the method is marked as obsolete - skip it if it is
+        if (HasObsoleteAttribute(methodSymbol))
+        {
+            return;
+        }
+
+        // Check if the method has the ExcludeFromCatalogAttribute - skip it if it does
+        if (HasExcludeFromCatalogAttribute(methodSymbol))
+        {
+            return;
+        }
+
+        // Skip if this is a known utility method
+        if (IsUtilityMethod(methodSymbol))
+        {
+            return;
+        }
+
         // Check if it returns an indicator result type
-        if (!ReturnsIndicatorResultType(methodDeclaration, context.SemanticModel))
+        if (!IsIndicatorEntryPointMethod(methodDeclaration, methodSymbol, context.SemanticModel))
         {
             return;
         }
@@ -71,8 +125,74 @@ public class CatalogAttributeAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static bool IsPublicStaticMethod(MethodDeclarationSyntax method) => method.Modifiers.Any(SyntaxKind.PublicKeyword) &&
-               method.Modifiers.Any(SyntaxKind.StaticKeyword);
+    private static bool IsPublicStaticMethod(MethodDeclarationSyntax method) =>
+        method.Modifiers.Any(SyntaxKind.PublicKeyword) &&
+        method.Modifiers.Any(SyntaxKind.StaticKeyword);
+
+    private static bool HasObsoleteAttribute(IMethodSymbol methodSymbol)
+    {
+        // Check if the method has the ObsoleteAttribute
+        foreach (AttributeData attribute in methodSymbol.GetAttributes())
+        {
+            if (attribute.AttributeClass?.Name == "ObsoleteAttribute" ||
+                attribute.AttributeClass?.ToString() == "System.ObsoleteAttribute")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static bool HasExcludeFromCatalogAttribute(IMethodSymbol methodSymbol)
+    {
+        // Check if the method has the ExcludeFromCatalogAttribute
+        foreach (AttributeData attribute in methodSymbol.GetAttributes())
+        {
+            if (attribute.AttributeClass?.Name == "ExcludeFromCatalogAttribute" ||
+                attribute.AttributeClass?.ToString() == "Skender.Stock.Indicators.ExcludeFromCatalogAttribute")
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static bool IsUtilityMethod(IMethodSymbol methodSymbol)
+    {
+        // Check against our list of known utility method names
+        if (UtilityMethodNames.Contains(methodSymbol.Name))
+        {
+            return true;
+        }
+
+        // Check if method name starts with a utility prefix and doesn't start with "To"
+        if (!methodSymbol.Name.StartsWith("To") &&
+            UtilityPrefixes.Any(prefix => methodSymbol.Name.StartsWith(prefix)))
+        {
+            return true;
+        }
+
+        // Check if this method is in a utility class
+        string containingClassName = methodSymbol.ContainingType.Name;
+        return containingClassName.EndsWith("Utilities") ||
+            containingClassName.EndsWith("Helper") ||
+            containingClassName.EndsWith("Extensions") ||
+            containingClassName.Contains("Util");
+    }
+
+    private static bool IsIndicatorEntryPointMethod(MethodDeclarationSyntax methodDeclaration, IMethodSymbol methodSymbol, SemanticModel semanticModel)
+    {
+        // Method name indicators - indicator entry points often start with "To"
+        if (methodSymbol.Name.StartsWith("To") && methodSymbol.Name.Length > 2 && char.IsUpper(methodSymbol.Name[2]))
+        {
+            // Make sure it also returns an indicator result type
+            return ReturnsIndicatorResultType(methodDeclaration, semanticModel);
+        }
+
+        // If the method name doesn't start with "To", it should still return an indicator result type
+        // to be considered as an entry point
+        return ReturnsIndicatorResultType(methodDeclaration, semanticModel);
+    }
 
     private static bool ReturnsIndicatorResultType(MethodDeclarationSyntax method, SemanticModel semanticModel)
     {
