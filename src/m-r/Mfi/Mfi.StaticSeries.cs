@@ -14,8 +14,10 @@ public static partial class Mfi
     /// <returns>A list of <see cref="MfiResult"/> containing the MFI values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are out of range.</exception>
+    [Series("MFI", "Money Flow Index (MFI)", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Lookback Periods", 1, 250, 14)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

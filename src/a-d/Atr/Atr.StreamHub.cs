@@ -9,12 +9,15 @@ public static partial class Atr
     /// <param name="quoteProvider">The quote provider to convert.</param>
     /// <param name="lookbackPeriods">The number of lookback periods for ATR calculation. Default is 14.</param>
     /// <returns>An instance of <see cref="AtrHub{TIn}"/>.</returns>
+    [Stream("ATR", "Average True Range (ATR)", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static AtrHub<TIn> ToAtr<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
+        [Param("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods = 14)
         where TIn : IQuote
         => new(quoteProvider, lookbackPeriods);
 }
+
 /// <summary>
 /// Represents a hub for calculating the Average True Range (ATR) indicator.
 /// </summary>

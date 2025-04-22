@@ -15,8 +15,10 @@ public static partial class MgDynamic
     /// <returns>A list of McGinley Dynamic results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>
+    [Series("DYNAMIC", "McGinley Dynamic", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<DynamicResult> ToDynamic<T>(
         this IReadOnlyList<T> source,
+        [Param("Lookback Periods", 1, 250, 10)]
         int lookbackPeriods,
         double kFactor = 0.6)
         where T : IReusable

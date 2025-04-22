@@ -11,6 +11,7 @@ public static partial class Gator
     /// <typeparam name="T">The type of the time-series values, which must implement <see cref="IReusable"/> or <see cref="IQuote"/>.</typeparam>
     /// <param name="source">The list of time-series values to transform.</param>
     /// <returns>A list of Gator Oscillator results.</returns>
+    [Series("GATOR", "Gator Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<GatorResult> ToGator<T>(
         this IReadOnlyList<T> source)
         where T : IReusable

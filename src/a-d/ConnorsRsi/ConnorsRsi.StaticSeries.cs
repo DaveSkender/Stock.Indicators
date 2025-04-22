@@ -14,10 +14,14 @@ public static partial class ConnorsRsi
     /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
     /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
     /// <returns>A read-only list of <see cref="ConnorsRsiResult"/> containing the Connors RSI calculation results.</returns>
+    [Series("CRSI", "ConnorsRSI (CRSI)", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
         this IReadOnlyList<T> source,
+        [Param("RSI Periods", 2, 250, 3)]
         int rsiPeriods = 3,
+        [Param("Streak Periods", 2, 50, 2)]
         int streakPeriods = 2,
+        [Param("Rank Periods", 2, 250, 100)]
         int rankPeriods = 100)
         where T : IReusable
     {

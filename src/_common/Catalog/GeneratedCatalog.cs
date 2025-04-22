@@ -23,8 +23,8 @@ public static partial class GeneratedCatalog
             new() {
                 Name = "Generated Test Indicator",
                 Uiid = "GEN_TEST",
-                Category = "Generated",
-                ChartType = "overlay",
+                Category = Category.PriceTrend,
+                ChartType = ChartType.Overlay,
                 Parameters =
                 [
                     new IndicatorParamConfig
@@ -55,8 +55,8 @@ public static partial class GeneratedCatalog
             new() {
                 Name = "Data Stream Analyzer",
                 Uiid = "STREAM_TEST",
-                Category = "Generated",
-                ChartType = "oscillator",
+                Category = Category.Oscillator,
+                ChartType = ChartType.Oscillator,
                 Parameters =
                 [
                     new IndicatorParamConfig
@@ -87,8 +87,8 @@ public static partial class GeneratedCatalog
             new() {
                 Name = "Data Buffer Handler",
                 Uiid = "BUFFER_TEST",
-                Category = "Generated",
-                ChartType = "oscillator",
+                Category = Category.VolumeBased,
+                ChartType = ChartType.Oscillator,
                 Parameters =
                 [
                     new IndicatorParamConfig
@@ -119,8 +119,8 @@ public static partial class GeneratedCatalog
             new() {
                 Name = "Time Series Analyzer",
                 Uiid = "SERIES_TEST",
-                Category = "Generated",
-                ChartType = "overlay",
+                Category = Category.MovingAverage,
+                ChartType = ChartType.Overlay,
                 Parameters =
                 [
                     new IndicatorParamConfig

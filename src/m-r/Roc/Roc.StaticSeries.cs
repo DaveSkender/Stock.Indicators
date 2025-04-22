@@ -13,6 +13,7 @@ public static partial class Roc
     /// <param name="lookbackPeriods">The number of periods to look back for the ROC calculation.</param>
     /// <returns>A list of ROC results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("ROC", "Rate of Change", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<RocResult> ToRoc<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

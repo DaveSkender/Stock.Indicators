@@ -6,44 +6,50 @@ namespace Stock.Indicators.Generator;
 [Generator]
 public class CatalogGenerator : IIncrementalGenerator
 {
-    private static readonly HashSet<string> IgnoredParameterNames = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "source",
-        "chainProvider",
-        "quotes"
-    };
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Register the syntax providers
-        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithSeriesAttribute = context.SyntaxProvider
+        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithSeriesAttribute
+           = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (s, _) => IsCandidateForSeriesAttribute(s),
                 transform: static (ctx, _) => GetMethodWithSeriesAttribute(ctx))
             .Where(static m => m is not null)!;
 
-        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithStreamAttribute = context.SyntaxProvider
+        IncrementalValuesProvider<MethodDeclarationSyntax> methodsWithStreamAttribute
+           = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (s, _) => IsCandidateForStreamAttribute(s),
                 transform: static (ctx, _) => GetMethodWithStreamAttribute(ctx))
             .Where(static m => m is not null)!;
 
-        IncrementalValuesProvider<ConstructorDeclarationSyntax> constructorsWithBufferAttribute = context.SyntaxProvider
+        IncrementalValuesProvider<ConstructorDeclarationSyntax> constructorsWithBufferAttribute
+           = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (s, _) => IsCandidateForBufferAttribute(s),
                 transform: static (ctx, _) => GetConstructorWithBufferAttribute(ctx))
             .Where(static c => c is not null)!;
 
         // Combine all providers and compilation
-        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithSeriesAttributeProvider = methodsWithSeriesAttribute.Collect();
-        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithStreamAttributeProvider = methodsWithStreamAttribute.Collect();
-        IncrementalValueProvider<ImmutableArray<ConstructorDeclarationSyntax>> constructorsWithBufferAttributeProvider = constructorsWithBufferAttribute.Collect();
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithSeriesAttributeProvider
+            = methodsWithSeriesAttribute.Collect();
+
+        IncrementalValueProvider<ImmutableArray<MethodDeclarationSyntax>> methodsWithStreamAttributeProvider
+            = methodsWithStreamAttribute.Collect();
+
+        IncrementalValueProvider<ImmutableArray<ConstructorDeclarationSyntax>> constructorsWithBufferAttributeProvider
+            = constructorsWithBufferAttribute.Collect();
 
         // Create a combined provider with the compilation and all three collections
-        IncrementalValueProvider<(((Compilation Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<MethodDeclarationSyntax> Right) Left, ImmutableArray<ConstructorDeclarationSyntax> Right)> combined = context.CompilationProvider.Combine(
-            methodsWithSeriesAttributeProvider).Combine(
-                methodsWithStreamAttributeProvider).Combine(
-                    constructorsWithBufferAttributeProvider);
+        IncrementalValueProvider<(
+             ((Compilation Left, ImmutableArray<MethodDeclarationSyntax> Right) Left,
+               ImmutableArray<MethodDeclarationSyntax> Right
+             ) Left,
+             ImmutableArray<ConstructorDeclarationSyntax> Right
+            )> combined = context.CompilationProvider
+              .Combine(methodsWithSeriesAttributeProvider)
+              .Combine(methodsWithStreamAttributeProvider)
+              .Combine(constructorsWithBufferAttributeProvider);
 
         // Register the source output generation
         context.RegisterSourceOutput(combined, (spc, tuple) => {
@@ -56,17 +62,20 @@ public class CatalogGenerator : IIncrementalGenerator
         });
     }
 
-    private static bool IsCandidateForSeriesAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
+    private static bool IsCandidateForSeriesAttribute(SyntaxNode node)
+        => node is MethodDeclarationSyntax method &&
             method.AttributeLists.Count > 0 &&
             method.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "Series" or "SeriesAttribute"));
 
-    private static bool IsCandidateForStreamAttribute(SyntaxNode node) => node is MethodDeclarationSyntax method &&
+    private static bool IsCandidateForStreamAttribute(SyntaxNode node)
+        => node is MethodDeclarationSyntax method &&
             method.AttributeLists.Count > 0 &&
             method.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "StreamHub" or "StreamAttribute"));
 
-    private static bool IsCandidateForBufferAttribute(SyntaxNode node) => node is ConstructorDeclarationSyntax constructor &&
+    private static bool IsCandidateForBufferAttribute(SyntaxNode node)
+        => node is ConstructorDeclarationSyntax constructor &&
             constructor.AttributeLists.Count > 0 &&
             constructor.AttributeLists.Any(al => al.Attributes.Any(a =>
                 a.Name.ToString() is "Buffer" or "BufferAttribute"));
@@ -139,17 +148,36 @@ public class CatalogGenerator : IIncrementalGenerator
             return;
         }
 
-        INamedTypeSymbol? seriesAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.SeriesAttribute") ??
-                                compilation.GetTypeByMetadataName("Skender.Stock.Indicators.SeriesAttribute");
-        INamedTypeSymbol? StreamAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.StreamAttribute") ??
-                                   compilation.GetTypeByMetadataName("Skender.Stock.Indicators.StreamAttribute");
-        INamedTypeSymbol? bufferAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.BufferAttribute") ??
-                                 compilation.GetTypeByMetadataName("Skender.Stock.Indicators.BufferAttribute");
-        INamedTypeSymbol? paramAttributeSymbol = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.ParamAttribute") ??
-                                compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
+        INamedTypeSymbol? seriesAttributeSymbol
+            = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.SeriesAttribute")
+           ?? compilation.GetTypeByMetadataName("Skender.Stock.Indicators.SeriesAttribute");
 
-        if (seriesAttributeSymbol is null || StreamAttributeSymbol is null ||
-            bufferAttributeSymbol is null || paramAttributeSymbol is null)
+        INamedTypeSymbol? streamAttributeSymbol
+            = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.StreamAttribute")
+           ?? compilation.GetTypeByMetadataName("Skender.Stock.Indicators.StreamAttribute");
+
+        INamedTypeSymbol? bufferAttributeSymbol
+            = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.BufferAttribute")
+           ?? compilation.GetTypeByMetadataName("Skender.Stock.Indicators.BufferAttribute");
+
+        INamedTypeSymbol? paramAttributeSymbol
+            = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.ParamAttribute")
+           ?? compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
+
+        INamedTypeSymbol? categoryEnum
+            = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.Category")
+           ?? compilation.GetTypeByMetadataName("Skender.Stock.Indicators.Category");
+
+        INamedTypeSymbol? chartTypeEnum
+            = compilation.GetTypeByMetadataName("Stock.Indicators.Generator.Test.ChartType")
+           ?? compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ChartType");
+
+        if (seriesAttributeSymbol is null
+         || streamAttributeSymbol is null
+         || bufferAttributeSymbol is null
+         || paramAttributeSymbol is null
+         || categoryEnum is null
+         || chartTypeEnum is null)
         {
             return;
         }
@@ -178,11 +206,28 @@ public class CatalogGenerator : IIncrementalGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
-                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
-                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
+
+                    // Convert category from enum to string
+                    object? categoryValue = attributeData.ConstructorArguments[2].Value;
+                    string category = categoryValue != null ?
+                        GetEnumFieldName(categoryEnum, Convert.ToInt32(categoryValue)) : string.Empty;
+
+                    // Convert chartType from enum to string
+                    object? chartTypeValue = attributeData.ConstructorArguments[3].Value;
+                    string chartType = chartTypeValue != null ?
+                        GetEnumFieldName(chartTypeEnum, Convert.ToInt32(chartTypeValue)) : string.Empty;
+
                     List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Series", methodSymbol.ContainingType.Name, methodSymbol.Name, category, chartType, parameters));
+                    indicators.Add(new(
+                        Id: id,
+                        Name: name,
+                        Type: "Series",
+                        ContainingType: methodSymbol.ContainingType.Name,
+                        MemberName: methodSymbol.Name,
+                        Category: category,
+                        ChartType: chartType,
+                        Parameters: parameters));
                 }
             }
         }
@@ -199,7 +244,7 @@ public class CatalogGenerator : IIncrementalGenerator
             foreach (AttributeData attributeData in methodSymbol.GetAttributes())
             {
                 INamedTypeSymbol? attributeClass = attributeData.AttributeClass;
-                if (attributeClass?.Equals(StreamAttributeSymbol, SymbolEqualityComparer.Default) == true)
+                if (attributeClass?.Equals(streamAttributeSymbol, SymbolEqualityComparer.Default) == true)
                 {
                     string id = attributeData.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
                     if (string.IsNullOrWhiteSpace(id) || !processedIds.Add(id))
@@ -208,11 +253,28 @@ public class CatalogGenerator : IIncrementalGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
-                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
-                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
+
+                    // Convert category from enum to string
+                    object? categoryValue = attributeData.ConstructorArguments[2].Value;
+                    string category = categoryValue != null ?
+                        GetEnumFieldName(categoryEnum, Convert.ToInt32(categoryValue)) : string.Empty;
+
+                    // Convert chartType from enum to string
+                    object? chartTypeValue = attributeData.ConstructorArguments[3].Value;
+                    string chartType = chartTypeValue != null ?
+                        GetEnumFieldName(chartTypeEnum, Convert.ToInt32(chartTypeValue)) : string.Empty;
+
                     List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Stream", methodSymbol.ContainingType.Name, methodSymbol.Name, category, chartType, parameters));
+                    indicators.Add(new(
+                        Id: id,
+                        Name: name,
+                        Type: "Stream",
+                        ContainingType: methodSymbol.ContainingType.Name,
+                        MemberName: methodSymbol.Name,
+                        Category: category,
+                        ChartType: chartType,
+                        Parameters: parameters));
                 }
             }
         }
@@ -238,11 +300,28 @@ public class CatalogGenerator : IIncrementalGenerator
                     }
 
                     string name = attributeData.ConstructorArguments[1].Value?.ToString() ?? string.Empty;
-                    string category = attributeData.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
-                    string chartType = attributeData.ConstructorArguments[3].Value?.ToString() ?? string.Empty;
+
+                    // Convert category from enum to string
+                    object? categoryValue = attributeData.ConstructorArguments[2].Value;
+                    string category = categoryValue != null ?
+                        GetEnumFieldName(categoryEnum, Convert.ToInt32(categoryValue)) : string.Empty;
+
+                    // Convert chartType from enum to string
+                    object? chartTypeValue = attributeData.ConstructorArguments[3].Value;
+                    string chartType = chartTypeValue != null ?
+                        GetEnumFieldName(chartTypeEnum, Convert.ToInt32(chartTypeValue)) : string.Empty;
+
                     List<ParameterInfo> parameters = GetMethodParameters(constructorSymbol, paramAttributeSymbol);
 
-                    indicators.Add(new(id, name, "Buffer", constructorSymbol.ContainingType.Name, "Constructor", category, chartType, parameters));
+                    indicators.Add(new(
+                        Id: id,
+                        Name: name,
+                        Type: "Buffer",
+                        ContainingType: constructorSymbol.ContainingType.Name,
+                        MemberName: "Constructor",
+                        Category: category,
+                        ChartType: chartType,
+                        Parameters: parameters));
                 }
             }
         }
@@ -252,12 +331,14 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("// <auto-generated/>");
         sourceBuilder.AppendLine("using System.Collections.Generic;");
         sourceBuilder.AppendLine("using System.Linq;");
+        sourceBuilder.AppendLine("using System.CodeDom.Compiler;");
         sourceBuilder.AppendLine();
         sourceBuilder.AppendLine("namespace Skender.Stock.Indicators;");
         sourceBuilder.AppendLine();
         sourceBuilder.AppendLine("/// <summary>");
         sourceBuilder.AppendLine("/// Auto-generated catalog of all indicators in the library");
         sourceBuilder.AppendLine("/// </summary>");
+        sourceBuilder.AppendLine("[GeneratedCode(\"Stock.Indicators.Generator\", \"1.0.0\")]");
         sourceBuilder.AppendLine("public static partial class GeneratedCatalog");
         sourceBuilder.AppendLine("{");
         sourceBuilder.AppendLine("    /// <summary>");
@@ -280,8 +361,8 @@ public class CatalogGenerator : IIncrementalGenerator
 
             sourceBuilder.AppendLine($"                Name = \"{displayName}\",");
             sourceBuilder.AppendLine($"                Uiid = \"{indicator.Id}\",");
-            sourceBuilder.AppendLine($"                Category = \"{indicator.Category}\",");
-            sourceBuilder.AppendLine($"                ChartType = \"{indicator.ChartType}\",");
+            sourceBuilder.AppendLine($"                Category = Category.{indicator.Category},");
+            sourceBuilder.AppendLine($"                ChartType = ChartType.{indicator.ChartType},");
             sourceBuilder.AppendLine($"                Order = Order.Front,");
             sourceBuilder.AppendLine($"                ChartConfig = null,");
 
@@ -296,10 +377,16 @@ public class CatalogGenerator : IIncrementalGenerator
                     sourceBuilder.AppendLine("                    {");
                     sourceBuilder.AppendLine($"                        ParamName = \"{param.Name}\",");
                     sourceBuilder.AppendLine($"                        DisplayName = \"{param.DisplayName}\",");
-                    sourceBuilder.AppendLine($"                        DataType = \"int\",");
-                    sourceBuilder.AppendLine($"                        Minimum = {param.MinValue},");
-                    sourceBuilder.AppendLine($"                        Maximum = {param.MaxValue},");
-                    sourceBuilder.AppendLine($"                        DefaultValue = {param.DefaultValue}");
+                    sourceBuilder.AppendLine($"                        DataType = \"{param.DataType}\",");
+
+                    // Format numeric values without 'd' suffix
+                    string minValueStr = FormatNumericValue(param.MinValue);
+                    string maxValueStr = FormatNumericValue(param.MaxValue);
+                    string defaultValueStr = FormatNumericValue(param.DefaultValue);
+
+                    sourceBuilder.AppendLine($"                        Minimum = {minValueStr},");
+                    sourceBuilder.AppendLine($"                        Maximum = {maxValueStr},");
+                    sourceBuilder.AppendLine($"                        DefaultValue = {defaultValueStr}");
                     sourceBuilder.AppendLine("                    },");
                 }
 
@@ -342,41 +429,101 @@ public class CatalogGenerator : IIncrementalGenerator
         context.AddSource("GeneratedCatalog.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
     }
 
-    private static List<ParameterInfo> GetMethodParameters(IMethodSymbol methodSymbol, INamedTypeSymbol? paramAttributeSymbol)
+    /// <summary>
+    /// Retrieves the name of an enum field from its integer value.
+    /// </summary>
+    /// <param name="enumType">The enum type symbol.</param>
+    /// <param name="value">The integer value of the enum.</param>
+    /// <returns>The name of the enum field, or an empty string if not found.</returns>
+    private static string GetEnumFieldName(INamedTypeSymbol enumType, int value)
+    {
+        foreach (IFieldSymbol member in enumType.GetMembers().OfType<IFieldSymbol>())
+        {
+            if (member.HasConstantValue && Convert.ToInt32(member.ConstantValue) == value)
+            {
+                return member.Name;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    private static List<ParameterInfo> GetMethodParameters(
+        IMethodSymbol methodSymbol,
+        INamedTypeSymbol? paramAttributeSymbol)
     {
         List<ParameterInfo> parameters = [];
+
+        // If paramAttributeSymbol is null, we can't identify parameters
+        if (paramAttributeSymbol is null)
+        {
+            return parameters;
+        }
+
         foreach (IParameterSymbol parameter in methodSymbol.Parameters)
         {
-            // Skip parameters that shouldn't be exposed in the catalog
-            if (IgnoredParameterNames.Contains(parameter.Name))
+            // Only include parameters that have the ParamAttribute
+            AttributeData? paramAttribute = parameter.GetAttributes()
+                .FirstOrDefault(attr => attr.AttributeClass?.Equals(paramAttributeSymbol, SymbolEqualityComparer.Default) == true);
+
+            if (paramAttribute == null)
             {
-                continue;
+                continue; // Skip parameters without ParamAttribute
             }
 
-            string displayName = parameter.Name;
-            double minValue = 0.0;
-            double maxValue = double.MaxValue;
-            double defaultValue = 0.0;
+            // Extract information from the attribute
+            string displayName = paramAttribute.ConstructorArguments[0].Value?.ToString() ?? parameter.Name;
+            double minValue = Convert.ToDouble(paramAttribute.ConstructorArguments[1].Value ?? 0);
+            double maxValue = Convert.ToDouble(paramAttribute.ConstructorArguments[2].Value ?? double.MaxValue);
+            double defaultValue = Convert.ToDouble(paramAttribute.ConstructorArguments[3].Value ?? 0);
 
-            if (paramAttributeSymbol is not null)
+            // Determine the parameter type based on the parameter's type symbol
+            string dataType = DetermineDataType(parameter.Type);
+
+            // Validate default is within min/max bounds
+            if (defaultValue < minValue)
             {
-                foreach (AttributeData attribute in parameter.GetAttributes())
-                {
-                    if (attribute.AttributeClass?.Equals(paramAttributeSymbol, SymbolEqualityComparer.Default) == true)
-                    {
-                        displayName = attribute.ConstructorArguments[0].Value?.ToString() ?? parameter.Name;
-                        minValue = Convert.ToDouble(attribute.ConstructorArguments[1].Value ?? 0);
-                        maxValue = Convert.ToDouble(attribute.ConstructorArguments[2].Value ?? double.MaxValue);
-                        defaultValue = Convert.ToDouble(attribute.ConstructorArguments[3].Value ?? 0);
-                        break;
-                    }
-                }
+                defaultValue = minValue;
+            }
+            else if (defaultValue > maxValue)
+            {
+                defaultValue = maxValue;
             }
 
-            parameters.Add(new(parameter.Name, displayName, minValue, maxValue, defaultValue));
+            parameters.Add(new(parameter.Name, displayName, dataType, minValue, maxValue, defaultValue));
         }
 
         return parameters;
+    }
+
+    /// <summary>
+    /// Determines the appropriate JavaScript/TypeScript data type based on the parameter type.
+    /// </summary>
+    private static string DetermineDataType(ITypeSymbol typeSymbol)
+    {
+        // Check the parameter's declared type
+        string typeName = typeSymbol.ToString().ToLowerInvariant();
+
+        if (typeName is "int" or "int32" or "int16" or
+            "byte" or "sbyte" or "uint" or
+            "uint32" or "uint16" or "short" or
+            "ushort" or "long" or "ulong")
+        {
+            return "int";
+        }
+
+        if (typeName is "bool" or "boolean")
+        {
+            return "boolean";
+        }
+
+        if (typeName == "string")
+        {
+            return "string";
+        }
+
+        // For decimal/double/float types and any other numeric types
+        return "number";
     }
 
     private sealed record IndicatorInfo(
@@ -392,7 +539,27 @@ public class CatalogGenerator : IIncrementalGenerator
     private sealed record ParameterInfo(
         string Name,
         string DisplayName,
+        string DataType,
         double MinValue,
         double MaxValue,
         double DefaultValue);
+
+    /// <summary>
+    /// Formats a numeric value as a string without the 'd' suffix.
+    /// </summary>
+    private static string FormatNumericValue(double value)
+    {
+        // Handle special values like infinity
+        if (double.IsPositiveInfinity(value))
+        {
+            return "double.PositiveInfinity";
+        }
+        else if (double.IsNegativeInfinity(value))
+        {
+            return "double.NegativeInfinity";
+        }
+
+        // Use invariant culture to avoid locale-specific formatting issues
+        return value.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
+    }
 }

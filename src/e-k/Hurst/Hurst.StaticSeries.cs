@@ -14,8 +14,10 @@ public static partial class Hurst
     /// <returns>A list of Hurst Exponent results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 1.</exception>
+    [Series("HURST", "Hurst Exponent", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<HurstResult> ToHurst<T>(
         this IReadOnlyList<T> source,
+        [Param("Lookback Periods", 2, 250, 100)]
         int lookbackPeriods = 100)
         where T : IReusable
     {

@@ -72,12 +72,14 @@ public record IndicatorListing
     /// <summary>
     /// Gets or sets the category of the indicator.
     /// </summary>
-    public required string Category { get; init; }
+    [JsonConverter(typeof(JsonStringEnumConverter<Category>))]
+    public required Category Category { get; init; }
 
     /// <summary>
     /// Gets or sets the chart type for the indicator.
     /// </summary>
-    public required string ChartType { get; init; }
+    [JsonConverter(typeof(JsonStringEnumConverter<ChartType>))]
+    public required ChartType ChartType { get; init; }
 
     /// <summary>
     /// Gets or sets the order in which the indicator is rendered on the chart.

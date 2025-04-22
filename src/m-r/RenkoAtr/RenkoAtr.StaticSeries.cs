@@ -13,6 +13,7 @@ public static partial class Renko
     /// <param name="atrPeriods">The number of periods for calculating ATR.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
+    [Series("RENKO-ATR", "Renko (ATR)", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RenkoResult> ToRenkoAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int atrPeriods,

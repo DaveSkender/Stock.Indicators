@@ -14,6 +14,7 @@ public static partial class Renko
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A list of Renko chart results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    [Series("RENKO", "Renko", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RenkoResult> ToRenko<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         decimal brickSize,

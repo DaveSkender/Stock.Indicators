@@ -16,13 +16,34 @@ public static partial class AtrStop
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
     /// <returns>An instance of <see cref="AtrStopHub{TIn}"/>.</returns>
+    [Stream("ATR-STOP-CLOSE", "ATR Trailing Stop (Close offset)", Category.PriceTrend, ChartType.Overlay, "ATR-STOP([P1],[P2],CLOSE)")]
     public static AtrStopHub<TIn> ToAtrStop<TIn>(
        this IQuoteProvider<TIn> quoteProvider,
+       [Param("Lookback Periods", 1, 50, 21)]
        int lookbackPeriods = 21,
+       [Param("Multiplier", 0.1, 10, 3)]
        double multiplier = 3,
        EndType endType = EndType.Close)
        where TIn : IQuote
        => new(quoteProvider, lookbackPeriods, multiplier, endType);
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AtrStopHub{TIn}"/> class with High/Low offset.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the input quote.</typeparam>
+    /// <param name="quoteProvider">The quote provider.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
+    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <returns>An instance of <see cref="AtrStopHub{TIn}"/>.</returns>
+    [Stream("ATR-STOP-HL", "ATR Trailing Stop (High/Low offset)", Category.PriceTrend, ChartType.Overlay, "ATR-STOP([P1],[P2],HIGH/LOW)")]
+    public static AtrStopHub<TIn> ToAtrStopHighLow<TIn>(
+       this IQuoteProvider<TIn> quoteProvider,
+       [Param("Lookback Periods", 1, 50, 21)]
+       int lookbackPeriods = 21,
+       [Param("Multiplier", 0.1, 10, 3)]
+       double multiplier = 3)
+       where TIn : IQuote
+       => new(quoteProvider, lookbackPeriods, multiplier, EndType.HighLow);
 }
 
 /// <summary>

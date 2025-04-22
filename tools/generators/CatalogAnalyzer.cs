@@ -4,7 +4,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Stock.Indicators.Generator;
 
 /// <summary>
-/// Analyzer that checks if indicator methods have the required style-specific catalog attributes.
+/// Analyzer that checks if indicator methods have the
+/// required style-specific catalog attributes.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class CatalogAnalyzer : DiagnosticAnalyzer
@@ -24,34 +25,15 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     private const string Description = "Indicator methods should have the appropriate catalog attribute based on their style.";
     private const string Category = "Usage";
 
-    // Define the list of known utility method names that should be excluded
-    private static readonly HashSet<string> UtilityMethodNames = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "RemoveWarmupPeriods",
-        "Condense",
-        "Find",
-        "Reset",
-        "GetHashCode",
-        "ToString",
-        "Equals",
-        "GetEnumerator"
-    };
+    // Define constant for "not an indicator"
+    private const int StyleNone = -1;
 
-    // Define the list of utility-like method name prefixes
-    private static readonly HashSet<string> UtilityPrefixes = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "Get",
-        "Set",
-        "Is",
-        "Has",
-        "Add",
-        "Remove",
-        "Update",
-        "Calculate",
-        "Convert",
-        "Validate",
-        "Format"
-    };
+    // Define common utility method names to exclude
+    private static readonly HashSet<string> ExcludedMethodNames
+        = new(StringComparer.OrdinalIgnoreCase) {
+            "Condense",
+            "RemoveWarmupPeriods"
+          };
 
     private static readonly DiagnosticDescriptor SeriesRule = new(
         SeriesDiagnosticId,
@@ -79,9 +61,6 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: Description);
-
-    // Define constant for "not an indicator"
-    private const int StyleNone = -1;
 
     /// <summary>
     /// Gets the diagnostics supported by this analyzer.
@@ -126,8 +105,14 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Skip utility methods that shouldn't be classified as indicators
-        if (IsUtilityMethod(methodSymbol))
+        // Skip common utility methods
+        if (IsCommonUtilityMethod(methodSymbol))
+        {
+            return;
+        }
+
+        // Skip extension methods that don't operate on the main indicator types
+        if (IsExtensionMethod(methodSymbol) && !IsMainIndicatorExtension(methodSymbol))
         {
             return;
         }
@@ -135,9 +120,9 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // Determine the indicator style based on the return type
         int styleValue = DetermineIndicatorStyle(methodSymbol, context.Compilation);
 
+        // If not an indicator method, skip further analysis
         if (styleValue == StyleNone)
         {
-            // Not an indicator method
             return;
         }
 
@@ -207,6 +192,17 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // Not an indicator method or couldn't determine the style
         return StyleNone;
     }
+
+    private static bool IsCommonUtilityMethod(IMethodSymbol methodSymbol) =>
+        // Check if the method name is in our list of known utility methods
+        ExcludedMethodNames.Contains(methodSymbol.Name);
+
+    private static bool IsExtensionMethod(IMethodSymbol methodSymbol) => methodSymbol.IsExtensionMethod;
+
+    private static bool IsMainIndicatorExtension(IMethodSymbol methodSymbol) =>
+        // This is a heuristic to identify the main indicator extension methods
+        // These typically start with "To" and convert data to indicator results
+        methodSymbol.Name.StartsWith("To") || methodSymbol.Name.StartsWith("Get");
 
     private static bool IsStreamType(ITypeSymbol type, Compilation compilation)
     {
@@ -322,29 +318,6 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         }
 
         return false;
-    }
-
-    private static bool IsUtilityMethod(IMethodSymbol methodSymbol)
-    {
-        // Check against our list of known utility method names
-        if (UtilityMethodNames.Contains(methodSymbol.Name))
-        {
-            return true;
-        }
-
-        // Check if method name starts with a utility prefix and doesn't start with "To"
-        if (!methodSymbol.Name.StartsWith("To") &&
-            UtilityPrefixes.Any(methodSymbol.Name.StartsWith))
-        {
-            return true;
-        }
-
-        // Check if this method is in a utility class
-        string containingClassName = methodSymbol.ContainingType.Name;
-        return containingClassName.EndsWith("Utilities") ||
-            containingClassName.EndsWith("Helper") ||
-            containingClassName.EndsWith("Extensions") ||
-            containingClassName.Contains("Util");
     }
 
     private static bool HasAttributeOfType(MethodDeclarationSyntax method, string attributeName, SemanticModel semanticModel)

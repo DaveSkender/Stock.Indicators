@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Text.Json;
 using Microsoft.CodeAnalysis;
 
@@ -10,7 +9,7 @@ public class Catalogging
 {
     private static readonly Uri BaseUrl = new("https://example.com");
 
-    // Cached JSON serializer options to fix CA1869 warning
+    // for JSON test output
     private static readonly JsonSerializerOptions IndentedJsonOptions = new() {
         WriteIndented = true
     };
@@ -23,21 +22,30 @@ public class Catalogging
 
         // Assert
         // Check that the catalog contains indicators from different categories
-        result.Should().Contain(x => x.Category == "moving-average", "Should contain moving average indicators");
-        result.Should().Contain(x => x.Category == "Generated", "Should contain generated indicators");
+        result.Should().Contain(x => x.Category == Category.MovingAverage, "Should contain moving average indicators");
+        result.Should().Contain(x => x.Category != Category.Undefined, "Should contain defined category indicators");
 
-        // Verify some specific indicators we know should be present
-        result.Should().Contain(x => x.Uiid == "SMA", "Should contain SMA indicator");
-        result.Should().Contain(x => x.Uiid == "EMA", "Should contain EMA indicator");
+        // Verify test indicators we know should be present
+        result.Should().Contain(x => x.Uiid == "GEN_TEST", "Should contain the GEN_TEST indicator");
+        result.Should().Contain(x => x.Uiid == "STREAM_TEST", "Should contain the STREAM_TEST indicator");
+        result.Should().Contain(x => x.Uiid == "BUFFER_TEST", "Should contain the BUFFER_TEST indicator");
 
         // Verify style-specific indicators if present
-        result.Where(x => x.Category == "Generated").Should()
-            .Contain(x => x.Name.Contains("Stream") || x.Name.Contains("Buffer") || x.Name.Contains("Series"),
+        result.Where(x => x.Category != Category.Undefined).Should()
+            .Contain(x => x.Name.Contains("Stream", StringComparison.Ordinal) ||
+                          x.Name.Contains("Buffer", StringComparison.Ordinal) ||
+                          x.Name.Contains("Series", StringComparison.Ordinal),
                 "Should contain indicators from different styles");
 
         // Output catalog as pretty JSON for manual inspection
-        List<IndicatorListing> generatedIndicators = result.Where(x => x.Category == "Generated").ToList();
-        List<IndicatorListing> hardcodedIndicators = result.Where(x => x.Category != "Generated").ToList();
+        List<IndicatorListing> generatedIndicators = result.Where(x =>
+            x.Name.Contains("Stream", StringComparison.Ordinal) ||
+            x.Name.Contains("Buffer", StringComparison.Ordinal) ||
+            x.Name.Contains("Series", StringComparison.Ordinal)).ToList();
+        List<IndicatorListing> hardcodedIndicators = result.Where(x =>
+            !(x.Name.Contains("Stream", StringComparison.Ordinal) ||
+              x.Name.Contains("Buffer", StringComparison.Ordinal) ||
+              x.Name.Contains("Series", StringComparison.Ordinal))).ToList();
 
         var catalogOutput = new {
             TotalCount = result.Count,
@@ -82,11 +90,12 @@ public class Catalogging
         }
 
         // Verify there are indicators from different categories
-        result.Should().Contain(x => x.Category == "Generated", "Should contain generated indicators");
+        result.Should().Contain(x => x.Category != Category.Undefined, "Should contain defined category indicators");
 
         // Check if we can find our test indicators by ID
-        result.Should().Contain(x => x.Uiid == "SMA", "Should contain SMA indicator");
-        result.Should().Contain(x => x.Uiid == "EMA", "Should contain EMA indicator");
+        result.Should().Contain(x => x.Uiid == "GEN_TEST", "Should contain the GEN_TEST indicator");
+        result.Should().Contain(x => x.Uiid == "BUFFER_TEST", "Should contain the BUFFER_TEST indicator");
+        result.Should().Contain(x => x.Uiid == "STREAM_TEST", "Should contain the STREAM_TEST indicator");
 
         // Ensure catalog is valid
         validate.Should().NotThrow<ValidationException>();
@@ -101,8 +110,8 @@ public class Catalogging
         IndicatorListing indicator = new(baseUrl) {
             Name = "Test Indicator",
             Uiid = "TEST",
-            Category = "test-category",
-            ChartType = "overlay",
+            Category = Category.PriceCharacteristic,
+            ChartType = ChartType.Overlay,
             Parameters =
             [
                 new IndicatorParamConfig
@@ -167,8 +176,8 @@ public class Catalogging
         IndicatorListing indicator = new() {
             Name = "Test Indicator",
             Uiid = "TEST",
-            Category = "test-category",
-            ChartType = "overlay",
+            Category = Category.PriceCharacteristic,
+            ChartType = ChartType.Overlay,
             Parameters = [],
             Results =
             [
@@ -195,8 +204,8 @@ public class Catalogging
         IndicatorListing indicator = new() {
             Name = "Test Indicator",
             Uiid = "TEST",
-            Category = "test-category",
-            ChartType = "overlay",
+            Category = Category.PriceCharacteristic,
+            ChartType = ChartType.Overlay,
             LegendOverride = "Custom Legend",
             Parameters =
             [
@@ -235,8 +244,15 @@ public class Catalogging
         IReadOnlyList<IndicatorListing> result = Catalog.IndicatorCatalog();
 
         // Assert
-        result.Should().OnlyContain(x => x.Category != null && x.ChartType != null,
-            "Catalog listings should only be generated for indicators with the IndicatorAttribute");
+        result.Should().NotBeEmpty("Catalog should contain indicators");
+
+        // We know there are three generated test indicators with Category.Undefined,
+        // but all other indicators should have properly defined categories and chart types
+        List<IndicatorListing> testIndicators = result.Where(x => x.Uiid is "BUFFER_TEST" or "STREAM_TEST" or "GEN_TEST").ToList();
+        List<IndicatorListing> realIndicators = result.Except(testIndicators).ToList();
+
+        realIndicators.Should().OnlyContain(x => x.Category != Category.Undefined && x.ChartType != ChartType.Undefined,
+            "Real indicators should have properly defined categories and chart types");
     }
 
     [TestMethod]
@@ -271,8 +287,8 @@ public class Catalogging
         IndicatorListing duplicateIndicator = new() {
             Name = "Duplicate Indicator",
             Uiid = "DUPLICATE",
-            Category = "test-category",
-            ChartType = "overlay",
+            Category = Category.PriceCharacteristic,
+            ChartType = ChartType.Overlay,
             Parameters = [],
             Results = [
                 new IndicatorResultConfig
@@ -296,6 +312,58 @@ public class Catalogging
         Action act = () => Catalog.ValidateUniqueUIID(catalog);
 
         // Assert
-        act.Should().Throw<InvalidOperationException>("An error should be thrown when UIID is not defined uniquely");
+        act.Should().Throw<InvalidOperationException>(
+            "An error should be thrown when UIID is not defined uniquely");
+    }
+
+    [TestMethod]
+    public void ExampleOutput()
+    {
+        // Read the example.json file using an absolute path
+        string jsonPath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "..", "..", "..", "_common", "Catalog", "example.json");
+
+        // Alternatively, if the file is copied to the output directory during build
+        if (!File.Exists(jsonPath))
+        {
+            jsonPath = Path.Combine("_common", "Catalog", "example.json");
+        }
+
+        string jsonContent = File.ReadAllText(jsonPath);
+
+        // Try parsing the JSON content without deserializing to specific types first
+        using JsonDocument doc = JsonDocument.Parse(jsonContent);
+        JsonElement root = doc.RootElement;
+
+        // Extract unique categories and chart types as strings
+        HashSet<string> categories = [];
+        HashSet<string> chartTypes = [];
+
+        foreach (JsonElement item in root.EnumerateArray())
+        {
+            if (item.TryGetProperty("category", out JsonElement categoryElement))
+            {
+                categories.Add(categoryElement.GetString() ?? "undefined");
+            }
+
+            if (item.TryGetProperty("chartType", out JsonElement chartTypeElement))
+            {
+                chartTypes.Add(chartTypeElement.GetString() ?? "undefined");
+            }
+        }
+
+        // Display unique values
+        Console.WriteLine("Unique Categories:");
+        foreach (string category in categories.OrderBy(c => c))
+        {
+            Console.WriteLine($"- {category}");
+        }
+
+        Console.WriteLine("\nUnique Chart Types:");
+        foreach (string chartType in chartTypes.OrderBy(t => t))
+        {
+            Console.WriteLine($"- {chartType}");
+        }
     }
 }

@@ -13,9 +13,12 @@ public static partial class Awesome
     /// <param name="fastPeriods">The number of periods for the fast moving average. Default is 5.</param>
     /// <param name="slowPeriods">The number of periods for the slow moving average. Default is 34.</param>
     /// <returns>A list of Awesome Oscillator results.</returns>
+    [Series("AWESOME", "Awesome Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<AwesomeResult> ToAwesome<T>(
         this IReadOnlyList<T> source,
+        [Param("Fast Periods", 1, 100, 5)]
         int fastPeriods = 5,
+        [Param("Slow Periods", 1, 250, 34)]
         int slowPeriods = 34)
         where T : IReusable
     {

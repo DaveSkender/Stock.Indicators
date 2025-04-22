@@ -19,9 +19,12 @@ public static partial class MaEnvelopes
     /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
     /// <returns>A list of Moving Average Envelope results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the moving average type is not supported.</exception>
+    [Series("MA-ENV", "Moving Average Envelopes", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
         this IReadOnlyList<T> source,
+        [Param("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods,
+        [Param("Percent Offset", 0.1, 10, 2.5)]
         double percentOffset = 2.5,
         MaType movingAverageType = MaType.SMA)
         where T : IReusable

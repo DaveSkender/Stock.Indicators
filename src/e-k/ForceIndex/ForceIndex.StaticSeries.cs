@@ -14,8 +14,10 @@ public static partial class ForceIndex
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    [Series("FORCE", "Force Index", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<ForceIndexResult> ToForceIndex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Lookback Periods", 1, 250, 2)]
         int lookbackPeriods = 2)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

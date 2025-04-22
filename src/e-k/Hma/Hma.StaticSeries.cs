@@ -14,8 +14,10 @@ public static partial class Hma
     /// <returns>A list of HMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 2.</exception>
+    [Series("HMA", "Hull Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<HmaResult> ToHma<T>(
         this IReadOnlyList<T> source,
+        [Param("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods)
         where T : IReusable
     {

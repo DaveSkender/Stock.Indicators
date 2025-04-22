@@ -55,7 +55,7 @@ public class Ichimoku : StaticSeriesTestBase
     public void Extended()
     {
         IReadOnlyList<IchimokuResult> results = Quotes
-            .GetIchimoku(3, 13, 40, 0, 0);
+            .ToIchimoku(3, 13, 40, 0, 0);
 
         Assert.AreEqual(502, results.Count);
     }
@@ -110,12 +110,12 @@ public class Ichimoku : StaticSeriesTestBase
 
         // invalid offsets
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.GetIchimoku(9, 26, 52, -1));
+            () => Quotes.ToIchimoku(9, 26, 52, -1));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.GetIchimoku(9, 26, 52, -1, 12));
+            () => Quotes.ToIchimoku(9, 26, 52, -1, 12));
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.GetIchimoku(9, 26, 52, 12, -1));
+            () => Quotes.ToIchimoku(9, 26, 52, 12, -1));
     }
 }

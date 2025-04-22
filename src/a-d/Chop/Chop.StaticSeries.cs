@@ -12,8 +12,10 @@ public static partial class Chop
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 14.</param>
     /// <returns>A read-only list of <see cref="ChopResult"/> containing the CHOP calculation results.</returns>
+    [Series("CHOP", "Choppiness Index", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<ChopResult> ToChop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Lookback Periods", 1, 250, 14)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

@@ -14,8 +14,10 @@ public static partial class Epma
     /// <returns>A list of EPMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    [Series("EPMA", "Endpoint Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<EpmaResult> ToEpma<T>(
         this IReadOnlyList<T> source,
+        [Param("Lookback Periods", 1, 250, 10)]
         int lookbackPeriods)
         where T : IReusable
     {

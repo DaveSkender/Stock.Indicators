@@ -14,14 +14,36 @@ public static partial class AtrStop
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
+    [Series("ATR-STOP-CLOSE", "ATR Trailing Stop (Close offset)", Category.PriceTrend, ChartType.Overlay, "ATR-STOP([P1],[P2],CLOSE)")]
     public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Lookback Periods", 1, 50, 21)]
         int lookbackPeriods = 21,
+        [Param("Multiplier", 0.1, 10, 3)]
         double multiplier = 3,
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
+
+    /// <summary>
+    /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
+    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <returns>A list of ATR Trailing Stop results.</returns>
+    [Series("ATR-STOP-HL", "ATR Trailing Stop (High/Low offset)", Category.PriceTrend, ChartType.Overlay, "ATR-STOP([P1],[P2],HIGH/LOW)")]
+    public static IReadOnlyList<AtrStopResult> ToAtrStopHighLow<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        [Param("Lookback Periods", 1, 50, 21)]
+        int lookbackPeriods = 21,
+        [Param("Multiplier", 0.1, 10, 3)]
+        double multiplier = 3)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
 
     /// <summary>
     /// Calculates the ATR Trailing Stop for the given source data.

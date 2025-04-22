@@ -16,6 +16,7 @@ public static partial class Stoch
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
+    [Series("STOCH", "Stochastic Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<StochResult> ToStoch<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14,
@@ -40,6 +41,7 @@ public static partial class Stoch
     /// <param name="dFactor">The factor for the %D line.</param>
     /// <param name="movingAverageType">The type of moving average to use.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
+    [ExcludeFromCatalog]
     public static IReadOnlyList<StochResult> ToStoch<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods,

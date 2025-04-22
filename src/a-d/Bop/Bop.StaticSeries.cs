@@ -12,8 +12,10 @@ public static partial class Bop
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="smoothPeriods">The number of periods to use for smoothing. Default is 14.</param>
     /// <returns>A read-only list of <see cref="BopResult"/> containing the BOP calculation results.</returns>
+    [Series("BOP", "Balance of Power (BOP)", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<BopResult> ToBop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Smooth Periods", 1, 250, 14)]
         int smoothPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

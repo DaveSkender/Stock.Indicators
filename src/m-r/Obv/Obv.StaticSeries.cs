@@ -11,6 +11,7 @@ public static partial class Obv
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <returns>A list of OBV results.</returns>
+    [Series("OBV", "On-Balance Volume", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<ObvResult> ToObv<TQuote>(
     this IReadOnlyList<TQuote> quotes)
     where TQuote : IQuote => quotes

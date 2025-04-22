@@ -5,9 +5,15 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <IsRoslynComponent>true</IsRoslynComponent>
+
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <ReportAnalyzer>true</ReportAnalyzer>
+    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>

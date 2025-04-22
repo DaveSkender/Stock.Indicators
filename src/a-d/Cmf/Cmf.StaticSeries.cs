@@ -12,8 +12,10 @@ public static partial class Cmf
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <returns>A read-only list of <see cref="CmfResult"/> containing the CMF calculation results.</returns>
+    [Series("CMF", "Chaikin Money Flow (CMF)", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<CmfResult> ToCmf<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes
             .ToSortedList()

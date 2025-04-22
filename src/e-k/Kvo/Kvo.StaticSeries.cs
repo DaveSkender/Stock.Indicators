@@ -15,10 +15,14 @@ public static partial class Kvo
     /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
     /// <returns>A list of KVO results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
+    [Series("KVO", "Klinger Volume Oscillator", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<KvoResult> ToKvo<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Fast Periods", 1, 200, 34)]
         int fastPeriods = 34,
+        [Param("Slow Periods", 1, 250, 55)]
         int slowPeriods = 55,
+        [Param("Signal Periods", 1, 50, 13)]
         int signalPeriods = 13)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

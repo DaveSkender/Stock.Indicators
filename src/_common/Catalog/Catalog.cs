@@ -9,80 +9,9 @@ namespace Skender.Stock.Indicators;
 public static class Catalog
 {
     /// <inheritdoc cref="IndicatorCatalog(Uri)"/>"
-    public static IReadOnlyList<IndicatorListing> IndicatorCatalog()
-    {
-        // Get the base catalog
-        List<IndicatorListing> catalog =
-        [
-                // Exponential Moving Average (EMA)
-                new IndicatorListing {
-                    Name = "Exponential Moving Average (EMA)",
-                    Uiid = "EMA",
-                    Category = "moving-average",
-                    ChartType = "overlay",
-                    Parameters = [
-                        new IndicatorParamConfig
-                        {
-                            DisplayName = "Lookback Periods",
-                            ParamName = "lookbackPeriods",
-                            DataType = "int",
-                            DefaultValue = 20,
-                            Minimum = 2,
-                            Maximum = 250
-                        }
-                    ],
-                    Results = [
-                        new IndicatorResultConfig
-                        {
-                            DisplayName = "Exponential Moving Average",
-                            TooltipTemplate = "EMA([P1])",
-                            DataName = "ema",
-                            DataType = "number",
-                            LineType = "solid",
-                            DefaultColor = ChartColors.StandardBlue
-                        }
-                    ]
-                },
-
-                // Simple Moving Average (SMA)
-                new IndicatorListing {
-                    Name = "Simple Moving Average (SMA)",
-                    Uiid = "SMA",
-                    Category = "moving-average",
-                    ChartType = "overlay",
-                    Parameters = [
-                        new IndicatorParamConfig
-                        {
-                            DisplayName = "Lookback Periods",
-                            ParamName = "lookbackPeriods",
-                            DataType = "int",
-                            DefaultValue = 20,
-                            Minimum = 2,
-                            Maximum = 250
-                        }
-                    ],
-                    Results = [
-                        new IndicatorResultConfig
-                        {
-                            DisplayName = "Simple Moving Average",
-                            TooltipTemplate = "SMA([P1])",
-                            DataName = "sma",
-                            DataType = "number",
-                            LineType = "solid",
-                            DefaultColor = ChartColors.StandardBlue
-                        }
-                    ]
-                }
-,
-        ];
-
-        // Add generated indicators
-        IReadOnlyList<IndicatorListing> generatedCatalog = GeneratedCatalog.Indicators;
-        catalog.AddRange(generatedCatalog);
-
+    public static IReadOnlyList<IndicatorListing> IndicatorCatalog() =>
         // Return sorted catalog
-        return [.. catalog.OrderBy(x => x.Name)];
-    }
+        [.. GeneratedCatalog.Indicators.OrderBy(x => x.Name)];
 
     /// <summary>
     /// Generates a list of indicator with optional base URL.
@@ -136,5 +65,113 @@ public static class Catalog
             throw new InvalidOperationException(
                 $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
         }
+    }
+
+    /// <summary>
+    /// Generates a default oscillator chart configuration.
+    /// </summary>
+    /// <param name="min">The minimum value for the Y-axis.</param>
+    /// <param name="max">The maximum value for the Y-axis.</param>
+    /// <param name="upperThreshold">The upper threshold value.</param>
+    /// <param name="lowerThreshold">The lower threshold value.</param>
+    /// <returns>A <see cref="ChartConfig"/> object with the specified parameters.</returns>
+    internal static ChartConfig GetOscillatorConfig(
+        float min = 0,
+        float max = 100,
+        float upperThreshold = 80,
+        float lowerThreshold = 20) => new() {
+            MinimumYAxis = min,
+            MaximumYAxis = max,
+            Thresholds = [
+                new ChartThreshold {
+                    Value = upperThreshold,
+                    Color = ChartColors.ThresholdRed,
+                    Style = "dash",
+                    Fill = new ChartFill {
+                        Target = "+2",
+                        ColorAbove = "transparent",
+                        ColorBelow = ChartColors.ThresholdGreen
+                    }
+                },
+                new ChartThreshold {
+                    Value = lowerThreshold,
+                    Color = ChartColors.ThresholdGreen,
+                    Style = "dash",
+                    Fill = new ChartFill {
+                        Target = "+1",
+                        ColorAbove = ChartColors.ThresholdRed,
+                        ColorBelow = "transparent"
+                    }
+                }
+            ]
+        };
+
+    /// <summary>
+    /// Generates a list of indicator result configurations for price bands.
+    /// </summary>
+    /// <param name="name">The name of the price band.</param>
+    /// <param name="color">The color of the price band. If null, a default color is used.</param>
+    /// <returns>A list of <see cref="IndicatorResultConfig"/> objects.</returns>
+    internal static List<IndicatorResultConfig> GetPriceBandResults(string name, string? color = null)
+    {
+        color ??= ChartColors.StandardOrange;
+
+        return [
+            new IndicatorResultConfig {
+                DisplayName = "Upper Band",
+                TooltipTemplate = $"{name} Upper Band",
+                DataName = "upperBand",
+                DataType = "number",
+                LineType = "solid",
+                LineWidth = 1,
+                DefaultColor = color,
+                Fill = new ChartFill {
+                    Target = "+2",
+                    ColorAbove = ChartColors.DarkGrayTransparent,
+                    ColorBelow = ChartColors.DarkGrayTransparent
+                }
+            },
+            new IndicatorResultConfig {
+                DisplayName = "Centerline",
+                TooltipTemplate = $"{name} Centerline",
+                DataName = "centerline",
+                DataType = "number",
+                LineType = "dash",
+                LineWidth = 1,
+                DefaultColor = color
+            },
+            new IndicatorResultConfig {
+                DisplayName = "Lower Band",
+                TooltipTemplate = $"{name} Lower Band",
+                DataName = "lowerBand",
+                DataType = "number",
+                LineType = "solid",
+                LineWidth = 1,
+                DefaultColor = color
+            }
+        ];
+    }
+
+    /// <summary>
+    /// Generates a list of indicator result configurations for moving averages.
+    /// </summary>
+    /// <param name="name">The name of the moving average.</param>
+    /// <param name="color">The color of the moving average. If null, a default color is used.</param>
+    /// <returns>A list of <see cref="IndicatorResultConfig"/> objects.</returns>
+    internal static List<IndicatorResultConfig> GetMovingAverageResults(string name, string? color = null)
+    {
+        color ??= ChartColors.StandardBlue;
+
+        return [
+            new IndicatorResultConfig {
+                DisplayName = $"{name} Moving Average",
+                TooltipTemplate = $"{name}([P1])",
+                DataName = "movingAverage",
+                DataType = "number",
+                LineType = "solid",
+                LineWidth = 2,
+                DefaultColor = color
+            }
+        ];
     }
 }

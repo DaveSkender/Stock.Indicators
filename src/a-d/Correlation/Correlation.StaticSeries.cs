@@ -15,9 +15,11 @@ public static partial class Correlation
     /// <returns>A read-only list of <see cref="CorrResult"/> containing the correlation calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when either sourceA or sourceB is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceA and sourceB do not match.</exception>
+    [Series("CORR", "Correlation", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<CorrResult> ToCorrelation<T>(
         this IReadOnlyList<T> sourceA,
         IReadOnlyList<T> sourceB,
+        [Param("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods)
         where T : IReusable
     {

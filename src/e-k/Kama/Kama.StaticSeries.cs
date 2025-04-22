@@ -16,10 +16,14 @@ public static partial class Kama
     /// <returns>A list of KAMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
+    [Series("KAMA", "Kaufman's Adaptive Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<KamaResult> ToKama<T>(
         this IReadOnlyList<T> source,
+        [Param("Lookback Periods", 2, 250, 10)]
         int erPeriods = 10,
+        [Param("Fast Periods", 1, 50, 2)]
         int fastPeriods = 2,
+        [Param("Slow Periods", 1, 250, 30)]
         int slowPeriods = 30)
         where T : IReusable
     {
