@@ -57,7 +57,7 @@ The library includes intelligent Roslyn analyzers that help ensure proper usage 
 - **Smart type detection** - Automatically identifies indicator types based on their return types and interfaces
 - **Exclusion support** - Methods can be excluded from analysis using the `[ExcludeFromCatalog]` attribute
 
-See the [generators documentation](/tools/generators) for more information.
+See the [generators documentation](https://github.com/DaveSkender/Stock.Indicators/tools/generators/README.md) for more information.
 
 ## Testing
 
