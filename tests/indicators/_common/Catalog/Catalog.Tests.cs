@@ -46,14 +46,6 @@ public class Catalogging
         // We need to pass BaseUrl to the URI overload, which will use the default isTest=false
         IReadOnlyList<IndicatorListing> result = Catalog.IndicatorCatalog(BaseUrl);
 
-        // Check if we have a populated catalog
-        if (result.Count == 0)
-        {
-            Console.WriteLine("WARNING: Catalog is empty. This is expected in test environment where source generator isn't finding real indicators.");
-            Assert.Inconclusive("Test skipped - catalog empty in test environment, likely because source generator isn't finding real indicators");
-            return;
-        }
-
         // Assert
         Action validate = () => Validator.ValidateObject(
             result,
@@ -366,7 +358,7 @@ public class Catalogging
             Console.WriteLine($"- {category}");
         }
 
-        Console.WriteLine("\nUnique Chart Types:");
+        Console.WriteLine("\n\nUnique Chart Types:");
         foreach (string chartType in chartTypes.OrderBy(t => t))
         {
             Console.WriteLine($"- {chartType}");
