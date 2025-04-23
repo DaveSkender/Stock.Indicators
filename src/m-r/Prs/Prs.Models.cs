@@ -1,16 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Price Relative Strength (PRS) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the PRS result.</param>
+/// <param name="Prs">The PRS value.</param>
+/// <param name="PrsPercent">The PRS percentage value.</param>
 [Serializable]
-public sealed class PrsResult : ResultBase, IReusableResult
+public record PrsResult
+(
+    DateTime Timestamp,
+    double? Prs,
+    double? PrsPercent
+) : IReusable
 {
-    public PrsResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Prs { get; set; }
-    public double? PrsSma { get; set; }
-    public double? PrsPercent { get; set; }
-
-    double? IReusableResult.Value => Prs;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Prs.Null2NaN();
 }

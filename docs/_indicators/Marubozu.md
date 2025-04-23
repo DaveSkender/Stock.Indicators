@@ -16,7 +16,7 @@ type: candlestick-pattern
 
 ```csharp
 // C# usage syntax
-IEnumerable<CandleResult> results =
+IReadOnlyList<CandleResult> results =
   quotes.GetMarubozu(minBodyPercent);
 ```
 
@@ -33,7 +33,7 @@ You must have at least one historical quote; however, more is typically provided
 ## Response
 
 ```csharp
-IEnumerable<CandleResult>
+IReadOnlyList<CandleResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.

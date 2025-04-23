@@ -1,15 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of the KAMA (Kaufman's Adaptive Moving Average) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Er">The Efficiency Ratio (ER) value.</param>
+/// <param name="Kama">The KAMA value.</param>
 [Serializable]
-public sealed class KamaResult : ResultBase, IReusableResult
+public record KamaResult
+(
+    DateTime Timestamp,
+    double? Er = null,
+    double? Kama = null
+) : IReusable
 {
-    public KamaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? ER { get; set; }
-    public double? Kama { get; set; }
-
-    double? IReusableResult.Value => Kama;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Kama.Null2NaN();
 }
