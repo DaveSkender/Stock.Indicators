@@ -14,10 +14,17 @@ public static partial class StarcBands
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
+    [Series("STARC", "STARC Bands", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+
+        [Param("SMA Periods", 1, 50, 5)]
         int smaPeriods,
+
+        [Param("Multiplier", 1, 10, 2)]
         double multiplier = 2,
+
+        [Param("ATR Periods", 1, 50, 10)]
         int atrPeriods = 10)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

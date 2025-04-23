@@ -16,13 +16,26 @@ public static partial class Alligator
     /// <param name="lipsPeriods">The number of periods for the lips.</param>
     /// <param name="lipsOffset">The offset for the lips.</param>
     /// <returns>An Alligator hub.</returns>
+    [Stream("ALLIGATOR", "Williams Alligator", Category.PriceTrend, ChartType.Overlay)]
     public static AlligatorHub<TIn> ToAlligator<TIn>(
         this IChainProvider<TIn> chainProvider,
+
+        [Param("Jaw Periods", 1, 250, 13)]
         int jawPeriods = 13,
+
+        [Param("Jaw Offset", 1, 30, 8)]
         int jawOffset = 8,
+
+        [Param("Teeth Periods", 1, 250, 8)]
         int teethPeriods = 8,
+
+        [Param("Teeth Offset", 1, 30, 5)]
         int teethOffset = 5,
+
+        [Param("Lips Periods", 1, 250, 5)]
         int lipsPeriods = 5,
+
+        [Param("Lips Offset", 1, 30, 3)]
         int lipsOffset = 3)
         where TIn : IReusable
         => new(

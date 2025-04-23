@@ -16,10 +16,17 @@ public static partial class Stc
     /// <returns>A list of <see cref="StcResult"/> containing the STC values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source series is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are less than or equal to 0.</exception>
+    [Series("STC", "Schaff Trend Cycle", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<StcResult> ToStc<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Cycle Periods", 1, 250, 10)]
         int cyclePeriods = 10,
+
+        [Param("Fast Periods", 1, 250, 23)]
         int fastPeriods = 23,
+
+        [Param("Slow Periods", 1, 250, 50)]
         int slowPeriods = 50)
         where T : IReusable
     {

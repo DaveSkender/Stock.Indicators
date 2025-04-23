@@ -14,7 +14,13 @@ public static partial class Smma
     /// <returns>A list of <see cref="SmmaResult"/> containing the SMMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 1.</exception>
-    public static IReadOnlyList<SmmaResult> ToSmma<T>(this IReadOnlyList<T> source, int lookbackPeriods) where T : IReusable
+    [Series("SMMA", "Smoothed Moving Average", Category.MovingAverage, ChartType.Overlay)]
+    public static IReadOnlyList<SmmaResult> ToSmma<T>(
+        this IReadOnlyList<T> source,
+
+        [Param("Lookback Periods", 1, 250, 20)]
+        int lookbackPeriods)
+        where T : IReusable
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);

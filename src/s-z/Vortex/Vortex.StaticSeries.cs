@@ -10,12 +10,15 @@ public static partial class Vortex
     /// </summary>
     /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of lookback periods.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("VORTEX", "Vortex Indicator", Category.PriceTrend, ChartType.Oscillator)]
     public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        int lookbackPeriods)
+
+        [Param("Lookback Periods", 2, 100, 14)]
+        int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcVortex(lookbackPeriods);

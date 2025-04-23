@@ -13,9 +13,14 @@ public static partial class SuperTrend
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <param name="multiplier">The multiplier for the ATR.</param>
     /// <returns>A list of SuperTrend results.</returns>
+    [Series("SUPERTREND", "SuperTrend", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<SuperTrendResult> ToSuperTrend<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+
+        [Param("Lookback Periods", 1, 50, 10)]
         int lookbackPeriods = 10,
+
+        [Param("Multiplier", 0.1, 10, 3)]
         double multiplier = 3)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

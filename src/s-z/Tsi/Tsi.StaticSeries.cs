@@ -15,10 +15,17 @@ public static partial class Tsi
     /// <param name="signalPeriods">The number of periods for the signal calculation. Default is 7.</param>
     /// <returns>A list of TsiResult containing the TSI and signal values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("TSI", "True Strength Index", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<TsiResult> ToTsi<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Lookback Periods", 1, 250, 25)]
         int lookbackPeriods = 25,
+
+        [Param("Smooth Periods", 1, 250, 13)]
         int smoothPeriods = 13,
+
+        [Param("Signal Periods", 1, 50, 7)]
         int signalPeriods = 7)
         where T : IReusable
     {

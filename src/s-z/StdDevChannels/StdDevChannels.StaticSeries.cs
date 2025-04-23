@@ -15,9 +15,14 @@ public static partial class StdDevChannels
     /// Spans all provided prices when <see langword="null"/>.</param>
     /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
     /// <returns>A list of <see cref="StdDevChannelsResult"/> containing the Standard Deviation Channels values.</returns>
+    [Series("STDEV-CHANNELS", "Standard Deviation Channels", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Lookback Periods", 1, 250, 20)]
         int? lookbackPeriods = 20,
+
+        [Param("Standard Deviations", 0.01, 10, 2)]
         double stdDeviations = 2)
         where T : IReusable
     {

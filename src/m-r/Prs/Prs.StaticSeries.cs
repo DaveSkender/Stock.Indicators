@@ -15,9 +15,12 @@ public static partial class Prs
     /// <returns>A list of PRS results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
+    [Series("PRS", "Price Relative Strength", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceBase,
+
+        [Param("Lookback Periods", 1, 250, 0)]
         int? lookbackPeriods = null)
         where T : IReusable
     {

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Microsoft.CodeAnalysis;
 
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
 public class Catalogging
@@ -317,7 +317,27 @@ public class Catalogging
     }
 
     [TestMethod]
-    public void ExampleOutput()
+    public void OutputGeneratedCatalogToConsole()
+    {
+        // Act
+        IReadOnlyList<IndicatorListing> catalog = Catalog.IndicatorCatalog();
+
+        // Use the cached JsonSerializerOptions instance for pretty printing
+        string json = JsonSerializer.Serialize(catalog, IndentedJsonOptions);
+
+        // Output the JSON to the console
+        Console.WriteLine(json);
+
+        // Assert that the catalog contains real indicators
+        catalog.Should().NotBeEmpty("The catalog should have content");
+        json.Should().NotContain(
+            "BUFFER_TEST", "Should not contain the 'stub' catalog");
+        catalog.Count.Should().BeGreaterThan(
+            70, "The catalog should contain all the indicators");
+    }
+
+    [TestMethod]
+    public void OutputOriginalJsonFromChartSite()
     {
         // Read the example.json file using an absolute path
         string jsonPath = Path.Combine(

@@ -22,13 +22,26 @@ public static partial class Alligator
     /// <exception cref="ArgumentOutOfRangeException">
     /// Invalid parameter value provided.
     /// </exception>
+    [Series("ALLIGATOR", "Williams Alligator", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<AlligatorResult> ToAlligator<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Jaw Periods", 1, 250, 13)]
         int jawPeriods = 13,
+
+        [Param("Jaw Offset", 1, 30, 8)]
         int jawOffset = 8,
+
+        [Param("Teeth Periods", 1, 250, 8)]
         int teethPeriods = 8,
+
+        [Param("Teeth Offset", 1, 30, 5)]
         int teethOffset = 5,
+
+        [Param("Lips Periods", 1, 250, 5)]
         int lipsPeriods = 5,
+
+        [Param("Lips Offset", 1, 30, 3)]
         int lipsOffset = 3)
         where T : IReusable
     {

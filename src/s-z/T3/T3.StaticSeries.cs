@@ -14,9 +14,14 @@ public static partial class T3
     /// <param name="volumeFactor">The volume factor. Default is 0.7.</param>
     /// <returns>A list of T3Result containing the T3 moving average values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("T3", "T3 Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<T3Result> ToT3<T>(
         this IReadOnlyList<T> source,
+
+        [Param("Lookback Periods", 1, 250, 5)]
         int lookbackPeriods = 5,
+
+        [Param("Volume Factor", 0, 1, 0.7)]
         double volumeFactor = 0.7)
         where T : IReusable
     {

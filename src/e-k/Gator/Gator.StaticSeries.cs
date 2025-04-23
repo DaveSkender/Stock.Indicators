@@ -25,6 +25,7 @@ public static partial class Gator
     /// <param name="alligator">The list of Alligator results.</param>
     /// <returns>A list of Gator Oscillator results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the alligator list is null.</exception>
+    [ExcludeFromCatalog]
     public static IReadOnlyList<GatorResult> ToGator(
         this IReadOnlyList<AlligatorResult> alligator)
     {

@@ -15,11 +15,20 @@ public static partial class Smi
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
+    [Series("SMI", "Stochastic Momentum Index", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+
+        [Param("Lookback Periods", 1, 300, 13)]
         int lookbackPeriods = 13,
+
+        [Param("First Smooth Periods", 1, 300, 25)]
         int firstSmoothPeriods = 25,
+
+        [Param("Second Smooth Periods", 1, 50, 2)]
         int secondSmoothPeriods = 2,
+
+        [Param("Signal Periods", 1, 50, 3)]
         int signalPeriods = 3)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
