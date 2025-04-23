@@ -12,6 +12,6 @@ group :jekyll_plugins do
   gem 'jekyll-minifier'
 end
 
-gem 'wdm', '>= 0.2.0' if Gem.win_platform? # windows compatibilty pack
+gem 'wdm', '>= 0.2.0' # windows compatibilty pack
 gem 'webrick' # needed for ruby > v3.0
 gem 'faraday' # reload/retry on file changes
