@@ -10,8 +10,35 @@ public static class Catalog
 {
     /// <inheritdoc cref="IndicatorCatalog(Uri)"/>"
     public static IReadOnlyList<IndicatorListing> IndicatorCatalog() =>
+        // Return sorted catalog without test indicators
+        IndicatorCatalog(false);
+
+    /// <summary>
+    /// Generates a list of indicators, with option to include or exclude test indicators.
+    /// </summary>
+    /// <param name="isTest">Whether to include test indicators in the catalog.</param>
+    /// <returns>
+    /// An enumerable collection of <see cref="IndicatorListing"/> objects.
+    /// </returns>
+    internal static IReadOnlyList<IndicatorListing> IndicatorCatalog(bool isTest)
+    {
+        // Get all indicators from GeneratedCatalog
+        var indicators = GeneratedCatalog.Indicators;
+
+        // Known test indicator UIIDs
+        var testUiids = new[] { "GEN_TEST", "BUFFER_TEST", "STREAM_TEST", "SERIES_TEST" };
+
+        // Filter out test indicators if not in test mode
+        if (!isTest)
+        {
+            indicators = indicators
+                .Where(x => !testUiids.Contains(x.Uiid))
+                .ToList();
+        }
+
         // Return sorted catalog
-        [.. GeneratedCatalog.Indicators.OrderBy(x => x.Name)];
+        return [.. indicators.OrderBy(x => x.Name)];
+    }
 
     /// <summary>
     /// Generates a list of indicator with optional base URL.
