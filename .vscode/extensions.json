@@ -9,6 +9,7 @@
     "ms-dotnettools.csdevkit",
     "redhat.vscode-yaml",
     "bierner.github-markdown-preview",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "ms-dotnettools.vscodeintellicode-csharp"
   ]
 }

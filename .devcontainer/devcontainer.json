@@ -20,7 +20,8 @@
         "DotJoshJohnson.xml",
         "redhat.vscode-yaml",
         "bierner.github-markdown-preview",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "ms-dotnettools.vscodeintellicode-csharp"
       ]
     }
   },
