@@ -6,7 +6,7 @@
     "LegendTemplate": "ADL",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -27,7 +27,7 @@
     "LegendTemplate": "ALMA([P1],[P2],[P3])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -73,7 +73,7 @@
     "LegendTemplate": "AROON([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -103,7 +103,7 @@
     "LegendTemplate": "ATR-STOP-CLOSE([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -141,7 +141,7 @@
     "LegendTemplate": "ATR-STOP-HL([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -179,7 +179,7 @@
     "LegendTemplate": "ADX([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -209,7 +209,7 @@
     "LegendTemplate": "ATR([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -239,7 +239,7 @@
     "LegendTemplate": "AWESOME([P1],[P2])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Fast Periods",
@@ -277,7 +277,7 @@
     "LegendTemplate": "BOP([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Smooth Periods",
@@ -307,7 +307,7 @@
     "LegendTemplate": "BETA([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -337,7 +337,7 @@
     "LegendTemplate": "BB([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -375,7 +375,7 @@
     "LegendTemplate": "CMF([P1])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -405,7 +405,7 @@
     "LegendTemplate": "CHAIKIN-OSC([P1],[P2])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Fast Periods",
@@ -443,7 +443,7 @@
     "LegendTemplate": "CMO([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -473,7 +473,7 @@
     "LegendTemplate": "CHEXIT-LONG([P1],[P2])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -511,7 +511,7 @@
     "LegendTemplate": "CHEXIT-SHORT([P1],[P2])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -549,7 +549,7 @@
     "LegendTemplate": "CHOP([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -579,7 +579,7 @@
     "LegendTemplate": "CCI([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -609,7 +609,7 @@
     "LegendTemplate": "CRSI([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "RSI Periods",
@@ -655,7 +655,7 @@
     "LegendTemplate": "CORR([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -685,7 +685,7 @@
     "LegendTemplate": "DPO([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -715,7 +715,7 @@
     "LegendTemplate": "DOJI([P1])",
     "Category": "CandlestickPattern",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Max Price Change %",
@@ -745,7 +745,7 @@
     "LegendTemplate": "DONCHIAN([P1])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -775,7 +775,7 @@
     "LegendTemplate": "DEMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -805,7 +805,7 @@
     "LegendTemplate": "FISHER([P1])",
     "Category": "PriceTransform",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -835,7 +835,7 @@
     "LegendTemplate": "ELDER-RAY([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -865,7 +865,7 @@
     "LegendTemplate": "EPMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -895,7 +895,7 @@
     "LegendTemplate": "EMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -925,7 +925,7 @@
     "LegendTemplate": "FORCE([P1])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -955,7 +955,7 @@
     "LegendTemplate": "FCB([P1])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Window Span",
@@ -985,7 +985,7 @@
     "LegendTemplate": "GATOR",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1006,7 +1006,7 @@
     "LegendTemplate": "HEIKINASHI",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1027,7 +1027,7 @@
     "LegendTemplate": "HTL",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1048,7 +1048,7 @@
     "LegendTemplate": "HMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1078,7 +1078,7 @@
     "LegendTemplate": "HURST([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1108,7 +1108,7 @@
     "LegendTemplate": "ICHIMOKU([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Tenkan Periods",
@@ -1154,7 +1154,7 @@
     "LegendTemplate": "KAMA([P1],[P2],[P3])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1200,7 +1200,7 @@
     "LegendTemplate": "KELTNER([P1],[P2],[P3])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "EMA Periods",
@@ -1246,7 +1246,7 @@
     "LegendTemplate": "KVO([P1],[P2],[P3])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Fast Periods",
@@ -1292,7 +1292,7 @@
     "LegendTemplate": "MARUBOZU([P1])",
     "Category": "CandlestickPattern",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Min Body Percent %",
@@ -1322,7 +1322,7 @@
     "LegendTemplate": "DYNAMIC([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1352,7 +1352,7 @@
     "LegendTemplate": "MAMA([P1],[P2])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Fast Limit",
@@ -1390,7 +1390,7 @@
     "LegendTemplate": "MFI([P1])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1420,7 +1420,7 @@
     "LegendTemplate": "MACD([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Fast Periods",
@@ -1466,7 +1466,7 @@
     "LegendTemplate": "MA-ENV([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1504,7 +1504,7 @@
     "LegendTemplate": "OBV",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1525,7 +1525,7 @@
     "LegendTemplate": "PSAR([P1],[P2])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Step Size",
@@ -1563,7 +1563,7 @@
     "LegendTemplate": "PVO([P1],[P2],[P3])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Fast Periods",
@@ -1609,7 +1609,7 @@
     "LegendTemplate": "PIVPNT",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1630,7 +1630,7 @@
     "LegendTemplate": "PIVOTS",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1651,7 +1651,7 @@
     "LegendTemplate": "PMO([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Time Periods",
@@ -1697,7 +1697,7 @@
     "LegendTemplate": "PRS([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1727,7 +1727,7 @@
     "LegendTemplate": "ROC",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1748,7 +1748,7 @@
     "LegendTemplate": "RSI",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1769,7 +1769,7 @@
     "LegendTemplate": "RENKO",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1790,7 +1790,7 @@
     "LegendTemplate": "RENKO-ATR",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1811,7 +1811,7 @@
     "LegendTemplate": "ROC-WB",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1832,7 +1832,7 @@
     "LegendTemplate": "ROLLING-PIVOTS",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -1853,7 +1853,7 @@
     "LegendTemplate": "STC([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Cycle Periods",
@@ -1899,7 +1899,7 @@
     "LegendTemplate": "SMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1929,7 +1929,7 @@
     "LegendTemplate": "SLOPE([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1959,7 +1959,7 @@
     "LegendTemplate": "SMMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -1989,7 +1989,7 @@
     "LegendTemplate": "STDEV([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2019,7 +2019,7 @@
     "LegendTemplate": "STDEV-CHANNELS([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2057,7 +2057,7 @@
     "LegendTemplate": "STARC([P1],[P2],[P3])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "SMA Periods",
@@ -2103,7 +2103,7 @@
     "LegendTemplate": "SMI([P1],[P2],[P3],[P4])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2157,7 +2157,7 @@
     "LegendTemplate": "STOCH",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -2178,7 +2178,7 @@
     "LegendTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "RSI Periods",
@@ -2232,7 +2232,7 @@
     "LegendTemplate": "SUPERTREND([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2270,7 +2270,7 @@
     "LegendTemplate": "T3([P1],[P2])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2308,7 +2308,7 @@
     "LegendTemplate": "TEMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2338,7 +2338,7 @@
     "LegendTemplate": "TRIX([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2368,7 +2368,7 @@
     "LegendTemplate": "TR",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -2389,7 +2389,7 @@
     "LegendTemplate": "TSI([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2435,7 +2435,7 @@
     "LegendTemplate": "ULCER([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2465,7 +2465,7 @@
     "LegendTemplate": "UO([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Short Periods",
@@ -2511,7 +2511,7 @@
     "LegendTemplate": "VOL-STOP([P1],[P2])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2549,7 +2549,7 @@
     "LegendTemplate": "VWAP",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
@@ -2570,7 +2570,7 @@
     "LegendTemplate": "VWMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2600,7 +2600,7 @@
     "LegendTemplate": "VORTEX([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2630,7 +2630,7 @@
     "LegendTemplate": "WMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2660,7 +2660,7 @@
     "LegendTemplate": "WILLR([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Lookback Periods",
@@ -2690,7 +2690,7 @@
     "LegendTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Jaw Periods",
@@ -2760,7 +2760,7 @@
     "LegendTemplate": "FRACTAL([P1])",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [
       {
         "DisplayName": "Window Span",
@@ -2790,7 +2790,7 @@
     "LegendTemplate": "ZIGZAG-CLOSE",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
-    "Order": 1,
+    "Order": 0,
     "Parameters": [],
     "Results": [
       {
