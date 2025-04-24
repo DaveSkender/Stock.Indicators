@@ -21,7 +21,7 @@ public static partial class GeneratedCatalog
     /// Test indicators for development and testing purposes.
     /// These have specific UIIDs that can be filtered out for production use.
     /// </summary>
-    private static readonly IReadOnlyList<IndicatorListing> TestIndicators = new List<IndicatorListing>
+    internal static readonly IReadOnlyList<IndicatorListing> TestIndicators = new List<IndicatorListing>
     {
         // Generated test indicator for testing purposes
         new() {

@@ -1,39 +1,46 @@
 namespace Skender.Stock.Indicators;
+#pragma warning disable CA1308 // suppress casing rule
 
 /// <summary>
-/// Provides methods for generating indicator listings.
-/// <remarks>
-/// It contains opinionated parameter defaults, ranges, colors, and other values.
-/// </remarks>
+/// Provides methods for accessing and working with indicator listings.
 /// </summary>
 public static class Catalog
 {
-    /// <inheritdoc cref="IndicatorCatalog(Uri)"/>"
-    public static IReadOnlyList<IndicatorListing> IndicatorCatalog() =>
-        // Return sorted catalog without test indicators
-        IndicatorCatalog(false);
+    /// <summary>
+    /// Gets all indicators in the catalog, excluding test indicators.
+    /// </summary>
+    /// <returns>
+    /// A sorted list of indicator listings.
+    /// </returns>
+    public static IReadOnlyList<IndicatorListing> GetIndicators() =>
+        GetIndicators(includeTestIndicators: false);
 
     /// <summary>
-    /// Generates a list of indicators, with option to include or exclude test indicators.
+    /// Gets indicators from the catalog with option to include test indicators.
     /// </summary>
-    /// <param name="isTest">Whether to include test indicators in the catalog.</param>
+    /// <param name="includeTestIndicators">Whether to include test indicators in the catalog.</param>
     /// <returns>
-    /// An enumerable collection of <see cref="IndicatorListing"/> objects.
+    /// A sorted list of indicator listings.
     /// </returns>
-    internal static IReadOnlyList<IndicatorListing> IndicatorCatalog(bool isTest)
+    internal static IReadOnlyList<IndicatorListing> GetIndicators(bool includeTestIndicators)
     {
-        // Get all indicators from GeneratedCatalog
-        var indicators = GeneratedCatalog.Indicators;
+        IEnumerable<IndicatorListing> indicators;
 
-        // Known test indicator UIIDs
-        var testUiids = new[] { "GEN_TEST", "BUFFER_TEST", "STREAM_TEST", "SERIES_TEST" };
-
-        // Filter out test indicators if not in test mode
-        if (!isTest)
+        // Filter out test indicators if requested
+        if (!includeTestIndicators)
         {
-            indicators = indicators
-                .Where(x => !testUiids.Contains(x.Uiid))
-                .ToList();
+            // test indicator UIIDs
+            string[] testUiids = GeneratedCatalog.TestIndicators
+                .Select(x => x.Uiid)
+                .ToArray();
+
+            indicators = GeneratedCatalog.Indicators
+                .Where(x => !testUiids.Contains(x.Uiid));
+        }
+        else
+        {
+            // Include all indicators
+            indicators = GeneratedCatalog.Indicators;
         }
 
         // Return sorted catalog
@@ -41,27 +48,27 @@ public static class Catalog
     }
 
     /// <summary>
-    /// Generates a list of indicator with optional base URL.
+    /// Gets indicators with URLs for API endpoints based on the provided base URL.
     /// </summary>
     /// <param name="baseUrl">
     /// The base URL for the indicator endpoints. Example: <c>https://example.com</c>.
     /// Explicit 'null' will generate relative URLs.
     /// </param>
     /// <returns>
-    /// An enumerable collection of <see cref="IndicatorListing"/> objects.
+    /// A sorted list of indicator listings with endpoint URLs.
     /// </returns>
-    public static IReadOnlyList<IndicatorListing> IndicatorCatalog(Uri baseUrl)
+    public static IReadOnlyList<IndicatorListing> GetIndicatorsWithEndpoints(Uri baseUrl)
     {
         string baseEndpoint = baseUrl?.ToString().TrimEnd('/') ?? string.Empty;
         List<IndicatorListing> listing = [];
 
-        // Add hardcoded indicators with base URL
-        foreach (IndicatorListing indicator in IndicatorCatalog())
+        // Add indicators with base URL
+        foreach (IndicatorListing indicator in GetIndicators())
         {
             listing.Add(new IndicatorListing(baseEndpoint) {
                 Name = indicator.Name,
                 Uiid = indicator.Uiid,
-                UiidEndpoint = indicator.UiidEndpoint,
+                UiidEndpoint = $"{baseEndpoint}/{indicator.Uiid.ToLowerInvariant()}",
                 Category = indicator.Category,
                 ChartType = indicator.ChartType,
                 ChartConfig = indicator.ChartConfig,
@@ -79,7 +86,8 @@ public static class Catalog
     /// Validates that each UIID is unique within the catalog.
     /// </summary>
     /// <param name="catalog">The catalog to validate.</param>
-    public static void ValidateUniqueUIID(IEnumerable<IndicatorListing> catalog)
+    public static void ValidateUniqueUIID(
+        this IEnumerable<IndicatorListing> catalog)
     {
         List<string> duplicateUIIDs = catalog
             .GroupBy(x => x.Uiid)
@@ -90,7 +98,7 @@ public static class Catalog
         if (duplicateUIIDs.Count != 0)
         {
             throw new InvalidOperationException(
-                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
+                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)} TEST");
         }
     }
 

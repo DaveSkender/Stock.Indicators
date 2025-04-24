@@ -1,0 +1,2807 @@
+[
+  {
+    "Name": "Accumulation Distribution Line (ADL)",
+    "Uiid": "ADL",
+    "Endpoint": "/adl",
+    "LegendTemplate": "ADL",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Accumulation Distribution Line (ADL)",
+        "TooltipTemplate": "ADL",
+        "DataName": "adl",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Arnaud Legoux Moving Average (ALMA)",
+    "Uiid": "ALMA",
+    "Endpoint": "/alma",
+    "LegendTemplate": "ALMA([P1],[P2],[P3])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 9
+      },
+      {
+        "DisplayName": "Offset",
+        "ParamName": "offset",
+        "DataType": "number",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0.85
+      },
+      {
+        "DisplayName": "Sigma",
+        "ParamName": "sigma",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 10,
+        "DefaultValue": 6
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Arnaud Legoux Moving Average (ALMA)",
+        "TooltipTemplate": "ALMA([P1],[P2],[P3])",
+        "DataName": "alma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Aroon Up/Down",
+    "Uiid": "AROON",
+    "Endpoint": "/aroon",
+    "LegendTemplate": "AROON([P1])",
+    "Category": "PriceTrend",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 25
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Aroon Up/Down",
+        "TooltipTemplate": "AROON([P1])",
+        "DataName": "aroon",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "ATR Trailing Stop (Close offset)",
+    "Uiid": "ATR-STOP-CLOSE",
+    "Endpoint": "/atr-stop-close",
+    "LegendTemplate": "ATR-STOP-CLOSE([P1],[P2])",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 21
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 10,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "ATR Trailing Stop (Close offset)",
+        "TooltipTemplate": "ATR-STOP-CLOSE([P1],[P2])",
+        "DataName": "atr-stop-close",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "ATR Trailing Stop (High/Low offset)",
+    "Uiid": "ATR-STOP-HL",
+    "Endpoint": "/atr-stop-hl",
+    "LegendTemplate": "ATR-STOP-HL([P1],[P2])",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 21
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 10,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "ATR Trailing Stop (High/Low offset)",
+        "TooltipTemplate": "ATR-STOP-HL([P1],[P2])",
+        "DataName": "atr-stop-hl",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Average Directional Index (ADX)",
+    "Uiid": "ADX",
+    "Endpoint": "/adx",
+    "LegendTemplate": "ADX([P1])",
+    "Category": "PriceTrend",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Average Directional Index (ADX)",
+        "TooltipTemplate": "ADX([P1])",
+        "DataName": "adx",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Average True Range (ATR)",
+    "Uiid": "ATR",
+    "Endpoint": "/atr",
+    "LegendTemplate": "ATR([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Average True Range (ATR)",
+        "TooltipTemplate": "ATR([P1])",
+        "DataName": "atr",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Awesome Oscillator",
+    "Uiid": "AWESOME",
+    "Endpoint": "/awesome",
+    "LegendTemplate": "AWESOME([P1],[P2])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 5
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 34
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Awesome Oscillator",
+        "TooltipTemplate": "AWESOME([P1],[P2])",
+        "DataName": "awesome",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Balance of Power (BOP)",
+    "Uiid": "BOP",
+    "Endpoint": "/bop",
+    "LegendTemplate": "BOP([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Smooth Periods",
+        "ParamName": "smoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Balance of Power (BOP)",
+        "TooltipTemplate": "BOP([P1])",
+        "DataName": "bop",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Beta",
+    "Uiid": "BETA",
+    "Endpoint": "/beta",
+    "LegendTemplate": "BETA([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 50
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Beta",
+        "TooltipTemplate": "BETA([P1])",
+        "DataName": "beta",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Bollinger Bands\u00AE",
+    "Uiid": "BB",
+    "Endpoint": "/bb",
+    "LegendTemplate": "BB([P1],[P2])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "Standard Deviations",
+        "ParamName": "standardDeviations",
+        "DataType": "number",
+        "Minimum": 0.01,
+        "Maximum": 10,
+        "DefaultValue": 2
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Bollinger Bands\u00AE",
+        "TooltipTemplate": "BB([P1],[P2])",
+        "DataName": "bb",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Chaikin Money Flow (CMF)",
+    "Uiid": "CMF",
+    "Endpoint": "/cmf",
+    "LegendTemplate": "CMF([P1])",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Chaikin Money Flow (CMF)",
+        "TooltipTemplate": "CMF([P1])",
+        "DataName": "cmf",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Chaikin Money Flow Oscillator",
+    "Uiid": "CHAIKIN-OSC",
+    "Endpoint": "/chaikin-osc",
+    "LegendTemplate": "CHAIKIN-OSC([P1],[P2])",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 3
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Chaikin Money Flow Oscillator",
+        "TooltipTemplate": "CHAIKIN-OSC([P1],[P2])",
+        "DataName": "chaikin-osc",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Chande Momentum Oscillator",
+    "Uiid": "CMO",
+    "Endpoint": "/cmo",
+    "LegendTemplate": "CMO([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Chande Momentum Oscillator",
+        "TooltipTemplate": "CMO([P1])",
+        "DataName": "cmo",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Chandelier Exit (long)",
+    "Uiid": "CHEXIT-LONG",
+    "Endpoint": "/chexit-long",
+    "LegendTemplate": "CHEXIT-LONG([P1],[P2])",
+    "Category": "StopAndReverse",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 22
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 1,
+        "Maximum": 10,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Chandelier Exit (long)",
+        "TooltipTemplate": "CHEXIT-LONG([P1],[P2])",
+        "DataName": "chexit-long",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Chandelier Exit (short)",
+    "Uiid": "CHEXIT-SHORT",
+    "Endpoint": "/chexit-short",
+    "LegendTemplate": "CHEXIT-SHORT([P1],[P2])",
+    "Category": "StopAndReverse",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 22
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 1,
+        "Maximum": 10,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Chandelier Exit (short)",
+        "TooltipTemplate": "CHEXIT-SHORT([P1],[P2])",
+        "DataName": "chexit-short",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Choppiness Index",
+    "Uiid": "CHOP",
+    "Endpoint": "/chop",
+    "LegendTemplate": "CHOP([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Choppiness Index",
+        "TooltipTemplate": "CHOP([P1])",
+        "DataName": "chop",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Commodity Channel Index (CCI)",
+    "Uiid": "CCI",
+    "Endpoint": "/cci",
+    "LegendTemplate": "CCI([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Commodity Channel Index (CCI)",
+        "TooltipTemplate": "CCI([P1])",
+        "DataName": "cci",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "ConnorsRSI (CRSI)",
+    "Uiid": "CRSI",
+    "Endpoint": "/crsi",
+    "LegendTemplate": "CRSI([P1],[P2],[P3])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "RSI Periods",
+        "ParamName": "rsiPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 3
+      },
+      {
+        "DisplayName": "Streak Periods",
+        "ParamName": "streakPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 50,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "Rank Periods",
+        "ParamName": "rankPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 100
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "ConnorsRSI (CRSI)",
+        "TooltipTemplate": "CRSI([P1],[P2],[P3])",
+        "DataName": "crsi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Correlation",
+    "Uiid": "CORR",
+    "Endpoint": "/corr",
+    "LegendTemplate": "CORR([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Correlation",
+        "TooltipTemplate": "CORR([P1])",
+        "DataName": "corr",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Detrended Price Oscillator",
+    "Uiid": "DPO",
+    "Endpoint": "/dpo",
+    "LegendTemplate": "DPO([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Detrended Price Oscillator",
+        "TooltipTemplate": "DPO([P1])",
+        "DataName": "dpo",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Doji",
+    "Uiid": "DOJI",
+    "Endpoint": "/doji",
+    "LegendTemplate": "DOJI([P1])",
+    "Category": "CandlestickPattern",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Max Price Change %",
+        "ParamName": "maxPriceChangePercent",
+        "DataType": "number",
+        "Minimum": 0,
+        "Maximum": 0.5,
+        "DefaultValue": 0.1
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Doji",
+        "TooltipTemplate": "DOJI([P1])",
+        "DataName": "doji",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Donchian Channels",
+    "Uiid": "DONCHIAN",
+    "Endpoint": "/donchian",
+    "LegendTemplate": "DONCHIAN([P1])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Donchian Channels",
+        "TooltipTemplate": "DONCHIAN([P1])",
+        "DataName": "donchian",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Double Exponential Moving Average",
+    "Uiid": "DEMA",
+    "Endpoint": "/dema",
+    "LegendTemplate": "DEMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Double Exponential Moving Average",
+        "TooltipTemplate": "DEMA([P1])",
+        "DataName": "dema",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Ehlers Fisher Transform",
+    "Uiid": "FISHER",
+    "Endpoint": "/fisher",
+    "LegendTemplate": "FISHER([P1])",
+    "Category": "PriceTransform",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Ehlers Fisher Transform",
+        "TooltipTemplate": "FISHER([P1])",
+        "DataName": "fisher",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Elder-ray Index",
+    "Uiid": "ELDER-RAY",
+    "Endpoint": "/elder-ray",
+    "LegendTemplate": "ELDER-RAY([P1])",
+    "Category": "PriceTrend",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 13
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Elder-ray Index",
+        "TooltipTemplate": "ELDER-RAY([P1])",
+        "DataName": "elder-ray",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Endpoint Moving Average",
+    "Uiid": "EPMA",
+    "Endpoint": "/epma",
+    "LegendTemplate": "EPMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Endpoint Moving Average",
+        "TooltipTemplate": "EPMA([P1])",
+        "DataName": "epma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Exponential Moving Average",
+    "Uiid": "EMA",
+    "Endpoint": "/ema",
+    "LegendTemplate": "EMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Exponential Moving Average",
+        "TooltipTemplate": "EMA([P1])",
+        "DataName": "ema",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Force Index",
+    "Uiid": "FORCE",
+    "Endpoint": "/force",
+    "LegendTemplate": "FORCE([P1])",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 2
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Force Index",
+        "TooltipTemplate": "FORCE([P1])",
+        "DataName": "force",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Fractal Chaos Bands",
+    "Uiid": "FCB",
+    "Endpoint": "/fcb",
+    "LegendTemplate": "FCB([P1])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Window Span",
+        "ParamName": "windowSpan",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 30,
+        "DefaultValue": 2
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Fractal Chaos Bands",
+        "TooltipTemplate": "FCB([P1])",
+        "DataName": "fcb",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Gator Oscillator",
+    "Uiid": "GATOR",
+    "Endpoint": "/gator",
+    "LegendTemplate": "GATOR",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Gator Oscillator",
+        "TooltipTemplate": "GATOR",
+        "DataName": "gator",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "HeikinAshi",
+    "Uiid": "HEIKINASHI",
+    "Endpoint": "/heikinashi",
+    "LegendTemplate": "HEIKINASHI",
+    "Category": "PriceTransform",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "HeikinAshi",
+        "TooltipTemplate": "HEIKINASHI",
+        "DataName": "heikinashi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Hilbert Transform Instantaneous Trendline",
+    "Uiid": "HTL",
+    "Endpoint": "/htl",
+    "LegendTemplate": "HTL",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Hilbert Transform Instantaneous Trendline",
+        "TooltipTemplate": "HTL",
+        "DataName": "htl",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Hull Moving Average",
+    "Uiid": "HMA",
+    "Endpoint": "/hma",
+    "LegendTemplate": "HMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Hull Moving Average",
+        "TooltipTemplate": "HMA([P1])",
+        "DataName": "hma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Hurst Exponent",
+    "Uiid": "HURST",
+    "Endpoint": "/hurst",
+    "LegendTemplate": "HURST([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 100
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Hurst Exponent",
+        "TooltipTemplate": "HURST([P1])",
+        "DataName": "hurst",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Ichimoku Cloud",
+    "Uiid": "ICHIMOKU",
+    "Endpoint": "/ichimoku",
+    "LegendTemplate": "ICHIMOKU([P1],[P2],[P3])",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Tenkan Periods",
+        "ParamName": "tenkanPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 9
+      },
+      {
+        "DisplayName": "Kijun Periods",
+        "ParamName": "kijunPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 26
+      },
+      {
+        "DisplayName": "Senkou Periods",
+        "ParamName": "senkouBPeriods",
+        "DataType": "int",
+        "Minimum": 3,
+        "Maximum": 250,
+        "DefaultValue": 52
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Ichimoku Cloud",
+        "TooltipTemplate": "ICHIMOKU([P1],[P2],[P3])",
+        "DataName": "ichimoku",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Kaufman\u0027s Adaptive Moving Average",
+    "Uiid": "KAMA",
+    "Endpoint": "/kama",
+    "LegendTemplate": "KAMA([P1],[P2],[P3])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "erPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 10
+      },
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 30
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Kaufman\u0027s Adaptive Moving Average",
+        "TooltipTemplate": "KAMA([P1],[P2],[P3])",
+        "DataName": "kama",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Keltner Channels",
+    "Uiid": "KELTNER",
+    "Endpoint": "/keltner",
+    "LegendTemplate": "KELTNER([P1],[P2],[P3])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "EMA Periods",
+        "ParamName": "emaPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 0.01,
+        "Maximum": 10,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "ATR Periods",
+        "ParamName": "atrPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Keltner Channels",
+        "TooltipTemplate": "KELTNER([P1],[P2],[P3])",
+        "DataName": "keltner",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Klinger Volume Oscillator",
+    "Uiid": "KVO",
+    "Endpoint": "/kvo",
+    "LegendTemplate": "KVO([P1],[P2],[P3])",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 200,
+        "DefaultValue": 34
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 55
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 13
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Klinger Volume Oscillator",
+        "TooltipTemplate": "KVO([P1],[P2],[P3])",
+        "DataName": "kvo",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Marubozu",
+    "Uiid": "MARUBOZU",
+    "Endpoint": "/marubozu",
+    "LegendTemplate": "MARUBOZU([P1])",
+    "Category": "CandlestickPattern",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Min Body Percent %",
+        "ParamName": "minBodyPercent",
+        "DataType": "number",
+        "Minimum": 80,
+        "Maximum": 100,
+        "DefaultValue": 90
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Marubozu",
+        "TooltipTemplate": "MARUBOZU([P1])",
+        "DataName": "marubozu",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "McGinley Dynamic",
+    "Uiid": "DYNAMIC",
+    "Endpoint": "/dynamic",
+    "LegendTemplate": "DYNAMIC([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "McGinley Dynamic",
+        "TooltipTemplate": "DYNAMIC([P1])",
+        "DataName": "dynamic",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "MESA Adaptive Moving Average",
+    "Uiid": "MAMA",
+    "Endpoint": "/mama",
+    "LegendTemplate": "MAMA([P1],[P2])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Fast Limit",
+        "ParamName": "fastLimit",
+        "DataType": "number",
+        "Minimum": 0.01,
+        "Maximum": 0.99,
+        "DefaultValue": 0.5
+      },
+      {
+        "DisplayName": "Slow Limit",
+        "ParamName": "slowLimit",
+        "DataType": "number",
+        "Minimum": 0.01,
+        "Maximum": 0.99,
+        "DefaultValue": 0.05
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "MESA Adaptive Moving Average",
+        "TooltipTemplate": "MAMA([P1],[P2])",
+        "DataName": "mama",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Money Flow Index (MFI)",
+    "Uiid": "MFI",
+    "Endpoint": "/mfi",
+    "LegendTemplate": "MFI([P1])",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Money Flow Index (MFI)",
+        "TooltipTemplate": "MFI([P1])",
+        "DataName": "mfi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Moving Average Convergence/Divergence",
+    "Uiid": "MACD",
+    "Endpoint": "/macd",
+    "LegendTemplate": "MACD([P1],[P2],[P3])",
+    "Category": "PriceTrend",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 200,
+        "DefaultValue": 12
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 26
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 9
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Moving Average Convergence/Divergence",
+        "TooltipTemplate": "MACD([P1],[P2],[P3])",
+        "DataName": "macd",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Moving Average Envelopes",
+    "Uiid": "MA-ENV",
+    "Endpoint": "/ma-env",
+    "LegendTemplate": "MA-ENV([P1],[P2])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "Percent Offset",
+        "ParamName": "percentOffset",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 10,
+        "DefaultValue": 2.5
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Moving Average Envelopes",
+        "TooltipTemplate": "MA-ENV([P1],[P2])",
+        "DataName": "ma-env",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "On-Balance Volume",
+    "Uiid": "OBV",
+    "Endpoint": "/obv",
+    "LegendTemplate": "OBV",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "On-Balance Volume",
+        "TooltipTemplate": "OBV",
+        "DataName": "obv",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Parabolic Stop and Reverse",
+    "Uiid": "PSAR",
+    "Endpoint": "/psar",
+    "LegendTemplate": "PSAR([P1],[P2])",
+    "Category": "StopAndReverse",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Step Size",
+        "ParamName": "accelerationStep",
+        "DataType": "number",
+        "Minimum": 1E-06,
+        "Maximum": 2500,
+        "DefaultValue": 0.02
+      },
+      {
+        "DisplayName": "Max Factor",
+        "ParamName": "maxAccelerationFactor",
+        "DataType": "number",
+        "Minimum": 1E-06,
+        "Maximum": 2500,
+        "DefaultValue": 0.2
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Parabolic Stop and Reverse",
+        "TooltipTemplate": "PSAR([P1],[P2])",
+        "DataName": "psar",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Percentage Volume Oscillator",
+    "Uiid": "PVO",
+    "Endpoint": "/pvo",
+    "LegendTemplate": "PVO([P1],[P2],[P3])",
+    "Category": "VolumeBased",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 200,
+        "DefaultValue": 12
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 26
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 9
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Percentage Volume Oscillator",
+        "TooltipTemplate": "PVO([P1],[P2],[P3])",
+        "DataName": "pvo",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Pivot Points",
+    "Uiid": "PIVPNT",
+    "Endpoint": "/pivpnt",
+    "LegendTemplate": "PIVPNT",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Pivot Points",
+        "TooltipTemplate": "PIVPNT",
+        "DataName": "pivpnt",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Pivots",
+    "Uiid": "PIVOTS",
+    "Endpoint": "/pivots",
+    "LegendTemplate": "PIVOTS",
+    "Category": "PriceTransform",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Pivots",
+        "TooltipTemplate": "PIVOTS",
+        "DataName": "pivots",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Price Momentum Oscillator",
+    "Uiid": "PMO",
+    "Endpoint": "/pmo",
+    "LegendTemplate": "PMO([P1],[P2],[P3])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Time Periods",
+        "ParamName": "timePeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 35
+      },
+      {
+        "DisplayName": "Smooth Periods",
+        "ParamName": "smoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Price Momentum Oscillator",
+        "TooltipTemplate": "PMO([P1],[P2],[P3])",
+        "DataName": "pmo",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Price Relative Strength",
+    "Uiid": "PRS",
+    "Endpoint": "/prs",
+    "LegendTemplate": "PRS([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "number",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 1
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Price Relative Strength",
+        "TooltipTemplate": "PRS([P1])",
+        "DataName": "prs",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Rate of Change",
+    "Uiid": "ROC",
+    "Endpoint": "/roc",
+    "LegendTemplate": "ROC",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Rate of Change",
+        "TooltipTemplate": "ROC",
+        "DataName": "roc",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Relative Strength Index",
+    "Uiid": "RSI",
+    "Endpoint": "/rsi",
+    "LegendTemplate": "RSI",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Relative Strength Index",
+        "TooltipTemplate": "RSI",
+        "DataName": "rsi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Renko",
+    "Uiid": "RENKO",
+    "Endpoint": "/renko",
+    "LegendTemplate": "RENKO",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Renko",
+        "TooltipTemplate": "RENKO",
+        "DataName": "renko",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Renko (ATR)",
+    "Uiid": "RENKO-ATR",
+    "Endpoint": "/renko-atr",
+    "LegendTemplate": "RENKO-ATR",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Renko (ATR)",
+        "TooltipTemplate": "RENKO-ATR",
+        "DataName": "renko-atr",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "ROC Wilder\u0027s Bands",
+    "Uiid": "ROC-WB",
+    "Endpoint": "/roc-wb",
+    "LegendTemplate": "ROC-WB",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "ROC Wilder\u0027s Bands",
+        "TooltipTemplate": "ROC-WB",
+        "DataName": "roc-wb",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Rolling Pivots",
+    "Uiid": "ROLLING-PIVOTS",
+    "Endpoint": "/rolling-pivots",
+    "LegendTemplate": "ROLLING-PIVOTS",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Rolling Pivots",
+        "TooltipTemplate": "ROLLING-PIVOTS",
+        "DataName": "rolling-pivots",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Schaff Trend Cycle",
+    "Uiid": "STC",
+    "Endpoint": "/stc",
+    "LegendTemplate": "STC([P1],[P2],[P3])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Cycle Periods",
+        "ParamName": "cyclePeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 10
+      },
+      {
+        "DisplayName": "Fast Periods",
+        "ParamName": "fastPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 23
+      },
+      {
+        "DisplayName": "Slow Periods",
+        "ParamName": "slowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 50
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Schaff Trend Cycle",
+        "TooltipTemplate": "STC([P1],[P2],[P3])",
+        "DataName": "stc",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Simple Moving Average",
+    "Uiid": "SMA",
+    "Endpoint": "/sma",
+    "LegendTemplate": "SMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Simple Moving Average",
+        "TooltipTemplate": "SMA([P1])",
+        "DataName": "sma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Slope",
+    "Uiid": "SLOPE",
+    "Endpoint": "/slope",
+    "LegendTemplate": "SLOPE([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Slope",
+        "TooltipTemplate": "SLOPE([P1])",
+        "DataName": "slope",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Smoothed Moving Average",
+    "Uiid": "SMMA",
+    "Endpoint": "/smma",
+    "LegendTemplate": "SMMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Smoothed Moving Average",
+        "TooltipTemplate": "SMMA([P1])",
+        "DataName": "smma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Standard Deviation",
+    "Uiid": "STDEV",
+    "Endpoint": "/stdev",
+    "LegendTemplate": "STDEV([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Standard Deviation",
+        "TooltipTemplate": "STDEV([P1])",
+        "DataName": "stdev",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Standard Deviation Channels",
+    "Uiid": "STDEV-CHANNELS",
+    "Endpoint": "/stdev-channels",
+    "LegendTemplate": "STDEV-CHANNELS([P1],[P2])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "number",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "Standard Deviations",
+        "ParamName": "stdDeviations",
+        "DataType": "number",
+        "Minimum": 0.01,
+        "Maximum": 10,
+        "DefaultValue": 2
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Standard Deviation Channels",
+        "TooltipTemplate": "STDEV-CHANNELS([P1],[P2])",
+        "DataName": "stdev-channels",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "STARC Bands",
+    "Uiid": "STARC",
+    "Endpoint": "/starc",
+    "LegendTemplate": "STARC([P1],[P2],[P3])",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "SMA Periods",
+        "ParamName": "smaPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 5
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 1,
+        "Maximum": 10,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "ATR Periods",
+        "ParamName": "atrPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 10
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "STARC Bands",
+        "TooltipTemplate": "STARC([P1],[P2],[P3])",
+        "DataName": "starc",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Stochastic Momentum Index",
+    "Uiid": "SMI",
+    "Endpoint": "/smi",
+    "LegendTemplate": "SMI([P1],[P2],[P3],[P4])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 300,
+        "DefaultValue": 13
+      },
+      {
+        "DisplayName": "First Smooth Periods",
+        "ParamName": "firstSmoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 300,
+        "DefaultValue": 25
+      },
+      {
+        "DisplayName": "Second Smooth Periods",
+        "ParamName": "secondSmoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Stochastic Momentum Index",
+        "TooltipTemplate": "SMI([P1],[P2],[P3],[P4])",
+        "DataName": "smi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Stochastic Oscillator",
+    "Uiid": "STOCH",
+    "Endpoint": "/stoch",
+    "LegendTemplate": "STOCH",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Stochastic Oscillator",
+        "TooltipTemplate": "STOCH",
+        "DataName": "stoch",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Stochastic RSI",
+    "Uiid": "STOCH-RSI",
+    "Endpoint": "/stoch-rsi",
+    "LegendTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "RSI Periods",
+        "ParamName": "rsiPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      },
+      {
+        "DisplayName": "Stochastic Periods",
+        "ParamName": "stochPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 3
+      },
+      {
+        "DisplayName": "Smooth Periods",
+        "ParamName": "smoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 1
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Stochastic RSI",
+        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
+        "DataName": "stoch-rsi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "SuperTrend",
+    "Uiid": "SUPERTREND",
+    "Endpoint": "/supertrend",
+    "LegendTemplate": "SUPERTREND([P1],[P2])",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 10
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 10,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "SuperTrend",
+        "TooltipTemplate": "SUPERTREND([P1],[P2])",
+        "DataName": "supertrend",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "T3 Moving Average",
+    "Uiid": "T3",
+    "Endpoint": "/t3",
+    "LegendTemplate": "T3([P1],[P2])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 5
+      },
+      {
+        "DisplayName": "Volume Factor",
+        "ParamName": "volumeFactor",
+        "DataType": "number",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0.7
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "T3 Moving Average",
+        "TooltipTemplate": "T3([P1],[P2])",
+        "DataName": "t3",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Triple Exponential Moving Average",
+    "Uiid": "TEMA",
+    "Endpoint": "/tema",
+    "LegendTemplate": "TEMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Triple Exponential Moving Average",
+        "TooltipTemplate": "TEMA([P1])",
+        "DataName": "tema",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Triple Exponential Moving Average Oscillator",
+    "Uiid": "TRIX",
+    "Endpoint": "/trix",
+    "LegendTemplate": "TRIX([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Triple Exponential Moving Average Oscillator",
+        "TooltipTemplate": "TRIX([P1])",
+        "DataName": "trix",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "True Range",
+    "Uiid": "TR",
+    "Endpoint": "/tr",
+    "LegendTemplate": "TR",
+    "Category": "PriceTrend",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "True Range",
+        "TooltipTemplate": "TR",
+        "DataName": "tr",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "True Strength Index",
+    "Uiid": "TSI",
+    "Endpoint": "/tsi",
+    "LegendTemplate": "TSI([P1],[P2],[P3])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 25
+      },
+      {
+        "DisplayName": "Smooth Periods",
+        "ParamName": "smoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 13
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 7
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "True Strength Index",
+        "TooltipTemplate": "TSI([P1],[P2],[P3])",
+        "DataName": "tsi",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Ulcer Index",
+    "Uiid": "ULCER",
+    "Endpoint": "/ulcer",
+    "LegendTemplate": "ULCER([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Ulcer Index",
+        "TooltipTemplate": "ULCER([P1])",
+        "DataName": "ulcer",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Ultimate Oscillator",
+    "Uiid": "UO",
+    "Endpoint": "/uo",
+    "LegendTemplate": "UO([P1],[P2],[P3])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Short Periods",
+        "ParamName": "shortPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 7
+      },
+      {
+        "DisplayName": "Middle Periods",
+        "ParamName": "middlePeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 14
+      },
+      {
+        "DisplayName": "Long Periods",
+        "ParamName": "longPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 28
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Ultimate Oscillator",
+        "TooltipTemplate": "UO([P1],[P2],[P3])",
+        "DataName": "uo",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Volatility Stop",
+    "Uiid": "VOL-STOP",
+    "Endpoint": "/vol-stop",
+    "LegendTemplate": "VOL-STOP([P1],[P2])",
+    "Category": "StopAndReverse",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 7
+      },
+      {
+        "DisplayName": "Multiplier",
+        "ParamName": "multiplier",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 10,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Volatility Stop",
+        "TooltipTemplate": "VOL-STOP([P1],[P2])",
+        "DataName": "vol-stop",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Volume Weighted Average Price",
+    "Uiid": "VWAP",
+    "Endpoint": "/vwap",
+    "LegendTemplate": "VWAP",
+    "Category": "PriceChannel",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Volume Weighted Average Price",
+        "TooltipTemplate": "VWAP",
+        "DataName": "vwap",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Volume Weighted Moving Average",
+    "Uiid": "VWMA",
+    "Endpoint": "/vwma",
+    "LegendTemplate": "VWMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Volume Weighted Moving Average",
+        "TooltipTemplate": "VWMA([P1])",
+        "DataName": "vwma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Vortex Indicator",
+    "Uiid": "VORTEX",
+    "Endpoint": "/vortex",
+    "LegendTemplate": "VORTEX([P1])",
+    "Category": "PriceTrend",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 2,
+        "Maximum": 100,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Vortex Indicator",
+        "TooltipTemplate": "VORTEX([P1])",
+        "DataName": "vortex",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Weighted Moving Average",
+    "Uiid": "WMA",
+    "Endpoint": "/wma",
+    "LegendTemplate": "WMA([P1])",
+    "Category": "MovingAverage",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Weighted Moving Average",
+        "TooltipTemplate": "WMA([P1])",
+        "DataName": "wma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Williams %R",
+    "Uiid": "WILLR",
+    "Endpoint": "/willr",
+    "LegendTemplate": "WILLR([P1])",
+    "Category": "Oscillator",
+    "ChartType": "Oscillator",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Williams %R",
+        "TooltipTemplate": "WILLR([P1])",
+        "DataName": "willr",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Williams Alligator",
+    "Uiid": "ALLIGATOR",
+    "Endpoint": "/alligator",
+    "LegendTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
+    "Category": "PriceTrend",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Jaw Periods",
+        "ParamName": "jawPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 13
+      },
+      {
+        "DisplayName": "Jaw Offset",
+        "ParamName": "jawOffset",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 30,
+        "DefaultValue": 8
+      },
+      {
+        "DisplayName": "Teeth Periods",
+        "ParamName": "teethPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 8
+      },
+      {
+        "DisplayName": "Teeth Offset",
+        "ParamName": "teethOffset",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 30,
+        "DefaultValue": 5
+      },
+      {
+        "DisplayName": "Lips Periods",
+        "ParamName": "lipsPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 5
+      },
+      {
+        "DisplayName": "Lips Offset",
+        "ParamName": "lipsOffset",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 30,
+        "DefaultValue": 3
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Williams Alligator",
+        "TooltipTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
+        "DataName": "alligator",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Williams Fractal (high/low)",
+    "Uiid": "FRACTAL",
+    "Endpoint": "/fractal",
+    "LegendTemplate": "FRACTAL([P1])",
+    "Category": "PriceTransform",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [
+      {
+        "DisplayName": "Window Span",
+        "ParamName": "windowSpan",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 2
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Williams Fractal (high/low)",
+        "TooltipTemplate": "FRACTAL([P1])",
+        "DataName": "fractal",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Zig Zag (close)",
+    "Uiid": "ZIGZAG-CLOSE",
+    "Endpoint": "/zigzag-close",
+    "LegendTemplate": "ZIGZAG-CLOSE",
+    "Category": "PriceTransform",
+    "ChartType": "Overlay",
+    "Order": 1,
+    "Parameters": [],
+    "Results": [
+      {
+        "DisplayName": "Zig Zag (close)",
+        "TooltipTemplate": "ZIGZAG-CLOSE",
+        "DataName": "zigzag-close",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  }
+]

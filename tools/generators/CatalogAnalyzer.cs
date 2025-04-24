@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace Stock.Indicators.Generator;
+namespace Indicators.Catalog.Generator;
 
 /// <summary>
 /// Analyzer that checks if indicator methods have the

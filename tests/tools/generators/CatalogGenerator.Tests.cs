@@ -1,40 +1,45 @@
 namespace GeneratedCatalog;
 
-// Tests for the analyzer itself
 [TestClass]
 public class CatalogGenerating
 {
     [TestMethod]
     public void CatalogGenerator_MethodWithSeriesAttribute_IsIdentified()
     {
-        // Create test method with Series attribute
-        string methodWithSeriesAttribute = """
-            namespace TestNamespace
-            {
-                public static class TestIndicator
-                {
-                    [Series("test-id", "Test Indicator", "TestCategory", "line")]
-                    public static TestResult GetTestIndicator(Quote[] quotes)
-                    {
-                        return null;
-                    }
-                }
-            }
-            """;
+        // Arrange/Act - access the generated catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.GetIndicators(includeTestIndicators: true);
 
-        // Parse the code into a SyntaxTree
-        SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(methodWithSeriesAttribute);
-        CompilationUnitSyntax root = syntaxTree.GetCompilationUnitRoot();
+        // Assert
+        catalog.Should().NotBeEmpty("Catalog should not be empty");
+        catalog.Should().Contain(x => x.Name.Contains("Simple Moving Average") && x.Uiid == "SMA",
+            "SMA indicator should be in the catalog");
 
-        // Find the method declaration
-        MethodDeclarationSyntax method = root.DescendantNodes().OfType<MethodDeclarationSyntax>().First();
+        // Check for a test indicator
+        catalog.Should().Contain(x => x.Uiid == "GEN_TEST",
+            "Test indicators should be included when requested");
+    }
 
-        // Verify that the method has an attribute list with at least one attribute
-        method.AttributeLists.Count.Should().BeGreaterThan(0, "Method should have attribute lists");
+    [TestMethod]
+    public void CatalogGenerator_ExcludesTestIndicators_WhenSpecified()
+    {
+        // Arrange/Act - access the generated catalog without test indicators
+        IReadOnlyList<IndicatorListing> catalog = Catalog.GetIndicators(includeTestIndicators: false);
 
-        // Check that one of the attributes has a name that contains "Series"
-        method.AttributeLists.Any(al =>
-            al.Attributes.Any(a => a.Name.ToString().Contains("Series")))
-            .Should().BeTrue("Method should have a Series attribute");
+        // Assert
+        catalog.Should().NotBeEmpty("Catalog should not be empty");
+
+        // Check that real indicators are included
+        catalog.Should().Contain(x => x.Name.Contains("Simple Moving Average") && x.Uiid == "SMA",
+            "SMA indicator should be in the catalog");
+
+        // Check that test indicators are excluded
+        catalog.Should().NotContain(x => x.Uiid == "GEN_TEST",
+            "Test indicators should be excluded");
+        catalog.Should().NotContain(x => x.Uiid == "BUFFER_TEST",
+            "Test indicators should be excluded");
+        catalog.Should().NotContain(x => x.Uiid == "STREAM_TEST",
+            "Test indicators should be excluded");
+        catalog.Should().NotContain(x => x.Uiid == "SERIES_TEST",
+            "Test indicators should be excluded");
     }
 }

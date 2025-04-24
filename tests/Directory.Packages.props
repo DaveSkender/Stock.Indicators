@@ -1,7 +1,9 @@
 <Project>
+
   <PropertyGroup>
-    <NoWarn>$(NoWarn);NU1507</NoWarn>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageVersion Include="Alpaca.Markets" Version="7.2.0" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
