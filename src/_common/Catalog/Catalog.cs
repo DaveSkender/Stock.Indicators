@@ -72,10 +72,10 @@ public static class Catalog
                 Category = indicator.Category,
                 ChartType = indicator.ChartType,
                 ChartConfig = indicator.ChartConfig,
-                LegendOverride = indicator.LegendOverride,
                 Order = indicator.Order,
                 Parameters = indicator.Parameters,
-                Results = indicator.Results
+                Results = indicator.Results,
+                LegendTemplate = indicator.LegendTemplate
             });
         }
 

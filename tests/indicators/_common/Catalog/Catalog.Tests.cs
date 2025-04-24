@@ -128,6 +128,7 @@ public class Catalogging
             Uiid = "DUPLICATE",
             Category = Category.PriceCharacteristic,
             ChartType = ChartType.Overlay,
+            LegendTemplate = "DUPLICATE([P1])",
             Parameters = [],
             Results = [
                 new IndicatorResultConfig

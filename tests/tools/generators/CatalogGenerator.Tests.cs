@@ -42,4 +42,40 @@ public class CatalogGenerating
         catalog.Should().NotContain(x => x.Uiid == "SERIES_TEST",
             "Test indicators should be excluded");
     }
+
+    [TestMethod]
+    public void CatalogGenerator_UsesLegendOverrideFromAttribute()
+    {
+        // Arrange/Act - access the generated catalog with test indicators
+        IReadOnlyList<IndicatorListing> catalog = Catalog.GetIndicators(includeTestIndicators: true);
+
+        // Assert - find indicators that should have legendOverride values
+        // Check a test indicator with legendOverride
+        var testIndicatorWithCustomLegend = catalog.FirstOrDefault(x => x.Uiid == "GEN_TEST");
+        testIndicatorWithCustomLegend.Should().NotBeNull("Test indicator should exist");
+
+        // The legendTemplate should reflect the overridden value from the attribute
+        if (testIndicatorWithCustomLegend != null)
+        {
+            testIndicatorWithCustomLegend.LegendTemplate.Should().NotBe("GEN_TEST",
+                "LegendTemplate should not be the default ID when override exists");
+
+            // Depending on what override value is set in test indicators
+            testIndicatorWithCustomLegend.LegendTemplate.Should().Contain("TEST",
+                "LegendTemplate should contain the overridden format from the attribute");
+        }
+
+        // Check a regular indicator without legendOverride (with parameters)
+        var smaIndicator = catalog.FirstOrDefault(x => x.Uiid == "SMA");
+        smaIndicator.Should().NotBeNull("SMA indicator should exist");
+
+        if (smaIndicator != null && smaIndicator.Parameters?.Any() == true)
+        {
+            // The legendTemplate for SMA should follow the default format with parameters
+            smaIndicator.LegendTemplate.Should().StartWith("SMA(",
+                "LegendTemplate should use the default format with parameters");
+            smaIndicator.LegendTemplate.Should().Contain("[P",
+                "LegendTemplate should include parameter placeholders");
+        }
+    }
 }

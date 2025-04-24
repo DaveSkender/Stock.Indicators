@@ -29,6 +29,7 @@ public static partial class GeneratedCatalog
             Uiid = "GEN_TEST",
             Category = Category.PriceTrend,
             ChartType = ChartType.Overlay,
+            LegendTemplate = "Custom TEST Legend: [P1]",
             Parameters =
             [
                 new IndicatorParamConfig
@@ -61,6 +62,7 @@ public static partial class GeneratedCatalog
             Uiid = "STREAM_TEST",
             Category = Category.Oscillator,
             ChartType = ChartType.Oscillator,
+            LegendTemplate = "STR([P1])",
             Parameters =
             [
                 new IndicatorParamConfig
@@ -93,6 +95,7 @@ public static partial class GeneratedCatalog
             Uiid = "BUFFER_TEST",
             Category = Category.VolumeBased,
             ChartType = ChartType.Oscillator,
+            LegendTemplate = "BUF([P1])",
             Parameters =
             [
                 new IndicatorParamConfig
@@ -125,6 +128,7 @@ public static partial class GeneratedCatalog
             Uiid = "SERIES_TEST",
             Category = Category.MovingAverage,
             ChartType = ChartType.Overlay,
+            LegendTemplate = "SER([P1])",
             Parameters =
             [
                 new IndicatorParamConfig

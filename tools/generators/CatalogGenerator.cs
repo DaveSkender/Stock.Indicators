@@ -10,16 +10,15 @@ namespace Indicators.Catalog.Generator;
 public class CatalogGenerator : IIncrementalGenerator
 {
     // Get version dynamically - uses compile-time constant in CI or timestamp locally
-    private static string GetGeneratorVersion()
-    {
+    private static string GetGeneratorVersion() =>
 #if VERSIONED_BUILD
         // This value will be replaced during CI build
         return "#{PACKAGE_VERSION}#";
 #else
         // For local builds, use a timestamp-based version
-        return DateTime.Now.ToString("yyyy.MM.dd-HH:mm:ss.fff");
+        DateTime.Now.ToString("yyyy.MM.dd-HH:mm:ss.fff");
 #endif
-    }
+
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -170,6 +169,13 @@ public class CatalogGenerator : IIncrementalGenerator
                 string chartType = chartTypeValue != null ?
                     GetEnumFieldName(symbols["ChartType"]!, Convert.ToInt32(chartTypeValue)) : string.Empty;
 
+                // Extract legendOverride if provided
+                string? legendOverride = null;
+                if (attributeData.ConstructorArguments.Length >= 5 && attributeData.ConstructorArguments[4].Value != null)
+                {
+                    legendOverride = attributeData.ConstructorArguments[4].Value?.ToString();
+                }
+
                 // Process parameters
                 List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, symbols["ParamAttribute"]);
 
@@ -182,6 +188,7 @@ public class CatalogGenerator : IIncrementalGenerator
                     MemberName: methodSymbol.Name == ".ctor" ? "Constructor" : methodSymbol.Name,
                     Category: category,
                     ChartType: chartType,
+                    LegendOverride: legendOverride,
                     Parameters: parameters));
             }
         }
@@ -337,6 +344,23 @@ public class CatalogGenerator : IIncrementalGenerator
         // Use the indicator name directly without appending the type
         string displayName = indicator.Name;
 
+        // Build tooltip template based on parameters or use the legend override
+        string legendTemplate = indicator.Parameters.Count > 0
+                ? $"{indicator.Id}("
+                            + string.Join(",",
+                                Enumerable
+                                    .Range(1, indicator.Parameters.Count)
+                                    .Select(i => $"[P{i}]")
+                                ) + ")"
+                : indicator.Id;
+
+        // Use the legend override if provided
+        if (indicator.LegendOverride != null
+         && indicator.LegendOverride != string.Empty)
+        {
+            legendTemplate = indicator.LegendOverride;
+        }
+
         sourceBuilder.AppendLine($$"""
                 new IndicatorListing
                 {
@@ -346,6 +370,7 @@ public class CatalogGenerator : IIncrementalGenerator
                     ChartType = ChartType.{{indicator.ChartType}},
                     Order = Order.Front,
                     ChartConfig = null,
+                    LegendTemplate = "{{legendTemplate}}",
         """);
 
         // Add parameters
@@ -368,20 +393,8 @@ public class CatalogGenerator : IIncrementalGenerator
             sourceBuilder.AppendLine("                    Parameters = new List<IndicatorParamConfig>(),");
         }
 
-        // Build tooltip template based on parameters
-        string tooltipTemplate = $"{indicator.Id}";
-        if (indicator.Parameters.Count > 0)
-        {
-            tooltipTemplate += "("
-                + string.Join(",",
-                    Enumerable
-                        .Range(1, indicator.Parameters.Count)
-                        .Select(i => $"[P{i}]")
-                    ) + ")";
-        }
-
         // Add result configs
-        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Id, tooltipTemplate);
+        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Id, legendTemplate);
 
         sourceBuilder.AppendLine("                },");
     }
@@ -453,6 +466,7 @@ public class CatalogGenerator : IIncrementalGenerator
         string MemberName,
         string Category,
         string ChartType,
+        string? LegendOverride,
         List<ParameterInfo> Parameters);
 
     private sealed record ParameterInfo(

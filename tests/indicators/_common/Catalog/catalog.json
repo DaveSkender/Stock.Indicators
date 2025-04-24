@@ -70,7 +70,7 @@
     "Name": "Aroon Up/Down",
     "Uiid": "AROON",
     "Endpoint": "/aroon",
-    "LegendTemplate": "AROON([P1])",
+    "LegendTemplate": "AROON([P1]) Up/Down",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -87,7 +87,7 @@
     "Results": [
       {
         "DisplayName": "Aroon Up/Down",
-        "TooltipTemplate": "AROON([P1])",
+        "TooltipTemplate": "AROON([P1]) Up/Down",
         "DataName": "aroon",
         "DataType": "number",
         "LineType": "solid",
@@ -100,7 +100,7 @@
     "Name": "ATR Trailing Stop (Close offset)",
     "Uiid": "ATR-STOP-CLOSE",
     "Endpoint": "/atr-stop-close",
-    "LegendTemplate": "ATR-STOP-CLOSE([P1],[P2])",
+    "LegendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -125,7 +125,7 @@
     "Results": [
       {
         "DisplayName": "ATR Trailing Stop (Close offset)",
-        "TooltipTemplate": "ATR-STOP-CLOSE([P1],[P2])",
+        "TooltipTemplate": "ATR-STOP([P1],[P2],CLOSE)",
         "DataName": "atr-stop-close",
         "DataType": "number",
         "LineType": "solid",
@@ -138,7 +138,7 @@
     "Name": "ATR Trailing Stop (High/Low offset)",
     "Uiid": "ATR-STOP-HL",
     "Endpoint": "/atr-stop-hl",
-    "LegendTemplate": "ATR-STOP-HL([P1],[P2])",
+    "LegendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -163,7 +163,7 @@
     "Results": [
       {
         "DisplayName": "ATR Trailing Stop (High/Low offset)",
-        "TooltipTemplate": "ATR-STOP-HL([P1],[P2])",
+        "TooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
         "DataName": "atr-stop-hl",
         "DataType": "number",
         "LineType": "solid",
@@ -470,7 +470,7 @@
     "Name": "Chandelier Exit (long)",
     "Uiid": "CHEXIT-LONG",
     "Endpoint": "/chexit-long",
-    "LegendTemplate": "CHEXIT-LONG([P1],[P2])",
+    "LegendTemplate": "CHANDELIER([P1],[P2],LONG)",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
     "Order": 0,
@@ -495,7 +495,7 @@
     "Results": [
       {
         "DisplayName": "Chandelier Exit (long)",
-        "TooltipTemplate": "CHEXIT-LONG([P1],[P2])",
+        "TooltipTemplate": "CHANDELIER([P1],[P2],LONG)",
         "DataName": "chexit-long",
         "DataType": "number",
         "LineType": "solid",
@@ -508,7 +508,7 @@
     "Name": "Chandelier Exit (short)",
     "Uiid": "CHEXIT-SHORT",
     "Endpoint": "/chexit-short",
-    "LegendTemplate": "CHEXIT-SHORT([P1],[P2])",
+    "LegendTemplate": "CHANDELIER([P1],[P2],SHORT)",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
     "Order": 0,
@@ -533,7 +533,7 @@
     "Results": [
       {
         "DisplayName": "Chandelier Exit (short)",
-        "TooltipTemplate": "CHEXIT-SHORT([P1],[P2])",
+        "TooltipTemplate": "CHANDELIER([P1],[P2],SHORT)",
         "DataName": "chexit-short",
         "DataType": "number",
         "LineType": "solid",
