@@ -35,7 +35,7 @@ The package includes Roslyn analyzers that help enforce conventions:
 
 The analyzer intelligently identifies indicator types based on their return types:
 
-- **Series indicators**: Methods returning collections where the element type implements `IIndicatorResult`
+- **Series indicators**: Methods returning collections where the element type name ends with "Result"
 - **Stream indicators**: Methods returning types that implement `IStreamHub` interface
 - **Buffer indicators**: Methods returning types that implement `IBufferQuote` interface
 

@@ -266,17 +266,6 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
 
                 if (elementType.Name.EndsWith("Result"))
                 {
-                    // Get the IIndicatorResult interface symbol
-                    INamedTypeSymbol? indicatorResultInterface =
-                        compilation.GetTypeByMetadataName("Skender.Stock.Indicators.IIndicatorResult");
-
-                    // If we can find the interface, check if the element type implements it
-                    if (indicatorResultInterface != null)
-                    {
-                        return elementType.AllInterfaces.Any(i =>
-                            SymbolEqualityComparer.Default.Equals(i, indicatorResultInterface));
-                    }
-
                     // Fallback to just checking the Result suffix
                     return true;
                 }
