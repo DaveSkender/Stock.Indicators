@@ -14,16 +14,20 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     public const string SeriesDiagnosticId = "IND001";
     public const string StreamDiagnosticId = "IND002";
     public const string BufferDiagnosticId = "IND003";
+    public const string MissingParamDiagnosticId = "IND005";
 
     private const string SeriesTitle = "Series indicator method missing Series attribute";
     private const string StreamTitle = "Stream hub indicator method missing Stream attribute";
     private const string BufferTitle = "Buffer indicator method missing Buffer attribute";
+    private const string MissingParamTitle = "Missing ParamAttribute on indicator parameter";
 
     private const string SeriesMessageFormat = "Series indicator method '{0}' must have the Series attribute";
     private const string StreamMessageFormat = "Stream hub indicator method '{0}' must have the Stream attribute";
     private const string BufferMessageFormat = "Buffer indicator method '{0}' must have the Buffer attribute";
+    private const string MissingParamMessageFormat = "Parameter '{0}' in method '{1}' with CatalogAttribute is missing a ParamAttribute";
 
     private const string Description = "Indicator methods should have the appropriate catalog attribute based on their style.";
+    private const string ParamDescription = "Indicator method parameters should have the ParamAttribute applied.";
     private const string Category = "Usage";
 
     // Define constant for "not an indicator"
@@ -63,11 +67,20 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
+    private static readonly DiagnosticDescriptor MissingParamRule = new(
+        MissingParamDiagnosticId,
+        MissingParamTitle,
+        MissingParamMessageFormat,
+        Category,
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: ParamDescription);
+
     /// <summary>
     /// Gets the diagnostics supported by this analyzer.
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        [SeriesRule, StreamRule, BufferRule];
+        [SeriesRule, StreamRule, BufferRule, MissingParamRule];
 
     /// <summary>
     /// Initializes the analyzer.
@@ -118,6 +131,9 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
             return;
         }
 
+        // Check for any CatalogAttribute first to validate ParamAttributes
+        bool hasCatalogAttribute = HasAnyCatalogAttribute(methodSymbol);
+
         // Determine the indicator style based on the return type
         int styleValue = DetermineIndicatorStyle(methodSymbol, context.Compilation);
 
@@ -153,6 +169,174 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
+
+        // Check parameters for ParamAttribute if method has any catalog attribute
+        if (hasCatalogAttribute)
+        {
+            ValidateParameterAttributes(methodSymbol, context);
+        }
+    }
+
+    private static void ValidateParameterAttributes(IMethodSymbol methodSymbol, SyntaxNodeAnalysisContext context)
+    {
+        // Skip validation entirely if there are no parameters
+        if (methodSymbol.Parameters.Length == 0)
+        {
+            return;
+        }
+
+        // Get the ParamAttribute type
+        INamedTypeSymbol? paramAttributeSymbol = context.Compilation
+            .GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
+
+        if (paramAttributeSymbol == null)
+        {
+            return;
+        }
+
+        // Determine starting index - skip the first parameter if:
+        // 1. It's an instance method (implicit 'this')
+        // 2. It's an extension method with a common quote collection parameter
+        int startIdx = 0;
+
+        if (!methodSymbol.IsStatic)
+        {
+            // Regular instance method - skip the implicit 'this'
+            startIdx = 1;
+        }
+        else if (methodSymbol.IsExtensionMethod && methodSymbol.Parameters.Length > 0)
+        {
+            // Extension method - check if first param is a common collection parameter
+            IParameterSymbol firstParam = methodSymbol.Parameters[0];
+
+            // Check if it's a common parameter that should be excluded
+            if (IsCommonParameter(firstParam))
+            {
+                startIdx = 1;
+            }
+        }
+
+        // Check remaining parameters for ParamAttribute
+        for (int i = startIdx; i < methodSymbol.Parameters.Length; i++)
+        {
+            IParameterSymbol parameter = methodSymbol.Parameters[i];
+
+            // Check if the parameter has the ParamAttribute
+            bool hasParamAttribute = parameter.GetAttributes()
+                .Any(attr => attr.AttributeClass?.Equals(paramAttributeSymbol, SymbolEqualityComparer.Default) == true);
+
+            if (!hasParamAttribute)
+            {
+                // Report diagnostic for missing ParamAttribute
+                context.ReportDiagnostic(
+                    Diagnostic.Create(
+                        MissingParamRule,
+                        parameter.Locations.FirstOrDefault(),
+                        parameter.Name,
+                        $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Determines if a parameter is a common parameter typically used in extensions.
+    /// </summary>
+    private static bool IsCommonParameter(IParameterSymbol parameter)
+    {
+        // Common parameter names for collections
+        HashSet<string> commonParamNames = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "quotes", "candles", "source"
+        };
+
+        // Check parameter name
+        if (!commonParamNames.Contains(parameter.Name))
+        {
+            return false;
+        }
+
+        // Get the parameter type
+        ITypeSymbol type = parameter.Type;
+
+        // For generic types, check if they are collections
+        if (type is INamedTypeSymbol namedType && namedType.IsGenericType)
+        {
+            string typeName = namedType.ToString();
+
+            // Check if it's a collection type
+            bool isCollectionType =
+                typeName.Contains("IEnumerable") ||
+                typeName.Contains("IReadOnlyList") ||
+                typeName.Contains("List") ||
+                typeName.Contains("IList") ||
+                typeName.Contains("ICollection");
+
+            // If it's a collection with at least one type parameter, check it
+            if (isCollectionType && namedType.TypeArguments.Length > 0)
+            {
+                // For "source" parameter, check the type constraints if available
+                if (string.Equals(parameter.Name, "source", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Find the containing method to check type parameter constraints
+                    if (parameter.ContainingSymbol is IMethodSymbol methodSymbol &&
+                        methodSymbol.IsGenericMethod)
+                    {
+                        foreach (var typeParam in methodSymbol.TypeParameters)
+                        {
+                            // Look for type parameters that have constraints
+                            if (typeParam.ConstraintTypes.Length > 0)
+                            {
+                                // Check if any constraint type is IReusable or similar common interfaces
+                                foreach (var constraintType in typeParam.ConstraintTypes)
+                                {
+                                    if (constraintType.Name.Contains("Reusable") ||
+                                        constraintType.Name.Contains("Quote") ||
+                                        constraintType.Name.Contains("Series") ||
+                                        constraintType.Name.Contains("Bar"))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Even if we can't find specific constraints, still be lenient with "source"
+                    return true;
+                }
+
+                // For other parameter names, check if element type is quote-like
+                ITypeSymbol elementType = namedType.TypeArguments[0];
+                string elementTypeName = elementType.Name;
+
+                // Check if element type is quote-like
+                bool isQuoteType =
+                    elementTypeName.Contains("Quote") ||
+                    elementTypeName.Contains("Candle") ||
+                    elementTypeName.EndsWith("Bar") ||
+                    elementTypeName == "TQuote" ||
+                    elementTypeName.Contains("Reusable");
+
+                return isQuoteType;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Determines if the method has any catalog-related attribute.
+    /// </summary>
+    private static bool HasAnyCatalogAttribute(IMethodSymbol methodSymbol)
+    {
+        foreach (AttributeData attribute in methodSymbol.GetAttributes())
+        {
+            if (IsCatalogAttributeOrDerived(attribute.AttributeClass))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /// <summary>
