@@ -51,26 +51,6 @@ public static class Catalog
     }
 
     /// <summary>
-    /// Validates that each UIID is unique within the catalog.
-    /// </summary>
-    /// <param name="catalog">The catalog to validate.</param>
-    public static void Validate(
-        this IEnumerable<IndicatorListing> catalog)
-    {
-        List<string> duplicateUIIDs = catalog
-            .GroupBy(x => x.Uiid)
-            .Where(g => g.Count() > 1)
-            .Select(g => g.Key)
-            .ToList();
-
-        if (duplicateUIIDs.Count != 0)
-        {
-            throw new InvalidOperationException(
-                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
-        }
-    }
-
-    /// <summary>
     /// Generates a default oscillator chart configuration.
     /// </summary>
     /// <param name="min">The minimum value for the Y-axis.</param>

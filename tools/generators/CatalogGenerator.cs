@@ -100,9 +100,36 @@ public class CatalogGenerator : IIncrementalGenerator
         ProcessNodes(compilation, "Stream", streamNodes, requiredSymbols, indicators, processedIds);
         ProcessNodes(compilation, "Buffer", bufferNodes, requiredSymbols, indicators, processedIds);
 
+        // Validate indicator UIIDs are unique before generating code
+        ValidateUniqueUIIDs(indicators, context);
+
         // Generate catalog class
         string sourceCode = GenerateCatalogClass(indicators);
         context.AddSource("GeneratedCatalog.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
+    }
+
+    private static void ValidateUniqueUIIDs(List<IndicatorInfo> indicators, SourceProductionContext context)
+    {
+        var duplicateUIIDs = indicators
+            .GroupBy(x => x.Id)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        if (duplicateUIIDs.Count != 0)
+        {
+            context.ReportDiagnostic(
+                Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        "IND004",
+                        "Duplicate UIIDs detected",
+                        "The following UIIDs are used more than once: {0}",
+                        "Catalog",
+                        DiagnosticSeverity.Error,
+                        isEnabledByDefault: true),
+                    Location.None,
+                    string.Join(", ", duplicateUIIDs)));
+        }
     }
 
     private static Dictionary<string, INamedTypeSymbol?> GetRequiredSymbols(Compilation compilation)

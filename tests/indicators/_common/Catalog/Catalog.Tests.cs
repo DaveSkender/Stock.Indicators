@@ -60,8 +60,11 @@ public class Catalogging
         result.Should().Contain(x => x.Category == Category.VolumeBased,
             "Catalog should include VolumeBased indicators");
 
-        // Ensure catalog is valid
-        Catalog.Validate(result);
+        // Verify UIIDs are unique (replacing the previous Catalog.Validate call)
+        result.GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .Should().BeEmpty("Catalog should have unique UIIDs");
     }
 
     [TestMethod]
@@ -92,8 +95,11 @@ public class Catalogging
             x.Category == Category.PriceChannel,
             "Catalog should include Bollinger Bands");
 
-        // Ensure UIID values are unique
-        Catalog.Validate(realCatalog);
+        // Verify UIIDs are unique (replacing the previous Catalog.Validate call)
+        realCatalog.GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .Should().BeEmpty("Catalog should have unique UIIDs");
     }
 
     [TestMethod]
@@ -126,10 +132,16 @@ public class Catalogging
             duplicateIndicator
         ];
 
-        // Act and Assert
-        Action act = () => Catalog.Validate(catalog);
-        act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*Duplicate UIIDs found*");
+        // Act - find any duplicate UIIDs
+        var duplicateUiids = catalog
+            .GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToList();
+
+        // Assert
+        duplicateUiids.Should().NotBeEmpty("Should detect duplicate UIIDs");
+        duplicateUiids.Should().Contain("DUPLICATE", "Should identify the specific duplicate UIID");
     }
 
     [TestMethod]

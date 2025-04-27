@@ -10,6 +10,7 @@ namespace Indicators.Catalog.Generator;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class CatalogAnalyzer : DiagnosticAnalyzer
 {
+    // Note: IND004 is reserved for the duplicate UIID validation in the CatalogGenerator
     public const string SeriesDiagnosticId = "IND001";
     public const string StreamDiagnosticId = "IND002";
     public const string BufferDiagnosticId = "IND003";
