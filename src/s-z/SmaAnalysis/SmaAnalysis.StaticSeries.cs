@@ -12,6 +12,7 @@ public static partial class Sma
     /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA analysis results.</returns>
+    [ExcludeFromCatalog]
     public static IReadOnlyList<SmaAnalysis> ToSmaAnalysis<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

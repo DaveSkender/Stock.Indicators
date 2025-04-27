@@ -248,27 +248,27 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // If it's a collection type
         if (type is INamedTypeSymbol namedType && namedType.IsGenericType)
         {
-            // Check if it's a collection type (IEnumerable<T>, IReadOnlyList<T>, etc.)
+            // Check if it's a collection type
             string typeName = namedType.ToString();
             bool isCollection = typeName.Contains("IEnumerable") ||
                                 typeName.Contains("IReadOnlyList") ||
                                 typeName.Contains("List");
 
-            if (!isCollection)
+            if (!isCollection || namedType.TypeArguments.Length == 0)
             {
                 return false;
             }
 
-            // Check if the collection element type ends with "Result"
-            if (namedType.TypeArguments.Length > 0)
-            {
-                ITypeSymbol elementType = namedType.TypeArguments[0];
+            // Get the collection element type
+            ITypeSymbol elementType = namedType.TypeArguments[0];
 
-                if (elementType.Name.EndsWith("Result"))
-                {
-                    // Fallback to just checking the Result suffix
-                    return true;
-                }
+            // Check if the element type implements ISeries interface (directly or indirectly)
+            INamedTypeSymbol? iSeriesInterface = compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ISeries");
+            if (iSeriesInterface != null)
+            {
+                // Check if element type implements ISeries (which includes implementing IReusable)
+                return elementType.AllInterfaces.Any(i =>
+                    SymbolEqualityComparer.Default.Equals(i, iSeriesInterface));
             }
         }
 
