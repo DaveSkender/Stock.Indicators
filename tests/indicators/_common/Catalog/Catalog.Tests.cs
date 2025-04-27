@@ -14,34 +14,23 @@ public class Catalogging
     };
 
     [TestMethod]
-    public void TestCatalogHasStubs()
+    public void CatalogHasRealIndicators()
     {
-        // Act - get catalog with test indicators included
-        IReadOnlyList<IndicatorListing> result = Catalog.GetIndicators(includeTestIndicators: true);
+        // Act - get catalog
+        IReadOnlyList<IndicatorListing> result = Catalog.GetIndicators();
 
         // Assert
-        // Check that the catalog contains indicators from different categories
         result.Should().NotBeEmpty("Catalog should contain indicators");
 
-        // Verify that both real indicators and test indicators are present
+        // Verify that indicators from different categories are present
         result.Should().Contain(x => x.Category == Category.MovingAverage,
-            "Catalog should include real MovingAverage indicators");
+            "Catalog should include MovingAverage indicators");
         result.Should().Contain(x => x.Category == Category.Oscillator,
-            "Catalog should include real Oscillator indicators");
+            "Catalog should include Oscillator indicators");
         result.Should().Contain(x => x.Category == Category.PriceChannel,
-            "Catalog should include real PriceChannel indicators");
+            "Catalog should include PriceChannel indicators");
         result.Should().Contain(x => x.Category == Category.VolumeBased,
-            "Catalog should include real VolumeBased indicators");
-
-        // Test indicators should be included when the includeTestIndicators parameter is true
-        result.Should().Contain(x => x.Uiid == "GEN_TEST",
-            "Catalog with test indicators should include GEN_TEST");
-        result.Should().Contain(x => x.Uiid == "BUFFER_TEST",
-            "Catalog with test indicators should include BUFFER_TEST");
-        result.Should().Contain(x => x.Uiid == "STREAM_TEST",
-            "Catalog with test indicators should include STREAM_TEST");
-        result.Should().Contain(x => x.Uiid == "SERIES_TEST",
-            "Catalog with test indicators should include SERIES_TEST");
+            "Catalog should include VolumeBased indicators");
     }
 
     [TestMethod]
@@ -71,22 +60,14 @@ public class Catalogging
         result.Should().Contain(x => x.Category == Category.VolumeBased,
             "Catalog should include VolumeBased indicators");
 
-        // Test indicators should never be part of the public catalog
-        result.Should().NotContain(x => x.Uiid == "GEN_TEST",
-            "Public catalog should not contain the GEN_TEST indicator");
-        result.Should().NotContain(x => x.Uiid == "BUFFER_TEST",
-            "Public catalog should not contain the BUFFER_TEST indicator");
-        result.Should().NotContain(x => x.Uiid == "STREAM_TEST",
-            "Public catalog should not contain the STREAM_TEST indicator");
-
         // Ensure catalog is valid
-        Catalog.ValidateUniqueUIID(result);
+        Catalog.Validate(result);
     }
 
     [TestMethod]
     public void CatalogWithRealIndicators()
     {
-        // Act - get catalog without test indicators
+        // Act - get catalog
         IReadOnlyList<IndicatorListing> realCatalog = Catalog.GetIndicators();
 
         // Assert
@@ -112,11 +93,7 @@ public class Catalogging
             "Catalog should include Bollinger Bands");
 
         // Ensure UIID values are unique
-        Catalog.ValidateUniqueUIID(realCatalog);
-
-        // Check that test indicators are not included
-        realCatalog.Should().NotContain(GeneratedCatalog.TestIndicators,
-            "Catalog should not have test indicators.");
+        Catalog.Validate(realCatalog);
     }
 
     [TestMethod]
@@ -150,10 +127,9 @@ public class Catalogging
         ];
 
         // Act and Assert
-        Action act = () => Catalog.ValidateUniqueUIID(catalog);
+        Action act = () => Catalog.Validate(catalog);
         act.Should().Throw<InvalidOperationException>()
-            .WithMessage("*Duplicate UIIDs found*")
-            .And.Message.Should().Contain("TEST");
+            .WithMessage("*Duplicate UIIDs found*");
     }
 
     [TestMethod]
@@ -188,13 +164,7 @@ public class Catalogging
         // Assert that the catalog contains real indicators
         catalog.Should().NotBeEmpty("The catalog should have content");
 
-        // Test indicators are excluded
-        catalog.Should().NotContain(x => x.Uiid == "GEN_TEST", "Public API should exclude GEN_TEST");
-        catalog.Should().NotContain(x => x.Uiid == "BUFFER_TEST", "Public API should exclude BUFFER_TEST");
-        catalog.Should().NotContain(x => x.Uiid == "STREAM_TEST", "Public API should exclude STREAM_TEST");
-        catalog.Should().NotContain(x => x.Uiid == "SERIES_TEST", "Public API should exclude SERIES_TEST");
-
-        json.Should().NotContain("BUFFER_TEST", "Should not contain the 'stub' catalog");
+        json.Should().NotContain("BUFFER_TEST", "Should not contain test indicators");
         catalog.Count.Should().BeGreaterThan(
             80, "The catalog should contain all the indicators");
 

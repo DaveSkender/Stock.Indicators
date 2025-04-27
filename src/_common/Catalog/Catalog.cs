@@ -7,45 +7,13 @@ namespace Skender.Stock.Indicators;
 public static class Catalog
 {
     /// <summary>
-    /// Gets all indicators in the catalog, excluding test indicators.
+    /// Gets all indicators in the catalog.
     /// </summary>
     /// <returns>
     /// A sorted list of indicator listings.
     /// </returns>
     public static IReadOnlyList<IndicatorListing> GetIndicators() =>
-        GetIndicators(includeTestIndicators: false);
-
-    /// <summary>
-    /// Gets indicators from the catalog with option to include test indicators.
-    /// </summary>
-    /// <param name="includeTestIndicators">Whether to include test indicators in the catalog.</param>
-    /// <returns>
-    /// A sorted list of indicator listings.
-    /// </returns>
-    internal static IReadOnlyList<IndicatorListing> GetIndicators(bool includeTestIndicators)
-    {
-        IEnumerable<IndicatorListing> indicators;
-
-        // Filter out test indicators if requested
-        if (!includeTestIndicators)
-        {
-            // test indicator UIIDs
-            string[] testUiids = GeneratedCatalog.TestIndicators
-                .Select(x => x.Uiid)
-                .ToArray();
-
-            indicators = GeneratedCatalog.Indicators
-                .Where(x => !testUiids.Contains(x.Uiid));
-        }
-        else
-        {
-            // Include all indicators
-            indicators = GeneratedCatalog.Indicators;
-        }
-
-        // Return sorted catalog
-        return [.. indicators.OrderBy(x => x.Name)];
-    }
+        [.. GeneratedCatalog.Indicators.OrderBy(x => x.Name)];
 
     /// <summary>
     /// Gets indicators with URLs for API endpoints based on the provided base URL.
@@ -86,7 +54,7 @@ public static class Catalog
     /// Validates that each UIID is unique within the catalog.
     /// </summary>
     /// <param name="catalog">The catalog to validate.</param>
-    public static void ValidateUniqueUIID(
+    public static void Validate(
         this IEnumerable<IndicatorListing> catalog)
     {
         List<string> duplicateUIIDs = catalog
@@ -98,7 +66,7 @@ public static class Catalog
         if (duplicateUIIDs.Count != 0)
         {
             throw new InvalidOperationException(
-                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)} TEST");
+                $"Duplicate UIIDs found: {string.Join(", ", duplicateUIIDs)}");
         }
     }
 
