@@ -311,18 +311,74 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
 
     private static bool HasAttributeOfType(MethodDeclarationSyntax method, string attributeName, SemanticModel semanticModel)
     {
-        foreach (AttributeListSyntax attributeList in method.AttributeLists)
+        // Get method symbol to access attribute data properly
+        IMethodSymbol? methodSymbol = semanticModel.GetDeclaredSymbol(method);
+        if (methodSymbol == null)
         {
-            foreach (AttributeSyntax attribute in attributeList.Attributes)
+            return false;
+        }
+
+        // Extract the style from attribute name (remove "Attribute" suffix if present)
+        string styleToCheck = attributeName.Replace("Attribute", string.Empty);
+
+        // Check all attributes on the method
+        foreach (AttributeData attribute in methodSymbol.GetAttributes())
+        {
+            INamedTypeSymbol? attributeClass = attribute.AttributeClass;
+
+            // Direct match on attribute name
+            if (attributeClass?.Name == attributeName ||
+                attributeClass?.Name == styleToCheck ||
+                attributeClass?.ToString() == $"Skender.Stock.Indicators.{attributeName}")
             {
-                ISymbol? attributeSymbol = semanticModel.GetSymbolInfo(attribute).Symbol;
-                if (attributeSymbol?.ContainingType?.Name == attributeName)
+                return true;
+            }
+
+            // Check if derived from CatalogAttribute and look at Style property
+            if (IsCatalogAttributeOrDerived(attributeClass))
+            {
+                // Check named arguments for Style property
+                foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
                 {
-                    return true;
+                    if (string.Equals(namedArg.Key, "Style", StringComparison.OrdinalIgnoreCase) &&
+                        string.Equals(namedArg.Value.Value?.ToString(), styleToCheck, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+
+                // Check constructor arguments for Style value
+                foreach (TypedConstant arg in attribute.ConstructorArguments)
+                {
+                    if (string.Equals(arg.Value?.ToString(), styleToCheck, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
                 }
             }
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Checks if the given type is CatalogAttribute or derived from it.
+    /// </summary>
+    private static bool IsCatalogAttributeOrDerived(INamedTypeSymbol? symbol)
+    {
+        if (symbol == null)
+        {
+            return false;
+        }
+
+        // Check if this is CatalogAttribute
+        if (symbol.Name == "CatalogAttribute" ||
+            symbol.ToString() == "Skender.Stock.Indicators.CatalogAttribute")
+        {
+            return true;
+        }
+
+        // Check base type recursively
+        return symbol.BaseType != null && IsCatalogAttributeOrDerived(symbol.BaseType);
     }
 }
