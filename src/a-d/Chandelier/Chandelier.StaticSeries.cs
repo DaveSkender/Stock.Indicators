@@ -14,38 +14,23 @@ public static partial class Chandelier
     /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
     /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
-    [Series("CHEXIT-LONG", "Chandelier Exit (long)",
-        Category.StopAndReverse, ChartType.Overlay, "CHANDELIER([P1],[P2],LONG)")]
+    [Series("CHEXIT", "Chandelier Exit", Category.StopAndReverse, ChartType.Overlay)]
     public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
+
         this IReadOnlyList<TQuote> quotes,
+
         [Param("Lookback Periods", 1, 250, 22)]
         int lookbackPeriods = 22,
+
         [Param("Multiplier", 1, 10, 3)]
         double multiplier = 3,
-        ChandelierType type = ChandelierType.Long)
+
+        [Param("Direction", Direction.Long)]
+        Direction type = Direction.Long)
+
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);
-
-    /// <summary>
-    /// Calculates the Chandelier Exit (short) for a series of quotes.
-    /// </summary>
-    /// <typeparam name="TQuote">The type of the elements in the quotes list, which must implement <see cref="IQuote"/>.</typeparam>
-    /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 22.</param>
-    /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
-    /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
-    [Series("CHEXIT-SHORT", "Chandelier Exit (short)",
-        Category.StopAndReverse, ChartType.Overlay, "CHANDELIER([P1],[P2],SHORT)")]
-    public static IReadOnlyList<ChandelierResult> ToChandelierShort<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 1, 250, 22)]
-        int lookbackPeriods = 22,
-        [Param("Multiplier", 1, 10, 3)]
-        double multiplier = 3)
-        where TQuote : IQuote => quotes
-            .ToQuoteDList()
-            .CalcChandelier(lookbackPeriods, multiplier, ChandelierType.Short);
 
     /// <summary>
     /// Calculates the Chandelier Exit for a series of quotes.
@@ -59,7 +44,7 @@ public static partial class Chandelier
         this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
-        ChandelierType type)
+        Direction type)
     {
         // check parameter arguments
         Validate(lookbackPeriods, multiplier);
@@ -85,7 +70,7 @@ public static partial class Chandelier
 
                 switch (type)
                 {
-                    case ChandelierType.Long:
+                    case Direction.Long:
 
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -100,7 +85,7 @@ public static partial class Chandelier
                         exit = maxHigh - (atr * multiplier);
                         break;
 
-                    case ChandelierType.Short:
+                    case Direction.Short:
 
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)

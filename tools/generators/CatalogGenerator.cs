@@ -262,51 +262,75 @@ public class CatalogGenerator : IIncrementalGenerator
 
             // Extract information from the attribute
             string displayName = paramAttribute.ConstructorArguments[0].Value?.ToString() ?? parameter.Name;
-            double minValue = Convert.ToDouble(paramAttribute.ConstructorArguments[1].Value ?? 0);
-            double maxValue = Convert.ToDouble(paramAttribute.ConstructorArguments[2].Value ?? double.MaxValue);
-            double defaultValue = Convert.ToDouble(paramAttribute.ConstructorArguments[3].Value ?? 0);
+            double minValue = 0;
+            double maxValue = 100;
+            double defaultValue = 0;
 
-            // Determine the parameter type based on the parameter's type symbol
-            string dataType = DetermineDataType(parameter.Type);
+            string dataType = "number"; // default
 
-            // Ensure default is within min/max bounds
-            defaultValue = Math.Min(Math.Max(defaultValue, minValue), maxValue);
+            // Determine which constructor was used based on the number of arguments and their types
+            int argCount = paramAttribute.ConstructorArguments.Length;
 
-            parameters.Add(new ParameterInfo(
-                parameter.Name, displayName, dataType, minValue, maxValue, defaultValue));
+            // Handle boolean constructor (displayName, boolDefault)
+            if (argCount == 2 && paramAttribute.ConstructorArguments[1].Type?.SpecialType == SpecialType.System_Boolean)
+            {
+                dataType = "boolean";
+                bool boolDefault = Convert.ToBoolean(paramAttribute.ConstructorArguments[1].Value ?? false);
+                defaultValue = boolDefault ? 1 : 0;
+                minValue = 0;
+                maxValue = 1;
+
+                parameters.Add(new ParameterInfo(
+                    parameter.Name, displayName, dataType, minValue, maxValue, defaultValue));
+                continue;
+            }
+
+            // Handle type-specific enum constructors (displayName, EnumType defaultValue)
+            if (argCount == 2 &&
+                paramAttribute.ConstructorArguments[1].Type?.TypeKind == TypeKind.Enum)
+            {
+                dataType = "enum";
+                int enumDefaultValue = Convert.ToInt32(paramAttribute.ConstructorArguments[1].Value ?? 0);
+                string enumType = paramAttribute.ConstructorArguments[1].Type?.Name ?? string.Empty;
+
+                parameters.Add(new ParameterInfo(
+                    parameter.Name, displayName, dataType, minValue, maxValue, enumDefaultValue, null, enumType));
+                continue;
+            }
+
+            // Handle legacy enum constructor (displayName, defaultValue, enumType as string)
+            if (argCount == 3 && paramAttribute.ConstructorArguments[2].Type?.SpecialType == SpecialType.System_String)
+            {
+                dataType = "enum";
+                int enumDefaultValue = Convert.ToInt32(paramAttribute.ConstructorArguments[1].Value ?? 0);
+                string enumType = paramAttribute.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
+
+                parameters.Add(new ParameterInfo(
+                    parameter.Name, displayName, dataType, minValue, maxValue, enumDefaultValue, null, enumType));
+                continue;
+            }
+
+            // Handle numeric constructors (displayName, minValue, maxValue, defaultValue)
+            if (argCount == 4)
+            {
+                // Check if it's an int constructor
+                bool isIntType = paramAttribute.ConstructorArguments[1].Type?.SpecialType == SpecialType.System_Int32;
+
+                dataType = isIntType ? "int" : "number";
+                minValue = Convert.ToDouble(paramAttribute.ConstructorArguments[1].Value ?? 0);
+                maxValue = Convert.ToDouble(paramAttribute.ConstructorArguments[2].Value ?? double.MaxValue);
+                defaultValue = Convert.ToDouble(paramAttribute.ConstructorArguments[3].Value ?? 0);
+
+                // Ensure default is within min/max bounds
+                defaultValue = Math.Min(Math.Max(defaultValue, minValue), maxValue);
+
+                parameters.Add(new ParameterInfo(
+                    parameter.Name, displayName, dataType, minValue, maxValue, defaultValue));
+                continue;
+            }
         }
 
         return parameters;
-    }
-
-    /// <summary>
-    /// Determines the appropriate JavaScript/TypeScript data type based on the parameter type.
-    /// </summary>
-    private static string DetermineDataType(ITypeSymbol typeSymbol)
-    {
-        // Check the parameter's declared type
-        string typeName = typeSymbol.ToString().ToLowerInvariant();
-
-        if (typeName is "int" or "int32" or "int16" or
-            "byte" or "sbyte" or "uint" or
-            "uint32" or "uint16" or "short" or
-            "ushort" or "long" or "ulong")
-        {
-            return "int";
-        }
-
-        if (typeName is "bool" or "boolean")
-        {
-            return "boolean";
-        }
-
-        if (typeName == "string")
-        {
-            return "string";
-        }
-
-        // For decimal/double/float types and any other numeric types
-        return "number";
     }
 
     private static string GenerateCatalogClass(List<IndicatorInfo> indicators)
@@ -502,5 +526,8 @@ public class CatalogGenerator : IIncrementalGenerator
         string DataType,
         double MinValue,
         double MaxValue,
-        double DefaultValue);
+        double DefaultValue,
+        string? StringDefault = null,
+        string? EnumType = null,
+        Dictionary<string, int>? EnumValues = null);
 }

@@ -18,8 +18,11 @@ public static partial class RollingPivots
     [Series("ROLLING-PIVOTS", "Rolling Pivots", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Window Periods", 1, 250, 20)]
         int windowPeriods,
+        [Param("Offset Periods", 0, 100, 0)]
         int offsetPeriods,
+        [Param("Point Type", PivotPointType.Standard)]
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {

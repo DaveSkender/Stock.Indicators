@@ -6,53 +6,33 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     /// <summary>
-    /// Calculates the ATR Trailing Stop from a series of quotes.
-    /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
-    /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
-    /// <returns>A list of ATR Trailing Stop results.</returns>
-    [Series("ATR-STOP-CLOSE", "ATR Trailing Stop (Close offset)", Category.PriceTrend, ChartType.Overlay, "ATR-STOP([P1],[P2],CLOSE)")]
-    public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 1, 50, 21)]
-        int lookbackPeriods = 21,
-        [Param("Multiplier", 0.1, 10, 3)]
-        double multiplier = 3,
-        EndType endType = EndType.Close)
-        where TQuote : IQuote => quotes
-            .ToQuoteDList()
-            .CalcAtrStop(lookbackPeriods, multiplier, endType);
-
-    /// <summary>
     /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
+    /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
-    [Series("ATR-STOP-HL", "ATR Trailing Stop (High/Low offset)", Category.PriceTrend, ChartType.Overlay, "ATR-STOP([P1],[P2],HIGH/LOW)")]
-    public static IReadOnlyList<AtrStopResult> ToAtrStopHighLow<TQuote>(
+    [Series("ATR-STOP", "ATR Trailing Stop", Category.PriceTrend, ChartType.Overlay)]
+    public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
+
         this IReadOnlyList<TQuote> quotes,
+
         [Param("Lookback Periods", 1, 50, 21)]
         int lookbackPeriods = 21,
+
         [Param("Multiplier", 0.1, 10, 3)]
-        double multiplier = 3)
+        double multiplier = 3,
+
+        [Param("End Type", EndType.Close)]
+        EndType endType = EndType.Close)
+
         where TQuote : IQuote => quotes
             .ToQuoteDList()
-            .CalcAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
+            .CalcAtrStop(lookbackPeriods, multiplier, endType);
 
-    /// <summary>
-    /// Calculates the ATR Trailing Stop for the given source data.
-    /// </summary>
-    /// <param name="source">The source data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The type of price to use for the calculation.</param>
-    /// <returns>A list of ATR Trailing Stop results.</returns>
+
     private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> source,
         int lookbackPeriods,

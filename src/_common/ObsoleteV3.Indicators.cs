@@ -208,7 +208,7 @@ public static partial class Indicator
             ChandelierType type = ChandelierType.Long)
         where TQuote : IQuote
         => quotes.ToSortedList()
-            .ToChandelier(lookbackPeriods, multiplier, type);
+            .ToChandelier(lookbackPeriods, multiplier, (Direction)type);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetChop(..)` to `ToChop(..)`", false)]

@@ -16,7 +16,9 @@ public static partial class ZigZag
     [Series("ZIGZAG-CLOSE", "Zig Zag (close)", Category.PriceTransform, ChartType.Overlay)]
     public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("End Type", EndType.Close)]
         EndType endType = EndType.Close,
+        [Param("Percent Change", 1, 200, 5)]
         decimal percentChange = 5)
         where TQuote : IQuote
     {

@@ -18,7 +18,9 @@ public static partial class PivotPoints
     [Series("PIVPNT", "Pivot Points", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [Param("Window Size", PeriodSize.Month)]
         PeriodSize windowSize,
+        [Param("Point Type", PivotPointType.Standard)]
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {

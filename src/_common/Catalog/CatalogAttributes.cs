@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -100,23 +102,160 @@ internal abstract class CatalogAttribute(
 internal sealed class ExcludeFromCatalogAttribute : Attribute { }
 
 /// <summary>
-/// Classification attribute for a series-style indicator
+/// Parameter attribute for indicator parameters
 /// for catalog generation.
 /// </summary>
-/// <param name="displayName"></param>
-/// <param name="minValue"></param>
-/// <param name="maxValue"></param>
-/// <param name="defaultValue"></param>
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
-internal sealed class ParamAttribute(
-    string displayName,
-    double minValue,
-    double maxValue,
-    double defaultValue
-) : Attribute
+internal sealed class ParamAttribute : Attribute
 {
-    public string DisplayName { get; } = displayName;
-    public double MinValue { get; } = minValue;
-    public double MaxValue { get; } = maxValue;
-    public double DefaultValue { get; } = defaultValue;
+    /// <summary>
+    /// Constructor for numeric (double) parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="minValue">Minimum allowed value</param>
+    /// <param name="maxValue">Maximum allowed value</param>
+    /// <param name="defaultValue">Default value</param>
+    public ParamAttribute(
+        string displayName,
+        double minValue,
+        double maxValue,
+        double defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = minValue;
+        MaxValue = maxValue;
+        DefaultValue = defaultValue;
+        DataType = "double";
+    }
+
+    /// <summary>
+    /// Constructor for numeric (decimal) parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="minValue">Minimum allowed value</param>
+    /// <param name="maxValue">Maximum allowed value</param>
+    /// <param name="defaultValue">Default value</param>
+    public ParamAttribute(
+        string displayName,
+        decimal minValue,
+        decimal maxValue,
+        decimal defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = (double)minValue;
+        MaxValue = (double)maxValue;
+        DefaultValue = (double)defaultValue;
+        DataType = "decimal";
+    }
+
+    /// <summary>
+    /// Constructor for integer parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="minValue">Minimum allowed value</param>
+    /// <param name="maxValue">Maximum allowed value</param>
+    /// <param name="defaultValue">Default value</param>
+    public ParamAttribute(
+        string displayName,
+        int minValue,
+        int maxValue,
+        int defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = minValue;
+        MaxValue = maxValue;
+        DefaultValue = defaultValue;
+        DataType = "int";
+    }
+
+    /// <summary>
+    /// Constructor for boolean parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="defaultValue">Default value</param>
+    public ParamAttribute(
+        string displayName,
+        bool defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = 0;
+        MaxValue = 1;
+        DefaultValue = defaultValue ? 0 : 1;
+        DataType = "boolean";
+    }
+
+    /// <summary>
+    /// Constructor for PeriodSize enum parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="defaultValue">Default enum value</param>
+    public ParamAttribute(
+        string displayName,
+        PeriodSize defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = 0;
+        MaxValue = Enum.GetValues<PeriodSize>().Cast<int>().Max();
+        DefaultValue = Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture);
+        DataType = "enum";
+        EnumType = typeof(PeriodSize).Name;
+    }
+
+    /// <summary>
+    /// Constructor for PivotPointType enum parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="defaultValue">Default enum value</param>
+    public ParamAttribute(
+        string displayName,
+        PivotPointType defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = 0;
+        MaxValue = Enum.GetValues<PivotPointType>().Cast<int>().Max();
+        DefaultValue = Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture);
+        DataType = "enum";
+        EnumType = typeof(PivotPointType).Name;
+    }
+
+    /// <summary>
+    /// Constructor for EndType enum parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="defaultValue">Default enum value</param>
+    public ParamAttribute(
+        string displayName,
+        EndType defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = 0;
+        MaxValue = Enum.GetValues<EndType>().Cast<int>().Max();
+        DefaultValue = Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture);
+        DataType = "enum";
+        EnumType = typeof(EndType).Name;
+    }
+
+    /// <summary>
+    /// Constructor for Direction enum parameters
+    /// </summary>
+    /// <param name="displayName">Display name for the parameter</param>
+    /// <param name="defaultValue">Default enum value</param>
+    public ParamAttribute(
+        string displayName,
+        Direction defaultValue)
+    {
+        DisplayName = displayName;
+        MinValue = 0;
+        MaxValue = Enum.GetValues<Direction>().Cast<int>().Max(); ;
+        DefaultValue = Convert.ToInt32(defaultValue, CultureInfo.InvariantCulture);
+        DataType = "enum";
+        EnumType = typeof(Direction).Name;
+    }
+
+    public string DisplayName { get; }
+    public double MinValue { get; }
+    public double MaxValue { get; }
+    public double DefaultValue { get; }
+    public string DataType { get; }
+    public string? EnumType { get; }
 }

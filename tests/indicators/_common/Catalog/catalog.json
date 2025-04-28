@@ -486,7 +486,7 @@
       {
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
-        "DataType": "number",
+        "DataType": "int",
         "Minimum": 1,
         "Maximum": 10,
         "DefaultValue": 3
@@ -524,7 +524,7 @@
       {
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
-        "DataType": "number",
+        "DataType": "int",
         "Minimum": 1,
         "Maximum": 10,
         "DefaultValue": 3
@@ -1297,7 +1297,7 @@
       {
         "DisplayName": "Min Body Percent %",
         "ParamName": "minBodyPercent",
-        "DataType": "number",
+        "DataType": "int",
         "Minimum": 80,
         "Maximum": 100,
         "DefaultValue": 90
@@ -1606,15 +1606,32 @@
     "Name": "Pivot Points",
     "Uiid": "PIVPNT",
     "Endpoint": "/pivpnt",
-    "LegendTemplate": "PIVPNT",
+    "LegendTemplate": "PIVPNT([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Window Size",
+        "ParamName": "windowSize",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 2147483647,
+        "DefaultValue": 0
+      },
+      {
+        "DisplayName": "Point Type",
+        "ParamName": "pointType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 2147483647,
+        "DefaultValue": 0
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Pivot Points",
-        "TooltipTemplate": "PIVPNT",
+        "TooltipTemplate": "PIVPNT([P1],[P2])",
         "DataName": "pivpnt",
         "DataType": "number",
         "LineType": "solid",
@@ -1702,7 +1719,7 @@
       {
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
-        "DataType": "number",
+        "DataType": "int",
         "Minimum": 1,
         "Maximum": 250,
         "DefaultValue": 1
@@ -1829,15 +1846,40 @@
     "Name": "Rolling Pivots",
     "Uiid": "ROLLING-PIVOTS",
     "Endpoint": "/rolling-pivots",
-    "LegendTemplate": "ROLLING-PIVOTS",
+    "LegendTemplate": "ROLLING-PIVOTS([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Window Periods",
+        "ParamName": "windowPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "Offset Periods",
+        "ParamName": "offsetPeriods",
+        "DataType": "int",
+        "Minimum": 0,
+        "Maximum": 100,
+        "DefaultValue": 0
+      },
+      {
+        "DisplayName": "Point Type",
+        "ParamName": "pointType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 2147483647,
+        "DefaultValue": 0
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Rolling Pivots",
-        "TooltipTemplate": "ROLLING-PIVOTS",
+        "TooltipTemplate": "ROLLING-PIVOTS([P1],[P2],[P3])",
         "DataName": "rolling-pivots",
         "DataType": "number",
         "LineType": "solid",
@@ -2024,7 +2066,7 @@
       {
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
-        "DataType": "number",
+        "DataType": "int",
         "Minimum": 1,
         "Maximum": 250,
         "DefaultValue": 20
@@ -2070,7 +2112,7 @@
       {
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
-        "DataType": "number",
+        "DataType": "int",
         "Minimum": 1,
         "Maximum": 10,
         "DefaultValue": 2
@@ -2787,15 +2829,32 @@
     "Name": "Zig Zag (close)",
     "Uiid": "ZIGZAG-CLOSE",
     "Endpoint": "/zigzag-close",
-    "LegendTemplate": "ZIGZAG-CLOSE",
+    "LegendTemplate": "ZIGZAG-CLOSE([P1],[P2])",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "End Type",
+        "ParamName": "endType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 2147483647,
+        "DefaultValue": 0
+      },
+      {
+        "DisplayName": "Percent Change",
+        "ParamName": "percentChange",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 200,
+        "DefaultValue": 5
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Zig Zag (close)",
-        "TooltipTemplate": "ZIGZAG-CLOSE",
+        "TooltipTemplate": "ZIGZAG-CLOSE([P1],[P2])",
         "DataName": "zigzag-close",
         "DataType": "number",
         "LineType": "solid",
