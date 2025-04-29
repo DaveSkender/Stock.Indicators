@@ -18,10 +18,13 @@ public static partial class Beta
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
     [Series("BETA", "Beta", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<BetaResult> ToBeta<T>(
+        //TODO: [ParamNum<IEnumerable<T>>("Evaluated Prices")]
         this IReadOnlyList<T> sourceEval,
+        //TODO: [ParamNum<IEnumerable<T>>("Market Prices")]
         IReadOnlyList<T> sourceMrkt,
-        [Param("Lookback Periods", 1, 250, 50)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 50)]
         int lookbackPeriods,
+        [ParamEnum<BetaType>("Beta Type", BetaType.Standard)]
         BetaType type = BetaType.Standard)
         where T : IReusable
     {

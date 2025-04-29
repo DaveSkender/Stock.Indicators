@@ -17,7 +17,7 @@ public static partial class FisherTransform
     [Series("FISHER", "Ehlers Fisher Transform", Category.PriceTransform, ChartType.Oscillator)]
     public static IReadOnlyList<FisherTransformResult> ToFisherTransform<T>(
         this IReadOnlyList<T> source,
-        [Param("Lookback Periods", 1, 250, 10)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 10)]
         int lookbackPeriods = 10)
         where T : IReusable
     {

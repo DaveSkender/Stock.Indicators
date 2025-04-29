@@ -17,10 +17,11 @@ public static partial class Prs
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
     [Series("PRS", "Price Relative Strength", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
+        //TODO: [ParamNum<IEnumerable<T>>("Evaluated Prices")]
         this IReadOnlyList<T> sourceEval,
+        //TODO: [ParamNum<IEnumerable<T>>("Base Prices")]
         IReadOnlyList<T> sourceBase,
-
-        [Param("Lookback Periods", 1, 250, 0)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 0)]
         int? lookbackPeriods = null)
         where T : IReusable
     {

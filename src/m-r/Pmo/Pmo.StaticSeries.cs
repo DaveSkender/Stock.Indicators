@@ -18,14 +18,11 @@ public static partial class Pmo
     [Series("PMO", "Price Momentum Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<PmoResult> ToPmo<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Time Periods", 1, 250, 35)]
+        [ParamNum<int>("Time Periods", 1, 250, 35)]
         int timePeriods = 35,
-
-        [Param("Smooth Periods", 1, 250, 20)]
+        [ParamNum<int>("Smooth Periods", 1, 250, 20)]
         int smoothPeriods = 20,
-
-        [Param("Signal Periods", 1, 50, 10)]
+        [ParamNum<int>("Signal Periods", 1, 50, 10)]
         int signalPeriods = 10)
         where T : IReusable
     {

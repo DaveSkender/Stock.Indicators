@@ -16,10 +16,9 @@ public static partial class Renko
     [Stream("RENKO", "Renko", Category.PriceTransform, ChartType.Overlay)]
     public static RenkoHub<TIn> ToRenko<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
-
-        [Param("Brick Size", 0.000001, 2500, 1)]
+        [ParamNum<decimal>("Brick Size", 0.000001, 2500, 1)]
         decimal brickSize,
-
+        [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
         where TIn : IQuote
         => new(quoteProvider, brickSize, endType);

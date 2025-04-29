@@ -17,7 +17,7 @@ public static partial class Hurst
     [Series("HURST", "Hurst Exponent", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<HurstResult> ToHurst<T>(
         this IReadOnlyList<T> source,
-        [Param("Lookback Periods", 2, 250, 100)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 100)]
         int lookbackPeriods = 100)
         where T : IReusable
     {

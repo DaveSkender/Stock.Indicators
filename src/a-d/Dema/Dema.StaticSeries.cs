@@ -17,7 +17,7 @@ public static partial class Dema
     [Series("DEMA", "Double Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<DemaResult> ToDema<T>(
         this IReadOnlyList<T> source,
-        [Param("Lookback Periods", 2, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 20)]
         int lookbackPeriods)
         where T : IReusable
     {

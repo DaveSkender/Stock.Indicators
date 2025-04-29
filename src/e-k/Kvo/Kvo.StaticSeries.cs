@@ -18,11 +18,11 @@ public static partial class Kvo
     [Series("KVO", "Klinger Volume Oscillator", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<KvoResult> ToKvo<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Fast Periods", 1, 200, 34)]
+        [ParamNum<int>("Fast Periods", 1, 200, 34)]
         int fastPeriods = 34,
-        [Param("Slow Periods", 1, 250, 55)]
+        [ParamNum<int>("Slow Periods", 1, 250, 55)]
         int slowPeriods = 55,
-        [Param("Signal Periods", 1, 50, 13)]
+        [ParamNum<int>("Signal Periods", 1, 50, 13)]
         int signalPeriods = 13)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

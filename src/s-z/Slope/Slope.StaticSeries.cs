@@ -17,8 +17,7 @@ public static partial class Slope
     [Series("SLOPE", "Slope", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<SlopeResult> ToSlope<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Lookback Periods", 2, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods)
         where T : IReusable
     {

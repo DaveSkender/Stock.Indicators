@@ -18,14 +18,11 @@ public static partial class Ultimate
     [Series("UO", "Ultimate Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<UltimateResult> ToUltimate<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-
-        [Param("Short Periods", 1, 50, 7)]
+        [ParamNum<int>("Short Periods", 1, 50, 7)]
         int shortPeriods = 7,
-
-        [Param("Middle Periods", 1, 50, 14)]
+        [ParamNum<int>("Middle Periods", 1, 50, 14)]
         int middlePeriods = 14,
-
-        [Param("Long Periods", 1, 250, 28)]
+        [ParamNum<int>("Long Periods", 1, 250, 28)]
         int longPeriods = 28)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

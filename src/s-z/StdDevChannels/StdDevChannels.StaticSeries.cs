@@ -18,11 +18,9 @@ public static partial class StdDevChannels
     [Series("STDEV-CHANNELS", "Standard Deviation Channels", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
         int? lookbackPeriods = 20,
-
-        [Param("Standard Deviations", 0.01, 10, 2)]
+        [ParamNum<double>("Standard Deviations", 0.01, 10, 2)]
         double stdDeviations = 2)
         where T : IReusable
     {

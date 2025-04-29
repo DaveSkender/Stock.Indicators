@@ -16,7 +16,9 @@ public static partial class Renko
     [Series("RENKO-ATR", "Renko (ATR)", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RenkoResult> ToRenkoAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [ParamNum<int>("ATR Periods", 1, 100, 14)]
         int atrPeriods,
+        [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
         where TQuote : IQuote
     {

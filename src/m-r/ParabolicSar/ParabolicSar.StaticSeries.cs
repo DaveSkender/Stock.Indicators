@@ -18,11 +18,9 @@ public static partial class ParabolicSar
     [Series("PSAR", "Parabolic Stop and Reverse", Category.StopAndReverse, ChartType.Overlay)]
     public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-
-        [Param("Step Size", 0.000001, 2500, 0.02)]
+        [ParamNum<double>("Step Size", 0.000001, 2500, 0.02)]
         double accelerationStep = 0.02,
-
-        [Param("Max Factor", 0.000001, 2500, 0.2)]
+        [ParamNum<double>("Max Factor", 0.000001, 2500, 0.2)]
         double maxAccelerationFactor = 0.2)
 
         where TQuote : IQuote => quotes

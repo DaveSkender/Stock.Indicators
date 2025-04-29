@@ -17,11 +17,11 @@ public static partial class ConnorsRsi
     [Series("CRSI", "ConnorsRSI (CRSI)", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
         this IReadOnlyList<T> source,
-        [Param("RSI Periods", 2, 250, 3)]
+        [ParamNum<int>("RSI Periods", 2, 250, 3)]
         int rsiPeriods = 3,
-        [Param("Streak Periods", 2, 50, 2)]
+        [ParamNum<int>("Streak Periods", 2, 50, 2)]
         int streakPeriods = 2,
-        [Param("Rank Periods", 2, 250, 100)]
+        [ParamNum<int>("Rank Periods", 2, 250, 100)]
         int rankPeriods = 100)
         where T : IReusable
     {

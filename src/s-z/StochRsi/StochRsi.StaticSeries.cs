@@ -19,17 +19,13 @@ public static partial class StochRsi
     [Series("STOCH-RSI", "Stochastic RSI", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
         this IReadOnlyList<T> source,
-
-        [Param("RSI Periods", 1, 250, 14)]
+        [ParamNum<int>("RSI Periods", 1, 250, 14)]
         int rsiPeriods,
-
-        [Param("Stochastic Periods", 1, 250, 14)]
+        [ParamNum<int>("Stochastic Periods", 1, 250, 14)]
         int stochPeriods,
-
-        [Param("Signal Periods", 1, 50, 3)]
+        [ParamNum<int>("Signal Periods", 1, 50, 3)]
         int signalPeriods,
-
-        [Param("Smooth Periods", 1, 50, 1)]
+        [ParamNum<int>("Smooth Periods", 1, 50, 1)]
         int smoothPeriods = 1)
         where T : IReusable
     {

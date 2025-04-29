@@ -97,10 +97,10 @@
     ]
   },
   {
-    "Name": "ATR Trailing Stop (Close offset)",
-    "Uiid": "ATR-STOP-CLOSE",
-    "Endpoint": "/atr-stop-close",
-    "LegendTemplate": "ATR-STOP([P1],[P2],CLOSE)",
+    "Name": "ATR Trailing Stop",
+    "Uiid": "ATR-STOP",
+    "Endpoint": "/atr-stop",
+    "LegendTemplate": "ATR-STOP([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -120,51 +120,21 @@
         "Minimum": 0.1,
         "Maximum": 10,
         "DefaultValue": 3
-      }
-    ],
-    "Results": [
-      {
-        "DisplayName": "ATR Trailing Stop (Close offset)",
-        "TooltipTemplate": "ATR-STOP([P1],[P2],CLOSE)",
-        "DataName": "atr-stop-close",
-        "DataType": "number",
-        "LineType": "solid",
-        "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
-      }
-    ]
-  },
-  {
-    "Name": "ATR Trailing Stop (High/Low offset)",
-    "Uiid": "ATR-STOP-HL",
-    "Endpoint": "/atr-stop-hl",
-    "LegendTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
-    "Category": "PriceTrend",
-    "ChartType": "Overlay",
-    "Order": 0,
-    "Parameters": [
-      {
-        "DisplayName": "Lookback Periods",
-        "ParamName": "lookbackPeriods",
-        "DataType": "int",
-        "Minimum": 1,
-        "Maximum": 50,
-        "DefaultValue": 21
       },
       {
-        "DisplayName": "Multiplier",
-        "ParamName": "multiplier",
-        "DataType": "number",
-        "Minimum": 0.1,
-        "Maximum": 10,
-        "DefaultValue": 3
+        "DisplayName": "End Type",
+        "ParamName": "endType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0
       }
     ],
     "Results": [
       {
-        "DisplayName": "ATR Trailing Stop (High/Low offset)",
-        "TooltipTemplate": "ATR-STOP([P1],[P2],HIGH/LOW)",
-        "DataName": "atr-stop-hl",
+        "DisplayName": "ATR Trailing Stop",
+        "TooltipTemplate": "ATR-STOP([P1],[P2],[P3])",
+        "DataName": "atr-stop",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
@@ -304,7 +274,7 @@
     "Name": "Beta",
     "Uiid": "BETA",
     "Endpoint": "/beta",
-    "LegendTemplate": "BETA([P1])",
+    "LegendTemplate": "BETA([P1],[P2])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -316,12 +286,20 @@
         "Minimum": 1,
         "Maximum": 250,
         "DefaultValue": 50
+      },
+      {
+        "DisplayName": "Beta Type",
+        "ParamName": "type",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 3,
+        "DefaultValue": 0
       }
     ],
     "Results": [
       {
         "DisplayName": "Beta",
-        "TooltipTemplate": "BETA([P1])",
+        "TooltipTemplate": "BETA([P1],[P2])",
         "DataName": "beta",
         "DataType": "number",
         "LineType": "solid",
@@ -467,10 +445,10 @@
     ]
   },
   {
-    "Name": "Chandelier Exit (long)",
-    "Uiid": "CHEXIT-LONG",
-    "Endpoint": "/chexit-long",
-    "LegendTemplate": "CHANDELIER([P1],[P2],LONG)",
+    "Name": "Chandelier Exit",
+    "Uiid": "CHEXIT",
+    "Endpoint": "/chexit",
+    "LegendTemplate": "CHEXIT([P1],[P2],[P3])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
     "Order": 0,
@@ -486,55 +464,25 @@
       {
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
-        "DataType": "int",
-        "Minimum": 1,
-        "Maximum": 10,
-        "DefaultValue": 3
-      }
-    ],
-    "Results": [
-      {
-        "DisplayName": "Chandelier Exit (long)",
-        "TooltipTemplate": "CHANDELIER([P1],[P2],LONG)",
-        "DataName": "chexit-long",
         "DataType": "number",
-        "LineType": "solid",
-        "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
-      }
-    ]
-  },
-  {
-    "Name": "Chandelier Exit (short)",
-    "Uiid": "CHEXIT-SHORT",
-    "Endpoint": "/chexit-short",
-    "LegendTemplate": "CHANDELIER([P1],[P2],SHORT)",
-    "Category": "StopAndReverse",
-    "ChartType": "Overlay",
-    "Order": 0,
-    "Parameters": [
-      {
-        "DisplayName": "Lookback Periods",
-        "ParamName": "lookbackPeriods",
-        "DataType": "int",
-        "Minimum": 1,
-        "Maximum": 250,
-        "DefaultValue": 22
-      },
-      {
-        "DisplayName": "Multiplier",
-        "ParamName": "multiplier",
-        "DataType": "int",
         "Minimum": 1,
         "Maximum": 10,
         "DefaultValue": 3
+      },
+      {
+        "DisplayName": "Direction",
+        "ParamName": "type",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0
       }
     ],
     "Results": [
       {
-        "DisplayName": "Chandelier Exit (short)",
-        "TooltipTemplate": "CHANDELIER([P1],[P2],SHORT)",
-        "DataName": "chexit-short",
+        "DisplayName": "Chandelier Exit",
+        "TooltipTemplate": "CHEXIT([P1],[P2],[P3])",
+        "DataName": "chexit",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
@@ -1297,7 +1245,7 @@
       {
         "DisplayName": "Min Body Percent %",
         "ParamName": "minBodyPercent",
-        "DataType": "int",
+        "DataType": "number",
         "Minimum": 80,
         "Maximum": 100,
         "DefaultValue": 90
@@ -1319,7 +1267,7 @@
     "Name": "McGinley Dynamic",
     "Uiid": "DYNAMIC",
     "Endpoint": "/dynamic",
-    "LegendTemplate": "DYNAMIC([P1])",
+    "LegendTemplate": "DYNAMIC([P1],[P2])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1331,12 +1279,20 @@
         "Minimum": 1,
         "Maximum": 250,
         "DefaultValue": 10
+      },
+      {
+        "DisplayName": "K Factor",
+        "ParamName": "kFactor",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 5,
+        "DefaultValue": 0.6
       }
     ],
     "Results": [
       {
         "DisplayName": "McGinley Dynamic",
-        "TooltipTemplate": "DYNAMIC([P1])",
+        "TooltipTemplate": "DYNAMIC([P1],[P2])",
         "DataName": "dynamic",
         "DataType": "number",
         "LineType": "solid",
@@ -1463,7 +1419,7 @@
     "Name": "Moving Average Envelopes",
     "Uiid": "MA-ENV",
     "Endpoint": "/ma-env",
-    "LegendTemplate": "MA-ENV([P1],[P2])",
+    "LegendTemplate": "MA-ENV([P1],[P2],[P3])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1483,12 +1439,20 @@
         "Minimum": 0.1,
         "Maximum": 10,
         "DefaultValue": 2.5
+      },
+      {
+        "DisplayName": "Moving Average Type",
+        "ParamName": "movingAverageType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 10,
+        "DefaultValue": 7
       }
     ],
     "Results": [
       {
         "DisplayName": "Moving Average Envelopes",
-        "TooltipTemplate": "MA-ENV([P1],[P2])",
+        "TooltipTemplate": "MA-ENV([P1],[P2],[P3])",
         "DataName": "ma-env",
         "DataType": "number",
         "LineType": "solid",
@@ -1616,7 +1580,7 @@
         "ParamName": "windowSize",
         "DataType": "enum",
         "Minimum": 0,
-        "Maximum": 2147483647,
+        "Maximum": 11,
         "DefaultValue": 0
       },
       {
@@ -1624,7 +1588,7 @@
         "ParamName": "pointType",
         "DataType": "enum",
         "Minimum": 0,
-        "Maximum": 2147483647,
+        "Maximum": 4,
         "DefaultValue": 0
       }
     ],
@@ -1644,15 +1608,48 @@
     "Name": "Pivots",
     "Uiid": "PIVOTS",
     "Endpoint": "/pivots",
-    "LegendTemplate": "PIVOTS",
+    "LegendTemplate": "PIVOTS([P1],[P2],[P3],[P4])",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Left Span",
+        "ParamName": "leftSpan",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 20,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "Right Span",
+        "ParamName": "rightSpan",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 20,
+        "DefaultValue": 2
+      },
+      {
+        "DisplayName": "Max Trend Periods",
+        "ParamName": "maxTrendPeriods",
+        "DataType": "int",
+        "Minimum": 5,
+        "Maximum": 100,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "End Type",
+        "ParamName": "endType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 1
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Pivots",
-        "TooltipTemplate": "PIVOTS",
+        "TooltipTemplate": "PIVOTS([P1],[P2],[P3],[P4])",
         "DataName": "pivots",
         "DataType": "number",
         "LineType": "solid",
@@ -1741,15 +1738,24 @@
     "Name": "Rate of Change",
     "Uiid": "ROC",
     "Endpoint": "/roc",
-    "LegendTemplate": "ROC",
+    "LegendTemplate": "ROC([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Rate of Change",
-        "TooltipTemplate": "ROC",
+        "TooltipTemplate": "ROC([P1])",
         "DataName": "roc",
         "DataType": "number",
         "LineType": "solid",
@@ -1762,15 +1768,24 @@
     "Name": "Relative Strength Index",
     "Uiid": "RSI",
     "Endpoint": "/rsi",
-    "LegendTemplate": "RSI",
+    "LegendTemplate": "RSI([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Relative Strength Index",
-        "TooltipTemplate": "RSI",
+        "TooltipTemplate": "RSI([P1])",
         "DataName": "rsi",
         "DataType": "number",
         "LineType": "solid",
@@ -1783,15 +1798,32 @@
     "Name": "Renko",
     "Uiid": "RENKO",
     "Endpoint": "/renko",
-    "LegendTemplate": "RENKO",
+    "LegendTemplate": "RENKO([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Brick Size",
+        "ParamName": "brickSize",
+        "DataType": "number",
+        "Minimum": 0.1,
+        "Maximum": 100,
+        "DefaultValue": 1
+      },
+      {
+        "DisplayName": "End Type",
+        "ParamName": "endType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Renko",
-        "TooltipTemplate": "RENKO",
+        "TooltipTemplate": "RENKO([P1],[P2])",
         "DataName": "renko",
         "DataType": "number",
         "LineType": "solid",
@@ -1804,15 +1836,32 @@
     "Name": "Renko (ATR)",
     "Uiid": "RENKO-ATR",
     "Endpoint": "/renko-atr",
-    "LegendTemplate": "RENKO-ATR",
+    "LegendTemplate": "RENKO-ATR([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "ATR Periods",
+        "ParamName": "atrPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 14
+      },
+      {
+        "DisplayName": "End Type",
+        "ParamName": "endType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Renko (ATR)",
-        "TooltipTemplate": "RENKO-ATR",
+        "TooltipTemplate": "RENKO-ATR([P1],[P2])",
         "DataName": "renko-atr",
         "DataType": "number",
         "LineType": "solid",
@@ -1822,18 +1871,43 @@
     ]
   },
   {
-    "Name": "ROC Wilder\u0027s Bands",
+    "Name": "ROC with Bands",
     "Uiid": "ROC-WB",
     "Endpoint": "/roc-wb",
-    "LegendTemplate": "ROC-WB",
+    "LegendTemplate": "ROC-WB([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      },
+      {
+        "DisplayName": "EMA Periods",
+        "ParamName": "emaPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 5
+      },
+      {
+        "DisplayName": "Standard Deviation Periods",
+        "ParamName": "stdDevPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 100,
+        "DefaultValue": 5
+      }
+    ],
     "Results": [
       {
-        "DisplayName": "ROC Wilder\u0027s Bands",
-        "TooltipTemplate": "ROC-WB",
+        "DisplayName": "ROC with Bands",
+        "TooltipTemplate": "ROC-WB([P1],[P2],[P3])",
         "DataName": "roc-wb",
         "DataType": "number",
         "LineType": "solid",
@@ -1872,7 +1946,7 @@
         "ParamName": "pointType",
         "DataType": "enum",
         "Minimum": 0,
-        "Maximum": 2147483647,
+        "Maximum": 4,
         "DefaultValue": 0
       }
     ],
@@ -1957,6 +2031,36 @@
         "DisplayName": "Simple Moving Average",
         "TooltipTemplate": "SMA([P1])",
         "DataName": "sma",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5"
+      }
+    ]
+  },
+  {
+    "Name": "Simple Moving Average Analysis",
+    "Uiid": "SMA-ANALYSIS",
+    "Endpoint": "/sma-analysis",
+    "LegendTemplate": "SMA-ANALYSIS([P1])",
+    "Category": "PriceCharacteristic",
+    "ChartType": "Oscillator",
+    "Order": 0,
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 20
+      }
+    ],
+    "Results": [
+      {
+        "DisplayName": "Simple Moving Average Analysis",
+        "TooltipTemplate": "SMA-ANALYSIS([P1])",
+        "DataName": "sma-analysis",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
@@ -2112,7 +2216,7 @@
       {
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
-        "DataType": "int",
+        "DataType": "number",
         "Minimum": 1,
         "Maximum": 10,
         "DefaultValue": 2
@@ -2196,15 +2300,40 @@
     "Name": "Stochastic Oscillator",
     "Uiid": "STOCH",
     "Endpoint": "/stoch",
-    "LegendTemplate": "STOCH",
+    "LegendTemplate": "STOCH([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "DisplayName": "Lookback Periods",
+        "ParamName": "lookbackPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 14
+      },
+      {
+        "DisplayName": "Signal Periods",
+        "ParamName": "signalPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 250,
+        "DefaultValue": 3
+      },
+      {
+        "DisplayName": "Smooth Periods",
+        "ParamName": "smoothPeriods",
+        "DataType": "int",
+        "Minimum": 1,
+        "Maximum": 50,
+        "DefaultValue": 3
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Stochastic Oscillator",
-        "TooltipTemplate": "STOCH",
+        "TooltipTemplate": "STOCH([P1],[P2],[P3])",
         "DataName": "stoch",
         "DataType": "number",
         "LineType": "solid",
@@ -2799,8 +2928,8 @@
     "Name": "Williams Fractal (high/low)",
     "Uiid": "FRACTAL",
     "Endpoint": "/fractal",
-    "LegendTemplate": "FRACTAL([P1])",
-    "Category": "PriceTransform",
+    "LegendTemplate": "FRACTAL([P1],[P2])",
+    "Category": "PricePattern",
     "ChartType": "Overlay",
     "Order": 0,
     "Parameters": [
@@ -2811,12 +2940,20 @@
         "Minimum": 1,
         "Maximum": 100,
         "DefaultValue": 2
+      },
+      {
+        "DisplayName": "End Type",
+        "ParamName": "endType",
+        "DataType": "enum",
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 1
       }
     ],
     "Results": [
       {
         "DisplayName": "Williams Fractal (high/low)",
-        "TooltipTemplate": "FRACTAL([P1])",
+        "TooltipTemplate": "FRACTAL([P1],[P2])",
         "DataName": "fractal",
         "DataType": "number",
         "LineType": "solid",
@@ -2839,13 +2976,13 @@
         "ParamName": "endType",
         "DataType": "enum",
         "Minimum": 0,
-        "Maximum": 2147483647,
+        "Maximum": 1,
         "DefaultValue": 0
       },
       {
         "DisplayName": "Percent Change",
         "ParamName": "percentChange",
-        "DataType": "int",
+        "DataType": "number",
         "Minimum": 1,
         "Maximum": 200,
         "DefaultValue": 5

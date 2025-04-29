@@ -11,7 +11,7 @@ The Generator analyzes indicator classes decorated with attribute flavors:
 | `SeriesAttribute` | For indicators that operate on series data |
 | `StreamAttribute` | For indicators that stream data |
 | `BufferAttribute` | For indicators that use buffer-style data |
-| `CatalogAttribute` | Base attribute for all indicators |
+| `IndicatorAttribute` | Base attribute for all indicators |
 
 It then generates a catalog of all indicators with their metadata, parameters, and default configurations.
 

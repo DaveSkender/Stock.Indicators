@@ -19,11 +19,11 @@ public static partial class Macd
     [Series("MACD", "Moving Average Convergence/Divergence", Category.PriceTrend, ChartType.Oscillator)]
     public static IReadOnlyList<MacdResult> ToMacd<T>(
         this IReadOnlyList<T> source,
-        [Param("Fast Periods", 1, 200, 12)]
+        [ParamNum<int>("Fast Periods", 1, 200, 12)]
         int fastPeriods = 12,
-        [Param("Slow Periods", 1, 250, 26)]
+        [ParamNum<int>("Slow Periods", 1, 250, 26)]
         int slowPeriods = 26,
-        [Param("Signal Periods", 1, 50, 9)]
+        [ParamNum<int>("Signal Periods", 1, 50, 9)]
         int signalPeriods = 9)
         where T : IReusable
     {

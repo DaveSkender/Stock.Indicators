@@ -12,7 +12,7 @@ public static partial class Atr
     [Stream("ATR", "Average True Range (ATR)", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static AtrHub<TIn> ToAtr<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
-        [Param("Lookback Periods", 2, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods = 14)
         where TIn : IQuote
         => new(quoteProvider, lookbackPeriods);

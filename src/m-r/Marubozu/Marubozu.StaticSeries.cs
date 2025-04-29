@@ -17,7 +17,7 @@ public static partial class Marubozu
     [Series("MARUBOZU", "Marubozu", Category.CandlestickPattern, ChartType.Overlay)]
     public static IReadOnlyList<CandleResult> ToMarubozu<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Min Body Percent %", 80, 100, 90)]
+        [ParamNum<double>("Min Body Percent %", 80, 100, 90)]
         double minBodyPercent = 95)
         where TQuote : IQuote
     {

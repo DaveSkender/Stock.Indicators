@@ -15,19 +15,23 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     public const string StreamDiagnosticId = "IND002";
     public const string BufferDiagnosticId = "IND003";
     public const string MissingParamDiagnosticId = "IND005";
+    public const string TypeMismatchDiagnosticId = "IND006";
 
     private const string SeriesTitle = "Series indicator method missing Series attribute";
     private const string StreamTitle = "Stream hub indicator method missing Stream attribute";
     private const string BufferTitle = "Buffer indicator method missing Buffer attribute";
     private const string MissingParamTitle = "Missing ParamAttribute on indicator parameter";
+    private const string TypeMismatchTitle = "Type mismatch between attribute generic type and parameter type";
 
     private const string SeriesMessageFormat = "Series indicator method '{0}' must have the Series attribute";
     private const string StreamMessageFormat = "Stream hub indicator method '{0}' must have the Stream attribute";
     private const string BufferMessageFormat = "Buffer indicator method '{0}' must have the Buffer attribute";
-    private const string MissingParamMessageFormat = "Parameter '{0}' in method '{1}' with CatalogAttribute is missing a ParamAttribute";
+    private const string MissingParamMessageFormat = "Parameter '{0}' in method '{1}' with IndicatorAttribute is missing a ParamAttribute";
+    private const string TypeMismatchMessageFormat = "ParamAttribute<{2}> should be adjusted to match parameter '{0}' type {3} in method '{1}'";
 
     private const string Description = "Indicator methods should have the appropriate catalog attribute based on their style.";
     private const string ParamDescription = "Indicator method parameters should have the ParamAttribute applied.";
+    private const string TypeMismatchDescription = "ParamAttribute's generic type parameter should match the parameter type it decorates.";
     private const string Category = "Usage";
 
     // Define constant for "not an indicator"
@@ -76,11 +80,20 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: ParamDescription);
 
+    private static readonly DiagnosticDescriptor TypeMismatchRule = new(
+        TypeMismatchDiagnosticId,
+        TypeMismatchTitle,
+        TypeMismatchMessageFormat,
+        Category,
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: TypeMismatchDescription);
+
     /// <summary>
     /// Gets the diagnostics supported by this analyzer.
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        [SeriesRule, StreamRule, BufferRule, MissingParamRule];
+        [SeriesRule, StreamRule, BufferRule, MissingParamRule, TypeMismatchRule];
 
     /// <summary>
     /// Initializes the analyzer.
@@ -131,7 +144,7 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check for any CatalogAttribute first to validate ParamAttributes
+        // Check for any IndicatorAttribute first to validate ParamAttributes
         bool hasCatalogAttribute = HasAnyCatalogAttribute(methodSymbol);
 
         // Determine the indicator style based on the return type
@@ -185,11 +198,10 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Get the ParamAttribute type
-        INamedTypeSymbol? paramAttributeSymbol = context.Compilation
-            .GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute");
+        // Get the ParamAttribute<T> base type instead of the non-generic ParamAttribute
+        INamedTypeSymbol? paramAttributeBaseSymbol = GetParamAttributeBaseSymbol(context.Compilation);
 
-        if (paramAttributeSymbol == null)
+        if (paramAttributeBaseSymbol == null)
         {
             return;
         }
@@ -216,14 +228,14 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
             }
         }
 
-        // Check remaining parameters for ParamAttribute
+        // Check remaining parameters for ParamAttribute or any of its derived types
         for (int i = startIdx; i < methodSymbol.Parameters.Length; i++)
         {
             IParameterSymbol parameter = methodSymbol.Parameters[i];
 
-            // Check if the parameter has the ParamAttribute
+            // Check if the parameter has any attribute derived from ParamAttribute<T>
             bool hasParamAttribute = parameter.GetAttributes()
-                .Any(attr => attr.AttributeClass?.Equals(paramAttributeSymbol, SymbolEqualityComparer.Default) == true);
+                .Any(attr => IsParamAttributeOrDerived(attr.AttributeClass, paramAttributeBaseSymbol));
 
             if (!hasParamAttribute)
             {
@@ -235,18 +247,138 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
                         parameter.Name,
                         $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}"));
             }
+            else
+            {
+                // Validate type match for ParamAttribute<T>
+                ValidateParamAttributeType(parameter, context, paramAttributeBaseSymbol);
+            }
         }
+    }
+
+    private static void ValidateParamAttributeType(IParameterSymbol parameter, SyntaxNodeAnalysisContext context, INamedTypeSymbol paramAttributeBaseSymbol)
+    {
+        foreach (AttributeData attribute in parameter.GetAttributes())
+        {
+            if (IsParamAttributeOrDerived(attribute.AttributeClass, paramAttributeBaseSymbol))
+            {
+                string attributeClassName = attribute.AttributeClass?.Name ?? string.Empty;
+
+                // Determine the appropriate attribute type for this parameter
+                string expectedAttributeType = GetExpectedAttributeType(parameter);
+
+                // Check for mismatches between parameter type and attribute type
+                if (parameter.Type.SpecialType == SpecialType.System_Boolean && !attributeClassName.Contains("ParamBool"))
+                {
+                    // Boolean parameter should use ParamBool attribute
+                    ReportTypeMismatch(context, parameter, attribute, "Boolean");
+                }
+                else if (parameter.Type.TypeKind == TypeKind.Enum && !attributeClassName.Contains("ParamEnum"))
+                {
+                    // Enum parameter should use ParamEnum attribute
+                    ReportTypeMismatch(context, parameter, attribute, parameter.Type.Name);
+                }
+                else if (attributeClassName.Contains("ParamNum"))
+                {
+                    // For ParamNum, check if generic type matches parameter type
+                    ITypeSymbol? paramAttributeTypeArg = attribute.AttributeClass?.TypeArguments.FirstOrDefault();
+
+                    if (paramAttributeTypeArg != null && !SymbolEqualityComparer.Default.Equals(paramAttributeTypeArg, parameter.Type))
+                    {
+                        // Report diagnostic for type mismatch
+                        context.ReportDiagnostic(
+                            Diagnostic.Create(
+                                TypeMismatchRule,
+                                parameter.Locations.FirstOrDefault(),
+                                parameter.Name,
+                                $"{parameter.ContainingSymbol.ContainingType.Name}.{parameter.ContainingSymbol.Name}",
+                                paramAttributeTypeArg.Name,
+                                parameter.Type.Name));
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Reports a type mismatch diagnostic with a suggestion for the correct attribute type.
+    /// </summary>
+    private static void ReportTypeMismatch(
+        SyntaxNodeAnalysisContext context,
+        IParameterSymbol parameter,
+        AttributeData attribute,
+        string expectedType)
+    {
+        ITypeSymbol? paramAttributeTypeArg = attribute.AttributeClass?.TypeArguments.FirstOrDefault();
+
+        context.ReportDiagnostic(
+            Diagnostic.Create(
+                TypeMismatchRule,
+                parameter.Locations.FirstOrDefault(),
+                parameter.Name,
+                $"{parameter.ContainingSymbol.ContainingType.Name}.{parameter.ContainingSymbol.Name}",
+                paramAttributeTypeArg?.Name ?? "incorrect",
+                expectedType));
+    }
+
+    /// <summary>
+    /// Determines the expected attribute type for a parameter based on its type.
+    /// </summary>
+    private static string GetExpectedAttributeType(IParameterSymbol parameter)
+        => parameter.Type.SpecialType == SpecialType.System_Boolean
+           ? "ParamBool"
+           : parameter.Type.TypeKind == TypeKind.Enum ? "ParamEnum" : "ParamNum";
+
+    /// <summary>
+    /// Gets the base ParamAttribute<T> symbol from the compilation.
+    /// </summary>
+    private static INamedTypeSymbol? GetParamAttributeBaseSymbol(Compilation compilation) =>
+        // Look for the generic ParamAttribute<T> base class
+        compilation.GetTypeByMetadataName("Skender.Stock.Indicators.ParamAttribute`1");
+
+    /// <summary>
+    /// Determines if an attribute class is a ParamAttribute or derived from ParamAttribute<T>.
+    /// </summary>
+    private static bool IsParamAttributeOrDerived(
+        INamedTypeSymbol? attributeClass,
+        INamedTypeSymbol? baseParamAttributeSymbol)
+    {
+        if (attributeClass == null || baseParamAttributeSymbol == null)
+        {
+            return false;
+        }
+
+        // Check if this is a generic instantiation of ParamAttribute<T> or its derived classes
+        if (attributeClass.IsGenericType && attributeClass.ConstructedFrom != null)
+        {
+            INamedTypeSymbol originalDefinition = attributeClass.OriginalDefinition;
+
+            // Check if this is derived from ParamAttribute<T> by walking up the inheritance chain
+            INamedTypeSymbol? currentType = originalDefinition;
+            while (currentType != null)
+            {
+                if (SymbolEqualityComparer.Default.Equals(currentType, baseParamAttributeSymbol))
+                {
+                    return true;
+                }
+
+                currentType = currentType.BaseType;
+            }
+        }
+
+        // Check non-generic derived types (like ParamBoolAttribute)
+        return attributeClass.BaseType != null && IsParamAttributeOrDerived(attributeClass.BaseType, baseParamAttributeSymbol);
     }
 
     /// <summary>
     /// Determines if a parameter is a common parameter typically used in extensions.
     /// </summary>
+    // TODO: this identification of the common input collection does not seem right
     private static bool IsCommonParameter(IParameterSymbol parameter)
     {
         // Common parameter names for collections
         HashSet<string> commonParamNames = new(StringComparer.OrdinalIgnoreCase)
         {
-            "quotes", "candles", "source"
+            "quotes", "candles", "source", "quoteProvider", "chainProvider", "provider"
         };
 
         // Check parameter name
@@ -257,6 +389,14 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
 
         // Get the parameter type
         ITypeSymbol type = parameter.Type;
+
+        // Check for provider interface types first
+        string typeFullName = type.ToString();
+        if (typeFullName.Contains("IQuoteProvider") ||
+            typeFullName.Contains("IChainProvider"))
+        {
+            return true;
+        }
 
         // For generic types, check if they are collections
         if (type is INamedTypeSymbol namedType && namedType.IsGenericType)
@@ -281,13 +421,13 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
                     if (parameter.ContainingSymbol is IMethodSymbol methodSymbol &&
                         methodSymbol.IsGenericMethod)
                     {
-                        foreach (var typeParam in methodSymbol.TypeParameters)
+                        foreach (ITypeParameterSymbol typeParam in methodSymbol.TypeParameters)
                         {
                             // Look for type parameters that have constraints
                             if (typeParam.ConstraintTypes.Length > 0)
                             {
                                 // Check if any constraint type is IReusable or similar common interfaces
-                                foreach (var constraintType in typeParam.ConstraintTypes)
+                                foreach (ITypeSymbol constraintType in typeParam.ConstraintTypes)
                                 {
                                     if (constraintType.Name.Contains("Reusable") ||
                                         constraintType.Name.Contains("Quote") ||
@@ -331,11 +471,12 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     {
         foreach (AttributeData attribute in methodSymbol.GetAttributes())
         {
-            if (IsCatalogAttributeOrDerived(attribute.AttributeClass))
+            if (IsIndicatorAttributeOrDerived(attribute.AttributeClass))
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -519,8 +660,8 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
                 return true;
             }
 
-            // Check if derived from CatalogAttribute and look at Style property
-            if (IsCatalogAttributeOrDerived(attributeClass))
+            // Check if derived from IndicatorAttribute and look at Style property
+            if (IsIndicatorAttributeOrDerived(attributeClass))
             {
                 // Check named arguments for Style property
                 foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
@@ -547,23 +688,23 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     }
 
     /// <summary>
-    /// Checks if the given type is CatalogAttribute or derived from it.
+    /// Checks if the given type is IndicatorAttribute or derived from it.
     /// </summary>
-    private static bool IsCatalogAttributeOrDerived(INamedTypeSymbol? symbol)
+    private static bool IsIndicatorAttributeOrDerived(INamedTypeSymbol? symbol)
     {
         if (symbol == null)
         {
             return false;
         }
 
-        // Check if this is CatalogAttribute
-        if (symbol.Name == "CatalogAttribute" ||
-            symbol.ToString() == "Skender.Stock.Indicators.CatalogAttribute")
+        // Check if this is IndicatorAttribute
+        if (symbol.Name == "IndicatorAttribute" ||
+            symbol.ToString() == "Skender.Stock.Indicators.IndicatorAttribute")
         {
             return true;
         }
 
         // Check base type recursively
-        return symbol.BaseType != null && IsCatalogAttributeOrDerived(symbol.BaseType);
+        return symbol.BaseType != null && IsIndicatorAttributeOrDerived(symbol.BaseType);
     }
 }

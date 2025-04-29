@@ -18,11 +18,11 @@ public static partial class Alma
     [Series("ALMA", "Arnaud Legoux Moving Average (ALMA)", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<AlmaResult> ToAlma<T>(
         this IReadOnlyList<T> source,
-        [Param("Lookback Periods", 2, 250, 9)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 9)]
         int lookbackPeriods = 9,
-        [Param("Offset", 0, 1, 0.85)]
+        [ParamNum<double>("Offset", 0, 1, 0.85)]
         double offset = 0.85,
-        [Param("Sigma", 0.1, 10, 6)]
+        [ParamNum<double>("Sigma", 0.1, 10, 6)]
         double sigma = 6)
         where T : IReusable
     {

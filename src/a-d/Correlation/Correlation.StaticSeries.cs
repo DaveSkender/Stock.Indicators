@@ -17,9 +17,11 @@ public static partial class Correlation
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceA and sourceB do not match.</exception>
     [Series("CORR", "Correlation", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<CorrResult> ToCorrelation<T>(
+        //TODO: [ParamNum<IEnumerable<T>>("Source A")]
         this IReadOnlyList<T> sourceA,
+        //TODO: [ParamNum<IEnumerable<T>>("Source B")]
         IReadOnlyList<T> sourceB,
-        [Param("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods)
         where T : IReusable
     {

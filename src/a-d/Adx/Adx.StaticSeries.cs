@@ -15,7 +15,7 @@ public static partial class Adx
     [Series("ADX", "Average Directional Index (ADX)", Category.PriceTrend, ChartType.Oscillator)]
     public static IReadOnlyList<AdxResult> ToAdx<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 2, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

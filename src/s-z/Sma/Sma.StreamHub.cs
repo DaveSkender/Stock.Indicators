@@ -19,8 +19,7 @@ public static partial class Sma
     [Stream("SMA", "Simple Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static SmaHub<TIn> ToSma<TIn>(
         this IChainProvider<TIn> chainProvider,
-
-        [Param("Lookback Periods", 1, 250, 10)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 10)]
         int lookbackPeriods)
         where TIn : IReusable
         => new(chainProvider, lookbackPeriods);

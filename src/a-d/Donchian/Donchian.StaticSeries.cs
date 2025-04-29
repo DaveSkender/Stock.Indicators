@@ -17,7 +17,7 @@ public static partial class Donchian
     [Series("DONCHIAN", "Donchian Channels", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods = 20)
         where TQuote : IQuote
     {

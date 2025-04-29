@@ -110,7 +110,7 @@ public class CatalogGenerator : IIncrementalGenerator
 
     private static void ValidateUniqueUIIDs(List<IndicatorInfo> indicators, SourceProductionContext context)
     {
-        var duplicateUIIDs = indicators
+        List<string> duplicateUIIDs = indicators
             .GroupBy(x => x.Id)
             .Where(g => g.Count() > 1)
             .Select(g => g.Key)
@@ -140,7 +140,7 @@ public class CatalogGenerator : IIncrementalGenerator
             ["SeriesAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.SeriesAttribute"),
             ["StreamAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.StreamAttribute"),
             ["BufferAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.BufferAttribute"),
-            ["ParamAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.ParamAttribute"),
+            ["ParamAttributeBase"] = compilation.GetTypeByMetadataName($"{srcNamespace}.ParamAttribute`1"),
             ["Category"] = compilation.GetTypeByMetadataName($"{srcNamespace}.Category"),
             ["ChartType"] = compilation.GetTypeByMetadataName($"{srcNamespace}.ChartType")
         };
@@ -204,7 +204,7 @@ public class CatalogGenerator : IIncrementalGenerator
                 }
 
                 // Process parameters
-                List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, symbols["ParamAttribute"]);
+                List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, symbols["ParamAttributeBase"]);
 
                 // Create indicator info
                 indicators.Add(new IndicatorInfo(
@@ -239,98 +239,322 @@ public class CatalogGenerator : IIncrementalGenerator
 
     private static List<ParameterInfo> GetMethodParameters(
         IMethodSymbol methodSymbol,
-        INamedTypeSymbol? paramAttributeSymbol)
+        INamedTypeSymbol? paramAttributeBaseSymbol)
     {
         List<ParameterInfo> parameters = [];
 
-        // If paramAttributeSymbol is null, we can't identify parameters
-        if (paramAttributeSymbol is null)
+        // If paramAttributeBaseSymbol is null, we can't identify parameters
+        if (paramAttributeBaseSymbol is null)
         {
             return parameters;
         }
 
         foreach (IParameterSymbol parameter in methodSymbol.Parameters)
         {
-            // Only include parameters that have the ParamAttribute
-            AttributeData? paramAttribute = parameter.GetAttributes()
-                .FirstOrDefault(attr => attr.AttributeClass?.Equals(paramAttributeSymbol, SymbolEqualityComparer.Default) == true);
+            // Find attributes that derive from ParamAttribute<T>
+            AttributeData? paramAttribute = null;
+            foreach (AttributeData attr in parameter.GetAttributes())
+            {
+                if (IsParamAttributeOrDerived(attr.AttributeClass, paramAttributeBaseSymbol))
+                {
+                    paramAttribute = attr;
+                    break;
+                }
+            }
 
             if (paramAttribute == null)
             {
-                continue; // Skip parameters without ParamAttribute
+                continue; // Skip parameters without a compatible ParamAttribute
             }
 
-            // Extract information from the attribute
-            string displayName = paramAttribute.ConstructorArguments[0].Value?.ToString() ?? parameter.Name;
-            double minValue = 0;
-            double maxValue = 100;
-            double defaultValue = 0;
-
-            string dataType = "number"; // default
-
-            // Determine which constructor was used based on the number of arguments and their types
-            int argCount = paramAttribute.ConstructorArguments.Length;
-
-            // Handle boolean constructor (displayName, boolDefault)
-            if (argCount == 2 && paramAttribute.ConstructorArguments[1].Type?.SpecialType == SpecialType.System_Boolean)
+            // Get attribute type to determine how to extract information
+            INamedTypeSymbol? attrClass = paramAttribute.AttributeClass;
+            if (attrClass == null)
             {
-                dataType = "boolean";
-                bool boolDefault = Convert.ToBoolean(paramAttribute.ConstructorArguments[1].Value ?? false);
-                defaultValue = boolDefault ? 1 : 0;
-                minValue = 0;
-                maxValue = 1;
-
-                parameters.Add(new ParameterInfo(
-                    parameter.Name, displayName, dataType, minValue, maxValue, defaultValue));
                 continue;
             }
 
-            // Handle type-specific enum constructors (displayName, EnumType defaultValue)
-            if (argCount == 2 &&
-                paramAttribute.ConstructorArguments[1].Type?.TypeKind == TypeKind.Enum)
-            {
-                dataType = "enum";
-                int enumDefaultValue = Convert.ToInt32(paramAttribute.ConstructorArguments[1].Value ?? 0);
-                string enumType = paramAttribute.ConstructorArguments[1].Type?.Name ?? string.Empty;
+            string attributeClassName = attrClass.Name;
+            string displayName = GetDisplayName(paramAttribute, parameter.Name);
 
-                parameters.Add(new ParameterInfo(
-                    parameter.Name, displayName, dataType, minValue, maxValue, enumDefaultValue, null, enumType));
-                continue;
-            }
+            // Extract parameter values based on attribute type
+            ExtractAttributeValues(
+                paramAttribute,
+                attrClass,
+                out string dataType,
+                out double minValue,
+                out double maxValue,
+                out double defaultValue,
+                out string? enumTypeName);
 
-            // Handle legacy enum constructor (displayName, defaultValue, enumType as string)
-            if (argCount == 3 && paramAttribute.ConstructorArguments[2].Type?.SpecialType == SpecialType.System_String)
-            {
-                dataType = "enum";
-                int enumDefaultValue = Convert.ToInt32(paramAttribute.ConstructorArguments[1].Value ?? 0);
-                string enumType = paramAttribute.ConstructorArguments[2].Value?.ToString() ?? string.Empty;
-
-                parameters.Add(new ParameterInfo(
-                    parameter.Name, displayName, dataType, minValue, maxValue, enumDefaultValue, null, enumType));
-                continue;
-            }
-
-            // Handle numeric constructors (displayName, minValue, maxValue, defaultValue)
-            if (argCount == 4)
-            {
-                // Check if it's an int constructor
-                bool isIntType = paramAttribute.ConstructorArguments[1].Type?.SpecialType == SpecialType.System_Int32;
-
-                dataType = isIntType ? "int" : "number";
-                minValue = Convert.ToDouble(paramAttribute.ConstructorArguments[1].Value ?? 0);
-                maxValue = Convert.ToDouble(paramAttribute.ConstructorArguments[2].Value ?? double.MaxValue);
-                defaultValue = Convert.ToDouble(paramAttribute.ConstructorArguments[3].Value ?? 0);
-
-                // Ensure default is within min/max bounds
-                defaultValue = Math.Min(Math.Max(defaultValue, minValue), maxValue);
-
-                parameters.Add(new ParameterInfo(
-                    parameter.Name, displayName, dataType, minValue, maxValue, defaultValue));
-                continue;
-            }
+            parameters.Add(new ParameterInfo(
+                parameter.Name,
+                displayName,
+                dataType,
+                minValue,
+                maxValue,
+                defaultValue,
+                null,
+                enumTypeName));
         }
 
         return parameters;
+    }
+
+    private static void ExtractAttributeValues(
+        AttributeData attribute,
+        INamedTypeSymbol attributeClass,
+        out string dataType,
+        out double minValue,
+        out double maxValue,
+        out double defaultValue,
+        out string? enumTypeName)
+    {
+        string attributeClassName = attributeClass.Name;
+        enumTypeName = null;
+
+        // Handle different attribute types based on class name
+        if (attributeClassName == "ParamBoolAttribute")
+        {
+            // Handle ParamBoolAttribute
+            dataType = "boolean";
+            minValue = 0;
+            maxValue = 1;
+            defaultValue = ExtractBooleanDefaultValue(attribute) ? 1 : 0;
+        }
+        else if (attributeClassName.StartsWith("ParamEnum"))
+        {
+            // Handle ParamEnumAttribute<T>
+            dataType = "enum";
+            enumTypeName = ExtractEnumTypeName(attributeClass);
+
+            // For enum types, get actual min/max values from enum
+            // These are already calculated in the ParamEnumAttribute constructor
+            (int min, int max) = GetEnumMinMaxValues(attributeClass);
+            minValue = min;
+            maxValue = max;
+            defaultValue = ExtractEnumDefaultValue(attribute);
+        }
+        else // ParamNumAttribute<T>
+        {
+            // Handle ParamNumAttribute<T>
+            dataType = DetermineNumericDataType(attributeClass);
+            ExtractNumericValues(attribute, out minValue, out maxValue, out defaultValue);
+        }
+
+        // Ensure default is within min/max bounds for numeric types
+        if (dataType is "number" or "int")
+        {
+            defaultValue = Math.Min(Math.Max(defaultValue, minValue), maxValue);
+        }
+    }
+
+    private static string GetDisplayName(AttributeData attribute, string defaultName)
+    {
+        // Try to get display name from constructor argument (first argument)
+        if (attribute.ConstructorArguments.Length > 0 &&
+            attribute.ConstructorArguments[0].Value is string displayName)
+        {
+            return displayName;
+        }
+
+        // Try named argument
+        foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
+        {
+            if (namedArg.Key == "DisplayName" && namedArg.Value.Value is string name)
+            {
+                return name;
+            }
+        }
+
+        return defaultName;
+    }
+
+    private static string DetermineNumericDataType(INamedTypeSymbol attributeClass)
+    {
+        // Check the generic type argument for numeric attributes
+        if (attributeClass.TypeArguments.Length > 0)
+        {
+            ITypeSymbol typeArg = attributeClass.TypeArguments[0];
+            if (typeArg.SpecialType == SpecialType.System_Int32 ||
+                typeArg.Name == "Int32")
+            {
+                return "int";
+            }
+        }
+
+        return "number"; // Default to number for decimal, double, etc.
+    }
+
+    private static void ExtractNumericValues(
+        AttributeData attribute,
+        out double minValue,
+        out double maxValue,
+        out double defaultValue)
+    {
+        minValue = 0;
+        maxValue = 100;
+        defaultValue = 0;
+
+        // Try to extract from constructor arguments
+        if (attribute.ConstructorArguments.Length >= 4)
+        {
+            // Format expected: (displayName, minValue, maxValue, defaultValue)
+            if (attribute.ConstructorArguments[1].Value != null)
+            {
+                minValue = Convert.ToDouble(attribute.ConstructorArguments[1].Value);
+            }
+
+            if (attribute.ConstructorArguments[2].Value != null)
+            {
+                maxValue = Convert.ToDouble(attribute.ConstructorArguments[2].Value);
+            }
+
+            if (attribute.ConstructorArguments[3].Value != null)
+            {
+                defaultValue = Convert.ToDouble(attribute.ConstructorArguments[3].Value);
+            }
+        }
+
+        // Or try named arguments
+        foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
+        {
+            if (namedArg.Key == "MinValue" && namedArg.Value.Value != null)
+            {
+                minValue = Convert.ToDouble(namedArg.Value.Value);
+            }
+            else if (namedArg.Key == "MaxValue" && namedArg.Value.Value != null)
+            {
+                maxValue = Convert.ToDouble(namedArg.Value.Value);
+            }
+            else if (namedArg.Key == "DefaultValue" && namedArg.Value.Value != null)
+            {
+                defaultValue = Convert.ToDouble(namedArg.Value.Value);
+            }
+        }
+    }
+
+    private static bool ExtractBooleanDefaultValue(AttributeData attribute)
+    {
+        // Try to get default value from constructor argument
+        if (attribute.ConstructorArguments.Length >= 2 &&
+            attribute.ConstructorArguments[1].Value is bool defaultValue)
+        {
+            return defaultValue;
+        }
+
+        // Try named argument
+        foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
+        {
+            if (namedArg.Key == "DefaultValue" && namedArg.Value.Value is bool boolVal)
+            {
+                return boolVal;
+            }
+        }
+
+        return false; // Default if not found
+    }
+
+    private static string? ExtractEnumTypeName(INamedTypeSymbol attributeClass)
+    {
+        // Get the enum type from the generic argument
+        if (attributeClass.TypeArguments.Length > 0)
+        {
+            ITypeSymbol typeArg = attributeClass.TypeArguments[0];
+            if (typeArg.TypeKind == TypeKind.Enum)
+            {
+                return typeArg.Name;
+            }
+        }
+
+        return null;
+    }
+
+    private static int ExtractEnumDefaultValue(AttributeData attribute)
+    {
+        // Try to get default enum value from constructor argument
+        if (attribute.ConstructorArguments.Length >= 2 &&
+            attribute.ConstructorArguments[1].Value != null)
+        {
+            return Convert.ToInt32(attribute.ConstructorArguments[1].Value);
+        }
+
+        // Try named argument
+        foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
+        {
+            if (namedArg.Key == "DefaultValue" && namedArg.Value.Value != null)
+            {
+                return Convert.ToInt32(namedArg.Value.Value);
+            }
+        }
+
+        return 0; // Default if not found
+    }
+
+    private static (int min, int max) GetEnumMinMaxValues(INamedTypeSymbol attributeClass)
+    {
+        // Default values if we can't determine actual values
+        int minValue = 0;
+        int maxValue = 0;
+
+        // Get the enum type from the generic argument
+        if (attributeClass.TypeArguments.Length > 0)
+        {
+            ITypeSymbol typeArg = attributeClass.TypeArguments[0];
+            if (typeArg.TypeKind == TypeKind.Enum)
+            {
+                // Get all enum values
+                List<int> enumValues = [];
+
+                foreach (ISymbol member in typeArg.GetMembers())
+                {
+                    if (member is IFieldSymbol field && field.HasConstantValue)
+                    {
+                        enumValues.Add(Convert.ToInt32(field.ConstantValue));
+                    }
+                }
+
+                if (enumValues.Count > 0)
+                {
+                    minValue = enumValues.Min();
+                    maxValue = enumValues.Max();
+                }
+            }
+        }
+
+        return (minValue, maxValue);
+    }
+
+    /// <summary>
+    /// Determines if an attribute class is derived from ParamAttribute<T>.
+    /// </summary>
+    private static bool IsParamAttributeOrDerived(INamedTypeSymbol? attributeClass, INamedTypeSymbol? baseParamAttributeSymbol)
+    {
+        if (attributeClass == null || baseParamAttributeSymbol == null)
+        {
+            return false;
+        }
+
+        // Check if this is a generic instantiation of ParamAttribute<T> or its derived classes
+        if (attributeClass.IsGenericType && attributeClass.ConstructedFrom != null)
+        {
+            INamedTypeSymbol originalDefinition = attributeClass.OriginalDefinition;
+
+            // Check if this is derived from ParamAttribute<T> by walking up the inheritance chain
+            INamedTypeSymbol? currentType = originalDefinition;
+            while (currentType != null)
+            {
+                if (SymbolEqualityComparer.Default.Equals(currentType, baseParamAttributeSymbol))
+                {
+                    return true;
+                }
+
+                currentType = currentType.BaseType;
+            }
+        }
+
+        // Check non-generic derived types (like ParamBoolAttribute)
+        return attributeClass.BaseType != null && IsParamAttributeOrDerived(attributeClass.BaseType, baseParamAttributeSymbol);
     }
 
     private static string GenerateCatalogClass(List<IndicatorInfo> indicators)
@@ -355,16 +579,16 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("public static partial class GeneratedCatalog");
         sourceBuilder.AppendLine("{");
 
-        // Generate the AllIndicators property implementation
+        // Generate the GeneratedIndicators property implementation
         sourceBuilder.AppendLine("""
             /// <summary>
-            /// Gets all indicators (auto-generated and test indicators)
+            /// Gets all indicators (auto-generated)
             /// </summary>
-            private static partial IReadOnlyList<IndicatorListing> AllIndicators
+            private static partial IReadOnlyList<IndicatorListing> GeneratedIndicators
             {
                 get
                 {
-                    var autoGenIndicators = new List<IndicatorListing>
+                    var indicators = new List<IndicatorListing>
                     {
         """);
 
@@ -378,10 +602,7 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("""
                     };
 
-                    // Combine real indicators with test indicators
-                    var combinedList = new List<IndicatorListing>(autoGenIndicators);
-                    combinedList.AddRange(TestIndicators);
-                    return combinedList;
+                    return indicators;
                 }
             }
         }

@@ -19,14 +19,11 @@ public static partial class Stc
     [Series("STC", "Schaff Trend Cycle", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<StcResult> ToStc<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Cycle Periods", 1, 250, 10)]
+        [ParamNum<int>("Cycle Periods", 1, 250, 10)]
         int cyclePeriods = 10,
-
-        [Param("Fast Periods", 1, 250, 23)]
+        [ParamNum<int>("Fast Periods", 1, 250, 23)]
         int fastPeriods = 23,
-
-        [Param("Slow Periods", 1, 250, 50)]
+        [ParamNum<int>("Slow Periods", 1, 250, 50)]
         int slowPeriods = 50)
         where T : IReusable
     {

@@ -16,7 +16,7 @@ public static partial class Atr
     [Series("ATR", "Average True Range (ATR)", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<AtrResult> ToAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 2, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 14)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

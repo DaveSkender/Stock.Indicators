@@ -15,7 +15,7 @@ public static partial class Cmf
     [Series("CMF", "Chaikin Money Flow (CMF)", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<CmfResult> ToCmf<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes
             .ToSortedList()

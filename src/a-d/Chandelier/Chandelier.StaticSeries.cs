@@ -16,18 +16,13 @@ public static partial class Chandelier
     /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
     [Series("CHEXIT", "Chandelier Exit", Category.StopAndReverse, ChartType.Overlay)]
     public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
-
         this IReadOnlyList<TQuote> quotes,
-
-        [Param("Lookback Periods", 1, 250, 22)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 22)]
         int lookbackPeriods = 22,
-
-        [Param("Multiplier", 1, 10, 3)]
+        [ParamNum<double>("Multiplier", 1, 10, 3)]
         double multiplier = 3,
-
-        [Param("Direction", Direction.Long)]
+        [ParamEnum<Direction>("Direction", Direction.Long)]
         Direction type = Direction.Long)
-
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);

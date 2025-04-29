@@ -17,7 +17,7 @@ public static partial class ElderRay
     [Series("ELDER-RAY", "Elder-ray Index", Category.PriceTrend, ChartType.Oscillator)]
     public static IReadOnlyList<ElderRayResult> ToElderRay<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 1, 250, 13)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 13)]
         int lookbackPeriods = 13)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

@@ -17,14 +17,11 @@ public static partial class StarcBands
     [Series("STARC", "STARC Bands", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-
-        [Param("SMA Periods", 1, 50, 5)]
+        [ParamNum<int>("SMA Periods", 1, 50, 5)]
         int smaPeriods,
-
-        [Param("Multiplier", 1, 10, 2)]
+        [ParamNum<double>("Multiplier", 1, 10, 2)]
         double multiplier = 2,
-
-        [Param("ATR Periods", 1, 50, 10)]
+        [ParamNum<int>("ATR Periods", 1, 50, 10)]
         int atrPeriods = 10)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

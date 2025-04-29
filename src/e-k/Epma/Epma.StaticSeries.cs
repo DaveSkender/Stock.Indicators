@@ -17,7 +17,7 @@ public static partial class Epma
     [Series("EPMA", "Endpoint Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<EpmaResult> ToEpma<T>(
         this IReadOnlyList<T> source,
-        [Param("Lookback Periods", 1, 250, 10)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 10)]
         int lookbackPeriods)
         where T : IReusable
     {

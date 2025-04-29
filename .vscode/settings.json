@@ -7,6 +7,7 @@
       "level": 1,
       "front_matter_title": "# {{ page.title }}"
     },
+    "MD013": false,
     "MD033": false,
     "MD041": { // allow front-matter titles
       "level": 1,

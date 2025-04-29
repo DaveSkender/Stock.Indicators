@@ -13,10 +13,10 @@ public static partial class Obv
     /// <returns>A list of OBV results.</returns>
     [Series("OBV", "On-Balance Volume", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<ObvResult> ToObv<TQuote>(
-    this IReadOnlyList<TQuote> quotes)
-    where TQuote : IQuote => quotes
-        .ToQuoteDList()
-        .CalcObv();
+        this IReadOnlyList<TQuote> quotes)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcObv();
 
     /// <summary>
     /// Calculates the OBV for a list of quotes.

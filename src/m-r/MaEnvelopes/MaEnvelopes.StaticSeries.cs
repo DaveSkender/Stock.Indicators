@@ -22,10 +22,11 @@ public static partial class MaEnvelopes
     [Series("MA-ENV", "Moving Average Envelopes", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
         this IReadOnlyList<T> source,
-        [Param("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
         int lookbackPeriods,
-        [Param("Percent Offset", 0.1, 10, 2.5)]
+        [ParamNum<double>("Percent Offset", 0.1, 10, 2.5)]
         double percentOffset = 2.5,
+        [ParamEnum<MaType>("Moving Average Type", MaType.SMA)]
         MaType movingAverageType = MaType.SMA)
         where T : IReusable
     {

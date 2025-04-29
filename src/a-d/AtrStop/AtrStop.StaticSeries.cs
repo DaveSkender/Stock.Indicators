@@ -16,22 +16,16 @@ public static partial class AtrStop
     /// <returns>A list of ATR Trailing Stop results.</returns>
     [Series("ATR-STOP", "ATR Trailing Stop", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
-
         this IReadOnlyList<TQuote> quotes,
-
-        [Param("Lookback Periods", 1, 50, 21)]
+        [ParamNum<int>("Lookback Periods", 1, 50, 21)]
         int lookbackPeriods = 21,
-
-        [Param("Multiplier", 0.1, 10, 3)]
+        [ParamNum<double>("Multiplier", 0.1, 10, 3)]
         double multiplier = 3,
-
-        [Param("End Type", EndType.Close)]
+        [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
-
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
-
 
     private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> source,

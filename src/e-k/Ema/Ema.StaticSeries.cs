@@ -17,8 +17,7 @@ public static partial class Ema
     [Series("EMA", "Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<EmaResult> ToEma<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Lookback Periods", 2, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 2, 250, 20)]
         int lookbackPeriods)
         where T : IReusable
     {

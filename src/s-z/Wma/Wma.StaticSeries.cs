@@ -17,8 +17,7 @@ public static partial class Wma
     [Series("WMA", "Weighted Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<WmaResult> ToWma<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
         int lookbackPeriods)
         where T : IReusable
     {

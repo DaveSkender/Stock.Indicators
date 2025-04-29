@@ -16,6 +16,7 @@ public static partial class Vwap
     [Series("VWAP", "Volume Weighted Average Price", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        //TODO: [ParamNum<DateTime>("Start Date")]
         DateTime? startDate = null)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

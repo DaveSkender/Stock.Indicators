@@ -17,7 +17,9 @@ public static partial class Renko
     [Series("RENKO", "Renko", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RenkoResult> ToRenko<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [ParamNum<decimal>("Brick Size", 0.1, 100, 1)]
         decimal brickSize,
+        [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
         where TQuote : IQuote
     {

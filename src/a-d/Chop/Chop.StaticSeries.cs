@@ -15,7 +15,7 @@ public static partial class Chop
     [Series("CHOP", "Choppiness Index", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<ChopResult> ToChop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

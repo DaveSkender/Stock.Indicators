@@ -18,11 +18,11 @@ public static partial class Keltner
     [Series("KELTNER", "Keltner Channels", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<KeltnerResult> ToKeltner<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [Param("EMA Periods", 2, 250, 20)]
+        [ParamNum<int>("EMA Periods", 2, 250, 20)]
         int emaPeriods = 20,
-        [Param("Multiplier", 0.01, 10, 2)]
+        [ParamNum<double>("Multiplier", 0.01, 10, 2)]
         double multiplier = 2,
-        [Param("ATR Periods", 2, 250, 10)]
+        [ParamNum<int>("ATR Periods", 2, 250, 10)]
         int atrPeriods = 10)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

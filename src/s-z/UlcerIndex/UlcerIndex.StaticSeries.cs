@@ -16,8 +16,7 @@ public static partial class UlcerIndex
     [Series("ULCER", "Ulcer Index", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex<T>(
         this IReadOnlyList<T> source,
-
-        [Param("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
         int lookbackPeriods = 14)
         where T : IReusable
     {
