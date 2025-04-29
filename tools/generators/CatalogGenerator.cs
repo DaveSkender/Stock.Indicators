@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Globalization;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Indicators.Catalog.Generator;
@@ -282,19 +283,18 @@ public class CatalogGenerator : IIncrementalGenerator
                 paramAttribute,
                 attrClass,
                 out string dataType,
+                out double defaultValue,
                 out double minValue,
                 out double maxValue,
-                out double defaultValue,
                 out string? enumTypeName);
 
             parameters.Add(new ParameterInfo(
                 parameter.Name,
                 displayName,
                 dataType,
+                defaultValue,
                 minValue,
                 maxValue,
-                defaultValue,
-                null,
                 enumTypeName));
         }
 
@@ -305,9 +305,9 @@ public class CatalogGenerator : IIncrementalGenerator
         AttributeData attribute,
         INamedTypeSymbol attributeClass,
         out string dataType,
+        out double defaultValue,
         out double minValue,
         out double maxValue,
-        out double defaultValue,
         out string? enumTypeName)
     {
         string attributeClassName = attributeClass.Name;
@@ -318,9 +318,9 @@ public class CatalogGenerator : IIncrementalGenerator
         {
             // Handle ParamBoolAttribute
             dataType = "boolean";
+            defaultValue = ExtractBooleanDefaultValue(attribute) ? 1 : 0;
             minValue = 0;
             maxValue = 1;
-            defaultValue = ExtractBooleanDefaultValue(attribute) ? 1 : 0;
         }
         else if (attributeClassName.StartsWith("ParamEnum"))
         {
@@ -331,9 +331,9 @@ public class CatalogGenerator : IIncrementalGenerator
             // For enum types, get actual min/max values from enum
             // These are already calculated in the ParamEnumAttribute constructor
             (int min, int max) = GetEnumMinMaxValues(attributeClass);
+            defaultValue = ExtractEnumDefaultValue(attribute);
             minValue = min;
             maxValue = max;
-            defaultValue = ExtractEnumDefaultValue(attribute);
         }
         else // ParamNumAttribute<T>
         {
@@ -392,44 +392,44 @@ public class CatalogGenerator : IIncrementalGenerator
         out double maxValue,
         out double defaultValue)
     {
+        defaultValue = 0;
         minValue = 0;
         maxValue = 100;
-        defaultValue = 0;
 
         // Try to extract from constructor arguments
         if (attribute.ConstructorArguments.Length >= 4)
         {
-            // Format expected: (displayName, minValue, maxValue, defaultValue)
+            // Format expected: (displayName, defaultValue, minValue, maxValue)
             if (attribute.ConstructorArguments[1].Value != null)
             {
-                minValue = Convert.ToDouble(attribute.ConstructorArguments[1].Value);
+                defaultValue = Convert.ToDouble(attribute.ConstructorArguments[1].Value);
             }
 
             if (attribute.ConstructorArguments[2].Value != null)
             {
-                maxValue = Convert.ToDouble(attribute.ConstructorArguments[2].Value);
+                minValue = Convert.ToDouble(attribute.ConstructorArguments[2].Value);
             }
 
             if (attribute.ConstructorArguments[3].Value != null)
             {
-                defaultValue = Convert.ToDouble(attribute.ConstructorArguments[3].Value);
+                maxValue = Convert.ToDouble(attribute.ConstructorArguments[3].Value);
             }
         }
 
         // Or try named arguments
         foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
         {
-            if (namedArg.Key == "MinValue" && namedArg.Value.Value != null)
+            if (namedArg.Key == "DefaultValue" && namedArg.Value.Value != null)
+            {
+                defaultValue = Convert.ToDouble(namedArg.Value.Value);
+            }
+            else if (namedArg.Key == "MinValue" && namedArg.Value.Value != null)
             {
                 minValue = Convert.ToDouble(namedArg.Value.Value);
             }
             else if (namedArg.Key == "MaxValue" && namedArg.Value.Value != null)
             {
                 maxValue = Convert.ToDouble(namedArg.Value.Value);
-            }
-            else if (namedArg.Key == "DefaultValue" && namedArg.Value.Value != null)
-            {
-                defaultValue = Convert.ToDouble(namedArg.Value.Value);
             }
         }
     }
@@ -684,9 +684,9 @@ public class CatalogGenerator : IIncrementalGenerator
                             ParamName = "{{param.Name}}",
                             DisplayName = "{{param.DisplayName}}",
                             DataType = "{{param.DataType}}",
+                            DefaultValue = {{defaultValueStr}},
                             Minimum = {{minValueStr}},
-                            Maximum = {{maxValueStr}},
-                            DefaultValue = {{defaultValueStr}}
+                            Maximum = {{maxValueStr}}
                         },
         """);
     }
@@ -727,7 +727,7 @@ public class CatalogGenerator : IIncrementalGenerator
         }
 
         // Use invariant culture to avoid locale-specific formatting issues
-        return value.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
+        return value.ToString("G", CultureInfo.InvariantCulture);
     }
 
     private sealed record IndicatorInfo(
@@ -745,10 +745,9 @@ public class CatalogGenerator : IIncrementalGenerator
         string Name,
         string DisplayName,
         string DataType,
+        double DefaultValue,
         double MinValue,
         double MaxValue,
-        double DefaultValue,
-        string? StringDefault = null,
         string? EnumType = null,
         Dictionary<string, int>? EnumValues = null);
 }

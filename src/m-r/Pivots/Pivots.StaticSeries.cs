@@ -19,11 +19,11 @@ public static partial class Pivots
     [Series("PIVOTS", "Pivots", Category.PriceTransform, ChartType.Overlay)]
     public static IReadOnlyList<PivotsResult> ToPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Left Span", 1, 20, 2)]
+        [ParamNum<int>("Left Span", 2, 1, 20)]
         int leftSpan = 2,
-        [ParamNum<int>("Right Span", 1, 20, 2)]
+        [ParamNum<int>("Right Span", 2, 1, 20)]
         int rightSpan = 2,
-        [ParamNum<int>("Max Trend Periods", 5, 100, 20)]
+        [ParamNum<int>("Max Trend Periods", 20, 5, 100)]
         int maxTrendPeriods = 20,
         [ParamEnum<EndType>("End Type", EndType.HighLow)]
         EndType endType = EndType.HighLow)

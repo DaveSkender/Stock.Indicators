@@ -18,13 +18,13 @@ public static partial class Smi
     [Series("SMI", "Stochastic Momentum Index", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 300, 13)]
+        [ParamNum<int>("Lookback Periods", 13, 1, 300)]
         int lookbackPeriods = 13,
-        [ParamNum<int>("First Smooth Periods", 1, 300, 25)]
+        [ParamNum<int>("First Smooth Periods", 25, 1, 300)]
         int firstSmoothPeriods = 25,
-        [ParamNum<int>("Second Smooth Periods", 1, 50, 2)]
+        [ParamNum<int>("Second Smooth Periods", 2, 1, 50)]
         int secondSmoothPeriods = 2,
-        [ParamNum<int>("Signal Periods", 1, 50, 3)]
+        [ParamNum<int>("Signal Periods", 3, 1, 50)]
         int signalPeriods = 3)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

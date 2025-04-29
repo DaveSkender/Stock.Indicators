@@ -16,7 +16,7 @@ public static partial class Roc
     [Series("ROC", "Rate of Change", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<RocResult> ToRoc<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

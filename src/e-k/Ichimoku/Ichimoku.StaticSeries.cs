@@ -17,11 +17,11 @@ public static partial class Ichimoku
     [Series("ICHIMOKU", "Ichimoku Cloud", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Tenkan Periods", 1, 250, 9)]
+        [ParamNum<int>("Tenkan Periods", 9, 1, 250)]
         int tenkanPeriods = 9,
-        [ParamNum<int>("Kijun Periods", 2, 250, 26)]
+        [ParamNum<int>("Kijun Periods", 26, 2, 250)]
         int kijunPeriods = 26,
-        [ParamNum<int>("Senkou Periods", 3, 250, 52)]
+        [ParamNum<int>("Senkou Periods", 52, 3, 250)]
         int senkouBPeriods = 52)
         where TQuote : IQuote => quotes
             .ToSortedList()

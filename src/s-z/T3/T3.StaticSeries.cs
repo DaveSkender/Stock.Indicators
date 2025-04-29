@@ -17,9 +17,9 @@ public static partial class T3
     [Series("T3", "T3 Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<T3Result> ToT3<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 5)]
+        [ParamNum<int>("Lookback Periods", 5, 1, 250)]
         int lookbackPeriods = 5,
-        [ParamNum<double>("Volume Factor", 0, 1, 0.7)]
+        [ParamNum<double>("Volume Factor", 0.7, 0, 1)]
         double volumeFactor = 0.7)
         where T : IReusable
     {

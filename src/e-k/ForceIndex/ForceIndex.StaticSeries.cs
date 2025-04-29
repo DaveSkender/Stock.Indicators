@@ -17,7 +17,7 @@ public static partial class ForceIndex
     [Series("FORCE", "Force Index", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<ForceIndexResult> ToForceIndex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 2)]
+        [ParamNum<int>("Lookback Periods", 2, 1, 250)]
         int lookbackPeriods = 2)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

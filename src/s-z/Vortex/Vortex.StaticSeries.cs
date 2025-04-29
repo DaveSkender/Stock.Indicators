@@ -16,7 +16,7 @@ public static partial class Vortex
     [Series("VORTEX", "Vortex Indicator", Category.PriceTrend, ChartType.Oscillator)]
     public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 2, 100, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 2, 100)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

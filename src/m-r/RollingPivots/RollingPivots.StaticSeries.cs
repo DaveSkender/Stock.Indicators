@@ -18,9 +18,9 @@ public static partial class RollingPivots
     [Series("ROLLING-PIVOTS", "Rolling Pivots", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Window Periods", 1, 250, 20)]
+        [ParamNum<int>("Window Periods", 20, 1, 250)]
         int windowPeriods,
-        [ParamNum<int>("Offset Periods", 0, 100, 0)]
+        [ParamNum<int>("Offset Periods", 0, 0, 100)]
         int offsetPeriods,
         [ParamEnum<PivotPointType>("Point Type", PivotPointType.Standard)]
         PivotPointType pointType = PivotPointType.Standard)

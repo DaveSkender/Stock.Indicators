@@ -17,7 +17,7 @@ public static partial class StdDev
     [Series("STDEV", "Standard Deviation", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<StdDevResult> ToStdDev<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

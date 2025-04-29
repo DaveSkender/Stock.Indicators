@@ -16,9 +16,9 @@ public static partial class Awesome
     [Series("AWESOME", "Awesome Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<AwesomeResult> ToAwesome<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Fast Periods", 1, 100, 5)]
+        [ParamNum<int>("Fast Periods", 5, 1, 100)]
         int fastPeriods = 5,
-        [ParamNum<int>("Slow Periods", 1, 250, 34)]
+        [ParamNum<int>("Slow Periods", 34, 1, 250)]
         int slowPeriods = 34)
         where T : IReusable
     {

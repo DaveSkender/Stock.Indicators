@@ -17,9 +17,9 @@ public static partial class VolatilityStop
     [Series("VOL-STOP", "Volatility Stop", Category.StopAndReverse, ChartType.Overlay)]
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 50, 7)]
+        [ParamNum<int>("Lookback Periods", 7, 1, 50)]
         int lookbackPeriods = 7,
-        [ParamNum<double>("Multiplier", 0.1, 10, 3)]
+        [ParamNum<double>("Multiplier", 3, 0.1, 10)]
         double multiplier = 3)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

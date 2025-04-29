@@ -22,7 +22,7 @@ public static partial class Beta
         this IReadOnlyList<T> sourceEval,
         //TODO: [ParamNum<IEnumerable<T>>("Market Prices")]
         IReadOnlyList<T> sourceMrkt,
-        [ParamNum<int>("Lookback Periods", 1, 250, 50)]
+        [ParamNum<int>("Lookback Periods", 50, 1, 250)]
         int lookbackPeriods,
         [ParamEnum<BetaType>("Beta Type", BetaType.Standard)]
         BetaType type = BetaType.Standard)

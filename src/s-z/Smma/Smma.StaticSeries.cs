@@ -17,7 +17,7 @@ public static partial class Smma
     [Series("SMMA", "Smoothed Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<SmmaResult> ToSmma<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

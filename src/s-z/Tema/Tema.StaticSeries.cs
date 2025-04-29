@@ -16,7 +16,7 @@ public static partial class Tema
     [Series("TEMA", "Triple Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<TemaResult> ToTema<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 2, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 20, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

@@ -18,9 +18,9 @@ public static partial class MgDynamic
     [Series("DYNAMIC", "McGinley Dynamic", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<DynamicResult> ToDynamic<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 10)]
+        [ParamNum<int>("Lookback Periods", 10, 1, 250)]
         int lookbackPeriods,
-        [ParamNum<double>("K Factor", 0.1, 5.0, 0.6)]
+        [ParamNum<double>("K Factor", 0.6, 0.1, 5.0)]
         double kFactor = 0.6)
         where T : IReusable
     {

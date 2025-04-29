@@ -17,9 +17,9 @@ public static partial class Chandelier
     [Series("CHEXIT", "Chandelier Exit", Category.StopAndReverse, ChartType.Overlay)]
     public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 22)]
+        [ParamNum<int>("Lookback Periods", 22, 1, 250)]
         int lookbackPeriods = 22,
-        [ParamNum<double>("Multiplier", 1, 10, 3)]
+        [ParamNum<double>("Multiplier", 3, 1, 10)]
         double multiplier = 3,
         [ParamEnum<Direction>("Direction", Direction.Long)]
         Direction type = Direction.Long)

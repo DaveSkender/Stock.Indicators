@@ -18,11 +18,11 @@ public static partial class RocWb
     [Series("ROC-WB", "ROC with Bands", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<RocWbResult> ToRocWb<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods,
-        [ParamNum<int>("EMA Periods", 1, 100, 5)]
+        [ParamNum<int>("EMA Periods", 5, 1, 100)]
         int emaPeriods,
-        [ParamNum<int>("Standard Deviation Periods", 1, 100, 5)]
+        [ParamNum<int>("Standard Deviation Periods", 5, 1, 100)]
         int stdDevPeriods)
         where T : IReusable
     {

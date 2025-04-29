@@ -15,7 +15,7 @@ public static partial class Aroon
     [Series("AROON", "Aroon Up/Down", Category.PriceTrend, ChartType.Oscillator, "AROON([P1]) Up/Down")]
     public static IReadOnlyList<AroonResult> ToAroon<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 25)]
+        [ParamNum<int>("Lookback Periods", 25, 1, 250)]
         int lookbackPeriods = 25)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

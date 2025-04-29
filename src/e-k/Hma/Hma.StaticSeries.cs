@@ -17,7 +17,7 @@ public static partial class Hma
     [Series("HMA", "Hull Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<HmaResult> ToHma<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 2, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

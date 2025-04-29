@@ -25,17 +25,17 @@ public static partial class Alligator
     [Series("ALLIGATOR", "Williams Alligator", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<AlligatorResult> ToAlligator<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Jaw Periods", 1, 250, 13)]
+        [ParamNum<int>("Jaw Periods", 13, 1, 250)]
         int jawPeriods = 13,
-        [ParamNum<int>("Jaw Offset", 1, 30, 8)]
+        [ParamNum<int>("Jaw Offset", 8, 1, 30)]
         int jawOffset = 8,
-        [ParamNum<int>("Teeth Periods", 1, 250, 8)]
+        [ParamNum<int>("Teeth Periods", 8, 1, 250)]
         int teethPeriods = 8,
-        [ParamNum<int>("Teeth Offset", 1, 30, 5)]
+        [ParamNum<int>("Teeth Offset", 5, 1, 30)]
         int teethOffset = 5,
-        [ParamNum<int>("Lips Periods", 1, 250, 5)]
+        [ParamNum<int>("Lips Periods", 5, 1, 250)]
         int lipsPeriods = 5,
-        [ParamNum<int>("Lips Offset", 1, 30, 3)]
+        [ParamNum<int>("Lips Offset", 3, 1, 30)]
         int lipsOffset = 3)
         where T : IReusable
     {

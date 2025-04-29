@@ -17,7 +17,7 @@ public static partial class Ema
     [Stream("EMA", "Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static EmaHub<T> ToEma<T>(
         this IChainProvider<T> chainProvider,
-        [ParamNum<int>("Lookback Periods", 2, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
         => new(chainProvider, lookbackPeriods);

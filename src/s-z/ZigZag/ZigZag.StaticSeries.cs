@@ -18,7 +18,7 @@ public static partial class ZigZag
         this IReadOnlyList<TQuote> quotes,
         [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close,
-        [ParamNum<decimal>("Percent Change", 1, 200, 5)]
+        [ParamNum<decimal>("Percent Change", 5, 1, 200)]
         decimal percentChange = 5)
         where TQuote : IQuote
     {

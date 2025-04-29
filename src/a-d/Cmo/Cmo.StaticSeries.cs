@@ -15,7 +15,7 @@ public static partial class Cmo
     [Series("CMO", "Chande Momentum Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<CmoResult> ToCmo<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

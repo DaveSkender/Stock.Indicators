@@ -16,7 +16,7 @@ public static partial class Trix
     [Series("TRIX", "Triple Exponential Moving Average Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<TrixResult> ToTrix<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

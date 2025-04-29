@@ -19,11 +19,11 @@ public static partial class Kama
     [Series("KAMA", "Kaufman's Adaptive Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<KamaResult> ToKama<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 2, 250, 10)]
+        [ParamNum<int>("Lookback Periods", 10, 2, 250)]
         int erPeriods = 10,
-        [ParamNum<int>("Fast Periods", 1, 50, 2)]
+        [ParamNum<int>("Fast Periods", 2, 1, 50)]
         int fastPeriods = 2,
-        [ParamNum<int>("Slow Periods", 1, 250, 30)]
+        [ParamNum<int>("Slow Periods", 30, 1, 250)]
         int slowPeriods = 30)
         where T : IReusable
     {

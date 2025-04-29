@@ -17,7 +17,7 @@ public static partial class Mfi
     [Series("MFI", "Money Flow Index (MFI)", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<MfiResult> ToMfi<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

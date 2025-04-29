@@ -18,7 +18,7 @@ public static partial class Fractal
     [Series("FRACTAL", "Williams Fractal (high/low)", Category.PricePattern, ChartType.Overlay)]
     public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Window Span", 1, 100, 2)]
+        [ParamNum<int>("Window Span", 2, 1, 100)]
         int windowSpan = 2,
         [ParamEnum<EndType>("End Type", EndType.HighLow)]
         EndType endType = EndType.HighLow)

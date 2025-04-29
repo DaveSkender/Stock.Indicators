@@ -15,7 +15,7 @@ public static partial class Bop
     [Series("BOP", "Balance of Power (BOP)", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<BopResult> ToBop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Smooth Periods", 1, 250, 14)]
+        [ParamNum<int>("Smooth Periods", 14, 1, 250)]
         int smoothPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

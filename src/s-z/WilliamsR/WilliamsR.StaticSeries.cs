@@ -16,7 +16,7 @@ public static partial class WilliamsR
     [Series("WILLR", "Williams %R", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<WilliamsResult> ToWilliamsR<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

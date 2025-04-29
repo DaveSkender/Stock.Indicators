@@ -17,9 +17,9 @@ public static partial class Mama
     [Series("MAMA", "MESA Adaptive Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<MamaResult> ToMama<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<double>("Fast Limit", 0.01, 0.99, 0.5)]
+        [ParamNum<double>("Fast Limit", 0.5, 0.01, 0.99)]
         double fastLimit = 0.5,
-        [ParamNum<double>("Slow Limit", 0.01, 0.99, 0.05)]
+        [ParamNum<double>("Slow Limit", 0.05, 0.01, 0.99)]
         double slowLimit = 0.05)
         where T : IReusable
     {

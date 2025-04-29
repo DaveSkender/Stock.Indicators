@@ -19,11 +19,11 @@ public static partial class Stoch
     [Series("STOCH", "Stochastic Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<StochResult> ToStoch<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 14)]
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods = 14,
-        [ParamNum<int>("Signal Periods", 1, 250, 3)]
+        [ParamNum<int>("Signal Periods", 3, 1, 250)]
         int signalPeriods = 3,
-        [ParamNum<int>("Smooth Periods", 1, 50, 3)]
+        [ParamNum<int>("Smooth Periods", 3, 1, 50)]
         int smoothPeriods = 3)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

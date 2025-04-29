@@ -18,11 +18,11 @@ public static partial class Tsi
     [Series("TSI", "True Strength Index", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<TsiResult> ToTsi<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 1, 250, 25)]
+        [ParamNum<int>("Lookback Periods", 25, 1, 250)]
         int lookbackPeriods = 25,
-        [ParamNum<int>("Smooth Periods", 1, 250, 13)]
+        [ParamNum<int>("Smooth Periods", 13, 1, 250)]
         int smoothPeriods = 13,
-        [ParamNum<int>("Signal Periods", 1, 50, 7)]
+        [ParamNum<int>("Signal Periods", 7, 1, 50)]
         int signalPeriods = 7)
         where T : IReusable
     {

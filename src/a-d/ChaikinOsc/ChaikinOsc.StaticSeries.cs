@@ -16,9 +16,9 @@ public static partial class ChaikinOsc
     [Series("CHAIKIN-OSC", "Chaikin Money Flow Oscillator", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<ChaikinOscResult> ToChaikinOsc<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Fast Periods", 1, 100, 3)]
+        [ParamNum<int>("Fast Periods", 3, 1, 100)]
         int fastPeriods = 3,
-        [ParamNum<int>("Slow Periods", 1, 100, 10)]
+        [ParamNum<int>("Slow Periods", 10, 1, 100)]
         int slowPeriods = 10)
         where TQuote : IQuote
     {

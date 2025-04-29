@@ -17,9 +17,9 @@ public static partial class BollingerBands
     [Series("BB", "Bollinger Bands®", Category.PriceChannel, ChartType.Overlay)]
     public static IReadOnlyList<BollingerBandsResult> ToBollingerBands<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 2, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 20, 2, 250)]
         int lookbackPeriods = 20,
-        [ParamNum<double>("Standard Deviations", 0.01, 10, 2)]
+        [ParamNum<double>("Standard Deviations", 2, 0.01, 10)]
         double standardDeviations = 2)
         where T : IReusable
     {

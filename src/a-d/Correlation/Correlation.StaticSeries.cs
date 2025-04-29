@@ -21,7 +21,7 @@ public static partial class Correlation
         this IReadOnlyList<T> sourceA,
         //TODO: [ParamNum<IEnumerable<T>>("Source B")]
         IReadOnlyList<T> sourceB,
-        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

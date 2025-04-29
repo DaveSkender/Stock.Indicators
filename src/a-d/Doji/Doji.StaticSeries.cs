@@ -22,7 +22,7 @@ public static partial class Doji
     [Series("DOJI", "Doji", Category.CandlestickPattern, ChartType.Overlay)]
     public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<double>("Max Price Change %", 0, 0.5, 0.1)]
+        [ParamNum<double>("Max Price Change %", 0.1, 0, 0.5)]
         double maxPriceChangePercent = 0.1)
         where TQuote : IQuote
     {

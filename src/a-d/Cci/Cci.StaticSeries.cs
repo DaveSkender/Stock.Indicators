@@ -15,7 +15,7 @@ public static partial class Cci
     [Series("CCI", "Commodity Channel Index (CCI)", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<CciResult> ToCci<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 250, 20)]
+        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

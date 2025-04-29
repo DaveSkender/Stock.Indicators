@@ -17,9 +17,9 @@ public static partial class AtrStop
     [Series("ATR-STOP", "ATR Trailing Stop", Category.PriceTrend, ChartType.Overlay)]
     public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 1, 50, 21)]
+        [ParamNum<int>("Lookback Periods", 21, 1, 50)]
         int lookbackPeriods = 21,
-        [ParamNum<double>("Multiplier", 0.1, 10, 3)]
+        [ParamNum<double>("Multiplier", 3, 0.1, 10)]
         double multiplier = 3,
         [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
