@@ -17,7 +17,7 @@ public class Catalogging
     public void CatalogHasRealIndicators()
     {
         // Act - get catalog
-        IReadOnlyList<IndicatorListing> result = Catalog.GetIndicators();
+        IReadOnlyList<IndicatorListing> result = Catalog.Get();
 
         // Assert
         result.Should().NotBeEmpty("Catalog should contain indicators");
@@ -37,7 +37,7 @@ public class Catalogging
     public void CatalogWithBaseUrl()
     {
         // Act - get catalog with URL endpoints
-        IReadOnlyList<IndicatorListing> result = Catalog.GetIndicatorsWithEndpoints(BaseUrl);
+        IReadOnlyList<IndicatorListing> result = Catalog.Get(BaseUrl);
 
         // Assert
         // Verify all indicators have the base URL applied
@@ -71,7 +71,7 @@ public class Catalogging
     public void CatalogWithRealIndicators()
     {
         // Act - get catalog
-        IReadOnlyList<IndicatorListing> realCatalog = Catalog.GetIndicators();
+        IReadOnlyList<IndicatorListing> realCatalog = Catalog.Get();
 
         // Assert
         realCatalog.Should().NotBeEmpty("Catalog should contain indicators");
@@ -154,7 +154,7 @@ public class Catalogging
         }
 
         // Act - get standard catalog
-        IReadOnlyList<IndicatorListing> catalog = Catalog.GetIndicators();
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
 
         // Serialize to JSON for inspection
         string json = JsonSerializer.Serialize(catalog, IndentedJsonOptions);

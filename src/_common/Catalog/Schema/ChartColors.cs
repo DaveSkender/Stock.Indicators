@@ -3,6 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Default colors for charting elements.
 /// </summary>
+[Serializable]
 public static class ChartColors
 {
     // Material Design (M2) color palettes

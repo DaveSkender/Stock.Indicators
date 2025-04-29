@@ -2,7 +2,7 @@
   {
     "Name": "Accumulation Distribution Line (ADL)",
     "Uiid": "ADL",
-    "Endpoint": "/adl",
+    "UiidEndpoint": "/adl",
     "LegendTemplate": "ADL",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -23,7 +23,7 @@
   {
     "Name": "Arnaud Legoux Moving Average (ALMA)",
     "Uiid": "ALMA",
-    "Endpoint": "/alma",
+    "UiidEndpoint": "/alma",
     "LegendTemplate": "ALMA([P1],[P2],[P3])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -69,7 +69,7 @@
   {
     "Name": "Aroon Up/Down",
     "Uiid": "AROON",
-    "Endpoint": "/aroon",
+    "UiidEndpoint": "/aroon",
     "LegendTemplate": "AROON([P1]) Up/Down",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
@@ -99,7 +99,7 @@
   {
     "Name": "ATR Trailing Stop",
     "Uiid": "ATR-STOP",
-    "Endpoint": "/atr-stop",
+    "UiidEndpoint": "/atr-stop",
     "LegendTemplate": "ATR-STOP([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -145,7 +145,7 @@
   {
     "Name": "Average Directional Index (ADX)",
     "Uiid": "ADX",
-    "Endpoint": "/adx",
+    "UiidEndpoint": "/adx",
     "LegendTemplate": "ADX([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
@@ -175,7 +175,7 @@
   {
     "Name": "Average True Range (ATR)",
     "Uiid": "ATR",
-    "Endpoint": "/atr",
+    "UiidEndpoint": "/atr",
     "LegendTemplate": "ATR([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -205,7 +205,7 @@
   {
     "Name": "Awesome Oscillator",
     "Uiid": "AWESOME",
-    "Endpoint": "/awesome",
+    "UiidEndpoint": "/awesome",
     "LegendTemplate": "AWESOME([P1],[P2])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -243,7 +243,7 @@
   {
     "Name": "Balance of Power (BOP)",
     "Uiid": "BOP",
-    "Endpoint": "/bop",
+    "UiidEndpoint": "/bop",
     "LegendTemplate": "BOP([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -273,7 +273,7 @@
   {
     "Name": "Beta",
     "Uiid": "BETA",
-    "Endpoint": "/beta",
+    "UiidEndpoint": "/beta",
     "LegendTemplate": "BETA([P1],[P2])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -311,7 +311,7 @@
   {
     "Name": "Bollinger Bands\u00AE",
     "Uiid": "BB",
-    "Endpoint": "/bb",
+    "UiidEndpoint": "/bb",
     "LegendTemplate": "BB([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -349,7 +349,7 @@
   {
     "Name": "Chaikin Money Flow (CMF)",
     "Uiid": "CMF",
-    "Endpoint": "/cmf",
+    "UiidEndpoint": "/cmf",
     "LegendTemplate": "CMF([P1])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -379,7 +379,7 @@
   {
     "Name": "Chaikin Money Flow Oscillator",
     "Uiid": "CHAIKIN-OSC",
-    "Endpoint": "/chaikin-osc",
+    "UiidEndpoint": "/chaikin-osc",
     "LegendTemplate": "CHAIKIN-OSC([P1],[P2])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -417,7 +417,7 @@
   {
     "Name": "Chande Momentum Oscillator",
     "Uiid": "CMO",
-    "Endpoint": "/cmo",
+    "UiidEndpoint": "/cmo",
     "LegendTemplate": "CMO([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -447,7 +447,7 @@
   {
     "Name": "Chandelier Exit",
     "Uiid": "CHEXIT",
-    "Endpoint": "/chexit",
+    "UiidEndpoint": "/chexit",
     "LegendTemplate": "CHEXIT([P1],[P2],[P3])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
@@ -493,7 +493,7 @@
   {
     "Name": "Choppiness Index",
     "Uiid": "CHOP",
-    "Endpoint": "/chop",
+    "UiidEndpoint": "/chop",
     "LegendTemplate": "CHOP([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -523,7 +523,7 @@
   {
     "Name": "Commodity Channel Index (CCI)",
     "Uiid": "CCI",
-    "Endpoint": "/cci",
+    "UiidEndpoint": "/cci",
     "LegendTemplate": "CCI([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -553,7 +553,7 @@
   {
     "Name": "ConnorsRSI (CRSI)",
     "Uiid": "CRSI",
-    "Endpoint": "/crsi",
+    "UiidEndpoint": "/crsi",
     "LegendTemplate": "CRSI([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -599,7 +599,7 @@
   {
     "Name": "Correlation",
     "Uiid": "CORR",
-    "Endpoint": "/corr",
+    "UiidEndpoint": "/corr",
     "LegendTemplate": "CORR([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -629,7 +629,7 @@
   {
     "Name": "Detrended Price Oscillator",
     "Uiid": "DPO",
-    "Endpoint": "/dpo",
+    "UiidEndpoint": "/dpo",
     "LegendTemplate": "DPO([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -659,7 +659,7 @@
   {
     "Name": "Doji",
     "Uiid": "DOJI",
-    "Endpoint": "/doji",
+    "UiidEndpoint": "/doji",
     "LegendTemplate": "DOJI([P1])",
     "Category": "CandlestickPattern",
     "ChartType": "Overlay",
@@ -689,7 +689,7 @@
   {
     "Name": "Donchian Channels",
     "Uiid": "DONCHIAN",
-    "Endpoint": "/donchian",
+    "UiidEndpoint": "/donchian",
     "LegendTemplate": "DONCHIAN([P1])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -719,7 +719,7 @@
   {
     "Name": "Double Exponential Moving Average",
     "Uiid": "DEMA",
-    "Endpoint": "/dema",
+    "UiidEndpoint": "/dema",
     "LegendTemplate": "DEMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -749,7 +749,7 @@
   {
     "Name": "Ehlers Fisher Transform",
     "Uiid": "FISHER",
-    "Endpoint": "/fisher",
+    "UiidEndpoint": "/fisher",
     "LegendTemplate": "FISHER([P1])",
     "Category": "PriceTransform",
     "ChartType": "Oscillator",
@@ -779,7 +779,7 @@
   {
     "Name": "Elder-ray Index",
     "Uiid": "ELDER-RAY",
-    "Endpoint": "/elder-ray",
+    "UiidEndpoint": "/elder-ray",
     "LegendTemplate": "ELDER-RAY([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
@@ -809,7 +809,7 @@
   {
     "Name": "Endpoint Moving Average",
     "Uiid": "EPMA",
-    "Endpoint": "/epma",
+    "UiidEndpoint": "/epma",
     "LegendTemplate": "EPMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -839,7 +839,7 @@
   {
     "Name": "Exponential Moving Average",
     "Uiid": "EMA",
-    "Endpoint": "/ema",
+    "UiidEndpoint": "/ema",
     "LegendTemplate": "EMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -869,7 +869,7 @@
   {
     "Name": "Force Index",
     "Uiid": "FORCE",
-    "Endpoint": "/force",
+    "UiidEndpoint": "/force",
     "LegendTemplate": "FORCE([P1])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -899,7 +899,7 @@
   {
     "Name": "Fractal Chaos Bands",
     "Uiid": "FCB",
-    "Endpoint": "/fcb",
+    "UiidEndpoint": "/fcb",
     "LegendTemplate": "FCB([P1])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -929,7 +929,7 @@
   {
     "Name": "Gator Oscillator",
     "Uiid": "GATOR",
-    "Endpoint": "/gator",
+    "UiidEndpoint": "/gator",
     "LegendTemplate": "GATOR",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -950,7 +950,7 @@
   {
     "Name": "HeikinAshi",
     "Uiid": "HEIKINASHI",
-    "Endpoint": "/heikinashi",
+    "UiidEndpoint": "/heikinashi",
     "LegendTemplate": "HEIKINASHI",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
@@ -971,7 +971,7 @@
   {
     "Name": "Hilbert Transform Instantaneous Trendline",
     "Uiid": "HTL",
-    "Endpoint": "/htl",
+    "UiidEndpoint": "/htl",
     "LegendTemplate": "HTL",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -992,7 +992,7 @@
   {
     "Name": "Hull Moving Average",
     "Uiid": "HMA",
-    "Endpoint": "/hma",
+    "UiidEndpoint": "/hma",
     "LegendTemplate": "HMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -1022,7 +1022,7 @@
   {
     "Name": "Hurst Exponent",
     "Uiid": "HURST",
-    "Endpoint": "/hurst",
+    "UiidEndpoint": "/hurst",
     "LegendTemplate": "HURST([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -1052,7 +1052,7 @@
   {
     "Name": "Ichimoku Cloud",
     "Uiid": "ICHIMOKU",
-    "Endpoint": "/ichimoku",
+    "UiidEndpoint": "/ichimoku",
     "LegendTemplate": "ICHIMOKU([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -1098,7 +1098,7 @@
   {
     "Name": "Kaufman\u0027s Adaptive Moving Average",
     "Uiid": "KAMA",
-    "Endpoint": "/kama",
+    "UiidEndpoint": "/kama",
     "LegendTemplate": "KAMA([P1],[P2],[P3])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -1144,7 +1144,7 @@
   {
     "Name": "Keltner Channels",
     "Uiid": "KELTNER",
-    "Endpoint": "/keltner",
+    "UiidEndpoint": "/keltner",
     "LegendTemplate": "KELTNER([P1],[P2],[P3])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -1190,7 +1190,7 @@
   {
     "Name": "Klinger Volume Oscillator",
     "Uiid": "KVO",
-    "Endpoint": "/kvo",
+    "UiidEndpoint": "/kvo",
     "LegendTemplate": "KVO([P1],[P2],[P3])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -1236,7 +1236,7 @@
   {
     "Name": "Marubozu",
     "Uiid": "MARUBOZU",
-    "Endpoint": "/marubozu",
+    "UiidEndpoint": "/marubozu",
     "LegendTemplate": "MARUBOZU([P1])",
     "Category": "CandlestickPattern",
     "ChartType": "Overlay",
@@ -1266,7 +1266,7 @@
   {
     "Name": "McGinley Dynamic",
     "Uiid": "DYNAMIC",
-    "Endpoint": "/dynamic",
+    "UiidEndpoint": "/dynamic",
     "LegendTemplate": "DYNAMIC([P1],[P2])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -1304,7 +1304,7 @@
   {
     "Name": "MESA Adaptive Moving Average",
     "Uiid": "MAMA",
-    "Endpoint": "/mama",
+    "UiidEndpoint": "/mama",
     "LegendTemplate": "MAMA([P1],[P2])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -1342,7 +1342,7 @@
   {
     "Name": "Money Flow Index (MFI)",
     "Uiid": "MFI",
-    "Endpoint": "/mfi",
+    "UiidEndpoint": "/mfi",
     "LegendTemplate": "MFI([P1])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -1372,7 +1372,7 @@
   {
     "Name": "Moving Average Convergence/Divergence",
     "Uiid": "MACD",
-    "Endpoint": "/macd",
+    "UiidEndpoint": "/macd",
     "LegendTemplate": "MACD([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
@@ -1418,7 +1418,7 @@
   {
     "Name": "Moving Average Envelopes",
     "Uiid": "MA-ENV",
-    "Endpoint": "/ma-env",
+    "UiidEndpoint": "/ma-env",
     "LegendTemplate": "MA-ENV([P1],[P2],[P3])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -1464,7 +1464,7 @@
   {
     "Name": "On-Balance Volume",
     "Uiid": "OBV",
-    "Endpoint": "/obv",
+    "UiidEndpoint": "/obv",
     "LegendTemplate": "OBV",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -1485,7 +1485,7 @@
   {
     "Name": "Parabolic Stop and Reverse",
     "Uiid": "PSAR",
-    "Endpoint": "/psar",
+    "UiidEndpoint": "/psar",
     "LegendTemplate": "PSAR([P1],[P2])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
@@ -1523,7 +1523,7 @@
   {
     "Name": "Percentage Volume Oscillator",
     "Uiid": "PVO",
-    "Endpoint": "/pvo",
+    "UiidEndpoint": "/pvo",
     "LegendTemplate": "PVO([P1],[P2],[P3])",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
@@ -1569,7 +1569,7 @@
   {
     "Name": "Pivot Points",
     "Uiid": "PIVPNT",
-    "Endpoint": "/pivpnt",
+    "UiidEndpoint": "/pivpnt",
     "LegendTemplate": "PIVPNT([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -1607,7 +1607,7 @@
   {
     "Name": "Pivots",
     "Uiid": "PIVOTS",
-    "Endpoint": "/pivots",
+    "UiidEndpoint": "/pivots",
     "LegendTemplate": "PIVOTS([P1],[P2],[P3],[P4])",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
@@ -1661,7 +1661,7 @@
   {
     "Name": "Price Momentum Oscillator",
     "Uiid": "PMO",
-    "Endpoint": "/pmo",
+    "UiidEndpoint": "/pmo",
     "LegendTemplate": "PMO([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -1707,7 +1707,7 @@
   {
     "Name": "Price Relative Strength",
     "Uiid": "PRS",
-    "Endpoint": "/prs",
+    "UiidEndpoint": "/prs",
     "LegendTemplate": "PRS([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -1737,7 +1737,7 @@
   {
     "Name": "Rate of Change",
     "Uiid": "ROC",
-    "Endpoint": "/roc",
+    "UiidEndpoint": "/roc",
     "LegendTemplate": "ROC([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -1767,7 +1767,7 @@
   {
     "Name": "Relative Strength Index",
     "Uiid": "RSI",
-    "Endpoint": "/rsi",
+    "UiidEndpoint": "/rsi",
     "LegendTemplate": "RSI([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -1797,7 +1797,7 @@
   {
     "Name": "Renko",
     "Uiid": "RENKO",
-    "Endpoint": "/renko",
+    "UiidEndpoint": "/renko",
     "LegendTemplate": "RENKO([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -1835,7 +1835,7 @@
   {
     "Name": "Renko (ATR)",
     "Uiid": "RENKO-ATR",
-    "Endpoint": "/renko-atr",
+    "UiidEndpoint": "/renko-atr",
     "LegendTemplate": "RENKO-ATR([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -1873,7 +1873,7 @@
   {
     "Name": "ROC with Bands",
     "Uiid": "ROC-WB",
-    "Endpoint": "/roc-wb",
+    "UiidEndpoint": "/roc-wb",
     "LegendTemplate": "ROC-WB([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -1919,7 +1919,7 @@
   {
     "Name": "Rolling Pivots",
     "Uiid": "ROLLING-PIVOTS",
-    "Endpoint": "/rolling-pivots",
+    "UiidEndpoint": "/rolling-pivots",
     "LegendTemplate": "ROLLING-PIVOTS([P1],[P2],[P3])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -1965,7 +1965,7 @@
   {
     "Name": "Schaff Trend Cycle",
     "Uiid": "STC",
-    "Endpoint": "/stc",
+    "UiidEndpoint": "/stc",
     "LegendTemplate": "STC([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2011,7 +2011,7 @@
   {
     "Name": "Simple Moving Average",
     "Uiid": "SMA",
-    "Endpoint": "/sma",
+    "UiidEndpoint": "/sma",
     "LegendTemplate": "SMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -2041,7 +2041,7 @@
   {
     "Name": "Simple Moving Average Analysis",
     "Uiid": "SMA-ANALYSIS",
-    "Endpoint": "/sma-analysis",
+    "UiidEndpoint": "/sma-analysis",
     "LegendTemplate": "SMA-ANALYSIS([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -2071,7 +2071,7 @@
   {
     "Name": "Slope",
     "Uiid": "SLOPE",
-    "Endpoint": "/slope",
+    "UiidEndpoint": "/slope",
     "LegendTemplate": "SLOPE([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -2101,7 +2101,7 @@
   {
     "Name": "Smoothed Moving Average",
     "Uiid": "SMMA",
-    "Endpoint": "/smma",
+    "UiidEndpoint": "/smma",
     "LegendTemplate": "SMMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -2131,7 +2131,7 @@
   {
     "Name": "Standard Deviation",
     "Uiid": "STDEV",
-    "Endpoint": "/stdev",
+    "UiidEndpoint": "/stdev",
     "LegendTemplate": "STDEV([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -2161,7 +2161,7 @@
   {
     "Name": "Standard Deviation Channels",
     "Uiid": "STDEV-CHANNELS",
-    "Endpoint": "/stdev-channels",
+    "UiidEndpoint": "/stdev-channels",
     "LegendTemplate": "STDEV-CHANNELS([P1],[P2])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -2199,7 +2199,7 @@
   {
     "Name": "STARC Bands",
     "Uiid": "STARC",
-    "Endpoint": "/starc",
+    "UiidEndpoint": "/starc",
     "LegendTemplate": "STARC([P1],[P2],[P3])",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -2245,7 +2245,7 @@
   {
     "Name": "Stochastic Momentum Index",
     "Uiid": "SMI",
-    "Endpoint": "/smi",
+    "UiidEndpoint": "/smi",
     "LegendTemplate": "SMI([P1],[P2],[P3],[P4])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2299,7 +2299,7 @@
   {
     "Name": "Stochastic Oscillator",
     "Uiid": "STOCH",
-    "Endpoint": "/stoch",
+    "UiidEndpoint": "/stoch",
     "LegendTemplate": "STOCH([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2345,7 +2345,7 @@
   {
     "Name": "Stochastic RSI",
     "Uiid": "STOCH-RSI",
-    "Endpoint": "/stoch-rsi",
+    "UiidEndpoint": "/stoch-rsi",
     "LegendTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2399,7 +2399,7 @@
   {
     "Name": "SuperTrend",
     "Uiid": "SUPERTREND",
-    "Endpoint": "/supertrend",
+    "UiidEndpoint": "/supertrend",
     "LegendTemplate": "SUPERTREND([P1],[P2])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -2437,7 +2437,7 @@
   {
     "Name": "T3 Moving Average",
     "Uiid": "T3",
-    "Endpoint": "/t3",
+    "UiidEndpoint": "/t3",
     "LegendTemplate": "T3([P1],[P2])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -2475,7 +2475,7 @@
   {
     "Name": "Triple Exponential Moving Average",
     "Uiid": "TEMA",
-    "Endpoint": "/tema",
+    "UiidEndpoint": "/tema",
     "LegendTemplate": "TEMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -2505,7 +2505,7 @@
   {
     "Name": "Triple Exponential Moving Average Oscillator",
     "Uiid": "TRIX",
-    "Endpoint": "/trix",
+    "UiidEndpoint": "/trix",
     "LegendTemplate": "TRIX([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2535,7 +2535,7 @@
   {
     "Name": "True Range",
     "Uiid": "TR",
-    "Endpoint": "/tr",
+    "UiidEndpoint": "/tr",
     "LegendTemplate": "TR",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
@@ -2556,7 +2556,7 @@
   {
     "Name": "True Strength Index",
     "Uiid": "TSI",
-    "Endpoint": "/tsi",
+    "UiidEndpoint": "/tsi",
     "LegendTemplate": "TSI([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2602,7 +2602,7 @@
   {
     "Name": "Ulcer Index",
     "Uiid": "ULCER",
-    "Endpoint": "/ulcer",
+    "UiidEndpoint": "/ulcer",
     "LegendTemplate": "ULCER([P1])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
@@ -2632,7 +2632,7 @@
   {
     "Name": "Ultimate Oscillator",
     "Uiid": "UO",
-    "Endpoint": "/uo",
+    "UiidEndpoint": "/uo",
     "LegendTemplate": "UO([P1],[P2],[P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2678,7 +2678,7 @@
   {
     "Name": "Volatility Stop",
     "Uiid": "VOL-STOP",
-    "Endpoint": "/vol-stop",
+    "UiidEndpoint": "/vol-stop",
     "LegendTemplate": "VOL-STOP([P1],[P2])",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
@@ -2716,7 +2716,7 @@
   {
     "Name": "Volume Weighted Average Price",
     "Uiid": "VWAP",
-    "Endpoint": "/vwap",
+    "UiidEndpoint": "/vwap",
     "LegendTemplate": "VWAP",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
@@ -2737,7 +2737,7 @@
   {
     "Name": "Volume Weighted Moving Average",
     "Uiid": "VWMA",
-    "Endpoint": "/vwma",
+    "UiidEndpoint": "/vwma",
     "LegendTemplate": "VWMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -2767,7 +2767,7 @@
   {
     "Name": "Vortex Indicator",
     "Uiid": "VORTEX",
-    "Endpoint": "/vortex",
+    "UiidEndpoint": "/vortex",
     "LegendTemplate": "VORTEX([P1])",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
@@ -2797,7 +2797,7 @@
   {
     "Name": "Weighted Moving Average",
     "Uiid": "WMA",
-    "Endpoint": "/wma",
+    "UiidEndpoint": "/wma",
     "LegendTemplate": "WMA([P1])",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
@@ -2827,7 +2827,7 @@
   {
     "Name": "Williams %R",
     "Uiid": "WILLR",
-    "Endpoint": "/willr",
+    "UiidEndpoint": "/willr",
     "LegendTemplate": "WILLR([P1])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
@@ -2857,7 +2857,7 @@
   {
     "Name": "Williams Alligator",
     "Uiid": "ALLIGATOR",
-    "Endpoint": "/alligator",
+    "UiidEndpoint": "/alligator",
     "LegendTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
@@ -2927,7 +2927,7 @@
   {
     "Name": "Williams Fractal (high/low)",
     "Uiid": "FRACTAL",
-    "Endpoint": "/fractal",
+    "UiidEndpoint": "/fractal",
     "LegendTemplate": "FRACTAL([P1],[P2])",
     "Category": "PricePattern",
     "ChartType": "Overlay",
@@ -2965,7 +2965,7 @@
   {
     "Name": "Zig Zag (close)",
     "Uiid": "ZIGZAG-CLOSE",
-    "Endpoint": "/zigzag-close",
+    "UiidEndpoint": "/zigzag-close",
     "LegendTemplate": "ZIGZAG-CLOSE([P1],[P2])",
     "Category": "PriceTransform",
     "ChartType": "Overlay",

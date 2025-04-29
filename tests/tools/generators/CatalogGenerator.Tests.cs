@@ -7,7 +7,7 @@ public class CatalogGenerating
     public void CatalogGenerator_IncludesIndicatorsWithAttributes()
     {
         // Arrange/Act - access the generated catalog
-        IReadOnlyList<IndicatorListing> catalog = Catalog.GetIndicators();
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
 
         // Assert
         catalog.Should().NotBeEmpty("Catalog should not be empty");
@@ -19,7 +19,7 @@ public class CatalogGenerating
     public void CatalogGenerator_UsesLegendOverrideFromAttribute()
     {
         // Arrange/Act - access the generated catalog
-        IReadOnlyList<IndicatorListing> catalog = Catalog.GetIndicators();
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
 
         // Check a regular indicator with parameters
         var smaIndicator = catalog.FirstOrDefault(x => x.Uiid == "SMA");

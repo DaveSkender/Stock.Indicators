@@ -21,7 +21,7 @@ During compilation, the source generator:
 
 1. Scans the codebase for methods and constructors with the appropriate indicator attributes
 2. Extracts metadata like ID, name, and parameters
-3. Generates a static class `GeneratedCatalog` with a method to access all indicators
+3. Generates a static class `Catalog` with a method to access all indicators
 
 ## Analyzers
 
@@ -49,7 +49,7 @@ The generated catalog is accessible via:
 using Skender.Stock.Indicators;
 
 // Get all indicators from the generated catalog
-var indicators = GeneratedCatalog.GetIndicators();
+var indicators = Catalog.GetIndicators();
 
 // Use the indicators
 foreach (var indicator in indicators)

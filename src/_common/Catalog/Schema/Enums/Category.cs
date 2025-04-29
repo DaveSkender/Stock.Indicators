@@ -1,20 +1,6 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents the style of an indicator.
-/// </summary>
-/// <remarks>
-/// Values are hardcoded in the catalog generator
-/// and should not be changed.
-/// </remarks>
-internal enum Style
-{
-    Series = 0,
-    Buffer = 1,
-    Stream = 2
-}
-
-/// <summary>
 /// Represents the category of an indicator.
 /// </summary>
 public enum Category
@@ -73,25 +59,4 @@ public enum Category
     /// Indicators based on volume data.
     /// </summary>
     VolumeBased,
-}
-
-/// <summary>
-/// Represents the type of chart used for an indicator.
-/// </summary>
-public enum ChartType
-{
-    /// <summary>
-    /// Undefined chart type.
-    /// </summary>
-    Undefined = 0,
-
-    /// <summary>
-    /// Overlay chart type.
-    /// </summary>
-    Overlay,
-
-    /// <summary>
-    /// Oscillator chart type.
-    /// </summary>
-    Oscillator
 }

@@ -19,10 +19,11 @@ public record IndicatorListing
     /// <summary>
     /// Initializes a new instance of the <see cref="IndicatorListing"/> class with the specified base URL.
     /// </summary>
-    /// <param name="baseUrl">The base URL for the indicator listing.</param>
-    internal IndicatorListing(string baseUrl)
+    /// <param name="baseUrl">Optional base for <see cref="UiidEndpoint"/></param>
+    internal IndicatorListing(
+        string baseUrl)
     {
-        _baseUrl = baseUrl;
+        _baseUrl = baseUrl.TrimEnd('/');
     }
 
     /// <summary>
@@ -38,20 +39,10 @@ public record IndicatorListing
     public required string Uiid { get; init; }
 
     /// <summary>
-    /// Gets or sets the endpoint URL for the indicator.
+    /// Gets or sets a hypothetical endpoint URL for the indicator.
     /// </summary>
-    public string Endpoint
-       => $"{_baseUrl}/{(string.IsNullOrEmpty(UiidEndpoint)
-        ? Uiid.ToLowerInvariant()
-        : UiidEndpoint)}";
-
-    /// <summary>
-    /// Gets or sets the override for the <see cref="Uiid"/> portion of the endpoint.
-    /// Leave empty to use this lising's <see cref="Uiid"/> as the endpoint.
-    /// </summary>
-    // TODO: eliminate by handling in the catalog generation
     [MinLength(2), UrlSafe]
-    public string? UiidEndpoint { get; init; }
+    public string UiidEndpoint => $"{_baseUrl}/{Uiid?.ToLowerInvariant()}";
 
     /// <summary>
     /// Gets or sets the legend template for the indicator.
@@ -59,6 +50,7 @@ public record IndicatorListing
     public required string LegendTemplate { get; init; }
 
     // TODO: Add Style as enum
+    // TODO: Add Type as string
 
     /// <summary>
     /// Gets or sets the category of the indicator.

@@ -105,7 +105,7 @@ public class CatalogGenerator : IIncrementalGenerator
 
         // Generate catalog class
         string sourceCode = GenerateCatalogClass(indicators);
-        context.AddSource("GeneratedCatalog.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
+        context.AddSource("Catalog.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
     }
 
     private static void ValidateUniqueUIIDs(List<IndicatorInfo> indicators, SourceProductionContext context)
@@ -576,15 +576,15 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("/// Auto-generated catalog of all indicators in the library");
         sourceBuilder.AppendLine("/// </summary>");
         sourceBuilder.AppendLine($"[GeneratedCode(\"Indicators.Catalog.Generator\", \"{version}\")]");
-        sourceBuilder.AppendLine("public static partial class GeneratedCatalog");
+        sourceBuilder.AppendLine("public static partial class Catalog");
         sourceBuilder.AppendLine("{");
 
-        // Generate the GeneratedIndicators property implementation
+        // Generate the GeneratedListings property implementation
         sourceBuilder.AppendLine("""
             /// <summary>
-            /// Gets all indicators (auto-generated)
+            /// Gets all indicator listings in the catalog (auto-generated)
             /// </summary>
-            private static partial IReadOnlyList<IndicatorListing> GeneratedIndicators
+            private static partial IReadOnlyList<IndicatorListing> GeneratedListings
             {
                 get
                 {
