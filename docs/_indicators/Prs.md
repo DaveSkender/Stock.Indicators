@@ -43,7 +43,7 @@ IReadOnlyList<PrsResult>
 - It does not return a single incremental indicator value.
 - The `N` periods will have `null` values for `PrsPercent` since there's not enough data to calculate.
 
-### PrResult
+### PrsResult
 
 **`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 

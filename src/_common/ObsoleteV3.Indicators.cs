@@ -719,11 +719,11 @@ public static partial class Indicator
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetPrs(..)` to `ToPrs(..)`", false)]
     public static IEnumerable<PrsResult> GetPrs<TQuote>(
-        this IEnumerable<TQuote> quotesEval,
-        IEnumerable<TQuote> quotesBase, int? lookbackPeriods = null)
-        where TQuote : IQuote
-        => quotesBase.ToSortedList()
-            .ToPrs(quotesEval.ToSortedList(), lookbackPeriods);
+    this IEnumerable<TQuote> quotesEval,
+    IEnumerable<TQuote> quotesBase, int? lookbackPeriods = null)
+    where TQuote : IQuote
+    => quotesBase.ToSortedList()
+        .ToPrs(quotesEval.ToSortedList(), lookbackPeriods ?? 0);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.ToSma(smaPeriods)` for moving averages.", true)]
@@ -734,7 +734,7 @@ public static partial class Indicator
         => quotesEval
             .ToSortedList()
             .Use(CandlePart.Close)
-            .ToPrs(quotesBase.ToSortedList().Use(CandlePart.Close), lookbackPeriods);
+            .ToPrs(quotesBase.ToSortedList().Use(CandlePart.Close), lookbackPeriods ?? 0);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToPrs(..)' method. Tuple arguments were removed.", false)]
@@ -982,11 +982,12 @@ public static partial class Indicator
             .ToStdDev(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename `GetStdDevChannels(..)` to `ToStdDevChannels(..)`", false)]
+    [Obsolete("Rename `GetStdDevChannels(..)` to `ToStdDevChannels(..)`. "
+            + "If using `lookbackPeriods=null`, replace with `lookbackPeriods=source.Count`.", false)]
     public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
         this IEnumerable<TQuote> quotes, int? lookbackPeriods = 20, double stdDeviations = 2)
         where TQuote : IQuote
-        => quotes.ToSortedList().ToStdDevChannels(lookbackPeriods, stdDeviations);
+        => quotes.ToSortedList().ToStdDevChannels(lookbackPeriods ?? quotes.Count(), stdDeviations);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToStdDevChannels(..)' method. Tuple arguments were removed.", false)]
