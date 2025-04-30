@@ -35,7 +35,7 @@ public static partial class Prs
         this IReadOnlyList<T> sourceEval,
         //TODO: [ParamNum<IEnumerable<T>>("Base Prices")]
         IReadOnlyList<T> sourceBase,
-        [ParamNum<int>("Lookback Periods", 30, 1, 250)]
+        [ParamNum<int>("Lookback Periods", 1, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

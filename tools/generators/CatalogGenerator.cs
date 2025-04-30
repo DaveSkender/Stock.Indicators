@@ -97,41 +97,33 @@ public class CatalogGenerator : IIncrementalGenerator
         HashSet<string> processedIds = [];
 
         // Process nodes for each attribute type
-        ProcessNodes(compilation, "Series", seriesNodes, requiredSymbols, indicators, processedIds);
-        ProcessNodes(compilation, "Stream", streamNodes, requiredSymbols, indicators, processedIds);
-        ProcessNodes(compilation, "Buffer", bufferNodes, requiredSymbols, indicators, processedIds);
+        ProcessNodes(context, compilation, "Series", seriesNodes, requiredSymbols, indicators, processedIds);
+        ProcessNodes(context, compilation, "Stream", streamNodes, requiredSymbols, indicators, processedIds);
+        ProcessNodes(context, compilation, "Buffer", bufferNodes, requiredSymbols, indicators, processedIds);
 
         // Validate indicator UIIDs are unique before generating code
-        ValidateUniqueUIIDs(indicators, context);
+        Validate(context, indicators);
 
         // Generate catalog class
         string sourceCode = GenerateCatalogClass(indicators);
         context.AddSource("Catalog.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
     }
 
-    private static void ValidateUniqueUIIDs(List<IndicatorInfo> indicators, SourceProductionContext context)
+    private static void Validate(SourceProductionContext context, List<IndicatorInfo> indicators)
     {
         List<string> duplicateUIIDs = indicators
-            .GroupBy(x => x.Id)
+            .GroupBy(x => x.Uiid)
             .Where(g => g.Count() > 1)
             .Select(g => g.Key)
             .ToList();
 
         if (duplicateUIIDs.Count != 0)
         {
-            context.ReportDiagnostic(
-                Diagnostic.Create(
-                    new DiagnosticDescriptor(
-                        "IND004",
-                        "Duplicate UIIDs detected",
-                        "The following UIIDs are used more than once: {0}",
-                        "Catalog",
-                        DiagnosticSeverity.Error,
-                        isEnabledByDefault: true),
-                    Location.None,
-                    string.Join(", ", duplicateUIIDs)));
+            ReportIND901_DuplicateListings(context, duplicateUIIDs);
         }
     }
+
+
 
     private static Dictionary<string, INamedTypeSymbol?> GetRequiredSymbols(Compilation compilation)
     {
@@ -152,6 +144,7 @@ public class CatalogGenerator : IIncrementalGenerator
         => symbols.Values.All(symbol => symbol != null);
 
     private static void ProcessNodes(
+        SourceProductionContext context,
         Compilation compilation,
         string attributeType,
         ImmutableArray<SyntaxNode> nodes,
@@ -173,14 +166,15 @@ public class CatalogGenerator : IIncrementalGenerator
             {
                 INamedTypeSymbol? attributeSymbol = symbols[attributeType + "Attribute"];
 
-                if (attributeSymbol == null ||
-                    !attributeData.AttributeClass!.Equals(attributeSymbol, SymbolEqualityComparer.Default))
+                if (attributeSymbol == null
+                || !attributeData.AttributeClass!.Equals(attributeSymbol, SymbolEqualityComparer.Default))
                 {
                     continue;
                 }
 
-                string id = attributeData.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
-                if (string.IsNullOrWhiteSpace(id) || !processedIds.Add(id))
+                string uiid = attributeData.ConstructorArguments[0].Value?.ToString() ?? string.Empty;
+
+                if (string.IsNullOrWhiteSpace(uiid) || !processedIds.Add(uiid))
                 {
                     continue;
                 }
@@ -189,27 +183,33 @@ public class CatalogGenerator : IIncrementalGenerator
 
                 // Convert category from enum to string
                 object? categoryValue = attributeData.ConstructorArguments[2].Value;
-                string category = categoryValue != null ?
-                    GetEnumFieldName(symbols["Category"]!, Convert.ToInt32(categoryValue)) : string.Empty;
+                string category = categoryValue != null
+                    ? GetEnumFieldName(symbols["Category"]!, Convert.ToInt32(categoryValue))
+                    : string.Empty;
 
                 // Convert chartType from enum to string
                 object? chartTypeValue = attributeData.ConstructorArguments[3].Value;
-                string chartType = chartTypeValue != null ?
-                    GetEnumFieldName(symbols["ChartType"]!, Convert.ToInt32(chartTypeValue)) : string.Empty;
+                string chartType = chartTypeValue != null
+                    ? GetEnumFieldName(symbols["ChartType"]!, Convert.ToInt32(chartTypeValue))
+                    : string.Empty;
 
-                // Extract legendOverride if provided
+                // Extract legendOverride, if provided
                 string? legendOverride = null;
-                if (attributeData.ConstructorArguments.Length >= 5 && attributeData.ConstructorArguments[4].Value != null)
+                if (attributeData.ConstructorArguments.Length >= 5
+                 && attributeData.ConstructorArguments[4].Value != null)
                 {
                     legendOverride = attributeData.ConstructorArguments[4].Value?.ToString();
                 }
 
                 // Process parameters
-                List<ParameterInfo> parameters = GetMethodParameters(methodSymbol, symbols["ParamAttributeBase"]);
+                List<ParameterInfo> parameters = GetMethodParameters(
+                    context: context,
+                    methodSymbol: methodSymbol,
+                    paramAttributeBaseSymbol: symbols["ParamAttributeBase"]);
 
                 // Create indicator info
                 indicators.Add(new IndicatorInfo(
-                    Id: id,
+                    Uiid: uiid,
                     Name: name,
                     Type: attributeType,
                     ContainingType: methodSymbol.ContainingType.Name,
@@ -239,6 +239,7 @@ public class CatalogGenerator : IIncrementalGenerator
     }
 
     private static List<ParameterInfo> GetMethodParameters(
+        SourceProductionContext context,
         IMethodSymbol methodSymbol,
         INamedTypeSymbol? paramAttributeBaseSymbol)
     {
@@ -280,73 +281,141 @@ public class CatalogGenerator : IIncrementalGenerator
 
             // Extract parameter values based on attribute type
             ExtractAttributeValues(
-                paramAttribute,
-                attrClass,
-                out string dataType,
-                out double defaultValue,
-                out double minValue,
-                out double maxValue,
-                out string? enumTypeName);
+                context: context,
+                attribute: paramAttribute,
+                attributeClass: attrClass,
+                dataType: out string dataType,
+                defaultValue: out double? defaultValue,
+                minValue: out double? minValue,
+                maxValue: out double? maxValue,
+                enumTypeName: out string? enumTypeName,
+                enumValues: out Dictionary<int, string>? enumValues);
 
             parameters.Add(new ParameterInfo(
-                parameter.Name,
-                displayName,
-                dataType,
-                defaultValue,
-                minValue,
-                maxValue,
-                enumTypeName));
+                Name: parameter.Name,
+                DisplayName: displayName,
+                DataType: dataType,
+                DefaultValue: defaultValue,
+                MinValue: minValue,
+                MaxValue: maxValue,
+                EnumType: enumTypeName,
+                EnumValues: enumValues));
         }
 
         return parameters;
     }
 
     private static void ExtractAttributeValues(
+        SourceProductionContext context,
         AttributeData attribute,
         INamedTypeSymbol attributeClass,
         out string dataType,
-        out double defaultValue,
-        out double minValue,
-        out double maxValue,
-        out string? enumTypeName)
+        out double? defaultValue,
+        out double? minValue,
+        out double? maxValue,
+        out string? enumTypeName,
+        out Dictionary<int, string>? enumValues)
     {
         string attributeClassName = attributeClass.Name;
+
+        minValue = null;
+        maxValue = null;
         enumTypeName = null;
+        enumValues = null;
 
         // Handle different attribute types based on class name
+
         if (attributeClassName == "ParamBoolAttribute")
         {
             // Handle ParamBoolAttribute
             dataType = "boolean";
             defaultValue = ExtractBooleanDefaultValue(attribute) ? 1 : 0;
+            // Boolean values are constrained between 0 and 1
             minValue = 0;
             maxValue = 1;
         }
+
         else if (attributeClassName.StartsWith("ParamEnum"))
         {
             // Handle ParamEnumAttribute<T>
             dataType = "enum";
-            enumTypeName = ExtractEnumTypeName(attributeClass);
+            enumTypeName = ExtractEnumTypeName(attributeClass: attributeClass);
+            defaultValue = ExtractEnumDefaultValue(attribute: attribute);
 
-            // For enum types, get actual min/max values from enum
-            // These are already calculated in the ParamEnumAttribute constructor
-            (int min, int max) = GetEnumMinMaxValues(attributeClass);
-            defaultValue = ExtractEnumDefaultValue(attribute);
-            minValue = min;
-            maxValue = max;
+            // Get the enum type and extract its values
+            ITypeSymbol? enumType = attributeClass.TypeArguments.Length > 0
+                ? attributeClass.TypeArguments[0]
+                : null;
+
+            enumValues = GetEnumValues(enumType);
+
+            // Min/max if we have enum values (not required for enum types)
+            if (enumValues != null && enumValues.Count > 0)
+            {
+                List<int> values = enumValues.Keys.ToList();
+
+                if (values.Count > 0)
+                {
+                    minValue = values.Min();
+                    maxValue = values.Max();
+                }
+            }
         }
-        else // ParamNumAttribute<T>
+
+        else if (attributeClassName.StartsWith("ParamNum"))
         {
             // Handle ParamNumAttribute<T>
-            dataType = DetermineNumericDataType(attributeClass);
-            ExtractNumericValues(attribute, out minValue, out maxValue, out defaultValue);
+            dataType = DetermineNumericDataType(attributeClass: attributeClass);
+
+            ExtractNumericValues(
+                attribute: attribute,
+                defaultValue: out defaultValue,
+                minValue: out minValue,
+                maxValue: out maxValue);
+        }
+
+        else
+        {
+            // failover to default numeric type
+            dataType = "number"; // default to number
+            defaultValue = null;
+            minValue = null;
+            maxValue = null;
+
+            throw new InvalidOperationException(
+                $"Unsupported attribute type: '{attributeClassName}'. "
+               + "Please ensure the attribute is derived from ParamAttribute<T>.");
         }
 
         // Ensure default is within min/max bounds for numeric types
-        if (dataType is "number" or "int")
+        if (dataType is "number" or "int" && defaultValue.HasValue && minValue.HasValue && maxValue.HasValue)
         {
-            defaultValue = Math.Min(Math.Max(defaultValue, minValue), maxValue);
+            if (defaultValue < minValue || defaultValue > maxValue)
+            {
+                ReportIND902_InvalidDefaultValue(context, defaultValue, minValue, maxValue);
+            }
         }
+    }
+
+    private static Dictionary<int, string>? GetEnumValues(ITypeSymbol? enumType)
+    {
+        if (enumType == null || enumType.TypeKind != TypeKind.Enum)
+        {
+            return null;
+        }
+
+        Dictionary<int, string> enumValues = [];
+
+        foreach (ISymbol member in enumType.GetMembers())
+        {
+            if (member is IFieldSymbol field && field.HasConstantValue && !field.IsStatic)
+            {
+                int value = Convert.ToInt32(field.ConstantValue);
+                enumValues[value] = field.Name;
+            }
+        }
+
+        return enumValues.Count > 0 ? enumValues : null;
     }
 
     private static string GetDisplayName(AttributeData attribute, string defaultName)
@@ -376,8 +445,8 @@ public class CatalogGenerator : IIncrementalGenerator
         if (attributeClass.TypeArguments.Length > 0)
         {
             ITypeSymbol typeArg = attributeClass.TypeArguments[0];
-            if (typeArg.SpecialType == SpecialType.System_Int32 ||
-                typeArg.Name == "Int32")
+
+            if (typeArg.SpecialType == SpecialType.System_Int32 || typeArg.Name == "Int32")
             {
                 return "int";
             }
@@ -388,13 +457,13 @@ public class CatalogGenerator : IIncrementalGenerator
 
     private static void ExtractNumericValues(
         AttributeData attribute,
-        out double minValue,
-        out double maxValue,
-        out double defaultValue)
+        out double? defaultValue,
+        out double? minValue,
+        out double? maxValue)
     {
-        defaultValue = 0;
-        minValue = 0;
-        maxValue = 100;
+        minValue = null;
+        maxValue = null;
+        defaultValue = null;
 
         // Try to extract from constructor arguments
         if (attribute.ConstructorArguments.Length >= 4)
@@ -402,34 +471,53 @@ public class CatalogGenerator : IIncrementalGenerator
             // Format expected: (displayName, defaultValue, minValue, maxValue)
             if (attribute.ConstructorArguments[1].Value != null)
             {
-                defaultValue = Convert.ToDouble(attribute.ConstructorArguments[1].Value);
+                defaultValue = Convert.ToDouble(
+                    value: attribute.ConstructorArguments[1].Value,
+                    provider: CultureInfo.InvariantCulture);
             }
 
             if (attribute.ConstructorArguments[2].Value != null)
             {
-                minValue = Convert.ToDouble(attribute.ConstructorArguments[2].Value);
+                minValue = Convert.ToDouble(
+                    value: attribute.ConstructorArguments[2].Value,
+                    provider: CultureInfo.InvariantCulture);
             }
 
             if (attribute.ConstructorArguments[3].Value != null)
             {
-                maxValue = Convert.ToDouble(attribute.ConstructorArguments[3].Value);
+                maxValue = Convert.ToDouble(
+                    value: attribute.ConstructorArguments[3].Value,
+                    provider: CultureInfo.InvariantCulture);
             }
         }
 
-        // Or try named arguments
+        // Or try named arguments (preferred)
         foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
         {
-            if (namedArg.Key == "DefaultValue" && namedArg.Value.Value != null)
+            if (namedArg.Value.Value is null)
             {
-                defaultValue = Convert.ToDouble(namedArg.Value.Value);
+                continue;
             }
-            else if (namedArg.Key == "MinValue" && namedArg.Value.Value != null)
+
+            switch (namedArg.Key)
             {
-                minValue = Convert.ToDouble(namedArg.Value.Value);
-            }
-            else if (namedArg.Key == "MaxValue" && namedArg.Value.Value != null)
-            {
-                maxValue = Convert.ToDouble(namedArg.Value.Value);
+                case "DefaultValue":
+                    defaultValue = Convert.ToDouble(
+                        value: namedArg.Value.Value,
+                        provider: CultureInfo.InvariantCulture);
+                    break;
+
+                case "MinValue":
+                    minValue = Convert.ToDouble(
+                        value: namedArg.Value.Value,
+                        provider: CultureInfo.InvariantCulture);
+                    break;
+
+                case "MaxValue":
+                    maxValue = Convert.ToDouble(
+                        value: namedArg.Value.Value,
+                        provider: CultureInfo.InvariantCulture);
+                    break;
             }
         }
     }
@@ -437,13 +525,13 @@ public class CatalogGenerator : IIncrementalGenerator
     private static bool ExtractBooleanDefaultValue(AttributeData attribute)
     {
         // Try to get default value from constructor argument
-        if (attribute.ConstructorArguments.Length >= 2 &&
-            attribute.ConstructorArguments[1].Value is bool defaultValue)
+        if (attribute.ConstructorArguments.Length >= 2
+         && attribute.ConstructorArguments[1].Value is bool defaultValue)
         {
             return defaultValue;
         }
 
-        // Try named argument
+        // Try named argument (preferred)
         foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
         {
             if (namedArg.Key == "DefaultValue" && namedArg.Value.Value is bool boolVal)
@@ -452,7 +540,7 @@ public class CatalogGenerator : IIncrementalGenerator
             }
         }
 
-        return false; // Default if not found
+        return false; // if not found
     }
 
     private static string? ExtractEnumTypeName(INamedTypeSymbol attributeClass)
@@ -473,8 +561,8 @@ public class CatalogGenerator : IIncrementalGenerator
     private static int ExtractEnumDefaultValue(AttributeData attribute)
     {
         // Try to get default enum value from constructor argument
-        if (attribute.ConstructorArguments.Length >= 2 &&
-            attribute.ConstructorArguments[1].Value != null)
+        if (attribute.ConstructorArguments.Length >= 2
+         && attribute.ConstructorArguments[1].Value != null)
         {
             return Convert.ToInt32(attribute.ConstructorArguments[1].Value);
         }
@@ -491,46 +579,14 @@ public class CatalogGenerator : IIncrementalGenerator
         return 0; // Default if not found
     }
 
-    private static (int min, int max) GetEnumMinMaxValues(INamedTypeSymbol attributeClass)
-    {
-        // Default values if we can't determine actual values
-        int minValue = 0;
-        int maxValue = 0;
-
-        // Get the enum type from the generic argument
-        if (attributeClass.TypeArguments.Length > 0)
-        {
-            ITypeSymbol typeArg = attributeClass.TypeArguments[0];
-            if (typeArg.TypeKind == TypeKind.Enum)
-            {
-                // Get all enum values
-                List<int> enumValues = [];
-
-                foreach (ISymbol member in typeArg.GetMembers())
-                {
-                    if (member is IFieldSymbol field && field.HasConstantValue)
-                    {
-                        enumValues.Add(Convert.ToInt32(field.ConstantValue));
-                    }
-                }
-
-                if (enumValues.Count > 0)
-                {
-                    minValue = enumValues.Min();
-                    maxValue = enumValues.Max();
-                }
-            }
-        }
-
-        return (minValue, maxValue);
-    }
-
     /// <summary>
     /// Determines if an attribute class is derived from ParamAttribute<T>.
     /// </summary>
-    private static bool IsParamAttributeOrDerived(INamedTypeSymbol? attributeClass, INamedTypeSymbol? baseParamAttributeSymbol)
+    private static bool IsParamAttributeOrDerived(
+        INamedTypeSymbol? attributeClass,
+        INamedTypeSymbol? baseParamAttrSymbol)
     {
-        if (attributeClass == null || baseParamAttributeSymbol == null)
+        if (attributeClass == null || baseParamAttrSymbol == null)
         {
             return false;
         }
@@ -544,7 +600,7 @@ public class CatalogGenerator : IIncrementalGenerator
             INamedTypeSymbol? currentType = originalDefinition;
             while (currentType != null)
             {
-                if (SymbolEqualityComparer.Default.Equals(currentType, baseParamAttributeSymbol))
+                if (SymbolEqualityComparer.Default.Equals(currentType, baseParamAttrSymbol))
                 {
                     return true;
                 }
@@ -554,7 +610,10 @@ public class CatalogGenerator : IIncrementalGenerator
         }
 
         // Check non-generic derived types (like ParamBoolAttribute)
-        return attributeClass.BaseType != null && IsParamAttributeOrDerived(attributeClass.BaseType, baseParamAttributeSymbol);
+        return attributeClass.BaseType != null
+            && IsParamAttributeOrDerived(
+                attributeClass: attributeClass.BaseType,
+                baseParamAttrSymbol: baseParamAttrSymbol);
     }
 
     private static string GenerateCatalogClass(List<IndicatorInfo> indicators)
@@ -586,9 +645,8 @@ public class CatalogGenerator : IIncrementalGenerator
             /// </summary>
             private static partial IReadOnlyList<IndicatorListing> GeneratedListings
             {
-                get
-                {
-                    var indicators = new List<IndicatorListing>
+                get {
+                    List<IndicatorListing> indicators = new()
                     {
         """);
 
@@ -611,20 +669,22 @@ public class CatalogGenerator : IIncrementalGenerator
         return sourceBuilder.ToString();
     }
 
-    private static void AppendIndicatorListing(StringBuilder sourceBuilder, IndicatorInfo indicator)
+    private static void AppendIndicatorListing(
+        StringBuilder sourceBuilder,
+        IndicatorInfo indicator)
     {
         // Use the indicator name directly without appending the type
         string displayName = indicator.Name;
 
         // Build tooltip template based on parameters or use the legend override
         string legendTemplate = indicator.Parameters.Count > 0
-                ? $"{indicator.Id}("
+                ? $"{indicator.Uiid}("
                             + string.Join(",",
                                 Enumerable
                                     .Range(1, indicator.Parameters.Count)
                                     .Select(i => $"[P{i}]")
                                 ) + ")"
-                : indicator.Id;
+                : indicator.Uiid;
 
         // Use the legend override if provided
         if (indicator.LegendOverride != null
@@ -634,23 +694,23 @@ public class CatalogGenerator : IIncrementalGenerator
         }
 
         sourceBuilder.AppendLine($$"""
-                new IndicatorListing
-                {
-                    Name = "{{displayName}}",
-                    Uiid = "{{indicator.Id}}",
-                    Category = Category.{{indicator.Category}},
-                    ChartType = ChartType.{{indicator.ChartType}},
-                    Order = Order.Front,
-                    ChartConfig = null,
-                    LegendTemplate = "{{legendTemplate}}",
+                    new IndicatorListing
+                    {
+                        Name = "{{displayName}}",
+                        Uiid = "{{indicator.Uiid}}",
+                        Category = Category.{{indicator.Category}},
+                        ChartType = ChartType.{{indicator.ChartType}},
+                        Order = Order.Front,
+                        ChartConfig = null,
+                        LegendTemplate = "{{legendTemplate}}",
         """);
 
         // Add parameters
         if (indicator.Parameters.Count > 0)
         {
             sourceBuilder.AppendLine("""
-                    Parameters = new List<IndicatorParamConfig>
-                    {
+                            Parameters = new List<IndicatorParamConfig>
+                            {
             """);
 
             foreach (ParameterInfo param in indicator.Parameters)
@@ -658,37 +718,54 @@ public class CatalogGenerator : IIncrementalGenerator
                 AppendParameterConfig(sourceBuilder, param);
             }
 
-            sourceBuilder.AppendLine("                    },");
+            sourceBuilder.AppendLine("                },");
         }
         else
         {
-            sourceBuilder.AppendLine("                    Parameters = new List<IndicatorParamConfig>(),");
+            sourceBuilder.AppendLine("                Parameters = new List<IndicatorParamConfig>(),");
         }
 
         // Add result configs
-        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Id, legendTemplate);
+        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, legendTemplate);
 
-        sourceBuilder.AppendLine("                },");
+        sourceBuilder.AppendLine("            },");
     }
 
     private static void AppendParameterConfig(StringBuilder sourceBuilder, ParameterInfo param)
     {
-        // Format numeric values without 'd' suffix
-        string minValueStr = FormatNumericValue(param.MinValue);
-        string maxValueStr = FormatNumericValue(param.MaxValue);
-        string defaultValueStr = FormatNumericValue(param.DefaultValue);
+        // Format numeric values as strings with null support
+        string minValueStr = param.MinValue.HasValue ? FormatNumericValue(param.MinValue.Value) : "null";
+        string maxValueStr = param.MaxValue.HasValue ? FormatNumericValue(param.MaxValue.Value) : "null";
+        string defaultValueStr = param.DefaultValue.HasValue ? FormatNumericValue(param.DefaultValue.Value) : "null";
 
         sourceBuilder.AppendLine($$"""
-                        new IndicatorParamConfig
-                        {
-                            ParamName = "{{param.Name}}",
-                            DisplayName = "{{param.DisplayName}}",
-                            DataType = "{{param.DataType}}",
-                            DefaultValue = {{defaultValueStr}},
-                            Minimum = {{minValueStr}},
-                            Maximum = {{maxValueStr}}
-                        },
+                            new IndicatorParamConfig
+                            {
+                                ParamName = "{{param.Name}}"
+                               ,DisplayName = "{{param.DisplayName}}"
+                               ,DataType = "{{param.DataType}}"
+                               ,DefaultValue = {{defaultValueStr}}
+                               ,Minimum = {{minValueStr}}
+                               ,Maximum = {{maxValueStr}}
         """);
+
+        // Add enum values if present
+        if (param.EnumValues != null && param.EnumValues.Count > 0)
+        {
+            sourceBuilder.AppendLine("""
+                               ,EnumValues = new Dictionary<int, string>
+                                {
+            """);
+
+            foreach (KeyValuePair<int, string> kvp in param.EnumValues)
+            {
+                sourceBuilder.AppendLine($"                            [{kvp.Key}] = \"{kvp.Value}\",");
+            }
+
+            sourceBuilder.AppendLine("                        }");
+        }
+
+        sourceBuilder.AppendLine("                    },");
     }
 
     private static void AppendResultConfig(
@@ -709,7 +786,7 @@ public class CatalogGenerator : IIncrementalGenerator
                             Fill = null
                         }
                     }
-        """);
+    """);
 
     /// <summary>
     /// Formats a numeric value as a string without the 'd' suffix.
@@ -731,7 +808,7 @@ public class CatalogGenerator : IIncrementalGenerator
     }
 
     private sealed record IndicatorInfo(
-        string Id,
+        string Uiid,
         string Name,
         string Type,
         string ContainingType,
@@ -745,9 +822,44 @@ public class CatalogGenerator : IIncrementalGenerator
         string Name,
         string DisplayName,
         string DataType,
-        double DefaultValue,
-        double MinValue,
-        double MaxValue,
+        double? DefaultValue,
+        double? MinValue,
+        double? MaxValue,
         string? EnumType = null,
-        Dictionary<string, int>? EnumValues = null);
+        Dictionary<int, string>? EnumValues = null);
+
+
+    #region Diagnostic errors
+
+    private static void ReportIND901_DuplicateListings(
+        SourceProductionContext context,
+        List<string> duplicateUIIDs) => context.ReportDiagnostic(
+            diagnostic: Diagnostic.Create(
+                descriptor: new DiagnosticDescriptor(
+                    id: "IND901",
+                    title: "Duplicate UIIDs detected",
+                    messageFormat: "The following UIIDs are used more than once: {0}",
+                    category: "Catalog",
+                    defaultSeverity: DiagnosticSeverity.Error,
+                    isEnabledByDefault: true),
+                location: Location.None,
+                messageArgs: string.Join(", ", duplicateUIIDs)));
+
+    private static void ReportIND902_InvalidDefaultValue(
+        SourceProductionContext context,
+        double? defaultValue,
+        double? minValue,
+        double? maxValue) => context.ReportDiagnostic(
+            diagnostic: Diagnostic.Create(
+                descriptor: new DiagnosticDescriptor(
+                    id: "IND902",
+                    title: "Default value must be between min/max value range.",
+                    messageFormat: "ParamNum values [{0}, {1}, {2}] are invalid.  Default is out of min/max range.",
+                    category: "Catalog",
+                    defaultSeverity: DiagnosticSeverity.Error,
+                    isEnabledByDefault: true),
+                location: Location.None,
+                messageArgs: [defaultValue, minValue, maxValue]));
+
+    #endregion
 }

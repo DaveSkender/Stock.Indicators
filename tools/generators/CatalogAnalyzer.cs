@@ -10,12 +10,16 @@ namespace Indicators.Catalog.Generator;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class CatalogAnalyzer : DiagnosticAnalyzer
 {
-    // Note: IND004 is reserved for the duplicate UIID validation in the CatalogGenerator
+    // Diagnostic IDs for indicator method validation
     public const string SeriesDiagnosticId = "IND001";
     public const string StreamDiagnosticId = "IND002";
     public const string BufferDiagnosticId = "IND003";
-    public const string MissingParamDiagnosticId = "IND005";
-    public const string TypeMismatchDiagnosticId = "IND006";
+
+    // Diagnostic IDs for parameter validation
+    public const string MissingParamDiagnosticId = "IND100";
+    public const string TypeMismatchDiagnosticId = "IND101";
+
+    // Note: IND9xx are reserved generation runtime errors
 
     private const string SeriesTitle = "Series indicator method missing Series attribute";
     private const string StreamTitle = "Stream hub indicator method missing Stream attribute";
@@ -378,7 +382,12 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // Common parameter names for collections
         HashSet<string> commonParamNames = new(StringComparer.OrdinalIgnoreCase)
         {
-            "quotes", "candles", "source", "quoteProvider", "chainProvider", "provider"
+            "quotes",
+            "source",
+            "candles",
+            "quoteProvider",
+            "chainProvider",
+            "provider"
         };
 
         // Check parameter name
@@ -390,7 +399,7 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // Get the parameter type
         ITypeSymbol type = parameter.Type;
 
-        // Check for provider interface types first
+        // Check for hub provider interface types first
         string typeFullName = type.ToString();
         if (typeFullName.Contains("IQuoteProvider") ||
             typeFullName.Contains("IChainProvider"))

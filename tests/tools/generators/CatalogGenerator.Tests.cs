@@ -22,7 +22,7 @@ public class CatalogGenerating
         IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
 
         // Check a regular indicator with parameters
-        var smaIndicator = catalog.FirstOrDefault(x => x.Uiid == "SMA");
+        IndicatorListing? smaIndicator = catalog.FirstOrDefault(x => x.Uiid == "SMA");
         smaIndicator.Should().NotBeNull("SMA indicator should exist");
 
         if (smaIndicator != null && smaIndicator.Parameters?.Any() == true)

@@ -11,7 +11,7 @@ internal sealed class ParamEnumAttribute<T>(
 ) : ParamAttribute<T>(
         displayName: displayName,
         defaultValue: defaultValue,
-        minValue: Enum.GetValues<T>().Cast<T>().Min(),
-        maxValue: Enum.GetValues<T>().Cast<T>().Max()
+        minValue: default, // Min/max will be determined by the generator
+        maxValue: default  // which has access to all enum values
     )
     where T : struct, Enum;
