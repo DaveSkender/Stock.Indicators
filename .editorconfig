@@ -131,7 +131,7 @@ dotnet_diagnostic.IDE0058.severity = none        # Unused expression value, use 
 dotnet_diagnostic.IDE0230.severity = suggestion  # Use raw string literal when beneficial
 
 # remove this when no-longer supporting pre-9.0 frameworks
-dotnet_diagnostic.IDE0330.severity = none    # Prefer 'System.Threading.Lock'
+dotnet_diagnostic.IDE0330.severity = none        # Prefer 'System.Threading.Lock'
 
 #### C# Coding Conventions ####
 # https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/csharp-formatting-options
