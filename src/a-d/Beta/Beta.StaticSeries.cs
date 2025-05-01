@@ -18,9 +18,9 @@ public static partial class Beta
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
     [Series("BETA", "Beta", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<BetaResult> ToBeta<T>(
-        //TODO: [ParamNum<IEnumerable<T>>("Evaluated Prices")]
+        [ParamSeries("Evaluated Prices", SeriesType.Reusable)]
         this IReadOnlyList<T> sourceEval,
-        //TODO: [ParamNum<IEnumerable<T>>("Market Prices")]
+        [ParamSeries("Market Prices", SeriesType.Reusable)]
         IReadOnlyList<T> sourceMrkt,
         [ParamNum<int>("Lookback Periods", 50, 1, 250)]
         int lookbackPeriods,

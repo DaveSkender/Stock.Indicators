@@ -272,4 +272,75 @@ public class Catalogging
         param.Maximum.Should().NotBeNull("EndType enum should have a maximum value");
         param.EnumOptions.Should().HaveCountGreaterThan(0, "EndType enum should have enum values");
     }
+
+    [TestMethod]
+    public void CatalogIncludesSeriesParameters()
+    {
+        // Act: get catalog with indicators that use series parameters
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Find indicators that use ParamSeriesAttribute
+        IndicatorListing prsListing = catalog.Single(x => x.Uiid == "PRS");
+        IndicatorListing corrListing = catalog.Single(x => x.Uiid == "CORR");
+        IndicatorListing betaListing = catalog.Single(x => x.Uiid == "BETA");
+
+        // Assert: verify that series parameters have the TypeScript-friendly data type
+        // PRS indicator
+        prsListing.Parameters.Count.Should().BeGreaterThanOrEqualTo(2,
+            "PRS should have at least two series parameters");
+
+        prsListing.Parameters.Should().Contain(p =>
+            p.ParamName == "sourceEval" &&
+            p.DisplayName == "Evaluated Prices" &&
+            p.DataType == "reusable[]",
+            "PRS should have a sourceEval parameter with reusable[] data type");
+
+        prsListing.Parameters.Should().Contain(p =>
+            p.ParamName == "sourceBase" &&
+            p.DisplayName == "Base Prices" &&
+            p.DataType == "reusable[]",
+            "PRS should have a sourceBase parameter with reusable[] data type");
+
+        // Correlation indicator
+        corrListing.Parameters.Count.Should().BeGreaterThanOrEqualTo(2,
+            "CORR should have at least two series parameters");
+
+        corrListing.Parameters.Should().Contain(p =>
+            p.ParamName == "sourceA" &&
+            p.DisplayName == "Source A" &&
+            p.DataType == "reusable[]",
+            "CORR should have a sourceA parameter with reusable[] data type");
+
+        corrListing.Parameters.Should().Contain(p =>
+            p.ParamName == "sourceB" &&
+            p.DisplayName == "Source B" &&
+            p.DataType == "reusable[]",
+            "CORR should have a sourceB parameter with reusable[] data type");
+
+        // Beta indicator
+        betaListing.Parameters.Count.Should().BeGreaterThanOrEqualTo(2,
+            "BETA should have at least two series parameters");
+
+        betaListing.Parameters.Should().Contain(p =>
+            p.ParamName == "sourceEval" &&
+            p.DisplayName == "Evaluated Prices" &&
+            p.DataType == "reusable[]",
+            "BETA should have a sourceEval parameter with reusable[] data type");
+
+        betaListing.Parameters.Should().Contain(p =>
+            p.ParamName == "sourceMrkt" &&
+            p.DisplayName == "Market Prices" &&
+            p.DataType == "reusable[]",
+            "BETA should have a sourceMrkt parameter with reusable[] data type");
+
+        // Verify series parameters are excluded from legend templates
+        prsListing.LegendTemplate.Should().Be("PRS([P3])",
+            "Series parameters should be excluded from PRS legend template");
+
+        corrListing.LegendTemplate.Should().Be("CORR([P3])",
+            "Series parameters should be excluded from CORR legend template");
+
+        betaListing.LegendTemplate.Should().Be("BETA([P3],[P4])",
+            "Series parameters should be excluded from BETA legend template");
+    }
 }

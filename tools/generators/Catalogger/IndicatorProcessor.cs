@@ -67,7 +67,7 @@ internal static class IndicatorProcessor
                 List<ParameterInfo> parameters = GetMethodParameters(
                     context: context,
                     methodSymbol: methodSymbol,
-                    paramAttributeBaseSymbol: symbols["ParamAttributeBase"]);
+                    paramAttributeBaseSymbol: symbols["ParamAttribute"]);
 
                 // Create indicator info
                 indicators.Add(new IndicatorInfo(
@@ -226,6 +226,38 @@ internal static class IndicatorProcessor
 
             minValue = 0;
             maxValue = 1;
+        }
+
+        // Handle ParamSeriesAttribute
+        else if (attributeClassName.StartsWith("ParamSeries"))
+        {
+            // Extract SeriesType from the attribute if provided
+            int seriesTypeValue = 0; // Default to 0 (Quote)
+
+            // Look for SeriesType property in constructor arguments
+            if (attribute.ConstructorArguments.Length >= 2 &&
+                attribute.ConstructorArguments[1].Value is int ctorSeriesTypeValue)
+            {
+                seriesTypeValue = ctorSeriesTypeValue;
+            }
+
+            // Look for SeriesType property in named arguments (overrides constructor value)
+            foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
+            {
+                if (namedArg.Key == "SeriesType" && namedArg.Value.Value is int namedSeriesTypeValue)
+                {
+                    seriesTypeValue = namedSeriesTypeValue;
+                    break;
+                }
+            }
+
+            // Use TypeScript-friendly format based on the series type
+            // 0 = Quote, 1 = Reusable
+            dataType = seriesTypeValue == 0 ? "quote[]" : "reusable[]";
+
+            defaultValue = null;
+            minValue = null;
+            maxValue = null;
         }
 
         // this should never occur

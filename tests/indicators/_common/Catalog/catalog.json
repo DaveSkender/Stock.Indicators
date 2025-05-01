@@ -290,13 +290,25 @@
     "Name": "Beta",
     "Uiid": "BETA",
     "UiidEndpoint": "/beta",
-    "LegendTemplate": "BETA([P1],[P2])",
+    "LegendTemplate": "BETA([P3],[P4])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
     "Parameters": [
       {
         "Pid": "P1",
+        "DisplayName": "Evaluated Prices",
+        "ParamName": "sourceEval",
+        "DataType": "reusable[]"
+      },
+      {
+        "Pid": "P2",
+        "DisplayName": "Market Prices",
+        "ParamName": "sourceMrkt",
+        "DataType": "reusable[]"
+      },
+      {
+        "Pid": "P3",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -305,7 +317,7 @@
         "Maximum": 250
       },
       {
-        "Pid": "P2",
+        "Pid": "P4",
         "DisplayName": "Beta Type",
         "ParamName": "type",
         "DataType": "enum",
@@ -323,7 +335,7 @@
     "Results": [
       {
         "DisplayName": "Beta",
-        "TooltipTemplate": "BETA([P1],[P2])",
+        "TooltipTemplate": "BETA([P3],[P4])",
         "DataName": "beta",
         "DataType": "number",
         "LineType": "solid",
@@ -642,13 +654,25 @@
     "Name": "Correlation",
     "Uiid": "CORR",
     "UiidEndpoint": "/corr",
-    "LegendTemplate": "CORR([P1])",
+    "LegendTemplate": "CORR([P3])",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
     "Parameters": [
       {
         "Pid": "P1",
+        "DisplayName": "Source A",
+        "ParamName": "sourceA",
+        "DataType": "reusable[]"
+      },
+      {
+        "Pid": "P2",
+        "DisplayName": "Source B",
+        "ParamName": "sourceB",
+        "DataType": "reusable[]"
+      },
+      {
+        "Pid": "P3",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -660,7 +684,7 @@
     "Results": [
       {
         "DisplayName": "Correlation",
-        "TooltipTemplate": "CORR([P1])",
+        "TooltipTemplate": "CORR([P3])",
         "DataName": "corr",
         "DataType": "number",
         "LineType": "solid",
@@ -1839,13 +1863,25 @@
     "Name": "Price Relative Strength",
     "Uiid": "PRS",
     "UiidEndpoint": "/prs",
-    "LegendTemplate": "PRS([P1])",
+    "LegendTemplate": "PRS([P3])",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
     "Parameters": [
       {
         "Pid": "P1",
+        "DisplayName": "Evaluated Prices",
+        "ParamName": "sourceEval",
+        "DataType": "reusable[]"
+      },
+      {
+        "Pid": "P2",
+        "DisplayName": "Base Prices",
+        "ParamName": "sourceBase",
+        "DataType": "reusable[]"
+      },
+      {
+        "Pid": "P3",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1857,7 +1893,7 @@
     "Results": [
       {
         "DisplayName": "Price Relative Strength",
-        "TooltipTemplate": "PRS([P1])",
+        "TooltipTemplate": "PRS([P3])",
         "DataName": "prs",
         "DataType": "number",
         "LineType": "solid",

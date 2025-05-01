@@ -87,10 +87,13 @@ internal static class CodeGenerator
         string displayName = indicator.Name;
 
         // Build tooltip template based on parameters or use the legend override
+        // Filter out parameters with series data types (ending with [])
         string legendTemplate = indicator.Parameters.Count > 0
                 ? $"{indicator.Uiid}("
                             + string.Join(",",
-                                indicator.Parameters.Select(p => $"[{p.Pid}]")
+                                indicator.Parameters
+                                    .Where(p => !p.DataType.EndsWith("[]")) // Exclude series parameters
+                                    .Select(p => $"[{p.Pid}]")
                                 ) + ")"
                 : indicator.Uiid;
 

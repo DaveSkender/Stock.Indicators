@@ -10,9 +10,7 @@ public static partial class Prs
     /// <inheritdoc cref="ToPrs{T}(IReadOnlyList{T}, IReadOnlyList{T}, int)" />
     [ExcludeFromCatalog]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
-        //TODO: [ParamNum<IEnumerable<T>>("Evaluated Prices")]
         this IReadOnlyList<T> sourceEval,
-        //TODO: [ParamNum<IEnumerable<T>>("Base Prices")]
         IReadOnlyList<T> sourceBase)
         where T : IReusable => sourceEval.ToPrs(sourceBase, int.MinValue);
     #endregion
@@ -31,9 +29,9 @@ public static partial class Prs
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
     [Series("PRS", "Price Relative Strength", Category.PriceCharacteristic, ChartType.Oscillator)]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
-        //TODO: [ParamNum<IEnumerable<T>>("Evaluated Prices")]
+        [ParamSeries("Evaluated Prices", SeriesType.Reusable)]
         this IReadOnlyList<T> sourceEval,
-        //TODO: [ParamNum<IEnumerable<T>>("Base Prices")]
+        [ParamSeries("Base Prices", SeriesType.Reusable)]
         IReadOnlyList<T> sourceBase,
         [ParamNum<int>("Lookback Periods", 1, 1, 250)]
         int lookbackPeriods)

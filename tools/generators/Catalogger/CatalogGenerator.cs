@@ -120,7 +120,7 @@ public class CatalogGenerator : IIncrementalGenerator
             ["SeriesAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.SeriesAttribute"),
             ["StreamAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.StreamAttribute"),
             ["BufferAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.BufferAttribute"),
-            ["ParamAttributeBase"] = compilation.GetTypeByMetadataName($"{srcNamespace}.ParamAttribute`1"),
+            ["ParamAttribute"] = compilation.GetTypeByMetadataName($"{srcNamespace}.ParamAttribute`1"),
             ["Category"] = compilation.GetTypeByMetadataName($"{srcNamespace}.Category"),
             ["ChartType"] = compilation.GetTypeByMetadataName($"{srcNamespace}.ChartType")
         };
