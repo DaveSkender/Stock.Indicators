@@ -30,6 +30,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -38,6 +39,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Offset",
         "ParamName": "offset",
         "DataType": "number",
@@ -46,6 +48,7 @@
         "Maximum": 1
       },
       {
+        "Pid": "P3",
         "DisplayName": "Sigma",
         "ParamName": "sigma",
         "DataType": "number",
@@ -76,6 +79,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -106,6 +110,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -114,6 +119,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P2",
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
         "DataType": "number",
@@ -122,6 +128,7 @@
         "Maximum": 10
       },
       {
+        "Pid": "P3",
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
@@ -156,6 +163,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -186,6 +194,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -216,6 +225,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -224,6 +234,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P2",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -254,6 +265,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Smooth Periods",
         "ParamName": "smoothPeriods",
         "DataType": "int",
@@ -284,6 +296,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -292,6 +305,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Beta Type",
         "ParamName": "type",
         "DataType": "enum",
@@ -328,6 +342,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -336,6 +351,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Standard Deviations",
         "ParamName": "standardDeviations",
         "DataType": "number",
@@ -366,6 +382,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -396,6 +413,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -404,6 +422,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P2",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -434,6 +453,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -464,6 +484,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -472,6 +493,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
         "DataType": "number",
@@ -480,6 +502,7 @@
         "Maximum": 10
       },
       {
+        "Pid": "P3",
         "DisplayName": "Direction",
         "ParamName": "type",
         "DataType": "enum",
@@ -514,6 +537,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -544,6 +568,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -574,6 +599,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "RSI Periods",
         "ParamName": "rsiPeriods",
         "DataType": "int",
@@ -582,6 +608,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Streak Periods",
         "ParamName": "streakPeriods",
         "DataType": "int",
@@ -590,6 +617,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P3",
         "DisplayName": "Rank Periods",
         "ParamName": "rankPeriods",
         "DataType": "int",
@@ -620,6 +648,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -650,6 +679,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -680,6 +710,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Max Price Change %",
         "ParamName": "maxPriceChangePercent",
         "DataType": "number",
@@ -710,6 +741,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -740,6 +772,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -770,6 +803,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -800,6 +834,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -830,6 +865,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -860,6 +896,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -890,6 +927,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -920,6 +958,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Window Span",
         "ParamName": "windowSpan",
         "DataType": "int",
@@ -1013,6 +1052,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1043,6 +1083,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1073,6 +1114,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Tenkan Periods",
         "ParamName": "tenkanPeriods",
         "DataType": "int",
@@ -1081,6 +1123,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Kijun Periods",
         "ParamName": "kijunPeriods",
         "DataType": "int",
@@ -1089,6 +1132,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Senkou Periods",
         "ParamName": "senkouBPeriods",
         "DataType": "int",
@@ -1119,6 +1163,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "erPeriods",
         "DataType": "int",
@@ -1127,6 +1172,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -1135,6 +1181,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P3",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -1165,6 +1212,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "EMA Periods",
         "ParamName": "emaPeriods",
         "DataType": "int",
@@ -1173,6 +1221,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
         "DataType": "number",
@@ -1181,6 +1230,7 @@
         "Maximum": 10
       },
       {
+        "Pid": "P3",
         "DisplayName": "ATR Periods",
         "ParamName": "atrPeriods",
         "DataType": "int",
@@ -1211,6 +1261,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -1219,6 +1270,7 @@
         "Maximum": 200
       },
       {
+        "Pid": "P2",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -1227,6 +1279,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -1257,6 +1310,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Min Body Percent %",
         "ParamName": "minBodyPercent",
         "DataType": "number",
@@ -1287,6 +1341,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1295,6 +1350,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "K Factor",
         "ParamName": "kFactor",
         "DataType": "number",
@@ -1325,6 +1381,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Fast Limit",
         "ParamName": "fastLimit",
         "DataType": "number",
@@ -1333,6 +1390,7 @@
         "Maximum": 0.99
       },
       {
+        "Pid": "P2",
         "DisplayName": "Slow Limit",
         "ParamName": "slowLimit",
         "DataType": "number",
@@ -1363,6 +1421,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1393,6 +1452,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -1401,6 +1461,7 @@
         "Maximum": 200
       },
       {
+        "Pid": "P2",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -1409,6 +1470,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -1439,6 +1501,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1447,6 +1510,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Percent Offset",
         "ParamName": "percentOffset",
         "DataType": "number",
@@ -1455,6 +1519,7 @@
         "Maximum": 10
       },
       {
+        "Pid": "P3",
         "DisplayName": "Moving Average Type",
         "ParamName": "movingAverageType",
         "DataType": "enum",
@@ -1519,6 +1584,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Step Size",
         "ParamName": "accelerationStep",
         "DataType": "number",
@@ -1527,6 +1593,7 @@
         "Maximum": 2500
       },
       {
+        "Pid": "P2",
         "DisplayName": "Max Factor",
         "ParamName": "maxAccelerationFactor",
         "DataType": "number",
@@ -1557,6 +1624,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -1565,6 +1633,7 @@
         "Maximum": 200
       },
       {
+        "Pid": "P2",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -1573,6 +1642,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -1603,6 +1673,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Window Size",
         "ParamName": "windowSize",
         "DataType": "enum",
@@ -1625,6 +1696,7 @@
         }
       },
       {
+        "Pid": "P2",
         "DisplayName": "Point Type",
         "ParamName": "pointType",
         "DataType": "enum",
@@ -1662,6 +1734,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Left Span",
         "ParamName": "leftSpan",
         "DataType": "int",
@@ -1670,6 +1743,7 @@
         "Maximum": 20
       },
       {
+        "Pid": "P2",
         "DisplayName": "Right Span",
         "ParamName": "rightSpan",
         "DataType": "int",
@@ -1678,6 +1752,7 @@
         "Maximum": 20
       },
       {
+        "Pid": "P3",
         "DisplayName": "Max Trend Periods",
         "ParamName": "maxTrendPeriods",
         "DataType": "int",
@@ -1686,6 +1761,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P4",
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
@@ -1720,6 +1796,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Time Periods",
         "ParamName": "timePeriods",
         "DataType": "int",
@@ -1728,6 +1805,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Smooth Periods",
         "ParamName": "smoothPeriods",
         "DataType": "int",
@@ -1736,6 +1814,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -1766,6 +1845,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1796,6 +1876,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1826,6 +1907,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1856,6 +1938,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Brick Size",
         "ParamName": "brickSize",
         "DataType": "number",
@@ -1864,6 +1947,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P2",
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
@@ -1898,6 +1982,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "ATR Periods",
         "ParamName": "atrPeriods",
         "DataType": "int",
@@ -1906,6 +1991,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P2",
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
@@ -1940,6 +2026,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -1948,6 +2035,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "EMA Periods",
         "ParamName": "emaPeriods",
         "DataType": "int",
@@ -1956,6 +2044,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P3",
         "DisplayName": "Standard Deviation Periods",
         "ParamName": "stdDevPeriods",
         "DataType": "int",
@@ -1986,6 +2075,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Window Periods",
         "ParamName": "windowPeriods",
         "DataType": "int",
@@ -1994,6 +2084,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Offset Periods",
         "ParamName": "offsetPeriods",
         "DataType": "int",
@@ -2002,6 +2093,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P3",
         "DisplayName": "Point Type",
         "ParamName": "pointType",
         "DataType": "enum",
@@ -2039,6 +2131,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Cycle Periods",
         "ParamName": "cyclePeriods",
         "DataType": "int",
@@ -2047,6 +2140,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Fast Periods",
         "ParamName": "fastPeriods",
         "DataType": "int",
@@ -2055,6 +2149,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Slow Periods",
         "ParamName": "slowPeriods",
         "DataType": "int",
@@ -2085,6 +2180,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2115,6 +2211,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2145,6 +2242,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2175,6 +2273,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2205,6 +2304,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2235,6 +2335,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2243,6 +2344,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Standard Deviations",
         "ParamName": "stdDeviations",
         "DataType": "number",
@@ -2273,6 +2375,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "SMA Periods",
         "ParamName": "smaPeriods",
         "DataType": "int",
@@ -2281,6 +2384,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P2",
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
         "DataType": "number",
@@ -2289,6 +2393,7 @@
         "Maximum": 10
       },
       {
+        "Pid": "P3",
         "DisplayName": "ATR Periods",
         "ParamName": "atrPeriods",
         "DataType": "int",
@@ -2319,6 +2424,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2327,6 +2433,7 @@
         "Maximum": 300
       },
       {
+        "Pid": "P2",
         "DisplayName": "First Smooth Periods",
         "ParamName": "firstSmoothPeriods",
         "DataType": "int",
@@ -2335,6 +2442,7 @@
         "Maximum": 300
       },
       {
+        "Pid": "P3",
         "DisplayName": "Second Smooth Periods",
         "ParamName": "secondSmoothPeriods",
         "DataType": "int",
@@ -2343,6 +2451,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P4",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -2373,6 +2482,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2381,6 +2491,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -2389,6 +2500,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Smooth Periods",
         "ParamName": "smoothPeriods",
         "DataType": "int",
@@ -2419,6 +2531,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "RSI Periods",
         "ParamName": "rsiPeriods",
         "DataType": "int",
@@ -2427,6 +2540,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Stochastic Periods",
         "ParamName": "stochPeriods",
         "DataType": "int",
@@ -2435,6 +2549,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -2443,6 +2558,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P4",
         "DisplayName": "Smooth Periods",
         "ParamName": "smoothPeriods",
         "DataType": "int",
@@ -2473,6 +2589,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2481,6 +2598,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P2",
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
         "DataType": "number",
@@ -2511,6 +2629,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2519,6 +2638,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Volume Factor",
         "ParamName": "volumeFactor",
         "DataType": "number",
@@ -2549,6 +2669,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2579,6 +2700,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2630,6 +2752,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2638,6 +2761,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Smooth Periods",
         "ParamName": "smoothPeriods",
         "DataType": "int",
@@ -2646,6 +2770,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P3",
         "DisplayName": "Signal Periods",
         "ParamName": "signalPeriods",
         "DataType": "int",
@@ -2676,6 +2801,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2706,6 +2832,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Short Periods",
         "ParamName": "shortPeriods",
         "DataType": "int",
@@ -2714,6 +2841,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P2",
         "DisplayName": "Middle Periods",
         "ParamName": "middlePeriods",
         "DataType": "int",
@@ -2722,6 +2850,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P3",
         "DisplayName": "Long Periods",
         "ParamName": "longPeriods",
         "DataType": "int",
@@ -2752,6 +2881,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2760,6 +2890,7 @@
         "Maximum": 50
       },
       {
+        "Pid": "P2",
         "DisplayName": "Multiplier",
         "ParamName": "multiplier",
         "DataType": "number",
@@ -2811,6 +2942,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2841,6 +2973,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2871,6 +3004,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2901,6 +3035,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Lookback Periods",
         "ParamName": "lookbackPeriods",
         "DataType": "int",
@@ -2931,6 +3066,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Jaw Periods",
         "ParamName": "jawPeriods",
         "DataType": "int",
@@ -2939,6 +3075,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P2",
         "DisplayName": "Jaw Offset",
         "ParamName": "jawOffset",
         "DataType": "int",
@@ -2947,6 +3084,7 @@
         "Maximum": 30
       },
       {
+        "Pid": "P3",
         "DisplayName": "Teeth Periods",
         "ParamName": "teethPeriods",
         "DataType": "int",
@@ -2955,6 +3093,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P4",
         "DisplayName": "Teeth Offset",
         "ParamName": "teethOffset",
         "DataType": "int",
@@ -2963,6 +3102,7 @@
         "Maximum": 30
       },
       {
+        "Pid": "P5",
         "DisplayName": "Lips Periods",
         "ParamName": "lipsPeriods",
         "DataType": "int",
@@ -2971,6 +3111,7 @@
         "Maximum": 250
       },
       {
+        "Pid": "P6",
         "DisplayName": "Lips Offset",
         "ParamName": "lipsOffset",
         "DataType": "int",
@@ -3001,6 +3142,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "Window Span",
         "ParamName": "windowSpan",
         "DataType": "int",
@@ -3009,6 +3151,7 @@
         "Maximum": 100
       },
       {
+        "Pid": "P2",
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
@@ -3043,6 +3186,7 @@
     "Order": 0,
     "Parameters": [
       {
+        "Pid": "P1",
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
@@ -3055,6 +3199,7 @@
         }
       },
       {
+        "Pid": "P2",
         "DisplayName": "Percent Change",
         "ParamName": "percentChange",
         "DataType": "number",

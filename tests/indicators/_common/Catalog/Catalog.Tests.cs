@@ -188,12 +188,44 @@ public class Catalogging
             "EndType enum values should match the expected values");
 
         // Assert: verify that other indicators do not have enum values
-        IndicatorListing smaListing = catalog.Single(x => x.Uiid == "MACD");
+        IndicatorListing macdListing = catalog.Single(x => x.Uiid == "MACD");
 
-        foreach (IndicatorParamConfig p in smaListing.Parameters)
+        for (int i = 0; i < macdListing.Parameters.Count; i++)
         {
+            IndicatorParamConfig p = macdListing.Parameters[i];
             p.DataType.Should().NotBe("enum", "Non-enum parameters should not be enums");
             p.EnumOptions.Should().BeNull("Non-enum parameters should not have enum values");
+        }
+    }
+
+    [TestMethod]
+    public void CatalogParamsHaveCorrectPid()
+    {
+        // Act: get catalog with URL endpoints
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+        IndicatorListing listing = catalog.Single(x => x.Uiid == "MACD");
+
+        // Assert: verify expected PID, legend, and tooltip
+        // (MACD has standard legend and tooltips patterns)
+
+        for (int i = 0; i < listing.Parameters.Count; i++)
+        {
+            IndicatorParamConfig p = listing.Parameters[i];
+
+            // correctly sequenced PIDs
+            string pid = $"P{i + 1}";
+            p.Pid.Should().Be(pid);
+
+            // legend template should contain the PIDs
+            listing.LegendTemplate.Should().Contain(pid,
+                $"Legend template should contain '{pid}' for MACD");
+
+            // tooltip template should contain the PIDs
+            foreach (IndicatorResultConfig result in listing.Results)
+            {
+                result.TooltipTemplate.Should().Contain(pid,
+                    $"Tooltip template should contain '{pid}' for MACD");
+            }
         }
     }
 

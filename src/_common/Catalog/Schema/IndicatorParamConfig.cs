@@ -7,6 +7,13 @@ namespace Skender.Stock.Indicators;
 public record IndicatorParamConfig
 {
     /// <summary>
+    /// Gets or sets the P[n] identifier of the parameter.
+    /// It is only unique within the context of the indicator
+    /// and maps to the codes in the legend and results tooltips.
+    /// </summary>
+    public string? Pid { get; init; }
+
+    /// <summary>
     /// Gets or sets the display name of the parameter.
     /// </summary>
     public string? DisplayName { get; init; }

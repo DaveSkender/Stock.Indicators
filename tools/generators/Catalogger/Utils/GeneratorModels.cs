@@ -18,6 +18,7 @@ internal sealed record IndicatorInfo(
 /// Model for parameter information extracted from attributes.
 /// </summary>
 internal sealed record ParameterInfo(
+    string Pid,
     string Name,
     string DisplayName,
     string DataType,

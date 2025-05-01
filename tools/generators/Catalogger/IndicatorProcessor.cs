@@ -113,6 +113,7 @@ internal static class IndicatorProcessor
             return parameters;
         }
 
+        int paramIndex = 0;
         foreach (IParameterSymbol parameter in methodSymbol.Parameters)
         {
             // Find attributes that derive from ParamAttribute<T>
@@ -138,6 +139,10 @@ internal static class IndicatorProcessor
                 continue;
             }
 
+            // Increment parameter index and generate PID
+            paramIndex++;
+            string pid = $"P{paramIndex}";
+
             string attributeClassName = attrClass.Name;
             string displayName = GetDisplayName(paramAttribute, parameter.Name);
 
@@ -153,6 +158,7 @@ internal static class IndicatorProcessor
                 enumValues: out Dictionary<int, string>? enumValues);
 
             parameters.Add(new ParameterInfo(
+                Pid: pid,
                 Name: parameter.Name,
                 DisplayName: displayName,
                 DataType: dataType,

@@ -90,9 +90,7 @@ internal static class CodeGenerator
         string legendTemplate = indicator.Parameters.Count > 0
                 ? $"{indicator.Uiid}("
                             + string.Join(",",
-                                Enumerable
-                                    .Range(1, indicator.Parameters.Count)
-                                    .Select(i => $"[P{i}]")
+                                indicator.Parameters.Select(p => $"[{p.Pid}]")
                                 ) + ")"
                 : indicator.Uiid;
 
@@ -151,7 +149,8 @@ internal static class CodeGenerator
         sourceBuilder.AppendLine($$"""
                             new IndicatorParamConfig
                             {
-                                ParamName = "{{param.Name}}"
+                                Pid = "{{param.Pid}}"
+                               ,ParamName = "{{param.Name}}"
                                ,DisplayName = "{{param.DisplayName}}"
                                ,DataType = "{{param.DataType}}"
                                ,DefaultValue = {{defaultValueStr}}
