@@ -78,12 +78,11 @@ internal static class ParamAttributeRules
         if (!hasParamAttribute)
         {
             // Report diagnostic for missing ParamAttribute
-            context.ReportDiagnostic(
-                Diagnostic.Create(
-                    DiagnosticDescriptors.MissingParamRule,
-                    parameter.Locations.FirstOrDefault(),
-                    parameter.Name,
-                    $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}"));
+            context.ReportDiagnostic(Diagnostic.Create(
+                DiagnosticDescriptors.IND101_MissingParamAttributeDescriptor,
+                parameter.Locations.FirstOrDefault(),
+                parameter.Name,
+                $"{methodSymbol.ContainingType.Name}.{methodSymbol.Name}"));
         }
         else
         {
@@ -128,14 +127,13 @@ internal static class ParamAttributeRules
                     if (paramAttributeTypeArg != null && !SymbolEqualityComparer.Default.Equals(paramAttributeTypeArg, parameter.Type))
                     {
                         // Report diagnostic for type mismatch
-                        context.ReportDiagnostic(
-                            Diagnostic.Create(
-                                DiagnosticDescriptors.TypeMismatchRule,
-                                parameter.Locations.FirstOrDefault(),
-                                parameter.Name,
-                                $"{parameter.ContainingSymbol.ContainingType.Name}.{parameter.ContainingSymbol.Name}",
-                                paramAttributeTypeArg.Name,
-                                parameter.Type.Name));
+                        context.ReportDiagnostic(Diagnostic.Create(
+                            DiagnosticDescriptors.IND102_ParamTypeMismatchDescriptor,
+                            parameter.Locations.FirstOrDefault(),
+                            parameter.Name,
+                            $"{parameter.ContainingSymbol.ContainingType.Name}.{parameter.ContainingSymbol.Name}",
+                            paramAttributeTypeArg.Name,
+                            parameter.Type.Name));
                     }
                 }
             }
@@ -155,7 +153,7 @@ internal static class ParamAttributeRules
 
         context.ReportDiagnostic(
             Diagnostic.Create(
-                DiagnosticDescriptors.TypeMismatchRule,
+                DiagnosticDescriptors.IND102_ParamTypeMismatchDescriptor,
                 parameter.Locations.FirstOrDefault(),
                 parameter.Name,
                 $"{parameter.ContainingSymbol.ContainingType.Name}.{parameter.ContainingSymbol.Name}",

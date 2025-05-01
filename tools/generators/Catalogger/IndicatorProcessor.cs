@@ -254,7 +254,11 @@ internal static class IndicatorProcessor
         {
             if (defaultValue < minValue || defaultValue > maxValue)
             {
-                DiagnosticsHelper.ReportIND902_InvalidDefaultValue(context, defaultValue, minValue, maxValue);
+                context.ReportDiagnostic(
+                    diagnostic: Diagnostic.Create(
+                        descriptor: DiagnosticDescriptors.IND902_InvalidDefaultValueDescriptor,
+                        location: Location.None,
+                        messageArgs: [defaultValue, minValue, maxValue]));
             }
         }
     }

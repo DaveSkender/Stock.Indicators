@@ -104,7 +104,11 @@ public class CatalogGenerator : IIncrementalGenerator
 
         if (duplicateUIIDs.Count != 0)
         {
-            DiagnosticsHelper.ReportIND901_DuplicateListings(context, duplicateUIIDs);
+            context.ReportDiagnostic(
+                diagnostic: Diagnostic.Create(
+                    descriptor: DiagnosticDescriptors.IND901_DuplicateUiidFoundDescriptor,
+                    location: Location.None,
+                    messageArgs: string.Join(", ", duplicateUIIDs)));
         }
     }
 

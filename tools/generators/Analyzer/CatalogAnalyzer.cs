@@ -19,11 +19,11 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         [
-            DiagnosticDescriptors.SeriesRule,
-            DiagnosticDescriptors.StreamRule,
-            DiagnosticDescriptors.BufferRule,
-            DiagnosticDescriptors.MissingParamRule,
-            DiagnosticDescriptors.TypeMismatchRule
+            DiagnosticDescriptors.IND001_MissingSeriesAttributeDescriptor,
+            DiagnosticDescriptors.IND002_MissingStreamAttributeDescriptor,
+            DiagnosticDescriptors.IND003_MissingBufferAttributeDescriptor,
+            DiagnosticDescriptors.IND101_MissingParamAttributeDescriptor,
+            DiagnosticDescriptors.IND102_ParamTypeMismatchDescriptor
         ];
 
     /// <summary>
@@ -81,7 +81,7 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // Apply style rules (IND001-003)
         IndicatorStyleRules.Analyze(context, methodSymbol, methodDeclaration);
 
-        // If the method has a catalog attribute, check parameters for ParamAttribute (IND100-101)
+        // If the method has a catalog attribute, check parameters for ParamAttribute (IND101-101)
         if (hasCatalogAttribute)
         {
             ParamAttributeRules.Analyze(context, methodSymbol);

@@ -125,8 +125,6 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 0
       }
     ],
@@ -291,8 +289,6 @@
         "DisplayName": "Beta Type",
         "ParamName": "type",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 3,
         "DefaultValue": 0
       }
     ],
@@ -473,8 +469,6 @@
         "DisplayName": "Direction",
         "ParamName": "type",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 0
       }
     ],
@@ -1444,8 +1438,6 @@
         "DisplayName": "Moving Average Type",
         "ParamName": "movingAverageType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 10,
         "DefaultValue": 7
       }
     ],
@@ -1579,16 +1571,12 @@
         "DisplayName": "Window Size",
         "ParamName": "windowSize",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 11,
         "DefaultValue": 0
       },
       {
         "DisplayName": "Point Type",
         "ParamName": "pointType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 4,
         "DefaultValue": 0
       }
     ],
@@ -1641,8 +1629,6 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 1
       }
     ],
@@ -1815,8 +1801,6 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 0
       }
     ],
@@ -1853,8 +1837,6 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 0
       }
     ],
@@ -1945,8 +1927,6 @@
         "DisplayName": "Point Type",
         "ParamName": "pointType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 4,
         "DefaultValue": 0
       }
     ],
@@ -2945,8 +2925,6 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 1
       }
     ],
@@ -2975,8 +2953,6 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "Minimum": 0,
-        "Maximum": 1,
         "DefaultValue": 0
       },
       {

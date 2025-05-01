@@ -28,7 +28,7 @@ internal static class IndicatorStyleRules
         {
             // Series style indicator missing SeriesAttribute
             context.ReportDiagnostic(Diagnostic.Create(
-                DiagnosticDescriptors.SeriesRule,
+                DiagnosticDescriptors.IND001_MissingSeriesAttributeDescriptor,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
@@ -36,7 +36,7 @@ internal static class IndicatorStyleRules
         {
             // Stream style indicator missing StreamAttribute
             context.ReportDiagnostic(Diagnostic.Create(
-                DiagnosticDescriptors.StreamRule,
+                DiagnosticDescriptors.IND002_MissingStreamAttributeDescriptor,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
@@ -44,7 +44,7 @@ internal static class IndicatorStyleRules
         {
             // Buffer style indicator missing BufferAttribute
             context.ReportDiagnostic(Diagnostic.Create(
-                DiagnosticDescriptors.BufferRule,
+                DiagnosticDescriptors.IND003_MissingBufferAttributeDescriptor,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
