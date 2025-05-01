@@ -14,7 +14,7 @@ public class Catalogging
     };
 
     [TestMethod]
-    public void CatalogHasRealIndicators()
+    public void CatalogHasCategoryContent()
     {
         // Act - get catalog
         IReadOnlyList<IndicatorListing> result = Catalog.Get();
@@ -34,7 +34,49 @@ public class Catalogging
     }
 
     [TestMethod]
-    public void CatalogWithBaseUrl()
+    public void CatalogHasRealIndicators()
+    {
+        // Act - get catalog
+        IReadOnlyList<IndicatorListing> realCatalog = Catalog.Get();
+
+        // Assert
+        realCatalog.Should().NotBeEmpty("Catalog should contain indicators");
+
+        // Check for specific indicators we expect
+        realCatalog.Should().Contain(x =>
+            x.Uiid == "SMA" &&
+            x.Name.Contains("Simple Moving Average") &&
+            x.Category == Category.MovingAverage,
+            "Catalog should include SMA indicator");
+
+        realCatalog.Should().Contain(x =>
+            x.Uiid == "RSI" &&
+            x.Name.Contains("Relative Strength") &&
+            x.Category == Category.Oscillator,
+            "Catalog should include RSI indicator");
+
+        realCatalog.Should().Contain(x =>
+            x.Uiid == "BB" &&
+            x.Name.Contains("Bollinger") &&
+            x.Category == Category.PriceChannel,
+            "Catalog should include Bollinger Bands");
+
+        realCatalog.Should().NotContain(x =>
+            x.Uiid.Contains("_TEST"),
+            "Catalog should not contain test indicators");
+
+        realCatalog.Count.Should()
+            .BeGreaterThan(80, "The catalog should contain all the indicators");
+
+        // Verify UIIDs are unique (replacing the previous Catalog.Validate call)
+        realCatalog.GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .Should().BeEmpty("Catalog should have unique UIIDs");
+    }
+
+    [TestMethod]
+    public void CatalogIncludesBaseUrl()
     {
         // Act - get catalog with URL endpoints
         IReadOnlyList<IndicatorListing> result = Catalog.Get(BaseUrl);
@@ -68,80 +110,42 @@ public class Catalogging
     }
 
     [TestMethod]
-    public void CatalogWithRealIndicators()
-    {
-        // Act - get catalog
-        IReadOnlyList<IndicatorListing> realCatalog = Catalog.Get();
-
-        // Assert
-        realCatalog.Should().NotBeEmpty("Catalog should contain indicators");
-
-        // Check for specific indicators we expect
-        realCatalog.Should().Contain(x =>
-            x.Uiid == "SMA" &&
-            x.Name.Contains("Simple Moving Average") &&
-            x.Category == Category.MovingAverage,
-            "Catalog should include SMA indicator");
-
-        realCatalog.Should().Contain(x =>
-            x.Uiid == "RSI" &&
-            x.Name.Contains("Relative Strength") &&
-            x.Category == Category.Oscillator,
-            "Catalog should include RSI indicator");
-
-        realCatalog.Should().Contain(x =>
-            x.Uiid == "BB" &&
-            x.Name.Contains("Bollinger") &&
-            x.Category == Category.PriceChannel,
-            "Catalog should include Bollinger Bands");
-
-        // Verify UIIDs are unique (replacing the previous Catalog.Validate call)
-        realCatalog.GroupBy(x => x.Uiid)
-            .Where(g => g.Count() > 1)
-            .Select(g => g.Key)
-            .Should().BeEmpty("Catalog should have unique UIIDs");
-    }
-
-    [TestMethod]
     public void DuplicateUiidDetection()
     {
-        // Arrange
-        IndicatorListing duplicateIndicator = new() {
-            Name = "Duplicate Indicator",
-            Uiid = "DUPLICATE",
-            Category = Category.PriceCharacteristic,
-            ChartType = ChartType.Overlay,
-            LegendTemplate = "DUPLICATE([P1])",
-            Parameters = [],
-            Results = [
-                new IndicatorResultConfig
-                {
-                    DisplayName = "Test Result",
-                    TooltipTemplate = "TEST([P1])",
-                    DataName = "testResult",
-                    DataType = "number",
-                    LineType = "solid",
-                    DefaultColor = ChartColors.StandardBlue
-                }
-            ]
-        };
+        // Act - Get the standard catalog
+        IReadOnlyList<IndicatorListing> standardCatalog = Catalog.Get();
 
-        // Adding the same indicator twice to simulate duplicate UIID
-        List<IndicatorListing> catalog = [
-            duplicateIndicator,
-            duplicateIndicator
-        ];
+        // Create a custom catalog with a duplicate UIID
+        List<IndicatorListing> customCatalog = [.. standardCatalog];
 
-        // Act - find any duplicate UIIDs
-        var duplicateUiids = catalog
+        // Find any existing indicator to duplicate
+        IndicatorListing indicatorToDuplicate = standardCatalog[0];
+
+        // Create a duplicate with the same UIID but different name
+        IndicatorListing duplicateIndicator = indicatorToDuplicate
+            with { Name = "Duplicate of " + indicatorToDuplicate.Name };
+
+        // Add the duplicate to the custom catalog
+        customCatalog.Add(duplicateIndicator);
+
+        // Find duplicate UIIDs in the customCatalog
+        List<string> duplicateUiids = customCatalog
             .GroupBy(x => x.Uiid)
             .Where(g => g.Count() > 1)
             .Select(g => g.Key)
             .ToList();
 
         // Assert
-        duplicateUiids.Should().NotBeEmpty("Should detect duplicate UIIDs");
-        duplicateUiids.Should().Contain("DUPLICATE", "Should identify the specific duplicate UIID");
+        duplicateUiids.Should().NotBeEmpty("Should detect duplicate UIIDs in modified catalog");
+        duplicateUiids.Should().Contain(indicatorToDuplicate.Uiid,
+            $"Should identify {indicatorToDuplicate.Uiid} as a duplicate UIID");
+
+        // Important: Verify that the standard catalog does NOT have duplicate UIIDs
+        // This confirms that the Catalog.Get() method returns a catalog with unique UIIDs
+        standardCatalog.GroupBy(x => x.Uiid)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .Should().BeEmpty("Standard catalog should not have duplicate UIIDs");
     }
 
     [TestMethod]
@@ -176,7 +180,7 @@ public class Catalogging
         // Assert that the catalog contains real indicators
         catalog.Should().NotBeEmpty("The catalog should have content");
 
-        json.Should().NotContain("BUFFER_TEST", "Should not contain test indicators");
+        json.Should().NotContain("_TEST", "Should not contain test indicators");
         catalog.Count.Should().BeGreaterThan(
             80, "The catalog should contain all the indicators");
 
