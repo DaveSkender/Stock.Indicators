@@ -185,48 +185,9 @@ internal static class IndicatorProcessor
         enumTypeName = null;
         enumValues = null;
 
-        // Handle different attribute types based on class name
-
-        if (attributeClassName == "ParamBoolAttribute")
+        // Handle ParamNumAttribute<T> (most common)
+        if (attributeClassName.StartsWith("ParamNum"))
         {
-            // Handle ParamBoolAttribute
-            dataType = "boolean";
-            defaultValue = ExtractBooleanDefaultValue(attribute) ? 1 : 0;
-            // Boolean values are constrained between 0 and 1
-            minValue = 0;
-            maxValue = 1;
-        }
-
-        else if (attributeClassName.StartsWith("ParamEnum"))
-        {
-            // Handle ParamEnumAttribute<T>
-            dataType = "enum";
-            enumTypeName = ExtractEnumTypeName(attributeClass: attributeClass);
-            defaultValue = ExtractEnumDefaultValue(attribute: attribute);
-
-            // Get the enum type and extract its values
-            ITypeSymbol? enumType = attributeClass.TypeArguments.Length > 0
-                ? attributeClass.TypeArguments[0]
-                : null;
-
-            enumValues = GetEnumValues(enumType);
-
-            // Min/max if we have enum values (not required for enum types)
-            if (enumValues != null && enumValues.Count > 0)
-            {
-                List<int> values = enumValues.Keys.ToList();
-
-                if (values.Count > 0)
-                {
-                    minValue = values.Min();
-                    maxValue = values.Max();
-                }
-            }
-        }
-
-        else if (attributeClassName.StartsWith("ParamNum"))
-        {
-            // Handle ParamNumAttribute<T>
             dataType = DetermineNumericDataType(attributeClass: attributeClass);
 
             ExtractNumericValues(
@@ -236,21 +197,49 @@ internal static class IndicatorProcessor
                 maxValue: out maxValue);
         }
 
-        else
+        // Handle ParamEnumAttribute<T>
+        else if (attributeClassName.StartsWith("ParamEnum"))
         {
-            // failover to default numeric type
-            dataType = "number"; // default to number
-            defaultValue = null;
-            minValue = null;
-            maxValue = null;
+            dataType = "enum";
+            enumTypeName = ExtractEnumTypeName(attributeClass: attributeClass);
+            defaultValue = ExtractEnumDefaultValue(attribute: attribute);
 
-            throw new InvalidOperationException(
-                $"Unsupported attribute type: '{attributeClassName}'. "
-               + "Please ensure the attribute is derived from ParamAttribute<T>.");
+            // TODO: observation, why aren't we using the enumTypeName here?
+
+            // Get the enum type and extract its values
+            ITypeSymbol? enumType = attributeClass.TypeArguments.Length > 0
+                ? attributeClass.TypeArguments[0]
+                : throw new InvalidOperationException(
+                    "This should never occur if the code is working correctly.");
+
+            enumValues = GetEnumValues(enumType);
+
+            // min/max of enum (int) key values
+            minValue = enumValues.Keys.Min();
+            maxValue = enumValues.Keys.Max();
         }
 
-        // Ensure default is within min/max bounds for numeric types
-        if (dataType is "number" or "int" && defaultValue.HasValue && minValue.HasValue && maxValue.HasValue)
+        // Handle ParamBoolAttribute
+        else if (attributeClassName == "ParamBoolAttribute")
+        {
+            dataType = "boolean";
+            defaultValue = ExtractBooleanDefaultValue(attribute) ? 0 : 1;
+
+            minValue = 0;
+            maxValue = 1;
+        }
+
+        // this should never occur
+        else
+        {
+            throw new ArgumentException(
+                $"Unsupported attribute type: '{attributeClassName}'. "
+               + "Please ensure the attribute is derived from ParamAttribute<T>.",
+                nameof(attributeClass));
+        }
+
+        // Emit diagnostic error IND902 if default value is not in min/max bounds
+        if (defaultValue.HasValue && minValue.HasValue && maxValue.HasValue)
         {
             if (defaultValue < minValue || defaultValue > maxValue)
             {
@@ -263,25 +252,30 @@ internal static class IndicatorProcessor
         }
     }
 
-    private static Dictionary<int, string>? GetEnumValues(ITypeSymbol? enumType)
+    private static Dictionary<int, string> GetEnumValues(ITypeSymbol enumType)
     {
         if (enumType == null || enumType.TypeKind != TypeKind.Enum)
         {
-            return null;
+            throw new ArgumentNullException(nameof(enumType),
+                "The provided type is not an enum type.");
         }
 
         Dictionary<int, string> enumValues = [];
 
         foreach (ISymbol member in enumType.GetMembers())
         {
-            if (member is IFieldSymbol field && field.HasConstantValue && !field.IsStatic)
+            // reminder: enum members are static fields
+            if (member is IFieldSymbol field && field.HasConstantValue)
             {
                 int value = Convert.ToInt32(field.ConstantValue);
                 enumValues[value] = field.Name;
             }
         }
 
-        return enumValues.Count > 0 ? enumValues : null;
+        return enumValues.Count > 0
+            ? enumValues
+            : throw new InvalidOperationException(
+                "This should never occur if the code is working correctly.");
     }
 
     private static string GetDisplayName(AttributeData attribute, string defaultName)

@@ -13,10 +13,14 @@ public class Catalogging
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
+    // the generated catalog.json test exported file (below)
+    private readonly string jsonPath = Path.Combine(Path.GetFullPath(Path.Combine(
+        Directory.GetCurrentDirectory(), "..", "..", "..", "_common", "Catalog")), "catalog.json");
+
     [TestMethod]
     public void CatalogHasCategoryContent()
     {
-        // Act - get catalog
+        // Act: get catalog
         IReadOnlyList<IndicatorListing> result = Catalog.Get();
 
         // Assert
@@ -36,7 +40,7 @@ public class Catalogging
     [TestMethod]
     public void CatalogHasRealIndicators()
     {
-        // Act - get catalog
+        // Act: get catalog
         IReadOnlyList<IndicatorListing> realCatalog = Catalog.Get();
 
         // Assert
@@ -78,7 +82,7 @@ public class Catalogging
     [TestMethod]
     public void CatalogIncludesBaseUrl()
     {
-        // Act - get catalog with URL endpoints
+        // Act: get catalog with URL endpoints
         IReadOnlyList<IndicatorListing> result = Catalog.Get(BaseUrl);
 
         // Assert
@@ -112,7 +116,7 @@ public class Catalogging
     [TestMethod]
     public void DuplicateUiidDetection()
     {
-        // Act - Get the standard catalog
+        // Act: Get the standard catalog
         IReadOnlyList<IndicatorListing> standardCatalog = Catalog.Get();
 
         // Create a custom catalog with a duplicate UIID
@@ -149,6 +153,42 @@ public class Catalogging
     }
 
     [TestMethod]
+    public void CatalogIncludesEnumValues()
+    {
+        // Arrange: define expected values for the EndType enum
+        int minValue = (int)Enum.GetValues<EndType>().Min();
+        int maxValue = (int)Enum.GetValues<EndType>().Max();
+        Dictionary<int, string> enumValues
+            = Enum.GetValues<EndType>()
+             .ToDictionary(x => (int)x, x => x.ToString());
+
+        minValue.Should().Be(0, "EndType enum should have a minimum value of 0");
+        maxValue.Should().BeGreaterThan(0, "EndType enum should have a larger maximum value");
+        enumValues.Should().NotBeEmpty("EndType enum should have values");
+        enumValues.Should().ContainKey(minValue, $"EndType enum should contain a value for {minValue}");
+        enumValues.Should().ContainKey(maxValue, $"EndType enum should contain a value for {maxValue}");
+        enumValues.Should().ContainValue("Close", $"EndType enum should contain a value for {minValue}");
+        enumValues.Should().HaveCountGreaterThan(1, "EndType enum should have more than one value");
+
+        // Act: get catalog with URL endpoints
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        IndicatorListing listing = catalog.Single(x => x.Uiid == "ATR-STOP");
+
+        IndicatorParamConfig param
+            = listing.Parameters.Single(x => x.ParamName == "endType");
+
+        // Assert: verify endType enum has correct min/max values
+        param.DataType.Should().Be("enum", "EndType should be an 'enum'");
+
+        param.Minimum.Should().Be(minValue, $"EndType enum should have a minimum value of {minValue}");
+        param.Maximum.Should().Be(maxValue, $"EndType enum should have a maximum value of {maxValue}");
+
+        param.EnumValues.Should().BeEquivalentTo(enumValues,
+            "EndType enum values should match the expected values");
+    }
+
+    [TestMethod]
     public void ExportCatalogToJsonFile()
     {
         // Skip in CI/CD pipeline, only for local debugging
@@ -157,22 +197,11 @@ public class Catalogging
             return;
         }
 
-        // Act - get standard catalog
+        // Act: get standard catalog
         IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
 
         // Serialize to JSON for inspection
         string json = JsonSerializer.Serialize(catalog, IndentedJsonOptions);
-
-        // Get the source folder path (not the build output folder)
-        // Using GetCurrentDirectory to get the root directory of the project
-        string sourceFolder = Path.GetFullPath(Path.Combine(
-            Directory.GetCurrentDirectory(), "..", "..", "..", "_common", "Catalog"));
-
-        // Ensure the directory exists
-        Directory.CreateDirectory(sourceFolder);
-
-        // Save to file in the same directory as the test source code
-        string jsonPath = Path.Combine(sourceFolder, "catalog.json");
 
         // Write to file
         File.WriteAllText(jsonPath, json);
@@ -185,5 +214,21 @@ public class Catalogging
             80, "The catalog should contain all the indicators");
 
         Console.WriteLine($"Catalog with {catalog.Count} indicators exported to {jsonPath}");
+
+        // Assert that the file re-imports and serializes correctly
+        IReadOnlyList<IndicatorListing> imported
+            = JsonSerializer.Deserialize<IReadOnlyList<IndicatorListing>>(File.ReadAllText(jsonPath));
+
+        imported.Should().BeEquivalentTo(catalog,
+            "The imported catalog should match the original catalog");
+
+        IndicatorListing listing = catalog.Single(x => x.Uiid == "ATR-STOP");
+
+        IndicatorParamConfig param
+            = listing.Parameters.Single(x => x.ParamName == "endType");
+
+        param.Minimum.Should().NotBeNull("EndType enum should have a minimum value");
+        param.Maximum.Should().NotBeNull("EndType enum should have a maximum value");
+        param.EnumValues.Should().HaveCountGreaterThan(0, "EndType enum should have enum values");
     }
 }

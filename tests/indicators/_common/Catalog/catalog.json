@@ -125,7 +125,13 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Close",
+          "1": "HighLow"
+        }
       }
     ],
     "Results": [
@@ -289,7 +295,15 @@
         "DisplayName": "Beta Type",
         "ParamName": "type",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 3,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Standard",
+          "1": "Up",
+          "2": "Down",
+          "3": "All"
+        }
       }
     ],
     "Results": [
@@ -469,7 +483,13 @@
         "DisplayName": "Direction",
         "ParamName": "type",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Long",
+          "1": "Short"
+        }
       }
     ],
     "Results": [
@@ -1438,7 +1458,22 @@
         "DisplayName": "Moving Average Type",
         "ParamName": "movingAverageType",
         "DataType": "enum",
-        "DefaultValue": 7
+        "Minimum": 0,
+        "Maximum": 10,
+        "DefaultValue": 7,
+        "EnumValues": {
+          "0": "ALMA",
+          "1": "DEMA",
+          "2": "EPMA",
+          "3": "EMA",
+          "4": "HMA",
+          "5": "KAMA",
+          "6": "MAMA",
+          "7": "SMA",
+          "8": "SMMA",
+          "9": "TEMA",
+          "10": "WMA"
+        }
       }
     ],
     "Results": [
@@ -1571,13 +1606,38 @@
         "DisplayName": "Window Size",
         "ParamName": "windowSize",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 11,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Month",
+          "1": "Week",
+          "2": "Day",
+          "3": "FourHours",
+          "4": "TwoHours",
+          "5": "OneHour",
+          "6": "ThirtyMinutes",
+          "7": "FifteenMinutes",
+          "8": "FiveMinutes",
+          "9": "ThreeMinutes",
+          "10": "TwoMinutes",
+          "11": "OneMinute"
+        }
       },
       {
         "DisplayName": "Point Type",
         "ParamName": "pointType",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 4,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Standard",
+          "1": "Camarilla",
+          "2": "Demark",
+          "3": "Fibonacci",
+          "4": "Woodie"
+        }
       }
     ],
     "Results": [
@@ -1629,7 +1689,13 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "DefaultValue": 1
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 1,
+        "EnumValues": {
+          "0": "Close",
+          "1": "HighLow"
+        }
       }
     ],
     "Results": [
@@ -1801,7 +1867,13 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Close",
+          "1": "HighLow"
+        }
       }
     ],
     "Results": [
@@ -1837,7 +1909,13 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Close",
+          "1": "HighLow"
+        }
       }
     ],
     "Results": [
@@ -1927,7 +2005,16 @@
         "DisplayName": "Point Type",
         "ParamName": "pointType",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 4,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Standard",
+          "1": "Camarilla",
+          "2": "Demark",
+          "3": "Fibonacci",
+          "4": "Woodie"
+        }
       }
     ],
     "Results": [
@@ -2925,7 +3012,13 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "DefaultValue": 1
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 1,
+        "EnumValues": {
+          "0": "Close",
+          "1": "HighLow"
+        }
       }
     ],
     "Results": [
@@ -2953,7 +3046,13 @@
         "DisplayName": "End Type",
         "ParamName": "endType",
         "DataType": "enum",
-        "DefaultValue": 0
+        "Minimum": 0,
+        "Maximum": 1,
+        "DefaultValue": 0,
+        "EnumValues": {
+          "0": "Close",
+          "1": "HighLow"
+        }
       },
       {
         "DisplayName": "Percent Change",
