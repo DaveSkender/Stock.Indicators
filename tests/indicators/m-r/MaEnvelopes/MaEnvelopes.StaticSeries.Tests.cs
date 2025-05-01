@@ -330,11 +330,11 @@ public class MaEnvelopes : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad offset period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMaEnvelopes(14, 0));
 
         // bad MA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMaEnvelopes(14, 5, MaType.KAMA));
 
         // note: insufficient quotes is tested elsewhere

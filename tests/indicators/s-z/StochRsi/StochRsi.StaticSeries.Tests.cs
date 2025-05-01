@@ -158,19 +158,19 @@ public class StochRsi : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(0, 14, 3));
 
         // bad STO period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(14, 0, 3, 3));
 
         // bad STO signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(14, 14, 0));
 
         // bad STO smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(14, 14, 3, 0));
     }
 }

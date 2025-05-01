@@ -95,6 +95,6 @@ public class Hma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToHma(1));
 }

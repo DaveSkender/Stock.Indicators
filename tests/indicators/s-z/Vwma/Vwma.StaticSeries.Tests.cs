@@ -76,6 +76,6 @@ public class Vwma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToVwma(0));
 }

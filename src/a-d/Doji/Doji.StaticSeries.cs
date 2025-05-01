@@ -19,8 +19,10 @@ public static partial class Doji
     /// <exception cref = "ArgumentOutOfRangeException" >
     /// Invalid parameter value provided.
     /// </exception>
+    [Series("DOJI", "Doji", Category.CandlestickPattern, ChartType.Overlay)]
     public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [ParamNum<double>("Max Price Change %", 0.1, 0, 0.5)]
         double maxPriceChangePercent = 0.1)
         where TQuote : IQuote
     {

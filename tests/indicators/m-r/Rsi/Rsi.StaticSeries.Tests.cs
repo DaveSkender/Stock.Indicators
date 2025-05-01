@@ -15,7 +15,7 @@ public class Rsi : StaticSeriesTestBase
 
         // sample values
         RsiResult r1 = results[13];
-        Assert.AreEqual(null, r1.Rsi);
+        Assert.IsNull(r1.Rsi);
 
         RsiResult r2 = results[14];
         Assert.AreEqual(62.0541, r2.Rsi.Round(4));
@@ -140,6 +140,6 @@ public class Rsi : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToRsi(0));
 }

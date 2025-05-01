@@ -100,15 +100,15 @@ public class Pmo : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad time period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToPmo(1));
 
         // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToPmo(5, 0));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToPmo(5, 5, 0));
     }
 }

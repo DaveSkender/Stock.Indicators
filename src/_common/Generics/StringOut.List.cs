@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Text;
 
-
 namespace Skender.Stock.Indicators;
 
 /// <summary>

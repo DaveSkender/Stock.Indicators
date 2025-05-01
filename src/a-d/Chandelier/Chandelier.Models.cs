@@ -16,19 +16,3 @@ public record ChandelierResult
     [JsonIgnore]
     public double Value => ChandelierExit.Null2NaN();
 }
-
-/// <summary>
-/// Specifies the type of Chandelier Exit.
-/// </summary>
-public enum ChandelierType
-{
-    /// <summary>
-    /// Represents a long Chandelier Exit.
-    /// </summary>
-    Long = 0,
-
-    /// <summary>
-    /// Represents a short Chandelier Exit.
-    /// </summary>
-    Short = 1
-}

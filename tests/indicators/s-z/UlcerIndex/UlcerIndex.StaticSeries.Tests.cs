@@ -92,6 +92,6 @@ public class UlcerIndex : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToUlcerIndex(0));
 }

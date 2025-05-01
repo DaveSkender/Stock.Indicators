@@ -1,0 +1,5 @@
+# Sub-level EditorConfig file
+root = false
+
+[*.cs]
+dotnet_style_namespace_match_folder = true:suggestion

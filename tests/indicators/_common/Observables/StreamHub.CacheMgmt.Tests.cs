@@ -112,7 +112,7 @@ public class CacheManagement : TestBase
             .ToQuotePart(CandlePart.Close);
 
         // overflowed, over threshold
-        Assert.ThrowsException<OverflowException>(() => {
+        Assert.ThrowsExactly<OverflowException>(() => {
 
             for (int i = 0; i <= 101; i++)
             {

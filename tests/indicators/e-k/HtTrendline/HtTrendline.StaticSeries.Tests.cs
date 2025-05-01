@@ -18,12 +18,12 @@ public class HtTrendline : StaticSeriesTestBase
 
         // sample values
         HtlResult r5 = results[5];
-        Assert.AreEqual(null, r5.DcPeriods);
+        Assert.IsNull(r5.DcPeriods);
         Assert.AreEqual(214.205, r5.Trendline);
-        Assert.AreEqual(null, r5.SmoothPrice);
+        Assert.IsNull(r5.SmoothPrice);
 
         HtlResult r6 = results[6];
-        Assert.AreEqual(null, r6.DcPeriods);
+        Assert.IsNull(r6.DcPeriods);
         Assert.AreEqual(213.84, r6.Trendline);
         Assert.AreEqual(214.071, r6.SmoothPrice);
 

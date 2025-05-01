@@ -18,34 +18,34 @@ public class SuperTrend : StaticSeriesTestBase
 
         // sample values
         SuperTrendResult r13 = results[13];
-        Assert.AreEqual(null, r13.SuperTrend);
-        Assert.AreEqual(null, r13.UpperBand);
-        Assert.AreEqual(null, r13.LowerBand);
+        Assert.IsNull(r13.SuperTrend);
+        Assert.IsNull(r13.UpperBand);
+        Assert.IsNull(r13.LowerBand);
 
         SuperTrendResult r14 = results[14];
         Assert.AreEqual(210.6157m, r14.SuperTrend.Round(4));
-        Assert.AreEqual(null, r14.UpperBand);
+        Assert.IsNull(r14.UpperBand);
         Assert.AreEqual(r14.SuperTrend, r14.LowerBand);
 
         SuperTrendResult r151 = results[151];
         Assert.AreEqual(232.8520m, r151.SuperTrend.Round(4));
-        Assert.AreEqual(null, r151.UpperBand);
+        Assert.IsNull(r151.UpperBand);
         Assert.AreEqual(r151.SuperTrend, r151.LowerBand);
 
         SuperTrendResult r152 = results[152];
         Assert.AreEqual(237.6436m, r152.SuperTrend.Round(4));
         Assert.AreEqual(r152.SuperTrend, r152.UpperBand);
-        Assert.AreEqual(null, r152.LowerBand);
+        Assert.IsNull(r152.LowerBand);
 
         SuperTrendResult r249 = results[249];
         Assert.AreEqual(253.8008m, r249.SuperTrend.Round(4));
-        Assert.AreEqual(null, r249.UpperBand);
+        Assert.IsNull(r249.UpperBand);
         Assert.AreEqual(r249.SuperTrend, r249.LowerBand);
 
         SuperTrendResult r501 = results[501];
         Assert.AreEqual(250.7954m, r501.SuperTrend.Round(4));
         Assert.AreEqual(r501.SuperTrend, r501.UpperBand);
-        Assert.AreEqual(null, r501.LowerBand);
+        Assert.IsNull(r501.LowerBand);
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class SuperTrend : StaticSeriesTestBase
         SuperTrendResult last = results[^1];
         Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
         Assert.AreEqual(last.SuperTrend, last.UpperBand);
-        Assert.AreEqual(null, last.LowerBand);
+        Assert.IsNull(last.LowerBand);
     }
 
     [TestMethod]
@@ -120,18 +120,18 @@ public class SuperTrend : StaticSeriesTestBase
         SuperTrendResult last = results[^1];
         Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
         Assert.AreEqual(last.SuperTrend, last.UpperBand);
-        Assert.AreEqual(null, last.LowerBand);
+        Assert.IsNull(last.LowerBand);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToSuperTrend(1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToSuperTrend(7, 0));
     }
 }

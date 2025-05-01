@@ -37,6 +37,7 @@ public static class Candlesticks
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A sorted list of candle properties.</returns>
+    [ExcludeFromCatalog]
     public static IReadOnlyList<CandleProperties> ToCandles<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes

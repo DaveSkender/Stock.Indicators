@@ -14,8 +14,10 @@ public static partial class Dpo
     /// <returns>A list of DPO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    [Series("DPO", "Detrended Price Oscillator", Category.Oscillator, ChartType.Oscillator)]
     public static IReadOnlyList<DpoResult> ToDpo<T>(
         this IReadOnlyList<T> source,
+        [ParamNum<int>("Lookback Periods", 14, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

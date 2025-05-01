@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "restore",
+      "type": "shell",
+      "command": "dotnet restore Stock.Indicators.sln --nologo",
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "dotnet build Stock.Indicators.sln --nologo --no-restore",
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "dotnet test Stock.Indicators.sln --nologo --no-build --verbosity minimal",
+      "group": "test",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

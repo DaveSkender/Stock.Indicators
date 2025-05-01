@@ -12,6 +12,7 @@ public static partial class Adl
     /// <param name="source">The source list of quotes.</param>
     /// <returns>A read-only list of ADL results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("ADL", "Accumulation Distribution Line (ADL)", Category.VolumeBased, ChartType.Oscillator)]
     public static IReadOnlyList<AdlResult> ToAdl<TQuote>(this IReadOnlyList<TQuote> source)
         where TQuote : IQuote
     {
@@ -37,4 +38,6 @@ public static partial class Adl
 
         return results;
     }
+
+    // ...existing code...
 }

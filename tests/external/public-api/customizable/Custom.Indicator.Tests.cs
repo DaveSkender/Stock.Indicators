@@ -156,6 +156,6 @@ public class CustomIndicators
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => quotes.GetIndicator(0));
 }

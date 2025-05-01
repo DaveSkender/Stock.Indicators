@@ -12,6 +12,7 @@ public static class HeikinAshi
     /// <param name="quotes">The list of quotes.</param>
     /// <returns>A list of Heikin-Ashi results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    [Series("HEIKINASHI", "HeikinAshi", Category.PriceTransform, ChartType.Overlay)]
     public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote

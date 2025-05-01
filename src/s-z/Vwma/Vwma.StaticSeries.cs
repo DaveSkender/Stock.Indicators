@@ -13,8 +13,10 @@ public static partial class Vwma
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("VWMA", "Volume Weighted Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<VwmaResult> ToVwma<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

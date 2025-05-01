@@ -15,7 +15,7 @@ public class Chop : StaticSeriesTestBase
 
         // sample values
         ChopResult r1 = results[13];
-        Assert.AreEqual(null, r1.Chop);
+        Assert.IsNull(r1.Chop);
 
         ChopResult r2 = results[14];
         Assert.AreEqual(69.9967, r2.Chop.Round(4));
@@ -91,6 +91,6 @@ public class Chop : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChop(1));
 }

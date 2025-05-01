@@ -22,13 +22,13 @@ public class VolatilityStop : StaticSeriesTestBase
 
         VolatilityStopResult r54 = results[54];
         Assert.AreEqual(226.2118, r54.Sar.Round(4));
-        Assert.AreEqual(false, r54.IsStop);
+        Assert.IsFalse(r54.IsStop);
         Assert.AreEqual(226.2118, r54.UpperBand.Round(4));
         Assert.IsNull(r54.LowerBand);
 
         VolatilityStopResult r55 = results[55];
         Assert.AreEqual(226.2124, r55.Sar.Round(4));
-        Assert.AreEqual(false, r55.IsStop);
+        Assert.IsFalse(r55.IsStop);
         Assert.AreEqual(226.2124, r55.UpperBand.Round(4));
         Assert.IsNull(r55.LowerBand);
 
@@ -37,25 +37,25 @@ public class VolatilityStop : StaticSeriesTestBase
 
         VolatilityStopResult r282 = results[282];
         Assert.AreEqual(261.8687, r282.Sar.Round(4));
-        Assert.AreEqual(true, r282.IsStop);
+        Assert.IsTrue(r282.IsStop);
         Assert.AreEqual(261.8687, r282.UpperBand.Round(4));
         Assert.IsNull(r282.LowerBand);
 
         VolatilityStopResult r283 = results[283];
         Assert.AreEqual(249.3219, r283.Sar.Round(4));
-        Assert.AreEqual(false, r283.IsStop);
+        Assert.IsFalse(r283.IsStop);
         Assert.AreEqual(249.3219, r283.LowerBand.Round(4));
         Assert.IsNull(r283.UpperBand);
 
         VolatilityStopResult r284 = results[284];
         Assert.AreEqual(249.7460, r284.Sar.Round(4));
-        Assert.AreEqual(false, r284.IsStop);
+        Assert.IsFalse(r284.IsStop);
         Assert.AreEqual(249.7460, r284.LowerBand.Round(4));
         Assert.IsNull(r284.UpperBand);
 
         VolatilityStopResult last = results[^1];
         Assert.AreEqual(249.2423, last.Sar.Round(4));
-        Assert.AreEqual(false, last.IsStop);
+        Assert.IsFalse(last.IsStop);
         Assert.AreEqual(249.2423, last.UpperBand.Round(4));
         Assert.IsNull(last.LowerBand);
     }
@@ -107,18 +107,18 @@ public class VolatilityStop : StaticSeriesTestBase
 
         VolatilityStopResult last = results[^1];
         Assert.AreEqual(249.2423, last.Sar.Round(4));
-        Assert.AreEqual(false, last.IsStop);
+        Assert.IsFalse(last.IsStop);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToVolatilityStop(1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToVolatilityStop(20, 0));
     }
 }
