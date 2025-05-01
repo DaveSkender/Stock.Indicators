@@ -161,7 +161,7 @@ internal static class IndicatorProcessor
                 MinValue: minValue,
                 MaxValue: maxValue,
                 EnumType: enumTypeName,
-                EnumValues: enumValues));
+                EnumOptions: enumValues));
         }
 
         return parameters;

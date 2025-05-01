@@ -160,14 +160,14 @@ internal static class CodeGenerator
         """);
 
         // Add enum values if present
-        if (param.EnumValues != null && param.EnumValues.Count > 0)
+        if (param.EnumOptions != null && param.EnumOptions.Count > 0)
         {
             sourceBuilder.AppendLine("""
-                               ,EnumValues = new Dictionary<int, string>
+                               ,EnumOptions = new Dictionary<int, string>
                                 {
             """);
 
-            foreach (KeyValuePair<int, string> kvp in param.EnumValues)
+            foreach (KeyValuePair<int, string> kvp in param.EnumOptions)
             {
                 sourceBuilder.AppendLine($"                            [{kvp.Key}] = \"{kvp.Value}\",");
             }

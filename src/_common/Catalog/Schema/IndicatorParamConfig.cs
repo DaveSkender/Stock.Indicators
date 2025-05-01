@@ -21,7 +21,10 @@ public record IndicatorParamConfig
     /// </summary>
     public string? DataType { get; init; }
 
-    // TODO: Move DefaultValue here
+    /// <summary>
+    /// Gets or sets the default value for the parameter.
+    /// </summary>
+    public double? DefaultValue { get; init; }
 
     /// <summary>
     /// Gets or sets the minimum value for the parameter.
@@ -36,14 +39,10 @@ public record IndicatorParamConfig
     public double? Maximum { get; init; }
 
     /// <summary>
-    /// Gets or sets the default value for the parameter.
-    /// </summary>
-    public double? DefaultValue { get; init; }
-
-    /// <summary>
     /// Gets or sets the enum values dictionary for enum parameters.
     /// Maps enum integer values to their field names.
     /// This will be null for non-enum parameters.
     /// </summary>
-    public Dictionary<int, string>? EnumValues { get; init; }
+    /// <remarks>Selection options for parameter arguments.</remarks>
+    public Dictionary<int, string>? EnumOptions { get; init; }
 }

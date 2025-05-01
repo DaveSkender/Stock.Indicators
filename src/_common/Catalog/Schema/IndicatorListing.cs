@@ -50,7 +50,7 @@ public record IndicatorListing
     public required string LegendTemplate { get; init; }
 
     // TODO: Add Style as enum
-    // TODO: Add Type as string
+    // TODO: Add ReturnType as string
 
     /// <summary>
     /// Gets or sets the category of the indicator.
@@ -67,7 +67,7 @@ public record IndicatorListing
     /// <summary>
     /// Gets or sets the order in which the indicator is rendered on the chart.
     /// </summary>
-    public Order Order { get; init; } = Order.Front;
+    public Order Order { get; init; } = Order.Front;  // keep integer here
 
     /// <summary>
     /// Gets or sets the chart configuration for the indicator.

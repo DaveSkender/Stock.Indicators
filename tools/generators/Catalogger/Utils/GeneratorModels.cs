@@ -25,4 +25,4 @@ internal sealed record ParameterInfo(
     double? MinValue,
     double? MaxValue,
     string? EnumType = null,
-    Dictionary<int, string>? EnumValues = null);
+    Dictionary<int, string>? EnumOptions = null);

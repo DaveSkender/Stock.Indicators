@@ -184,8 +184,17 @@ public class Catalogging
         param.Minimum.Should().Be(minValue, $"EndType enum should have a minimum value of {minValue}");
         param.Maximum.Should().Be(maxValue, $"EndType enum should have a maximum value of {maxValue}");
 
-        param.EnumValues.Should().BeEquivalentTo(enumValues,
+        param.EnumOptions.Should().BeEquivalentTo(enumValues,
             "EndType enum values should match the expected values");
+
+        // Assert: verify that other indicators do not have enum values
+        IndicatorListing smaListing = catalog.Single(x => x.Uiid == "MACD");
+
+        foreach (IndicatorParamConfig p in smaListing.Parameters)
+        {
+            p.DataType.Should().NotBe("enum", "Non-enum parameters should not be enums");
+            p.EnumOptions.Should().BeNull("Non-enum parameters should not have enum values");
+        }
     }
 
     [TestMethod]
@@ -229,6 +238,6 @@ public class Catalogging
 
         param.Minimum.Should().NotBeNull("EndType enum should have a minimum value");
         param.Maximum.Should().NotBeNull("EndType enum should have a maximum value");
-        param.EnumValues.Should().HaveCountGreaterThan(0, "EndType enum should have enum values");
+        param.EnumOptions.Should().HaveCountGreaterThan(0, "EndType enum should have enum values");
     }
 }
