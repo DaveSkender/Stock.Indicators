@@ -150,7 +150,6 @@ internal static class IndicatorProcessor
                 defaultValue: out double? defaultValue,
                 minValue: out double? minValue,
                 maxValue: out double? maxValue,
-                enumTypeName: out string? enumTypeName,
                 enumValues: out Dictionary<int, string>? enumValues);
 
             parameters.Add(new ParameterInfo(
@@ -160,7 +159,6 @@ internal static class IndicatorProcessor
                 DefaultValue: defaultValue,
                 MinValue: minValue,
                 MaxValue: maxValue,
-                EnumType: enumTypeName,
                 EnumOptions: enumValues));
         }
 
@@ -175,14 +173,12 @@ internal static class IndicatorProcessor
         out double? defaultValue,
         out double? minValue,
         out double? maxValue,
-        out string? enumTypeName,
         out Dictionary<int, string>? enumValues)
     {
         string attributeClassName = attributeClass.Name;
 
         minValue = null;
         maxValue = null;
-        enumTypeName = null;
         enumValues = null;
 
         // Handle ParamNumAttribute<T> (most common)
@@ -201,10 +197,7 @@ internal static class IndicatorProcessor
         else if (attributeClassName.StartsWith("ParamEnum"))
         {
             dataType = "enum";
-            enumTypeName = ExtractEnumTypeName(attributeClass: attributeClass);
             defaultValue = ExtractEnumDefaultValue(attribute: attribute);
-
-            // TODO: observation, why aren't we using the enumTypeName here?
 
             // Get the enum type and extract its values
             ITypeSymbol? enumType = attributeClass.TypeArguments.Length > 0
@@ -401,21 +394,6 @@ internal static class IndicatorProcessor
         }
 
         return false; // if not found
-    }
-
-    private static string? ExtractEnumTypeName(INamedTypeSymbol attributeClass)
-    {
-        // Get the enum type from the generic argument
-        if (attributeClass.TypeArguments.Length > 0)
-        {
-            ITypeSymbol typeArg = attributeClass.TypeArguments[0];
-            if (typeArg.TypeKind == TypeKind.Enum)
-            {
-                return typeArg.Name;
-            }
-        }
-
-        return null;
     }
 
     private static int ExtractEnumDefaultValue(AttributeData attribute)
