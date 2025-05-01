@@ -278,6 +278,7 @@ public class Catalogging
     {
         // Act: get catalog with indicators that use series parameters
         IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+        string reusable = $"{nameof(IReusable)}[]";
 
         // Find indicators that use ParamSeriesAttribute
         IndicatorListing prsListing = catalog.Single(x => x.Uiid == "PRS");
@@ -288,18 +289,17 @@ public class Catalogging
         // PRS indicator
         prsListing.Parameters.Count.Should().BeGreaterThanOrEqualTo(2,
             "PRS should have at least two series parameters");
-
         prsListing.Parameters.Should().Contain(p =>
             p.ParamName == "sourceEval" &&
             p.DisplayName == "Evaluated Prices" &&
-            p.DataType == "reusable[]",
-            "PRS should have a sourceEval parameter with reusable[] data type");
+            p.DataType == "IReusable[]",
+            "PRS should have a sourceEval parameter with IReusable[] data type");
 
         prsListing.Parameters.Should().Contain(p =>
             p.ParamName == "sourceBase" &&
             p.DisplayName == "Base Prices" &&
-            p.DataType == "reusable[]",
-            "PRS should have a sourceBase parameter with reusable[] data type");
+            p.DataType == "IReusable[]",
+            "PRS should have a sourceBase parameter with IReusable[] data type");
 
         // Correlation indicator
         corrListing.Parameters.Count.Should().BeGreaterThanOrEqualTo(2,
@@ -308,14 +308,14 @@ public class Catalogging
         corrListing.Parameters.Should().Contain(p =>
             p.ParamName == "sourceA" &&
             p.DisplayName == "Source A" &&
-            p.DataType == "reusable[]",
-            "CORR should have a sourceA parameter with reusable[] data type");
+            p.DataType == "IReusable[]",
+            "CORR should have a sourceA parameter with IReusable[] data type");
 
         corrListing.Parameters.Should().Contain(p =>
             p.ParamName == "sourceB" &&
             p.DisplayName == "Source B" &&
-            p.DataType == "reusable[]",
-            "CORR should have a sourceB parameter with reusable[] data type");
+            p.DataType == "IReusable[]",
+            "CORR should have a sourceB parameter with IReusable[] data type");
 
         // Beta indicator
         betaListing.Parameters.Count.Should().BeGreaterThanOrEqualTo(2,
@@ -324,23 +324,23 @@ public class Catalogging
         betaListing.Parameters.Should().Contain(p =>
             p.ParamName == "sourceEval" &&
             p.DisplayName == "Evaluated Prices" &&
-            p.DataType == "reusable[]",
-            "BETA should have a sourceEval parameter with reusable[] data type");
+            p.DataType == "IReusable[]",
+            "BETA should have a sourceEval parameter with IReusable[] data type");
 
         betaListing.Parameters.Should().Contain(p =>
             p.ParamName == "sourceMrkt" &&
             p.DisplayName == "Market Prices" &&
-            p.DataType == "reusable[]",
-            "BETA should have a sourceMrkt parameter with reusable[] data type");
+            p.DataType == "IReusable[]",
+            "BETA should have a sourceMrkt parameter with IReusable[] data type");
 
         // Verify series parameters are excluded from legend templates
         prsListing.LegendTemplate.Should().Be("PRS([P3])",
-            "Series parameters should be excluded from PRS legend template");
+            $"Series parameters should be excluded from PRS legend template");
 
         corrListing.LegendTemplate.Should().Be("CORR([P3])",
-            "Series parameters should be excluded from CORR legend template");
+            $"Series parameters should be excluded from CORR legend template");
 
         betaListing.LegendTemplate.Should().Be("BETA([P3],[P4])",
-            "Series parameters should be excluded from BETA legend template");
+            $"Series parameters should be excluded from BETA legend template");
     }
 }

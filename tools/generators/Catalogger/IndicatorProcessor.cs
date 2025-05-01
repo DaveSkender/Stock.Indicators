@@ -228,32 +228,21 @@ internal static class IndicatorProcessor
             maxValue = 1;
         }
 
-        // Handle ParamSeriesAttribute
+        // Handle ParamSeriesAttribute<T>
         else if (attributeClassName.StartsWith("ParamSeries"))
         {
-            // Extract SeriesType from the attribute if provided
-            int seriesTypeValue = 0; // Default to 0 (Quote)
+            // Extract DataType property from attribute
+            dataType = "any[]"; // Default fallback value
 
-            // Look for SeriesType property in constructor arguments
-            if (attribute.ConstructorArguments.Length >= 2 &&
-                attribute.ConstructorArguments[1].Value is int ctorSeriesTypeValue)
-            {
-                seriesTypeValue = ctorSeriesTypeValue;
-            }
-
-            // Look for SeriesType property in named arguments (overrides constructor value)
+            // Look for DataType property in named arguments
             foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
             {
-                if (namedArg.Key == "SeriesType" && namedArg.Value.Value is int namedSeriesTypeValue)
+                if (namedArg.Key == "DataType" && namedArg.Value.Value is string dataTypeValue)
                 {
-                    seriesTypeValue = namedSeriesTypeValue;
+                    dataType = dataTypeValue;
                     break;
                 }
             }
-
-            // Use TypeScript-friendly format based on the series type
-            // 0 = Quote, 1 = Reusable
-            dataType = seriesTypeValue == 0 ? "quote[]" : "reusable[]";
 
             defaultValue = null;
             minValue = null;
