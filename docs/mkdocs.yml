@@ -1,0 +1,25 @@
+site_name: Stock Indicators for .NET
+site_description: Transform price quotes into trading insights.
+site_url: https://dotnet.stockindicators.dev
+repo_url: https://github.com/DaveSkender/Stock.Indicators
+repo_name: DaveSkender/Stock.Indicators
+copyright: Copyright &copy; Dave Skender
+docs_dir: website
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Indicators: indicators.md
+  - Guide: guide.md
+  - Utilities: utilities.md
+  - Examples: examples.md
+  - Performance: performance.md
+  - Contributing: contributing.md

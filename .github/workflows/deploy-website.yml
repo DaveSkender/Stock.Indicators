@@ -5,9 +5,6 @@ on: workflow_dispatch
 concurrency:
   group: docs-website
 
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: read
 
@@ -18,10 +15,7 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    
     environment:
       name: stockindicators.dev
       url: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
@@ -30,13 +24,14 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          ruby-version: 3.3
+          python-version: '3.13'
+          cache: 'pip'
 
       - name: Install dependencies
-        run: bundle install
+        run: pip install mkdocs-material pymdown-extensions mkdocs-minify-plugin mkdocs-social-plugin
 
       - name: Define tag
         id: tag
@@ -52,14 +47,14 @@ jobs:
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
         env:
-          JEKYLL_ENV: production
-        run: bundle exec jekyll build
+          MKDOCS_ENV: production
+        run: mkdocs build
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         env:
-          JEKYLL_ENV: preview
-        run: bundle exec jekyll build
+          MKDOCS_ENV: preview
+        run: mkdocs build
 
       - name: Publish to Cloudflare Pages
         id: deploy
@@ -69,5 +64,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "latest"
           command: >
-            pages deploy docs/_site
+            pages deploy docs/site
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}

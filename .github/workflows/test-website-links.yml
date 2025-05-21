@@ -21,23 +21,21 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          ruby-version: 3.3
+          python-version: '3.13'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
-          bundle install
-          gem install html-proofer
+          pip install mkdocs-material pymdown-extensions mkdocs-minify-plugin mkdocs-social-plugin
+          pip install html-proofer
 
       - name: Replace "data-src"
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
@@ -50,19 +48,23 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
+          replace: "http://127.0.0.1:8000"
           regex: false
 
       - name: Build site
-        run: bundle exec jekyll build
+        run: mkdocs build
 
       - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
+        run: mkdocs serve --no-livereload &
+        
+      # Wait for the server to start
+      - name: Wait for server
+        run: sleep 5
 
-        # see help in setup step
+      # Test for broken URLs
       - name: Test for broken URLs
         run: >
-          htmlproofer _site
+          htmlproofer ./site
           --no-enforce-https
           --no-check-external-hash
           --ignore-status-codes "0,302,403,406,408,429,503,999"
@@ -70,4 +72,4 @@ jobs:
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: pkill -f mkdocs || true

@@ -2,9 +2,9 @@
   "name": "Stock Indicators Dev Container",
   "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
   "features": {
-    "ghcr.io/devcontainers/features/ruby:1": {
-      "version": "3.3"
-    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version" : "latest"
+     },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     }
@@ -39,9 +39,10 @@
       },
       "extensions": [
         "ms-dotnettools.csdevkit",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "ms-dotnettools.vscodeintellicode-csharp"
       ]
     }
   },
-  "postCreateCommand": "dotnet restore"
+  "postCreateCommand": "dotnet workload update && dotnet restore && pip install mkdocs"
 }
