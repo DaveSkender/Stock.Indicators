@@ -21,15 +21,15 @@ jobs:
     defaults:
       run:
         working-directory: docs
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          dotnet-version: '9.x'
+          python-version: 'latest'
+          cache: 'pip'
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,20 +38,36 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install mkdocs-material pymdown-extensions mkdocs-minify-plugin mkdocs-social-plugin
           npm install -g pa11y-ci
 
-      - name: Build and serve site
-        run: |
-          echo "::error::Nothing to build or serve yet"
-          exit 1
+      - name: Use 'localhost'
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        with:
+          find: "https://dotnet.stockindicators.dev"
+          replace: "http://127.0.0.1:8000"
+          regex: false
+
+      - name: Build site
+        run: mkdocs build
+
+      - name: Serve site
+        run: mkdocs serve --no-livereload &
+
+      # Wait for the server to start
+      - name: Wait for server
+        run: sleep 5
+
+      - name: Show environment
+        run: npx pa11y --environment
 
       - name: Test accessibility
         run: >
           pa11y-ci
-          --sitemap http://127.0.0.1:4000/sitemap.xml
+          --sitemap http://127.0.0.1:8000/sitemap.xml
           --config ./.pa11yci
           --threshold 10
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f docfx
+        run: pkill -f mkdocs || true

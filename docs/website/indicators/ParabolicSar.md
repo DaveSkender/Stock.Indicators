@@ -1,0 +1,75 @@
+# Parabolic SAR
+
+ Created by J. Welles Wilder, Parabolic SAR (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.  It can be used to identify trend direction, reversals, and stop-loss signals.
+
+
+
+Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.
+[[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/245 "Community discussion about this indicator")
+
+![chart for Parabolic SAR]()
+
+```csharp
+// C# usage syntax (standard)
+IReadOnlyList<ParabolicSarResult> results =
+  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor);
+
+// alternate usage with custom initial Factor
+IReadOnlyList<ParabolicSarResult> results =
+  quotes.GetParabolicSar(accelerationStep, maxAccelerationFactor, initialFactor);
+```
+
+## Parameters
+
+**`accelerationStep`** _`double`_ - Incremental step size for the Acceleration Factor.  Must be greater than 0.  Default is 0.02
+
+**`maxAccelerationFactor`** _`double`_ - Maximum factor limit.  Must be greater than `accelerationStep`.  Default is 0.2
+
+**`initialFactor`** _`double`_ - Optional.  Initial Acceleration Factor.  Must be greater than 0 and not larger than `maxAccelerationFactor`.  Default is `accelerationStep`.
+
+### Historical quotes requirements
+
+You must have at least two historical quotes to cover the warmup periods; however, we recommend at least 100 data points.  Initial Parabolic SAR values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals, before your intended usage period.
+
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../guide.md#historical-quotes) for more information.
+
+## Response
+
+```csharp
+IReadOnlyList<ParabolicSarResult>
+```
+
+- This method returns a time series of all available indicator values for the `quotes` provided.
+- It always returns the same number of elements as there are in the historical quotes.
+- It does not return a single incremental indicator value.
+- The first trend will have `null` values since it is not accurate and based on an initial guess.
+
+### ParabolicSarResult
+
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
+
+**`Sar`** _`double`_ - Stop and Reverse value
+
+**`IsReversal`** _`bool`_ - Indicates a trend reversal
+
+### Utilities
+
+- [.Condense()](../utilities.md#condense)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+
+See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
+
+## Chaining
+
+Results can be further processed on `Sar` with additional chain-enabled indicators.
+
+```csharp
+// example
+var results = quotes
+    .GetParabolicSar(..)
+    .GetEma(..);
+```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

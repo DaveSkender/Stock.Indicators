@@ -21,46 +21,37 @@ jobs:
     defaults:
       run:
         working-directory: docs
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
-        with:
-          ruby-version: 3.3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.x'
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
       - name: Install dependencies
         run: |
+          bundle install
           gem install html-proofer
 
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
+          replace: "http://127.0.0.1:8000"
           regex: false
           include: "docs/**"
 
-      - name: Build and serve site
-        run: |
-          echo "Nothing to build or serve yet"
-          exit 1
+      - name: Build site
+        run: mkdocs build
 
+      - name: Serve site
+        run: mkdocs serve --no-livereload &
+
+      # Wait for the server to start
+      - name: Wait for server
+        run: sleep 5
+
+      # Test for broken URLs
       - name: Test for broken URLs
         run: >
-          htmlproofer _site
+          htmlproofer ./site
           --no-enforce-https
           --no-check-external-hash
           --ignore-status-codes "0,302,403,406,408,429,503,999"
@@ -68,4 +59,4 @@ jobs:
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f docfx
+        run: pkill -f mkdocs || true
