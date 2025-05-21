@@ -11,6 +11,8 @@ theme:
   palette:
     primary: indigo
     accent: indigo
+  favicon: favicon.ico
+  logo: assets/icons/android-chrome-192x192.png
 
 plugins:
   - search
