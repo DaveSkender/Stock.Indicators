@@ -4,7 +4,7 @@
 
 
 
-Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](Alligator.md#content)'s three moving averages.
+Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](Alligator.md)'s three moving averages.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
 ![chart for Gator Oscillator]()
@@ -22,7 +22,7 @@ IReadOnlyList<GatorResult> results = quotes
 
 ## Historical quotes requirements
 
-If using default settings, you must have at least 121 periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](./Alligator/#historical-quotes-requirements) for historical quotes requirements.
+If using default settings, you must have at least 121 periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods. Since this uses a smoothing technique, we recommend you use at least 271 data points prior to the intended usage date for better precision.  If using a custom Alligator configuration, see [Alligator documentation](Alligator.md#historical-quotes-requirements) for historical quotes requirements.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](../guide.md#historical-quotes) for more information.
 

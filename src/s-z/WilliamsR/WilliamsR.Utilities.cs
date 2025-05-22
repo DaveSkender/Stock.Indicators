@@ -5,6 +5,20 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class WilliamsR
 {
+    /// <summary>
+    /// Removes the recommended warmup periods from the Williams %R results.
+    /// </summary>
+    /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
+    public static IReadOnlyList<WilliamsResult> RemoveWarmupPeriods(
+        this IReadOnlyList<WilliamsResult> results)
+    {
+        int removePeriods = results
+            .ToList()
+            .FindIndex(x => x.WilliamsR != null);
+
+        return results.Remove(removePeriods);
+    }
+
     // parameter validation
     /// <summary>
     /// Validates the parameters for the Williams %R calculation.

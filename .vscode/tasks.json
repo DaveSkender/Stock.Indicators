@@ -1,0 +1,80 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build MkDocs Documentation",
+            "type": "shell",
+            "command": "cd /workspaces/Stock.Indicators/docs && python -m mkdocs build",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Serve MkDocs Documentation",
+            "type": "shell",
+            "command": "cd /workspaces/Stock.Indicators/docs && python -m mkdocs serve",
+            "group": "build",
+            "problemMatcher": [],
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Build Project",
+            "type": "shell",
+            "command": "dotnet build /workspaces/Stock.Indicators/Stock.Indicators.sln",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run Unit Tests",
+            "type": "shell",
+            "command": "dotnet test /workspaces/Stock.Indicators/tests --filter \"TestCategory=Unit\"",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run Integration Tests",
+            "type": "shell",
+            "command": "dotnet test /workspaces/Stock.Indicators/tests --filter \"TestCategory=Integration\"",
+            "group": "test",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run Performance Tests",
+            "type": "shell",
+            "command": "dotnet test /workspaces/Stock.Indicators/tests --filter \"TestCategory=Performance\"",
+            "group": "test",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Create NuGet Package",
+            "type": "shell",
+            "command": "dotnet pack /workspaces/Stock.Indicators/src/Indicators.csproj -c Release",
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Fix MkDocs Documentation Issues",
+            "type": "shell",
+            "command": "cd /workspaces/Stock.Indicators/docs && python -m mkdocs build -v",
+            "group": "build",
+            "problemMatcher": {
+                "owner": "mkdocs",
+                "fileLocation": ["relative", "${workspaceFolder}/docs"],
+                "pattern": {
+                    "regexp": "^(.*)\\s+in\\s+(.*?)\\s+[(](.*):(\\d+)[)]$",
+                    "message": 1,
+                    "file": 2,
+                    "line": 4
+                }
+            }
+        }
+    ]
+}

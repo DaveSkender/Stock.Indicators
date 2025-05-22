@@ -95,7 +95,7 @@ Here's the complete list of technical indicators and overlays included in this l
 
 ## Chart Analysis
 
-- [Basic quotes](indicators/BasicQuote.md)
+- [Basic quotes](indicators/QuotePart.md)
 - [Candlestick patterns - Doji](indicators/Doji.md)
 - [Candlestick patterns - Marubozu](indicators/Marubozu.md)
 - [Choppiness Index](indicators/Chop.md)
