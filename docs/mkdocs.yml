@@ -18,8 +18,11 @@ theme:
   features:
     - navigation.instant
     - navigation.tracking
-    - navigation.expand
     - navigation.indexes
+    - navigation.sections
+    - navigation.collapse
+    - navigation.path
+    - navigation.expand: 0
     - search.highlight
     - search.share
     - content.code.copy
