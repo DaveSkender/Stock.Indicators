@@ -11,8 +11,10 @@ site_dir: _site
 theme:
   name: material
   palette:
-    primary: indigo
-    accent: indigo
+    # Dark mode only - enforced single palette
+    scheme: slate
+    primary: grey
+    accent: deep orange
   favicon: favicon.ico
   logo: assets/icons/android-chrome-192x192.png
   features:
@@ -26,11 +28,15 @@ theme:
     - search.highlight
     - search.share
     - content.code.copy
+    - content.action.edit
+    - header.autohide
 
   icon:
     repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
   font:
-    text: Roboto
+    text: Rubik
     code: Roboto Mono
 
 # Additional SEO metadata
@@ -45,6 +51,11 @@ extra:
       link: https://www.nuget.org/packages/Skender.Stock.Indicators
   generator: false  # Remove generator meta tag
   manifest: manifest.webmanifest
+  # Set preferred color scheme to dark
+  homepage: https://dotnet.stockindicators.dev
+
+extra_css:
+  - assets/css/custom.css
 
 plugins:
   - search
@@ -54,11 +65,20 @@ plugins:
       minify_css: true
 
 markdown_extensions:
-  - toc
+  - toc:
+      permalink: true
   - tables
   - fenced_code
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path: includes
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
 
 nav:
   - Home: index.md
