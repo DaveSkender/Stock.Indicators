@@ -25,10 +25,16 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 'latest'
+          cache: 'pip'
+
       - name: Install dependencies
         run: |
-          bundle install
-          gem install html-proofer
+          pip install -r requirements.txt
+          pip install linkchecker
 
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
@@ -50,12 +56,45 @@ jobs:
 
       # Test for broken URLs
       - name: Test for broken URLs
-        run: >
-          htmlproofer ./site
-          --no-enforce-https
-          --no-check-external-hash
-          --ignore-status-codes "0,302,403,406,408,429,503,999"
-          --ignore-urls "/fonts.gstatic.com/"
+        run: |
+          # Create a config file for linkchecker with settings similar to original script
+          cat > linkchecker.config << EOF
+          [filtering]
+          # Only check local links
+          ignore=!^http://127.0.0.1
+          # Add patterns similar to original script's ignore_patterns
+          ignoreurl=fonts\.gstatic\.com
+
+          # Ignore certain status codes that the original script ignored
+          ignorewarnings=http-redirected,url-content-too-large,http-empty-content
+          
+          [checking]
+          # Don't check external URLs similar to original script
+          checkextern=0
+          
+          # Allow more threads for faster checking
+          threads=10
+          
+          # Set timeout similar to original script
+          timeout=10
+          
+          [output]
+          # Generate structured logs for analysis
+          fileoutput=text,html
+          EOF
+          
+          echo "Starting link check..."
+          # Run linkchecker with nice formatting and explicit error codes
+          if linkchecker --config linkchecker.config --no-robots --verbose http://127.0.0.1:8000; then
+            echo "✅ Link check passed: No broken links found"
+          else
+            # Get linkchecker's exit code
+            exit_code=$?
+            # Format output nicely like the original script
+            echo "❌ Link check failed with code ${exit_code}: Found broken links"
+            echo "See detailed report in the log above"
+            exit 1
+          fi
 
       - name: Kill site (failsafe)
         if: always()

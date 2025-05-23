@@ -30,7 +30,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install mkdocs-material pymdown-extensions mkdocs-minify-plugin mkdocs-social-plugin
+        run: pip install -r requirements.txt
 
       - name: Define tag
         id: tag

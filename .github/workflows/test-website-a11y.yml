@@ -38,7 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs-material pymdown-extensions mkdocs-minify-plugin mkdocs-social-plugin
+          pip install -r requirements.txt
           npm install -g pa11y-ci
 
       - name: Use 'localhost'
