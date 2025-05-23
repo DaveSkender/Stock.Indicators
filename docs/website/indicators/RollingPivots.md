@@ -4,10 +4,10 @@
 
 
 
-Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window <a href="PivotPoints.md#content" rel="nofollow">Pivot Points</a>.  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
+Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window <a href="PivotPoints.md" rel="nofollow">Pivot Points</a>.  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
-![chart for Rolling Pivot Points]()
+![chart for RollingPivots](../assets/charts/RollingPivots.png)
 
 ```csharp
 // C# usage syntax
@@ -23,7 +23,7 @@ IReadOnlyList<RollingPivotsResult> results =
 
 **`pointType`** _`PivotPointType`_ - Type of Pivot Point.  Default is `PivotPointType.Standard`
 
-For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](PivotPoints.md#content) indicator.
+For example, a window of 8 with an offset of 4 would evaluate quotes like: `W W W W W W W W F F  F F C`, where `W` is the window included in the Pivot Point calculation, and `F` is the distance from the current evaluation position `C`.  A `quotes` with daily bars using `W/F` values of `20/10` would most closely match the `month` variant of the traditional [Pivot Points](PivotPoints.md) indicator.
 
 ### Historical quotes requirements
 
@@ -74,9 +74,9 @@ IReadOnlyList<RollingPivotsResult>
 
 ### Utilities
 
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

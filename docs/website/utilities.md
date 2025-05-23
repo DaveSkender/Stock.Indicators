@@ -22,24 +22,13 @@ var results = quotes
 
 **CandlePart options**
 
-| Enumeration | Name | Description |
-|:------------|:-----|:------------|
-| `O` | Open | Opening price |
-| `H` | High | High price |
-| `L` | Low | Low price |
-| `C` | Close | Closing price |
-| `V` | Volume | Share volume |
-| `HL2` | High-Low midpoint | Average of High and Low prices |
-| `HLC3` | Typical price | Average of High, Low, and Close prices |
-| `OC2` | Open-Close midpoint | Average of Open and Close prices |
-| `OHL3` | Mean price | Average of Open, High, and Low prices |
-| `OHLC4` | Weighted price | Average of Open, High, Low, and Close prices |
+--8<-- "candlepart-options.md"
 
 ### Using tuple quotes
 
 `quotes.ToTupleCollection()` is a method for converting any `TQuote` collection to a simple [tuple](https://docs.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples) `(DateTime, double)` formatted `Collection`. Most indicators in our library will accept this tuple format. With that said, there are many indicators that also require the full OHLCV quote format, so it cannot be used universally.
 
-### Sort quotes {#condense}
+### Sort quotes
 
 `quotes.ToSortedCollection()` sorts any collection of `TQuote` or tuple `(DateTime, double)` and returns it as a `Collection` sorted by ascending `Date`. You do not need to sort quotes before using library indicators; however, if you are creating custom indicators it's important to analyze `quotes` in a proper sequence.
 
@@ -63,13 +52,13 @@ IEnumerable<Quote> customBarQuotes =
 
 ## Utilities for indicator results
 
-### Get or exclude nulls {#remove-warmup-periods}
+### Get or exclude nulls
 
 `results.RemoveWarmupPeriods()` will remove all indicator result records that have `NaN` values.  This is useful to remove warm-up and convergence periods that can contain unusable `NaN` values.  Conversely, you can use `HasWarmupPeriods()` to detect if a result set contains `NaN` values.
 
 **Note on behavior change**: this method will remove any record that has at least one `NaN` value; however, the definition of a warm-up period is subjective based on indicator type and usage.  Previously, we removed records based on warm-up estimates, but these did not catch all the `NaN` values.  If you need to truncate by a specific quantity, see the `Skip` example below.
 
-### Find indicator result {#find-indicator-result-by-date}
+### Find indicator result
 
 `results.Find(lookupDate)` finds the result record on or immediately before the lookup date.
 

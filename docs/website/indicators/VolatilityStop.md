@@ -4,10 +4,10 @@
 
 
 
-Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR](Atr.md#content) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR](ParabolicSar.md#content) and [SuperTrend](SuperTrend.md#content).
+Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR](Atr.md) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR](ParabolicSar.md) and [SuperTrend](SuperTrend.md).
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/564 "Community discussion about this indicator")
 
-![chart for Volatility Stop]()
+![chart for VolatilityStop](../assets/charts/VolatilityStop.png)
 
 ```csharp
 // C# usage syntax
@@ -56,10 +56,10 @@ IReadOnlyList<VolatilityStopResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

@@ -7,7 +7,7 @@
 Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
 
-![chart for Average Directional Index (ADX)]()
+![chart for Adx](../assets/charts/AdIndex.png)
 
 ```csharp
 // C# usage syntax
@@ -52,10 +52,10 @@ IReadOnlyList<AdxResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

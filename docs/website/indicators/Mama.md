@@ -7,7 +7,7 @@
 Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) indicator is a 5-period adaptive moving average of high/low price that uses classic electrical radio-frequency signal processing algorithms to reduce noise.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/211 "Community discussion about this indicator")
 
-![chart for MESA Adaptive Moving Average (MAMA)]()
+![chart for Mama](../assets/charts/Mama.png)
 
 ```csharp
 // C# usage syntax
@@ -50,10 +50,10 @@ IReadOnlyList<MamaResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

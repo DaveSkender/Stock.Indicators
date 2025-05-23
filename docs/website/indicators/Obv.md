@@ -7,7 +7,7 @@
 Popularized by Joseph Granville, [On-balance Volume](https://en.wikipedia.org/wiki/On-balance_volume) is a rolling accumulation of volume based on Close price direction.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/246 "Community discussion about this indicator")
 
-![chart for On-Balance Volume (OBV)]()
+![chart for Obv](../assets/charts/Obv.png)
 
 ```csharp
 // C# usage syntax
@@ -42,9 +42,9 @@ IReadOnlyList<ObvResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

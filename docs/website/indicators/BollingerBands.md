@@ -7,7 +7,7 @@
 Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bollinger_Bands) price channels depict volatility as standard deviation boundary line range from a moving average of price.  Bollinger Bands&#174; is a registered trademark of John A. Bollinger.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/267 "Community discussion about this indicator")
 
-![chart for Bollinger Bands{{page.title}}#174;]()
+![chart for BollingerBands](../assets/charts/BollingerBands.png)
 
 ```csharp
 // C# usage syntax
@@ -56,10 +56,10 @@ IReadOnlyList<BollingerBandsResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

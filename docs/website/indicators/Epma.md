@@ -7,7 +7,7 @@
 Endpoint Moving Average (EPMA), also known as Least Squares Moving Average (LSMA), plots the projected last point of a defined retrospective linear regression.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/371 "Community discussion about this indicator")
 
-![chart for Endpoint Moving Average (EPMA)]()
+![chart for Epma](../assets/charts/Epma.png)
 
 ```csharp
 // C# usage syntax
@@ -44,10 +44,10 @@ IReadOnlyList<EpmaResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

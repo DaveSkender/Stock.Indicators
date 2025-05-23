@@ -7,7 +7,7 @@
 Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple oscillator view of two converging / diverging exponential moving averages and their differences.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/248 "Community discussion about this indicator")
 
-![chart for Moving Average Convergence / Divergence (MACD)]()
+![chart for Macd](../assets/charts/Macd.png)
 
 ```csharp
 // C# usage syntax (with Close price)
@@ -58,10 +58,10 @@ IReadOnlyList<MacdResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

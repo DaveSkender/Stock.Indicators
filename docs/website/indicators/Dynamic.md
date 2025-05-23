@@ -7,7 +7,7 @@
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/866 "Community discussion about this indicator")
 
-![chart for McGinley Dynamic]()
+![chart for Dynamic](../assets/charts/Dynamic.png)
 
 ```csharp
 // C# usage syntax (with Close price)
@@ -54,9 +54,9 @@ IReadOnlyList<DynamicResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

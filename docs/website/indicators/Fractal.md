@@ -7,7 +7,7 @@
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
-![chart for Williams Fractal]()
+![chart for Fractal](../assets/charts/Fractal.png)
 
 ```csharp
 // C# usage syntax
@@ -58,9 +58,9 @@ IReadOnlyList<FractalResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

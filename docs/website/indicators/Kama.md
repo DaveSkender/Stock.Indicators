@@ -7,7 +7,7 @@
 Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=technical_indicators:kaufman_s_adaptive_moving_average) is an volatility adaptive moving average of price over configurable lookback periods.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/210 "Community discussion about this indicator")
 
-![chart for Kaufman's Adaptive Moving Average (KAMA)]()
+![chart for Kama](../assets/charts/Kama.png)
 
 ```csharp
 // C# usage syntax
@@ -54,10 +54,10 @@ More about Efficiency Ratio: ER fluctuates between 0 and 1, but these extremes a
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

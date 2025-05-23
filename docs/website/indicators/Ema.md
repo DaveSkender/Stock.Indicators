@@ -7,7 +7,7 @@
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) is a rolling moving average that puts more weight on current price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
-![chart for Exponential Moving Average (EMA)]()
+![chart for Ema](../assets/charts/Ema.png)
 
 ```csharp
 // C# usage syntax (with Close price)
@@ -46,10 +46,10 @@ IReadOnlyList<EmaResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

@@ -7,7 +7,7 @@
 Created by Marc Chaikin, the [Accumulation/Distribution Line/Index](https://en.wikipedia.org/wiki/Accumulation/distribution_index) is a rolling accumulation of Chaikin Money Flow Volume.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/271 "Community discussion about this indicator")
 
-![chart for Accumulation / Distribution Line (ADL)]()
+![chart for Adl](../assets/charts/Adl.png)
 
 ```csharp
 // C# usage syntax
@@ -45,9 +45,9 @@ IReadOnlyList<AdlResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

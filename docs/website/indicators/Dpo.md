@@ -7,7 +7,7 @@
 [Detrended Price Oscillator](https://en.wikipedia.org/wiki/Detrended_price_oscillator) depicts the difference between price and an offset simple moving average.  It is used to identify trend cycles and duration.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/551 "Community discussion about this indicator")
 
-![chart for Detrended Price Oscillator (DPO)]()
+![chart for Dpo](../assets/charts/Dpo.png)
 
 ```csharp
 // C# usage syntax
@@ -46,9 +46,9 @@ IReadOnlyList<DpoResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

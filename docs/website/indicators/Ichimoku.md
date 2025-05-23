@@ -7,7 +7,7 @@
 Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D), also known as Ichimoku Kinkō Hyō, is a collection of indicators that depict support and resistance, momentum, and trend direction.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/251 "Community discussion about this indicator")
 
-![chart for Ichimoku Cloud]()
+![chart for Ichimoku](../assets/charts/Ichimoku.png)
 
 ```csharp
 // C# usage syntax
@@ -72,9 +72,9 @@ IReadOnlyList<IchimokuResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

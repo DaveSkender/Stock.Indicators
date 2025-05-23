@@ -7,7 +7,7 @@
 Created by Munehisa Homma, [Heikin-Ashi](https://en.wikipedia.org/wiki/Candlestick_chart#Heikin-Ashi_candlesticks) is a modified candlestick pattern based on prior period prices for smoothing.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/254 "Community discussion about this indicator")
 
-![chart for Heikin-Ashi]()
+![chart for HeikinAshi](../assets/charts/HeikinAshi.png)
 
 ```csharp
 // C# usage syntax
@@ -48,8 +48,8 @@ IReadOnlyList<HeikinAshiResult>
 
 ### Utilities
 
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 - .ToQuotes() to convert to a `Quote` collection.  Example:
 
   ```csharp

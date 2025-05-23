@@ -7,7 +7,7 @@
 Created by Bill Williams, the Awesome Oscillator (aka Super AO) is a measure of the gap between a fast and slow period modified moving average.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/282 "Community discussion about this indicator")
 
-![chart for Awesome Oscillator (AO)]()
+![chart for Awesome](../assets/charts/Awesome.png)
 
 ```csharp
 // C# usage syntax
@@ -48,10 +48,10 @@ IReadOnlyList<AwesomeResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

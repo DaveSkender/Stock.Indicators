@@ -1,9 +1,9 @@
 # Price Relative Strength (PRS)
 
-[Price Relative Strength (PRS)](https://en.wikipedia.org/wiki/Relative_strength), also called Comparative Relative Strength, shows the ratio of two quote histories, based on price.  It is often used to compare against a market index or sector ETF.  When using the optional `lookbackPeriods`, this also returns relative percent change over the specified periods.  This is not the same as the more prevalent <a href="Rsi.md#content" rel="nofollow">Relative Strength Index (RSI)</a>.
+[Price Relative Strength (PRS)](https://en.wikipedia.org/wiki/Relative_strength), also called Comparative Relative Strength, shows the ratio of two quote histories, based on price.  It is often used to compare against a market index or sector ETF.  When using the optional `lookbackPeriods`, this also returns relative percent change over the specified periods.  This is not the same as the more prevalent <a href="Rsi.md" rel="nofollow">Relative Strength Index (RSI)</a>.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/243 "Community discussion about this indicator")
 
-![chart for Price Relative Strength (PRS)]()
+![chart for Prs](../assets/charts/Prs.png)
 
 ```csharp
 // C# usage syntax
@@ -44,9 +44,9 @@ IReadOnlyList<PrsResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

@@ -4,10 +4,10 @@
 
 
 
-Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also <a href="Keltner.md#content" rel="nofollow">Keltner Channels</a> for an EMA centerline equivalent.
+Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](https://www.investopedia.com/terms/s/starc.asp), are price ranges based on an SMA centerline and ATR band widths.  See also <a href="Keltner.md" rel="nofollow">Keltner Channels</a> for an EMA centerline equivalent.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/292 "Community discussion about this indicator")
 
-![chart for STARC Bands]()
+![chart for StarcBands](../assets/charts/StarcBands.png)
 
 ```csharp
 // C# usage syntax
@@ -54,10 +54,10 @@ IReadOnlyList<StarcBandsResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

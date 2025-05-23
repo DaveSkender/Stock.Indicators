@@ -4,10 +4,10 @@
 
 
 
-Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of prices by using [Average True Range (ATR)](Atr.md#content) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
+Created by Oliver Seban, the SuperTrend indicator attempts to determine the primary trend of prices by using [Average True Range (ATR)](Atr.md) band thresholds around an HL2 midline.  It can indicate a buy/sell signal or a trailing stop when the trend changes.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/235 "Community discussion about this indicator")
 
-![chart for SuperTrend]()
+![chart for SuperTrend](../assets/charts/SuperTrend.png)
 
 ```csharp
 // C# usage syntax
@@ -54,10 +54,10 @@ IReadOnlyList<SuperTrendResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

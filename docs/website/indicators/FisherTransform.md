@@ -7,7 +7,7 @@
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
 
-![chart for Ehlers Fisher Transform]()
+![chart for FisherTransform](../assets/charts/FisherTransform.png)
 
 ```csharp
 // C# usage syntax
@@ -47,9 +47,9 @@ IReadOnlyList<FisherTransformResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 For pruning of warmup periods, we recommend using the following guidelines:
 

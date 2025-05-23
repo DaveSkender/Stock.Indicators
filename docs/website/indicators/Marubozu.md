@@ -7,7 +7,7 @@
 [Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/512 "Community discussion about this indicator")
 
-![chart for Marubozu]()
+![chart for Marubozu](../assets/charts/Marubozu.png)
 
 ```csharp
 // C# usage syntax
@@ -42,8 +42,8 @@ IReadOnlyList<CandleResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.

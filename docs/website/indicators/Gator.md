@@ -7,7 +7,7 @@
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator](Alligator.md)'s three moving averages.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
-![chart for Gator Oscillator]()
+![chart for Gator](../assets/charts/Gator.png)
 
 ```csharp
 // C# usage syntax
@@ -53,10 +53,10 @@ IReadOnlyList<GatorResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

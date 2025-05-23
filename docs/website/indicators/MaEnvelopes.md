@@ -7,7 +7,7 @@
 [Moving Average Envelopes](https://en.wikipedia.org/wiki/Moving_average_envelope) is a price band channel overlay that is offset from the moving average of price.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/288 "Community discussion about this indicator")
 
-![chart for Moving Average Envelopes]()
+![chart for MaEnvelopes](../assets/charts/MaEnvelopes.png)
 
 ```csharp
 // C# usage syntax
@@ -33,23 +33,23 @@ See links in the supported [MaType options](#matype-options) section below for d
 
 These are the supported moving average types:
 
-**`MaType.ALMA`** - [Arnaud Legoux Moving Average](Alma.md#content)
+**`MaType.ALMA`** - [Arnaud Legoux Moving Average](Alma.md)
 
-**`MaType.DEMA`** - [Double Exponential Moving Average](Dema.md#content)
+**`MaType.DEMA`** - [Double Exponential Moving Average](Dema.md)
 
-**`MaType.EPMA`** - [Endpoint Moving Average](Epma.md#content)
+**`MaType.EPMA`** - [Endpoint Moving Average](Epma.md)
 
-**`MaType.EMA`** - [Exponential Moving Average](Ema.md#content)
+**`MaType.EMA`** - [Exponential Moving Average](Ema.md)
 
-**`MaType.HMA`** - [Hull Moving Average](Hma.md#content)
+**`MaType.HMA`** - [Hull Moving Average](Hma.md)
 
-**`MaType.SMA`** - [Simple Moving Average](Sma.md#content) (default)
+**`MaType.SMA`** - [Simple Moving Average](Sma.md) (default)
 
-**`MaType.SMMA`** - [Smoothed Moving Average](Smma.md#content)
+**`MaType.SMMA`** - [Smoothed Moving Average](Smma.md)
 
-**`MaType.TEMA`** - [Triple Exponential Moving Average](Tema.md#content)
+**`MaType.TEMA`** - [Triple Exponential Moving Average](Tema.md)
 
-**`MaType.WMA`** - [Weighted Moving Average](Wma.md#content)
+**`MaType.WMA`** - [Weighted Moving Average](Wma.md)
 
 > &#128681;  **Warning**: For ALMA, default values are used for `offset` and `sigma`.
 
@@ -80,9 +80,9 @@ The moving average `Centerline` is based on the `movingAverageType` type specifi
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

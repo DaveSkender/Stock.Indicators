@@ -7,7 +7,7 @@
 Created by J. Welles Wilder, [Parabolic SAR](https://en.wikipedia.org/wiki/Parabolic_SAR) (stop and reverse) is a price-time based indicator used to determine trend direction and reversals.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/245 "Community discussion about this indicator")
 
-![chart for Parabolic SAR]()
+![chart for ParabolicSar](../assets/charts/ParabolicSar.png)
 
 ```csharp
 // C# usage syntax (standard)
@@ -54,10 +54,10 @@ IReadOnlyList<ParabolicSarResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 

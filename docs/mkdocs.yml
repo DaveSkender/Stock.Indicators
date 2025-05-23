@@ -50,6 +50,13 @@ plugins:
       minify_js: true
       minify_css: true
 
+markdown_extensions:
+  - toc
+  - tables
+  - fenced_code
+  - pymdownx.snippets:
+      base_path: includes
+
 nav:
   - Home: index.md
   - Indicators:
@@ -143,7 +150,6 @@ nav:
       - Rolling Pivots: indicators/RollingPivots.md
       - Renko Chart: indicators/Renko.md
       - ZigZag: indicators/ZigZag.md
-      - Candle Options: indicators/candlepart-options.md
   - Guide: guide.md
   - Utilities: utilities.md
   - Examples: examples.md

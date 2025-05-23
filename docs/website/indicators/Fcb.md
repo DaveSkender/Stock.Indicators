@@ -4,10 +4,10 @@
 
 
 
-Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of <a href="Fractal.md#content" rel="nofollow">Williams Fractal</a>.
+Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of <a href="Fractal.md" rel="nofollow">Williams Fractal</a>.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/347 "Community discussion about this indicator")
 
-![chart for Fractal Chaos Bands (FCB)]()
+![chart for Fcb](../assets/charts/Fcb.png)
 
 ```csharp
 // C# usage syntax
@@ -19,7 +19,7 @@ IReadOnlyList<FcbResult> results =
 
 **`windowSpan`** _`int`_ - Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](Fractal.md#content) for more information about Fractals and `windowSpan`.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](Fractal.md) for more information about Fractals and `windowSpan`.
 
 ### Historical quotes requirements
 
@@ -48,10 +48,10 @@ IReadOnlyList<FcbResult>
 
 ### Utilities
 
-- [.Condense()](../utilities.md#condense)
-- [.Find(lookupDate)](../utilities.md#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()](../utilities.md#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)](../utilities.md#remove-warmup-periods)
+- [.Condense()](../utilities.md#sort-quotes)
+- [.Find(lookupDate)](../utilities.md#find-indicator-result)
+- [.RemoveWarmupPeriods()](../utilities.md#get-or-exclude-nulls)
+- [.RemoveWarmupPeriods(qty)](../utilities.md#get-or-exclude-nulls)
 
 See [Utilities and helpers](../utilities.md#utilities-for-indicator-results) for more information.
 
