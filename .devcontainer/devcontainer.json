@@ -9,9 +9,13 @@
       "version": "lts"
     }
   },
+  "forwardPorts": [
+    8000 // for serving MkDocs website
+  ],
   "customizations": {
     "vscode": {
       "settings": {
+        "settingsSync.extensions": false,
         "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
@@ -25,5 +29,5 @@
       ]
     }
   },
-  "postCreateCommand": "dotnet workload update && dotnet restore && pip install mkdocs"
+  "postCreateCommand": "./setup.sh"
 }
