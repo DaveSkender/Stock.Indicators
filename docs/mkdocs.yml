@@ -6,6 +6,7 @@ repo_url: https://github.com/DaveSkender/Stock.Indicators
 repo_name: DaveSkender/Stock.Indicators
 copyright: Copyright &copy; Dave Skender
 docs_dir: website
+site_dir: _site
 
 theme:
   name: material

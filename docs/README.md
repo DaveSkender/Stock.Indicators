@@ -51,7 +51,7 @@ Alternatively, you can use the provided scripts:
 
 - `mkdocs.yml` - Configuration file for MkDocs
 - `website/` - Source Markdown files for the documentation
-- `site/` - Generated HTML files (created when building)
+- `_site/` - Generated HTML files (created when building)
 - `requirements.txt` - Python dependencies
 
 ### Adding or Editing Content

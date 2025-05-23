@@ -5,4 +5,4 @@ echo "Building MkDocs site..."
 cd /workspaces/Stock.Indicators/docs
 mkdocs build
 
-echo "MkDocs site built successfully! Files are in /workspaces/Stock.Indicators/docs/site/"
+echo "MkDocs site built successfully! Files are in /docs/_site/"

@@ -64,5 +64,5 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "latest"
           command: >
-            pages deploy docs/site
+            pages deploy docs/_site
             --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME }}

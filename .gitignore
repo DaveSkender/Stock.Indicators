@@ -332,7 +332,7 @@ ASALocalRun/
 
 # Documentation site build folders
 _site/
-docs/site/
+docs/_site/
 
 # zip artifacts
 .DS_Store
