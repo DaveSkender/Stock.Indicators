@@ -16,7 +16,7 @@ Created by Welles Wilder, the ATR Trailing Stop indicator attempts to determine 
 
 ```csharp
 // C# usage syntax
-IEnumerable<AtrStopResult> results =
+IReadOnlyList<AtrStopResult> results =
   quotes.GetAtrStop(lookbackPeriods, multiplier, endType);
 ```
 
@@ -43,7 +43,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<AtrStopResult>
+IReadOnlyList<AtrStopResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -55,13 +55,15 @@ IEnumerable<AtrStopResult>
 
 ### AtrStopResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
-**`AtrStop`** _`decimal`_ - ATR Trailing Stop line contains both Upper and Lower segments
+**`AtrStop`** _`double`_ - ATR Trailing Stop line contains both Upper and Lower segments
 
-**`BuyStop`** _`decimal`_ - Upper band only (green)
+**`BuyStop`** _`double`_ - Upper band only (green)
 
-**`SellStop`** _`decimal`_ - Lower band only (red)
+**`SellStop`** _`double`_ - Lower band only (red)
+
+**`Atr`** _`double`_ - Average True Range
 
 `BuyStop` and `SellStop` values are provided to differentiate buy vs sell stop lines and to clearly demark trend reversal.  `AtrStop` is the contiguous combination of both upper and lower line data.
 

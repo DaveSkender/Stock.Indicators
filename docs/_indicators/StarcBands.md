@@ -16,7 +16,7 @@ Created by Manning Stoller, the [Stoller Average Range Channel (STARC) Bands](ht
 
 ```csharp
 // C# usage syntax
-IEnumerable<StarcBandsResult> results =
+IReadOnlyList<StarcBandsResult> results =
   quotes.GetStarcBands(smaPeriods, multiplier, atrPeriods);
 ```
 
@@ -37,7 +37,7 @@ You must have at least `S` or `A+100` periods of `quotes`, whichever is more, to
 ## Response
 
 ```csharp
-IEnumerable<StarcBandsResult>
+IReadOnlyList<StarcBandsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -49,7 +49,7 @@ IEnumerable<StarcBandsResult>
 
 ### StarcBandsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - Upper STARC band
 
