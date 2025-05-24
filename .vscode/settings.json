@@ -14,6 +14,8 @@
       "front_matter_title": "^\\s*title\\s*[:=]"
     }
   },
+  "chat.mcp.enabled": true,
+  "chat.mcp.discovery.enabled": true,
   "search.exclude": {
     "**/_site/**": true,
     "**/.vs/**": true,
