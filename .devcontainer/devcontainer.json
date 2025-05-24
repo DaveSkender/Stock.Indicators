@@ -43,5 +43,5 @@
       ]
     }
   },
-  "postCreateCommand": "dotnet restore"
+  "postCreateCommand": ".devcontainer/startup.sh"
 }
