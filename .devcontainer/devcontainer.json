@@ -2,8 +2,8 @@
   "name": "Stock Indicators Dev Container",
   "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
   "features": {
-    "ghcr.io/devcontainers/features/ruby:1": {
-      "version": "3.3"
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "latest"
     },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
@@ -29,21 +29,22 @@
         "editor.bracketPairColorization.enabled": true,
         "editor.guides.bracketPairs": "active",
         "editor.formatOnPaste": true,
-        "terminal.integrated.defaultProfile.windows": "Git Bash",
-        "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
+        "terminal.integrated.defaultProfile.linux": "bash"
         "scss.validate": false,
-        "markdownlint.config": {
-          "MD033": false,
-          "MD025": false
-        },
         "chat.mcp.enabled": true,
         "chat.mcp.discovery.enabled": true
       },
       "extensions": [
+        "DavidAnson.vscode-markdownlint",
         "ms-dotnettools.csdevkit",
-        "DavidAnson.vscode-markdownlint"
+        "DotJoshJohnson.xml",
+        "redhat.vscode-yaml",
+        "bierner.github-markdown-preview",
+        "EditorConfig.EditorConfig",
+        "ms-dotnettools.vscodeintellicode-csharp"
       ]
     }
   },
+
   "postCreateCommand": ".devcontainer/startup.sh"
 }

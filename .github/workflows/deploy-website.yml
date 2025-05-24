@@ -1,12 +1,9 @@
-name: Deploy website
+name: Deploy vNext website
 
 on: workflow_dispatch
 
 concurrency:
   group: docs-website
-
-env:
-  JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
   contents: read
@@ -18,10 +15,6 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     environment:
       name: stockindicators.dev
       url: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
@@ -30,13 +23,14 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          ruby-version: 3.3
+          python-version: 'latest'
+          cache: 'pip'
 
       - name: Install dependencies
-        run: bundle install
+        run: pip install -r requirements.txt
 
       - name: Define tag
         id: tag
@@ -52,17 +46,18 @@ jobs:
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
         env:
-          JEKYLL_ENV: production
-        run: bundle exec jekyll build
+          MKDOCS_ENV: production
+        run: mkdocs build
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         env:
-          JEKYLL_ENV: preview
-        run: bundle exec jekyll build
+          MKDOCS_ENV: preview
+        run: mkdocs build
 
       - name: Publish to Cloudflare Pages
         id: deploy
+        if: github.ref != 'refs/heads/v3'
         uses: cloudflare/wrangler-action@v3.1.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_KEY }}
