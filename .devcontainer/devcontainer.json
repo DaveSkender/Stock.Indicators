@@ -35,7 +35,9 @@
         "markdownlint.config": {
           "MD033": false,
           "MD025": false
-        }
+        },
+        "chat.mcp.enabled": true,
+        "chat.mcp.discovery.enabled": true
       },
       "extensions": [
         "ms-dotnettools.csdevkit",

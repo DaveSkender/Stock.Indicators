@@ -8,7 +8,7 @@ echo "🚀 Starting Stock Indicators dev container setup..."
 # Verify Node.js and npm are available
 echo "🔍 Verifying Node.js environment..."
 node --version
-npm --version
+npm install -g npm@latest
 
 # Install uv package manager if not available
 echo "📦 Installing uv package manager for Fetch MCP server..."
