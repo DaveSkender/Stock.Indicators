@@ -7,6 +7,11 @@ on:
     branches: ["*"]
   workflow_dispatch:
 
+permissions:
+  contents: read   # Required for checkout
+  actions: read    # Required for workflow runs
+  checks: write    # Required for test results
+
 jobs:
   test:
     name: unit tests
@@ -86,7 +91,7 @@ jobs:
 
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: env.IS_PRIMARY == 'true'
+        if: env.IS_PRIMARY == 'true' && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml

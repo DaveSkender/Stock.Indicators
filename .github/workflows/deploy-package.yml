@@ -30,6 +30,10 @@ concurrency:
   group: ${{ github.ref_name }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   package:
     runs-on: ubuntu-latest

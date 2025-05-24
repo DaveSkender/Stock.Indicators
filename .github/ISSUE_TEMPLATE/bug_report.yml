@@ -1,6 +1,6 @@
 name: Bug report
 description: File a bug report.
-labels: ["bug"]
+type: Bug
 body:
   - type: markdown
     attributes:
@@ -15,25 +15,6 @@ body:
       placeholder: Tell us what you see!
     validations:
       required: true
-  - type: textarea
-    id: usage
-    attributes:
-      label: Code usage
-      description: How did you write your code? Provide a code snippet. _This will be auto-formatted as code, so no need for \`backticks\`_. Also, consider providing your source _quotes_ as a _JSON, CSV, or Excel_ file in the "What happened?" field.
-      render: csharp
-      placeholder: |
-        // example (put your own code here)
-        IEnumerable<EmaResult> results = quotes.GetEma(14);
-    validations:
-      required: false
-  - type: textarea
-    id: logs
-    attributes:
-      label: Log output
-      description: Please copy and paste any relevant log output. _This will be auto-formatted as code, so no need for \`backticks\`_.
-      render: bash
-    validations:
-      required: false
   - type: markdown
     attributes:
       value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, contact [Skender Co.](https://skenderco.com)
