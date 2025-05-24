@@ -1,6 +1,5 @@
 {
     "recommendations": [
-        "codacy-app.codacy",
         "adrianwilczynski.user-secrets",
         "github.vscode-github-actions",
         "github.vscode-pull-request-github",
