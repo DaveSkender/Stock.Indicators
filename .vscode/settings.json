@@ -3,6 +3,8 @@
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
+  "chat.mcp.enabled": true,
+  "chat.mcp.discovery.enabled": true,
   // search settings, auto excludes files.exclude
   "search.exclude": {
     "**/_site/**": true,
