@@ -299,13 +299,13 @@
         "Pid": "P1",
         "DisplayName": "Evaluated Prices",
         "ParamName": "sourceEval",
-        "DataType": "any[]"
+        "DataType": "IReusable[]"
       },
       {
         "Pid": "P2",
         "DisplayName": "Market Prices",
         "ParamName": "sourceMrkt",
-        "DataType": "any[]"
+        "DataType": "IReusable[]"
       },
       {
         "Pid": "P3",
@@ -663,13 +663,13 @@
         "Pid": "P1",
         "DisplayName": "Source A",
         "ParamName": "sourceA",
-        "DataType": "any[]"
+        "DataType": "IReusable[]"
       },
       {
         "Pid": "P2",
         "DisplayName": "Source B",
         "ParamName": "sourceB",
-        "DataType": "any[]"
+        "DataType": "IReusable[]"
       },
       {
         "Pid": "P3",
@@ -1872,13 +1872,13 @@
         "Pid": "P1",
         "DisplayName": "Evaluated Prices",
         "ParamName": "sourceEval",
-        "DataType": "any[]"
+        "DataType": "IReusable[]"
       },
       {
         "Pid": "P2",
         "DisplayName": "Base Prices",
         "ParamName": "sourceBase",
-        "DataType": "any[]"
+        "DataType": "IReusable[]"
       },
       {
         "Pid": "P3",

@@ -231,18 +231,7 @@ internal static class IndicatorProcessor
         // Handle ParamSeriesAttribute<T>
         else if (attributeClassName.StartsWith("ParamSeries"))
         {
-            // Extract DataType property from attribute
-            dataType = "any[]"; // Default fallback value
-
-            // Look for DataType property in named arguments
-            foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
-            {
-                if (namedArg.Key == "DataType" && namedArg.Value.Value is string dataTypeValue)
-                {
-                    dataType = dataTypeValue;
-                    break;
-                }
-            }
+            dataType = DetermineSeriesDataType(attributeClass: attributeClass);
 
             defaultValue = null;
             minValue = null;
@@ -333,6 +322,18 @@ internal static class IndicatorProcessor
         }
 
         return "number"; // Default to number for decimal, double, etc.
+    }
+
+    private static string DetermineSeriesDataType(INamedTypeSymbol attributeClass)
+    {
+        // Check the generic type argument for ParamSeriesAttribute<T>
+        if (attributeClass.TypeArguments.Length > 0)
+        {
+            ITypeSymbol typeArg = attributeClass.TypeArguments[0];
+            return $"{typeArg.Name}[]";
+        }
+
+        return "any[]"; // Default fallback if no type argument found
     }
 
     private static void ExtractNumericValues(
