@@ -30,7 +30,7 @@
         "editor.bracketPairColorization.enabled": true,
         "editor.guides.bracketPairs": "active",
         "editor.formatOnPaste": true,
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
         "scss.validate": false,
         "markdownlint.config": {
           "MD033": false,
@@ -46,7 +46,8 @@
         "EditorConfig.EditorConfig",
         "ms-dotnettools.csdevkit",
         "ms-dotnettools.vscodeintellicode-csharp",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "GitHub.copilot"
       ]
     }
   },
