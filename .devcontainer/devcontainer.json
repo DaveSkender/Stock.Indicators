@@ -13,7 +13,31 @@
     "vscode": {
       "settings": {
         "settingsSync.extensions": false,
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 3000,
+        "files.encoding": "utf8",
+        "files.exclude": {
+          "**/.vs/**": true,
+          "**/bin/**": true,
+          "**/obj/**": true,
+          "**/TestResults/**": true,
+          "**/*.csproj.user": true
+        },
+        "search.exclude": {
+          "**/_site/**": true
+        },
+        "editor.codeLens": false,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": "active",
+        "editor.formatOnPaste": true,
         "terminal.integrated.defaultProfile.linux": "bash"
+        "scss.validate": false,
+        "markdownlint.config": {
+          "MD033": false,
+          "MD025": false
+        },
+        "chat.mcp.enabled": true,
+        "chat.mcp.discovery.enabled": true
       },
       "extensions": [
         "bierner.github-markdown-preview",
@@ -26,5 +50,5 @@
       ]
     }
   },
-  "postCreateCommand": "dotnet restore"
+  "postCreateCommand": ".devcontainer/startup.sh"
 }
