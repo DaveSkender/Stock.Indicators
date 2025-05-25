@@ -12,16 +12,17 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "settingsSync.extensions": false,
         "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
-        "DavidAnson.vscode-markdownlint",
-        "ms-dotnettools.csdevkit",
-        "DotJoshJohnson.xml",
-        "redhat.vscode-yaml",
         "bierner.github-markdown-preview",
+        "DavidAnson.vscode-markdownlint",
+        "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
-        "ms-dotnettools.vscodeintellicode-csharp"
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "redhat.vscode-yaml"
       ]
     }
   },

@@ -44,6 +44,8 @@ public static partial class Catalog
                 Uiid = indicator.Uiid,
                 Category = indicator.Category,
                 ChartType = indicator.ChartType,
+                Style = indicator.Style,
+                ReturnType = indicator.ReturnType,
                 ChartConfig = indicator.ChartConfig,
                 Order = indicator.Order,
                 Parameters = indicator.Parameters,

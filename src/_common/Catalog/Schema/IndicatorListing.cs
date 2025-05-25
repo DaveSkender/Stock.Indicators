@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Skender.Stock.Indicators;
 #pragma warning disable CA1308 // Normalize strings to uppercase
@@ -49,19 +50,27 @@ public record IndicatorListing
     /// </summary>
     public required string LegendTemplate { get; init; }
 
-    // TODO: Add Style as enum
-    // TODO: Add ReturnType as string
+    /// <summary>
+    /// Gets or sets the style of the indicator (Series, Buffer, Stream).
+    /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Style Style { get; init; } = Style.Series;
+
+    /// <summary>
+    /// Gets or sets the return type name for the indicator method.
+    /// </summary>
+    public string? ReturnType { get; init; }
 
     /// <summary>
     /// Gets or sets the category of the indicator.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter<Category>))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public required Category Category { get; init; }
 
     /// <summary>
     /// Gets or sets the chart type for the indicator.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter<ChartType>))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public required ChartType ChartType { get; init; }
 
     /// <summary>

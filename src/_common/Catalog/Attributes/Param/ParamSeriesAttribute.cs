@@ -18,5 +18,5 @@ internal sealed class ParamSeriesAttribute<T>(
     /// <summary>
     /// Gets the TypeScript-friendly data type for the series.
     /// </summary>
-    public string DataType { get; } = $"{typeof(T).Name}[]";
+    public string DataType { get; } = typeof(T).Name + "[]";
 }

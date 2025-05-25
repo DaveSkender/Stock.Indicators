@@ -231,8 +231,19 @@ internal static class IndicatorProcessor
         // Handle ParamSeriesAttribute<T>
         else if (attributeClassName.StartsWith("ParamSeries"))
         {
-            // Extract DataType property from attribute
-            dataType = "any[]"; // Default fallback value
+            // Extract the generic type argument from the attribute class
+            INamedTypeSymbol? attributeSymbol = attribute.AttributeClass;
+            if (attributeSymbol != null && attributeSymbol.IsGenericType && attributeSymbol.TypeArguments.Length > 0)
+            {
+                // Get the name of the generic type parameter
+                string genericTypeName = attributeSymbol.TypeArguments[0].Name;
+                dataType = $"{genericTypeName}[]";
+            }
+            else
+            {
+                // Default fallback value if we can't determine the generic type
+                dataType = "any[]";
+            }
 
             // Look for DataType property in named arguments
             foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
