@@ -6,6 +6,23 @@ namespace Skender.Stock.Indicators;
 public static partial class Vwap
 {
     /// <summary>
+    /// Calculates the VWAP for a series of quotes starting from a specific date.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="startDate">The start date for the VWAP calculation.</param>
+    /// <returns>A list of VwapResult containing the VWAP values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    [Series("VWAP", "Volume Weighted Average Price", Category.PriceChannel, ChartType.Overlay)]
+    public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        [ParamDate("Start Date")]
+        DateTime startDate)
+        where TQuote : IQuote => quotes
+            .ToQuoteDList()
+            .CalcVwap(startDate);
+
+    /// <summary>
     /// Calculates the VWAP for a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
@@ -14,9 +31,9 @@ public static partial class Vwap
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     [Series("VWAP", "Volume Weighted Average Price", Category.PriceChannel, ChartType.Overlay)]
+    [Obsolete("Use ToVwap(quotes, DateTime startDate) instead. This overload will be removed in a future version.")]
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        //TODO: [ParamNum<DateTime>("Start Date")]
         DateTime? startDate = null)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

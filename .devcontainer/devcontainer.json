@@ -12,6 +12,7 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "settingsSync.extensions": false,
         "files.autoSave": "afterDelay",
         "files.autoSaveDelay": 3000,
         "files.encoding": "utf8",
@@ -29,7 +30,7 @@
         "editor.bracketPairColorization.enabled": true,
         "editor.guides.bracketPairs": "active",
         "editor.formatOnPaste": true,
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
         "scss.validate": false,
         "markdownlint.config": {
           "MD033": false,
@@ -39,13 +40,14 @@
         "chat.mcp.discovery.enabled": true
       },
       "extensions": [
-        "DavidAnson.vscode-markdownlint",
-        "ms-dotnettools.csdevkit",
-        "DotJoshJohnson.xml",
-        "redhat.vscode-yaml",
         "bierner.github-markdown-preview",
+        "DavidAnson.vscode-markdownlint",
+        "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
-        "ms-dotnettools.vscodeintellicode-csharp"
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "redhat.vscode-yaml",
+        "GitHub.copilot"
       ]
     }
   },

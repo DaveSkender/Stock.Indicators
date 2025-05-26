@@ -111,6 +111,8 @@ internal static class CodeGenerator
                         Uiid = "{{indicator.Uiid}}",
                         Category = Category.{{indicator.Category}},
                         ChartType = ChartType.{{indicator.ChartType}},
+                        Style = Style.{{indicator.Type}},
+                        ReturnType = "{{indicator.ContainingType}}.{{indicator.MemberName}}",
                         Order = Order.Front,
                         ChartConfig = null,
                         LegendTemplate = "{{legendTemplate}}",
@@ -137,7 +139,8 @@ internal static class CodeGenerator
         }
 
         // Add result configs
-        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, legendTemplate);
+        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, legendTemplate,
+            $"{indicator.ContainingType}.{indicator.MemberName}");
 
         sourceBuilder.AppendLine("            },");
     }
@@ -181,10 +184,44 @@ internal static class CodeGenerator
     }
 
     private static void AppendResultConfig(
-        StringBuilder sourceBuilder, string name, string id, string tooltipTemplate)
-        => sourceBuilder.AppendLine($$"""
+        StringBuilder sourceBuilder, string name, string id, string tooltipTemplate, string returnType)
+    {
+        // For the catalog generator, we'll use some common patterns to determine the results
+        // based on the indicator ID and naming conventions
+
+        sourceBuilder.AppendLine("""
                     Results = new List<IndicatorResultConfig>
                     {
+        """);
+
+        // Common indicator patterns based on ID
+        switch (id.ToUpperInvariant())
+        {
+            // Bollinger Bands
+            case "BB":
+                AppendPriceBandIndicatorConfigs(sourceBuilder, name, "bb", tooltipTemplate);
+                break;
+
+            // Keltner Channels
+            case "KELTNER":
+                AppendPriceBandIndicatorConfigs(sourceBuilder, name, "keltner", tooltipTemplate);
+                break;
+
+            // Stochastic indicators
+            case "STOCH":
+            case "STOCH-RSI":
+                AppendStochasticIndicatorConfigs(sourceBuilder, name, id.ToLowerInvariant(), tooltipTemplate);
+                break;
+
+            // MACD indicator
+            case "MACD":
+                AppendMacdIndicatorConfigs(sourceBuilder, name, "macd", tooltipTemplate);
+                break;
+
+            // Default - just add a simple result with IsDefaultOutput = true
+            // For single result indicators, this will be the default output
+            default:
+                sourceBuilder.AppendLine($$"""
                         new IndicatorResultConfig
                         {
                             DataName = "{{id.ToLowerInvariant()}}",
@@ -194,11 +231,131 @@ internal static class CodeGenerator
                             DefaultColor = ChartColors.StandardBlue,
                             LineType = "solid",
                             LineWidth = 2,
-                            Stack = null,
-                            Fill = null
+                            IsDefaultOutput = true
                         }
+        """);
+                break;
+        }
+
+        sourceBuilder.AppendLine("""
                     }
-    """);
+        """);
+    }
+
+    // Helper for price band indicators (Bollinger Bands, Keltner, etc.)
+    private static void AppendPriceBandIndicatorConfigs(
+        StringBuilder sourceBuilder, string name, string dataNamePrefix, string tooltipTemplate)
+    {
+        // For price band indicators, centerline property is affiliated with IReusable.Value
+        sourceBuilder.AppendLine($$"""
+                        new IndicatorResultConfig
+                        {
+                            DataName = "upperBand",
+                            DisplayName = "Upper Band",
+                            TooltipTemplate = "{{tooltipTemplate}} Upper Band",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardBlue,
+                            LineType = "solid",
+                            LineWidth = 2,
+                            IsDefaultOutput = false
+                        },
+                        new IndicatorResultConfig
+                        {
+                            DataName = "centerline",
+                            DisplayName = "Centerline",
+                            TooltipTemplate = "{{tooltipTemplate}} Centerline",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardBlue,
+                            LineType = "dash",
+                            LineWidth = 1,
+                            IsDefaultOutput = true
+                        },
+                        new IndicatorResultConfig
+                        {
+                            DataName = "lowerBand",
+                            DisplayName = "Lower Band",
+                            TooltipTemplate = "{{tooltipTemplate}} Lower Band",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardBlue,
+                            LineType = "solid",
+                            LineWidth = 2,
+                            IsDefaultOutput = false
+                        }
+        """);
+    }
+
+    // Helper for Stochastic oscillator configurations
+    private static void AppendStochasticIndicatorConfigs(
+        StringBuilder sourceBuilder, string name, string dataNamePrefix, string tooltipTemplate)
+    {
+        // For stochastic indicators, oscillator property is affiliated with IReusable.Value
+        sourceBuilder.AppendLine($$"""
+                        new IndicatorResultConfig
+                        {
+                            DataName = "oscillator",
+                            DisplayName = "%K",
+                            TooltipTemplate = "{{tooltipTemplate}} %K",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardBlue,
+                            LineType = "solid",
+                            LineWidth = 2,
+                            IsDefaultOutput = true
+                        },
+                        new IndicatorResultConfig
+                        {
+                            DataName = "signal",
+                            DisplayName = "%D",
+                            TooltipTemplate = "{{tooltipTemplate}} %D",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardRed,
+                            LineType = "solid",
+                            LineWidth = 2,
+                            IsDefaultOutput = false
+                        }
+        """);
+    }
+
+    // Helper for MACD configurations
+    private static void AppendMacdIndicatorConfigs(
+        StringBuilder sourceBuilder, string name, string dataNamePrefix, string tooltipTemplate)
+    {
+        // For MACD indicators, macd property is affiliated with IReusable.Value
+        sourceBuilder.AppendLine($$"""
+                        new IndicatorResultConfig
+                        {
+                            DataName = "macd",
+                            DisplayName = "MACD",
+                            TooltipTemplate = "{{tooltipTemplate}} MACD",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardBlue,
+                            LineType = "solid",
+                            LineWidth = 2,
+                            IsDefaultOutput = true
+                        },
+                        new IndicatorResultConfig
+                        {
+                            DataName = "signal",
+                            DisplayName = "Signal",
+                            TooltipTemplate = "{{tooltipTemplate}} Signal",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardRed,
+                            LineType = "solid",
+                            LineWidth = 2,
+                            IsDefaultOutput = false
+                        },
+                        new IndicatorResultConfig
+                        {
+                            DataName = "histogram",
+                            DisplayName = "Histogram",
+                            TooltipTemplate = "{{tooltipTemplate}} Histogram",
+                            DataType = "number",
+                            DefaultColor = ChartColors.StandardGreen,
+                            LineType = "histogram",
+                            LineWidth = 2,
+                            IsDefaultOutput = false
+                        }
+        """);
+    }
 
     /// <summary>
     /// Formats a numeric value as a string without the 'd' suffix.

@@ -50,4 +50,14 @@ public record IndicatorResultConfig
     /// Gets or sets the fill configuration for the result.
     /// </summary>
     public ChartFill? Fill { get; init; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this result is a data point.
+    /// </summary>
+    public bool IsDataPoint { get; init; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this result is the default output.
+    /// </summary>
+    public bool IsDefaultOutput { get; init; }
 }

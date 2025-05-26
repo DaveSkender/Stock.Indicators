@@ -4,6 +4,8 @@
     "Uiid": "ADL",
     "UiidEndpoint": "/adl",
     "LegendTemplate": "ADL",
+    "Style": "Series",
+    "ReturnType": "Adl.ToAdl",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -16,7 +18,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -25,6 +29,8 @@
     "Uiid": "ALMA",
     "UiidEndpoint": "/alma",
     "LegendTemplate": "ALMA([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Alma.ToAlma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -65,7 +71,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -74,6 +82,8 @@
     "Uiid": "AROON",
     "UiidEndpoint": "/aroon",
     "LegendTemplate": "AROON([P1]) Up/Down",
+    "Style": "Series",
+    "ReturnType": "Aroon.ToAroon",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -96,7 +106,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -105,6 +117,8 @@
     "Uiid": "ATR-STOP",
     "UiidEndpoint": "/atr-stop",
     "LegendTemplate": "ATR-STOP([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "AtrStop.ToAtrStop",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -149,7 +163,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -158,6 +174,8 @@
     "Uiid": "ADX",
     "UiidEndpoint": "/adx",
     "LegendTemplate": "ADX([P1])",
+    "Style": "Series",
+    "ReturnType": "Adx.ToAdx",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -180,7 +198,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -189,6 +209,8 @@
     "Uiid": "ATR",
     "UiidEndpoint": "/atr",
     "LegendTemplate": "ATR([P1])",
+    "Style": "Series",
+    "ReturnType": "Atr.ToAtr",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -211,7 +233,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -220,6 +244,8 @@
     "Uiid": "AWESOME",
     "UiidEndpoint": "/awesome",
     "LegendTemplate": "AWESOME([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "Awesome.ToAwesome",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -251,7 +277,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -260,6 +288,8 @@
     "Uiid": "BOP",
     "UiidEndpoint": "/bop",
     "LegendTemplate": "BOP([P1])",
+    "Style": "Series",
+    "ReturnType": "Bop.ToBop",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -282,7 +312,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -291,6 +323,8 @@
     "Uiid": "BETA",
     "UiidEndpoint": "/beta",
     "LegendTemplate": "BETA([P3],[P4])",
+    "Style": "Series",
+    "ReturnType": "Beta.ToBeta",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -340,7 +374,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -349,6 +385,8 @@
     "Uiid": "BB",
     "UiidEndpoint": "/bb",
     "LegendTemplate": "BB([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "BollingerBands.ToBollingerBands",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -374,13 +412,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Bollinger Bands\u00AE",
-        "TooltipTemplate": "BB([P1],[P2])",
-        "DataName": "bb",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "BB([P1],[P2]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "BB([P1],[P2]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "BB([P1],[P2]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -389,6 +451,8 @@
     "Uiid": "CMF",
     "UiidEndpoint": "/cmf",
     "LegendTemplate": "CMF([P1])",
+    "Style": "Series",
+    "ReturnType": "Cmf.ToCmf",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -411,7 +475,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -420,6 +486,8 @@
     "Uiid": "CHAIKIN-OSC",
     "UiidEndpoint": "/chaikin-osc",
     "LegendTemplate": "CHAIKIN-OSC([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "ChaikinOsc.ToChaikinOsc",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -451,7 +519,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -460,6 +530,8 @@
     "Uiid": "CMO",
     "UiidEndpoint": "/cmo",
     "LegendTemplate": "CMO([P1])",
+    "Style": "Series",
+    "ReturnType": "Cmo.ToCmo",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -482,7 +554,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -491,6 +565,8 @@
     "Uiid": "CHEXIT",
     "UiidEndpoint": "/chexit",
     "LegendTemplate": "CHEXIT([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Chandelier.ToChandelier",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
     "Order": 0,
@@ -535,7 +611,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -544,6 +622,8 @@
     "Uiid": "CHOP",
     "UiidEndpoint": "/chop",
     "LegendTemplate": "CHOP([P1])",
+    "Style": "Series",
+    "ReturnType": "Chop.ToChop",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -566,7 +646,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -575,6 +657,8 @@
     "Uiid": "CCI",
     "UiidEndpoint": "/cci",
     "LegendTemplate": "CCI([P1])",
+    "Style": "Series",
+    "ReturnType": "Cci.ToCci",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -597,7 +681,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -606,6 +692,8 @@
     "Uiid": "CRSI",
     "UiidEndpoint": "/crsi",
     "LegendTemplate": "CRSI([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "ConnorsRsi.ToConnorsRsi",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -646,7 +734,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -655,6 +745,8 @@
     "Uiid": "CORR",
     "UiidEndpoint": "/corr",
     "LegendTemplate": "CORR([P3])",
+    "Style": "Series",
+    "ReturnType": "Correlation.ToCorrelation",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -689,7 +781,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -698,6 +792,8 @@
     "Uiid": "DPO",
     "UiidEndpoint": "/dpo",
     "LegendTemplate": "DPO([P1])",
+    "Style": "Series",
+    "ReturnType": "Dpo.ToDpo",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -720,7 +816,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -729,6 +827,8 @@
     "Uiid": "DOJI",
     "UiidEndpoint": "/doji",
     "LegendTemplate": "DOJI([P1])",
+    "Style": "Series",
+    "ReturnType": "Doji.ToDoji",
     "Category": "CandlestickPattern",
     "ChartType": "Overlay",
     "Order": 0,
@@ -751,7 +851,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -760,6 +862,8 @@
     "Uiid": "DONCHIAN",
     "UiidEndpoint": "/donchian",
     "LegendTemplate": "DONCHIAN([P1])",
+    "Style": "Series",
+    "ReturnType": "Donchian.ToDonchian",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -782,7 +886,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -791,6 +897,8 @@
     "Uiid": "DEMA",
     "UiidEndpoint": "/dema",
     "LegendTemplate": "DEMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Dema.ToDema",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -813,7 +921,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -822,6 +932,8 @@
     "Uiid": "FISHER",
     "UiidEndpoint": "/fisher",
     "LegendTemplate": "FISHER([P1])",
+    "Style": "Series",
+    "ReturnType": "FisherTransform.ToFisherTransform",
     "Category": "PriceTransform",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -844,7 +956,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -853,6 +967,8 @@
     "Uiid": "ELDER-RAY",
     "UiidEndpoint": "/elder-ray",
     "LegendTemplate": "ELDER-RAY([P1])",
+    "Style": "Series",
+    "ReturnType": "ElderRay.ToElderRay",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -875,7 +991,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -884,6 +1002,8 @@
     "Uiid": "EPMA",
     "UiidEndpoint": "/epma",
     "LegendTemplate": "EPMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Epma.ToEpma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -906,7 +1026,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -915,6 +1037,8 @@
     "Uiid": "EMA",
     "UiidEndpoint": "/ema",
     "LegendTemplate": "EMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Ema.ToEma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -937,7 +1061,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -946,6 +1072,8 @@
     "Uiid": "FORCE",
     "UiidEndpoint": "/force",
     "LegendTemplate": "FORCE([P1])",
+    "Style": "Series",
+    "ReturnType": "ForceIndex.ToForceIndex",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -968,7 +1096,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -977,6 +1107,8 @@
     "Uiid": "FCB",
     "UiidEndpoint": "/fcb",
     "LegendTemplate": "FCB([P1])",
+    "Style": "Series",
+    "ReturnType": "Fcb.ToFcb",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -999,7 +1131,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1008,6 +1142,8 @@
     "Uiid": "GATOR",
     "UiidEndpoint": "/gator",
     "LegendTemplate": "GATOR",
+    "Style": "Series",
+    "ReturnType": "Gator.ToGator",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1020,7 +1156,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1029,6 +1167,8 @@
     "Uiid": "HEIKINASHI",
     "UiidEndpoint": "/heikinashi",
     "LegendTemplate": "HEIKINASHI",
+    "Style": "Series",
+    "ReturnType": "HeikinAshi.ToHeikinAshi",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1041,7 +1181,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1050,6 +1192,8 @@
     "Uiid": "HTL",
     "UiidEndpoint": "/htl",
     "LegendTemplate": "HTL",
+    "Style": "Series",
+    "ReturnType": "HtTrendline.ToHtTrendline",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1062,7 +1206,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1071,6 +1217,8 @@
     "Uiid": "HMA",
     "UiidEndpoint": "/hma",
     "LegendTemplate": "HMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Hma.ToHma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1093,7 +1241,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1102,6 +1252,8 @@
     "Uiid": "HURST",
     "UiidEndpoint": "/hurst",
     "LegendTemplate": "HURST([P1])",
+    "Style": "Series",
+    "ReturnType": "Hurst.ToHurst",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1124,7 +1276,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1133,6 +1287,8 @@
     "Uiid": "ICHIMOKU",
     "UiidEndpoint": "/ichimoku",
     "LegendTemplate": "ICHIMOKU([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Ichimoku.ToIchimoku",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1173,7 +1329,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1182,6 +1340,8 @@
     "Uiid": "KAMA",
     "UiidEndpoint": "/kama",
     "LegendTemplate": "KAMA([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Kama.ToKama",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1222,7 +1382,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1231,6 +1393,8 @@
     "Uiid": "KELTNER",
     "UiidEndpoint": "/keltner",
     "LegendTemplate": "KELTNER([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Keltner.ToKeltner",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1265,13 +1429,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Keltner Channels",
-        "TooltipTemplate": "KELTNER([P1],[P2],[P3])",
-        "DataName": "keltner",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "KELTNER([P1],[P2],[P3]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "KELTNER([P1],[P2],[P3]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "KELTNER([P1],[P2],[P3]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -1280,6 +1468,8 @@
     "Uiid": "KVO",
     "UiidEndpoint": "/kvo",
     "LegendTemplate": "KVO([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Kvo.ToKvo",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1320,7 +1510,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1329,6 +1521,8 @@
     "Uiid": "MARUBOZU",
     "UiidEndpoint": "/marubozu",
     "LegendTemplate": "MARUBOZU([P1])",
+    "Style": "Series",
+    "ReturnType": "Marubozu.ToMarubozu",
     "Category": "CandlestickPattern",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1351,7 +1545,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1360,6 +1556,8 @@
     "Uiid": "DYNAMIC",
     "UiidEndpoint": "/dynamic",
     "LegendTemplate": "DYNAMIC([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "MgDynamic.ToDynamic",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1391,7 +1589,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1400,6 +1600,8 @@
     "Uiid": "MAMA",
     "UiidEndpoint": "/mama",
     "LegendTemplate": "MAMA([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "Mama.ToMama",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1431,7 +1633,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1440,6 +1644,8 @@
     "Uiid": "MFI",
     "UiidEndpoint": "/mfi",
     "LegendTemplate": "MFI([P1])",
+    "Style": "Series",
+    "ReturnType": "Mfi.ToMfi",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1462,7 +1668,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1471,6 +1679,8 @@
     "Uiid": "MACD",
     "UiidEndpoint": "/macd",
     "LegendTemplate": "MACD([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Macd.ToMacd",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1505,13 +1715,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Moving Average Convergence/Divergence",
-        "TooltipTemplate": "MACD([P1],[P2],[P3])",
+        "DisplayName": "MACD",
+        "TooltipTemplate": "MACD([P1],[P2],[P3]) MACD",
         "DataName": "macd",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Signal",
+        "TooltipTemplate": "MACD([P1],[P2],[P3]) Signal",
+        "DataName": "signal",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#DD2C00",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Histogram",
+        "TooltipTemplate": "MACD([P1],[P2],[P3]) Histogram",
+        "DataName": "histogram",
+        "DataType": "number",
+        "LineType": "histogram",
+        "LineWidth": 2,
+        "DefaultColor": "#2E7D32",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -1520,6 +1754,8 @@
     "Uiid": "MA-ENV",
     "UiidEndpoint": "/ma-env",
     "LegendTemplate": "MA-ENV([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "MaEnvelopes.ToMaEnvelopes",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1573,7 +1809,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1582,6 +1820,8 @@
     "Uiid": "OBV",
     "UiidEndpoint": "/obv",
     "LegendTemplate": "OBV",
+    "Style": "Series",
+    "ReturnType": "Obv.ToObv",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1594,7 +1834,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1603,6 +1845,8 @@
     "Uiid": "PSAR",
     "UiidEndpoint": "/psar",
     "LegendTemplate": "PSAR([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "ParabolicSar.ToParabolicSar",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1634,7 +1878,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1643,6 +1889,8 @@
     "Uiid": "PVO",
     "UiidEndpoint": "/pvo",
     "LegendTemplate": "PVO([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Pvo.ToPvo",
     "Category": "VolumeBased",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1683,7 +1931,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1692,6 +1942,8 @@
     "Uiid": "PIVPNT",
     "UiidEndpoint": "/pivpnt",
     "LegendTemplate": "PIVPNT([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "PivotPoints.ToPivotPoints",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1744,7 +1996,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1753,6 +2007,8 @@
     "Uiid": "PIVOTS",
     "UiidEndpoint": "/pivots",
     "LegendTemplate": "PIVOTS([P1],[P2],[P3],[P4])",
+    "Style": "Series",
+    "ReturnType": "Pivots.ToPivots",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
     "Order": 0,
@@ -1806,7 +2062,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1815,6 +2073,8 @@
     "Uiid": "PMO",
     "UiidEndpoint": "/pmo",
     "LegendTemplate": "PMO([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Pmo.ToPmo",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1855,7 +2115,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1864,6 +2126,8 @@
     "Uiid": "PRS",
     "UiidEndpoint": "/prs",
     "LegendTemplate": "PRS([P3])",
+    "Style": "Series",
+    "ReturnType": "Prs.ToPrs",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1898,7 +2162,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1907,6 +2173,8 @@
     "Uiid": "ROC",
     "UiidEndpoint": "/roc",
     "LegendTemplate": "ROC([P1])",
+    "Style": "Series",
+    "ReturnType": "Roc.ToRoc",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1929,7 +2197,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1938,6 +2208,8 @@
     "Uiid": "RSI",
     "UiidEndpoint": "/rsi",
     "LegendTemplate": "RSI([P1])",
+    "Style": "Series",
+    "ReturnType": "Rsi.ToRsi",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -1960,7 +2232,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -1969,6 +2243,8 @@
     "Uiid": "RENKO",
     "UiidEndpoint": "/renko",
     "LegendTemplate": "RENKO([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "Renko.ToRenko",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2004,7 +2280,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2013,6 +2291,8 @@
     "Uiid": "RENKO-ATR",
     "UiidEndpoint": "/renko-atr",
     "LegendTemplate": "RENKO-ATR([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "Renko.ToRenkoAtr",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2048,7 +2328,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2057,6 +2339,8 @@
     "Uiid": "ROC-WB",
     "UiidEndpoint": "/roc-wb",
     "LegendTemplate": "ROC-WB([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "RocWb.ToRocWb",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2097,7 +2381,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2106,6 +2392,8 @@
     "Uiid": "ROLLING-PIVOTS",
     "UiidEndpoint": "/rolling-pivots",
     "LegendTemplate": "ROLLING-PIVOTS([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "RollingPivots.ToRollingPivots",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2153,7 +2441,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2162,6 +2452,8 @@
     "Uiid": "STC",
     "UiidEndpoint": "/stc",
     "LegendTemplate": "STC([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Stc.ToStc",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2202,7 +2494,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2211,6 +2505,8 @@
     "Uiid": "SMA",
     "UiidEndpoint": "/sma",
     "LegendTemplate": "SMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Sma.ToSma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2233,7 +2529,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2242,6 +2540,8 @@
     "Uiid": "SMA-ANALYSIS",
     "UiidEndpoint": "/sma-analysis",
     "LegendTemplate": "SMA-ANALYSIS([P1])",
+    "Style": "Series",
+    "ReturnType": "Sma.ToSmaAnalysis",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2264,7 +2564,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2273,6 +2575,8 @@
     "Uiid": "SLOPE",
     "UiidEndpoint": "/slope",
     "LegendTemplate": "SLOPE([P1])",
+    "Style": "Series",
+    "ReturnType": "Slope.ToSlope",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2295,7 +2599,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2304,6 +2610,8 @@
     "Uiid": "SMMA",
     "UiidEndpoint": "/smma",
     "LegendTemplate": "SMMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Smma.ToSmma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2326,7 +2634,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2335,6 +2645,8 @@
     "Uiid": "STDEV",
     "UiidEndpoint": "/stdev",
     "LegendTemplate": "STDEV([P1])",
+    "Style": "Series",
+    "ReturnType": "StdDev.ToStdDev",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2357,7 +2669,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2366,6 +2680,8 @@
     "Uiid": "STDEV-CHANNELS",
     "UiidEndpoint": "/stdev-channels",
     "LegendTemplate": "STDEV-CHANNELS([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "StdDevChannels.ToStdDevChannels",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2397,7 +2713,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2406,6 +2724,8 @@
     "Uiid": "STARC",
     "UiidEndpoint": "/starc",
     "LegendTemplate": "STARC([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "StarcBands.ToStarcBands",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2446,7 +2766,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2455,6 +2777,8 @@
     "Uiid": "SMI",
     "UiidEndpoint": "/smi",
     "LegendTemplate": "SMI([P1],[P2],[P3],[P4])",
+    "Style": "Series",
+    "ReturnType": "Smi.ToSmi",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2504,7 +2828,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2513,6 +2839,8 @@
     "Uiid": "STOCH",
     "UiidEndpoint": "/stoch",
     "LegendTemplate": "STOCH([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Stoch.ToStoch",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2547,13 +2875,26 @@
     ],
     "Results": [
       {
-        "DisplayName": "Stochastic Oscillator",
-        "TooltipTemplate": "STOCH([P1],[P2],[P3])",
-        "DataName": "stoch",
+        "DisplayName": "%K",
+        "TooltipTemplate": "STOCH([P1],[P2],[P3]) %K",
+        "DataName": "oscillator",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "%D",
+        "TooltipTemplate": "STOCH([P1],[P2],[P3]) %D",
+        "DataName": "signal",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#DD2C00",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -2562,6 +2903,8 @@
     "Uiid": "STOCH-RSI",
     "UiidEndpoint": "/stoch-rsi",
     "LegendTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
+    "Style": "Series",
+    "ReturnType": "StochRsi.ToStochRsi",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2605,13 +2948,26 @@
     ],
     "Results": [
       {
-        "DisplayName": "Stochastic RSI",
-        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
-        "DataName": "stoch-rsi",
+        "DisplayName": "%K",
+        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4]) %K",
+        "DataName": "oscillator",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "%D",
+        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4]) %D",
+        "DataName": "signal",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#DD2C00",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -2620,6 +2976,8 @@
     "Uiid": "SUPERTREND",
     "UiidEndpoint": "/supertrend",
     "LegendTemplate": "SUPERTREND([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "SuperTrend.ToSuperTrend",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2651,7 +3009,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2660,6 +3020,8 @@
     "Uiid": "T3",
     "UiidEndpoint": "/t3",
     "LegendTemplate": "T3([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "T3.ToT3",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2691,7 +3053,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2700,6 +3064,8 @@
     "Uiid": "TEMA",
     "UiidEndpoint": "/tema",
     "LegendTemplate": "TEMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Tema.ToTema",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2722,7 +3088,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2731,6 +3099,8 @@
     "Uiid": "TRIX",
     "UiidEndpoint": "/trix",
     "LegendTemplate": "TRIX([P1])",
+    "Style": "Series",
+    "ReturnType": "Trix.ToTrix",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2753,7 +3123,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2762,6 +3134,8 @@
     "Uiid": "TR",
     "UiidEndpoint": "/tr",
     "LegendTemplate": "TR",
+    "Style": "Series",
+    "ReturnType": "Tr.ToTr",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2774,7 +3148,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2783,6 +3159,8 @@
     "Uiid": "TSI",
     "UiidEndpoint": "/tsi",
     "LegendTemplate": "TSI([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Tsi.ToTsi",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2823,7 +3201,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2832,6 +3212,8 @@
     "Uiid": "ULCER",
     "UiidEndpoint": "/ulcer",
     "LegendTemplate": "ULCER([P1])",
+    "Style": "Series",
+    "ReturnType": "UlcerIndex.ToUlcerIndex",
     "Category": "PriceCharacteristic",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2854,7 +3236,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2863,6 +3247,8 @@
     "Uiid": "UO",
     "UiidEndpoint": "/uo",
     "LegendTemplate": "UO([P1],[P2],[P3])",
+    "Style": "Series",
+    "ReturnType": "Ultimate.ToUltimate",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -2903,7 +3289,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2912,6 +3300,8 @@
     "Uiid": "VOL-STOP",
     "UiidEndpoint": "/vol-stop",
     "LegendTemplate": "VOL-STOP([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "VolatilityStop.ToVolatilityStop",
     "Category": "StopAndReverse",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2943,7 +3333,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2951,20 +3343,31 @@
     "Name": "Volume Weighted Average Price",
     "Uiid": "VWAP",
     "UiidEndpoint": "/vwap",
-    "LegendTemplate": "VWAP",
+    "LegendTemplate": "VWAP([P1])",
+    "Style": "Series",
+    "ReturnType": "Vwap.ToVwap",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Pid": "P1",
+        "DisplayName": "Start Date",
+        "ParamName": "startDate",
+        "DataType": "Date"
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Volume Weighted Average Price",
-        "TooltipTemplate": "VWAP",
+        "TooltipTemplate": "VWAP([P1])",
         "DataName": "vwap",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -2973,6 +3376,8 @@
     "Uiid": "VWMA",
     "UiidEndpoint": "/vwma",
     "LegendTemplate": "VWMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Vwma.ToVwma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -2995,7 +3400,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -3004,6 +3411,8 @@
     "Uiid": "VORTEX",
     "UiidEndpoint": "/vortex",
     "LegendTemplate": "VORTEX([P1])",
+    "Style": "Series",
+    "ReturnType": "Vortex.ToVortex",
     "Category": "PriceTrend",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -3026,7 +3435,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -3035,6 +3446,8 @@
     "Uiid": "WMA",
     "UiidEndpoint": "/wma",
     "LegendTemplate": "WMA([P1])",
+    "Style": "Series",
+    "ReturnType": "Wma.ToWma",
     "Category": "MovingAverage",
     "ChartType": "Overlay",
     "Order": 0,
@@ -3057,7 +3470,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -3066,6 +3481,8 @@
     "Uiid": "WILLR",
     "UiidEndpoint": "/willr",
     "LegendTemplate": "WILLR([P1])",
+    "Style": "Series",
+    "ReturnType": "WilliamsR.ToWilliamsR",
     "Category": "Oscillator",
     "ChartType": "Oscillator",
     "Order": 0,
@@ -3088,7 +3505,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -3097,6 +3516,8 @@
     "Uiid": "ALLIGATOR",
     "UiidEndpoint": "/alligator",
     "LegendTemplate": "ALLIGATOR([P1],[P2],[P3],[P4],[P5],[P6])",
+    "Style": "Series",
+    "ReturnType": "Alligator.ToAlligator",
     "Category": "PriceTrend",
     "ChartType": "Overlay",
     "Order": 0,
@@ -3164,7 +3585,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -3173,6 +3596,8 @@
     "Uiid": "FRACTAL",
     "UiidEndpoint": "/fractal",
     "LegendTemplate": "FRACTAL([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "Fractal.ToFractal",
     "Category": "PricePattern",
     "ChartType": "Overlay",
     "Order": 0,
@@ -3208,7 +3633,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   },
@@ -3217,6 +3644,8 @@
     "Uiid": "ZIGZAG-CLOSE",
     "UiidEndpoint": "/zigzag-close",
     "LegendTemplate": "ZIGZAG-CLOSE([P1],[P2])",
+    "Style": "Series",
+    "ReturnType": "ZigZag.ToZigZag",
     "Category": "PriceTransform",
     "ChartType": "Overlay",
     "Order": 0,
@@ -3252,7 +3681,9 @@
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
-        "DefaultColor": "#1E88E5"
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": true
       }
     ]
   }

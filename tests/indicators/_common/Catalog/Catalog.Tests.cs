@@ -343,4 +343,159 @@ public class Catalogging
         betaListing.LegendTemplate.Should().Be("BETA([P3],[P4])",
             $"Series parameters should be excluded from BETA legend template");
     }
+
+    [TestMethod]
+    public void CatalogHasCorrectDefaultOutputFlags()
+    {
+        // Act: get catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Assert: verify that each indicator has exactly one default output
+        foreach (IndicatorListing indicator in catalog)
+        {
+            indicator.Results.Count(r => r.IsDefaultOutput).Should().Be(1,
+                $"Indicator {indicator.Name} (UIID: {indicator.Uiid}) should have exactly one default output");
+        }
+    }
+
+    [TestMethod]
+    public void SingleResultIndicatorsHaveDefaultOutputSet()
+    {
+        // Act: get catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Find indicators that have only one result
+        var singleResultIndicators = catalog
+            .Where(i => i.Results.Count == 1)
+            .ToList();
+
+        // Assert: verify all single-result indicators have IsDefaultOutput = true
+        singleResultIndicators.Should().NotBeEmpty("Catalog should have some indicators with only one result");
+
+        foreach (var indicator in singleResultIndicators)
+        {
+            indicator.Results[0].IsDefaultOutput.Should().BeTrue(
+                $"Indicator {indicator.Name} with a single result should have IsDefaultOutput = true");
+        }
+    }
+
+    [TestMethod]
+    public void MultiResultIndicatorsHaveExactlyOneDefaultOutput()
+    {
+        // Act: get catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Find indicators that have multiple results
+        var multiResultIndicators = catalog
+            .Where(i => i.Results.Count > 1)
+            .ToList();
+
+        // Assert: verify all multi-result indicators have exactly one IsDefaultOutput = true
+        multiResultIndicators.Should().NotBeEmpty("Catalog should have some indicators with multiple results");
+
+        foreach (var indicator in multiResultIndicators)
+        {
+            int defaultOutputCount = indicator.Results.Count(r => r.IsDefaultOutput);
+            defaultOutputCount.Should().Be(1,
+                $"Indicator {indicator.Name} (UIID: {indicator.Uiid}) with multiple results should have exactly one IsDefaultOutput = true");
+        }
+    }
+
+    [TestMethod]
+    public void PriceBandIndicatorsHaveCenterlineAsDefault()
+    {
+        // Act: get catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Find price band indicators (Bollinger Bands, Keltner)
+        var bollinger = catalog.SingleOrDefault(i => i.Uiid == "BB");
+        var keltner = catalog.SingleOrDefault(i => i.Uiid == "KELTNER");
+
+        // Assert: for price bands, verify centerline is the default output
+        bollinger.Should().NotBeNull("Catalog should include Bollinger Bands indicator");
+        keltner.Should().NotBeNull("Catalog should include Keltner Channels indicator");
+
+        if (bollinger != null)
+        {
+            var centerline = bollinger.Results.SingleOrDefault(r => r.DataName == "centerline");
+            centerline.Should().NotBeNull("Bollinger Bands should have a centerline result");
+
+            if (centerline != null)
+            {
+                centerline.IsDefaultOutput.Should().BeTrue("Bollinger Bands centerline should be the default output");
+            }
+        }
+
+        if (keltner != null)
+        {
+            var centerline = keltner.Results.SingleOrDefault(r => r.DataName == "centerline");
+            centerline.Should().NotBeNull("Keltner Channels should have a centerline result");
+
+            if (centerline != null)
+            {
+                centerline.IsDefaultOutput.Should().BeTrue("Keltner Channels centerline should be the default output");
+            }
+        }
+    }
+
+    [TestMethod]
+    public void MacdIndicatorHasMacdLineAsDefault()
+    {
+        // Act: get catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Find MACD indicator
+        var macd = catalog.SingleOrDefault(i => i.Uiid == "MACD");
+
+        // Assert: for MACD, verify the main MACD line is the default output
+        macd.Should().NotBeNull("Catalog should include MACD indicator");
+
+        if (macd != null)
+        {
+            var macdLine = macd.Results.SingleOrDefault(r => r.DataName == "macd");
+            macdLine.Should().NotBeNull("MACD should have a main MACD line result");
+
+            if (macdLine != null)
+            {
+                macdLine.IsDefaultOutput.Should().BeTrue("MACD line should be the default output");
+            }
+        }
+    }
+
+    [TestMethod]
+    public void StochasticIndicatorsHaveOscillatorAsDefault()
+    {
+        // Act: get catalog
+        IReadOnlyList<IndicatorListing> catalog = Catalog.Get();
+
+        // Find stochastic indicators
+        var stoch = catalog.SingleOrDefault(i => i.Uiid == "STOCH");
+        var stochRsi = catalog.SingleOrDefault(i => i.Uiid == "STOCH-RSI");
+
+        // Assert: for stochastic indicators, verify oscillator is the default output
+        stoch.Should().NotBeNull("Catalog should include Stochastic indicator");
+        stochRsi.Should().NotBeNull("Catalog should include StochRSI indicator");
+
+        if (stoch != null)
+        {
+            var oscillator = stoch.Results.SingleOrDefault(r => r.DataName == "oscillator");
+            oscillator.Should().NotBeNull("Stochastic should have an oscillator result");
+
+            if (oscillator != null)
+            {
+                oscillator.IsDefaultOutput.Should().BeTrue("Stochastic oscillator should be the default output");
+            }
+        }
+
+        if (stochRsi != null)
+        {
+            var oscillator = stochRsi.Results.SingleOrDefault(r => r.DataName == "oscillator");
+            oscillator.Should().NotBeNull("StochRSI should have an oscillator result");
+
+            if (oscillator != null)
+            {
+                oscillator.IsDefaultOutput.Should().BeTrue("StochRSI oscillator should be the default output");
+            }
+        }
+    }
 }

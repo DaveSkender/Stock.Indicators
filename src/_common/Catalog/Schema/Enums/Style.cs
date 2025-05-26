@@ -7,7 +7,7 @@ namespace Skender.Stock.Indicators;
 /// Values may be hardcoded in the catalog
 /// generator and should not be changed.
 /// </remarks>
-internal enum Style
+public enum Style
 {
     Series = 0,
     Buffer = 1,
