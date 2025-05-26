@@ -2,18 +2,6 @@
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 3000,
   "files.encoding": "utf8",
-  "markdownlint.config": {
-    "MD025": { // allow front-matter titles
-      "level": 1,
-      "front_matter_title": "# {{ page.title }}"
-    },
-    "MD013": false,
-    "MD033": false,
-    "MD041": { // allow front-matter titles
-      "level": 1,
-      "front_matter_title": "^\\s*title\\s*[:=]"
-    }
-  },
   "chat.mcp.enabled": true,
   "chat.mcp.discovery.enabled": true,
   "search.exclude": {

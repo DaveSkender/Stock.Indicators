@@ -1,5 +1,12 @@
 {
-  // MD041/first-line-heading/first-line-h1: First line in a file should be a top-level heading
-  // incompatible with AnalyzerReleases.*.md file standards
-  "MD041": false
+  "MD013": false,
+  "MD025": { // allow front-matter titles
+    "level": 1,
+    "front_matter_title": "# {{ page.title }}"
+  },
+  "MD033": false,
+  "MD041": { // allow front-matter titles
+    "level": 1,
+    "front_matter_title": "^\\s*title\\s*[:=]"
+  }
 }

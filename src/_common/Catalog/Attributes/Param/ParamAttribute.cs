@@ -41,5 +41,5 @@ internal abstract class ParamAttribute<T>(
     /// Gets the optional custom template for parameter legend display.
     /// When provided, this template overrides the default legend format.
     /// </summary>
-    public string? TooltipTemplate { get; } = tooltipOverride;
+    public string? TooltipOverride { get; } = tooltipOverride;
 }

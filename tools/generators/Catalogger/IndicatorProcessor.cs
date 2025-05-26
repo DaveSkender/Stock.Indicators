@@ -194,7 +194,7 @@ internal static class IndicatorProcessor
         // Extract tooltipOverride property
         foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
         {
-            if (namedArg.Key == "TooltipTemplate" && namedArg.Value.Value is string template)
+            if ((namedArg.Key == "TooltipTemplate" || namedArg.Key == "TooltipOverride") && namedArg.Value.Value is string template)
             {
                 tooltipOverride = template;
                 break;
