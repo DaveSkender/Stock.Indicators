@@ -8,7 +8,7 @@ namespace Tests.Indicators;
 public class MetadataTests
 {
     [TestMethod]
-    public void Metadata_ToJson_GeneratesValidJson()
+    public void MetadataToJsonGeneratesValidJson()
     {
         // Arrange & Act
         string json = Metadata.ToJson();
@@ -22,7 +22,7 @@ public class MetadataTests
     }
 
     [TestMethod]
-    public void Metadata_ToJson_WithoutChartConfig_ExcludesChartConfig()
+    public void MetadataToJsonWithoutChartConfigExcludesChartConfig()
     {
         // Arrange & Act
         string json = Metadata.ToJson(includeChartConfig: false);
@@ -48,7 +48,7 @@ public class MetadataTests
     }
 
     [TestMethod]
-    public void Metadata_GetById_ReturnsCorrectIndicator()
+    public void MetadataGetByIdReturnsCorrectIndicator()
     {
         // Arrange - Using SMA as a known indicator
         string indicatorId = "SMA";
@@ -62,7 +62,7 @@ public class MetadataTests
     }
 
     [TestMethod]
-    public void Metadata_GetById_WithInvalidId_ReturnsNull()
+    public void MetadataGetByIdWithInvalidIdReturnsNull()
     {
         // Arrange
         string invalidId = "NonExistentIndicator";
