@@ -20,4 +20,5 @@ internal sealed class ParamDateAttribute(
     /// Gets the TypeScript-friendly data type for the date.
     /// </summary>
     public string DataType { get; } = "Date";
+    public DateTime? DefaultValue { get; }
 }

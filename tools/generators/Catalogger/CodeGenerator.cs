@@ -209,7 +209,7 @@ internal static class CodeGenerator
 
             // Stochastic indicators
             case "STOCH":
-            case "STOCHRSI":
+            case "STOCH-RSI":
                 AppendStochasticIndicatorConfigs(sourceBuilder, name, id.ToLowerInvariant(), tooltipTemplate);
                 break;
 

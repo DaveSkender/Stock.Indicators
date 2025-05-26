@@ -371,7 +371,7 @@ public class Catalogging
 
         // Assert: verify all single-result indicators have IsDefaultOutput = true
         singleResultIndicators.Should().NotBeEmpty("Catalog should have some indicators with only one result");
-        
+
         foreach (var indicator in singleResultIndicators)
         {
             indicator.Results[0].IsDefaultOutput.Should().BeTrue(
@@ -392,11 +392,11 @@ public class Catalogging
 
         // Assert: verify all multi-result indicators have exactly one IsDefaultOutput = true
         multiResultIndicators.Should().NotBeEmpty("Catalog should have some indicators with multiple results");
-        
+
         foreach (var indicator in multiResultIndicators)
         {
             int defaultOutputCount = indicator.Results.Count(r => r.IsDefaultOutput);
-            defaultOutputCount.Should().Be(1, 
+            defaultOutputCount.Should().Be(1,
                 $"Indicator {indicator.Name} (UIID: {indicator.Uiid}) with multiple results should have exactly one IsDefaultOutput = true");
         }
     }
@@ -419,7 +419,7 @@ public class Catalogging
         {
             var centerline = bollinger.Results.SingleOrDefault(r => r.DataName == "centerline");
             centerline.Should().NotBeNull("Bollinger Bands should have a centerline result");
-            
+
             if (centerline != null)
             {
                 centerline.IsDefaultOutput.Should().BeTrue("Bollinger Bands centerline should be the default output");
@@ -430,7 +430,7 @@ public class Catalogging
         {
             var centerline = keltner.Results.SingleOrDefault(r => r.DataName == "centerline");
             centerline.Should().NotBeNull("Keltner Channels should have a centerline result");
-            
+
             if (centerline != null)
             {
                 centerline.IsDefaultOutput.Should().BeTrue("Keltner Channels centerline should be the default output");
@@ -454,7 +454,7 @@ public class Catalogging
         {
             var macdLine = macd.Results.SingleOrDefault(r => r.DataName == "macd");
             macdLine.Should().NotBeNull("MACD should have a main MACD line result");
-            
+
             if (macdLine != null)
             {
                 macdLine.IsDefaultOutput.Should().BeTrue("MACD line should be the default output");
@@ -470,7 +470,7 @@ public class Catalogging
 
         // Find stochastic indicators
         var stoch = catalog.SingleOrDefault(i => i.Uiid == "STOCH");
-        var stochRsi = catalog.SingleOrDefault(i => i.Uiid == "STOCHRSI");
+        var stochRsi = catalog.SingleOrDefault(i => i.Uiid == "STOCH-RSI");
 
         // Assert: for stochastic indicators, verify oscillator is the default output
         stoch.Should().NotBeNull("Catalog should include Stochastic indicator");
@@ -480,7 +480,7 @@ public class Catalogging
         {
             var oscillator = stoch.Results.SingleOrDefault(r => r.DataName == "oscillator");
             oscillator.Should().NotBeNull("Stochastic should have an oscillator result");
-            
+
             if (oscillator != null)
             {
                 oscillator.IsDefaultOutput.Should().BeTrue("Stochastic oscillator should be the default output");
@@ -491,7 +491,7 @@ public class Catalogging
         {
             var oscillator = stochRsi.Results.SingleOrDefault(r => r.DataName == "oscillator");
             oscillator.Should().NotBeNull("StochRSI should have an oscillator result");
-            
+
             if (oscillator != null)
             {
                 oscillator.IsDefaultOutput.Should().BeTrue("StochRSI oscillator should be the default output");

@@ -2948,15 +2948,26 @@
     ],
     "Results": [
       {
-        "DisplayName": "Stochastic RSI",
-        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4])",
-        "DataName": "stoch-rsi",
+        "DisplayName": "%K",
+        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4]) %K",
+        "DataName": "oscillator",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "%D",
+        "TooltipTemplate": "STOCH-RSI([P1],[P2],[P3],[P4]) %D",
+        "DataName": "signal",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#DD2C00",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },

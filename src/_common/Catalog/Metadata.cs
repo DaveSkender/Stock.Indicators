@@ -8,8 +8,7 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static class Metadata
 {
-    private static readonly JsonSerializerOptions _jsonOptions = new()
-    {
+    private static readonly JsonSerializerOptions _jsonOptions = new() {
         WriteIndented = true,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -124,8 +123,7 @@ public static class Metadata
     {
         // Create a new instance with no baseUrl
         // We need to ensure all required properties are initialized
-        return new IndicatorListing()
-        {
+        return new IndicatorListing() {
             Name = listing.Name,
             Uiid = listing.Uiid,
             Category = listing.Category,
@@ -150,8 +148,7 @@ public static class Metadata
 
         foreach (var result in results)
         {
-            filtered.Add(new IndicatorResultConfig
-            {
+            filtered.Add(new IndicatorResultConfig {
                 DisplayName = result.DisplayName,
                 DataName = result.DataName,
                 DataType = result.DataType,
