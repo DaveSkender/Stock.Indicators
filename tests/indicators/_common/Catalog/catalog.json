@@ -880,15 +880,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Donchian Channels",
-        "TooltipTemplate": "DONCHIAN([P1])",
-        "DataName": "donchian",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "DONCHIAN([P1]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "DONCHIAN([P1]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "DONCHIAN([P1]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -1125,15 +1147,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Fractal Chaos Bands",
-        "TooltipTemplate": "FCB([P1])",
-        "DataName": "fcb",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "FCB([P1]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "FCB([P1]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "FCB([P1]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -1803,15 +1847,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Moving Average Envelopes",
-        "TooltipTemplate": "MA-ENV([P1],[P2],[P3])",
-        "DataName": "ma-env",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "MA-ENV([P1],[P2],[P3]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "MA-ENV([P1],[P2],[P3]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "MA-ENV([P1],[P2],[P3]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -1990,15 +2056,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Pivot Points",
-        "TooltipTemplate": "PIVPNT([P1],[P2])",
-        "DataName": "pivpnt",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "PIVPNT([P1],[P2]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "PIVPNT([P1],[P2]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "PIVPNT([P1],[P2]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -2707,15 +2795,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Standard Deviation Channels",
-        "TooltipTemplate": "STDEV-CHANNELS([P1],[P2])",
-        "DataName": "stdev-channels",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "STDEV-CHANNELS([P1],[P2]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "STDEV-CHANNELS([P1],[P2]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "STDEV-CHANNELS([P1],[P2]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -2760,15 +2870,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "STARC Bands",
-        "TooltipTemplate": "STARC([P1],[P2],[P3])",
-        "DataName": "starc",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "STARC([P1],[P2],[P3]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "STARC([P1],[P2],[P3]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "STARC([P1],[P2],[P3]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },
@@ -3359,15 +3491,37 @@
     ],
     "Results": [
       {
-        "DisplayName": "Volume Weighted Average Price",
-        "TooltipTemplate": "VWAP([P1])",
-        "DataName": "vwap",
+        "DisplayName": "Upper Band",
+        "TooltipTemplate": "VWAP([P1]) Upper Band",
+        "DataName": "upperBand",
         "DataType": "number",
         "LineType": "solid",
         "LineWidth": 2,
         "DefaultColor": "#1E88E5",
         "IsDataPoint": false,
+        "IsDefaultOutput": false
+      },
+      {
+        "DisplayName": "Centerline",
+        "TooltipTemplate": "VWAP([P1]) Centerline",
+        "DataName": "centerline",
+        "DataType": "number",
+        "LineType": "dash",
+        "LineWidth": 1,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
         "IsDefaultOutput": true
+      },
+      {
+        "DisplayName": "Lower Band",
+        "TooltipTemplate": "VWAP([P1]) Lower Band",
+        "DataName": "lowerBand",
+        "DataType": "number",
+        "LineType": "solid",
+        "LineWidth": 2,
+        "DefaultColor": "#1E88E5",
+        "IsDataPoint": false,
+        "IsDefaultOutput": false
       }
     ]
   },

@@ -155,7 +155,8 @@ internal static class IndicatorProcessor
                 defaultValue: out double? defaultValue,
                 minValue: out double? minValue,
                 maxValue: out double? maxValue,
-                enumValues: out Dictionary<int, string>? enumValues);
+                enumValues: out Dictionary<int, string>? enumValues,
+                tooltipOverride: out string? tooltipOverride);
 
             parameters.Add(new ParameterInfo(
                 Pid: pid,
@@ -165,7 +166,8 @@ internal static class IndicatorProcessor
                 DefaultValue: defaultValue,
                 MinValue: minValue,
                 MaxValue: maxValue,
-                EnumOptions: enumValues));
+                EnumOptions: enumValues,
+                TooltipTemplate: tooltipOverride));
         }
 
         return parameters;
@@ -179,13 +181,25 @@ internal static class IndicatorProcessor
         out double? defaultValue,
         out double? minValue,
         out double? maxValue,
-        out Dictionary<int, string>? enumValues)
+        out Dictionary<int, string>? enumValues,
+        out string? tooltipOverride)
     {
         string attributeClassName = attributeClass.Name;
 
         minValue = null;
         maxValue = null;
         enumValues = null;
+        tooltipOverride = null;
+
+        // Extract tooltipOverride property
+        foreach (KeyValuePair<string, TypedConstant> namedArg in attribute.NamedArguments)
+        {
+            if (namedArg.Key == "TooltipTemplate" && namedArg.Value.Value is string template)
+            {
+                tooltipOverride = template;
+                break;
+            }
+        }
 
         // Handle ParamNumAttribute<T> (most common)
         if (attributeClassName.StartsWith("ParamNum"))

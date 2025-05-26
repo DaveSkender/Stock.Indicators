@@ -104,7 +104,7 @@ public static class CustomIndicator
 }
 ```
 
-### Using Custom Legend Formats
+### Using custom legend template formats
 
 The `legendOverride` parameter in the indicator attribute allows you to customize the legend display in charts and documentation. By default, the indicator legend is automatically generated from the indicator ID and its parameters (e.g., "ATR_WMA(14)").
 

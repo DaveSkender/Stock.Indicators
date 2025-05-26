@@ -88,7 +88,7 @@ internal static class CodeGenerator
 
         // Build tooltip template based on parameters or use the legend override
         // Filter out parameters with TypeScript array notation (ending with [])
-        string legendTemplate = indicator.Parameters.Count > 0
+        string tooltipOverride = indicator.Parameters.Count > 0
                 ? $"{indicator.Uiid}("
                             + string.Join(",",
                                 indicator.Parameters
@@ -101,7 +101,7 @@ internal static class CodeGenerator
         if (indicator.LegendOverride != null
          && indicator.LegendOverride != string.Empty)
         {
-            legendTemplate = indicator.LegendOverride;
+            tooltipOverride = indicator.LegendOverride;
         }
 
         sourceBuilder.AppendLine($$"""
@@ -115,7 +115,7 @@ internal static class CodeGenerator
                         ReturnType = "{{indicator.ContainingType}}.{{indicator.MemberName}}",
                         Order = Order.Front,
                         ChartConfig = null,
-                        LegendTemplate = "{{legendTemplate}}",
+                        LegendTemplate = "{{tooltipOverride}}",
         """);
 
         // Add parameters
@@ -139,7 +139,7 @@ internal static class CodeGenerator
         }
 
         // Add result configs
-        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, legendTemplate);
+        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, tooltipOverride, indicator);
 
         sourceBuilder.AppendLine("            },");
     }
@@ -183,44 +183,41 @@ internal static class CodeGenerator
     }
 
     private static void AppendResultConfig(
-        StringBuilder sourceBuilder, string name, string id, string tooltipTemplate)
+        StringBuilder sourceBuilder, string name, string id, string tooltipTemplate, IndicatorInfo indicator)
     {
         // For the catalog generator, we'll use some common patterns to determine the results
-        // based on the indicator ID and naming conventions
+        // based on the indicator category and other metadata
 
         sourceBuilder.AppendLine("""
                     Results = new List<IndicatorResultConfig>
                     {
         """);
 
-        // Common indicator patterns based on ID
-        switch (id.ToUpperInvariant())
+        // Use indicator category to determine configuration pattern
+        switch (indicator.Category)
         {
-            // Bollinger Bands
-            case "BB":
+            // Price Channel indicators (bands with centerline)
+            case "PriceChannel":
                 AppendPriceBandIndicatorConfigs(sourceBuilder, tooltipTemplate);
                 break;
 
-            // Keltner Channels
-            case "KELTNER":
-                AppendPriceBandIndicatorConfigs(sourceBuilder,  tooltipTemplate);
-                break;
-
-            // Stochastic indicators
-            case "STOCH":
-            case "STOCH-RSI":
-                AppendStochasticIndicatorConfigs(sourceBuilder, tooltipTemplate);
-                break;
-
-            // MACD indicator
-            case "MACD":
-                AppendMacdIndicatorConfigs(sourceBuilder, tooltipTemplate);
-                break;
-
-            // Default - just add a simple result with IsDefaultOutput = true
-            // For single result indicators, this will be the default output
             default:
-                sourceBuilder.AppendLine($$"""
+                // Special case indicators that need custom handling
+                // TODO: Find common patterns to reduce these special cases
+                if (id.Equals("STOCH", StringComparison.OrdinalIgnoreCase) ||
+                    id.Equals("STOCH-RSI", StringComparison.OrdinalIgnoreCase))
+                {
+                    AppendStochasticIndicatorConfigs(sourceBuilder, tooltipTemplate);
+                }
+                else if (id.Equals("MACD", StringComparison.OrdinalIgnoreCase))
+                {
+                    AppendMacdIndicatorConfigs(sourceBuilder, tooltipTemplate);
+                }
+                else
+                {
+                    // Default - add a simple result with IsDefaultOutput = true
+                    // For single result indicators, this will be the default output
+                    sourceBuilder.AppendLine($$"""
                         new IndicatorResultConfig
                         {
                             DataName = "{{id.ToLowerInvariant()}}",
@@ -233,6 +230,7 @@ internal static class CodeGenerator
                             IsDefaultOutput = true
                         }
         """);
+                }
                 break;
         }
 

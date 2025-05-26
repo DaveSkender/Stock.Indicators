@@ -19,12 +19,14 @@ internal sealed class ParamNumAttribute<T>
         string displayName,
         double defaultValue,
         double minValue,
-        double maxValue
+        double maxValue,
+        string? tooltipOverride = null
     ) : base(
         displayName: displayName,
         defaultValue: T.CreateChecked(defaultValue),
         minValue: T.CreateChecked(minValue),
-        maxValue: T.CreateChecked(maxValue)
+        maxValue: T.CreateChecked(maxValue),
+        tooltipOverride: tooltipOverride
     )
     { }
 

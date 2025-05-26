@@ -7,10 +7,12 @@ namespace Skender.Stock.Indicators;
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
 internal sealed class ParamBoolAttribute(
     string displayName,
-    bool defaultValue
+    bool defaultValue,
+    string? tooltipOverride = null
 ) : ParamAttribute<bool>(
     displayName: displayName,
     defaultValue: defaultValue,
     minValue: false,
-    maxValue: true
+    maxValue: true,
+    tooltipOverride: tooltipOverride
 );

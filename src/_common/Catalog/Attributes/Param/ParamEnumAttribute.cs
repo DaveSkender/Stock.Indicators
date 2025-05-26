@@ -7,11 +7,13 @@ namespace Skender.Stock.Indicators;
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
 internal sealed class ParamEnumAttribute<T>(
     string displayName,
-    T defaultValue
+    T defaultValue,
+    string? tooltipOverride = null
 ) : ParamAttribute<T>(
         displayName: displayName,
         defaultValue: defaultValue,
         minValue: default, // Min/max will be determined by the generator
-        maxValue: default  // which has access to all enum values
+        maxValue: default, // which has access to all enum values
+        tooltipOverride: tooltipOverride
     )
     where T : struct, Enum;

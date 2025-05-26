@@ -27,7 +27,7 @@ public class CatalogGenerating
 
         if (smaIndicator != null && smaIndicator.Parameters?.Any() == true)
         {
-            // The legendTemplate for SMA should follow the default format with parameters
+            // The tooltipOverride for SMA should follow the default format with parameters
             smaIndicator.LegendTemplate.Should().StartWith("SMA(",
                 "LegendTemplate should use the default format with parameters");
             smaIndicator.LegendTemplate.Should().Contain("[P",

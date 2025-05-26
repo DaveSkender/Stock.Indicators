@@ -8,11 +8,13 @@ namespace Skender.Stock.Indicators;
 /// <param name="defaultValue">The default value for the parameter.</param>
 /// <param name="minValue">The minimum allowed value for the parameter.</param>
 /// <param name="maxValue">The maximum allowed value for the parameter.</param>
+/// <param name="tooltipOverride">Optional custom template for parameter legend display.</param>
 internal abstract class ParamAttribute<T>(
    string displayName,
    T defaultValue,
    T minValue,
-   T maxValue
+   T maxValue,
+   string? tooltipOverride = null
 ) : Attribute
 {
     /// <summary>
@@ -34,4 +36,10 @@ internal abstract class ParamAttribute<T>(
     /// Gets the maximum allowed value for the parameter.
     /// </summary>
     public T MaxValue { get; } = maxValue;
+
+    /// <summary>
+    /// Gets the optional custom template for parameter legend display.
+    /// When provided, this template overrides the default legend format.
+    /// </summary>
+    public string? TooltipTemplate { get; } = tooltipOverride;
 }

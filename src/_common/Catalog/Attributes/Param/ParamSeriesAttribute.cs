@@ -5,14 +5,17 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 /// <typeparam name="T">The interface type required for series elements.</typeparam>
 /// <param name="displayName">The display name of the parameter.</param>
+/// <param name="tooltipOverride">Optional custom template for parameter legend display.</param>
 [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
 internal sealed class ParamSeriesAttribute<T>(
-    string displayName
+    string displayName,
+    string? tooltipOverride = null
 ) : ParamAttribute<IEnumerable<T>>(
     displayName: displayName,
     defaultValue: [],
     minValue: [],
-    maxValue: []
+    maxValue: [],
+    tooltipOverride: tooltipOverride
 ) where T : IReusable
 {
     /// <summary>
