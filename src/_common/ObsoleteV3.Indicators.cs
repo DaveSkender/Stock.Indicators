@@ -1198,7 +1198,14 @@ public static partial class Indicator
     [Obsolete("Rename `GetVwap(..)` to `ToVwap(..)`", false)]
     public static IEnumerable<VwapResult> GetVwap<TQuote>(
         this IEnumerable<TQuote> quotes, DateTime? startDate = null)
-        where TQuote : IQuote => quotes.ToSortedList().ToVwap(startDate);
+        where TQuote : IQuote
+    {
+        IReadOnlyList<TQuote> source = quotes.ToSortedList();
+
+        return source?.Count is null or 0
+            ? []
+            : source.ToVwap(startDate ?? source[0].Timestamp);
+    }
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetVwma(..)` to `ToVwma(..)`", false)]

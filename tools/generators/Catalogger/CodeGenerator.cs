@@ -139,8 +139,7 @@ internal static class CodeGenerator
         }
 
         // Add result configs
-        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, legendTemplate,
-            $"{indicator.ContainingType}.{indicator.MemberName}");
+        AppendResultConfig(sourceBuilder, indicator.Name, indicator.Uiid, legendTemplate);
 
         sourceBuilder.AppendLine("            },");
     }
@@ -184,7 +183,7 @@ internal static class CodeGenerator
     }
 
     private static void AppendResultConfig(
-        StringBuilder sourceBuilder, string name, string id, string tooltipTemplate, string returnType)
+        StringBuilder sourceBuilder, string name, string id, string tooltipTemplate)
     {
         // For the catalog generator, we'll use some common patterns to determine the results
         // based on the indicator ID and naming conventions
@@ -199,23 +198,23 @@ internal static class CodeGenerator
         {
             // Bollinger Bands
             case "BB":
-                AppendPriceBandIndicatorConfigs(sourceBuilder, name, "bb", tooltipTemplate);
+                AppendPriceBandIndicatorConfigs(sourceBuilder, tooltipTemplate);
                 break;
 
             // Keltner Channels
             case "KELTNER":
-                AppendPriceBandIndicatorConfigs(sourceBuilder, name, "keltner", tooltipTemplate);
+                AppendPriceBandIndicatorConfigs(sourceBuilder,  tooltipTemplate);
                 break;
 
             // Stochastic indicators
             case "STOCH":
             case "STOCH-RSI":
-                AppendStochasticIndicatorConfigs(sourceBuilder, name, id.ToLowerInvariant(), tooltipTemplate);
+                AppendStochasticIndicatorConfigs(sourceBuilder, tooltipTemplate);
                 break;
 
             // MACD indicator
             case "MACD":
-                AppendMacdIndicatorConfigs(sourceBuilder, name, "macd", tooltipTemplate);
+                AppendMacdIndicatorConfigs(sourceBuilder, tooltipTemplate);
                 break;
 
             // Default - just add a simple result with IsDefaultOutput = true
@@ -244,7 +243,7 @@ internal static class CodeGenerator
 
     // Helper for price band indicators (Bollinger Bands, Keltner, etc.)
     private static void AppendPriceBandIndicatorConfigs(
-        StringBuilder sourceBuilder, string name, string dataNamePrefix, string tooltipTemplate)
+        StringBuilder sourceBuilder, string tooltipTemplate)
     {
         // For price band indicators, centerline property is affiliated with IReusable.Value
         sourceBuilder.AppendLine($$"""
@@ -286,7 +285,7 @@ internal static class CodeGenerator
 
     // Helper for Stochastic oscillator configurations
     private static void AppendStochasticIndicatorConfigs(
-        StringBuilder sourceBuilder, string name, string dataNamePrefix, string tooltipTemplate)
+        StringBuilder sourceBuilder, string tooltipTemplate)
     {
         // For stochastic indicators, oscillator property is affiliated with IReusable.Value
         sourceBuilder.AppendLine($$"""
@@ -317,7 +316,7 @@ internal static class CodeGenerator
 
     // Helper for MACD configurations
     private static void AppendMacdIndicatorConfigs(
-        StringBuilder sourceBuilder, string name, string dataNamePrefix, string tooltipTemplate)
+        StringBuilder sourceBuilder, string tooltipTemplate)
     {
         // For MACD indicators, macd property is affiliated with IReusable.Value
         sourceBuilder.AppendLine($$"""

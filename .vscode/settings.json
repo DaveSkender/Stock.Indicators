@@ -25,5 +25,8 @@
     "**/*.csproj.user": true,
     "**/*.log": true,
     "**/*.tmp": true
-  }
+  },
+  "dotnet.defaultSolution": "Stock.Indicators.sln",
+  "dotnet.automaticallySyncWithActiveItem": false,
+  "dotnet.testWindow.useTestingPlatformProtocol": true
 }

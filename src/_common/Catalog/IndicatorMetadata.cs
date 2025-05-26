@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Skender.Stock.Indicators;
 
@@ -59,12 +58,9 @@ public static class IndicatorMetadata
         IndicatorListing? listing = Catalog.Get()
             .FirstOrDefault(x => x.Uiid.Equals(indicatorId, StringComparison.OrdinalIgnoreCase));
 
-        if (listing != null && !includeChartConfig)
-        {
-            return FilterSingleChartConfig(listing);
-        }
-
-        return listing;
+        return listing != null && !includeChartConfig
+            ? FilterSingleChartConfig(listing)
+            : listing;
     }
 
     /// <summary>
@@ -89,12 +85,7 @@ public static class IndicatorMetadata
         IndicatorListing? listing = Catalog.Get()
             .FirstOrDefault(x => ContainsMethod(x, method));
 
-        if (listing != null && !includeChartConfig)
-        {
-            return FilterSingleChartConfig(listing);
-        }
-
-        return listing;
+        return listing != null && !includeChartConfig ? FilterSingleChartConfig(listing) : listing;
     }
 
     /// <summary>
@@ -119,11 +110,10 @@ public static class IndicatorMetadata
     /// </summary>
     /// <param name="listing">The indicator listing to filter.</param>
     /// <returns>Filtered indicator listing without chart configuration data.</returns>
-    private static IndicatorListing FilterSingleChartConfig(IndicatorListing listing)
-    {
+    private static IndicatorListing FilterSingleChartConfig(IndicatorListing listing) =>
         // Create a new instance with no baseUrl
         // We need to ensure all required properties are initialized
-        return new IndicatorListing() {
+        new() {
             Name = listing.Name,
             Uiid = listing.Uiid,
             Category = listing.Category,
@@ -135,7 +125,6 @@ public static class IndicatorMetadata
             Results = RemoveChartStyles(listing.Results),
             LegendTemplate = listing.LegendTemplate
         };
-    }
 
     /// <summary>
     /// Removes chart styles from indicator result configurations.
@@ -146,7 +135,7 @@ public static class IndicatorMetadata
     {
         List<IndicatorResultConfig> filtered = [];
 
-        foreach (var result in results)
+        foreach (IndicatorResultConfig result in results)
         {
             filtered.Add(new IndicatorResultConfig {
                 DisplayName = result.DisplayName,

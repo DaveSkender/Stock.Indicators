@@ -420,10 +420,7 @@ public class Catalogging
             var centerline = bollinger.Results.SingleOrDefault(r => r.DataName == "centerline");
             centerline.Should().NotBeNull("Bollinger Bands should have a centerline result");
 
-            if (centerline != null)
-            {
-                centerline.IsDefaultOutput.Should().BeTrue("Bollinger Bands centerline should be the default output");
-            }
+            centerline?.IsDefaultOutput.Should().BeTrue("Bollinger Bands centerline should be the default output");
         }
 
         if (keltner != null)
@@ -431,10 +428,7 @@ public class Catalogging
             var centerline = keltner.Results.SingleOrDefault(r => r.DataName == "centerline");
             centerline.Should().NotBeNull("Keltner Channels should have a centerline result");
 
-            if (centerline != null)
-            {
-                centerline.IsDefaultOutput.Should().BeTrue("Keltner Channels centerline should be the default output");
-            }
+            centerline?.IsDefaultOutput.Should().BeTrue("Keltner Channels centerline should be the default output");
         }
     }
 
@@ -455,10 +449,7 @@ public class Catalogging
             var macdLine = macd.Results.SingleOrDefault(r => r.DataName == "macd");
             macdLine.Should().NotBeNull("MACD should have a main MACD line result");
 
-            if (macdLine != null)
-            {
-                macdLine.IsDefaultOutput.Should().BeTrue("MACD line should be the default output");
-            }
+            macdLine?.IsDefaultOutput.Should().BeTrue("MACD line should be the default output");
         }
     }
 
@@ -481,10 +472,7 @@ public class Catalogging
             var oscillator = stoch.Results.SingleOrDefault(r => r.DataName == "oscillator");
             oscillator.Should().NotBeNull("Stochastic should have an oscillator result");
 
-            if (oscillator != null)
-            {
-                oscillator.IsDefaultOutput.Should().BeTrue("Stochastic oscillator should be the default output");
-            }
+            oscillator?.IsDefaultOutput.Should().BeTrue("Stochastic oscillator should be the default output");
         }
 
         if (stochRsi != null)
@@ -492,10 +480,7 @@ public class Catalogging
             var oscillator = stochRsi.Results.SingleOrDefault(r => r.DataName == "oscillator");
             oscillator.Should().NotBeNull("StochRSI should have an oscillator result");
 
-            if (oscillator != null)
-            {
-                oscillator.IsDefaultOutput.Should().BeTrue("StochRSI oscillator should be the default output");
-            }
+            oscillator?.IsDefaultOutput.Should().BeTrue("StochRSI oscillator should be the default output");
         }
     }
 }
