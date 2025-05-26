@@ -15,14 +15,11 @@ public static partial class Pvo
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    [Series("PVO", "Percentage Volume Oscillator", Category.VolumeBased, ChartType.Oscillator)]
+    [SeriesIndicator("PVO")]
     public static IReadOnlyList<PvoResult> ToPvo<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Fast Periods", 12, 1, 200)]
         int fastPeriods = 12,
-        [ParamNum<int>("Slow Periods", 26, 1, 250)]
         int slowPeriods = 26,
-        [ParamNum<int>("Signal Periods", 9, 1, 50)]
         int signalPeriods = 9)
         where TQuote : IQuote => quotes
             .Use(CandlePart.Volume)

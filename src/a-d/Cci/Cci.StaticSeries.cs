@@ -12,10 +12,9 @@ public static partial class Cci
     /// <param name="quotes">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window. Default is 20.</param>
     /// <returns>A read-only list of <see cref="CciResult"/> containing the CCI calculation results.</returns>
-    [Series("CCI", "Commodity Channel Index (CCI)", Category.Oscillator, ChartType.Oscillator)]
+    [SeriesIndicator("CCI")]
     public static IReadOnlyList<CciResult> ToCci<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods = 20)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

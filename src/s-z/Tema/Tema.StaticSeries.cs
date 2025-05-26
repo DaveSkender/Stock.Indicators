@@ -13,10 +13,9 @@ public static partial class Tema
     /// <param name="lookbackPeriods">The number of lookback periods for the TEMA calculation.</param>
     /// <returns>A read-only list of TEMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source data is null.</exception>
-    [Series("TEMA", "Triple Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
+    [SeriesIndicator("TEMA")]
     public static IReadOnlyList<TemaResult> ToTema<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 20, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

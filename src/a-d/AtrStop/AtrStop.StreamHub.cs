@@ -16,14 +16,11 @@ public static partial class AtrStop
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
     /// <returns>An instance of <see cref="AtrStopHub{TIn}"/>.</returns>
-    [Stream("ATR-STOP", "ATR Trailing Stop", Category.PriceTrend, ChartType.Overlay)]
+    [StreamIndicator("ATR-STOP")]
     public static AtrStopHub<TIn> ToAtrStop<TIn>(
        this IQuoteProvider<TIn> quoteProvider,
-       [ParamNum<int>("Lookback Periods", 21, 1, 50)]
        int lookbackPeriods = 21,
-       [ParamNum<double>("Multiplier", 3, 0.1, 10)]
        double multiplier = 3,
-       [ParamEnum<EndType>("End Type", EndType.Close)]
        EndType endType = EndType.Close)
        where TIn : IQuote
        => new(quoteProvider, lookbackPeriods, multiplier, endType);

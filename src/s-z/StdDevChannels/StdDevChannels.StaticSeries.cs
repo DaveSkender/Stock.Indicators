@@ -14,12 +14,10 @@ public static partial class StdDevChannels
     /// The number of periods for the lookback. Default is 20.</param>
     /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
     /// <returns>A list of <see cref="StdDevChannelsResult"/> containing the Standard Deviation Channels values.</returns>
-    [Series("STDEV-CHANNELS", "Standard Deviation Channels", Category.PriceChannel, ChartType.Overlay)]
+    [SeriesIndicator("STDEV-CHANNELS")]
     public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods = 20,
-        [ParamNum<double>("Standard Deviations", 2, 0.01, 10)]
         double stdDeviations = 2)
         where T : IReusable
     {

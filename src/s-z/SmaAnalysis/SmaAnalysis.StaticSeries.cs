@@ -12,10 +12,9 @@ public static partial class Sma
     /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA analysis results.</returns>
-    [Series("SMA-ANALYSIS", "Simple Moving Average Analysis", Category.PriceCharacteristic, ChartType.Oscillator)]
+    [SeriesIndicator("SMA-ANALYSIS")]
     public static IReadOnlyList<SmaAnalysis> ToSmaAnalysis<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

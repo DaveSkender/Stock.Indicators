@@ -15,12 +15,10 @@ public static partial class ParabolicSar
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step or maximum acceleration factor are out of range.</exception>
-    [Series("PSAR", "Parabolic Stop and Reverse", Category.StopAndReverse, ChartType.Overlay)]
+    [SeriesIndicator("PSAR")]
     public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<double>("Step Size", 0.02, 0.000001, 2500)]
         double accelerationStep = 0.02,
-        [ParamNum<double>("Max Factor", 0.2, 0.000001, 2500)]
         double maxAccelerationFactor = 0.2)
 
         where TQuote : IQuote => quotes
@@ -41,7 +39,6 @@ public static partial class ParabolicSar
     /// <returns>A list of <see cref="ParabolicSarResult"/> containing the SAR values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the acceleration step, maximum acceleration factor, or initial factor are out of range.</exception>
-    [ExcludeFromCatalog]
     public static IReadOnlyList<ParabolicSarResult> ToParabolicSar<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         double accelerationStep,

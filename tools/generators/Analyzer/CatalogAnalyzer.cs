@@ -21,9 +21,7 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         [
             DiagnosticDescriptors.IND001_MissingSeriesAttributeDescriptor,
             DiagnosticDescriptors.IND002_MissingStreamAttributeDescriptor,
-            DiagnosticDescriptors.IND003_MissingBufferAttributeDescriptor,
-            DiagnosticDescriptors.IND101_MissingParamAttributeDescriptor,
-            DiagnosticDescriptors.IND102_ParamTypeMismatchDescriptor
+            DiagnosticDescriptors.IND003_MissingBufferIndicatorAttributeDescriptor
         ];
 
     /// <summary>
@@ -80,12 +78,6 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
 
         // Apply style rules (IND001-003)
         IndicatorStyleRules.Analyze(context, methodSymbol, methodDeclaration);
-
-        // If the method has a catalog attribute, check parameters for ParamAttribute (IND101-101)
-        if (hasCatalogAttribute)
-        {
-            ParamAttributeRules.Analyze(context, methodSymbol);
-        }
     }
 
     /// <summary>

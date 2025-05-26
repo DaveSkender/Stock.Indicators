@@ -14,12 +14,10 @@ public static partial class BollingerBands
     /// <param name="standardDeviations">The number of standard deviations to use for the bands. Default is 2.</param>
     /// <returns>A read-only list of <see cref="BollingerBandsResult"/> containing the Bollinger Bands calculation results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    [Series("BB", "Bollinger Bands®", Category.PriceChannel, ChartType.Overlay)]
+    [SeriesIndicator("BB")]
     public static IReadOnlyList<BollingerBandsResult> ToBollingerBands<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 20, 2, 250)]
         int lookbackPeriods = 20,
-        [ParamNum<double>("Standard Deviations", 2, 0.01, 10)]
         double standardDeviations = 2)
         where T : IReusable
     {

@@ -8,9 +8,9 @@ The Generator analyzes indicator classes decorated with attribute flavors:
 
 | Attribute Flavor | Description |
 |------------------|-------------|
-| `SeriesAttribute` | For indicators that operate on series data |
-| `StreamAttribute` | For indicators that stream data |
-| `BufferAttribute` | For indicators that use buffer-style data |
+| `SeriesIndicatorAttribute` | For indicators that operate on series data |
+| `StreamIndicatorAttribute` | For indicators that stream data |
+| `BufferIndicatorAttribute` | For indicators that use buffer-style data |
 | `IndicatorAttribute` | Base attribute for all indicators |
 
 It then generates a catalog of all indicators with their metadata, parameters, and default configurations.

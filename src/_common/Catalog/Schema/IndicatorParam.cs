@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Represents the configuration for an indicator parameter.
 /// </summary>
 [Serializable]
-public record IndicatorParamConfig
+public record IndicatorParam
 {
     /// <summary>
     /// Gets or sets the P[n] identifier of the parameter.

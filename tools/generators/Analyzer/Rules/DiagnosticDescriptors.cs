@@ -46,7 +46,7 @@ internal static class DiagnosticDescriptors
     private const string IND003_Title = "Buffer indicator method missing Buffer attribute";
     private const string IND003_MessageFormat = "Buffer indicator method '{0}' must have the Buffer attribute";
 
-    public static readonly DiagnosticDescriptor IND003_MissingBufferAttributeDescriptor = new(
+    public static readonly DiagnosticDescriptor IND003_MissingBufferIndicatorAttributeDescriptor = new(
         id: IND003_RuleId,
         title: IND003_Title,
         messageFormat: IND003_MessageFormat,
@@ -54,36 +54,6 @@ internal static class DiagnosticDescriptors
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: IND00x_Description);
-
-    // IND101: Missing parameter attribute
-    private const string IND101_RuleId = "IND101";
-    private const string IND101_Title = "Missing ParamAttribute on indicator parameter";
-    private const string IND101_MessageFormat = "Parameter '{0}' in method '{1}' with IndicatorAttribute is missing a ParamAttribute";
-    private const string IND101_Description = "Indicator method parameters should have the ParamAttribute applied.";
-
-    public static readonly DiagnosticDescriptor IND101_MissingParamAttributeDescriptor = new(
-        id: IND101_RuleId,
-        title: IND101_Title,
-        messageFormat: IND101_MessageFormat,
-        category: AttributedCategory,
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true,
-        description: IND101_Description);
-
-    // IND102: Parameter attribution type mismatch
-    private const string IND102_RuleId = "IND102";
-    private const string IND102_Title = "Type mismatch between attribute generic type and parameter type";
-    private const string IND102_MessageFormat = "ParamAttribute<{2}> should be adjusted to match parameter '{0}' type {3} in method '{1}'";
-    private const string IND102_Description = "ParamAttribute's generic type parameter should match the parameter type it decorates.";
-
-    public static readonly DiagnosticDescriptor IND102_ParamTypeMismatchDescriptor = new(
-        id: IND102_RuleId,
-        title: IND102_Title,
-        messageFormat: IND102_MessageFormat,
-        category: AttributedCategory,
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true,
-        description: IND102_Description);
 
     // IND901: Duplicate UIIDs found in catalog listing
     private const string IND901_RuleId = "IND901";

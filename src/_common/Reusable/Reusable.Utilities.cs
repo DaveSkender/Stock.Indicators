@@ -12,7 +12,6 @@ public static partial class Reusable
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="candlePart">The part of the candle to use.</param>
     /// <returns>A list of reusable types.</returns>
-    [ExcludeFromCatalog]
     public static IReadOnlyList<IReusable> ToReusable<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)

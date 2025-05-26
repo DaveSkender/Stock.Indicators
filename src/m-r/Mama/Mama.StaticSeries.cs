@@ -14,12 +14,10 @@ public static partial class Mama
     /// <param name="slowLimit">The slow limit for the MAMA calculation. Default is 0.05.</param>
     /// <returns>A list of MESA Adaptive Moving Average (MAMA) results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the fast or slow limit is out of range.</exception>
-    [Series("MAMA", "MESA Adaptive Moving Average", Category.MovingAverage, ChartType.Overlay)]
+    [SeriesIndicator("MAMA")]
     public static IReadOnlyList<MamaResult> ToMama<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<double>("Fast Limit", 0.5, 0.01, 0.99)]
         double fastLimit = 0.5,
-        [ParamNum<double>("Slow Limit", 0.05, 0.01, 0.99)]
         double slowLimit = 0.05)
         where T : IReusable
     {

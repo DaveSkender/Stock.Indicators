@@ -11,7 +11,6 @@ public static partial class QuoteParts
     /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="candlePart">The candle part to select.</param>
     /// <returns>A QuotePartHub instance.</returns>
-    [ExcludeFromCatalog]
     public static QuotePartHub<TIn> ToQuotePart<TIn>(
     this IQuoteProvider<TIn> quoteProvider,
     CandlePart candlePart)

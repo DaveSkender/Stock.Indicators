@@ -24,27 +24,27 @@ internal static class IndicatorStyleRules
 
         // Convert to Skender.Stock.Indicators.Style enum value for comparison
         // Style enum: Series = 0, Buffer = 1, Stream = 2
-        if (styleValue == 0 && !HasAttributeOfType(methodDeclaration, "SeriesAttribute", context.SemanticModel))
+        if (styleValue == 0 && !HasAttributeOfType(methodDeclaration, "SeriesIndicatorAttribute", context.SemanticModel))
         {
-            // Series style indicator missing SeriesAttribute
+            // Series style indicator missing SeriesIndicatorAttribute
             context.ReportDiagnostic(Diagnostic.Create(
                 DiagnosticDescriptors.IND001_MissingSeriesAttributeDescriptor,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
-        else if (styleValue == 2 && !HasAttributeOfType(methodDeclaration, "StreamAttribute", context.SemanticModel))
+        else if (styleValue == 2 && !HasAttributeOfType(methodDeclaration, "StreamIndicatorAttribute", context.SemanticModel))
         {
-            // Stream style indicator missing StreamAttribute
+            // Stream style indicator missing StreamIndicatorAttribute
             context.ReportDiagnostic(Diagnostic.Create(
                 DiagnosticDescriptors.IND002_MissingStreamAttributeDescriptor,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }
-        else if (styleValue == 1 && !HasAttributeOfType(methodDeclaration, "BufferAttribute", context.SemanticModel))
+        else if (styleValue == 1 && !HasAttributeOfType(methodDeclaration, "BufferIndicatorAttribute", context.SemanticModel))
         {
-            // Buffer style indicator missing BufferAttribute
+            // Buffer style indicator missing BufferIndicatorAttribute
             context.ReportDiagnostic(Diagnostic.Create(
-                DiagnosticDescriptors.IND003_MissingBufferAttributeDescriptor,
+                DiagnosticDescriptors.IND003_MissingBufferIndicatorAttributeDescriptor,
                 methodDeclaration.Identifier.GetLocation(),
                 methodDeclaration.Identifier.Text));
         }

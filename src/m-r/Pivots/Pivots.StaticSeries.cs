@@ -16,16 +16,12 @@ public static partial class Pivots
     /// <param name="endType">The type of end point for the pivot calculation.</param>
     /// <returns>A list of pivot points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    [Series("PIVOTS", "Pivots", Category.PriceTransform, ChartType.Overlay)]
+    [SeriesIndicator("PIVOTS")]
     public static IReadOnlyList<PivotsResult> ToPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Left Span", 2, 1, 20)]
         int leftSpan = 2,
-        [ParamNum<int>("Right Span", 2, 1, 20)]
         int rightSpan = 2,
-        [ParamNum<int>("Max Trend Periods", 20, 5, 100)]
         int maxTrendPeriods = 20,
-        [ParamEnum<EndType>("End Type", EndType.HighLow)]
         EndType endType = EndType.HighLow)
         where TQuote : IQuote
     {

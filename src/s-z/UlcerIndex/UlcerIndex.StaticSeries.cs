@@ -13,10 +13,9 @@ public static partial class UlcerIndex
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of UlcerIndexResult containing the Ulcer Index values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("ULCER", "Ulcer Index", Category.PriceCharacteristic, ChartType.Oscillator)]
+    [SeriesIndicator("ULCER")]
     public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods = 14)
         where T : IReusable
     {
