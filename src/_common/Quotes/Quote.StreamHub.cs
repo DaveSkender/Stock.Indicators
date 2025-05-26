@@ -1,7 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-#region hub initializer
-
 public static partial class Quotes
 {
     /// <summary>
@@ -10,11 +8,11 @@ public static partial class Quotes
     /// <typeparam name="TQuote">The type of quote.</typeparam>
     /// <param name="quoteProvider">The quote provider to convert.</param>
     /// <returns>A new instance of QuoteHub.</returns>
+    [ExcludeFromCatalog]
     public static QuoteHub<TQuote> ToQuote<TQuote>(
         this IQuoteProvider<TQuote> quoteProvider)
         where TQuote : IQuote => new(quoteProvider);
 }
-#endregion
 
 /// <summary>
 /// Represents a hub for managing quotes.

@@ -91,6 +91,13 @@ jobs:
 
           echo "version=$ver" >> "$GITHUB_OUTPUT"
 
+      - name: Replace "dumb" version markers
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        with:
+          find: "#{PACKAGE_VERSION}#"
+          replace: "${{ steps.version_info.outputs.version }}"
+          regex: false
+
       - name: Compose package info
         id: package_info
         run: |
@@ -107,6 +114,7 @@ jobs:
           dotnet build src/Indicators.csproj
           --configuration Release
           --property:Version=${{ steps.version_info.outputs.version }}
+          --property:DefineConstants=VERSIONED_BUILD
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 

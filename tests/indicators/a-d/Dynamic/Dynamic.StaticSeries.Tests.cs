@@ -89,11 +89,11 @@ public class McGinleyDynamic : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToDynamic(0));
 
         // bad k-factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToDynamic(14, 0));
     }
 }

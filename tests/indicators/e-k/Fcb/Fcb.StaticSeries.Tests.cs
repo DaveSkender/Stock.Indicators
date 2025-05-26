@@ -16,8 +16,8 @@ public class Fcb : StaticSeriesTestBase
 
         // sample values
         FcbResult r1 = results[4];
-        Assert.AreEqual(null, r1.UpperBand);
-        Assert.AreEqual(null, r1.LowerBand);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
 
         FcbResult r2 = results[10];
         Assert.AreEqual(214.84m, r2.UpperBand);
@@ -96,6 +96,6 @@ public class Fcb : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => Quotes.ToFcb(1));
 }

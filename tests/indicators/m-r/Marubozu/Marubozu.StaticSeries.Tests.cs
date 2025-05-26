@@ -15,7 +15,7 @@ public class Marubozu : StaticSeriesTestBase
 
         // sample values
         CandleResult r31 = results[31];
-        Assert.AreEqual(null, r31.Price);
+        Assert.IsNull(r31.Price);
         Assert.AreEqual(0, (int)r31.Match);
 
         CandleResult r32 = results[32];
@@ -23,15 +23,15 @@ public class Marubozu : StaticSeriesTestBase
         Assert.AreEqual(Match.BullSignal, r32.Match);
 
         CandleResult r33 = results[33];
-        Assert.AreEqual(null, r33.Price);
+        Assert.IsNull(r33.Price);
         Assert.AreEqual(Match.None, r33.Match);
 
         CandleResult r34 = results[34];
-        Assert.AreEqual(null, r34.Price);
+        Assert.IsNull(r34.Price);
         Assert.AreEqual(Match.None, r34.Match);
 
         CandleResult r274 = results[274];
-        Assert.AreEqual(null, r274.Price);
+        Assert.IsNull(r274.Price);
         Assert.AreEqual(Match.None, r274.Match);
 
         CandleResult r277 = results[277];
@@ -76,10 +76,10 @@ public class Marubozu : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad minimum body percent values
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMarubozu(79.9));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMarubozu(100.1));
     }
 }

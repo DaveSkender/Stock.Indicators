@@ -112,3 +112,12 @@ public sealed class BasicData : IReusable
     [JsonIgnore]
     public double Value { get; set; }
 }
+
+// ENUM
+[Obsolete($"Rename '{nameof(ChandelierType)}' to '{nameof(Direction)}'.")]
+[SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Not really an issue.")]
+public enum ChandelierType
+{
+    Long = 0,
+    Short = 1
+}

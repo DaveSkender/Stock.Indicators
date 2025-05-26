@@ -25,7 +25,7 @@ public static partial class Prs
         where T : IReusable
     {
         // check parameter arguments
-        if (lookbackPeriods is <= 0)
+        if (lookbackPeriods is <= 0 and not int.MinValue)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(lookbackPeriods), lookbackPeriods,

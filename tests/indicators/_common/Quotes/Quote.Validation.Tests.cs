@@ -87,7 +87,7 @@ public partial class Quotes : TestBase
         };
 
         InvalidQuotesException dx
-            = Assert.ThrowsException<InvalidQuotesException>(
+            = Assert.ThrowsExactly<InvalidQuotesException>(
                 () => dupQuotes.Validate());
 
         _ = dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
@@ -106,7 +106,7 @@ public partial class Quotes : TestBase
         };
 
         InvalidQuotesException dx
-            = Assert.ThrowsException<InvalidQuotesException>(
+            = Assert.ThrowsExactly<InvalidQuotesException>(
                 () => unorderedQuotes.Validate());
 
         _ = dx.Message.Should()

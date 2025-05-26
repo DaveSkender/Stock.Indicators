@@ -65,10 +65,10 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public void FullHistory()
     {
-        // null provided for lookback period
+        // full history linear regression
 
         IReadOnlyList<StdDevChannelsResult> results =
-            Quotes.ToStdDevChannels(null);
+            Quotes.ToStdDevChannels(Quotes.Count);
 
         // proper quantities
         Assert.AreEqual(502, results.Count);
@@ -183,11 +183,11 @@ public class StdDevChannels : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStdDevChannels(0));
 
         // bad standard deviations
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStdDevChannels(20, 0));
     }
 }

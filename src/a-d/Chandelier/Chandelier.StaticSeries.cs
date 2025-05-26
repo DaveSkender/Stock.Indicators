@@ -14,11 +14,15 @@ public static partial class Chandelier
     /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
     /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
+    [Series("CHEXIT", "Chandelier Exit", Category.StopAndReverse, ChartType.Overlay)]
     public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
         this IReadOnlyList<TQuote> quotes,
+        [ParamNum<int>("Lookback Periods", 22, 1, 250)]
         int lookbackPeriods = 22,
+        [ParamNum<double>("Multiplier", 3, 1, 10)]
         double multiplier = 3,
-        ChandelierType type = ChandelierType.Long)
+        [ParamEnum<Direction>("Direction", Direction.Long)]
+        Direction type = Direction.Long)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);
@@ -35,7 +39,7 @@ public static partial class Chandelier
         this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
-        ChandelierType type)
+        Direction type)
     {
         // check parameter arguments
         Validate(lookbackPeriods, multiplier);
@@ -61,7 +65,7 @@ public static partial class Chandelier
 
                 switch (type)
                 {
-                    case ChandelierType.Long:
+                    case Direction.Long:
 
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -76,7 +80,7 @@ public static partial class Chandelier
                         exit = maxHigh - (atr * multiplier);
                         break;
 
-                    case ChandelierType.Short:
+                    case Direction.Short:
 
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)

@@ -24,7 +24,7 @@ public class Chandelier : StaticSeriesTestBase
 
         // short
         IReadOnlyList<ChandelierResult> shortResult =
-            Quotes.ToChandelier(lookbackPeriods, 3, ChandelierType.Short);
+            Quotes.ToChandelier(lookbackPeriods, 3, Direction.Short);
 
         ChandelierResult c = shortResult[501];
         Assert.AreEqual(246.4240, c.ChandelierExit.Round(4));
@@ -83,15 +83,15 @@ public class Chandelier : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChandelier(0));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChandelier(25, 0));
 
         // bad type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.ToChandelier(25, 2, (ChandelierType)int.MaxValue));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToChandelier(25, 2, (Direction)int.MaxValue));
     }
 }

@@ -21,9 +21,9 @@ public class StarcBands : StaticSeriesTestBase
 
         // sample value
         StarcBandsResult r1 = results[18];
-        Assert.AreEqual(null, r1.Centerline);
-        Assert.AreEqual(null, r1.UpperBand);
-        Assert.AreEqual(null, r1.LowerBand);
+        Assert.IsNull(r1.Centerline);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
 
         StarcBandsResult r19 = results[19];
         Assert.AreEqual(214.5250, r19.Centerline.Round(4));
@@ -116,15 +116,15 @@ public class StarcBands : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad EMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStarcBands(1));
 
         // bad ATR period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStarcBands(20, 2, 1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStarcBands(20, 0));
     }
 }

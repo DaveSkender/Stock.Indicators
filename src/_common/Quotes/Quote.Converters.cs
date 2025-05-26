@@ -13,6 +13,7 @@ public static partial class Quotes
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes to convert.</param>
     /// <returns>A list of converted quotes.</returns>
+    [ExcludeFromCatalog]
     public static IReadOnlyList<Quote> ToQuoteList<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote

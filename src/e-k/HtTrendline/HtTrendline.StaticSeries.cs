@@ -12,6 +12,7 @@ public static partial class HtTrendline
     /// <param name="source">The list of time-series values to transform.</param>
     /// <returns>A list of HTL results and smoothed price.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    [Series("HTL", "Hilbert Transform Instantaneous Trendline", Category.MovingAverage, ChartType.Overlay)]
     public static IReadOnlyList<HtlResult> ToHtTrendline<T>(
         this IReadOnlyList<T> source)
         where T : IReusable

@@ -1,22 +1,6 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Interface for Exponential Moving Average (EMA) calculations.
-/// </summary>
-public interface IEma
-{
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
-    int LookbackPeriods { get; }
-
-    /// <summary>
-    /// Gets the smoothing factor for the calculation.
-    /// </summary>
-    double K { get; }
-}
-
-/// <summary>
 /// Provides methods for calculating the Exponential Moving Average (EMA) indicator.
 /// </summary>
 public static partial class Ema
@@ -30,12 +14,15 @@ public static partial class Ema
     /// <returns>An EMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    [Stream("EMA", "Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
     public static EmaHub<T> ToEma<T>(
         this IChainProvider<T> chainProvider,
+        [ParamNum<int>("Lookback Periods", 14, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
         => new(chainProvider, lookbackPeriods);
 }
+
 /// <summary>
 /// Represents a hub for Exponential Moving Average (EMA) calculations.
 /// </summary>

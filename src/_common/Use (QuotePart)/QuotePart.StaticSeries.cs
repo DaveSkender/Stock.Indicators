@@ -17,6 +17,7 @@ public static partial class QuoteParts
     /// <param name="quotes">Sorted list of IQuote or IReusable items.</param>
     /// <param name="candlePart">The candle part to convert to.</param>
     /// <returns>List of IReusable items.</returns>
+    [ExcludeFromCatalog]
     public static IReadOnlyList<QuotePart> ToQuotePart<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         CandlePart candlePart)
