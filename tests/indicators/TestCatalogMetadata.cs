@@ -11,7 +11,7 @@ public class MetadataTests
     public void MetadataToJsonGeneratesValidJson()
     {
         // Arrange & Act
-        string json = Metadata.ToJson();
+        string json = IndicatorMetadata.ToJson();
 
         // Assert
         Assert.IsFalse(string.IsNullOrWhiteSpace(json));
@@ -25,7 +25,7 @@ public class MetadataTests
     public void MetadataToJsonWithoutChartConfigExcludesChartConfig()
     {
         // Arrange & Act
-        string json = Metadata.ToJson(includeChartConfig: false);
+        string json = IndicatorMetadata.ToJson(includeChartConfig: false);
 
         // Assert
         Assert.IsFalse(string.IsNullOrWhiteSpace(json));
@@ -54,7 +54,7 @@ public class MetadataTests
         string indicatorId = "SMA";
 
         // Act
-        var indicator = Metadata.GetById(indicatorId);
+        var indicator = IndicatorMetadata.GetById(indicatorId);
 
         // Assert
         Assert.IsNotNull(indicator);
@@ -68,7 +68,7 @@ public class MetadataTests
         string invalidId = "NonExistentIndicator";
 
         // Act
-        var indicator = Metadata.GetById(invalidId);
+        var indicator = IndicatorMetadata.GetById(invalidId);
 
         // Assert
         Assert.IsNull(indicator);

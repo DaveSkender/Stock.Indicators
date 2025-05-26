@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for working with indicator metadata and exporting catalog information.
 /// </summary>
-public static class Metadata
+public static class IndicatorMetadata
 {
     private static readonly JsonSerializerOptions _jsonOptions = new() {
         WriteIndented = true,
@@ -61,7 +61,7 @@ public static class Metadata
 
         if (listing != null && !includeChartConfig)
         {
-            return FilterChartConfig(listing);
+            return FilterSingleChartConfig(listing);
         }
 
         return listing;
@@ -81,7 +81,7 @@ public static class Metadata
         }
 
         // Extract method name from the qualified name if it includes the class
-        string method = methodName.Contains('.')
+        string method = methodName.Contains('.', StringComparison.Ordinal)
             ? methodName.Split('.').Last()
             : methodName;
 
@@ -91,7 +91,7 @@ public static class Metadata
 
         if (listing != null && !includeChartConfig)
         {
-            return FilterChartConfig(listing);
+            return FilterSingleChartConfig(listing);
         }
 
         return listing;
@@ -102,13 +102,13 @@ public static class Metadata
     /// </summary>
     /// <param name="listings">The indicator listings to filter.</param>
     /// <returns>Filtered indicator listings without chart configuration data.</returns>
-    private static IReadOnlyList<IndicatorListing> FilterChartConfig(IReadOnlyList<IndicatorListing> listings)
+    private static List<IndicatorListing> FilterChartConfig(IReadOnlyList<IndicatorListing> listings)
     {
         List<IndicatorListing> filtered = [];
 
         foreach (IndicatorListing listing in listings)
         {
-            filtered.Add(FilterChartConfig(listing));
+            filtered.Add(FilterSingleChartConfig(listing));
         }
 
         return filtered;
@@ -119,7 +119,7 @@ public static class Metadata
     /// </summary>
     /// <param name="listing">The indicator listing to filter.</param>
     /// <returns>Filtered indicator listing without chart configuration data.</returns>
-    private static IndicatorListing FilterChartConfig(IndicatorListing listing)
+    private static IndicatorListing FilterSingleChartConfig(IndicatorListing listing)
     {
         // Create a new instance with no baseUrl
         // We need to ensure all required properties are initialized
