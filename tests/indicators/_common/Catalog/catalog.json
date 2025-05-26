@@ -3343,17 +3343,24 @@
     "Name": "Volume Weighted Average Price",
     "Uiid": "VWAP",
     "UiidEndpoint": "/vwap",
-    "LegendTemplate": "VWAP",
+    "LegendTemplate": "VWAP([P1])",
     "Style": "Series",
     "ReturnType": "Vwap.ToVwap",
     "Category": "PriceChannel",
     "ChartType": "Overlay",
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Pid": "P1",
+        "DisplayName": "Start Date",
+        "ParamName": "startDate",
+        "DataType": "Date"
+      }
+    ],
     "Results": [
       {
         "DisplayName": "Volume Weighted Average Price",
-        "TooltipTemplate": "VWAP",
+        "TooltipTemplate": "VWAP([P1])",
         "DataName": "vwap",
         "DataType": "number",
         "LineType": "solid",

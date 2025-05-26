@@ -199,6 +199,15 @@ internal static class IndicatorProcessor
                 maxValue: out maxValue);
         }
 
+        // Handle ParamDateAttribute
+        else if (attributeClassName == "ParamDateAttribute")
+        {
+            dataType = "Date";
+            defaultValue = null; // Default to null for dates
+            minValue = null;
+            maxValue = null;
+        }
+
         // Handle ParamEnumAttribute<T>
         else if (attributeClassName.StartsWith("ParamEnum"))
         {
