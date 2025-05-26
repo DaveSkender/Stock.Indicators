@@ -16,22 +16,32 @@ public record IndicatorParam
     /// <summary>
     /// Gets or sets the display name of the parameter.
     /// </summary>
-    public string? DisplayName { get; init; }
+    public required string DisplayName { get; init; }
 
     /// <summary>
     /// Gets or sets the name of the parameter.
     /// </summary>
-    public string? ParamName { get; init; }
+    public required string ParameterName { get; init; }
 
     /// <summary>
     /// Gets or sets the data type of the parameter.
     /// </summary>
-    public string? DataType { get; init; }
+    public required string DataType { get; init; }
+
+    /// <summary>
+    /// Gets or sets the description of the parameter.
+    /// </summary>
+    public string? Description { get; init; }
+
+    /// <summary>
+    /// Gets or sets whether the parameter is required.
+    /// </summary>
+    public bool IsRequired { get; init; }
 
     /// <summary>
     /// Gets or sets the default value for the parameter.
     /// </summary>
-    public double? DefaultValue { get; init; }
+    public object? DefaultValue { get; init; }
 
     /// <summary>
     /// Gets or sets the minimum value for the parameter.

@@ -6,10 +6,10 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// This enumeration defines display types for indicator result types.
 /// </remarks>
-internal enum ResultType
+public enum ResultType
 {
     /// <summary>
-    /// 
+    /// Standard result type, typically used for most indicators.
     /// </summary>
     Default,
 

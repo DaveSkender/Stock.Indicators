@@ -5,32 +5,32 @@ This directory contains the schema, attributes, and validation system for the St
 ## Implementation Tasks
 
 1. **Base Schema Definition**
-   - [ ] 1.1. Use existing `IndicatorListing` class with core properties (Name, Uiid, Style, Category)
-   - [ ] 1.2. Enhance `Parameters` and `Results` collections in IndicatorListing
-   - [ ] 1.3. Use existing `IndicatorParameter` schema with properties: ParameterName, DisplayName, DataType, Description, IsRequired, DefaultValue
-   - [ ] 1.4. Use existing `IndicatorResult` schema with properties: DisplayName, DataName, DataType, IsDefault
-   - [ ] 1.5. Use existing enumerations for Style (Series, Stream, Buffer), Category, and ResultType
+   - [x] 1.1. Use existing `IndicatorListing` class with core properties (Name, Uiid, Style, Category)
+   - [x] 1.2. Enhance `Parameters` and `Results` collections in IndicatorListing
+   - [x] 1.3. Use existing `IndicatorParameter` schema with properties: ParameterName, DisplayName, DataType, Description, IsRequired, DefaultValue
+   - [x] 1.4. Use existing `IndicatorResult` schema with properties: DisplayName, DataName, DataType, IsDefault
+   - [x] 1.5. Use existing enumerations for Style (Series, Stream, Buffer), Category, and ResultType
 
 2. **Attribute Implementation**
-   - [ ] 2.1. Use existing base `IndicatorAttribute` abstract class with Id property
-   - [ ] 2.2. Use existing `SeriesIndicatorAttribute` derived from IndicatorAttribute
-   - [ ] 2.3. Use existing `StreamIndicatorAttribute` derived from IndicatorAttribute
-   - [ ] 2.4. Use existing `BufferIndicatorAttribute` derived from IndicatorAttribute
-   - [ ] 2.5. Apply attribute documentation and usage examples
+   - [x] 2.1. Use existing base `IndicatorAttribute` abstract class with Id property
+   - [x] 2.2. Use existing `SeriesIndicatorAttribute` derived from IndicatorAttribute
+   - [x] 2.3. Use existing `StreamIndicatorAttribute` derived from IndicatorAttribute
+   - [x] 2.4. Use existing `BufferIndicatorAttribute` derived from IndicatorAttribute
+   - [x] 2.5. Apply attribute documentation and usage examples
 
 3. **Fluent Builder Pattern**
-   - [ ] 3.1. Design `IndicatorListingBuilder` with fluent interface for readability
-   - [ ] 3.2. Implement strongly-typed parameter and result addition methods
-   - [ ] 3.3. Add overloads to support optional properties and defaults
-   - [ ] 3.4. Include validation in the build process
-   - [ ] 3.5. Document builder usage with examples
+   - [x] 3.1. Design `IndicatorListingBuilder` with fluent interface for readability
+   - [x] 3.2. Implement strongly-typed parameter and result addition methods
+   - [x] 3.3. Add overloads to support optional properties and defaults
+   - [x] 3.4. Include validation in the build process
+   - [x] 3.5. Document builder usage with examples
 
 4. **Static Catalog Definitions**
-   - [ ] 4.1. Define `Listing` static property pattern for indicator classes
-   - [ ] 4.2. Create standard template for indicator listings using the fluent builder pattern
-   - [ ] 4.3. Implement sample `Ema.Listing` with complete metadata
-   - [ ] 4.4. Ensure parameters match actual method signatures
-   - [ ] 4.5. Document the registration pattern in comments
+   - [x] 4.1. Define `Listing` static property pattern for indicator classes
+   - [x] 4.2. Create standard template for indicator listings using the fluent builder pattern
+   - [x] 4.3. Implement sample `Ema.Listing` with complete metadata
+   - [x] 4.4. Ensure parameters match actual method signatures
+   - [x] 4.5. Document the registration pattern in comments
 
 5. **Catalog Registration System**
    - [ ] 5.1. Create `IndicatorRegistry` static class with thread-safe singleton pattern
@@ -123,6 +123,10 @@ public static class Ema
 - [ ] Parameters in Listing must match method/constructor parameters exactly
 - [ ] Result definitions must accurately reflect indicator output properties
 - [ ] Use consistent naming across all catalog entries
+- [x] Indicator specific tests should be placed alongside their other tests
+- [x] Tests should use FluentAssertions assertion style
+- [x] Enum parameter definitions should not have minimum or maximum values
+- [x] Fix all code analysis warnings and suggestions as we go, but ignore `IND***` types
 
 ## Analyzer Usage
 
