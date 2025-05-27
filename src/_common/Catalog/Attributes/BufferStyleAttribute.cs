@@ -4,6 +4,27 @@ namespace Skender.Stock.Indicators;
 /// Classification attribute for a buffer-style indicator.
 /// </summary>
 /// <param name="id">Unique code of the indicator (e.g. "SMA")</param>
+/// <remarks>
+/// <para>
+/// Apply this attribute to static methods that implement buffer-style indicators.
+/// Buffer indicators maintain internal state and calculate based on a rolling window of values.
+/// </para>
+/// <para>
+/// Example usage:
+/// <code>
+/// [BufferIndicator("ADL")]
+/// public static AdlCalculator GetAdl(int lookbackPeriods)
+/// {
+///     return new AdlCalculator(lookbackPeriods);
+/// }
+/// </code>
+/// </para>
+/// <para>
+/// When this attribute is applied, the CatalogGenerator will automatically generate
+/// a static Listing property for the class (if one doesn't already exist) with
+/// appropriate metadata extracted from the method signature.
+/// </para>
+/// </remarks>
 [AttributeUsage(
     validOn: AttributeTargets.Constructor,
     AllowMultiple = false,

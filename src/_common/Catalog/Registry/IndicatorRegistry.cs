@@ -8,6 +8,36 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Thread-safe singleton registry for managing indicator listings and providing catalog functionality.
 /// </summary>
+/// <remarks>
+/// <para>
+/// The IndicatorRegistry is the central access point for the Stock.Indicators catalog system.
+/// It provides methods for retrieving indicator metadata, searching for indicators,
+/// and accessing parameter and result information.
+/// </para>
+/// <para>
+/// Usage examples:
+/// <code>
+/// // Get all indicators
+/// var allIndicators = IndicatorRegistry.GetAllIndicators();
+///
+/// // Get a specific indicator by ID
+/// var ema = IndicatorRegistry.GetIndicator("EMA");
+///
+/// // Search for indicators by name
+/// var movingAverages = IndicatorRegistry.Search("moving average");
+///
+/// // Filter by style
+/// var seriesIndicators = IndicatorRegistry.GetCatalog(Style.Series);
+///
+/// // Filter by category
+/// var momentumIndicators = IndicatorRegistry.GetCatalog(category: Category.Momentum);
+/// </code>
+/// </para>
+/// <para>
+/// The registry is automatically initialized when first accessed and
+/// discovers all indicators with proper attributes or static Listing properties.
+/// </para>
+/// </remarks>
 public static partial class IndicatorRegistry
 {
     private static readonly object _lock = new();
@@ -45,9 +75,24 @@ public static partial class IndicatorRegistry
     }
 
     /// <summary>
-    /// Gets all registered indicators.
+    /// Gets all registered indicators from the catalog.
     /// </summary>
     /// <returns>A read-only collection of all registered indicator listings.</returns>
+    /// <remarks>
+    /// This method returns all indicator listings regardless of style or category.
+    /// Use this method when you need to access the complete catalog of available indicators.
+    ///
+    /// <code>
+    /// // Get all indicators
+    /// var allIndicators = IndicatorRegistry.GetAllIndicators();
+    ///
+    /// // Access indicator properties
+    /// foreach (var indicator in allIndicators)
+    /// {
+    ///     Console.WriteLine($"{indicator.Name} ({indicator.Uiid}): {indicator.Category}");
+    /// }
+    /// </code>
+    /// </remarks>
     public static IReadOnlyCollection<IndicatorListing> GetAllIndicators()
     {
         // In test environments, we may want to skip auto-initialization

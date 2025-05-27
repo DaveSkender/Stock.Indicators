@@ -4,6 +4,28 @@ namespace Skender.Stock.Indicators;
 /// Classification attribute for a streaming hub-style indicator.
 /// </summary>
 /// <param name="id">Unique code of the indicator (e.g. "SMA")</param>
+/// <remarks>
+/// <para>
+/// Apply this attribute to static methods that implement stream-style indicators.
+/// Stream indicators typically process values one at a time in a streaming fashion
+/// and return a calculator object that maintains state.
+/// </para>
+/// <para>
+/// Example usage:
+/// <code>
+/// [StreamIndicator("STOCH")]
+/// public static StochCalculator GetStoch()
+/// {
+///     return new StochCalculator();
+/// }
+/// </code>
+/// </para>
+/// <para>
+/// When this attribute is applied, the CatalogGenerator will automatically generate
+/// a static Listing property for the class (if one doesn't already exist) with
+/// appropriate metadata extracted from the method signature.
+/// </para>
+/// </remarks>
 [AttributeUsage(
     validOn: AttributeTargets.Method,
     AllowMultiple = false,
