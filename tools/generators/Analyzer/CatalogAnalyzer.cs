@@ -2,7 +2,7 @@ namespace Generators.Analyzer;
 
 /// <summary>
 /// Analyzer that checks if indicator methods have the
-/// required style-specific catalog attributes.
+/// required style-specific catalog attributes and validates catalog listings.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class CatalogAnalyzer : DiagnosticAnalyzer
@@ -19,9 +19,9 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         [
-            DiagnosticDescriptors.IND001_MissingSeriesAttributeDescriptor,
-            DiagnosticDescriptors.IND002_MissingStreamAttributeDescriptor,
-            DiagnosticDescriptors.IND003_MissingBufferIndicatorAttributeDescriptor
+            // Validation rules
+            DiagnosticDescriptors.IND901_DuplicateUiidFoundDescriptor,
+            DiagnosticDescriptors.IND902_InvalidDefaultValueDescriptor
         ];
 
     /// <summary>
@@ -32,6 +32,8 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
+
+        // Register for method analysis (IND001-003 rules)
         context.RegisterSyntaxNodeAction(AnalyzeMethod, SyntaxKind.MethodDeclaration);
     }
 
@@ -76,8 +78,7 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
         // Check for any IndicatorAttribute first to validate ParamAttributes
         bool hasCatalogAttribute = HasAnyCatalogAttribute(methodSymbol);
 
-        // Apply style rules (IND001-003)
-        IndicatorStyleRules.Analyze(context, methodSymbol, methodDeclaration);
+        // Note: IND001-003 style rules have been removed as part of Task 10.1 cleanup
     }
 
     /// <summary>
@@ -123,4 +124,6 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
 
         return false;
     }
+
+    // Removed the AnalyzeClass method as part of Task 10.1 cleanup
 }

@@ -4,8 +4,10 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-IND001 | Attrubuted | Warning | Series indicator method missing Series attribute.
-IND002 | Attrubuted | Warning | Stream hub indicator method missing Stream attribute.
-IND003 | Attrubuted | Warning | Buffer indicator method missing Buffer attribute.
+SID001 | Catalog | Info | Missing indicator listing property.
+SID002 | Catalog | Info | Missing parameters in listing.
+SID003 | Catalog | Info | Extraneous parameters in listing.
+SID004 | Catalog | Info | Parameter type mismatch between implementation and listing.
+SID005 | Catalog | Info | Missing results in listing.
 IND901 | Validation | Error | Duplicate UIIDs detected.
 IND902 | Validation | Error | Default value must be between min/max value range.

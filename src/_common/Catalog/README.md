@@ -47,28 +47,28 @@ This directory contains the schema, attributes, and validation system for the St
    - [x] 6.5. Create extension methods for common queries
 
 7. **Analyzer Rules Development**
-   - [ ] 7.1. **SID001**: Missing Indicator Listing
-     - [ ] 7.1.1. Detect classes with indicator attributes but no Listing property
-     - [ ] 7.1.2. Report informational diagnostic with fix suggestions
+   - [x] 7.1. **SID001**: Missing Indicator Listing
+     - [x] 7.1.1. Detect classes with indicator attributes but no Listing property
+     - [x] 7.1.2. Report informational diagnostic with fix suggestions
 
-   - [ ] 7.2. **SID002**: Missing Parameters
-     - [ ] 7.2.1. Compare implementation parameters with listing parameters
-     - [ ] 7.2.2. Detect parameters present in methods/constructors but missing from listing
-     - [ ] 7.2.3. Report informational diagnostic for each missing parameter
+   - [x] 7.2. **SID002**: Missing Parameters
+     - [x] 7.2.1. Compare implementation parameters with listing parameters
+     - [x] 7.2.2. Detect parameters present in methods/constructors but missing from listing
+     - [x] 7.2.3. Report informational diagnostic for each missing parameter
 
-   - [ ] 7.3. **SID003**: Extraneous Parameters
-     - [ ] 7.3.1. Detect parameters present in listing but missing from implementation
-     - [ ] 7.3.2. Report informational diagnostic for each extraneous parameter
+   - [x] 7.3. **SID003**: Extraneous Parameters
+     - [x] 7.3.1. Detect parameters present in listing but missing from implementation
+     - [x] 7.3.2. Report informational diagnostic for each extraneous parameter
 
-   - [ ] 7.4. **SID004**: Parameter Type Mismatch
-     - [ ] 7.4.1. Compare parameter types between implementation and listing
-     - [ ] 7.4.2. Handle type name variations and nullable types
-     - [ ] 7.4.3. Report informational diagnostic for each type mismatch
+   - [x] 7.4. **SID004**: Parameter Type Mismatch
+     - [x] 7.4.1. Compare parameter types between implementation and listing
+     - [x] 7.4.2. Handle type name variations and nullable types
+     - [x] 7.4.3. Report informational diagnostic for each type mismatch
 
-   - [ ] 7.5. **SID005**: Missing Results
-     - [ ] 7.5.1. Extract expected result properties from return types
-     - [ ] 7.5.2. Compare with results defined in listing
-     - [ ] 7.5.3. Report informational diagnostic for missing results
+   - [x] 7.5. **SID005**: Missing Results
+     - [x] 7.5.1. Extract expected result properties from return types
+     - [x] 7.5.2. Compare with results defined in listing
+     - [x] 7.5.3. Report informational diagnostic for missing results
 
 8. **Source Generator Implementation**
    - [ ] 8.1. Create `CatalogGenerator` class (stub file already exists)

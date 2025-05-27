@@ -17,12 +17,4 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EditorConfigFiles Remove="D:\Repos\Stock.Indicators\tools\generators\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="D:\Repos\Stock.Indicators\tools\generators\.editorconfig" />
-  </ItemGroup>
-
 </Project>

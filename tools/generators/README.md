@@ -1,77 +1,71 @@
-# Generators and analyzers
+# Generators and Analyzers
 
-This is a .NET source generator that automatically creates catalog entries for indicators in the Stock.Indicators library.
+This package contains .NET source generators and Roslyn analyzers for the Stock.Indicators library, providing automatic catalog generation and validation rules for indicator implementations.
 
 ## Purpose
 
-The Generator analyzes indicator classes decorated with attribute flavors:
+The system analyzes indicator classes decorated with attributes and provides:
 
-| Attribute Flavor | Description |
-|------------------|-------------|
+- **Catalog System**: Validates indicator listings and metadata consistency
+- **Validation Rules**: Ensures data integrity across indicator definitions
+- **Source Generation**: Automatically creates catalog entries (planned feature)
+
+## Supported Attributes
+
+| Attribute | Description |
+|-----------|-------------|
 | `SeriesIndicatorAttribute` | For indicators that operate on series data |
 | `StreamIndicatorAttribute` | For indicators that stream data |
 | `BufferIndicatorAttribute` | For indicators that use buffer-style data |
 | `IndicatorAttribute` | Base attribute for all indicators |
 
-It then generates a catalog of all indicators with their metadata, parameters, and default configurations.
+## Analyzer Rules
 
-## How it works
+The package includes Roslyn analyzers that enforce catalog system conventions:
 
-During compilation, the source generator:
+### Catalog System Rules (SID)
 
-1. Scans the codebase for methods and constructors with the appropriate indicator attributes
-2. Extracts metadata like ID, name, and parameters
-3. Generates a static class `Catalog` with a method to access all indicators
+| Rule ID | Description | Severity |
+|---------|-------------|----------|
+| SID001  | Missing indicator listing property | Info |
+| SID002  | Missing parameters in listing | Info |
+| SID003  | Extraneous parameters in listing | Info |
+| SID004  | Parameter type mismatch | Info |
+| SID005  | Missing results in listing | Info |
 
-## Analyzers
+### Validation Rules (IND)
 
-The package includes Roslyn analyzers that help enforce conventions:
-
-| Rule ID | Description |
-|---------|-------------|
-| IND001  | Identifies series-style indicator methods missing the required `Series` attribute |
-| IND002  | Identifies stream-style indicator methods missing the required `Stream` attribute |
-| IND003  | Identifies buffer-style indicator methods missing the required `Buffer` attribute |
-
-The analyzer intelligently identifies indicator types based on their return types:
-
-- **Series indicators**: Methods returning collections where the element type name ends with "Result"
-- **Stream indicators**: Methods returning types that implement `IStreamHub` interface
-- **Buffer indicators**: Methods returning types that implement `IBufferQuote` interface
-
-To exclude specific methods from analyzer checks, apply the `[ExcludeFromCatalog]` attribute.
+| Rule ID | Description | Severity |
+|---------|-------------|----------|
+| IND901  | Duplicate UIIDs detected | Error |
+| IND902  | Invalid default value range | Error |
 
 ## Usage
 
-The generated catalog is accessible via:
+### Catalog System
+
+Indicators should define a static `Listing` property:
 
 ```csharp
-using Skender.Stock.Indicators;
-
-// Get all indicators from the generated catalog
-var indicators = Catalog.GetIndicators();
-
-// Use the indicators
-foreach (var indicator in indicators)
+[SeriesIndicator("EMA")]
+public static class Ema 
 {
-    Console.WriteLine($"Found indicator: {indicator.Name} ({indicator.Uiid})");
-    
-    // Access parameters
-    foreach (var param in indicator.Parameters)
-    {
-        Console.WriteLine($"  Parameter: {param.DisplayName} (default: {param.Default})");
-    }
+    public static readonly IndicatorListing Listing = new IndicatorListingBuilder()
+        .WithName("Exponential Moving Average")
+        .WithId("EMA")
+        .WithStyle(Style.Series)
+        .AddParameter<int>("lookbackPeriods", "Lookback Period")
+        .AddResult("Ema", "EMA", ResultType.Decimal, isDefault: true)
+        .Build();
+        
+    // Implementation methods...
 }
 ```
 
+### Excluding Methods
+
+To exclude specific methods from analyzer checks, apply the `[ExcludeFromCatalog]` attribute.
+
 ## Integration
 
-The catalog generator is integrated as an analyzer in the main Stock.Indicators project and automatically runs during compilation.
-
-## Benefits
-
-- Automatic catalog generation based on code attributes
-- No need for manual catalog maintenance
-- Complete coverage of all indicators in the codebase
-- Consistent metadata for all indicators
-- Style-specific analyzer warnings for proper attribute usage
+The analyzers are integrated into the main Stock.Indicators project and run automatically during compilation, providing real-time validation feedback.
