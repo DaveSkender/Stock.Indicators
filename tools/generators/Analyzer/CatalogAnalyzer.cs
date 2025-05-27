@@ -19,9 +19,8 @@ public class CatalogAnalyzer : DiagnosticAnalyzer
     /// </summary>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
         [
-            // Validation rules
-            DiagnosticDescriptors.IND901_DuplicateUiidFoundDescriptor,
-            DiagnosticDescriptors.IND902_InvalidDefaultValueDescriptor
+            // All catalog-related diagnostic descriptors have been moved to CatalogDiagnosticDescriptors.cs
+            // These are just placeholders for now - actual diagnostic descriptors will be added as needed
         ];
 
     /// <summary>

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Heikin-Ashi indicator.
 /// </summary>
-public static class HeikinAshi
+public static partial class HeikinAshi
 {
     /// <summary>
     /// Converts a list of quotes to Heikin-Ashi results.
