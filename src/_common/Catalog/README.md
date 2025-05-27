@@ -40,11 +40,11 @@ This directory contains the schema, attributes, and validation system for the St
    - [x] 5.5. Add support for XML documentation integration to pull parameter descriptions
 
 6. **Public Catalog API**
-   - [ ] 6.1. Implement `GetCatalog()` method with optional style filtering
-   - [ ] 6.2. Implement `GetIndicator()` method to retrieve specific listings
-   - [ ] 6.3. Add search and filtering capabilities
-   - [ ] 6.4. Ensure thread-safe initialization
-   - [ ] 6.5. Create extension methods for common queries
+   - [x] 6.1. Implement `GetCatalog()` method with optional style filtering
+   - [x] 6.2. Implement `GetIndicator()` method to retrieve specific listings
+   - [x] 6.3. Add search and filtering capabilities
+   - [x] 6.4. Ensure thread-safe initialization
+   - [x] 6.5. Create extension methods for common queries
 
 7. **Analyzer Rules Development**
    - [ ] 7.1. **SID001**: Missing Indicator Listing

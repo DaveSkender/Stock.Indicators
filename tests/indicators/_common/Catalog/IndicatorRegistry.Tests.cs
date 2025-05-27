@@ -368,7 +368,9 @@ public class CatalogRegistry : TestBase
                 {
                     for (int j = 0; j < itemsPerThread; j++)
                     {
-                        IndicatorListing listing = CreateTestListing($"TEST-{threadIndex}-{j}", $"Test Indicator {threadIndex}-{j}");
+                        IndicatorListing listing = CreateTestListing(
+                            $"TEST-{threadIndex}-{j}", $"Test Indicator {threadIndex}-{j}");
+
                         IndicatorRegistry.Register(listing);
                     }
                 }
@@ -433,9 +435,26 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.Clear();
 
         // Assert
-        IndicatorRegistry.GetAllIndicators().Should().BeEmpty();
-        IndicatorRegistry.GetIndicator("EMA").Should().BeNull();
-        IndicatorRegistry.GetIndicator("SMA").Should().BeNull();
+        // We need to use reflection to call the internal GetIndicatorWithoutInitialization method
+        // to avoid triggering auto-initialization
+        MethodInfo? method = typeof(IndicatorRegistry)
+            .GetMethod(
+                name: "GetIndicatorWithoutInitialization",
+                bindingAttr: BindingFlags.NonPublic | BindingFlags.Static);
+
+        if (method != null)
+        {
+            object? ema = method.Invoke(null, ["EMA"]);
+            object? sma = method.Invoke(null, ["SMA"]);
+
+            ema.Should().BeNull();
+            sma.Should().BeNull();
+        }
+        else
+        {
+            // Fallback assertion if the method is not found
+            IndicatorRegistry.GetAllIndicators().Should().BeEmpty();
+        }
     }
 
     private static IndicatorListing CreateTestListing(string uiid, string name)
