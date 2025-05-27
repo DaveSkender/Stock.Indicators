@@ -33,11 +33,11 @@ This directory contains the schema, attributes, and validation system for the St
    - [x] 4.5. Document the registration pattern in comments
 
 5. **Catalog Registration System**
-   - [ ] 5.1. Create `IndicatorRegistry` static class with thread-safe singleton pattern
-   - [ ] 5.2. Implement `Register` method to store indicator listings
-   - [ ] 5.3. Implement `RegisterAuto` method using reflection to discover attributed classes
-   - [ ] 5.4. Add `RegisterCatalog` convention methods with automatic parameter discovery
-   - [ ] 5.5. Add support for XML documentation integration to pull parameter descriptions
+   - [x] 5.1. Create `IndicatorRegistry` static class with thread-safe singleton pattern
+   - [x] 5.2. Implement `Register` method to store indicator listings
+   - [x] 5.3. Implement `RegisterAuto` method using reflection to discover attributed classes
+   - [x] 5.4. Add `RegisterCatalog` convention methods with automatic parameter discovery
+   - [x] 5.5. Add support for XML documentation integration to pull parameter descriptions
 
 6. **Public Catalog API**
    - [ ] 6.1. Implement `GetCatalog()` method with optional style filtering

@@ -11,5 +11,5 @@ internal abstract class IndicatorAttribute(
 ) : Attribute
 {
     public string Id { get; } = id;
-    public Style Style {get;} = style;
+    public Style Style { get; } = style;
 }

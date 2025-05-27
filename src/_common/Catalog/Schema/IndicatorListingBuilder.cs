@@ -80,8 +80,7 @@ public class IndicatorListingBuilder
         double? minimum = null,
         double? maximum = null)
     {
-        _parameters.Add(new IndicatorParam
-        {
+        _parameters.Add(new IndicatorParam {
             ParameterName = parameterName,
             DisplayName = displayName,
             Description = description,
@@ -120,8 +119,7 @@ public class IndicatorListingBuilder
             enumOptions.Add(Convert.ToInt32(enumValue, CultureInfo.InvariantCulture), enumValue.ToString());
         }
 
-        _parameters.Add(new IndicatorParam
-        {
+        _parameters.Add(new IndicatorParam {
             ParameterName = parameterName,
             DisplayName = displayName,
             Description = description,
@@ -150,8 +148,7 @@ public class IndicatorListingBuilder
         ResultType dataType = ResultType.Default,
         bool isDefault = false)
     {
-        _results.Add(new IndicatorResult
-        {
+        _results.Add(new IndicatorResult {
             DataName = dataName,
             DisplayName = displayName,
             DataType = dataType,
@@ -181,8 +178,7 @@ public class IndicatorListingBuilder
     {
         ValidateBeforeBuild();
 
-        return new IndicatorListing(_baseUrl)
-        {
+        return new IndicatorListing(_baseUrl) {
             Name = _name,
             Uiid = _id,
             Style = _style,
