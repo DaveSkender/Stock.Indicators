@@ -144,4 +144,29 @@ public static class CatalogExamples
         // Register a custom indicator manually
         IndicatorRegistry.Register(customIndicator);
     }
+
+    /// <summary>
+    /// Example of registering and querying a multi-style (composite) indicator.
+    /// </summary>
+    public static void CompositeIndicatorExample()
+    {
+        // Create a composite listing for an indicator supporting Series and Stream styles
+        var compositeListing = new CompositeIndicatorListingBuilder()
+            .WithName("Composite Example")
+            .WithId("CMP")
+            .WithStyle(Style.Series) // Primary style
+            .WithSupportedStyles(Style.Series, Style.Stream)
+            .WithCategory(Category.Custom)
+            .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Periods", isRequired: true)
+            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .Build();
+
+        // Register the composite indicator
+        IndicatorRegistry.Register(compositeListing);
+
+        // Query by each supported style
+        var foundBySeries = IndicatorRegistry.GetByStyle(Style.Series).FirstOrDefault(x => x.Uiid == "CMP");
+        var foundByStream = IndicatorRegistry.GetByStyle(Style.Stream).FirstOrDefault(x => x.Uiid == "CMP");
+        // Both queries should return the composite indicator
+    }
 }
