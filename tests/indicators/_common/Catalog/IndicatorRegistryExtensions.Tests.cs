@@ -1,4 +1,6 @@
 #nullable enable
+using Skender.Stock.Indicators;
+
 namespace Catalog;
 
 [TestClass]

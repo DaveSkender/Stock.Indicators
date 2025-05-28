@@ -1,6 +1,7 @@
 {
   "servers": {
     "memory": {
+      "type": "stdio",
       "command": "npx",
       "args": [
         "@modelcontextprotocol/server-memory"
