@@ -16,6 +16,16 @@ public class IndicatorListingBuilder
     private readonly string _baseUrl = string.Empty;
 
     /// <summary>
+    /// Gets the current style setting for the builder.
+    /// </summary>
+    protected Style CurrentStyle => _style;
+
+    /// <summary>
+    /// Gets the current base URL setting for the builder.
+    /// </summary>
+    protected string CurrentBaseUrl => _baseUrl;
+
+    /// <summary>
     /// Sets the name of the indicator.
     /// </summary>
     /// <param name="name">The indicator name.</param>
@@ -195,7 +205,7 @@ public class IndicatorListingBuilder
         return $"{_name} ({_id})";
     }
 
-    private void ValidateBeforeBuild()
+    protected void ValidateBeforeBuild()
     {
         if (string.IsNullOrWhiteSpace(_name))
         {

@@ -5,6 +5,9 @@
  * See the actual implementation files for proper usage patterns.
  */
 
+// Disable compilation of this file as it's for documentation only
+#if false
+
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -270,3 +273,5 @@ public static class IndicatorStyleExamples
 
     #endregion
 }
+
+#endif  // End documentation-only examples

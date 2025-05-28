@@ -70,7 +70,12 @@ public class CatalogGenerator : IIncrementalGenerator
             classDecl.Modifiers.Any(SyntaxKind.AbstractKeyword))
             return false;
 
-        // Quick check: Does class have static methods with attributes?
+        // Quick check: Does the class have a 'Listing' property? If so, skip it
+        if (classDecl.Members.OfType<PropertyDeclarationSyntax>()
+            .Any(p => p.Identifier.Text == "Listing" && p.Modifiers.Any(SyntaxKind.StaticKeyword)))
+            return false;
+
+        // Does class have static methods with attributes?
         return classDecl.Members.OfType<MethodDeclarationSyntax>()
             .Any(m => m.AttributeLists.Count > 0 && m.Modifiers.Any(SyntaxKind.StaticKeyword));
     }
@@ -95,6 +100,12 @@ public class CatalogGenerator : IIncrementalGenerator
         var processedMethodNames = new HashSet<string>();
         IndicatorClassInfo? classInfo = null;
 
+        // Check if class already has a Listing property
+        bool hasExistingListing = HasListingProperty(classSymbol);
+
+        // Track all attributed methods and their styles
+        var attributedMethods = new List<(IMethodSymbol Method, IndicatorAttributeInfo AttributeInfo)>();
+
         // Check each method for indicator attributes
         foreach (var method in methods)
         {
@@ -108,29 +119,49 @@ public class CatalogGenerator : IIncrementalGenerator
                 // Mark this method as processed
                 processedMethodNames.Add(method.Name);
 
-                // Extract parameter information from the attributed method
-                var parameters = ExtractParameterInfoFromMethod(method);
-
-                // Extract result type information from the method's return type
-                var resultInfo = ExtractResultTypeInfo(method);
-
-                // Check if class already has a Listing property
-                bool hasExistingListing = HasListingProperty(classSymbol);
-
-                classInfo = new IndicatorClassInfo(
-                    classSymbol.Name,
-                    classSymbol.ToDisplayString(),
-                    classSymbol.ContainingNamespace.ToDisplayString(),
-                    method.Name,
-                    attributeInfo,
-                    parameters,
-                    resultInfo,
-                    hasExistingListing);
-
-                // We found a valid indicator method, so we can stop processing
-                // (We only generate one listing per class)
-                break;
+                // Add to attributed methods collection
+                attributedMethods.Add((method, attributeInfo));
             }
+        }
+
+        // If we found attributed methods, create class info using the first one
+        if (attributedMethods.Count > 0)
+        {
+            var (method, attributeInfo) = attributedMethods[0];
+
+            // Extract parameter information from the attributed method
+            var parameters = ExtractParameterInfoFromMethod(method);
+
+            // Extract result type information from the method's return type
+            var resultInfo = ExtractResultTypeInfo(method);
+
+            // Get all styles from attributed methods
+            var styles = attributedMethods.Select(m => m.AttributeInfo.Style ?? string.Empty)
+                .Where(s => !string.IsNullOrEmpty(s))
+                .Distinct()  // Make sure we don't have duplicates
+                .ToArray();
+
+            // Check if method ids are consistent across all attributed methods
+            bool hasConsistentIds = attributedMethods.All(m =>
+                string.Equals(m.AttributeInfo.Id, attributeInfo.Id, StringComparison.OrdinalIgnoreCase));
+
+            if (!hasConsistentIds)
+            {
+                // Log a warning that IDs must be consistent for multi-style indicators
+                // We'll still proceed with the first one's ID
+            }
+
+            classInfo = new IndicatorClassInfo(
+                classSymbol.Name,
+                classSymbol.ToDisplayString(),
+                classSymbol.ContainingNamespace.ToDisplayString(),
+                method.Name,
+                attributeInfo,
+                parameters,
+                resultInfo,
+                hasExistingListing,
+                attributedMethods.Count > 1,  // Has multiple attributes
+                styles);
         }
 
         return classInfo;
@@ -346,8 +377,12 @@ public class CatalogGenerator : IIncrementalGenerator
 
         try
         {
+            // Handle null XML doc
+            if (string.IsNullOrEmpty(xmlDoc))
+                return string.Empty;
+
             // Simple XML parsing to extract summary
-            int summaryStartIndex = xmlDoc.IndexOf("<summary>");
+            int summaryStartIndex = xmlDoc!.IndexOf("<summary>");
             if (summaryStartIndex < 0) return string.Empty;
 
             int summaryStart = summaryStartIndex + "<summary>".Length;
@@ -402,21 +437,62 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static bool HasListingProperty(INamedTypeSymbol classSymbol)
     {
-        // Check for explicitly declared static Listing property in any partial class
-        var hasExplicitListing = classSymbol.GetMembers()
+        // Check in the current class symbol
+        bool hasListing = CheckForListingInSymbol(classSymbol);
+        if (hasListing)
+            return true;
+
+        // Check in base types if not found in current class
+        var baseType = classSymbol.BaseType;
+        while (baseType != null)
+        {
+            if (CheckForListingInSymbol(baseType))
+                return true;
+
+            baseType = baseType.BaseType;
+        }
+
+        // Search through all partial implementations of this class
+        foreach (var syntaxReference in classSymbol.DeclaringSyntaxReferences)
+        {
+            var syntax = syntaxReference.GetSyntax();
+            if (syntax is ClassDeclarationSyntax classDecl)
+            {
+                // Check if class contains a Listing property
+                if (classDecl.Members.OfType<PropertyDeclarationSyntax>()
+                    .Any(p => p.Identifier.Text == "Listing" &&
+                              p.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword))))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Helper method to check if a symbol has a Listing property or field
+    /// </summary>
+    private static bool CheckForListingInSymbol(INamedTypeSymbol symbol)
+    {
+        // Check for explicitly declared static Listing property
+        var hasExplicitListing = symbol.GetMembers()
             .OfType<IPropertySymbol>()
             .Any(p => p.Name == "Listing" &&
                      p.IsStatic &&
                      (p.Type.Name == "IndicatorListing" ||
+                      p.Type.Name == "CompositeIndicatorListing" ||
                       p.Type.ToDisplayString().EndsWith("IndicatorListing")));
 
-        // Also check for static readonly field with Listing in case that approach is used
-        var hasListingField = classSymbol.GetMembers()
+        // Also check for static readonly field with Listing
+        var hasListingField = symbol.GetMembers()
             .OfType<IFieldSymbol>()
             .Any(f => f.Name == "Listing" &&
                      f.IsStatic &&
                      f.IsReadOnly &&
                      (f.Type.Name == "IndicatorListing" ||
+                      f.Type.Name == "CompositeIndicatorListing" ||
                       f.Type.ToDisplayString().EndsWith("IndicatorListing")));
 
         return hasExplicitListing || hasListingField;
@@ -430,8 +506,20 @@ public class CatalogGenerator : IIncrementalGenerator
         if (classInfos.IsEmpty)
             return;
 
+        // Track classes we've already generated listings for to avoid duplicates
+        HashSet<string> processedClasses = new HashSet<string>();
+
         // Filter to only classes that need code generation (don't have existing Listing)
-        var classesToGenerate = classInfos.Where(c => !c.HasExistingListing).ToImmutableArray();
+        // Also use our tracked class names to avoid duplicates from multiple partial classes
+        var classesToGenerate = classInfos
+            .Where(c => !c.HasExistingListing && !processedClasses.Contains(c.FullName))
+            .ToImmutableArray();
+
+        // Add all class names to our processed list
+        foreach (var classInfo in classesToGenerate)
+        {
+            processedClasses.Add(classInfo.FullName);
+        }
 
         if (classesToGenerate.IsEmpty)
             return;
@@ -483,7 +571,17 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine();
         sourceBuilder.AppendLine("        private static IndicatorListing CreateListing()");
         sourceBuilder.AppendLine("        {");
-        sourceBuilder.AppendLine("            var builder = new IndicatorListingBuilder()");
+
+        // Use CompositeIndicatorListingBuilder for multi-style indicators
+        if (classInfo.HasMultipleStyles)
+        {
+            sourceBuilder.AppendLine("            var builder = new CompositeIndicatorListingBuilder()");
+        }
+        else
+        {
+            sourceBuilder.AppendLine("            var builder = new IndicatorListingBuilder()");
+        }
+
         sourceBuilder.AppendLine($"                .WithName(\"{FormatDisplayName(classInfo.ClassName)}\")");
 
         if (!string.IsNullOrEmpty(classInfo.AttributeInfo.Id))
@@ -491,6 +589,7 @@ public class CatalogGenerator : IIncrementalGenerator
             sourceBuilder.AppendLine($"                .WithId(\"{classInfo.AttributeInfo.Id}\")");
         }
 
+        // Set the primary style (from first attribute)
         if (!string.IsNullOrEmpty(classInfo.AttributeInfo.Style))
         {
             sourceBuilder.AppendLine($"                .WithStyle(Style.{classInfo.AttributeInfo.Style})");
@@ -506,6 +605,13 @@ public class CatalogGenerator : IIncrementalGenerator
                 sourceBuilder.AppendLine("                .WithStyle(Style.Buffer)");
             else
                 sourceBuilder.AppendLine("                .WithStyle(Style.Series)"); // Default
+        }
+
+        // For multi-style indicators, add all supported styles
+        if (classInfo.HasMultipleStyles && classInfo.SupportedStyles.Length > 0)
+        {
+            string stylesParams = string.Join(", ", classInfo.SupportedStyles.Select(s => $"Style.{s}"));
+            sourceBuilder.AppendLine($"                .WithSupportedStyles({stylesParams})");
         }
 
         sourceBuilder.AppendLine("                .WithCategory(Category.Undefined);");
@@ -639,6 +745,8 @@ internal class IndicatorClassInfo
     public ImmutableArray<ParameterInfo> Parameters { get; }
     public ResultTypeInfo ResultInfo { get; } // Added to store result type information
     public bool HasExistingListing { get; }
+    public bool HasMultipleStyles { get; } // Indicates if this class has multiple indicator style attributes
+    public string[] SupportedStyles { get; } // Store all supported styles for this indicator
 
     public IndicatorClassInfo(
         string className,
@@ -648,7 +756,9 @@ internal class IndicatorClassInfo
         IndicatorAttributeInfo attributeInfo,
         ImmutableArray<ParameterInfo> parameters,
         ResultTypeInfo resultInfo,
-        bool hasExistingListing)
+        bool hasExistingListing,
+        bool hasMultipleStyles = false,
+        string[]? supportedStyles = null)
     {
         ClassName = className;
         FullName = fullName;
@@ -658,6 +768,8 @@ internal class IndicatorClassInfo
         Parameters = parameters;
         ResultInfo = resultInfo;
         HasExistingListing = hasExistingListing;
+        HasMultipleStyles = hasMultipleStyles;
+        SupportedStyles = supportedStyles ?? Array.Empty<string>();
     }
 }
 

@@ -134,12 +134,27 @@ public static partial class IndicatorRegistry
         EnsureInitialized();
         ICollection<IndicatorListing> allIndicators = _indicators.Values;
 
-        return style.HasValue
-            ? allIndicators
-                .Where(indicator => indicator.Style == style.Value)
+        if (style.HasValue)
+        {
+            return allIndicators
+                .Where(indicator =>
+                {
+                    // Check for composite indicator listings
+                    if (indicator is CompositeIndicatorListing compositeListing)
+                    {
+                        return compositeListing.SupportedStyles.Contains(style.Value);
+                    }
+
+                    // Regular indicator listing
+                    return indicator.Style == style.Value;
+                })
                 .ToList()
-                .AsReadOnly()
-            : allIndicators.ToList().AsReadOnly();
+                .AsReadOnly();
+        }
+        else
+        {
+            return allIndicators.ToList().AsReadOnly();
+        }
     }
 
     /// <summary>
@@ -167,7 +182,17 @@ public static partial class IndicatorRegistry
 
         if (style.HasValue)
         {
-            filteredIndicators = filteredIndicators.Where(indicator => indicator.Style == style.Value);
+            filteredIndicators = filteredIndicators.Where(indicator =>
+            {
+                // Check for composite indicator listings
+                if (indicator is CompositeIndicatorListing compositeListing)
+                {
+                    return compositeListing.SupportedStyles.Contains(style.Value);
+                }
+
+                // Regular indicator listing
+                return indicator.Style == style.Value;
+            });
         }
 
         if (category.HasValue)
@@ -201,7 +226,17 @@ public static partial class IndicatorRegistry
     {
         EnsureInitialized();
         return _indicators.Values
-            .Where(indicator => indicator.Style == style)
+            .Where(indicator =>
+            {
+                // Check for composite indicator listings
+                if (indicator is CompositeIndicatorListing compositeListing)
+                {
+                    return compositeListing.SupportedStyles.Contains(style);
+                }
+
+                // Regular indicator listing
+                return indicator.Style == style;
+            })
             .ToList()
             .AsReadOnly();
     }
