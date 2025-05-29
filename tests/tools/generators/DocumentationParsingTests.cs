@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.CodeAnalysis.Testing;
 using Generators.Catalogger;
 using System.Reflection;
 using FluentAssertions;
@@ -84,9 +83,7 @@ namespace TestNamespace
             assemblyName: "TestAssembly",
             syntaxTrees: new[] { syntaxTree },
             references: references,
-            options: new CSharpCompilationOptions(
-                OutputKind.DynamicallyLinkedLibrary,
-                documentationMode: DocumentationMode.Parse));
+            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         // Create an instance of the generator
         var generator = new CatalogGenerator();

@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.CodeAnalysis.Testing;
 using Generators.Catalogger;
 using System.Reflection;
 using FluentAssertions;
@@ -161,8 +160,28 @@ namespace TestNamespace
         driver = driver.RunGenerators(compilation);
 
         // Get the generated output
-        var result = driver.GetRunResult().Results.First();
-        var generatedCode = result.GeneratedSources.First().SourceText.ToString();
+        var result = driver.GetRunResult();
+
+        // Check for diagnostics/errors
+        if (result.Diagnostics.Any())
+        {
+            var diagnostics = string.Join("\n", result.Diagnostics);
+            throw new InvalidOperationException($"Generator diagnostics: {diagnostics}");
+        }
+
+        if (!result.Results.Any())
+        {
+            throw new InvalidOperationException("No generator results produced");
+        }
+
+        var generatorResult = result.Results.First();
+
+        if (!generatorResult.GeneratedSources.Any())
+        {
+            throw new InvalidOperationException("No source files generated");
+        }
+
+        var generatedCode = generatorResult.GeneratedSources.First().SourceText.ToString();
 
         return generatedCode;
     }

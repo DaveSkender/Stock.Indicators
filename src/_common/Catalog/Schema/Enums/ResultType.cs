@@ -34,5 +34,10 @@ public enum ResultType
     /// <remarks>
     /// When selected, it is expected that there are multiple results with this marker.
     /// </remarks>
-    BarStacked
+    BarStacked,
+
+    /// <summary>
+    /// Result should be represented as individual data points.
+    /// </summary>
+    Point
 }

@@ -27,7 +27,14 @@ public class CatalogExport : TestBase
             return;
         }
 
-        // Act: get standard catalog
+        // Arrange: Clear existing registrations and force full catalog registration
+        IndicatorRegistry.Clear();
+
+        // Force registration from both catalog listings and attributes
+        IndicatorRegistry.RegisterCatalog();
+        IndicatorRegistry.RegisterAuto();
+
+        // Act: get standard catalog by calling the internal method that bypasses test detection
         IReadOnlyCollection<IndicatorListing> catalog = IndicatorRegistry.GetAllIndicators();
 
         // Serialize to JSON for inspection

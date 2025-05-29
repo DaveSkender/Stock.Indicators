@@ -137,17 +137,7 @@ public static partial class IndicatorRegistry
         if (style.HasValue)
         {
             return allIndicators
-                .Where(indicator =>
-                {
-                    // Check for composite indicator listings
-                    if (indicator is CompositeIndicatorListing compositeListing)
-                    {
-                        return compositeListing.SupportedStyles.Contains(style.Value);
-                    }
-
-                    // Regular indicator listing
-                    return indicator.Style == style.Value;
-                })
+                .Where(indicator => indicator.Style == style.Value)
                 .ToList()
                 .AsReadOnly();
         }
@@ -182,17 +172,7 @@ public static partial class IndicatorRegistry
 
         if (style.HasValue)
         {
-            filteredIndicators = filteredIndicators.Where(indicator =>
-            {
-                // Check for composite indicator listings
-                if (indicator is CompositeIndicatorListing compositeListing)
-                {
-                    return compositeListing.SupportedStyles.Contains(style.Value);
-                }
-
-                // Regular indicator listing
-                return indicator.Style == style.Value;
-            });
+            filteredIndicators = filteredIndicators.Where(indicator => indicator.Style == style.Value);
         }
 
         if (category.HasValue)

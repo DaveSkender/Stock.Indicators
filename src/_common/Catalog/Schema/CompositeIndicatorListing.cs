@@ -7,6 +7,12 @@ namespace Skender.Stock.Indicators;
 /// Represents a composite indicator listing that aggregates multiple style variants into a single listing.
 /// This enables indicators that support multiple styles (Series, Stream, and Buffer) to have a unified catalog entry.
 /// </summary>
+/// <remarks>
+/// This class is obsolete. Use separate listing properties (SeriesListing, StreamListing, BufferListing)
+/// for each supported style instead of a composite listing.
+/// See MultiStyleIndicatorGuide.md for guidance on the one-listing-per-style approach.
+/// </remarks>
+[Obsolete("Use separate listing properties (SeriesListing, StreamListing, BufferListing) for each supported style instead of a composite listing. See MultiStyleIndicatorGuide.md for guidance.")]
 [Serializable]
 public record CompositeIndicatorListing : IndicatorListing
 {

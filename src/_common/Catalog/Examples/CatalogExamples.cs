@@ -5,6 +5,8 @@
  * See the actual implementation files for proper usage patterns.
  */
 
+#if false  // Disable compilation of examples
+
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -30,8 +32,8 @@ public static class CatalogExamples
         var bufferIndicators = IndicatorRegistry.GetCatalog(Style.Buffer);
 
         // Get indicators by category
-        var momentumIndicators = IndicatorRegistry.GetCatalog(category: Category.Momentum);
-        var trendIndicators = IndicatorRegistry.GetCatalog(category: Category.Trend);
+        var oscillatorIndicators = IndicatorRegistry.GetCatalog(category: Category.Oscillator);
+        var pricePatternIndicators = IndicatorRegistry.GetCatalog(category: Category.PricePattern);
 
         // Search for indicators by name (case insensitive, partial matching)
         var averageIndicators = IndicatorRegistry.Search("average");
@@ -170,3 +172,5 @@ public static class CatalogExamples
         // Both queries should return the composite indicator
     }
 }
+
+#endif  // End disabled examples

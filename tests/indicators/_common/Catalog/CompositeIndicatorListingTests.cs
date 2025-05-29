@@ -20,11 +20,13 @@ public class CompositeIndicatorListingTests
             .Build();
 
         // Assert
-        listing.SupportedStyles.Should().HaveCount(3);
-        listing.SupportedStyles.Should().Contain(Style.Series);
-        listing.SupportedStyles.Should().Contain(Style.Stream);
-        listing.SupportedStyles.Should().Contain(Style.Buffer);
-        listing.Style.Should().Be(Style.Series); // Primary style
+        var compositeListing = listing as CompositeIndicatorListing;
+        compositeListing.Should().NotBeNull();
+        compositeListing!.SupportedStyles.Should().HaveCount(3);
+        compositeListing.SupportedStyles.Should().Contain(Style.Series);
+        compositeListing.SupportedStyles.Should().Contain(Style.Stream);
+        compositeListing.SupportedStyles.Should().Contain(Style.Buffer);
+        compositeListing.Style.Should().Be(Style.Series); // Primary style
     }
 
     [TestMethod]
@@ -81,8 +83,10 @@ public class CompositeIndicatorListingTests
             .Build();
 
         // Assert
-        listing.SupportedStyles.Should().HaveCount(1);
-        listing.SupportedStyles.Should().Contain(Style.Series);
+        var compositeListing = listing as CompositeIndicatorListing;
+        compositeListing.Should().NotBeNull();
+        compositeListing!.SupportedStyles.Should().HaveCount(1);
+        compositeListing.SupportedStyles.Should().Contain(Style.Series);
     }
 
     [TestMethod]
@@ -93,7 +97,8 @@ public class CompositeIndicatorListingTests
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)
-            .WithCategory(Category.Undefined);
+            .WithCategory(Category.Undefined)
+            .AddResult("Value", "Value", ResultType.Default, isDefault: true);
 
         // Act
         builder.AddSupportedStyle(Style.Series); // Already added via WithStyle
