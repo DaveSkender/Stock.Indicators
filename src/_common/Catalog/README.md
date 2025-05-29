@@ -55,6 +55,7 @@ This directory contains the schema, attributes, and validation system for the St
    - [ ] 8.5. Review and update any other references to composite listings in the codebase
    - [ ] 8.6. Add tests to verify correct behavior of style-specific listings in registry queries
    - [ ] 8.7. Verify that the CatalogGenerator correctly handles multiple style attributes
+   - [ ] 8.8 Add missing listing definitions based on values in reference file ‘catalog.bak.json‘
 
 ## Status (May 2025)
 
