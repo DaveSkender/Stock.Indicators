@@ -1,4 +1,4 @@
-# Indicator Catalog System
+# Indicator Catalog implementation plan tracking
 
 This directory contains the schema, attributes, and validation system for the Stock.Indicators catalog. The catalog provides a structured way to access metadata about all indicators in the library across different implementation styles (Series, Stream, and Buffer).
 
@@ -48,7 +48,7 @@ This directory contains the schema, attributes, and validation system for the St
    - [ ] 7.3. Periodically review catalog for consistency and completeness
 
 8. **Phase 1: Implement One-Listing-Per-Style Approach (Replace Composite Listings)**
-   - [x] 8.1. Update `OneListingPerStyleGuide.md` to reflect the one-listing-per-style approach
+   - [x] 8.1. Update `CatalogListingGuide.md` to reflect the one-listing-per-style approach
    - [x] 8.2. Update `README.md` to reflect the current status of the catalog system
    - [x] 8.3. Remove `CompositeIndicatorListing` checks from `IndicatorRegistry.cs`
    - [x] 8.4. Mark `CompositeIndicatorListing` and `CompositeIndicatorListingBuilder` as obsolete
@@ -138,7 +138,7 @@ When resuming Phase 1 work:
 
 ## Reference Documentation
 
-- See `OneListingPerStyleGuide.md` for details on multi-style support using separate listings per style
+- See `CatalogListingGuide.md` for details on multi-style support using separate listings per style
 - See `CatalogGeneratorGuide.md` and `AnalyzerRules.md` for generator and analyzer usage
 - See conversation summary for detailed technical context and code changes made
 

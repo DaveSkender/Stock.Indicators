@@ -839,8 +839,17 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static string FormatNumericValue(string value, string suffix)
     {
+        if (string.IsNullOrEmpty(value))
+            return "null";
+
         // Remove any existing suffixes that might be present
         value = value.TrimEnd('f', 'F', 'd', 'D', 'm', 'M', 'l', 'L');
+
+        // Validate that we have a valid numeric value
+        if (!double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
+        {
+            return $"\"{value}\""; // If not numeric, treat as string
+        }
 
         // Add the appropriate suffix for the type
         return suffix switch
