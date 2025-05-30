@@ -9,9 +9,9 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// This class is obsolete. Use standard IndicatorListingBuilder to create separate listings for each style
 /// (Series, Stream, Buffer) instead of creating a composite listing.
-/// See MultiStyleIndicatorGuide.md for guidance on the one-listing-per-style approach.
+/// See OneListingPerStyleGuide.md for guidance on the one-listing-per-style approach.
 /// </remarks>
-[Obsolete("Use standard IndicatorListingBuilder to create separate listings for each style (Series, Stream, Buffer) instead of creating a composite listing. See MultiStyleIndicatorGuide.md for guidance.")]
+[Obsolete("Use standard IndicatorListingBuilder to create separate listings for each style (Series, Stream, Buffer) instead of creating a composite listing. See OneListingPerStyleGuide.md for guidance.")]
 public class CompositeIndicatorListingBuilder : IndicatorListingBuilder
 {
     private readonly List<Style> _supportedStyles = [];

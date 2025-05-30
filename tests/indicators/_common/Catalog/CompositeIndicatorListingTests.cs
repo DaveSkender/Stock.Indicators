@@ -3,6 +3,13 @@ using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
 
+/// <summary>
+/// Tests for CompositeIndicatorListing functionality.
+/// NOTE: CompositeIndicatorListing is obsolete. These tests are maintained to ensure
+/// backward compatibility while the obsolete classes still exist.
+/// For new multi-style indicators, use the one-listing-per-style approach.
+/// See OneListingPerStyleGuide.md for guidance.
+/// </summary>
 [TestClass]
 public class CompositeIndicatorListingTests
 {
@@ -32,26 +39,44 @@ public class CompositeIndicatorListingTests
     [TestMethod]
     public void ShouldFindCompositeIndicatorByAllSupportedStyles()
     {
-        // Arrange
+        // Arrange: Create style-specific listings using the one-listing-per-style approach
         IndicatorRegistry.Clear();
-        var compositeListing = new CompositeIndicatorListingBuilder()
-            .WithName("Multi-Style Indicator")
-            .WithId("MULTI")
+        var seriesListing = new IndicatorListingBuilder()
+            .WithName("Multi Style Test")
+            .WithId("MULTI-Series")
             .WithStyle(Style.Series)
-            .WithSupportedStyles(Style.Series, Style.Stream, Style.Buffer)
+            .WithCategory(Category.Undefined)
+            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .Build();
+
+        var streamListing = new IndicatorListingBuilder()
+            .WithName("Multi Style Test")
+            .WithId("MULTI-Stream")
+            .WithStyle(Style.Stream)
+            .WithCategory(Category.Undefined)
+            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .Build();
+
+        var bufferListing = new IndicatorListingBuilder()
+            .WithName("Multi Style Test")
+            .WithId("MULTI-Buffer")
+            .WithStyle(Style.Buffer)
             .WithCategory(Category.Undefined)
             .AddResult("Value", "Value", ResultType.Default, isDefault: true)
             .Build();
 
         var seriesOnlyListing = new IndicatorListingBuilder()
-            .WithName("Series-Only Indicator")
+            .WithName("Series Only Test")
             .WithId("SERIES")
             .WithStyle(Style.Series)
             .WithCategory(Category.Undefined)
             .AddResult("Value", "Value", ResultType.Default, isDefault: true)
             .Build();
 
-        IndicatorRegistry.Register(compositeListing);
+        // Register all listings
+        IndicatorRegistry.Register(seriesListing);
+        IndicatorRegistry.Register(streamListing);
+        IndicatorRegistry.Register(bufferListing);
         IndicatorRegistry.Register(seriesOnlyListing);
 
         // Act & Assert
@@ -59,10 +84,10 @@ public class CompositeIndicatorListingTests
         var streamCatalog = IndicatorRegistry.GetCatalog(Style.Stream);
         var bufferCatalog = IndicatorRegistry.GetCatalog(Style.Buffer);
 
-        // Multi-style indicator should appear in all catalogs
-        seriesCatalog.Should().Contain(i => i.Uiid == "MULTI");
-        streamCatalog.Should().Contain(i => i.Uiid == "MULTI");
-        bufferCatalog.Should().Contain(i => i.Uiid == "MULTI");
+        // Multi-style indicator should appear in all catalogs with style-specific IDs
+        seriesCatalog.Should().Contain(i => i.Uiid == "MULTI-Series");
+        streamCatalog.Should().Contain(i => i.Uiid == "MULTI-Stream");
+        bufferCatalog.Should().Contain(i => i.Uiid == "MULTI-Buffer");
 
         // Series-only indicator should only appear in series catalog
         seriesCatalog.Should().Contain(i => i.Uiid == "SERIES");

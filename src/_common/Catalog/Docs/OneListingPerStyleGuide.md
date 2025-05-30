@@ -1,10 +1,10 @@
-# Multi-Style Indicator Support
+# One-Listing-Per-Style Implementation Guide
 
-This guide explains how to implement indicators that support multiple styles (Series, Stream, Buffer) in the Stock.Indicators catalog system.
+This guide explains how to implement the one-listing-per-style approach for indicators that support multiple styles (Series, Stream, Buffer) in the Stock.Indicators catalog system.
 
 ## Overview
 
-The catalog system supports indicators that provide multiple implementation styles within a single class. For each style implemented, a separate catalog listing should be created with a unique identifier. This approach enables:
+The catalog system uses a **one-listing-per-style approach** where indicators that provide multiple implementation styles within a single class create separate catalog listings for each supported style. Each listing has a unique identifier that includes the style suffix. This approach enables:
 
 - Clear identification of each indicator style variant
 - Accurate searching and filtering by specific styles

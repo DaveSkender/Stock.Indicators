@@ -42,11 +42,11 @@ namespace TestNamespace
         var generatedOutput = CompileAndValidate(source);
 
         // Check that the listing was generated
-        generatedOutput.Should().Contain("public static IndicatorListing Listing { get; }");
+        generatedOutput.Should().Contain("public static IndicatorListing SeriesListing { get; }");
 
         // Check that parameters and results are extracted
         generatedOutput.Should().Contain("parameterName: \"lookbackPeriods\"");
-        generatedOutput.Should().Contain("dataType: ResultType.Series");
+        generatedOutput.Should().Contain("dataType: ResultType.Default");
     }
 
     [TestMethod]
@@ -124,10 +124,18 @@ namespace TestNamespace
 }";
 
         // Act & Assert
-        var generatedOutput = CompileAndValidate(source);
-
-        // Check that no duplicate listing was generated
-        generatedOutput.Should().NotContain("public static class TestIndicator");
+        // The generator should not produce any output for classes that already have listings
+        try
+        {
+            var generatedOutput = CompileAndValidate(source);
+            // If we get here, something was generated when it shouldn't have been
+            Assert.Fail("Expected no source generation for class with existing listing");
+        }
+        catch (InvalidOperationException ex) when (ex.Message == "No source files generated")
+        {
+            // This is the expected behavior - no source files should be generated
+            // when a class already has a listing
+        }
     }
 
     private static string CompileAndValidate(string source)
@@ -157,10 +165,10 @@ namespace TestNamespace
 
         // Run the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
-        driver = driver.RunGenerators(compilation);
+        var runResult = driver.RunGenerators(compilation);
 
         // Get the generated output
-        var result = driver.GetRunResult();
+        var result = runResult.GetRunResult();
 
         // Check for diagnostics/errors
         if (result.Diagnostics.Any())

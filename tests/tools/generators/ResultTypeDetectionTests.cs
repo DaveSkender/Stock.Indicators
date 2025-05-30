@@ -44,7 +44,7 @@ namespace TestNamespace
         var generatedOutput = CompileAndValidate(source);
 
         // Check that the Signal result type was detected
-        generatedOutput.Should().Contain("dataType: ResultType.Signal");
+        generatedOutput.Should().Contain("dataType: ResultType.Point");
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ namespace TestNamespace
         var generatedOutput = CompileAndValidate(source);
 
         // Check that the oscillator result type was detected
-        generatedOutput.Should().Contain("dataType: ResultType.Oscillator");
+        generatedOutput.Should().Contain("dataType: ResultType.Centerline");
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ namespace TestNamespace
         var generatedOutput = CompileAndValidate(source);
 
         // Check that the band result type was detected
-        generatedOutput.Should().Contain("dataType: ResultType.Band");
+        generatedOutput.Should().Contain("dataType: ResultType.Channel");
     }
 
     private static string CompileAndValidate(string source)

@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Text;
 
 // Note: We intentionally avoid referencing Skender.Stock.Indicators directly
@@ -253,7 +254,7 @@ public class CatalogGenerator : IIncrementalGenerator
                             param.Name,
                             param.Type.ToDisplayString(),
                             !param.HasExplicitDefaultValue,
-                            param.HasExplicitDefaultValue ? param.ExplicitDefaultValue?.ToString() : null));
+                            param.HasExplicitDefaultValue ? FormatParameterDefaultValue(param.ExplicitDefaultValue) : null));
                     }
                 }
                 break; // Use first public constructor
@@ -275,11 +276,15 @@ public class CatalogGenerator : IIncrementalGenerator
             // Skip common collection parameters like "source" and "quotes"
             if (!IsCommonCollectionParameter(param))
             {
+                // Extract parameter description from XML documentation
+                string description = ExtractParameterDocumentation(methodSymbol, param.Name);
+
                 parameters.Add(new ParameterInfo(
                     param.Name,
                     param.Type.ToDisplayString(),
                     !param.HasExplicitDefaultValue,
-                    param.HasExplicitDefaultValue ? param.ExplicitDefaultValue?.ToString() : null));
+                    param.HasExplicitDefaultValue ? FormatParameterDefaultValue(param.ExplicitDefaultValue) : null,
+                    description));
             }
         }
 
@@ -291,7 +296,7 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static ResultTypeInfo ExtractResultTypeInfo(IMethodSymbol methodSymbol)
     {
-        // Default to "Default"
+        // Default to "Default" for most indicators
         string resultType = "Default";
         var description = string.Empty;
 
@@ -312,43 +317,71 @@ public class CatalogGenerator : IIncrementalGenerator
                     genericName.Contains("List") ||
                     genericName.Contains("IList"))
                 {
-                    // Default result type for series data
-                    resultType = "Default";
-
                     // Check for result type patterns in generic type args
                     var typeArgs = namedReturnType.TypeArguments;
                     if (typeArgs.Length > 0 && typeArgs[0] is INamedTypeSymbol resultTypeSymbol)
                     {
-                        // Look for properties that might indicate specific result types
-                        foreach (var member in resultTypeSymbol.GetMembers().OfType<IPropertySymbol>())
+                        // First check the type name itself for patterns
+                        string elementTypeName = resultTypeSymbol.Name;
+
+                        // Band/Channel patterns
+                        if (elementTypeName.Contains("Band") || elementTypeName.Contains("Channel"))
                         {
-                            if (IsPotentialSignalProperty(member.Name))
+                            resultType = "Channel";
+                        }
+                        else
+                        {
+                            // Look for properties that might indicate specific result types
+                            bool hasSignalProperties = false;
+                            bool hasOscillatorProperties = false;
+                            bool hasBandProperties = false;
+
+                            foreach (var member in resultTypeSymbol.GetMembers().OfType<IPropertySymbol>())
                             {
-                                resultType = "Default";  // Use Default for signal properties
-                                break;
+                                string propertyName = member.Name;
+
+                                // Check for band/channel properties
+                                if (propertyName.Contains("Band") || propertyName.Contains("Upper") ||
+                                    propertyName.Contains("Lower") || propertyName.Contains("Channel") ||
+                                    propertyName.Contains("Centerline"))
+                                {
+                                    hasBandProperties = true;
+                                }
+                                // Check for signal properties
+                                else if (propertyName.Contains("Signal") || propertyName.Contains("Buy") ||
+                                         propertyName.Contains("Sell") || propertyName.Contains("Cross") ||
+                                         propertyName.Contains("Alert"))
+                                {
+                                    hasSignalProperties = true;
+                                }
+                                // Check for oscillator properties
+                                else if (propertyName.Contains("Oscillator"))
+                                {
+                                    hasOscillatorProperties = true;
+                                }
+                            }
+
+                            // Determine result type based on properties found
+                            if (hasBandProperties)
+                            {
+                                resultType = "Channel";
+                            }
+                            else if (hasSignalProperties)
+                            {
+                                resultType = "Point";
+                            }
+                            else if (hasOscillatorProperties)
+                            {
+                                resultType = "Centerline";
                             }
                         }
                     }
                 }
             }
-            else if (returnType.Name == "Task" && returnType is INamedTypeSymbol taskType &&
-                     taskType.TypeArguments.Length == 1)
-            {
-                // Task<T> indicates an asynchronous result
-                resultType = "Default";
-            }
 
-            // Infer more specific result types based on name patterns
+            // Infer more specific result types based on return type name patterns
             var typeName = returnType.Name;
-            if (typeName.Contains("Signal"))
-            {
-                resultType = "Default";
-            }
-            else if (typeName.Contains("Oscillator"))
-            {
-                resultType = "Default";
-            }
-            else if (typeName.Contains("Band") || typeName.Contains("Channel"))
+            if (typeName.Contains("Band") || typeName.Contains("Channel"))
             {
                 resultType = "Channel";
             }
@@ -403,6 +436,46 @@ public class CatalogGenerator : IIncrementalGenerator
                     summary = summary.Replace("  ", " ");
 
                 return summary;
+            }
+        }
+        catch
+        {
+            // If parsing fails, return empty string
+        }
+
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// Extracts parameter documentation from XML documentation
+    /// </summary>
+    private static string ExtractParameterDocumentation(IMethodSymbol methodSymbol, string parameterName)
+    {
+        string? xmlDoc = methodSymbol.GetDocumentationCommentXml();
+        if (string.IsNullOrEmpty(xmlDoc))
+            return string.Empty;
+
+        try
+        {
+            // Look for the specific parameter documentation
+            string paramTag = $"<param name=\"{parameterName}\">";
+            int paramStartIndex = xmlDoc!.IndexOf(paramTag);
+            if (paramStartIndex < 0) return string.Empty;
+
+            int paramStart = paramStartIndex + paramTag.Length;
+            int paramEnd = xmlDoc.IndexOf("</param>", paramStart);
+
+            if (paramEnd > paramStart)
+            {
+                string paramDescription = xmlDoc.Substring(paramStart, paramEnd - paramStart).Trim();
+
+                // Remove common XML comment artifacts
+                paramDescription = paramDescription.Replace("\n", " ").Replace("\r", "");
+
+                while (paramDescription.Contains("  "))
+                    paramDescription = paramDescription.Replace("  ", " ");
+
+                return paramDescription;
             }
         }
         catch
@@ -480,23 +553,27 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static bool CheckForListingInSymbol(INamedTypeSymbol symbol)
     {
-        // Check for explicitly declared static Listing property
+        // Check for explicitly declared static Listing property (general or style-specific)
         var hasExplicitListing = symbol.GetMembers()
             .OfType<IPropertySymbol>()
-            .Any(p => p.Name == "Listing" &&
+            .Any(p => (p.Name == "Listing" ||
+                      p.Name == "SeriesListing" ||
+                      p.Name == "StreamListing" ||
+                      p.Name == "BufferListing") &&
                      p.IsStatic &&
                      (p.Type.Name == "IndicatorListing" ||
-                      p.Type.Name == "CompositeIndicatorListing" ||
                       p.Type.ToDisplayString().EndsWith("IndicatorListing")));
 
-        // Also check for static readonly field with Listing
+        // Also check for static readonly field with Listing (general or style-specific)
         var hasListingField = symbol.GetMembers()
             .OfType<IFieldSymbol>()
-            .Any(f => f.Name == "Listing" &&
+            .Any(f => (f.Name == "Listing" ||
+                      f.Name == "SeriesListing" ||
+                      f.Name == "StreamListing" ||
+                      f.Name == "BufferListing") &&
                      f.IsStatic &&
                      f.IsReadOnly &&
                      (f.Type.Name == "IndicatorListing" ||
-                      f.Type.Name == "CompositeIndicatorListing" ||
                       f.Type.ToDisplayString().EndsWith("IndicatorListing")));
 
         return hasExplicitListing || hasListingField;
@@ -613,18 +690,21 @@ public class CatalogGenerator : IIncrementalGenerator
         // Add parameters
         foreach (var param in classInfo.Parameters)
         {
+            // Generate parameter addition code
             sourceBuilder.AppendLine($"            builder.AddParameter<{GetParameterType(param.Type)}>(");
             sourceBuilder.AppendLine($"                parameterName: \"{param.Name}\",");
             sourceBuilder.AppendLine($"                displayName: \"{FormatDisplayName(param.Name)}\",");
-            sourceBuilder.AppendLine($"                description: \"{FormatDisplayName(param.Name)} parameter\",");
-            sourceBuilder.AppendLine($"                isRequired: {param.IsRequired.ToString().ToLowerInvariant()}");
+            sourceBuilder.AppendLine($"                description: \"{param.Description ?? $"The {param.Name} parameter"}\",");
+            sourceBuilder.AppendLine($"                isRequired: {(param.IsRequired ? "true" : "false")}");
 
+            // Add default value if parameter is optional
             if (!param.IsRequired && param.DefaultValue != null)
             {
                 sourceBuilder.AppendLine($"                , defaultValue: {FormatDefaultValue(param.DefaultValue, param.Type)}");
             }
 
             sourceBuilder.AppendLine("            );");
+            sourceBuilder.AppendLine();
         }
 
         sourceBuilder.AppendLine();
@@ -718,16 +798,58 @@ public class CatalogGenerator : IIncrementalGenerator
     /// <summary>
     /// Formats a default value for code generation.
     /// </summary>
-    private static string FormatDefaultValue(string defaultValue, string type)
+    private static string FormatDefaultValue(string? defaultValue, string type)
     {
         if (string.IsNullOrEmpty(defaultValue) || defaultValue == "null")
             return "null";
 
+        // At this point, defaultValue is guaranteed to be non-null and non-empty
         return type switch
         {
             "string" or "System.String" => $"\"{defaultValue}\"",
-            "bool" or "System.Boolean" => defaultValue.ToLowerInvariant(),
-            _ => defaultValue
+            "bool" or "System.Boolean" => defaultValue!.ToLowerInvariant(),
+            "double" or "System.Double" => FormatNumericValue(defaultValue!, "d"),
+            "decimal" or "System.Decimal" => FormatNumericValue(defaultValue!, "m"),
+            "float" or "System.Single" => FormatNumericValue(defaultValue!, "f"),
+            "int" or "System.Int32" => defaultValue!,
+            "long" or "System.Int64" => FormatNumericValue(defaultValue!, "L"),
+            _ => defaultValue!
+        };
+    }
+
+    /// <summary>
+    /// Formats a parameter default value using culture-invariant formatting.
+    /// </summary>
+    private static string? FormatParameterDefaultValue(object? value)
+    {
+        if (value == null)
+            return null;
+
+        return value switch
+        {
+            double d => d.ToString(CultureInfo.InvariantCulture),
+            float f => f.ToString(CultureInfo.InvariantCulture),
+            decimal dec => dec.ToString(CultureInfo.InvariantCulture),
+            _ => value.ToString()
+        };
+    }
+
+    /// <summary>
+    /// Formats a numeric value with the appropriate suffix for C# literals.
+    /// </summary>
+    private static string FormatNumericValue(string value, string suffix)
+    {
+        // Remove any existing suffixes that might be present
+        value = value.TrimEnd('f', 'F', 'd', 'D', 'm', 'M', 'l', 'L');
+
+        // Add the appropriate suffix for the type
+        return suffix switch
+        {
+            "d" => value, // double doesn't need suffix in C#
+            "f" => value + "f",
+            "m" => value + "m",
+            "L" => value + "L",
+            _ => value
         };
     }
 }
@@ -799,13 +921,15 @@ internal class ParameterInfo
     public string Type { get; }
     public bool IsRequired { get; }
     public string? DefaultValue { get; }
+    public string Description { get; }
 
-    public ParameterInfo(string name, string type, bool isRequired, string? defaultValue)
+    public ParameterInfo(string name, string type, bool isRequired, string? defaultValue, string description = "")
     {
         Name = name;
         Type = type;
         IsRequired = isRequired;
         DefaultValue = defaultValue;
+        Description = description;
     }
 }
 

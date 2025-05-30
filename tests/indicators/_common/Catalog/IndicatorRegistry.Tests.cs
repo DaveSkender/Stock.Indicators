@@ -175,7 +175,7 @@ public class CatalogRegistry : TestBase
         indicators.Should().NotBeEmpty();
 
         // Check for some known indicators that should have catalog listings
-        indicators.Should().Contain(l => l.Uiid == "EMA");
+        indicators.Should().Contain(l => l.Uiid == "EMA-Series");
         indicators.Should().Contain(l => l.Uiid == "MACD");
         indicators.Should().Contain(l => l.Uiid == "ATR-STOP");
     }

@@ -272,9 +272,7 @@ internal static class CatalogRules
     {
         string typeName = type.ToString();
         return typeName == "Skender.Stock.Indicators.IndicatorListing" ||
-               typeName.EndsWith(".IndicatorListing") ||
-               typeName == "Skender.Stock.Indicators.CompositeIndicatorListing" ||
-               typeName.EndsWith(".CompositeIndicatorListing");
+               typeName.EndsWith(".IndicatorListing");
     }
 
     /// <summary>

@@ -206,17 +206,7 @@ public static partial class IndicatorRegistry
     {
         EnsureInitialized();
         return _indicators.Values
-            .Where(indicator =>
-            {
-                // Check for composite indicator listings
-                if (indicator is CompositeIndicatorListing compositeListing)
-                {
-                    return compositeListing.SupportedStyles.Contains(style);
-                }
-
-                // Regular indicator listing
-                return indicator.Style == style;
-            })
+            .Where(indicator => indicator.Style == style)
             .ToList()
             .AsReadOnly();
     }
@@ -346,8 +336,8 @@ public static partial class IndicatorRegistry
 
             foreach (Type indicatorType in indicatorTypes)
             {
-                IndicatorListing? listing = GetCatalogListing(indicatorType);
-                if (listing != null)
+                IEnumerable<IndicatorListing> listings = GetAllCatalogListings(indicatorType);
+                foreach (IndicatorListing listing in listings)
                 {
                     Register(listing);
                 }
@@ -375,39 +365,73 @@ public static partial class IndicatorRegistry
 
     private static bool HasCatalogListing(Type type)
     {
-        // Check for both property and field named "Listing"
-        PropertyInfo? listingProperty = type.GetProperty(
-            name: "Listing",
-            bindingAttr: BindingFlags.Public | BindingFlags.Static);
+        // Check for both property and field with listing names (general or style-specific)
+        string[] listingNames = ["Listing", "SeriesListing", "StreamListing", "BufferListing"];
 
-        FieldInfo? listingField = type.GetField(
-            name: "Listing",
-            bindingAttr: BindingFlags.Public | BindingFlags.Static);
+        foreach (string listingName in listingNames)
+        {
+            PropertyInfo? listingProperty = type.GetProperty(
+                name: listingName,
+                bindingAttr: BindingFlags.Public | BindingFlags.Static);
 
-        return (listingProperty != null && listingProperty.PropertyType == typeof(IndicatorListing)) ||
-               (listingField != null && listingField.FieldType == typeof(IndicatorListing));
+            FieldInfo? listingField = type.GetField(
+                name: listingName,
+                bindingAttr: BindingFlags.Public | BindingFlags.Static);
+
+            if ((listingProperty != null && listingProperty.PropertyType == typeof(IndicatorListing)) ||
+                (listingField != null && listingField.FieldType == typeof(IndicatorListing)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static IndicatorListing? GetCatalogListing(Type type)
     {
-        // Try to get property first
-        PropertyInfo? listingProperty = type.GetProperty(
-            name: "Listing",
-            bindingAttr: BindingFlags.Public | BindingFlags.Static);
+        // Return null - use GetAllCatalogListings instead
+        return null;
+    }
 
-        if (listingProperty != null && listingProperty.PropertyType == typeof(IndicatorListing))
+    private static IEnumerable<IndicatorListing> GetAllCatalogListings(Type type)
+    {
+        string[] listingNames = ["Listing", "SeriesListing", "StreamListing", "BufferListing"];
+        var listings = new List<IndicatorListing>();
+
+        foreach (string listingName in listingNames)
         {
-            return listingProperty.GetValue(null) as IndicatorListing;
+            // Try to get property first
+            PropertyInfo? listingProperty = type.GetProperty(
+                name: listingName,
+                bindingAttr: BindingFlags.Public | BindingFlags.Static);
+
+            if (listingProperty != null && listingProperty.PropertyType == typeof(IndicatorListing))
+            {
+                var listing = listingProperty.GetValue(null) as IndicatorListing;
+                if (listing != null)
+                {
+                    listings.Add(listing);
+                    continue;
+                }
+            }
+
+            // Try to get field second
+            FieldInfo? listingField = type.GetField(
+                name: listingName,
+                bindingAttr: BindingFlags.Public | BindingFlags.Static);
+
+            if (listingField != null && listingField.FieldType == typeof(IndicatorListing))
+            {
+                var listing = listingField.GetValue(null) as IndicatorListing;
+                if (listing != null)
+                {
+                    listings.Add(listing);
+                }
+            }
         }
 
-        // Try to get field second
-        FieldInfo? listingField = type.GetField(
-            name: "Listing",
-            bindingAttr: BindingFlags.Public | BindingFlags.Static);
-
-        return listingField != null && listingField.FieldType == typeof(IndicatorListing)
-            ? listingField.GetValue(null) as IndicatorListing
-            : null;
+        return listings;
     }
 
     private static IndicatorListing? CreateListingFromAttribute(Type type)

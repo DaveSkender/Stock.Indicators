@@ -148,27 +148,36 @@ public static class CatalogExamples
     }
 
     /// <summary>
-    /// Example of registering and querying a multi-style (composite) indicator.
+    /// Example of registering and querying a multi-style indicator using the one-listing-per-style approach.
     /// </summary>
-    public static void CompositeIndicatorExample()
+    public static void MultiStyleIndicatorExample()
     {
-        // Create a composite listing for an indicator supporting Series and Stream styles
-        var compositeListing = new CompositeIndicatorListingBuilder()
-            .WithName("Composite Example")
-            .WithId("CMP")
-            .WithStyle(Style.Series) // Primary style
-            .WithSupportedStyles(Style.Series, Style.Stream)
+        // Create separate listings for each supported style
+        var seriesListing = new IndicatorListingBuilder()
+            .WithName("Multi-Style Example")
+            .WithId("MSE-Series")
+            .WithStyle(Style.Series)
             .WithCategory(Category.Custom)
             .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Periods", isRequired: true)
             .AddResult("Value", "Value", ResultType.Default, isDefault: true)
             .Build();
 
-        // Register the composite indicator
-        IndicatorRegistry.Register(compositeListing);
+        var streamListing = new IndicatorListingBuilder()
+            .WithName("Multi-Style Example")
+            .WithId("MSE-Stream")
+            .WithStyle(Style.Stream)
+            .WithCategory(Category.Custom)
+            .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Periods", isRequired: true)
+            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .Build();
 
-        // Query by each supported style
-        var foundBySeries = IndicatorRegistry.GetByStyle(Style.Series).FirstOrDefault(x => x.Uiid == "CMP");
-        var foundByStream = IndicatorRegistry.GetByStyle(Style.Stream).FirstOrDefault(x => x.Uiid == "CMP");
+        // Register each style separately
+        IndicatorRegistry.Register(seriesListing);
+        IndicatorRegistry.Register(streamListing);
+
+        // Query by each style
+        var foundBySeries = IndicatorRegistry.GetByStyle(Style.Series).FirstOrDefault(x => x.Uiid == "MSE-Series");
+        var foundByStream = IndicatorRegistry.GetByStyle(Style.Stream).FirstOrDefault(x => x.Uiid == "MSE-Stream");
         // Both queries should return the composite indicator
     }
 }
