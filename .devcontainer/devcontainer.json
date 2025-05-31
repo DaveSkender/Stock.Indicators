@@ -15,8 +15,9 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "settingsSync.extensions": false,
-        "terminal.integrated.defaultProfile.linux": "bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "chat.mcp.enabled": true,
+        "chat.mcp.discovery.enabled": true
       },
       "extensions": [
         "DavidAnson.vscode-markdownlint",
