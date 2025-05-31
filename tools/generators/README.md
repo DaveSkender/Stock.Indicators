@@ -33,13 +33,6 @@ The package includes Roslyn analyzers that enforce catalog system conventions:
 | SID004  | Parameter type mismatch | Info |
 | SID005  | Missing results in listing | Info |
 
-### Validation Rules (IND)
-
-| Rule ID | Description | Severity |
-|---------|-------------|----------|
-| IND901  | Duplicate UIIDs detected | Error |
-| IND902  | Invalid default value range | Error |
-
 ## Usage
 
 ### Catalog System

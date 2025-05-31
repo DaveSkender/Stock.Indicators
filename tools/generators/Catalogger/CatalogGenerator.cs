@@ -687,22 +687,31 @@ public class CatalogGenerator : IIncrementalGenerator
         sourceBuilder.AppendLine("                .WithCategory(Category.Undefined);");
         sourceBuilder.AppendLine();
 
+
         // Add parameters
         foreach (var param in classInfo.Parameters)
         {
-            // Generate parameter addition code
-            sourceBuilder.AppendLine($"            builder.AddParameter<{GetParameterType(param.Type)}>(");
-            sourceBuilder.AppendLine($"                parameterName: \"{param.Name}\",");
-            sourceBuilder.AppendLine($"                displayName: \"{FormatDisplayName(param.Name)}\",");
-            sourceBuilder.AppendLine($"                description: \"{param.Description ?? $"The {param.Name} parameter"}\",");
-            sourceBuilder.AppendLine($"                isRequired: {(param.IsRequired ? "true" : "false")}");
+            var argumentLines = new List<string>
+            {
+                $"parameterName: \"{param.Name}\"",
+                $"displayName: \"{FormatDisplayName(param.Name)}\"",
+                $"description: \"{param.Description ?? ("The " + param.Name + " parameter")}\"",
+                $"isRequired: {(param.IsRequired ? "true" : "false")}"
+            };
 
             // Add default value if parameter is optional
             if (!param.IsRequired && param.DefaultValue != null)
             {
-                sourceBuilder.AppendLine($"                , defaultValue: {FormatDefaultValue(param.DefaultValue, param.Type)}");
+                var formattedValue = FormatDefaultValue(param.DefaultValue, param.Type);
+                argumentLines.Add($"defaultValue: {formattedValue}");
             }
 
+            sourceBuilder.AppendLine($"            builder.AddParameter<{GetParameterType(param.Type)}>(");
+            for (int i = 0; i < argumentLines.Count; i++)
+            {
+                string comma = (i < argumentLines.Count - 1) ? "," : string.Empty;
+                sourceBuilder.AppendLine($"                {argumentLines[i]}{comma}");
+            }
             sourceBuilder.AppendLine("            );");
             sourceBuilder.AppendLine();
         }
@@ -800,11 +809,15 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static string FormatDefaultValue(string? defaultValue, string type)
     {
+        // Debug: Log what we're processing
+        var debugInfo = $"FormatDefaultValue: input='{defaultValue}', type='{type}'";
+        System.Diagnostics.Debug.WriteLine(debugInfo);
+
         if (string.IsNullOrEmpty(defaultValue) || defaultValue == "null")
             return "null";
 
         // At this point, defaultValue is guaranteed to be non-null and non-empty
-        return type switch
+        var result = type switch
         {
             "string" or "System.String" => $"\"{defaultValue}\"",
             "bool" or "System.Boolean" => defaultValue!.ToLowerInvariant(),
@@ -812,9 +825,15 @@ public class CatalogGenerator : IIncrementalGenerator
             "decimal" or "System.Decimal" => FormatNumericValue(defaultValue!, "m"),
             "float" or "System.Single" => FormatNumericValue(defaultValue!, "f"),
             "int" or "System.Int32" => defaultValue!,
-            "long" or "System.Int64" => FormatNumericValue(defaultValue!, "L"),
+            "long" or "System.Int64" => FormatNumericValue(defaultValue!, "l"),
             _ => defaultValue!
         };
+
+        // Debug: Log what we're producing
+        var debugResult = $"FormatDefaultValue: output='{result}'";
+        System.Diagnostics.Debug.WriteLine(debugResult);
+
+        return result;
     }
 
     /// <summary>
@@ -825,13 +844,25 @@ public class CatalogGenerator : IIncrementalGenerator
         if (value == null)
             return null;
 
-        return value switch
+        var result = value switch
         {
             double d => d.ToString(CultureInfo.InvariantCulture),
             float f => f.ToString(CultureInfo.InvariantCulture),
             decimal dec => dec.ToString(CultureInfo.InvariantCulture),
             _ => value.ToString()
         };
+
+        // Debug: Log what we're producing
+        var debugInfo = $"FormatParameterDefaultValue: input={value} (type={value.GetType().Name}), output={result}";
+        System.Diagnostics.Debug.WriteLine(debugInfo);
+
+        // Additional check specifically for ALMA offset parameter
+        if (value is double doubleVal && doubleVal == 0.85)
+        {
+            System.Diagnostics.Debug.WriteLine($"ALMA offset detected: {doubleVal} -> '{result}'");
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -839,27 +870,79 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static string FormatNumericValue(string value, string suffix)
     {
+        // Debug: Log what we're processing
+        var debugInfo = $"FormatNumericValue: input='{value}', suffix='{suffix}'";
+        System.Diagnostics.Debug.WriteLine(debugInfo);
+
         if (string.IsNullOrEmpty(value))
             return "null";
 
-        // Remove any existing suffixes that might be present
-        value = value.TrimEnd('f', 'F', 'd', 'D', 'm', 'M', 'l', 'L');
+        // Clean and validate the input value
+        var cleanValue = value.Trim().TrimEnd('f', 'F', 'd', 'D', 'm', 'M', 'l', 'L');
 
-        // Validate that we have a valid numeric value
-        if (!double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
+        // Parse and format using invariant culture
+        if (!double.TryParse(cleanValue, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed))
         {
-            return $"\"{value}\""; // If not numeric, treat as string
+            // If parsing fails, return as quoted string to avoid syntax errors
+            var safeResult = $"\"{value}\"";
+            System.Diagnostics.Debug.WriteLine($"FormatNumericValue: parsing failed, returning safe result: {safeResult}");
+            return safeResult;
         }
 
-        // Add the appropriate suffix for the type
-        return suffix switch
+        // Format based on suffix type
+        var result = suffix.ToLowerInvariant() switch
         {
-            "d" => value, // double doesn't need suffix in C#
-            "f" => value + "f",
-            "m" => value + "m",
-            "L" => value + "L",
-            _ => value
+            "d" => parsed.ToString(CultureInfo.InvariantCulture), // double doesn't need suffix in C#
+            "f" => FormatFloatValue(parsed), // Special handling for float
+            "m" => FormatDecimalValue(parsed), // Special handling for decimal
+            "l" => parsed.ToString(CultureInfo.InvariantCulture) + "L",
+            _ => parsed.ToString(CultureInfo.InvariantCulture)
         };
+
+        // Paranoid check: ensure we never accidentally produce 'f' suffix for doubles
+        if (suffix.ToLowerInvariant() == "d" && result.EndsWith("f", StringComparison.OrdinalIgnoreCase))
+        {
+            result = result.TrimEnd('f', 'F');
+            System.Diagnostics.Debug.WriteLine($"FormatNumericValue: Removed accidental 'f' suffix from double: {result}");
+        }
+
+        // Debug: Log what we're producing
+        var debugResult = $"FormatNumericValue: output='{result}'";
+        System.Diagnostics.Debug.WriteLine(debugResult);
+
+        return result;
+    }
+
+    /// <summary>
+    /// Formats a float value to ensure it has a proper format for C# literals.
+    /// </summary>
+    private static string FormatFloatValue(double value)
+    {
+        // Handle special cases
+        if (double.IsNaN(value)) return "float.NaN";
+        if (double.IsPositiveInfinity(value)) return "float.PositiveInfinity";
+        if (double.IsNegativeInfinity(value)) return "float.NegativeInfinity";
+
+        // Ensure float literals have at least one decimal place
+        string formatted = value.ToString("0.0###############", CultureInfo.InvariantCulture);
+        return formatted + "f";
+    }
+
+    /// <summary>
+    /// Formats a decimal value to ensure it has a proper format for C# literals.
+    /// </summary>
+    private static string FormatDecimalValue(double value)
+    {
+        // Handle special cases
+        if (double.IsNaN(value) || double.IsInfinity(value))
+        {
+            // Decimal doesn't support NaN or Infinity, use 0 as fallback
+            return "0.0m";
+        }
+
+        // Ensure decimal literals have at least one decimal place
+        string formatted = value.ToString("0.0###############", CultureInfo.InvariantCulture);
+        return formatted + "m";
     }
 }
 

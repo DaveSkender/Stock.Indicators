@@ -52,10 +52,11 @@ This directory contains the schema, attributes, and validation system for the St
    - [x] 8.2. Update `README.md` to reflect the current status of the catalog system
    - [x] 8.3. Remove `CompositeIndicatorListing` checks from `IndicatorRegistry.cs`
    - [x] 8.4. Mark `CompositeIndicatorListing` and `CompositeIndicatorListingBuilder` as obsolete
+   - [x] 8.4a. Completely remove `CompositeIndicatorListing` and `CompositeIndicatorListingBuilder` files and tests
    - [x] 8.5. Review and update any other references to composite listings in the codebase
    - [x] 8.6. Add tests to verify correct behavior of style-specific listings in registry queries
    - [x] 8.7. Verify that the CatalogGenerator correctly handles multiple style attributes
-   - [ ] 8.8. **CRITICAL**: Fix decimal parameter formatting in CatalogGenerator (syntax error at line 326/341 with parameter 'F')
+   - [ ] 8.8. **CRITICAL**: Fix decimal parameter formatting in CatalogGenerator (syntax error at line 326/341 with parameter 'F').  When troubleshooting, try to focus on the generator code itself initially, and the implementation of `AddParameter` method.  We've already explored potential issues with ALMA and data and that is not likely the issue.
    - [ ] 8.9. Add missing listing definitions based on values in reference file 'catalog.bak.json'
 
 9. **Phase 2: Enhanced Catalog Features**
@@ -112,7 +113,7 @@ This directory contains the schema, attributes, and validation system for the St
 #### 🏗️ IMPLEMENTATION NOTES
 
 - All core and advanced catalog features are implemented using the one-listing-per-style approach
-- `CompositeIndicatorListing` and related classes have been marked as obsolete
+- `CompositeIndicatorListing` and related classes have been completely removed from the codebase
 - Registry methods updated to handle style-specific listings correctly
 - Multi-style indicators (e.g., ADL) successfully implemented with separate attributes
 - Comprehensive test suite in place and passing
