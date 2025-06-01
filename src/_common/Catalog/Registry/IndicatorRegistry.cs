@@ -394,7 +394,7 @@ public static partial class IndicatorRegistry
         return null;
     }
 
-    private static IEnumerable<IndicatorListing> GetAllCatalogListings(Type type)
+    private static List<IndicatorListing> GetAllCatalogListings(Type type)
     {
         string[] listingNames = ["Listing", "SeriesListing", "StreamListing", "BufferListing"];
         var listings = new List<IndicatorListing>();

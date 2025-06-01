@@ -13,17 +13,17 @@ public class IndicatorListingBuilder
     private Category _category = Category.Undefined;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
-    private readonly string _baseUrl = string.Empty;
+
+    private Uri? _baseUrl;
+    /// <summary>
+    /// Gets the current base URL setting for the builder.
+    /// </summary>
+    protected Uri? CurrentBaseUrl => _baseUrl;
 
     /// <summary>
     /// Gets the current style setting for the builder.
     /// </summary>
     protected Style CurrentStyle => _style;
-
-    /// <summary>
-    /// Gets the current base URL setting for the builder.
-    /// </summary>
-    protected string CurrentBaseUrl => _baseUrl;
 
     /// <summary>
     /// Sets the name of the indicator.
@@ -66,6 +66,17 @@ public class IndicatorListingBuilder
     public IndicatorListingBuilder WithCategory(Category category)
     {
         _category = category;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the base URL of the indicator.
+    /// </summary>
+    /// <param name="baseUrl">The base URL as a Uri.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder WithBaseUrl(Uri baseUrl)
+    {
+        _baseUrl = baseUrl;
         return this;
     }
 
@@ -187,8 +198,7 @@ public class IndicatorListingBuilder
     public IndicatorListing Build()
     {
         ValidateBeforeBuild();
-
-        return new IndicatorListing(_baseUrl) {
+        return new IndicatorListing(_baseUrl?.ToString() ?? string.Empty) {
             Name = _name,
             Uiid = _id,
             Style = _style,

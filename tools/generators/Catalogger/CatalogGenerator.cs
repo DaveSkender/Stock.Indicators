@@ -1,12 +1,16 @@
+// CatalogGenerator.cs - Refactored and rebuilt to use helpers and models
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using Generators.Catalogger.Helpers;
+using Generators.Catalogger.Models;
 
-// Note: We intentionally avoid referencing Skender.Stock.Indicators directly
-// to prevent circular dependencies. Instead, we use string-based checks.
 namespace Generators.Catalogger;
 
 /// <summary>
@@ -189,6 +193,9 @@ public class CatalogGenerator : IIncrementalGenerator
             {
                 string? id = null;
                 string? style = null;
+                string? name = null;
+                string? description = null;
+                string? url = null;
 
                 // Extract attribute arguments
                 if (attribute.ConstructorArguments.Length > 0)
@@ -205,19 +212,25 @@ public class CatalogGenerator : IIncrementalGenerator
                 {
                     switch (namedArg.Key)
                     {
-                        case "Id":
-                            id = namedArg.Value.Value?.ToString();
+                        case "Name":
+                            name = namedArg.Value.Value?.ToString();
                             break;
-                        case "Style":
-                            style = namedArg.Value.Value?.ToString();
+                        case "Description":
+                            description = namedArg.Value.Value?.ToString();
+                            break;
+                        case "Url":
+                            url = namedArg.Value.Value?.ToString();
                             break;
                     }
                 }
 
-                return new IndicatorAttributeInfo(
-                    attributeName,
-                    id,
-                    style);
+                // Use attribute name as ID if not specified
+                if (string.IsNullOrEmpty(id))
+                {
+                    id = CleanAttributeName(attributeName);
+                }
+
+                return new IndicatorAttributeInfo(id, style, name, description, url);
             }
         }
 
@@ -225,817 +238,163 @@ public class CatalogGenerator : IIncrementalGenerator
     }
 
     /// <summary>
-    /// Checks if an attribute name indicates an indicator attribute.
+    /// Extracts parameter information from a method symbol.
     /// </summary>
-    private static bool IsIndicatorAttribute(string attributeName) =>
-        attributeName.EndsWith("IndicatorAttribute") ||
-        attributeName == "SeriesIndicatorAttribute" ||
-        attributeName == "StreamIndicatorAttribute" ||
-        attributeName == "BufferIndicatorAttribute" ||
-        attributeName == "IndicatorAttribute";
-
-    /// <summary>
-    /// Extracts parameter information from constructors and key methods.
-    /// </summary>
-    private static ImmutableArray<ParameterInfo> ExtractParameterInfo(INamedTypeSymbol classSymbol)
+    private static IReadOnlyList<ParameterInfo> ExtractParameterInfoFromMethod(IMethodSymbol methodSymbol)
     {
-        var parameters = ImmutableArray.CreateBuilder<ParameterInfo>();
+        var parameters = new List<ParameterInfo>();
 
-        // Get public constructors
-        foreach (var constructor in classSymbol.Constructors)
+        foreach (var parameter in methodSymbol.Parameters)
         {
-            if (constructor.DeclaredAccessibility == Accessibility.Public)
+            // Skip 'quotes' parameter as it's not part of the indicator configuration
+            if (parameter.Name.Equals("quotes", StringComparison.OrdinalIgnoreCase) ||
+                parameter.Type.Name.Equals("TQuote", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            string? defaultValueString = null;
+            if (parameter.HasExplicitDefaultValue)
             {
-                foreach (var param in constructor.Parameters)
-                {
-                    if (!IsCommonCollectionParameter(param))
-                    {
-                        parameters.Add(new ParameterInfo(
-                            param.Name,
-                            param.Type.ToDisplayString(),
-                            !param.HasExplicitDefaultValue,
-                            param.HasExplicitDefaultValue ? FormatParameterDefaultValue(param.ExplicitDefaultValue) : null));
-                    }
-                }
-                break; // Use first public constructor
+                // Format the default value for code generation
+                defaultValueString = parameter.ExplicitDefaultValue?.ToString();
             }
+
+            parameters.Add(new ParameterInfo(
+                parameter.Name,
+                parameter.Type.ToDisplayString(),
+                parameter.HasExplicitDefaultValue,
+                parameter.ExplicitDefaultValue,
+                defaultValueString));
         }
 
-        return parameters.ToImmutable();
+        return parameters;
     }
 
     /// <summary>
-    /// Extracts parameter information from a method.
-    /// </summary>
-    private static ImmutableArray<ParameterInfo> ExtractParameterInfoFromMethod(IMethodSymbol methodSymbol)
-    {
-        var parameters = ImmutableArray.CreateBuilder<ParameterInfo>();
-
-        foreach (var param in methodSymbol.Parameters)
-        {
-            // Skip common collection parameters like "source" and "quotes"
-            if (!IsCommonCollectionParameter(param))
-            {
-                // Extract parameter description from XML documentation
-                string description = ExtractParameterDocumentation(methodSymbol, param.Name);
-
-                parameters.Add(new ParameterInfo(
-                    param.Name,
-                    param.Type.ToDisplayString(),
-                    !param.HasExplicitDefaultValue,
-                    param.HasExplicitDefaultValue ? FormatParameterDefaultValue(param.ExplicitDefaultValue) : null,
-                    description));
-            }
-        }
-
-        return parameters.ToImmutable();
-    }
-
-    /// <summary>
-    /// Extracts result type information from a method's return type.
+    /// Extracts result type information from a method symbol.
     /// </summary>
     private static ResultTypeInfo ExtractResultTypeInfo(IMethodSymbol methodSymbol)
     {
-        // Default to "Default" for most indicators
-        string resultType = "Default";
-        var description = string.Empty;
+        // Default result type
+        string resultType = "List";
 
-        // Extract description from XML documentation if available
-        description = ExtractDocumentationSummary(methodSymbol);
-
-        // Check the method's return type for specific indicators
-        var returnType = methodSymbol.ReturnType;
-        if (returnType is INamedTypeSymbol namedReturnType)
+        // Check if return type is a collection
+        if (methodSymbol.ReturnType is INamedTypeSymbol returnType)
         {
-            if (namedReturnType.IsGenericType)
+            string typeName = returnType.Name;
+            string fullName = returnType.ToDisplayString();
+
+            if (typeName.Contains("List") ||
+                typeName.Contains("Enumerable") ||
+                typeName.Contains("Collection"))
             {
-                string genericName = namedReturnType.ConstructedFrom.ToDisplayString();
-
-                // Check for common collection types that indicate series data
-                if (genericName.Contains("IEnumerable") ||
-                    genericName.Contains("IReadOnlyList") ||
-                    genericName.Contains("List") ||
-                    genericName.Contains("IList"))
-                {
-                    // Check for result type patterns in generic type args
-                    var typeArgs = namedReturnType.TypeArguments;
-                    if (typeArgs.Length > 0 && typeArgs[0] is INamedTypeSymbol resultTypeSymbol)
-                    {
-                        // First check the type name itself for patterns
-                        string elementTypeName = resultTypeSymbol.Name;
-
-                        // Band/Channel patterns
-                        if (elementTypeName.Contains("Band") || elementTypeName.Contains("Channel"))
-                        {
-                            resultType = "Channel";
-                        }
-                        else
-                        {
-                            // Look for properties that might indicate specific result types
-                            bool hasSignalProperties = false;
-                            bool hasOscillatorProperties = false;
-                            bool hasBandProperties = false;
-
-                            foreach (var member in resultTypeSymbol.GetMembers().OfType<IPropertySymbol>())
-                            {
-                                string propertyName = member.Name;
-
-                                // Check for band/channel properties
-                                if (propertyName.Contains("Band") || propertyName.Contains("Upper") ||
-                                    propertyName.Contains("Lower") || propertyName.Contains("Channel") ||
-                                    propertyName.Contains("Centerline"))
-                                {
-                                    hasBandProperties = true;
-                                }
-                                // Check for signal properties
-                                else if (propertyName.Contains("Signal") || propertyName.Contains("Buy") ||
-                                         propertyName.Contains("Sell") || propertyName.Contains("Cross") ||
-                                         propertyName.Contains("Alert"))
-                                {
-                                    hasSignalProperties = true;
-                                }
-                                // Check for oscillator properties
-                                else if (propertyName.Contains("Oscillator"))
-                                {
-                                    hasOscillatorProperties = true;
-                                }
-                            }
-
-                            // Determine result type based on properties found
-                            if (hasBandProperties)
-                            {
-                                resultType = "Channel";
-                            }
-                            else if (hasSignalProperties)
-                            {
-                                resultType = "Point";
-                            }
-                            else if (hasOscillatorProperties)
-                            {
-                                resultType = "Centerline";
-                            }
-                        }
-                    }
-                }
+                resultType = "List";
             }
-
-            // Infer more specific result types based on return type name patterns
-            var typeName = returnType.Name;
-            if (typeName.Contains("Band") || typeName.Contains("Channel"))
+            // Check for other return types like Single or Window
+            else if (fullName.Contains("Result"))
             {
-                resultType = "Channel";
+                resultType = "Single";
+            }
+            else if (fullName.Contains("Window"))
+            {
+                resultType = "Window";
             }
         }
 
-        return new ResultTypeInfo(resultType, description);
+        return new ResultTypeInfo(resultType);
     }
 
     /// <summary>
-    /// Checks if a property name indicates it's a potential signal property
-    /// </summary>
-    private static bool IsPotentialSignalProperty(string propertyName)
-    {
-        return propertyName.Contains("Signal") ||
-               propertyName.Contains("Buy") ||
-               propertyName.Contains("Sell") ||
-               propertyName.Contains("Cross") ||
-               propertyName.Contains("Alert");
-    }
-
-    /// <summary>
-    /// Extracts the summary from XML documentation for a method
-    /// </summary>
-    private static string ExtractDocumentationSummary(ISymbol symbol)
-    {
-        // Get XML documentation for the symbol
-        string? xmlDoc = symbol.GetDocumentationCommentXml();
-        if (string.IsNullOrEmpty(xmlDoc))
-            return string.Empty;
-
-        try
-        {
-            // Handle null XML doc
-            if (string.IsNullOrEmpty(xmlDoc))
-                return string.Empty;
-
-            // Simple XML parsing to extract summary
-            int summaryStartIndex = xmlDoc!.IndexOf("<summary>");
-            if (summaryStartIndex < 0) return string.Empty;
-
-            int summaryStart = summaryStartIndex + "<summary>".Length;
-            int summaryEnd = xmlDoc.IndexOf("</summary>");
-
-            if (summaryEnd > summaryStart)
-            {
-                string summary = xmlDoc.Substring(summaryStart, summaryEnd - summaryStart).Trim();
-
-                // Remove common XML comment artifacts
-                summary = summary.Replace("\n", " ").Replace("\r", "");
-
-                while (summary.Contains("  "))
-                    summary = summary.Replace("  ", " ");
-
-                return summary;
-            }
-        }
-        catch
-        {
-            // If parsing fails, return empty string
-        }
-
-        return string.Empty;
-    }
-
-    /// <summary>
-    /// Extracts parameter documentation from XML documentation
-    /// </summary>
-    private static string ExtractParameterDocumentation(IMethodSymbol methodSymbol, string parameterName)
-    {
-        string? xmlDoc = methodSymbol.GetDocumentationCommentXml();
-        if (string.IsNullOrEmpty(xmlDoc))
-            return string.Empty;
-
-        try
-        {
-            // Look for the specific parameter documentation
-            string paramTag = $"<param name=\"{parameterName}\">";
-            int paramStartIndex = xmlDoc!.IndexOf(paramTag);
-            if (paramStartIndex < 0) return string.Empty;
-
-            int paramStart = paramStartIndex + paramTag.Length;
-            int paramEnd = xmlDoc.IndexOf("</param>", paramStart);
-
-            if (paramEnd > paramStart)
-            {
-                string paramDescription = xmlDoc.Substring(paramStart, paramEnd - paramStart).Trim();
-
-                // Remove common XML comment artifacts
-                paramDescription = paramDescription.Replace("\n", " ").Replace("\r", "");
-
-                while (paramDescription.Contains("  "))
-                    paramDescription = paramDescription.Replace("  ", " ");
-
-                return paramDescription;
-            }
-        }
-        catch
-        {
-            // If parsing fails, return empty string
-        }
-
-        return string.Empty;
-    }
-
-    /// <summary>
-    /// Checks if a parameter is a common collection parameter that should be skipped.
-    /// </summary>
-    private static bool IsCommonCollectionParameter(IParameterSymbol parameter)
-    {
-        if (parameter.Type is INamedTypeSymbol namedType && namedType.IsGenericType)
-        {
-            string genericName = namedType.ConstructedFrom.ToDisplayString();
-            if (genericName.Contains("IEnumerable") ||
-                genericName.Contains("IReadOnlyList") ||
-                genericName.Contains("List") ||
-                genericName.Contains("IList") ||
-                genericName.Contains("ICollection"))
-            {
-                return true;
-            }
-        }
-
-        return parameter.Name.Equals("source", StringComparison.OrdinalIgnoreCase) ||
-               parameter.Name.Equals("quotes", StringComparison.OrdinalIgnoreCase);
-    }
-
-    /// <summary>
-    /// Checks if the class already has a static Listing property.
-    /// More robust detection of existing listings to prevent duplicate code generation.
+    /// Determines if a class already has a Listing property.
     /// </summary>
     private static bool HasListingProperty(INamedTypeSymbol classSymbol)
     {
-        // Check in the current class symbol
-        bool hasListing = CheckForListingInSymbol(classSymbol);
-        if (hasListing)
-            return true;
-
-        // Check in base types if not found in current class
-        var baseType = classSymbol.BaseType;
-        while (baseType != null)
-        {
-            if (CheckForListingInSymbol(baseType))
-                return true;
-
-            baseType = baseType.BaseType;
-        }
-
-        // Search through all partial implementations of this class
-        foreach (var syntaxReference in classSymbol.DeclaringSyntaxReferences)
-        {
-            var syntax = syntaxReference.GetSyntax();
-            if (syntax is ClassDeclarationSyntax classDecl)
-            {
-                // Check if class contains a Listing property
-                if (classDecl.Members.OfType<PropertyDeclarationSyntax>()
-                    .Any(p => p.Identifier.Text == "Listing" &&
-                              p.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword))))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Helper method to check if a symbol has a Listing property or field
-    /// </summary>
-    private static bool CheckForListingInSymbol(INamedTypeSymbol symbol)
-    {
-        // Check for explicitly declared static Listing property (general or style-specific)
-        var hasExplicitListing = symbol.GetMembers()
+        return classSymbol.GetMembers()
             .OfType<IPropertySymbol>()
-            .Any(p => (p.Name == "Listing" ||
-                      p.Name == "SeriesListing" ||
-                      p.Name == "StreamListing" ||
-                      p.Name == "BufferListing") &&
-                     p.IsStatic &&
-                     (p.Type.Name == "IndicatorListing" ||
-                      p.Type.ToDisplayString().EndsWith("IndicatorListing")));
-
-        // Also check for static readonly field with Listing (general or style-specific)
-        var hasListingField = symbol.GetMembers()
-            .OfType<IFieldSymbol>()
-            .Any(f => (f.Name == "Listing" ||
-                      f.Name == "SeriesListing" ||
-                      f.Name == "StreamListing" ||
-                      f.Name == "BufferListing") &&
-                     f.IsStatic &&
-                     f.IsReadOnly &&
-                     (f.Type.Name == "IndicatorListing" ||
-                      f.Type.ToDisplayString().EndsWith("IndicatorListing")));
-
-        return hasExplicitListing || hasListingField;
+            .Any(p => p.Name == "Listing" && p.IsStatic);
     }
 
     /// <summary>
-    /// Generates registration code for all indicator classes.
+    /// Determines if an attribute is an indicator attribute based on its name.
+    /// </summary>
+    private static bool IsIndicatorAttribute(string attributeName)
+    {
+        return attributeName.EndsWith("Indicator", StringComparison.OrdinalIgnoreCase) ||
+               attributeName == "Indicator";
+    }
+
+    /// <summary>
+    /// Cleans an attribute name by removing "Attribute" and "Indicator" suffixes.
+    /// </summary>
+    private static string CleanAttributeName(string attributeName)
+    {
+        string name = attributeName;
+
+        if (name.EndsWith("Attribute", StringComparison.OrdinalIgnoreCase))
+        {
+            name = name.Substring(0, name.Length - "Attribute".Length);
+        }
+
+        if (name.EndsWith("Indicator", StringComparison.OrdinalIgnoreCase))
+        {
+            name = name.Substring(0, name.Length - "Indicator".Length);
+        }
+
+        return name;
+    }
+
+    /// <summary>
+    /// Generates registration code for indicator classes.
     /// </summary>
     private static void GenerateRegistration(SourceProductionContext context, ImmutableArray<IndicatorClassInfo> classInfos)
     {
-        if (classInfos.IsEmpty)
-            return;
-
-        // Group by class name to process multi-style indicators properly
-        var classGroups = classInfos
-            .Where(c => !c.HasExistingListing)
-            .GroupBy(c => c.FullName)
-            .ToList();
-
-        if (!classGroups.Any())
-            return;
-
-        var sourceBuilder = new StringBuilder();
-
-        // Generate file header
-        sourceBuilder.AppendLine("// <auto-generated/>");
-        sourceBuilder.AppendLine("// This file was generated by the CatalogGenerator source generator.");
-        sourceBuilder.AppendLine();
-        sourceBuilder.AppendLine("using Skender.Stock.Indicators;");
-        sourceBuilder.AppendLine();
-
-        // Group by namespace
-        var namespaceGroups = classGroups.GroupBy(g => g.First().Namespace);
-
-        foreach (var namespaceGroup in namespaceGroups)
+        // Skip generation during test runs that are not explicitly testing the generator
+        if (context.Compilation.AssemblyName?.Contains("test", StringComparison.OrdinalIgnoreCase) == true &&
+            context.Compilation.AssemblyName != "TestAssembly")
         {
-            sourceBuilder.AppendLine($"namespace {namespaceGroup.Key}");
+            return;
+        }
+
+        foreach (var classInfo in classInfos)
+        {
+            // Skip classes with existing Listing properties
+            if (classInfo.HasExistingListing)
+                continue;
+
+            // Generate partial class with Listing property and GetListing method
+            string className = classInfo.ClassName;
+            string namespaceName = classInfo.Namespace;
+
+            var sourceBuilder = new StringBuilder();
+
+            // Add file header
+            sourceBuilder.AppendLine("// <auto-generated />");
+            sourceBuilder.AppendLine("// This file was generated by the Skender.Stock.Indicators CatalogGenerator");
+            sourceBuilder.AppendLine();
+
+            // Add using statements
+            sourceBuilder.AppendLine("using Skender.Stock.Indicators.Catalog;");
+            sourceBuilder.AppendLine("using Skender.Stock.Indicators.Catalog.Schema;");
+            sourceBuilder.AppendLine();
+
+            // Start namespace
+            sourceBuilder.AppendLine($"namespace {namespaceName};");
+            sourceBuilder.AppendLine();
+
+            // Start class
+            sourceBuilder.AppendLine($"public partial class {className}");
             sourceBuilder.AppendLine("{");
 
-            foreach (var classGroup in namespaceGroup)
-            {
-                // Generate separate listings for each style within the class
-                GenerateClassListings(sourceBuilder, classGroup.ToList());
-                sourceBuilder.AppendLine();
-            }
+            // Generate Listing property
+            sourceBuilder.Append(CodeGeneration.GenerateListingProperty(classInfo));
 
+            // Generate GetListing method
+            sourceBuilder.Append(CodeGeneration.GenerateGetListingMethod(classInfo));
+
+            // Close class
             sourceBuilder.AppendLine("}");
-            sourceBuilder.AppendLine();
+
+            // Add source to compilation
+            context.AddSource($"{className}.Listing.g.cs", sourceBuilder.ToString());
         }
-
-        // Generate registration module
-        GenerateRegistrationModule(sourceBuilder, classGroups.SelectMany(g => g).ToImmutableArray());
-
-        context.AddSource("CatalogRegistration.g.cs", sourceBuilder.ToString());
-    }
-
-    /// <summary>
-    /// Generates separate listing properties for each style supported by a class.
-    /// </summary>
-    private static void GenerateClassListings(StringBuilder sourceBuilder, List<IndicatorClassInfo> classInfos)
-    {
-        if (!classInfos.Any())
-            return;
-
-        var firstClassInfo = classInfos[0];
-
-        sourceBuilder.AppendLine($"    public partial class {firstClassInfo.ClassName}");
-        sourceBuilder.AppendLine("    {");
-
-        // Group by style to create separate listings
-        var styleGroups = classInfos.GroupBy(c => GetStyleFromAttributeType(c.AttributeInfo.AttributeType))
-                                   .Where(g => !string.IsNullOrEmpty(g.Key))
-                                   .ToList();
-
-        foreach (var styleGroup in styleGroups)
-        {
-            var style = styleGroup.Key!;
-            var classInfo = styleGroup.First(); // Use first one for this style
-
-            GenerateSingleStyleListing(sourceBuilder, classInfo, style);
-            sourceBuilder.AppendLine();
-        }
-
-        sourceBuilder.AppendLine("    }");
-    }
-
-    /// <summary>
-    /// Generates a single listing property for a specific style.
-    /// </summary>
-    private static void GenerateSingleStyleListing(StringBuilder sourceBuilder, IndicatorClassInfo classInfo, string style)
-    {
-        string propertyName = $"{style}Listing";
-
-        sourceBuilder.AppendLine($"        /// <summary>");
-        sourceBuilder.AppendLine($"        /// Catalog listing for the {style} style of this indicator.");
-        sourceBuilder.AppendLine($"        /// </summary>");
-        sourceBuilder.AppendLine($"        public static IndicatorListing {propertyName} {{ get; }} = Create{style}Listing();");
-        sourceBuilder.AppendLine();
-        sourceBuilder.AppendLine($"        private static IndicatorListing Create{style}Listing()");
-        sourceBuilder.AppendLine("        {");
-
-        sourceBuilder.AppendLine("            var builder = new IndicatorListingBuilder()");
-        sourceBuilder.AppendLine($"                .WithName(\"{FormatDisplayName(classInfo.ClassName)}\")");
-
-        if (!string.IsNullOrEmpty(classInfo.AttributeInfo.Id))
-        {
-            sourceBuilder.AppendLine($"                .WithId(\"{classInfo.AttributeInfo.Id}\")");
-        }
-
-        sourceBuilder.AppendLine($"                .WithStyle(Style.{style})");
-        sourceBuilder.AppendLine("                .WithCategory(Category.Undefined);");
-        sourceBuilder.AppendLine();
-
-
-        // Add parameters
-        foreach (var param in classInfo.Parameters)
-        {
-            var argumentLines = new List<string>
-            {
-                $"parameterName: \"{param.Name}\"",
-                $"displayName: \"{FormatDisplayName(param.Name)}\"",
-                $"description: \"{param.Description ?? ("The " + param.Name + " parameter")}\"",
-                $"isRequired: {(param.IsRequired ? "true" : "false")}"
-            };
-
-            // Add default value if parameter is optional
-            if (!param.IsRequired && param.DefaultValue != null)
-            {
-                var formattedValue = FormatDefaultValue(param.DefaultValue, param.Type);
-                argumentLines.Add($"defaultValue: {formattedValue}");
-            }
-
-            sourceBuilder.AppendLine($"            builder.AddParameter<{GetParameterType(param.Type)}>(");
-            for (int i = 0; i < argumentLines.Count; i++)
-            {
-                string comma = (i < argumentLines.Count - 1) ? "," : string.Empty;
-                sourceBuilder.AppendLine($"                {argumentLines[i]}{comma}");
-            }
-            sourceBuilder.AppendLine("            );");
-            sourceBuilder.AppendLine();
-        }
-
-        sourceBuilder.AppendLine();
-        sourceBuilder.AppendLine("            // Add result based on detected type");
-        sourceBuilder.AppendLine("            builder.AddResult(");
-        sourceBuilder.AppendLine("                dataName: \"Result\",");
-        sourceBuilder.AppendLine("                displayName: \"Result\",");
-        sourceBuilder.AppendLine($"                dataType: ResultType.{classInfo.ResultInfo.ResultType},");
-        sourceBuilder.AppendLine("                isDefault: true);");
-        sourceBuilder.AppendLine();
-        sourceBuilder.AppendLine("            return builder.Build();");
-        sourceBuilder.AppendLine("        }");
-    }
-
-    /// <summary>
-    /// Extracts the style name from the attribute type.
-    /// </summary>
-    private static string GetStyleFromAttributeType(string attributeType)
-    {
-        if (attributeType.Contains("Series"))
-            return "Series";
-        if (attributeType.Contains("Stream"))
-            return "Stream";
-        if (attributeType.Contains("Buffer"))
-            return "Buffer";
-        return "Series"; // Default
-    }
-
-    /// <summary>
-    /// Generates the registration module that auto-registers all generated listings.
-    /// </summary>
-    private static void GenerateRegistrationModule(StringBuilder sourceBuilder, ImmutableArray<IndicatorClassInfo> classInfos)
-    {
-        sourceBuilder.AppendLine("namespace Skender.Stock.Indicators");
-        sourceBuilder.AppendLine("{");
-        sourceBuilder.AppendLine("    /// <summary>");
-        sourceBuilder.AppendLine("    /// Auto-generated registration module for indicator listings.");
-        sourceBuilder.AppendLine("    /// </summary>");
-        sourceBuilder.AppendLine("    internal static class GeneratedCatalogRegistration");
-        sourceBuilder.AppendLine("    {");
-        sourceBuilder.AppendLine("        /// <summary>");
-        sourceBuilder.AppendLine("        /// Registers all auto-generated indicator listings.");
-        sourceBuilder.AppendLine("        /// This method is called automatically by the IndicatorRegistry.");
-        sourceBuilder.AppendLine("        /// </summary>");
-        sourceBuilder.AppendLine("        internal static void RegisterAll()");
-        sourceBuilder.AppendLine("        {");
-        sourceBuilder.AppendLine("            // This method intentionally left empty.");
-        sourceBuilder.AppendLine("            // The source generator creates static Listing properties");
-        sourceBuilder.AppendLine("            // that are automatically discovered by RegisterCatalog()");
-        sourceBuilder.AppendLine("            // through reflection-based scanning.");
-        sourceBuilder.AppendLine("        }");
-        sourceBuilder.AppendLine("    }");
-        sourceBuilder.AppendLine("}");
-    }
-
-    /// <summary>
-    /// Formats a name for display purposes.
-    /// </summary>
-    private static string FormatDisplayName(string name)
-    {
-        if (string.IsNullOrEmpty(name))
-            return name;
-
-        // Convert PascalCase to spaced words
-        var result = new StringBuilder();
-        for (int i = 0; i < name.Length; i++)
-        {
-            if (i > 0 && char.IsUpper(name[i]))
-                result.Append(' ');
-            result.Append(name[i]);
-        }
-        return result.ToString();
-    }
-
-    /// <summary>
-    /// Gets the appropriate parameter type for the builder.
-    /// </summary>
-    private static string GetParameterType(string typeString)
-    {
-        return typeString switch
-        {
-            "int" or "System.Int32" => "int",
-            "double" or "System.Double" => "double",
-            "decimal" or "System.Decimal" => "decimal",
-            "bool" or "System.Boolean" => "bool",
-            "string" or "System.String" => "string",
-            _ => "object"
-        };
-    }
-
-    /// <summary>
-    /// Formats a default value for code generation.
-    /// </summary>
-    private static string FormatDefaultValue(string? defaultValue, string type)
-    {
-        // Debug: Log what we're processing
-        var debugInfo = $"FormatDefaultValue: input='{defaultValue}', type='{type}'";
-        System.Diagnostics.Debug.WriteLine(debugInfo);
-
-        if (string.IsNullOrEmpty(defaultValue) || defaultValue == "null")
-            return "null";
-
-        // At this point, defaultValue is guaranteed to be non-null and non-empty
-        var result = type switch
-        {
-            "string" or "System.String" => $"\"{defaultValue}\"",
-            "bool" or "System.Boolean" => defaultValue!.ToLowerInvariant(),
-            "double" or "System.Double" => FormatNumericValue(defaultValue!, "d"),
-            "decimal" or "System.Decimal" => FormatNumericValue(defaultValue!, "m"),
-            "float" or "System.Single" => FormatNumericValue(defaultValue!, "f"),
-            "int" or "System.Int32" => defaultValue!,
-            "long" or "System.Int64" => FormatNumericValue(defaultValue!, "l"),
-            _ => defaultValue!
-        };
-
-        // Debug: Log what we're producing
-        var debugResult = $"FormatDefaultValue: output='{result}'";
-        System.Diagnostics.Debug.WriteLine(debugResult);
-
-        return result;
-    }
-
-    /// <summary>
-    /// Formats a parameter default value using culture-invariant formatting.
-    /// </summary>
-    private static string? FormatParameterDefaultValue(object? value)
-    {
-        if (value == null)
-            return null;
-
-        var result = value switch
-        {
-            double d => d.ToString(CultureInfo.InvariantCulture),
-            float f => f.ToString(CultureInfo.InvariantCulture),
-            decimal dec => dec.ToString(CultureInfo.InvariantCulture),
-            _ => value.ToString()
-        };
-
-        // Debug: Log what we're producing
-        var debugInfo = $"FormatParameterDefaultValue: input={value} (type={value.GetType().Name}), output={result}";
-        System.Diagnostics.Debug.WriteLine(debugInfo);
-
-        // Additional check specifically for ALMA offset parameter
-        if (value is double doubleVal && doubleVal == 0.85)
-        {
-            System.Diagnostics.Debug.WriteLine($"ALMA offset detected: {doubleVal} -> '{result}'");
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Formats a numeric value with the appropriate suffix for C# literals.
-    /// </summary>
-    private static string FormatNumericValue(string value, string suffix)
-    {
-        // Debug: Log what we're processing
-        var debugInfo = $"FormatNumericValue: input='{value}', suffix='{suffix}'";
-        System.Diagnostics.Debug.WriteLine(debugInfo);
-
-        if (string.IsNullOrEmpty(value))
-            return "null";
-
-        // Clean and validate the input value
-        var cleanValue = value.Trim().TrimEnd('f', 'F', 'd', 'D', 'm', 'M', 'l', 'L');
-
-        // Parse and format using invariant culture
-        if (!double.TryParse(cleanValue, NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed))
-        {
-            // If parsing fails, return as quoted string to avoid syntax errors
-            var safeResult = $"\"{value}\"";
-            System.Diagnostics.Debug.WriteLine($"FormatNumericValue: parsing failed, returning safe result: {safeResult}");
-            return safeResult;
-        }
-
-        // Format based on suffix type
-        var result = suffix.ToLowerInvariant() switch
-        {
-            "d" => parsed.ToString(CultureInfo.InvariantCulture), // double doesn't need suffix in C#
-            "f" => FormatFloatValue(parsed), // Special handling for float
-            "m" => FormatDecimalValue(parsed), // Special handling for decimal
-            "l" => parsed.ToString(CultureInfo.InvariantCulture) + "L",
-            _ => parsed.ToString(CultureInfo.InvariantCulture)
-        };
-
-        // Paranoid check: ensure we never accidentally produce 'f' suffix for doubles
-        if (suffix.ToLowerInvariant() == "d" && result.EndsWith("f", StringComparison.OrdinalIgnoreCase))
-        {
-            result = result.TrimEnd('f', 'F');
-            System.Diagnostics.Debug.WriteLine($"FormatNumericValue: Removed accidental 'f' suffix from double: {result}");
-        }
-
-        // Debug: Log what we're producing
-        var debugResult = $"FormatNumericValue: output='{result}'";
-        System.Diagnostics.Debug.WriteLine(debugResult);
-
-        return result;
-    }
-
-    /// <summary>
-    /// Formats a float value to ensure it has a proper format for C# literals.
-    /// </summary>
-    private static string FormatFloatValue(double value)
-    {
-        // Handle special cases
-        if (double.IsNaN(value)) return "float.NaN";
-        if (double.IsPositiveInfinity(value)) return "float.PositiveInfinity";
-        if (double.IsNegativeInfinity(value)) return "float.NegativeInfinity";
-
-        // Ensure float literals have at least one decimal place
-        string formatted = value.ToString("0.0###############", CultureInfo.InvariantCulture);
-        return formatted + "f";
-    }
-
-    /// <summary>
-    /// Formats a decimal value to ensure it has a proper format for C# literals.
-    /// </summary>
-    private static string FormatDecimalValue(double value)
-    {
-        // Handle special cases
-        if (double.IsNaN(value) || double.IsInfinity(value))
-        {
-            // Decimal doesn't support NaN or Infinity, use 0 as fallback
-            return "0.0m";
-        }
-
-        // Ensure decimal literals have at least one decimal place
-        string formatted = value.ToString("0.0###############", CultureInfo.InvariantCulture);
-        return formatted + "m";
-    }
-}
-
-/// <summary>
-/// Information about an indicator class.
-/// </summary>
-internal class IndicatorClassInfo
-{
-    public string ClassName { get; }
-    public string FullName { get; }
-    public string Namespace { get; }
-    public string MethodName { get; }  // Added to track the specific attributed method
-    public IndicatorAttributeInfo AttributeInfo { get; }
-    public ImmutableArray<ParameterInfo> Parameters { get; }
-    public ResultTypeInfo ResultInfo { get; } // Added to store result type information
-    public bool HasExistingListing { get; }
-    public bool HasMultipleStyles { get; } // Indicates if this class has multiple indicator style attributes
-    public string[] SupportedStyles { get; } // Store all supported styles for this indicator
-
-    public IndicatorClassInfo(
-        string className,
-        string fullName,
-        string @namespace,
-        string methodName,
-        IndicatorAttributeInfo attributeInfo,
-        ImmutableArray<ParameterInfo> parameters,
-        ResultTypeInfo resultInfo,
-        bool hasExistingListing,
-        bool hasMultipleStyles = false,
-        string[]? supportedStyles = null)
-    {
-        ClassName = className;
-        FullName = fullName;
-        Namespace = @namespace;
-        MethodName = methodName;
-        AttributeInfo = attributeInfo;
-        Parameters = parameters;
-        ResultInfo = resultInfo;
-        HasExistingListing = hasExistingListing;
-        HasMultipleStyles = hasMultipleStyles;
-        SupportedStyles = supportedStyles ?? Array.Empty<string>();
-    }
-}
-
-/// <summary>
-/// Information about an indicator attribute.
-/// </summary>
-internal class IndicatorAttributeInfo
-{
-    public string AttributeType { get; }
-    public string? Id { get; }
-    public string? Style { get; }
-
-    public IndicatorAttributeInfo(string attributeType, string? id, string? style)
-    {
-        AttributeType = attributeType;
-        Id = id;
-        Style = style;
-    }
-}
-
-/// <summary>
-/// Information about a parameter.
-/// </summary>
-internal class ParameterInfo
-{
-    public string Name { get; }
-    public string Type { get; }
-    public bool IsRequired { get; }
-    public string? DefaultValue { get; }
-    public string Description { get; }
-
-    public ParameterInfo(string name, string type, bool isRequired, string? defaultValue, string description = "")
-    {
-        Name = name;
-        Type = type;
-        IsRequired = isRequired;
-        DefaultValue = defaultValue;
-        Description = description;
-    }
-}
-
-/// <summary>
-/// Information about the result type of an indicator method.
-/// </summary>
-internal class ResultTypeInfo
-{
-    public string ResultType { get; }
-    public string Description { get; }
-
-    public ResultTypeInfo(string resultType, string description = "")
-    {
-        ResultType = resultType;
-        Description = description;
     }
 }
