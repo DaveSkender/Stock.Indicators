@@ -1,4 +1,3 @@
-// filepath: d:\Repos\Stock.Indicators\src\_common\Catalog\Docs\FluentBuilderGuide.md
 # Fluent Builder API Guide
 
 The Stock.Indicators catalog system provides a fluent builder API for creating and configuring indicator listings. This guide explains how to use the `IndicatorListingBuilder` to create well-documented indicator catalog entries.

@@ -201,7 +201,7 @@ public class CatalogRegistryExtensions : TestBase
 
         // Assert - The registry should have been initialized
         // We can't directly test _isInitialized as it's private, but we can check if registered indicators exist
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
         indicators.Should().NotBeEmpty();
     }
 

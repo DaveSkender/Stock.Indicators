@@ -21,9 +21,8 @@ namespace Skender.Stock.Indicators;
 /// </code>
 /// </para>
 /// <para>
-/// When this attribute is applied, the CatalogGenerator will automatically generate
-/// a static Listing property for the class (if one doesn't already exist) with
-/// appropriate metadata extracted from the method signature.
+/// When this attribute is applied, the analyzer will validate that an explicitly defined
+/// catalog listing exists for the indicator that matches the method signature.
 /// </para>
 /// </remarks>
 [AttributeUsage(

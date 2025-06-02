@@ -1,4 +1,3 @@
-// filepath: d:\Repos\Stock.Indicators\src\_common\Catalog\Docs\AnalyzerRules.md
 # Catalog System Analyzer Rules
 
 This document describes the analyzer rules used in the Stock.Indicators catalog system and how to fix reported issues.
@@ -6,10 +5,13 @@ This document describes the analyzer rules used in the Stock.Indicators catalog 
 ## SID001: Missing Indicator Listing
 
 ### Description
+
 This diagnostic is reported when a class contains methods with indicator attributes (`SeriesIndicatorAttribute`, `StreamIndicatorAttribute`, or `BufferIndicatorAttribute`) but does not have a static `Listing` property.
 
 ### How to Fix
-1. **Option 1**: Create a manual `Listing` property in a partial class:
+
+Create an explicit `Listing` property in a partial class:
+
 ```csharp
 public static partial class MyIndicator
 {
@@ -18,7 +20,7 @@ public static partial class MyIndicator
         .WithId("MI")
         .WithStyle(Style.Series)
         .WithCategory(Category.Custom)
-        .AddParameter<int>("lookbackPeriods", "Lookback Period", 
+        .AddParameter<int>("lookbackPeriods", "Lookback Period",
             description: "Number of periods for calculation",
             isRequired: true)
         // Add any other parameters from your method
@@ -27,23 +29,20 @@ public static partial class MyIndicator
 }
 ```
 
-2. **Option 2**: Rely on the CatalogGenerator to create the listing automatically. Ensure:
-   - Your class is marked as `partial`
-   - Your method has the correct indicator attribute
-   - The method parameters are properly named and documented
-
 ## SID002: Missing Parameters
 
 ### Description
+
 This diagnostic is reported when a parameter exists in the implementation (method or constructor) but is missing from the indicator's `Listing` property.
 
 ### How to Fix
+
 Add the missing parameter to the `Listing` builder:
 
 ```csharp
 public static readonly IndicatorListing Listing = new IndicatorListingBuilder()
     // Existing code...
-    .AddParameter<int>("missingParameter", "Missing Parameter", 
+    .AddParameter<int>("missingParameter", "Missing Parameter",
         description: "Description of the parameter",
         isRequired: true) // Set to false if the parameter has a default value
     // Continue with existing code...
@@ -55,10 +54,13 @@ Ensure the parameter name matches exactly what's in the method signature (case-s
 ## SID003: Extraneous Parameters
 
 ### Description
+
 This diagnostic is reported when a parameter exists in the indicator's `Listing` property but is missing from the implementation (method or constructor).
 
 ### How to Fix
+
 Either:
+
 1. Remove the extraneous parameter from the `Listing` builder
 2. Add the parameter to the method signature if it's actually needed
 
@@ -79,16 +81,18 @@ public static IReadOnlyList<ResultType> ToXyz(
 ## SID004: Parameter Type Mismatch
 
 ### Description
+
 This diagnostic is reported when a parameter in the indicator's `Listing` property has a different type than the corresponding parameter in the implementation.
 
 ### How to Fix
+
 Update the parameter type in the `Listing` builder to match the implementation:
 
 ```csharp
 // If the method has: int lookbackPeriods
 public static readonly IndicatorListing Listing = new IndicatorListingBuilder()
     // ...
-    .AddParameter<int>("lookbackPeriods", "Lookback Period", 
+    .AddParameter<int>("lookbackPeriods", "Lookback Period",
         description: "Number of periods for calculation",
         isRequired: true)
     // NOT .AddParameter<double> which would cause a mismatch
@@ -99,9 +103,11 @@ public static readonly IndicatorListing Listing = new IndicatorListingBuilder()
 ## SID005: Missing Results
 
 ### Description
+
 This diagnostic is reported when expected result properties from the return type are not defined in the indicator's `Listing` property.
 
 ### How to Fix
+
 Add the missing results to the `Listing` builder:
 
 ```csharp
@@ -121,3 +127,4 @@ For a result that should be the default (primary) result, set `isDefault: true`.
 3. **Parameter Names**: Ensure parameter names in the catalog match the method exactly.
 4. **Documentation**: Add descriptive display names and descriptions to make the catalog more useful.
 5. **Testing**: Write unit tests to verify your catalog listings match the implementation.
+6. **Multi-Style Support**: For indicators with multiple styles, create separate listings (`SeriesListing`, `StreamListing`, `BufferListing`) that each match their respective attributed methods.

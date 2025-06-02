@@ -35,7 +35,7 @@ public class CatalogExport : TestBase
         IndicatorRegistry.RegisterAuto();
 
         // Act: get standard catalog by calling the internal method that bypasses test detection
-        IReadOnlyCollection<IndicatorListing> catalog = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> catalog = IndicatorRegistry.GetIndicators();
 
         // Serialize to JSON for inspection
         string json = JsonSerializer.Serialize(catalog, IndentedJsonOptions);

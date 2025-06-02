@@ -12,7 +12,7 @@ The catalog system uses a **one-listing-per-style approach** where indicators th
 
 ## Implementation Approach
 
-For indicators that implement multiple styles, create separate listing properties for each supported style. Each listing should use the same `IndicatorId` across all styles.
+For indicators that implement multiple styles, create separate listing properties for each supported style. Each listing should use the same `IndicatorId` across all styles. **All listings must be explicitly defined** - there is no automatic generation of listings.
 
 ### Example: Exponential Moving Average (EMA)
 
@@ -157,20 +157,24 @@ var emaStream = IndicatorRegistry.GetById("EMA").FirstOrDefault(i => i.Style == 
 var emaBuffer = IndicatorRegistry.GetById("EMA").FirstOrDefault(i => i.Style == Style.Buffer);
 ```
 
-## Automatic Generation
+## Analyzer Validation
 
-The `CatalogGenerator` can automatically detect classes with multiple indicator attribute styles and generate the appropriate style-specific listing properties. When a class has multiple attributes like `[SeriesIndicator("EMA")]`, `[StreamIndicator("EMA")]`, and `[BufferIndicator("EMA")]`, the generator will create `SeriesListing`, `StreamListing`, and `BufferListing` properties automatically, all using the same base ID ("EMA").
+The `CatalogAnalyzer` validates that:
 
-This automated approach ensures consistency and reduces manual effort while maintaining the one-listing-per-style principle.
+1. Each method with an indicator attribute has an associated explicit listing
+2. The explicit listing parameters match the method signature
+3. The listing's result properties match the expected result types
+
+When there's a mismatch, the analyzer will generate warnings to help you maintain accurate catalog listings.
 
 ## Technical Details
 
 Multi-style support is implemented through:
 
-1. **Style-Specific Listing Properties** - Each style (Series, Stream, Buffer) has its own dedicated listing property.
-2. **Consistent Identifiers** - Each style variant uses the same base identifier (e.g., "EMA"). The style is differentiated by the `Style` property.
-3. **Enhanced CatalogGenerator** - Automatically detects multi-style indicator classes and generates style-specific listing properties with consistent IDs.
-4. **Registry Discovery** - Registry methods discover and register multiple listing properties per indicator class.
-5. **Style-Based Filtering** - Catalog queries can efficiently filter by specific styles to find exact implementations needed.
+1. **Style-Specific Listing Properties** - Each style (Series, Stream, Buffer) has its own dedicated listing property
+2. **Consistent Identifiers** - Each style variant uses the same base identifier (e.g., "EMA"). The style is differentiated by the `Style` property
+3. **Registry Discovery** - Registry methods discover and register multiple listing properties per indicator class
+4. **Style-Based Filtering** - Catalog queries can efficiently filter by specific styles to find exact implementations needed
+5. **Analyzer Validation** - Code analyzer ensures that your explicit listings match their attributed methods
 
 This architecture ensures each indicator style is treated as a distinct entity in the catalog while maintaining the logical grouping within the same indicator class.

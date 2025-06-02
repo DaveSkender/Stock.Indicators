@@ -7,7 +7,7 @@ public static partial class Ema
     /// </summary>
     public static readonly IndicatorListing SeriesListing = new IndicatorListingBuilder()
         .WithName("Exponential Moving Average")
-        .WithId("EMA-Series")
+        .WithId("EMA")
         .WithStyle(Style.Series)
         .WithCategory(Category.MovingAverage)
         .AddParameter<int>("lookbackPeriods", "Lookback Period",
@@ -26,7 +26,7 @@ public static partial class Ema
     /// </summary>
     public static readonly IndicatorListing StreamListing = new IndicatorListingBuilder()
         .WithName("Exponential Moving Average")
-        .WithId("EMA-Stream")
+        .WithId("EMA")
         .WithStyle(Style.Stream)
         .WithCategory(Category.MovingAverage)
         .AddParameter<int>("lookbackPeriods", "Lookback Period",
@@ -43,7 +43,7 @@ public static partial class Ema
     /// </summary>
     public static readonly IndicatorListing BufferListing = new IndicatorListingBuilder()
         .WithName("Exponential Moving Average")
-        .WithId("EMA-Buffer")
+        .WithId("EMA")
         .WithStyle(Style.Buffer)
         .WithCategory(Category.MovingAverage)
         .AddParameter<int>("lookbackPeriods", "Lookback Period",

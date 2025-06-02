@@ -120,7 +120,7 @@ public class CatalogRegistry : TestBase
     public void GetAllIndicatorsEmptyRegistryShouldReturnEmptyCollection()
     {
         // Act
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
 
         // Assert
         indicators.Should().NotBeNull();
@@ -140,7 +140,7 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.Register(listing3);
 
         // Act
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
 
         // Assert
         indicators.Should().NotBeNull();
@@ -158,7 +158,7 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.Register(listing);
 
         // Act
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
 
         // Assert
         indicators.Should().BeAssignableTo<IReadOnlyCollection<IndicatorListing>>();
@@ -171,7 +171,7 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.RegisterCatalog();
 
         // Assert
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
         indicators.Should().NotBeEmpty();
 
         // Check for some known indicators that should have catalog listings
@@ -200,7 +200,7 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.RegisterAuto();
 
         // Assert
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
         // Note: This might be empty if no indicators have attributes in the test assembly
         // But it should not throw an exception
         indicators.Should().NotBeNull();
@@ -389,7 +389,7 @@ public class CatalogRegistry : TestBase
         // Assert
         exceptions.Should().BeEmpty("All registrations should succeed with unique UIIDs");
 
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetAllIndicators();
+        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
         indicators.Should().HaveCount(threadCount * itemsPerThread);
     }
 
@@ -429,7 +429,7 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.Register(listing2);
 
         // Verify indicators are registered
-        IndicatorRegistry.GetAllIndicators().Should().HaveCount(2);
+        IndicatorRegistry.GetIndicators().Should().HaveCount(2);
 
         // Act
         IndicatorRegistry.Clear();
@@ -453,7 +453,7 @@ public class CatalogRegistry : TestBase
         else
         {
             // Fallback assertion if the method is not found
-            IndicatorRegistry.GetAllIndicators().Should().BeEmpty();
+            IndicatorRegistry.GetIndicators().Should().BeEmpty();
         }
     }
 
