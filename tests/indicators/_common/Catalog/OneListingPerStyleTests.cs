@@ -125,7 +125,7 @@ public class OneListingPerStyleTests
             .WithId("CONSISTENT-Series")
             .WithStyle(Style.Series)
             .WithCategory(baseCategory)
-            .AddParameter<int>("Period", "period", 14, 1, 200, "Number of periods")
+            .AddParameter<int>("Period", "period", description: "Number of periods", defaultValue: 14, minimum: 1, maximum: 200)
             .AddResult("Value", "Value", ResultType.Centerline, isDefault: true)
             .Build();
 
@@ -134,7 +134,7 @@ public class OneListingPerStyleTests
             .WithId("CONSISTENT-Stream")
             .WithStyle(Style.Stream)
             .WithCategory(baseCategory)
-            .AddParameter<int>("Period", "period", 14, 1, 200, "Number of periods")
+            .AddParameter<int>("Period", "period", description: "Number of periods", defaultValue: 14, minimum: 1, maximum: 200)
             .AddResult("Value", "Value", ResultType.Centerline, isDefault: true)
             .Build();
 

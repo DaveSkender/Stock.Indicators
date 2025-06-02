@@ -127,25 +127,19 @@ public static class CodeGeneration
     {
         var argumentLines = new List<string>();
 
-        // Add base arguments that are always present
+        // Add arguments in the correct order for AddParameter<T>:
+        // parameterName, displayName, description, isRequired, defaultValue, minimum, maximum
         argumentLines.Add($"parameterName: \"{param.Name}\"");
         argumentLines.Add($"displayName: \"{FormatDisplayName(param.Name)}\"");
-
-        // Add optional arguments
+        argumentLines.Add($"description: null"); // No description available in ParameterInfo
         argumentLines.Add($"isRequired: {(!param.HasExplicitDefaultValue).ToString().ToLowerInvariant()}");
-
-        // Add default value if available
         if (param.HasExplicitDefaultValue)
         {
             bool isEnum = TypeFormatting.IsEnumType(param.Type);
-
             if (isEnum)
             {
-                // Handle enum default values
                 string typeName = GetParameterType(param.Type);
                 string enumValueText = param.ExplicitDefaultValue?.ToString() ?? string.Empty;
-
-                // Clean up the enum value name
                 if (enumValueText.Contains("."))
                 {
                     int lastDot = enumValueText.LastIndexOf('.');
@@ -154,26 +148,27 @@ public static class CodeGeneration
                         enumValueText = enumValueText.Substring(lastDot + 1);
                     }
                 }
-
-                // Format the default value properly using the enum type and clean member name
                 if (!string.IsNullOrEmpty(enumValueText))
                 {
                     argumentLines.Add($"defaultValue: {typeName}.{enumValueText}");
                 }
                 else
                 {
-                    // If we couldn't extract a member name, use a numeric default (0)
                     argumentLines.Add($"defaultValue: ({typeName})0");
                 }
             }
             else
             {
-                // Regular types - use the helper method to format the default value
                 var formattedValue = TypeFormatting.FormatDefaultValue(param.DefaultValue, param.Type);
                 argumentLines.Add($"defaultValue: {formattedValue}");
             }
         }
-
+        else
+        {
+            argumentLines.Add("defaultValue: null");
+        }
+        argumentLines.Add("minimum: null"); // No min info in ParameterInfo
+        argumentLines.Add("maximum: null"); // No max info in ParameterInfo
         return argumentLines;
     }
 

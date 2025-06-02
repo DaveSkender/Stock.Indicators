@@ -347,13 +347,6 @@ public class CatalogGenerator : IIncrementalGenerator
     /// </summary>
     private static void GenerateRegistration(SourceProductionContext context, ImmutableArray<IndicatorClassInfo> classInfos)
     {
-        // Skip generation during test runs that are not explicitly testing the generator
-        if (context.Compilation.AssemblyName?.Contains("test", StringComparison.OrdinalIgnoreCase) == true &&
-            context.Compilation.AssemblyName != "TestAssembly")
-        {
-            return;
-        }
-
         foreach (var classInfo in classInfos)
         {
             // Skip classes with existing Listing properties

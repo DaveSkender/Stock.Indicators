@@ -77,7 +77,18 @@ public class ParameterInfo
             return "null";
         }
 
-        // Handle different types appropriately
+        // Handle numeric types with invariant culture and correct suffixes
+        var type = value.GetType();
+        if (type == typeof(double))
+            return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        if (type == typeof(decimal))
+            return ((decimal)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        if (type == typeof(float))
+            return ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        if (type == typeof(bool))
+            return value.ToString()!.ToLowerInvariant();
+        if (type == typeof(string))
+            return $"\"{value.ToString()}\"";
         return value.ToString();
     }
 }
