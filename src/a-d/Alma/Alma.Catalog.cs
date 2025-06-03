@@ -1,6 +1,3 @@
-// Copyright Skender Consortium. Licensed under the MIT License.
-// See LICENSE.txt for details.
-
 using System;
 using System.Collections.Generic;
 using Skender.Stock.Indicators;

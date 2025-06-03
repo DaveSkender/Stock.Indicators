@@ -1,6 +1,3 @@
-// Copyright Skender Consortium. Licensed under the MIT License.
-// See LICENSE.txt for details.
-
 using System;
 using System.Collections.Generic; // For IEnumerable<Quote>
 using Skender.Stock.Indicators; // This namespace should contain BetaType and Quote
@@ -19,7 +16,7 @@ public static partial class Beta
             .AddParameter<IEnumerable<Quote>>("sourceEval", "Evaluated Prices")
             .AddParameter<IEnumerable<Quote>>("sourceMrkt", "Market Prices")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 50, minimum: 1, maximum: 250)
-            .AddEnumParameter<BetaType>("type", "Beta Type", defaultValue: BetaType.Standard) // Use AddEnumParameter; BetaType.Standard corresponds to 0
+            .AddEnumParameter<BetaType>("type", "Beta Type", defaultValue: BetaType.Standard)
             .AddResult("Beta", "Beta", ResultType.Default, isDefault: true)
             .AddResult("BetaUp", "Beta Up", ResultType.Default, isDefault: false)
             .AddResult("BetaDown", "Beta Down", ResultType.Default, isDefault: false)

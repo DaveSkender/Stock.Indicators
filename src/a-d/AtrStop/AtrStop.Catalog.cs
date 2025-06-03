@@ -1,6 +1,3 @@
-// Copyright Skender Consortium. Licensed under the MIT License.
-// See LICENSE.txt for details.
-
 using System;
 using System.Collections.Generic;
 using Skender.Stock.Indicators; // This namespace should contain EndType
@@ -18,7 +15,7 @@ public static partial class AtrStop
             .WithCategory(Category.PriceTrend)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
-            .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close) // Use AddEnumParameter; EndType.Close corresponds to 0
+            .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
             .AddResult("AtrStop", "ATR Stop", ResultType.Default, isDefault: true)
             .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
             .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
@@ -34,7 +31,7 @@ public static partial class AtrStop
             .WithCategory(Category.PriceTrend)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
-            .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close) // Use AddEnumParameter
+            .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
             .AddResult("AtrStop", "ATR Stop", ResultType.Default, isDefault: true)
             .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
             .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)

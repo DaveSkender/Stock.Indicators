@@ -1,6 +1,3 @@
-// Copyright Skender Consortium. Licensed under the MIT License.
-// See LICENSE.txt for details.
-
 using System;
 using System.Collections.Generic;
 using Skender.Stock.Indicators;
@@ -12,16 +9,16 @@ public static partial class Adx
     // ADX Series Listing
     public static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Average Directional Index (ADX)") // From catalog.bak.json
-            .WithId("ADX") // From catalog.bak.json
+            .WithName("Average Directional Index (ADX)")
+            .WithId("ADX")
             .WithStyle(Style.Series)
-            .WithCategory(Category.PriceTrend) // From catalog.bak.json Category: "PriceTrend"
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250) // From catalog.bak.json
-            .AddResult("Pdi", "+DI", ResultType.Default, isDefault: false) // From AdxResult model
-            .AddResult("Mdi", "-DI", ResultType.Default, isDefault: false) // From AdxResult model
-            .AddResult("Dx", "DX", ResultType.Default, isDefault: false) // From AdxResult model
-            .AddResult("Adx", "ADX", ResultType.Default, isDefault: true) // From AdxResult model, making Adx default
-            .AddResult("Adxr", "ADXR", ResultType.Default, isDefault: false) // From AdxResult model
+            .WithCategory(Category.PriceTrend)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
+            .AddResult("Pdi", "+DI", ResultType.Default, isDefault: false)
+            .AddResult("Mdi", "-DI", ResultType.Default, isDefault: false)
+            .AddResult("Dx", "DX", ResultType.Default, isDefault: false)
+            .AddResult("Adx", "ADX", ResultType.Default, isDefault: true)
+            .AddResult("Adxr", "ADXR", ResultType.Default, isDefault: false)
             .Build();
 
     // No StreamListing for ADX.
@@ -29,7 +26,7 @@ public static partial class Adx
     // ADX Buffer Listing
     public static readonly IndicatorListing BufferListing =
         new IndicatorListingBuilder()
-            .WithName("Average Directional Index (ADX) (Buffer)") // Adjusted name
+            .WithName("Average Directional Index (ADX) (Buffer)")
             .WithId("ADX")
             .WithStyle(Style.Buffer)
             .WithCategory(Category.PriceTrend)
