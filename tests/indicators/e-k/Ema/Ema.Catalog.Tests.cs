@@ -12,7 +12,7 @@ public class EmaTests : TestBase
         // Assert
         listing.Should().NotBeNull();
         listing.Name.Should().Be("Exponential Moving Average");
-        listing.Uiid.Should().Be("EMA-Series");
+        listing.Uiid.Should().Be("EMA");
         listing.Style.Should().Be(Style.Series);
         listing.Category.Should().Be(Category.MovingAverage);
 
@@ -50,7 +50,7 @@ public class EmaTests : TestBase
         // Assert
         listing.Should().NotBeNull();
         listing.Name.Should().Be("Exponential Moving Average");
-        listing.Uiid.Should().Be("EMA-Stream");
+        listing.Uiid.Should().Be("EMA");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
 
@@ -82,7 +82,7 @@ public class EmaTests : TestBase
         // Assert
         listing.Should().NotBeNull();
         listing.Name.Should().Be("Exponential Moving Average");
-        listing.Uiid.Should().Be("EMA-Buffer");
+        listing.Uiid.Should().Be("EMA");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
 

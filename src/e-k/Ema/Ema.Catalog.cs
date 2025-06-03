@@ -16,8 +16,6 @@ public static partial class Ema
             defaultValue: 20,
             minimum: 2,
             maximum: 250)
-        .AddParameter<decimal?>("smoothingFactor", "Smoothing Factor",
-            description: "Optional custom smoothing factor")
         .AddResult("Ema", "EMA", ResultType.Default, isDefault: true)
         .Build();
 

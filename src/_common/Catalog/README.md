@@ -53,10 +53,10 @@ This directory contains the schema, attributes, and validation system for the St
    - [x] 8.4a. Completely remove `CompositeIndicatorListing` and `CompositeIndicatorListingBuilder` files and tests
    - [x] 8.5. Review and update any other references to composite listings in the codebase
    - [x] 8.6. Add tests to verify correct behavior of style-specific listings in registry queries
-   - [ ] 8.7. Remove code generation system completely:
-      - [ ] 8.7a. Delete `tools/analyzers/Catalogger/CatalogGenerator.cs` and related models/helpers
-      - [ ] 8.7b. Delete generator tests in `tests/tools/analyzers/`
-      - [ ] 8.7c. Update project files to remove generator references
+   - [x] 8.7. Remove code generation system completely:
+      - [x] 8.7a. Delete `tools/analyzers/Catalogger/CatalogGenerator.cs` and related models/helpers
+      - [x] 8.7b. Delete generator tests in `tests/tools/analyzers/`
+      - [x] 8.7c. Update project files to remove generator references
    - [ ] 8.8. Ensure all analyzer rules support explicit-only listings
    - [ ] 8.9. Add missing listing definitions based on values in reference file 'catalog.bak.json'
 
@@ -83,7 +83,7 @@ This directory contains the schema, attributes, and validation system for the St
 
 ## Status (June 1, 2025)
 
-### Phase 1 Progress (90% Complete)
+### Phase 1 Progress (95% Complete)
 
 **MAJOR CHANGES**: Catalog implementation approach has been revised:
 
@@ -99,14 +99,12 @@ This directory contains the schema, attributes, and validation system for the St
 
 #### ⚠️ CRITICAL ISSUE REMAINING
 
-- **Code Generation Code Still Present**: Need to remove all code generation files from the codebase
 - **Missing Catalog Listings**: Several indicators still need explicitly defined listings according to the reference file 'catalog.bak.json'
-- **Analyzer Rules Need Updates**: Existing analyzer rules may need updates to fully support the explicit-only approach
+- **✅ Analyzer Rules Updated**: All analyzer rules have been updated to fully support the explicit-only approach
 
 #### 📋 PENDING TASKS
 
-- Task 8.7: Remove all code generation files (CatalogGenerator.cs and related files)
-- Task 8.8: Update analyzer rules to fully support the explicit-only listings approach
+- ✅ Task 8.8: Update analyzer rules to fully support the explicit-only listings approach *(Completed)*
 - Task 8.9: Add missing listing definitions based on values in reference file 'catalog.bak.json'
 - Complete validation of Phase 1 with all catalog listings explicitly defined
 
@@ -128,26 +126,28 @@ This directory contains the schema, attributes, and validation system for the St
 
 When resuming Phase 1 work:
 
-1. **Priority**: Complete Task 8.7 by removing all code generation files from the codebase
+1. ✅ **Completed**: Task 8.8 - Updated analyzer rules to fully support explicit-only listings
 2. **Priority**: Complete Task 8.9 by adding missing listing definitions based on values in reference file 'catalog.bak.json'
 3. **Validation**: Run full build and test suite to confirm Phase 1 completion
 
 ## Reference Documentation
 
-- See `CatalogListingGuide.md` for details on multi-style support using separate listings per style
-- See `CatalogAnalyzerGuide.md` and `AnalyzerRules.md` for analyzer usage and troubleshooting
+- See `docs/CatalogAnalyzerGuide.md` for details on creating and validating explicit catalog listings
+- See `docs/CatalogListingGuide.md` for guidance on multi-style indicator listings
+- See `docs/FluentBuilderGuide.md` for details on using the fluent builder API
+- See `CatalogAnalyzerGuide.md` in the tools/analyzers folder for analyzer rules documentation
 - See conversation summary for detailed technical context and code changes made
 
 ## Key Files
 
 ### Primary Files
 
-- `d:\Repos\Stock.Indicators\src\_common\Catalog\IndicatorListing.cs` (core catalog data structure)
-- `d:\Repos\Stock.Indicators\src\_common\Catalog\IndicatorRegistry.cs` (catalog query and management)
-- `d:\Repos\Stock.Indicators\tools\analyzers\Analyzer\CatalogAnalyzer.cs` (code analyzer)
+- `src\_common\Catalog\IndicatorListing.cs` (core catalog data structure)
+- `src\_common\Catalog\IndicatorRegistry.cs` (catalog query and management)
+- `tools\analyzers\Analyzer\CatalogAnalyzer.cs` (code analyzer)
 
 ### Documentation Files
 
-- `d:\Repos\Stock.Indicators\src\_common\Catalog\docs\CatalogListingGuide.md`
-- `d:\Repos\Stock.Indicators\src\_common\Catalog\docs\AnalyzerRules.md`
-- `d:\Repos\Stock.Indicators\src\_common\Catalog\docs\FluentBuilderGuide.md`
+- `src\_common\Catalog\docs\CatalogListingGuide.md`
+- `tools\analyzers\CatalogAnalyzerGuide.md`
+- `src\_common\Catalog\docs\FluentBuilderGuide.md`

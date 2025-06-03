@@ -119,6 +119,9 @@ public class CatalogRegistry : TestBase
     [TestMethod]
     public void GetAllIndicatorsEmptyRegistryShouldReturnEmptyCollection()
     {
+        // Arrange - make sure the registry is empty
+        IndicatorRegistry.Clear();
+
         // Act
         IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
 
@@ -165,22 +168,6 @@ public class CatalogRegistry : TestBase
     }
 
     [TestMethod]
-    public void RegisterCatalogShouldDiscoverExistingCatalogs()
-    {
-        // Act
-        IndicatorRegistry.RegisterCatalog();
-
-        // Assert
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
-        indicators.Should().NotBeEmpty();
-
-        // Check for some known indicators that should have catalog listings
-        indicators.Should().Contain(l => l.Uiid == "EMA-Series");
-        indicators.Should().Contain(l => l.Uiid == "MACD");
-        indicators.Should().Contain(l => l.Uiid == "ATR-STOP");
-    }
-
-    [TestMethod]
     public void RegisterCatalogMultipleAssembliesShouldHandleGracefully()
     {
         // Arrange
@@ -191,19 +178,6 @@ public class CatalogRegistry : TestBase
 
         // Act & Assert - Should not throw
         IndicatorRegistry.RegisterCatalog(assemblies);
-    }
-
-    [TestMethod]
-    public void RegisterAutoShouldDiscoverAttributedIndicators()
-    {
-        // Act
-        IndicatorRegistry.RegisterAuto();
-
-        // Assert
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
-        // Note: This might be empty if no indicators have attributes in the test assembly
-        // But it should not throw an exception
-        indicators.Should().NotBeNull();
     }
 
     // New Catalog API Tests

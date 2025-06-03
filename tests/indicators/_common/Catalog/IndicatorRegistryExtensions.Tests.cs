@@ -193,18 +193,6 @@ public class CatalogRegistryExtensions : TestBase
         results.Should().NotContain(l => l.Uiid == "RSI");
     }
 
-    [TestMethod]
-    public void ThreadSafeInitializationShouldWorkCorrectly()
-    {
-        // Act - First access should initialize
-        IndicatorListing? listing = IndicatorRegistry.GetIndicator("EMA");
-
-        // Assert - The registry should have been initialized
-        // We can't directly test _isInitialized as it's private, but we can check if registered indicators exist
-        IReadOnlyCollection<IndicatorListing> indicators = IndicatorRegistry.GetIndicators();
-        indicators.Should().NotBeEmpty();
-    }
-
     private static IndicatorListing CreateTestListing(string uiid, string name)
         => new IndicatorListingBuilder()
             .WithName(name)

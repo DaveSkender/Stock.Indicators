@@ -5,14 +5,7 @@
   "chat.mcp.enabled": true,
   "chat.mcp.discovery.enabled": true,
   "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false,
-    "csharp": true,
-    "json": false,
-    "shellscript": false,
-    "jsonc": false
+    "*": false
   },
   "search.exclude": {
     "**/_site/**": true,

@@ -69,9 +69,4 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- generator and analyzers for internal dev-only use -->
-    <ProjectReference Include="..\tools\analyzers\Analyzers.csproj" />
-  </ItemGroup>
-
 </Project>
