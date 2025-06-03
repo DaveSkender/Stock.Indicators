@@ -45,6 +45,8 @@ jobs:
           include: "docs/**"
 
       - name: Build site
+        env:
+          GOOGLE_ANALYTICS_KEY: '' # Not needed for link tests
         run: mkdocs build
 
       - name: Serve site

@@ -43,7 +43,7 @@ theme:
 extra:
   analytics:
     provider: google
-    property: G-XXXXXXXXXX  # Replace with actual Google Analytics tag in production
+    property: !ENV GOOGLE_ANALYTICS_KEY # Value from GOOGLE_ANALYTICS_KEY environment variable
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/DaveSkender/Stock.Indicators

@@ -49,6 +49,8 @@ jobs:
           regex: false
 
       - name: Build site
+        env:
+          GOOGLE_ANALYTICS_KEY: '' # Not needed for a11y tests
         run: mkdocs build
 
       - name: Serve site
