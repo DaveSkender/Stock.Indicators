@@ -1,0 +1,25 @@
+// Copyright Skender Consortium. Licensed under the MIT License.
+// See LICENSE.txt for details.
+
+using System;
+using System.Collections.Generic;
+using Skender.Stock.Indicators;
+
+namespace Skender.Stock.Indicators;
+
+public static partial class Bop
+{
+    // BOP Series Listing
+    public static readonly IndicatorListing SeriesListing =
+        new IndicatorListingBuilder()
+            .WithName("Balance of Power (BOP)") // From catalog.bak.json
+            .WithId("BOP") // From catalog.bak.json
+            .WithStyle(Style.Series)
+            .WithCategory(Category.Oscillator) // From catalog.bak.json Category: "Oscillator"
+            .AddParameter<int>("smoothPeriods", "Smooth Periods", defaultValue: 14, minimum: 1, maximum: 250) // From catalog.bak.json
+            .AddResult("Bop", "BOP", ResultType.Default, isDefault: true) // From BopResult model
+            .Build();
+
+    // No StreamListing for BOP.
+    // No BufferListing for BOP.
+}

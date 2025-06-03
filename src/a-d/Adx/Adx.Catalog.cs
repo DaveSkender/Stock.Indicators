@@ -9,25 +9,35 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Adx
 {
+    // ADX Series Listing
     public static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Average Directional Index (ADX)")
-            .WithId("ADX")
+            .WithName("Average Directional Index (ADX)") // From catalog.bak.json
+            .WithId("ADX") // From catalog.bak.json
             .WithStyle(Style.Series)
-            .WithCategory(Category.PriceTrend)
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
-            .AddResult("adx", "Average Directional Index (ADX)", ResultType.Default, isDefault: true)
+            .WithCategory(Category.PriceTrend) // From catalog.bak.json Category: "PriceTrend"
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250) // From catalog.bak.json
+            .AddResult("Pdi", "+DI", ResultType.Default, isDefault: false) // From AdxResult model
+            .AddResult("Mdi", "-DI", ResultType.Default, isDefault: false) // From AdxResult model
+            .AddResult("Dx", "DX", ResultType.Default, isDefault: false) // From AdxResult model
+            .AddResult("Adx", "ADX", ResultType.Default, isDefault: true) // From AdxResult model, making Adx default
+            .AddResult("Adxr", "ADXR", ResultType.Default, isDefault: false) // From AdxResult model
             .Build();
 
-    // No StreamListing as [StreamIndicator] was not found
+    // No StreamListing for ADX.
 
+    // ADX Buffer Listing
     public static readonly IndicatorListing BufferListing =
         new IndicatorListingBuilder()
-            .WithName("Average Directional Index (ADX) (Buffer)")
+            .WithName("Average Directional Index (ADX) (Buffer)") // Adjusted name
             .WithId("ADX")
             .WithStyle(Style.Buffer)
             .WithCategory(Category.PriceTrend)
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
-            .AddResult("adx", "Average Directional Index (ADX)", ResultType.Default, isDefault: true)
+            .AddResult("Pdi", "+DI", ResultType.Default, isDefault: false)
+            .AddResult("Mdi", "-DI", ResultType.Default, isDefault: false)
+            .AddResult("Dx", "DX", ResultType.Default, isDefault: false)
+            .AddResult("Adx", "ADX", ResultType.Default, isDefault: true)
+            .AddResult("Adxr", "ADXR", ResultType.Default, isDefault: false)
             .Build();
 }
