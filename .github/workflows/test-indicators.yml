@@ -83,7 +83,7 @@ jobs:
 
       - name: Post test results
         uses: dorny/test-reporter@v1.9.1
-        if: env.IS_PRIMARY == 'true' && always() && github.event.pull_request.head.repo.full_name == github.repository
+        if: env.IS_PRIMARY == 'true' && github.event.pull_request.head.repo.full_name == github.repository && always()
         with:
           name: Test results
           path: ./test-indicators/**/*.trx
