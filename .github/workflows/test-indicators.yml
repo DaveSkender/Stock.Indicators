@@ -83,11 +83,12 @@ jobs:
 
       - name: Post test results
         uses: dorny/test-reporter@v1.9.1
-        if: env.IS_PRIMARY == 'true' && github.event.pull_request.head.repo.full_name == github.repository && always()
+        if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
           path: ./test-indicators/**/*.trx
           reporter: dotnet-trx
+        continue-on-error: true
 
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
@@ -95,3 +96,5 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml
+        continue-on-error: true
+
