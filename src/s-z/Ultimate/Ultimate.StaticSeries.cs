@@ -15,14 +15,11 @@ public static partial class Ultimate
     /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("UO", "Ultimate Oscillator", Category.Oscillator, ChartType.Oscillator)]
+    [SeriesIndicator("UO")]
     public static IReadOnlyList<UltimateResult> ToUltimate<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Short Periods", 7, 1, 50)]
         int shortPeriods = 7,
-        [ParamNum<int>("Middle Periods", 14, 1, 50)]
         int middlePeriods = 14,
-        [ParamNum<int>("Long Periods", 28, 1, 250)]
         int longPeriods = 28)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

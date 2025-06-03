@@ -15,14 +15,11 @@ public static partial class Pmo
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PMO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    [Series("PMO", "Price Momentum Oscillator", Category.Oscillator, ChartType.Oscillator)]
+    [SeriesIndicator("PMO")]
     public static IReadOnlyList<PmoResult> ToPmo<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Time Periods", 35, 1, 250)]
         int timePeriods = 35,
-        [ParamNum<int>("Smooth Periods", 20, 1, 250)]
         int smoothPeriods = 20,
-        [ParamNum<int>("Signal Periods", 10, 1, 50)]
         int signalPeriods = 10)
         where T : IReusable
     {

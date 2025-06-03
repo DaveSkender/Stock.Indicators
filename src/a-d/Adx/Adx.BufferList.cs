@@ -11,9 +11,8 @@ public class AdxList : List<AdxResult>, IAdx, IBufferQuote
     /// Initializes a new instance of the <see cref="AdxList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    [Buffer("ADX", "Average Directional Index (ADX)", Category.PriceTrend, ChartType.Oscillator)]
+    [BufferIndicator("ADX")]
     public AdxList(
-        [ParamNum<int>("Lookback Periods", 14, 2, 250)]
         int lookbackPeriods)
     {
         Adx.Validate(lookbackPeriods);

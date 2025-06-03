@@ -14,10 +14,9 @@ public static partial class FisherTransform
     /// <returns>A list of Fisher Transform results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [Series("FISHER", "Ehlers Fisher Transform", Category.PriceTransform, ChartType.Oscillator)]
+    [SeriesIndicator("FISHER")]
     public static IReadOnlyList<FisherTransformResult> ToFisherTransform<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 10, 1, 250)]
         int lookbackPeriods = 10)
         where T : IReusable
     {

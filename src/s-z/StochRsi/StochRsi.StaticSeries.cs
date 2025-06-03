@@ -16,16 +16,12 @@ public static partial class StochRsi
     /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
     /// <returns>A list of StochRsiResult.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    [Series("STOCH-RSI", "Stochastic RSI", Category.Oscillator, ChartType.Oscillator)]
+    [SeriesIndicator("STOCH-RSI")]
     public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("RSI Periods", 14, 1, 250)]
         int rsiPeriods,
-        [ParamNum<int>("Stochastic Periods", 14, 1, 250)]
         int stochPeriods,
-        [ParamNum<int>("Signal Periods", 3, 1, 50)]
         int signalPeriods,
-        [ParamNum<int>("Smooth Periods", 1, 1, 50)]
         int smoothPeriods = 1)
         where T : IReusable
     {

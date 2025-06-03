@@ -13,10 +13,9 @@ public static partial class Vwap
     /// <param name="startDate">The start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("VWAP", "Volume Weighted Average Price", Category.PriceChannel, ChartType.Overlay)]
+    [SeriesIndicator("VWAP")]
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamDate("Start Date")]
         DateTime startDate)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
@@ -29,7 +28,6 @@ public static partial class Vwap
     /// <param name="quotes">The source list of quotes.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [ExcludeFromCatalog]
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote => quotes?.Count is null or 0

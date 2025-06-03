@@ -13,10 +13,9 @@ public static partial class Trix
     /// <param name="lookbackPeriods">The number of lookback periods for the TRIX calculation.</param>
     /// <returns>A read-only list of <see cref="TrixResult"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    [Series("TRIX", "Triple Exponential Moving Average Oscillator", Category.Oscillator, ChartType.Oscillator)]
+    [SeriesIndicator("TRIX")]
     public static IReadOnlyList<TrixResult> ToTrix<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

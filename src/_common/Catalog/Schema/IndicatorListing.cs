@@ -40,6 +40,33 @@ public record IndicatorListing
     public required string Uiid { get; init; }
 
     /// <summary>
+    /// Gets or sets the style of the indicator (Series, Buffer, Stream).
+    /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Style Style { get; init; } = Style.Series;
+
+    /// <summary>
+    /// Gets or sets the category of the indicator.
+    /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required Category Category { get; init; }
+
+    /// <summary>
+    /// Gets or sets the collection of parameters for the indicator.
+    /// </summary>
+    public IReadOnlyList<IndicatorParam>? Parameters { get; init; }
+
+    /// <summary>
+    /// Gets or sets the return type name for the indicator method.
+    /// </summary>
+    public string? ReturnType { get; init; }
+
+    /// <summary>
+    /// Gets or sets the collection of result configurations for the indicator.
+    /// </summary>
+    public required IReadOnlyList<IndicatorResult> Results { get; init; }
+
+    /// <summary>
     /// Gets or sets a hypothetical endpoint URL for the indicator.
     /// </summary>
     [MinLength(2), UrlSafe]
@@ -49,47 +76,4 @@ public record IndicatorListing
     /// Gets or sets the legend template for the indicator.
     /// </summary>
     public required string LegendTemplate { get; init; }
-
-    /// <summary>
-    /// Gets or sets the style of the indicator (Series, Buffer, Stream).
-    /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public Style Style { get; init; } = Style.Series;
-
-    /// <summary>
-    /// Gets or sets the return type name for the indicator method.
-    /// </summary>
-    public string? ReturnType { get; init; }
-
-    /// <summary>
-    /// Gets or sets the category of the indicator.
-    /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required Category Category { get; init; }
-
-    /// <summary>
-    /// Gets or sets the chart type for the indicator.
-    /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required ChartType ChartType { get; init; }
-
-    /// <summary>
-    /// Gets or sets the order in which the indicator is rendered on the chart.
-    /// </summary>
-    public Order Order { get; init; } = Order.Front;  // keep integer here
-
-    /// <summary>
-    /// Gets or sets the chart configuration for the indicator.
-    /// </summary>
-    public ChartConfig? ChartConfig { get; init; }
-
-    /// <summary>
-    /// Gets or sets the collection of parameters for the indicator.
-    /// </summary>
-    public IReadOnlyList<IndicatorParamConfig>? Parameters { get; init; }
-
-    /// <summary>
-    /// Gets or sets the collection of result configurations for the indicator.
-    /// </summary>
-    public required IReadOnlyList<IndicatorResultConfig> Results { get; init; }
 }

@@ -13,12 +13,10 @@ public static partial class Renko
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A Renko hub.</returns>
-    [Stream("RENKO", "Renko", Category.PriceTransform, ChartType.Overlay)]
+    [StreamIndicator("RENKO")]
     public static RenkoHub<TIn> ToRenko<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
-        [ParamNum<decimal>("Brick Size", 1, 0.000001, 2500)]
         decimal brickSize,
-        [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
         where TIn : IQuote
         => new(quoteProvider, brickSize, endType);

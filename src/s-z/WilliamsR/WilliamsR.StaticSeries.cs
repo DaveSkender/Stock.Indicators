@@ -13,10 +13,9 @@ public static partial class WilliamsR
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("WILLR", "Williams %R", Category.Oscillator, ChartType.Oscillator)]
+    [SeriesIndicator("WILLR")]
     public static IReadOnlyList<WilliamsResult> ToWilliamsR<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

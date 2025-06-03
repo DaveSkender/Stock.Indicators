@@ -14,12 +14,10 @@ public static partial class VolatilityStop
     /// <param name="multiplier">The multiplier for the Average True Range. Default is 3.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("VOL-STOP", "Volatility Stop", Category.StopAndReverse, ChartType.Overlay)]
+    [SeriesIndicator("VOL-STOP")]
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 7, 1, 50)]
         int lookbackPeriods = 7,
-        [ParamNum<double>("Multiplier", 3, 0.1, 10)]
         double multiplier = 3)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

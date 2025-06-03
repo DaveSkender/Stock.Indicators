@@ -16,14 +16,11 @@ public static partial class Macd
     /// <returns>A list of MACD results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    [Series("MACD", "Moving Average Convergence/Divergence", Category.PriceTrend, ChartType.Oscillator)]
+    [SeriesIndicator("MACD")]
     public static IReadOnlyList<MacdResult> ToMacd<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Fast Periods", 12, 1, 200)]
         int fastPeriods = 12,
-        [ParamNum<int>("Slow Periods", 26, 1, 250)]
         int slowPeriods = 26,
-        [ParamNum<int>("Signal Periods", 9, 1, 50)]
         int signalPeriods = 9)
         where T : IReusable
     {

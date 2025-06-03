@@ -15,14 +15,11 @@ public static partial class Alma
     /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
     /// <returns>A list of ALMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source series is null.</exception>
-    [Series("ALMA", "Arnaud Legoux Moving Average (ALMA)", Category.MovingAverage, ChartType.Overlay)]
+    [SeriesIndicator("ALMA")]
     public static IReadOnlyList<AlmaResult> ToAlma<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 9, 2, 250)]
         int lookbackPeriods = 9,
-        [ParamNum<double>("Offset", 0.85, 0, 1)]
         double offset = 0.85,
-        [ParamNum<double>("Sigma", 6, 0.1, 10)]
         double sigma = 6)
         where T : IReusable
     {

@@ -15,12 +15,10 @@ public static partial class PivotPoints
     /// <param name="windowSize">The size of the window for pivot point calculation.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>A list of pivot point results.</returns>
-    [Series("PIVPNT", "Pivot Points", Category.PriceChannel, ChartType.Overlay)]
+    [SeriesIndicator("PIVPNT")]
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamEnum<PeriodSize>("Window Size", PeriodSize.Month)]
-        PeriodSize windowSize,
-        [ParamEnum<PivotPointType>("Point Type", PivotPointType.Standard)]
+        PeriodSize windowSize = PeriodSize.Month,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {

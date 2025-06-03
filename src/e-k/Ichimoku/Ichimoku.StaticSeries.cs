@@ -14,14 +14,11 @@ public static partial class Ichimoku
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
-    [Series("ICHIMOKU", "Ichimoku Cloud", Category.PriceTrend, ChartType.Overlay)]
+    [SeriesIndicator("ICHIMOKU")]
     public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Tenkan Periods", 9, 1, 250)]
         int tenkanPeriods = 9,
-        [ParamNum<int>("Kijun Periods", 26, 2, 250)]
         int kijunPeriods = 26,
-        [ParamNum<int>("Senkou Periods", 52, 3, 250)]
         int senkouBPeriods = 52)
         where TQuote : IQuote => quotes
             .ToSortedList()
@@ -42,7 +39,6 @@ public static partial class Ichimoku
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B).</param>
     /// <param name="offsetPeriods">The number of periods for the offset.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
-    [ExcludeFromCatalog]
     public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods,
@@ -69,7 +65,6 @@ public static partial class Ichimoku
     /// <param name="senkouOffset">The number of periods for the Senkou offset.</param>
     /// <param name="chikouOffset">The number of periods for the Chikou offset.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
-    [ExcludeFromCatalog]
     public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods,

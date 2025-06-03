@@ -8,7 +8,6 @@ public static partial class Prs
     #region Overloads
 
     /// <inheritdoc cref="ToPrs{T}(IReadOnlyList{T}, IReadOnlyList{T}, int)" />
-    [ExcludeFromCatalog]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceBase)
@@ -27,13 +26,10 @@ public static partial class Prs
     /// <returns>A list of PRS results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
-    [Series("PRS", "Price Relative Strength", Category.PriceCharacteristic, ChartType.Oscillator)]
+    [SeriesIndicator("PRS")]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
-        [ParamSeries<IReusable>("Evaluated Prices")]
         this IReadOnlyList<T> sourceEval,
-        [ParamSeries<IReusable>("Base Prices")]
         IReadOnlyList<T> sourceBase,
-        [ParamNum<int>("Lookback Periods", 1, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

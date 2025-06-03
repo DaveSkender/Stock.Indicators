@@ -6,10 +6,10 @@ namespace Skender.Stock.Indicators;
 /// <remarks>
 /// This enumeration defines display types for indicator result types.
 /// </remarks>
-internal enum ResultType
+public enum ResultType
 {
     /// <summary>
-    /// 
+    /// Standard result type, typically used for most indicators.
     /// </summary>
     Default,
 
@@ -34,5 +34,10 @@ internal enum ResultType
     /// <remarks>
     /// When selected, it is expected that there are multiple results with this marker.
     /// </remarks>
-    BarStacked
+    BarStacked,
+
+    /// <summary>
+    /// Result should be represented as individual data points.
+    /// </summary>
+    Point
 }

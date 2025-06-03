@@ -13,10 +13,9 @@ public static partial class Vortex
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("VORTEX", "Vortex Indicator", Category.PriceTrend, ChartType.Oscillator)]
+    [SeriesIndicator("VORTEX")]
     public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 14, 2, 100)]
         int lookbackPeriods = 14)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
