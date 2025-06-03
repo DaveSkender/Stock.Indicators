@@ -1,31 +1,45 @@
+// Copyright Skender Consortium. Licensed under the MIT License.
+// See LICENSE.txt for details.
+
+using System;
+using System.Collections.Generic;
+using Skender.Stock.Indicators;
+
 namespace Skender.Stock.Indicators;
 
 public static partial class AtrStop
 {
-    /// <summary>
-    /// Catalog listing for the ATR Trailing Stop indicator.
-    /// </summary>
-    public static readonly IndicatorListing Listing = new IndicatorListingBuilder()
-        .WithName("ATR Trailing Stop")
-        .WithId("ATR-STOP")
-        .WithStyle(Style.Series)
-        .WithCategory(Category.PriceTrend)
-        .AddParameter<int>("lookbackPeriods", "Lookback Periods",
-            "Number of periods for the ATR calculation", defaultValue: 21, minimum: 1, maximum: 50)
-        .AddParameter<double>("multiplier", "Multiplier",
-            "Multiplier for ATR to determine stop distance", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
-        .AddEnumParameter<EndType>("endType", "End Type",
-            "Type of price data to use for calculation", defaultValue: EndType.Close)
-        .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, true)
-        .AddResult("BuyStop", "Buy Stop", ResultType.Default, false)
-        .AddResult("SellStop", "Sell Stop", ResultType.Default, false)
-        .AddResult("Atr", "ATR", ResultType.Default, false)
-        .Build();
+    // ATR-STOP Series Listing
+    public static readonly IndicatorListing SeriesListing =
+        new IndicatorListingBuilder()
+            .WithName("ATR Trailing Stop") // From catalog.bak.json
+            .WithId("ATR-STOP") // From catalog.bak.json
+            .WithStyle(Style.Series)
+            .WithCategory(Category.PriceTrend) // From catalog.bak.json Category: "PriceTrend"
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
+            .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
+            .AddParameter<int>("endType", "End Type", defaultValue: 0, minimum: 0, maximum: 1) // Maps to EndType enum, int in builder
+            .AddResult("AtrStop", "ATR Stop", ResultType.Default, isDefault: true) // Default from model
+            .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
+            .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
+            .AddResult("Atr", "ATR", ResultType.Default, isDefault: false)
+            .Build();
 
-    /// <summary>
-    /// Provides catalog information for the ATR Trailing Stop indicator.
-    /// </summary>
-    /// <returns>IndicatorListing object containing catalog information.</returns>
-    internal static IndicatorListing Catalog()
-        => Listing;
+    // ATR-STOP Stream Listing
+    public static readonly IndicatorListing StreamListing =
+        new IndicatorListingBuilder()
+            .WithName("ATR Trailing Stop (Stream)") // Adjusted name
+            .WithId("ATR-STOP")
+            .WithStyle(Style.Stream)
+            .WithCategory(Category.PriceTrend)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
+            .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
+            .AddParameter<int>("endType", "End Type", defaultValue: 0, minimum: 0, maximum: 1)
+            .AddResult("AtrStop", "ATR Stop", ResultType.Default, isDefault: true)
+            .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
+            .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
+            .AddResult("Atr", "ATR", ResultType.Default, isDefault: false)
+            .Build();
+
+    // No BufferListing for ATR-STOP.
 }
