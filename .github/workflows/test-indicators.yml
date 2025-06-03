@@ -11,6 +11,7 @@ permissions:
   contents: read   # Required for checkout
   actions: read    # Required for workflow runs
   checks: write    # Required for test results
+  pull-requests: write  # Required for forked PRs
 
 jobs:
   test:
@@ -83,7 +84,7 @@ jobs:
 
       - name: Post test results
         uses: dorny/test-reporter@v1.9.1
-        if: env.IS_PRIMARY == 'true' && always()
+        if: env.IS_PRIMARY == 'true' && always() && github.event.pull_request.head.repo.full_name == github.repository
         with:
           name: Test results
           path: ./test-indicators/**/*.trx
