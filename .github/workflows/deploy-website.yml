@@ -47,12 +47,14 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           MKDOCS_ENV: production
+          GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY_PROD }}
         run: mkdocs build
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         env:
           MKDOCS_ENV: preview
+          GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY_PREVIEW }}
         run: mkdocs build
 
       - name: Publish to Cloudflare Pages
