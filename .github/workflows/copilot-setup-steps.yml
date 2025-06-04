@@ -10,7 +10,7 @@ on:
     - cron: '0 2 * * 1'
 
 jobs:
-  setup-copilot-environment:
+  copilot-setup-steps:
     runs-on: ubuntu-latest
     name: Configure Copilot Development Environment
     
