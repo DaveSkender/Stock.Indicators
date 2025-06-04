@@ -5,7 +5,6 @@
 [![NuGet](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 
 [![Test Indicators](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/test-indicators.yml/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/test-indicators.yml)
-[![Code Security Scanning](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/security-scanning.yml/badge.svg)](https://github.com/DaveSkender/Stock.Indicators/actions/workflows/security-scanning.yml)
 [![Codacy quality grade](https://app.codacy.com/project/badge/Grade/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
 [![Codacy code coverage](https://app.codacy.com/project/badge/Coverage/012497adc00847eca9ee91a58d00cc4f)](https://app.codacy.com/gh/DaveSkender/Stock.Indicators/dashboard)
 
