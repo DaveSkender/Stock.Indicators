@@ -335,6 +335,65 @@ By contributing to this project, you:
 
 This means your contributions will be freely available under the same open-source terms.
 
+## GitHub Copilot and AI Agent Access
+
+### Repository Configuration for AI Agents
+
+This repository is optimized for GitHub Copilot and coding agents with:
+
+- **Clear documentation** - Comprehensive setup and contribution guidelines
+- **Detailed templates** - Structured issue and PR templates for consistent information
+- **Automated workflows** - CI/CD pipelines with clear status indicators
+- **Standardized labels** - Consistent labeling for issue/PR categorization
+- **Security scanning** - Automated vulnerability detection and dependency updates
+
+### Access and Permissions
+
+#### For GitHub Copilot Users
+- **Repository access** - Standard read access enables Copilot suggestions
+- **Context awareness** - Copilot has access to:
+  - Public repository content
+  - Issue and PR history
+  - Documentation and examples
+  - Coding patterns and conventions
+
+#### For Coding Agents
+When working with coding agents on this repository:
+
+1. **Fork and clone** - Agents should work from forks for security
+2. **Branch strategy** - Use feature branches as documented above
+3. **Testing requirements** - All changes must include appropriate tests
+4. **Documentation updates** - Update docs for user-facing changes
+5. **Security compliance** - Follow security scanning and dependency policies
+
+#### Permission Escalation
+If additional access is needed:
+
+1. **Create an issue** describing the access requirements
+2. **Tag maintainers** (@DaveSkender) for review
+3. **Provide justification** for the requested permissions
+4. **Wait for approval** before proceeding
+
+### Best Practices for AI Contributions
+
+#### Code Quality
+- Follow existing patterns and conventions
+- Include comprehensive tests for new features
+- Maintain backward compatibility unless breaking changes are justified
+- Use meaningful commit messages and PR descriptions
+
+#### Communication
+- Reference related issues in PRs
+- Provide clear explanations for complex changes
+- Ask questions in discussions when uncertain
+- Be responsive to review feedback
+
+#### Security Considerations
+- Never commit secrets or sensitive data
+- Follow secure coding practices
+- Respect dependency scanning alerts
+- Report security issues through proper channels
+
 ---
 
 ## Need Help?
