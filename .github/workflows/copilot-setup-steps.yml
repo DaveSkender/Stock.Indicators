@@ -1,33 +1,26 @@
 name: Copilot Environment Setup
-description: Set up development environment for GitHub Copilot coding agents working on Stock Indicators for .NET
 
-permissions:
-  contents: read
 on:
   workflow_dispatch:
-  schedule:
-    # Run weekly to keep environment fresh
-    - cron: '0 2 * * 1'
 
 jobs:
-  setup-copilot-environment:
+  copilot-setup-steps:
     runs-on: ubuntu-latest
     name: Configure Copilot Development Environment
+
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: Setup .NET SDK
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            6.0.x
-            7.0.x
-            8.0.x
-            9.0.x
-          dotnet-quality: 'ga'
-          
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
@@ -61,36 +54,14 @@ jobs:
           # Dependency analysis  
           dotnet tool install --global snitch
           
-      - name: Setup Node.js for web tools
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "lts/*"
           
       - name: Install web development tools
         run: |
           npm install -g markdownlint-cli
-          npm install -g alex
-          npm install -g write-good
-          
-      - name: Install financial data tools
-        run: |
-          # Install Python for financial data analysis (optional)
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
-          pip3 install pandas numpy yfinance alpha-vantage quandl
-          
-      - name: Install mathematical computing tools
-        run: |
-          # R for statistical analysis (optional for advanced indicators)
-          sudo apt-get install -y r-base
-          # Octave for mathematical computations
-          sudo apt-get install -y octave
-          
-      - name: Setup development databases
-        run: |
-          # SQLite for testing financial data storage
-          sudo apt-get install -y sqlite3
           
       - name: Configure Git for development
         run: |
@@ -101,15 +72,14 @@ jobs:
           
       - name: Build and test solution
         run: |
-          dotnet build Stock.Indicators.sln --configuration Release
-          dotnet test Stock.Indicators.sln --configuration Release --no-build --verbosity normal
+          dotnet build --configuration Release
+          dotnet test  --configuration Release --no-build --verbosity normal
           
       - name: Run performance benchmarks (sample)
         run: |
           cd tests/performance
           dotnet run --configuration Release --framework net9.0 -- --filter "*Sma*" --memory --statsColumn Q1,Q3
           
-
       - name: Setup MCP servers configuration
         run: |
           mkdir -p ~/.config/copilot/mcp
@@ -118,12 +88,12 @@ jobs:
             "servers": {
               "filesystem": {
                 "command": "npx",
-                "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/runner/work/Stock.Indicators/Stock.Indicators"],
+                "args": ["-y", "@modelcontextprotocol/server-filesystem", "${GITHUB_WORKSPACE}"],
                 "description": "File system access for repository navigation"
               },
               "git": {
                 "command": "npx",
-                "args": ["-y", "@modelcontextprotocol/server-git", "/home/runner/work/Stock.Indicators/Stock.Indicators"],
+                "args": ["-y", "@modelcontextprotocol/server-git", "${GITHUB_WORKSPACE}"],
                 "description": "Git repository operations and history"
               }
             }
@@ -137,7 +107,6 @@ jobs:
           echo "### Installed Tools" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDK: $(dotnet --version)" >> $GITHUB_STEP_SUMMARY
           echo "- Node.js: $(node --version)" >> $GITHUB_STEP_SUMMARY
-          echo "- Python: $(python3 --version)" >> $GITHUB_STEP_SUMMARY
           echo "- Git: $(git --version)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### .NET Global Tools" >> $GITHUB_STEP_SUMMARY
