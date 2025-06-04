@@ -117,6 +117,39 @@ docs/update-readme
 chore/update-dependencies
 ```
 
+### Pull Request Naming
+
+Use clear, descriptive PR titles that summarize the change:
+
+#### Format
+```
+<type>: <description>
+```
+
+#### Examples
+```
+feat: Add Stochastic RSI indicator
+fix: Resolve SMA null value handling
+docs: Update README with build instructions
+chore: Update NuGet dependencies
+perf: Optimize EMA calculation performance
+test: Add comprehensive RSI test coverage
+```
+
+#### Guidelines
+- **Use imperative mood** - "Add feature" not "Added feature"
+- **Keep titles concise** - Aim for 50 characters or less
+- **Be specific** - Describe what the PR accomplishes
+- **Include issue reference** - Add "Fixes #123" in description when applicable
+- **Use conventional types**:
+  - `feat:` - New features or indicators
+  - `fix:` - Bug fixes
+  - `docs:` - Documentation changes
+  - `chore:` - Maintenance tasks
+  - `perf:` - Performance improvements
+  - `test:` - Test additions or improvements
+  - `refactor:` - Code restructuring without feature changes
+
 ### Commit Messages
 
 Write clear, concise commit messages:
