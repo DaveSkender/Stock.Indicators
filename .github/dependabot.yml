@@ -1,0 +1,61 @@
+version: 2
+updates:
+  # .NET NuGet dependencies
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "DaveSkender"
+    assignees:
+      - "DaveSkender"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    groups:
+      # Group test dependencies together
+      test-dependencies:
+        patterns:
+          - "Microsoft.NET.Test.Sdk"
+          - "MSTest.*"
+          - "coverlet.*"
+          - "BenchmarkDotNet*"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      # Group Microsoft dependencies
+      microsoft-dependencies:
+        patterns:
+          - "Microsoft.*"
+          - "System.*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "DaveSkender"
+    assignees:
+      - "DaveSkender"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "automated"

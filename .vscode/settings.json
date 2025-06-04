@@ -193,5 +193,54 @@
     "pivottrend",
     "trendline",
     "webp"
-  ]
+  ],
+  // GitHub Copilot settings
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true,
+    "csharp": true
+  },
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "codex",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+  "github.copilot.chat.enabled": true,
+  "github.copilot.inlineSuggest.enable": true,
+  "github.copilot.suggestions.count": 10,
+  // Enhanced IntelliSense for better Copilot context
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "on",
+    "strings": "on"
+  },
+  "editor.suggestSelection": "first",
+  "editor.tabCompletion": "on",
+  "editor.suggest.insertMode": "insert",
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  // C# specific settings for better Copilot integration
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+  "dotnet.inlayHints.enableInlayHintsForParameters": true,
+  "dotnet.inlayHints.enableInlayHintsForLiteralParameters": true,
+  "dotnet.inlayHints.enableInlayHintsForIndexerParameters": true,
+  "dotnet.inlayHints.enableInlayHintsForObjectCreationParameters": true,
+  "dotnet.inlayHints.enableInlayHintsForOtherParameters": true,
+  "dotnet.inlayHints.enableInlayHintsForTypes": true,
+  "dotnet.inlayHints.enableInlayHintsForImplicitVariableTypes": true,
+  "dotnet.inlayHints.enableInlayHintsForImplicitObjectCreation": true,
+  // Additional editor settings for Copilot optimization
+  "editor.semanticHighlighting.enabled": true,
+  "editor.hover.enabled": true,
+  "editor.parameterHints.enabled": true,
+  "editor.lightbulb.enabled": true,
+  // Enhanced context for financial/mathematical code
+  "editor.wordBasedSuggestions": "allDocuments",
+  "editor.suggest.localityBonus": true,
+  "editor.suggest.shareSuggestSelections": true,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.suggest.showKeywords": true,
+  "editor.suggest.showSnippets": true
 }
