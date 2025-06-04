@@ -140,87 +140,180 @@ redirect: true
 
   <div class="chart-container">
     <svg width="100%" height="100%" viewBox="0 0 500 150">
-      <!-- Candlestick bars showing dramatic wave decline -->
-      <!-- High start -->
-      <g class="candlestick" style="animation-delay: 0s;">
-        <line class="candlestick-wick" x1="30" y1="20" x2="30" y2="40" />
-        <rect class="candlestick-body" x="26" y="25" width="8" height="10" />
-        <line class="candlestick-wick" x1="30" y1="35" x2="30" y2="45" />
-      </g>
+      <!-- Dense candlestick chart showing progressive decline to 404 -->
+      <!-- Starting high and gradually declining through waves -->
       
-      <!-- Wave peak -->
+      <!-- Candlesticks 1-10: High start with small volatility -->
+      <g class="candlestick" style="animation-delay: 0.05s;">
+        <line class="candlestick-wick" x1="15" y1="18" x2="15" y2="28" />
+        <rect class="candlestick-body" x="14" y="20" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.1s;">
+        <line class="candlestick-wick" x1="27" y1="16" x2="27" y2="26" />
+        <rect class="candlestick-body" x="26" y="18" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.15s;">
+        <line class="candlestick-wick" x1="39" y1="20" x2="39" y2="30" />
+        <rect class="candlestick-body" x="38" y="22" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 0.2s;">
-        <line class="candlestick-wick" x1="70" y1="15" x2="70" y2="35" />
-        <rect class="candlestick-body" x="66" y="20" width="8" height="10" />
-        <line class="candlestick-wick" x1="70" y1="30" x2="70" y2="40" />
+        <line class="candlestick-wick" x1="51" y1="15" x2="51" y2="25" />
+        <rect class="candlestick-body" x="50" y="17" width="2" height="6" />
       </g>
-      
-      <!-- Sharp decline starts -->
+      <g class="candlestick" style="animation-delay: 0.25s;">
+        <line class="candlestick-wick" x1="63" y1="22" x2="63" y2="32" />
+        <rect class="candlestick-body" x="62" y="24" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.3s;">
+        <line class="candlestick-wick" x1="75" y1="25" x2="75" y2="35" />
+        <rect class="candlestick-body" x="74" y="27" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.35s;">
+        <line class="candlestick-wick" x1="87" y1="30" x2="87" y2="40" />
+        <rect class="candlestick-body" x="86" y="32" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 0.4s;">
-        <line class="candlestick-wick" x1="110" y1="35" x2="110" y2="55" />
-        <rect class="candlestick-body" x="106" y="40" width="8" height="12" />
-        <line class="candlestick-wick" x1="110" y1="52" x2="110" y2="65" />
+        <line class="candlestick-wick" x1="99" y1="28" x2="99" y2="38" />
+        <rect class="candlestick-body" x="98" y="30" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.45s;">
+        <line class="candlestick-wick" x1="111" y1="32" x2="111" y2="42" />
+        <rect class="candlestick-body" x="110" y="34" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.5s;">
+        <line class="candlestick-wick" x1="123" y1="35" x2="123" y2="45" />
+        <rect class="candlestick-body" x="122" y="37" width="2" height="6" />
       </g>
       
-      <!-- Dramatic wave trough -->
+      <!-- Candlesticks 11-20: First wave decline -->
+      <g class="candlestick" style="animation-delay: 0.55s;">
+        <line class="candlestick-wick" x1="135" y1="40" x2="135" y2="50" />
+        <rect class="candlestick-body" x="134" y="42" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 0.6s;">
-        <line class="candlestick-wick" x1="150" y1="60" x2="150" y2="85" />
-        <rect class="candlestick-body" x="146" y="65" width="8" height="15" />
-        <line class="candlestick-wick" x1="150" y1="80" x2="150" y2="95" />
+        <line class="candlestick-wick" x1="147" y1="45" x2="147" y2="55" />
+        <rect class="candlestick-body" x="146" y="47" width="2" height="6" />
       </g>
-      
-      <!-- Dead cat bounce -->
+      <g class="candlestick" style="animation-delay: 0.65s;">
+        <line class="candlestick-wick" x1="159" y1="50" x2="159" y2="60" />
+        <rect class="candlestick-body" x="158" y="52" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.7s;">
+        <line class="candlestick-wick" x1="171" y1="48" x2="171" y2="58" />
+        <rect class="candlestick-body" x="170" y="50" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.75s;">
+        <line class="candlestick-wick" x1="183" y1="52" x2="183" y2="62" />
+        <rect class="candlestick-body" x="182" y="54" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 0.8s;">
-        <line class="candlestick-wick" x1="190" y1="50" x2="190" y2="70" />
-        <rect class="candlestick-body" x="186" y="55" width="8" height="10" />
-        <line class="candlestick-wick" x1="190" y1="65" x2="190" y2="80" />
+        <line class="candlestick-wick" x1="195" y1="55" x2="195" y2="65" />
+        <rect class="candlestick-body" x="194" y="57" width="2" height="6" />
       </g>
-      
-      <!-- Another wave down -->
+      <g class="candlestick" style="animation-delay: 0.85s;">
+        <line class="candlestick-wick" x1="207" y1="60" x2="207" y2="70" />
+        <rect class="candlestick-body" x="206" y="62" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.9s;">
+        <line class="candlestick-wick" x1="219" y1="58" x2="219" y2="68" />
+        <rect class="candlestick-body" x="218" y="60" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 0.95s;">
+        <line class="candlestick-wick" x1="231" y1="62" x2="231" y2="72" />
+        <rect class="candlestick-body" x="230" y="64" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 1.0s;">
-        <line class="candlestick-wick" x1="230" y1="75" x2="230" y2="100" />
-        <rect class="candlestick-body" x="226" y="80" width="8" height="18" />
-        <line class="candlestick-wick" x1="230" y1="98" x2="230" y2="110" />
+        <line class="candlestick-wick" x1="243" y1="65" x2="243" y2="75" />
+        <rect class="candlestick-body" x="242" y="67" width="2" height="6" />
       </g>
       
-      <!-- Deeper wave -->
+      <!-- Candlesticks 21-30: Second wave decline -->
+      <g class="candlestick" style="animation-delay: 1.05s;">
+        <line class="candlestick-wick" x1="255" y1="70" x2="255" y2="80" />
+        <rect class="candlestick-body" x="254" y="72" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.1s;">
+        <line class="candlestick-wick" x1="267" y1="75" x2="267" y2="85" />
+        <rect class="candlestick-body" x="266" y="77" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.15s;">
+        <line class="candlestick-wick" x1="279" y1="80" x2="279" y2="90" />
+        <rect class="candlestick-body" x="278" y="82" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 1.2s;">
-        <line class="candlestick-wick" x1="270" y1="90" x2="270" y2="115" />
-        <rect class="candlestick-body" x="266" y="95" width="8" height="15" />
-        <line class="candlestick-wick" x1="270" y1="110" x2="270" y2="125" />
+        <line class="candlestick-wick" x1="291" y1="78" x2="291" y2="88" />
+        <rect class="candlestick-body" x="290" y="80" width="2" height="6" />
       </g>
-      
-      <!-- Final dramatic crash wave -->
+      <g class="candlestick" style="animation-delay: 1.25s;">
+        <line class="candlestick-wick" x1="303" y1="82" x2="303" y2="92" />
+        <rect class="candlestick-body" x="302" y="84" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.3s;">
+        <line class="candlestick-wick" x1="315" y1="85" x2="315" y2="95" />
+        <rect class="candlestick-body" x="314" y="87" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.35s;">
+        <line class="candlestick-wick" x1="327" y1="90" x2="327" y2="100" />
+        <rect class="candlestick-body" x="326" y="92" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 1.4s;">
-        <line class="candlestick-wick" x1="310" y1="100" x2="310" y2="130" />
-        <rect class="candlestick-body" x="306" y="105" width="8" height="20" />
-        <line class="candlestick-wick" x1="310" y1="125" x2="310" y2="135" />
+        <line class="candlestick-wick" x1="339" y1="88" x2="339" y2="98" />
+        <rect class="candlestick-body" x="338" y="90" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.45s;">
+        <line class="candlestick-wick" x1="351" y1="92" x2="351" y2="102" />
+        <rect class="candlestick-body" x="350" y="94" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.5s;">
+        <line class="candlestick-wick" x1="363" y1="95" x2="363" y2="105" />
+        <rect class="candlestick-body" x="362" y="97" width="2" height="6" />
       </g>
       
-      <!-- Deep trough -->
+      <!-- Candlesticks 31-40: Final crash to 404 -->
+      <g class="candlestick" style="animation-delay: 1.55s;">
+        <line class="candlestick-wick" x1="375" y1="100" x2="375" y2="110" />
+        <rect class="candlestick-body" x="374" y="102" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 1.6s;">
-        <line class="candlestick-wick" x1="350" y1="110" x2="350" y2="135" />
-        <rect class="candlestick-body" x="346" y="115" width="8" height="18" />
-        <line class="candlestick-wick" x1="350" y1="133" x2="350" y2="140" />
+        <line class="candlestick-wick" x1="387" y1="105" x2="387" y2="115" />
+        <rect class="candlestick-body" x="386" y="107" width="2" height="6" />
       </g>
-      
-      <!-- Massive crash to 404 -->
+      <g class="candlestick" style="animation-delay: 1.65s;">
+        <line class="candlestick-wick" x1="399" y1="110" x2="399" y2="120" />
+        <rect class="candlestick-body" x="398" y="112" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.7s;">
+        <line class="candlestick-wick" x1="411" y1="115" x2="411" y2="125" />
+        <rect class="candlestick-body" x="410" y="117" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.75s;">
+        <line class="candlestick-wick" x1="423" y1="120" x2="423" y2="130" />
+        <rect class="candlestick-body" x="422" y="122" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 1.8s;">
-        <line class="candlestick-wick" x1="390" y1="115" x2="390" y2="140" />
-        <rect class="candlestick-body" x="386" y="120" width="8" height="20" />
-        <line class="candlestick-wick" x1="390" y1="140" x2="390" y2="145" />
+        <line class="candlestick-wick" x1="435" y1="125" x2="435" y2="135" />
+        <rect class="candlestick-body" x="434" y="127" width="2" height="6" />
       </g>
-      
-      <!-- Final 404 bottom -->
+      <g class="candlestick" style="animation-delay: 1.85s;">
+        <line class="candlestick-wick" x1="447" y1="130" x2="447" y2="140" />
+        <rect class="candlestick-body" x="446" y="132" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.9s;">
+        <line class="candlestick-wick" x1="459" y1="135" x2="459" y2="145" />
+        <rect class="candlestick-body" x="458" y="137" width="2" height="6" />
+      </g>
+      <g class="candlestick" style="animation-delay: 1.95s;">
+        <line class="candlestick-wick" x1="471" y1="138" x2="471" y2="148" />
+        <rect class="candlestick-body" x="470" y="140" width="2" height="6" />
+      </g>
       <g class="candlestick" style="animation-delay: 2.0s;">
-        <line class="candlestick-wick" x1="430" y1="125" x2="430" y2="145" />
-        <rect class="candlestick-body" x="426" y="130" width="8" height="15" />
-        <line class="candlestick-wick" x1="430" y1="145" x2="430" y2="148" />
+        <line class="candlestick-wick" x1="483" y1="142" x2="483" y2="148" />
+        <rect class="candlestick-body" x="482" y="144" width="2" height="4" />
       </g>
       
       <!-- Chart labels -->
-      <text x="450" y="145" font-family="monospace" font-size="12" fill="#666">404</text>
-      <text x="10" y="25" font-family="monospace" font-size="12" fill="#666">📈</text>
+      <text x="460" y="145" font-family="monospace" font-size="10" fill="#666">404</text>
+      <text x="5" y="25" font-family="monospace" font-size="10" fill="#666">📈</text>
     </svg>
   </div>
 
