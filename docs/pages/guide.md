@@ -192,7 +192,7 @@ public void MyClass(){
   IEnumerable<Quote> quotes = GetQuotesFromFeed("SPY");
 
   // compute indicator
-  INumerable<EmaResult> emaResults = quotes.GetEma(14);
+  IEnumerable<EmaResult> emaResults = quotes.GetEma(14);
 
   // convert to my Ema class list [using LINQ]
   List<MyEma> myEmaResults = emaResults
