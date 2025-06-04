@@ -57,11 +57,10 @@ jobs:
           # Dependency analysis  
           dotnet tool install --global snitch
           
-      - name: Setup Node.js for web tools
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "lts/*"
           
       - name: Install web development tools
         run: |
