@@ -127,6 +127,21 @@ If you want to contribute administratively, do code reviews, or provide general 
 - [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
 
+## GitHub Copilot and AI development
+
+This repository is optimized for GitHub Copilot and coding agents with:
+
+- **Custom Copilot instructions** in `.github/copilot-instructions.md` providing repository context, coding patterns, and domain knowledge
+- **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
+- **Environment setup workflow** in `.github/workflows/copilot-setup-steps.yml` for automated dependency installation
+- **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
+
+When using GitHub Copilot:
+- Follow the established patterns documented in the Copilot instructions
+- Ensure all financial calculations maintain decimal precision 
+- Include comprehensive unit tests for any new indicators
+- Validate mathematical accuracy against reference implementations
+
 ## Versioning
 
 We use the `GitVersion` tool for [semantic versioning](https://semver.org).  It is mostly auto generated in the build.
