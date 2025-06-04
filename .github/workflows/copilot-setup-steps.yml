@@ -25,6 +25,7 @@ jobs:
             6.0.x
             7.0.x
             8.0.x
+            9.0.x
           dotnet-quality: 'ga'
           
       - name: Cache NuGet packages
@@ -63,7 +64,7 @@ jobs:
       - name: Setup Node.js for web tools
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           
       - name: Install web development tools
@@ -90,11 +91,6 @@ jobs:
         run: |
           # SQLite for testing financial data storage
           sudo apt-get install -y sqlite3
-          # Install SQL Server tools for more advanced scenarios
-          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-          sudo add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list)"
-          sudo apt-get update
-          sudo apt-get install -y mssql-tools unixodbc-dev
           
       - name: Configure Git for development
         run: |
@@ -111,46 +107,24 @@ jobs:
       - name: Run performance benchmarks (sample)
         run: |
           cd tests/performance
-          dotnet run --configuration Release --framework net8.0 -- --filter "*Sma*" --memory --statsColumn Q1,Q3
+          dotnet run --configuration Release --framework net9.0 -- --filter "*Sma*" --memory --statsColumn Q1,Q3
           
-      - name: Generate project documentation
-        run: |
-          # Install and run DocFX for API documentation
-          dotnet tool install --global docfx
-          # Create basic docfx.json if it doesn't exist
-          if [ ! -f docfx.json ]; then
-            echo '{
-              "metadata": [{
-                "src": [{ "files": ["src/**/*.csproj"], "exclude": ["**/bin/**", "**/obj/**"] }],
-                "dest": "api"
-              }],
-              "build": {
-                "content": [{ "files": ["api/*.yml"], "dest": "api" }],
-                "dest": "_site"
-              }
-            }' > docfx.json
-          fi
-          
+
       - name: Setup MCP servers configuration
         run: |
           mkdir -p ~/.config/copilot/mcp
           cat > ~/.config/copilot/mcp/config.json << 'EOF'
           {
             "servers": {
-              "dotnet-analyzer": {
-                "command": "dotnet",
-                "args": ["run", "--project", "tools/mcp-dotnet-analyzer"],
-                "description": ".NET code analysis and suggestions"
+              "filesystem": {
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/runner/work/Stock.Indicators/Stock.Indicators"],
+                "description": "File system access for repository navigation"
               },
-              "financial-data": {
-                "command": "python3",
-                "args": ["-m", "financial_mcp_server"],
-                "description": "Financial data and mathematical computations"
-              },
-              "performance-profiler": {
-                "command": "dotnet-trace",
-                "args": ["--mcp-mode"],
-                "description": "Performance analysis and optimization suggestions"
+              "git": {
+                "command": "npx",
+                "args": ["-y", "@modelcontextprotocol/server-git", "/home/runner/work/Stock.Indicators/Stock.Indicators"],
+                "description": "Git repository operations and history"
               }
             }
           }
