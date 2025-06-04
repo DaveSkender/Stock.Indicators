@@ -42,7 +42,6 @@ jobs:
       - name: Install optional development tools
         run: |
           # Additional tools (install in background, continue on error for speed)
-          dotnet tool install --global dotnet-ef
           dotnet tool install --global BenchmarkDotNet.Tool
           dotnet tool install --global dotnet-reportgenerator-globaltool
         continue-on-error: true
