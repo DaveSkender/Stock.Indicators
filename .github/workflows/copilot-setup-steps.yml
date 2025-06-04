@@ -15,15 +15,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: Setup .NET SDK
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            6.0.x
-            8.0.x
-            9.0.x
-          dotnet-quality: 'ga'
-          
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
       - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
@@ -57,17 +54,14 @@ jobs:
           # Dependency analysis  
           dotnet tool install --global snitch
           
-      - name: Setup Node.js for web tools
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "lts/*"
           
       - name: Install web development tools
         run: |
           npm install -g markdownlint-cli
-          npm install -g alex
-          npm install -g write-good
           
       - name: Configure Git for development
         run: |
@@ -94,12 +88,12 @@ jobs:
             "servers": {
               "filesystem": {
                 "command": "npx",
-                "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/runner/work/Stock.Indicators/Stock.Indicators"],
+                "args": ["-y", "@modelcontextprotocol/server-filesystem", "${GITHUB_WORKSPACE}"],
                 "description": "File system access for repository navigation"
               },
               "git": {
                 "command": "npx",
-                "args": ["-y", "@modelcontextprotocol/server-git", "/home/runner/work/Stock.Indicators/Stock.Indicators"],
+                "args": ["-y", "@modelcontextprotocol/server-git", "${GITHUB_WORKSPACE}"],
                 "description": "Git repository operations and history"
               }
             }
@@ -113,7 +107,6 @@ jobs:
           echo "### Installed Tools" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDK: $(dotnet --version)" >> $GITHUB_STEP_SUMMARY
           echo "- Node.js: $(node --version)" >> $GITHUB_STEP_SUMMARY
-          echo "- Python: $(python3 --version)" >> $GITHUB_STEP_SUMMARY
           echo "- Git: $(git --version)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### .NET Global Tools" >> $GITHUB_STEP_SUMMARY
