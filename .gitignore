@@ -331,6 +331,8 @@ ASALocalRun/
 
 # Jekyll site
 _site/
+vendor/
+.bundle/
 
 # zip artifacts
 .DS_Store

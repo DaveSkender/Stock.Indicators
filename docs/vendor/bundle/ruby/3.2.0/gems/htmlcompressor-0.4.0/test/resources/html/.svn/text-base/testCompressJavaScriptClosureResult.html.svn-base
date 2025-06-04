@@ -1,7 +1,0 @@
-<script type="text/javascript">var a=0;a+=1;alert(a);</script><script><![CDATA[var a=0;a+=1;alert(a);]]></script><pre>
-	<script>
-		var i = 0; //comment
-		i = i + 1;
-		alert(i);
-	</script>
-</pre><script type="text/x-jquery-tmpl"><a><b></script><script type="text/custom">  var i=1@#$%^2   <a>     <!-- comment -->   <b>   </script>
