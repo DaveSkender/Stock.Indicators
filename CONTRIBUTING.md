@@ -119,14 +119,33 @@ chore/update-dependencies
 
 ### Pull Request Naming
 
-Use clear, descriptive PR titles that summarize the change:
+Pull request titles **must** follow the [Conventional Commits](https://www.conventionalcommits.org/) format to pass automated validation:
 
-#### Format
+#### Required Format
 ```
-<type>: <description>
+<type>: <Subject>
 ```
 
-#### Examples
+Where:
+- `<type>` is **lowercase** and one of the allowed types below
+- `<Subject>` starts with an **uppercase letter** and describes the change
+
+#### Required Types
+All PR titles must start with one of these types:
+
+- **`feat:`** - A new feature
+- **`fix:`** - A bug fix  
+- **`docs:`** - Documentation only changes
+- **`style:`** - Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- **`refactor:`** - A code change that neither fixes a bug nor adds a feature
+- **`perf:`** - A code change that improves performance
+- **`test:`** - Adding missing tests or correcting existing tests
+- **`build:`** - Changes that affect the build system or external dependencies
+- **`ci:`** - Changes to our CI configuration files and scripts
+- **`chore:`** - Other changes that don't modify src or test files
+- **`revert:`** - Reverts a previous commit
+
+#### Valid Examples
 ```
 feat: Add Stochastic RSI indicator
 fix: Resolve SMA null value handling
@@ -134,21 +153,29 @@ docs: Update README with build instructions
 chore: Update NuGet dependencies
 perf: Optimize EMA calculation performance
 test: Add comprehensive RSI test coverage
+style: Format trading strategy classes
+refactor: Restructure trading engine components
+build: Update .NET SDK version to 8.0
+ci: Add workflow for performance testing
+revert: Remove faulty market data provider
 ```
 
-#### Guidelines
+#### Common Validation Errors
+
+❌ **Invalid**: `Add Stochastic RSI indicator` (missing type prefix)
+✅ **Valid**: `feat: Add Stochastic RSI indicator`
+
+❌ **Invalid**: `Feat: add stochastic RSI indicator` (type should be lowercase, subject should start uppercase)
+✅ **Valid**: `feat: Add stochastic RSI indicator`
+
+❌ **Invalid**: `feature: Add Stochastic RSI indicator` (type must be exact - use `feat` not `feature`)
+✅ **Valid**: `feat: Add Stochastic RSI indicator`
+
+#### Additional Guidelines
 - **Use imperative mood** - "Add feature" not "Added feature"
 - **Keep titles concise** - Aim for 50 characters or less
 - **Be specific** - Describe what the PR accomplishes
 - **Include issue reference** - Add "Fixes #123" in description when applicable
-- **Use conventional types**:
-  - `feat:` - New features or indicators
-  - `fix:` - Bug fixes
-  - `docs:` - Documentation changes
-  - `chore:` - Maintenance tasks
-  - `perf:` - Performance improvements
-  - `test:` - Test additions or improvements
-  - `refactor:` - Code restructuring without feature changes
 
 ### Commit Messages
 
