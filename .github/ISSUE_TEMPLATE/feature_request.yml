@@ -6,14 +6,82 @@ body:
     attributes:
       value: |
         Thank you &#128150; for taking the time to make a recommendation for the [`Skender.Stock.Indicators` NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)! If you have an idea that you don't want us to track in [our backlog](https://github.com/users/DaveSkender/projects/1), consider posting in our community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions).
+  
   - type: textarea
-    id: request
+    id: problem-statement
     attributes:
-      label: the problem
-      description: What problem are you trying to solve? Or, what outcome do you want achieve? Why?
-      placeholder: I'm always frustrated when [...]
+      label: Problem or use case
+      description: What problem are you trying to solve? Or, what outcome do you want to achieve? Why?
+      placeholder: |
+        I'm always frustrated when [...]
+        
+        Or: I would like to be able to [...]
+        
+        This would help me/users to [...]
     validations:
       required: true
+  
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+      description: Describe your preferred solution or approach
+      placeholder: |
+        I would like to see [specific feature/indicator/enhancement]
+        
+        For example:
+        - A new indicator for [X] that calculates [Y]
+        - An enhancement to [existing feature] that allows [Z]
+        - Better documentation/examples for [specific area]
+    validations:
+      required: true
+  
+  - type: textarea
+    id: alternative-solutions
+    attributes:
+      label: Alternative solutions considered
+      description: Have you considered any alternative approaches or workarounds?
+      placeholder: |
+        - I tried [approach A] but it doesn't work because [...]
+        - [Approach B] is possible but would require [...]
+        - Currently I'm working around this by [...]
+  
+  - type: textarea
+    id: reference-materials
+    attributes:
+      label: Reference materials
+      description: Provide links, papers, or other materials that describe the requested feature
+      placeholder: |
+        - Link to financial/technical analysis documentation
+        - Research papers or articles
+        - Examples from other libraries or platforms
+        - Screenshots or diagrams (if applicable)
+  
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature type
+      description: What type of feature are you requesting?
+      options:
+        - New technical indicator
+        - Enhancement to existing indicator
+        - API/usability improvement
+        - Documentation improvement
+        - Performance enhancement
+        - Other
+    validations:
+      required: true
+  
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context, examples, or information about the feature request
+      placeholder: |
+        - How urgent is this for your use case?
+        - Would you be interested in contributing to the implementation?
+        - Any other relevant details
+  
   - type: markdown
     attributes:
       value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, contact [Skender Co.](https://skenderco.com)

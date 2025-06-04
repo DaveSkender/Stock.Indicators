@@ -7,14 +7,100 @@ body:
       value: |
         Thank you &#128150; for taking the time report a bug in the [`Skender.Stock.Indicators` NuGet library](https://www.nuget.org/packages/Skender.Stock.Indicators)!
         > Before reporting, please review known [issues](https://github.com/DaveSkender/Stock.Indicators/issues?q=is%3Aissue), community [discussions](https://github.com/DaveSkender/Stock.Indicators/discussions), and [Help! Results don't match TradingView!](https://github.com/DaveSkender/Stock.Indicators/discussions/801)
+  
   - type: textarea
     id: what-happened
     attributes:
       label: What happened?
-      description: What did you expect to happen?
-      placeholder: Tell us what you see!
+      description: Describe the bug and what you expected to happen instead.
+      placeholder: |
+        A clear and concise description of what the bug is and what you expected to happen.
+        
+        For example:
+        - I called GetSma() with 20 periods and expected X, but got Y instead
+        - The indicator throws an exception when I provide valid data
     validations:
       required: true
+  
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide detailed steps to reproduce the issue
+      placeholder: |
+        1. Create quotes with [describe your data]
+        2. Call [specific method/indicator]
+        3. Observe [what happens]
+        4. Expected result was [describe expected behavior]
+    validations:
+      required: true
+  
+  - type: textarea
+    id: code-sample
+    attributes:
+      label: Code sample
+      description: Please provide a minimal code sample that reproduces the issue
+      placeholder: |
+        ```csharp
+        // Your code here
+        var quotes = GetHistoricalQuotes(); // describe your data source
+        var results = quotes.GetSma(20);   // the indicator call that's failing
+        // what happens vs what you expected
+        ```
+      render: csharp
+    validations:
+      required: true
+  
+  - type: input
+    id: library-version
+    attributes:
+      label: Library version
+      description: What version of Skender.Stock.Indicators are you using?
+      placeholder: "e.g., 2.4.5"
+    validations:
+      required: true
+  
+  - type: input
+    id: dotnet-version
+    attributes:
+      label: .NET version
+      description: What version of .NET are you using?
+      placeholder: "e.g., .NET 6.0, .NET 8.0"
+    validations:
+      required: true
+  
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment details
+      description: Provide details about your development environment
+      placeholder: |
+        - OS: [e.g., Windows 11, macOS 14, Ubuntu 22.04]
+        - IDE: [e.g., Visual Studio 2022, VS Code, Rider]
+        - Any other relevant environment details
+  
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error messages or logs
+      description: Include any error messages, stack traces, or relevant log output
+      placeholder: |
+        Paste any error messages or stack traces here.
+        
+        If no errors are thrown, describe the unexpected behavior in detail.
+      render: text
+  
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or information about the problem
+      placeholder: |
+        - Screenshots (if applicable)
+        - Links to related issues or discussions
+        - Any workarounds you've tried
+        - Reference materials or documentation you're following
+  
   - type: markdown
     attributes:
       value: If your request is urgent, please review our [sponsorship tiers](https://github.com/sponsors/facioquo). For contract custom development, contact [Skender Co.](https://skenderco.com)
