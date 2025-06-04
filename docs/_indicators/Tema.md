@@ -11,7 +11,7 @@ redirect_from:
 
 # {{ page.title }}
 
-Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
+Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.  This implementation uses a single-pass calculation approach that begins producing values earlier than traditional methods.
 [[Discuss] &#128172;]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
 
 ![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
@@ -28,9 +28,26 @@ IEnumerable<TemaResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `4×N` or `3×N+100` periods of `quotes`, whichever is more, to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.  Since this uses a smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.
+You must have at least `N` periods of `quotes` to produce any TEMA values.  However, due to the nature of the smoothing technique, we recommend you use at least `3×N+250` data points prior to the intended usage date for better precision.  See [warmup and convergence]({{site.github.repository_url}}/discussions/688) guidance for more information.
 
 `quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+
+### Understanding warmup periods
+
+TEMA uses a single-pass calculation that begins producing values much earlier than traditional implementations:
+
+- **First value**: appears at period `N` (index `N-1`)
+- **Fully converged**: after `3×N+100` periods for reliable precision
+- **RemoveWarmupPeriods()**: removes the first `(3×N)+100` periods
+
+**Example for TEMA(20)**:
+```
+Period 1-19:  null values (incalculable)
+Period 20:    first TEMA value (may have convergence issues)
+Period 160+:  fully converged, reliable values
+```
+
+This differs from traditional TEMA implementations that would show `null` values until period `3×N` (60 for TEMA(20)).
 
 ## Response
 
@@ -43,7 +60,9 @@ IEnumerable<TemaResult>
 - It does not return a single incremental indicator value.
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX]({{site.baseurl}}/indicators/Trix#content) oscillator instead.
 
->&#9886; **Convergence warning**: The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.
+>&#9432; **Incalculable periods**: The first `N-1` periods will have `null` values since there's not enough data to calculate.  This is a change from traditional TEMA implementations that would require `3×N` periods before producing any values.
+
+>&#9886; **Convergence warning**: The first `3×N+100` periods will have decreasing magnitude, convergence-related precision errors that can be as high as ~5% deviation in indicator values for earlier periods.  Use the `.RemoveWarmupPeriods()` method to remove these potentially unreliable values.
 
 ### TemaResult
 
