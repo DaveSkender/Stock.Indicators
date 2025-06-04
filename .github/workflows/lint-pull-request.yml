@@ -28,6 +28,7 @@ jobs:
           ignoreLabels: |
             bot
             dependencies
+            automated
 
       - uses: marocchino/sticky-pull-request-comment@v2.1.0
         if: always() && (steps.lint_pr_title.outputs.error_message != null)
