@@ -1,0 +1,14 @@
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/wdm-0.2.0/ext/wdm
+/usr/bin/ruby3.2 -I/usr/lib/ruby/vendor_ruby extconf.rb
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/wdm-0.2.0/ext/wdm
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-ysw9ne sitelibdir\=./.gem.20250604-3420-ysw9ne clean
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/wdm-0.2.0/ext/wdm
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-ysw9ne sitelibdir\=./.gem.20250604-3420-ysw9ne
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/wdm-0.2.0/ext/wdm
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-ysw9ne sitelibdir\=./.gem.20250604-3420-ysw9ne install
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/wdm-0.2.0/ext/wdm
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-ysw9ne sitelibdir\=./.gem.20250604-3420-ysw9ne clean

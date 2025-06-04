@@ -1,0 +1,10 @@
+<a x="aaa 'bbb' ccc"  b="1">   <b   onclick  =  "  alert('<a>   <b>')  "  /> <c/>   
+   <d />
+<pre    a   =   "  1  ">    <x   />    <y>   </pre>
+<!-- comment -->
+<!--[if lt IE 7 ]>        <body class="ie6">      <![endif]-->           <!--[if lt IE 7 ]>        <body class="ie6">      <![endif]-->
+<pre>          <!-- comment -->     </pre>
+<textarea>          <!-- comment -->     </textarea>
+<script>          <!-- comment -->     </script>
+<script type="text/x-jquery-tmpl">     <a>     <!-- comment -->   <b>   </script>
+<style>          <!-- comment -->     </style>

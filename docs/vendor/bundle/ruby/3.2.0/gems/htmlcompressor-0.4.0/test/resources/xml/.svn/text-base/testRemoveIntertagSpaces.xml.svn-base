@@ -1,0 +1,11 @@
+<a q  =  "qqq"  w   =  'ww"w"w' >   
+	<b>   
+		<c>
+			<![CDATA[
+			<a>   <b>   <!-- comment -->   <c>
+			]]>
+		</c>
+	</b>
+<a>
+<x />
+<y>    aaa          bbbb          </y>

@@ -1,0 +1,70 @@
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/commonmarker-0.23.11/ext/commonmarker
+/usr/bin/ruby3.2 -I/usr/lib/ruby/vendor_ruby extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/commonmarker-0.23.11/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-r5wpu0 sitelibdir\=./.gem.20250604-3420-r5wpu0 clean
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/commonmarker-0.23.11/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-r5wpu0 sitelibdir\=./.gem.20250604-3420-r5wpu0
+compiling arena.c
+compiling autolink.c
+compiling blocks.c
+compiling buffer.c
+compiling cmark.c
+compiling cmark_ctype.c
+compiling commonmark.c
+compiling commonmarker.c
+In file included from houdini.h:9,
+                 from commonmarker.c:3:
+config.h:8: warning: "HAVE_STDBOOL_H" redefined
+    8 | #define HAVE_STDBOOL_H
+      | 
+In file included from /usr/include/ruby-3.2.0/ruby/internal/config.h:22,
+                 from /usr/include/ruby-3.2.0/ruby/ruby.h:15,
+                 from /usr/include/ruby-3.2.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/usr/include/x86_64-linux-gnu/ruby-3.2.0/ruby/config.h:44: note: this is the location of the previous definition
+   44 | #define HAVE_STDBOOL_H 1
+      | 
+commonmarker.c: In function ‘commonmarker_cstr_adopt’:
+commonmarker.c:50:43: warning: passing argument 1 of ‘cmark_get_default_mem_allocator()->free’ discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+   50 |   cmark_get_default_mem_allocator()->free(str);
+      |                                           ^~~
+commonmarker.c:50:43: note: expected ‘void *’ but argument is of type ‘const char *’
+compiling core-extensions.c
+compiling ext_scanners.c
+compiling footnotes.c
+compiling houdini_href_e.c
+compiling houdini_html_e.c
+compiling houdini_html_u.c
+compiling html.c
+compiling inlines.c
+compiling iterator.c
+compiling latex.c
+compiling linked_list.c
+compiling man.c
+compiling map.c
+compiling node.c
+compiling plaintext.c
+compiling plugin.c
+compiling references.c
+compiling registry.c
+compiling render.c
+compiling scanners.c
+compiling strikethrough.c
+compiling syntax_extension.c
+compiling table.c
+compiling tagfilter.c
+compiling tasklist.c
+compiling utf8.c
+compiling xml.c
+linking shared-object commonmarker/commonmarker.so
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/commonmarker-0.23.11/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-r5wpu0 sitelibdir\=./.gem.20250604-3420-r5wpu0 install
+/usr/bin/install -c -m 0755 commonmarker.so ./.gem.20250604-3420-r5wpu0/commonmarker
+
+current directory: /home/runner/work/Stock.Indicators/Stock.Indicators/docs/vendor/bundle/ruby/3.2.0/gems/commonmarker-0.23.11/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20250604-3420-r5wpu0 sitelibdir\=./.gem.20250604-3420-r5wpu0 clean

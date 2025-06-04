@@ -1,0 +1,30 @@
+0.3.1 - 23/09/2016
+  Add option flag to disable "remove spaces inside tags"
+0.3.0 - 09/09/2015
+  Fix CDATA errors
+0.2.0 - 32/03/2015
+  Remove warnings in ruby 2.2
+  Support for custom html templates
+  Disable remove_http_protocol by default in the middleware
+0.1.2 - 04/09/2014
+  Preserve custom attributes similar to simple attributes, such as ng-disabled (fixes #12)
+0.1.1 - 08/05/2014
+  Remove type=text/css from style elements (fixes #15)
+0.1.0 - 05/05/2014
+  Do not depend on yui
+  Allow other javascript and css minifier (yui/closuer by default)
+0.0.7 - 08/07/2013
+  Rack: use content.bytesize over content.length
+  Minor fixes to README
+0.0.6 - 19/04/2013
+  Switch to POSIX "bracket expression" from \p{Blank} to provide better ruby compatibility
+  Minor fixes to README
+0.0.5 - 31/01/2013
+  Safer rack default options: remove_intertag_spaces => false
+  README more clear
+0.0.4 - 16/01/2013
+  Preserve empty textarea (issue #3)
+0.0.3 - 18/05/2012
+  Added customizable options to rack middlewar
+0.0.2
+  First realase

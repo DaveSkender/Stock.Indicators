@@ -1,0 +1,1 @@
+<a onclick="alert()" onmousemove="move()" onmouseenter="alert();" href="javascript:alert()">

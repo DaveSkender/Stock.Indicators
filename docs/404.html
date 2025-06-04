@@ -5,7 +5,186 @@ layout: base
 redirect: true
 ---
 
-<div style="text-align:center; margin-top:50px;">
-  <h1>Your strategy was unprofitable</h1>
-  <p><strong>error 404 ~ page not found</strong></p>
+<style>
+  .error-container {
+    text-align: center;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .error-title {
+    font-size: 3rem;
+    color: #dc2626;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .error-subtitle {
+    font-size: 1.5rem;
+    color: #424242;
+    margin-bottom: 2rem;
+    font-weight: 600;
+  }
+
+  .chart-container {
+    position: relative;
+    height: 200px;
+    margin: 2rem 0;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .chart-line {
+    stroke: #dc2626;
+    stroke-width: 3;
+    fill: none;
+    animation: drawLine 3s ease-out infinite;
+  }
+
+  .chart-area {
+    fill: url(#gradient);
+    opacity: 0.3;
+    animation: drawArea 3s ease-out infinite;
+  }
+
+  @keyframes drawLine {
+    0% { stroke-dasharray: 0 1000; }
+    100% { stroke-dasharray: 1000 0; }
+  }
+
+  @keyframes drawArea {
+    0% { opacity: 0; }
+    50% { opacity: 0.3; }
+    100% { opacity: 0.1; }
+  }
+
+  .trading-humor {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    color: #856404;
+  }
+
+  .navigation-help {
+    margin-top: 2rem;
+  }
+
+  .help-button {
+    display: inline-block;
+    background: #1565c0;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    margin: 0 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .help-button:hover {
+    background: #1e88e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: white;
+    text-decoration: none;
+  }
+
+  .stock-ticker {
+    font-family: monospace;
+    background: #000;
+    color: #00ff00;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .blinking {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @media screen and (max-width: 768px) {
+    .error-container {
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+    
+    .error-title {
+      font-size: 2rem;
+    }
+    
+    .error-subtitle {
+      font-size: 1.2rem;
+    }
+    
+    .chart-container {
+      height: 150px;
+    }
+    
+    .help-button {
+      display: block;
+      margin: 8px 0;
+    }
+  }
+</style>
+
+<div class="error-container">
+  <div class="error-title">📉 404</div>
+  <div class="error-subtitle">Your strategy was unprofitable</div>
+  
+  <div class="stock-ticker">
+    PAGE-404: <span style="color: #ff4444;">-100.00%</span> 
+    <span class="blinking">●</span> DELISTED
+  </div>
+
+  <div class="chart-container">
+    <svg width="100%" height="100%" viewBox="0 0 500 150">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#dc2626;stop-opacity:0.8" />
+          <stop offset="100%" style="stop-color:#dc2626;stop-opacity:0.1" />
+        </linearGradient>
+      </defs>
+      <path class="chart-area" d="M0,50 L100,45 L200,60 L300,80 L400,120 L500,140 L500,150 L0,150 Z"/>
+      <path class="chart-line" d="M0,50 L100,45 L200,60 L300,80 L400,120 L500,140"/>
+      
+      <!-- Chart labels -->
+      <text x="450" y="135" font-family="monospace" font-size="12" fill="#666">404</text>
+      <text x="0" y="45" font-family="monospace" font-size="12" fill="#666">📈</text>
+    </svg>
+  </div>
+
+  <div class="trading-humor">
+    <h3>📊 Market Analysis</h3>
+    <p><strong>Technical Analysis:</strong> This page has broken through all support levels and is trending toward zero.</p>
+    <p><strong>Recommendation:</strong> Cut your losses and navigate to a profitable page below! 💸</p>
+  </div>
+
+  <div class="navigation-help">
+    <h3>🚀 Recovery Options</h3>
+    <p>Time to rebalance your portfolio:</p>
+    <a href="/" class="help-button">🏠 Home</a>
+    <a href="/indicators/" class="help-button">📊 Indicators</a>
+    <a href="/guide/" class="help-button">📚 Guide</a>
+  </div>
+
+  <div style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
+    <p>💡 <em>Remember: Past performance of pages does not guarantee future results.</em></p>
+  </div>
 </div>

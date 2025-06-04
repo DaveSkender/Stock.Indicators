@@ -1,0 +1,64 @@
+---
+layout: null
+---
+
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>
+            {% if page.title == "Home" %}
+              {{ site.title }} &middot; {{ site.tagline }}
+            {% else %}
+              {% if page.title != "" %}{{ page.title }} &middot; {% endif %}{{ site.title }}
+            {% endif %}
+        </title>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/g/bootstrap@3.3(css/bootstrap-theme.min.css+css/bootstrap.min.css)" crossorigin="anonymous">
+        <!--[if lt IE 9]><script src="//cdn.jsdelivr.net/g/html5shiv@3.7.3,respond@1.4.2" crossorigin="anonymous"></script><![endif]-->
+        <link rel="stylesheet" href="{{ site.baseurl | prepend: site.url }}/assets/css/style.css">
+        <link rel="alternate" type="application/atom+xml" title="Example.com" href="{{ site.baseurl | prepend: site.url }}/atom.xml">
+        <script type="text/javascript" src="{{ site.baseurl | prepend: site.url }}/assets/js/script.js"></script>
+    </head>
+    <body class="layout-reverse sidebar-overlay">
+        {% include sidebar.html %}
+        <div class="wrap">
+            <div class="masthead">
+                <div class="container">
+                    <h3 class="masthead-title">
+                        <a href="/" title="Home">Example.com</a>
+                        <small>Example!</small>
+                    </h3>
+                </div>
+            </div>
+            <div class="container content">
+                {{ content }}
+            </div>
+        </div>
+        <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted text-center">&copy; Copyright {{ site.time | date: '%Y' }} Example. All rights reserved.</p>
+            </div>
+        </footer>
+
+        <script>
+            (function(document) {
+                var toggle = document.querySelector('.sidebar-toggle');
+                var sidebar = document.querySelector('#sidebar');
+                var checkbox = document.querySelector('#sidebar-checkbox');
+
+                document.addEventListener('click', function(e) {
+                var target = e.target;
+
+                if(!checkbox.checked ||
+                sidebar.contains(target) ||
+                (target === checkbox || target === toggle)) return;
+
+                checkbox.checked = false;
+                }, false);
+            })(document);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,13 @@
+---
+layout: page
+---
+<div class="page-content wc-container">
+    <table>
+        {% for post in site.categories[page.category] %}
+        <tr>
+            <td><i class="icon-clock"></i><time datetime="{{post.date|date:"%F"}}">{{post.date|date:"%b %d, %Y"}}</time></td>  
+            <td><a href="{{ post.url | prepend: site.baseurl | prepend: site.url }}">{{ post.title }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>

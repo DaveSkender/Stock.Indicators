@@ -1,0 +1,1 @@
+<input checked> <input checked="checked"> checked="checked" <input selected = ''> <input disabled=disabled> <input readonly='true' id="id"/>

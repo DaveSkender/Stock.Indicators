@@ -1,0 +1,24 @@
+markdown: redcarpet
+highlighter: pygments
+title: Example.com
+tagline: "Example!"
+description: ""
+url: https://example.com
+paginate: 10
+category_dir: /
+category_title_prefix: ""
+permalink: :categories/:title.html
+timezone: Australia/Perth
+author:
+  name: "Example"
+  email: "example@example.com"
+menu:
+  - {
+      url: "https://www.github.com/example/",
+      name: "GitHub",
+      nofollow: true,
+      newwindow: true,
+    }
+plugins:
+  - jekyll-minifier
+  - jekyll-paginate

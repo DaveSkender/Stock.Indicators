@@ -1,0 +1,13 @@
+deploy:
+  provider: rubygems
+  api_key:
+    secure: ZcuqwEzBM7IXmEoMnE3pJLNlmNqZ0XpCbMt/DWn/XqR24SrM2+OLKBIY1Nb5y5mIzzE1ipKxuDRxXnQJNsxyLYKKaAMZc9fax8n/uNN5c2gMU3oqQS0Dw3R44ynDmpuhr7hv9peCuh8Y0ca5WJxo1AG0GNckBrYXBQNrtK6TlnR6KlmTc2Vht30JW253W7BXREe+uQPLQA5g0V/s+Hc/qORLHp64qtEGUyShTSSBc5h2989vKVPvXrm5c6bUEyl48LH9jatOyll3prSYyka1pGNueWKYWTpjUdDDkAHVwdHr3rILTe7CD6wyVJkPLPjczga3IPHFLUGKSQN+tKevYZYbGmjtty1C4giUqu71HqYfYOgWNNUe9HGg86lvZjvo8PC9AENn5e10EvrqOPwIMl1ISkXcdA3zGkZvl9bAJ5AR7vGU8p33nzKbGahD9YBfg8hauiRehBV4EPaFK4uTOIOI9GwNjVqzOZ8azUDm3FFivlKcqtaO5IKVZb3XNxM3QkldnlPOmJzzZuF/9Z61RjqiWkbs8Fgkydzt9K3gmHmRvl73cxrZWAXqkOf45vIAMFY6P8lj7mIOJxFhlK/IkDm7HYwd5nbe9xe0D+G9Q20BqQ9MR8Zn2VFcc32V5f5U/P8mWXxRVSa6RPQomGosL8WpX1xLyQGA/+WzInSqzPo=
+  gem: jekyll-minifier
+  on:
+    tags: true
+    all_branches: true
+    repo: digitalsparky/jekyll-minifier
+language: ruby
+rvm:
+  - 2.3.1
+script: JEKYLL_ENV="production" bundle exec rspec spec
