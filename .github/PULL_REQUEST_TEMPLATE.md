@@ -1,4 +1,10 @@
-#### done when
+## Summary
+_Brief description of changes_
 
-- [ ] Implement
-- [ ] Fix: #
+## Related Issue
+- Fixes #
+- Related to #
+
+## Checklist
+- [ ] Implementation complete
+- [ ] Tests pass

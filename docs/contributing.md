@@ -103,6 +103,15 @@ npx pa11y-ci --sitemap http://127.0.0.1:4000/sitemap.xml
 By submitting changes to this repo you are also acknowledging and agree to the terms in both the [Developer Certificate of Origin (DCO) 1.1](https://developercertificate.org) and the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0).  These are standard open-source terms and conditions.
 
 When ready, submit a [Pull Request](https://help.github.com/pull-requests) with a clear description of what you've done and why it's important.
+
+### Pull Request naming convention
+
+Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
+- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
+- `Subject` starts with an uppercase letter
+
+Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`
+
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
 After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
@@ -117,6 +126,21 @@ If you want to contribute administratively, do code reviews, or provide general 
 - [.NET Framework Design Guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines)
 - [NuGet Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget)
 - [Semantic Version 2.0](https://semver.org)
+
+## GitHub Copilot and AI development
+
+This repository is optimized for GitHub Copilot and coding agents with:
+
+- **Custom Copilot instructions** in `.github/copilot-instructions.md` providing repository context, coding patterns, and domain knowledge
+- **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
+- **Environment setup workflow** in `.github/workflows/copilot-setup-steps.yml` for automated dependency installation
+- **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
+
+When using GitHub Copilot:
+- Follow the established patterns documented in the Copilot instructions
+- Ensure all financial calculations maintain decimal precision 
+- Include comprehensive unit tests for any new indicators
+- Validate mathematical accuracy against reference implementations
 
 ## Versioning
 
