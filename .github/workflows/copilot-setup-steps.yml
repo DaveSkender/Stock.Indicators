@@ -1,6 +1,8 @@
 name: Copilot Environment Setup
 description: Set up development environment for GitHub Copilot coding agents working on Stock Indicators for .NET
 
+permissions:
+  contents: read
 on:
   workflow_dispatch:
   schedule:
