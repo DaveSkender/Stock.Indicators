@@ -10,7 +10,7 @@ This is **Stock Indicators for .NET** - a comprehensive C# library providing 200
 src/
 ├── _common/           # Shared utilities, base classes, and common types
 ├── a-d/              # Indicators A-D (alphabetical organization)
-├── e-k/              # Indicators E-K  
+├── e-k/              # Indicators E-K
 ├── m-r/              # Indicators M-R
 ├── s-z/              # Indicators S-Z
 └── Indicators.csproj # Main project file
@@ -71,7 +71,7 @@ if (lookbackPeriods <= 0)
 - Use descriptive test method names: `GetIndicator_WithValidData_ReturnsExpectedResults()`
 
 ### Test Data
-- Use consistent historical data from `TestData.GetDefault()`  
+- Use consistent historical data from `TestData.GetDefault()`
 - Include edge cases: insufficient data, boundary values
 - Verify precision to appropriate decimal places
 
@@ -83,14 +83,14 @@ if (lookbackPeriods <= 0)
 ## Financial Domain Knowledge
 
 ### Key Concepts
-- **OHLC**: Open, High, Low, Close price data
+- **OHLCV**: Open, High, Low, Close, Volume price data
 - **Lookback Period**: Number of periods required for calculation
 - **Signal Line**: Secondary indicator line (often smoothed)
 - **Convergence/Divergence**: Relationship between price and indicator
 
 ### Common Indicator Categories
 - **Trend**: Moving averages, MACD, ADX
-- **Momentum**: RSI, Stochastic, Williams %R  
+- **Momentum**: RSI, Stochastic, Williams %R
 - **Volatility**: Bollinger Bands, ATR, Standard Deviation
 - **Volume**: OBV, Accumulation/Distribution, Money Flow Index
 
@@ -144,21 +144,63 @@ if (lookbackPeriods <= 0)
 - Validation for all user inputs
 - Consistent formatting using `.editorconfig`
 
-## AI Assistant Guidelines
+## 🤖 AI Assistant Guidelines
 
 When suggesting code changes:
-1. **Preserve existing patterns** - Follow established conventions
-2. **Validate mathematical accuracy** - Financial calculations must be precise
-3. **Include appropriate tests** - Both unit and edge case scenarios  
-4. **Consider performance impact** - This library prioritizes efficiency
-5. **Maintain backward compatibility** - Breaking changes require major version bump
-6. **Add XML documentation** - All public APIs must be documented
+1. **Preserve existing patterns** – Always check similar indicators before introducing new approaches.
+2. **Validate mathematical accuracy** – Financial calculations must be precise and use `decimal`.
+3. **Include comprehensive tests** – Cover both standard and edge cases, and verify precision.
+4. **Consider performance impact** – Use memory-efficient patterns (`yield return`, `Span<T>`, avoid unnecessary allocations).
+5. **Maintain backward compatibility** – Breaking changes require justification and a major version bump.
+6. **Add XML documentation** – All public APIs must be documented with `<include file=.../>`.
+7. **Document validation and error handling** – Ensure all user inputs are validated and errors are clear.
 
-## Getting Started for Contributors
+### PR Title Guidelines (Required by CI)
+Your PR title **must** follow this format:
+```
+type: Subject with uppercase first letter
+```
+Where `type` is one of:
+- feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (all lowercase)
+and `Subject` starts with an uppercase letter.
 
-1. Clone repository and restore packages: `dotnet restore`
-2. Build solution: `dotnet build`
-3. Run tests: `dotnet test`
-4. Check performance: Navigate to `tests/performance` and run benchmarks
+**Examples:**
+```
+feat: Add Kaufman Adaptive Moving Average indicator
+fix: Correct RSI calculation for edge cases
+docs: Update XML documentation for MACD
+perf: Optimize Bollinger Bands calculation
+test: Add unit tests for Stochastic indicator
+```
 
-For new indicators, start with existing similar indicators as templates and follow the established patterns in the codebase.
+**Invalid:**
+```
+feat: add new indicator        (lowercase subject)
+Add new indicator              (missing type)
+feat:Add new indicator         (missing space after colon)
+FEAT: Add new indicator        (uppercase type)
+```
+
+### Example AI Response Pattern
+```
+I'll help you implement the [Indicator Name]. Based on the existing patterns in this codebase:
+
+1. **File Structure**: Create these files in `src/[a-z]/IndicatorName/`:
+   - `IndicatorName.cs` - Main calculation
+   - `IndicatorName.Models.cs` - Result model
+
+2. **Implementation**: Following the EMA pattern:
+   ```csharp
+   // Include specific code following repo patterns
+   ```
+
+3. **Tests**: Add to `tests/indicators/[a-z]/IndicatorName/`:
+   ```csharp
+   // Include test examples
+   ```
+
+4. **Performance Considerations**:
+   - Use `yield return` for streaming
+   - Validate inputs once at the start
+   - Consider caching for repeated calculations
+```
