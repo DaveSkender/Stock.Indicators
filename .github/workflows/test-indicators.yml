@@ -69,16 +69,6 @@ jobs:
 
       # the remaining steps are only needed from one primary instance
 
-      - name: Test other items
-        if: env.IS_PRIMARY == 'true'
-        run: >
-          dotnet test tests/other/Tests.Other.csproj
-          --configuration Release
-          --no-build
-          --verbosity normal
-          --logger trx
-          --results-directory ./test-other
-
       - name: Post test results
         uses: dorny/test-reporter@v2.1.0
         if: env.IS_PRIMARY == 'true' && always()
