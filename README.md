@@ -4,7 +4,7 @@
 [![NuGet package](https://img.shields.io/nuget/v/skender.stock.indicators?color=blue&logo=NuGet&label=NuGet)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 [![NuGet](https://img.shields.io/nuget/dt/skender.stock.indicators?logo=NuGet&label=Downloads)](https://www.nuget.org/packages/Skender.Stock.Indicators)
 
-> [!NOTE]
+> [!IMPORTANT]
 > This branch contains **vNext (v3)** code that is under development. For the currently released stable version (v2), please see the [`main` branch README](https://github.com/DaveSkender/Stock.Indicators/blob/main/README.md).
 
 # Stock Indicators for .NET
