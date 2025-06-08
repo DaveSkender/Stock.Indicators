@@ -16,7 +16,7 @@ Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price
 
 ```csharp
 // C# usage syntax
-IEnumerable<FcbResult> results =
+IReadOnlyList<FcbResult> results =
   quotes.GetFcb(windowSpan);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `2×S+1` periods of `quotes` to cover the warmup periods;
 ## Response
 
 ```csharp
-IEnumerable<FcbResult>
+IReadOnlyList<FcbResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<FcbResult>
 
 ### FcbResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`UpperBand`** _`decimal`_ - FCB upper band
 

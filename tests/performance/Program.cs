@@ -2,7 +2,7 @@ using BenchmarkDotNet.Running;
 
 [assembly: CLSCompliant(false)]
 
-namespace Tests.Performance;
+namespace Performance;
 
 public static class Program
 {
@@ -21,4 +21,13 @@ public static class Program
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
         }
     }
+
+    /* USAGE
+     * 
+     * dotnet build -c Release
+     * 
+     * Examples, to run cohorts:
+     * dotnet run -c Release -filter *Stream*
+     * dotnet run -c Release -filter *External.EmaHub*
+     */
 }

@@ -1,14 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of the Balance of Power (BOP) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Bop">The Balance of Power value.</param>
 [Serializable]
-public sealed class BopResult : ResultBase, IReusableResult
+public record BopResult
+(
+    DateTime Timestamp,
+    double? Bop
+) : IReusable
 {
-    public BopResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Bop { get; set; }
-
-    double? IReusableResult.Value => Bop;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Bop.Null2NaN();
 }

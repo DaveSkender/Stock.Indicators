@@ -1,15 +1,20 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of the Awesome Oscillator calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Oscillator">The value of the Awesome Oscillator.</param>
+/// <param name="Normalized">The normalized value of the Awesome Oscillator.</param>
 [Serializable]
-public sealed class AwesomeResult : ResultBase, IReusableResult
+public record AwesomeResult
+(
+    DateTime Timestamp,
+    double? Oscillator,
+    double? Normalized
+) : IReusable
 {
-    public AwesomeResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Oscillator { get; set; }
-    public double? Normalized { get; set; }
-
-    double? IReusableResult.Value => Oscillator;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Oscillator.Null2NaN();
 }

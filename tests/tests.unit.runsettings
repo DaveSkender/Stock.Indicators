@@ -1,0 +1,5 @@
+<RunSettings>
+  <RunConfiguration>
+    <TestCaseFilter>TestCategory!=Integration</TestCaseFilter>
+  </RunConfiguration>
+</RunSettings>

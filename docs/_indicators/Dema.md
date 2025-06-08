@@ -18,7 +18,7 @@ Created by Patrick G. Mulloy, the [Double exponential moving average](https://en
 
 ```csharp
 // C# usage syntax
-IEnumerable<DemaResult> results =
+IReadOnlyList<DemaResult> results =
   quotes.GetDema(lookbackPeriods);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `3×N` or `2×N+100` periods of `quotes`, whichever is mo
 ## Response
 
 ```csharp
-IEnumerable<DemaResult>
+IReadOnlyList<DemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -47,7 +47,7 @@ IEnumerable<DemaResult>
 
 ### DemaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Dema`** _`double`_ - Double exponential moving average
 

@@ -15,5 +15,5 @@
   "github.copilot.chat.enabled": true,
   "github.copilot.chat.codesearch.enabled": false,
   "chat.agent.enabled": true,
-  "chat.mcp.enabled": true,
+  "chat.mcp.enabled": true
 }
