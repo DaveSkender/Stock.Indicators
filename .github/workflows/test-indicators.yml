@@ -85,4 +85,3 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-results/**/coverage.cobertura.xml
         continue-on-error: true
-
