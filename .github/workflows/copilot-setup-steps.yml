@@ -1,0 +1,34 @@
+name: Copilot Environment Setup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.x"
+          dotnet-quality: "ga"
+
+      - name: Install .NET tools
+        run: |
+          dotnet tool install --global dotnet-format
+          dotnet tool install --global dotnet-outdated-tool
+
+      - name: Build .NET Solution
+        run: |
+          dotnet build --no-incremental
+
+      - name: Environment summary
+        run: |
+          echo "## Copilot environment: Ready" >> $GITHUB_STEP_SUMMARY
+          echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
+          echo "- .NET Tools: $(dotnet tool list --global | wc -l)" available" >> $GITHUB_STEP_SUMMARY

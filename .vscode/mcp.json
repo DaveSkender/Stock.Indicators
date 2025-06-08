@@ -1,29 +1,19 @@
 {
   "servers": {
     "memory": {
+      "type": "stdio",
       "command": "npx",
       "args": [
         "@modelcontextprotocol/server-memory"
       ]
     },
-    "fetch": {
-      "command": "uvx",
-      "args": [
-        "mcp-server-fetch"
-      ]
-    },
-    "sequential-thinking": {
+    "filesystem": {
       "type": "stdio",
       "command": "npx",
       "args": [
-        "@mcp/sequential-thinking"
-      ]
-    },
-    "file-system": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "@mcp/filesystem"
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${workspaceFolder}"
       ]
     }
   }
