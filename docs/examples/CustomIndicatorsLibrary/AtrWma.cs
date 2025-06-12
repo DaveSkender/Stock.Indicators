@@ -15,7 +15,7 @@ public sealed class AtrWmaResult : ResultBase, IReusableResult
     double? IReusableResult.Value => AtrWma;
 }
 
-public static class CustomIndicators
+public static partial class CustomIndicators
 {
     // Custom ATR WMA calculation
     public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
