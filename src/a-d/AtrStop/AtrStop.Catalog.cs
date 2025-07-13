@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Skender.Stock.Indicators; // This namespace should contain EndType
-
 namespace Skender.Stock.Indicators;
 
 public static partial class AtrStop
@@ -16,7 +12,7 @@ public static partial class AtrStop
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
-            .AddResult("AtrStop", "ATR Stop", ResultType.Default, isDefault: true)
+            .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, isDefault: true)
             .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
             .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
             .AddResult("Atr", "ATR", ResultType.Default, isDefault: false)
@@ -32,7 +28,7 @@ public static partial class AtrStop
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
-            .AddResult("AtrStop", "ATR Stop", ResultType.Default, isDefault: true)
+            .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, isDefault: true)
             .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
             .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
             .AddResult("Atr", "ATR", ResultType.Default, isDefault: false)

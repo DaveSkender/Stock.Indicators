@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Skender.Stock.Indicators; // This namespace should contain Match enum
-
 namespace Skender.Stock.Indicators;
 
 public static partial class Marubozu

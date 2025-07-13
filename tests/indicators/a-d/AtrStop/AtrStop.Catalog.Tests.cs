@@ -7,7 +7,7 @@ public class AtrStopTests : TestBase
     public void AtrStopListing()
     {
         // Act
-        var listing = AtrStop.Listing;
+        var listing = AtrStop.SeriesListing;
 
         // Assert
         listing.Should().NotBeNull();
