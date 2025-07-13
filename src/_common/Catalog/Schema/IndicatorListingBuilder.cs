@@ -154,6 +154,64 @@ public class IndicatorListingBuilder
     }
 
     /// <summary>
+    /// Adds a date parameter to the indicator.
+    /// </summary>
+    /// <param name="parameterName">The name of the parameter.</param>
+    /// <param name="displayName">The display name of the parameter.</param>
+    /// <param name="description">Optional description of the parameter.</param>
+    /// <param name="isRequired">Whether the parameter is required.</param>
+    /// <param name="defaultValue">Optional default value for the parameter.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder AddDateParameter(
+        string parameterName,
+        string displayName,
+        string? description = null,
+        bool isRequired = false,
+        DateTime? defaultValue = null)
+    {
+        _parameters.Add(new IndicatorParam {
+            ParameterName = parameterName,
+            DisplayName = displayName,
+            Description = description,
+            DataType = "DateTime",
+            IsRequired = isRequired,
+            DefaultValue = defaultValue?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Minimum = null,
+            Maximum = null
+        });
+
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a quote series parameter to the indicator.
+    /// </summary>
+    /// <param name="parameterName">The name of the parameter.</param>
+    /// <param name="displayName">The display name of the parameter.</param>
+    /// <param name="description">Optional description of the parameter.</param>
+    /// <param name="isRequired">Whether the parameter is required.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder AddSeriesParameter(
+        string parameterName,
+        string displayName,
+        string? description = null,
+        bool isRequired = true)
+    {
+        _parameters.Add(new IndicatorParam {
+            ParameterName = parameterName,
+            DisplayName = displayName,
+            Description = description,
+            DataType = "IEnumerable<Quote>",
+            IsRequired = isRequired,
+            DefaultValue = null,
+            Minimum = null,
+            Maximum = null
+        });
+
+        return this;
+    }
+
+    /// <summary>
     /// Adds a result to the indicator.
     /// </summary>
     /// <param name="dataName">The name of the data property.</param>
