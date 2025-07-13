@@ -16,7 +16,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 
 ```csharp
 // C# usage syntax
-IEnumerable<BollingerBandsResult> results =
+IReadOnlyList<BollingerBandsResult> results =
   quotes.GetBollingerBands(lookbackPeriods, standardDeviations);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `N` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<BollingerBandsResult>
+IReadOnlyList<BollingerBandsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<BollingerBandsResult>
 
 ### BollingerBandsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Sma`** _`double`_ - Simple moving average (SMA) of price (center line)
 

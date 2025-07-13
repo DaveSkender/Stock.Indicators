@@ -18,7 +18,7 @@ Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en
 
 ```csharp
 // C# usage syntax
-IEnumerable<TemaResult> results =
+IReadOnlyList<TemaResult> results =
   quotes.GetTema(lookbackPeriods);
 ```
 
@@ -35,7 +35,7 @@ You must have at least `N` periods of `quotes` to produce any TEMA values.  Howe
 ## Response
 
 ```csharp
-IEnumerable<TemaResult>
+IReadOnlyList<TemaResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -56,7 +56,7 @@ Period 160+:  fully converged, reliable values
 
 ### TemaResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Tema`** _`double`_ - Triple exponential moving average
 

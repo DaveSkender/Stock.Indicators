@@ -1,14 +1,18 @@
 namespace Skender.Stock.Indicators;
 
+/// <summary>
+/// Represents the result of a Hull Moving Average (HMA) calculation.
+/// </summary>
+/// <param name="Timestamp">The timestamp of the result.</param>
+/// <param name="Hma">The value of the Hull Moving Average.</param>
 [Serializable]
-public sealed class HmaResult : ResultBase, IReusableResult
+public record HmaResult
+(
+    DateTime Timestamp,
+    double? Hma = null
+) : IReusable
 {
-    public HmaResult(DateTime date)
-    {
-        Date = date;
-    }
-
-    public double? Hma { get; set; }
-
-    double? IReusableResult.Value => Hma;
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public double Value => Hma.Null2NaN();
 }

@@ -16,7 +16,7 @@ layout: indicator
 
 ```csharp
 // C# usage syntax
-IEnumerable<MaEnvelopeResult> results =
+IReadOnlyList<MaEnvelopeResult> results =
   quotes.GetMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 ```
 
@@ -61,7 +61,7 @@ These are the supported moving average types:
 ## Response
 
 ```csharp
-IEnumerable<MaEnvelopeResult>
+IReadOnlyList<MaEnvelopeResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -73,7 +73,7 @@ IEnumerable<MaEnvelopeResult>
 
 ### MaEnvelopeResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Centerline`** _`double`_ - Moving average
 

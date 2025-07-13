@@ -16,7 +16,7 @@ Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average D
 
 ```csharp
 // C# usage syntax
-IEnumerable<AdxResult> results =
+IReadOnlyList<AdxResult> results =
   quotes.GetAdx(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `2×N+100` periods of `quotes` to cover the [warmup and c
 ## Response
 
 ```csharp
-IEnumerable<AdxResult>
+IReadOnlyList<AdxResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<AdxResult>
 
 ### AdxResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Pdi`** _`double`_ - Plus Directional Index (+DI)
 

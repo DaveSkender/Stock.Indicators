@@ -16,7 +16,7 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 
 ```csharp
 // C# usage syntax
-IEnumerable<RsiResult> results =
+IReadOnlyList<RsiResult> results =
   quotes.GetRsi(lookbackPeriods);
 ```
 
@@ -33,7 +33,7 @@ You must have at least `N+100` periods of `quotes` to cover the [warmup and conv
 ## Response
 
 ```csharp
-IEnumerable<RsiResult>
+IReadOnlyList<RsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -45,7 +45,7 @@ IEnumerable<RsiResult>
 
 ### RsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`Rsi`** _`double`_ - Relative Strength Index
 

@@ -16,7 +16,7 @@ Created by Dave Skender, Rolling Pivot Points is a modern update to traditional 
 
 ```csharp
 // C# usage syntax
-IEnumerable<RollingPivotsResult> results =
+IReadOnlyList<RollingPivotsResult> results =
   quotes.GetRollingPivots(windowPeriods, offsetPeriods, pointType);
 ```
 
@@ -51,7 +51,7 @@ You must have at least `W+F` periods of `quotes` to cover the warmup periods.
 ## Response
 
 ```csharp
-IEnumerable<RollingPivotsResult>
+IReadOnlyList<RollingPivotsResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -61,7 +61,7 @@ IEnumerable<RollingPivotsResult>
 
 ### RollingPivotsResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`R3`** _`decimal`_ - Resistance level 3
 
