@@ -9,7 +9,7 @@ public static partial class Adl
             .WithId("ADL")
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
-            .AddResult("adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isDefault: true)
+            .AddResult("Adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isDefault: true)
             .Build();
 
     // ADL Stream Listing
@@ -19,7 +19,7 @@ public static partial class Adl
             .WithId("ADL")
             .WithStyle(Style.Stream)
             .WithCategory(Category.VolumeBased)
-            .AddResult("adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isDefault: true)
+            .AddResult("Adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isDefault: true)
             .Build();
 
     // No BufferListing for ADL.
