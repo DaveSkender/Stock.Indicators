@@ -26,7 +26,7 @@ public static class IndicatorRegistry
                 if (!_isInitialized)
                 {
                     // Register all indicators from the catalog
-                    foreach (IndicatorListing listing in IndicatorCatalog.GetCatalog())
+                    foreach (IndicatorListing listing in IndicatorCatalog.Catalog)
                     {
                         Register(listing);
                     }
@@ -73,7 +73,7 @@ public static class IndicatorRegistry
         Clear();
 
         // Register all indicators from the catalog
-        foreach (IndicatorListing listing in IndicatorCatalog.GetCatalog())
+        foreach (IndicatorListing listing in IndicatorCatalog.Catalog)
         {
             Register(listing);
         }
