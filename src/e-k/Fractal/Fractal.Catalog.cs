@@ -10,7 +10,7 @@ public static partial class Fractal
             .WithStyle(Style.Series)
             .WithCategory(Category.PricePattern)
             .AddParameter<int>("windowSpan", "Window Span", description: "Number of periods to look back and forward for the calculation", isRequired: false, defaultValue: 2, minimum: 1, maximum: 100)
-            .AddParameter<EndType>("endType", "End Type", description: "Type of price to use for the calculation", isRequired: false, defaultValue: EndType.HighLow)
+            .AddEnumParameter<EndType>("endType", "End Type", description: "Type of price to use for the calculation", isRequired: false, defaultValue: EndType.HighLow)
             .AddResult("FractalBear", "Bear Fractal", ResultType.Default, isDefault: false)
             .AddResult("FractalBull", "Bull Fractal", ResultType.Default, isDefault: true)
             .Build();
