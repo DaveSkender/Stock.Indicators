@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class ElderRay
 {
     // ELDER-RAY Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Elder-ray Index") // From catalog.bak.json
             .WithId("ELDER-RAY") // From catalog.bak.json

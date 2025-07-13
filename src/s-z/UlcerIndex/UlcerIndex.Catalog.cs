@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class UlcerIndex
 {
     // Ulcer Index Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Ulcer Index")
             .WithId("ULCER")

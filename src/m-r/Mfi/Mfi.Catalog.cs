@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Mfi
 {
     // MFI Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Money Flow Index (MFI)") // From catalog.bak.json
             .WithId("MFI") // From catalog.bak.json

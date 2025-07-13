@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Chandelier
 {
     // CHEXIT Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Chandelier Exit")
             .WithId("CHEXIT")

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class BollingerBands
 {
     // BB Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Bollinger Bands®")
             .WithId("BB")

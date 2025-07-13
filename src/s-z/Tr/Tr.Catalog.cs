@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Tr
 {
     // TR Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("True Range")
             .WithId("TR")
@@ -13,7 +13,7 @@ public static partial class Tr
             .Build();
 
     // TR Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("True Range")
             .WithId("TR")

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Macd
 {
     // MACD Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Moving Average Convergence/Divergence") // From catalog.bak.json
             .WithId("MACD") // From catalog.bak.json

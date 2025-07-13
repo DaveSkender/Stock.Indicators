@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Adx
 {
     // ADX Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Average Directional Index (ADX)")
             .WithId("ADX")
@@ -20,7 +20,7 @@ public static partial class Adx
     // No StreamListing for ADX.
 
     // ADX Buffer Listing
-    public static readonly IndicatorListing BufferListing =
+    internal static readonly IndicatorListing BufferListing =
         new IndicatorListingBuilder()
             .WithName("Average Directional Index (ADX) (Buffer)")
             .WithId("ADX")

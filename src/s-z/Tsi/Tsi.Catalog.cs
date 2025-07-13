@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Tsi
 {
     // True Strength Index Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("True Strength Index")
             .WithId("TSI")

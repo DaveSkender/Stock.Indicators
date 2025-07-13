@@ -28,5 +28,5 @@ namespace Skender.Stock.Indicators;
     validOn: AttributeTargets.Constructor,
     AllowMultiple = false,
     Inherited = false)]
-internal sealed class BufferIndicatorAttribute(string id)
+public sealed class BufferIndicatorAttribute(string id)
     : IndicatorAttribute(id, Style.Buffer);

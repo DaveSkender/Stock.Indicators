@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Chop
 {
     // CHOP Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Choppiness Index")
             .WithId("CHOP")

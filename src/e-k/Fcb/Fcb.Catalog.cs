@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Fcb
 {
     // FCB Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Fractal Chaos Bands") // From catalog.bak.json
             .WithId("FCB") // From catalog.bak.json

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Correlation
 {
     // CORR Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Correlation")
             .WithId("CORR")

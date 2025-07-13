@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Pvo
 {
     // Price Volume Oscillator Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Price Volume Oscillator")
             .WithId("PVO")

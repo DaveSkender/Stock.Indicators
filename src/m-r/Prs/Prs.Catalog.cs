@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Prs
 {
     // Price Relative Strength Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Price Relative Strength")
             .WithId("PRS")

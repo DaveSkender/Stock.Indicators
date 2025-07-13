@@ -5,7 +5,7 @@
 Use the `IndicatorListingBuilder` to create catalog listings with a fluent interface:
 
 ```csharp
-public static readonly IndicatorListing SeriesListing = new IndicatorListingBuilder()
+internal static readonly IndicatorListing SeriesListing = new IndicatorListingBuilder()
     .WithName("Exponential Moving Average")
     .WithId("EMA")
     .WithStyle(Style.Series)
@@ -49,9 +49,9 @@ public static partial class Ema
     public EmaList(int lookbackPeriods) { }
 
     // Separate listing for each style
-    public static readonly IndicatorListing SeriesListing = /* ... */;
-    public static readonly IndicatorListing StreamListing = /* ... */;
-    public static readonly IndicatorListing BufferListing = /* ... */;
+    internal static readonly IndicatorListing SeriesListing = /* ... */;
+    internal static readonly IndicatorListing StreamListing = /* ... */;
+    internal static readonly IndicatorListing BufferListing = /* ... */;
 }
 ```
 

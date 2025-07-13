@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Rsi
 {
     // RSI Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Relative Strength Index")
             .WithId("RSI")

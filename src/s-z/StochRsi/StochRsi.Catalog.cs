@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class StochRsi
 {
     // Stochastic RSI Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Stochastic RSI")
             .WithId("STOCH-RSI")

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for generating Renko chart series using ATR (Average True Range).
 /// </summary>
-public static partial class Renko
+public static partial class RenkoAtr
 {
     /// <summary>
     /// Converts a list of quotes to a list of Renko chart results using ATR for brick size.

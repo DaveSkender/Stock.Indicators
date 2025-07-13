@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class StdDevChannels
 {
     // Standard Deviation Channels Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Standard Deviation Channels")
             .WithId("STDEV-CHANNELS")

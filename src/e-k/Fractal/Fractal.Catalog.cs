@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Fractal
 {
     // Fractal Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Williams Fractal (high/low)")
             .WithId("FRACTAL")

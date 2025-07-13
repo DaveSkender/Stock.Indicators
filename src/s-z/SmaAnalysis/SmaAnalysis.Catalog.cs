@@ -1,9 +1,9 @@
 namespace Skender.Stock.Indicators;
 
-public static class SmaAnalysisCatalog
+public static partial class SmaAnalysis
 {
     // SMA Analysis Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Simple Moving Average Analysis")
             .WithId("SMA-ANALYSIS")

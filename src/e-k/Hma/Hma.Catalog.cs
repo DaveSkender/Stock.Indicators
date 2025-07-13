@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Hma
 {
     // HMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Hull Moving Average") // From catalog.bak.json
             .WithId("HMA") // From catalog.bak.json

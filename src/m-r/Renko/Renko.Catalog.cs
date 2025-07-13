@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Renko
 {
     // Renko Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Renko Chart")
             .WithId("RENKO")
@@ -20,7 +20,7 @@ public static partial class Renko
             .Build();
 
     // Renko Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("Renko Chart")
             .WithId("RENKO")

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Dema
 {
     // DEMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Double Exponential Moving Average") // From catalog.bak.json
             .WithId("DEMA") // From catalog.bak.json

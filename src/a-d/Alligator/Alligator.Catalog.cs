@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Alligator
 {
     // Alligator Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Williams Alligator")
             .WithId("ALLIGATOR")
@@ -21,7 +21,7 @@ public static partial class Alligator
             .Build();
 
     // Alligator Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("Williams Alligator")
             .WithId("ALLIGATOR")

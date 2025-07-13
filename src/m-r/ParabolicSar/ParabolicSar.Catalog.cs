@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class ParabolicSar
 {
     // Parabolic SAR Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Parabolic SAR")
             .WithId("PSAR")

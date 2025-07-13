@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Stc
 {
     // Schaff Trend Cycle Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Schaff Trend Cycle")
             .WithId("STC")

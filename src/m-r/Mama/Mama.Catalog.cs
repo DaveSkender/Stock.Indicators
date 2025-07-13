@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Mama
 {
     // MAMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("MESA Adaptive Moving Average") // From catalog.bak.json
             .WithId("MAMA") // From catalog.bak.json

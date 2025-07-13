@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class PivotPoints
 {
     // Pivot Points Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Pivot Points")
             .WithId("PIVOT-POINTS")

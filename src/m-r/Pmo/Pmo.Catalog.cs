@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Pmo
 {
     // Price Momentum Oscillator Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Price Momentum Oscillator")
             .WithId("PMO")

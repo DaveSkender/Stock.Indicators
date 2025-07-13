@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Ichimoku
 {
     // ICHIMOKU Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Ichimoku Cloud") // From catalog.bak.json
             .WithId("ICHIMOKU") // From catalog.bak.json

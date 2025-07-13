@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Kvo
 {
     // KVO Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Klinger Volume Oscillator") // From catalog.bak.json
             .WithId("KVO") // From catalog.bak.json

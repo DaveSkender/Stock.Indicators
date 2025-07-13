@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Kama
 {
     // KAMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Kaufman's Adaptive Moving Average") // From catalog.bak.json
             .WithId("KAMA") // From catalog.bak.json

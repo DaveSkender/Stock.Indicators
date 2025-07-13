@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Adl
 {
     // ADL Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Accumulation Distribution Line (ADL)")
             .WithId("ADL")
@@ -13,7 +13,7 @@ public static partial class Adl
             .Build();
 
     // ADL Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("Accumulation Distribution Line (ADL) (Stream)")
             .WithId("ADL")

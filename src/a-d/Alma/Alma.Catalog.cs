@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Alma
 {
     // ALMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Arnaud Legoux Moving Average (ALMA)")
             .WithId("ALMA")

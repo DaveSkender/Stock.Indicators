@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Ultimate
 {
     // Ultimate Oscillator Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Ultimate Oscillator")
             .WithId("UO")

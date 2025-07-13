@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Vwma
 {
     // Volume Weighted Moving Average Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Volume Weighted Moving Average")
             .WithId("VWMA")

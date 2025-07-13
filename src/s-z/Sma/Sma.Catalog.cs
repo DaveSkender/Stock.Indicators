@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Sma
 {
     // SMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Simple Moving Average")
             .WithId("SMA")
@@ -14,7 +14,7 @@ public static partial class Sma
             .Build();
 
     // SMA Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("Simple Moving Average")
             .WithId("SMA")

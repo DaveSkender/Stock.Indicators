@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Wma
 {
     // Weighted Moving Average Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Weighted Moving Average")
             .WithId("WMA")

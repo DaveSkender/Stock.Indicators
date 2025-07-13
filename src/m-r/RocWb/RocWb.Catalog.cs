@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class RocWb
 {
     // ROC with Bands Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("ROC with Bands")
             .WithId("ROC-WB")

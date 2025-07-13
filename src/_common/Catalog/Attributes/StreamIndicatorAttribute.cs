@@ -29,5 +29,5 @@ namespace Skender.Stock.Indicators;
     validOn: AttributeTargets.Method,
     AllowMultiple = false,
     Inherited = false)]
-internal sealed class StreamIndicatorAttribute(string id)
+public sealed class StreamIndicatorAttribute(string id)
     : IndicatorAttribute(id, Style.Stream);

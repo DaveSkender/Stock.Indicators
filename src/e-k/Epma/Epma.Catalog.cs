@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Epma
 {
     // EPMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Endpoint Moving Average") // From catalog.bak.json
             .WithId("EPMA") // From catalog.bak.json

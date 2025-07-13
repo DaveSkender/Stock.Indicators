@@ -25,11 +25,18 @@ namespace Skender.Stock.Indicators;
 /// </list>
 /// </para>
 /// </remarks>
-internal abstract class IndicatorAttribute(
+public abstract class IndicatorAttribute(
     string id,
     Style style
 ) : Attribute
 {
-    internal string Id { get; } = id;
-    internal Style Style { get; } = style;
+    /// <summary>
+    /// Gets the unique code of the indicator.
+    /// </summary>
+    public string Id { get; } = id;
+
+    /// <summary>
+    /// Gets the style of the indicator.
+    /// </summary>
+    public Style Style { get; } = style;
 }

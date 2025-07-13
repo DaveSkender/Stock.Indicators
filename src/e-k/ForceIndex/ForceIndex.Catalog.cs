@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class ForceIndex
 {
     // FORCE Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Force Index") // From catalog.bak.json
             .WithId("FORCE") // From catalog.bak.json

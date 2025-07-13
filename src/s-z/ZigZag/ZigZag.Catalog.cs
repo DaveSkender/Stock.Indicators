@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class ZigZag
 {
     // Zig Zag Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Zig Zag (close)")
             .WithId("ZIGZAG-CLOSE")

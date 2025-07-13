@@ -7,7 +7,7 @@ public class SmaAnalysisTests : TestBase
     public void SmaAnalysisSeriesListing()
     {
         // Act
-        var listing = SmaAnalysisCatalog.SeriesListing;
+        var listing = SmaAnalysis.SeriesListing;
 
         // Assert
         listing.Should().NotBeNull();

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Donchian
 {
     // DONCHIAN Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Donchian Channels") // From catalog.bak.json
             .WithId("DONCHIAN") // From catalog.bak.json

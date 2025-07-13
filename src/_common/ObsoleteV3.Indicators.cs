@@ -881,14 +881,14 @@ public static partial class Indicator
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetSmaAnalysis(..)` to `ToSmaAnalysis(..)`", false)]
-    public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(
+    public static IEnumerable<SmaAnalysisResult> GetSmaAnalysis<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSmaAnalysis(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToSmaAnalysis(..)' method. Tuple arguments were removed.", false)]
-    public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
+    public static IEnumerable<SmaAnalysisResult> GetSmaAnalysis(
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples

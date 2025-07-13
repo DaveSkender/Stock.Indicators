@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Cmo
 {
     // CMO Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Chande Momentum Oscillator")
             .WithId("CMO")

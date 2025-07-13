@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Atr
 {
     // ATR Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Average True Range (ATR)")
             .WithId("ATR")
@@ -16,7 +16,7 @@ public static partial class Atr
             .Build();
 
     // ATR Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("Average True Range (ATR) (Stream)")
             .WithId("ATR")

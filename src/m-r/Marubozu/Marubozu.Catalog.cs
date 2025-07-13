@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Marubozu
 {
     // MARUBOZU Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Marubozu") // From catalog.bak.json
             .WithId("MARUBOZU") // From catalog.bak.json

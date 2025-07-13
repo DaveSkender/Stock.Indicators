@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class T3
 {
     // T3 Moving Average Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("T3 Moving Average")
             .WithId("T3")

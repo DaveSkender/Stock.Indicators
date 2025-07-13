@@ -31,5 +31,5 @@ namespace Skender.Stock.Indicators;
     validOn: AttributeTargets.Method,
     AllowMultiple = false,
     Inherited = false)]
-internal sealed class SeriesIndicatorAttribute(string id)
+public sealed class SeriesIndicatorAttribute(string id)
     : IndicatorAttribute(id, Style.Series);

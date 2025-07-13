@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Hurst
 {
     // HURST Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Hurst Exponent") // From catalog.bak.json
             .WithId("HURST") // From catalog.bak.json

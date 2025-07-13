@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class MaEnvelopes
 {
     // MA-ENV Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Moving Average Envelopes") // From catalog.bak.json
             .WithId("MA-ENV") // From catalog.bak.json

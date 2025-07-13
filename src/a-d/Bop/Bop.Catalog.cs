@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Bop
 {
     // BOP Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Balance of Power (BOP)")
             .WithId("BOP")

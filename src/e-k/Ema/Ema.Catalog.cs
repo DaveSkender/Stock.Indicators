@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Ema
 {
     // EMA Series Listing
-    public static readonly IndicatorListing SeriesListing =
+    internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
             .WithName("Exponential Moving Average") // From catalog.bak.json
             .WithId("EMA") // From catalog.bak.json
@@ -15,7 +15,7 @@ public static partial class Ema
             .Build();
 
     // EMA Stream Listing
-    public static readonly IndicatorListing StreamListing =
+    internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
             .WithName("Exponential Moving Average") // Adjusted name
             .WithId("EMA")
@@ -26,7 +26,7 @@ public static partial class Ema
             .Build();
 
     // EMA Buffer Listing
-    public static readonly IndicatorListing BufferListing =
+    internal static readonly IndicatorListing BufferListing =
         new IndicatorListingBuilder()
             .WithName("Exponential Moving Average") // Adjusted name
             .WithId("EMA")

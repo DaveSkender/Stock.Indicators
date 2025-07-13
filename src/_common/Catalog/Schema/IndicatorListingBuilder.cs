@@ -9,21 +9,19 @@ public class IndicatorListingBuilder
 {
     private string _name = string.Empty;
     private string _id = string.Empty;
-    private Style _style = Style.Series;
     private Category _category = Category.Undefined;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
 
-    private Uri? _baseUrl;
     /// <summary>
     /// Gets the current base URL setting for the builder.
     /// </summary>
-    protected Uri? CurrentBaseUrl => _baseUrl;
+    protected Uri? CurrentBaseUrl { get; private set; }
 
     /// <summary>
     /// Gets the current style setting for the builder.
     /// </summary>
-    protected Style CurrentStyle => _style;
+    protected Style CurrentStyle { get; private set; } = Style.Series;
 
     /// <summary>
     /// Sets the name of the indicator.
@@ -54,7 +52,7 @@ public class IndicatorListingBuilder
     /// <returns>The builder instance for method chaining.</returns>
     public IndicatorListingBuilder WithStyle(Style style)
     {
-        _style = style;
+        CurrentStyle = style;
         return this;
     }
 
@@ -76,7 +74,7 @@ public class IndicatorListingBuilder
     /// <returns>The builder instance for method chaining.</returns>
     public IndicatorListingBuilder WithBaseUrl(Uri baseUrl)
     {
-        _baseUrl = baseUrl;
+        CurrentBaseUrl = baseUrl;
         return this;
     }
 
@@ -134,7 +132,7 @@ public class IndicatorListingBuilder
         where T : struct, Enum
     {
         // Create enum options dictionary
-        var enumOptions = new Dictionary<int, string>();
+        Dictionary<int, string> enumOptions = [];
         foreach (T enumValue in Enum.GetValues<T>())
         {
             enumOptions.Add(Convert.ToInt32(enumValue, CultureInfo.InvariantCulture), enumValue.ToString());
@@ -198,10 +196,10 @@ public class IndicatorListingBuilder
     public IndicatorListing Build()
     {
         ValidateBeforeBuild();
-        return new IndicatorListing(_baseUrl?.ToString() ?? string.Empty) {
+        return new IndicatorListing(CurrentBaseUrl?.ToString() ?? string.Empty) {
             Name = _name,
             Uiid = _id,
-            Style = _style,
+            Style = CurrentStyle,
             Category = _category,
             Parameters = _parameters.Count > 0 ? _parameters : null,
             Results = _results,
@@ -209,13 +207,11 @@ public class IndicatorListingBuilder
         };
     }
 
-    private string GenerateLegendTemplate()
-    {
+    private string GenerateLegendTemplate() =>
         // A simple legend template based on the indicator name
-        return $"{_name} ({_id})";
-    }
+        $"{_name} ({_id})";
 
-    protected void ValidateBeforeBuild()
+    protected internal void ValidateBeforeBuild()
     {
         if (string.IsNullOrWhiteSpace(_name))
         {
@@ -233,14 +229,14 @@ public class IndicatorListingBuilder
         }
 
         // Check for duplicate parameter names
-        var parameterNames = _parameters.Select(p => p.ParameterName).ToList();
+        List<string> parameterNames = _parameters.Select(p => p.ParameterName).ToList();
         if (parameterNames.Count != parameterNames.Distinct().Count())
         {
             throw new InvalidOperationException("Duplicate parameter names are not allowed.");
         }
 
         // Check for duplicate result names
-        var resultNames = _results.Select(r => r.DataName).ToList();
+        List<string> resultNames = _results.Select(r => r.DataName).ToList();
         if (resultNames.Count != resultNames.Distinct().Count())
         {
             throw new InvalidOperationException("Duplicate result names are not allowed.");
