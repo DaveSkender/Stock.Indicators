@@ -26,10 +26,12 @@
         "search.exclude": {
           "**/_site/**": true
         },
+        "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
         "editor.codeLens": false,
         "editor.bracketPairColorization.enabled": true,
         "editor.guides.bracketPairs": "active",
         "editor.formatOnPaste": true,
+        "terminal.integrated.defaultProfile.windows": "Git Bash",
         "terminal.integrated.defaultProfile.linux": "bash",
         "scss.validate": false,
         "markdownlint.config": {
