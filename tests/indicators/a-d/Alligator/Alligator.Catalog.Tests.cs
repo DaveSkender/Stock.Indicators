@@ -14,7 +14,7 @@ public class AlligatorTests : TestBase
         listing.Name.Should().Be("Williams Alligator");
         listing.Uiid.Should().Be("ALLIGATOR");
         listing.Style.Should().Be(Style.Series);
-        listing.Category.Should().Be(Category.Oscillator);
+        listing.Category.Should().Be(Category.PriceTrend);
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(6);
@@ -117,7 +117,7 @@ public class AlligatorTests : TestBase
         listing.Name.Should().Be("Williams Alligator");
         listing.Uiid.Should().Be("ALLIGATOR");
         listing.Style.Should().Be(Style.Stream);
-        listing.Category.Should().Be(Category.Oscillator);
+        listing.Category.Should().Be(Category.PriceTrend);
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(6);
