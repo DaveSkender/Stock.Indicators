@@ -7,11 +7,11 @@ public class MacdTests : TestBase
     public void MacdListing()
     {
         // Act
-        var listing = Macd.Listing;
+        var listing = Macd.SeriesListing;
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Moving Average Convergence Divergence");
+        listing.Name.Should().Be("Moving Average Convergence/Divergence");
         listing.Uiid.Should().Be("MACD");
         listing.Style.Should().Be(Style.Series);
         listing.Category.Should().Be(Category.PriceTrend);

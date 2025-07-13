@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Skender.Stock.Indicators;
-
 namespace Skender.Stock.Indicators;
 
 public static partial class Chop
