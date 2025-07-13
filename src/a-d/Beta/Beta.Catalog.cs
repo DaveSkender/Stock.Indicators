@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic; // For IEnumerable<Quote>
-using Skender.Stock.Indicators; // This namespace should contain BetaType and Quote
-
 namespace Skender.Stock.Indicators;
 
 public static partial class Beta

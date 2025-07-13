@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic; // For IEnumerable<Quote>
-using Skender.Stock.Indicators;
-
 namespace Skender.Stock.Indicators;
 
 public static partial class Correlation

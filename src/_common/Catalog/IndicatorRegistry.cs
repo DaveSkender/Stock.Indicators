@@ -83,7 +83,7 @@ public static class IndicatorRegistry
     /// Registers all indicators from the catalog in the specified assemblies.
     /// </summary>
     /// <param name="assemblies">The assemblies to search for indicators.</param>
-    public static void RegisterCatalog(System.Reflection.Assembly[]? assemblies = null)
+    public static void RegisterCatalog(System.Reflection.Assembly[] assemblies)
     {
         RegisterCatalog();
     }

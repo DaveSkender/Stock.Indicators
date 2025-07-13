@@ -30,6 +30,6 @@ internal abstract class IndicatorAttribute(
     Style style
 ) : Attribute
 {
-    public string Id { get; } = id;
-    public Style Style { get; } = style;
+    internal string Id { get; } = id;
+    internal Style Style { get; } = style;
 }
