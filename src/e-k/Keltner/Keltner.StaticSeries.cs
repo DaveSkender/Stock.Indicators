@@ -15,14 +15,11 @@ public static partial class Keltner
     /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    [Series("KELTNER", "Keltner Channels", Category.PriceChannel, ChartType.Overlay)]
+    [SeriesIndicator("KELTNER")]
     public static IReadOnlyList<KeltnerResult> ToKeltner<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("EMA Periods", 20, 2, 250)]
         int emaPeriods = 20,
-        [ParamNum<double>("Multiplier", 2, 0.01, 10)]
         double multiplier = 2,
-        [ParamNum<int>("ATR Periods", 10, 2, 250)]
         int atrPeriods = 10)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

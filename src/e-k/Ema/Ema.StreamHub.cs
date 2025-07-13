@@ -14,10 +14,9 @@ public static partial class Ema
     /// <returns>An EMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [Stream("EMA", "Exponential Moving Average", Category.MovingAverage, ChartType.Overlay)]
+    [StreamIndicator("EMA")]
     public static EmaHub<T> ToEma<T>(
         this IChainProvider<T> chainProvider,
-        [ParamNum<int>("Lookback Periods", 14, 2, 250)]
         int lookbackPeriods)
         where T : IReusable
         => new(chainProvider, lookbackPeriods);

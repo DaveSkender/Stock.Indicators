@@ -15,12 +15,10 @@ public static partial class Fractal
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
-    [Series("FRACTAL", "Williams Fractal (high/low)", Category.PricePattern, ChartType.Overlay)]
+    [SeriesIndicator("FRACTAL")]
     public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Window Span", 2, 1, 100)]
         int windowSpan = 2,
-        [ParamEnum<EndType>("End Type", EndType.HighLow)]
         EndType endType = EndType.HighLow)
         where TQuote : IQuote => quotes
             .ToFractal(windowSpan, windowSpan, endType);
@@ -36,7 +34,6 @@ public static partial class Fractal
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the left or right span is invalid.</exception>
-    [ExcludeFromCatalog]
     public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int leftSpan,

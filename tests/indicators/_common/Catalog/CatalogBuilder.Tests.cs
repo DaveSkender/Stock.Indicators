@@ -1,0 +1,155 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Catalog;
+
+[TestClass]
+public class CatalogBuilder : TestBase
+{
+    [TestMethod]
+    public void CreateValidListings()
+    {
+        // Arrange & Act
+        var listing = new IndicatorListingBuilder()
+            .WithName("Test Indicator")
+            .WithId("TEST")
+            .WithStyle(Style.Series)
+            .WithCategory(Category.MovingAverage)
+            .AddParameter<int>("lookbackPeriods", "Lookback Period",
+                description: "Test description", isRequired: true)
+            .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+            .Build();        // Assert
+        listing.Name.Should().Be("Test Indicator");
+        listing.Uiid.Should().Be("TEST");
+        listing.Style.Should().Be(Style.Series);
+        listing.Category.Should().Be(Category.MovingAverage);
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+        var param = listing.Parameters[0];
+        param.ParameterName.Should().Be("lookbackPeriods");
+        param.DisplayName.Should().Be("Lookback Period");
+        param.Description.Should().Be("Test description");
+        param.DataType.Should().Be("Int32");
+        param.IsRequired.Should().BeTrue();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+        var result = listing.Results[0];
+        result.DataName.Should().Be("TestResult");
+        result.DisplayName.Should().Be("Test Result");
+        result.DataType.Should().Be(ResultType.Default);
+        result.IsDefault.Should().BeTrue();
+    }
+
+    [TestMethod]
+    public void AddPriceHlcResult()
+    {
+        // Arrange & Act
+        var listing = new IndicatorListingBuilder()
+            .WithName("Test Indicator")
+            .WithId("TEST")
+            .WithStyle(Style.Series)
+            .WithCategory(Category.MovingAverage)
+            .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+            .AddPriceHlcResult()
+            .Build();
+
+        // Assert
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(4);
+        listing.Results[0].DataName.Should().Be("TestResult");
+        listing.Results[1].DataName.Should().Be("High");
+        listing.Results[2].DataName.Should().Be("Low");
+        listing.Results[3].DataName.Should().Be("Close");
+    }
+
+    [TestMethod]
+    public void MissingName()
+    {
+        // Arrange & Act & Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            new IndicatorListingBuilder()
+                .WithId("TEST")
+                .WithStyle(Style.Series)
+                .WithCategory(Category.MovingAverage)
+                .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+                .Build());
+    }
+
+    [TestMethod]
+    public void MissingId()
+    {
+        // Arrange & Act & Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            new IndicatorListingBuilder()
+                .WithName("Test Indicator")
+                .WithStyle(Style.Series)
+                .WithCategory(Category.MovingAverage)
+                .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+                .Build());
+    }
+
+    [TestMethod]
+    public void MissingResults()
+    {
+        // Arrange & Act & Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            new IndicatorListingBuilder()
+                .WithName("Test Indicator")
+                .WithId("TEST")
+                .WithStyle(Style.Series)
+                .WithCategory(Category.MovingAverage)
+                .Build());
+    }
+
+    [TestMethod]
+    public void DuplicateParameters()
+    {
+        // Arrange & Act & Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            new IndicatorListingBuilder()
+                .WithName("Test Indicator")
+                .WithId("TEST")
+                .WithStyle(Style.Series)
+                .WithCategory(Category.MovingAverage)
+                .AddParameter<int>("param", "Parameter 1")
+                .AddParameter<string>("param", "Parameter 2")
+                .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+                .Build());
+    }
+
+    [TestMethod]
+    public void DuplicateResults()
+    {
+        // Arrange & Act & Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            new IndicatorListingBuilder()
+                .WithName("Test Indicator")
+                .WithId("TEST")
+                .WithStyle(Style.Series)
+                .WithCategory(Category.MovingAverage)
+                .AddResult("result", "Result 1", ResultType.Default, isDefault: true)
+                .AddResult("result", "Result 2", ResultType.Default, isDefault: false)
+                .Build());
+    }
+
+    [TestMethod]
+    public void MultipleResultsNoDefault()
+    {
+        // Arrange & Act & Assert
+        Assert.ThrowsExactly<InvalidOperationException>(() =>
+            new IndicatorListingBuilder()
+                .WithName("Test Indicator")
+                .WithId("TEST")
+                .WithStyle(Style.Series)
+                .WithCategory(Category.MovingAverage)
+                .AddResult("result1", "Result 1", ResultType.Default, isDefault: false)
+                .AddResult("result2", "Result 2", ResultType.Default, isDefault: false)
+                .Build());
+    }
+
+    // Indicator-specific catalog tests are now in their own test files
+    // For examples, see:
+    // - tests/indicators/e-k/Ema/Ema.Catalog.Tests.cs
+    // - tests/indicators/m-r/Macd/Macd.Catalog.Tests.cs
+}

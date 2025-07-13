@@ -16,15 +16,11 @@ public static partial class Beta
     /// <returns>A list of Beta results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
-    [Series("BETA", "Beta", Category.PriceCharacteristic, ChartType.Oscillator)]
+    [SeriesIndicator("BETA")]
     public static IReadOnlyList<BetaResult> ToBeta<T>(
-        [ParamSeries<IReusable>("Evaluated Prices")]
         this IReadOnlyList<T> sourceEval,
-        [ParamSeries<IReusable>("Market Prices")]
         IReadOnlyList<T> sourceMrkt,
-        [ParamNum<int>("Lookback Periods", 50, 1, 250)]
         int lookbackPeriods,
-        [ParamEnum<BetaType>("Beta Type", BetaType.Standard)]
         BetaType type = BetaType.Standard)
         where T : IReusable
     {

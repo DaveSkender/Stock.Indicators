@@ -15,14 +15,11 @@ public static partial class RocWb
     /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
     /// <returns>A list of RocWb results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [Series("ROC-WB", "ROC with Bands", Category.PriceTrend, ChartType.Overlay)]
+    [SeriesIndicator("ROC-WB")]
     public static IReadOnlyList<RocWbResult> ToRocWb<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 20, 1, 250)]
         int lookbackPeriods,
-        [ParamNum<int>("EMA Periods", 5, 1, 100)]
         int emaPeriods,
-        [ParamNum<int>("Standard Deviation Periods", 5, 1, 100)]
         int stdDevPeriods)
         where T : IReusable
     {

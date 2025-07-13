@@ -13,12 +13,10 @@ public static partial class ChaikinOsc
     /// <param name="fastPeriods">The number of periods to use for the fast EMA. Default is 3.</param>
     /// <param name="slowPeriods">The number of periods to use for the slow EMA. Default is 10.</param>
     /// <returns>A read-only list of <see cref="ChaikinOscResult"/> containing the Chaikin Oscillator calculation results.</returns>
-    [Series("CHAIKIN-OSC", "Chaikin Money Flow Oscillator", Category.VolumeBased, ChartType.Oscillator)]
+    [SeriesIndicator("CHAIKIN-OSC")]
     public static IReadOnlyList<ChaikinOscResult> ToChaikinOsc<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Fast Periods", 3, 1, 100)]
         int fastPeriods = 3,
-        [ParamNum<int>("Slow Periods", 10, 1, 100)]
         int slowPeriods = 10)
         where TQuote : IQuote
     {

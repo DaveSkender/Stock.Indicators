@@ -14,10 +14,9 @@ public static partial class ElderRay
     /// <returns>A list of Elder Ray results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [Series("ELDER-RAY", "Elder-ray Index", Category.PriceTrend, ChartType.Oscillator)]
+    [SeriesIndicator("ELDER-RAY")]
     public static IReadOnlyList<ElderRayResult> ToElderRay<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 13, 1, 250)]
         int lookbackPeriods = 13)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

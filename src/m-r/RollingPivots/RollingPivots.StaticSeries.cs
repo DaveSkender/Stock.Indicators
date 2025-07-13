@@ -15,14 +15,11 @@ public static partial class RollingPivots
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>A list of Rolling Pivot Points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes are null.</exception>
-    [Series("ROLLING-PIVOTS", "Rolling Pivots", Category.PriceTrend, ChartType.Overlay)]
+    [SeriesIndicator("ROLLING-PIVOTS")]
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Window Periods", 20, 1, 250)]
         int windowPeriods,
-        [ParamNum<int>("Offset Periods", 0, 0, 100)]
         int offsetPeriods,
-        [ParamEnum<PivotPointType>("Point Type", PivotPointType.Standard)]
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {

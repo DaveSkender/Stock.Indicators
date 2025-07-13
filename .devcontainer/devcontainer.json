@@ -12,7 +12,6 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "settingsSync.extensions": false,
         "files.autoSave": "afterDelay",
         "files.autoSaveDelay": 3000,
         "files.encoding": "utf8",

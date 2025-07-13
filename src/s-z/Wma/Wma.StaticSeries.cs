@@ -14,10 +14,9 @@ public static partial class Wma
     /// <returns>A list of WmaResult containing the WMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than or equal to 0.</exception>
-    [Series("WMA", "Weighted Moving Average", Category.MovingAverage, ChartType.Overlay)]
+    [SeriesIndicator("WMA")]
     public static IReadOnlyList<WmaResult> ToWma<T>(
         this IReadOnlyList<T> source,
-        [ParamNum<int>("Lookback Periods", 14, 1, 250)]
         int lookbackPeriods)
         where T : IReusable
     {

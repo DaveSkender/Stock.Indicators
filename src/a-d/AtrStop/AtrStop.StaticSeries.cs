@@ -14,14 +14,11 @@ public static partial class AtrStop
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
-    [Series("ATR-STOP", "ATR Trailing Stop", Category.PriceTrend, ChartType.Overlay)]
+    [SeriesIndicator("ATR-STOP")]
     public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        [ParamNum<int>("Lookback Periods", 21, 1, 50)]
         int lookbackPeriods = 21,
-        [ParamNum<double>("Multiplier", 3, 0.1, 10)]
         double multiplier = 3,
-        [ParamEnum<EndType>("End Type", EndType.Close)]
         EndType endType = EndType.Close)
         where TQuote : IQuote => quotes
             .ToQuoteDList()

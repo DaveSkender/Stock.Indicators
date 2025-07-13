@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating the Heikin-Ashi indicator.
 /// </summary>
-public static class HeikinAshi
+public static partial class HeikinAshi
 {
     /// <summary>
     /// Converts a list of quotes to Heikin-Ashi results.
@@ -12,7 +12,7 @@ public static class HeikinAshi
     /// <param name="quotes">The list of quotes.</param>
     /// <returns>A list of Heikin-Ashi results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    [Series("HEIKINASHI", "HeikinAshi", Category.PriceTransform, ChartType.Overlay)]
+    [SeriesIndicator("HEIKINASHI")]
     public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
