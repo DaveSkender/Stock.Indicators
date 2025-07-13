@@ -116,56 +116,13 @@ Each indicator will need different amounts of price `quotes` to calculate.  You 
 
 ### Using custom quote classes
 
-If you would like to use your own custom `MyCustomQuote` class, to avoid needing to transpose into the built-in library `Quote` class, you only need to add the `IQuote` interface and ensure that you've implemented a correct and compatible quote `record` or class.
-
-> &#128681; **IMPORTANT!**
-> Your custom quote class needs to be [equatable using property values](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/statements-expressions-operators/how-to-define-value-equality-for-a-type).  Since this can be complicated to setup, we've provided the shown `EquatableQuote<TQuote>` base class.  You can exclude this base and write your own `IEquatable<IQuote>` interface by only implementing the `IQuote` interface; however, if you do not define it fully with `==` and `!=` operator overrides correctly, it may cause problems with streaming overflow handling.  **We recommend using the equatable `record` class** type for your custom quote class.
+If you would like to use your own custom `MyCustomQuote` class, to avoid needing to transpose into the library `Quote` class, you only need to add the `IQuote` interface.
 
 ```csharp
 using Skender.Stock.Indicators;
 
-/// EASY METHOD (use record class)
-public record class MyCustomQuote : IQuote
-{
-    // required base properties
-    public DateTime Timestamp { get; set; }
-    public decimal Open { get; set; }
-    public decimal High { get; set; }
-    public decimal Low { get; set; }
-    public decimal Close { get; set; }
-    public decimal Volume { get; set; }
+[..]
 
-    // custom properties
-    public int MyOtherProperty { get; set; }
-
-    // required mapping method for equality
-    public bool Equals(IQuote? other)
-        => base.Equals(other);
-}
-```
-
-```csharp
-/// EASY METHOD (use our base equatable class)
-public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
-{
-    // required inherited base properties do not need to be redefined,
-    // however, if you prefer to explicitly define for clarity,
-    // use the override keyword (optional)
-
-    public override DateTime Timestamp { get; set; }
-    public override decimal Open { get; set; }
-    public override decimal High { get; set; }
-    public override decimal Low { get; set; }
-    public override decimal Close { get; set; }
-    public override decimal Volume { get; set; }
-
-    // custom properties
-    public int MyOtherProperty { get; set; }
-}
-```
-
-```csharp
-/// HARD METHOD (define your own equatable overrides)
 public class MyCustomQuote : IQuote
 {
     // required base properties
@@ -178,21 +135,10 @@ public class MyCustomQuote : IQuote
 
     // custom properties
     public int MyOtherProperty { get; set; }
-
-    // equatable overrides
-    public override bool Equals(object? obj) => this.Equals(obj);
-    public bool Equals(IQuote? other) => this.Equals(other);
-    public bool Equals(MyCustomQuote? other) { ... }
-    public static bool operator ==( ... ) { ... }
-    public static bool operator !=( ... ) { ... }
-    public override int GetHashCode()
-      => HashCode.Combine(
-         Timestamp, Open, High, Low, Close, Volume);
 }
 ```
 
 ```csharp
-// USAGE
 // fetch historical quotes from your favorite feed
 IReadOnlyList<MyCustomQuote> myQuotes = GetQuotesFromFeed("MSFT");
 
@@ -211,23 +157,11 @@ public record class MyCustomQuote : IQuote
     // redirect required base properties
     // with your custom properties
     public DateTime Timestamp => CloseDate;
-    public decimal Volume => Vol;
-
-    // custom properties
-    public int MyOtherProperty { get; set; }
-    public DateTime CloseDate { get; set; }
-    public decimal Vol { get; set; }
-}
-```
-
-```csharp
-// if using inherited equatable class type
-public class MyCustomQuote : EquatableQuote<MyCustomQuote>, IQuote
-{
-    // override inherited, required base properties
-    // with your custom properties
-    public override DateTime Timestamp => CloseDate;
-    public override decimal Volume => Vol;
+    public decimal Open { get; set; }
+    public decimal High { get; set; }
+    public decimal Low { get; set; }
+    public decimal Close { get; set; }
+    decimal IQuote.Volume => Vol;
 
     // custom properties
     public int MyOtherProperty { get; set; }
