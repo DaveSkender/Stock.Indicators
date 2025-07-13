@@ -226,6 +226,7 @@ public static class IndicatorRegistry
         {
             _registry.Clear();
             _isInitialized = false;
+            IndicatorCatalog.Clear(); // Also clear the catalog for tests
         }
     }
 

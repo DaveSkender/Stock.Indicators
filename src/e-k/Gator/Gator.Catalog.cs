@@ -10,7 +10,7 @@ public static partial class Gator
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator) // From catalog.bak.json Category: "Oscillator"
                                                // No parameters for GATOR in catalog.bak.json
-            .AddResult("Upper", "Upper", ResultType.Default, isDefault: false) // From GatorResult model
+            .AddResult("Upper", "Upper", ResultType.Default, isDefault: true) // From GatorResult model - primary result
             .AddResult("Lower", "Lower", ResultType.Default, isDefault: false) // From GatorResult model
             .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default, isDefault: false) // From GatorResult model
             .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default, isDefault: false) // From GatorResult model

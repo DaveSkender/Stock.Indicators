@@ -11,7 +11,7 @@ public static partial class ElderRay
             .WithCategory(Category.PriceTrend) // From catalog.bak.json Category: "PriceTrend"
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 13, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddResult("Ema", "EMA", ResultType.Default, isDefault: false) // From ElderRayResult model
-            .AddResult("BullPower", "Bull Power", ResultType.Default, isDefault: false) // From ElderRayResult model
+            .AddResult("BullPower", "Bull Power", ResultType.Default, isDefault: true) // From ElderRayResult model - primary result
             .AddResult("BearPower", "Bear Power", ResultType.Default, isDefault: false) // From ElderRayResult model
             .Build();
 
