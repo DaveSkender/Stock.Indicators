@@ -34,4 +34,4 @@ jobs:
           echo "## Copilot environment: Ready" >> $GITHUB_STEP_SUMMARY
           echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
-          echo "- .NET Tools: $(dotnet tool list --global | wc -l)" available" >> $GITHUB_STEP_SUMMARY
+          echo "- .NET Tools: $(dotnet tool list --global | wc -l) available" >> $GITHUB_STEP_SUMMARY
