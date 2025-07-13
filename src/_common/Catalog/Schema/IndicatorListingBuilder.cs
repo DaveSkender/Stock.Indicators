@@ -10,6 +10,7 @@ public class IndicatorListingBuilder
     private string _name = string.Empty;
     private string _id = string.Empty;
     private Category _category = Category.Undefined;
+    private string? _methodName;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
 
@@ -64,6 +65,17 @@ public class IndicatorListingBuilder
     public IndicatorListingBuilder WithCategory(Category category)
     {
         _category = category;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the method name for automation use cases.
+    /// </summary>
+    /// <param name="methodName">The method name.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder WithMethodName(string methodName)
+    {
+        _methodName = methodName;
         return this;
     }
 
@@ -261,6 +273,7 @@ public class IndicatorListingBuilder
             Category = _category,
             Parameters = _parameters.Count > 0 ? _parameters : null,
             Results = _results,
+            MethodName = _methodName,
             LegendTemplate = GenerateLegendTemplate()
         };
     }

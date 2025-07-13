@@ -9,6 +9,7 @@ public static partial class Vwap
             .WithId("VWAP")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
+            .WithMethodName("ToVwap")
             .AddDateParameter("startDate", "Start Date", description: "Starting date for VWAP calculation", isRequired: true)
             .AddResult("Vwap", "VWAP", ResultType.Default, isDefault: true)
             .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false)

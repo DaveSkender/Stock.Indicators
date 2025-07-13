@@ -9,6 +9,7 @@ public static partial class Ema
             .WithId("EMA") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithMethodName("ToEma")
             .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Number of periods for the EMA calculation", isRequired: true, defaultValue: 20, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddParameter<double?>("smoothingFactor", "Smoothing Factor", description: "Optional custom smoothing factor", isRequired: false, defaultValue: null) // Optional parameter
             .AddResult("Ema", "EMA", ResultType.Default, isDefault: true) // From EmaResult model
