@@ -13,7 +13,7 @@ public static partial class ElderRay
             .AddResult("Ema", "EMA", ResultType.Default, isDefault: false) // From ElderRayResult model
             .AddResult("BullPower", "Bull Power", ResultType.Default, isDefault: false) // From ElderRayResult model
             .AddResult("BearPower", "Bear Power", ResultType.Default, isDefault: false) // From ElderRayResult model
-            .AddResult("Value", "Elder Ray Value", ResultType.Default, isDefault: true) // Calculated value (BullPower + BearPower) for IReusable.Value
+            .AddResult("Value", "Elder Ray", ResultType.Default, isDefault: true) // Calculated value (BullPower + BearPower) for IReusable.Value
             .Build();
 
     // No StreamListing for ELDER-RAY.
