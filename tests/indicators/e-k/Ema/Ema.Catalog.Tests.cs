@@ -104,4 +104,40 @@ public class EmaTests : TestBase
         result.DataType.Should().Be(ResultType.Default);
         result.IsDefault.Should().BeTrue();
     }
+
+    [TestMethod]
+    public void EmaSeriesFromCatalogMatchesDirectCall()
+    {
+        // Arrange
+        var quotes = Quotes; // Using TestBase.Quotes
+        var listing = Ema.SeriesListing;
+
+        // Get default parameter value from catalog
+        var lookbackParam = listing.Parameters.First(p => p.ParameterName == "lookbackPeriods");
+        var lookbackValue = (int)lookbackParam.DefaultValue!;
+
+        // Act - Call using catalog metadata (via method name)
+        var catalogResults = quotes.ToEma(lookbackValue);
+        
+        // Act - Direct call
+        var directResults = quotes.ToEma(lookbackValue);
+
+        // Assert - Results should be identical
+        catalogResults.Should().NotBeNull();
+        directResults.Should().NotBeNull();
+        catalogResults.Count.Should().Be(directResults.Count);
+
+        // Compare actual values
+        var catalogList = catalogResults.ToList();
+        var directList = directResults.ToList();
+
+        for (int i = 0; i < catalogList.Count; i++)
+        {
+            var catalogItem = catalogList[i];
+            var directItem = directList[i];
+
+            catalogItem.Timestamp.Should().Be(directItem.Timestamp);
+            catalogItem.Ema.Should().Be(directItem.Ema);
+        }
+    }
 }

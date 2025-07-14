@@ -40,13 +40,9 @@ public class CatalogEntryTests : TestBase
             listing.Style.Should().BeDefined($"indicator {listing.Uiid} should have a valid style");
             listing.Category.Should().BeDefined($"indicator {listing.Uiid} should have a valid category");
             
-            // Method name for automation
-            if (!string.IsNullOrWhiteSpace(listing.MethodName))
-            {
-                // If method name is provided, it should be valid
-                listing.MethodName.Should().StartWith("To", $"method name for {listing.Uiid} should start with 'To'");
-            }
-            // Note: Not all indicators have method names yet - this is being implemented gradually
+            // Method name for automation - ALL indicators must have method names
+            listing.MethodName.Should().NotBeNullOrWhiteSpace($"indicator {listing.Uiid} should have a method name for automation");
+            listing.MethodName.Should().StartWith("To", $"method name for {listing.Uiid} should start with 'To'");
             
             // Parameters should be valid if present
             if (listing.Parameters != null)
