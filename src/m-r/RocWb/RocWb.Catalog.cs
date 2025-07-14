@@ -13,6 +13,7 @@ public static partial class RocWb
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the ROC calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
             .AddParameter<int>("emaPeriods", "EMA Periods", description: "Number of periods for the EMA calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
             .AddParameter<int>("stdDevPeriods", "Standard Deviation Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 100)
+            .AddResult("Roc", "ROC", ResultType.Default, isDefault: true)
             .AddResult("RocEma", "ROC EMA", ResultType.Default, isDefault: false)
             .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false)
             .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false)

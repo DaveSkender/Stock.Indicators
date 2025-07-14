@@ -11,7 +11,7 @@ public static partial class Gator
             .WithCategory(Category.Oscillator) // From catalog.bak.json Category: "Oscillator"
             .WithMethodName("ToGator")
                                                // No parameters for GATOR in catalog.bak.json
-            .AddResult("Upper", "Upper", ResultType.Default, isDefault: false) // From GatorResult model - primary result
+            .AddResult("Upper", "Upper", ResultType.Default, isDefault: true) // From GatorResult model - primary result
             .AddResult("Lower", "Lower", ResultType.Default, isDefault: false) // From GatorResult model
             .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default, isDefault: false) // From GatorResult model
             .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default, isDefault: false) // From GatorResult model

@@ -13,7 +13,7 @@ public static partial class MaEnvelopes
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddParameter<double>("percentOffset", "Percent Offset", defaultValue: 2.5, minimum: 0.1, maximum: 10.0) // From catalog.bak.json
             .AddEnumParameter<MaType>("movingAverageType", "Moving Average Type", defaultValue: MaType.SMA) // MaType.SMA corresponds to 7 from JSON
-            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: false) // From MaEnvelopeResult model
+            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true) // From MaEnvelopeResult model
             .AddResult("UpperEnvelope", "Upper Envelope", ResultType.Default, isDefault: false) // From MaEnvelopeResult model
             .AddResult("LowerEnvelope", "Lower Envelope", ResultType.Default, isDefault: false) // From MaEnvelopeResult model
             .Build();
