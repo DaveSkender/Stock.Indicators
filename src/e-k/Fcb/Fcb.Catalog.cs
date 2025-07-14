@@ -9,6 +9,7 @@ public static partial class Fcb
             .WithId("FCB") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel) // From catalog.bak.json Category: "PriceChannel"
+            .WithMethodName("ToFcb")
             .AddParameter<int>("windowSpan", "Window Span", defaultValue: 2, minimum: 2, maximum: 30) // From catalog.bak.json
             .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: true) // From FcbResult model - primary result
             .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false) // From FcbResult model

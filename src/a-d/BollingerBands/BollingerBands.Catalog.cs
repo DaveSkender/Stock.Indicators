@@ -9,6 +9,7 @@ public static partial class BollingerBands
             .WithId("BB")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
+            .WithMethodName("ToBollingerBands")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250)
             .AddParameter<double>("standardDeviations", "Standard Deviations", defaultValue: 2.0, minimum: 0.01, maximum: 10.0)
             .AddResult("Sma", "Centerline (SMA)", ResultType.Default, isDefault: true)

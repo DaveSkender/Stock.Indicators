@@ -9,6 +9,7 @@ public static partial class Correlation
             .WithId("CORR")
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
+            .WithMethodName("ToCorrelation")
             .AddSeriesParameter("sourceA", "Source A")
             .AddSeriesParameter("sourceB", "Source B")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)

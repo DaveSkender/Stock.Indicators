@@ -9,6 +9,7 @@ public static partial class StochRsi
             .WithId("STOCH-RSI")
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
+            .WithMethodName("ToStochRsi")
             .AddParameter<int>("rsiPeriods", "RSI Periods", description: "Number of periods for the RSI calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddParameter<int>("stochPeriods", "Stochastic Periods", description: "Number of periods for the Stochastic calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", description: "Number of periods for the signal line", isRequired: false, defaultValue: 3, minimum: 1, maximum: 50)

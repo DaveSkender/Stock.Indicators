@@ -9,6 +9,7 @@ public static partial class ConnorsRsi
             .WithId("CRSI")
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
+            .WithMethodName("ToConnorsRsi")
             .AddParameter<int>("rsiPeriods", "RSI Periods", defaultValue: 3, minimum: 2, maximum: 250)
             .AddParameter<int>("streakPeriods", "Streak Periods", defaultValue: 2, minimum: 2, maximum: 50)
             .AddParameter<int>("rankPeriods", "Rank Periods", defaultValue: 100, minimum: 2, maximum: 250)

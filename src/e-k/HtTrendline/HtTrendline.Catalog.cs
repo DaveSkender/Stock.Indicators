@@ -9,6 +9,7 @@ public static partial class HtTrendline
             .WithId("HTL") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithMethodName("ToHtTrendline")
                                                   // No parameters for HTL in catalog.bak.json
             .AddResult("DcPeriods", "Dominant Cycle Periods", ResultType.Default, isDefault: false) // From HtlResult model
             .AddResult("Trendline", "Trendline", ResultType.Default, isDefault: true) // From HtlResult model

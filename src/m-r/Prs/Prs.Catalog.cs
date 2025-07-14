@@ -9,6 +9,7 @@ public static partial class Prs
             .WithId("PRS")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToPrs")
             .AddSeriesParameter("sourceEval", "Source Evaluated", description: "Source data to be evaluated")
             .AddSeriesParameter("sourceBase", "Source Base", description: "Base source data for comparison")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the PRS calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)

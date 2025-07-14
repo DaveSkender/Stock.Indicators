@@ -9,6 +9,7 @@ public static partial class Mfi
             .WithId("MFI") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased) // From catalog.bak.json Category: "VolumeBased"
+            .WithMethodName("ToMfi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the MFI calculation", defaultValue: 14, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddResult("Mfi", "MFI", ResultType.Default, isDefault: true) // From MfiResult model
             .Build();

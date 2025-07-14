@@ -9,6 +9,7 @@ public static partial class Cmo
             .WithId("CMO")
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
+            .WithMethodName("ToCmo")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("Cmo", "CMO", ResultType.Default, isDefault: true)
             .Build();

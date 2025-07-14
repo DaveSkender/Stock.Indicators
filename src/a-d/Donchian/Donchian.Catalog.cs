@@ -9,6 +9,7 @@ public static partial class Donchian
             .WithId("DONCHIAN") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel) // From catalog.bak.json Category: "PriceChannel"
+            .WithMethodName("ToDonchian")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false) // From DonchianResult model
             .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true) // From DonchianResult model

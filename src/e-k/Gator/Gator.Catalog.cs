@@ -9,6 +9,7 @@ public static partial class Gator
             .WithId("GATOR") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator) // From catalog.bak.json Category: "Oscillator"
+            .WithMethodName("ToGator")
                                                // No parameters for GATOR in catalog.bak.json
             .AddResult("Upper", "Upper", ResultType.Default, isDefault: true) // From GatorResult model - primary result
             .AddResult("Lower", "Lower", ResultType.Default, isDefault: false) // From GatorResult model

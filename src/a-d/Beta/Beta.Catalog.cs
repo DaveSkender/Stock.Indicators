@@ -9,6 +9,7 @@ public static partial class Beta
             .WithId("BETA")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToBeta")
             .AddSeriesParameter("sourceEval", "Evaluated Prices")
             .AddSeriesParameter("sourceMrkt", "Market Prices")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 50, minimum: 1, maximum: 250)

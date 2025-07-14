@@ -9,6 +9,7 @@ public static partial class Adl
             .WithId("ADL")
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
+            .WithMethodName("ToAdl")
             .AddResult("Adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isDefault: true)
             .Build();
 
@@ -19,6 +20,7 @@ public static partial class Adl
             .WithId("ADL")
             .WithStyle(Style.Stream)
             .WithCategory(Category.VolumeBased)
+            .WithMethodName("ToAdl")
             .AddResult("Adl", "Accumulation Distribution Line (ADL)", ResultType.Default, isDefault: true)
             .Build();
 

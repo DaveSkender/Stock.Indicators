@@ -9,6 +9,7 @@ public static partial class Slope
             .WithId("SLOPE")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToSlope")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the slope calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Slope", "Slope", ResultType.Default, isDefault: true)
             .AddResult("Intercept", "Intercept", ResultType.Default, isDefault: false)

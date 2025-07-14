@@ -9,6 +9,7 @@ public static partial class Vwma
             .WithId("VWMA")
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage)
+            .WithMethodName("ToVwma")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the VWMA calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("Vwma", "VWMA", ResultType.Default, isDefault: true)
             .Build();

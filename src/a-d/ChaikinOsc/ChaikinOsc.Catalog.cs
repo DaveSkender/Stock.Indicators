@@ -9,6 +9,7 @@ public static partial class ChaikinOsc
             .WithId("CHAIKIN-OSC")
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
+            .WithMethodName("ToChaikinOsc")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 3, minimum: 1, maximum: 100)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 10, minimum: 1, maximum: 100)
             .AddResult("MoneyFlowMultiplier", "Money Flow Multiplier", ResultType.Default, isDefault: false)

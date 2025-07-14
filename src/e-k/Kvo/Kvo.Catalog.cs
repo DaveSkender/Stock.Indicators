@@ -9,6 +9,7 @@ public static partial class Kvo
             .WithId("KVO") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased) // From catalog.bak.json Category: "VolumeBased"
+            .WithMethodName("ToKvo")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 34, minimum: 1, maximum: 200) // From catalog.bak.json
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 55, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddParameter<int>("signalPeriods", "Signal Periods", defaultValue: 13, minimum: 1, maximum: 50) // From catalog.bak.json

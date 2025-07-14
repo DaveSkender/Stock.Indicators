@@ -9,6 +9,7 @@ public static partial class FisherTransform
             .WithId("FISHER") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceTransform) // From catalog.bak.json Category: "PriceTransform"
+            .WithMethodName("ToFisherTransform")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 10, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddResult("Fisher", "Fisher", ResultType.Default, isDefault: true) // From FisherTransformResult model
             .AddResult("Trigger", "Trigger", ResultType.Default, isDefault: false) // From FisherTransformResult model

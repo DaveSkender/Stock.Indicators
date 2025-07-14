@@ -9,6 +9,7 @@ public static partial class Obv
             .WithId("OBV") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased) // From catalog.bak.json Category: "VolumeBased"
+            .WithMethodName("ToObv")
                                                 // No parameters for OBV in catalog.bak.json
             .AddResult("Obv", "OBV", ResultType.Default, isDefault: true) // From ObvResult model
             .Build();

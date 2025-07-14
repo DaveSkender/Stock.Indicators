@@ -9,6 +9,7 @@ public static partial class Ichimoku
             .WithId("ICHIMOKU") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend) // From catalog.bak.json Category: "PriceTrend"
+            .WithMethodName("ToIchimoku")
             .AddParameter<int>("tenkanPeriods", "Tenkan Periods", defaultValue: 9, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddParameter<int>("kijunPeriods", "Kijun Periods", defaultValue: 26, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddParameter<int>("senkouBPeriods", "Senkou B Periods", defaultValue: 52, minimum: 3, maximum: 250) // From catalog.bak.json

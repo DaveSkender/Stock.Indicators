@@ -9,6 +9,7 @@ public static partial class UlcerIndex
             .WithId("ULCER")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToUlcerIndex")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the Ulcer Index calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddResult("UlcerIndex", "Ulcer Index", ResultType.Default, isDefault: true)
             .Build();

@@ -9,6 +9,7 @@ public static partial class Tr
             .WithId("TR")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToTr")
             .AddResult("Tr", "True Range", ResultType.Default, isDefault: true)
             .Build();
 
@@ -19,6 +20,7 @@ public static partial class Tr
             .WithId("TR")
             .WithStyle(Style.Stream)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToTr")
             .AddResult("Tr", "True Range", ResultType.Default, isDefault: true)
             .Build();
 }

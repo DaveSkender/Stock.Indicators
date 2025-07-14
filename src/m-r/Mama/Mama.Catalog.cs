@@ -9,6 +9,7 @@ public static partial class Mama
             .WithId("MAMA") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithMethodName("ToMama")
             .AddParameter<double>("fastLimit", "Fast Limit", defaultValue: 0.5, minimum: 0.01, maximum: 0.99) // From catalog.bak.json
             .AddParameter<double>("slowLimit", "Slow Limit", defaultValue: 0.05, minimum: 0.01, maximum: 0.99) // From catalog.bak.json
             .AddResult("Mama", "MAMA", ResultType.Default, isDefault: true) // From MamaResult model

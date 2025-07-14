@@ -9,6 +9,7 @@ public static partial class Keltner
             .WithId("KELTNER") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel) // From catalog.bak.json Category: "PriceChannel"
+            .WithMethodName("ToKeltner")
             .AddParameter<int>("emaPeriods", "EMA Periods", defaultValue: 20, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 2.0, minimum: 0.01, maximum: 10.0) // From catalog.bak.json
             .AddParameter<int>("atrPeriods", "ATR Periods", defaultValue: 10, minimum: 2, maximum: 250) // From catalog.bak.json

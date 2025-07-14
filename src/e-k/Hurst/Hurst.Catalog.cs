@@ -9,6 +9,7 @@ public static partial class Hurst
             .WithId("HURST") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic) // From catalog.bak.json Category: "PriceCharacteristic"
+            .WithMethodName("ToHurst")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 100, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isDefault: true) // From HurstResult model
             .Build();

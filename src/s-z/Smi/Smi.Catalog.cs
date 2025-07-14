@@ -9,6 +9,7 @@ public static partial class Smi
             .WithId("SMI")
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
+            .WithMethodName("ToSmi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMI calculation", isRequired: false, defaultValue: 13, minimum: 1, maximum: 300)
             .AddParameter<int>("firstSmoothPeriods", "First Smooth Periods", description: "Number of periods for the first smoothing", isRequired: false, defaultValue: 25, minimum: 1, maximum: 300)
             .AddParameter<int>("secondSmoothPeriods", "Second Smooth Periods", description: "Number of periods for the second smoothing", isRequired: false, defaultValue: 2, minimum: 1, maximum: 50)

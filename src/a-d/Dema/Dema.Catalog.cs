@@ -9,6 +9,7 @@ public static partial class Dema
             .WithId("DEMA") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithMethodName("ToDema")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddResult("Dema", "DEMA", ResultType.Default, isDefault: true) // From DemaResult model
             .Build();

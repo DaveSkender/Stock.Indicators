@@ -9,6 +9,7 @@ public static partial class Pivots
             .WithId("PIVOTS")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
+            .WithMethodName("ToPivots")
             .AddEnumParameter<PivotPointType>("pointType", "Point Type", description: "Type of pivot points to calculate", isRequired: false, defaultValue: PivotPointType.Standard)
             .AddResult("R3", "Resistance 3", ResultType.Default, isDefault: false)
             .AddResult("R2", "Resistance 2", ResultType.Default, isDefault: false)

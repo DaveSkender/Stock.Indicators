@@ -9,6 +9,7 @@ public static partial class Kama
             .WithId("KAMA") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithMethodName("ToKama")
             .AddParameter<int>("erPeriods", "ER Periods", defaultValue: 10, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 2, minimum: 1, maximum: 50) // From catalog.bak.json
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 30, minimum: 1, maximum: 250) // From catalog.bak.json

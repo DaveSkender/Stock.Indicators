@@ -9,6 +9,7 @@ public static partial class RenkoAtr
             .WithId("RENKO-ATR")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
+            .WithMethodName("ToRenkoAtr")
             .AddParameter<int>("atrPeriods", "ATR Periods", description: "Number of periods for the ATR calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 100)
             .AddEnumParameter<EndType>("endType", "End Type", description: "Type of price to use for the calculation", isRequired: false, defaultValue: EndType.Close)
             .AddResult("Open", "Open", ResultType.Default, isDefault: false)

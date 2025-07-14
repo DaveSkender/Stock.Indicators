@@ -9,6 +9,7 @@ public static partial class Epma
             .WithId("EPMA") // From catalog.bak.json
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithMethodName("ToEpma")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 10, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddResult("Epma", "EPMA", ResultType.Default, isDefault: true) // From EpmaResult model
             .Build();

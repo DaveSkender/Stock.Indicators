@@ -9,6 +9,7 @@ public static partial class Tema
             .WithId("TEMA")
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage)
+            .WithMethodName("ToTema")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the TEMA calculation", isRequired: false, defaultValue: 20, minimum: 2, maximum: 250)
             .AddResult("Tema", "TEMA", ResultType.Default, isDefault: true)
             .Build();
