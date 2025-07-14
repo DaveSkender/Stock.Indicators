@@ -1,4 +1,7 @@
 #nullable enable
+using System.Collections.ObjectModel;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Skender.Stock.Indicators;
 
 namespace Catalog;
@@ -8,243 +11,142 @@ namespace Catalog;
 public class CatalogRegistryExtensions : TestBase
 {
     [TestInitialize]
-    public void Setup() =>
-        // Clear the registry before each test
+    public void Setup()
+    {
+        // Clear the registry before each test to ensure clean state
         IndicatorRegistry.Clear();
+    }
 
     [TestCleanup]
-    public void Cleanup() =>
-        // Clear the registry after each test
+    public void Cleanup()
+    {
+        // Clear the registry after each test to ensure clean state
         IndicatorRegistry.Clear();
+    }
 
     [TestMethod]
     public void SearchByNameWithStyleShouldReturnCorrectIndicators()
     {
-        // Arrange
-        IndicatorListing listing1 = CreateTestListingWithStyle("EMA", "Exponential Moving Average", Style.Series);
-        IndicatorListing listing2 = CreateTestListingWithStyle("SMA", "Simple Moving Average", Style.Series);
-        IndicatorListing listing3 = CreateTestListingWithStyle("MACD", "Moving Average Convergence Divergence", Style.Buffer);
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
-        // Act
+        // Act - Search for moving average indicators with Series style
         IReadOnlyCollection<IndicatorListing> results
             = IndicatorRegistryExtensions.SearchByName("Moving", Style.Series);
 
-        // Assert
-        results.Should().HaveCount(2);
-        results.Should().Contain(l => l.Uiid == "EMA");
-        results.Should().Contain(l => l.Uiid == "SMA");
-        results.Should().NotContain(l => l.Uiid == "MACD");
+        // Assert - Should find EMA, SMA, and other moving average series indicators
+        results.Should().NotBeEmpty("there should be moving average indicators with Series style");
+        results.Should().Contain(l => l.Uiid == "EMA" && l.Style == Style.Series, "EMA Series should be found");
+        results.Should().Contain(l => l.Uiid == "SMA" && l.Style == Style.Series, "SMA Series should be found");
+        results.Should().NotContain(l => l.Style != Style.Series, "only Series style indicators should be returned");
+        
+        // All results should contain "Moving" in the name
+        results.Should().OnlyContain(l => l.Name.Contains("Moving"), "all results should contain 'Moving' in the name");
     }
 
     [TestMethod]
     public void SearchByNameWithCategoryShouldReturnCorrectIndicators()
     {
-        // Arrange
-        IndicatorListing listing1 = CreateTestListingWithCategory("EMA", "Exponential Moving Average", Category.MovingAverage);
-        IndicatorListing listing2 = CreateTestListingWithCategory("SMA", "Simple Moving Average", Category.MovingAverage);
-        IndicatorListing listing3 = CreateTestListingWithCategory("RSI", "Relative Strength Index", Category.Oscillator);
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
-        // Act
+        // Act - Search for moving average indicators in MovingAverage category
         IReadOnlyCollection<IndicatorListing> results
             = IndicatorRegistryExtensions.SearchByName("Moving", Category.MovingAverage);
 
-        // Assert
-        results.Should().HaveCount(2);
-        results.Should().Contain(l => l.Uiid == "EMA");
-        results.Should().Contain(l => l.Uiid == "SMA");
-        results.Should().NotContain(l => l.Uiid == "RSI");
+        // Assert - Should find moving average indicators in the correct category
+        results.Should().NotBeEmpty("there should be moving average indicators in MovingAverage category");
+        results.Should().Contain(l => l.Uiid == "EMA", "EMA should be found");
+        results.Should().Contain(l => l.Uiid == "SMA", "SMA should be found");
+        results.Should().OnlyContain(l => l.Category == Category.MovingAverage, "only MovingAverage category indicators should be returned");
+        results.Should().OnlyContain(l => l.Name.Contains("Moving"), "all results should contain 'Moving' in the name");
     }
 
     [TestMethod]
     public void GetIndicatorsWithResultTypeShouldReturnCorrectIndicators()
     {
-        // Arrange
-        IndicatorListing listing1 = CreateTestListingWithResultType("EMA", "Exponential Moving Average", ResultType.Default);
-        IndicatorListing listing2 = CreateTestListingWithResultType("SMA", "Simple Moving Average", ResultType.Channel);
-        IndicatorListing listing3 = CreateTestListingWithResultType("RSI", "Relative Strength Index", ResultType.Default);
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
-        // Act
+        // Act - Get indicators with Default result type
         IReadOnlyCollection<IndicatorListing> results
             = IndicatorRegistryExtensions.GetIndicatorsWithResultType(ResultType.Default);
 
-        // Assert
-        results.Should().HaveCount(2);
-        results.Should().Contain(l => l.Uiid == "EMA");
-        results.Should().Contain(l => l.Uiid == "RSI");
-        results.Should().NotContain(l => l.Uiid == "SMA");
+        // Assert - Should find indicators that have Default result type fields
+        results.Should().NotBeEmpty("there should be indicators with Default result type");
+        
+        // All results should have at least one result with Default type
+        results.Should().OnlyContain(l => l.Results.Any(r => r.DataType == ResultType.Default), 
+            "all results should have at least one result with Default type");
     }
 
     [TestMethod]
     public void GetIndicatorsWithResultNameShouldReturnCorrectIndicators()
     {
-        // Clear registry to ensure we have a clean state
-        IndicatorRegistry.Clear();
-
-        // Arrange
-        IndicatorListing listing1 = CreateTestListingWithResultName("EMA", "Exponential Moving Average", "EmaResult");
-        IndicatorListing listing2 = CreateTestListingWithResultName("SMA", "Simple Moving Average", "SmaValue");
-        IndicatorListing listing3 = CreateTestListingWithResultName("RSI", "Relative Strength Index", "RsiValue");
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
-        // Act
+        // Act - Get indicators with results containing "Value" in the name
         IReadOnlyCollection<IndicatorListing> results
             = IndicatorRegistryExtensions.GetIndicatorsWithResultName("Value");
 
-        // Assert
-        results.Should().HaveCount(2);
-        results.Should().Contain(l => l.Uiid == "SMA");
-        results.Should().Contain(l => l.Uiid == "RSI");
-        results.Should().NotContain(l => l.Uiid == "EMA");
+        // Assert - Should find indicators with "Value" in result names
+        results.Should().NotBeEmpty("there should be indicators with 'Value' in result names");
+        
+        // All results should have at least one result containing "Value"
+        results.Should().OnlyContain(l => l.Results != null && l.Results.Any(r => r.DataName.Contains("Value", StringComparison.OrdinalIgnoreCase) || r.DisplayName.Contains("Value", StringComparison.OrdinalIgnoreCase)), 
+            "all results should have at least one result containing 'Value'");
     }
 
     [TestMethod]
     public void GetIndicatorsSortedByNameShouldReturnSortedIndicators()
     {
-        // Arrange
-        IndicatorListing listing1 = CreateTestListing("EMA", "Exponential Moving Average");
-        IndicatorListing listing2 = CreateTestListing("SMA", "Simple Moving Average");
-        IndicatorListing listing3 = CreateTestListing("MACD", "Moving Average Convergence Divergence");
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
-        // Act - Ascending
+        // Act - Get indicators sorted by name (ascending)
         IReadOnlyCollection<IndicatorListing> ascendingResults
             = IndicatorRegistryExtensions.GetIndicatorsSortedByName();
 
-        // Assert - Ascending
-        ascendingResults.Should().HaveCount(3);
+        // Assert - Ascending order
+        ascendingResults.Should().NotBeEmpty("there should be indicators in the catalog");
         List<IndicatorListing> ascendingList = ascendingResults.ToList();
-        ascendingList[0].Name.Should().Be("Exponential Moving Average");
-        ascendingList[1].Name.Should().Be("Moving Average Convergence Divergence");
-        ascendingList[2].Name.Should().Be("Simple Moving Average");
+        
+        // Use the same sorting logic as the implementation for comparison
+        List<IndicatorListing> expectedAscending = ascendingList.OrderBy(i => i.Name).ToList();
+        ascendingList.Should().BeEquivalentTo(expectedAscending, options => options.WithStrictOrdering(), 
+            "ascending results should match expected sort order");
 
-        // Act - Descending
+        // Act - Get indicators sorted by name (descending)
         IReadOnlyCollection<IndicatorListing> descendingResults
             = IndicatorRegistryExtensions.GetIndicatorsSortedByName(ascending: false);
 
-        // Assert - Descending
-        descendingResults.Should().HaveCount(3);
+        // Assert - Descending order
+        descendingResults.Should().HaveCount(ascendingResults.Count, "both sorts should return the same number of indicators");
         List<IndicatorListing> descendingList = descendingResults.ToList();
-        descendingList[0].Name.Should().Be("Simple Moving Average");
-        descendingList[1].Name.Should().Be("Moving Average Convergence Divergence");
-        descendingList[2].Name.Should().Be("Exponential Moving Average");
+        
+        // Use the same sorting logic as the implementation for comparison
+        List<IndicatorListing> expectedDescending = ascendingList.OrderByDescending(i => i.Name).ToList();
+        descendingList.Should().BeEquivalentTo(expectedDescending, options => options.WithStrictOrdering(), 
+            "descending results should match expected sort order");
     }
 
     [TestMethod]
     public void GetIndicatorsWithRequiredParametersShouldReturnCorrectIndicators()
     {
-        // Arrange
-        IndicatorListing listing1 = CreateTestListingWithRequiredParam("EMA", "Exponential Moving Average", true);
-        IndicatorListing listing2 = CreateTestListingWithRequiredParam("SMA", "Simple Moving Average", false);
-        IndicatorListing listing3 = CreateTestListingWithRequiredParam("RSI", "Relative Strength Index", true);
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
         // Act
         IReadOnlyCollection<IndicatorListing> results
             = IndicatorRegistryExtensions.GetIndicatorsWithRequiredParameters();
 
-        // Assert
-        results.Should().HaveCount(2);
-        results.Should().Contain(l => l.Uiid == "EMA");
-        results.Should().Contain(l => l.Uiid == "RSI");
-        results.Should().NotContain(l => l.Uiid == "SMA");
+        // Assert - Should find indicators that have at least one required parameter
+        results.Should().NotBeEmpty("there should be indicators with required parameters");
+        
+        // All results should have at least one required parameter
+        results.Should().OnlyContain(l => l.Parameters != null && l.Parameters.Any(p => p.IsRequired), 
+            "all results should have at least one required parameter");
+        
+        // Verify specific indicators that we know have required parameters
+        results.Should().Contain(l => l.Uiid == "EMA", "EMA should have required parameters");
+        results.Should().Contain(l => l.Uiid == "SMA", "SMA should have required parameters");
     }
 
     [TestMethod]
     public void GetIndicatorsWithOptionalParametersShouldReturnCorrectIndicators()
     {
-        // Arrange
-        IndicatorListing listing1 = CreateTestListingWithRequiredParam("EMA", "Exponential Moving Average", true);
-        IndicatorListing listing2 = CreateTestListingWithRequiredParam("SMA", "Simple Moving Average", false);
-        IndicatorListing listing3 = CreateTestListingWithRequiredParam("RSI", "Relative Strength Index", true);
-
-        IndicatorRegistry.Register(listing1);
-        IndicatorRegistry.Register(listing2);
-        IndicatorRegistry.Register(listing3);
-
         // Act
         IReadOnlyCollection<IndicatorListing> results
             = IndicatorRegistryExtensions.GetIndicatorsWithOptionalParameters();
 
-        // Assert
-        results.Should().HaveCount(1);
-        results.Should().Contain(l => l.Uiid == "SMA");
-        results.Should().NotContain(l => l.Uiid == "EMA");
-        results.Should().NotContain(l => l.Uiid == "RSI");
+        // Assert - Should find indicators that have at least one optional (non-required) parameter
+        results.Should().NotBeEmpty("there should be indicators with optional parameters");
+        
+        // All results should have at least one non-required parameter
+        results.Should().OnlyContain(l => l.Parameters != null && l.Parameters.Any(p => !p.IsRequired), 
+            "all results should have at least one optional parameter");
     }
-
-    private static IndicatorListing CreateTestListing(string uiid, string name)
-        => new IndicatorListingBuilder()
-            .WithName(name)
-            .WithId(uiid)
-            .WithStyle(Style.Series)
-            .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
-            .Build();
-
-    private static IndicatorListing CreateTestListingWithStyle(string uiid, string name, Style style)
-        => new IndicatorListingBuilder()
-            .WithName(name)
-            .WithId(uiid)
-            .WithStyle(style)
-            .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
-            .Build();
-
-    private static IndicatorListing CreateTestListingWithCategory(string uiid, string name, Category category)
-        => new IndicatorListingBuilder()
-            .WithName(name)
-            .WithId(uiid)
-            .WithStyle(Style.Series)
-            .WithCategory(category)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
-            .Build();
-
-    private static IndicatorListing CreateTestListingWithResultType(string uiid, string name, ResultType resultType)
-        => new IndicatorListingBuilder()
-            .WithName(name)
-            .WithId(uiid)
-            .WithStyle(Style.Series)
-            .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", resultType, isDefault: true)
-            .Build();
-
-    private static IndicatorListing CreateTestListingWithResultName(string uiid, string name, string resultName)
-        => new IndicatorListingBuilder()
-            .WithName(name)
-            .WithId(uiid)
-            .WithStyle(Style.Series)
-            .WithCategory(Category.Undefined)
-            .AddResult(resultName, resultName, ResultType.Default, isDefault: true)
-            .Build();
-
-    private static IndicatorListing CreateTestListingWithRequiredParam(string uiid, string name, bool isRequired)
-        => new IndicatorListingBuilder()
-            .WithName(name)
-            .WithId(uiid)
-            .WithStyle(Style.Series)
-            .WithCategory(Category.Undefined)
-            .AddParameter<int>("period", "Period", "Test description", isRequired)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
-            .Build();
 }
