@@ -196,7 +196,7 @@ public class IndicatorListingBuilder
     }
 
     /// <summary>
-    /// Adds a quote series parameter to the indicator.
+    /// Adds a series parameter for IReadOnlyList&lt;T&gt; where T : IReusable type parameters.
     /// </summary>
     /// <param name="parameterName">The name of the parameter.</param>
     /// <param name="displayName">The display name of the parameter.</param>
@@ -213,7 +213,7 @@ public class IndicatorListingBuilder
             ParameterName = parameterName,
             DisplayName = displayName,
             Description = description,
-            DataType = "IEnumerable<Quote>",
+            DataType = "IReadOnlyList<T> where T : IReusable",
             IsRequired = isRequired,
             DefaultValue = null,
             Minimum = null,
