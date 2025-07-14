@@ -177,7 +177,7 @@ public static partial class StringOut
         {
             string? nameAttribute = memberElement.Attribute("name")?.Value;
 
-            if (nameAttribute != null && nameAttribute.StartsWith(memberPrefix, StringComparison.Ordinal))
+            if (nameAttribute != null && nameAttribute.StartsWith(memberPrefix, StringComparison.OrdinalIgnoreCase))
             {
                 string propName = nameAttribute[memberPrefix.Length..];
 

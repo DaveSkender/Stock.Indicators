@@ -5,16 +5,15 @@ public static partial class Gator
     // GATOR Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Gator Oscillator") // From catalog.bak.json
-            .WithId("GATOR") // From catalog.bak.json
+            .WithName("Gator Oscillator")
+            .WithId("GATOR")
             .WithStyle(Style.Series)
-            .WithCategory(Category.Oscillator) // From catalog.bak.json Category: "Oscillator"
+            .WithCategory(Category.Oscillator)
             .WithMethodName("ToGator")
-                                               // No parameters for GATOR in catalog.bak.json
-            .AddResult("Upper", "Upper", ResultType.Default, isDefault: true) // From GatorResult model - primary result
-            .AddResult("Lower", "Lower", ResultType.Default, isDefault: false) // From GatorResult model
-            .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default, isDefault: false) // From GatorResult model
-            .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default, isDefault: false) // From GatorResult model
+            .AddResult("Upper", "Upper", ResultType.Default, isDefault: true)
+            .AddResult("Lower", "Lower", ResultType.Default, isDefault: false)
+            .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default, isDefault: false)
+            .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default, isDefault: false)
             .Build();
 
     // No StreamListing for GATOR.

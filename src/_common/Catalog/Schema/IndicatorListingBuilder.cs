@@ -282,7 +282,7 @@ public class IndicatorListingBuilder
         // A simple legend template based on the indicator name
         $"{_name} ({_id})";
 
-    protected internal void ValidateBeforeBuild()
+    private void ValidateBeforeBuild()
     {
         if (string.IsNullOrWhiteSpace(_name))
         {

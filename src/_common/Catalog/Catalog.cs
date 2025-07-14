@@ -16,8 +16,7 @@ public static partial class IndicatorCatalog
     /// </summary>
     public static IReadOnlyList<IndicatorListing> Catalog
     {
-        get
-        {
+        get {
             EnsureInitialized();
             return _catalog;
         }

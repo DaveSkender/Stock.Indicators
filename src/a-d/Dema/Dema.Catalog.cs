@@ -5,13 +5,13 @@ public static partial class Dema
     // DEMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Double Exponential Moving Average") // From catalog.bak.json
-            .WithId("DEMA") // From catalog.bak.json
+            .WithName("Double Exponential Moving Average")
+            .WithId("DEMA")
             .WithStyle(Style.Series)
-            .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithCategory(Category.MovingAverage)
             .WithMethodName("ToDema")
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250) // From catalog.bak.json
-            .AddResult("Dema", "DEMA", ResultType.Default, isDefault: true) // From DemaResult model
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250)
+            .AddResult("Dema", "DEMA", ResultType.Default, isDefault: true)
             .Build();
 
     // No StreamListing for DEMA.

@@ -5,15 +5,15 @@ public static partial class Mama
     // MAMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("MESA Adaptive Moving Average") // From catalog.bak.json
-            .WithId("MAMA") // From catalog.bak.json
+            .WithName("MESA Adaptive Moving Average")
+            .WithId("MAMA")
             .WithStyle(Style.Series)
-            .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithCategory(Category.MovingAverage)
             .WithMethodName("ToMama")
-            .AddParameter<double>("fastLimit", "Fast Limit", defaultValue: 0.5, minimum: 0.01, maximum: 0.99) // From catalog.bak.json
-            .AddParameter<double>("slowLimit", "Slow Limit", defaultValue: 0.05, minimum: 0.01, maximum: 0.99) // From catalog.bak.json
-            .AddResult("Mama", "MAMA", ResultType.Default, isDefault: true) // From MamaResult model
-            .AddResult("Fama", "FAMA", ResultType.Default, isDefault: false) // From MamaResult model
+            .AddParameter<double>("fastLimit", "Fast Limit", defaultValue: 0.5, minimum: 0.01, maximum: 0.99)
+            .AddParameter<double>("slowLimit", "Slow Limit", defaultValue: 0.05, minimum: 0.01, maximum: 0.99)
+            .AddResult("Mama", "MAMA", ResultType.Default, isDefault: true)
+            .AddResult("Fama", "FAMA", ResultType.Default, isDefault: false)
             .Build();
 
     // No StreamListing for MAMA.

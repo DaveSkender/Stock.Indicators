@@ -5,13 +5,13 @@ public static partial class Hma
     // HMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Hull Moving Average") // From catalog.bak.json
-            .WithId("HMA") // From catalog.bak.json
+            .WithName("Hull Moving Average")
+            .WithId("HMA")
             .WithStyle(Style.Series)
-            .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithCategory(Category.MovingAverage)
             .WithMethodName("ToHma")
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250) // From catalog.bak.json
-            .AddResult("Hma", "HMA", ResultType.Default, isDefault: true) // From HmaResult model
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
+            .AddResult("Hma", "HMA", ResultType.Default, isDefault: true)
             .Build();
 
     // No StreamListing for HMA.

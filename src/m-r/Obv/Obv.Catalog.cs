@@ -5,13 +5,12 @@ public static partial class Obv
     // OBV Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("On-Balance Volume") // From catalog.bak.json
-            .WithId("OBV") // From catalog.bak.json
+            .WithName("On-Balance Volume")
+            .WithId("OBV")
             .WithStyle(Style.Series)
-            .WithCategory(Category.VolumeBased) // From catalog.bak.json Category: "VolumeBased"
+            .WithCategory(Category.VolumeBased)
             .WithMethodName("ToObv")
-                                                // No parameters for OBV in catalog.bak.json
-            .AddResult("Obv", "OBV", ResultType.Default, isDefault: true) // From ObvResult model
+            .AddResult("Obv", "OBV", ResultType.Default, isDefault: true)
             .Build();
 
     // No StreamListing for OBV.

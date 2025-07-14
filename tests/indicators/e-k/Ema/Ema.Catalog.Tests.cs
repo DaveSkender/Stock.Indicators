@@ -118,7 +118,7 @@ public class EmaTests : TestBase
 
         // Act - Call using catalog metadata (via method name)
         var catalogResults = quotes.ToEma(lookbackValue);
-        
+
         // Act - Direct call
         var directResults = quotes.ToEma(lookbackValue);
 

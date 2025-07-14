@@ -5,15 +5,14 @@ public static partial class HtTrendline
     // HTL Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Hilbert Transform Instantaneous Trendline") // From catalog.bak.json
-            .WithId("HTL") // From catalog.bak.json
+            .WithName("Hilbert Transform Instantaneous Trendline")
+            .WithId("HTL")
             .WithStyle(Style.Series)
-            .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithCategory(Category.MovingAverage)
             .WithMethodName("ToHtTrendline")
-                                                  // No parameters for HTL in catalog.bak.json
-            .AddResult("DcPeriods", "Dominant Cycle Periods", ResultType.Default, isDefault: false) // From HtlResult model
-            .AddResult("Trendline", "Trendline", ResultType.Default, isDefault: true) // From HtlResult model
-            .AddResult("SmoothPrice", "Smooth Price", ResultType.Default, isDefault: false) // From HtlResult model
+            .AddResult("DcPeriods", "Dominant Cycle Periods", ResultType.Default, isDefault: false)
+            .AddResult("Trendline", "Trendline", ResultType.Default, isDefault: true)
+            .AddResult("SmoothPrice", "Smooth Price", ResultType.Default, isDefault: false)
             .Build();
 
     // No StreamListing for HTL.

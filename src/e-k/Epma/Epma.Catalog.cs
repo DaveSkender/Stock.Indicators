@@ -5,13 +5,13 @@ public static partial class Epma
     // EPMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Endpoint Moving Average") // From catalog.bak.json
-            .WithId("EPMA") // From catalog.bak.json
+            .WithName("Endpoint Moving Average")
+            .WithId("EPMA")
             .WithStyle(Style.Series)
-            .WithCategory(Category.MovingAverage) // From catalog.bak.json Category: "MovingAverage"
+            .WithCategory(Category.MovingAverage)
             .WithMethodName("ToEpma")
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 10, minimum: 1, maximum: 250) // From catalog.bak.json
-            .AddResult("Epma", "EPMA", ResultType.Default, isDefault: true) // From EpmaResult model
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 10, minimum: 1, maximum: 250)
+            .AddResult("Epma", "EPMA", ResultType.Default, isDefault: true)
             .Build();
 
     // No StreamListing for EPMA.
