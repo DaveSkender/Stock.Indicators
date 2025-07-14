@@ -12,8 +12,8 @@ public static partial class Awesome
             .WithMethodName("ToAwesome")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 5, minimum: 1, maximum: 100)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 34, minimum: 1, maximum: 250)
-            .AddResult("Oscillator", "Oscillator", ResultType.Default, isDefault: true)
-            .AddResult("Normalized", "Normalized", ResultType.Default, isDefault: false)
+            .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
+            .AddResult("Normalized", "Normalized", ResultType.Default)
             .Build();
 
     // No StreamListing for AWESOME.

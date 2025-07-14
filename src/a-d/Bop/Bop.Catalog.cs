@@ -11,7 +11,7 @@ public static partial class Bop
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToBop")
             .AddParameter<int>("smoothPeriods", "Smooth Periods", defaultValue: 14, minimum: 1, maximum: 250)
-            .AddResult("Bop", "BOP", ResultType.Default, isDefault: true)
+            .AddResult("Bop", "BOP", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for BOP.

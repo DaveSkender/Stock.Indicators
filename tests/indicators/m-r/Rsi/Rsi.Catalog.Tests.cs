@@ -32,6 +32,6 @@ public class RsiTests : TestBase
         result.DataName.Should().Be("Rsi");
         result.DisplayName.Should().Be("RSI");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 }

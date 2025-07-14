@@ -437,7 +437,7 @@ public class CatalogRegistry : TestBase
             .WithId(uiid)
             .WithStyle(Style.Series)
             .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
+            .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
 
     private static IndicatorListing CreateTestListingWithStyle(string uiid, string name, Style style)
@@ -446,7 +446,7 @@ public class CatalogRegistry : TestBase
             .WithId(uiid)
             .WithStyle(style)
             .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
+            .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
 
     private static IndicatorListing CreateTestListingWithCategory(string uiid, string name, Category category)
@@ -455,6 +455,6 @@ public class CatalogRegistry : TestBase
             .WithId(uiid)
             .WithStyle(Style.Series)
             .WithCategory(category)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
+            .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
 }

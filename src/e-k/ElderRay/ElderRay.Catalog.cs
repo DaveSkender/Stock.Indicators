@@ -11,10 +11,10 @@ public static partial class ElderRay
             .WithCategory(Category.PriceTrend)
             .WithMethodName("ToElderRay")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 13, minimum: 1, maximum: 250)
-            .AddResult("Ema", "EMA", ResultType.Default, isDefault: false)
-            .AddResult("BullPower", "Bull Power", ResultType.Default, isDefault: false)
-            .AddResult("BearPower", "Bear Power", ResultType.Default, isDefault: false)
-            .AddResult("Value", "Elder Ray", ResultType.Default, isDefault: true) // Calculated value (BullPower + BearPower) for IReusable.Value
+            .AddResult("Ema", "EMA", ResultType.Default)
+            .AddResult("BullPower", "Bull Power", ResultType.Default)
+            .AddResult("BearPower", "Bear Power", ResultType.Default)
+            .AddResult("Value", "Elder Ray", ResultType.Default, isReusable: true) // Calculated value (BullPower + BearPower) for IReusable.Value
             .Build();
 
     // No StreamListing for ELDER-RAY.

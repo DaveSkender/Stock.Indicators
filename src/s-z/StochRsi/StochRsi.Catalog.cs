@@ -14,7 +14,7 @@ public static partial class StochRsi
             .AddParameter<int>("stochPeriods", "Stochastic Periods", description: "Number of periods for the Stochastic calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", description: "Number of periods for the signal line", isRequired: false, defaultValue: 3, minimum: 1, maximum: 50)
             .AddParameter<int>("smoothPeriods", "Smooth Periods", description: "Number of periods for smoothing", isRequired: false, defaultValue: 1, minimum: 1, maximum: 50)
-            .AddResult("StochRsi", "%K", ResultType.Default, isDefault: true)
-            .AddResult("Signal", "%D", ResultType.Default, isDefault: false)
+            .AddResult("StochRsi", "%K", ResultType.Default, isReusable: true)
+            .AddResult("Signal", "%D", ResultType.Default)
             .Build();
 }

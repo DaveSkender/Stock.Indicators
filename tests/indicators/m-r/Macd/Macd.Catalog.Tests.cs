@@ -47,18 +47,18 @@ public class MacdTests : TestBase
         macdResult.DataName.Should().Be("Macd");
         macdResult.DisplayName.Should().Be("MACD");
         macdResult.DataType.Should().Be(ResultType.Default);
-        macdResult.IsDefault.Should().BeTrue();
+        macdResult.IsReusable.Should().BeTrue();
 
         var signalResult = listing.Results[1];
         signalResult.DataName.Should().Be("Signal");
         signalResult.DisplayName.Should().Be("Signal");
         signalResult.DataType.Should().Be(ResultType.Default);
-        signalResult.IsDefault.Should().BeFalse();
+        signalResult.IsReusable.Should().BeFalse();
 
         var histogramResult = listing.Results[2];
         histogramResult.DataName.Should().Be("Histogram");
         histogramResult.DisplayName.Should().Be("Histogram");
         histogramResult.DataType.Should().Be(ResultType.Bar);
-        histogramResult.IsDefault.Should().BeFalse();
+        histogramResult.IsReusable.Should().BeFalse();
     }
 }

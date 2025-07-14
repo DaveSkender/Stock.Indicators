@@ -10,7 +10,7 @@ public static partial class Obv
             .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToObv")
-            .AddResult("Obv", "OBV", ResultType.Default, isDefault: true)
+            .AddResult("Obv", "OBV", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for OBV.

@@ -36,6 +36,6 @@ public class WmaTests : TestBase
         result.DataName.Should().Be("Wma");
         result.DisplayName.Should().Be("WMA");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 }

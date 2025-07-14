@@ -140,7 +140,7 @@ public static class CatalogExamples
                 dataName: "Value",
                 displayName: "Value",
                 dataType: ResultType.Decimal,
-                isDefault: true)
+                isReusable: true)
             .Build();
 
         // Register a custom indicator manually
@@ -159,7 +159,7 @@ public static class CatalogExamples
             .WithStyle(Style.Series)
             .WithCategory(Category.Custom)
             .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Periods", isRequired: true)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         var streamListing = new IndicatorListingBuilder()
@@ -168,7 +168,7 @@ public static class CatalogExamples
             .WithStyle(Style.Stream)
             .WithCategory(Category.Custom)
             .AddParameter<int>("lookbackPeriods", "Lookback Period", description: "Periods", isRequired: true)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         // Register each style separately

@@ -14,9 +14,15 @@
   "github.copilot.enable": {
     "*": false
   },
+  "files.associations": {
+    "*.md": "markdown"
+  },
   "markdownlint.config": {
     "MD033": false, // no-inline-html
-    "MD025": false // single-title/single-h1 --> fails with front-matter
+    "MD025": false  // single-title/single-h1 --> fails with front-matter
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   },
   "search.exclude": {
     "**/_site/**": true,

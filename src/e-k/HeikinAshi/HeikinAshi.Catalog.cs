@@ -10,11 +10,11 @@ public static partial class HeikinAshi
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceTransform)
             .WithMethodName("ToHeikinAshi")
-            .AddResult("Open", "Open", ResultType.Default, isDefault: false)
-            .AddResult("High", "High", ResultType.Default, isDefault: false)
-            .AddResult("Low", "Low", ResultType.Default, isDefault: false)
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true)
-            .AddResult("Volume", "Volume", ResultType.Default, isDefault: false)
+            .AddResult("Open", "Open", ResultType.Default)
+            .AddResult("High", "High", ResultType.Default)
+            .AddResult("Low", "Low", ResultType.Default)
+            .AddResult("Close", "Close", ResultType.Default, isReusable: true)
+            .AddResult("Volume", "Volume", ResultType.Default)
             .Build();
 
     // No StreamListing for HEIKINASHI.

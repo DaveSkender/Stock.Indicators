@@ -38,6 +38,6 @@ public class DynamicTests : TestBase
         result.DataName.Should().Be("Dynamic");
         result.DisplayName.Should().Be("McGinley Dynamic");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 }

@@ -10,9 +10,9 @@ public static partial class HtTrendline
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage)
             .WithMethodName("ToHtTrendline")
-            .AddResult("DcPeriods", "Dominant Cycle Periods", ResultType.Default, isDefault: false)
-            .AddResult("Trendline", "Trendline", ResultType.Default, isDefault: true)
-            .AddResult("SmoothPrice", "Smooth Price", ResultType.Default, isDefault: false)
+            .AddResult("DcPeriods", "Dominant Cycle Periods", ResultType.Default)
+            .AddResult("Trendline", "Trendline", ResultType.Default, isReusable: true)
+            .AddResult("SmoothPrice", "Smooth Price", ResultType.Default)
             .Build();
 
     // No StreamListing for HTL.

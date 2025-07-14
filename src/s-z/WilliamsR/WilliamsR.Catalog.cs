@@ -11,6 +11,6 @@ public static partial class WilliamsR
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToWilliamsR")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the Williams %R calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
-            .AddResult("WilliamsR", "Williams %R", ResultType.Default, isDefault: true)
+            .AddResult("WilliamsR", "Williams %R", ResultType.Default, isReusable: true)
             .Build();
 }

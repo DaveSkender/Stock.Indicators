@@ -11,7 +11,7 @@ public static partial class Hma
             .WithCategory(Category.MovingAverage)
             .WithMethodName("ToHma")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 2, maximum: 250)
-            .AddResult("Hma", "HMA", ResultType.Default, isDefault: true)
+            .AddResult("Hma", "HMA", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for HMA.

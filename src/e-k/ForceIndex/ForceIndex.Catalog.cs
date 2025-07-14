@@ -11,7 +11,7 @@ public static partial class ForceIndex
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToForceIndex")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 2, minimum: 1, maximum: 250)
-            .AddResult("ForceIndex", "Force Index", ResultType.Default, isDefault: true)
+            .AddResult("ForceIndex", "Force Index", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for FORCE.

@@ -11,7 +11,7 @@ public static partial class Hurst
             .WithCategory(Category.PriceCharacteristic)
             .WithMethodName("ToHurst")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 100, minimum: 2, maximum: 250)
-            .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isDefault: true)
+            .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for HURST.

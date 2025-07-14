@@ -13,8 +13,8 @@ public static partial class Kvo
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 34, minimum: 1, maximum: 200)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 55, minimum: 1, maximum: 250)
             .AddParameter<int>("signalPeriods", "Signal Periods", defaultValue: 13, minimum: 1, maximum: 50)
-            .AddResult("Oscillator", "Oscillator", ResultType.Default, isDefault: true)
-            .AddResult("Signal", "Signal", ResultType.Default, isDefault: false)
+            .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
+            .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
 
     // No StreamListing for KVO.

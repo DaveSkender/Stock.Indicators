@@ -36,7 +36,7 @@ public class SmaTests : TestBase
         result.DataName.Should().Be("Sma");
         result.DisplayName.Should().Be("SMA");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 
     [TestMethod]
@@ -68,6 +68,6 @@ public class SmaTests : TestBase
         result.DataName.Should().Be("Sma");
         result.DisplayName.Should().Be("SMA");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 }

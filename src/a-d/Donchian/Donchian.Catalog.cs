@@ -11,10 +11,10 @@ public static partial class Donchian
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToDonchian")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
-            .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false)
-            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true)
-            .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false)
-            .AddResult("Width", "Width", ResultType.Default, isDefault: false)
+            .AddResult("UpperBand", "Upper Band", ResultType.Default)
+            .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
+            .AddResult("LowerBand", "Lower Band", ResultType.Default)
+            .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
     // No StreamListing for DONCHIAN.

@@ -11,9 +11,9 @@ public static partial class Cmf
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToCmf")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
-            .AddResult("MoneyFlowMultiplier", "Money Flow Multiplier", ResultType.Default, isDefault: false)
-            .AddResult("MoneyFlowVolume", "Money Flow Volume", ResultType.Default, isDefault: false)
-            .AddResult("Cmf", "CMF", ResultType.Default, isDefault: true)
+            .AddResult("MoneyFlowMultiplier", "Money Flow Multiplier", ResultType.Default)
+            .AddResult("MoneyFlowVolume", "Money Flow Volume", ResultType.Default)
+            .AddResult("Cmf", "CMF", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for CMF.

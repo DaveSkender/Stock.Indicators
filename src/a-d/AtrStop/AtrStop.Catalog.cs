@@ -13,10 +13,10 @@ public static partial class AtrStop
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
-            .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, isDefault: true)
-            .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
-            .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
-            .AddResult("Atr", "ATR", ResultType.Default, isDefault: false)
+            .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, isReusable: true)
+            .AddResult("BuyStop", "Buy Stop", ResultType.Default)
+            .AddResult("SellStop", "Sell Stop", ResultType.Default)
+            .AddResult("Atr", "ATR", ResultType.Default)
             .Build();
 
     // ATR-STOP Stream Listing
@@ -30,10 +30,10 @@ public static partial class AtrStop
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 21, minimum: 1, maximum: 50)
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 3.0, minimum: 0.1, maximum: 10.0)
             .AddEnumParameter<EndType>("endType", "End Type", defaultValue: EndType.Close)
-            .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, isDefault: true)
-            .AddResult("BuyStop", "Buy Stop", ResultType.Default, isDefault: false)
-            .AddResult("SellStop", "Sell Stop", ResultType.Default, isDefault: false)
-            .AddResult("Atr", "ATR", ResultType.Default, isDefault: false)
+            .AddResult("AtrStop", "ATR Trailing Stop", ResultType.Default, isReusable: true)
+            .AddResult("BuyStop", "Buy Stop", ResultType.Default)
+            .AddResult("SellStop", "Sell Stop", ResultType.Default)
+            .AddResult("Atr", "ATR", ResultType.Default)
             .Build();
 
     // No BufferListing for ATR-STOP.

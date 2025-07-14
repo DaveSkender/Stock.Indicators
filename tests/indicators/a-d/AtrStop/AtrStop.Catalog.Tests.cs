@@ -63,7 +63,7 @@ public class AtrStopTests : TestBase
         listing.Results.Should().HaveCount(4);
 
         // check that AtrStop is the default result
-        var defaultResult = listing.Results.FirstOrDefault(r => r.IsDefault);
+        var defaultResult = listing.Results.FirstOrDefault(r => r.IsReusable);
         defaultResult.Should().NotBeNull();
         defaultResult!.DataName.Should().Be("AtrStop");
         defaultResult.DisplayName.Should().Be("ATR Trailing Stop");

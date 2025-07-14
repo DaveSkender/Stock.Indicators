@@ -11,7 +11,7 @@ public static partial class Dema
             .WithCategory(Category.MovingAverage)
             .WithMethodName("ToDema")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250)
-            .AddResult("Dema", "DEMA", ResultType.Default, isDefault: true)
+            .AddResult("Dema", "DEMA", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for DEMA.

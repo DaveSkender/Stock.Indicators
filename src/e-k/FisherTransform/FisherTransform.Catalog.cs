@@ -11,8 +11,8 @@ public static partial class FisherTransform
             .WithCategory(Category.PriceTransform)
             .WithMethodName("ToFisherTransform")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 10, minimum: 1, maximum: 250)
-            .AddResult("Fisher", "Fisher", ResultType.Default, isDefault: true)
-            .AddResult("Trigger", "Trigger", ResultType.Default, isDefault: false)
+            .AddResult("Fisher", "Fisher", ResultType.Default, isReusable: true)
+            .AddResult("Trigger", "Trigger", ResultType.Default)
             .Build();
 
     // No StreamListing for FISHER.

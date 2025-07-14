@@ -22,7 +22,10 @@ public record IndicatorResult
     public required ResultType DataType { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this result is the default output.
+    /// Gets or sets a value indicating whether this result is the reusable output.
     /// </summary>
-    public bool IsDefault { get; init; }
+    /// <remarks>
+    /// This value is only set to true when it is used to set the <see cref="IReusable.Value"/>.
+    /// </remarks>
+    public bool IsReusable { get; init; }
 }

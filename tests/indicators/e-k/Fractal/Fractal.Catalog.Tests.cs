@@ -38,12 +38,12 @@ public class FractalTests : TestBase
         bearResult.DataName.Should().Be("FractalBear");
         bearResult.DisplayName.Should().Be("Bear Fractal");
         bearResult.DataType.Should().Be(ResultType.Default);
-        bearResult.IsDefault.Should().BeFalse();
+        bearResult.IsReusable.Should().BeFalse();
 
         var bullResult = listing.Results[1];
         bullResult.DataName.Should().Be("FractalBull");
         bullResult.DisplayName.Should().Be("Bull Fractal");
         bullResult.DataType.Should().Be(ResultType.Default);
-        bullResult.IsDefault.Should().BeTrue();
+        bullResult.IsReusable.Should().BeTrue();
     }
 }

@@ -11,7 +11,7 @@ public static partial class Mfi
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToMfi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the MFI calculation", defaultValue: 14, minimum: 1, maximum: 250)
-            .AddResult("Mfi", "MFI", ResultType.Default, isDefault: true)
+            .AddResult("Mfi", "MFI", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for MFI.

@@ -54,7 +54,7 @@ public class RenkoTests : TestBase
         listing.Results.Should().HaveCount(6);
 
         // check that Close is the default result
-        var defaultResult = listing.Results.FirstOrDefault(r => r.IsDefault);
+        var defaultResult = listing.Results.FirstOrDefault(r => r.IsReusable);
         defaultResult.Should().NotBeNull();
         defaultResult!.DataName.Should().Be("Close");
         defaultResult.DisplayName.Should().Be("Close");
@@ -88,7 +88,7 @@ public class RenkoTests : TestBase
         listing.Results.Should().HaveCount(6);
 
         // check that Close is the default result
-        var defaultResult = listing.Results.FirstOrDefault(r => r.IsDefault);
+        var defaultResult = listing.Results.FirstOrDefault(r => r.IsReusable);
         defaultResult.Should().NotBeNull();
         defaultResult!.DataName.Should().Be("Close");
         defaultResult.DisplayName.Should().Be("Close");

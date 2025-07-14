@@ -12,12 +12,12 @@ public static partial class Renko
             .WithMethodName("ToRenko")
             .AddParameter<double>("brickSize", "Brick Size", description: "The size of each Renko brick", isRequired: true, defaultValue: 1.0, minimum: 0.001, maximum: 1000000.0)
             .AddEnumParameter<EndType>("endType", "End Type", description: "The price candle end type to use as the brick threshold", isRequired: false, defaultValue: EndType.Close)
-            .AddResult("Open", "Open", ResultType.Default, isDefault: false)
-            .AddResult("High", "High", ResultType.Default, isDefault: false)
-            .AddResult("Low", "Low", ResultType.Default, isDefault: false)
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true)
-            .AddResult("Volume", "Volume", ResultType.Default, isDefault: false)
-            .AddResult("IsUp", "Is Up", ResultType.Default, isDefault: false)
+            .AddResult("Open", "Open", ResultType.Default)
+            .AddResult("High", "High", ResultType.Default)
+            .AddResult("Low", "Low", ResultType.Default)
+            .AddResult("Close", "Close", ResultType.Default, isReusable: true)
+            .AddResult("Volume", "Volume", ResultType.Default)
+            .AddResult("IsUp", "Is Up", ResultType.Default)
             .Build();
 
     // Renko Stream Listing
@@ -30,11 +30,11 @@ public static partial class Renko
             .WithMethodName("ToRenko")
             .AddParameter<double>("brickSize", "Brick Size", description: "The size of each Renko brick", isRequired: true, defaultValue: 1.0, minimum: 0.001, maximum: 1000000.0)
             .AddEnumParameter<EndType>("endType", "End Type", description: "The price candle end type to use as the brick threshold", isRequired: false, defaultValue: EndType.Close)
-            .AddResult("Open", "Open", ResultType.Default, isDefault: false)
-            .AddResult("High", "High", ResultType.Default, isDefault: false)
-            .AddResult("Low", "Low", ResultType.Default, isDefault: false)
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true)
-            .AddResult("Volume", "Volume", ResultType.Default, isDefault: false)
-            .AddResult("IsUp", "Is Up", ResultType.Default, isDefault: false)
+            .AddResult("Open", "Open", ResultType.Default)
+            .AddResult("High", "High", ResultType.Default)
+            .AddResult("Low", "Low", ResultType.Default)
+            .AddResult("Close", "Close", ResultType.Default, isReusable: true)
+            .AddResult("Volume", "Volume", ResultType.Default)
+            .AddResult("IsUp", "Is Up", ResultType.Default)
             .Build();
 }

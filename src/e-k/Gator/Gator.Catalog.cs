@@ -10,10 +10,10 @@ public static partial class Gator
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToGator")
-            .AddResult("Upper", "Upper", ResultType.Default, isDefault: true)
-            .AddResult("Lower", "Lower", ResultType.Default, isDefault: false)
-            .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default, isDefault: false)
-            .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default, isDefault: false)
+            .AddResult("Upper", "Upper", ResultType.Default)
+            .AddResult("Lower", "Lower", ResultType.Default)
+            .AddResult("UpperIsExpanding", "Upper Is Expanding", ResultType.Default)
+            .AddResult("LowerIsExpanding", "Lower Is Expanding", ResultType.Default)
             .Build();
 
     // No StreamListing for GATOR.

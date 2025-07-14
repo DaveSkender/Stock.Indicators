@@ -12,10 +12,10 @@ public static partial class ChaikinOsc
             .WithMethodName("ToChaikinOsc")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 3, minimum: 1, maximum: 100)
             .AddParameter<int>("slowPeriods", "Slow Periods", defaultValue: 10, minimum: 1, maximum: 100)
-            .AddResult("MoneyFlowMultiplier", "Money Flow Multiplier", ResultType.Default, isDefault: false)
-            .AddResult("MoneyFlowVolume", "Money Flow Volume", ResultType.Default, isDefault: false)
-            .AddResult("Adl", "ADL", ResultType.Default, isDefault: false)
-            .AddResult("Oscillator", "Oscillator", ResultType.Default, isDefault: true)
+            .AddResult("MoneyFlowMultiplier", "Money Flow Multiplier", ResultType.Default)
+            .AddResult("MoneyFlowVolume", "Money Flow Volume", ResultType.Default)
+            .AddResult("Adl", "ADL", ResultType.Default)
+            .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for CHAIKIN-OSC.

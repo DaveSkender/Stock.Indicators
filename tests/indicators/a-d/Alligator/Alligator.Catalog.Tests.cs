@@ -96,7 +96,7 @@ public class AlligatorTests : TestBase
         listing.Results.Should().HaveCount(3);
 
         // check that Lips is the default result
-        var defaultResult = listing.Results.FirstOrDefault(r => r.IsDefault);
+        var defaultResult = listing.Results.FirstOrDefault(r => r.IsReusable);
         defaultResult.Should().NotBeNull();
         defaultResult!.DataName.Should().Be("Lips");
         defaultResult.DisplayName.Should().Be("Lips");
@@ -123,7 +123,7 @@ public class AlligatorTests : TestBase
         listing.Parameters.Should().HaveCount(6);
 
         // check that Lips is the default result
-        var defaultResult = listing.Results.FirstOrDefault(r => r.IsDefault);
+        var defaultResult = listing.Results.FirstOrDefault(r => r.IsReusable);
         defaultResult.Should().NotBeNull();
         defaultResult!.DataName.Should().Be("Lips");
         defaultResult.DisplayName.Should().Be("Lips");

@@ -36,24 +36,24 @@ public class SmaAnalysisTests : TestBase
         smaResult.Should().NotBeNull();
         smaResult!.DisplayName.Should().Be("SMA");
         smaResult.DataType.Should().Be(ResultType.Default);
-        smaResult.IsDefault.Should().BeTrue();
+        smaResult.IsReusable.Should().BeTrue();
 
         var madResult = listing.Results.FirstOrDefault(r => r.DataName == "Mad");
         madResult.Should().NotBeNull();
         madResult!.DisplayName.Should().Be("Mean Absolute Deviation");
         madResult.DataType.Should().Be(ResultType.Default);
-        madResult.IsDefault.Should().BeFalse();
+        madResult.IsReusable.Should().BeFalse();
 
         var mseResult = listing.Results.FirstOrDefault(r => r.DataName == "Mse");
         mseResult.Should().NotBeNull();
         mseResult!.DisplayName.Should().Be("Mean Square Error");
         mseResult.DataType.Should().Be(ResultType.Default);
-        mseResult.IsDefault.Should().BeFalse();
+        mseResult.IsReusable.Should().BeFalse();
 
         var mapeResult = listing.Results.FirstOrDefault(r => r.DataName == "Mape");
         mapeResult.Should().NotBeNull();
         mapeResult!.DisplayName.Should().Be("Mean Absolute Percentage Error");
         mapeResult.DataType.Should().Be(ResultType.Default);
-        mapeResult.IsDefault.Should().BeFalse();
+        mapeResult.IsReusable.Should().BeFalse();
     }
 }

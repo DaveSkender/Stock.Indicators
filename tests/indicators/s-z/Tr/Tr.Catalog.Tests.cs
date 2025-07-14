@@ -25,7 +25,7 @@ public class TrTests : TestBase
         result.DataName.Should().Be("Tr");
         result.DisplayName.Should().Be("True Range");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 
     [TestMethod]
@@ -50,6 +50,6 @@ public class TrTests : TestBase
         result.DataName.Should().Be("Tr");
         result.DisplayName.Should().Be("True Range");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 }

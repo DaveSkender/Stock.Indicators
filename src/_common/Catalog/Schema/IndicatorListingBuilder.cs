@@ -229,19 +229,19 @@ public class IndicatorListingBuilder
     /// <param name="dataName">The name of the data property.</param>
     /// <param name="displayName">The display name of the result.</param>
     /// <param name="dataType">The type of the result.</param>
-    /// <param name="isDefault">Whether this is the default result.</param>
+    /// <param name="isReusable">Whether this is the reusable result.</param>
     /// <returns>The builder instance for method chaining.</returns>
     public IndicatorListingBuilder AddResult(
         string dataName,
         string displayName,
         ResultType dataType = ResultType.Default,
-        bool isDefault = false)
+        bool isReusable = false)
     {
         _results.Add(new IndicatorResult {
             DataName = dataName,
             DisplayName = displayName,
             DataType = dataType,
-            IsDefault = isDefault
+            IsReusable = isReusable
         });
 
         return this;
@@ -313,10 +313,17 @@ public class IndicatorListingBuilder
             throw new InvalidOperationException("Duplicate result names are not allowed.");
         }
 
-        // Ensure at least one default result if there are multiple results
-        if (_results.Count > 1 && !_results.Any(r => r.IsDefault))
+        // Validate reusable result rules:
+        // - For IReusable models: exactly one result must be marked as reusable
+        // - For ISeries models: no results should be marked as reusable
+        var reusableResults = _results.Where(r => r.IsReusable).ToList();
+
+        if (reusableResults.Count > 1)
         {
-            throw new InvalidOperationException("At least one result must be marked as default when there are multiple results.");
+            throw new InvalidOperationException("Only one result can be marked as reusable.");
         }
+
+        // Note: We cannot automatically validate IReusable vs ISeries here since we don't have
+        // direct access to the model type, but the catalog instructions specify the rules clearly.
     }
 }

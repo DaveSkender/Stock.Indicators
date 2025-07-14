@@ -11,6 +11,6 @@ public static partial class Smma
             .WithCategory(Category.MovingAverage)
             .WithMethodName("ToSmma")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMMA calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
-            .AddResult("Smma", "SMMA", ResultType.Default, isDefault: true)
+            .AddResult("Smma", "SMMA", ResultType.Default, isReusable: true)
             .Build();
 }

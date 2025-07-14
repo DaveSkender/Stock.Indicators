@@ -16,7 +16,7 @@ internal static readonly IndicatorListing SeriesListing = new IndicatorListingBu
         defaultValue: 20,
         minimum: 2,
         maximum: 250)
-    .AddResult("Ema", "EMA", ResultType.Default, isDefault: true)
+    .AddResult("Ema", "EMA", ResultType.Default, isReusable: true)
     .Build();
 ```
 
@@ -27,7 +27,7 @@ internal static readonly IndicatorListing SeriesListing = new IndicatorListingBu
 - `.WithStyle(Style)` - Set indicator style (Series, Stream, Buffer)
 - `.WithCategory(Category)` - Set classification category
 - `.AddParameter<T>(name, displayName, ...)` - Add parameters with validation
-- `.AddResult(dataName, displayName, type, isDefault)` - Add result properties
+- `.AddResult(dataName, displayName, type, isReusable)` - Add result properties
 - `.Build()` - Create the final listing
 
 ## Multi-Style Catalog Listings

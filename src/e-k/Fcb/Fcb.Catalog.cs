@@ -11,8 +11,8 @@ public static partial class Fcb
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToFcb")
             .AddParameter<int>("windowSpan", "Window Span", defaultValue: 2, minimum: 2, maximum: 30)
-            .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: true)
-            .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false)
+            .AddResult("UpperBand", "Upper Band", ResultType.Default, isReusable: true)
+            .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
 
     // No StreamListing for FCB.

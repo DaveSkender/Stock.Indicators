@@ -44,12 +44,12 @@ public class StochTests : TestBase
         oscillator.DataName.Should().Be("Oscillator");
         oscillator.DisplayName.Should().Be("%K");
         oscillator.DataType.Should().Be(ResultType.Default);
-        oscillator.IsDefault.Should().BeTrue();
+        oscillator.IsReusable.Should().BeTrue();
 
         var signal = listing.Results[1];
         signal.DataName.Should().Be("Signal");
         signal.DisplayName.Should().Be("%D");
         signal.DataType.Should().Be(ResultType.Default);
-        signal.IsDefault.Should().BeFalse();
+        signal.IsReusable.Should().BeFalse();
     }
 }

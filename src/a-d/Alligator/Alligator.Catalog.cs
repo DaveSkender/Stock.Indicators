@@ -16,9 +16,9 @@ public static partial class Alligator
             .AddParameter<int>("teethOffset", "Teeth Offset", description: "Offset periods for the Teeth line", isRequired: true, defaultValue: 5, minimum: 1, maximum: 50)
             .AddParameter<int>("lipsPeriods", "Lips Periods", description: "Lookback periods for the Lips line", isRequired: true, defaultValue: 5, minimum: 2, maximum: 250)
             .AddParameter<int>("lipsOffset", "Lips Offset", description: "Offset periods for the Lips line", isRequired: true, defaultValue: 3, minimum: 1, maximum: 50)
-            .AddResult("Jaw", "Jaw", ResultType.Default, isDefault: false)
-            .AddResult("Teeth", "Teeth", ResultType.Default, isDefault: false)
-            .AddResult("Lips", "Lips", ResultType.Default, isDefault: true)
+            .AddResult("Jaw", "Jaw", ResultType.Default)
+            .AddResult("Teeth", "Teeth", ResultType.Default)
+            .AddResult("Lips", "Lips", ResultType.Default, isReusable: true)
             .Build();
 
     // Alligator Stream Listing
@@ -35,8 +35,8 @@ public static partial class Alligator
             .AddParameter<int>("teethOffset", "Teeth Offset", description: "Offset periods for the Teeth line", isRequired: true, defaultValue: 5, minimum: 1, maximum: 50)
             .AddParameter<int>("lipsPeriods", "Lips Periods", description: "Lookback periods for the Lips line", isRequired: true, defaultValue: 5, minimum: 2, maximum: 250)
             .AddParameter<int>("lipsOffset", "Lips Offset", description: "Offset periods for the Lips line", isRequired: true, defaultValue: 3, minimum: 1, maximum: 50)
-            .AddResult("Jaw", "Jaw", ResultType.Default, isDefault: false)
-            .AddResult("Teeth", "Teeth", ResultType.Default, isDefault: false)
-            .AddResult("Lips", "Lips", ResultType.Default, isDefault: true)
+            .AddResult("Jaw", "Jaw", ResultType.Default)
+            .AddResult("Teeth", "Teeth", ResultType.Default)
+            .AddResult("Lips", "Lips", ResultType.Default, isReusable: true)
             .Build();
 }
