@@ -17,18 +17,16 @@ public class CatalogStyleCounts : TestBase
         var streamCount = catalog.Count(x => x.Style == Style.Stream);
         var bufferCount = catalog.Count(x => x.Style == Style.Buffer);
         
-        // Assert
-        // Based on comment: "more than 80 series types, 2 for buffer, 6+ for hub types"
-        // Note: "hub types" likely refers to Stream style in the current codebase
-        seriesCount.Should().BeGreaterThan(80, "there should be more than 80 series style indicators");
-        bufferCount.Should().BeGreaterOrEqualTo(2, "there should be at least 2 buffer style indicators");
-        streamCount.Should().BeGreaterOrEqualTo(6, "there should be at least 6 stream style indicators (hub types)");
+        // Output actual counts for debugging
+        Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
         
-        // Additional verification - total should be reasonable
+        // Assert - use exact counts based on current catalog
+        seriesCount.Should().Be(84, "there should be exactly 84 series style indicators");
+        bufferCount.Should().Be(2, "there should be exactly 2 buffer style indicators");
+        streamCount.Should().Be(8, "there should be exactly 8 stream style indicators");
+        
+        // Total verification
         var totalCount = seriesCount + streamCount + bufferCount;
-        totalCount.Should().BeGreaterOrEqualTo(90, "total indicators should be at least 90");
-        
-        // Output for debugging purposes if test fails
-        Console.WriteLine($"Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={totalCount}");
+        totalCount.Should().Be(94, "total indicators should be exactly 94");
     }
 }
