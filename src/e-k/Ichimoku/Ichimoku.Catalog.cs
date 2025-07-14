@@ -13,7 +13,7 @@ public static partial class Ichimoku
             .AddParameter<int>("tenkanPeriods", "Tenkan Periods", defaultValue: 9, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddParameter<int>("kijunPeriods", "Kijun Periods", defaultValue: 26, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddParameter<int>("senkouBPeriods", "Senkou B Periods", defaultValue: 52, minimum: 3, maximum: 250) // From catalog.bak.json
-            .AddResult("TenkanSen", "Tenkan-sen", ResultType.Default, isDefault: true) // From IchimokuResult model
+            .AddResult("TenkanSen", "Tenkan-sen", ResultType.Default, isDefault: false) // From IchimokuResult model
             .AddResult("KijunSen", "Kijun-sen", ResultType.Default, isDefault: false) // From IchimokuResult model
             .AddResult("SenkouSpanA", "Senkou Span A", ResultType.Default, isDefault: false) // From IchimokuResult model
             .AddResult("SenkouSpanB", "Senkou Span B", ResultType.Default, isDefault: false) // From IchimokuResult model

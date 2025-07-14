@@ -14,7 +14,7 @@ public static partial class Keltner
             .AddParameter<double>("multiplier", "Multiplier", defaultValue: 2.0, minimum: 0.01, maximum: 10.0) // From catalog.bak.json
             .AddParameter<int>("atrPeriods", "ATR Periods", defaultValue: 10, minimum: 2, maximum: 250) // From catalog.bak.json
             .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false) // From KeltnerResult model
-            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true) // From KeltnerResult model
+            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: false) // From KeltnerResult model
             .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false) // From KeltnerResult model
             .AddResult("Width", "Width", ResultType.Default, isDefault: false) // From KeltnerResult model
             .Build();

@@ -14,7 +14,7 @@ public static partial class HeikinAshi
             .AddResult("Open", "Open", ResultType.Default, isDefault: false) // From HeikinAshiResult model
             .AddResult("High", "High", ResultType.Default, isDefault: false) // From HeikinAshiResult model
             .AddResult("Low", "Low", ResultType.Default, isDefault: false) // From HeikinAshiResult model
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true) // From HeikinAshiResult model
+            .AddResult("Close", "Close", ResultType.Default, isDefault: false) // From HeikinAshiResult model
             .AddResult("Volume", "Volume", ResultType.Default, isDefault: false) // From HeikinAshiResult model
             .Build();
 

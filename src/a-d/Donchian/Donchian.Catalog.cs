@@ -12,7 +12,7 @@ public static partial class Donchian
             .WithMethodName("ToDonchian")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250) // From catalog.bak.json
             .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false) // From DonchianResult model
-            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true) // From DonchianResult model
+            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: false) // From DonchianResult model
             .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false) // From DonchianResult model
             .AddResult("Width", "Width", ResultType.Default, isDefault: false) // From DonchianResult model
             .Build();

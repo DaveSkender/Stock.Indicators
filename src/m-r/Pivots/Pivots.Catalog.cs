@@ -14,7 +14,7 @@ public static partial class Pivots
             .AddResult("R3", "Resistance 3", ResultType.Default, isDefault: false)
             .AddResult("R2", "Resistance 2", ResultType.Default, isDefault: false)
             .AddResult("R1", "Resistance 1", ResultType.Default, isDefault: false)
-            .AddResult("PP", "Pivot Point", ResultType.Default, isDefault: true)
+            .AddResult("PP", "Pivot Point", ResultType.Default, isDefault: false)
             .AddResult("S1", "Support 1", ResultType.Default, isDefault: false)
             .AddResult("S2", "Support 2", ResultType.Default, isDefault: false)
             .AddResult("S3", "Support 3", ResultType.Default, isDefault: false)

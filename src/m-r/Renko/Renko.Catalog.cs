@@ -15,7 +15,7 @@ public static partial class Renko
             .AddResult("Open", "Open", ResultType.Default, isDefault: false)
             .AddResult("High", "High", ResultType.Default, isDefault: false)
             .AddResult("Low", "Low", ResultType.Default, isDefault: false)
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true)
+            .AddResult("Close", "Close", ResultType.Default, isDefault: false)
             .AddResult("Volume", "Volume", ResultType.Default, isDefault: false)
             .AddResult("IsUp", "Is Up", ResultType.Default, isDefault: false)
             .Build();
@@ -33,7 +33,7 @@ public static partial class Renko
             .AddResult("Open", "Open", ResultType.Default, isDefault: false)
             .AddResult("High", "High", ResultType.Default, isDefault: false)
             .AddResult("Low", "Low", ResultType.Default, isDefault: false)
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true)
+            .AddResult("Close", "Close", ResultType.Default, isDefault: false)
             .AddResult("Volume", "Volume", ResultType.Default, isDefault: false)
             .AddResult("IsUp", "Is Up", ResultType.Default, isDefault: false)
             .Build();
