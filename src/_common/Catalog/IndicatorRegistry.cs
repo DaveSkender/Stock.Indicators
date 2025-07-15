@@ -13,17 +13,18 @@ public static class IndicatorRegistry
     private static readonly List<IndicatorListing> _registry = [];
     private static readonly object _syncLock = new();
     private static volatile bool _isInitialized;
+    private static volatile bool _autoInitializationDisabled;
 
     /// <summary>
     /// Initialize the registry with default indicators from the catalog
     /// </summary>
     private static void EnsureInitialized()
     {
-        if (!_isInitialized)
+        if (!_isInitialized && !_autoInitializationDisabled)
         {
             lock (_syncLock)
             {
-                if (!_isInitialized)
+                if (!_isInitialized && !_autoInitializationDisabled)
                 {
                     // Register all indicators from the catalog
                     foreach (IndicatorListing listing in IndicatorCatalog.Catalog)
@@ -34,6 +35,17 @@ public static class IndicatorRegistry
                     _isInitialized = true;
                 }
             }
+        }
+    }
+
+    /// <summary>
+    /// Conditionally initialize the registry if auto-initialization is enabled
+    /// </summary>
+    private static void EnsureInitializedIfEnabled()
+    {
+        if (!_autoInitializationDisabled)
+        {
+            EnsureInitialized();
         }
     }
 
@@ -83,20 +95,15 @@ public static class IndicatorRegistry
     /// Registers all indicators from the catalog in the specified assemblies.
     /// </summary>
     /// <param name="assemblies">The assemblies to search for indicators.</param>
-    public static void RegisterCatalog(System.Reflection.Assembly[] assemblies)
-    {
-        RegisterCatalog();
-    }
+    public static void RegisterCatalog(System.Reflection.Assembly[] assemblies) => RegisterCatalog();
 
     /// <summary>
     /// Automatically registers indicators with appropriate attributes.
     /// </summary>
     [Obsolete("RegisterAuto is obsolete. Use RegisterCatalog instead.")]
-    public static void RegisterAuto()
-    {
+    public static void RegisterAuto() =>
         // With the removal of code generation system, this is now just forwarding to RegisterCatalog
         RegisterCatalog();
-    }
 
     /// <summary>
     /// Gets all registered indicators.
@@ -104,7 +111,7 @@ public static class IndicatorRegistry
     /// <returns>A read-only collection of all registered indicator listings.</returns>
     public static IReadOnlyCollection<IndicatorListing> GetAll()
     {
-        EnsureInitialized();
+        EnsureInitializedIfEnabled();
 
         lock (_syncLock)
         {
@@ -125,11 +132,34 @@ public static class IndicatorRegistry
     /// <returns>The first indicator listing with the specified ID, or null if not found.</returns>
     public static IndicatorListing? GetIndicator(string id)
     {
-        EnsureInitialized();
+        EnsureInitializedIfEnabled();
 
         lock (_syncLock)
         {
             return _registry.FirstOrDefault(x => string.Equals(x.Uiid, id, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    /// <summary>
+    /// Gets an indicator by its ID and style.
+    /// </summary>
+    /// <param name="id">The unique ID of the indicator.</param>
+    /// <param name="style">The style of the indicator.</param>
+    /// <returns>The indicator listing with the specified ID and style, or null if not found.</returns>
+    public static IndicatorListing? GetByIdAndStyle(string id, Style style)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            return null;
+        }
+
+        EnsureInitializedIfEnabled();
+
+        lock (_syncLock)
+        {
+            return _registry.FirstOrDefault(x =>
+                string.Equals(x.Uiid, id, StringComparison.OrdinalIgnoreCase) &&
+                x.Style == style);
         }
     }
 
@@ -145,7 +175,7 @@ public static class IndicatorRegistry
             return Array.Empty<IndicatorListing>();
         }
 
-        EnsureInitialized();
+        EnsureInitializedIfEnabled();
 
         lock (_syncLock)
         {
@@ -162,7 +192,7 @@ public static class IndicatorRegistry
     /// <returns>All indicator listings with the specified style.</returns>
     public static IReadOnlyCollection<IndicatorListing> GetByStyle(Style style)
     {
-        EnsureInitialized();
+        EnsureInitializedIfEnabled();
 
         lock (_syncLock)
         {
@@ -179,7 +209,7 @@ public static class IndicatorRegistry
     /// <returns>All indicator listings in the specified category.</returns>
     public static IReadOnlyCollection<IndicatorListing> GetByCategory(Category category)
     {
-        EnsureInitialized();
+        EnsureInitializedIfEnabled();
 
         lock (_syncLock)
         {
@@ -196,7 +226,7 @@ public static class IndicatorRegistry
     /// <returns>All indicator listings that match the search query.</returns>
     public static IReadOnlyCollection<IndicatorListing> Search(string query)
     {
-        EnsureInitialized();
+        EnsureInitializedIfEnabled();
 
         if (string.IsNullOrWhiteSpace(query))
         {
@@ -226,7 +256,22 @@ public static class IndicatorRegistry
         {
             _registry.Clear();
             _isInitialized = false;
+            _autoInitializationDisabled = true; // Prevent auto-initialization after clear
             IndicatorCatalog.Clear(); // Also clear the catalog for tests
+        }
+    }
+
+    /// <summary>
+    /// Enables auto-initialization for the registry.
+    /// </summary>
+    /// <remarks>
+    /// This method is primarily intended for testing purposes.
+    /// </remarks>
+    internal static void EnableAutoInitialization()
+    {
+        lock (_syncLock)
+        {
+            _autoInitializationDisabled = false;
         }
     }
 

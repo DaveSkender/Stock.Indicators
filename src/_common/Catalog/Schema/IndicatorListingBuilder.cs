@@ -323,7 +323,9 @@ public class IndicatorListingBuilder
             throw new InvalidOperationException("Only one result can be marked as reusable.");
         }
 
-        // Note: We cannot automatically validate IReusable vs ISeries here since we don't have
-        // direct access to the model type, but the catalog instructions specify the rules clearly.
+        // Note: We allow both scenarios:
+        // 1. Multiple results with exactly one reusable (IReusable models)
+        // 2. Multiple results with zero reusable (ISeries models)
+        // The catalog instructions specify which to use based on the model type.
     }
 }

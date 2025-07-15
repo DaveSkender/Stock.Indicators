@@ -1,4 +1,3 @@
-#nullable enable
 using System.Collections.ObjectModel;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,6 +14,8 @@ public class CatalogRegistryExtensions : TestBase
     {
         // Clear the registry before each test to ensure clean state
         IndicatorRegistry.Clear();
+        // Re-register the catalog to populate the registry for testing
+        IndicatorRegistry.RegisterCatalog();
     }
 
     [TestCleanup]

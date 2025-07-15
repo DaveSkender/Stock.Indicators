@@ -136,15 +136,19 @@ public class CatalogBuilder : TestBase
     [TestMethod]
     public void MultipleResultsNoneReusable()
     {
-        // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
-                .WithName("Test Indicator")
-                .WithId("TEST")
-                .WithStyle(Style.Series)
-                .WithCategory(Category.MovingAverage)
-                .AddResult("result1", "Result 1", ResultType.Default)
-                .AddResult("result2", "Result 2", ResultType.Default)
-                .Build());
+        // Arrange & Act
+        var result = new IndicatorListingBuilder()
+            .WithName("Test Indicator")
+            .WithId("TEST")
+            .WithStyle(Style.Series)
+            .WithCategory(Category.MovingAverage)
+            .AddResult("result1", "Result 1", ResultType.Default)
+            .AddResult("result2", "Result 2", ResultType.Default)
+            .Build();
+
+        // Assert - This should now be valid for ISeries models
+        result.Should().NotBeNull();
+        result.Results.Should().HaveCount(2);
+        result.Results.Should().AllSatisfy(r => r.IsReusable.Should().BeFalse());
     }
 }
