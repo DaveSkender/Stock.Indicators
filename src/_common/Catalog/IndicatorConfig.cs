@@ -19,7 +19,7 @@ public class IndicatorConfig
     /// <summary>
     /// Parameter overrides for the indicator.
     /// </summary>
-    public Dictionary<string, object> Parameters { get; set; } = [];
+    public Dictionary<string, object> Parameters { get; init; } = [];
 
     /// <summary>
     /// Optional display name for this configuration.
@@ -49,12 +49,18 @@ public class IndicatorConfig
     /// </summary>
     /// <param name="builder">The CustomIndicatorBuilder to convert.</param>
     /// <returns>An IndicatorConfig representing the builder's configuration.</returns>
-    public static IndicatorConfig FromBuilder(CustomIndicatorBuilder builder) => new() {
-        Id = builder.BaseListing.Uiid,
-        Style = builder.BaseListing.Style,
-        Parameters = new Dictionary<string, object>(builder.ParameterOverrides),
-        DisplayName = builder.BaseListing.Name
-    };
+    /// <exception cref="ArgumentNullException">Thrown when builder is null.</exception>
+    public static IndicatorConfig FromBuilder(CustomIndicatorBuilder builder)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        
+        return new() {
+            Id = builder.BaseListing.Uiid,
+            Style = builder.BaseListing.Style,
+            Parameters = new Dictionary<string, object>(builder.ParameterOverrides),
+            DisplayName = builder.BaseListing.Name
+        };
+    }
 }
 
 /// <summary>
@@ -67,7 +73,12 @@ public static class IndicatorConfigExtensions
     /// </summary>
     /// <param name="config">The indicator configuration.</param>
     /// <returns>A CustomIndicatorBuilder.</returns>
-    public static CustomIndicatorBuilder ToBuilder(this IndicatorConfig config) => config.ToBuilder();
+    /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
+    public static CustomIndicatorBuilder ToBuilder(this IndicatorConfig config)
+    {
+        ArgumentNullException.ThrowIfNull(config);
+        return config.ToBuilder();
+    }
 
     /// <summary>
     /// Executes an indicator configuration with the provided quotes.
@@ -76,6 +87,11 @@ public static class IndicatorConfigExtensions
     /// <param name="config">The indicator configuration.</param>
     /// <param name="quotes">The quotes to process.</param>
     /// <returns>The indicator results.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
     public static IReadOnlyList<TResult> Execute<TResult>(this IndicatorConfig config, IEnumerable<IQuote> quotes)
-        where TResult : class => config.ToBuilder().FromSource(quotes).Execute<TResult>();
+        where TResult : class
+    {
+        ArgumentNullException.ThrowIfNull(config);
+        return config.ToBuilder().FromSource(quotes).Execute<TResult>();
+    }
 }

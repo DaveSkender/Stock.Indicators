@@ -1,32 +1,22 @@
 namespace Catalog;
 
+/// <summary>
+/// Test class for EMA catalog functionality with improved reliability.
+/// Uses static catalog listings directly to avoid shared registry state issues
+/// that could cause intermittent test failures in parallel execution.
+/// </summary>
 [TestClass]
-[DoNotParallelize]
 public class EmaTests : TestBase
 {
-    [TestInitialize]
-    public void Setup()
-    {
-        // Clear and re-register the catalog to ensure clean state (same pattern as CatalogRegistryExtensions)
-        IndicatorRegistry.Clear();
-        IndicatorRegistry.RegisterCatalog();
-    }
-
     [TestMethod]
     public void EmaSeriesListing()
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
 
-        // Find EMA Series listing in catalog using standard catalog method
-        IndicatorListing listing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
-        listing.Should().NotBeNull("EMA Series listing should be found in catalog");
-
-
-        if (listing is null)
-        {
-            throw new InvalidOperationException();
-        }
+        // Use static listing directly to avoid shared registry state issues
+        IndicatorListing listing = Ema.SeriesListing;
+        listing.Should().NotBeNull("EMA Series listing should be found");
 
         // get catalog default value for test use
         IndicatorParam lookbackParam = listing.Parameters.Single(p => p.ParameterName == "lookbackPeriods");
@@ -59,7 +49,7 @@ public class EmaTests : TestBase
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
-        IndicatorListing listing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+        IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
         int customLookbackPeriod = 10; // Use custom value instead of default
@@ -107,7 +97,7 @@ public class EmaTests : TestBase
     {
         // Arrange
         IReadOnlyList<Quote> quotes = Quotes; // Using TestBase.Quotes
-        IndicatorListing listing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+        IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
         int customLookbackPeriod = 15;
@@ -135,7 +125,7 @@ public class EmaTests : TestBase
     public void EmaCustomIndicatorBuilderProperties()
     {
         // Arrange
-        IndicatorListing listing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+        IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
         // Act - Create custom indicator without quotes
@@ -168,8 +158,8 @@ public class EmaTests : TestBase
         IReadOnlyList<EmaResult> emaResults = quotes.ToEma(20);
         IReadOnlyList<SmaResult> smaResults = quotes.ToSma(20);
 
-        // Get Correlation listing which accepts series parameters
-        IndicatorListing correlationListing = IndicatorRegistry.GetByIdAndStyle("CORR", Style.Series);
+        // Get Correlation listing which accepts series parameters - use static listing
+        IndicatorListing correlationListing = Correlation.SeriesListing;
         correlationListing.Should().NotBeNull();
 
         // Act - Test the new FromSource<T> method with series data
@@ -199,7 +189,7 @@ public class EmaTests : TestBase
             .WithMessage("Parameter 'invalidParam' not found in indicator 'CORR'*"); // Use wildcard for full message
 
         // Test EMA-specific validation - EMA doesn't accept series parameters
-        IndicatorListing emaListing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+        IndicatorListing emaListing = Ema.SeriesListing;
         Action emaSeriesTest = () => {
             emaListing.WithParamValue("lookbackPeriods", emaResults); // Wrong type for this parameter
         };
@@ -216,8 +206,8 @@ public class EmaTests : TestBase
         // Step 1: Create EMA results
         IReadOnlyList<EmaResult> emaResults = quotes.ToEma(20);
 
-        // Step 2: Use the EMA results as input to another indicator that accepts series
-        IndicatorListing correlationListing = IndicatorRegistry.GetByIdAndStyle("CORR", Style.Series);
+        // Step 2: Use the EMA results as input to another indicator that accepts series - use static listing
+        IndicatorListing correlationListing = Correlation.SeriesListing;
         correlationListing.Should().NotBeNull();
 
         // Act - Use the new FromSource<T> extension method
