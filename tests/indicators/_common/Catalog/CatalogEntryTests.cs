@@ -21,6 +21,8 @@ public class CatalogEntryTests : TestBase
     {
         // Clear the registry after each test to ensure clean state
         IndicatorRegistry.Clear();
+        // Re-enable auto-initialization for other tests
+        IndicatorRegistry.EnableAutoInitialization();
     }
 
     [TestMethod]

@@ -154,5 +154,7 @@ public class OneListingPerStyleTests
     {
         // Reset the registry after each test
         IndicatorRegistry.Clear();
+        // Re-enable auto-initialization for other tests
+        IndicatorRegistry.EnableAutoInitialization();
     }
 }

@@ -13,9 +13,13 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.Clear();
 
     [TestCleanup]
-    public void Cleanup() =>
+    public void Cleanup()
+    {
         // Clear the registry after each test
         IndicatorRegistry.Clear();
+        // Re-enable auto-initialization for other tests
+        IndicatorRegistry.EnableAutoInitialization();
+    }
 
     [TestMethod]
     public void RegisterValidListingShouldSucceed()
