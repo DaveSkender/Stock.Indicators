@@ -4,14 +4,20 @@
         {
             "label": "Build MkDocs Documentation",
             "type": "shell",
-            "command": "cd /workspaces/Stock.Indicators/docs && python -m mkdocs build",
+            "command": "python -m mkdocs build",
+            "options": {
+                "cwd": "${workspaceFolder}/docs"
+            },
             "group": "build",
             "problemMatcher": []
         },
         {
             "label": "Serve MkDocs Documentation",
             "type": "shell",
-            "command": "cd /workspaces/Stock.Indicators/docs && python -m mkdocs serve",
+            "command": "python -m mkdocs serve",
+            "options": {
+                "cwd": "${workspaceFolder}/docs"
+            },
             "group": "build",
             "problemMatcher": [],
             "isBackground": true,
@@ -23,7 +29,7 @@
         {
             "label": "Build Project",
             "type": "shell",
-            "command": "dotnet build /workspaces/Stock.Indicators/Stock.Indicators.sln",
+            "command": "dotnet build Stock.Indicators.sln",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -33,7 +39,7 @@
         {
             "label": "Run Unit Tests",
             "type": "shell",
-            "command": "dotnet test /workspaces/Stock.Indicators/tests --filter \"TestCategory=Unit\"",
+            "command": "dotnet test tests --filter \"TestCategory=Unit\"",
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -43,27 +49,24 @@
         {
             "label": "Run Integration Tests",
             "type": "shell",
-            "command": "dotnet test /workspaces/Stock.Indicators/tests --filter \"TestCategory=Integration\"",
+            "command": "dotnet test tests --filter \"TestCategory=Integration\"",
             "group": "test",
             "problemMatcher": "$msCompile"
         },
         {
             "label": "Run Performance Tests",
             "type": "shell",
-            "command": "dotnet test /workspaces/Stock.Indicators/tests --filter \"TestCategory=Performance\"",
+            "command": "dotnet test tests --filter \"TestCategory=Performance\"",
             "group": "test",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Create NuGet Package",
-            "type": "shell",
-            "command": "dotnet pack /workspaces/Stock.Indicators/src/Indicators.csproj -c Release",
             "problemMatcher": "$msCompile"
         },
         {
             "label": "Fix MkDocs Documentation Issues",
             "type": "shell",
-            "command": "cd /workspaces/Stock.Indicators/docs && python -m mkdocs build -v",
+            "command": "python -m mkdocs build -v",
+            "options": {
+                "cwd": "${workspaceFolder}/docs"
+            },
             "group": "build",
             "problemMatcher": {
                 "owner": "mkdocs",
@@ -75,6 +78,24 @@
                     "line": 4
                 }
             }
+        },
+        {
+            "label": "Build and Serve MkDocs",
+            "type": "shell",
+            "command": "python -m mkdocs build && echo 'Build complete. Starting server...' && python -m mkdocs serve",
+            "options": {
+                "cwd": "${workspaceFolder}/docs"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
         }
     ]
 }
