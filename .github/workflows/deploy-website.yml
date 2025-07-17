@@ -26,7 +26,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 'latest'
+          python-version: '3.x'
           cache: 'pip'
 
       - name: Install dependencies
@@ -43,16 +43,26 @@ jobs:
           replace: "${{ steps.tag.outputs.version }}"
           regex: false
 
+      - name: Copy production robots.txt
+        if: github.ref == 'refs/heads/main'
+        run: cp website/robots_prod.txt website/robots.txt
+
       - name: Build site (production)
         if: github.ref == 'refs/heads/main'
         env:
           MKDOCS_ENV: production
+          GOOGLE_ANALYTICS_KEY: ${{ vars.GOOGLE_ANALYTICS_KEY }}
         run: mkdocs build
+
+      - name: Copy non-production robots.txt
+        if: github.ref != 'refs/heads/main'
+        run: cp website/robots_nonprod.txt website/robots.txt
 
       - name: Build site (preview)
         if: github.ref != 'refs/heads/main'
         env:
           MKDOCS_ENV: preview
+          GOOGLE_ANALYTICS_KEY: ""
         run: mkdocs build
 
       - name: Publish to Cloudflare Pages

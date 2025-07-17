@@ -28,7 +28,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 'latest'
+          python-version: '3.x'
           cache: 'pip'
 
       - name: Setup Node.js
@@ -49,6 +49,8 @@ jobs:
           regex: false
 
       - name: Build site
+        env:
+          GOOGLE_ANALYTICS_KEY: ""
         run: mkdocs build
 
       - name: Serve site
