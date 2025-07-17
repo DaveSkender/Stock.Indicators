@@ -9,7 +9,8 @@ public static partial class StdDev
             .WithId("STDEV")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToStdDev")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
-            .AddResult("StdDev", "Standard Deviation", ResultType.Default, isDefault: true)
+            .AddResult("StdDev", "Standard Deviation", ResultType.Default, isReusable: true)
             .Build();
 }

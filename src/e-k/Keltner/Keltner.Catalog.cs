@@ -5,17 +5,18 @@ public static partial class Keltner
     // KELTNER Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Keltner Channels") // From catalog.bak.json
-            .WithId("KELTNER") // From catalog.bak.json
+            .WithName("Keltner Channels")
+            .WithId("KELTNER")
             .WithStyle(Style.Series)
-            .WithCategory(Category.PriceChannel) // From catalog.bak.json Category: "PriceChannel"
-            .AddParameter<int>("emaPeriods", "EMA Periods", defaultValue: 20, minimum: 2, maximum: 250) // From catalog.bak.json
-            .AddParameter<double>("multiplier", "Multiplier", defaultValue: 2.0, minimum: 0.01, maximum: 10.0) // From catalog.bak.json
-            .AddParameter<int>("atrPeriods", "ATR Periods", defaultValue: 10, minimum: 2, maximum: 250) // From catalog.bak.json
-            .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false) // From KeltnerResult model
-            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true) // From KeltnerResult model
-            .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false) // From KeltnerResult model
-            .AddResult("Width", "Width", ResultType.Default, isDefault: false) // From KeltnerResult model
+            .WithCategory(Category.PriceChannel)
+            .WithMethodName("ToKeltner")
+            .AddParameter<int>("emaPeriods", "EMA Periods", defaultValue: 20, minimum: 2, maximum: 250)
+            .AddParameter<double>("multiplier", "Multiplier", defaultValue: 2.0, minimum: 0.01, maximum: 10.0)
+            .AddParameter<int>("atrPeriods", "ATR Periods", defaultValue: 10, minimum: 2, maximum: 250)
+            .AddResult("UpperBand", "Upper Band", ResultType.Default)
+            .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
+            .AddResult("LowerBand", "Lower Band", ResultType.Default)
+            .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
     // No StreamListing for KELTNER.

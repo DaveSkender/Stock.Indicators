@@ -5,12 +5,13 @@ public static partial class Hurst
     // HURST Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Hurst Exponent") // From catalog.bak.json
-            .WithId("HURST") // From catalog.bak.json
+            .WithName("Hurst Exponent")
+            .WithId("HURST")
             .WithStyle(Style.Series)
-            .WithCategory(Category.PriceCharacteristic) // From catalog.bak.json Category: "PriceCharacteristic"
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 100, minimum: 2, maximum: 250) // From catalog.bak.json
-            .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isDefault: true) // From HurstResult model
+            .WithCategory(Category.PriceCharacteristic)
+            .WithMethodName("ToHurst")
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 100, minimum: 2, maximum: 250)
+            .AddResult("HurstExponent", "Hurst Exponent", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for HURST.

@@ -5,12 +5,13 @@ public static partial class Mfi
     // MFI Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Money Flow Index (MFI)") // From catalog.bak.json
-            .WithId("MFI") // From catalog.bak.json
+            .WithName("Money Flow Index (MFI)")
+            .WithId("MFI")
             .WithStyle(Style.Series)
-            .WithCategory(Category.VolumeBased) // From catalog.bak.json Category: "VolumeBased"
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the MFI calculation", defaultValue: 14, minimum: 1, maximum: 250) // From catalog.bak.json
-            .AddResult("Mfi", "MFI", ResultType.Default, isDefault: true) // From MfiResult model
+            .WithCategory(Category.VolumeBased)
+            .WithMethodName("ToMfi")
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the MFI calculation", defaultValue: 14, minimum: 1, maximum: 250)
+            .AddResult("Mfi", "MFI", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for MFI.

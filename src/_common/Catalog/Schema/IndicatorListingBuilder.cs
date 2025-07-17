@@ -10,6 +10,7 @@ public class IndicatorListingBuilder
     private string _name = string.Empty;
     private string _id = string.Empty;
     private Category _category = Category.Undefined;
+    private string? _methodName;
     private readonly List<IndicatorParam> _parameters = [];
     private readonly List<IndicatorResult> _results = [];
 
@@ -64,6 +65,17 @@ public class IndicatorListingBuilder
     public IndicatorListingBuilder WithCategory(Category category)
     {
         _category = category;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the method name for automation use cases.
+    /// </summary>
+    /// <param name="methodName">The method name.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder WithMethodName(string methodName)
+    {
+        _methodName = methodName;
         return this;
     }
 
@@ -154,24 +166,82 @@ public class IndicatorListingBuilder
     }
 
     /// <summary>
+    /// Adds a date parameter to the indicator.
+    /// </summary>
+    /// <param name="parameterName">The name of the parameter.</param>
+    /// <param name="displayName">The display name of the parameter.</param>
+    /// <param name="description">Optional description of the parameter.</param>
+    /// <param name="isRequired">Whether the parameter is required.</param>
+    /// <param name="defaultValue">Optional default value for the parameter.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder AddDateParameter(
+        string parameterName,
+        string displayName,
+        string? description = null,
+        bool isRequired = false,
+        DateTime? defaultValue = null)
+    {
+        _parameters.Add(new IndicatorParam {
+            ParameterName = parameterName,
+            DisplayName = displayName,
+            Description = description,
+            DataType = "DateTime",
+            IsRequired = isRequired,
+            DefaultValue = defaultValue?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Minimum = null,
+            Maximum = null
+        });
+
+        return this;
+    }
+
+    /// <summary>
+    /// Adds a series parameter for IReadOnlyList&lt;T&gt; where T : IReusable type parameters.
+    /// </summary>
+    /// <param name="parameterName">The name of the parameter.</param>
+    /// <param name="displayName">The display name of the parameter.</param>
+    /// <param name="description">Optional description of the parameter.</param>
+    /// <param name="isRequired">Whether the parameter is required.</param>
+    /// <returns>The builder instance for method chaining.</returns>
+    public IndicatorListingBuilder AddSeriesParameter(
+        string parameterName,
+        string displayName,
+        string? description = null,
+        bool isRequired = true)
+    {
+        _parameters.Add(new IndicatorParam {
+            ParameterName = parameterName,
+            DisplayName = displayName,
+            Description = description,
+            DataType = "IReadOnlyList<T> where T : IReusable",
+            IsRequired = isRequired,
+            DefaultValue = null,
+            Minimum = null,
+            Maximum = null
+        });
+
+        return this;
+    }
+
+    /// <summary>
     /// Adds a result to the indicator.
     /// </summary>
     /// <param name="dataName">The name of the data property.</param>
     /// <param name="displayName">The display name of the result.</param>
     /// <param name="dataType">The type of the result.</param>
-    /// <param name="isDefault">Whether this is the default result.</param>
+    /// <param name="isReusable">Whether this is the reusable result.</param>
     /// <returns>The builder instance for method chaining.</returns>
     public IndicatorListingBuilder AddResult(
         string dataName,
         string displayName,
         ResultType dataType = ResultType.Default,
-        bool isDefault = false)
+        bool isReusable = false)
     {
         _results.Add(new IndicatorResult {
             DataName = dataName,
             DisplayName = displayName,
             DataType = dataType,
-            IsDefault = isDefault
+            IsReusable = isReusable
         });
 
         return this;
@@ -203,6 +273,7 @@ public class IndicatorListingBuilder
             Category = _category,
             Parameters = _parameters.Count > 0 ? _parameters : null,
             Results = _results,
+            MethodName = _methodName,
             LegendTemplate = GenerateLegendTemplate()
         };
     }
@@ -211,7 +282,7 @@ public class IndicatorListingBuilder
         // A simple legend template based on the indicator name
         $"{_name} ({_id})";
 
-    protected internal void ValidateBeforeBuild()
+    private void ValidateBeforeBuild()
     {
         if (string.IsNullOrWhiteSpace(_name))
         {
@@ -242,10 +313,19 @@ public class IndicatorListingBuilder
             throw new InvalidOperationException("Duplicate result names are not allowed.");
         }
 
-        // Ensure at least one default result if there are multiple results
-        if (_results.Count > 1 && !_results.Any(r => r.IsDefault))
+        // Validate reusable result rules:
+        // - For IReusable models: exactly one result must be marked as reusable
+        // - For ISeries models: no results should be marked as reusable
+        var reusableResults = _results.Where(r => r.IsReusable).ToList();
+
+        if (reusableResults.Count > 1)
         {
-            throw new InvalidOperationException("At least one result must be marked as default when there are multiple results.");
+            throw new InvalidOperationException("Only one result can be marked as reusable.");
         }
+
+        // Note: We allow both scenarios:
+        // 1. Multiple results with exactly one reusable (IReusable models)
+        // 2. Multiple results with zero reusable (ISeries models)
+        // The catalog instructions specify which to use based on the model type.
     }
 }

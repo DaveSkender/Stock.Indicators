@@ -1,4 +1,4 @@
-namespace Increments;
+namespace BufferLists;
 
 [TestClass]
 public class Adx : BufferListTestBase

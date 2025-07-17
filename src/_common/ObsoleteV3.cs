@@ -7,6 +7,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skender.Stock.Indicators;
 
 // OBSOLETE IN v3.0.0
+[ExcludeFromCodeCoverage]
+[Obsolete("The broad Indicator class has been replaced by specific indicator classes.", true)]
 public static partial class Indicator
 {
     // UTILITIES

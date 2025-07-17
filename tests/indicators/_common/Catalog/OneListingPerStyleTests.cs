@@ -10,20 +10,34 @@ namespace Tests.Indicators;
 /// See OneListingPerStyleGuide.md for guidance.
 /// </summary>
 [TestClass]
+[DoNotParallelize]
 public class OneListingPerStyleTests
 {
+    [TestInitialize]
+    public void Setup() =>
+        // Clear the registry before each test
+        IndicatorRegistry.Clear();
+
+    [TestCleanup]
+    public void Cleanup()
+    {
+        // Clear the registry after each test
+        IndicatorRegistry.Clear();
+        // Re-enable auto-initialization for other tests
+        IndicatorRegistry.EnableAutoInitialization();
+    }
+
     [TestMethod]
     public void ShouldCreateSeparateListingsForEachStyle()
     {
         // Arrange: Create style-specific listings using the one-listing-per-style approach
-        IndicatorRegistry.Clear();
 
         var seriesListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Series")
             .WithStyle(Style.Series)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         var streamListing = new IndicatorListingBuilder()
@@ -31,7 +45,7 @@ public class OneListingPerStyleTests
             .WithId("MULTI-Stream")
             .WithStyle(Style.Stream)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         var bufferListing = new IndicatorListingBuilder()
@@ -39,7 +53,7 @@ public class OneListingPerStyleTests
             .WithId("MULTI-Buffer")
             .WithStyle(Style.Buffer)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         // Assert: Each listing should have the correct style
@@ -57,14 +71,13 @@ public class OneListingPerStyleTests
     public void ShouldFindMultiStyleIndicatorByAllSupportedStyles()
     {
         // Arrange: Create style-specific listings using the one-listing-per-style approach
-        IndicatorRegistry.Clear();
 
         var seriesListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Series")
             .WithStyle(Style.Series)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         var streamListing = new IndicatorListingBuilder()
@@ -72,7 +85,7 @@ public class OneListingPerStyleTests
             .WithId("MULTI-Stream")
             .WithStyle(Style.Stream)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         var bufferListing = new IndicatorListingBuilder()
@@ -80,7 +93,7 @@ public class OneListingPerStyleTests
             .WithId("MULTI-Buffer")
             .WithStyle(Style.Buffer)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         var seriesOnlyListing = new IndicatorListingBuilder()
@@ -88,7 +101,7 @@ public class OneListingPerStyleTests
             .WithId("SERIES")
             .WithStyle(Style.Series)
             .WithCategory(Category.Undefined)
-            .AddResult("Value", "Value", ResultType.Default, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
         // Register all listings
@@ -126,7 +139,7 @@ public class OneListingPerStyleTests
             .WithStyle(Style.Series)
             .WithCategory(baseCategory)
             .AddParameter<int>("Period", "period", description: "Number of periods", defaultValue: 14, minimum: 1, maximum: 200)
-            .AddResult("Value", "Value", ResultType.Centerline, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Centerline, isReusable: true)
             .Build();
 
         var streamListing = new IndicatorListingBuilder()
@@ -135,7 +148,7 @@ public class OneListingPerStyleTests
             .WithStyle(Style.Stream)
             .WithCategory(baseCategory)
             .AddParameter<int>("Period", "period", description: "Number of periods", defaultValue: 14, minimum: 1, maximum: 200)
-            .AddResult("Value", "Value", ResultType.Centerline, isDefault: true)
+            .AddResult("Value", "Value", ResultType.Centerline, isReusable: true)
             .Build();
 
         // Assert: Both listings should have consistent metadata except for style and ID
@@ -147,12 +160,5 @@ public class OneListingPerStyleTests
         // But different styles and IDs
         seriesListing.Style.Should().NotBe(streamListing.Style);
         seriesListing.Uiid.Should().NotBe(streamListing.Uiid);
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        // Reset the registry after each test
-        IndicatorRegistry.Clear();
     }
 }

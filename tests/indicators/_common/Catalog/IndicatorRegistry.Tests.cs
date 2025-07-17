@@ -13,9 +13,13 @@ public class CatalogRegistry : TestBase
         IndicatorRegistry.Clear();
 
     [TestCleanup]
-    public void Cleanup() =>
+    public void Cleanup()
+    {
         // Clear the registry after each test
         IndicatorRegistry.Clear();
+        // Re-enable auto-initialization for other tests
+        IndicatorRegistry.EnableAutoInitialization();
+    }
 
     [TestMethod]
     public void RegisterValidListingShouldSucceed()
@@ -437,7 +441,7 @@ public class CatalogRegistry : TestBase
             .WithId(uiid)
             .WithStyle(Style.Series)
             .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
+            .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
 
     private static IndicatorListing CreateTestListingWithStyle(string uiid, string name, Style style)
@@ -446,7 +450,7 @@ public class CatalogRegistry : TestBase
             .WithId(uiid)
             .WithStyle(style)
             .WithCategory(Category.Undefined)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
+            .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
 
     private static IndicatorListing CreateTestListingWithCategory(string uiid, string name, Category category)
@@ -455,6 +459,6 @@ public class CatalogRegistry : TestBase
             .WithId(uiid)
             .WithStyle(Style.Series)
             .WithCategory(category)
-            .AddResult("Result", "Result", ResultType.Default, isDefault: true)
+            .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
 }

@@ -16,7 +16,7 @@ public class CatalogBuilder : TestBase
             .WithCategory(Category.MovingAverage)
             .AddParameter<int>("lookbackPeriods", "Lookback Period",
                 description: "Test description", isRequired: true)
-            .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+            .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
             .Build();        // Assert
         listing.Name.Should().Be("Test Indicator");
         listing.Uiid.Should().Be("TEST");
@@ -38,7 +38,7 @@ public class CatalogBuilder : TestBase
         result.DataName.Should().Be("TestResult");
         result.DisplayName.Should().Be("Test Result");
         result.DataType.Should().Be(ResultType.Default);
-        result.IsDefault.Should().BeTrue();
+        result.IsReusable.Should().BeTrue();
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class CatalogBuilder : TestBase
             .WithId("TEST")
             .WithStyle(Style.Series)
             .WithCategory(Category.MovingAverage)
-            .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+            .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
             .AddPriceHlcResult()
             .Build();
 
@@ -72,7 +72,7 @@ public class CatalogBuilder : TestBase
                 .WithId("TEST")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
-                .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+                .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
                 .Build());
     }
 
@@ -85,7 +85,7 @@ public class CatalogBuilder : TestBase
                 .WithName("Test Indicator")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
-                .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+                .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
                 .Build());
     }
 
@@ -114,7 +114,7 @@ public class CatalogBuilder : TestBase
                 .WithCategory(Category.MovingAverage)
                 .AddParameter<int>("param", "Parameter 1")
                 .AddParameter<string>("param", "Parameter 2")
-                .AddResult("TestResult", "Test Result", ResultType.Default, isDefault: true)
+                .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
                 .Build());
     }
 
@@ -128,28 +128,27 @@ public class CatalogBuilder : TestBase
                 .WithId("TEST")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
-                .AddResult("result", "Result 1", ResultType.Default, isDefault: true)
-                .AddResult("result", "Result 2", ResultType.Default, isDefault: false)
+                .AddResult("result", "Result 1", ResultType.Default, isReusable: true)
+                .AddResult("result", "Result 2", ResultType.Default)
                 .Build());
     }
 
     [TestMethod]
-    public void MultipleResultsNoDefault()
+    public void MultipleResultsNoneReusable()
     {
-        // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
-                .WithName("Test Indicator")
-                .WithId("TEST")
-                .WithStyle(Style.Series)
-                .WithCategory(Category.MovingAverage)
-                .AddResult("result1", "Result 1", ResultType.Default, isDefault: false)
-                .AddResult("result2", "Result 2", ResultType.Default, isDefault: false)
-                .Build());
-    }
+        // Arrange & Act
+        var result = new IndicatorListingBuilder()
+            .WithName("Test Indicator")
+            .WithId("TEST")
+            .WithStyle(Style.Series)
+            .WithCategory(Category.MovingAverage)
+            .AddResult("result1", "Result 1", ResultType.Default)
+            .AddResult("result2", "Result 2", ResultType.Default)
+            .Build();
 
-    // Indicator-specific catalog tests are now in their own test files
-    // For examples, see:
-    // - tests/indicators/e-k/Ema/Ema.Catalog.Tests.cs
-    // - tests/indicators/m-r/Macd/Macd.Catalog.Tests.cs
+        // Assert - This should now be valid for ISeries models
+        result.Should().NotBeNull();
+        result.Results.Should().HaveCount(2);
+        result.Results.Should().AllSatisfy(r => r.IsReusable.Should().BeFalse());
+    }
 }

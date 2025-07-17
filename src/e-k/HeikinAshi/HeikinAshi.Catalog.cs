@@ -5,16 +5,16 @@ public static partial class HeikinAshi
     // HEIKINASHI Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("HeikinAshi") // From catalog.bak.json
-            .WithId("HEIKINASHI") // From catalog.bak.json
+            .WithName("HeikinAshi")
+            .WithId("HEIKINASHI")
             .WithStyle(Style.Series)
-            .WithCategory(Category.PriceTransform) // From catalog.bak.json Category: "PriceTransform"
-                                                   // No parameters for HEIKINASHI in catalog.bak.json
-            .AddResult("Open", "Open", ResultType.Default, isDefault: false) // From HeikinAshiResult model
-            .AddResult("High", "High", ResultType.Default, isDefault: false) // From HeikinAshiResult model
-            .AddResult("Low", "Low", ResultType.Default, isDefault: false) // From HeikinAshiResult model
-            .AddResult("Close", "Close", ResultType.Default, isDefault: true) // From HeikinAshiResult model
-            .AddResult("Volume", "Volume", ResultType.Default, isDefault: false) // From HeikinAshiResult model
+            .WithCategory(Category.PriceTransform)
+            .WithMethodName("ToHeikinAshi")
+            .AddResult("Open", "Open", ResultType.Default)
+            .AddResult("High", "High", ResultType.Default)
+            .AddResult("Low", "Low", ResultType.Default)
+            .AddResult("Close", "Close", ResultType.Default, isReusable: true)
+            .AddResult("Volume", "Volume", ResultType.Default)
             .Build();
 
     // No StreamListing for HEIKINASHI.

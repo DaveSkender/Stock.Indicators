@@ -9,7 +9,8 @@ public static partial class Tr
             .WithId("TR")
             .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
-            .AddResult("Tr", "True Range", ResultType.Default, isDefault: true)
+            .WithMethodName("ToTr")
+            .AddResult("Tr", "True Range", ResultType.Default, isReusable: true)
             .Build();
 
     // TR Stream Listing
@@ -19,6 +20,7 @@ public static partial class Tr
             .WithId("TR")
             .WithStyle(Style.Stream)
             .WithCategory(Category.PriceCharacteristic)
-            .AddResult("Tr", "True Range", ResultType.Default, isDefault: true)
+            .WithMethodName("ToTr")
+            .AddResult("Tr", "True Range", ResultType.Default, isReusable: true)
             .Build();
 }

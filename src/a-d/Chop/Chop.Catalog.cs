@@ -9,8 +9,9 @@ public static partial class Chop
             .WithId("CHOP")
             .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
+            .WithMethodName("ToChop")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
-            .AddResult("Chop", "CHOP", ResultType.Default, isDefault: true)
+            .AddResult("Chop", "CHOP", ResultType.Default, isReusable: true)
             .Build();
 
     // No StreamListing for CHOP.

@@ -62,6 +62,11 @@ public record IndicatorListing
     public string? ReturnType { get; init; }
 
     /// <summary>
+    /// Gets or sets the method name for automation use cases.
+    /// </summary>
+    public string? MethodName { get; init; }
+
+    /// <summary>
     /// Gets or sets the collection of result configurations for the indicator.
     /// </summary>
     public required IReadOnlyList<IndicatorResult> Results { get; init; }

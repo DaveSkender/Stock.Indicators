@@ -5,15 +5,16 @@ public static partial class Donchian
     // DONCHIAN Series Listing
     internal static readonly IndicatorListing SeriesListing =
         new IndicatorListingBuilder()
-            .WithName("Donchian Channels") // From catalog.bak.json
-            .WithId("DONCHIAN") // From catalog.bak.json
+            .WithName("Donchian Channels")
+            .WithId("DONCHIAN")
             .WithStyle(Style.Series)
-            .WithCategory(Category.PriceChannel) // From catalog.bak.json Category: "PriceChannel"
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250) // From catalog.bak.json
-            .AddResult("UpperBand", "Upper Band", ResultType.Default, isDefault: false) // From DonchianResult model
-            .AddResult("Centerline", "Centerline", ResultType.Default, isDefault: true) // From DonchianResult model
-            .AddResult("LowerBand", "Lower Band", ResultType.Default, isDefault: false) // From DonchianResult model
-            .AddResult("Width", "Width", ResultType.Default, isDefault: false) // From DonchianResult model
+            .WithCategory(Category.PriceChannel)
+            .WithMethodName("ToDonchian")
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
+            .AddResult("UpperBand", "Upper Band", ResultType.Default)
+            .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
+            .AddResult("LowerBand", "Lower Band", ResultType.Default)
+            .AddResult("Width", "Width", ResultType.Default)
             .Build();
 
     // No StreamListing for DONCHIAN.
