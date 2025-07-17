@@ -3,6 +3,9 @@ name: Copilot Environment Setup
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   copilot-setup-steps:
     runs-on: ubuntu-latest
@@ -21,10 +24,12 @@ jobs:
         run: |
           dotnet tool install --global dotnet-format
           dotnet tool install --global dotnet-outdated-tool
+        continue-on-error: true
 
       - name: Build .NET Solution
         run: |
-          dotnet build --no-incremental
+          dotnet build
+        continue-on-error: true
 
       - name: Environment summary
         run: |
@@ -32,3 +37,4 @@ jobs:
           echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
           echo "- .NET Tools: $(dotnet tool list --global | wc -l) available" >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
