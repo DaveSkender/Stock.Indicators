@@ -27,7 +27,7 @@ jobs:
 
       - name: Build .NET Solution
         run: |
-          dotnet build --no-incremental
+          dotnet restore
 
       - name: Environment summary
         run: |
