@@ -22,8 +22,8 @@ public class SlopeTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<SlopeResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class SlopeTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToSlope(parameters[0]);
+            directResults = quotes.ToSlope((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class SlopeTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Slope).GetMethod("ToSlope", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToSlope should exist");
-            directResults = (IReadOnlyList<SlopeResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<SlopeResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

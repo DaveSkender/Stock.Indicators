@@ -22,8 +22,8 @@ public class ObvTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<ObvResult> directResults;
         if (parameters.Length == 0)
         {
@@ -46,7 +46,7 @@ public class ObvTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Obv).GetMethod("ToObv", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToObv should exist");
-            directResults = (IReadOnlyList<ObvResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<ObvResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

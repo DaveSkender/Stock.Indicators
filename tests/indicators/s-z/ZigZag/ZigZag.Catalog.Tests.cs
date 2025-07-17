@@ -23,7 +23,7 @@ public class ZigZagTests : TestBase
         // Get default parameters from catalog and call directly
         var endTypeParam = listing.Parameters.First(p => p.ParameterName == "endType");
         var percentChangeParam = listing.Parameters.First(p => p.ParameterName == "percentChange");
-        
+
         EndType endType = (EndType)endTypeParam.DefaultValue!;
         decimal percentChange = (decimal)percentChangeParam.DefaultValue!;
 

@@ -22,8 +22,8 @@ public class ChopTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<ChopResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class ChopTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToChop(parameters[0]);
+            directResults = quotes.ToChop((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class ChopTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Chop).GetMethod("ToChop", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToChop should exist");
-            directResults = (IReadOnlyList<ChopResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<ChopResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class AroonTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<AroonResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class AroonTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToAroon(parameters[0]);
+            directResults = quotes.ToAroon((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class AroonTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Aroon).GetMethod("ToAroon", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToAroon should exist");
-            directResults = (IReadOnlyList<AroonResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<AroonResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class StochRsiTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<StochRsiResult> directResults;
         if (parameters.Length == 0)
         {
@@ -39,14 +39,14 @@ public class StochRsiTests : TestBase
         }
         else if (parameters.Length == 3)
         {
-            directResults = quotes.ToStochRsi(parameters[0], parameters[1], parameters[2]);
+            directResults = quotes.ToStochRsi((int)parameters[0], (int)parameters[1], (int)parameters[2]);
         }
         else
         {
             // Use reflection for complex parameter cases
             var method = typeof(StochRsi).GetMethod("ToStochRsi", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToStochRsi should exist");
-            directResults = (IReadOnlyList<StochRsiResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<StochRsiResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

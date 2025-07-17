@@ -22,8 +22,8 @@ public class FisherTransformTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<FisherTransformResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class FisherTransformTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToFisherTransform(parameters[0]);
+            directResults = quotes.ToFisherTransform((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class FisherTransformTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(FisherTransform).GetMethod("ToFisherTransform", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToFisherTransform should exist");
-            directResults = (IReadOnlyList<FisherTransformResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<FisherTransformResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

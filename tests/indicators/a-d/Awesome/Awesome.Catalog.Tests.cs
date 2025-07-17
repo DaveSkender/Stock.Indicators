@@ -22,8 +22,8 @@ public class AwesomeTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<AwesomeResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,11 +31,11 @@ public class AwesomeTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToAwesome(parameters[0]);
+            directResults = quotes.ToAwesome((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToAwesome(parameters[0], parameters[1]);
+            directResults = quotes.ToAwesome((int)parameters[0], (int)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
@@ -46,7 +46,7 @@ public class AwesomeTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Awesome).GetMethod("ToAwesome", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToAwesome should exist");
-            directResults = (IReadOnlyList<AwesomeResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<AwesomeResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

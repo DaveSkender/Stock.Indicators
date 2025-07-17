@@ -22,8 +22,8 @@ public class TrixTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<TrixResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class TrixTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToTrix(parameters[0]);
+            directResults = quotes.ToTrix((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class TrixTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Trix).GetMethod("ToTrix", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToTrix should exist");
-            directResults = (IReadOnlyList<TrixResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<TrixResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

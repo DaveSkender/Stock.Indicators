@@ -22,8 +22,8 @@ public class RocWbTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<RocWbResult> directResults;
         if (parameters.Length == 0)
         {
@@ -39,14 +39,14 @@ public class RocWbTests : TestBase
         }
         else if (parameters.Length == 3)
         {
-            directResults = quotes.ToRocWb(parameters[0], parameters[1], parameters[2]);
+            directResults = quotes.ToRocWb((int)parameters[0], (int)parameters[1], (int)parameters[2]);
         }
         else
         {
             // Use reflection for complex parameter cases
             var method = typeof(RocWb).GetMethod("ToRocWb", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToRocWb should exist");
-            directResults = (IReadOnlyList<RocWbResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<RocWbResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class ParabolicSarTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<ParabolicSarResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,22 +31,22 @@ public class ParabolicSarTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToParabolicSar(parameters[0]);
+            directResults = quotes.ToParabolicSar((double)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToParabolicSar(parameters[0], parameters[1]);
+            directResults = quotes.ToParabolicSar((double)parameters[0], (double)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
-            directResults = quotes.ToParabolicSar(parameters[0], parameters[1], parameters[2]);
+            directResults = quotes.ToParabolicSar((double)parameters[0], (double)parameters[1], (double)parameters[2]);
         }
         else
         {
             // Use reflection for complex parameter cases
             var method = typeof(ParabolicSar).GetMethod("ToParabolicSar", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToParabolicSar should exist");
-            directResults = (IReadOnlyList<ParabolicSarResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<ParabolicSarResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class ChandelierTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<ChandelierResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,22 +31,22 @@ public class ChandelierTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToChandelier(parameters[0]);
+            directResults = quotes.ToChandelier((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToChandelier(parameters[0], parameters[1]);
+            directResults = quotes.ToChandelier((int)parameters[0], (double)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
-            directResults = quotes.ToChandelier(parameters[0], parameters[1], parameters[2]);
+            directResults = quotes.ToChandelier((int)parameters[0], (double)parameters[1], (Direction)parameters[2]);
         }
         else
         {
             // Use reflection for complex parameter cases
             var method = typeof(Chandelier).GetMethod("ToChandelier", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToChandelier should exist");
-            directResults = (IReadOnlyList<ChandelierResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<ChandelierResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

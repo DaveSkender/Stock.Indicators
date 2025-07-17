@@ -22,8 +22,8 @@ public class BopTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<BopResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class BopTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToBop(parameters[0]);
+            directResults = quotes.ToBop((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class BopTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Bop).GetMethod("ToBop", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToBop should exist");
-            directResults = (IReadOnlyList<BopResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<BopResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

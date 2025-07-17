@@ -22,8 +22,8 @@ public class PivotPointsTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<PivotPointsResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,11 +31,11 @@ public class PivotPointsTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToPivotPoints(parameters[0]);
+            directResults = quotes.ToPivotPoints((PeriodSize)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToPivotPoints(parameters[0], parameters[1]);
+            directResults = quotes.ToPivotPoints((PeriodSize)parameters[0], (PivotPointType)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
@@ -46,7 +46,7 @@ public class PivotPointsTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(PivotPoints).GetMethod("ToPivotPoints", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToPivotPoints should exist");
-            directResults = (IReadOnlyList<PivotPointsResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<PivotPointsResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class EpmaTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<EpmaResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class EpmaTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToEpma(parameters[0]);
+            directResults = quotes.ToEpma((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class EpmaTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Epma).GetMethod("ToEpma", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToEpma should exist");
-            directResults = (IReadOnlyList<EpmaResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<EpmaResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

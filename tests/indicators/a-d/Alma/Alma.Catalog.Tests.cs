@@ -23,8 +23,8 @@ public class AlmaTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<AlmaResult> directResults;
         if (parameters.Length == 0)
         {
@@ -32,22 +32,22 @@ public class AlmaTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToAlma(parameters[0]);
+            directResults = quotes.ToAlma((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToAlma(parameters[0], parameters[1]);
+            directResults = quotes.ToAlma((int)parameters[0], (double)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
-            directResults = quotes.ToAlma(parameters[0], parameters[1], parameters[2]);
+            directResults = quotes.ToAlma((int)parameters[0], (double)parameters[1], (double)parameters[2]);
         }
         else
         {
             // Use reflection for complex parameter cases
             var method = typeof(Alma).GetMethod("ToAlma", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToAlma should exist");
-            directResults = (IReadOnlyList<AlmaResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<AlmaResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

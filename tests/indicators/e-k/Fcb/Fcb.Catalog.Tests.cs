@@ -22,8 +22,8 @@ public class FcbTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<FcbResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class FcbTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToFcb(parameters[0]);
+            directResults = quotes.ToFcb((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class FcbTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Fcb).GetMethod("ToFcb", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToFcb should exist");
-            directResults = (IReadOnlyList<FcbResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<FcbResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

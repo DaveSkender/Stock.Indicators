@@ -22,8 +22,8 @@ public class GatorTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<GatorResult> directResults;
         if (parameters.Length == 0)
         {
@@ -46,7 +46,7 @@ public class GatorTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Gator).GetMethod("ToGator", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToGator should exist");
-            directResults = (IReadOnlyList<GatorResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<GatorResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

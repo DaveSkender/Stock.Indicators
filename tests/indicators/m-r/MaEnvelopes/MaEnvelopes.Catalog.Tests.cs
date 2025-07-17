@@ -18,35 +18,35 @@ public class MaEnvelopesTests : TestBase
         listing.Should().NotBeNull();
 
         // Act - Call using catalog metadata
-        IReadOnlyList<MaEnvelopesResult> catalogResults = listing.Execute<MaEnvelopesResult>(quotes);
+        IReadOnlyList<MaEnvelopeResult> catalogResults = listing.Execute<MaEnvelopeResult>(quotes);
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
-        IReadOnlyList<MaEnvelopesResult> directResults;
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
+        IReadOnlyList<MaEnvelopeResult> directResults;
         if (parameters.Length == 0)
         {
             directResults = quotes.ToMaEnvelopes();
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToMaEnvelopes(parameters[0]);
+            directResults = quotes.ToMaEnvelopes((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToMaEnvelopes(parameters[0], parameters[1]);
+            directResults = quotes.ToMaEnvelopes((int)parameters[0], (double)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
-            directResults = quotes.ToMaEnvelopes(parameters[0], parameters[1], parameters[2]);
+            directResults = quotes.ToMaEnvelopes((int)parameters[0], (double)parameters[1], (MaType)parameters[2]);
         }
         else
         {
             // Use reflection for complex parameter cases
             var method = typeof(MaEnvelopes).GetMethod("ToMaEnvelopes", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToMaEnvelopes should exist");
-            directResults = (IReadOnlyList<MaEnvelopesResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<MaEnvelopeResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

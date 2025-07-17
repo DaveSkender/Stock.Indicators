@@ -18,20 +18,20 @@ public class MarubozuTests : TestBase
         listing.Should().NotBeNull();
 
         // Act - Call using catalog metadata
-        IReadOnlyList<MarubozuResult> catalogResults = listing.Execute<MarubozuResult>(quotes);
+        IReadOnlyList<CandleResult> catalogResults = listing.Execute<CandleResult>(quotes);
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
-        IReadOnlyList<MarubozuResult> directResults;
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
+        IReadOnlyList<CandleResult> directResults;
         if (parameters.Length == 0)
         {
             directResults = quotes.ToMarubozu();
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToMarubozu(parameters[0]);
+            directResults = quotes.ToMarubozu((double)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class MarubozuTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Marubozu).GetMethod("ToMarubozu", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToMarubozu should exist");
-            directResults = (IReadOnlyList<MarubozuResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<CandleResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

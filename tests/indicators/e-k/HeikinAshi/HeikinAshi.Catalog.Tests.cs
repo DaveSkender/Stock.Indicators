@@ -22,8 +22,8 @@ public class HeikinAshiTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<HeikinAshiResult> directResults;
         if (parameters.Length == 0)
         {
@@ -46,7 +46,7 @@ public class HeikinAshiTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(HeikinAshi).GetMethod("ToHeikinAshi", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToHeikinAshi should exist");
-            directResults = (IReadOnlyList<HeikinAshiResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<HeikinAshiResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

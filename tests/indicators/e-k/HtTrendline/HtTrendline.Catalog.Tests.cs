@@ -18,13 +18,13 @@ public class HtTrendlineTests : TestBase
         listing.Should().NotBeNull();
 
         // Act - Call using catalog metadata
-        IReadOnlyList<HtTrendlineResult> catalogResults = listing.Execute<HtTrendlineResult>(quotes);
+        IReadOnlyList<HtlResult> catalogResults = listing.Execute<HtlResult>(quotes);
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
-        IReadOnlyList<HtTrendlineResult> directResults;
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
+        IReadOnlyList<HtlResult> directResults;
         if (parameters.Length == 0)
         {
             directResults = quotes.ToHtTrendline();
@@ -46,7 +46,7 @@ public class HtTrendlineTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(HtTrendline).GetMethod("ToHtTrendline", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToHtTrendline should exist");
-            directResults = (IReadOnlyList<HtTrendlineResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<HtlResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

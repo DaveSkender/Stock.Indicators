@@ -22,8 +22,8 @@ public class VwapTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<VwapResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class VwapTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToVwap(parameters[0]);
+            directResults = quotes.ToVwap((DateTime)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class VwapTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Vwap).GetMethod("ToVwap", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToVwap should exist");
-            directResults = (IReadOnlyList<VwapResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<VwapResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class VolatilityStopTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<VolatilityStopResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,11 +31,11 @@ public class VolatilityStopTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToVolatilityStop(parameters[0]);
+            directResults = quotes.ToVolatilityStop((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToVolatilityStop(parameters[0], parameters[1]);
+            directResults = quotes.ToVolatilityStop((int)parameters[0], (double)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
@@ -46,7 +46,7 @@ public class VolatilityStopTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(VolatilityStop).GetMethod("ToVolatilityStop", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToVolatilityStop should exist");
-            directResults = (IReadOnlyList<VolatilityStopResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<VolatilityStopResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -22,8 +22,8 @@ public class DpoTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<DpoResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class DpoTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToDpo(parameters[0]);
+            directResults = quotes.ToDpo((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class DpoTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Dpo).GetMethod("ToDpo", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToDpo should exist");
-            directResults = (IReadOnlyList<DpoResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<DpoResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

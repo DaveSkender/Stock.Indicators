@@ -53,7 +53,7 @@ public class IndicatorConfig
     public static IndicatorConfig FromBuilder(CustomIndicatorBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-        
+
         return new() {
             Id = builder.BaseListing.Uiid,
             Style = builder.BaseListing.Style,

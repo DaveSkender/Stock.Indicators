@@ -22,8 +22,8 @@ public class ChaikinOscTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<ChaikinOscResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,11 +31,11 @@ public class ChaikinOscTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToChaikinOsc(parameters[0]);
+            directResults = quotes.ToChaikinOsc((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToChaikinOsc(parameters[0], parameters[1]);
+            directResults = quotes.ToChaikinOsc((int)parameters[0], (int)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
@@ -46,7 +46,7 @@ public class ChaikinOscTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(ChaikinOsc).GetMethod("ToChaikinOsc", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToChaikinOsc should exist");
-            directResults = (IReadOnlyList<ChaikinOscResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<ChaikinOscResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

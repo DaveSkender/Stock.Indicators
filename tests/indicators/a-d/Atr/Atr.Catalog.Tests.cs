@@ -22,8 +22,8 @@ public class AtrTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<AtrResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class AtrTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToAtr(parameters[0]);
+            directResults = quotes.ToAtr((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class AtrTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Atr).GetMethod("ToAtr", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToAtr should exist");
-            directResults = (IReadOnlyList<AtrResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<AtrResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

@@ -18,24 +18,24 @@ public class RenkoAtrTests : TestBase
         listing.Should().NotBeNull();
 
         // Act - Call using catalog metadata
-        IReadOnlyList<RenkoAtrResult> catalogResults = listing.Execute<RenkoAtrResult>(quotes);
+        IReadOnlyList<RenkoResult> catalogResults = listing.Execute<RenkoResult>(quotes);
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
-        IReadOnlyList<RenkoAtrResult> directResults;
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
+        IReadOnlyList<RenkoResult> directResults;
         if (parameters.Length == 0)
         {
             directResults = quotes.ToRenkoAtr();
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToRenkoAtr(parameters[0]);
+            directResults = quotes.ToRenkoAtr((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToRenkoAtr(parameters[0], parameters[1]);
+            directResults = quotes.ToRenkoAtr((int)parameters[0], (EndType)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
@@ -46,7 +46,7 @@ public class RenkoAtrTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(RenkoAtr).GetMethod("ToRenkoAtr", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToRenkoAtr should exist");
-            directResults = (IReadOnlyList<RenkoAtrResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<RenkoResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

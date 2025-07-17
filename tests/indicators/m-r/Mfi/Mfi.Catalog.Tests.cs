@@ -22,8 +22,8 @@ public class MfiTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<MfiResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class MfiTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToMfi(parameters[0]);
+            directResults = quotes.ToMfi((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class MfiTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Mfi).GetMethod("ToMfi", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToMfi should exist");
-            directResults = (IReadOnlyList<MfiResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<MfiResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

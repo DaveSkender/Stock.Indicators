@@ -22,8 +22,8 @@ public class DonchianTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<DonchianResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,7 +31,7 @@ public class DonchianTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToDonchian(parameters[0]);
+            directResults = quotes.ToDonchian((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
@@ -46,7 +46,7 @@ public class DonchianTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(Donchian).GetMethod("ToDonchian", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToDonchian should exist");
-            directResults = (IReadOnlyList<DonchianResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<DonchianResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 

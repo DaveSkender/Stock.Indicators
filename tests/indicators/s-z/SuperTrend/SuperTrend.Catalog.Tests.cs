@@ -22,8 +22,8 @@ public class SuperTrendTests : TestBase
 
         // Act - Direct call for comparison using default parameters
         var parameters = listing.Parameters?.Where(p => p.IsRequired && p.DefaultValue != null)
-            .Select(p => p.DefaultValue).ToArray() ?? new object[0];
-        
+            .Select(p => p.DefaultValue).ToArray() ?? [];
+
         IReadOnlyList<SuperTrendResult> directResults;
         if (parameters.Length == 0)
         {
@@ -31,11 +31,11 @@ public class SuperTrendTests : TestBase
         }
         else if (parameters.Length == 1)
         {
-            directResults = quotes.ToSuperTrend(parameters[0]);
+            directResults = quotes.ToSuperTrend((int)parameters[0]);
         }
         else if (parameters.Length == 2)
         {
-            directResults = quotes.ToSuperTrend(parameters[0], parameters[1]);
+            directResults = quotes.ToSuperTrend((int)parameters[0], (double)parameters[1]);
         }
         else if (parameters.Length == 3)
         {
@@ -46,7 +46,7 @@ public class SuperTrendTests : TestBase
             // Use reflection for complex parameter cases
             var method = typeof(SuperTrend).GetMethod("ToSuperTrend", BindingFlags.Public | BindingFlags.Static);
             method.Should().NotBeNull("Method ToSuperTrend should exist");
-            directResults = (IReadOnlyList<SuperTrendResult>)method!.Invoke(null, 
+            directResults = (IReadOnlyList<SuperTrendResult>)method!.Invoke(null,
                 new object[] { quotes }.Concat(parameters).ToArray());
         }
 
