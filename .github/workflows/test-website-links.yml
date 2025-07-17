@@ -28,7 +28,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 'latest'
+          python-version: '3.x'
           cache: 'pip'
 
       - name: Install dependencies
@@ -59,34 +59,28 @@ jobs:
       # Test for broken URLs
       - name: Test for broken URLs
         run: |
-          # Create a config file for linkchecker with settings similar to original script
+          # Create a config file for linkchecker
           cat > linkchecker.config << EOF
           [filtering]
-          # Only check local links
-          ignore=!^http://127.0.0.1
-          # Add patterns similar to original script's ignore_patterns
-          ignoreurl=fonts\.gstatic\.com
-
-          # Ignore certain status codes that the original script ignored
-          ignorewarnings=http-redirected,url-content-too-large,http-empty-content
+          # Ignore external resources that might be problematic
+          ignoreurl=
+              fonts\.gstatic\.com
+              fonts\.googleapis\.com
 
           [checking]
-          # Don't check external URLs similar to original script
+          # Only check internal URLs
           checkextern=0
 
-          # Allow more threads for faster checking
+          # Performance settings
           threads=10
-
-          # Set timeout similar to original script
           timeout=10
 
           [output]
-          # Generate structured logs for analysis
-          fileoutput=text,html
+          fileoutput=text
           EOF
 
           echo "Starting link check..."
-          # Run linkchecker with nice formatting and explicit error codes
+          # Run linkchecker with configuration
           if linkchecker --config linkchecker.config --no-robots --verbose http://127.0.0.1:8000; then
             echo "✅ Link check passed: No broken links found"
           else
