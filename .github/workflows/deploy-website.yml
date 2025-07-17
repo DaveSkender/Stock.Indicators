@@ -51,7 +51,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           MKDOCS_ENV: production
-          GOOGLE_ANALYTICS_KEY: ${{ vars.GOOGLE_ANALYTICS_KEY_PROD }}
+          GOOGLE_ANALYTICS_KEY: ${{ vars.GOOGLE_ANALYTICS_KEY }}
         run: mkdocs build
 
       - name: Copy non-production robots.txt
@@ -62,7 +62,7 @@ jobs:
         if: github.ref != 'refs/heads/main'
         env:
           MKDOCS_ENV: preview
-          GOOGLE_ANALYTICS_KEY: ${{ vars.GOOGLE_ANALYTICS_KEY_PREVIEW }}
+          GOOGLE_ANALYTICS_KEY: "NOTA_GA_KEY"
         run: mkdocs build
 
       - name: Publish to Cloudflare Pages
