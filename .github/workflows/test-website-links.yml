@@ -44,6 +44,9 @@ jobs:
           regex: false
           include: "docs/**"
 
+      - name: Copy non-production robots.txt
+        run: cp website/robots_nonprod.txt website/robots.txt
+
       - name: Build site
         env:
           GOOGLE_ANALYTICS_KEY: ""
@@ -59,34 +62,12 @@ jobs:
       # Test for broken URLs
       - name: Test for broken URLs
         run: |
-          # Create a config file for linkchecker
-          cat > linkchecker.config << EOF
-          [filtering]
-          # Ignore external resources that might be problematic
-          ignoreurl=
-              fonts\.gstatic\.com
-              fonts\.googleapis\.com
-
-          [checking]
-          # Only check internal URLs
-          checkextern=0
-
-          # Performance settings
-          threads=10
-          timeout=10
-
-          [output]
-          fileoutput=text
-          EOF
-
           echo "Starting link check..."
-          # Run linkchecker with configuration
-          if linkchecker --config linkchecker.config --no-robots --verbose http://127.0.0.1:8000; then
+          # Run linkchecker with only internal link checking
+          if linkchecker --no-robots --output text http://127.0.0.1:8000; then
             echo "✅ Link check passed: No broken links found"
           else
-            # Get linkchecker's exit code
             exit_code=$?
-            # Format output nicely like the original script
             echo "❌ Link check failed with code ${exit_code}: Found broken links"
             echo "See detailed report in the log above"
             exit 1

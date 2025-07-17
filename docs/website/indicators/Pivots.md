@@ -4,7 +4,7 @@
 
 
 
-Pivots is an extended customizable version of <a href="Fractal.md" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
+Pivots is an extended customizable version of [Williams Fractal](Fractal.md) that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
 [[Discuss] &#128172;](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
 ![chart for Pivots](../assets/charts/Pivots.png)
