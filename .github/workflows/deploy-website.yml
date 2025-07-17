@@ -62,7 +62,7 @@ jobs:
         if: github.ref != 'refs/heads/main'
         env:
           MKDOCS_ENV: preview
-          GOOGLE_ANALYTICS_KEY: "NOTA_GA_KEY"
+          GOOGLE_ANALYTICS_KEY: ""
         run: mkdocs build
 
       - name: Publish to Cloudflare Pages

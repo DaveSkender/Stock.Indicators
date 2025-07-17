@@ -46,7 +46,7 @@ jobs:
 
       - name: Build site
         env:
-          GOOGLE_ANALYTICS_KEY: '' # Not needed for link tests
+          GOOGLE_ANALYTICS_KEY: ""
         run: mkdocs build
 
       - name: Serve site
@@ -69,22 +69,22 @@ jobs:
 
           # Ignore certain status codes that the original script ignored
           ignorewarnings=http-redirected,url-content-too-large,http-empty-content
-          
+
           [checking]
           # Don't check external URLs similar to original script
           checkextern=0
-          
+
           # Allow more threads for faster checking
           threads=10
-          
+
           # Set timeout similar to original script
           timeout=10
-          
+
           [output]
           # Generate structured logs for analysis
           fileoutput=text,html
           EOF
-          
+
           echo "Starting link check..."
           # Run linkchecker with nice formatting and explicit error codes
           if linkchecker --config linkchecker.config --no-robots --verbose http://127.0.0.1:8000; then

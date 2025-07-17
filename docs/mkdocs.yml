@@ -43,13 +43,13 @@ theme:
 extra:
   analytics:
     provider: google
-    property: SOME_GA_KEY
+    property: G-XXXXXXXXXX # Replaced on deployment
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/DaveSkender/Stock.Indicators
     - icon: fontawesome/solid/box
       link: https://www.nuget.org/packages/Skender.Stock.Indicators
-  generator: false  # Remove generator meta tag
+  generator: false # Remove generator meta tag
   manifest: manifest.webmanifest
   # Set preferred color scheme to dark
   homepage: https://dotnet.stockindicators.dev
