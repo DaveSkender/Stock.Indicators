@@ -10,13 +10,27 @@ namespace Tests.Indicators;
 /// See OneListingPerStyleGuide.md for guidance.
 /// </summary>
 [TestClass]
+[DoNotParallelize]
 public class OneListingPerStyleTests
 {
+    [TestInitialize]
+    public void Setup() =>
+        // Clear the registry before each test
+        IndicatorRegistry.Clear();
+
+    [TestCleanup]
+    public void Cleanup()
+    {
+        // Clear the registry after each test
+        IndicatorRegistry.Clear();
+        // Re-enable auto-initialization for other tests
+        IndicatorRegistry.EnableAutoInitialization();
+    }
+
     [TestMethod]
     public void ShouldCreateSeparateListingsForEachStyle()
     {
         // Arrange: Create style-specific listings using the one-listing-per-style approach
-        IndicatorRegistry.Clear();
 
         var seriesListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
@@ -57,7 +71,6 @@ public class OneListingPerStyleTests
     public void ShouldFindMultiStyleIndicatorByAllSupportedStyles()
     {
         // Arrange: Create style-specific listings using the one-listing-per-style approach
-        IndicatorRegistry.Clear();
 
         var seriesListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
@@ -147,14 +160,5 @@ public class OneListingPerStyleTests
         // But different styles and IDs
         seriesListing.Style.Should().NotBe(streamListing.Style);
         seriesListing.Uiid.Should().NotBe(streamListing.Uiid);
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        // Reset the registry after each test
-        IndicatorRegistry.Clear();
-        // Re-enable auto-initialization for other tests
-        IndicatorRegistry.EnableAutoInitialization();
     }
 }
