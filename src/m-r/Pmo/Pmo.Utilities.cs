@@ -8,8 +8,6 @@ public static partial class Pmo
     /// <summary>
     /// Removes the recommended warmup periods from the PMO results.
     /// </summary>
-    /// <param name="results">The list of PMO results.</param>
-    /// <returns>A list of PMO results without the warmup periods.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<PmoResult> RemoveWarmupPeriods(
         this IReadOnlyList<PmoResult> results)

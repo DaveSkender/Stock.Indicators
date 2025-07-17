@@ -12,6 +12,9 @@ on:
       - docs/examples/**
       - .github/workflows/test-examples.yml
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: build

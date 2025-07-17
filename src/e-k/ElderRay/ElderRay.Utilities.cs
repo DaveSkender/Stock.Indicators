@@ -8,8 +8,6 @@ public static partial class ElderRay
     /// <summary>
     /// Removes the recommended warmup periods from the Elder Ray results.
     /// </summary>
-    /// <param name="results">The list of Elder Ray results.</param>
-    /// <returns>A list of Elder Ray results with warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<ElderRayResult> RemoveWarmupPeriods(
         this IReadOnlyList<ElderRayResult> results)

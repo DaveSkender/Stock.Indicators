@@ -8,8 +8,6 @@ public static partial class Fcb
     /// <summary>
     /// Removes empty (null) periods from the FCB results.
     /// </summary>
-    /// <param name="results">The list of FCB results.</param>
-    /// <returns>A list of FCB results with empty periods removed.</returns>
     /// <inheritdoc cref="Reusable.Condense{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FcbResult> Condense(
         this IReadOnlyList<FcbResult> results)
@@ -27,8 +25,6 @@ public static partial class Fcb
     /// <summary>
     /// Removes the recommended warmup periods from the FCB results.
     /// </summary>
-    /// <param name="results">The list of FCB results.</param>
-    /// <returns>A list of FCB results with warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<FcbResult> RemoveWarmupPeriods(
         this IReadOnlyList<FcbResult> results)

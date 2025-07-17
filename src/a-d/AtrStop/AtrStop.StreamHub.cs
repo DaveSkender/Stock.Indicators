@@ -228,7 +228,6 @@ public class AtrStopHub<TIn>
     /// <summary>
     /// Restores the prior ATR Stop state.
     /// </summary>
-    /// <param name="timestamp">The timestamp to restore to.</param>
     /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {

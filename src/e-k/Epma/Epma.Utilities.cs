@@ -8,8 +8,6 @@ public static partial class Epma
     /// <summary>
     /// Removes the recommended warmup periods from the EPMA results.
     /// </summary>
-    /// <param name="results">The list of EPMA results.</param>
-    /// <returns>A list of EPMA results with warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<EpmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<EpmaResult> results)

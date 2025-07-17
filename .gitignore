@@ -134,6 +134,9 @@ _TeamCity*
 *.coverage
 *.coveragexml
 
+# Visual Studio live unit testing
+*.lutconfig
+
 # NCrunch
 _NCrunch_*
 .*crunch*.local.xml

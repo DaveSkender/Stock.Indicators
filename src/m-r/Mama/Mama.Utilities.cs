@@ -8,8 +8,6 @@ public static partial class Mama
     /// <summary>
     /// Removes the recommended warmup periods from the MAMA results.
     /// </summary>
-    /// <param name="results">The list of MAMA results.</param>
-    /// <returns>A list of MAMA results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<MamaResult> RemoveWarmupPeriods(
         this IReadOnlyList<MamaResult> results) => results.Remove(50);

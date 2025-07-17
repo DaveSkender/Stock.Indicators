@@ -8,8 +8,6 @@ public static partial class Mfi
     /// <summary>
     /// Removes the recommended warmup periods from the MFI results.
     /// </summary>
-    /// <param name="results">The list of MFI results.</param>
-    /// <returns>A list of MFI results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<MfiResult> RemoveWarmupPeriods(
         this IReadOnlyList<MfiResult> results)

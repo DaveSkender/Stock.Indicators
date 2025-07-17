@@ -9,8 +9,6 @@ public static partial class Vwap
     /// <summary>
     /// Removes the warmup periods from the VWAP results.
     /// </summary>
-    /// <param name="results">The list of VWAP results.</param>
-    /// <returns>A list of VWAP results with the warmup periods removed.</returns>
     /// <inheritdoc cref="Reusable.RemoveWarmupPeriods{T}(IReadOnlyList{T})"/>
     public static IReadOnlyList<VwapResult> RemoveWarmupPeriods(
         this IReadOnlyList<VwapResult> results)
