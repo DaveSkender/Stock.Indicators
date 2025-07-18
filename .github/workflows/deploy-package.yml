@@ -215,7 +215,9 @@ jobs:
       environ: ${{ needs.package.outputs.environ }}
       url: ${{ needs.package.outputs.url }}
       name: ${{ needs.package.outputs.name }}
-      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org' && 'https://api.nuget.org/v3/index.json' || 'https://nuget.pkg.github.com/${{ github.repository }}/index.json' }}
+      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org'
+        && 'https://api.nuget.org/v3/index.json'
+        || format('https://nuget.pkg.github.com/{0}/index.json', github.repository) }}
       NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
