@@ -62,9 +62,10 @@ jobs:
         run: dotnet tool install --global GitVersion.Tool
 
       - name: Show GitVersion config
-        run: dotnet-gitversion -config src/gitversion.yml -showconfig
+        run: dotnet gitversion -config src/gitversion.yml -showconfig
+  
       - name: Show GitVersion output
-        run: dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
+        run: dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
 
       - name: Validate preview settings
         run: |
@@ -124,9 +125,9 @@ jobs:
       - name: Generate version info
         id: gitversion
         run: |
-          dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
+          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
           # Export GitVersion variables to environment
-          dotnet-gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
+          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Compose version
         id: version_info
