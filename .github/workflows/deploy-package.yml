@@ -62,8 +62,7 @@ jobs:
         run: dotnet tool install --global GitVersion.Tool
 
       - name: Show GitVersion config
-        run: dotnet gitversion -config src/gitversion.yml -showconfig
-
+        run: dotnet-gitversion -config src/gitversion.yml -showconfig
       - name: Show GitVersion output
         run: dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
 
