@@ -13,10 +13,12 @@ public static partial class ZigZag
     /// <param name="endType">The type of end to use (Close or HighLow).</param>
     /// <param name="percentChange">The percentage change threshold for ZigZag points.</param>
     /// <returns>A list of ZigZag results.</returns>
+    [SeriesIndicator("ZIGZAG-CLOSE")]
     public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         EndType endType = EndType.Close,
-        decimal percentChange = 5)
+        decimal percentChange = 5
+    )
         where TQuote : IQuote
     {
         // check parameter arguments

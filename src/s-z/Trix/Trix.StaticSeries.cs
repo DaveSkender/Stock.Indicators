@@ -13,7 +13,10 @@ public static partial class Trix
     /// <param name="lookbackPeriods">The number of lookback periods for the TRIX calculation.</param>
     /// <returns>A read-only list of <see cref="TrixResult"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    public static IReadOnlyList<TrixResult> ToTrix<T>(this IReadOnlyList<T> source, int lookbackPeriods)
+    [SeriesIndicator("TRIX")]
+    public static IReadOnlyList<TrixResult> ToTrix<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments

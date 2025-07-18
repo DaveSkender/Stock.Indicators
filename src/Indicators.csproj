@@ -1,8 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0;net8.0;net6.0</TargetFrameworks>
-    <LangVersion>13.0</LangVersion>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+
+    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
+    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
+    <NeutralLanguage>en-US</NeutralLanguage>
 
     <Authors>Dave Skender</Authors>
     <Product>Stock Indicators for .NET</Product>
@@ -12,10 +16,6 @@
     <RepositoryUrl>https://github.com/DaveSkender/Stock.Indicators</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-
-    <AssemblyName>Skender.Stock.Indicators</AssemblyName>
-    <RootNamespace>Skender.Stock.Indicators</RootNamespace>
-    <NeutralLanguage>en-US</NeutralLanguage>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -43,7 +43,6 @@
     <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <NoWarn>$(NoWarn);NU1507</NoWarn>
 
   </PropertyGroup>
 
@@ -67,7 +66,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

@@ -17,7 +17,7 @@ public class Tsi : StaticSeriesTestBase
         // sample values
         TsiResult r2 = results[37];
         Assert.AreEqual(53.1204, r2.Tsi.Round(4));
-        Assert.AreEqual(null, r2.Signal);
+        Assert.IsNull(r2.Signal);
 
         TsiResult r3A = results[43];
         Assert.AreEqual(46.0960, r3A.Tsi.Round(4));
@@ -125,15 +125,15 @@ public class Tsi : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToTsi(0));
 
         // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToTsi(25, 0));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToTsi(25, 13, -1));
     }
 }

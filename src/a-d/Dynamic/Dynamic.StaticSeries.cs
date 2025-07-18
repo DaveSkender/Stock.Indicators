@@ -15,6 +15,7 @@ public static partial class MgDynamic
     /// <returns>A list of McGinley Dynamic results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or kFactor are invalid.</exception>
+    [SeriesIndicator("DYNAMIC")]
     public static IReadOnlyList<DynamicResult> ToDynamic<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods,

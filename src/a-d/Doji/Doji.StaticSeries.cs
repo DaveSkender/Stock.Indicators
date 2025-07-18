@@ -19,6 +19,7 @@ public static partial class Doji
     /// <exception cref = "ArgumentOutOfRangeException" >
     /// Invalid parameter value provided.
     /// </exception>
+    [SeriesIndicator("DOJI")]
     public static IReadOnlyList<CandleResult> ToDoji<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         double maxPriceChangePercent = 0.1)

@@ -15,7 +15,7 @@ public class Tr : StaticSeriesTestBase
 
         // sample values
         TrResult r0 = results[0];
-        Assert.AreEqual(null, r0.Tr);
+        Assert.IsNull(r0.Tr);
 
         TrResult r1 = results[1];
         Assert.AreEqual(1.42, r1.Tr.Round(8));

@@ -3,7 +3,7 @@ namespace Performance;
 // BUFFER-STYLE INCREMENTING INDICATORS
 
 [ShortRunJob]
-public class BufferLists
+public class BufferListIndicators
 {
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();

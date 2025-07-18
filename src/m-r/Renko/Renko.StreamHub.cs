@@ -1,24 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-#region hub interface and initializer
-
-/// <summary>
-/// Represents a hub for generating Renko chart results.
-/// </summary>
-public interface IRenkoHub
-{
-    /// <summary>
-    /// Gets the size of each Renko brick.
-    /// </summary>
-    decimal BrickSize { get; }
-
-    /// <summary>
-    /// Gets the price candle end type used to determine when threshold
-    /// is met to generate new bricks.
-    /// </summary>
-    EndType EndType { get; }
-}
-
 /// <summary>
 /// Provides methods for generating Renko chart series in a streaming manner.
 /// </summary>
@@ -32,6 +13,7 @@ public static partial class Renko
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A Renko hub.</returns>
+    [StreamIndicator("RENKO")]
     public static RenkoHub<TIn> ToRenko<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
         decimal brickSize,
@@ -39,14 +21,13 @@ public static partial class Renko
         where TIn : IQuote
         => new(quoteProvider, brickSize, endType);
 }
-#endregion
 
 /// <summary>
 /// Represents a hub for generating Renko chart results from a stream of quotes.
 /// </summary>
 /// <typeparam name="TIn">The type of the quote values.</typeparam>
 public class RenkoHub<TIn>
-    : QuoteProvider<TIn, RenkoResult>, IRenkoHub
+    : QuoteProvider<TIn, RenkoResult>, IRenko
     where TIn : IQuote
 {
     #region constructors

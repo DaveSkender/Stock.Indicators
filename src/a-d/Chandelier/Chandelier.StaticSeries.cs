@@ -14,11 +14,12 @@ public static partial class Chandelier
     /// <param name="multiplier">The multiplier to apply to the ATR. Default is 3.</param>
     /// <param name="type">The type of Chandelier Exit to calculate (Long or Short). Default is Long.</param>
     /// <returns>A read-only list of <see cref="ChandelierResult"/> containing the Chandelier Exit calculation results.</returns>
+    [SeriesIndicator("CHEXIT")]
     public static IReadOnlyList<ChandelierResult> ToChandelier<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 22,
         double multiplier = 3,
-        ChandelierType type = ChandelierType.Long)
+        Direction type = Direction.Long)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);
@@ -35,7 +36,7 @@ public static partial class Chandelier
         this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
-        ChandelierType type)
+        Direction type)
     {
         // check parameter arguments
         Validate(lookbackPeriods, multiplier);
@@ -61,7 +62,7 @@ public static partial class Chandelier
 
                 switch (type)
                 {
-                    case ChandelierType.Long:
+                    case Direction.Long:
 
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -76,7 +77,7 @@ public static partial class Chandelier
                         exit = maxHigh - (atr * multiplier);
                         break;
 
-                    case ChandelierType.Short:
+                    case Direction.Short:
 
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)

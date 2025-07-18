@@ -12,6 +12,7 @@ public static partial class Cmo
     /// <param name="source">The source list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
     /// <returns>A read-only list of <see cref="CmoResult"/> containing the CMO calculation results.</returns>
+    [SeriesIndicator("CMO")]
     public static IReadOnlyList<CmoResult> ToCmo<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

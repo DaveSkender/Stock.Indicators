@@ -16,25 +16,25 @@ public class Adx : StaticSeriesTestBase
 
         // sample values
         AdxResult r13 = results[13];
-        Assert.AreEqual(null, r13.Pdi);
-        Assert.AreEqual(null, r13.Mdi);
-        Assert.AreEqual(null, r13.Dx);
-        Assert.AreEqual(null, r13.Adx);
+        Assert.IsNull(r13.Pdi);
+        Assert.IsNull(r13.Mdi);
+        Assert.IsNull(r13.Dx);
+        Assert.IsNull(r13.Adx);
 
         AdxResult r14 = results[14];
         Assert.AreEqual(21.9669, r14.Pdi.Round(4));
         Assert.AreEqual(18.5462, r14.Mdi.Round(4));
         Assert.AreEqual(8.4433, r14.Dx.Round(4));
-        Assert.AreEqual(null, r14.Adx);
+        Assert.IsNull(r14.Adx);
 
         AdxResult r19 = results[19];
         Assert.AreEqual(21.0361, r19.Pdi.Round(4));
         Assert.AreEqual(25.0124, r19.Mdi.Round(4));
         Assert.AreEqual(8.6351, r19.Dx.Round(4));
-        Assert.AreEqual(null, r19.Adx);
+        Assert.IsNull(r19.Adx);
 
         AdxResult r26 = results[26];
-        Assert.AreEqual(null, r26.Adx);
+        Assert.IsNull(r26.Adx);
 
         AdxResult r27 = results[27];
         Assert.AreEqual(15.9459, r27.Adx.Round(4));
@@ -148,6 +148,6 @@ public class Adx : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAdx(1));
 }

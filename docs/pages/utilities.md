@@ -11,6 +11,7 @@ layout: page
 - [for historical quotes](#utilities-for-historical-quotes)
 - [for indicator results](#utilities-for-indicator-results)
 - [for numerical analysis](#utilities-for-numerical-analysis)
+- [metadata catalog](#metadata-catalog)
 
 ## Utilities for historical quotes
 
@@ -171,3 +172,61 @@ Most `NullMath` methods work exactly like the `System.Math` library in C#, excep
 | Round | `var rnd = NullMath.Round(1.234, 1)` » `1.2`<br>`var rnd = NullMath.Round(null, 1)` » `null`
 | Null2NaN | `var val = null;`<br>`var n2n = val.Null2NaN()` » `[NaN]`
 | NaN2Null | `var val = double.NaN;`<br>`var n2n = val.NaN2Null()` » `null`
+
+## Metadata catalog
+
+The `IndicatorMetadata` utility provides information about all the indicators in the library, their parameters, and configurations. This is useful for:
+
+- Building dynamic UI for indicator configuration
+- Generating documentation
+- Creating indicator pickers or configuration dialogs
+- Exporting indicator configurations for other systems
+
+### Get all indicators
+
+Export the complete indicator catalog to a JSON string.
+
+```csharp
+// Get all indicators with chart styling information
+string json = IndicatorMetadata.ToJson();
+
+// Get all indicators without chart styling information
+string minimalJson = IndicatorMetadata.ToJson(includeChartConfig: false);
+```
+
+### Get indicators with API endpoints
+
+Export the indicator catalog to a JSON string, with URLs for API endpoints.
+
+```csharp
+// Generate with API endpoints
+var baseUrl = new Uri("https://api.example.com/indicators");
+string jsonWithEndpoints = IndicatorMetadata.ToJson(baseUrl);
+
+// Generate with API endpoints but without chart styling
+string minimalJsonWithEndpoints = IndicatorMetadata.ToJson(baseUrl, includeChartConfig: false);
+```
+
+### Get indicator by ID
+
+Get indicator metadata by indicator ID.
+
+```csharp
+// Get a specific indicator by ID
+var smaInfo = IndicatorMetadata.GetById("SMA");
+
+// Get a specific indicator by ID without chart styling
+var rsiInfo = IndicatorMetadata.GetById("RSI", includeChartConfig: false);
+```
+
+### Get indicator by method name
+
+Get metadata for the indicator by method name.
+
+```csharp
+// Get indicator metadata by method name
+var emaInfo = IndicatorMetadata.GetByMethod("GetEma");
+
+// You can also use fully-qualified method names
+var macdInfo = IndicatorMetadata.GetByMethod("Macd.GetMacd");
+```

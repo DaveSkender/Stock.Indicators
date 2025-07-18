@@ -18,8 +18,8 @@ public class Mama : StaticSeriesTestBase
 
         // sample values
         MamaResult r1 = results[4];
-        Assert.AreEqual(null, r1.Mama);
-        Assert.AreEqual(null, r1.Fama);
+        Assert.IsNull(r1.Mama);
+        Assert.IsNull(r1.Fama);
 
         MamaResult r2 = results[5];
         Assert.AreEqual(213.73, r2.Mama);
@@ -123,15 +123,15 @@ public class Mama : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period (same as slow period)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMama(1, 0.5));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMama(0.5, 0));
     }
 }
