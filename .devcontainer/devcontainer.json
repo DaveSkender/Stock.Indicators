@@ -42,7 +42,8 @@
       },
       "extensions": [
         "ms-dotnettools.csdevkit",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "GitHub.copilot-chat"
       ]
     }
   },
