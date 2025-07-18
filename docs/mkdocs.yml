@@ -11,33 +11,58 @@ site_dir: _site
 theme:
   name: material
   palette:
-    # Dark mode only - enforced single palette
+    # Dark mode only - GitHub Docs inspired
     scheme: slate
-    primary: grey
-    accent: deep orange
+    primary: black
+    accent: blue
   favicon: favicon.ico
   logo: assets/icons/android-chrome-192x192.png
   features:
-    - navigation.instant
-    - navigation.tracking
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
     - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.prune
     - navigation.sections
-    - navigation.collapse
-    - navigation.path
-    - navigation.expand: 0
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
     - search.highlight
     - search.share
-    - content.code.copy
-    - content.action.edit
-    - header.autohide
+    - search.suggest
+    - toc.follow
 
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil
     view: material/eye
+    admonition:
+      note: fontawesome/solid/note-sticky
+      abstract: fontawesome/solid/book
+      info: fontawesome/solid/circle-info
+      tip: fontawesome/solid/bullhorn
+      success: fontawesome/solid/check
+      question: fontawesome/solid/circle-question
+      warning: fontawesome/solid/triangle-exclamation
+      failure: fontawesome/solid/bomb
+      danger: fontawesome/solid/skull
+      bug: fontawesome/solid/robot
+      example: fontawesome/solid/flask
+      quote: fontawesome/solid/quote-left
   font:
-    text: Rubik
-    code: Roboto Mono
+    text: -apple-system, BlinkMacSystemFont, Segoe UI, Noto Sans, Helvetica, Arial, sans-serif
+    code: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace
 
 # Additional SEO metadata
 extra:
