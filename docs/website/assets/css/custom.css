@@ -476,52 +476,63 @@
 }
 
 /* iPad and medium tablets (768px to 1024px) */
-@media screen and (max-width: 59.9375em) and (min-width: 48.0625em) {
+@media screen and (max-width: 64em) and (min-width: 48.0625em) {
+  /* Fix content overflow and margins */
   .md-content__inner {
-    margin: 0 1rem 1.2rem;
-    padding-right: 0.5rem;
+    margin: 0 1.5rem 1.2rem;
+    padding-right: 1rem;
+    max-width: calc(100% - 3rem);
+  }
+  
+  /* Improve grid behavior */
+  .md-grid {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
   }
   
   /* Fix navigation drawer for tablets */
   .md-nav--primary {
     background: var(--md-default-bg-color);
-    width: 18rem;
-    max-width: 18rem;
+    width: 16rem;
+    max-width: 16rem;
+    border-right: 1px solid var(--md-default-border-color);
   }
   
   .md-nav--primary .md-nav__list {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
   }
   
   .md-nav--primary .md-nav__item {
-    margin: 0.125rem 0;
+    margin: 0.0625rem 0;
   }
   
   .md-nav--primary .md-nav__link {
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
+    padding: 0.4rem 0.75rem;
+    margin: 0 0.25rem;
     border-radius: 6px;
-    min-height: 2.5rem;
+    min-height: 2.25rem;
     display: flex;
     align-items: center;
+    font-size: 0.875rem;
   }
   
   /* Better tablet typography */
   .md-typeset {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.6;
   }
   
   .md-typeset h1 {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
   }
   
   .md-typeset h2 {
-    font-size: 1.375rem;
+    font-size: 1.3rem;
   }
   
   .md-typeset h3 {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
   }
   
   /* Ensure tables are scrollable on tablets */
@@ -532,69 +543,49 @@
     max-width: 100%;
   }
   
-  /* Better button spacing */
+  /* Better navigation title */
   .md-nav--primary .md-nav__title[for="__drawer"] {
     background: var(--md-primary-fg-color);
     border-bottom: 1px solid var(--md-default-border-color);
     color: var(--md-default-fg-color);
-    padding: 1rem;
+    padding: 0.75rem;
     font-weight: 600;
-  }
-}
-
-/* Medium tablets and below (960px and below) */
-@media screen and (max-width: 59.9375em) {
-  .md-content__inner {
-    margin: 0 0.6rem 1.2rem;
+    font-size: 0.875rem;
   }
   
-  /* Improve mobile navigation */
-  .md-nav--primary {
-    background: var(--md-default-bg-color);
-    border-right: 1px solid var(--md-default-border-color);
+  /* Fix sidebar positioning */
+  .md-sidebar--primary {
+    left: 0;
+    width: 16rem;
   }
   
-  /* Better spacing for tablet content */
-  .md-typeset {
-    font-size: 0.9rem;
-  }
-  
-  .md-typeset h1 {
-    font-size: 1.75rem;
-  }
-  
-  .md-typeset h2 {
-    font-size: 1.375rem;
-  }
-  
-  .md-typeset h3 {
-    font-size: 1.125rem;
-  }
-  
-  /* Fix grid overflow */
-  .md-grid {
-    max-width: 100%;
-    margin: 0;
+  /* Improve main content area */
+  .md-main__inner {
+    margin-top: 0;
+    padding-top: 0;
   }
 }
 
 /* Small tablets and large phones (768px and below) */
 @media screen and (max-width: 48em) {
+  /* Ensure full width utilization */
   .md-grid {
     max-width: 100%;
     margin: 0;
+    padding: 0;
   }
   
   .md-content__inner {
     margin: 0 1rem 1.2rem;
+    max-width: calc(100% - 2rem);
   }
   
   /* Enhance mobile navigation drawer */
   .md-nav--primary {
     background: var(--md-default-bg-color);
     border-right: 1px solid var(--md-default-border-color);
-    width: 16rem;
-    max-width: 16rem;
+    width: 15rem;
+    max-width: 15rem;
   }
   
   .md-nav--primary .md-nav__list {
@@ -716,13 +707,14 @@
 
 /* Permalink anchor styling - GitHub-style chain link icon */
 .md-typeset .headerlink {
-  color: var(--md-default-fg-color--lighter);
+  color: transparent; /* Hide the original ¶ symbol */
   opacity: 0;
   transition: opacity 0.2s ease;
   margin-left: 0.5rem;
   font-weight: normal;
   font-size: 0.875em;
   text-decoration: none;
+  position: relative;
 }
 
 /* Create GitHub-style chain link icon using CSS */
@@ -735,6 +727,10 @@
   background-repeat: no-repeat;
   background-position: center;
   vertical-align: middle;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .md-typeset h1:hover .headerlink,
