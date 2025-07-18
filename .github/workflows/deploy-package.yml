@@ -234,7 +234,7 @@ jobs:
           path: NuGet
 
       - name: Publish package
-        if: ${{ !env.dry_run }}
+        if: ${{ env.dry_run != 'true' }}
         run: >
           dotnet nuget push NuGet/*.nupkg
           --source "${{ env.NUGET_PUBLISH_URL }}"
