@@ -48,7 +48,7 @@
         "ms-dotnettools.csdevkit",
         "ms-dotnettools.vscodeintellicode-csharp",
         "redhat.vscode-yaml",
-        "GitHub.copilot"
+        "GitHub.copilot-chat"
       ]
     }
   },

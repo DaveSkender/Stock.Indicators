@@ -1,6 +1,21 @@
 name: Deploy NuGet package
 
+# Version format: major.minor.patch[-preview.suffix]
+# - Versioning managed by GitVersion
+# - Preview suffix toggled by "preview" input
+# - Non-preview versions on nuget.org restricted to main branch;
+#   runs targeting nuget.org from non-"main" branches will fail early.
+# - Default: patch increment unless "+semver:" message found
+#   or will use "next-version" if set in config
+# - Preview numbers auto-increment (e.g., preview.1 -> preview.2)
+# - Branches are only tagged with the version after deployments to nuget.org
+
 on:
+  push:
+    branches:
+      - main
+      - 'v*'
+
   workflow_dispatch:
     inputs:
       environment:
@@ -23,7 +38,7 @@ on:
         required: true
 
 concurrency:
-  group: ${{ inputs.environment }}
+  group: ${{ github.ref_name }}
   cancel-in-progress: true
 
 permissions:
@@ -31,14 +46,62 @@ permissions:
   packages: write
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version_info.outputs.version }}
-      pkg_url: ${{ steps.package_info.outputs.pkg_url }}
-      pkg_name: ${{ steps.package_info.outputs.pkg_name }}
 
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug GitVersion config presence
+        run: cat src/gitversion.yml
+
+      - name: Setup GitVersion Tool
+        run: dotnet tool install --global GitVersion.Tool
+
+      - name: Show GitVersion config
+        run: dotnet gitversion -config src/gitversion.yml -showconfig
+  
+      - name: Show GitVersion output
+        run: dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+
+      - name: Validate preview settings
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "nuget.org" ]] && \
+             [[ "${{ github.ref }}" != "refs/heads/main" ]] && \
+             [[ "${{ github.event.inputs.preview }}" != "true" ]]; then
+            echo "::error::Non-preview versions on nuget.org are only allowed from main branch"
+            exit 1
+          fi
+
+  package:
+    needs: validate
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version_info.outputs.version }}
+      url: ${{ steps.package_info.outputs.url }}
+      name: ${{ steps.package_info.outputs.name }}
+      environ: ${{ steps.settings.outputs.environ }}
+      preview: ${{ steps.settings.outputs.preview }}
+      dry_run: ${{ steps.settings.outputs.dry_run }}
+
+    steps:
+
+      - name: Set default inputs for dispatch
+        id: settings
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environ=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+            echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
+            echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
+          else
+            echo "environ=" >> $GITHUB_OUTPUT
+            echo "preview=true" >> $GITHUB_OUTPUT
+            echo "dry_run=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Checkout source
         uses: actions/checkout@v4
@@ -51,45 +114,41 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.x"
-          dotnet-quality: "ga"
-
-      - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v3.2.1
-        with:
-          versionSpec: "5.x"
-          preferLatestVersion: true
-
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+        run: |
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
+          dotnet tool install --global GitVersion.Tool
 
-      - name: Determine version
+      - name: Show GitVersion config
+        run: dotnet-gitversion -config src/gitversion.yml -showconfig
+
+      - name: Generate version info
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v3.2.1
-        with:
-          updateAssemblyInfo: true
-          useConfigFile: true
-          configFilePath: src/gitversion.yml
+        run: |
+          dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
+          # Export GitVersion variables to environment
+          dotnet gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Compose version
         id: version_info
         run: |
-          # get base version
-          base="${{ steps.gitversion.outputs.majorMinorPatch }}"
+          # base version
+          base="${{ env.MajorMinorPatch }}"
 
-          # determine preview suffix
-          preview_tag="${{ inputs.preview && '-preview.' || '' }}"
+          # conditional suffix
+          if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
+            if [[ -n "${{ env.PreReleaseTag }}" ]]; then
+              suffix="-${{ env.PreReleaseTag }}.${{ env.PreReleaseNumber }}"
+            else
+              suffix="-preview.${{ env.CommitsSinceVersionSource }}"
+            fi
+          else
+            suffix=""
+          fi
 
-          # determine preview number
-          preview_num="${{ inputs.preview && steps.gitversion.outputs.preReleaseNumber || '' }}"
-
-          # combine all parts
-          ver="${base}${preview_tag}${preview_num}"
-
-          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          ver="${base}${suffix}"
+          echo "version=$ver" >> $GITHUB_OUTPUT
+          echo "Generated version: $ver"
 
       - name: Replace "dumb" version markers
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
@@ -102,11 +161,11 @@ jobs:
         id: package_info
         run: |
           PACKAGE_NAME=$(xmllint --xpath "//PropertyGroup/PackageId/text()" src/Indicators.csproj)
-          echo "pkg_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
-          if [[ "${{ inputs.environment }}" == "nuget.org" ]]; then
-            echo "pkg_url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
+          echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+          if [[ "${{ steps.settings.outputs.environ }}" == "nuget.org" ]]; then
+            echo "url=https://www.nuget.org/packages/${PACKAGE_NAME}/${{ steps.version_info.outputs.version }}" >> $GITHUB_OUTPUT
           else
-            echo "pkg_url=https://github.com/${{ github.repository }}/pkgs/nuget/${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+            echo "url=https://github.com/${{ github.repository }}/pkgs/nuget/${PACKAGE_NAME}" >> $GITHUB_OUTPUT
           fi
 
       - name: Build library
@@ -135,19 +194,18 @@ jobs:
           include-hidden-files: true
 
       - name: Summary output
+        if: always()
         run: |
           {
-            echo "| Version No. | Component                                       |"
-            echo "| :---------- | :---------------------------------------------- |"
-            echo "| Major       | ${{ steps.gitversion.outputs.major }}           |"
-            echo "| Minor       | ${{ steps.gitversion.outputs.minor }}           |"
-            echo "| Patch       | ${{ steps.gitversion.outputs.patch }}           |"
-            echo "| Base        | ${{ steps.gitversion.outputs.majorMinorPatch }} |"
-            echo "| Composed    | ${{ steps.version_info.outputs.version }}       |"
+            echo "| Version No.       | Component                                        |"
+            echo "| :---------------- | :----------------------------------------------- |"
+            echo "| Mode              | ${{ steps.settings.outputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
+            echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
+            echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
 
   deploy:
-    needs: build
+    needs: package
     runs-on: ubuntu-latest
     if: success()
 
@@ -156,8 +214,20 @@ jobs:
       packages: write
 
     environment:
-      name: ${{ !inputs.dry_run && inputs.environment || '' }}
-      url: ${{ needs.build.outputs.pkg_url }}
+      name: ${{ needs.package.outputs.environ != '' && needs.package.outputs.environ || null }}
+      url: ${{ needs.package.outputs.url }}
+
+    env:
+      version: ${{ needs.package.outputs.version }}
+      preview: ${{ needs.package.outputs.preview }}
+      dry_run: ${{ needs.package.outputs.dry_run }}
+      environ: ${{ needs.package.outputs.environ }}
+      url: ${{ needs.package.outputs.url }}
+      name: ${{ needs.package.outputs.name }}
+      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org'
+        && 'https://api.nuget.org/v3/index.json'
+        || format('https://nuget.pkg.github.com/{0}/index.json', github.repository) }}
+      NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
 
@@ -174,33 +244,24 @@ jobs:
           path: NuGet
 
       - name: Publish package
-        if: ${{ !inputs.dry_run }}
-        env:
-          API_KEY: ${{ inputs.environment == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
+        if: ${{ env.dry_run != 'true' }}
         run: >
           dotnet nuget push NuGet/*.nupkg
-          --source "${{ vars.NUGET_PUBLISH_URL }}"
-          --api-key "$API_KEY"
+          --source "${{ env.NUGET_PUBLISH_URL }}"
+          --api-key "${{ env.NUGET_API_KEY }}"
           --skip-duplicate
 
       - name: Tag and draft release note
         uses: ncipollo/release-action@v1
-        if: ${{ !inputs.dry_run && inputs.environment == 'nuget.org' }}
+        if: ${{ !env.dry_run && env.environ == 'nuget.org' }}
         with:
           body: |
-            ## Release ${{ needs.build.outputs.version }}
-
-            📦 Package deployed to [${{ inputs.environment }}](${{ needs.build.outputs.pkg_url }})
-
-            ### Package Details
-            - **Name**: ${{ needs.build.outputs.pkg_name }}
-            - **Version**: ${{ needs.build.outputs.version }}
-            - **Preview**: ${{ inputs.preview && 'Yes' || 'No' }}
+            - **Preview**: ${{ env.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
           draft: true
-          makeLatest: ${{ !inputs.preview }}
-          prerelease: ${{ inputs.preview }}
-          tag: v${{ needs.build.outputs.version }}
+          makeLatest: ${{ !env.preview }}
+          prerelease: ${{ env.preview }}
+          tag: v${{ env.version }}
           commit: ${{ github.sha }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -208,13 +269,5 @@ jobs:
         if: always()
         run: |
           {
-            echo "## Package Deployment"
-            echo "| Parameter   | Value |"
-            echo "|:------------|:------|"
-            echo "| Mode        | ${{ inputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
-            echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Environment | ${{ inputs.environment }} |"
-            echo "| Version     | ${{ needs.build.outputs.version }} |"
-            echo "| Package     | [${{ needs.build.outputs.pkg_name }}](${{ needs.build.outputs.pkg_url }}) |"
-            echo "| Preview     | ${{ inputs.preview && '✓' || '✗' }} |"
+            echo "| Preview     | ${{ env.preview && '✓' || '✗' }} |"
           } >> $GITHUB_STEP_SUMMARY
