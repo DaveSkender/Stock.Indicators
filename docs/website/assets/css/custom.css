@@ -426,16 +426,167 @@
 }
 
 /* Responsive adjustments */
+
+/* Large tablets and below (1220px and below) */
 @media screen and (max-width: 76.1875em) {
   .md-nav--primary .md-nav__title[for="__drawer"] {
     background: var(--md-default-bg-color);
     color: var(--md-default-fg-color);
   }
+  
+  /* Adjust grid for better tablet experience */
+  .md-grid {
+    max-width: calc(100% - 2rem);
+    margin: 0 1rem;
+  }
 }
 
+/* Medium tablets and below (960px and below) */
 @media screen and (max-width: 59.9375em) {
   .md-content__inner {
     margin: 0 0.6rem 1.2rem;
+  }
+  
+  /* Improve mobile navigation */
+  .md-nav--primary {
+    background: var(--md-default-bg-color);
+  }
+  
+  /* Better spacing for tablet content */
+  .md-typeset {
+    font-size: 0.9rem;
+  }
+  
+  .md-typeset h1 {
+    font-size: 1.75rem;
+  }
+  
+  .md-typeset h2 {
+    font-size: 1.375rem;
+  }
+  
+  .md-typeset h3 {
+    font-size: 1.125rem;
+  }
+}
+
+/* Small tablets and large phones (768px and below) */
+@media screen and (max-width: 48em) {
+  .md-grid {
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .md-content__inner {
+    margin: 0 1rem 1.2rem;
+  }
+  
+  /* Enhance mobile navigation drawer */
+  .md-nav--primary {
+    background: var(--md-default-bg-color);
+    border-right: 1px solid var(--md-default-border-color);
+  }
+  
+  .md-nav--primary .md-nav__list {
+    padding: 0.5rem 0;
+  }
+  
+  .md-nav--primary .md-nav__item {
+    margin: 0;
+  }
+  
+  .md-nav--primary .md-nav__link {
+    margin: 0;
+    padding: 0.6rem 1rem;
+    border-radius: 0;
+  }
+  
+  /* Improve touch targets */
+  .md-nav__link {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Better mobile typography */
+  .md-typeset {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  
+  .md-typeset h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .md-typeset h2 {
+    font-size: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .md-typeset h3 {
+    font-size: 1.125rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Improve code blocks on mobile */
+  .md-typeset .highlight {
+    margin: 1rem -1rem;
+    border-radius: 0;
+  }
+  
+  .md-typeset .highlight > pre {
+    padding: 1rem;
+  }
+  
+  /* Better table scrolling */
+  .md-typeset table:not([class]) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Mobile phones (480px and below) */
+@media screen and (max-width: 30em) {
+  .md-content__inner {
+    margin: 0 0.75rem 1rem;
+  }
+  
+  /* Compact mobile header */
+  .md-header__title {
+    font-size: 1rem;
+  }
+  
+  /* Very compact navigation for small screens */
+  .md-nav--primary .md-nav__link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Smaller typography for very small screens */
+  .md-typeset {
+    font-size: 0.8125rem;
+  }
+  
+  .md-typeset h1 {
+    font-size: 1.375rem;
+  }
+  
+  .md-typeset h2 {
+    font-size: 1.125rem;
+  }
+  
+  .md-typeset h3 {
+    font-size: 1rem;
+  }
+  
+  /* Better button sizing */
+  .md-typeset .md-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
   }
 }
 
@@ -443,4 +594,28 @@
 :focus-visible {
   outline: 2px solid var(--md-accent-fg-color);
   outline-offset: 2px;
+}
+
+/* Permalink anchor styling - GitHub-like */
+.md-typeset .headerlink {
+  color: var(--md-default-fg-color--lighter);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-left: 0.5rem;
+  font-weight: normal;
+  font-size: 0.875em;
+}
+
+.md-typeset h1:hover .headerlink,
+.md-typeset h2:hover .headerlink,
+.md-typeset h3:hover .headerlink,
+.md-typeset h4:hover .headerlink,
+.md-typeset h5:hover .headerlink,
+.md-typeset h6:hover .headerlink {
+  opacity: 1;
+}
+
+.md-typeset .headerlink:hover {
+  color: var(--md-accent-fg-color);
+  text-decoration: none;
 }
