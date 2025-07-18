@@ -60,7 +60,7 @@ jobs:
         run: cat src/gitversion.yml
 
       - name: Setup GitVersion Tool
-        run: dotnet tool install --global GitVersion.Tool --version 6.0.5
+        run: dotnet tool install --global GitVersion.Tool
 
       - name: Show GitVersion config
         run: dotnet gitversion -config src/gitversion.yml -showconfig
@@ -99,7 +99,7 @@ jobs:
             echo "preview=${{ inputs.preview }}" >> $GITHUB_OUTPUT
             echo "dry_run=${{ inputs.dry_run }}" >> $GITHUB_OUTPUT
           else
-            echo "environ=NO_ENVIRONMENT" >> $GITHUB_OUTPUT
+            echo "environ=" >> $GITHUB_OUTPUT
             echo "preview=true" >> $GITHUB_OUTPUT
             echo "dry_run=true" >> $GITHUB_OUTPUT
           fi
@@ -115,46 +115,41 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.x"
-          dotnet-quality: "ga"
-
-      - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v1.2.0
-        with:
-          versionSpec: "5.x"
-          preferLatestVersion: true
-
       - name: Install dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y libxml2-utils
-          dotnet tool install --global GitVersion.Tool --version 6.0.5
+          dotnet tool install --global GitVersion.Tool
 
       - name: Show GitVersion config
         run: dotnet-gitversion -config src/gitversion.yml -showconfig
 
       - name: Generate version info
         id: gitversion
-        run: dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
+        run: |
+          dotnet-gitversion -config src/gitversion.yml -updateassemblyinfo
+          # Export GitVersion variables to environment
+          dotnet-gitversion -config src/gitversion.yml | jq -r 'to_entries[] | "\(.key)=\(.value)"' >> $GITHUB_ENV
 
       - name: Compose version
         id: version_info
         run: |
           # base version
-          base="${{ steps.gitversion.outputs.MajorMinorPatch }}"
+          base="${{ env.MajorMinorPatch }}"
 
           # conditional suffix
           if [[ "${{ steps.settings.outputs.preview }}" == "true" ]]; then
-            suffix="${{ steps.gitversion.outputs.PreReleaseTagWithDash }}"
+            if [[ -n "${{ env.PreReleaseTag }}" ]]; then
+              suffix="-${{ env.PreReleaseTag }}.${{ env.PreReleaseNumber }}"
+            else
+              suffix="-preview.${{ env.CommitsSinceVersionSource }}"
+            fi
           else
             suffix=""
           fi
 
           ver="${base}${suffix}"
           echo "version=$ver" >> $GITHUB_OUTPUT
-          echo "$ver"
+          echo "Generated version: $ver"
 
       - name: Compose package info
         id: package_info
@@ -199,13 +194,6 @@ jobs:
             echo "| :---------------- | :----------------------------------------------- |"
             echo "| Mode              | ${{ steps.settings.outputs.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
             echo "| Status            | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Environment.      | ${{ steps.settings.outputs.environ }} |"
-            echo "| Preview           | ${{ steps.settings.outputs.preview && '✓' || '✗' }} |"
-            echo "| Base version      | ${{ steps.gitversion.outputs.MajorMinorPatch }}  |"
-            echo "| PreReleaseTag     | ${{ steps.gitversion.outputs.PreReleaseTag }}    |"
-            echo "| PreReleaseNumber  | ${{ steps.gitversion.outputs.PreReleaseNumber }} |"
-            echo "| Composed          | ${{ steps.version_info.outputs.version }}        |"
-            echo "| Package           | ${{ steps.package_info.outputs.name }}           |"
             echo "| Package URL       | ${{ steps.package_info.outputs.url }}            |"
           } >> $GITHUB_STEP_SUMMARY
 
@@ -219,7 +207,7 @@ jobs:
       packages: write
 
     environment:
-      name: ${{ needs.package.outputs.environ }}
+      name: ${{ needs.package.outputs.environ != '' && needs.package.outputs.environ || null }}
       url: ${{ needs.package.outputs.url }}
 
     env:
@@ -259,13 +247,6 @@ jobs:
         if: ${{ !env.dry_run && env.environ == 'nuget.org' }}
         with:
           body: |
-            ## Release ${{ env.version }}
-
-            📦 Package deployed to [${{ env.environ }}](${{ env.url }})
-
-            ### Package Details
-            - **Name**: ${{ env.name }}
-            - **Version**: ${{ env.version }}
             - **Preview**: ${{ env.preview && 'Yes' || 'No' }}
           generateReleaseNotes: true
           draft: true
@@ -279,13 +260,5 @@ jobs:
         if: always()
         run: |
           {
-            echo "## Package Deployment"
-            echo "| Parameter   | Value |"
-            echo "|:------------|:------|"
-            echo "| Mode        | ${{ env.dry_run && '🔍 DRY RUN' || '🚀 DEPLOY' }} |"
-            echo "| Status      | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |"
-            echo "| Environment | ${{ env.environ }} |"
-            echo "| Version     | ${{ env.version }} |"
-            echo "| Package     | [${{ env.name }}](${{ env.url }}) |"
             echo "| Preview     | ${{ env.preview && '✓' || '✗' }} |"
           } >> $GITHUB_STEP_SUMMARY

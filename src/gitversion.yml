@@ -14,19 +14,29 @@ branches:
     increment: Patch
     source-branches: []
     is-main-branch: true
-    label: preview
+    tag: ''
 
   release:
     regex: ^v[0-9]+\.*
     increment: Patch
     source-branches: [main]
-    label: preview
+    tag: ''
+
+  feature:
+    regex: ^feature/.*
+    increment: Minor
+    source-branches: [main]
+    tag: preview
+
+  pull-request:
+    increment: Inherit
+    tag: preview
 
   unknown:
     increment: Inherit
-    label: preview
+    tag: preview
 
-label: preview
+tag: preview
 
 ignore:
   sha: []
