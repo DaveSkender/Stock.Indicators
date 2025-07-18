@@ -27,6 +27,8 @@
         "bierner.github-markdown-preview",
         "EditorConfig.EditorConfig",
         "ms-dotnettools.vscodeintellicode-csharp"
+        "DavidAnson.vscode-markdownlint",
+        "GitHub.copilot-chat"
       ]
     }
   },
