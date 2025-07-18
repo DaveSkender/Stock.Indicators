@@ -335,6 +335,5 @@ _site/
 
 # zip artifacts
 .DS_Store
-
-# suppress dotnet tool manifest config (local) [for GitVersion]
-.config
+# suppress dotnet-tool manifest directory created locally by `dotnet new tool-manifest`
+/.config/
