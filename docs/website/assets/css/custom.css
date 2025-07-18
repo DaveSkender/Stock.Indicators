@@ -439,6 +439,107 @@
     max-width: calc(100% - 2rem);
     margin: 0 1rem;
   }
+  
+  /* Ensure content doesn't get cut off */
+  .md-content {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* iPad Pro and large tablets (1024px and below) */
+@media screen and (max-width: 64em) {
+  .md-grid {
+    max-width: calc(100% - 1.5rem);
+    margin: 0 0.75rem;
+  }
+  
+  .md-content__inner {
+    margin: 0 0.8rem 1.2rem;
+    max-width: 100%;
+  }
+  
+  /* Better navigation drawer for large tablets */
+  .md-nav--primary {
+    width: 20rem;
+    max-width: 20rem;
+  }
+  
+  /* Improve sidebar behavior */
+  .md-sidebar--primary {
+    width: 20rem;
+  }
+  
+  .md-sidebar--secondary {
+    width: 15rem;
+  }
+}
+
+/* iPad and medium tablets (768px to 1024px) */
+@media screen and (max-width: 59.9375em) and (min-width: 48.0625em) {
+  .md-content__inner {
+    margin: 0 1rem 1.2rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Fix navigation drawer for tablets */
+  .md-nav--primary {
+    background: var(--md-default-bg-color);
+    width: 18rem;
+    max-width: 18rem;
+  }
+  
+  .md-nav--primary .md-nav__list {
+    padding: 0.75rem 0;
+  }
+  
+  .md-nav--primary .md-nav__item {
+    margin: 0.125rem 0;
+  }
+  
+  .md-nav--primary .md-nav__link {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border-radius: 6px;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Better tablet typography */
+  .md-typeset {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  
+  .md-typeset h1 {
+    font-size: 1.75rem;
+  }
+  
+  .md-typeset h2 {
+    font-size: 1.375rem;
+  }
+  
+  .md-typeset h3 {
+    font-size: 1.125rem;
+  }
+  
+  /* Ensure tables are scrollable on tablets */
+  .md-typeset table:not([class]) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  
+  /* Better button spacing */
+  .md-nav--primary .md-nav__title[for="__drawer"] {
+    background: var(--md-primary-fg-color);
+    border-bottom: 1px solid var(--md-default-border-color);
+    color: var(--md-default-fg-color);
+    padding: 1rem;
+    font-weight: 600;
+  }
 }
 
 /* Medium tablets and below (960px and below) */
@@ -450,6 +551,7 @@
   /* Improve mobile navigation */
   .md-nav--primary {
     background: var(--md-default-bg-color);
+    border-right: 1px solid var(--md-default-border-color);
   }
   
   /* Better spacing for tablet content */
@@ -468,6 +570,12 @@
   .md-typeset h3 {
     font-size: 1.125rem;
   }
+  
+  /* Fix grid overflow */
+  .md-grid {
+    max-width: 100%;
+    margin: 0;
+  }
 }
 
 /* Small tablets and large phones (768px and below) */
@@ -485,6 +593,8 @@
   .md-nav--primary {
     background: var(--md-default-bg-color);
     border-right: 1px solid var(--md-default-border-color);
+    width: 16rem;
+    max-width: 16rem;
   }
   
   .md-nav--primary .md-nav__list {
@@ -499,6 +609,9 @@
     margin: 0;
     padding: 0.6rem 1rem;
     border-radius: 0;
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
   }
   
   /* Improve touch targets */
@@ -566,6 +679,11 @@
     font-size: 0.875rem;
   }
   
+  .md-nav--primary {
+    width: 14rem;
+    max-width: 14rem;
+  }
+  
   /* Smaller typography for very small screens */
   .md-typeset {
     font-size: 0.8125rem;
@@ -596,7 +714,7 @@
   outline-offset: 2px;
 }
 
-/* Permalink anchor styling - GitHub-like */
+/* Permalink anchor styling - GitHub-style chain link icon */
 .md-typeset .headerlink {
   color: var(--md-default-fg-color--lighter);
   opacity: 0;
@@ -604,6 +722,19 @@
   margin-left: 0.5rem;
   font-weight: normal;
   font-size: 0.875em;
+  text-decoration: none;
+}
+
+/* Create GitHub-style chain link icon using CSS */
+.md-typeset .headerlink::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='%237d8590' d='m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  vertical-align: middle;
 }
 
 .md-typeset h1:hover .headerlink,
@@ -615,7 +746,6 @@
   opacity: 1;
 }
 
-.md-typeset .headerlink:hover {
-  color: var(--md-accent-fg-color);
-  text-decoration: none;
+.md-typeset .headerlink:hover::before {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='%232f81f7' d='m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z'/%3e%3c/svg%3e");
 }

@@ -91,7 +91,7 @@ plugins:
 
 markdown_extensions:
   - toc:
-      permalink: ⛓
+      permalink: true
   - tables
   - fenced_code
   - pymdownx.highlight:
