@@ -1,0 +1,47 @@
+namespace Catalog;
+
+/// <summary>
+/// Test class for StochRsi catalog functionality.
+/// </summary>
+[TestClass]
+public class StochRsiTests : TestBase
+{
+    [TestMethod]
+    public void StochRsiSeriesListing()
+    {
+        // Act
+        IndicatorListing listing = StochRsi.SeriesListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Stochastic RSI");
+        listing.Uiid.Should().Be("STOCH-RSI");
+        listing.Style.Should().Be(Style.Series);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToStochRsi");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(4);
+
+        IndicatorParam rsiPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "rsiPeriods");
+        rsiPeriodsParam.Should().NotBeNull();
+        IndicatorParam stochPeriodsParam1 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "stochPeriods");
+        stochPeriodsParam1.Should().NotBeNull();
+        IndicatorParam signalPeriodsParam2 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "signalPeriods");
+        signalPeriodsParam2.Should().NotBeNull();
+        IndicatorParam smoothPeriodsParam3 = listing.Parameters.SingleOrDefault(p => p.ParameterName == "smoothPeriods");
+        smoothPeriodsParam3.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+
+        IndicatorResult stochrsiResult = listing.Results.SingleOrDefault(r => r.DataName == "StochRsi");
+        stochrsiResult.Should().NotBeNull();
+        stochrsiResult!.DisplayName.Should().Be("%K");
+        stochrsiResult.IsReusable.Should().Be(true);
+        IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
+        signalResult1.Should().NotBeNull();
+        signalResult1!.DisplayName.Should().Be("%D");
+        signalResult1.IsReusable.Should().Be(false);
+    }
+}

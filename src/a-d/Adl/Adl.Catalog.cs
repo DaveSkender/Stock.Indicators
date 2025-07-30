@@ -16,7 +16,7 @@ public static partial class Adl
     // ADL Stream Listing
     internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
-            .WithName("Accumulation Distribution Line (ADL) (Stream)")
+            .WithName("Accumulation Distribution Line (ADL)")
             .WithId("ADL")
             .WithStyle(Style.Stream)
             .WithCategory(Category.VolumeBased)

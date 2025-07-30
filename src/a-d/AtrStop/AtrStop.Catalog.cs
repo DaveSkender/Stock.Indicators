@@ -22,7 +22,7 @@ public static partial class AtrStop
     // ATR-STOP Stream Listing
     internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
-            .WithName("ATR Trailing Stop (Stream)")
+            .WithName("ATR Trailing Stop")
             .WithId("ATR-STOP")
             .WithStyle(Style.Stream)
             .WithCategory(Category.PriceTrend)
