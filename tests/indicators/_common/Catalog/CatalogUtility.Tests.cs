@@ -3,10 +3,10 @@ using System.Text.Json;
 namespace Tests.Common.Catalog;
 
 /// <summary>
-/// Test class for IndicatorUtility functionality.
+/// Test class for CatalogUtility functionality.
 /// </summary>
 [TestClass]
-public class IndicatorUtilityTests : TestBase
+public class CatalogUtilityTests : TestBase
 {
     [TestMethod]
     public void ExecuteById_WithValidIndicator_ReturnsResults()
@@ -17,7 +17,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> results = IndicatorUtility.ExecuteById(id, style, quotes);
+        IReadOnlyList<object> results = quotes.ExecuteById(id, style);
 
         // Assert
         results.Should().NotBeNull();
@@ -42,7 +42,7 @@ public class IndicatorUtilityTests : TestBase
         var parameters = new Dictionary<string, object> { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<object> results = IndicatorUtility.ExecuteById(id, style, quotes, parameters);
+        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
@@ -64,7 +64,7 @@ public class IndicatorUtilityTests : TestBase
         var parameters = new Dictionary<string, object> { { "lookbackPeriods", 20 } };
 
         // Act
-        IReadOnlyList<object> results = IndicatorUtility.ExecuteById(id, style, quotes, parameters);
+        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
@@ -85,7 +85,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteById(id, style, quotes);
+        Action act = () => quotes.ExecuteById(id, style);
         act.Should().Throw<InvalidOperationException>()
            .WithMessage("*not found in registry*");
     }
@@ -99,7 +99,7 @@ public class IndicatorUtilityTests : TestBase
         IEnumerable<IQuote> quotes = null!;
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteById(id, style, quotes);
+        Action act = () => quotes.ExecuteById(id, style);
         act.Should().Throw<ArgumentNullException>()
            .WithMessage("*quotes*");
     }
@@ -113,7 +113,7 @@ public class IndicatorUtilityTests : TestBase
         var quotes = Quotes.Take(50);
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteById(id, style, quotes);
+        Action act = () => quotes.ExecuteById(id, style);
         act.Should().Throw<ArgumentException>()
            .WithMessage("*ID cannot be null or empty*");
     }
@@ -132,7 +132,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> results = IndicatorUtility.ExecuteFromJson(json, quotes);
+        IReadOnlyList<object> results = quotes.ExecuteFromJson(json);
 
         // Assert
         results.Should().NotBeNull();
@@ -157,7 +157,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> results = IndicatorUtility.ExecuteFromJson(json, quotes);
+        IReadOnlyList<object> results = quotes.ExecuteFromJson(json);
 
         // Assert
         results.Should().NotBeNull();
@@ -173,7 +173,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteFromJson(json, quotes);
+        Action act = () => quotes.ExecuteFromJson(json);
         act.Should().Throw<ArgumentException>()
            .WithMessage("*Invalid JSON configuration*");
     }
@@ -186,7 +186,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteFromJson(json, quotes);
+        Action act = () => quotes.ExecuteFromJson(json);
         act.Should().Throw<ArgumentNullException>()
            .WithMessage("*json*");
     }
@@ -199,7 +199,7 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteFromJson(json, quotes);
+        Action act = () => quotes.ExecuteFromJson(json);
         act.Should().Throw<ArgumentException>()
            .WithMessage("*JSON configuration cannot be null or empty*");
     }
@@ -213,7 +213,7 @@ public class IndicatorUtilityTests : TestBase
         IEnumerable<IQuote> quotes = null!;
 
         // Act & Assert
-        Action act = () => IndicatorUtility.ExecuteFromJson(json, quotes);
+        Action act = () => quotes.ExecuteFromJson(json);
         act.Should().Throw<ArgumentNullException>()
            .WithMessage("*quotes*");
     }
@@ -228,7 +228,7 @@ public class IndicatorUtilityTests : TestBase
         var parameters = new Dictionary<string, object> { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<object> results = IndicatorUtility.ExecuteById(id, style, quotes, parameters);
+        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
@@ -257,8 +257,8 @@ public class IndicatorUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> jsonResults = IndicatorUtility.ExecuteFromJson(json, quotes);
-        IReadOnlyList<object> directResults = IndicatorUtility.ExecuteById(originalConfig.Id, originalConfig.Style, quotes, originalConfig.Parameters);
+        IReadOnlyList<object> jsonResults = quotes.ExecuteFromJson(json);
+        IReadOnlyList<object> directResults = quotes.ExecuteById(originalConfig.Id, originalConfig.Style, originalConfig.Parameters);
 
         // Assert
         jsonResults.Should().NotBeNull();

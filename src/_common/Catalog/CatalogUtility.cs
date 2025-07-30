@@ -8,23 +8,23 @@ namespace Skender.Stock.Indicators;
 /// Provides simple methods to execute indicators using only ID and Style without requiring
 /// prior knowledge of result types or implementation syntax.
 /// </summary>
-public static class IndicatorUtility
+public static class CatalogUtility
 {
     /// <summary>
     /// Executes an indicator using only its ID and style.
     /// </summary>
+    /// <param name="quotes">The quotes to process.</param>
     /// <param name="id">The indicator ID (e.g., "EMA", "RSI", "MACD").</param>
     /// <param name="style">The indicator style (Series, Stream, or Buffer).</param>
-    /// <param name="quotes">The quotes to process.</param>
     /// <param name="parameters">Optional parameter overrides.</param>
     /// <returns>The indicator results as a list of objects.</returns>
     /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
     /// <exception cref="ArgumentException">Thrown when id is null or empty.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
     public static IReadOnlyList<object> ExecuteById(
+        this IEnumerable<IQuote> quotes,
         string id,
         Style style,
-        IEnumerable<IQuote> quotes,
         Dictionary<string, object>? parameters = null)
     {
         // Validate inputs
@@ -49,19 +49,19 @@ public static class IndicatorUtility
     /// <summary>
     /// Executes an indicator from a JSON configuration string.
     /// </summary>
-    /// <param name="json">The JSON configuration string containing indicator settings.</param>
     /// <param name="quotes">The quotes to process.</param>
+    /// <param name="json">The JSON configuration string containing indicator settings.</param>
     /// <returns>The indicator results as a list of objects.</returns>
     /// <exception cref="ArgumentNullException">Thrown when json or quotes is null.</exception>
     /// <exception cref="ArgumentException">Thrown when json is empty or invalid.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
     public static IReadOnlyList<object> ExecuteFromJson(
-        string json,
-        IEnumerable<IQuote> quotes)
+        this IEnumerable<IQuote> quotes,
+        string json)
     {
         // Validate inputs
-        ArgumentNullException.ThrowIfNull(json);
         ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(json);
 
         if (string.IsNullOrWhiteSpace(json))
         {
@@ -84,7 +84,7 @@ public static class IndicatorUtility
         var convertedParameters = ConvertJsonElementsInParameters(config.Parameters);
 
         // Execute using the parsed configuration
-        return ExecuteById(config.Id, config.Style, quotes, convertedParameters);
+        return quotes.ExecuteById(config.Id, config.Style, convertedParameters);
     }
 
     /// <summary>
