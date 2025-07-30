@@ -39,7 +39,7 @@ public class AdlTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Accumulation Distribution Line (ADL)");
+        listing.Name.Should().Be("Accumulation Distribution Line (ADL) (Stream)");
         listing.Uiid.Should().Be("ADL");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);

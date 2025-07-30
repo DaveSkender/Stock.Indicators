@@ -21,7 +21,7 @@ public class BetaTests : TestBase
         listing.MethodName.Should().Be("ToBeta");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(3);
+        listing.Parameters.Should().HaveCount(4);
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
