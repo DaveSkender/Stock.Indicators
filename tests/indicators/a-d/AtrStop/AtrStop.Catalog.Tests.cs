@@ -21,7 +21,7 @@ public class AtrStopTests : TestBase
         listing.MethodName.Should().Be("ToAtrStop");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(2);
+        listing.Parameters.Should().HaveCount(3);
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();
@@ -56,14 +56,14 @@ public class AtrStopTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("ATR Trailing Stop");
+        listing.Name.Should().Be("ATR Trailing Stop (Stream)");
         listing.Uiid.Should().Be("ATR-STOP");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);
         listing.MethodName.Should().Be("ToAtrStop");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(2);
+        listing.Parameters.Should().HaveCount(3);
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();

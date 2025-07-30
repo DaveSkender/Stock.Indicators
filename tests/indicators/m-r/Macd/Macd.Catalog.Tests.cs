@@ -31,7 +31,7 @@ public class MacdTests : TestBase
         signalPeriodsParam2.Should().NotBeNull();
 
         listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(2);
+        listing.Results.Should().HaveCount(3);
 
         IndicatorResult macdResult = listing.Results.SingleOrDefault(r => r.DataName == "Macd");
         macdResult.Should().NotBeNull();

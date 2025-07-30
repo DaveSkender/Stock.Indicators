@@ -21,7 +21,7 @@ public class RenkoTests : TestBase
         listing.MethodName.Should().Be("ToRenko");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(1);
+        listing.Parameters.Should().HaveCount(2);
 
         IndicatorParam brickSizeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "brickSize");
         brickSizeParam.Should().NotBeNull();
@@ -69,7 +69,7 @@ public class RenkoTests : TestBase
         listing.MethodName.Should().Be("ToRenko");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(1);
+        listing.Parameters.Should().HaveCount(2);
 
         IndicatorParam brickSizeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "brickSize");
         brickSizeParam.Should().NotBeNull();

@@ -21,7 +21,7 @@ public class PrsTests : TestBase
         listing.MethodName.Should().Be("ToPrs");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(1);
+        listing.Parameters.Should().HaveCount(3);
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();

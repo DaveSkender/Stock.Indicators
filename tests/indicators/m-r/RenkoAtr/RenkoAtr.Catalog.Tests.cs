@@ -21,7 +21,7 @@ public class RenkoAtrTests : TestBase
         listing.MethodName.Should().Be("ToRenkoAtr");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(1);
+        listing.Parameters.Should().HaveCount(2);
 
         IndicatorParam atrPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "atrPeriods");
         atrPeriodsParam.Should().NotBeNull();

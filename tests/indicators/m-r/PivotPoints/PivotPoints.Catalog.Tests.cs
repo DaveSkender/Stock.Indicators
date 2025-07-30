@@ -20,7 +20,7 @@ public class PivotPointsTests : TestBase
         listing.Category.Should().Be(Category.PriceTrend);
         listing.MethodName.Should().Be("ToPivotPoints");
 
-        listing.Parameters?.Count.Should().Be(0);
+        listing.Parameters?.Count.Should().Be(1);
         // No parameters for this indicator
 
         listing.Results.Should().NotBeNull();

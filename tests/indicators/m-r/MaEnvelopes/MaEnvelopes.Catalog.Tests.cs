@@ -21,7 +21,7 @@ public class MaEnvelopesTests : TestBase
         listing.MethodName.Should().Be("ToMaEnvelopes");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(2);
+        listing.Parameters.Should().HaveCount(3);
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();

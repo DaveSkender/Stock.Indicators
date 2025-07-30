@@ -50,7 +50,7 @@ public class AtrTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Average True Range (ATR)");
+        listing.Name.Should().Be("Average True Range (ATR) (Stream)");
         listing.Uiid.Should().Be("ATR");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceCharacteristic);

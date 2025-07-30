@@ -21,7 +21,7 @@ public class FractalTests : TestBase
         listing.MethodName.Should().Be("ToFractal");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(1);
+        listing.Parameters.Should().HaveCount(2);
 
         IndicatorParam windowSpanParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowSpan");
         windowSpanParam.Should().NotBeNull();

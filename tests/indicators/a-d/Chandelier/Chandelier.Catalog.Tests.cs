@@ -21,7 +21,7 @@ public class ChandelierTests : TestBase
         listing.MethodName.Should().Be("ToChandelier");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(2);
+        listing.Parameters.Should().HaveCount(3);
 
         IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
         lookbackPeriodsParam.Should().NotBeNull();

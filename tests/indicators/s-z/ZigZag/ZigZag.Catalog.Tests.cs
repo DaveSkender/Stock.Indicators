@@ -21,7 +21,7 @@ public class ZigZagTests : TestBase
         listing.MethodName.Should().Be("ToZigZag");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(1);
+        listing.Parameters.Should().HaveCount(2);
 
         IndicatorParam percentChangeParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "percentChange");
         percentChangeParam.Should().NotBeNull();

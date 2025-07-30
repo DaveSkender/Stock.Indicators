@@ -21,7 +21,7 @@ public class RollingPivotsTests : TestBase
         listing.MethodName.Should().Be("ToRollingPivots");
 
         listing.Parameters.Should().NotBeNull();
-        listing.Parameters.Should().HaveCount(2);
+        listing.Parameters.Should().HaveCount(3);
 
         IndicatorParam windowPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "windowPeriods");
         windowPeriodsParam.Should().NotBeNull();

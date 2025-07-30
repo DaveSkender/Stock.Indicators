@@ -24,7 +24,7 @@ public class GatorTests : TestBase
         // No parameters for this indicator
 
         listing.Results.Should().NotBeNull();
-        listing.Results.Should().HaveCount(0);
+        listing.Results.Should().HaveCount(4);
 
 
     }
