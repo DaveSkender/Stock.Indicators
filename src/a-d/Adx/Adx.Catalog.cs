@@ -23,7 +23,7 @@ public static partial class Adx
     // ADX Buffer Listing
     internal static readonly IndicatorListing BufferListing =
         new IndicatorListingBuilder()
-            .WithName("Average Directional Index (ADX) (Buffer)")
+            .WithName("Average Directional Index (ADX)")
             .WithId("ADX")
             .WithStyle(Style.Buffer)
             .WithCategory(Category.PriceTrend)

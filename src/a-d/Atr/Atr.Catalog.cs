@@ -19,7 +19,7 @@ public static partial class Atr
     // ATR Stream Listing
     internal static readonly IndicatorListing StreamListing =
         new IndicatorListingBuilder()
-            .WithName("Average True Range (ATR) (Stream)")
+            .WithName("Average True Range (ATR)")
             .WithId("ATR")
             .WithStyle(Style.Stream)
             .WithCategory(Category.PriceCharacteristic)

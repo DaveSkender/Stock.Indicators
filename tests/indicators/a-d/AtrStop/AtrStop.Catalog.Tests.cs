@@ -56,7 +56,7 @@ public class AtrStopTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("ATR Trailing Stop (Stream)");
+        listing.Name.Should().Be("ATR Trailing Stop");
         listing.Uiid.Should().Be("ATR-STOP");
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.PriceTrend);

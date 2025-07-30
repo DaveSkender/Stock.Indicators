@@ -58,7 +58,7 @@ public class AdxTests : TestBase
 
         // Assert
         listing.Should().NotBeNull();
-        listing.Name.Should().Be("Average Directional Index (ADX) (Buffer)");
+        listing.Name.Should().Be("Average Directional Index (ADX)");
         listing.Uiid.Should().Be("ADX");
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.PriceTrend);
