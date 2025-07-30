@@ -9,7 +9,7 @@ namespace Tests.Common.Catalog;
 public class CatalogUtilityTests : TestBase
 {
     [TestMethod]
-    public void ExecuteById_WithValidIndicator_ReturnsResults()
+    public void ExecuteByIdWithValidIndicatorReturnsResults()
     {
         // Arrange
         string id = "RSI";
@@ -33,7 +33,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteById_WithParameters_ReturnsResults()
+    public void ExecuteByIdWithParametersReturnsResults()
     {
         // Arrange
         string id = "RSI";
@@ -55,7 +55,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteById_WithEma_ReturnsResults()
+    public void ExecuteByIdWithEmaReturnsResults()
     {
         // Arrange
         string id = "EMA";
@@ -77,7 +77,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteById_WithInvalidId_ThrowsException()
+    public void ExecuteByIdWithInvalidIdThrowsException()
     {
         // Arrange
         string id = "INVALID_INDICATOR";
@@ -91,7 +91,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteById_WithNullQuotes_ThrowsArgumentNullException()
+    public void ExecuteByIdWithNullQuotesThrowsArgumentNullException()
     {
         // Arrange
         string id = "RSI";
@@ -105,7 +105,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteById_WithEmptyId_ThrowsArgumentException()
+    public void ExecuteByIdWithEmptyIdThrowsArgumentException()
     {
         // Arrange
         string id = "";
@@ -119,7 +119,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_WithValidConfig_ReturnsResults()
+    public void ExecuteFromJsonWithValidConfigReturnsResults()
     {
         // Arrange
         var config = new IndicatorConfig
@@ -145,7 +145,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_WithMinimalConfig_ReturnsResults()
+    public void ExecuteFromJsonWithMinimalConfigReturnsResults()
     {
         // Arrange - minimal configuration with just ID and Style
         var config = new IndicatorConfig
@@ -166,7 +166,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_WithInvalidJson_ThrowsArgumentException()
+    public void ExecuteFromJsonWithInvalidJsonThrowsArgumentException()
     {
         // Arrange
         string json = "{ invalid json }";
@@ -179,7 +179,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_WithNullJson_ThrowsArgumentNullException()
+    public void ExecuteFromJsonWithNullJsonThrowsArgumentNullException()
     {
         // Arrange
         string json = null!;
@@ -192,7 +192,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_WithEmptyJson_ThrowsArgumentException()
+    public void ExecuteFromJsonWithEmptyJsonThrowsArgumentException()
     {
         // Arrange
         string json = "";
@@ -205,7 +205,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_WithNullQuotes_ThrowsArgumentNullException()
+    public void ExecuteFromJsonWithNullQuotesThrowsArgumentNullException()
     {
         // Arrange
         var config = new IndicatorConfig { Id = "RSI", Style = Style.Series };
@@ -219,7 +219,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteById_WithSma_ReturnsResults()
+    public void ExecuteByIdWithSmaReturnsResults()
     {
         // Arrange
         string id = "SMA";
@@ -241,7 +241,7 @@ public class CatalogUtilityTests : TestBase
     }
 
     [TestMethod]
-    public void ExecuteFromJson_RoundTrip_ProducesConsistentResults()
+    public void ExecuteFromJsonRoundTripProducesConsistentResults()
     {
         // Arrange - test that we can serialize and deserialize a config and get the same results
         var originalConfig = new IndicatorConfig
