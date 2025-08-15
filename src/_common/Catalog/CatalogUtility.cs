@@ -175,12 +175,6 @@ public static class CatalogUtility
         // Handle special cases where the pattern doesn't match
         return typeName switch
         {
-            "MacdResult" => "MacdResult",
-            "RsiResult" => "RsiResult", 
-            "EmaResult" => "EmaResult",
-            "SmaResult" => "SmaResult",
-            "AdxResult" => "AdxResult",
-            "AtrResult" => "AtrResult",
             "BollingerResult" => "BollingerBandsResult",
             _ => typeName
         };
@@ -220,7 +214,12 @@ public static class CatalogUtility
         {
             if (kvp.Value is JsonElement jsonElement)
             {
-                converted[kvp.Key] = ConvertJsonElement(jsonElement);
+                object? convertedValue = ConvertJsonElement(jsonElement);
+                // Skip null values to maintain Dictionary<string, object> compatibility
+                if (convertedValue != null)
+                {
+                    converted[kvp.Key] = convertedValue;
+                }
             }
             else
             {
@@ -235,8 +234,8 @@ public static class CatalogUtility
     /// Converts a JsonElement to its appropriate .NET type.
     /// </summary>
     /// <param name="element">The JsonElement to convert.</param>
-    /// <returns>The converted value.</returns>
-    private static object ConvertJsonElement(JsonElement element)
+    /// <returns>The converted value, or null for null JsonElements.</returns>
+    private static object? ConvertJsonElement(JsonElement element)
     {
         return element.ValueKind switch
         {
@@ -245,7 +244,7 @@ public static class CatalogUtility
             JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
             JsonValueKind.True => true,
             JsonValueKind.False => false,
-            JsonValueKind.Null => null!,
+            JsonValueKind.Null => null,
             _ => element.ToString()
         };
     }
