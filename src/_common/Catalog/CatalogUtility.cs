@@ -10,6 +10,77 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static class CatalogUtility
 {
+    // Internal type mapping for performance - avoids reflection overhead
+    private static readonly Dictionary<string, Type> TypeMapping = new()
+    {
+        { "AdlResult", typeof(AdlResult) },
+        { "AdxResult", typeof(AdxResult) },
+        { "AlligatorResult", typeof(AlligatorResult) },
+        { "AlmaResult", typeof(AlmaResult) },
+        { "AroonResult", typeof(AroonResult) },
+        { "AtrResult", typeof(AtrResult) },
+        { "AwesomeResult", typeof(AwesomeResult) },
+        { "BetaResult", typeof(BetaResult) },
+        { "BollingerBandsResult", typeof(BollingerBandsResult) },
+        { "BopResult", typeof(BopResult) },
+        { "CciResult", typeof(CciResult) },
+        { "ChaikinOscResult", typeof(ChaikinOscResult) },
+        { "ChandelierResult", typeof(ChandelierResult) },
+        { "CmfResult", typeof(CmfResult) },
+        { "CmoResult", typeof(CmoResult) },
+        { "ConnorsRsiResult", typeof(ConnorsRsiResult) },
+        { "CorrResult", typeof(CorrResult) },
+        { "DemaResult", typeof(DemaResult) },
+        { "DonchianResult", typeof(DonchianResult) },
+        { "DpoResult", typeof(DpoResult) },
+        { "EmaResult", typeof(EmaResult) },
+        { "EpmaResult", typeof(EpmaResult) },
+        { "FcbResult", typeof(FcbResult) },
+        { "FisherTransformResult", typeof(FisherTransformResult) },
+        { "ForceIndexResult", typeof(ForceIndexResult) },
+        { "FractalResult", typeof(FractalResult) },
+        { "GatorResult", typeof(GatorResult) },
+        { "HeikinAshiResult", typeof(HeikinAshiResult) },
+        { "HmaResult", typeof(HmaResult) },
+        { "HtlResult", typeof(HtlResult) },
+        { "IchimokuResult", typeof(IchimokuResult) },
+        { "KamaResult", typeof(KamaResult) },
+        { "KeltnerResult", typeof(KeltnerResult) },
+        { "MacdResult", typeof(MacdResult) },
+        { "MamaResult", typeof(MamaResult) },
+        { "MfiResult", typeof(MfiResult) },
+        { "ObvResult", typeof(ObvResult) },
+        { "ParabolicSarResult", typeof(ParabolicSarResult) },
+        { "PivotPointsResult", typeof(PivotPointsResult) },
+        { "PmoResult", typeof(PmoResult) },
+        { "PrsResult", typeof(PrsResult) },
+        { "PvoResult", typeof(PvoResult) },
+        { "RenkoResult", typeof(RenkoResult) },
+        { "RocResult", typeof(RocResult) },
+        { "RsiResult", typeof(RsiResult) },
+        { "SlopeResult", typeof(SlopeResult) },
+        { "SmaResult", typeof(SmaResult) },
+        { "SmmaResult", typeof(SmmaResult) },
+        { "StcResult", typeof(StcResult) },
+        { "StdDevResult", typeof(StdDevResult) },
+        { "StochResult", typeof(StochResult) },
+        { "StochRsiResult", typeof(StochRsiResult) },
+        { "SuperTrendResult", typeof(SuperTrendResult) },
+        { "T3Result", typeof(T3Result) },
+        { "TemaResult", typeof(TemaResult) },
+        { "TrixResult", typeof(TrixResult) },
+        { "TsiResult", typeof(TsiResult) },
+        { "UlcerIndexResult", typeof(UlcerIndexResult) },
+        { "UltimateResult", typeof(UltimateResult) },
+        { "VortexResult", typeof(VortexResult) },
+        { "VwapResult", typeof(VwapResult) },
+        { "VwmaResult", typeof(VwmaResult) },
+        { "WilliamsResult", typeof(WilliamsResult) },
+        { "WmaResult", typeof(WmaResult) },
+        { "ZigZagResult", typeof(ZigZagResult) }
+    };
+
+    private static readonly object _typeMappingLock = new();
     /// <summary>
     /// Executes an indicator using only its ID and style.
     /// </summary>
@@ -137,12 +208,7 @@ public static class CatalogUtility
             // Convert the result to a list of objects
             if (result is System.Collections.IEnumerable enumerable)
             {
-                List<object> convertedList = [];
-                foreach (object item in enumerable)
-                {
-                    convertedList.Add(item);
-                }
-                return convertedList;
+                return enumerable.Cast<object>().ToList();
             }
             throw new InvalidOperationException("Method execution did not return a valid result collection.");
         }
@@ -181,18 +247,34 @@ public static class CatalogUtility
     }
 
     /// <summary>
-    /// Gets a result type by name from the indicators assembly.
+    /// Gets a result type by name from the indicators assembly or internal mapping.
     /// </summary>
     /// <param name="typeName">The name of the type to find.</param>
     /// <returns>The Type if found, otherwise null.</returns>
     private static Type? GetResultType(string typeName)
     {
-        // Get the assembly containing the indicators
+        // First check our internal mapping for performance
+        lock (_typeMappingLock)
+        {
+            if (TypeMapping.TryGetValue(typeName, out Type? mappedType))
+            {
+                return mappedType;
+            }
+        }
+
+        // Fallback to reflection for unmapped types
         System.Reflection.Assembly indicatorsAssembly = typeof(Ema).Assembly;
-        
-        // Search for the type in the assembly
         Type? resultType = indicatorsAssembly.GetTypes()
             .FirstOrDefault(t => t.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
+
+        // Cache the result for future use
+        if (resultType != null)
+        {
+            lock (_typeMappingLock)
+            {
+                TypeMapping.TryAdd(typeName, resultType);
+            }
+        }
 
         return resultType;
     }
