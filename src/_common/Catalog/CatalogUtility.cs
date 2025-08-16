@@ -13,74 +13,74 @@ public static class CatalogUtility
     // Internal type mapping for performance - avoids reflection overhead
     private static readonly Dictionary<string, Type> TypeMapping = new()
     {
-        { "AdlResult", typeof(AdlResult) },
-        { "AdxResult", typeof(AdxResult) },
-        { "AlligatorResult", typeof(AlligatorResult) },
-        { "AlmaResult", typeof(AlmaResult) },
-        { "AroonResult", typeof(AroonResult) },
-        { "AtrResult", typeof(AtrResult) },
-        { "AwesomeResult", typeof(AwesomeResult) },
-        { "BetaResult", typeof(BetaResult) },
-        { "BollingerBandsResult", typeof(BollingerBandsResult) },
-        { "BopResult", typeof(BopResult) },
-        { "CciResult", typeof(CciResult) },
-        { "ChaikinOscResult", typeof(ChaikinOscResult) },
-        { "ChandelierResult", typeof(ChandelierResult) },
-        { "CmfResult", typeof(CmfResult) },
-        { "CmoResult", typeof(CmoResult) },
-        { "ConnorsRsiResult", typeof(ConnorsRsiResult) },
-        { "CorrResult", typeof(CorrResult) },
-        { "DemaResult", typeof(DemaResult) },
-        { "DonchianResult", typeof(DonchianResult) },
-        { "DpoResult", typeof(DpoResult) },
-        { "EmaResult", typeof(EmaResult) },
-        { "EpmaResult", typeof(EpmaResult) },
-        { "FcbResult", typeof(FcbResult) },
-        { "FisherTransformResult", typeof(FisherTransformResult) },
-        { "ForceIndexResult", typeof(ForceIndexResult) },
-        { "FractalResult", typeof(FractalResult) },
-        { "GatorResult", typeof(GatorResult) },
-        { "HeikinAshiResult", typeof(HeikinAshiResult) },
-        { "HmaResult", typeof(HmaResult) },
-        { "HtlResult", typeof(HtlResult) },
-        { "IchimokuResult", typeof(IchimokuResult) },
-        { "KamaResult", typeof(KamaResult) },
-        { "KeltnerResult", typeof(KeltnerResult) },
-        { "MacdResult", typeof(MacdResult) },
-        { "MamaResult", typeof(MamaResult) },
-        { "MfiResult", typeof(MfiResult) },
-        { "ObvResult", typeof(ObvResult) },
-        { "ParabolicSarResult", typeof(ParabolicSarResult) },
-        { "PivotPointsResult", typeof(PivotPointsResult) },
-        { "PmoResult", typeof(PmoResult) },
-        { "PrsResult", typeof(PrsResult) },
-        { "PvoResult", typeof(PvoResult) },
-        { "RenkoResult", typeof(RenkoResult) },
-        { "RocResult", typeof(RocResult) },
-        { "RsiResult", typeof(RsiResult) },
-        { "SlopeResult", typeof(SlopeResult) },
-        { "SmaResult", typeof(SmaResult) },
-        { "SmmaResult", typeof(SmmaResult) },
-        { "StcResult", typeof(StcResult) },
-        { "StdDevResult", typeof(StdDevResult) },
-        { "StochResult", typeof(StochResult) },
-        { "StochRsiResult", typeof(StochRsiResult) },
-        { "SuperTrendResult", typeof(SuperTrendResult) },
-        { "T3Result", typeof(T3Result) },
-        { "TemaResult", typeof(TemaResult) },
-        { "TrixResult", typeof(TrixResult) },
-        { "TsiResult", typeof(TsiResult) },
-        { "UlcerIndexResult", typeof(UlcerIndexResult) },
-        { "UltimateResult", typeof(UltimateResult) },
-        { "VortexResult", typeof(VortexResult) },
-        { "VwapResult", typeof(VwapResult) },
-        { "VwmaResult", typeof(VwmaResult) },
-        { "WilliamsResult", typeof(WilliamsResult) },
-        { "WmaResult", typeof(WmaResult) },
-        { "ZigZagResult", typeof(ZigZagResult) }
+        { nameof(AdlResult), typeof(AdlResult) },
+        { nameof(AdxResult), typeof(AdxResult) },
+        { nameof(AlligatorResult), typeof(AlligatorResult) },
+        { nameof(AlmaResult), typeof(AlmaResult) },
+        { nameof(AroonResult), typeof(AroonResult) },
+        { nameof(AtrResult), typeof(AtrResult) },
+        { nameof(AwesomeResult), typeof(AwesomeResult) },
+        { nameof(BetaResult), typeof(BetaResult) },
+        { nameof(BollingerBandsResult), typeof(BollingerBandsResult) },
+        { nameof(BopResult), typeof(BopResult) },
+        { nameof(CciResult), typeof(CciResult) },
+        { nameof(ChaikinOscResult), typeof(ChaikinOscResult) },
+        { nameof(ChandelierResult), typeof(ChandelierResult) },
+        { nameof(CmfResult), typeof(CmfResult) },
+        { nameof(CmoResult), typeof(CmoResult) },
+        { nameof(ConnorsRsiResult), typeof(ConnorsRsiResult) },
+        { nameof(CorrResult), typeof(CorrResult) },
+        { nameof(DemaResult), typeof(DemaResult) },
+        { nameof(DonchianResult), typeof(DonchianResult) },
+        { nameof(DpoResult), typeof(DpoResult) },
+        { nameof(EmaResult), typeof(EmaResult) },
+        { nameof(EpmaResult), typeof(EpmaResult) },
+        { nameof(FcbResult), typeof(FcbResult) },
+        { nameof(FisherTransformResult), typeof(FisherTransformResult) },
+        { nameof(ForceIndexResult), typeof(ForceIndexResult) },
+        { nameof(FractalResult), typeof(FractalResult) },
+        { nameof(GatorResult), typeof(GatorResult) },
+        { nameof(HeikinAshiResult), typeof(HeikinAshiResult) },
+        { nameof(HmaResult), typeof(HmaResult) },
+        { nameof(HtlResult), typeof(HtlResult) },
+        { nameof(IchimokuResult), typeof(IchimokuResult) },
+        { nameof(KamaResult), typeof(KamaResult) },
+        { nameof(KeltnerResult), typeof(KeltnerResult) },
+        { nameof(MacdResult), typeof(MacdResult) },
+        { nameof(MamaResult), typeof(MamaResult) },
+        { nameof(MfiResult), typeof(MfiResult) },
+        { nameof(ObvResult), typeof(ObvResult) },
+        { nameof(ParabolicSarResult), typeof(ParabolicSarResult) },
+        { nameof(PivotPointsResult), typeof(PivotPointsResult) },
+        { nameof(PmoResult), typeof(PmoResult) },
+        { nameof(PrsResult), typeof(PrsResult) },
+        { nameof(PvoResult), typeof(PvoResult) },
+        { nameof(RenkoResult), typeof(RenkoResult) },
+        { nameof(RocResult), typeof(RocResult) },
+        { nameof(RsiResult), typeof(RsiResult) },
+        { nameof(SlopeResult), typeof(SlopeResult) },
+        { nameof(SmaResult), typeof(SmaResult) },
+        { nameof(SmmaResult), typeof(SmmaResult) },
+        { nameof(StcResult), typeof(StcResult) },
+        { nameof(StdDevResult), typeof(StdDevResult) },
+        { nameof(StochResult), typeof(StochResult) },
+        { nameof(StochRsiResult), typeof(StochRsiResult) },
+        { nameof(SuperTrendResult), typeof(SuperTrendResult) },
+        { nameof(T3Result), typeof(T3Result) },
+        { nameof(TemaResult), typeof(TemaResult) },
+        { nameof(TrixResult), typeof(TrixResult) },
+        { nameof(TsiResult), typeof(TsiResult) },
+        { nameof(UlcerIndexResult), typeof(UlcerIndexResult) },
+        { nameof(UltimateResult), typeof(UltimateResult) },
+        { nameof(VortexResult), typeof(VortexResult) },
+        { nameof(VwapResult), typeof(VwapResult) },
+        { nameof(VwmaResult), typeof(VwmaResult) },
+        { nameof(WilliamsResult), typeof(WilliamsResult) },
+        { nameof(WmaResult), typeof(WmaResult) },
+        { nameof(ZigZagResult), typeof(ZigZagResult) }
     };
 
-    private static readonly object _typeMappingLock = new();
+    private static readonly ReaderWriterLockSlim _typeMappingLock = new();
     /// <summary>
     /// Executes an indicator using only its ID and style.
     /// </summary>
@@ -203,17 +203,13 @@ public static class CatalogUtility
         // Execute the method
         object? result = genericMethod.Invoke(null, [quotes, listing, parameters]);
         
-        if (result is not IEnumerable<object> objectList)
+        // Convert the result to a list of objects using LINQ
+        if (result is System.Collections.IEnumerable enumerable)
         {
-            // Convert the result to a list of objects
-            if (result is System.Collections.IEnumerable enumerable)
-            {
-                return enumerable.Cast<object>().ToList();
-            }
-            throw new InvalidOperationException("Method execution did not return a valid result collection.");
+            return enumerable.Cast<object>().ToList();
         }
-
-        return objectList.ToList();
+        
+        throw new InvalidOperationException("Method execution did not return a valid result collection.");
     }
 
     /// <summary>
@@ -254,12 +250,17 @@ public static class CatalogUtility
     private static Type? GetResultType(string typeName)
     {
         // First check our internal mapping for performance
-        lock (_typeMappingLock)
+        _typeMappingLock.EnterReadLock();
+        try
         {
             if (TypeMapping.TryGetValue(typeName, out Type? mappedType))
             {
                 return mappedType;
             }
+        }
+        finally
+        {
+            _typeMappingLock.ExitReadLock();
         }
 
         // Fallback to reflection for unmapped types
@@ -270,9 +271,14 @@ public static class CatalogUtility
         // Cache the result for future use
         if (resultType != null)
         {
-            lock (_typeMappingLock)
+            _typeMappingLock.EnterWriteLock();
+            try
             {
                 TypeMapping.TryAdd(typeName, resultType);
+            }
+            finally
+            {
+                _typeMappingLock.ExitWriteLock();
             }
         }
 
