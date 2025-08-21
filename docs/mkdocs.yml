@@ -72,38 +72,72 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/DaveSkender/Stock.Indicators
+      name: GitHub Repository
     - icon: fontawesome/solid/box
       link: https://www.nuget.org/packages/Skender.Stock.Indicators
+      name: NuGet Package
+    - icon: fontawesome/brands/discord
+      link: https://github.com/DaveSkender/Stock.Indicators/discussions
+      name: Community Discussions
   generator: false # Remove generator meta tag
   manifest: manifest.webmanifest
   # Set preferred color scheme to dark
   homepage: https://dotnet.stockindicators.dev
+  # SEO enhancements
+  cards: true
+  cards_layout_options:
+    background_color: "#0d1117"
+    color: "#f0f6fc"
 
 extra_css:
   - assets/css/custom.css
 
 plugins:
-  - search
+  - search:
+      lang: en
+      separator: '[\s\-\.]+'
   - minify:
       minify_html: true
       minify_js: true
       minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+        remove_empty_space: true
+      cache_safe: true
 
 markdown_extensions:
   - toc:
       permalink: true
+      permalink_title: "Permanent link"
+      baselevel: 1
+      separator: "-"
   - tables
   - fenced_code
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path: includes
-  - pymdownx.superfences
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - admonition
   - pymdownx.details
   - attr_list
   - md_in_html
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
   - Home: index.md

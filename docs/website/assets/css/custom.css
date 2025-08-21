@@ -1,43 +1,52 @@
 /* GitHub Docs Inspired Dark Theme for Stock Indicators for .NET */
 
 :root {
-  /* GitHub-inspired color palette */
+  /* GitHub-inspired color palette - enhanced for accessibility */
   --md-primary-fg-color: #0d1117;
   --md-primary-fg-color--light: #161b22;
   --md-primary-fg-color--dark: #010409;
-  --md-accent-fg-color: #2f81f7;
-  --md-accent-fg-color--transparent: rgba(47, 129, 247, 0.1);
+  --md-accent-fg-color: #58a6ff;
+  --md-accent-fg-color--transparent: rgba(88, 166, 255, 0.12);
+  --md-accent-fg-color--hover: #79c0ff;
 
-  /* Background colors - GitHub Docs inspired */
+  /* Background colors - GitHub Docs inspired with better contrast */
   --md-default-bg-color: #0d1117;
   --md-default-bg-color--light: #161b22;
   --md-default-bg-color--lighter: #21262d;
   --md-default-bg-color--lightest: #30363d;
 
-  /* Text colors - GitHub inspired */
+  /* Text colors - GitHub inspired with improved contrast ratios */
   --md-default-fg-color: #f0f6fc;
   --md-default-fg-color--light: #e6edf3;
-  --md-default-fg-color--lighter: #7d8590;
-  --md-default-fg-color--lightest: #656d76;
+  --md-default-fg-color--lighter: #8b949e;
+  --md-default-fg-color--lightest: #6e7681;
 
-  /* Code colors */
+  /* Code colors - enhanced for readability */
   --md-code-bg-color: #161b22;
   --md-code-fg-color: #e6edf3;
-  --md-code-hl-color: rgba(47, 129, 247, 0.1);
+  --md-code-hl-color: rgba(88, 166, 255, 0.12);
+  --md-code-border-color: #30363d;
 
   /* Navigation */
   --md-nav-bg-color: #0d1117;
   --md-footer-bg-color: #010409;
   --md-footer-bg-color--dark: #010409;
 
-  /* Borders - subtle GitHub style */
+  /* Borders - subtle GitHub style with better visibility */
   --md-default-border-color: #30363d;
   --md-default-border-color--light: #21262d;
+  --md-default-border-color--lighter: #484f58;
 
-  /* Shadows - minimal */
-  --md-shadow-z1: 0 1px 3px rgba(0, 0, 0, 0.12);
-  --md-shadow-z2: 0 4px 6px rgba(0, 0, 0, 0.16);
-  --md-shadow-z3: 0 10px 20px rgba(0, 0, 0, 0.24);
+  /* Shadows - refined for depth */
+  --md-shadow-z1: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --md-shadow-z2: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --md-shadow-z3: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+  /* Status colors for better user feedback */
+  --md-success-fg-color: #3fb950;
+  --md-warning-fg-color: #d29922;
+  --md-error-fg-color: #f85149;
+  --md-info-fg-color: #58a6ff;
 }
 
 /* Overall page structure */
@@ -86,7 +95,7 @@
   color: var(--md-default-fg-color);
 }
 
-/* Navigation improvements */
+/* Navigation improvements with enhanced UX */
 .md-nav {
   font-size: 0.8rem;
   line-height: 1.4;
@@ -111,25 +120,62 @@
   padding: 0.4rem 0.8rem;
   margin: 0.125rem 0.5rem;
   font-weight: 400;
+  position: relative;
 }
 
 .md-nav__link:hover,
 .md-nav__link:focus {
   color: var(--md-default-fg-color);
   background: var(--md-default-bg-color--lighter);
+  transform: translateX(2px);
+}
+
+.md-nav__link:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
 }
 
 .md-nav__link--active {
   color: var(--md-default-fg-color);
   font-weight: 600;
   background: var(--md-accent-fg-color--transparent);
-  border-left: 2px solid var(--md-accent-fg-color);
+  border-left: 3px solid var(--md-accent-fg-color);
   padding-left: 0.7rem;
+}
+
+.md-nav__link--active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--md-accent-fg-color);
+  border-radius: 0 2px 2px 0;
 }
 
 .md-nav--primary .md-nav__title {
   color: var(--md-default-fg-color);
   font-weight: 600;
+}
+
+/* Enhanced nested navigation */
+.md-nav .md-nav {
+  padding-left: 0.5rem;
+}
+
+.md-nav .md-nav .md-nav__link {
+  padding-left: 1.2rem;
+  font-size: 0.75rem;
+  position: relative;
+}
+
+.md-nav .md-nav .md-nav__link::before {
+  content: "│";
+  position: absolute;
+  left: 0.8rem;
+  color: var(--md-default-fg-color--lightest);
+  opacity: 0.3;
 }
 
 /* Main content typography */
@@ -179,35 +225,56 @@
   margin-bottom: 0.5rem;
 }
 
-/* Links - GitHub style */
+/* Links - GitHub style with improved accessibility */
 .md-typeset a {
   color: var(--md-accent-fg-color);
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-.md-typeset a:hover {
+.md-typeset a:hover,
+.md-typeset a:focus {
+  color: var(--md-accent-fg-color--hover);
   text-decoration: underline;
 }
 
-/* Code styling - GitHub inspired */
+.md-typeset a:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* External link indicators for better UX */
+.md-typeset a[href^="http"]:not([href*="dotnet.stockindicators.dev"]):not([href*="localhost"])::after {
+  content: " ↗";
+  font-size: 0.8em;
+  opacity: 0.7;
+  margin-left: 0.125rem;
+}
+
+/* Code styling - GitHub inspired with enhanced readability */
 .md-typeset code {
   background: var(--md-code-bg-color);
   color: var(--md-code-fg-color);
-  border: 1px solid var(--md-default-border-color);
+  border: 1px solid var(--md-code-border-color);
   border-radius: 6px;
-  padding: 0.125rem 0.25rem;
+  padding: 0.125rem 0.375rem;
   font-size: 0.85em;
   font-weight: 400;
+  font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
 .md-typeset pre {
   background: var(--md-code-bg-color);
-  border: 1px solid var(--md-default-border-color);
-  border-radius: 6px;
+  border: 1px solid var(--md-code-border-color);
+  border-radius: 8px;
   overflow: auto;
   padding: 1rem;
   margin: 1rem 0;
+  box-shadow: var(--md-shadow-z1);
+  position: relative;
+  line-height: 1.45;
 }
 
 .md-typeset pre > code {
@@ -216,17 +283,40 @@
   padding: 0;
   font-size: 0.875rem;
   color: var(--md-code-fg-color);
+  line-height: inherit;
 }
 
-/* Copy button styling */
+/* Enhanced syntax highlighting */
+.highlight {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--md-shadow-z1);
+}
+
+.highlight pre {
+  border: none;
+  margin: 0;
+  box-shadow: none;
+}
+
+/* Copy button styling with better positioning */
 .md-code__copy {
   color: var(--md-default-fg-color--lighter);
   border-radius: 6px;
+  opacity: 0;
+  transition: all 0.2s ease;
+  background: var(--md-default-bg-color--lighter);
+  border: 1px solid var(--md-code-border-color);
 }
 
 .md-code__copy:hover {
-  background: var(--md-default-bg-color--lighter);
+  background: var(--md-default-bg-color--lightest);
   color: var(--md-default-fg-color);
+  border-color: var(--md-default-border-color--lighter);
+}
+
+.highlight:hover .md-code__copy {
+  opacity: 1;
 }
 
 /* Table styling - GitHub inspired */
@@ -397,32 +487,78 @@
   font-weight: 500;
 }
 
-/* Buttons - GitHub style */
+/* Buttons - GitHub style with enhanced accessibility */
 .md-typeset .md-button {
   background: transparent;
   border: 1px solid var(--md-default-border-color);
   border-radius: 6px;
   color: var(--md-default-fg-color);
   font-weight: 500;
-  padding: 0.375rem 0.75rem;
+  padding: 0.5rem 1rem;
   transition: all 0.2s ease;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  cursor: pointer;
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.md-typeset .md-button:hover {
+.md-typeset .md-button:hover,
+.md-typeset .md-button:focus {
   background: var(--md-default-bg-color--lighter);
-  border-color: var(--md-default-fg-color--lighter);
+  border-color: var(--md-default-border-color--lighter);
   color: var(--md-default-fg-color);
+  transform: translateY(-1px);
+  box-shadow: var(--md-shadow-z2);
+}
+
+.md-typeset .md-button:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
 }
 
 .md-typeset .md-button--primary {
   background: var(--md-accent-fg-color);
   border-color: var(--md-accent-fg-color);
-  color: white;
+  color: var(--md-primary-fg-color);
+  font-weight: 600;
 }
 
-.md-typeset .md-button--primary:hover {
-  background: #1c6cdb;
-  border-color: #1c6cdb;
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+  background: var(--md-accent-fg-color--hover);
+  border-color: var(--md-accent-fg-color--hover);
+  color: var(--md-primary-fg-color);
+}
+
+/* Enhanced icon buttons */
+.md-header__button,
+.md-content__button {
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.md-header__button:hover,
+.md-content__button:hover {
+  background: var(--md-default-bg-color--lighter);
+  transform: scale(1.05);
+}
+
+/* Back to top button enhancement */
+.md-top {
+  background: var(--md-accent-fg-color);
+  color: var(--md-primary-fg-color);
+  border-radius: 50%;
+  box-shadow: var(--md-shadow-z3);
+  transition: all 0.3s ease;
+}
+
+.md-top:hover {
+  background: var(--md-accent-fg-color--hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
 /* Responsive adjustments */
@@ -743,5 +879,127 @@
 }
 
 .md-typeset .headerlink:hover::before {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='%232f81f7' d='m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='%2358a6ff' d='m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z'/%3e%3c/svg%3e");
+}
+
+/* Loading animations and micro-interactions */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.md-content__inner {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Enhanced image handling */
+.md-typeset img {
+  border-radius: 8px;
+  box-shadow: var(--md-shadow-z1);
+  transition: transform 0.2s ease;
+  max-width: 100%;
+  height: auto;
+}
+
+.md-typeset img:hover {
+  transform: scale(1.02);
+  box-shadow: var(--md-shadow-z2);
+}
+
+/* Badge and status indicators */
+.md-typeset .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 12px;
+  border: 1px solid var(--md-default-border-color);
+  background: var(--md-default-bg-color--lighter);
+}
+
+.md-typeset .badge--success {
+  background: rgba(63, 185, 80, 0.1);
+  border-color: var(--md-success-fg-color);
+  color: var(--md-success-fg-color);
+}
+
+.md-typeset .badge--warning {
+  background: rgba(210, 153, 34, 0.1);
+  border-color: var(--md-warning-fg-color);
+  color: var(--md-warning-fg-color);
+}
+
+.md-typeset .badge--error {
+  background: rgba(248, 81, 73, 0.1);
+  border-color: var(--md-error-fg-color);
+  color: var(--md-error-fg-color);
+}
+
+/* Enhanced scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--md-default-bg-color--light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--md-default-fg-color--lightest);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--md-default-fg-color--lighter);
+}
+
+/* Performance optimizations */
+.md-typeset img,
+.md-typeset video {
+  will-change: transform;
+}
+
+/* Print styles */
+@media print {
+  .md-header,
+  .md-footer,
+  .md-nav,
+  .md-sidebar,
+  .md-content__button {
+    display: none !important;
+  }
+  
+  .md-content {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  
+  .md-typeset {
+    color: #000 !important;
+  }
+  
+  .md-typeset a {
+    text-decoration: underline !important;
+  }
+  
+  .md-typeset code,
+  .md-typeset pre {
+    border: 1px solid #ccc !important;
+    background: #f8f8f8 !important;
+    color: #000 !important;
+  }
 }

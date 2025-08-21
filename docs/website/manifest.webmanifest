@@ -1,0 +1,57 @@
+{
+  "name": "Stock Indicators for .NET",
+  "short_name": "Stock Indicators",
+  "description": "Transform price quotes into trading insights",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#58a6ff",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "developer", "productivity"],
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "assets/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "All Indicators",
+      "short_name": "Indicators",
+      "description": "Browse all technical indicators",
+      "url": "/indicators/",
+      "icons": [
+        {
+          "src": "assets/icons/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Usage Guide",
+      "short_name": "Guide",
+      "description": "Learn how to use the library",
+      "url": "/guide/",
+      "icons": [
+        {
+          "src": "assets/icons/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
