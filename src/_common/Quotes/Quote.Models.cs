@@ -95,8 +95,9 @@ public record Quote
         init => Timestamp = value;
     }
 
-    // TODO: this can be removed when Date is removed
-    // It allows old `new Quote { Date: ... }` initialization.
+    // NOTE: This parameterless constructor supports backward compatibility
+    // for Quote initialization with the obsolete Date property.
+    // It should be removed in a future major version after the Date property is removed.
     /// <inheritdoc/>
     public Quote()
         : this(default, default, default, default, default, default) { }

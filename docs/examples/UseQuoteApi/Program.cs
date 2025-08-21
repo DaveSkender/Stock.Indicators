@@ -56,7 +56,7 @@ List<Quote> quotes = barSet
     .Items
     .Select(bar => new Quote
     {
-        Date = bar.TimeUtc,
+        Timestamp = bar.TimeUtc,  // Updated to use Timestamp instead of obsolete Date
         Open = bar.Open,
         High = bar.High,
         Low = bar.Low,

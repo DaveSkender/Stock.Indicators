@@ -41,7 +41,7 @@ public static class CustomIndicators
 
             AtrWmaResult r = new()
             {
-                Date = q.Date
+                Timestamp = q.Timestamp  // Updated to use Timestamp instead of obsolete Date
             };
 
             // only do calculations after uncalculable periods

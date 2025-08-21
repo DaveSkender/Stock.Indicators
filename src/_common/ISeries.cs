@@ -17,8 +17,6 @@ public interface ISeries
     /// </remarks>
     DateTime Timestamp { get; }
 
-    // TODO: consider adding (long) UnixDate (seconds) to ISeries
-
     /// <summary>
     /// Gets the date/time of the record.
     /// </summary>

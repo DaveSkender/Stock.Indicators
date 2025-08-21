@@ -62,9 +62,8 @@ public static partial class Reusable
 
         return results.Remove(removePeriods);
 
-        // TODO: remove specific indicator 'RemoveWarmupPeriods()' methods
-        // that are now redundant to this generic method (not all are).
-        // Note: Some or all of these may already be removed.
+        // Note: Specific indicator RemoveWarmupPeriods() methods provide more
+        // accurate warmup calculations and should be used when available.
     }
 
     /// <summary>

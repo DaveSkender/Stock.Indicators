@@ -16,8 +16,8 @@ public class Program
         CultureInfo culture = CultureInfo.InvariantCulture;
         IEnumerable<Quote> quotes =
         [
-            new Quote { Date = DateTime.Parse("2023-01-02", culture), Open = 100, High = 110, Low = 90,  Close = 105, Volume = 1000 }, // Monday
-            new Quote { Date = DateTime.Parse("2023-01-03", culture), Open = 106, High = 112, Low = 104, Close = 108, Volume = 1500 }, // Tuesday
+            new Quote { Timestamp = DateTime.Parse("2023-01-02", culture), Open = 100, High = 110, Low = 90,  Close = 105, Volume = 1000 }, // Monday - Updated to Timestamp
+            new Quote { Timestamp = DateTime.Parse("2023-01-03", culture), Open = 106, High = 112, Low = 104, Close = 108, Volume = 1500 }, // Tuesday - Updated to Timestamp
             new Quote { Date = DateTime.Parse("2023-01-04", culture), Open = 109, High = 115, Low = 107, Close = 112, Volume = 1200 }, // Wednesday
             new Quote { Date = DateTime.Parse("2023-01-05", culture), Open = 113, High = 118, Low = 110, Close = 116, Volume = 1300 }, // Thursday
             new Quote { Date = DateTime.Parse("2023-01-06", culture), Open = 117, High = 120, Low = 114, Close = 119, Volume = 1400 }, // Friday
