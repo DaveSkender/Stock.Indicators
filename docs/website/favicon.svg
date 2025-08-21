@@ -1,1 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="720" height="720" overflow="hidden"><clipPath id="rounded-corners"><rect width="720" height="720" x="0" y="0" rx="144"/></clipPath><g clip-path="url(#rounded-corners)"><g transform="rotate(40 360 360) scale(1.41) translate(-105 -105)"><rect width="163" height="720" x="0" y="0" fill="#ED7D31"/><rect width="202" height="720" x="163" y="0" fill="#4472C4"/><rect width="86" height="720" x="365" y="0" fill="#FFC000"/><rect width="48" height="720" x="451" y="0" fill="#404040"/><rect width="221" height="720" x="499" y="0" fill="#70AD47"/><rect width="720" height="720" x="0" y="0" fill="#1B1B1B" fill-opacity=".6"/></g></g><path fill="#E6C74C" d="M 0 -200 175 0 90 0 90 200 -90 200 -90 0 -175 0 0 -200Z" transform="rotate(180) translate(-255,-475)"/><path fill="#E6C74C" d="M 0 -200 175 0 90 0 90 200 -90 200 -90 0 -175 0 0 -200Z" transform="translate( 465, 245)"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="720" height="720" viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stockGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#58a6ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1c6cdb;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded background -->
+  <rect width="720" height="720" rx="144" fill="url(#bgGradient)" stroke="#30363d" stroke-width="8"/>
+  
+  <!-- Stock chart grid -->
+  <g stroke="#30363d" stroke-width="2" opacity="0.3">
+    <line x1="120" y1="120" x2="120" y2="600" />
+    <line x1="240" y1="120" x2="240" y2="600" />
+    <line x1="360" y1="120" x2="360" y2="600" />
+    <line x1="480" y1="120" x2="480" y2="600" />
+    <line x1="600" y1="120" x2="600" y2="600" />
+    
+    <line x1="120" y1="180" x2="600" y2="180" />
+    <line x1="120" y1="300" x2="600" y2="300" />
+    <line x1="120" y1="420" x2="600" y2="420" />
+    <line x1="120" y1="540" x2="600" y2="540" />
+  </g>
+  
+  <!-- Main trend line (rising) -->
+  <path d="M120 500 L200 420 L280 350 L360 280 L440 220 L520 180 L600 150" 
+        stroke="url(#stockGradient)" stroke-width="12" fill="none" stroke-linecap="round"/>
+  
+  <!-- Secondary trend line (moving average) -->
+  <path d="M120 520 L200 450 L280 380 L360 320 L440 260 L520 210 L600 180" 
+        stroke="url(#stockGradient)" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>
+  
+  <!-- Data points -->
+  <g fill="url(#stockGradient)">
+    <circle cx="200" cy="420" r="16"/>
+    <circle cx="360" cy="280" r="16"/>
+    <circle cx="520" cy="180" r="16"/>
+  </g>
+  
+  <!-- Subtle accent highlights -->
+  <g fill="#58a6ff" opacity="0.4">
+    <circle cx="200" cy="420" r="8"/>
+    <circle cx="360" cy="280" r="8"/>
+    <circle cx="520" cy="180" r="8"/>
+  </g>
+</svg>
