@@ -11,8 +11,8 @@ public class WilliamsRTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.WilliamsR != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.WilliamsR != null));
 
         // sample values
         WilliamsResult r1 = results[343];
@@ -26,11 +26,7 @@ public class WilliamsRTests : TestBase
         {
             WilliamsResult r = results[i];
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 
@@ -42,8 +38,8 @@ public class WilliamsRTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -56,8 +52,8 @@ public class WilliamsRTests : TestBase
             .GetWilliamsR(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(0, results.Count(x => x.WilliamsR is double and double.NaN));
+        Assert.HasCount(502, results);
+        Assert.IsEmpty(results.Where(x => x.WilliamsR is double and double.NaN));
     }
 
     [TestMethod]
@@ -67,13 +63,13 @@ public class WilliamsRTests : TestBase
             .GetWilliamsR()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<WilliamsResult> r1 = onequote
             .GetWilliamsR()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -85,7 +81,7 @@ public class WilliamsRTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 13, results.Count);
+        Assert.HasCount(502 - 13, results);
 
         WilliamsResult last = results.LastOrDefault();
         Assert.AreEqual(-52.0121, last.WilliamsR.Round(4));
@@ -104,11 +100,7 @@ public class WilliamsRTests : TestBase
         {
             WilliamsResult r = results[i];
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 
@@ -139,17 +131,13 @@ public class WilliamsRTests : TestBase
 
             Console.WriteLine($"{q.Date:s} {r.WilliamsR}");
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetWilliamsR(0));
 }

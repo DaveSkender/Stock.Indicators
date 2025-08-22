@@ -11,7 +11,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(489, results.Count(x => x.UI != null));
 
         // sample value
@@ -27,7 +27,7 @@ public class UlcerIndexTests : TestBase
             .GetUlcerIndex(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(489, results.Count(x => x.UI != null));
     }
 
@@ -38,7 +38,7 @@ public class UlcerIndexTests : TestBase
             .GetUlcerIndex(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
@@ -50,7 +50,7 @@ public class UlcerIndexTests : TestBase
             .GetUlcerIndex(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.UI != null));
     }
 
@@ -62,7 +62,7 @@ public class UlcerIndexTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
@@ -73,7 +73,7 @@ public class UlcerIndexTests : TestBase
             .GetUlcerIndex(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.UI is double and double.NaN));
     }
 
@@ -84,13 +84,13 @@ public class UlcerIndexTests : TestBase
             .GetUlcerIndex()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<UlcerIndexResult> r1 = onequote
             .GetUlcerIndex()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -102,7 +102,7 @@ public class UlcerIndexTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 13, results.Count);
+        Assert.HasCount(502 - 13, results);
 
         UlcerIndexResult last = results.LastOrDefault();
         Assert.AreEqual(5.7255, last.UI.Round(4));
@@ -111,6 +111,6 @@ public class UlcerIndexTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetUlcerIndex(0));
 }

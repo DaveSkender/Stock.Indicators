@@ -11,12 +11,12 @@ public class DojiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(112, results.Count(x => x.Match != Match.None));
 
         // sample values
         CandleResult r1 = results[1];
-        Assert.AreEqual(null, r1.Price);
+        Assert.IsNull(r1.Price);
         Assert.AreEqual(0, (int)r1.Match);
 
         CandleResult r23 = results[23];
@@ -24,11 +24,11 @@ public class DojiTests : TestBase
         Assert.AreEqual(Match.Neutral, r23.Match);
 
         CandleResult r46 = results[46];
-        Assert.AreEqual(null, r46.Price);
+        Assert.IsNull(r46.Price);
         Assert.AreEqual(Match.None, r46.Match);
 
         CandleResult r392 = results[392];
-        Assert.AreEqual(null, r392.Price);
+        Assert.IsNull(r392.Price);
         Assert.AreEqual(Match.None, r392.Match);
 
         CandleResult r451 = results[451];
@@ -47,7 +47,7 @@ public class DojiTests : TestBase
             .GetDoji()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -57,13 +57,13 @@ public class DojiTests : TestBase
             .GetDoji()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<CandleResult> r1 = onequote
             .GetDoji()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -74,17 +74,17 @@ public class DojiTests : TestBase
             .Condense()
             .ToList();
 
-        Assert.AreEqual(112, r.Count);
+        Assert.HasCount(112, r);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad maximum change value
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetDoji(-0.00001));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetDoji(0.50001));
     }
 }

@@ -11,12 +11,12 @@ public class TrTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.Tr != null));
 
         // sample values
         TrResult r0 = results[0];
-        Assert.AreEqual(null, r0.Tr);
+        Assert.IsNull(r0.Tr);
 
         TrResult r1 = results[1];
         Assert.AreEqual(1.42, r1.Tr.Round(8));
@@ -67,7 +67,7 @@ public class TrTests : TestBase
             .GetTr()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Tr is double and double.NaN));
     }
 
@@ -78,12 +78,12 @@ public class TrTests : TestBase
             .GetTr()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<TrResult> r1 = onequote
             .GetTr()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

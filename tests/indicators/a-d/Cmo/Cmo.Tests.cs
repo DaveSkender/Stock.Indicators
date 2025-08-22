@@ -16,7 +16,7 @@ public class CmoTests : TestBase
         }
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Cmo != null));
 
         // sample values
@@ -41,7 +41,7 @@ public class CmoTests : TestBase
             .GetCmo(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Cmo != null));
     }
 
@@ -52,7 +52,7 @@ public class CmoTests : TestBase
             .GetCmo(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Cmo is double and double.NaN));
     }
 
@@ -64,7 +64,7 @@ public class CmoTests : TestBase
             .GetCmo(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(481, results.Count(x => x.Cmo != null));
     }
 
@@ -76,7 +76,7 @@ public class CmoTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
@@ -87,7 +87,7 @@ public class CmoTests : TestBase
             .GetCmo(35)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Cmo is double and double.NaN));
     }
 
@@ -98,13 +98,13 @@ public class CmoTests : TestBase
             .GetCmo(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<CmoResult> r1 = onequote
             .GetCmo(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -116,7 +116,7 @@ public class CmoTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.HasCount(488, results);
 
         CmoResult last = results.LastOrDefault();
         Assert.AreEqual(-26.7502, last.Cmo.Round(4));
@@ -125,6 +125,6 @@ public class CmoTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetCmo(0));
 }

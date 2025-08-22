@@ -11,34 +11,34 @@ public class FractalTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(63, results.Count(x => x.FractalBear != null));
         Assert.AreEqual(71, results.Count(x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[1];
-        Assert.AreEqual(null, r1.FractalBear);
-        Assert.AreEqual(null, r1.FractalBull);
+        Assert.IsNull(r1.FractalBear);
+        Assert.IsNull(r1.FractalBull);
 
         FractalResult r2 = results[3];
         Assert.AreEqual(215.17m, r2.FractalBear);
-        Assert.AreEqual(null, r2.FractalBull);
+        Assert.IsNull(r2.FractalBull);
 
         FractalResult r3 = results[133];
         Assert.AreEqual(234.53m, r3.FractalBear);
-        Assert.AreEqual(null, r3.FractalBull);
+        Assert.IsNull(r3.FractalBull);
 
         FractalResult r4 = results[180];
         Assert.AreEqual(239.74m, r4.FractalBear);
         Assert.AreEqual(238.52m, r4.FractalBull);
 
         FractalResult r5 = results[250];
-        Assert.AreEqual(null, r5.FractalBear);
+        Assert.IsNull(r5.FractalBear);
         Assert.AreEqual(256.81m, r5.FractalBull);
 
         FractalResult r6 = results[500];
-        Assert.AreEqual(null, r6.FractalBear);
-        Assert.AreEqual(null, r6.FractalBull);
+        Assert.IsNull(r6.FractalBear);
+        Assert.IsNull(r6.FractalBull);
     }
 
     [TestMethod]
@@ -49,34 +49,34 @@ public class FractalTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(35, results.Count(x => x.FractalBear != null));
         Assert.AreEqual(34, results.Count(x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[3];
-        Assert.AreEqual(null, r1.FractalBear);
-        Assert.AreEqual(null, r1.FractalBull);
+        Assert.IsNull(r1.FractalBear);
+        Assert.IsNull(r1.FractalBull);
 
         FractalResult r2 = results[7];
-        Assert.AreEqual(null, r2.FractalBear);
+        Assert.IsNull(r2.FractalBear);
         Assert.AreEqual(212.53m, r2.FractalBull);
 
         FractalResult r3 = results[120];
         Assert.AreEqual(233.02m, r3.FractalBear);
-        Assert.AreEqual(null, r3.FractalBull);
+        Assert.IsNull(r3.FractalBull);
 
         FractalResult r4 = results[180];
         Assert.AreEqual(239.74m, r4.FractalBear);
-        Assert.AreEqual(null, r4.FractalBull);
+        Assert.IsNull(r4.FractalBull);
 
         FractalResult r5 = results[250];
-        Assert.AreEqual(null, r5.FractalBear);
+        Assert.IsNull(r5.FractalBear);
         Assert.AreEqual(256.81m, r5.FractalBull);
 
         FractalResult r6 = results[500];
-        Assert.AreEqual(null, r6.FractalBear);
-        Assert.AreEqual(null, r6.FractalBull);
+        Assert.IsNull(r6.FractalBear);
+        Assert.IsNull(r6.FractalBull);
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class FractalTests : TestBase
             .GetFractal()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -96,13 +96,13 @@ public class FractalTests : TestBase
             .GetFractal()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<FractalResult> r1 = onequote
             .GetFractal()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -113,12 +113,12 @@ public class FractalTests : TestBase
             .Condense()
             .ToList();
 
-        Assert.AreEqual(129, r.Count);
+        Assert.HasCount(129, r);
     }
 
     // bad window span
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetFractal(1));
 }

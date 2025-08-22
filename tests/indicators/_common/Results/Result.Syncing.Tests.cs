@@ -35,7 +35,7 @@ public class Syncing : TestBase
         // prepend option
         List<EmaResult> prepend = eval.SyncIndex(baseline, SyncType.Prepend).ToList();
 
-        Assert.AreEqual(9, prepend.Count);
+        Assert.HasCount(9, prepend);
         Assert.AreEqual(3, prepend.Count(x => x.Ema is null));
 
         for (int i = 0; i < 6; i++)
@@ -49,7 +49,7 @@ public class Syncing : TestBase
         // append option
         List<EmaResult> append = eval.SyncIndex(baseline, SyncType.AppendOnly).ToList();
 
-        Assert.AreEqual(10, append.Count);
+        Assert.HasCount(10, append);
         Assert.AreEqual(4, append.Count(x => x.Ema is null));
 
         for (int i = 0; i < 8; i++)
@@ -63,7 +63,7 @@ public class Syncing : TestBase
         // remove option
         List<EmaResult> remove = eval.SyncIndex(baseline, SyncType.RemoveOnly).ToList();
 
-        Assert.AreEqual(6, remove.Count);
+        Assert.HasCount(6, remove);
         Assert.AreEqual(0, remove.Count(x => x.Ema is null));
         Assert.AreEqual(0, remove.Count(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
@@ -71,7 +71,7 @@ public class Syncing : TestBase
         // full option
         List<EmaResult> fullmatch = eval.SyncIndex(baseline, SyncType.FullMatch).ToList();
 
-        Assert.AreEqual(9, fullmatch.Count);
+        Assert.HasCount(9, fullmatch);
         Assert.AreEqual(3, fullmatch.Count(x => x.Ema is null));
         Assert.AreEqual(0, fullmatch.Count(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
@@ -95,7 +95,7 @@ public class Syncing : TestBase
         Assert.IsFalse(noEvalResults.Any());
 
         // bad sync type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => eval.SyncIndex(baseline, (SyncType)int.MaxValue));
     }
 }

@@ -12,7 +12,7 @@ public class CorrelationTests : TestBase
 
         // proper quantities
         // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Correlation != null));
 
         // sample values
@@ -41,7 +41,7 @@ public class CorrelationTests : TestBase
             .GetCorrelation(otherQuotes.Use(CandlePart.Close), 20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Correlation != null));
     }
 
@@ -52,7 +52,7 @@ public class CorrelationTests : TestBase
             .GetCorrelation(tupleNanny, 6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
@@ -64,7 +64,7 @@ public class CorrelationTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
@@ -76,7 +76,7 @@ public class CorrelationTests : TestBase
             .GetCorrelation(otherQuotes.GetSma(2), 20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Correlation != null));
         Assert.AreEqual(0, results.Count(x => x.Correlation is double and double.NaN));
     }
@@ -88,7 +88,7 @@ public class CorrelationTests : TestBase
             .GetCorrelation(badQuotes, 15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
     }
 
@@ -99,7 +99,7 @@ public class CorrelationTests : TestBase
             .GetCorrelation(bigQuotes, 150)
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -109,13 +109,13 @@ public class CorrelationTests : TestBase
             .GetCorrelation(noquotes, 10)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<CorrResult> r1 = onequote
             .GetCorrelation(onequote, 10)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         CorrResult last = results.LastOrDefault();
         Assert.AreEqual(0.8460, last.Correlation.Round(4));
@@ -138,16 +138,16 @@ public class CorrelationTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetCorrelation(otherQuotes, 0));
 
         // bad eval quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
-        Assert.ThrowsException<InvalidQuotesException>(() =>
+        Assert.ThrowsExactly<InvalidQuotesException>(() =>
             quotes.GetCorrelation(eval, 30));
 
         // mismatched quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
+        Assert.ThrowsExactly<InvalidQuotesException>(() =>
             mismatchQuotes.GetCorrelation(otherQuotes, 20));
     }
 }

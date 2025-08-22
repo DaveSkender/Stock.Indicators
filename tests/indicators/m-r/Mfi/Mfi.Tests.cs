@@ -11,7 +11,7 @@ public class MfiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Mfi != null));
 
         // sample values
@@ -30,7 +30,7 @@ public class MfiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
@@ -44,7 +44,7 @@ public class MfiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(498, results.Count(x => x.Mfi != null));
 
         // sample values
@@ -62,7 +62,7 @@ public class MfiTests : TestBase
             .GetMfi(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Mfi is double and double.NaN));
     }
 
@@ -73,13 +73,13 @@ public class MfiTests : TestBase
             .GetMfi()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<MfiResult> r1 = onequote
             .GetMfi()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class MfiTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         MfiResult last = results.LastOrDefault();
         Assert.AreEqual(39.9494, last.Mfi.Round(4));
@@ -102,6 +102,6 @@ public class MfiTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetMfi(1));
 }

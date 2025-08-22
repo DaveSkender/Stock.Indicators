@@ -18,7 +18,7 @@ public class StochRsiTests : TestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
         Assert.AreEqual(473, results.Count(x => x.Signal != null));
 
@@ -55,7 +55,7 @@ public class StochRsiTests : TestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(473, results.Count(x => x.StochRsi != null));
         Assert.AreEqual(471, results.Count(x => x.Signal != null));
 
@@ -85,7 +85,7 @@ public class StochRsiTests : TestBase
             .GetStochRsi(14, 14, 3, 1)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
         Assert.AreEqual(0, results.Count(x => x.StochRsi is double and double.NaN));
     }
@@ -97,7 +97,7 @@ public class StochRsiTests : TestBase
             .GetStochRsi(14, 14, 3, 1)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
     }
 
@@ -109,7 +109,7 @@ public class StochRsiTests : TestBase
             .GetStochRsi(14, 14, 3, 1)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.StochRsi != null));
     }
 
@@ -121,7 +121,7 @@ public class StochRsiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(464, results.Count(x => x.Sma != null));
     }
 
@@ -132,7 +132,7 @@ public class StochRsiTests : TestBase
             .GetStochRsi(15, 20, 3, 2)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
     }
 
@@ -143,13 +143,13 @@ public class StochRsiTests : TestBase
             .GetStochRsi(10, 20, 3)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<StochRsiResult> r1 = onequote
             .GetStochRsi(8, 13, 2)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -178,19 +178,19 @@ public class StochRsiTests : TestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStochRsi(0, 14, 3, 1));
 
         // bad STO period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStochRsi(14, 0, 3, 3));
 
         // bad STO signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStochRsi(14, 14, 0));
 
         // bad STO smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStochRsi(14, 14, 3, 0));
     }
 }

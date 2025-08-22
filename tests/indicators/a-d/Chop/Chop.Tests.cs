@@ -11,12 +11,12 @@ public class ChopTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Chop != null));
 
         // sample values
         ChopResult r1 = results[13];
-        Assert.AreEqual(null, r1.Chop);
+        Assert.IsNull(r1.Chop);
 
         ChopResult r2 = results[14];
         Assert.AreEqual(69.9967, r2.Chop.Round(4));
@@ -36,7 +36,7 @@ public class ChopTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
@@ -49,7 +49,7 @@ public class ChopTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(500, results.Count(x => x.Chop != null));
     }
 
@@ -60,7 +60,7 @@ public class ChopTests : TestBase
             .GetChop(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Chop is double and double.NaN));
     }
 
@@ -71,13 +71,13 @@ public class ChopTests : TestBase
             .GetChop()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ChopResult> r1 = onequote
             .GetChop()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class ChopTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         ChopResult last = results.LastOrDefault();
         Assert.AreEqual(38.6526, last.Chop.Round(4));
@@ -98,6 +98,6 @@ public class ChopTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetChop(1));
 }

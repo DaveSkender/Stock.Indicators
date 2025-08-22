@@ -11,7 +11,7 @@ public class UltimateTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Ultimate != null));
 
         // sample values
@@ -33,7 +33,7 @@ public class UltimateTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(465, results.Count(x => x.Sma != null));
     }
 
@@ -44,7 +44,7 @@ public class UltimateTests : TestBase
             .GetUltimate(1, 2, 3)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Ultimate is double and double.NaN));
     }
 
@@ -55,13 +55,13 @@ public class UltimateTests : TestBase
             .GetUltimate()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<UltimateResult> r1 = onequote
             .GetUltimate()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class UltimateTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 28, results.Count);
+        Assert.HasCount(502 - 28, results);
 
         UltimateResult last = results.LastOrDefault();
         Assert.AreEqual(49.5257, last.Ultimate.Round(4));
@@ -83,15 +83,15 @@ public class UltimateTests : TestBase
     public void Exceptions()
     {
         // bad short period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetUltimate(0));
 
         // bad middle period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetUltimate(7, 6));
 
         // bad long period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetUltimate(7, 14, 11));
     }
 }

@@ -11,7 +11,7 @@ public class AdxTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(475, results.Count(x => x.Adx != null));
         Assert.AreEqual(462, results.Count(x => x.Adxr != null));
 
@@ -19,7 +19,7 @@ public class AdxTests : TestBase
         AdxResult r19 = results[19];
         Assert.AreEqual(21.0361, r19.Pdi.Round(4));
         Assert.AreEqual(25.0124, r19.Mdi.Round(4));
-        Assert.AreEqual(null, r19.Adx);
+        Assert.IsNull(r19.Adx);
 
         AdxResult r29 = results[29];
         Assert.AreEqual(37.9719, r29.Pdi.Round(4));
@@ -52,7 +52,7 @@ public class AdxTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(466, results.Count(x => x.Sma != null));
     }
 
@@ -63,7 +63,7 @@ public class AdxTests : TestBase
             .GetAdx(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
     }
 
@@ -74,7 +74,7 @@ public class AdxTests : TestBase
             .GetAdx(200)
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -84,13 +84,13 @@ public class AdxTests : TestBase
             .GetAdx(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<AdxResult> r1 = onequote
             .GetAdx(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class AdxTests : TestBase
         List<AdxResult> r = test859.GetAdx(14).ToList();
 
         Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
-        Assert.AreEqual(595, r.Count);
+        Assert.HasCount(595, r);
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class AdxTests : TestBase
         List<AdxResult> r = zeroesQuotes.GetAdx(14).ToList();
 
         Assert.AreEqual(0, r.Count(x => x.Adx is double and double.NaN));
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
     }
 
     [TestMethod]
@@ -124,7 +124,7 @@ public class AdxTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((2 * 14) + 100), r.Count);
+        Assert.HasCount(502 - ((2 * 14) + 100), r);
 
         AdxResult last = r.LastOrDefault();
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
@@ -134,6 +134,6 @@ public class AdxTests : TestBase
 
     [TestMethod] // bad lookback period
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => quotes.GetAdx(1));
 }

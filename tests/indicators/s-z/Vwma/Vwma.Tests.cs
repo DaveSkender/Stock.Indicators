@@ -11,7 +11,7 @@ public class VwmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(493, results.Count(x => x.Vwma != null));
 
         // sample values
@@ -33,7 +33,7 @@ public class VwmaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
@@ -44,7 +44,7 @@ public class VwmaTests : TestBase
             .GetVwma(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Vwma is double and double.NaN));
     }
 
@@ -55,13 +55,13 @@ public class VwmaTests : TestBase
             .GetVwma(4)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<VwmaResult> r1 = onequote
             .GetVwma(4)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class VwmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 9, results.Count);
+        Assert.HasCount(502 - 9, results);
 
         VwmaResult last = results.LastOrDefault();
         Assert.AreEqual(242.101548, last.Vwma.Round(6));
@@ -82,6 +82,6 @@ public class VwmaTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetVwma(0));
 }

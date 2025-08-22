@@ -11,7 +11,7 @@ public class SmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
@@ -31,7 +31,7 @@ public class SmaTests : TestBase
             .GetSma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
@@ -51,7 +51,7 @@ public class SmaTests : TestBase
             .GetSma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
@@ -74,7 +74,7 @@ public class SmaTests : TestBase
             .GetEma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));
     }
 
@@ -85,7 +85,7 @@ public class SmaTests : TestBase
             .GetSma(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
 
@@ -106,7 +106,7 @@ public class SmaTests : TestBase
             .GetSma(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Sma is double and double.NaN));
     }
 
@@ -117,13 +117,13 @@ public class SmaTests : TestBase
             .GetSma(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<SmaResult> r1 = onequote
             .GetSma(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -135,13 +135,13 @@ public class SmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetSma(0));
 }

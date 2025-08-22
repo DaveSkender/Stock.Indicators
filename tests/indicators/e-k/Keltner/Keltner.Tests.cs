@@ -15,7 +15,7 @@ public class KeltnerTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
         Assert.AreEqual(warmupPeriod, results.Count(x => x.Centerline != null));
@@ -44,7 +44,7 @@ public class KeltnerTests : TestBase
             .GetKeltner(10, 3, 15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
@@ -55,13 +55,13 @@ public class KeltnerTests : TestBase
             .GetKeltner()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<KeltnerResult> r1 = onequote
             .GetKeltner()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class KeltnerTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(483, results.Count);
+        Assert.HasCount(483, results);
 
         KeltnerResult last = results.LastOrDefault();
         Assert.AreEqual(262.1873, last.UpperBand.Round(4));
@@ -113,15 +113,15 @@ public class KeltnerTests : TestBase
     public void Exceptions()
     {
         // bad EMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetKeltner(1, 2, 10));
 
         // bad ATR period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetKeltner(20, 2, 1));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetKeltner(20, 0, 10));
     }
 }

@@ -11,7 +11,7 @@ public class KlingerTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(446, results.Count(x => x.Oscillator != null));
         Assert.AreEqual(434, results.Count(x => x.Signal != null));
 
@@ -53,7 +53,7 @@ public class KlingerTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(437, results.Count(x => x.Sma != null));
     }
 
@@ -64,7 +64,7 @@ public class KlingerTests : TestBase
             .GetKvo()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
@@ -75,13 +75,13 @@ public class KlingerTests : TestBase
             .GetKvo()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<KvoResult> r1 = onequote
             .GetKvo()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class KlingerTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (55 + 150), results.Count);
+        Assert.HasCount(502 - (55 + 150), results);
 
         KvoResult last = results.LastOrDefault();
         Assert.AreEqual(-539224047, Math.Round(last.Oscillator.Value, 0));
@@ -104,15 +104,15 @@ public class KlingerTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetKvo(2));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetKvo(20, 20));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetKvo(34, 55, 0));
     }
 }

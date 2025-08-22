@@ -13,8 +13,8 @@ public class Transforms : TestBase
             .ToCollection();
 
         Assert.IsNotNull(collection);
-        Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(collection.LastOrDefault().Close, 245.28m);
+        Assert.HasCount(502, collection);
+        Assert.AreEqual(245.28m, collection.LastOrDefault().Close);
     }
 
     // null ToCollection
@@ -23,7 +23,7 @@ public class Transforms : TestBase
     {
         List<Quote> nullQuotes = null;
 
-        Assert.ThrowsException<ArgumentNullException>(()
+        Assert.ThrowsExactly<ArgumentNullException>(()
             => nullQuotes.ToCollection());
     }
 }

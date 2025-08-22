@@ -19,7 +19,7 @@ public class Results : TestBase
         List<AdxResult> r = x.Condense().ToList();
 
         // proper quantities
-        Assert.AreEqual(473, r.Count);
+        Assert.HasCount(473, r);
 
         // sample values
         AdxResult last = r.LastOrDefault();
@@ -66,6 +66,6 @@ public class Results : TestBase
             .ToTupleNaN();
 
         Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));
-        Assert.AreEqual(9, nanResults.Count);
+        Assert.HasCount(9, nanResults);
     }
 }

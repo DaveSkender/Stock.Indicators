@@ -20,7 +20,7 @@ public class StcTests : TestBase
         }
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(467, results.Count(x => x.Stc != null));
 
         // sample values
@@ -48,7 +48,7 @@ public class StcTests : TestBase
             .GetStc(9, 12, 26)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(467, results.Count(x => x.Stc != null));
     }
 
@@ -59,7 +59,7 @@ public class StcTests : TestBase
             .GetStc()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
     }
 
@@ -71,7 +71,7 @@ public class StcTests : TestBase
             .GetStc(9, 12, 26)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(466, results.Count(x => x.Stc != null));
     }
 
@@ -83,7 +83,7 @@ public class StcTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(458, results.Count(x => x.Sma != null));
     }
 
@@ -94,7 +94,7 @@ public class StcTests : TestBase
             .GetStc(10, 23, 50)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Stc is double and double.NaN));
     }
 
@@ -105,13 +105,13 @@ public class StcTests : TestBase
             .GetStc()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<StcResult> r1 = onequote
             .GetStc()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -125,7 +125,7 @@ public class StcTests : TestBase
             .GetStc(10, 23, 50)
             .ToList();
 
-        Assert.AreEqual(58, results.Count);
+        Assert.HasCount(58, results);
     }
 
     [TestMethod]
@@ -151,15 +151,15 @@ public class StcTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStc(9, 12, 12));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStc(-1, 12, 26));
     }
 }

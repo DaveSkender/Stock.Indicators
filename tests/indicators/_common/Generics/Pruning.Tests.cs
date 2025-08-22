@@ -14,7 +14,7 @@ public class Pruning : TestBase
         Assert.AreEqual(400, results.Count());
 
         // bad remove period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetAdx(14).RemoveWarmupPeriods(-1));
     }
 

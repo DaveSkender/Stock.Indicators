@@ -11,7 +11,7 @@ public class T3Tests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(502, results.Count(x => x.T3 != null));
 
         // sample values
@@ -42,7 +42,7 @@ public class T3Tests : TestBase
             .GetT3()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(502, results.Count(x => x.T3 != null));
     }
 
@@ -53,7 +53,7 @@ public class T3Tests : TestBase
             .GetT3()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
@@ -65,7 +65,7 @@ public class T3Tests : TestBase
             .GetT3()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.T3 != null));
     }
 
@@ -77,7 +77,7 @@ public class T3Tests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class T3Tests : TestBase
             .GetT3()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.T3 is double and double.NaN));
     }
 
@@ -98,24 +98,24 @@ public class T3Tests : TestBase
             .GetT3()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<T3Result> r1 = onequote
             .GetT3()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetT3(0));
 
         // bad volume factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetT3(25, 0));
     }
 }

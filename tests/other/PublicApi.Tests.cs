@@ -66,7 +66,7 @@ public class PublicClasses
             MyProperty = true
         };
 
-        Assert.AreEqual(true, myQuote.MyProperty);
+        Assert.IsTrue(myQuote.MyProperty);
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class PublicClasses
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
 
         // sample values
@@ -140,7 +140,7 @@ public class PublicClasses
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(20, quotesList.Count);
+        Assert.HasCount(20, quotesList);
 
         // sample values
         Quote r19 = quotesList[19];
@@ -167,7 +167,7 @@ public class PublicClasses
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(20, quotesList.Count);
+        Assert.HasCount(20, quotesList);
 
         // sample values
         Quote r19 = quotesList[19];
@@ -184,7 +184,7 @@ public class PublicClasses
             MyProperty = false
         };
 
-        Assert.AreEqual(false, myIndicator.MyProperty);
+        Assert.IsFalse(myIndicator.MyProperty);
     }
 
     [TestMethod]

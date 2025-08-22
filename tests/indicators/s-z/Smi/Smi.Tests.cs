@@ -11,7 +11,7 @@ public class SmiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(489, results.Count(x => x.Smi != null));
         Assert.AreEqual(489, results.Count(x => x.Signal != null));
 
@@ -53,7 +53,7 @@ public class SmiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
@@ -100,7 +100,7 @@ public class SmiTests : TestBase
             .GetSmi(5, 5, 1, 5)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Smi is double and double.NaN));
     }
 
@@ -111,13 +111,13 @@ public class SmiTests : TestBase
             .GetSmi(5, 5, 2)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<SmiResult> r1 = onequote
             .GetSmi(5, 3, 3)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public class SmiTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(501 - (14 + 100), results.Count);
+        Assert.HasCount(501 - (14 + 100), results);
 
         SmiResult last = results.LastOrDefault();
         Assert.AreEqual(-52.6560, last.Smi.Round(4));
@@ -140,19 +140,19 @@ public class SmiTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetSmi(0, 5, 5, 5));
 
         // bad first smooth period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetSmi(14, 0, 5, 5));
 
         // bad second smooth period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetSmi(14, 3, 0, 5));
 
         // bad signal
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetSmi(9, 3, 1, 0));
     }
 }

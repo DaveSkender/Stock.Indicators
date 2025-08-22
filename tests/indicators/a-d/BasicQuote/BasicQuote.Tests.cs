@@ -19,7 +19,7 @@ public class BaseQuoteTests : TestBase
         List<BasicData> ohlc = quotes.GetBaseQuote(CandlePart.OHLC4).ToList();
 
         // proper quantities
-        Assert.AreEqual(502, c.Count);
+        Assert.HasCount(502, c);
 
         // samples
         BasicData ro = o[501];
@@ -57,7 +57,7 @@ public class BaseQuoteTests : TestBase
             .Use(CandlePart.Close)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class BaseQuoteTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(493, results.Count(x => x.Sma != null));
     }
 }

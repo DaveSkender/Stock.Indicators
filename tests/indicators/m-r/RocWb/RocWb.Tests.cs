@@ -11,7 +11,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
         Assert.AreEqual(480, results.Count(x => x.RocEma != null));
         Assert.AreEqual(463, results.Count(x => x.UpperBand != null));
@@ -75,7 +75,7 @@ public class RocWbTests : TestBase
             .GetRocWb(20, 3, 20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Roc != null));
     }
 
@@ -86,7 +86,7 @@ public class RocWbTests : TestBase
             .GetRocWb(6, 7, 5)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.UpperBand is double and double.NaN));
     }
 
@@ -98,7 +98,7 @@ public class RocWbTests : TestBase
             .GetRocWb(20, 3, 20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(481, results.Count(x => x.Roc != null));
     }
 
@@ -110,7 +110,7 @@ public class RocWbTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(473, results.Count(x => x.Sma != null));
     }
 
@@ -121,7 +121,7 @@ public class RocWbTests : TestBase
             .GetRocWb(35, 3, 35)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
     }
 
@@ -132,13 +132,13 @@ public class RocWbTests : TestBase
             .GetRocWb(5, 3, 2)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<RocWbResult> r1 = onequote
             .GetRocWb(5, 3, 2)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -150,7 +150,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (20 + 3 + 100), results.Count);
+        Assert.HasCount(502 - (20 + 3 + 100), results);
 
         RocWbResult last = results.LastOrDefault();
         Assert.AreEqual(-8.2482, Math.Round(last.Roc.Value, 4));
@@ -163,15 +163,15 @@ public class RocWbTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetRocWb(0, 3, 12));
 
         // bad EMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetRocWb(14, 0, 14));
 
         // bad STDDEV period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetRocWb(15, 3, 16));
     }
 }

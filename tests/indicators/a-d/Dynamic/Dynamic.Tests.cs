@@ -11,7 +11,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
 
         // sample values
@@ -36,7 +36,7 @@ public class McGinleyDynamicTests : TestBase
             .GetDynamic(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
         Assert.AreEqual(0, results.Count(x => x.Dynamic is double and double.NaN));
     }
@@ -48,7 +48,7 @@ public class McGinleyDynamicTests : TestBase
             .GetDynamic(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
     }
 
@@ -60,7 +60,7 @@ public class McGinleyDynamicTests : TestBase
             .GetDynamic(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
     }
 
@@ -72,7 +72,7 @@ public class McGinleyDynamicTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(492, results.Count(x => x.Sma != null));
     }
 
@@ -83,7 +83,7 @@ public class McGinleyDynamicTests : TestBase
             .GetDynamic(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
     }
 
@@ -94,24 +94,24 @@ public class McGinleyDynamicTests : TestBase
             .GetDynamic(14)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<DynamicResult> r1 = onequote
             .GetDynamic(14)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetDynamic(0));
 
         // bad k-factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetDynamic(14, 0));
     }
 }

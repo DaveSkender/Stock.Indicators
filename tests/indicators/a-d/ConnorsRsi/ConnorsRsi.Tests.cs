@@ -16,7 +16,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results1.Count);
+        Assert.HasCount(502, results1);
         Assert.AreEqual(502 - startPeriod + 1, results1.Count(x => x.ConnorsRsi != null));
 
         // sample value
@@ -43,7 +43,7 @@ public class ConnorsRsiTests : TestBase
             .GetConnorsRsi()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
     }
 
@@ -54,7 +54,7 @@ public class ConnorsRsiTests : TestBase
             .GetConnorsRsi()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.ConnorsRsi is double and double.NaN));
     }
 
@@ -66,7 +66,7 @@ public class ConnorsRsiTests : TestBase
             .GetConnorsRsi()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
     }
 
@@ -78,7 +78,7 @@ public class ConnorsRsiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(392, results.Count(x => x.Sma != null));
     }
 
@@ -89,7 +89,7 @@ public class ConnorsRsiTests : TestBase
             .GetConnorsRsi(4, 3, 25)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
@@ -100,13 +100,13 @@ public class ConnorsRsiTests : TestBase
             .GetConnorsRsi()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ConnorsRsiResult> r1 = onequote
             .GetConnorsRsi()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -138,15 +138,15 @@ public class ConnorsRsiTests : TestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetConnorsRsi(1, 2, 100));
 
         // bad Streak period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetConnorsRsi(3, 1, 100));
 
         // bad Rank period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetConnorsRsi(3, 2, 1));
     }
 }

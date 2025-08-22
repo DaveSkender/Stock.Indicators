@@ -11,14 +11,14 @@ public class FcbTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(497, results.Count(x => x.UpperBand != null));
         Assert.AreEqual(493, results.Count(x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];
-        Assert.AreEqual(null, r1.UpperBand);
-        Assert.AreEqual(null, r1.LowerBand);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
 
         FcbResult r2 = results[10];
         Assert.AreEqual(214.84m, r2.UpperBand);
@@ -48,7 +48,7 @@ public class FcbTests : TestBase
             .GetFcb()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -58,13 +58,13 @@ public class FcbTests : TestBase
             .GetFcb()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<FcbResult> r1 = onequote
             .GetFcb()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class FcbTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count);
+        Assert.HasCount(502 - 5, results);
 
         FcbResult last = results.LastOrDefault();
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -92,7 +92,7 @@ public class FcbTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count);
+        Assert.HasCount(502 - 5, results);
 
         FcbResult last = results.LastOrDefault();
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -102,6 +102,6 @@ public class FcbTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetFcb(1));
 }

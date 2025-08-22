@@ -13,7 +13,6 @@ namespace Tests.Common;
 /// <summary>
 /// Base class for all test classes, providing common test data and utilities.
 /// </summary>
-[TestClass]
 public abstract class TestBase
 {
     internal static readonly CultureInfo EnglishCulture = new("en-US", false);

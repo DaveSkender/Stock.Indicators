@@ -57,7 +57,7 @@ public class DpoTests : TestBase
             .GetDpo(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(489, results.Count(x => x.Dpo != null));
     }
 
@@ -68,7 +68,7 @@ public class DpoTests : TestBase
             .GetDpo(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
     }
 
@@ -80,7 +80,7 @@ public class DpoTests : TestBase
             .GetDpo(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Dpo != null));
     }
 
@@ -92,7 +92,7 @@ public class DpoTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
     }
 
@@ -103,7 +103,7 @@ public class DpoTests : TestBase
             .GetDpo(5)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
     }
 
@@ -114,18 +114,18 @@ public class DpoTests : TestBase
             .GetDpo(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<DpoResult> r1 = onequote
             .GetDpo(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     // bad SMA period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetDpo(0));
 }

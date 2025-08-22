@@ -12,7 +12,7 @@ public class RenkoTests : TestBase
 
         // assertions
 
-        Assert.AreEqual(112, results.Count);
+        Assert.HasCount(112, results);
         Assert.AreEqual(62, results.Count(x => x.IsUp));
         Assert.AreEqual(50, results.Count(x => !x.IsUp));
 
@@ -51,7 +51,7 @@ public class RenkoTests : TestBase
 
         // assertions
 
-        Assert.AreEqual(159, results.Count);
+        Assert.HasCount(159, results);
 
         // sample values
         RenkoResult r0 = results[0];
@@ -87,7 +87,7 @@ public class RenkoTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(29, results.Count);
+        Assert.HasCount(29, results);
 
         // sample values
         RenkoResult r0 = results[0];
@@ -132,18 +132,18 @@ public class RenkoTests : TestBase
             .GetRenko(0.01m)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad arguments
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetRenko(0));
 
         // bad end type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetRenko(2, (EndType)int.MaxValue));
     }
 }

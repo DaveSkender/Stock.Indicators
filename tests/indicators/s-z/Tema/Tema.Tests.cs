@@ -11,7 +11,7 @@ public class TemaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Tema != null));
 
         // sample values
@@ -36,7 +36,7 @@ public class TemaTests : TestBase
             .GetTema(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Tema != null));
     }
 
@@ -47,7 +47,7 @@ public class TemaTests : TestBase
             .GetTema(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
     }
 
@@ -59,7 +59,7 @@ public class TemaTests : TestBase
             .GetTema(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Tema != null));
     }
 
@@ -71,7 +71,7 @@ public class TemaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
@@ -82,7 +82,7 @@ public class TemaTests : TestBase
             .GetTema(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Tema is double and double.NaN));
     }
 
@@ -93,13 +93,13 @@ public class TemaTests : TestBase
             .GetTema(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<TemaResult> r1 = onequote
             .GetTema(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class TemaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
+        Assert.HasCount(502 - ((3 * 20) + 100), results);
 
         TemaResult last = results.LastOrDefault();
         Assert.AreEqual(238.7690, last.Tema.Round(4));
@@ -120,6 +120,6 @@ public class TemaTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetTema(0));
 }

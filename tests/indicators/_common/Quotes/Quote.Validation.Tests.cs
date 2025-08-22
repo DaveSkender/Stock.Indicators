@@ -11,7 +11,7 @@ public class QuoteValidation : TestBase
         List<Quote> h = quotes.Validate().ToList();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", EnglishCulture);
@@ -27,7 +27,7 @@ public class QuoteValidation : TestBase
         List<Quote> h = longishQuotes.Validate().ToList();
 
         // proper quantities
-        Assert.AreEqual(5285, h.Count);
+        Assert.HasCount(5285, h);
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", EnglishCulture);
@@ -43,11 +43,11 @@ public class QuoteValidation : TestBase
         List<Quote> h = quotes.Validate().ToList();
 
         // should be 200 periods, initially
-        Assert.AreEqual(200, h.Count);
+        Assert.HasCount(200, h);
 
         // should be 20 results and no index corruption
         List<SmaResult> r1 = Indicator.GetSma(h.TakeLast(20), 14).ToList();
-        Assert.AreEqual(20, r1.Count);
+        Assert.HasCount(20, r1);
 
         for (int i = 1; i < r1.Count; i++)
         {
@@ -56,7 +56,7 @@ public class QuoteValidation : TestBase
 
         // should be 50 results and no index corruption
         List<SmaResult> r2 = Indicator.GetSma(h.TakeLast(50), 14).ToList();
-        Assert.AreEqual(50, r2.Count);
+        Assert.HasCount(50, r2);
 
         for (int i = 1; i < r2.Count; i++)
         {
@@ -64,7 +64,7 @@ public class QuoteValidation : TestBase
         }
 
         // should be original 200 periods and no index corruption, after temp mods
-        Assert.AreEqual(200, h.Count);
+        Assert.HasCount(200, h);
 
         for (int i = 1; i < h.Count; i++)
         {
@@ -85,7 +85,7 @@ public class QuoteValidation : TestBase
         ];
 
         InvalidQuotesException ex =
-            Assert.ThrowsException<InvalidQuotesException>(()
+            Assert.ThrowsExactly<InvalidQuotesException>(()
                 => badHistory.Validate());
 
         ex.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");

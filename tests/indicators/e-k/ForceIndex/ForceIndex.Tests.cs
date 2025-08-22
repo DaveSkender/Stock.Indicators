@@ -9,7 +9,7 @@ public class ForceIndexTests : TestBase
         List<ForceIndexResult> r = quotes.GetForceIndex(13).ToList();
 
         // proper quantities
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(489, r.Count(x => x.ForceIndex != null));
 
         // sample values
@@ -30,7 +30,7 @@ public class ForceIndexTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Sma != null));
     }
 
@@ -41,7 +41,7 @@ public class ForceIndexTests : TestBase
             .GetForceIndex(2)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.ForceIndex is double and double.NaN));
     }
 
@@ -52,13 +52,13 @@ public class ForceIndexTests : TestBase
             .GetForceIndex(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ForceIndexResult> r1 = onequote
             .GetForceIndex(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class ForceIndexTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (13 + 100), results.Count);
+        Assert.HasCount(502 - (13 + 100), results);
 
         ForceIndexResult last = results.LastOrDefault();
         Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
@@ -79,6 +79,6 @@ public class ForceIndexTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetForceIndex(0));
 }

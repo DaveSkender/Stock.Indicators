@@ -13,7 +13,7 @@ public class ChandelierTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, longResult.Count);
+        Assert.HasCount(502, longResult);
         Assert.AreEqual(480, longResult.Count(x => x.ChandelierExit != null));
 
         // sample values (long)
@@ -40,7 +40,7 @@ public class ChandelierTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(471, results.Count(x => x.Sma != null));
     }
 
@@ -51,7 +51,7 @@ public class ChandelierTests : TestBase
             .GetChandelier(15, 2)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double and double.NaN));
     }
 
@@ -62,13 +62,13 @@ public class ChandelierTests : TestBase
             .GetChandelier()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ChandelierResult> r1 = onequote
             .GetChandelier()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class ChandelierTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 22, longResult.Count);
+        Assert.HasCount(502 - 22, longResult);
 
         ChandelierResult last = longResult.LastOrDefault();
         Assert.AreEqual(256.5860, last.ChandelierExit.Round(4));
@@ -90,15 +90,15 @@ public class ChandelierTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetChandelier(0));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetChandelier(25, 0));
 
         // bad type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
     }
 }

@@ -11,12 +11,12 @@ public class RsiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[13];
-        Assert.AreEqual(null, r1.Rsi);
+        Assert.IsNull(r1.Rsi);
 
         RsiResult r2 = results[14];
         Assert.AreEqual(62.0541, r2.Rsi.Round(4));
@@ -37,7 +37,7 @@ public class RsiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.Rsi != null));
 
         // sample values
@@ -57,7 +57,7 @@ public class RsiTests : TestBase
             .GetRsi(1)
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -68,7 +68,7 @@ public class RsiTests : TestBase
             .GetRsi(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Rsi != null));
     }
 
@@ -79,7 +79,7 @@ public class RsiTests : TestBase
             .GetRsi(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
@@ -91,7 +91,7 @@ public class RsiTests : TestBase
             .GetRsi(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(487, results.Count(x => x.Rsi != null));
     }
 
@@ -103,7 +103,7 @@ public class RsiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(479, results.Count(x => x.Sma != null));
     }
 
@@ -123,7 +123,7 @@ public class RsiTests : TestBase
             .GetRsi(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
     }
 
@@ -134,13 +134,13 @@ public class RsiTests : TestBase
             .GetRsi()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<RsiResult> r1 = onequote
             .GetRsi()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -152,7 +152,7 @@ public class RsiTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (10 * 14), results.Count);
+        Assert.HasCount(502 - (10 * 14), results);
 
         RsiResult last = results.LastOrDefault();
         Assert.AreEqual(42.0773, last.Rsi.Round(4));
@@ -161,6 +161,6 @@ public class RsiTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetRsi(0));
 }

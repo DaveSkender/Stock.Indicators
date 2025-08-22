@@ -11,7 +11,7 @@ public class CciTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Cci != null));
 
         // sample value
@@ -27,7 +27,7 @@ public class CciTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
     }
 
@@ -38,7 +38,7 @@ public class CciTests : TestBase
             .GetCci(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Cci is double and double.NaN));
     }
 
@@ -49,13 +49,13 @@ public class CciTests : TestBase
             .GetCci()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<CciResult> r1 = onequote
             .GetCci()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class CciTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         CciResult last = results.LastOrDefault();
         Assert.AreEqual(-52.9946, last.Cci.Round(4));
@@ -76,6 +76,6 @@ public class CciTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetCci(0));
 }

@@ -15,9 +15,9 @@ public class StochTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(487, results.Count(x => x.Oscillator != null));
-        Assert.AreEqual(485, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(487, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(485, results.Where(x => x.Signal != null));
 
         // sample values
         StochResult r15 = results[15];
@@ -51,23 +51,8 @@ public class StochTests : TestBase
         {
             StochResult r = results[i];
 
-            if (r.Oscillator is not null)
-            {
-                Assert.IsTrue(r.Oscillator >= 0);
-                Assert.IsTrue(r.Oscillator <= 100);
-            }
-
-            if (r.Signal is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
-
-            if (r.PercentJ is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
+            r.Oscillator?.Should().BeInRange(0d, 100d);
+            r.Signal?.Should().BeInRange(0d, 100d);
         }
     }
 
@@ -79,9 +64,9 @@ public class StochTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(494, results.Count(x => x.K != null));
-        Assert.AreEqual(494, results.Count(x => x.D != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(494, results.Where(x => x.K != null));
+        Assert.HasCount(494, results.Where(x => x.D != null));
 
         // sample values
         StochResult r7 = results[7];
@@ -123,7 +108,7 @@ public class StochTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(478, results.Count(x => x.Sma != null));
     }
 
@@ -193,8 +178,8 @@ public class StochTests : TestBase
             .GetStoch(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double and double.NaN));
     }
 
     [TestMethod]
@@ -204,13 +189,13 @@ public class StochTests : TestBase
             .GetStoch()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<StochResult> r1 = onequote
             .GetStoch()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -252,23 +237,8 @@ public class StochTests : TestBase
         {
             StochResult r = results[i];
 
-            if (r.Oscillator is not null)
-            {
-                Assert.IsTrue(r.Oscillator >= 0);
-                Assert.IsTrue(r.Oscillator <= 100);
-            }
-
-            if (r.Signal is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
-
-            if (r.PercentJ is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
+            r.Oscillator?.Should().BeInRange(0d, 100d);
+            r.Signal?.Should().BeInRange(0d, 100d);
         }
     }
 
@@ -276,27 +246,27 @@ public class StochTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(0));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(14, 0));
 
         // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(14, 3, 0));
 
         // bad kFactor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

@@ -11,7 +11,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Jaw != null));
         Assert.AreEqual(490, results.Count(x => x.Teeth != null));
         Assert.AreEqual(495, results.Count(x => x.Lips != null));
@@ -51,7 +51,7 @@ public class AlligatorTests : TestBase
             .GetAlligator()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Jaw != null));
 
         AlligatorResult last = results.LastOrDefault();
@@ -65,7 +65,7 @@ public class AlligatorTests : TestBase
             .GetAlligator()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Lips is double and double.NaN));
     }
 
@@ -77,7 +77,7 @@ public class AlligatorTests : TestBase
             .GetAlligator()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(481, results.Count(x => x.Jaw != null));
     }
 
@@ -89,7 +89,7 @@ public class AlligatorTests : TestBase
             .GetAlligator()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(480, results.Count(x => x.Jaw != null));
     }
 
@@ -100,7 +100,7 @@ public class AlligatorTests : TestBase
             .GetAlligator(3, 3, 2, 1, 1, 1)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Jaw is double and double.NaN));
     }
 
@@ -111,13 +111,13 @@ public class AlligatorTests : TestBase
             .GetAlligator()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<AlligatorResult> r1 = onequote
             .GetAlligator()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -128,7 +128,7 @@ public class AlligatorTests : TestBase
             .Condense()
             .ToList();
 
-        Assert.AreEqual(495, r.Count);
+        Assert.HasCount(495, r);
 
         AlligatorResult last = r.LastOrDefault();
         Assert.AreEqual(260.98953, last.Jaw.Round(5));
@@ -144,7 +144,7 @@ public class AlligatorTests : TestBase
             .RemoveWarmupPeriods()
             .ToList();
 
-        Assert.AreEqual(502 - 21 - 250, r.Count);
+        Assert.HasCount(502 - 21 - 250, r);
 
         AlligatorResult last = r.LastOrDefault();
         Assert.AreEqual(260.98953, last.Jaw.Round(5));
@@ -156,35 +156,35 @@ public class AlligatorTests : TestBase
     public void Exceptions()
     {
         // bad jaw lookback periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 13, 5, 5, 3));
 
         // bad teeth lookback periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 8, 5, 8, 3));
 
         // bad lips lookback periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 8, 5, 0, 3));
 
         // bad jaw offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 0, 8, 5, 5, 3));
 
         // bad teeth offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 8, 0, 5, 3));
 
         // bad lips offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 12, 11, 5, 3));
 
         // bad teeth + offset periods
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetAlligator(13, 8, 8, 5, 7, 7));
     }
 }

@@ -106,7 +106,7 @@ public class CustomIndicators
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
@@ -126,7 +126,7 @@ public class CustomIndicators
             .GetIndicator(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
@@ -146,7 +146,7 @@ public class CustomIndicators
             .GetIndicator(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Sma != null));
 
         // sample values
@@ -169,7 +169,7 @@ public class CustomIndicators
             .GetEma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(484, results.Count(x => x.Ema != null));
     }
 
@@ -181,7 +181,7 @@ public class CustomIndicators
         Collection<Quote> h = mismatch.ToSortedCollection();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
@@ -203,7 +203,7 @@ public class CustomIndicators
             .GetIndicator(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
+        Assert.HasCount(200, r);
         Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
     }
 
@@ -224,7 +224,7 @@ public class CustomIndicators
             .GetIndicator(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
     }
 
@@ -235,13 +235,13 @@ public class CustomIndicators
             .GetIndicator(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<MyResult> r1 = onequote
             .GetIndicator(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -252,13 +252,13 @@ public class CustomIndicators
             .RemoveWarmupPeriods(19)
             .ToList();
 
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetIndicator(0));
 }

@@ -11,7 +11,7 @@ public class ElderRayTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(490, results.Count(x => x.BullPower != null));
         Assert.AreEqual(490, results.Count(x => x.BearPower != null));
 
@@ -55,7 +55,7 @@ public class ElderRayTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(481, results.Count(x => x.Sma != null));
     }
 
@@ -66,7 +66,7 @@ public class ElderRayTests : TestBase
             .GetElderRay()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.BullPower is double and double.NaN));
     }
 
@@ -77,13 +77,13 @@ public class ElderRayTests : TestBase
             .GetElderRay()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ElderRayResult> r1 = onequote
             .GetElderRay()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -95,7 +95,7 @@ public class ElderRayTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (100 + 13), results.Count);
+        Assert.HasCount(502 - (100 + 13), results);
 
         ElderRayResult last = results.LastOrDefault();
         Assert.AreEqual(246.0129, last.Ema.Round(4));
@@ -106,6 +106,6 @@ public class ElderRayTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
             => quotes.GetElderRay(0));
 }

@@ -14,7 +14,7 @@ public class ChaikinOscTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(493, results.Count(x => x.Oscillator != null));
 
         // sample value
@@ -33,7 +33,7 @@ public class ChaikinOscTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
@@ -44,7 +44,7 @@ public class ChaikinOscTests : TestBase
             .GetChaikinOsc(5, 15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
         Assert.AreEqual(0, r.Count(x => x.Oscillator is double and double.NaN));
     }
 
@@ -55,13 +55,13 @@ public class ChaikinOscTests : TestBase
             .GetChaikinOsc()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<ChaikinOscResult> r1 = onequote
             .GetChaikinOsc()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -89,11 +89,11 @@ public class ChaikinOscTests : TestBase
     public void Exceptions()
     {
         // bad fast lookback
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetChaikinOsc(0));
 
         // bad slow lookback
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
             quotes.GetChaikinOsc(10, 5));
     }
 }
