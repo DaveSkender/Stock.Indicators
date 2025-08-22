@@ -82,7 +82,7 @@
         {
             "label": "Build and Serve MkDocs",
             "type": "shell",
-            "command": "python -m mkdocs build && echo 'Build complete. Starting server...' && python -m mkdocs serve",
+            "command": "echo 'Starting MkDocs server...' && (sleep 3; python -m webbrowser http://127.0.0.1:8000) & python -m mkdocs serve -a 127.0.0.1:8000",
             "options": {
                 "cwd": "${workspaceFolder}/docs"
             },
