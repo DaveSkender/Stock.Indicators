@@ -1,18 +1,26 @@
 {
   "name": "Stock Indicators for .NET",
   "short_name": "Stock Indicators",
+  "id": "/",
   "description": "Transform price quotes into trading insights",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0d1117",
   "theme_color": "#58a6ff",
   "orientation": "portrait-primary",
-  "categories": ["finance", "developer", "productivity"],
+  "categories": ["finance", "productivity", "utilities"],
   "lang": "en-US",
   "icons": [
     {
       "src": "assets/icons/android-chrome-192x192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },

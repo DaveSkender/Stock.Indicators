@@ -24,7 +24,7 @@ You must have at least 1 period of `quotes`.
 
 ## CandlePart options
 
---8<-- "candlepart-options.md"
+--8<-- "../../includes/candlepart-options.md"
 
 ## Response
 

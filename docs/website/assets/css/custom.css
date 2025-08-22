@@ -139,7 +139,6 @@
   color: var(--md-default-fg-color);
   font-weight: 600;
   background: var(--md-accent-fg-color--transparent);
-  border-left: 3px solid var(--md-accent-fg-color);
   padding-left: 0.7rem;
 }
 
@@ -316,6 +315,13 @@
 }
 
 .highlight:hover .md-code__copy {
+  opacity: 1;
+}
+
+/* Show copy button for keyboard users */
+.highlight:focus-within .md-code__copy,
+.md-code__copy:focus,
+.md-code__copy:focus-visible {
   opacity: 1;
 }
 
@@ -569,13 +575,13 @@
     background: var(--md-default-bg-color);
     color: var(--md-default-fg-color);
   }
-  
+
   /* Adjust grid for better tablet experience */
   .md-grid {
     max-width: calc(100% - 2rem);
     margin: 0 1rem;
   }
-  
+
   /* Ensure content doesn't get cut off */
   .md-content {
     width: 100%;
@@ -589,23 +595,23 @@
     max-width: calc(100% - 1.5rem);
     margin: 0 0.75rem;
   }
-  
+
   .md-content__inner {
     margin: 0 0.8rem 1.2rem;
     max-width: 100%;
   }
-  
+
   /* Better navigation drawer for large tablets */
   .md-nav--primary {
     width: 20rem;
     max-width: 20rem;
   }
-  
+
   /* Improve sidebar behavior */
   .md-sidebar--primary {
     width: 20rem;
   }
-  
+
   .md-sidebar--secondary {
     width: 15rem;
   }
@@ -619,14 +625,14 @@
     padding-right: 1rem;
     max-width: calc(100% - 3rem);
   }
-  
+
   /* Improve grid behavior */
   .md-grid {
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
   }
-  
+
   /* Fix navigation drawer for tablets */
   .md-nav--primary {
     background: var(--md-default-bg-color);
@@ -634,15 +640,15 @@
     max-width: 16rem;
     border-right: 1px solid var(--md-default-border-color);
   }
-  
+
   .md-nav--primary .md-nav__list {
     padding: 0.5rem 0;
   }
-  
+
   .md-nav--primary .md-nav__item {
     margin: 0.0625rem 0;
   }
-  
+
   .md-nav--primary .md-nav__link {
     padding: 0.4rem 0.75rem;
     margin: 0 0.25rem;
@@ -652,25 +658,25 @@
     align-items: center;
     font-size: 0.875rem;
   }
-  
+
   /* Better tablet typography */
   .md-typeset {
     font-size: 0.9rem;
     line-height: 1.6;
   }
-  
+
   .md-typeset h1 {
     font-size: 1.6rem;
   }
-  
+
   .md-typeset h2 {
     font-size: 1.3rem;
   }
-  
+
   .md-typeset h3 {
     font-size: 1.1rem;
   }
-  
+
   /* Ensure tables are scrollable on tablets */
   .md-typeset table:not([class]) {
     display: block;
@@ -678,7 +684,7 @@
     white-space: nowrap;
     max-width: 100%;
   }
-  
+
   /* Better navigation title */
   .md-nav--primary .md-nav__title[for="__drawer"] {
     background: var(--md-primary-fg-color);
@@ -688,13 +694,13 @@
     font-weight: 600;
     font-size: 0.875rem;
   }
-  
+
   /* Fix sidebar positioning */
   .md-sidebar--primary {
     left: 0;
     width: 16rem;
   }
-  
+
   /* Improve main content area */
   .md-main__inner {
     margin-top: 0;
@@ -710,12 +716,12 @@
     margin: 0;
     padding: 0;
   }
-  
+
   .md-content__inner {
     margin: 0 1rem 1.2rem;
     max-width: calc(100% - 2rem);
   }
-  
+
   /* Enhance mobile navigation drawer */
   .md-nav--primary {
     background: var(--md-default-bg-color);
@@ -723,15 +729,15 @@
     width: 15rem;
     max-width: 15rem;
   }
-  
+
   .md-nav--primary .md-nav__list {
     padding: 0.5rem 0;
   }
-  
+
   .md-nav--primary .md-nav__item {
     margin: 0;
   }
-  
+
   .md-nav--primary .md-nav__link {
     margin: 0;
     padding: 0.6rem 1rem;
@@ -740,47 +746,47 @@
     display: flex;
     align-items: center;
   }
-  
+
   /* Improve touch targets */
   .md-nav__link {
     min-height: 2.75rem;
     display: flex;
     align-items: center;
   }
-  
+
   /* Better mobile typography */
   .md-typeset {
     font-size: 0.875rem;
     line-height: 1.6;
   }
-  
+
   .md-typeset h1 {
     font-size: 1.5rem;
     margin-bottom: 0.75rem;
   }
-  
+
   .md-typeset h2 {
     font-size: 1.25rem;
     margin-top: 1.25rem;
     margin-bottom: 0.75rem;
   }
-  
+
   .md-typeset h3 {
     font-size: 1.125rem;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
   }
-  
+
   /* Improve code blocks on mobile */
   .md-typeset .highlight {
     margin: 1rem -1rem;
     border-radius: 0;
   }
-  
+
   .md-typeset .highlight > pre {
     padding: 1rem;
   }
-  
+
   /* Better table scrolling */
   .md-typeset table:not([class]) {
     display: block;
@@ -794,40 +800,40 @@
   .md-content__inner {
     margin: 0 0.75rem 1rem;
   }
-  
+
   /* Compact mobile header */
   .md-header__title {
     font-size: 1rem;
   }
-  
+
   /* Very compact navigation for small screens */
   .md-nav--primary .md-nav__link {
     padding: 0.5rem 0.75rem;
     font-size: 0.875rem;
   }
-  
+
   .md-nav--primary {
     width: 14rem;
     max-width: 14rem;
   }
-  
+
   /* Smaller typography for very small screens */
   .md-typeset {
     font-size: 0.8125rem;
   }
-  
+
   .md-typeset h1 {
     font-size: 1.375rem;
   }
-  
+
   .md-typeset h2 {
     font-size: 1.125rem;
   }
-  
+
   .md-typeset h3 {
     font-size: 1rem;
   }
-  
+
   /* Better button sizing */
   .md-typeset .md-button {
     padding: 0.5rem 0.75rem;
@@ -966,10 +972,29 @@ html {
   background: var(--md-default-fg-color--lighter);
 }
 
-/* Performance optimizations */
-.md-typeset img,
-.md-typeset video {
+/* Performance optimizations: limit will-change to interactive states */
+.md-typeset img:hover,
+.md-typeset video:hover {
   will-change: transform;
+}
+
+/* Respect users that prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .md-nav__link:hover,
+  .md-nav__link:focus,
+  .md-header__button:hover,
+  .md-content__button:hover,
+  .md-typeset .md-button:hover,
+  .md-typeset .md-button:focus,
+  .md-typeset img:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
 
 /* Print styles */
@@ -981,21 +1006,21 @@ html {
   .md-content__button {
     display: none !important;
   }
-  
+
   .md-content {
     width: 100% !important;
     max-width: none !important;
     margin: 0 !important;
   }
-  
+
   .md-typeset {
     color: #000 !important;
   }
-  
+
   .md-typeset a {
     text-decoration: underline !important;
   }
-  
+
   .md-typeset code,
   .md-typeset pre {
     border: 1px solid #ccc !important;

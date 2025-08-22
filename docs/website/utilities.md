@@ -22,7 +22,7 @@ var results = quotes
 
 **CandlePart options**
 
---8<-- "candlepart-options.md"
+--8<-- "../includes/candlepart-options.md"
 
 ### Using tuple quotes
 
