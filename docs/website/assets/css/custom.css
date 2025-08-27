@@ -55,7 +55,8 @@
 }
 
 .md-main__inner {
-  margin-top: 0;
+  /* offset content below sticky header */
+  margin-top: var(--md-header-height);
 }
 
 .md-content {
@@ -78,6 +79,8 @@
 .md-header__inner {
   max-width: 76rem;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
 }
 
 .md-header__title {
@@ -167,14 +170,6 @@
   padding-left: 1.2rem;
   font-size: 0.75rem;
   position: relative;
-}
-
-.md-nav .md-nav .md-nav__link::before {
-  content: "│";
-  position: absolute;
-  left: 0.8rem;
-  color: var(--md-default-fg-color--lightest);
-  opacity: 0.3;
 }
 
 /* Main content typography */
@@ -268,7 +263,7 @@
   line-height: 1.45;
 }
 
-.md-typeset pre > code {
+.md-typeset pre>code {
   background: transparent;
   border: none;
   padding: 0;
@@ -377,14 +372,14 @@
   margin-right: 0.5rem;
 }
 
-.md-typeset .admonition > .admonition-title + *,
-.md-typeset details > .admonition-title + * {
+.md-typeset .admonition>.admonition-title+*,
+.md-typeset details>.admonition-title+* {
   margin-top: 0.75rem;
   padding: 0 0.75rem;
 }
 
-.md-typeset .admonition > *:last-child,
-.md-typeset details > *:last-child {
+.md-typeset .admonition>*:last-child,
+.md-typeset details>*:last-child {
   margin-bottom: 0.75rem;
 }
 
@@ -611,6 +606,7 @@
 
 /* iPad and medium tablets (768px to 1024px) */
 @media screen and (max-width: 64em) and (min-width: 48.0625em) {
+
   /* Fix content overflow and margins */
   .md-content__inner {
     margin: 0 1.5rem 1.2rem;
@@ -702,6 +698,7 @@
 
 /* Small tablets and large phones (768px and below) */
 @media screen and (max-width: 48em) {
+
   /* Ensure full width utilization */
   .md-grid {
     max-width: 100%;
@@ -775,7 +772,7 @@
     border-radius: 0;
   }
 
-  .md-typeset .highlight > pre {
+  .md-typeset .highlight>pre {
     padding: 1rem;
   }
 
@@ -841,7 +838,8 @@
 
 /* Permalink anchor styling - GitHub-style chain link icon */
 .md-typeset .headerlink {
-  color: transparent; /* Hide the original ¶ symbol */
+  color: transparent;
+  /* Hide the original ¶ symbol */
   opacity: 0;
   transition: opacity 0.2s ease;
   margin-left: 0.5rem;
@@ -886,6 +884,7 @@
     opacity: 0;
     transform: translateY(0.5rem);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -977,6 +976,7 @@ html {
     transition: none !important;
     scroll-behavior: auto !important;
   }
+
   .md-nav__link:hover,
   .md-nav__link:focus,
   .md-header__button:hover,
@@ -991,6 +991,7 @@ html {
 
 /* Print styles */
 @media print {
+
   .md-header,
   .md-footer,
   .md-nav,
