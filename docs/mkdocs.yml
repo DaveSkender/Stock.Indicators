@@ -92,8 +92,7 @@ plugins:
       lang: en
       separator: '[\s\-\.]+'
   - minify:
-      # Disable HTML minify to avoid htmlmin issues on some Python versions
-      minify_html: false
+      minify_html: true
       minify_js: true
       minify_css: true
       htmlmin_opts:
@@ -102,22 +101,38 @@ plugins:
       cache_safe: true
 
 markdown_extensions:
-  - toc
+  - toc:
+      permalink: true
+      permalink_title: "Permanent link"
+      baselevel: 1
+      separator: "-"
   - tables
   - fenced_code
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: includes
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - admonition
+  - pymdownx.details
   - attr_list
   - md_in_html
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.inlinehilite
-  - pymdownx.highlight
-  - pymdownx.snippets
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
   - Home: index.md
