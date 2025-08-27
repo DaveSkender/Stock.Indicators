@@ -91,6 +91,8 @@ plugins:
   - search:
       lang: en
       separator: '[\s\-\.]+'
+  - social:
+      cards: false
   - minify:
       minify_html: true
       minify_js: true
