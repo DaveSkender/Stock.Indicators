@@ -1,9 +1,10 @@
-site_name: Stock Indicators for .NET
+site_name: Stock Indicators for .NET and other things
 site_description: Transform price quotes into trading insights.
 site_author: Dave Skender
 site_url: https://dotnet.stockindicators.dev
 repo_url: https://github.com/DaveSkender/Stock.Indicators
 repo_name: DaveSkender/Stock.Indicators
+edit_uri: edit/main/docs/
 copyright: Copyright &copy; Dave Skender
 docs_dir: website
 site_dir: _site
@@ -11,12 +12,11 @@ site_dir: _site
 theme:
   name: material
   palette:
-    # Dark mode only - GitHub Docs inspired
     scheme: slate
     primary: black
     accent: blue
   favicon: favicon.ico
-  logo: assets/icons/android-chrome-192x192.png
+  logo: favicon.svg
   features:
     - announce.dismiss
     - content.action.edit
@@ -66,9 +66,6 @@ theme:
 
 # Additional SEO metadata
 extra:
-  analytics:
-    provider: google
-    property: !ENV [GOOGLE_ANALYTICS_KEY, 'G-XXXXXXXXXX']
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/DaveSkender/Stock.Indicators
@@ -122,7 +119,6 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
   - admonition
   - pymdownx.details
   - attr_list
@@ -132,103 +128,100 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.smartsymbols
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
   - Home: index.md
   - Indicators:
-    - Overview: indicators.md
-    - Moving Averages:
-      - ALMA: indicators/Alma.md
-      - DEMA: indicators/Dema.md
-      - EPMA: indicators/Epma.md
-      - EMA: indicators/Ema.md
-      - HMA: indicators/Hma.md
-      - KAMA: indicators/Kama.md
-      - MAMA: indicators/Mama.md
-      - SMA: indicators/Sma.md
-      - SMMA: indicators/Smma.md
-      - T3: indicators/T3.md
-      - TEMA: indicators/Tema.md
-      - VWMA: indicators/Vwma.md
-      - WMA: indicators/Wma.md
-    - Price Trend:
-      - ADX: indicators/Adx.md
-      - Aroon: indicators/Aroon.md
-      - Beta: indicators/Beta.md
-      - CCI: indicators/Cci.md
-      - Correlation: indicators/Correlation.md
-      - CFO: indicators/Fcb.md
-      - Hurst Exponent: indicators/Hurst.md
-      - Ichimoku Cloud: indicators/Ichimoku.md
-      - Parabolic SAR: indicators/ParabolicSar.md
-      - RSI: indicators/Rsi.md
-      - STC: indicators/Stc.md
-      - Slope: indicators/Slope.md
-      - StdDev: indicators/StdDev.md
-      - Stochastic: indicators/Stoch.md
-      - Stochastic RSI: indicators/StochRsi.md
-    - Price Channel:
-      - ATR: indicators/Atr.md
-      - ATR Trailing Stop: indicators/AtrStop.md
-      - Bollinger Bands: indicators/BollingerBands.md
-      - Chandelier Exit: indicators/Chandelier.md
-      - Donchian Channel: indicators/Donchian.md
-      - Fractal Chaos Bands: indicators/Fractal.md
-      - Keltner Channel: indicators/Keltner.md
-      - Moving Average Envelopes: indicators/MaEnvelopes.md
-      - Price Channels: indicators/StdDevChannels.md
-      - SuperTrend: indicators/SuperTrend.md
-      - Volatility Stop: indicators/VolatilityStop.md
-    - Price Action:
-      - ATR Bands: indicators/StarcBands.md
-      - Alligator Oscillator: indicators/Alligator.md
-      - Awesome Oscillator: indicators/Awesome.md
-      - Elder-ray: indicators/ElderRay.md
-      - Fisher Transform: indicators/FisherTransform.md
-      - Gator Oscillator: indicators/Gator.md
-      - Hilbert Transform: indicators/HtTrendline.md
-      - ROC: indicators/Roc.md
-      - Ulcer Index: indicators/UlcerIndex.md
-      - Williams %R: indicators/WilliamsR.md
-    - Volume:
-      - ADL: indicators/Adl.md
-      - BOP: indicators/Bop.md
-      - CMF: indicators/Cmf.md
-      - Chaikin Oscillator: indicators/ChaikinOsc.md
-      - Dynamic: indicators/Dynamic.md
-      - Force Index: indicators/ForceIndex.md
-      - KVO: indicators/Kvo.md
-      - MFI: indicators/Mfi.md
-      - OBV: indicators/Obv.md
-      - PVO: indicators/Pvo.md
-      - VWAP: indicators/Vwap.md
-    - Oscillator:
-      - CMO: indicators/Cmo.md
-      - Connors RSI: indicators/ConnorsRsi.md
-      - MACD: indicators/Macd.md
-      - PMO: indicators/Pmo.md
-      - PRS: indicators/Prs.md
-      - ROCwb: indicators/RocWb.md
-      - SMI: indicators/Smi.md
-      - TRIX: indicators/Trix.md
-      - TSI: indicators/Tsi.md
-      - Ultimate Oscillator: indicators/Ultimate.md
-      - Vortex: indicators/Vortex.md
-    - Chart Analysis:
-      - Quote Parts: indicators/QuotePart.md
-      - Doji Pattern: indicators/Doji.md
-      - Marubozu Pattern: indicators/Marubozu.md
-      - Choppiness Index: indicators/Chop.md
-      - DPO: indicators/Dpo.md
-      - Heikin-Ashi: indicators/HeikinAshi.md
-      - Pivots: indicators/Pivots.md
-      - Pivot Points: indicators/PivotPoints.md
-      - Rolling Pivots: indicators/RollingPivots.md
-      - Renko Chart: indicators/Renko.md
-      - ZigZag: indicators/ZigZag.md
+      - Overview: indicators.md
+      - Moving Averages:
+          - ALMA: indicators/Alma.md
+          - DEMA: indicators/Dema.md
+          - EPMA: indicators/Epma.md
+          - EMA: indicators/Ema.md
+          - HMA: indicators/Hma.md
+          - KAMA: indicators/Kama.md
+          - MAMA: indicators/Mama.md
+          - SMA: indicators/Sma.md
+          - SMMA: indicators/Smma.md
+          - T3: indicators/T3.md
+          - TEMA: indicators/Tema.md
+          - VWMA: indicators/Vwma.md
+          - WMA: indicators/Wma.md
+      - Price Trend:
+          - ADX: indicators/Adx.md
+          - Aroon: indicators/Aroon.md
+          - Beta: indicators/Beta.md
+          - CCI: indicators/Cci.md
+          - Correlation: indicators/Correlation.md
+          - CFO: indicators/Fcb.md
+          - Hurst Exponent: indicators/Hurst.md
+          - Ichimoku Cloud: indicators/Ichimoku.md
+          - Parabolic SAR: indicators/ParabolicSar.md
+          - RSI: indicators/Rsi.md
+          - STC: indicators/Stc.md
+          - Slope: indicators/Slope.md
+          - StdDev: indicators/StdDev.md
+          - Stochastic: indicators/Stoch.md
+          - Stochastic RSI: indicators/StochRsi.md
+      - Price Channel:
+          - ATR: indicators/Atr.md
+          - ATR Trailing Stop: indicators/AtrStop.md
+          - Bollinger Bands: indicators/BollingerBands.md
+          - Chandelier Exit: indicators/Chandelier.md
+          - Donchian Channel: indicators/Donchian.md
+          - Fractal Chaos Bands: indicators/Fractal.md
+          - Keltner Channel: indicators/Keltner.md
+          - Moving Average Envelopes: indicators/MaEnvelopes.md
+          - Price Channels: indicators/StdDevChannels.md
+          - SuperTrend: indicators/SuperTrend.md
+          - Volatility Stop: indicators/VolatilityStop.md
+      - Price Action:
+          - ATR Bands: indicators/StarcBands.md
+          - Alligator Oscillator: indicators/Alligator.md
+          - Awesome Oscillator: indicators/Awesome.md
+          - Elder-ray: indicators/ElderRay.md
+          - Fisher Transform: indicators/FisherTransform.md
+          - Gator Oscillator: indicators/Gator.md
+          - Hilbert Transform: indicators/HtTrendline.md
+          - ROC: indicators/Roc.md
+          - Ulcer Index: indicators/UlcerIndex.md
+          - Williams %R: indicators/WilliamsR.md
+      - Volume:
+          - ADL: indicators/Adl.md
+          - BOP: indicators/Bop.md
+          - CMF: indicators/Cmf.md
+          - Chaikin Oscillator: indicators/ChaikinOsc.md
+          - Dynamic: indicators/Dynamic.md
+          - Force Index: indicators/ForceIndex.md
+          - KVO: indicators/Kvo.md
+          - MFI: indicators/Mfi.md
+          - OBV: indicators/Obv.md
+          - PVO: indicators/Pvo.md
+          - VWAP: indicators/Vwap.md
+      - Oscillator:
+          - CMO: indicators/Cmo.md
+          - Connors RSI: indicators/ConnorsRsi.md
+          - MACD: indicators/Macd.md
+          - PMO: indicators/Pmo.md
+          - PRS: indicators/Prs.md
+          - ROCwb: indicators/RocWb.md
+          - SMI: indicators/Smi.md
+          - TRIX: indicators/Trix.md
+          - TSI: indicators/Tsi.md
+          - Ultimate Oscillator: indicators/Ultimate.md
+          - Vortex: indicators/Vortex.md
+      - Chart Analysis:
+          - Quote Parts: indicators/QuotePart.md
+          - Doji Pattern: indicators/Doji.md
+          - Marubozu Pattern: indicators/Marubozu.md
+          - Choppiness Index: indicators/Chop.md
+          - DPO: indicators/Dpo.md
+          - Heikin-Ashi: indicators/HeikinAshi.md
+          - Pivots: indicators/Pivots.md
+          - Pivot Points: indicators/PivotPoints.md
+          - Rolling Pivots: indicators/RollingPivots.md
+          - Renko Chart: indicators/Renko.md
+          - ZigZag: indicators/ZigZag.md
   - Guide: guide.md
   - Utilities: utilities.md
   - Examples: examples.md
