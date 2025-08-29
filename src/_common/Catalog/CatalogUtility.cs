@@ -81,6 +81,14 @@ public static class CatalogUtility
     };
 
     private static readonly ReaderWriterLockSlim _typeMappingLock = new();
+
+    private static readonly System.Reflection.MethodInfo? ExecuteMethodInfo = typeof(IndicatorExecutor)
+        .GetMethods()
+        .FirstOrDefault(m => m.Name == "Execute" && 
+                       m.IsGenericMethodDefinition && 
+                       m.GetParameters().Length == 3 &&
+                       m.GetParameters()[2].ParameterType == typeof(Dictionary<string, object>));
+
     /// <summary>
     /// Executes an indicator using only its ID and style.
     /// </summary>
@@ -184,33 +192,6 @@ public static class CatalogUtility
             throw new InvalidOperationException($"Result type '{resultTypeName}' not found for indicator '{listing.Uiid}'.");
         }
 
-        // Use reflection to call the generic Execute method
-    private static readonly System.Reflection.MethodInfo? ExecuteMethodInfo = typeof(IndicatorExecutor)
-        .GetMethods()
-        .FirstOrDefault(m => m.Name == "Execute" && 
-                       m.IsGenericMethodDefinition && 
-                       m.GetParameters().Length == 3 &&
-                       m.GetParameters()[2].ParameterType == typeof(Dictionary<string, object>));
-
-    private static List<object> ExecuteWithDynamicType(
-        IEnumerable<IQuote> quotes,
-        IndicatorListing listing,
-        Dictionary<string, object>? parameters)
-    {
-        // Get the result type from the listing's method signature
-        string? resultTypeName = GetResultTypeFromListing(listing);
-        if (resultTypeName == null)
-        {
-            throw new InvalidOperationException($"Cannot determine result type for indicator '{listing.Uiid}'.");
-        }
-
-        // Get the result type from the assembly
-        Type? resultType = GetResultType(resultTypeName);
-        if (resultType == null)
-        {
-            throw new InvalidOperationException($"Result type '{resultTypeName}' not found for indicator '{listing.Uiid}'.");
-        }
-
         if (ExecuteMethodInfo == null)
         {
             throw new InvalidOperationException("Could not find appropriate Execute method in IndicatorExecutor.");
@@ -218,9 +199,6 @@ public static class CatalogUtility
 
         // Make the method generic with the quote type and result type
         System.Reflection.MethodInfo genericMethod = ExecuteMethodInfo.MakeGenericMethod(typeof(Quote), resultType);
-
-        // Make the method generic with the quote type and result type
-        System.Reflection.MethodInfo genericMethod = executeMethod.MakeGenericMethod(typeof(Quote), resultType);
 
         // Execute the method
         object? result = genericMethod.Invoke(null, [quotes, listing, parameters]);
@@ -345,7 +323,7 @@ public static class CatalogUtility
     /// </summary>
     /// <param name="element">The JsonElement to convert.</param>
     /// <returns>The converted value, or null for null JsonElements.</returns>
-    private static object ConvertJsonElement(JsonElement element)
+    private static object? ConvertJsonElement(JsonElement element)
         => element.ValueKind switch {
          JsonValueKind.String => element.GetString() ?? string.Empty,
          JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
@@ -353,7 +331,7 @@ public static class CatalogUtility
          JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
          JsonValueKind.True => true,
          JsonValueKind.False => false,
-         JsonValueKind.Null => null!,
+         JsonValueKind.Null => null,
          _ => element.ToString()
         };
 }
