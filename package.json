@@ -9,7 +9,8 @@
     "test": "ng test",
     "scully": "scully",
     "scully:serve": "scully serve",
-    "build:scully": "ng build && scully"
+    "build:scully": "ng build && scully",
+    "build:complete": "ng build && node generate-sitemap.js"
   },
   "prettier": {
     "printWidth": 100,
@@ -33,6 +34,8 @@
     "@angular/router": "^20.2.0",
     "@scullyio/ng-lib": "^2.1.41",
     "@scullyio/scully": "^2.1.41",
+    "@types/marked": "^5.0.2",
+    "marked": "^16.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

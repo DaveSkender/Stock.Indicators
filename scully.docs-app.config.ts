@@ -11,5 +11,6 @@ export const config: ScullyConfig = {
         folder: "./src/docs"
       }
     }
-  }
+  },
+  defaultPostRenderers: []
 };

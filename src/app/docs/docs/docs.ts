@@ -1,32 +1,57 @@
 import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
-import { ScullyRoutesService, ScullyContentComponent } from '@scullyio/ng-lib';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { MarkdownService } from '../markdown';
 
 @Component({
   selector: 'app-docs',
   standalone: true,
-  imports: [ScullyContentComponent],
-  templateUrl: './docs.html',
+  imports: [CommonModule],
+  template: `
+    <div class="docs-container">
+      <div [innerHTML]="content"></div>
+    </div>
+  `,
   styleUrl: './docs.scss'
 })
 export class Docs implements OnInit {
+  content = '';
 
   constructor(
     private title: Title,
     private meta: Meta,
-    private scully: ScullyRoutesService,
+    private route: ActivatedRoute,
+    private markdownService: MarkdownService
   ) {}
 
   ngOnInit() {
-    this.scully.getCurrent().subscribe((route: any) => {
-      if (route?.title) {
-        this.title.setTitle(route.title);
-      }
-      if (route?.['description']) {
-        this.meta.updateTag({ name: 'description', content: route['description'] });
-      }
-      if (route?.['keywords']) {
-        this.meta.updateTag({ name: 'keywords', content: route['keywords'] });
+    this.route.params.subscribe(params => {
+      const slug = params['slug'] || 'index';
+      this.loadContent(slug);
+    });
+  }
+
+  private loadContent(slug: string) {
+    this.markdownService.loadMarkdownFile(slug).subscribe({
+      next: (docContent) => {
+        this.content = docContent.content;
+        
+        if (docContent.frontmatter.title) {
+          this.title.setTitle(docContent.frontmatter.title);
+        }
+        
+        if (docContent.frontmatter.description) {
+          this.meta.updateTag({ name: 'description', content: docContent.frontmatter.description });
+        }
+        
+        if (docContent.frontmatter.keywords) {
+          this.meta.updateTag({ name: 'keywords', content: docContent.frontmatter.keywords });
+        }
+      },
+      error: (error) => {
+        console.error('Error loading markdown file:', error);
+        this.content = `<h1>Page Not Found</h1><p>The requested page "${slug}" could not be found.</p>`;
       }
     });
   }
