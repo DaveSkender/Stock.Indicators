@@ -67,9 +67,38 @@ export class DocsComponent implements OnInit {
   
   ngOnInit() {
     this.route.params.subscribe(params => {
+      // Check if we're on an indicator route
+      const indicator = params['indicator'];
       const slug = params['slug'] || 'home';
-      this.loadContent(slug);
+      
+      if (indicator) {
+        this.loadIndicatorContent(indicator);
+      } else {
+        this.loadContent(slug);
+      }
     });
+  }
+
+  private loadIndicatorContent(indicator: string) {
+    this.loading.set(true);
+    this.error.set(false);
+    
+    this.markdownService.loadIndicatorMarkdown(indicator)
+      .pipe(
+        catchError(err => {
+          console.error('Error loading indicator markdown:', err);
+          this.error.set(true);
+          this.loading.set(false);
+          return of(null);
+        })
+      )
+      .subscribe(content => {
+        if (content) {
+          this.content.set(content);
+          this.updateMetaTags(content);
+        }
+        this.loading.set(false);
+      });
   }
 
   private loadContent(slug: string) {

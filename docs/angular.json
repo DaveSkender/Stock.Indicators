@@ -36,6 +36,11 @@
                 "glob": "**/*",
                 "input": "public",
                 "output": "/"
+              },
+              {
+                "glob": "_headers",
+                "input": ".",
+                "output": "/"
               }
             ],
             "styles": [

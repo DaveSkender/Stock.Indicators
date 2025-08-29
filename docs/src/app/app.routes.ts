@@ -15,7 +15,20 @@ export const routes: Routes = [
     loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
   },
   {
+    path: 'indicators',
+    redirectTo: '/docs/indicators',
+    pathMatch: 'full'
+  },
+  {
+    path: 'indicators/:indicator',
+    loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
+  },
+  {
+    path: '404',
+    loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent)
+  },
+  {
     path: '**',
-    redirectTo: '/docs/home'
+    loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent)
   }
 ];

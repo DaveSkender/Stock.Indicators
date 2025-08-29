@@ -6,6 +6,9 @@
       "type": "shell",
       "command": "ng",
       "args": ["serve"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "serve",
       "presentation": {
         "echo": true,
@@ -22,6 +25,9 @@
       "type": "shell",
       "command": "ng",
       "args": ["build"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "build",
       "presentation": {
         "echo": true,
@@ -38,6 +44,9 @@
       "type": "shell",
       "command": "npm",
       "args": ["run", "build:complete"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "build",
       "presentation": {
         "echo": true,
@@ -54,6 +63,9 @@
       "type": "shell",
       "command": "ng",
       "args": ["test"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "test",
       "presentation": {
         "echo": true,
@@ -69,6 +81,9 @@
       "type": "shell",
       "command": "npm",
       "args": ["run", "lint"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "build",
       "presentation": {
         "echo": true,
@@ -84,6 +99,9 @@
       "type": "shell",
       "command": "npm",
       "args": ["run", "lint:md"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "build",
       "presentation": {
         "echo": true,
@@ -99,6 +117,9 @@
       "type": "shell",
       "command": "npm",
       "args": ["run", "lint:md:fix"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
       "group": "build",
       "presentation": {
         "echo": true,

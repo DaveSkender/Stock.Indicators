@@ -28,6 +28,13 @@ export class MarkdownService {
       );
   }
 
+  loadIndicatorMarkdown(indicator: string): Observable<MarkdownContent> {
+    return this.http.get(`/_indicators/${indicator}.md`, { responseType: 'text' })
+      .pipe(
+        map(markdown => this.parseMarkdown(markdown))
+      );
+  }
+
   private parseMarkdown(markdown: string): MarkdownContent {
     const parts = markdown.split('---');
     

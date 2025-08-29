@@ -1,0 +1,17 @@
+# Angular build artifacts
+/dist
+/.angular
+/node_modules
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/settings.json
+
+# Offline files that shouldn't be processed
+.offline/
+
+# Build outputs
+/tmp/

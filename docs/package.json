@@ -8,8 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:complete": "ng build && node generate-sitemap.js",
-    "lint:md": "markdownlint 'src/**/*.md' 'public/**/*.md'",
-    "lint:md:fix": "markdownlint --fix 'src/**/*.md' 'public/**/*.md'"
+    "lint:md": "markdownlint 'public/**/*.md' '_indicators/**/*.md' '*.md' --ignore node_modules --ignore dist --ignore .angular",
+    "lint:md:fix": "markdownlint --fix 'public/**/*.md' '_indicators/**/*.md' '*.md' --ignore node_modules --ignore dist --ignore .angular"
   },
   "private": true,
   "dependencies": {

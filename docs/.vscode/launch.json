@@ -6,7 +6,7 @@
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/src",
+      "webRoot": "${workspaceFolder}/docs",
       "preLaunchTask": "ng: serve"
     },
     {
@@ -14,14 +14,14 @@
       "type": "chrome", 
       "request": "launch",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/src"
+      "webRoot": "${workspaceFolder}/docs"
     },
     {
       "name": "Attach to Chrome",
       "type": "chrome",
       "request": "attach",
       "port": 9222,
-      "webRoot": "${workspaceFolder}/src"
+      "webRoot": "${workspaceFolder}/docs"
     }
   ]
 }
