@@ -345,17 +345,15 @@ public static class CatalogUtility
     /// </summary>
     /// <param name="element">The JsonElement to convert.</param>
     /// <returns>The converted value, or null for null JsonElements.</returns>
-    private static object? ConvertJsonElement(JsonElement element)
-    {
-        return element.ValueKind switch
-        {
-            JsonValueKind.String => element.GetString() ?? string.Empty,
-            JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
-            JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
-            JsonValueKind.True => true,
-            JsonValueKind.False => false,
-            JsonValueKind.Null => null,
-            _ => element.ToString()
+    private static object ConvertJsonElement(JsonElement element)
+        => element.ValueKind switch {
+         JsonValueKind.String => element.GetString() ?? string.Empty,
+         JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
+         JsonValueKind.Number when element.TryGetDecimal(out decimal decimalValue) => decimalValue,
+         JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
+         JsonValueKind.True => true,
+         JsonValueKind.False => false,
+         JsonValueKind.Null => null!,
+         _ => element.ToString()
         };
-    }
 }
