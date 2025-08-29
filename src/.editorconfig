@@ -1,5 +1,0 @@
-# code analysis for SRC only
-root = false
-
-[*.cs]
-dotnet_diagnostic.CS1591.severity = suggestion  # Missing XML comment for public members
