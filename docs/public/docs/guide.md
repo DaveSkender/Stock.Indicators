@@ -1,33 +1,29 @@
 ---
 title: Guide and Pro tips
-description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms.  Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
+description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms. Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
 permalink: /guide/
-relative_path: pages/guide.md
-layout: page
 ---
 
-# {{ page.title }}
+# Guide and Pro tips
 
-<nav role="navigation" aria-label="guide page menu">
-<ul class="pipe-list">
-  <li><a href="#installation-and-setup">Installation and setup</a></li>
-  <li><a href="#prerequisite-data">Prerequisite data</a></li>
-  <li><a href="#example-usage">Example usage</a></li>
-  <li><a href="#historical-quotes">Historical quotes</a></li>
-  <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
-  <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
-  <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
-  <li><a href="{{site.baseurl}}/custom-indicators/#content">Creating custom indicators</a></li>
-  <li><a href="{{site.baseurl}}/utilities/#content">Utilities and helper functions</a></li>
-  <li><a href="{{site.baseurl}}/contributing/#content">Contributing guidelines</a></li>
-</ul>
-</nav>
+## Table of Contents
+
+- [Installation and setup](#installation-and-setup)
+- [Prerequisite data](#prerequisite-data)
+- [Example usage](#example-usage)
+- [Historical quotes](#historical-quotes)
+- [Using custom quote classes](#using-custom-quote-classes)
+- [Generating indicator of indicators](#generating-indicator-of-indicators)
+- [Candlestick patterns](#candlestick-patterns)
+- [Creating custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary)
+- [Utilities and helper functions](/docs/utilities)
+- [Contributing guidelines](/docs/contributing)
 
 ## Getting started
 
 ### Installation and setup
 
-Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
+Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project. See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
 
 ```powershell
 # dotnet CLI example
