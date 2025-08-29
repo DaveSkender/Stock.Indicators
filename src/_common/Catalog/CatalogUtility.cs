@@ -185,17 +185,39 @@ public static class CatalogUtility
         }
 
         // Use reflection to call the generic Execute method
-        System.Reflection.MethodInfo? executeMethod = typeof(IndicatorExecutor)
-            .GetMethods()
-            .FirstOrDefault(m => m.Name == "Execute" && 
-                           m.IsGenericMethodDefinition && 
-                           m.GetParameters().Length == 3 &&
-                           m.GetParameters()[2].ParameterType == typeof(Dictionary<string, object>));
+    private static readonly System.Reflection.MethodInfo? ExecuteMethodInfo = typeof(IndicatorExecutor)
+        .GetMethods()
+        .FirstOrDefault(m => m.Name == "Execute" && 
+                       m.IsGenericMethodDefinition && 
+                       m.GetParameters().Length == 3 &&
+                       m.GetParameters()[2].ParameterType == typeof(Dictionary<string, object>));
 
-        if (executeMethod == null)
+    private static List<object> ExecuteWithDynamicType(
+        IEnumerable<IQuote> quotes,
+        IndicatorListing listing,
+        Dictionary<string, object>? parameters)
+    {
+        // Get the result type from the listing's method signature
+        string? resultTypeName = GetResultTypeFromListing(listing);
+        if (resultTypeName == null)
+        {
+            throw new InvalidOperationException($"Cannot determine result type for indicator '{listing.Uiid}'.");
+        }
+
+        // Get the result type from the assembly
+        Type? resultType = GetResultType(resultTypeName);
+        if (resultType == null)
+        {
+            throw new InvalidOperationException($"Result type '{resultTypeName}' not found for indicator '{listing.Uiid}'.");
+        }
+
+        if (ExecuteMethodInfo == null)
         {
             throw new InvalidOperationException("Could not find appropriate Execute method in IndicatorExecutor.");
         }
+
+        // Make the method generic with the quote type and result type
+        System.Reflection.MethodInfo genericMethod = ExecuteMethodInfo.MakeGenericMethod(typeof(Quote), resultType);
 
         // Make the method generic with the quote type and result type
         System.Reflection.MethodInfo genericMethod = executeMethod.MakeGenericMethod(typeof(Quote), resultType);
