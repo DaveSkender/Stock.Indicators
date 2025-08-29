@@ -21,36 +21,31 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ruby-version: 3.3
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
         run: |
-          bundle install
+          npm ci
           npm install -g pa11y-ci
 
-      - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
-          regex: false
-
       - name: Build site
-        run: bundle exec jekyll build
+        run: npm run build:complete
 
       - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
+        run: |
+          npx http-server dist/static -p 4000 --silent &
+          echo $! > .server.pid
+          sleep 5
 
       - name: Show environment
         run: npx pa11y --environment
@@ -63,4 +58,8 @@ jobs:
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: |
+          if [ -f .server.pid ]; then
+            kill $(cat .server.pid) || true
+            rm .server.pid
+          fi
