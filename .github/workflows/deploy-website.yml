@@ -45,12 +45,7 @@ jobs:
           replace: "${{ steps.tag.outputs.version }}"
           regex: false
 
-      - name: Build site (production)
-        if: github.ref == 'refs/heads/main'
-        run: npm run build:complete
-
-      - name: Build site (preview)
-        if: github.ref != 'refs/heads/main'
+      - name: Build site
         run: npm run build:complete
 
       - name: Publish to Cloudflare Pages
