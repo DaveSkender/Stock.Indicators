@@ -7,12 +7,12 @@ type: price-characteristic
 layout: indicator
 ---
 
-# {{ page.title }}
+# Ulcer Index (UI)
 
 Created by Peter Martin, the [Ulcer Index](https://en.wikipedia.org/wiki/Ulcer_index) is a measure of downside price volatility over a lookback window.  Often called the "heart attack" score, it measures the amount of pain seen from drawdowns in financial market prices and portfolio value.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/232 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/232 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Ulcer Index (UI)](/assets/charts/UlcerIndex.png)
 
 ```csharp
 // C# usage syntax

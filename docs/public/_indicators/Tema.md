@@ -9,12 +9,12 @@ redirect_from:
  - /indicators/TripleEma/
 ---
 
-# {{ page.title }}
+# Triple Exponential Moving Average (TEMA)
 
 Created by Patrick G. Mulloy, the [Triple exponential moving average](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) is a faster multi-smoothed EMA of the price over a lookback window.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/808 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/808 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Triple Exponential Moving Average (TEMA)](/assets/charts/Tema.png)
 
 ```csharp
 // C# usage syntax

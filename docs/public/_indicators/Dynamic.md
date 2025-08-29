@@ -7,12 +7,12 @@ type: moving-average
 layout: indicator
 ---
 
-# {{ page.title }}
+# McGinley Dynamic
 
 Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com/terms/m/mcginley-dynamic.asp) is a more responsive variant of exponential moving average.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/866 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/866 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for McGinley Dynamic](/assets/charts/Dynamic.png)
 
 ```csharp
 // C# usage syntax (with Close price)

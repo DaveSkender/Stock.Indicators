@@ -7,12 +7,12 @@ type: numerical-analysis
 layout: indicator
 ---
 
-# {{ page.title }}
+# Standard Deviation (volatility)
 
 [Standard Deviation](https://en.wikipedia.org/wiki/Standard_deviation) of price over a rolling lookback window.  Also known as Historical Volatility (HV).  Z-Score is also returned.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/239 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/239 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Standard Deviation (volatility)](/assets/charts/StdDev.png)
 
 ```csharp
 // C# usage syntax

@@ -7,12 +7,12 @@ type: price-channel
 layout: indicator
 ---
 
-# {{ page.title }}
+# Standard Deviation Channels
 
 Standard Deviation Channels are prices ranges based on an linear regression centerline and standard deviations band widths.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/368 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/368 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Standard Deviation Channels](/assets/charts/StdDevChannels.png)
 
 ```csharp
 // C# usage syntax

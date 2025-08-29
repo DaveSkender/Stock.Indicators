@@ -7,10 +7,10 @@ type: numerical-analysis
 layout: indicator
 ---
 
-# {{ page.title }}
+# Slope and Linear Regression
 
 [Slope of the best fit line](https://school.stockcharts.com/doku.php?id=technical_indicators:slope) is determined by an [ordinary least-squares simple linear regression](https://en.wikipedia.org/wiki/Simple_linear_regression) on price.  It can be used to help identify trend strength and direction.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/241 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/241 "Community discussion about this indicator")
 
 ![image]({{site.baseurl}}/assets/charts/Linear.png)
 ![image]({{site.baseurl}}/assets/charts/Slope.png)

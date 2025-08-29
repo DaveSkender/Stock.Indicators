@@ -7,12 +7,12 @@ type: volume-based
 layout: indicator
 ---
 
-# {{ page.title }}
+# Chaikin Money Flow (CMF)
 
 Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Money_Flow) is the simple moving average of the directional Money Flow Volume.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/261 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/261 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Chaikin Money Flow (CMF)](/assets/charts/Cmf.png)
 
 ```csharp
 // C# usage syntax

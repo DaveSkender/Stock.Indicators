@@ -7,12 +7,12 @@ type: price-pattern
 layout: indicator
 ---
 
-# {{ page.title }}
+# Williams Fractal
 
 Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fractal.asp) is a retrospective price pattern that identifies a central high or low point chevron.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/255 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/255 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Williams Fractal](/assets/charts/Fractal.png)
 
 ```csharp
 // C# usage syntax

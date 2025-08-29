@@ -7,12 +7,12 @@ type: numerical-analysis
 layout: indicator
 ---
 
-# {{ page.title }}
+# Correlation Coefficient
 
 Created by Karl Pearson, the [Correlation Coefficient](https://en.wikipedia.org/wiki/Correlation_coefficient) depicts the linear statistical correlation between two quote histories.  R-Squared (R&sup2;), Variance, and Covariance are also output.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/259 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/259 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Correlation Coefficient](/assets/charts/Correlation.png)
 
 ```csharp
 // C# usage syntax

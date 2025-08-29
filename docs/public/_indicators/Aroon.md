@@ -7,12 +7,12 @@ type: price-trend
 layout: indicator
 ---
 
-# {{ page.title }}
+# Aroon
 
 Created by Tushar Chande, [Aroon](https://school.stockcharts.com/doku.php?id=technical_indicators:aroon) is a oscillator view of how long ago the new high or low price occurred.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/266 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/266 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Aroon](/assets/charts/Aroon.png)
 
 ```csharp
 // C# usage syntax

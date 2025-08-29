@@ -7,12 +7,12 @@ type: price-trend
 layout: indicator
 ---
 
-# {{ page.title }}
+# Gator Oscillator
 
 Created by Bill Williams, the Gator Oscillator is an expanded oscillator view of [Williams Alligator]({{site.baseurl}}/indicators/Alligator/#content)'s three moving averages.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/385 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/385 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Gator Oscillator](/assets/charts/Gator.png)
 
 ```csharp
 // C# usage syntax

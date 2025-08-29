@@ -7,12 +7,12 @@ type: price-channel
 layout: indicator
 ---
 
-# {{ page.title }}
+# Rolling Pivot Points
 
 Created by Dave Skender, Rolling Pivot Points is a modern update to traditional fixed calendar window <a href="{{site.baseurl}}/indicators/PivotPoints/#content" rel="nofollow">Pivot Points</a>.  It depicts support and resistance levels, based on a defined _rolling_ window and offset.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Rolling Pivot Points](/assets/charts/RollingPivots.png)
 
 ```csharp
 // C# usage syntax

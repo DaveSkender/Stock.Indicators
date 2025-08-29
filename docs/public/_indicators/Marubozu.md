@@ -7,12 +7,12 @@ layout: indicator
 type: candlestick-pattern
 ---
 
-# {{ page.title }}
+# Marubozu
 
 [Marubozu](https://en.wikipedia.org/wiki/Marubozu) is a single-bar candlestick pattern that has no wicks, representing consistent directional movement.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/512 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/512 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Marubozu](/assets/charts/Marubozu.png)
 
 ```csharp
 // C# usage syntax

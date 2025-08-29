@@ -7,12 +7,12 @@ type: price-pattern
 layout: indicator
 ---
 
-# {{ page.title }}
+# Pivots
 
 Pivots is an extended customizable version of <a href="{{site.baseurl}}/indicators/Fractal/#content" rel="nofollow">Williams Fractal</a> that includes identification of Higher High, Lower Low, Higher Low, and Lower Low trends between pivots in a lookback window.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/436 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/436 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Pivots](/assets/charts/pivots.webp)
 
 ```csharp
 // C# usage syntax

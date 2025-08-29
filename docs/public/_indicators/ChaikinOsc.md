@@ -7,12 +7,12 @@ type: volume-based
 layout: indicator
 ---
 
-# {{ page.title }}
+# Chaikin Oscillator
 
 Created by Marc Chaikin, the [Chaikin Oscillator](https://en.wikipedia.org/wiki/Chaikin_Analytics#Chaikin_Oscillator) is the difference between fast and slow Exponential Moving Averages (EMA) of the [Accumulation/Distribution Line]({{site.baseurl}}/indicators/Adl/#content) (ADL).
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/264 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/264 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Chaikin Oscillator](/assets/charts/ChaikinOsc.png)
 
 ```csharp
 // C# usage syntax

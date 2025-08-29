@@ -7,12 +7,12 @@ type: numerical-analysis
 layout: indicator
 ---
 
-# {{ page.title }}
+# Beta Coefficient
 
 [Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/268 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Beta Coefficient](/assets/charts/Beta.png)
 
 ```csharp
 // C# usage syntax

@@ -7,12 +7,12 @@ type: price-characteristic
 layout: indicator
 ---
 
-# {{ page.title }}
+# Rate of Change (ROC)
 
 [Rate of Change](https://en.wikipedia.org/wiki/Momentum_(technical_analysis)), also known as Momentum Oscillator, is the percent change of price over a lookback window.  Momentum is the raw price change equivalent.  A [Rate of Change with Bands]({{site.baseurl}}/indicators/RocWb/#content) variant, created by Vitali Apirine, is also available.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/242 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/242 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Rate of Change (ROC)](/assets/charts/Roc.png)
 
 ```csharp
 // C# usage syntax

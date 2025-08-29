@@ -7,13 +7,13 @@ type: price-channel
 layout: indicator
 ---
 
-# {{ page.title }}
+# Pivot Points
 
 [Pivot Points](https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)) depict support and resistance levels, based on prior calendar windows.  You can specify window size (e.g. month, week, day, etc) and any of the traditional Floor Trading, Camarilla, Demark, Fibonacci, and Woodie variants.
 
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/274 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/274 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Pivot Points](/assets/charts/PivotPoints.png)
 
 ```csharp
 // C# usage syntax

@@ -7,12 +7,12 @@ type: moving-average
 layout: indicator
 ---
 
-# {{ page.title }}
+# Exponential Moving Average (EMA)
 
 [Exponentially weighted moving average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) is a rolling moving average that puts more weight on current price.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/256 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/256 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Exponential Moving Average (EMA)](/assets/charts/Ema.png)
 
 ```csharp
 // C# usage syntax (with Close price)

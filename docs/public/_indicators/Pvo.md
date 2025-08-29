@@ -7,12 +7,12 @@ type: volume-based
 layout: indicator
 ---
 
-# {{ page.title }}
+# Percentage Volume Oscillator (PVO)
 
 The [Percentage Volume Oscillator](https://school.stockcharts.com/doku.php?id=technical_indicators:percentage_volume_oscillator_pvo) is a simple oscillator view of the rate of change between two converging / diverging exponential moving averages of Volume.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/305 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/305 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Percentage Volume Oscillator (PVO)](/assets/charts/Pvo.png)
 
 ```csharp
 // C# usage syntax

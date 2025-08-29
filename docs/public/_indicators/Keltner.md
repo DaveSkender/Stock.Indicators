@@ -7,12 +7,12 @@ type: price-channel
 layout: indicator
 ---
 
-# {{ page.title }}
+# Keltner Channels
 
 Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/Keltner_channel) are based on an EMA centerline and ATR band widths.  See also <a href="{{site.baseurl}}/indicators/StarcBands/#content" rel="nofollow">STARC Bands</a> for an SMA centerline equivalent.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/249 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/249 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Keltner Channels](/assets/charts/Keltner.png)
 
 ```csharp
 // C# usage syntax

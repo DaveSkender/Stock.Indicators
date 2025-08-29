@@ -7,12 +7,12 @@ type: price-trend
 layout: indicator
 ---
 
-# {{ page.title }}
+# Average Directional Index (ADX)
 
 Created by J. Welles Wilder, the Directional Movement Index (DMI) and [Average Directional Movement Index](https://en.wikipedia.org/wiki/Average_directional_movement_index) (ADX) is a measure of price directional movement.  It includes upward and downward indicators, and is often used to measure strength of trend.
-[[Discuss] &#128172;]({{site.github.repository_url}}/discussions/270 "Community discussion about this indicator")
+[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/270 "Community discussion about this indicator")
 
-![chart for {{page.title}}]({{site.baseurl}}{{page.image}})
+![chart for Average Directional Index (ADX)](/assets/charts/AdIndex.png)
 
 ```csharp
 // C# usage syntax
