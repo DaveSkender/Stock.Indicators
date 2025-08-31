@@ -70,6 +70,8 @@ public static partial class Ema
     internal static void Validate(
         int lookbackPeriods)
     {
-        IndicatorUtilities.ValidateLookbackPeriods(lookbackPeriods, "EMA");
+        if (lookbackPeriods <= 0)
+            throw new ArgumentOutOfRangeException(nameof(lookbackPeriods), 
+                "EMA lookback periods must be greater than 0.");
     }
 }
