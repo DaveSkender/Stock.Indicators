@@ -21,7 +21,7 @@ public static partial class Sma
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
-        IndicatorUtilities.ValidateLookbackPeriods(lookbackPeriods, "SMA");
+        Validate(lookbackPeriods);
 
         // initialize
         int length = source.Count;
