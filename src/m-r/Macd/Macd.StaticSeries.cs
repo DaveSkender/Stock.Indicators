@@ -25,7 +25,7 @@ public static partial class Macd
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
-        Validate(fastPeriods, slowPeriods, signalPeriods);
+        IndicatorUtilities.ValidateMultiPeriods(fastPeriods, slowPeriods, signalPeriods, "MACD");
 
         // initialize
         int length = source.Count;

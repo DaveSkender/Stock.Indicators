@@ -29,3 +29,24 @@ public interface IExponentialIndicator : ISinglePeriodIndicator
     /// </summary>
     double K { get; }
 }
+
+/// <summary>
+/// Interface for multi-period indicators like MACD.
+/// </summary>
+public interface IMultiPeriodIndicator : IIndicatorParams
+{
+    /// <summary>
+    /// Gets the number of fast periods.
+    /// </summary>
+    int FastPeriods { get; }
+
+    /// <summary>
+    /// Gets the number of slow periods.
+    /// </summary>
+    int SlowPeriods { get; }
+
+    /// <summary>
+    /// Gets the number of signal periods.
+    /// </summary>
+    int SignalPeriods { get; }
+}
