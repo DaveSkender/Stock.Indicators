@@ -2,19 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAM HUB)
 
-#region hub interface and initializer
-
-/// <summary>
-/// Interface for Simple Moving Average (SMA) hub.
-/// </summary>
-public interface ISmaHub
-{
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
-    int LookbackPeriods { get; }
-}
-
 /// <summary>
 /// Provides methods for creating SMA hubs.
 /// </summary>
@@ -33,20 +20,14 @@ public static partial class Sma
         where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
 }
-#endregion
 
 /// <summary>
 /// Represents a Simple Moving Average (SMA) stream hub.
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
-public class SmaHub<TIn>
-    : ChainProvider<TIn, SmaResult>, ISmaHub
+public class SmaHub<TIn> : IndicatorStreamHubBase<TIn, SmaResult>, ISinglePeriodIndicator
     where TIn : IReusable
 {
-    #region constructors
-
-    private readonly string hubName;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaHub{TIn}"/> class.
     /// </summary>
@@ -54,25 +35,22 @@ public class SmaHub<TIn>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal SmaHub(
         IChainProvider<TIn> provider,
-        int lookbackPeriods) : base(provider)
+        int lookbackPeriods) : base(provider, "SMA", lookbackPeriods)
     {
-        Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        hubName = $"SMA({lookbackPeriods})";
-
-        Reinitialize();
+        
+        // Initialize with validation
+        Initialize();
     }
-    #endregion
-
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
-    public int LookbackPeriods { get; init; }
-
-    // METHODS
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override int LookbackPeriods { get; }
+
+    /// <inheritdoc/>
+    protected override void ValidateParameters()
+    {
+        IndicatorUtilities.ValidateLookbackPeriods(LookbackPeriods, "SMA");
+    }
 
     /// <inheritdoc/>
     protected override (SmaResult result, int index)
