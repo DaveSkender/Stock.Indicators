@@ -1,22 +1,6 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Interface for Exponential Moving Average (EMA) calculations.
-/// </summary>
-public interface IEma
-{
-    /// <summary>
-    /// Gets the number of periods to look back for the calculation.
-    /// </summary>
-    int LookbackPeriods { get; }
-
-    /// <summary>
-    /// Gets the smoothing factor for the calculation.
-    /// </summary>
-    double K { get; }
-}
-
-/// <summary>
 /// Provides methods for calculating the Exponential Moving Average (EMA) indicator.
 /// </summary>
 public static partial class Ema
@@ -36,16 +20,14 @@ public static partial class Ema
         where T : IReusable
         => new(chainProvider, lookbackPeriods);
 }
+
 /// <summary>
 /// Represents a hub for Exponential Moving Average (EMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
-public class EmaHub<TIn>
-    : ChainProvider<TIn, EmaResult>, IEma
+public class EmaHub<TIn> : IndicatorStreamHubBase<TIn, EmaResult>, IExponentialIndicator
     where TIn : IReusable
 {
-    private readonly string hubName;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="EmaHub{TIn}"/> class.
     /// </summary>
@@ -55,24 +37,27 @@ public class EmaHub<TIn>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     internal EmaHub(
         IChainProvider<TIn> provider,
-        int lookbackPeriods) : base(provider)
+        int lookbackPeriods) : base(provider, "EMA", lookbackPeriods)
     {
-        Ema.Validate(lookbackPeriods);
+        // Set properties first before validation
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        hubName = $"EMA({lookbackPeriods})";
-
-        Reinitialize();
+        
+        // Now initialize with validation
+        Initialize();
     }
 
     /// <inheritdoc/>
-    public int LookbackPeriods { get; init; }
+    public override int LookbackPeriods { get; }
 
     /// <inheritdoc/>
     public double K { get; private init; }
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    protected override void ValidateParameters()
+    {
+        IndicatorUtilities.ValidateLookbackPeriods(LookbackPeriods, "EMA");
+    }
 
     /// <inheritdoc/>
     protected override (EmaResult result, int index)

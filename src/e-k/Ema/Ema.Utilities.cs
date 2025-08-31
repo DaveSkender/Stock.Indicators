@@ -55,11 +55,9 @@ public static partial class Ema
     public static IReadOnlyList<EmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<EmaResult> results)
     {
-        int n = results
-          .ToList()
-          .FindIndex(x => x.Ema != null) + 1;
-
-        return results.Remove(n + 100);
+        return results.RemoveWarmupPeriods(
+            list => list.ToList().FindIndex(x => x.Ema != null),
+            100);
     }
 
     /// <summary>
@@ -72,12 +70,6 @@ public static partial class Ema
     internal static void Validate(
         int lookbackPeriods)
     {
-        // check parameter arguments
-        if (lookbackPeriods <= 0)
-        {
-            throw new ArgumentOutOfRangeException(
-                nameof(lookbackPeriods), lookbackPeriods,
-                "Lookback periods must be greater than 0 for EMA.");
-        }
+        IndicatorUtilities.ValidateLookbackPeriods(lookbackPeriods, "EMA");
     }
 }
