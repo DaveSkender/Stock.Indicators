@@ -78,7 +78,7 @@
     {
       "label": "Update: Ruby Packages (docs)",
       "type": "shell",
-      "command": "bundle update --conservative && bundle clean --force",
+      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
       "options": {
         "cwd": "${workspaceFolder}/docs",
         "env": {
