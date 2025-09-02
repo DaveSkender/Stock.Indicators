@@ -10,10 +10,10 @@ public class Slope : StaticSeriesTestBase
             .ToSlope(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Slope != null));
-        Assert.AreEqual(483, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(20, results.Count(x => x.Line != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Slope != null));
+        Assert.HasCount(483, results.Where(x => x.StdDev != null));
+        Assert.HasCount(20, results.Where(x => x.Line != null));
 
         // sample values
         SlopeResult r1 = results[249];
@@ -21,7 +21,7 @@ public class Slope : StaticSeriesTestBase
         Assert.AreEqual(180.4164, r1.Intercept.Round(4));
         Assert.AreEqual(0.8056, r1.RSquared.Round(4));
         Assert.AreEqual(2.0071, r1.StdDev.Round(4));
-        Assert.AreEqual(null, r1.Line);
+        Assert.IsNull(r1.Line);
 
         SlopeResult r2 = results[482];
         Assert.AreEqual(-0.337015, r2.Slope.Round(6));
@@ -45,8 +45,8 @@ public class Slope : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToSlope(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Slope != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class Slope : StaticSeriesTestBase
             .ToSma(2)
             .ToSlope(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Slope != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -67,8 +67,8 @@ public class Slope : StaticSeriesTestBase
             .ToSlope(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -77,8 +77,8 @@ public class Slope : StaticSeriesTestBase
         IReadOnlyList<SlopeResult> r = BadQuotes
             .ToSlope(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Slope is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Slope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class Slope : StaticSeriesTestBase
         IReadOnlyList<SlopeResult> r = BigQuotes
             .ToSlope(250);
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -96,12 +96,12 @@ public class Slope : StaticSeriesTestBase
         IReadOnlyList<SlopeResult> r0 = Noquotes
             .ToSlope(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<SlopeResult> r1 = Onequote
             .ToSlope(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public class Slope : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         SlopeResult last = results[^1];
         Assert.AreEqual(-1.689143, last.Slope.Round(6));
@@ -125,6 +125,6 @@ public class Slope : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToSlope(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToSlope(1));
 }

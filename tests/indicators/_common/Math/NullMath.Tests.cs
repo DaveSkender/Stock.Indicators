@@ -1,4 +1,4 @@
-namespace Tests.Common;
+namespace Utilities;
 
 #pragma warning disable CA1805 // Do not initialize unnecessarily
 

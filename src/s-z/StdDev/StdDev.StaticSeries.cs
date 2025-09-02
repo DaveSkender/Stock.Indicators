@@ -14,7 +14,9 @@ public static partial class StdDev
     /// <returns>A list of StdDevResult containing the standard deviation, mean, and z-score for each data point.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when lookbackPeriods is less than 1.</exception>
-    public static IReadOnlyList<StdDevResult> ToStdDev<T>(this IReadOnlyList<T> source, int lookbackPeriods)
+    public static IReadOnlyList<StdDevResult> ToStdDev<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments

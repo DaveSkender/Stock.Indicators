@@ -18,7 +18,7 @@ public static partial class Chandelier
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 22,
         double multiplier = 3,
-        ChandelierType type = ChandelierType.Long)
+        Direction type = Direction.Long)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcChandelier(lookbackPeriods, multiplier, type);
@@ -35,7 +35,7 @@ public static partial class Chandelier
         this List<QuoteD> source,
         int lookbackPeriods,
         double multiplier,
-        ChandelierType type)
+        Direction type)
     {
         // check parameter arguments
         Validate(lookbackPeriods, multiplier);
@@ -61,7 +61,7 @@ public static partial class Chandelier
 
                 switch (type)
                 {
-                    case ChandelierType.Long:
+                    case Direction.Long:
 
                         double maxHigh = 0;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)
@@ -76,7 +76,7 @@ public static partial class Chandelier
                         exit = maxHigh - (atr * multiplier);
                         break;
 
-                    case ChandelierType.Short:
+                    case Direction.Short:
 
                         double minLow = double.MaxValue;
                         for (int p = i + 1 - lookbackPeriods; p <= i; p++)

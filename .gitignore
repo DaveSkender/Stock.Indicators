@@ -330,11 +330,11 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
 
-# Documentation site build folders
-_site/
-docs/_site/
-
 # zip artifacts
 .DS_Store
-# suppress dotnet-tool manifest directory created locally by `dotnet new tool-manifest`
+
+# dotnet-tool manifest
 /.config/
+
+# Playwright
+/.playwright*

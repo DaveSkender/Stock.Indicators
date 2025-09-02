@@ -10,13 +10,13 @@ public class Awesome : StaticSeriesTestBase
             .ToAwesome();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(469, results.Where(x => x.Oscillator != null));
 
         // sample values
         AwesomeResult r1 = results[32];
-        Assert.AreEqual(null, r1.Oscillator);
-        Assert.AreEqual(null, r1.Normalized);
+        Assert.IsNull(r1.Oscillator);
+        Assert.IsNull(r1.Normalized);
 
         AwesomeResult r2 = results[33];
         Assert.AreEqual(5.4756, r2.Oscillator.Round(4));
@@ -38,8 +38,8 @@ public class Awesome : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToAwesome();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Count(x => x.Oscillator != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(469, results.Where(x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -49,8 +49,8 @@ public class Awesome : StaticSeriesTestBase
             .ToSma(2)
             .ToAwesome();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(468, results.Count(x => x.Oscillator != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(468, results.Where(x => x.Oscillator != null));
     }
 
     [TestMethod]
@@ -60,8 +60,8 @@ public class Awesome : StaticSeriesTestBase
             .ToAwesome()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(460, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(460, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -70,8 +70,8 @@ public class Awesome : StaticSeriesTestBase
         IReadOnlyList<AwesomeResult> r = BadQuotes
             .ToAwesome();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -80,12 +80,12 @@ public class Awesome : StaticSeriesTestBase
         IReadOnlyList<AwesomeResult> r0 = Noquotes
             .ToAwesome();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AwesomeResult> r1 = Onequote
             .ToAwesome();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class Awesome : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 33, results.Count);
+        Assert.HasCount(502 - 33, results);
 
         AwesomeResult last = results[^1];
         Assert.AreEqual(-17.7692, last.Oscillator.Round(4));
@@ -107,11 +107,11 @@ public class Awesome : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.ToAwesome(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToAwesome(0, 34));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAwesome(25, 25));
     }
 }

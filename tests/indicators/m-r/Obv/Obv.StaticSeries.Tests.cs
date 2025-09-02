@@ -10,7 +10,7 @@ public class Obv : StaticSeriesTestBase
             .ToObv();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
 
         // sample values
         ObvResult r1 = results[249];
@@ -27,8 +27,8 @@ public class Obv : StaticSeriesTestBase
             .ToObv()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -37,8 +37,8 @@ public class Obv : StaticSeriesTestBase
         IReadOnlyList<ObvResult> r = BadQuotes
             .ToObv();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class Obv : StaticSeriesTestBase
         IReadOnlyList<ObvResult> r = BigQuotes
             .ToObv();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -56,11 +56,11 @@ public class Obv : StaticSeriesTestBase
         IReadOnlyList<ObvResult> r0 = Noquotes
             .ToObv();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ObvResult> r1 = Onequote
             .ToObv();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

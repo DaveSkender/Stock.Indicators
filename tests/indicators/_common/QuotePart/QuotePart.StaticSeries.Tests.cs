@@ -19,7 +19,7 @@ public class QuoteParts : StaticSeriesTestBase
         IReadOnlyList<QuotePart> ohlc = Quotes.Use(CandlePart.OHLC4);
 
         // proper quantities
-        Assert.AreEqual(502, c.Count);
+        Assert.HasCount(502, c);
 
         // samples
         QuotePart ro = o[501];
@@ -58,8 +58,8 @@ public class QuoteParts : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -68,8 +68,8 @@ public class QuoteParts : StaticSeriesTestBase
         IReadOnlyList<QuotePart> r = BadQuotes
             .Use(CandlePart.Close);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Value is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Value is double.NaN));
     }
 
     [TestMethod]
@@ -78,11 +78,11 @@ public class QuoteParts : StaticSeriesTestBase
         IReadOnlyList<QuotePart> r0 = Noquotes
             .Use(CandlePart.Close);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<QuotePart> r1 = Onequote
             .Use(CandlePart.Close);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

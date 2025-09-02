@@ -1,101 +1,212 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Build MkDocs Documentation",
-            "type": "shell",
-            "command": "python -m mkdocs build",
-            "options": {
-                "cwd": "${workspaceFolder}/docs"
-            },
-            "group": "build",
-            "problemMatcher": []
-        },
-        {
-            "label": "Serve MkDocs Documentation",
-            "type": "shell",
-            "command": "python -m mkdocs serve",
-            "options": {
-                "cwd": "${workspaceFolder}/docs"
-            },
-            "group": "build",
-            "problemMatcher": [],
-            "isBackground": true,
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            }
-        },
-        {
-            "label": "Build Project",
-            "type": "shell",
-            "command": "dotnet build Stock.Indicators.sln",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Run Unit Tests",
-            "type": "shell",
-            "command": "dotnet test tests --filter \"TestCategory=Unit\"",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Run Integration Tests",
-            "type": "shell",
-            "command": "dotnet test tests --filter \"TestCategory=Integration\"",
-            "group": "test",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Run Performance Tests",
-            "type": "shell",
-            "command": "dotnet test tests --filter \"TestCategory=Performance\"",
-            "group": "test",
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Fix MkDocs Documentation Issues",
-            "type": "shell",
-            "command": "python -m mkdocs build -v",
-            "options": {
-                "cwd": "${workspaceFolder}/docs"
-            },
-            "group": "build",
-            "problemMatcher": {
-                "owner": "mkdocs",
-                "fileLocation": ["relative", "${workspaceFolder}/docs"],
-                "pattern": {
-                    "regexp": "^(.*)\\s+in\\s+(.*?)\\s+[(](.*):(\\d+)[)]$",
-                    "message": 1,
-                    "file": 2,
-                    "line": 4
-                }
-            }
-        },
-        {
-            "label": "Build and Serve MkDocs",
-            "type": "shell",
-            "command": "python -m mkdocs build && echo 'Build complete. Starting server...' && python -m mkdocs serve",
-            "options": {
-                "cwd": "${workspaceFolder}/docs"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "isBackground": true,
-            "presentation": {
-                "reveal": "always",
-                "panel": "new"
-            },
-            "problemMatcher": []
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Restore: .NET Packages",
+      "type": "shell",
+      "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build: .NET Solution",
+      "type": "shell",
+      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" -v minimal --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Test: .NET Solution",
+      "type": "shell",
+      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Doc Site with LiveReload",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload --open-url",
+      "dependsOn": "Install: Ruby Packages (docs)",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
         }
-    ]
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Install: Ruby Packages (docs)",
+      "type": "shell",
+      "command": "bundle install --jobs 4 && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Update: Ruby Packages (docs)",
+      "type": "shell",
+      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build MkDocs Documentation",
+      "type": "shell",
+      "command": "python -m mkdocs build",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Serve MkDocs Documentation",
+      "type": "shell",
+      "command": "python -m mkdocs serve",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Build Project",
+      "type": "shell",
+      "command": "dotnet build Stock.Indicators.sln",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Run Unit Tests",
+      "type": "shell",
+      "command": "dotnet test tests --filter \"TestCategory=Unit\"",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Run Integration Tests",
+      "type": "shell",
+      "command": "dotnet test tests --filter \"TestCategory=Integration\"",
+      "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Run Performance Tests",
+      "type": "shell",
+      "command": "dotnet test tests --filter \"TestCategory=Performance\"",
+      "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Fix MkDocs Documentation Issues",
+      "type": "shell",
+      "command": "python -m mkdocs build -v",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "build",
+      "problemMatcher": {
+        "owner": "mkdocs",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}/docs"
+        ],
+        "pattern": {
+          "regexp": "^(.*)\\s+in\\s+(.*?)\\s+[(](.*):(\\d+)[)]$",
+          "message": 1,
+          "file": 2,
+          "line": 4
+        }
+      }
+    },
+    {
+      "label": "Build and Serve MkDocs",
+      "type": "shell",
+      "command": "python -m mkdocs build && echo 'Build complete. Starting server...' && python -m mkdocs serve",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
 }

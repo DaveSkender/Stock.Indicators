@@ -10,7 +10,7 @@ public class Adl : StaticSeriesTestBase
             .ToAdl();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
 
         // sample values
         AdlResult r1 = results[249];
@@ -34,8 +34,8 @@ public class Adl : StaticSeriesTestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -44,8 +44,8 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r = BadQuotes
             .ToAdl();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Adl)));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Adl)));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r = BigQuotes
             .ToAdl();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r = RandomQuotes
             .ToAdl();
 
-        Assert.AreEqual(1000, r.Count);
+        Assert.HasCount(1000, r);
     }
 
     [TestMethod]
@@ -72,11 +72,11 @@ public class Adl : StaticSeriesTestBase
         IReadOnlyList<AdlResult> r0 = Noquotes
             .ToAdl();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AdlResult> r1 = Onequote
             .ToAdl();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }
