@@ -359,10 +359,10 @@ public class CatalogRegistry : TestBase
                         exceptions.Add(ex);
                     }
                 }
-            }));
+            }, TestContext.CancellationTokenSource.Token));
         }
 
-        Task.WaitAll(tasks.ToArray());
+        Task.WaitAll(tasks.ToArray(), TestContext.CancellationTokenSource.Token);
 
         // Assert
         exceptions.Should().BeEmpty("All registrations should succeed with unique UIIDs");
@@ -461,4 +461,6 @@ public class CatalogRegistry : TestBase
             .WithCategory(category)
             .AddResult("Result", "Result", ResultType.Default, isReusable: true)
             .Build();
+
+    public TestContext TestContext { get; set; }
 }

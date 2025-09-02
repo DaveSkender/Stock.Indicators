@@ -84,8 +84,8 @@ public static class CatalogUtility
 
     private static readonly System.Reflection.MethodInfo? ExecuteMethodInfo = typeof(IndicatorExecutor)
         .GetMethods()
-        .FirstOrDefault(m => m.Name == "Execute" && 
-                       m.IsGenericMethodDefinition && 
+        .FirstOrDefault(m => m.Name == "Execute" &&
+                       m.IsGenericMethodDefinition &&
                        m.GetParameters().Length == 3 &&
                        m.GetParameters()[2].ParameterType == typeof(Dictionary<string, object>));
 
@@ -108,18 +108,15 @@ public static class CatalogUtility
     {
         // Validate inputs
         ArgumentNullException.ThrowIfNull(quotes);
-        
+
         if (string.IsNullOrWhiteSpace(id))
         {
             throw new ArgumentException("Indicator ID cannot be null or empty.", nameof(id));
         }
 
         // Find the indicator listing
-        IndicatorListing? listing = IndicatorRegistry.GetByIdAndStyle(id, style);
-        if (listing == null)
-        {
-            throw new InvalidOperationException($"Indicator '{id}' with style '{style}' not found in registry.");
-        }
+        IndicatorListing? listing = IndicatorRegistry.GetByIdAndStyle(id, style)
+            ?? throw new InvalidOperationException($"Indicator '{id}' with style '{style}' not found in registry.");
 
         // Execute using the existing IndicatorExecutor with dynamic result type determination
         return ExecuteWithDynamicType(quotes, listing, parameters);
@@ -151,7 +148,7 @@ public static class CatalogUtility
         IndicatorConfig config;
         try
         {
-            config = JsonSerializer.Deserialize<IndicatorConfig>(json) 
+            config = JsonSerializer.Deserialize<IndicatorConfig>(json)
                 ?? throw new ArgumentException("Failed to parse JSON configuration - result was null.", nameof(json));
         }
         catch (JsonException ex)
@@ -160,7 +157,7 @@ public static class CatalogUtility
         }
 
         // Convert JsonElement values to proper types in Parameters
-        var convertedParameters = ConvertJsonElementsInParameters(config.Parameters);
+        Dictionary<string, object>? convertedParameters = ConvertJsonElementsInParameters(config.Parameters);
 
         // Execute using the parsed configuration
         return quotes.ExecuteById(config.Id, config.Style, convertedParameters);
@@ -179,18 +176,11 @@ public static class CatalogUtility
         Dictionary<string, object>? parameters)
     {
         // Get the result type from the listing's method signature
-        string? resultTypeName = GetResultTypeFromListing(listing);
-        if (resultTypeName == null)
-        {
-            throw new InvalidOperationException($"Cannot determine result type for indicator '{listing.Uiid}'.");
-        }
+        string? resultTypeName = GetResultTypeFromListing(listing) ?? throw new InvalidOperationException($"Cannot determine result type for indicator '{listing.Uiid}'.");
 
         // Get the result type from the assembly
-        Type? resultType = GetResultType(resultTypeName);
-        if (resultType == null)
-        {
-            throw new InvalidOperationException($"Result type '{resultTypeName}' not found for indicator '{listing.Uiid}'.");
-        }
+        Type? resultType = GetResultType(resultTypeName)
+            ?? throw new InvalidOperationException($"Result type '{resultTypeName}' not found for indicator '{listing.Uiid}'.");
 
         if (ExecuteMethodInfo == null)
         {
@@ -202,13 +192,11 @@ public static class CatalogUtility
 
         // Execute the method
         object? result = genericMethod.Invoke(null, [quotes, listing, parameters]);
-        
+
         // Convert the result to a list of objects using LINQ
-        if (result is System.Collections.IEnumerable enumerable)
-        {
-            return enumerable.Cast<object>().ToList();
-        }
-        
+        return result is System.Collections.IEnumerable enumerable
+            ? enumerable.Cast<object>().ToList()
+            :
         throw new InvalidOperationException("Method execution did not return a valid result collection.");
     }
 
@@ -230,13 +218,12 @@ public static class CatalogUtility
         // Convert to proper casing for type name (first letter uppercase, rest lowercase)
         // CA1308: This is intentional for class name formatting, not string comparison
 #pragma warning disable CA1308
-        string typeName = char.ToUpper(indicatorName[0], CultureInfo.InvariantCulture) + 
+        string typeName = char.ToUpper(indicatorName[0], CultureInfo.InvariantCulture) +
                          indicatorName[1..].ToLowerInvariant() + "Result";
 #pragma warning restore CA1308
-        
+
         // Handle special cases where the pattern doesn't match
-        return typeName switch
-        {
+        return typeName switch {
             "BollingerResult" => "BollingerBandsResult",
             _ => typeName
         };
@@ -297,8 +284,8 @@ public static class CatalogUtility
             return parameters;
         }
 
-        var converted = new Dictionary<string, object>();
-        foreach (var kvp in parameters)
+        Dictionary<string, object> converted = [];
+        foreach (KeyValuePair<string, object> kvp in parameters)
         {
             if (kvp.Value is JsonElement jsonElement)
             {
@@ -325,13 +312,13 @@ public static class CatalogUtility
     /// <returns>The converted value, or null for null JsonElements.</returns>
     private static object? ConvertJsonElement(JsonElement element)
         => element.ValueKind switch {
-         JsonValueKind.String => element.GetString() ?? string.Empty,
-         JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
-         JsonValueKind.Number when element.TryGetDecimal(out decimal decimalValue) => decimalValue,
-         JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
-         JsonValueKind.True => true,
-         JsonValueKind.False => false,
-         JsonValueKind.Null => null,
-         _ => element.ToString()
+            JsonValueKind.String => element.GetString() ?? string.Empty,
+            JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
+            JsonValueKind.Number when element.TryGetDecimal(out decimal decimalValue) => decimalValue,
+            JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            _ => element.ToString()
         };
 }
