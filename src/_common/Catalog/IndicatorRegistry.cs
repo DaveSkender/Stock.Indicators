@@ -294,21 +294,4 @@ public static class IndicatorRegistry
     /// <param name="category">The category of indicators to retrieve.</param>
     /// <returns>All indicator listings in the specified category.</returns>
     public static IReadOnlyCollection<IndicatorListing> GetCatalog(Category category) => GetByCategory(category);
-
-    /// <summary>
-    /// Gets indicator without triggering initialization.
-    /// </summary>
-    /// <remarks>For testing purposes only.</remarks>
-    private static IndicatorListing? GetIndicatorWithoutInitialization(string id)
-    {
-        if (string.IsNullOrWhiteSpace(id))
-        {
-            return null;
-        }
-
-        lock (_syncLock)
-        {
-            return _registry.FirstOrDefault(x => string.Equals(x.Uiid, id, StringComparison.OrdinalIgnoreCase));
-        }
-    }
 }

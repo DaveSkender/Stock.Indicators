@@ -421,4 +421,240 @@ public class CatalogUtilityTests : TestBase
         act.Should().Throw<InvalidOperationException>()
            .WithMessage("*not found in registry*");
     }
+
+    [TestMethod]
+    public void CatalogToJson()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+
+        // Act
+        string catalogJson = indicatorCatalog.ToJson();
+        Console.WriteLine(catalogJson);
+
+        // Assert
+        catalogJson.Should().NotBeNullOrEmpty();
+        catalogJson.Should().StartWith("[");
+        catalogJson.Should().EndWith("]");
+        catalogJson.Should().Contain("\"uiid\":");
+        catalogJson.Should().Contain("\"name\":");
+        catalogJson.Should().Contain("\"style\":");
+        catalogJson.Should().Contain("\"category\":");
+        catalogJson.Should().Contain("\"results\":");
+        catalogJson.Should().Contain("\"legendTemplate\":");
+
+        // Verify it's valid JSON by attempting to parse
+        using JsonDocument doc = JsonDocument.Parse(catalogJson);
+        doc.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
+        doc.RootElement.GetArrayLength().Should().BeGreaterThan(0);
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdown()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+
+        // Act - default checklist format
+        string catalogMarkdown = indicatorCatalog.ToMarkdown();
+
+        // Assert
+        catalogMarkdown.Should().NotBeNullOrEmpty();
+        catalogMarkdown.Should().Contain("- [ ]");
+        catalogMarkdown.Should().Contain(":");
+        catalogMarkdown.Should().Contain("(");
+        catalogMarkdown.Should().Contain(")");
+
+        // Should contain some known indicators
+        catalogMarkdown.Should().Contain("RSI");
+        catalogMarkdown.Should().Contain("EMA");
+        catalogMarkdown.Should().Contain("SMA");
+
+        // Should show style types
+        catalogMarkdown.Should().Contain("Series");
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdownChecklist()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+
+        // Act
+        string catalogMarkdown = indicatorCatalog.ToMarkdown(asChecklist: true);
+        Console.WriteLine(catalogMarkdown);
+
+        // Assert
+        catalogMarkdown.Should().NotBeNullOrEmpty();
+        catalogMarkdown.Should().Contain("- [ ]");
+
+        // Count lines to ensure we have multiple indicators
+        int lineCount = catalogMarkdown.Split('\n').Length;
+        lineCount.Should().BeGreaterThan(50); // We have 200+ indicators, so grouped should be 50+
+
+        // Should not contain table format
+        catalogMarkdown.Should().NotContain("|");
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdownTable()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+
+        // Act
+        string catalogMarkdown = indicatorCatalog.ToMarkdown(asChecklist: false);
+        Console.WriteLine(catalogMarkdown);
+
+        // Assert
+        catalogMarkdown.Should().NotBeNullOrEmpty();
+        catalogMarkdown.Should().Contain("| ID | Name | Series | Buffer | Stream |");
+        catalogMarkdown.Should().Contain("|---|---|:---:|:---:|:---:|");
+        catalogMarkdown.Should().Contain("✓");
+
+        // Should contain some known indicators
+        catalogMarkdown.Should().Contain("RSI");
+        catalogMarkdown.Should().Contain("EMA");
+        catalogMarkdown.Should().Contain("SMA");
+
+        // Should not contain checklist format
+        catalogMarkdown.Should().NotContain("- [ ]");
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdownWithNullCatalogThrowsArgumentNullException()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> catalog = null!;
+
+        // Act & Assert
+        Action act = () => catalog.ToJson();
+        act.Should().Throw<ArgumentNullException>();
+
+        Action act2 = () => catalog.ToMarkdown();
+        act2.Should().Throw<ArgumentNullException>();
+    }
+
+    [TestMethod]
+    public void CatalogToJsonWithFilePathSavesToFile()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+        string tempFilePath = Path.GetTempFileName();
+
+        try
+        {
+            // Act
+            string catalogJson = indicatorCatalog.ToJson(tempFilePath);
+
+            // Assert
+            catalogJson.Should().NotBeNullOrEmpty();
+            File.Exists(tempFilePath).Should().BeTrue();
+
+            string fileContent = File.ReadAllText(tempFilePath);
+            fileContent.Should().Be(catalogJson);
+            fileContent.Should().StartWith("[");
+            fileContent.Should().EndWith("]");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(tempFilePath))
+            {
+                File.Delete(tempFilePath);
+            }
+        }
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdownWithFilePathSavesToFile()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+        string tempFilePath = Path.GetTempFileName();
+
+        try
+        {
+            // Act
+            string catalogMarkdown = indicatorCatalog.ToMarkdown(asChecklist: true, tempFilePath);
+
+            // Assert
+            catalogMarkdown.Should().NotBeNullOrEmpty();
+            File.Exists(tempFilePath).Should().BeTrue();
+
+            string fileContent = File.ReadAllText(tempFilePath);
+            fileContent.Should().Be(catalogMarkdown);
+            fileContent.Should().Contain("- [ ]");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(tempFilePath))
+            {
+                File.Delete(tempFilePath);
+            }
+        }
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdownTableWithFilePathSavesToFile()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+        string tempFilePath = Path.GetTempFileName();
+
+        try
+        {
+            // Act
+            string catalogMarkdown = indicatorCatalog.ToMarkdown(asChecklist: false, tempFilePath);
+
+            // Assert
+            catalogMarkdown.Should().NotBeNullOrEmpty();
+            File.Exists(tempFilePath).Should().BeTrue();
+
+            string fileContent = File.ReadAllText(tempFilePath);
+            fileContent.Should().Be(catalogMarkdown);
+            fileContent.Should().Contain("| ID | Name | Series | Buffer | Stream |");
+            fileContent.Should().Contain("✓");
+        }
+        finally
+        {
+            // Cleanup
+            if (File.Exists(tempFilePath))
+            {
+                File.Delete(tempFilePath);
+            }
+        }
+    }
+
+    [TestMethod]
+    public void CatalogToJsonWithEmptyFilePathDoesNotSaveToFile()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+
+        // Act
+        string catalogJson = indicatorCatalog.ToJson("");
+
+        // Assert
+        catalogJson.Should().NotBeNullOrEmpty();
+        catalogJson.Should().StartWith("[");
+        catalogJson.Should().EndWith("]");
+        // No exception should be thrown for empty file path
+    }
+
+    [TestMethod]
+    public void CatalogToMarkdownWithEmptyFilePathDoesNotSaveToFile()
+    {
+        // Arrange
+        IReadOnlyCollection<IndicatorListing> indicatorCatalog = IndicatorRegistry.GetCatalog();
+
+        // Act
+        string catalogMarkdown = indicatorCatalog.ToMarkdown(asChecklist: true, " ");
+
+        // Assert
+        catalogMarkdown.Should().NotBeNullOrEmpty();
+        catalogMarkdown.Should().Contain("- [ ]");
+        // No exception should be thrown for empty file path
+    }
 }

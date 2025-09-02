@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text;
 using System.Text.Json;
 
 namespace Skender.Stock.Indicators;
@@ -173,5 +175,130 @@ public static class CatalogUtility
         }
 
         public override void Write(Utf8JsonWriter writer, Style value, JsonSerializerOptions options) => writer.WriteStringValue(value.ToString());
+    }
+}
+
+/// <summary>
+/// Extension methods for catalog export functionality.
+/// </summary>
+public static class CatalogExtensions
+{
+    private static readonly JsonSerializerOptions JsonOptions = new() {
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Converters = { new JsonStringEnumConverter() }
+    };
+
+    /// <summary>
+    /// Converts the catalog to a JSON string representation.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="filePath">Optional file path to save the JSON output. If provided, the content will be written to this file.</param>
+    /// <returns>A JSON string containing all catalog properties according to the defined schema.</returns>
+    public static string ToJson(
+        this IReadOnlyCollection<IndicatorListing> catalog,
+        string? filePath = null)
+    {
+        ArgumentNullException.ThrowIfNull(catalog);
+
+        string json = JsonSerializer.Serialize(catalog, JsonOptions);
+
+        // Save to file if path is provided
+        if (!string.IsNullOrWhiteSpace(filePath))
+        {
+            File.WriteAllText(filePath, json);
+        }
+
+        return json;
+    }
+
+    /// <summary>
+    /// Converts the catalog to a Markdown string representation.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="asChecklist">The markdown format type - checklist (true, default) or table (false).</param>
+    /// <param name="filePath">
+    /// Optional file path to save the Markdown output.
+    /// If provided, the content will be written to this file.
+    /// </param>
+    /// <returns>A Markdown string representation of the catalog.</returns>
+    public static string ToMarkdown(
+        this IReadOnlyCollection<IndicatorListing> catalog,
+        bool asChecklist = true,
+        string? filePath = null)
+    {
+        ArgumentNullException.ThrowIfNull(catalog);
+
+        string markdown = asChecklist
+            ? ToMarkdownChecklist(catalog)
+            : ToMarkdownTable(catalog);
+
+        // Save to file if path is provided
+        if (!string.IsNullOrWhiteSpace(filePath))
+        {
+            File.WriteAllText(filePath, markdown);
+        }
+
+        return markdown;
+    }
+
+    /// <summary>
+    /// Converts the catalog to a Markdown checklist format.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <returns>A Markdown checklist string with format: - [ ] {id}: {name} ({available types})</returns>
+    private static string ToMarkdownChecklist(IReadOnlyCollection<IndicatorListing> catalog)
+    {
+        StringBuilder sb = new();
+
+        // Group by ID to show all styles for each indicator
+        IOrderedEnumerable<IGrouping<string, IndicatorListing>> groupedIndicators = catalog
+            .GroupBy(listing => listing.Uiid)
+            .OrderBy(group => group.Key);
+
+        foreach (IGrouping<string, IndicatorListing>? group in groupedIndicators)
+        {
+            IndicatorListing firstListing = group.First();
+            string availableTypes = string.Join(", ", group.Select(l => l.Style.ToString()).OrderBy(s => s));
+
+            sb.AppendLine(CultureInfo.InvariantCulture, $"- [ ] {group.Key}: {firstListing.Name} ({availableTypes})");
+        }
+
+        return sb.ToString().TrimEnd();
+    }
+
+    /// <summary>
+    /// Converts the catalog to a Markdown table format.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <returns>A Markdown table with columns for ID, Name, Series, Buffer, Stream.</returns>
+    private static string ToMarkdownTable(IReadOnlyCollection<IndicatorListing> catalog)
+    {
+        StringBuilder sb = new();
+
+        // Group by ID to consolidate multiple styles into single rows
+        IOrderedEnumerable<IGrouping<string, IndicatorListing>> groupedIndicators = catalog
+            .GroupBy(listing => listing.Uiid)
+            .OrderBy(group => group.Key);
+
+        // Table header
+        sb.AppendLine("| ID | Name | Series | Buffer | Stream |");
+        sb.AppendLine("|---|---|:---:|:---:|:---:|");
+
+        // Table rows
+        foreach (IGrouping<string, IndicatorListing>? group in groupedIndicators)
+        {
+            IndicatorListing firstListing = group.First();
+            List<IndicatorListing> styles = group.ToList();
+
+            // Check which styles are available
+            string hasSeries = styles.Any(s => s.Style == Style.Series) ? "✓" : "";
+            string hasBuffer = styles.Any(s => s.Style == Style.Buffer) ? "✓" : "";
+            string hasStream = styles.Any(s => s.Style == Style.Stream) ? "✓" : "";
+
+            sb.AppendLine(CultureInfo.InvariantCulture, $"| {group.Key} | {firstListing.Name} | {hasSeries} | {hasBuffer} | {hasStream} |");
+        }
+
+        return sb.ToString().TrimEnd();
     }
 }

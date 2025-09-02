@@ -17,10 +17,10 @@ public enum Style
     /// <summary>
     /// Represents a buffer mode for data processing or storage.
     /// </summary>
-    Buffer = 1,
+    Buffer = 10,
 
     /// <summary>
     /// Represents a mode where data is streamed continuously.
     /// </summary>
-    Stream = 2
+    Stream = 20
 }

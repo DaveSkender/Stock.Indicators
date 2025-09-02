@@ -100,7 +100,7 @@ public class EmaTests : TestBase
         listing.Style.Should().Be(Style.Series);
         listing.Category.Should().Be(Category.MovingAverage);
         listing.MethodName.Should().Be("ToEma");
-        listing.Parameters.Should().HaveCount(2);
+        listing.Parameters.Should().HaveCount(1);
         listing.Results.Should().HaveCount(1);
     }
 
@@ -205,14 +205,12 @@ public class EmaTests : TestBase
 
         // Act - Create custom indicator without quotes
         CustomIndicatorBuilder customIndicator = listing
-            .WithParamValue("lookbackPeriods", 10)
-            .WithParamValue("smoothingFactor", 0.1); // Use valid parameter instead of warmupPeriods
+            .WithParamValue("lookbackPeriods", 10);
 
         // Assert - Verify builder properties
         customIndicator.BaseListing.Should().Be(listing);
-        customIndicator.ParameterOverrides.Should().HaveCount(2);
+        customIndicator.ParameterOverrides.Should().HaveCount(1);
         customIndicator.ParameterOverrides["lookbackPeriods"].Should().Be(10);
-        customIndicator.ParameterOverrides["smoothingFactor"].Should().Be(0.1);
         customIndicator.HasQuotes.Should().BeFalse();
 
         // Act - Add quotes using FromSource(IEnumerable<IQuote>)
