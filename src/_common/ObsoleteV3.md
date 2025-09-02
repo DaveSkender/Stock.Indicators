@@ -26,6 +26,7 @@ This guide provides a migration path from v2 to v3 of the Stock Indicators libra
 - `SyncSeries()` utility function and related `SyncType` enum were removed.
 - `ToTupleCollection<TQuote>()` utility method was deprecated.
 - `Find()` and `FindIndex()` utility methods were removed.
+- `SmaAnalysis` result model was renamed to `SmaAnalysisResult` for consistency.
 
 ## Exact Syntax Changes
 
