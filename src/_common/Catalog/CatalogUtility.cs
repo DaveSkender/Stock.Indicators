@@ -9,6 +9,10 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static class CatalogUtility
 {
+    private static readonly JsonSerializerOptions JsonOptions = new() {
+        PropertyNameCaseInsensitive = true,
+        Converters = { new StyleJsonConverter() }
+    };
 
     /// <summary>
     /// Executes an indicator using only its ID and style with a typed result.
@@ -75,7 +79,7 @@ public static class CatalogUtility
         IndicatorConfig config;
         try
         {
-            config = JsonSerializer.Deserialize<IndicatorConfig>(json)
+            config = JsonSerializer.Deserialize<IndicatorConfig>(json, JsonOptions)
                 ?? throw new ArgumentException("Failed to parse JSON configuration - result was null.", nameof(json));
         }
         catch (JsonException ex)
@@ -141,4 +145,33 @@ public static class CatalogUtility
             JsonValueKind.Null => null,
             _ => element.ToString()
         };
+
+    /// <summary>
+    /// Custom JSON converter for Style enum that accepts either integer values or string names (case-insensitive).
+    /// </summary>
+    private sealed class StyleJsonConverter : JsonConverter<Style>
+    {
+        public override Style Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                int numeric = reader.GetInt32();
+                return Enum.IsDefined(typeof(Style), numeric)
+                    ? (Style)numeric
+                    : throw new JsonException($"Invalid Style value: {numeric}");
+            }
+
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                string? str = reader.GetString();
+                return !string.IsNullOrWhiteSpace(str) && Enum.TryParse(str, ignoreCase: true, out Style parsed)
+                    ? parsed
+                    : throw new JsonException($"Invalid Style value: '{str}'");
+            }
+
+            throw new JsonException($"Unexpected token parsing Style: {reader.TokenType}");
+        }
+
+        public override void Write(Utf8JsonWriter writer, Style value, JsonSerializerOptions options) => writer.WriteStringValue(value.ToString());
+    }
 }

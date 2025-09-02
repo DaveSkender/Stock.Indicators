@@ -181,6 +181,9 @@ Use the indicator catalog to discover indicators, build simple pickers, or expor
 - Build configuration UIs or export to JSON
 - Optionally execute an indicator by ID (no compile-time generics required)
 
+> [!IMPORTANT]
+> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](guide.md) for normal sytax examples.
+
 ### Browse or export the catalog
 
 ```csharp
@@ -205,19 +208,28 @@ string catalogJson = JsonSerializer.Serialize(indicatorCatalog);
 ### Execute by ID (dynamic)
 
 ```csharp
-// run an indicator using just ID + Style (typed)
-IReadOnlyList<EmaResult> emaResultsById = quotes.ExecuteById<EmaResult>(
-  id: "EMA",
-  style: Style.Series,
-  parameters: new() { ["lookbackPeriods"] = 20 });
+// run an indicator using just ID + Style
+IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
+    id: "EMA",
+    style: Style.Series,
+    parameters: new() {
+        { "lookbackPeriods", lookback }
+    });
 ```
 
 ### Execute by config (JSON)
 
 ```csharp
-// execute from a JSON config string
-string emaConfigJson = "{\"id\":\"EMA\",\"style\":\"Series\",\"parameters\":{\"lookbackPeriods\":20}}";
-IReadOnlyList<EmaResult> emaResultsFromJson = quotes.ExecuteFromJson<EmaResult>(emaConfigJson);
+string string json = """
+    {
+        "id" : "EMA",
+        "style" : "Series",
+        "parameters" : { "lookbackPeriods" : 20 }
+    }
+    """;
+
+IReadOnlyList<EmaResult> emaResultsFromJson
+    = quotes.ExecuteFromJson<EmaResult>(json);
 ```
 
 ### Execute with strong typing
@@ -228,7 +240,13 @@ IndicatorListing indicatorListing = IndicatorRegistry
   .GetByIdAndStyle("EMA", Style.Series)
   ?? throw new InvalidOperationException("Indicator 'EMA' (Series) not found.");
 
-IReadOnlyList<EmaResult> emaResultsTyped = indicatorListing
-  .From(quotes)
+// Call the quotes overload directly
+IReadOnlyList<EmaResult> emaResultsWithDefaults = indicatorListing
+  .Execute<EmaResult>(quotes);
+
+// Or with specified parameters
+IReadOnlyList<EmaResult> emaResultsWithParams = indicatorListing
+  .FromSource(quotes)
+  .WithParamValue("lookbackPeriods", 10)
   .Execute<EmaResult>();
 ```

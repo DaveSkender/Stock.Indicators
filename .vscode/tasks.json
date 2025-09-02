@@ -11,7 +11,11 @@
       "group": "none",
       "problemMatcher": [
         "$msCompile"
-      ]
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Build: .NET Solution",
@@ -28,7 +32,11 @@
         "$msCompile"
       ],
       "dependsOn": "Install: .NET Packages",
-      "dependsOrder": "sequence"
+      "dependsOrder": "sequence",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Test: .NET Solution",
@@ -43,7 +51,11 @@
       },
       "problemMatcher": [],
       "dependsOn": "Install: .NET Packages",
-      "dependsOrder": "sequence"
+      "dependsOrder": "sequence",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Run: Doc Site with LiveReload",
@@ -59,7 +71,11 @@
         }
       },
       "group": "none",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Install: Ruby Packages (docs)",
@@ -73,7 +89,11 @@
         }
       },
       "group": "none",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Update: Ruby Packages (docs)",
@@ -87,7 +107,11 @@
         }
       },
       "group": "none",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
     }
   ]
 }

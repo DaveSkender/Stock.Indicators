@@ -9,6 +9,66 @@ namespace Catalog;
 public class EmaTests : TestBase
 {
     [TestMethod]
+    public void EmaExecuteByIdMatchesDirect()
+    {
+        // Arrange
+        IReadOnlyList<Quote> quotes = Quotes;
+        int lookback = 20;
+
+        // Act - Execute via catalog ExecuteById
+        IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
+            id: "EMA",
+            style: Style.Series,
+            parameters: new() {
+                { "lookbackPeriods", lookback }
+            });
+
+        // Act - Direct call
+        IReadOnlyList<EmaResult> direct = quotes.ToEma(lookback);
+
+        // Assert
+        byId.Should().BeEquivalentTo(direct);
+    }
+
+    [TestMethod]
+    public void EmaExecuteFromJsonMatchesDirect()
+    {
+        // Arrange
+        IReadOnlyList<Quote> quotes = Quotes;
+
+        string json = """
+            {
+                "id" : "EMA",
+                "style" : "Series",
+                "parameters" : { "lookbackPeriods" : 20 }
+            }
+            """;
+
+        // Act - Execute via JSON config
+        IReadOnlyList<EmaResult> fromJson = quotes.ExecuteFromJson<EmaResult>(json);
+
+        // Act - Direct call
+        IReadOnlyList<EmaResult> direct = quotes.ToEma(20);
+
+        // Assert
+        fromJson.Should().BeEquivalentTo(direct);
+    }
+
+    [TestMethod]
+    public void CatalogBrowsingIncludesEmaSeries()
+    {
+        // Act
+        IReadOnlyCollection<IndicatorListing> catalog = IndicatorRegistry.GetCatalog();
+        IndicatorListing emaSeries = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+        IReadOnlyCollection<IndicatorListing> seriesListings = IndicatorRegistry.GetByStyle(Style.Series);
+
+        // Assert
+        catalog.Should().NotBeNull();
+        catalog.Should().Contain(l => l.Uiid == "EMA" && l.Style == Style.Series);
+        emaSeries.Should().NotBeNull();
+        seriesListings.Should().Contain(l => l.Uiid == "EMA" && l.Style == Style.Series);
+    }
+    [TestMethod]
     public void EmaSeriesListing()
     {
         // Arrange
@@ -42,6 +102,21 @@ public class EmaTests : TestBase
         listing.MethodName.Should().Be("ToEma");
         listing.Parameters.Should().HaveCount(2);
         listing.Results.Should().HaveCount(1);
+    }
+
+    [TestMethod]
+    public void EmaSeriesExecutesFromRegistry()
+    {
+        IndicatorListing listing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+
+        IReadOnlyList<EmaResult> catalogResult = listing.Execute<EmaResult>(Quotes);
+
+        int lookbackPeriod = (int)listing.Parameters
+            .Single(p => p.ParameterName == "lookbackPeriods")
+            .DefaultValue;
+
+        lookbackPeriod.Should().Be(20, "this is what's defined in the catalog");
+        catalogResult.Should().BeEquivalentTo(Quotes.ToEma(lookbackPeriod));
     }
 
     [TestMethod]
