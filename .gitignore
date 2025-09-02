@@ -331,3 +331,9 @@ ASALocalRun/
 
 # zip artifacts
 .DS_Store
+
+# dotnet-tool manifest
+/.config/
+
+# Playwright
+/.playwright*
