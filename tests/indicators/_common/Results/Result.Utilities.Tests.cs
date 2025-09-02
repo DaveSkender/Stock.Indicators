@@ -65,7 +65,7 @@ public class Results : TestBase
         Collection<(DateTime Date, double Value)> nanResults = baseline
             .ToTupleNaN();
 
-        Assert.AreEqual(4, nanResults.Count(x => x.Value is double.NaN));
+        Assert.AreEqual(4, nanResults.Count(x => double.IsNaN(x.Value)));
         Assert.HasCount(9, nanResults);
     }
 }
