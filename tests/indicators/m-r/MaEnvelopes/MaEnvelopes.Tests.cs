@@ -265,7 +265,7 @@ public class MaEnvelopesTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.UpperEnvelope is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.UpperEnvelope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

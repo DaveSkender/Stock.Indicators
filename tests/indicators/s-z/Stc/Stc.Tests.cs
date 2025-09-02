@@ -60,7 +60,9 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Stc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Stc is double v && double.IsNaN(v)));
+
+        // Additional assertions can be added here if needed
     }
 
     [TestMethod]
@@ -95,7 +97,9 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Stc is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Stc is double v && double.IsNaN(v)));
+
+        // Additional assertions can be added here if needed
     }
 
     [TestMethod]

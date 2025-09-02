@@ -39,7 +39,7 @@ public class CciTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Cci is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Cci is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

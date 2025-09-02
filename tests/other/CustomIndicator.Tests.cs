@@ -204,7 +204,7 @@ public class CustomIndicators
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]
@@ -214,7 +214,7 @@ public class CustomIndicators
             .GetIndicator(50)
             .ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]
@@ -225,7 +225,7 @@ public class CustomIndicators
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Sma is not null and double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Sma is not null and double.NaN));
     }
 
     [TestMethod]

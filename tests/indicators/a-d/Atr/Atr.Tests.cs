@@ -61,7 +61,7 @@ public class AtrTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Atr is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Atr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

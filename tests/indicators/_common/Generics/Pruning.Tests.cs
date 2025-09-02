@@ -26,6 +26,6 @@ public class Pruning : TestBase
             quotes.GetHeikinAshi()
               .RemoveWarmupPeriods(600);
 
-        Assert.AreEqual(0, results.Count());
+        Assert.IsEmpty(results);
     }
 }

@@ -54,7 +54,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.T3 is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.T3 is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.T3 is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.T3 is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

@@ -134,7 +134,7 @@ public class ZigZagTests : TestBase
             .GetZigZag(EndType.Close, 5m)
             .ToList();
 
-        Assert.AreEqual(0, results.Count(x => x.PointType != null));
+        Assert.IsEmpty(results.Where(x => x.PointType != null));
     }
 
     [TestMethod]

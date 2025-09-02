@@ -101,7 +101,7 @@ public class SmiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Smi is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Smi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

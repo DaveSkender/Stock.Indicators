@@ -64,8 +64,8 @@ public class Syncing : TestBase
         List<EmaResult> remove = eval.SyncIndex(baseline, SyncType.RemoveOnly).ToList();
 
         Assert.HasCount(6, remove);
-        Assert.AreEqual(0, remove.Count(x => x.Ema is null));
-        Assert.AreEqual(0, remove.Count(x =>
+        Assert.IsEmpty(remove.Where(x => x.Ema is null));
+        Assert.IsEmpty(remove.Where(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         // full option
@@ -73,7 +73,7 @@ public class Syncing : TestBase
 
         Assert.HasCount(9, fullmatch);
         Assert.AreEqual(3, fullmatch.Count(x => x.Ema is null));
-        Assert.AreEqual(0, fullmatch.Count(x =>
+        Assert.IsEmpty(fullmatch.Where(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         for (int i = 0; i < baseline.Count; i++)

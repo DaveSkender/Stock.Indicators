@@ -61,7 +61,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -97,11 +97,11 @@ public class Alma : TestBase
     {
         List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma(9, 0.85, 6).ToList();
 
-        Assert.AreEqual(0, r1.Count(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r1.Where(x => x.Alma is double v && double.IsNaN(v)));
 
         List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20, 0.85, 6).ToList();
 
-        Assert.AreEqual(0, r2.Count(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r2.Where(x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public class Alma : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

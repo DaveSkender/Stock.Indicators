@@ -64,7 +64,7 @@ public class AdxTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class AdxTests : TestBase
 
         List<AdxResult> r = test859.GetAdx(14).ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
         Assert.HasCount(595, r);
     }
 
@@ -112,7 +112,7 @@ public class AdxTests : TestBase
     {
         List<AdxResult> r = zeroesQuotes.GetAdx(14).ToList();
 
-        Assert.AreEqual(0, r.Count(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
         Assert.HasCount(200, r);
     }
 

@@ -103,7 +103,7 @@ public class ParabolicSarTests : TestBase
 
         // proper quantities
         Assert.HasCount(10, results);
-        Assert.AreEqual(0, results.Count(x => x.Sar != null));
+        Assert.IsEmpty(results.Where(x => x.Sar != null));
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class ParabolicSarTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Sar is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

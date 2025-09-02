@@ -61,7 +61,7 @@ public class ObvTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Obv)));
+        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Obv)));
     }
 
     [TestMethod]

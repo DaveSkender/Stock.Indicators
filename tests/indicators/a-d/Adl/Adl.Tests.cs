@@ -70,7 +70,7 @@ public class AdlTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => double.IsNaN(x.Adl)));
+        Assert.IsEmpty(r.Where(x => double.IsNaN(x.Adl)));
     }
 
     [TestMethod]

@@ -42,7 +42,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class HmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

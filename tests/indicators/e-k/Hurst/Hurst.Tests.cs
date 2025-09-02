@@ -41,7 +41,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class HurstTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.HurstExponent is double v && double.IsNaN(v)));
+        Assert.IsEmpty(r.Where(x => x.HurstExponent is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
