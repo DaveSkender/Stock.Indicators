@@ -49,8 +49,8 @@ public class Results : TestBase
         List<(DateTime Date, double Value)> chainableTuple = baseline
             .ToTuple();
 
-        Assert.AreEqual(5, chainableTuple.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, chainableTuple.Count(x => double.IsNaN(x.Value)));
+        Assert.HasCount(5, chainableTuple.Where(x => !double.IsNaN(x.Value)));
+        Assert.HasCount(2, chainableTuple.Where(x => double.IsNaN(x.Value)));
 
         // PUBLIC VARIANT
 
@@ -58,14 +58,14 @@ public class Results : TestBase
         Collection<(DateTime Date, double Value)> cnaNresults = baseline
             .ToTupleChainable();
 
-        Assert.AreEqual(5, cnaNresults.Count(x => !double.IsNaN(x.Value)));
-        Assert.AreEqual(2, cnaNresults.Count(x => double.IsNaN(x.Value)));
+        Assert.HasCount(5, cnaNresults.Where(x => !double.IsNaN(x.Value)));
+        Assert.HasCount(2, cnaNresults.Where(x => double.IsNaN(x.Value)));
 
         // with NaN option, no pruning
         Collection<(DateTime Date, double Value)> nanResults = baseline
             .ToTupleNaN();
 
-        Assert.AreEqual(4, nanResults.Count(x => double.IsNaN(x.Value)));
+        Assert.HasCount(4, nanResults.Where(x => double.IsNaN(x.Value)));
         Assert.HasCount(9, nanResults);
     }
 }

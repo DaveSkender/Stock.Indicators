@@ -16,9 +16,9 @@ public class PvoTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(477, results.Count(x => x.Pvo != null));
-        Assert.AreEqual(469, results.Count(x => x.Signal != null));
-        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
+        Assert.HasCount(477, results.Where(x => x.Pvo != null));
+        Assert.HasCount(469, results.Where(x => x.Signal != null));
+        Assert.HasCount(469, results.Where(x => x.Histogram != null));
 
         // sample values
         PvoResult r1 = results[24];
@@ -56,7 +56,7 @@ public class PvoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(468, results.Count(x => x.Sma != null));
+        Assert.HasCount(468, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

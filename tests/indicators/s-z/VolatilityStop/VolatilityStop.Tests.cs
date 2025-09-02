@@ -12,7 +12,7 @@ public class VolatilityStopTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(448, results.Count(x => x.Sar != null));
+        Assert.HasCount(448, results.Where(x => x.Sar != null));
 
         // sample values
         VolatilityStopResult r53 = results[53];
@@ -70,7 +70,7 @@ public class VolatilityStopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(439, results.Count(x => x.Sma != null));
+        Assert.HasCount(439, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

@@ -11,7 +11,7 @@ public class Pruning : TestBase
             quotes.GetHeikinAshi()
               .RemoveWarmupPeriods(102);
 
-        Assert.AreEqual(400, results.Count());
+        Assert.HasCount(400, results);
 
         // bad remove period
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(

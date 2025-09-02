@@ -15,7 +15,7 @@ public class VwapTests : TestBase
 
         // proper quantities
         Assert.HasCount(391, results);
-        Assert.AreEqual(391, results.Count(x => x.Vwap != null));
+        Assert.HasCount(391, results.Where(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[0];
@@ -43,7 +43,7 @@ public class VwapTests : TestBase
 
         // proper quantities
         Assert.HasCount(391, results);
-        Assert.AreEqual(361, results.Count(x => x.Vwap != null));
+        Assert.HasCount(361, results.Where(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[29];
@@ -68,7 +68,7 @@ public class VwapTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

@@ -12,7 +12,7 @@ public class VwmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Vwma != null));
+        Assert.HasCount(493, results.Where(x => x.Vwma != null));
 
         // sample values
         VwmaResult r8 = results[8];
@@ -34,7 +34,7 @@ public class VwmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

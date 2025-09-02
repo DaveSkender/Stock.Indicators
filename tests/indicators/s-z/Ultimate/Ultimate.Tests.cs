@@ -12,7 +12,7 @@ public class UltimateTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Ultimate != null));
+        Assert.HasCount(474, results.Where(x => x.Ultimate != null));
 
         // sample values
         UltimateResult r1 = results[74];
@@ -34,7 +34,7 @@ public class UltimateTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(465, results.Count(x => x.Sma != null));
+        Assert.HasCount(465, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

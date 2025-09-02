@@ -12,7 +12,7 @@ public class TrTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Tr != null));
+        Assert.HasCount(501, results.Where(x => x.Tr != null));
 
         // sample values
         TrResult r0 = results[0];

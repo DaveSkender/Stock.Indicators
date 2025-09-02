@@ -21,7 +21,7 @@ public class StcTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(467, results.Count(x => x.Stc != null));
+        Assert.HasCount(467, results.Where(x => x.Stc != null));
 
         // sample values
         StcResult r34 = results[34];
@@ -49,7 +49,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(467, results.Count(x => x.Stc != null));
+        Assert.HasCount(467, results.Where(x => x.Stc != null));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(466, results.Count(x => x.Stc != null));
+        Assert.HasCount(466, results.Where(x => x.Stc != null));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class StcTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(458, results.Count(x => x.Sma != null));
+        Assert.HasCount(458, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

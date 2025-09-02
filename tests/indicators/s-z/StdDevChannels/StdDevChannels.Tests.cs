@@ -15,9 +15,9 @@ public class StdDevChannelsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(500, results.Count(x => x.UpperChannel != null));
-        Assert.AreEqual(500, results.Count(x => x.LowerChannel != null));
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(x => x.UpperChannel != null));
+        Assert.HasCount(500, results.Where(x => x.LowerChannel != null));
 
         // sample value
         StdDevChannelsResult r1 = results[1];
@@ -74,10 +74,10 @@ public class StdDevChannelsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));
-        Assert.AreEqual(502, results.Count(x => x.LowerChannel != null));
-        Assert.AreEqual(501, results.Count(x => !x.BreakPoint));
+        Assert.HasCount(502, results.Where(x => x.Centerline != null));
+        Assert.HasCount(502, results.Where(x => x.UpperChannel != null));
+        Assert.HasCount(502, results.Where(x => x.LowerChannel != null));
+        Assert.HasCount(501, results.Where(x => !x.BreakPoint));
 
         // sample value
         StdDevChannelsResult r1 = results[0];
@@ -106,7 +106,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -129,7 +129,7 @@ public class StdDevChannelsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]

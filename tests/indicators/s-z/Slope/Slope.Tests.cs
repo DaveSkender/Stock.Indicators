@@ -12,9 +12,9 @@ public class SlopeTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Slope != null));
-        Assert.AreEqual(483, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(20, results.Count(x => x.Line != null));
+        Assert.HasCount(483, results.Where(x => x.Slope != null));
+        Assert.HasCount(483, results.Where(x => x.StdDev != null));
+        Assert.HasCount(20, results.Where(x => x.Line != null));
 
         // sample values
         SlopeResult r1 = results[249];
@@ -48,7 +48,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Slope != null));
+        Assert.HasCount(483, results.Where(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Slope != null));
+        Assert.HasCount(482, results.Where(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

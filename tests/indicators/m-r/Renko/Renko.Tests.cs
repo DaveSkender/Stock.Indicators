@@ -13,8 +13,8 @@ public class RenkoTests : TestBase
         // assertions
 
         Assert.HasCount(112, results);
-        Assert.AreEqual(62, results.Count(x => x.IsUp));
-        Assert.AreEqual(50, results.Count(x => !x.IsUp));
+        Assert.HasCount(62, results.Where(x => x.IsUp));
+        Assert.HasCount(50, results.Where(x => !x.IsUp));
 
         // sample values
         RenkoResult r0 = results[0];
@@ -112,7 +112,7 @@ public class RenkoTests : TestBase
     {
         IEnumerable<RenkoResult> renkoQuotes = quotes.GetRenko(2.5m);
         IEnumerable<SmaResult> renkoSma = renkoQuotes.GetSma(5);
-        Assert.AreEqual(108, renkoSma.Count(x => x.Sma != null));
+        Assert.HasCount(108, renkoSma.Where(x => x.Sma != null));
     }
 
     [TestMethod]

@@ -14,10 +14,10 @@ public class ZigZagTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(234, results.Count(x => x.ZigZag != null));
-        Assert.AreEqual(234, results.Count(x => x.RetraceHigh != null));
-        Assert.AreEqual(221, results.Count(x => x.RetraceLow != null));
-        Assert.AreEqual(14, results.Count(x => x.PointType != null));
+        Assert.HasCount(234, results.Where(x => x.ZigZag != null));
+        Assert.HasCount(234, results.Where(x => x.RetraceHigh != null));
+        Assert.HasCount(221, results.Where(x => x.RetraceLow != null));
+        Assert.HasCount(14, results.Where(x => x.PointType != null));
 
         // sample values
         ZigZagResult r0 = results[249];
@@ -66,10 +66,10 @@ public class ZigZagTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(463, results.Count(x => x.ZigZag != null));
-        Assert.AreEqual(463, results.Count(x => x.RetraceHigh != null));
-        Assert.AreEqual(442, results.Count(x => x.RetraceLow != null));
-        Assert.AreEqual(30, results.Count(x => x.PointType != null));
+        Assert.HasCount(463, results.Where(x => x.ZigZag != null));
+        Assert.HasCount(463, results.Where(x => x.RetraceHigh != null));
+        Assert.HasCount(442, results.Where(x => x.RetraceLow != null));
+        Assert.HasCount(30, results.Where(x => x.PointType != null));
 
         // sample values
         ZigZagResult r38 = results[38];
@@ -118,7 +118,7 @@ public class ZigZagTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(225, results.Count(x => x.Sma != null));
+        Assert.HasCount(225, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

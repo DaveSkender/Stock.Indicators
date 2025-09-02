@@ -16,9 +16,9 @@ public class StarcBandsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
+        Assert.HasCount(483, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(483, results.Where(x => x.LowerBand != null));
 
         // sample value
         StarcBandsResult r1 = results[18];

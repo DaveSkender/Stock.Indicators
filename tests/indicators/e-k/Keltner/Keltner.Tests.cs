@@ -18,10 +18,10 @@ public class KeltnerTests : TestBase
         Assert.HasCount(502, results);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.LowerBand != null));
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.Width != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.Centerline != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.Width != null));
 
         // sample value
         KeltnerResult r1 = results[485];

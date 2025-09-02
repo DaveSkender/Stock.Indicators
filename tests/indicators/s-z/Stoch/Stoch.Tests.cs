@@ -109,7 +109,7 @@ public class StochTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(478, results.Count(x => x.Sma != null));
+        Assert.HasCount(478, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

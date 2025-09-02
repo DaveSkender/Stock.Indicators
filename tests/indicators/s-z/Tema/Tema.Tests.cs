@@ -12,7 +12,7 @@ public class TemaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Tema != null));
+        Assert.HasCount(483, results.Where(x => x.Tema != null));
 
         // sample values
         TemaResult r25 = results[25];
@@ -37,7 +37,7 @@ public class TemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Tema != null));
+        Assert.HasCount(483, results.Where(x => x.Tema != null));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class TemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Tema != null));
+        Assert.HasCount(482, results.Where(x => x.Tema != null));
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class TemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

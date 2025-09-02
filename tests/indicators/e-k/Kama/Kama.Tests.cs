@@ -16,7 +16,7 @@ public class KamaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(492, results.Count(x => x.ER != null));
+        Assert.HasCount(492, results.Where(x => x.ER != null));
         Assert.AreEqual(493, results.Count(x => x.Kama != null));
 
         // sample values

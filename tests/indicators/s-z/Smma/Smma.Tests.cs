@@ -12,7 +12,7 @@ public class SmmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Smma != null));
+        Assert.HasCount(483, results.Where(x => x.Smma != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[18].Smma);
@@ -35,7 +35,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Smma != null));
+        Assert.HasCount(483, results.Where(x => x.Smma != null));
     }
 
     [TestMethod]
@@ -58,7 +58,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Smma != null));
+        Assert.HasCount(482, results.Where(x => x.Smma != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class SmmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

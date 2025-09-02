@@ -36,7 +36,7 @@ public class Syncing : TestBase
         List<EmaResult> prepend = eval.SyncIndex(baseline, SyncType.Prepend).ToList();
 
         Assert.HasCount(9, prepend);
-        Assert.AreEqual(3, prepend.Count(x => x.Ema is null));
+        Assert.HasCount(3, prepend.Where(x => x.Ema is null));
 
         for (int i = 0; i < 6; i++)
         {
@@ -50,7 +50,7 @@ public class Syncing : TestBase
         List<EmaResult> append = eval.SyncIndex(baseline, SyncType.AppendOnly).ToList();
 
         Assert.HasCount(10, append);
-        Assert.AreEqual(4, append.Count(x => x.Ema is null));
+        Assert.HasCount(4, append.Where(x => x.Ema is null));
 
         for (int i = 0; i < 8; i++)
         {
@@ -72,7 +72,7 @@ public class Syncing : TestBase
         List<EmaResult> fullmatch = eval.SyncIndex(baseline, SyncType.FullMatch).ToList();
 
         Assert.HasCount(9, fullmatch);
-        Assert.AreEqual(3, fullmatch.Count(x => x.Ema is null));
+        Assert.HasCount(3, fullmatch.Where(x => x.Ema is null));
         Assert.IsEmpty(fullmatch.Where(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 

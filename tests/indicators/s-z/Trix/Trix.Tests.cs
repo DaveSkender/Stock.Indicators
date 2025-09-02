@@ -12,9 +12,9 @@ public class TrixTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Ema3 != null));
-        Assert.AreEqual(482, results.Count(x => x.Trix != null));
-        Assert.AreEqual(478, results.Count(x => x.Signal != null));
+        Assert.HasCount(482, results.Where(x => x.Ema3 != null));
+        Assert.HasCount(482, results.Where(x => x.Trix != null));
+        Assert.HasCount(478, results.Where(x => x.Signal != null));
 
         // sample values
         TrixResult r24 = results[24];
@@ -47,7 +47,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Trix != null));
+        Assert.HasCount(482, results.Where(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Trix != null));
+        Assert.HasCount(481, results.Where(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class TrixTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

@@ -12,7 +12,7 @@ public class SmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -32,7 +32,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -52,7 +52,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         SmaResult r24 = results[24];
@@ -75,7 +75,7 @@ public class SmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(484, results.Count(x => x.Ema != null));
+        Assert.HasCount(484, results.Where(x => x.Ema != null));
     }
 
     [TestMethod]

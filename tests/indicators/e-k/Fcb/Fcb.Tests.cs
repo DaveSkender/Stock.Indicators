@@ -12,8 +12,8 @@ public class FcbTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(497, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(493, results.Count(x => x.LowerBand != null));
+        Assert.HasCount(497, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(493, results.Where(x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];

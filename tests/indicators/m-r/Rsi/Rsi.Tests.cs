@@ -12,7 +12,7 @@ public class RsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Rsi != null));
+        Assert.HasCount(488, results.Where(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[13];
@@ -38,7 +38,7 @@ public class RsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Rsi != null));
+        Assert.HasCount(501, results.Where(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[28];
@@ -69,7 +69,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Rsi != null));
+        Assert.HasCount(488, results.Where(x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -92,7 +92,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(487, results.Count(x => x.Rsi != null));
+        Assert.HasCount(487, results.Where(x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

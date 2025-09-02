@@ -12,7 +12,7 @@ public class WmaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+        Assert.HasCount(483, results.Where(x => x.Wma != null));
 
         // sample values
         WmaResult r1 = results[149];
@@ -31,7 +31,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+        Assert.HasCount(483, results.Where(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -54,7 +54,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Wma != null));
+        Assert.HasCount(482, results.Where(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class WmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

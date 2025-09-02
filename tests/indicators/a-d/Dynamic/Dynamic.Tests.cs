@@ -12,7 +12,7 @@ public class McGinleyDynamicTests : TestBase
 
         // assertions
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
+        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
 
         // sample values
         DynamicResult r1 = results[1];
@@ -37,7 +37,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
+        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
         Assert.IsEmpty(results.Where(x => x.Dynamic is double v && double.IsNaN(v)));
     }
 

@@ -15,7 +15,7 @@ public class ParabolicSarTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Sar != null));
+        Assert.HasCount(488, results.Where(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -49,7 +49,7 @@ public class ParabolicSarTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Sar != null));
+        Assert.HasCount(488, results.Where(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -82,7 +82,7 @@ public class ParabolicSarTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

@@ -12,8 +12,8 @@ public class PmoTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(448, results.Count(x => x.Pmo != null));
-        Assert.AreEqual(439, results.Count(x => x.Signal != null));
+        Assert.HasCount(448, results.Where(x => x.Pmo != null));
+        Assert.HasCount(439, results.Where(x => x.Signal != null));
 
         // sample values
         PmoResult r1 = results[92];
@@ -34,7 +34,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(448, results.Count(x => x.Pmo != null));
+        Assert.HasCount(448, results.Where(x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(447, results.Count(x => x.Pmo != null));
+        Assert.HasCount(447, results.Where(x => x.Pmo != null));
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class PmoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(439, results.Count(x => x.Sma != null));
+        Assert.HasCount(439, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

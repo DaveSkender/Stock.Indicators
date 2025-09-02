@@ -12,8 +12,8 @@ public class TsiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
-        Assert.AreEqual(459, results.Count(x => x.Signal != null));
+        Assert.HasCount(465, results.Where(x => x.Tsi != null));
+        Assert.HasCount(459, results.Where(x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
@@ -50,7 +50,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
+        Assert.HasCount(465, results.Where(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(464, results.Count(x => x.Tsi != null));
+        Assert.HasCount(464, results.Where(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class TsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(456, results.Count(x => x.Sma != null));
+        Assert.HasCount(456, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

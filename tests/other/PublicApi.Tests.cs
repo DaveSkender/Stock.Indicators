@@ -107,7 +107,7 @@ public class PublicClasses
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];

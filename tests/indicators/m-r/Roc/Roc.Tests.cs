@@ -12,8 +12,8 @@ public class RocTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Momentum != null));
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(x => x.Momentum != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
         Assert.IsFalse(results.Any(x => x.RocSma != null));
 
         // sample values
@@ -45,8 +45,8 @@ public class RocTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
-        Assert.AreEqual(478, results.Count(x => x.RocSma != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(478, results.Where(x => x.RocSma != null));
 
         // sample values
         RocResult r1 = results[29];
@@ -67,7 +67,7 @@ public class RocTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class RocTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Roc != null));
+        Assert.HasCount(481, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -102,7 +102,7 @@ public class RocTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

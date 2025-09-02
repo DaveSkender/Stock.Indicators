@@ -12,8 +12,8 @@ public class StdDevTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(x => x.ZScore != null));
         Assert.IsFalse(results.Any(x => x.StdDevSma != null));
 
         // sample values
@@ -51,7 +51,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -74,7 +74,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(492, results.Count(x => x.StdDev != null));
+        Assert.HasCount(492, results.Where(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -100,9 +100,9 @@ public class StdDevTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
-        Assert.AreEqual(489, results.Count(x => x.StdDevSma != null));
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(x => x.ZScore != null));
+        Assert.HasCount(489, results.Where(x => x.StdDevSma != null));
 
         // sample values
         StdDevResult r1 = results[19];

@@ -15,7 +15,7 @@ public class ChaikinOscTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Oscillator != null));
+        Assert.HasCount(493, results.Where(x => x.Oscillator != null));
 
         // sample value
         ChaikinOscResult r = results[501];
@@ -34,7 +34,7 @@ public class ChaikinOscTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

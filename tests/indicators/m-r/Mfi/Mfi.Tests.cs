@@ -12,7 +12,7 @@ public class MfiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Mfi != null));
+        Assert.HasCount(488, results.Where(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[439];
@@ -31,7 +31,7 @@ public class MfiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -45,7 +45,7 @@ public class MfiTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(498, results.Count(x => x.Mfi != null));
+        Assert.HasCount(498, results.Where(x => x.Mfi != null));
 
         // sample values
         MfiResult r1 = results[31];

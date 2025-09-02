@@ -12,10 +12,10 @@ public class RocWbTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
-        Assert.AreEqual(480, results.Count(x => x.RocEma != null));
-        Assert.AreEqual(463, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(463, results.Count(x => x.LowerBand != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(480, results.Where(x => x.RocEma != null));
+        Assert.HasCount(463, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(463, results.Where(x => x.LowerBand != null));
 
         // sample values
         RocWbResult r19 = results[19];
@@ -76,7 +76,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(481, results.Count(x => x.Roc != null));
+        Assert.HasCount(481, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class RocWbTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

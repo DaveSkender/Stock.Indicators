@@ -12,12 +12,12 @@ public class PivotsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(35, results.Count(x => x.HighPoint != null));
-        Assert.AreEqual(333, results.Count(x => x.HighTrend != null));
-        Assert.AreEqual(338, results.Count(x => x.HighLine != null));
-        Assert.AreEqual(34, results.Count(x => x.LowPoint != null));
-        Assert.AreEqual(328, results.Count(x => x.LowTrend != null));
-        Assert.AreEqual(333, results.Count(x => x.LowLine != null));
+        Assert.HasCount(35, results.Where(x => x.HighPoint != null));
+        Assert.HasCount(333, results.Where(x => x.HighTrend != null));
+        Assert.HasCount(338, results.Where(x => x.HighLine != null));
+        Assert.HasCount(34, results.Where(x => x.LowPoint != null));
+        Assert.HasCount(328, results.Where(x => x.LowTrend != null));
+        Assert.HasCount(333, results.Where(x => x.LowLine != null));
 
         // sample values
         PivotsResult r3 = results[3];

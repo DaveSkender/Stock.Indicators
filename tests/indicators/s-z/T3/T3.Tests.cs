@@ -12,7 +12,7 @@ public class T3Tests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.T3 != null));
+        Assert.HasCount(502, results.Where(x => x.T3 != null));
 
         // sample values
         T3Result r5 = results[5];
@@ -43,7 +43,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.T3 != null));
+        Assert.HasCount(502, results.Where(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class T3Tests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.T3 != null));
+        Assert.HasCount(501, results.Where(x => x.T3 != null));
     }
 
     [TestMethod]

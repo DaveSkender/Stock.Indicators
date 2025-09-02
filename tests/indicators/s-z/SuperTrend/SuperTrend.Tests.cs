@@ -15,7 +15,7 @@ public class SuperTrendTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.SuperTrend != null));
+        Assert.HasCount(488, results.Where(x => x.SuperTrend != null));
 
         // sample values
         SuperTrendResult r13 = results[13];

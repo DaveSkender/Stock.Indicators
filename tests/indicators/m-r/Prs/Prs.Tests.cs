@@ -15,8 +15,8 @@ public class PrsTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.Prs != null));
-        Assert.AreEqual(493, results.Count(x => x.PrsSma != null));
+        Assert.HasCount(502, results.Where(x => x.Prs != null));
+        Assert.HasCount(493, results.Where(x => x.PrsSma != null));
 
         // sample values
         PrsResult r1 = results[8];
@@ -44,7 +44,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(502, results.Count(x => x.Prs != null));
+        Assert.HasCount(502, results.Where(x => x.Prs != null));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(501, results.Count(x => x.Prs != null));
+        Assert.HasCount(501, results.Where(x => x.Prs != null));
         Assert.IsEmpty(results.Where(x => x.Prs is double v && double.IsNaN(v)));
     }
 

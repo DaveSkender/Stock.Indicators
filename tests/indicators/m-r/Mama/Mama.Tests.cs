@@ -15,7 +15,7 @@ public class MamaTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(497, results.Count(x => x.Mama != null));
+        Assert.HasCount(497, results.Where(x => x.Mama != null));
 
         // sample values
         MamaResult r1 = results[4];
@@ -56,7 +56,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(497, results.Count(x => x.Mama != null));
+        Assert.HasCount(497, results.Where(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -79,7 +79,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(496, results.Count(x => x.Mama != null));
+        Assert.HasCount(496, results.Where(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class MamaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Sma != null));
+        Assert.HasCount(488, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]

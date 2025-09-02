@@ -12,8 +12,8 @@ public class KlingerTests : TestBase
 
         // proper quantities
         Assert.HasCount(502, results);
-        Assert.AreEqual(446, results.Count(x => x.Oscillator != null));
-        Assert.AreEqual(434, results.Count(x => x.Signal != null));
+        Assert.HasCount(446, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(434, results.Where(x => x.Signal != null));
 
         // sample values
         KvoResult r55 = results[55];
@@ -54,7 +54,7 @@ public class KlingerTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(437, results.Count(x => x.Sma != null));
+        Assert.HasCount(437, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
