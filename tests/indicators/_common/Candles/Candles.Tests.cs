@@ -13,7 +13,7 @@ public class Candles : TestBase
             .ToCandles();  // not sorted
 
         // proper quantities
-        Assert.AreEqual(502, candles.Count);
+        Assert.HasCount(502, candles);
 
         // sample values
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", invariantCulture);
@@ -33,7 +33,7 @@ public class Candles : TestBase
             .ToCandles();
 
         // proper quantities
-        Assert.AreEqual(502, candles.Count);
+        Assert.HasCount(502, candles);
 
         // sample values
         CandleProperties r0 = candles[0];
@@ -77,6 +77,6 @@ public class Candles : TestBase
         IReadOnlyList<CandleProperties> candles
             = Quotes.ToCandles();
 
-        Assert.AreEqual(Quotes.Count, candles.Count);
+        Assert.HasCount(Quotes.Count, candles);
     }
 }

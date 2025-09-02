@@ -14,10 +14,10 @@ public class Macd : StaticSeriesTestBase
             Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.Macd != null));
-        Assert.AreEqual(469, results.Count(x => x.Signal != null));
-        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(477, results.Where(x => x.Macd != null));
+        Assert.HasCount(469, results.Where(x => x.Signal != null));
+        Assert.HasCount(469, results.Where(x => x.Histogram != null));
 
         // sample values
         MacdResult r49 = results[49];
@@ -49,8 +49,8 @@ public class Macd : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToMacd();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.Macd != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(477, results.Where(x => x.Macd != null));
     }
 
     [TestMethod]
@@ -60,8 +60,8 @@ public class Macd : StaticSeriesTestBase
             .ToSma(2)
             .ToMacd();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(476, results.Count(x => x.Macd != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(476, results.Where(x => x.Macd != null));
     }
 
     [TestMethod]
@@ -71,8 +71,8 @@ public class Macd : StaticSeriesTestBase
             .ToMacd()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(468, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(468, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,8 +81,8 @@ public class Macd : StaticSeriesTestBase
         IReadOnlyList<MacdResult> r = BadQuotes
             .ToMacd(10, 20, 5);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Macd is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Macd is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -91,12 +91,12 @@ public class Macd : StaticSeriesTestBase
         IReadOnlyList<MacdResult> r0 = Noquotes
             .ToMacd();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<MacdResult> r1 = Onequote
             .ToMacd();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class Macd : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + signalPeriods + 250), results);
 
         MacdResult last = results[^1];
         Assert.AreEqual(-6.2198, last.Macd.Round(4));
@@ -123,15 +123,15 @@ public class Macd : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMacd(0));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMacd(12, 12));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMacd(12, 26, -1));
     }
 }

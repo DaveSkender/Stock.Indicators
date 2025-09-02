@@ -63,7 +63,7 @@ public class QuoteParts : TestBase
         IReadOnlyList<QuotePart> ohlc = Quotes.ToQuotePart(CandlePart.OHLC4);
 
         // proper quantities
-        Assert.AreEqual(502, c.Count);
+        Assert.HasCount(502, c);
 
         // samples
         QuotePart ro = o[501];

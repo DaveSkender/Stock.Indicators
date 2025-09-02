@@ -12,13 +12,13 @@ public class Prs : StaticSeriesTestBase
             .ToPrs(Quotes, lookbackPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Prs != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Prs != null));
 
         // sample values
         PrsResult r1 = results[8];
         Assert.AreEqual(1.108340, r1.Prs.Round(6));
-        Assert.AreEqual(null, r1.PrsPercent);
+        Assert.IsNull(r1.PrsPercent);
 
         PrsResult r2 = results[249];
         Assert.AreEqual(1.222373, r2.Prs.Round(6));
@@ -36,8 +36,8 @@ public class Prs : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToPrs(Quotes.Use(CandlePart.Close), 20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Prs != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Prs != null));
     }
 
     [TestMethod]
@@ -47,8 +47,8 @@ public class Prs : StaticSeriesTestBase
             .ToPrs(Quotes, 20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -58,9 +58,9 @@ public class Prs : StaticSeriesTestBase
             .ToSma(2)
             .ToPrs(OtherQuotes.ToSma(2), 20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Prs != null));
-        Assert.AreEqual(0, results.Count(x => x.Prs is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Prs != null));
+        Assert.IsEmpty(results.Where(x => x.Prs is double.NaN));
     }
 
     [TestMethod]
@@ -69,8 +69,8 @@ public class Prs : StaticSeriesTestBase
         IReadOnlyList<PrsResult> r = BadQuotes
             .ToPrs(BadQuotes, 15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Prs is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Prs is double.NaN));
     }
 
     [TestMethod]
@@ -79,31 +79,31 @@ public class Prs : StaticSeriesTestBase
         IReadOnlyList<PrsResult> r0 = Noquotes
             .ToPrs(Noquotes);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<PrsResult> r1 = Onequote
             .ToPrs(Onequote);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => OtherQuotes.ToPrs(Quotes, 0));
 
         // insufficient quotes
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => Data.GetCompare(13).ToPrs(Quotes, 14));
 
         // insufficient eval quotes
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => Data.GetCompare(300).ToPrs(Quotes, 14));
 
         // mismatch quotes
-        Assert.ThrowsException<InvalidQuotesException>(
+        Assert.ThrowsExactly<InvalidQuotesException>(
             () => OtherQuotes.ToPrs(MismatchQuotes, 14));
     }
 }

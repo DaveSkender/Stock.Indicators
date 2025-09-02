@@ -10,12 +10,12 @@ public class Marubozu : StaticSeriesTestBase
             .ToMarubozu();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(6, results.Count(x => x.Match != Match.None));
+        Assert.HasCount(502, results);
+        Assert.HasCount(6, results.Where(x => x.Match != Match.None));
 
         // sample values
         CandleResult r31 = results[31];
-        Assert.AreEqual(null, r31.Price);
+        Assert.IsNull(r31.Price);
         Assert.AreEqual(0, (int)r31.Match);
 
         CandleResult r32 = results[32];
@@ -23,15 +23,15 @@ public class Marubozu : StaticSeriesTestBase
         Assert.AreEqual(Match.BullSignal, r32.Match);
 
         CandleResult r33 = results[33];
-        Assert.AreEqual(null, r33.Price);
+        Assert.IsNull(r33.Price);
         Assert.AreEqual(Match.None, r33.Match);
 
         CandleResult r34 = results[34];
-        Assert.AreEqual(null, r34.Price);
+        Assert.IsNull(r34.Price);
         Assert.AreEqual(Match.None, r34.Match);
 
         CandleResult r274 = results[274];
-        Assert.AreEqual(null, r274.Price);
+        Assert.IsNull(r274.Price);
         Assert.AreEqual(Match.None, r274.Match);
 
         CandleResult r277 = results[277];
@@ -45,7 +45,7 @@ public class Marubozu : StaticSeriesTestBase
         IReadOnlyList<CandleResult> r = BadQuotes
             .ToMarubozu();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -54,12 +54,12 @@ public class Marubozu : StaticSeriesTestBase
         IReadOnlyList<CandleResult> r0 = Noquotes
             .ToMarubozu();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<CandleResult> r1 = Onequote
             .ToMarubozu();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -69,17 +69,17 @@ public class Marubozu : StaticSeriesTestBase
             .ToMarubozu()
             .Condense();
 
-        Assert.AreEqual(6, results.Count);
+        Assert.HasCount(6, results);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad minimum body percent values
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMarubozu(79.9));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMarubozu(100.1));
     }
 }

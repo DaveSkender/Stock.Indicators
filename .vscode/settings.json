@@ -1,22 +1,15 @@
 {
-  "chat.agent.enabled": true,
-  "chat.mcp.enabled": true,
-  "chat.mcp.discovery.enabled": true,
   "dotnet.defaultSolution": "Stock.Indicators.sln",
   "files.encoding": "utf8",
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": false,
-  "github.copilot.chat.enabled": true,
   "githubPullRequests.ignoredPullRequestBranches": [
     "v3"
   ],
-  "github.copilot.enable": {
-    "*": false
-  },
   "markdownlint.config": {
     "MD033": false, // no-inline-html
-    "MD025": false // single-title/single-h1 --> fails with front-matter
+    "MD025": false  // single-title/single-h1 --> fails with front-matter
   },
   "search.exclude": {
     "**/_site/**": true,

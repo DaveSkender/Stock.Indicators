@@ -14,17 +14,17 @@ public class Kama : StaticSeriesTestBase
             .ToKama(erPeriods, fastPeriods, slowPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.Er != null));
-        Assert.AreEqual(493, results.Count(x => x.Kama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.Er != null));
+        Assert.HasCount(493, results.Where(x => x.Kama != null));
 
         // sample values
         KamaResult r1 = results[8];
-        Assert.AreEqual(null, r1.Er);
-        Assert.AreEqual(null, r1.Kama);
+        Assert.IsNull(r1.Er);
+        Assert.IsNull(r1.Kama);
 
         KamaResult r2 = results[9];
-        Assert.AreEqual(null, r2.Er);
+        Assert.IsNull(r2.Er);
         Assert.AreEqual(213.7500, r2.Kama.Round(4));
 
         KamaResult r3 = results[10];
@@ -55,8 +55,8 @@ public class Kama : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToKama();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Kama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Kama != null));
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class Kama : StaticSeriesTestBase
             .ToSma(2)
             .ToKama();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.Kama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.Kama != null));
     }
 
     [TestMethod]
@@ -77,8 +77,8 @@ public class Kama : StaticSeriesTestBase
             .ToKama()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -87,8 +87,8 @@ public class Kama : StaticSeriesTestBase
         IReadOnlyList<KamaResult> r = BadQuotes
             .ToKama();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Kama is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Kama is double.NaN));
     }
 
     [TestMethod]
@@ -97,12 +97,12 @@ public class Kama : StaticSeriesTestBase
         IReadOnlyList<KamaResult> r0 = Noquotes
             .ToKama();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<KamaResult> r1 = Onequote
             .ToKama();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -128,15 +128,15 @@ public class Kama : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad ER period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToKama(0));
 
         // bad fast period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToKama(10, 0));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToKama(10, 5, 5));
     }
 }

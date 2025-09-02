@@ -10,15 +10,15 @@ public class StdDev : StaticSeriesTestBase
             .ToStdDev(10);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(493, results.Count(x => x.ZScore != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
+        Assert.HasCount(493, results.Where(x => x.ZScore != null));
 
         // sample values
         StdDevResult r1 = results[8];
-        Assert.AreEqual(null, r1.StdDev);
-        Assert.AreEqual(null, r1.Mean);
-        Assert.AreEqual(null, r1.ZScore);
+        Assert.IsNull(r1.StdDev);
+        Assert.IsNull(r1.Mean);
+        Assert.IsNull(r1.ZScore);
 
         StdDevResult r2 = results[9];
         Assert.AreEqual(0.5020, r2.StdDev.Round(4));
@@ -43,8 +43,8 @@ public class StdDev : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToStdDev(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.StdDev != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -54,8 +54,8 @@ public class StdDev : StaticSeriesTestBase
             .ToSma(2)
             .ToStdDev(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.StdDev != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.StdDev != null));
     }
 
     [TestMethod]
@@ -65,8 +65,8 @@ public class StdDev : StaticSeriesTestBase
             .ToStdDev(10)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -75,8 +75,8 @@ public class StdDev : StaticSeriesTestBase
         IReadOnlyList<StdDevResult> r = BadQuotes
             .ToStdDev(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StdDev is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.StdDev is double.NaN));
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class StdDev : StaticSeriesTestBase
         IReadOnlyList<StdDevResult> r = BigQuotes
             .ToStdDev(200);
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -94,12 +94,12 @@ public class StdDev : StaticSeriesTestBase
         IReadOnlyList<StdDevResult> r0 = Noquotes
             .ToStdDev(10);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<StdDevResult> r1 = Onequote
             .ToStdDev(10);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -110,7 +110,7 @@ public class StdDev : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 9, results.Count);
+        Assert.HasCount(502 - 9, results);
 
         StdDevResult last = results[^1];
         Assert.AreEqual(5.4738, last.StdDev.Round(4));
@@ -120,6 +120,6 @@ public class StdDev : StaticSeriesTestBase
 
     [TestMethod] // bad lookback period
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStdDev(1));
 }
