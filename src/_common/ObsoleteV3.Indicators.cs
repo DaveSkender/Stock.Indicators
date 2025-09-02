@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-#pragma warning disable CS1591 // Missing XML comments
+#pragma warning disable CS1591, IND001
 
 namespace Skender.Stock.Indicators;
 
@@ -208,7 +208,7 @@ public static partial class Indicator
             ChandelierType type = ChandelierType.Long)
         where TQuote : IQuote
         => quotes.ToSortedList()
-            .ToChandelier(lookbackPeriods, multiplier, type);
+            .ToChandelier(lookbackPeriods, multiplier, (Direction)type);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetChop(..)` to `ToChop(..)`", false)]
@@ -719,11 +719,11 @@ public static partial class Indicator
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetPrs(..)` to `ToPrs(..)`", false)]
     public static IEnumerable<PrsResult> GetPrs<TQuote>(
-        this IEnumerable<TQuote> quotesEval,
-        IEnumerable<TQuote> quotesBase, int? lookbackPeriods = null)
-        where TQuote : IQuote
-        => quotesBase.ToSortedList()
-            .ToPrs(quotesEval.ToSortedList(), lookbackPeriods);
+    this IEnumerable<TQuote> quotesEval,
+    IEnumerable<TQuote> quotesBase, int? lookbackPeriods = null)
+    where TQuote : IQuote
+    => quotesBase.ToSortedList()
+        .ToPrs(quotesEval.ToSortedList(), lookbackPeriods ?? 0);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use a chained `results.ToSma(smaPeriods)` for moving averages.", true)]
@@ -734,7 +734,7 @@ public static partial class Indicator
         => quotesEval
             .ToSortedList()
             .Use(CandlePart.Close)
-            .ToPrs(quotesBase.ToSortedList().Use(CandlePart.Close), lookbackPeriods);
+            .ToPrs(quotesBase.ToSortedList().Use(CandlePart.Close), lookbackPeriods ?? 0);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToPrs(..)' method. Tuple arguments were removed.", false)]
@@ -881,14 +881,14 @@ public static partial class Indicator
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetSmaAnalysis(..)` to `ToSmaAnalysis(..)`", false)]
-    public static IEnumerable<SmaAnalysis> GetSmaAnalysis<TQuote>(
+    public static IEnumerable<SmaAnalysisResult> GetSmaAnalysis<TQuote>(
         this IEnumerable<TQuote> quotes, int lookbackPeriods)
         where TQuote : IQuote
         => quotes.ToSortedList().ToSmaAnalysis(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToSmaAnalysis(..)' method. Tuple arguments were removed.", false)]
-    public static IEnumerable<SmaAnalysis> GetSmaAnalysis(
+    public static IEnumerable<SmaAnalysisResult> GetSmaAnalysis(
         this IEnumerable<(DateTime d, double v)> priceTuples,
         int lookbackPeriods)
         => priceTuples
@@ -982,11 +982,12 @@ public static partial class Indicator
             .ToStdDev(lookbackPeriods);
 
     [ExcludeFromCodeCoverage]
-    [Obsolete("Rename `GetStdDevChannels(..)` to `ToStdDevChannels(..)`", false)]
+    [Obsolete("Rename `GetStdDevChannels(..)` to `ToStdDevChannels(..)`. "
+            + "If using `lookbackPeriods=null`, replace with `lookbackPeriods=source.Count`.", false)]
     public static IEnumerable<StdDevChannelsResult> GetStdDevChannels<TQuote>(
         this IEnumerable<TQuote> quotes, int? lookbackPeriods = 20, double stdDeviations = 2)
         where TQuote : IQuote
-        => quotes.ToSortedList().ToStdDevChannels(lookbackPeriods, stdDeviations);
+        => quotes.ToSortedList().ToStdDevChannels(lookbackPeriods ?? quotes.Count(), stdDeviations);
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Use 'ToStdDevChannels(..)' method. Tuple arguments were removed.", false)]
@@ -1197,7 +1198,14 @@ public static partial class Indicator
     [Obsolete("Rename `GetVwap(..)` to `ToVwap(..)`", false)]
     public static IEnumerable<VwapResult> GetVwap<TQuote>(
         this IEnumerable<TQuote> quotes, DateTime? startDate = null)
-        where TQuote : IQuote => quotes.ToSortedList().ToVwap(startDate);
+        where TQuote : IQuote
+    {
+        IReadOnlyList<TQuote> source = quotes.ToSortedList();
+
+        return source?.Count is null or 0
+            ? []
+            : source.ToVwap(startDate ?? source[0].Timestamp);
+    }
 
     [ExcludeFromCodeCoverage]
     [Obsolete("Rename `GetVwma(..)` to `ToVwma(..)`", false)]

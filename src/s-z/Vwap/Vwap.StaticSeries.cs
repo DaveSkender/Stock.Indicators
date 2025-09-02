@@ -6,19 +6,34 @@ namespace Skender.Stock.Indicators;
 public static partial class Vwap
 {
     /// <summary>
-    /// Calculates the VWAP for a series of quotes.
+    /// Calculates the VWAP for a series of quotes starting from a specific date.
     /// </summary>
     /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
     /// <param name="quotes">The source list of quotes.</param>
-    /// <param name="startDate">The optional start date for the VWAP calculation. If not provided, the calculation starts from the first quote.</param>
+    /// <param name="startDate">The start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        DateTime? startDate = null)
+        DateTime startDate)
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcVwap(startDate);
+
+    /// <summary>
+    /// Calculates the VWAP for a series of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <returns>A list of VwapResult containing the VWAP values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
+    public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
+        where TQuote : IQuote => quotes?.Count is null or 0
+            ? []
+            : quotes
+                .ToQuoteDList()
+                .CalcVwap(quotes[0].Timestamp);
 
     /// <summary>
     /// Calculates the VWAP for a series of quotes.
@@ -28,7 +43,7 @@ public static partial class Vwap
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     private static List<VwapResult> CalcVwap(
         this List<QuoteD> source,
-        DateTime? startDate = null)
+        DateTime startDate)
     {
         // check parameter arguments
         Validate(source, startDate);
@@ -41,8 +56,6 @@ public static partial class Vwap
         {
             return results;
         }
-
-        startDate ??= source[0].Timestamp;
 
         double? cumVolume = 0;
         double? cumVolumeTp = 0;
