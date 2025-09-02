@@ -98,6 +98,6 @@ public class ChopTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetChop(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetChop(1));
 }

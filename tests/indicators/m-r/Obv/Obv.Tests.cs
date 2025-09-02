@@ -93,6 +93,6 @@ public class ObvTests : TestBase
     // bad SMA period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetObv(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetObv(0));
 }

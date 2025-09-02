@@ -221,11 +221,11 @@ public class ZigZagTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetZigZag(EndType.Close, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetZigZag(EndType.Close, 0));
 
         // bad end type
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetZigZag((EndType)int.MaxValue, 2));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetZigZag((EndType)int.MaxValue, 2));
     }
 }

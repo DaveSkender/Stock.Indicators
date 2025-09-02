@@ -112,6 +112,6 @@ public class SmaExtendedTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetSmaAnalysis(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSmaAnalysis(0));
 }

@@ -433,13 +433,13 @@ public class PivotPointsTests : TestBase
     public void Exceptions()
     {
         // bad pointtype size
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes
                 .GetPivotPoints(PeriodSize.Week, (PivotPointType)999));
 
         // bad window size
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes
                 .GetPivotPoints(PeriodSize.ThreeMinutes));
     }
 }

@@ -112,6 +112,6 @@ public class HurstTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetHurst(19));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetHurst(19));
 }

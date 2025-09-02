@@ -126,6 +126,6 @@ public class DpoTests : TestBase
     // bad SMA period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetDpo(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetDpo(0));
 }

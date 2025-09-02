@@ -277,21 +277,21 @@ public class BetaTests : TestBase
             new Quote { Date = DateTime.Parse("1/9/2020", EnglishCulture), Close = 1234 }
         ];
 
-        Assert.ThrowsExactly<InvalidQuotesException>(()
-            => quoteA.GetBeta(quoteB, 3));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => quoteA.GetBeta(quoteB, 3));
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetBeta(otherQuotes, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetBeta(otherQuotes, 0));
 
         // bad evaluation quotes
         List<Quote> eval = TestData.GetCompare(300).ToList();
 
-        Assert.ThrowsExactly<InvalidQuotesException>(()
-            => quotes.GetBeta(eval, 30));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => quotes.GetBeta(eval, 30));
     }
 }

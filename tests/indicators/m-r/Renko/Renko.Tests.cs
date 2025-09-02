@@ -139,11 +139,11 @@ public class RenkoTests : TestBase
     public void Exceptions()
     {
         // bad arguments
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetRenko(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRenko(0));
 
         // bad end type
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetRenko(2, (EndType)int.MaxValue));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRenko(2, (EndType)int.MaxValue));
     }
 }

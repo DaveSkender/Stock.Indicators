@@ -95,6 +95,6 @@ public class BopTests : TestBase
     // bad smoothing period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetBop(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetBop(0));
 }

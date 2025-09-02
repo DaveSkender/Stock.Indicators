@@ -119,6 +119,6 @@ public class FractalTests : TestBase
     // bad window span
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => quotes.GetFractal(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetFractal(1));
 }
