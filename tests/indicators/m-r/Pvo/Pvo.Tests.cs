@@ -111,15 +111,15 @@ public class PvoTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(0, 26, 9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPvo(0, 26, 9));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(12, 12, 9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPvo(12, 12, 9));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPvo(12, 26, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPvo(12, 26, -1));
     }
 }

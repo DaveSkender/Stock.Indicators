@@ -113,15 +113,15 @@ public class KeltnerTests : TestBase
     public void Exceptions()
     {
         // bad EMA period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKeltner(1, 2, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKeltner(1, 2, 10));
 
         // bad ATR period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKeltner(20, 2, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKeltner(20, 2, 1));
 
         // bad multiplier
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKeltner(20, 0, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKeltner(20, 0, 10));
     }
 }

@@ -81,10 +81,10 @@ public class MarubozuTests : TestBase
     public void Exceptions()
     {
         // bad minimum body percent values
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMarubozu(79.9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMarubozu(79.9));
 
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMarubozu(100.1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMarubozu(100.1));
     }
 }

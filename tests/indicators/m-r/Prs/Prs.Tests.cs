@@ -114,23 +114,23 @@ public class PrsTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            otherQuotes.GetPrs(quotes, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => otherQuotes.GetPrs(quotes, 0));
 
         // bad SMA period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            otherQuotes.GetPrs(quotes, 14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => otherQuotes.GetPrs(quotes, 14, 0));
 
         // insufficient quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(() =>
-            TestData.GetCompare(13).GetPrs(quotes, 14));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => TestData.GetCompare(13).GetPrs(quotes, 14));
 
         // insufficient eval quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(() =>
-            TestData.GetCompare(300).GetPrs(quotes, 14));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => TestData.GetCompare(300).GetPrs(quotes, 14));
 
         // mismatch quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(() =>
-            otherQuotes.GetPrs(mismatchQuotes, 14));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => otherQuotes.GetPrs(mismatchQuotes, 14));
     }
 }

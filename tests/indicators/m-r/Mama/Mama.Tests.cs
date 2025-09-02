@@ -144,15 +144,15 @@ public class MamaTests : TestBase
     public void Exceptions()
     {
         // bad fast period (same as slow period)
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(0.5, 0.5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(1, 0.5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMama(1, 0.5));
 
         // bad slow period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMama(0.5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMama(0.5, 0));
     }
 }

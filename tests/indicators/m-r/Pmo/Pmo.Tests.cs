@@ -119,15 +119,15 @@ public class PmoTests : TestBase
     public void Exceptions()
     {
         // bad time period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPmo(1));
 
         // bad smoothing period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPmo(5, 0));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPmo(5, 5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPmo(5, 5, 0));
     }
 }

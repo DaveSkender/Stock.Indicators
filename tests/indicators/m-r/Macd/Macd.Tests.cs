@@ -142,15 +142,15 @@ public class MacdTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMacd(0, 26, 9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMacd(0, 26, 9));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMacd(12, 12, 9));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMacd(12, 12, 9));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMacd(12, 26, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMacd(12, 26, -1));
     }
 }

@@ -140,19 +140,19 @@ public class SmiTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(0, 5, 5, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSmi(0, 5, 5, 5));
 
         // bad first smooth period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(14, 0, 5, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSmi(14, 0, 5, 5));
 
         // bad second smooth period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(14, 3, 0, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSmi(14, 3, 0, 5));
 
         // bad signal
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetSmi(9, 3, 1, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSmi(9, 3, 1, 0));
     }
 }

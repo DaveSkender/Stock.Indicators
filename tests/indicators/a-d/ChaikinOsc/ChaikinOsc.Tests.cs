@@ -89,11 +89,11 @@ public class ChaikinOscTests : TestBase
     public void Exceptions()
     {
         // bad fast lookback
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetChaikinOsc(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetChaikinOsc(0));
 
         // bad slow lookback
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetChaikinOsc(10, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetChaikinOsc(10, 5));
     }
 }

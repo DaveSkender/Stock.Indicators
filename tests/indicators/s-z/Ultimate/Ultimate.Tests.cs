@@ -83,15 +83,15 @@ public class UltimateTests : TestBase
     public void Exceptions()
     {
         // bad short period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetUltimate(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetUltimate(0));
 
         // bad middle period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetUltimate(7, 6));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetUltimate(7, 6));
 
         // bad long period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetUltimate(7, 14, 11));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetUltimate(7, 14, 11));
     }
 }

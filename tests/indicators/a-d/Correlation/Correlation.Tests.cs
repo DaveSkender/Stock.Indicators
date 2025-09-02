@@ -138,16 +138,16 @@ public class CorrelationTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetCorrelation(otherQuotes, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetCorrelation(otherQuotes, 0));
 
         // bad eval quotes
         IEnumerable<Quote> eval = TestData.GetCompare(300);
-        Assert.ThrowsExactly<InvalidQuotesException>(() =>
-            quotes.GetCorrelation(eval, 30));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => quotes.GetCorrelation(eval, 30));
 
         // mismatched quotes
-        Assert.ThrowsExactly<InvalidQuotesException>(() =>
-            mismatchQuotes.GetCorrelation(otherQuotes, 20));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => mismatchQuotes.GetCorrelation(otherQuotes, 20));
     }
 }

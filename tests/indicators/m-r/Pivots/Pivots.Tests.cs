@@ -126,15 +126,15 @@ public class PivotsTests : TestBase
     public void Exceptions()
     {
         // bad left span
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPivots(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPivots(1));
 
         // bad right span
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPivots(2, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPivots(2, 1));
 
         // bad lookback window
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetPivots(20, 10, 20, EndType.Close));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetPivots(20, 10, 20, EndType.Close));
     }
 }

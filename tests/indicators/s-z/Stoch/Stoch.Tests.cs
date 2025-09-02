@@ -246,27 +246,27 @@ public class StochTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStoch(0));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStoch(14, 0));
 
         // bad smoothing period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(14, 3, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStoch(14, 3, 0));
 
         // bad kFactor
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStoch(9, 3, 1, 0, 2, MaType.SMA));
 
         // bad dFactor
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStoch(9, 3, 1, 3, 0, MaType.SMA));
 
         // bad MA type
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStoch(9, 3, 3, 3, 2, MaType.ALMA));
     }
 }

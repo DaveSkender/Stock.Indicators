@@ -156,35 +156,35 @@ public class AlligatorTests : TestBase
     public void Exceptions()
     {
         // bad jaw lookback periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 13, 5, 5, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 13, 5, 5, 3));
 
         // bad teeth lookback periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 8, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 8, 5, 8, 3));
 
         // bad lips lookback periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 0, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 8, 5, 0, 3));
 
         // bad jaw offset periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 0, 8, 5, 5, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 0, 8, 5, 5, 3));
 
         // bad teeth offset periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 0, 5, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 8, 0, 5, 3));
 
         // bad lips offset periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 8, 5, 5, 0));
 
         // bad jaw + offset periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 12, 11, 5, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 12, 11, 5, 3));
 
         // bad teeth + offset periods
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlligator(13, 8, 8, 5, 7, 7));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlligator(13, 8, 8, 5, 7, 7));
     }
 }

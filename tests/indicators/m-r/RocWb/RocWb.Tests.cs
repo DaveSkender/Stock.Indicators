@@ -163,15 +163,15 @@ public class RocWbTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRocWb(0, 3, 12));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRocWb(0, 3, 12));
 
         // bad EMA period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRocWb(14, 0, 14));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRocWb(14, 0, 14));
 
         // bad STDDEV period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRocWb(15, 3, 16));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRocWb(15, 3, 16));
     }
 }

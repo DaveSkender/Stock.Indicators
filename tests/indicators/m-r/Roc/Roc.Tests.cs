@@ -152,11 +152,11 @@ public class RocTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRoc(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRoc(0));
 
         // bad SMA period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRoc(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRoc(14, 0));
     }
 }

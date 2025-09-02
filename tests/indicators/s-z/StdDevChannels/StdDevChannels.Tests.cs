@@ -203,11 +203,11 @@ public class StdDevChannelsTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDevChannels(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStdDevChannels(0));
 
         // bad standard deviations
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStdDevChannels(20, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStdDevChannels(20, 0));
     }
 }

@@ -122,15 +122,15 @@ public class StarcBandsTests : TestBase
     public void Exceptions()
     {
         // bad EMA period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(1, 2, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStarcBands(1, 2, 10));
 
         // bad ATR period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(20, 2, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStarcBands(20, 2, 1));
 
         // bad multiplier
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStarcBands(20, 0, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStarcBands(20, 0, 10));
     }
 }

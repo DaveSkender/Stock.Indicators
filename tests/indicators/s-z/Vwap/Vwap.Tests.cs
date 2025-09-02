@@ -136,7 +136,7 @@ public class VwapTests : TestBase
         DateTime startDate =
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", EnglishCulture);
 
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetVwap(startDate));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetVwap(startDate));
     }
 }

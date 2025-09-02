@@ -135,11 +135,11 @@ public class BollingerBandsTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetBollingerBands(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetBollingerBands(1));
 
         // bad standard deviation
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetBollingerBands(2, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetBollingerBands(2, 0));
     }
 }

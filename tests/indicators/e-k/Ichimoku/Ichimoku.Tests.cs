@@ -103,25 +103,25 @@ public class IchimokuTests : TestBase
     public void Exceptions()
     {
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(0));
 
         // bad short span period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 0, 52));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 0, 52));
 
         // bad long span period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 26));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 26));
 
         // invalid offsets
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 52, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 52, -1));
 
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 52, -1, 12));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 52, -1, 12));
 
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 52, 12, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 52, 12, -1));
     }
 }

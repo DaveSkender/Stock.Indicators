@@ -156,19 +156,19 @@ public class ParabolicSarTests : TestBase
     public void Exceptions()
     {
         // bad acceleration step
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(0, 1));
 
         // insufficient acceleration step
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0.02, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(0.02, 0));
 
         // step larger than factor
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(6, 2));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(6, 2));
 
         // insufficient initial factor
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetParabolicSar(0.02, 0.5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetParabolicSar(0.02, 0.5, 0));
     }
 }

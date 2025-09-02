@@ -147,15 +147,15 @@ public class KamaTests : TestBase
     public void Exceptions()
     {
         // bad ER period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(0, 2, 30));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKama(0, 2, 30));
 
         // bad fast period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(10, 0, 30));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKama(10, 0, 30));
 
         // bad slow period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKama(10, 5, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKama(10, 5, 5));
     }
 }

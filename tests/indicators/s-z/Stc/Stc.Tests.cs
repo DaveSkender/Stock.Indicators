@@ -155,15 +155,15 @@ public class StcTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStc(9, 0, 26));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStc(9, 0, 26));
 
         // bad slow periods must be larger than faster period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStc(9, 12, 12));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStc(9, 12, 12));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetStc(-1, 12, 26));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetStc(-1, 12, 26));
     }
 }

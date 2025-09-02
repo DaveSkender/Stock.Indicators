@@ -100,6 +100,6 @@ public class AtrTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions() =>
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAtr(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAtr(1));
 }

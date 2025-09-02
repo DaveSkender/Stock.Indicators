@@ -111,11 +111,11 @@ public class T3Tests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetT3(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetT3(0));
 
         // bad volume factor
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetT3(25, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetT3(25, 0));
     }
 }

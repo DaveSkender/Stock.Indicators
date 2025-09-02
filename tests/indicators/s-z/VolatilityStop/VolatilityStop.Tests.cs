@@ -120,11 +120,11 @@ public class VolatilityStopTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetVolatilityStop(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetVolatilityStop(1));
 
         // bad multiplier
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetVolatilityStop(20, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetVolatilityStop(20, 0));
     }
 }

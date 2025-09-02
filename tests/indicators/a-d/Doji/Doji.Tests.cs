@@ -81,10 +81,10 @@ public class DojiTests : TestBase
     public void Exceptions()
     {
         // bad maximum change value
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetDoji(-0.00001));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetDoji(-0.00001));
 
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetDoji(0.50001));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetDoji(0.50001));
     }
 }

@@ -347,12 +347,12 @@ public class MaEnvelopesTests : TestBase
     public void Exceptions()
     {
         // bad offset period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMaEnvelopes(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMaEnvelopes(14, 0));
 
         // bad MA period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetMaEnvelopes(14, 5, MaType.KAMA));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetMaEnvelopes(14, 5, MaType.KAMA));
 
         // note: insufficient quotes is tested elsewhere
     }

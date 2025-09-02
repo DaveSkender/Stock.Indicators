@@ -430,11 +430,11 @@ public class RollingPivotsTests : TestBase
     public void Exceptions()
     {
         // bad window period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRollingPivots(0, 10));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRollingPivots(0, 10));
 
         // bad offset period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetRollingPivots(10, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRollingPivots(10, -1));
     }
 }

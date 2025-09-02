@@ -134,11 +134,11 @@ public class SuperTrendTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetSuperTrend(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSuperTrend(1));
 
         // bad multiplier
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetSuperTrend(7, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSuperTrend(7, 0));
     }
 }

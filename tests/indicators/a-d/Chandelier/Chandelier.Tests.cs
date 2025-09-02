@@ -90,15 +90,15 @@ public class ChandelierTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetChandelier(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetChandelier(0));
 
         // bad multiplier
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetChandelier(25, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetChandelier(25, 0));
 
         // bad type
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetChandelier(25, 2, (ChandelierType)int.MaxValue));
     }
 }

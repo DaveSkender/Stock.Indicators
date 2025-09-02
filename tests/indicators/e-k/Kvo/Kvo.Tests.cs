@@ -104,15 +104,15 @@ public class KlingerTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKvo(2));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKvo(2));
 
         // bad slow period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKvo(20, 20));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKvo(20, 20));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetKvo(34, 55, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetKvo(34, 55, 0));
     }
 }

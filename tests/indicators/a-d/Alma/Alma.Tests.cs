@@ -150,15 +150,15 @@ public class Alma : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(0, 1, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlma(0, 1, 5));
 
         // bad offset
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(15, 1.1, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlma(15, 1.1, 3));
 
         // bad sigma
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(10, 0.5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlma(10, 0.5, 0));
     }
 }

@@ -145,15 +145,15 @@ public class TsiTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTsi(0));
 
         // bad smoothing period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(25, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTsi(25, 0));
 
         // bad signal period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(25, 13, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTsi(25, 13, -1));
     }
 }

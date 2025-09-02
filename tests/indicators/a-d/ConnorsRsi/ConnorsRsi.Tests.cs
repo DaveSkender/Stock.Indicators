@@ -138,15 +138,15 @@ public class ConnorsRsiTests : TestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetConnorsRsi(1, 2, 100));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetConnorsRsi(1, 2, 100));
 
         // bad Streak period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetConnorsRsi(3, 1, 100));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetConnorsRsi(3, 1, 100));
 
         // bad Rank period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetConnorsRsi(3, 2, 1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetConnorsRsi(3, 2, 1));
     }
 }

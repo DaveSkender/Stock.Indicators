@@ -126,11 +126,11 @@ public class AwesomeTests : TestBase
     public void Exceptions()
     {
         // bad fast period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAwesome(0, 34));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAwesome(0, 34));
 
         // bad slow period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() =>
-            quotes.GetAwesome(25, 25));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAwesome(25, 25));
     }
 }
