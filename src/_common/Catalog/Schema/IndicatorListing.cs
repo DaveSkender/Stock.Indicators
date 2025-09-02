@@ -9,23 +9,6 @@ namespace Skender.Stock.Indicators;
 [Serializable]
 public record IndicatorListing
 {
-    private readonly string _baseUrl;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IndicatorListing"/> class.
-    /// </summary>
-    public IndicatorListing() : this(string.Empty) { }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="IndicatorListing"/> class with the specified base URL.
-    /// </summary>
-    /// <param name="baseUrl">Optional base for <see cref="UiidEndpoint"/></param>
-    internal IndicatorListing(
-        string baseUrl)
-    {
-        _baseUrl = baseUrl.TrimEnd('/');
-    }
-
     /// <summary>
     /// Gets or sets the name of the indicator.
     /// </summary>
@@ -69,12 +52,6 @@ public record IndicatorListing
     /// Gets or sets the collection of result configurations for the indicator.
     /// </summary>
     public required IReadOnlyList<IndicatorResult> Results { get; init; }
-
-    /// <summary>
-    /// Gets or sets a hypothetical endpoint URL for the indicator.
-    /// </summary>
-    [MinLength(2), UrlSafe]
-    public string UiidEndpoint => $"{_baseUrl}/{Uiid?.ToLowerInvariant()}";
 
     /// <summary>
     /// Gets or sets the legend template for the indicator.

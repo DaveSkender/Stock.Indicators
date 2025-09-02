@@ -15,11 +15,6 @@ public class IndicatorListingBuilder
     private readonly List<IndicatorResult> _results = [];
 
     /// <summary>
-    /// Gets the current base URL setting for the builder.
-    /// </summary>
-    protected Uri? CurrentBaseUrl { get; private set; }
-
-    /// <summary>
     /// Gets the current style setting for the builder.
     /// </summary>
     protected Style CurrentStyle { get; private set; } = Style.Series;
@@ -76,17 +71,6 @@ public class IndicatorListingBuilder
     public IndicatorListingBuilder WithMethodName(string methodName)
     {
         _methodName = methodName;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the base URL of the indicator.
-    /// </summary>
-    /// <param name="baseUrl">The base URL as a Uri.</param>
-    /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder WithBaseUrl(Uri baseUrl)
-    {
-        CurrentBaseUrl = baseUrl;
         return this;
     }
 
@@ -266,7 +250,7 @@ public class IndicatorListingBuilder
     public IndicatorListing Build()
     {
         ValidateBeforeBuild();
-        return new IndicatorListing(CurrentBaseUrl?.ToString() ?? string.Empty) {
+        return new IndicatorListing {
             Name = _name,
             Uiid = _id,
             Style = CurrentStyle,
