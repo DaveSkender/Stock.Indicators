@@ -4,10 +4,10 @@ Concise reference for building, discovering, and executing indicator listings.
 
 ## Authoring listings (fluent builder)
 
-Use `IndicatorListingBuilder` inside each indicator’s `*.Catalog.cs` to define metadata once per style:
+Use `IndicatorDefinitionBuilder` inside each indicator’s `*.Catalog.cs` to define metadata once per style:
 
 ```csharp
-internal static readonly IndicatorListing SeriesListing = new IndicatorListingBuilder()
+internal static readonly IndicatorListing SeriesListing = new IndicatorDefinitionBuilder()
         .WithName("Exponential Moving Average")
         .WithId("EMA")
         .WithStyle(Style.Series)
@@ -34,7 +34,7 @@ Core builder methods: `.WithName`, `.WithId`, `.WithStyle`, `.WithCategory`, `.W
 
 ```csharp
 // all listings
-IReadOnlyCollection<IndicatorListing> allListings = IndicatorRegistry.GetCatalog();
+IReadOnlyCollection<IndicatorListing> allListings = IndicatorRegistry.Get();
 
 // lookups
 IReadOnlyCollection<IndicatorListing> rsiListings = IndicatorRegistry.GetById("RSI"); // all styles
@@ -46,7 +46,7 @@ IReadOnlyCollection<IndicatorListing> searchResults = IndicatorRegistry.Search("
 
 ## Executing via the catalog
 
-Typed, fluent execution via `CustomIndicatorBuilder`:
+Typed, fluent execution via `CatalogExecutionBuilder`:
 
 ```csharp
 IndicatorListing indicatorListing = IndicatorRegistry

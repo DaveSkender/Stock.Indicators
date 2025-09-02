@@ -4,7 +4,7 @@ public static partial class Gator
 {
     // GATOR Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Gator Oscillator")
             .WithId("GATOR")
             .WithStyle(Style.Series)

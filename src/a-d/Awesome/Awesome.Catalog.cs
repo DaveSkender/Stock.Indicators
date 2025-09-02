@@ -4,7 +4,7 @@ public static partial class Awesome
 {
     // AWESOME Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Awesome Oscillator")
             .WithId("AWESOME")
             .WithStyle(Style.Series)

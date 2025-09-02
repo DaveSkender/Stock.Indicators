@@ -4,7 +4,7 @@ public static partial class Tsi
 {
     // True Strength Index Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("True Strength Index")
             .WithId("TSI")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class ParabolicSar
 {
     // Parabolic SAR Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Parabolic SAR")
             .WithId("PSAR")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class ForceIndex
 {
     // FORCE Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Force Index")
             .WithId("FORCE")
             .WithStyle(Style.Series)

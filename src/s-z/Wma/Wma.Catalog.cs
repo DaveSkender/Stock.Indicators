@@ -4,7 +4,7 @@ public static partial class Wma
 {
     // Weighted Moving Average Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Weighted Moving Average")
             .WithId("WMA")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Atr
 {
     // ATR Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Average True Range (ATR)")
             .WithId("ATR")
             .WithStyle(Style.Series)
@@ -18,7 +18,7 @@ public static partial class Atr
 
     // ATR Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Average True Range (ATR)")
             .WithId("ATR")
             .WithStyle(Style.Stream)

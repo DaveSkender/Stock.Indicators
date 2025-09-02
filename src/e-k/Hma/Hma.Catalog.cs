@@ -4,7 +4,7 @@ public static partial class Hma
 {
     // HMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Hull Moving Average")
             .WithId("HMA")
             .WithStyle(Style.Series)

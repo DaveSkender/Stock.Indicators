@@ -4,7 +4,7 @@ public static partial class Doji
 {
     // DOJI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Doji")
             .WithId("DOJI")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Cmo
 {
     // CMO Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Chande Momentum Oscillator")
             .WithId("CMO")
             .WithStyle(Style.Series)

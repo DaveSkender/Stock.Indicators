@@ -4,7 +4,7 @@ public static partial class Obv
 {
     // OBV Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("On-Balance Volume")
             .WithId("OBV")
             .WithStyle(Style.Series)

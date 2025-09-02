@@ -1,4 +1,4 @@
-namespace Catalog;
+namespace Catalogging;
 
 /// <summary>
 /// Test class for Smma catalog functionality.

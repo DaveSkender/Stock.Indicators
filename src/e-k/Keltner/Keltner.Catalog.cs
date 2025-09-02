@@ -4,7 +4,7 @@ public static partial class Keltner
 {
     // KELTNER Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Keltner Channels")
             .WithId("KELTNER")
             .WithStyle(Style.Series)

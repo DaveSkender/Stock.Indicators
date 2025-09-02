@@ -4,7 +4,7 @@ public static partial class Aroon
 {
     // AROON Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Aroon Up/Down")
             .WithId("AROON")
             .WithStyle(Style.Series)

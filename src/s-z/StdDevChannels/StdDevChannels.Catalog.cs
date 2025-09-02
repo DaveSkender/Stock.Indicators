@@ -4,7 +4,7 @@ public static partial class StdDevChannels
 {
     // Standard Deviation Channels Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Standard Deviation Channels")
             .WithId("STDEV-CHANNELS")
             .WithStyle(Style.Series)

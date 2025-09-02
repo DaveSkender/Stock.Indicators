@@ -4,7 +4,7 @@ public static partial class Donchian
 {
     // DONCHIAN Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Donchian Channels")
             .WithId("DONCHIAN")
             .WithStyle(Style.Series)

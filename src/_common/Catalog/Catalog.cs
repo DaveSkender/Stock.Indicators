@@ -1,322 +1,410 @@
+using System.Globalization;
+using System.Text;
+using System.Text.Json;
+
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Provides a catalog of all registered indicators.
+/// Registry for indicator listings.
 /// </summary>
-/// <remarks>The <see cref="IndicatorCatalog"/> class maintains a collection of indicators that can be accessed
-/// through the <see cref="Catalog"/> property. This class is static and cannot be instantiated.</remarks>
-public static partial class IndicatorCatalog
+/// <remarks>
+/// The indicator registry provides a central point for registering and retrieving
+/// indicator listings. It supports various query operations based on style, category, etc.
+/// All listings must be explicitly defined and registered.
+/// </remarks>
+public static partial class Catalog
 {
-    private static readonly List<IndicatorListing> _catalog = [];
-    private static readonly object _lock = new();
-    private static bool _initialized;
+    private static readonly JsonSerializerOptions InboundJsonOptions = new() {
+        PropertyNameCaseInsensitive = true,
+        Converters = { new StyleJsonConverter() }
+    };
+
+    private static readonly JsonSerializerOptions OutboundJsonOptions = new() {
+        WriteIndented = true,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Converters = { new JsonStringEnumConverter() }
+    };
 
     /// <summary>
-    /// Catalog of all indicators
+    /// Gets all indicator catalog listings
     /// </summary>
-    public static IReadOnlyList<IndicatorListing> Catalog
+    /// <returns>All indicator listings.</returns>
+    public static IReadOnlyCollection<IndicatorListing> Get() => Listings;
+
+
+    /// <summary>
+    /// Gets an indicator by its ID and style.
+    /// </summary>
+    /// <param name="id">The unique ID of the indicator.</param>
+    /// <param name="style">The style of the indicator.</param>
+    /// <returns>The indicator listing with the specified ID and style, or null if not found.</returns>
+    public static IndicatorListing? Get(string id, Style style)
+        => string.IsNullOrWhiteSpace(id)
+            ? null
+            : Listings.FirstOrDefault(x => string.Equals(x.Uiid, id, StringComparison.OrdinalIgnoreCase) && x.Style == style);
+
+    /// <summary>
+    /// Gets all indicators with the specified ID.
+    /// </summary>
+    /// <param name="id">The unique ID of the indicator.</param>
+    /// <returns>All indicator listings with the specified ID.</returns>
+    public static IReadOnlyCollection<IndicatorListing> Get(string id)
+        => string.IsNullOrWhiteSpace(id)
+            ? []
+            : Listings.Where(x => string.Equals(x.Uiid, id, StringComparison.OrdinalIgnoreCase)).ToList();
+
+    /// <summary>
+    /// Gets all indicators with the specified style.
+    /// </summary>
+    /// <param name="style">The style of indicators to retrieve.</param>
+    /// <returns>All indicator listings with the specified style.</returns>
+    public static IReadOnlyCollection<IndicatorListing> Get(Style style)
+        => Listings
+            .Where(x => x.Style == style)
+            .ToList();
+
+    /// <summary>
+    /// Gets all indicators in the specified category.
+    /// </summary>
+    /// <param name="category">The category of indicators to retrieve.</param>
+    /// <returns>All indicator listings in the specified category.</returns>
+    public static IReadOnlyCollection<IndicatorListing> Get(Category category)
+        => Listings
+            .Where(x => x.Category == category)
+            .ToList();
+
+    /// <summary>
+    /// Searches for indicators by name or ID, using a partial match.
+    /// </summary>
+    /// <param name="query">The search query.</param>
+    /// <returns>All indicator listings that match the search query.</returns>
+    public static IReadOnlyCollection<IndicatorListing> Search(string query)
     {
-        get {
-            EnsureInitialized();
-            return _catalog;
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return Listings;
         }
+
+        string normalizedQuery = query.Trim();
+
+        return Listings
+            .Where(x => x.Uiid.Contains(normalizedQuery, StringComparison.OrdinalIgnoreCase)
+                     || x.Name.Contains(normalizedQuery, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
     /// <summary>
-    /// Initialize the catalog with all available indicator listings
+    /// Searches for indicators by name, with an optional style filter.
     /// </summary>
-    private static void EnsureInitialized()
+    /// <param name="query">The search query.</param>
+    /// <param name="style">Optional style filter.</param>
+    /// <returns>All indicator listings that match the search query and style filter.</returns>
+    internal static IReadOnlyCollection<IndicatorListing> Search(string query, Style style)
     {
-        if (!_initialized)
+        IReadOnlyCollection<IndicatorListing> allResults = Search(query);
+
+        return allResults
+            .Where(x => x.Style == style)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Searches for indicators by name, with an optional category filter.
+    /// </summary>
+    /// <param name="query">The search query.</param>
+    /// <param name="category">Optional category filter.</param>
+    /// <returns>All indicator listings that match the search query and category filter.</returns>
+    internal static IReadOnlyCollection<IndicatorListing> Search(string query, Category category)
+        => Search(query)
+            .Where(x => x.Category == category)
+            .ToList();
+
+    /// <summary>
+    /// Converts the catalog to a JSON string representation.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="filePath">Optional file path to save the JSON output. If provided, the content will be written to this file.</param>
+    /// <returns>A JSON string containing all catalog properties according to the defined schema.</returns>
+    internal static string ToJson(
+        this IReadOnlyCollection<IndicatorListing> catalog,
+        string? filePath = null)
+    {
+        ArgumentNullException.ThrowIfNull(catalog);
+
+        string json = JsonSerializer.Serialize(catalog, OutboundJsonOptions);
+
+        // Save to file if path is provided
+        if (!string.IsNullOrWhiteSpace(filePath))
         {
-            lock (_lock)
+            File.WriteAllText(filePath, json);
+        }
+
+        return json;
+    }
+
+    /// <summary>
+    /// Converts the catalog to a Markdown checklist format.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="filePath">
+    /// Optional file path to save the Markdown output.
+    /// If provided, the content will be written to this file.
+    /// </param>
+    /// <returns>A Markdown checklist string with format: - [ ] {id}: {name} ({available types})</returns>
+    public static string ToMarkdownChecklist(
+        this IReadOnlyCollection<IndicatorListing> catalog,
+        string? filePath = null)
+    {
+        ArgumentNullException.ThrowIfNull(catalog);
+
+        StringBuilder sb = new();
+
+        // Group by ID to show all styles for each indicator
+        IOrderedEnumerable<IGrouping<string, IndicatorListing>> groupedIndicators = catalog
+            .GroupBy(listing => listing.Uiid)
+            .OrderBy(group => group.Key);
+
+        foreach (IGrouping<string, IndicatorListing> group in groupedIndicators)
+        {
+            IndicatorListing firstListing = group.First();
+            string availableTypes = string.Join(", ", group.OrderBy(s => (int)s.Style).Select(l => l.Style.ToString()));
+
+            sb.AppendLine(CultureInfo.InvariantCulture, $"- [ ] {group.Key}: {firstListing.Name} ({availableTypes})");
+        }
+
+        string output = sb.ToString().TrimEnd();
+
+        // Save to file if path is provided
+        if (!string.IsNullOrWhiteSpace(filePath))
+        {
+            File.WriteAllText(filePath, output);
+        }
+
+        return output;
+    }
+
+    /// <summary>
+    /// Converts the catalog to a Markdown table format.
+    /// </summary>
+    /// <param name="catalog">The catalog of indicator listings.</param>
+    /// <param name="filePath">
+    /// Optional file path to save the Markdown output.
+    /// If provided, the content will be written to this file.
+    /// </param>
+    /// <returns>A Markdown table with columns for ID, Name, Series, Buffer, Stream.</returns>
+    public static string ToMarkdownTable(
+        this IReadOnlyCollection<IndicatorListing> catalog,
+        string? filePath = null)
+    {
+        StringBuilder sb = new();
+
+        // Group by ID to consolidate multiple styles into single rows
+        IOrderedEnumerable<IGrouping<string, IndicatorListing>> groupedIndicators = catalog
+            .GroupBy(listing => listing.Uiid)
+            .OrderBy(group => group.Key);
+
+        // Table header
+        sb.AppendLine("| ID | Name | Series | Buffer | Stream |");
+        sb.AppendLine("|---|---|:---:|:---:|:---:|");
+
+        // Table rows
+        foreach (IGrouping<string, IndicatorListing>? group in groupedIndicators)
+        {
+            IndicatorListing firstListing = group.First();
+            List<IndicatorListing> styles = group.ToList();
+
+            // Check which styles are available
+            string hasSeries = styles.Any(s => s.Style == Style.Series) ? "✓" : "";
+            string hasBuffer = styles.Any(s => s.Style == Style.Buffer) ? "✓" : "";
+            string hasStream = styles.Any(s => s.Style == Style.Stream) ? "✓" : "";
+
+            sb.AppendLine(CultureInfo.InvariantCulture, $"| {group.Key} | {firstListing.Name} | {hasSeries} | {hasBuffer} | {hasStream} |");
+        }
+
+        string output = sb.ToString().TrimEnd();
+
+        // Save to file if path is provided
+        if (!string.IsNullOrWhiteSpace(filePath))
+        {
+            File.WriteAllText(filePath, output);
+        }
+
+        return output;
+    }
+
+    /// <summary>
+    /// Executes an indicator using only its ID and style with a typed result.
+    /// </summary>
+    /// <typeparam name="TResult">The expected indicator result type.</typeparam>
+    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="id">The indicator ID (e.g., "EMA", "RSI", "MACD").</param>
+    /// <param name="style">The indicator style (Series, Stream, or Buffer).</param>
+    /// <param name="parameters">Optional parameter overrides.</param>
+    /// <returns>The indicator results as a typed list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when id is null or empty.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
+    internal static IReadOnlyList<TResult> ExecuteById<TResult>(
+        this IEnumerable<IQuote> quotes,
+        string id,
+        Style style,
+        Dictionary<string, object>? parameters = null)
+        where TResult : class
+    {
+        // Validate inputs
+        ArgumentNullException.ThrowIfNull(quotes);
+
+        if (string.IsNullOrWhiteSpace(id))
+        {
+            throw new ArgumentException("Indicator ID cannot be null or empty.", nameof(id));
+        }
+
+        // Find the indicator listing
+        IndicatorListing? listing = Get(id, style)
+            ?? throw new InvalidOperationException($"Indicator '{id}' with style '{style}' not found in catalog.");
+
+        // Execute using typed executor
+        return ListingExecutor.Execute<IQuote, TResult>(quotes, listing, parameters);
+    }
+
+    /// <summary>
+    /// Executes an indicator from a JSON configuration string with a typed result.
+    /// </summary>
+    /// <typeparam name="TResult">The expected indicator result type.</typeparam>
+    /// <param name="quotes">The quotes to process.</param>
+    /// <param name="json">The JSON configuration string containing indicator settings.</param>
+    /// <returns>The indicator results as a typed list.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when json or quotes is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when json is empty or invalid.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found or executed.</exception>
+    internal static IReadOnlyList<TResult> ExecuteFromJson<TResult>(
+        this IEnumerable<IQuote> quotes,
+        string json)
+        where TResult : class
+    {
+        // Validate inputs
+        ArgumentNullException.ThrowIfNull(quotes);
+        ArgumentNullException.ThrowIfNull(json);
+
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            throw new ArgumentException("JSON configuration cannot be null or empty.", nameof(json));
+        }
+
+        // Parse the JSON configuration
+        IndicatorConfig config;
+        try
+        {
+            config = JsonSerializer.Deserialize<IndicatorConfig>(json, InboundJsonOptions)
+                ?? throw new ArgumentException("Failed to parse JSON configuration - result was null.", nameof(json));
+        }
+        catch (JsonException ex)
+        {
+            throw new ArgumentException($"Invalid JSON configuration: {ex.Message}", nameof(json), ex);
+        }
+
+        // Convert JsonElement values to proper types in Parameters
+        Dictionary<string, object>? convertedParameters = ConvertJsonElementsInParameters(config.Parameters);
+
+        // Execute using the parsed configuration
+        return quotes.ExecuteById<TResult>(config.Id, config.Style, convertedParameters);
+    }
+
+    /// <summary>
+    /// Converts JsonElement values in parameters dictionary to their appropriate types.
+    /// </summary>
+    /// <param name="parameters">The parameters dictionary that may contain JsonElement values.</param>
+    /// <returns>A new dictionary with converted values.</returns>
+    private static Dictionary<string, object>? ConvertJsonElementsInParameters(Dictionary<string, object>? parameters)
+    {
+        if (parameters == null || parameters.Count == 0)
+        {
+            return parameters;
+        }
+
+        Dictionary<string, object> converted = [];
+        foreach (KeyValuePair<string, object> kvp in parameters)
+        {
+            if (kvp.Value is JsonElement jsonElement)
             {
-                if (!_initialized)
+                object? convertedValue = ConvertJsonElement(jsonElement);
+                // Skip null values to maintain Dictionary<string, object> compatibility
+                if (convertedValue != null)
                 {
-                    PopulateCatalog();
-                    _initialized = true;
+                    converted[kvp.Key] = convertedValue;
                 }
             }
+            else
+            {
+                converted[kvp.Key] = kvp.Value;
+            }
         }
+
+        return converted;
     }
 
     /// <summary>
-    /// Clear the catalog (for testing purposes)
+    /// Converts a JsonElement to its appropriate .NET type.
     /// </summary>
-    internal static void Clear()
+    /// <param name="element">The JsonElement to convert.</param>
+    /// <returns>The converted value, or null for null JsonElements.</returns>
+    private static object? ConvertJsonElement(JsonElement element)
+        => element.ValueKind switch {
+            JsonValueKind.String => element.GetString() ?? string.Empty,
+            JsonValueKind.Number when element.TryGetInt32(out int intValue) => intValue,
+            JsonValueKind.Number when element.TryGetDecimal(out decimal decimalValue) => decimalValue,
+            JsonValueKind.Number when element.TryGetDouble(out double doubleValue) => doubleValue,
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            _ => element.ToString()
+        };
+
+    /// <summary>
+    /// Custom JSON converter for Style enum that accepts either integer values or string names (case-insensitive).
+    /// </summary>
+    private sealed class StyleJsonConverter : JsonConverter<Style>
     {
-        lock (_lock)
+        public override Style Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            _catalog.Clear();
-            _initialized = false;
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                int numeric = reader.GetInt32();
+                return Enum.IsDefined(typeof(Style), numeric)
+                    ? (Style)numeric
+                    : throw new JsonException($"Invalid Style value: {numeric}");
+            }
+
+            if (reader.TokenType == JsonTokenType.String)
+            {
+                string? str = reader.GetString();
+                return !string.IsNullOrWhiteSpace(str) && Enum.TryParse(str, ignoreCase: true, out Style parsed)
+                    ? parsed
+                    : throw new JsonException($"Invalid Style value: '{str}'");
+            }
+
+            throw new JsonException($"Unexpected token parsing Style: {reader.TokenType}");
         }
-    }
 
-    /// <summary>
-    /// Populate the catalog with all indicator listings
-    /// </summary>
-    private static void PopulateCatalog()
-    {
-        // ADL (Accumulation Distribution Line)
-        _catalog.Add(Adl.SeriesListing);
-        _catalog.Add(Adl.StreamListing);
-
-        // ADX (Average Directional Index)
-        _catalog.Add(Adx.BufferListing);
-        _catalog.Add(Adx.SeriesListing);
-
-        // Alligator
-        _catalog.Add(Alligator.SeriesListing);
-        _catalog.Add(Alligator.StreamListing);
-
-        // ALMA (Arnaud Legoux Moving Average)
-        _catalog.Add(Alma.SeriesListing);
-
-        // Aroon
-        _catalog.Add(Aroon.SeriesListing);
-
-        // ATR (Average True Range)
-        _catalog.Add(Atr.SeriesListing);
-        _catalog.Add(Atr.StreamListing);
-
-        // ATR Stop
-        _catalog.Add(AtrStop.SeriesListing);
-        _catalog.Add(AtrStop.StreamListing);
-
-        // Awesome Oscillator
-        _catalog.Add(Awesome.SeriesListing);
-
-        // Beta
-        _catalog.Add(Beta.SeriesListing);
-
-        // Bollinger Bands
-        _catalog.Add(BollingerBands.SeriesListing);
-
-        // BOP (Balance of Power)
-        _catalog.Add(Bop.SeriesListing);
-
-        // CCI (Commodity Channel Index)
-        _catalog.Add(Cci.SeriesListing);
-
-        // Chaikin Oscillator
-        _catalog.Add(ChaikinOsc.SeriesListing);
-
-        // Chandelier Exit
-        _catalog.Add(Chandelier.SeriesListing);
-
-        // CHOP (Choppiness Index)
-        _catalog.Add(Chop.SeriesListing);
-
-        // CMF (Chaikin Money Flow)
-        _catalog.Add(Cmf.SeriesListing);
-
-        // CMO (Chande Momentum Oscillator)
-        _catalog.Add(Cmo.SeriesListing);
-
-        // ConnorsRSI
-        _catalog.Add(ConnorsRsi.SeriesListing);
-
-        // Correlation
-        _catalog.Add(Correlation.SeriesListing);
-
-        // DEMA (Double Exponential Moving Average)
-        _catalog.Add(Dema.SeriesListing);
-
-        // Doji
-        _catalog.Add(Doji.SeriesListing);
-
-        // Donchian Channels
-        _catalog.Add(Donchian.SeriesListing);
-
-        // DPO (Detrended Price Oscillator)
-        _catalog.Add(Dpo.SeriesListing);
-
-        // Elder Ray
-        _catalog.Add(ElderRay.SeriesListing);
-
-        // EMA (Exponential Moving Average)
-        _catalog.Add(Ema.BufferListing);
-        _catalog.Add(Ema.SeriesListing);
-        _catalog.Add(Ema.StreamListing);
-
-        // EPMA (Endpoint Moving Average)
-        _catalog.Add(Epma.SeriesListing);
-
-        // FCB (Fractal Chaos Bands)
-        _catalog.Add(Fcb.SeriesListing);
-
-        // Fisher Transform
-        _catalog.Add(FisherTransform.SeriesListing);
-
-        // Force Index
-        _catalog.Add(ForceIndex.SeriesListing);
-
-        // Fractal
-        _catalog.Add(Fractal.SeriesListing);
-
-        // Gator Oscillator
-        _catalog.Add(Gator.SeriesListing);
-
-        // Heikin Ashi
-        _catalog.Add(HeikinAshi.SeriesListing);
-
-        // HMA (Hull Moving Average)
-        _catalog.Add(Hma.SeriesListing);
-
-        // HT Trendline (Hilbert Transform)
-        _catalog.Add(HtTrendline.SeriesListing);
-
-        // Hurst Exponent
-        _catalog.Add(Hurst.SeriesListing);
-
-        // Ichimoku Cloud
-        _catalog.Add(Ichimoku.SeriesListing);
-
-        // KAMA (Kaufman Adaptive Moving Average)
-        _catalog.Add(Kama.SeriesListing);
-
-        // Keltner Channels
-        _catalog.Add(Keltner.SeriesListing);
-
-        // KVO (Klinger Volume Oscillator)
-        _catalog.Add(Kvo.SeriesListing);
-
-        // MA Envelopes (Moving Average Envelopes)
-        _catalog.Add(MaEnvelopes.SeriesListing);
-
-        // MACD (Moving Average Convergence Divergence)
-        _catalog.Add(Macd.SeriesListing);
-
-        // MAMA (MESA Adaptive Moving Average)
-        _catalog.Add(Mama.SeriesListing);
-
-        // Marubozu
-        _catalog.Add(Marubozu.SeriesListing);
-
-        // MFI (Money Flow Index)
-        _catalog.Add(Mfi.SeriesListing);
-
-        // McGinley Dynamic
-        _catalog.Add(MgDynamic.SeriesListing);
-
-        // OBV (On Balance Volume)
-        _catalog.Add(Obv.SeriesListing);
-
-        // Parabolic SAR
-        _catalog.Add(ParabolicSar.SeriesListing);
-
-        // Pivot Points
-        _catalog.Add(PivotPoints.SeriesListing);
-
-        // Pivots
-        _catalog.Add(Pivots.SeriesListing);
-
-        // PMO (Price Momentum Oscillator)
-        _catalog.Add(Pmo.SeriesListing);
-
-        // PRS (Price Relative Strength)
-        _catalog.Add(Prs.SeriesListing);
-
-        // PVO (Price Volume Oscillator)
-        _catalog.Add(Pvo.SeriesListing);
-
-        // Renko
-        _catalog.Add(Renko.SeriesListing);
-        _catalog.Add(Renko.StreamListing);
-
-        // Renko ATR
-        _catalog.Add(RenkoAtr.SeriesListing);
-
-        // ROC (Rate of Change)
-        _catalog.Add(Roc.SeriesListing);
-
-        // ROC with Bands
-        _catalog.Add(RocWb.SeriesListing);
-
-        // Rolling Pivots
-        _catalog.Add(RollingPivots.SeriesListing);
-
-        // RSI (Relative Strength Index)
-        _catalog.Add(Rsi.SeriesListing);
-
-        // Slope
-        _catalog.Add(Slope.SeriesListing);
-
-        // SMA (Simple Moving Average)
-        _catalog.Add(Sma.SeriesListing);
-        _catalog.Add(Sma.StreamListing);
-
-        // SMA Analysis
-        _catalog.Add(SmaAnalysis.SeriesListing);
-
-        // SMI (Stochastic Momentum Index)
-        _catalog.Add(Smi.SeriesListing);
-
-        // SMMA (Smoothed Moving Average)
-        _catalog.Add(Smma.SeriesListing);
-
-        // STARC Bands
-        _catalog.Add(StarcBands.SeriesListing);
-
-        // STC (Schaff Trend Cycle)
-        _catalog.Add(Stc.SeriesListing);
-
-        // Standard Deviation
-        _catalog.Add(StdDev.SeriesListing);
-
-        // Standard Deviation Channels
-        _catalog.Add(StdDevChannels.SeriesListing);
-
-        // Stochastic Oscillator
-        _catalog.Add(Stoch.SeriesListing);
-
-        // Stochastic RSI
-        _catalog.Add(StochRsi.SeriesListing);
-
-        // SuperTrend
-        _catalog.Add(SuperTrend.SeriesListing);
-
-        // T3 (Triple Exponential Moving Average)
-        _catalog.Add(T3.SeriesListing);
-
-        // TEMA (Triple Exponential Moving Average)
-        _catalog.Add(Tema.SeriesListing);
-
-        // TR (True Range)
-        _catalog.Add(Tr.SeriesListing);
-        _catalog.Add(Tr.StreamListing);
-
-        // TRIX
-        _catalog.Add(Trix.SeriesListing);
-
-        // TSI (True Strength Index)
-        _catalog.Add(Tsi.SeriesListing);
-
-        // Ulcer Index
-        _catalog.Add(UlcerIndex.SeriesListing);
-
-        // Ultimate Oscillator
-        _catalog.Add(Ultimate.SeriesListing);
-
-        // Volatility Stop
-        _catalog.Add(VolatilityStop.SeriesListing);
-
-        // Vortex Indicator
-        _catalog.Add(Vortex.SeriesListing);
-
-        // VWAP (Volume Weighted Average Price)
-        _catalog.Add(Vwap.SeriesListing);
-
-        // VWMA (Volume Weighted Moving Average)
-        _catalog.Add(Vwma.SeriesListing);
-
-        // Williams %R
-        _catalog.Add(WilliamsR.SeriesListing);
-
-        // WMA (Weighted Moving Average)
-        _catalog.Add(Wma.SeriesListing);
-
-        // ZigZag
-        _catalog.Add(ZigZag.SeriesListing);
+        /// <summary>
+        /// Writes the string representation of a <see cref="Style"/> value to the
+        /// specified <see cref="Utf8JsonWriter"/>.
+        /// </summary>
+        /// <param name="writer">
+        /// The <see cref="Utf8JsonWriter"/> to which the value will be written.
+        /// Cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="value">
+        /// The <see cref="Style"/> value to write. Cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="options">
+        /// The serialization options to use. This parameter is not used in this implementation
+        /// but cannot be <see langword="null"/>.
+        /// </param>
+        public override void Write(
+            Utf8JsonWriter writer,
+            Style value,
+            JsonSerializerOptions options)
+                => writer.WriteStringValue(value.ToString());
     }
 }

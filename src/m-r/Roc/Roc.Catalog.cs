@@ -4,7 +4,7 @@ public static partial class Roc
 {
     // Rate of Change Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Rate of Change")
             .WithId("ROC")
             .WithStyle(Style.Series)

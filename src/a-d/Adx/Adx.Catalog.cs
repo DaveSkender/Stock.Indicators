@@ -4,7 +4,7 @@ public static partial class Adx
 {
     // ADX Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Average Directional Index (ADX)")
             .WithId("ADX")
             .WithStyle(Style.Series)
@@ -22,7 +22,7 @@ public static partial class Adx
 
     // ADX Buffer Listing
     internal static readonly IndicatorListing BufferListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Average Directional Index (ADX)")
             .WithId("ADX")
             .WithStyle(Style.Buffer)

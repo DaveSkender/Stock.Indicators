@@ -4,7 +4,7 @@ public static partial class AtrStop
 {
     // ATR-STOP Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("ATR Trailing Stop")
             .WithId("ATR-STOP")
             .WithStyle(Style.Series)
@@ -21,7 +21,7 @@ public static partial class AtrStop
 
     // ATR-STOP Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("ATR Trailing Stop")
             .WithId("ATR-STOP")
             .WithStyle(Style.Stream)

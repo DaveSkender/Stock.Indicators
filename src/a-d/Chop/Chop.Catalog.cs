@@ -4,7 +4,7 @@ public static partial class Chop
 {
     // CHOP Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Choppiness Index")
             .WithId("CHOP")
             .WithStyle(Style.Series)

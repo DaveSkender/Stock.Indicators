@@ -4,7 +4,7 @@ public static partial class Epma
 {
     // EPMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Endpoint Moving Average")
             .WithId("EPMA")
             .WithStyle(Style.Series)

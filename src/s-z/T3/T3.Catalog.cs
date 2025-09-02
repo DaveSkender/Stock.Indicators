@@ -4,7 +4,7 @@ public static partial class T3
 {
     // T3 Moving Average Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("T3 Moving Average")
             .WithId("T3")
             .WithStyle(Style.Series)

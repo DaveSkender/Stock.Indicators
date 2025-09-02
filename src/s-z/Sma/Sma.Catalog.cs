@@ -4,7 +4,7 @@ public static partial class Sma
 {
     // SMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Simple Moving Average")
             .WithId("SMA")
             .WithStyle(Style.Series)
@@ -16,7 +16,7 @@ public static partial class Sma
 
     // SMA Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Simple Moving Average")
             .WithId("SMA")
             .WithStyle(Style.Stream)

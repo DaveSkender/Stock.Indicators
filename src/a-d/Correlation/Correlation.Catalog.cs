@@ -4,7 +4,7 @@ public static partial class Correlation
 {
     // CORR Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Correlation")
             .WithId("CORR")
             .WithStyle(Style.Series)

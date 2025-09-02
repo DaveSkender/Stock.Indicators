@@ -4,7 +4,7 @@ public static partial class FisherTransform
 {
     // FISHER Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Ehlers Fisher Transform")
             .WithId("FISHER")
             .WithStyle(Style.Series)

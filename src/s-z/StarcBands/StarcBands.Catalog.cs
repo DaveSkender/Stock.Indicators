@@ -4,7 +4,7 @@ public static partial class StarcBands
 {
     // STARC Bands Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("STARC Bands")
             .WithId("STARC")
             .WithStyle(Style.Series)

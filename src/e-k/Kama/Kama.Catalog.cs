@@ -4,7 +4,7 @@ public static partial class Kama
 {
     // KAMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Kaufman's Adaptive Moving Average")
             .WithId("KAMA")
             .WithStyle(Style.Series)

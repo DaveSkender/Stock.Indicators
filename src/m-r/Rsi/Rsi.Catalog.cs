@@ -4,7 +4,7 @@ public static partial class Rsi
 {
     // RSI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Relative Strength Index")
             .WithId("RSI")
             .WithStyle(Style.Series)

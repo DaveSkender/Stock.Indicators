@@ -4,7 +4,7 @@ public static partial class Adl
 {
     // ADL Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Accumulation Distribution Line (ADL)")
             .WithId("ADL")
             .WithStyle(Style.Series)
@@ -15,7 +15,7 @@ public static partial class Adl
 
     // ADL Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Accumulation Distribution Line (ADL)")
             .WithId("ADL")
             .WithStyle(Style.Stream)

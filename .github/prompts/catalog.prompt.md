@@ -31,14 +31,14 @@ namespace Skender.Stock.Indicators;
 public static partial class {IndicatorName}
 {
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("{Full Name}")
             .WithId("{UPPERCASE_ID}")
             .WithStyle(Style.Series)
             .WithCategory(Category.{Category})
             .WithMethodName("To{IndicatorName}")
             .AddParameter<int>("periods", "Periods", isRequired: true, defaultValue: 20, minimum: 2, maximum: 250)
-            .AddResult("PropertyName", "Display Name", ResultType.Default, isReusable: true) // Only if IReusable.Value!
+            .AddResult("PropertyName", "Display Name", ResultType.Default, isReusable: true) // Only if IReusable.Value
             .Build();
 
     // No StreamListing for {INDICATOR_ID}.
@@ -62,7 +62,7 @@ _catalog.Add({IndicatorName}.BufferListing);  // If supported
 Create `tests/indicators/{folder}/{indicator}/{IndicatorName}.Catalog.Tests.cs`:
 
 ```csharp
-namespace Catalog;
+namespace Catalogging;
 
 [TestClass]
 public class {IndicatorName}Tests : TestBase

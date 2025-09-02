@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Builder for creating IndicatorListing instances using a fluent interface.
 /// </summary>
-public class IndicatorListingBuilder
+internal class CatalogListingBuilder
 {
     private string _name = string.Empty;
     private string _id = string.Empty;
@@ -24,7 +24,7 @@ public class IndicatorListingBuilder
     /// </summary>
     /// <param name="name">The indicator name.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder WithName(string name)
+    internal CatalogListingBuilder WithName(string name)
     {
         _name = name;
         return this;
@@ -35,7 +35,7 @@ public class IndicatorListingBuilder
     /// </summary>
     /// <param name="id">The indicator ID.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder WithId(string id)
+    internal CatalogListingBuilder WithId(string id)
     {
         _id = id;
         return this;
@@ -46,7 +46,7 @@ public class IndicatorListingBuilder
     /// </summary>
     /// <param name="style">The indicator style.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder WithStyle(Style style)
+    internal CatalogListingBuilder WithStyle(Style style)
     {
         CurrentStyle = style;
         return this;
@@ -57,7 +57,7 @@ public class IndicatorListingBuilder
     /// </summary>
     /// <param name="category">The indicator category.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder WithCategory(Category category)
+    internal CatalogListingBuilder WithCategory(Category category)
     {
         _category = category;
         return this;
@@ -68,7 +68,7 @@ public class IndicatorListingBuilder
     /// </summary>
     /// <param name="methodName">The method name.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder WithMethodName(string methodName)
+    internal CatalogListingBuilder WithMethodName(string methodName)
     {
         _methodName = methodName;
         return this;
@@ -86,7 +86,7 @@ public class IndicatorListingBuilder
     /// <param name="minimum">Optional minimum value for the parameter.</param>
     /// <param name="maximum">Optional maximum value for the parameter.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder AddParameter<T>(
+    internal CatalogListingBuilder AddParameter<T>(
         string parameterName,
         string displayName,
         string? description = null,
@@ -119,7 +119,7 @@ public class IndicatorListingBuilder
     /// <param name="isRequired">Whether the parameter is required.</param>
     /// <param name="defaultValue">Optional default value for the parameter.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder AddEnumParameter<T>(
+    internal CatalogListingBuilder AddEnumParameter<T>(
         string parameterName,
         string displayName,
         string? description = null,
@@ -158,7 +158,7 @@ public class IndicatorListingBuilder
     /// <param name="isRequired">Whether the parameter is required.</param>
     /// <param name="defaultValue">Optional default value for the parameter.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder AddDateParameter(
+    internal CatalogListingBuilder AddDateParameter(
         string parameterName,
         string displayName,
         string? description = null,
@@ -187,7 +187,7 @@ public class IndicatorListingBuilder
     /// <param name="description">Optional description of the parameter.</param>
     /// <param name="isRequired">Whether the parameter is required.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder AddSeriesParameter(
+    internal CatalogListingBuilder AddSeriesParameter(
         string parameterName,
         string displayName,
         string? description = null,
@@ -215,7 +215,7 @@ public class IndicatorListingBuilder
     /// <param name="dataType">The type of the result.</param>
     /// <param name="isReusable">Whether this is the reusable result.</param>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder AddResult(
+    internal CatalogListingBuilder AddResult(
         string dataName,
         string displayName,
         ResultType dataType = ResultType.Default,
@@ -235,7 +235,7 @@ public class IndicatorListingBuilder
     /// Adds common price High, Low, Close results to the indicator.
     /// </summary>
     /// <returns>The builder instance for method chaining.</returns>
-    public IndicatorListingBuilder AddPriceHlcResult()
+    internal CatalogListingBuilder AddPriceHlcResult()
     {
         AddResult("High", "High", ResultType.Default, false);
         AddResult("Low", "Low", ResultType.Default, false);
@@ -247,7 +247,7 @@ public class IndicatorListingBuilder
     /// Builds the IndicatorListing instance.
     /// </summary>
     /// <returns>A new IndicatorListing instance.</returns>
-    public IndicatorListing Build()
+    internal IndicatorListing Build()
     {
         ValidateBeforeBuild();
         return new IndicatorListing {

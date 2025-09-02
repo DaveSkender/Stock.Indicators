@@ -4,7 +4,7 @@ public static partial class RenkoAtr
 {
     // Renko (ATR) Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Renko (ATR)")
             .WithId("RENKO-ATR")
             .WithStyle(Style.Series)

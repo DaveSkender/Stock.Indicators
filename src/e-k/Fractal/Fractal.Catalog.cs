@@ -4,7 +4,7 @@ public static partial class Fractal
 {
     // Fractal Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Williams Fractal (high/low)")
             .WithId("FRACTAL")
             .WithStyle(Style.Series)

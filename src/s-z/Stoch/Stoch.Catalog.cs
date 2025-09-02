@@ -4,7 +4,7 @@ public static partial class Stoch
 {
     // Stochastic Oscillator Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Stochastic Oscillator")
             .WithId("STOCH")
             .WithStyle(Style.Series)

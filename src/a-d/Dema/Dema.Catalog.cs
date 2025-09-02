@@ -4,7 +4,7 @@ public static partial class Dema
 {
     // DEMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Double Exponential Moving Average")
             .WithId("DEMA")
             .WithStyle(Style.Series)

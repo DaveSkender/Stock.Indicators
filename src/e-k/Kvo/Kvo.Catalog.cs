@@ -4,7 +4,7 @@ public static partial class Kvo
 {
     // KVO Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Klinger Volume Oscillator")
             .WithId("KVO")
             .WithStyle(Style.Series)

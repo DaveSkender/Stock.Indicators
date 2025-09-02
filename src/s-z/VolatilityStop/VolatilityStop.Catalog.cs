@@ -4,7 +4,7 @@ public static partial class VolatilityStop
 {
     // Volatility Stop Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Volatility Stop")
             .WithId("VOL-STOP")
             .WithStyle(Style.Series)

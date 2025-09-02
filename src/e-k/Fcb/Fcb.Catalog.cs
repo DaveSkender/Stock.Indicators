@@ -4,7 +4,7 @@ public static partial class Fcb
 {
     // FCB Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Fractal Chaos Bands")
             .WithId("FCB")
             .WithStyle(Style.Series)

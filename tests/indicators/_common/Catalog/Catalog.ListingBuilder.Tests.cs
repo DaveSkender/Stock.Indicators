@@ -1,13 +1,21 @@
-namespace Catalog;
+namespace Catalogging;
 
+/// <summary>
+/// Tests for <see cref="CatalogListingBuilder"/> covering happy paths and validation:
+/// - building a valid listing with params/results
+/// - adding standard H/L/C results helper
+/// - required fields (name/id/results)
+/// - duplicate parameters/results handling
+/// - multiple non-reusable results support
+/// </summary>
 [TestClass]
-public class CatalogBuilder : TestBase
+public class CatalogListingBuilderTests : TestBase
 {
     [TestMethod]
     public void CreateValidListings()
     {
         // Arrange & Act
-        IndicatorListing listing = new IndicatorListingBuilder()
+        IndicatorListing listing = new CatalogListingBuilder()
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)
@@ -43,7 +51,7 @@ public class CatalogBuilder : TestBase
     public void AddPriceHlcResult()
     {
         // Arrange & Act
-        IndicatorListing listing = new IndicatorListingBuilder()
+        IndicatorListing listing = new CatalogListingBuilder()
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)
@@ -65,7 +73,7 @@ public class CatalogBuilder : TestBase
     public void MissingName() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new IndicatorListingBuilder()
+            () => new CatalogListingBuilder()
                 .WithId("TEST")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
@@ -76,7 +84,7 @@ public class CatalogBuilder : TestBase
     public void MissingId() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new IndicatorListingBuilder()
+            () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
@@ -87,7 +95,7 @@ public class CatalogBuilder : TestBase
     public void MissingResults() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new IndicatorListingBuilder()
+            () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -98,7 +106,7 @@ public class CatalogBuilder : TestBase
     public void DuplicateParameters() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new IndicatorListingBuilder()
+            () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -112,7 +120,7 @@ public class CatalogBuilder : TestBase
     public void DuplicateResults() =>
         // Arrange & Act & Assert
         Assert.ThrowsExactly<InvalidOperationException>(
-            () => new IndicatorListingBuilder()
+            () => new CatalogListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -125,7 +133,7 @@ public class CatalogBuilder : TestBase
     public void MultipleResultsNoneReusable()
     {
         // Arrange & Act
-        IndicatorListing result = new IndicatorListingBuilder()
+        IndicatorListing result = new CatalogListingBuilder()
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)

@@ -10,7 +10,7 @@ applyTo: '**/src/**/*.Catalog.cs,**/tests/indicators/**/*.Catalog.Tests.cs'
 - All catalog files must follow the pattern `{IndicatorName}.Catalog.cs`
 - Must be placed in the specific `src` folder alongside the indicator source code (e.g., `src/e-k/Ema/Ema.Catalog.cs`)
 - Must be in the same directory as the corresponding `{IndicatorName}.Models.cs` file and other indicator files
-- Must use the `IndicatorListingBuilder` pattern for defining indicator metadata
+- Must use the `CatalogListingBuilder` pattern for defining indicator metadata
 
 ## Naming conventions
 
@@ -23,7 +23,7 @@ applyTo: '**/src/**/*.Catalog.cs,**/tests/indicators/**/*.Catalog.Tests.cs'
 
 ## Builder pattern requirements
 
-- Use `IndicatorListingBuilder()` to construct listings
+- Use `IndicatorDefinitionBuilder()` to construct listings
 - Required methods in order:
   1. `WithName()` - Full display name of the indicator
   2. `WithId()` - Uppercase abbreviated identifier
@@ -141,7 +141,7 @@ Choose the most appropriate category:
 
 ## Test implementation requirements
 
-- **Namespace**: Use `namespace Catalog;` for all catalog tests
+- **Namespace**: Use `namespace Catalogging;` for all catalog tests
 - **Test methods**: One test method per style (e.g., `EmaSeriesListing()`, `EmaStreamListing()`, `EmaBufferListing()`)
 - **Assertions**: Verify all properties including Name, Uiid, Style, Category, Parameters, and Results
 - **Parameter validation**: Check parameter names, types, default values, and constraints

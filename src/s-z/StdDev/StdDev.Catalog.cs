@@ -4,7 +4,7 @@ public static partial class StdDev
 {
     // Standard Deviation Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Standard Deviation")
             .WithId("STDEV")
             .WithStyle(Style.Series)

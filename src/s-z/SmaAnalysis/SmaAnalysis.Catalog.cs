@@ -4,7 +4,7 @@ public static partial class SmaAnalysis
 {
     // SMA Analysis Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Simple Moving Average Analysis")
             .WithId("SMA-ANALYSIS")
             .WithStyle(Style.Series)

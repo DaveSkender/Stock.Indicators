@@ -4,7 +4,7 @@ public static partial class Ema
 {
     // EMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Exponential Moving Average")
             .WithId("EMA")
             .WithStyle(Style.Series)
@@ -16,7 +16,7 @@ public static partial class Ema
 
     // EMA Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Exponential Moving Average")
             .WithId("EMA")
             .WithStyle(Style.Stream)
@@ -28,7 +28,7 @@ public static partial class Ema
 
     // EMA Buffer Listing
     internal static readonly IndicatorListing BufferListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Exponential Moving Average")
             .WithId("EMA")
             .WithStyle(Style.Buffer)

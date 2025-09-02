@@ -4,7 +4,7 @@ public static partial class SuperTrend
 {
     // SuperTrend Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("SuperTrend")
             .WithId("SUPERTREND")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Mfi
 {
     // MFI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Money Flow Index (MFI)")
             .WithId("MFI")
             .WithStyle(Style.Series)

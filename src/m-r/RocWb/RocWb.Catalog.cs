@@ -4,7 +4,7 @@ public static partial class RocWb
 {
     // ROC with Bands Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("ROC with Bands")
             .WithId("ROC-WB")
             .WithStyle(Style.Series)

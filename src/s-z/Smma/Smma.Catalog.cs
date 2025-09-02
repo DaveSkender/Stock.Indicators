@@ -4,7 +4,7 @@ public static partial class Smma
 {
     // Smoothed Moving Average Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Smoothed Moving Average")
             .WithId("SMMA")
             .WithStyle(Style.Series)

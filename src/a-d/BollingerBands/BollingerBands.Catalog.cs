@@ -4,7 +4,7 @@ public static partial class BollingerBands
 {
     // BB Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Bollinger Bands®")
             .WithId("BB")
             .WithStyle(Style.Series)

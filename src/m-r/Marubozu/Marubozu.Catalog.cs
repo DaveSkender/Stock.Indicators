@@ -4,7 +4,7 @@ public static partial class Marubozu
 {
     // MARUBOZU Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Marubozu")
             .WithId("MARUBOZU")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Cmf
 {
     // CMF Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Chaikin Money Flow (CMF)")
             .WithId("CMF")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Smi
 {
     // Stochastic Momentum Index Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Stochastic Momentum Index")
             .WithId("SMI")
             .WithStyle(Style.Series)

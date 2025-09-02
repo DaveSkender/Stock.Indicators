@@ -4,7 +4,7 @@ public static partial class Prs
 {
     // Price Relative Strength Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Price Relative Strength")
             .WithId("PRS")
             .WithStyle(Style.Series)

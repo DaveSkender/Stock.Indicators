@@ -4,7 +4,7 @@ public static partial class Tema
 {
     // Triple Exponential Moving Average Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Triple Exponential Moving Average")
             .WithId("TEMA")
             .WithStyle(Style.Series)

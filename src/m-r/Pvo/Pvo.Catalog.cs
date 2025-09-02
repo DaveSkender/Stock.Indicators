@@ -4,7 +4,7 @@ public static partial class Pvo
 {
     // Price Volume Oscillator Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Price Volume Oscillator")
             .WithId("PVO")
             .WithStyle(Style.Series)

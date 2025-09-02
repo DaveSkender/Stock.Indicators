@@ -4,7 +4,7 @@ public static partial class Renko
 {
     // Renko Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Renko Chart")
             .WithId("RENKO")
             .WithStyle(Style.Series)
@@ -22,7 +22,7 @@ public static partial class Renko
 
     // Renko Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Renko Chart")
             .WithId("RENKO")
             .WithStyle(Style.Stream)

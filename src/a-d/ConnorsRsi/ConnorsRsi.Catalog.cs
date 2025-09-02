@@ -4,7 +4,7 @@ public static partial class ConnorsRsi
 {
     // CRSI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("ConnorsRSI (CRSI)")
             .WithId("CRSI")
             .WithStyle(Style.Series)

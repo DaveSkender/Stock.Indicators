@@ -191,18 +191,18 @@ using Skender.Stock.Indicators;
 using System.Text.Json;
 
 // all listings (name, id, style, category, parameters, results)
-IReadOnlyCollection<IndicatorListing> indicatorCatalog
-    = IndicatorRegistry.GetCatalog();
+IReadOnlyCollection<IndicatorListing> indicatorListings
+    = CatalogRegistry.Get();
 
 // optional: filter helpers
 IndicatorListing? emaSeriesListing 
-    = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+    = CatalogRegistry.Get("EMA", Style.Series);
 
 IReadOnlyCollection<IndicatorListing> seriesListings
-    = IndicatorRegistry.GetByStyle(Style.Series);
+    = CatalogRegistry.Get(Style.Series);
 
-// export to JSON
-string catalogJson = JsonSerializer.Serialize(indicatorCatalog);
+// convert to JSON
+string catalogJson = myListings.ToJson();
 ```
 
 ### Execute by ID (dynamic)

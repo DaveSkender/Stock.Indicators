@@ -4,7 +4,7 @@ public static partial class ElderRay
 {
     // ELDER-RAY Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Elder-ray Index")
             .WithId("ELDER-RAY")
             .WithStyle(Style.Series)

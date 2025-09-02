@@ -4,7 +4,7 @@ public static partial class Dpo
 {
     // DPO Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Detrended Price Oscillator")
             .WithId("DPO")
             .WithStyle(Style.Series)

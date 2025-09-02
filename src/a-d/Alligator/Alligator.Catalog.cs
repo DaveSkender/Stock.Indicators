@@ -4,7 +4,7 @@ public static partial class Alligator
 {
     // Alligator Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Williams Alligator")
             .WithId("ALLIGATOR")
             .WithStyle(Style.Series)
@@ -23,7 +23,7 @@ public static partial class Alligator
 
     // Alligator Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Williams Alligator")
             .WithId("ALLIGATOR")
             .WithStyle(Style.Stream)

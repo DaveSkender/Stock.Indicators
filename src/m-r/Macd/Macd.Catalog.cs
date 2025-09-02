@@ -4,7 +4,7 @@ public static partial class Macd
 {
     // MACD Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Moving Average Convergence/Divergence")
             .WithId("MACD")
             .WithStyle(Style.Series)

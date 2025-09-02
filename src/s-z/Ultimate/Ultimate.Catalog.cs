@@ -4,7 +4,7 @@ public static partial class Ultimate
 {
     // Ultimate Oscillator Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Ultimate Oscillator")
             .WithId("UO")
             .WithStyle(Style.Series)

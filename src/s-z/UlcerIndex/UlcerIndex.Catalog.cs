@@ -4,7 +4,7 @@ public static partial class UlcerIndex
 {
     // Ulcer Index Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Ulcer Index")
             .WithId("ULCER")
             .WithStyle(Style.Series)

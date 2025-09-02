@@ -4,7 +4,7 @@ public static partial class ZigZag
 {
     // Zig Zag Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Zig Zag (close)")
             .WithId("ZIGZAG-CLOSE")
             .WithStyle(Style.Series)

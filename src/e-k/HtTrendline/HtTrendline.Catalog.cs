@@ -4,7 +4,7 @@ public static partial class HtTrendline
 {
     // HTL Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Hilbert Transform Instantaneous Trendline")
             .WithId("HTL")
             .WithStyle(Style.Series)

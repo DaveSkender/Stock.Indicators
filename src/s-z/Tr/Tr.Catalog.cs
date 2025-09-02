@@ -4,7 +4,7 @@ public static partial class Tr
 {
     // TR Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("True Range")
             .WithId("TR")
             .WithStyle(Style.Series)
@@ -15,7 +15,7 @@ public static partial class Tr
 
     // TR Stream Listing
     internal static readonly IndicatorListing StreamListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("True Range")
             .WithId("TR")
             .WithStyle(Style.Stream)

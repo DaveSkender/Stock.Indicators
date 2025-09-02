@@ -4,7 +4,7 @@ public static partial class Trix
 {
     // TRIX Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Triple Exponential Moving Average Oscillator")
             .WithId("TRIX")
             .WithStyle(Style.Series)

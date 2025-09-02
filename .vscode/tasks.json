@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Install: .NET Packages",
+      "label": "Restore: .NET Packages",
       "type": "shell",
       "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
       "options": {
@@ -20,7 +20,7 @@
     {
       "label": "Build: .NET Solution",
       "type": "shell",
-      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore -v minimal --nologo",
+      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" -v minimal --nologo",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -31,8 +31,6 @@
       "problemMatcher": [
         "$msCompile"
       ],
-      "dependsOn": "Install: .NET Packages",
-      "dependsOrder": "sequence",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
@@ -50,8 +48,6 @@
         "isDefault": true
       },
       "problemMatcher": [],
-      "dependsOn": "Install: .NET Packages",
-      "dependsOrder": "sequence",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"

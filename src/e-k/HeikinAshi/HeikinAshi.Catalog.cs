@@ -4,7 +4,7 @@ public static partial class HeikinAshi
 {
     // HEIKINASHI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("HeikinAshi")
             .WithId("HEIKINASHI")
             .WithStyle(Style.Series)

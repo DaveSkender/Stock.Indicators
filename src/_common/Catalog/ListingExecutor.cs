@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides utility methods for dynamic indicator execution based on catalog metadata.
 /// </summary>
-public static class IndicatorExecutor
+internal static class ListingExecutor
 {
     /// <summary>
     /// Executes an indicator method dynamically using catalog metadata.
@@ -17,10 +17,10 @@ public static class IndicatorExecutor
     /// <param name="parameters">Optional parameter overrides. If not provided, uses catalog default values.</param>
     /// <returns>The indicator results.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be executed.</exception>
-    public static IReadOnlyList<TResult> Execute<TQuote, TResult>(
+    internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
         IEnumerable<TQuote> quotes,
         IndicatorListing listing,
-        Dictionary<string, object>? parameters = null)
+        Dictionary<string, object>? parameters = null)  // TODO: is this redundant to listing.Parameters?
         where TQuote : IQuote
         where TResult : class
     {
@@ -35,7 +35,8 @@ public static class IndicatorExecutor
             throw new ArgumentNullException(nameof(listing));
         }
 
-        string methodName = listing.MethodName ?? throw new InvalidOperationException("MethodName is required for dynamic execution");
+        string methodName = listing.MethodName
+            ?? throw new InvalidOperationException("MethodName is required for dynamic execution");
 
         // Get the assembly containing the indicators
         Assembly indicatorsAssembly = typeof(Ema).Assembly;
@@ -80,7 +81,8 @@ public static class IndicatorExecutor
                     // Use default value for required parameters
                     if (param.DefaultValue == null)
                     {
-                        throw new InvalidOperationException($"Required parameter {param.ParameterName} has no default value and was not provided");
+                        throw new InvalidOperationException(
+                            $"Required parameter {param.ParameterName} has no default value and was not provided");
                     }
 
                     parameterList.Add(param.DefaultValue);
@@ -129,7 +131,7 @@ public static class IndicatorExecutor
     /// <param name="listing">The indicator listing containing metadata.</param>
     /// <param name="parameterValues">Parameter values in the order they appear in the listing.</param>
     /// <returns>The indicator results.</returns>
-    public static IReadOnlyList<TResult> Execute<TQuote, TResult>(
+    internal static IReadOnlyList<TResult> Execute<TQuote, TResult>(
         IEnumerable<TQuote> quotes,
         IndicatorListing listing,
         params object[] parameterValues)

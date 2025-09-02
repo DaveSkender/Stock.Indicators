@@ -4,7 +4,7 @@ public static partial class Cci
 {
     // CCI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Commodity Channel Index (CCI)")
             .WithId("CCI")
             .WithStyle(Style.Series)

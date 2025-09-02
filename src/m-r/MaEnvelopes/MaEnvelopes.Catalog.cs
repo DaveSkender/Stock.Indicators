@@ -4,7 +4,7 @@ public static partial class MaEnvelopes
 {
     // MA-ENV Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Moving Average Envelopes")
             .WithId("MA-ENV")
             .WithStyle(Style.Series)

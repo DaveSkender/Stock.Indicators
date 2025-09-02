@@ -4,7 +4,7 @@ public static partial class MgDynamic
 {
     // Dynamic Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("McGinley Dynamic")
             .WithId("DYNAMIC")
             .WithStyle(Style.Series)

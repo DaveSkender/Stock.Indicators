@@ -4,7 +4,7 @@ public static partial class Pivots
 {
     // Pivot Points Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Pivot Points")
             .WithId("PIVOTS")
             .WithStyle(Style.Series)

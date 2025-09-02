@@ -4,7 +4,7 @@ public static partial class Vwap
 {
     // VWAP Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Volume Weighted Average Price")
             .WithId("VWAP")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Hurst
 {
     // HURST Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Hurst Exponent")
             .WithId("HURST")
             .WithStyle(Style.Series)

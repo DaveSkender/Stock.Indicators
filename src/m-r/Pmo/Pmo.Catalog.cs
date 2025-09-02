@@ -4,7 +4,7 @@ public static partial class Pmo
 {
     // Price Momentum Oscillator Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Price Momentum Oscillator")
             .WithId("PMO")
             .WithStyle(Style.Series)

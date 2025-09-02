@@ -15,6 +15,9 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
+    <!-- MSTEST0001 is for test assemblies; this isn't a test project -->
+    <NoWarn>$(NoWarn);MSTEST0001</NoWarn>
+
     <IsTestProject>false</IsTestProject>
     <TestProjectType>None</TestProjectType>
     <ExcludeFromTestDiscovery>true</ExcludeFromTestDiscovery>

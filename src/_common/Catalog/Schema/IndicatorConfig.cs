@@ -2,7 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Represents a serializable indicator configuration that can be stored as JSON
-/// and later used to build CustomIndicatorBuilder instances.
+/// and later used to build <see cref="ListingExecutionBuilder"/> instances.
 /// </summary>
 public class IndicatorConfig
 {
@@ -32,25 +32,25 @@ public class IndicatorConfig
     public string? Description { get; set; }
 
     /// <summary>
-    /// Builds a CustomIndicatorBuilder from this configuration.
+    /// Builds a <see cref="ListingExecutionBuilder"/> from this configuration.
     /// </summary>
-    /// <returns>A CustomIndicatorBuilder configured according to this config.</returns>
+    /// <returns>A <see cref="ListingExecutionBuilder"/> configured according to this config.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the indicator cannot be found.</exception>
-    public CustomIndicatorBuilder ToBuilder()
+    public ListingExecutionBuilder ToBuilder()
     {
-        IndicatorListing? listing = IndicatorRegistry.GetByIdAndStyle(Id, Style);
+        IndicatorListing? listing = Catalog.Get(Id, Style);
         return listing == null
             ? throw new InvalidOperationException($"Indicator '{Id}' with style '{Style}' not found in catalog")
-            : new CustomIndicatorBuilder(listing, Parameters);
+            : new ListingExecutionBuilder(listing, Parameters);
     }
 
     /// <summary>
-    /// Creates an IndicatorConfig from a CustomIndicatorBuilder.
+    /// Creates an <see cref="IndicatorConfig"/> from a <see cref="ListingExecutionBuilder"/>.
     /// </summary>
-    /// <param name="builder">The CustomIndicatorBuilder to convert.</param>
-    /// <returns>An IndicatorConfig representing the builder's configuration.</returns>
+    /// <param name="builder">The <see cref="ListingExecutionBuilder"/> to convert.</param>
+    /// <returns>An <see cref="IndicatorConfig"/> representing the builder's configuration.</returns>
     /// <exception cref="ArgumentNullException">Thrown when builder is null.</exception>
-    public static IndicatorConfig FromBuilder(CustomIndicatorBuilder builder)
+    public static IndicatorConfig FromBuilder(ListingExecutionBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -69,12 +69,12 @@ public class IndicatorConfig
 public static class IndicatorConfigExtensions
 {
     /// <summary>
-    /// Converts an IndicatorConfig to a CustomIndicatorBuilder.
+    /// Converts an <see cref="IndicatorConfig"/> to a <see cref="ListingExecutionBuilder"/>.
     /// </summary>
     /// <param name="config">The indicator configuration.</param>
-    /// <returns>A CustomIndicatorBuilder.</returns>
+    /// <returns>A <see cref="ListingExecutionBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown when config is null.</exception>
-    public static CustomIndicatorBuilder ToBuilder(this IndicatorConfig config)
+    public static ListingExecutionBuilder ToBuilder(this IndicatorConfig config)
     {
         ArgumentNullException.ThrowIfNull(config);
         return config.ToBuilder();

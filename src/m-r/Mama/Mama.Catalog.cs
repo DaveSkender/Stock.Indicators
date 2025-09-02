@@ -4,7 +4,7 @@ public static partial class Mama
 {
     // MAMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("MESA Adaptive Moving Average")
             .WithId("MAMA")
             .WithStyle(Style.Series)

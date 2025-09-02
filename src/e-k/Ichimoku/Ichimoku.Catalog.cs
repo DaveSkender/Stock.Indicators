@@ -4,7 +4,7 @@ public static partial class Ichimoku
 {
     // ICHIMOKU Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Ichimoku Cloud")
             .WithId("ICHIMOKU")
             .WithStyle(Style.Series)

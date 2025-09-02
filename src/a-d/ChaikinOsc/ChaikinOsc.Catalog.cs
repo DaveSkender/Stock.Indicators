@@ -4,7 +4,7 @@ public static partial class ChaikinOsc
 {
     // CHAIKIN-OSC Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Chaikin Money Flow Oscillator")
             .WithId("CHAIKIN-OSC")
             .WithStyle(Style.Series)

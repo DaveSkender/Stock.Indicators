@@ -4,7 +4,7 @@ public static partial class Bop
 {
     // BOP Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Balance of Power (BOP)")
             .WithId("BOP")
             .WithStyle(Style.Series)

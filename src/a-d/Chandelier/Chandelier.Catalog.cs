@@ -4,7 +4,7 @@ public static partial class Chandelier
 {
     // CHEXIT Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Chandelier Exit")
             .WithId("CHEXIT")
             .WithStyle(Style.Series)

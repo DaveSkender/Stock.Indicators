@@ -4,7 +4,7 @@ public static partial class Slope
 {
     // Slope Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Slope")
             .WithId("SLOPE")
             .WithStyle(Style.Series)

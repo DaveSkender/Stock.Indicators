@@ -4,7 +4,7 @@ public static partial class Alma
 {
     // ALMA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Arnaud Legoux Moving Average (ALMA)")
             .WithId("ALMA")
             .WithStyle(Style.Series)

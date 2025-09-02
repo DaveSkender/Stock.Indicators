@@ -4,7 +4,7 @@ public static partial class StochRsi
 {
     // Stochastic RSI Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Stochastic RSI")
             .WithId("STOCH-RSI")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Stc
 {
     // Schaff Trend Cycle Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Schaff Trend Cycle")
             .WithId("STC")
             .WithStyle(Style.Series)

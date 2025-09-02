@@ -4,7 +4,7 @@ public static partial class Beta
 {
     // BETA Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Beta")
             .WithId("BETA")
             .WithStyle(Style.Series)

@@ -4,7 +4,7 @@ public static partial class Vortex
 {
     // Vortex Indicator Series Listing
     internal static readonly IndicatorListing SeriesListing =
-        new IndicatorListingBuilder()
+        new CatalogListingBuilder()
             .WithName("Vortex Indicator")
             .WithId("VORTEX")
             .WithStyle(Style.Series)

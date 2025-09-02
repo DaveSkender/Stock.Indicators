@@ -1,4 +1,4 @@
-namespace Catalog;
+namespace Catalogging;
 
 /// <summary>
 /// Test class for EMA catalog functionality with improved reliability.
@@ -58,9 +58,9 @@ public class EmaTests : TestBase
     public void CatalogBrowsingIncludesEmaSeries()
     {
         // Act
-        IReadOnlyCollection<IndicatorListing> catalog = IndicatorRegistry.GetCatalog();
-        IndicatorListing emaSeries = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
-        IReadOnlyCollection<IndicatorListing> seriesListings = IndicatorRegistry.GetByStyle(Style.Series);
+        IReadOnlyCollection<IndicatorListing> catalog = Catalog.Get();
+        IndicatorListing emaSeries = Catalog.Get("EMA", Style.Series);
+        IReadOnlyCollection<IndicatorListing> seriesListings = Catalog.Get(Style.Series);
 
         // Assert
         catalog.Should().NotBeNull();
@@ -83,7 +83,7 @@ public class EmaTests : TestBase
         int lookbackValue = (int)lookbackParam.DefaultValue;
 
         // Act - Use catalog utility to dynamically execute the indicator
-        IReadOnlyList<EmaResult> catalogResults = IndicatorExecutor.Execute<IQuote, EmaResult>(quotes, listing);
+        IReadOnlyList<EmaResult> catalogResults = ListingExecutor.Execute<IQuote, EmaResult>(quotes, listing);
 
         // Act - Direct call for comparison using catalog's default parameter value
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(lookbackValue);
@@ -107,7 +107,7 @@ public class EmaTests : TestBase
     [TestMethod]
     public void EmaSeriesExecutesFromRegistry()
     {
-        IndicatorListing listing = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+        IndicatorListing listing = Catalog.Get("EMA", Style.Series);
 
         IReadOnlyList<EmaResult> catalogResult = listing.Execute<EmaResult>(Quotes);
 
@@ -184,7 +184,7 @@ public class EmaTests : TestBase
             .Execute<EmaResult>();
 
         // Method 2: quotes.Execute(customIndicator)
-        CustomIndicatorBuilder customIndicator = listing.WithParamValue("lookbackPeriods", customLookbackPeriod);
+        ListingExecutionBuilder customIndicator = listing.WithParamValue("lookbackPeriods", customLookbackPeriod);
         IReadOnlyList<EmaResult> method2Results = quotes.Execute<EmaResult>(customIndicator);
 
         // Method 3: Traditional execution for comparison
@@ -197,14 +197,14 @@ public class EmaTests : TestBase
     }
 
     [TestMethod]
-    public void EmaCustomIndicatorBuilderProperties()
+    public void EmaCatalogExecutionBuilderProperties()
     {
         // Arrange
         IndicatorListing listing = Ema.SeriesListing;
         listing.Should().NotBeNull();
 
         // Act - Create custom indicator without quotes
-        CustomIndicatorBuilder customIndicator = listing
+        ListingExecutionBuilder customIndicator = listing
             .WithParamValue("lookbackPeriods", 10);
 
         // Assert - Verify builder properties
@@ -214,7 +214,7 @@ public class EmaTests : TestBase
         customIndicator.HasQuotes.Should().BeFalse();
 
         // Act - Add quotes using FromSource(IEnumerable<IQuote>)
-        CustomIndicatorBuilder withQuotes = customIndicator.FromSource((IEnumerable<IQuote>)Quotes);
+        ListingExecutionBuilder withQuotes = customIndicator.FromSource((IEnumerable<IQuote>)Quotes);
         withQuotes.HasQuotes.Should().BeTrue();
 
         // Assert - Original builder should be immutable
@@ -237,7 +237,7 @@ public class EmaTests : TestBase
 
         // Act - Test the new FromSource<T> method with series data
         // Use the fluent API to set series parameters explicitly with parameter names
-        CustomIndicatorBuilder customIndicator = correlationListing
+        ListingExecutionBuilder customIndicator = correlationListing
             .WithParamValue("sourceA", emaResults)  // Set first series parameter explicitly
             .WithParamValue("lookbackPeriods", 10);  // Additional parameter
 
@@ -284,7 +284,7 @@ public class EmaTests : TestBase
         correlationListing.Should().NotBeNull();
 
         // Act - Use the new FromSource<T> extension method
-        CustomIndicatorBuilder customBuilder = correlationListing
+        ListingExecutionBuilder customBuilder = correlationListing
             .FromSource(emaResults, "sourceA")
             .WithParamValue("sourceB", quotes.ToSma(20))
             .WithParamValue("lookbackPeriods", 10);
@@ -297,7 +297,7 @@ public class EmaTests : TestBase
 
         // Act - Test series execution with alternative syntax
         IReadOnlyList<SmaResult> smaResults = quotes.ToSma(15);
-        CustomIndicatorBuilder secondBuilder = correlationListing.FromSource(smaResults, "sourceA");
+        ListingExecutionBuilder secondBuilder = correlationListing.FromSource(smaResults, "sourceA");
         secondBuilder.ParameterOverrides["sourceA"].Should().BeEquivalentTo(smaResults);
 
         // Test parameter type validation for series
@@ -353,7 +353,7 @@ public class EmaTests : TestBase
         longEmaResults.Should().BeEquivalentTo(longEmaDirect);
 
         // Assert - Verify configuration roundtrip
-        CustomIndicatorBuilder shortBuilder = configs[0].ToBuilder();
+        ListingExecutionBuilder shortBuilder = configs[0].ToBuilder();
         shortBuilder.BaseListing.Uiid.Should().Be("EMA");
         shortBuilder.ParameterOverrides["lookbackPeriods"].Should().Be(12);
 
