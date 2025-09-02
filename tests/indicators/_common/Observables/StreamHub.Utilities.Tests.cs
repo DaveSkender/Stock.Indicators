@@ -120,13 +120,11 @@ public class CacheUtilities : TestBase
         // out of range (exceptions)
         Quote o = Quotes[10];
 
-        Assert.ThrowsExactly<ArgumentException>(() => {
-            provider.Cache.IndexOf(o, true);
-        });
+        Assert.ThrowsExactly<ArgumentException>(
+            () => { provider.Cache.IndexOf(o, true); });
 
-        Assert.ThrowsExactly<ArgumentException>(() => {
-            provider.Cache.IndexOf(o.Timestamp, true);
-        });
+        Assert.ThrowsExactly<ArgumentException>(
+            () => { provider.Cache.IndexOf(o.Timestamp, true); });
 
         // out of range (no exceptions)
         int itemIndexNo = provider.Cache.IndexOf(o, false);

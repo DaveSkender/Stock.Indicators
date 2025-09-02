@@ -13,8 +13,8 @@ public class AtrStop : StaticSeriesTestBase
             .ToAtrStop(lookbackPeriods, multiplier);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.AtrStop != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.AtrStop != null));
 
         // sample values
         AtrStopResult r20 = results[20];
@@ -58,8 +58,8 @@ public class AtrStop : StaticSeriesTestBase
             .ToAtrStop(lookbackPeriods, multiplier, EndType.HighLow);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.AtrStop != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.AtrStop != null));
 
         // sample values
         AtrStopResult r20 = results[20];
@@ -99,7 +99,7 @@ public class AtrStop : StaticSeriesTestBase
         IReadOnlyList<AtrStopResult> r = BadQuotes
             .ToAtrStop(7);
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -108,12 +108,12 @@ public class AtrStop : StaticSeriesTestBase
         IReadOnlyList<AtrStopResult> r0 = Noquotes
             .ToAtrStop();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AtrStopResult> r1 = Onequote
             .ToAtrStop();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ public class AtrStop : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(481, results.Count);
+        Assert.HasCount(481, results);
 
         AtrStopResult last = results[^1];
         Assert.AreEqual(246.3232, last.AtrStop.Round(4));
@@ -146,7 +146,7 @@ public class AtrStop : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(481, results.Count);
+        Assert.HasCount(481, results);
 
         AtrStopResult last = results[^1];
         Assert.AreEqual(246.3232, last.AtrStop.Round(4));

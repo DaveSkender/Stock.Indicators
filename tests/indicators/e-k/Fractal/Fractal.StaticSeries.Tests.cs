@@ -10,9 +10,9 @@ public class Fractal : StaticSeriesTestBase
             .ToFractal();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(63, results.Count(x => x.FractalBear != null));
-        Assert.AreEqual(71, results.Count(x => x.FractalBull != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(63, results.Where(x => x.FractalBear != null));
+        Assert.HasCount(71, results.Where(x => x.FractalBull != null));
 
         // sample values
         FractalResult r1 = results[1];
@@ -47,7 +47,7 @@ public class Fractal : StaticSeriesTestBase
             .ToFractal(4, 4);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(35, results.Count(x => x.FractalBear != null));
         Assert.AreEqual(34, results.Count(x => x.FractalBull != null));
 
@@ -83,7 +83,7 @@ public class Fractal : StaticSeriesTestBase
         IReadOnlyList<FractalResult> r = BadQuotes
             .ToFractal();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -92,12 +92,12 @@ public class Fractal : StaticSeriesTestBase
         IReadOnlyList<FractalResult> r0 = Noquotes
             .ToFractal();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<FractalResult> r1 = Onequote
             .ToFractal();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -107,12 +107,12 @@ public class Fractal : StaticSeriesTestBase
             .ToFractal()
             .Condense();
 
-        Assert.AreEqual(129, results.Count);
+        Assert.HasCount(129, results);
     }
 
     // bad window span
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToFractal(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToFractal(1));
 }

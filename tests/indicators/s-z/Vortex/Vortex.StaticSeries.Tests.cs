@@ -10,8 +10,8 @@ public class Vortex : StaticSeriesTestBase
             .ToVortex(14);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Pvi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Pvi != null));
 
         // sample values
         VortexResult r1 = results[13];
@@ -41,8 +41,8 @@ public class Vortex : StaticSeriesTestBase
         IReadOnlyList<VortexResult> r = BadQuotes
             .ToVortex(20);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pvi is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Pvi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -51,12 +51,12 @@ public class Vortex : StaticSeriesTestBase
         IReadOnlyList<VortexResult> r0 = Noquotes
             .ToVortex(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<VortexResult> r1 = Onequote
             .ToVortex(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Vortex : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         VortexResult last = results[^1];
         Assert.AreEqual(0.8712, last.Pvi.Round(4));
@@ -82,7 +82,7 @@ public class Vortex : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         VortexResult last = results[^1];
         Assert.AreEqual(0.8712, last.Pvi.Round(4));
@@ -92,6 +92,6 @@ public class Vortex : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToVortex(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToVortex(1));
 }

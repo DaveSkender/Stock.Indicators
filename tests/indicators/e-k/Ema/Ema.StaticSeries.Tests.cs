@@ -17,8 +17,8 @@ public class EmaTests : StaticSeriesTestBase
         IReadOnlyList<EmaResult> results = Quotes.ToEma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -42,8 +42,8 @@ public class EmaTests : StaticSeriesTestBase
 
         // proper quantities
         // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
 
         // sample values
         EmaResult r29 = results[29];
@@ -63,9 +63,9 @@ public class EmaTests : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToEma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
+        Assert.IsEmpty(results.Where(x => x.Ema is double.NaN));
     }
 
     [TestMethod]
@@ -75,9 +75,9 @@ public class EmaTests : StaticSeriesTestBase
             .ToSma(2)
             .ToEma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Ema != null));
+        Assert.IsEmpty(results.Where(x => x.Ema is double.NaN));
     }
 
     [TestMethod]
@@ -87,9 +87,9 @@ public class EmaTests : StaticSeriesTestBase
             .ToEma(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
-        Assert.AreEqual(0, results.Count(x => x.Sma is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
+        Assert.IsEmpty(results.Where(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -100,9 +100,9 @@ public class EmaTests : StaticSeriesTestBase
             .ToEma(20);
 
         // assertions
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(469, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(469, results.Where(x => x.Ema != null));
+        Assert.IsEmpty(results.Where(x => x.Ema is double.NaN));
 
         // sample values
         EmaResult r32 = results[32];
@@ -123,8 +123,8 @@ public class EmaTests : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> r = BadQuotes.ToEma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Ema is double.NaN));
     }
 
     [TestMethod]
@@ -132,11 +132,11 @@ public class EmaTests : StaticSeriesTestBase
     {
         IReadOnlyList<EmaResult> r0 = Noquotes.ToEma(10);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<EmaResult> r1 = Onequote.ToEma(10);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -146,7 +146,7 @@ public class EmaTests : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (20 + 100), results.Count);
+        Assert.HasCount(502 - (20 + 100), results);
 
         EmaResult last = results[^1];
         Assert.AreEqual(249.3519, last.Ema.Round(4));
@@ -155,6 +155,6 @@ public class EmaTests : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToEma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToEma(0));
 }

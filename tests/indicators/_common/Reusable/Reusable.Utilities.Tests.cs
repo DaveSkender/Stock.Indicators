@@ -18,7 +18,7 @@ public class Reusable : TestBase
             = original.Condense();
 
         // proper quantities
-        Assert.AreEqual(473, results.Count);
+        Assert.HasCount(473, results);
 
         // sample values
         AdxResult last = results[^1];
@@ -34,7 +34,7 @@ public class Reusable : TestBase
             .ToReusable(CandlePart.Close);
 
         Assert.IsNotNull(reusableList);
-        Assert.AreEqual(502, reusableList.Count);
+        Assert.HasCount(502, reusableList);
         Assert.AreEqual(245.28d, reusableList[^1].Value);
     }
 

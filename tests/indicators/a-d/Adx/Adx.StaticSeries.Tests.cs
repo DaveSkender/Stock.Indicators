@@ -9,10 +9,10 @@ public class Adx : StaticSeriesTestBase
         IReadOnlyList<AdxResult> results = Quotes.ToAdx();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Dx != null));
-        Assert.AreEqual(475, results.Count(x => x.Adx != null));
-        Assert.AreEqual(462, results.Count(x => x.Adxr != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Dx != null));
+        Assert.HasCount(475, results.Where(x => x.Adx != null));
+        Assert.HasCount(462, results.Where(x => x.Adxr != null));
 
         // sample values
         AdxResult r13 = results[13];
@@ -72,8 +72,8 @@ public class Adx : StaticSeriesTestBase
             .ToAdx()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(466, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(466, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,8 +81,8 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<AdxResult> r = BadQuotes.ToAdx(20);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<AdxResult> r = BigQuotes.ToAdx(200);
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -98,11 +98,11 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<AdxResult> r0 = Noquotes.ToAdx(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AdxResult> r1 = Onequote.ToAdx(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -116,8 +116,8 @@ public class Adx : StaticSeriesTestBase
 
         IReadOnlyList<AdxResult> r = test859.ToAdx();
 
-        Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
-        Assert.AreEqual(595, r.Count);
+        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.HasCount(595, r);
     }
 
     [TestMethod]
@@ -125,8 +125,8 @@ public class Adx : StaticSeriesTestBase
     {
         IReadOnlyList<AdxResult> r = ZeroesQuotes.ToAdx();
 
-        Assert.AreEqual(0, r.Count(x => x.Adx is double.NaN));
-        Assert.AreEqual(200, r.Count);
+        Assert.IsEmpty(r.Where(x => x.Adx is double v && double.IsNaN(v)));
+        Assert.HasCount(200, r);
     }
 
     [TestMethod]
@@ -137,7 +137,7 @@ public class Adx : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - ((2 * 14) + 100), results.Count);
+        Assert.HasCount(502 - ((2 * 14) + 100), results);
 
         AdxResult last = results[^1];
         Assert.AreEqual(17.7565, last.Pdi.Round(4));
@@ -149,5 +149,5 @@ public class Adx : StaticSeriesTestBase
     [TestMethod]
     public void Exceptions()
         => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToAdx(1));
+                () => Quotes.ToAdx(1));
 }

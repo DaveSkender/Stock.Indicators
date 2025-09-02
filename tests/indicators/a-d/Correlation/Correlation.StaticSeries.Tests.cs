@@ -11,8 +11,8 @@ public class Correlation : StaticSeriesTestBase
 
         // proper quantities
         // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Correlation != null));
 
         // sample values
         CorrResult r18 = results[18];
@@ -39,8 +39,8 @@ public class Correlation : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToCorrelation(OtherQuotes.Use(CandlePart.Close), 20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Correlation != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Correlation != null));
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class Correlation : StaticSeriesTestBase
             .ToCorrelation(OtherQuotes, 20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -61,9 +61,9 @@ public class Correlation : StaticSeriesTestBase
             .ToSma(2)
             .ToCorrelation(OtherQuotes.ToSma(2), 20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Correlation != null));
-        Assert.AreEqual(0, results.Count(x => x.Correlation is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Correlation != null));
+        Assert.IsEmpty(results.Where(x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -72,8 +72,8 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> r = BadQuotes
             .ToCorrelation(BadQuotes, 15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Correlation is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> r = BigQuotes
             .ToCorrelation(BigQuotes, 150);
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -91,12 +91,12 @@ public class Correlation : StaticSeriesTestBase
         IReadOnlyList<CorrResult> r0 = Noquotes
             .ToCorrelation(Noquotes, 10);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<CorrResult> r1 = Onequote
             .ToCorrelation(Onequote, 10);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -107,7 +107,7 @@ public class Correlation : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         CorrResult last = results[^1];
         Assert.AreEqual(0.8460, last.Correlation.Round(4));

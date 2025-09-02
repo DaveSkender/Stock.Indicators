@@ -11,10 +11,10 @@ public class HtTrendline : StaticSeriesTestBase
 
         // proper quantities
         // should always be the same number of results as there is quotes
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(495, results.Count(x => x.DcPeriods != null));
-        Assert.AreEqual(502, results.Count(x => x.Trendline != null));
-        Assert.AreEqual(496, results.Count(x => x.SmoothPrice != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(495, results.Where(x => x.DcPeriods != null));
+        Assert.HasCount(502, results.Where(x => x.Trendline != null));
+        Assert.HasCount(496, results.Where(x => x.SmoothPrice != null));
 
         // sample values
         HtlResult r5 = results[5];
@@ -63,8 +63,8 @@ public class HtTrendline : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToHtTrendline();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Trendline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -74,8 +74,8 @@ public class HtTrendline : StaticSeriesTestBase
             .ToSma(2)
             .ToHtTrendline();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Trendline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Trendline != null));
     }
 
     [TestMethod]
@@ -85,8 +85,8 @@ public class HtTrendline : StaticSeriesTestBase
             .ToHtTrendline()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -95,8 +95,8 @@ public class HtTrendline : StaticSeriesTestBase
         IReadOnlyList<HtlResult> r = BadQuotes
             .ToHtTrendline();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trendline is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Trendline is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -107,7 +107,7 @@ public class HtTrendline : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 100, results.Count);
+        Assert.HasCount(502 - 100, results);
 
         HtlResult last = results[^1];
         Assert.AreEqual(252.2172, last.Trendline.Round(4));
@@ -122,7 +122,7 @@ public class HtTrendline : StaticSeriesTestBase
         IReadOnlyList<HtlResult> r = penny
             .ToHtTrendline();
 
-        Assert.AreEqual(533, r.Count);
+        Assert.HasCount(533, r);
     }
 
     [TestMethod]
@@ -131,11 +131,11 @@ public class HtTrendline : StaticSeriesTestBase
         IReadOnlyList<HtlResult> r0 = Noquotes
             .ToHtTrendline();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<HtlResult> r1 = Onequote
             .ToHtTrendline();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

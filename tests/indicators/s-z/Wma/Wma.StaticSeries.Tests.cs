@@ -10,8 +10,8 @@ public class Wma : StaticSeriesTestBase
             .ToWma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Wma != null));
 
         // sample values
         WmaResult r1 = results[149];
@@ -28,8 +28,8 @@ public class Wma : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToWma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -39,8 +39,8 @@ public class Wma : StaticSeriesTestBase
             .ToSma(2)
             .ToWma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Wma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class Wma : StaticSeriesTestBase
             .ToWma(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -81,8 +81,8 @@ public class Wma : StaticSeriesTestBase
         IReadOnlyList<WmaResult> r = BadQuotes
             .ToWma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Wma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Wma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -91,12 +91,12 @@ public class Wma : StaticSeriesTestBase
         IReadOnlyList<WmaResult> r0 = Noquotes
             .ToWma(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<WmaResult> r1 = Onequote
             .ToWma(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -107,7 +107,7 @@ public class Wma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         WmaResult last = results[^1];
         Assert.AreEqual(246.5110, last.Wma.Round(4));
@@ -116,6 +116,6 @@ public class Wma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToWma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToWma(0));
 }

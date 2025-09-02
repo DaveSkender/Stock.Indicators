@@ -13,8 +13,8 @@ public class Cmo : StaticSeriesTestBase
             .ToCmo(14);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Cmo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Cmo != null));
 
         // sample values
         CmoResult r13 = results[13];
@@ -37,8 +37,8 @@ public class Cmo : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToCmo(14);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Cmo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Cmo != null));
     }
 
     [TestMethod]
@@ -48,8 +48,8 @@ public class Cmo : StaticSeriesTestBase
             .ToSma(2)
             .ToCmo(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Cmo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Cmo != null));
     }
 
     [TestMethod]
@@ -59,8 +59,8 @@ public class Cmo : StaticSeriesTestBase
             .ToCmo(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -69,8 +69,8 @@ public class Cmo : StaticSeriesTestBase
         IReadOnlyList<CmoResult> r = BadQuotes
             .ToCmo(35);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cmo is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Cmo is double.NaN));
     }
 
     [TestMethod]
@@ -79,12 +79,12 @@ public class Cmo : StaticSeriesTestBase
         IReadOnlyList<CmoResult> r0 = Noquotes
             .ToCmo(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<CmoResult> r1 = Onequote
             .ToCmo(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -95,7 +95,7 @@ public class Cmo : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.HasCount(488, results);
 
         CmoResult last = results[^1];
         Assert.AreEqual(-26.7502, last.Cmo.Round(4));

@@ -12,7 +12,7 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = quotes.Validate();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("12/31/2018", "MM/dd/yyyy", invariantCulture);
@@ -28,7 +28,7 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = LongishQuotes.Validate();
 
         // proper quantities
-        Assert.AreEqual(5285, h.Count);
+        Assert.HasCount(5285, h);
 
         // sample values
         DateTime lastDate = DateTime.ParseExact("09/04/2020", "MM/dd/yyyy", invariantCulture);
@@ -45,11 +45,11 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = quotes.Validate();
 
         // should be 200 periods, initially
-        Assert.AreEqual(200, h.Count);
+        Assert.HasCount(200, h);
 
         // should be 20 results and no index corruption
         IReadOnlyList<SmaResult> r1 = h.TakeLast(20).ToList().ToSma(14).ToList();
-        Assert.AreEqual(20, r1.Count);
+        Assert.HasCount(20, r1);
 
         for (int i = 1; i < r1.Count; i++)
         {
@@ -58,7 +58,7 @@ public partial class Quotes : TestBase
 
         // should be 50 results and no index corruption
         IReadOnlyList<SmaResult> r2 = h.TakeLast(50).ToList().ToSma(14).ToList();
-        Assert.AreEqual(50, r2.Count);
+        Assert.HasCount(50, r2);
 
         for (int i = 1; i < r2.Count; i++)
         {
@@ -66,7 +66,7 @@ public partial class Quotes : TestBase
         }
 
         // should be original 200 periods and no index corruption, after temp mods
-        Assert.AreEqual(200, h.Count);
+        Assert.HasCount(200, h);
 
         for (int i = 1; i < h.Count; i++)
         {
@@ -90,7 +90,7 @@ public partial class Quotes : TestBase
             = Assert.ThrowsExactly<InvalidQuotesException>(
                 () => dupQuotes.Validate());
 
-        _ = dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
+        dx.Message.Should().Contain("Duplicate date found on 2017-01-06T00:00:00.0000000.");
     }
 
     [TestMethod]
@@ -109,7 +109,7 @@ public partial class Quotes : TestBase
             = Assert.ThrowsExactly<InvalidQuotesException>(
                 () => unorderedQuotes.Validate());
 
-        _ = dx.Message.Should()
+        dx.Message.Should()
             .Contain("Quotes are out of sequence on 2017-01-05T00:00:00.0000000.");
     }
 }

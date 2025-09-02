@@ -14,8 +14,8 @@ public class RollingPivots : StaticSeriesTestBase
             Quotes.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.PP != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[19];
@@ -87,8 +87,8 @@ public class RollingPivots : StaticSeriesTestBase
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.AreEqual(38, results.Count);
-        Assert.AreEqual(28, results.Count(x => x.PP != null));
+        Assert.HasCount(38, results);
+        Assert.HasCount(28, results.Where(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[9];
@@ -158,8 +158,8 @@ public class RollingPivots : StaticSeriesTestBase
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.PP != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[19];
@@ -242,8 +242,8 @@ public class RollingPivots : StaticSeriesTestBase
             h.ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.AreEqual(300, results.Count);
-        Assert.AreEqual(241, results.Count(x => x.PP != null));
+        Assert.HasCount(300, results);
+        Assert.HasCount(241, results.Where(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r1 = results[58];
@@ -316,8 +316,8 @@ public class RollingPivots : StaticSeriesTestBase
             .ToRollingPivots(windowPeriods, offsetPeriods, pointType);
 
         // proper quantities
-        Assert.AreEqual(1564, results.Count);
-        Assert.AreEqual(1173, results.Count(x => x.PP != null));
+        Assert.HasCount(1564, results);
+        Assert.HasCount(1173, results.Where(x => x.PP != null));
 
         // sample values
         RollingPivotsResult r2 = results[390];
@@ -374,7 +374,7 @@ public class RollingPivots : StaticSeriesTestBase
         IReadOnlyList<RollingPivotsResult> r = BadQuotes
             .ToRollingPivots(5, 5);
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -383,12 +383,12 @@ public class RollingPivots : StaticSeriesTestBase
         IReadOnlyList<RollingPivotsResult> r0 = Noquotes
             .ToRollingPivots(5, 2);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<RollingPivotsResult> r1 = Onequote
             .ToRollingPivots(5, 2);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -403,7 +403,7 @@ public class RollingPivots : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (windowPeriods + offsetPeriods), results.Count);
+        Assert.HasCount(502 - (windowPeriods + offsetPeriods), results);
 
         RollingPivotsResult last = results[^1];
         Assert.AreEqual(260.0267m, last.PP.Round(4));

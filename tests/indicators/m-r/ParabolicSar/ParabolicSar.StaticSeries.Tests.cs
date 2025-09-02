@@ -14,8 +14,8 @@ public class ParabolicSar : StaticSeriesTestBase
                 .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Sar != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -48,8 +48,8 @@ public class ParabolicSar : StaticSeriesTestBase
                 .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Sar != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Sar != null));
 
         // sample values
         ParabolicSarResult r14 = results[14];
@@ -80,8 +80,8 @@ public class ParabolicSar : StaticSeriesTestBase
             .ToParabolicSar()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -102,8 +102,8 @@ public class ParabolicSar : StaticSeriesTestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(10, results.Count);
-        Assert.AreEqual(0, results.Count(x => x.Sar != null));
+        Assert.HasCount(10, results);
+        Assert.IsEmpty(results.Where(x => x.Sar != null));
     }
 
     [TestMethod]
@@ -112,8 +112,8 @@ public class ParabolicSar : StaticSeriesTestBase
         IReadOnlyList<ParabolicSarResult> r = BadQuotes
             .ToParabolicSar(0.2, 0.2, 0.2);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -122,12 +122,12 @@ public class ParabolicSar : StaticSeriesTestBase
         IReadOnlyList<ParabolicSarResult> r0 = Noquotes
             .ToParabolicSar();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ParabolicSarResult> r1 = Onequote
             .ToParabolicSar();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -141,7 +141,7 @@ public class ParabolicSar : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.HasCount(488, results);
 
         ParabolicSarResult last = results[^1];
         Assert.AreEqual(229.7662, last.Sar.Round(4));

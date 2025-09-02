@@ -10,10 +10,10 @@ public class Alligator : StaticSeriesTestBase
             .ToAlligator();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Jaw != null));
-        Assert.AreEqual(490, results.Count(x => x.Teeth != null));
-        Assert.AreEqual(495, results.Count(x => x.Lips != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Jaw != null));
+        Assert.HasCount(490, results.Where(x => x.Teeth != null));
+        Assert.HasCount(495, results.Where(x => x.Lips != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[19].Jaw);
@@ -49,8 +49,8 @@ public class Alligator : StaticSeriesTestBase
             .ToSma(2)
             .ToAlligator();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Jaw != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Jaw != null));
     }
 
     [TestMethod]
@@ -59,8 +59,8 @@ public class Alligator : StaticSeriesTestBase
         IReadOnlyList<AlligatorResult> r = BadQuotes
             .ToAlligator(3, 3, 2, 1, 1, 1);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Jaw is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Jaw is double.NaN));
     }
 
     [TestMethod]
@@ -69,12 +69,12 @@ public class Alligator : StaticSeriesTestBase
         IReadOnlyList<AlligatorResult> r0 = Noquotes
             .ToAlligator();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AlligatorResult> r1 = Onequote
             .ToAlligator();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class Alligator : StaticSeriesTestBase
             .ToAlligator()
             .Condense();
 
-        Assert.AreEqual(495, results.Count);
+        Assert.HasCount(495, results);
 
         AlligatorResult last = results[^1];
         Assert.AreEqual(260.98953, last.Jaw.Round(5));
@@ -99,7 +99,7 @@ public class Alligator : StaticSeriesTestBase
             .ToAlligator()
             .RemoveWarmupPeriods();
 
-        Assert.AreEqual(502 - 21 - 250, results.Count);
+        Assert.HasCount(502 - 21 - 250, results);
 
         AlligatorResult last = results[^1];
         Assert.AreEqual(260.98953, last.Jaw.Round(5));

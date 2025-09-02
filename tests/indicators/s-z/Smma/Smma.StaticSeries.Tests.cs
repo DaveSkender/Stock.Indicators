@@ -10,8 +10,8 @@ public class Smma : StaticSeriesTestBase
             .ToSmma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Smma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Smma != null));
 
         // starting calculations at proper index
         Assert.IsNull(results[18].Smma);
@@ -32,8 +32,8 @@ public class Smma : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToSmma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Smma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Smma != null));
     }
 
     [TestMethod]
@@ -43,8 +43,8 @@ public class Smma : StaticSeriesTestBase
             .ToSma(2)
             .ToSmma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Smma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Smma != null));
     }
 
     [TestMethod]
@@ -54,8 +54,8 @@ public class Smma : StaticSeriesTestBase
             .ToSmma(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -64,8 +64,8 @@ public class Smma : StaticSeriesTestBase
         IReadOnlyList<SmmaResult> r = BadQuotes
             .ToSmma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Smma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Smma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -74,12 +74,12 @@ public class Smma : StaticSeriesTestBase
         IReadOnlyList<SmmaResult> r0 = Noquotes
             .ToSmma(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<SmmaResult> r1 = Onequote
             .ToSmma(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -90,13 +90,13 @@ public class Smma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (20 + 100), results.Count);
+        Assert.HasCount(502 - (20 + 100), results);
         Assert.AreEqual(255.67462, Math.Round(results[^1].Smma.Value, 5));
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToSmma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToSmma(0));
 }

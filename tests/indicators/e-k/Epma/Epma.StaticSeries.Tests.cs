@@ -10,8 +10,8 @@ public class Epma : StaticSeriesTestBase
             .ToEpma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Epma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Epma != null));
 
         // sample values
         EpmaResult r1 = results[18];
@@ -37,8 +37,8 @@ public class Epma : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToEpma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Epma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Epma != null));
     }
 
     [TestMethod]
@@ -48,8 +48,8 @@ public class Epma : StaticSeriesTestBase
             .ToSma(2)
             .ToEpma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Epma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Epma != null));
     }
 
     [TestMethod]
@@ -59,8 +59,8 @@ public class Epma : StaticSeriesTestBase
             .ToEpma(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -69,8 +69,8 @@ public class Epma : StaticSeriesTestBase
         IReadOnlyList<EpmaResult> r = BadQuotes
             .ToEpma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Epma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Epma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -79,12 +79,12 @@ public class Epma : StaticSeriesTestBase
         IReadOnlyList<EpmaResult> r0 = Noquotes
             .ToEpma(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<EpmaResult> r1 = Onequote
             .ToEpma(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -95,7 +95,7 @@ public class Epma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         EpmaResult last = results[^1];
         Assert.AreEqual(235.8131, last.Epma.Round(4));
@@ -104,6 +104,6 @@ public class Epma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToEpma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToEpma(0));
 }

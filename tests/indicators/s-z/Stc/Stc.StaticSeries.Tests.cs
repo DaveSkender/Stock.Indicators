@@ -14,8 +14,8 @@ public class Stc : StaticSeriesTestBase
             .ToStc(cyclePeriods, fastPeriods, slowPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(467, results.Count(x => x.Stc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(467, results.Where(x => x.Stc != null));
 
         // sample values
         StcResult r34 = results[34];
@@ -41,8 +41,8 @@ public class Stc : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToStc(9, 12, 26);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(467, results.Count(x => x.Stc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(467, results.Where(x => x.Stc != null));
     }
 
     [TestMethod]
@@ -52,8 +52,8 @@ public class Stc : StaticSeriesTestBase
             .ToSma(2)
             .ToStc(9, 12, 26);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(466, results.Count(x => x.Stc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(466, results.Where(x => x.Stc != null));
     }
 
     [TestMethod]
@@ -63,8 +63,8 @@ public class Stc : StaticSeriesTestBase
             .ToStc(9, 12, 26)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(458, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(458, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -73,8 +73,8 @@ public class Stc : StaticSeriesTestBase
         IReadOnlyList<StcResult> r = BadQuotes
             .ToStc();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Stc is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Stc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -83,12 +83,12 @@ public class Stc : StaticSeriesTestBase
         IReadOnlyList<StcResult> r0 = Noquotes
             .ToStc();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<StcResult> r1 = Onequote
             .ToStc();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class Stc : StaticSeriesTestBase
         IReadOnlyList<StcResult> results = quotes
             .ToStc();
 
-        Assert.AreEqual(58, results.Count);
+        Assert.HasCount(58, results);
     }
 
     [TestMethod]
@@ -116,7 +116,7 @@ public class Stc : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + cyclePeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + cyclePeriods + 250), results);
 
         StcResult last = results[^1];
         Assert.AreEqual(19.2544, last.Stc.Round(4));

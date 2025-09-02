@@ -10,8 +10,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -37,8 +37,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(10, 2.5, MaType.ALMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -64,8 +64,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.DEMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[38];
@@ -91,8 +91,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.EPMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -118,8 +118,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.EMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -145,8 +145,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.HMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r2 = results[149];
@@ -167,8 +167,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.SMMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[24];
@@ -194,8 +194,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.TEMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[57];
@@ -221,8 +221,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             Quotes.ToMaEnvelopes(20, 2.5, MaType.WMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Centerline != null));
 
         // sample values
         MaEnvelopeResult r1 = results[149];
@@ -243,8 +243,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToMaEnvelopes(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -254,8 +254,8 @@ public class MaEnvelopes : StaticSeriesTestBase
             .ToSma(2)
             .ToMaEnvelopes(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -264,42 +264,42 @@ public class MaEnvelopes : StaticSeriesTestBase
         IReadOnlyList<MaEnvelopeResult> a = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.ALMA);
 
-        Assert.AreEqual(502, a.Count);
+        Assert.HasCount(502, a);
 
         IReadOnlyList<MaEnvelopeResult> d = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.DEMA);
 
-        Assert.AreEqual(502, d.Count);
+        Assert.HasCount(502, d);
 
         IReadOnlyList<MaEnvelopeResult> p = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.EPMA);
 
-        Assert.AreEqual(502, p.Count);
+        Assert.HasCount(502, p);
 
         IReadOnlyList<MaEnvelopeResult> e = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.EMA);
 
-        Assert.AreEqual(502, e.Count);
+        Assert.HasCount(502, e);
 
         IReadOnlyList<MaEnvelopeResult> h = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.HMA);
 
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         IReadOnlyList<MaEnvelopeResult> s = BadQuotes
             .ToMaEnvelopes(5);
 
-        Assert.AreEqual(502, s.Count);
+        Assert.HasCount(502, s);
 
         IReadOnlyList<MaEnvelopeResult> t = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.TEMA);
 
-        Assert.AreEqual(502, t.Count);
+        Assert.HasCount(502, t);
 
         IReadOnlyList<MaEnvelopeResult> w = BadQuotes
             .ToMaEnvelopes(5, 2.5, MaType.WMA);
 
-        Assert.AreEqual(502, w.Count);
+        Assert.HasCount(502, w);
     }
 
     [TestMethod]
@@ -308,12 +308,12 @@ public class MaEnvelopes : StaticSeriesTestBase
         IReadOnlyList<MaEnvelopeResult> r0 = Noquotes
             .ToMaEnvelopes(10);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<MaEnvelopeResult> r1 = Onequote
             .ToMaEnvelopes(10);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -323,7 +323,7 @@ public class MaEnvelopes : StaticSeriesTestBase
             .ToMaEnvelopes(20)
             .Condense();
 
-        Assert.AreEqual(483, results.Count);
+        Assert.HasCount(483, results);
     }
 
     [TestMethod]

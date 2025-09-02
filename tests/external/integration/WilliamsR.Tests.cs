@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Skender.Stock.Indicators;
 
 namespace Tests.Indicators;
@@ -30,11 +31,7 @@ public class WilliamsRTests
 
             Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 }

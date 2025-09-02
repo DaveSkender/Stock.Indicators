@@ -13,8 +13,8 @@ public class PivotPointz : StaticSeriesTestBase
             .ToPivotPoints(periodSize, pointType);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.PP != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
@@ -95,8 +95,8 @@ public class PivotPointz : StaticSeriesTestBase
             = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
-        Assert.AreEqual(38, results.Count);
-        Assert.AreEqual(33, results.Count(x => x.PP != null));
+        Assert.HasCount(38, results);
+        Assert.HasCount(33, results.Where(x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[4];
@@ -165,8 +165,8 @@ public class PivotPointz : StaticSeriesTestBase
             .ToPivotPoints(periodSize, pointType);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.PP != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[19];
@@ -251,8 +251,8 @@ public class PivotPointz : StaticSeriesTestBase
             = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
-        Assert.AreEqual(300, results.Count);
-        Assert.AreEqual(241, results.Count(x => x.PP != null));
+        Assert.HasCount(300, results);
+        Assert.HasCount(241, results.Where(x => x.PP != null));
 
         // sample values
         PivotPointsResult r1 = results[58];
@@ -323,8 +323,8 @@ public class PivotPointz : StaticSeriesTestBase
             = h.ToPivotPoints(periodSize, pointType);
 
         // proper quantities
-        Assert.AreEqual(1564, results.Count);
-        Assert.AreEqual(1173, results.Count(x => x.PP != null));
+        Assert.HasCount(1564, results);
+        Assert.HasCount(1173, results.Where(x => x.PP != null));
 
         // sample values
         PivotPointsResult r2 = results[390];
@@ -381,7 +381,7 @@ public class PivotPointz : StaticSeriesTestBase
         IReadOnlyList<PivotPointsResult> r = BadQuotes
             .ToPivotPoints(PeriodSize.Week);
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -390,12 +390,12 @@ public class PivotPointz : StaticSeriesTestBase
         IReadOnlyList<PivotPointsResult> r0 = Noquotes
             .ToPivotPoints(PeriodSize.Week);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<PivotPointsResult> r1 = Onequote
             .ToPivotPoints(PeriodSize.Week);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -409,7 +409,7 @@ public class PivotPointz : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(482, results.Count);
+        Assert.HasCount(482, results);
 
         PivotPointsResult last = results[^1];
         Assert.AreEqual(266.6767m, last.PP.Round(4));
@@ -427,13 +427,13 @@ public class PivotPointz : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad pointtype size
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes
                 .ToPivotPoints(PeriodSize.Week, (PivotPointType)999));
 
         // bad window size
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes
                 .ToPivotPoints(PeriodSize.ThreeMinutes));
     }
 }

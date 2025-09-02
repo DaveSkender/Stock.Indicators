@@ -10,8 +10,8 @@ public class Dema : StaticSeriesTestBase
             .ToDema(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Dema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Dema != null));
 
         // sample values
         DemaResult r25 = results[25];
@@ -34,8 +34,8 @@ public class Dema : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToDema(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Dema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Dema != null));
     }
 
     [TestMethod]
@@ -45,8 +45,8 @@ public class Dema : StaticSeriesTestBase
             .ToSma(2)
             .ToDema(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Dema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Dema != null));
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class Dema : StaticSeriesTestBase
             .ToDema(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class Dema : StaticSeriesTestBase
         IReadOnlyList<DemaResult> r = BadQuotes
             .ToDema(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dema is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Dema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -76,12 +76,12 @@ public class Dema : StaticSeriesTestBase
         IReadOnlyList<DemaResult> r0 = Noquotes
             .ToDema(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<DemaResult> r1 = Onequote
             .ToDema(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -92,7 +92,7 @@ public class Dema : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (40 + 100), results.Count);
+        Assert.HasCount(502 - (40 + 100), results);
 
         DemaResult last = results[^1];
         Assert.AreEqual(241.1677, last.Dema.Round(4));
@@ -101,6 +101,6 @@ public class Dema : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions() =>
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToDema(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToDema(0));
 }

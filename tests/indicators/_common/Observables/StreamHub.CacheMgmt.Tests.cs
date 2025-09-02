@@ -112,13 +112,14 @@ public class CacheManagement : TestBase
             .ToQuotePart(CandlePart.Close);
 
         // overflowed, over threshold
-        Assert.ThrowsExactly<OverflowException>(() => {
+        Assert.ThrowsExactly<OverflowException>(
+            () => {
 
-            for (int i = 0; i <= 101; i++)
-            {
-                provider.Add(dup);
-            }
-        });
+                for (int i = 0; i <= 101; i++)
+                {
+                    provider.Add(dup);
+                }
+            });
 
         // assert: faulted
 

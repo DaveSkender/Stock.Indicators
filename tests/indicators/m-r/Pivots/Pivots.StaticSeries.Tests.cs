@@ -10,13 +10,13 @@ public class Pivots : StaticSeriesTestBase
             .ToPivots(4, 4);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(35, results.Count(x => x.HighPoint != null));
-        Assert.AreEqual(333, results.Count(x => x.HighTrend != null));
-        Assert.AreEqual(338, results.Count(x => x.HighLine != null));
-        Assert.AreEqual(34, results.Count(x => x.LowPoint != null));
-        Assert.AreEqual(328, results.Count(x => x.LowTrend != null));
-        Assert.AreEqual(333, results.Count(x => x.LowLine != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(35, results.Where(x => x.HighPoint != null));
+        Assert.HasCount(333, results.Where(x => x.HighTrend != null));
+        Assert.HasCount(338, results.Where(x => x.HighLine != null));
+        Assert.HasCount(34, results.Where(x => x.LowPoint != null));
+        Assert.HasCount(328, results.Where(x => x.LowTrend != null));
+        Assert.HasCount(333, results.Where(x => x.LowLine != null));
 
         // sample values
         PivotsResult r3 = results[3];
@@ -90,7 +90,7 @@ public class Pivots : StaticSeriesTestBase
         IReadOnlyList<PivotsResult> r = BadQuotes
             .ToPivots();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -99,12 +99,12 @@ public class Pivots : StaticSeriesTestBase
         IReadOnlyList<PivotsResult> r0 = Noquotes
             .ToPivots();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<PivotsResult> r1 = Onequote
             .ToPivots();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -113,8 +113,7 @@ public class Pivots : StaticSeriesTestBase
         IReadOnlyList<PivotsResult> results = Quotes
             .ToPivots(4, 4)
             .Condense();
-
-        Assert.AreEqual(67, results.Count);
+        Assert.HasCount(67, results);
     }
 
     [TestMethod]

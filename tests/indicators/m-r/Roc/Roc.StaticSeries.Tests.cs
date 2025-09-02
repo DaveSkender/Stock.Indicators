@@ -10,9 +10,9 @@ public class Roc : StaticSeriesTestBase
             .ToRoc(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Momentum != null));
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Momentum != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
 
         // sample values
         RocResult r49 = results[49];
@@ -35,8 +35,8 @@ public class Roc : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToRoc(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -46,8 +46,8 @@ public class Roc : StaticSeriesTestBase
             .ToSma(2)
             .ToRoc(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class Roc : StaticSeriesTestBase
             .ToRoc(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -67,8 +67,8 @@ public class Roc : StaticSeriesTestBase
         IReadOnlyList<RocResult> r = BadQuotes
             .ToRoc(35);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Roc is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Roc is double.NaN));
     }
 
     [TestMethod]
@@ -77,12 +77,12 @@ public class Roc : StaticSeriesTestBase
         IReadOnlyList<RocResult> r0 = Noquotes
             .ToRoc(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<RocResult> r1 = Onequote
             .ToRoc(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class Roc : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 20, results.Count);
+        Assert.HasCount(502 - 20, results);
 
         RocResult last = results[^1];
         Assert.AreEqual(-8.2482, last.Roc.Round(4));

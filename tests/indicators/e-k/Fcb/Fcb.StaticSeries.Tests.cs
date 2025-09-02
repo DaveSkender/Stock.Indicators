@@ -10,9 +10,9 @@ public class Fcb : StaticSeriesTestBase
             .ToFcb();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(493, results.Count(x => x.LowerBand != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(497, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(493, results.Where(x => x.LowerBand != null));
 
         // sample values
         FcbResult r1 = results[4];
@@ -46,7 +46,7 @@ public class Fcb : StaticSeriesTestBase
         IReadOnlyList<FcbResult> r = BadQuotes
             .ToFcb();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -55,12 +55,12 @@ public class Fcb : StaticSeriesTestBase
         IReadOnlyList<FcbResult> r0 = Noquotes
             .ToFcb();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<FcbResult> r1 = Onequote
             .ToFcb();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -71,7 +71,7 @@ public class Fcb : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count);
+        Assert.HasCount(502 - 5, results);
 
         FcbResult last = results[^1];
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -86,7 +86,7 @@ public class Fcb : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 5, results.Count);
+        Assert.HasCount(502 - 5, results);
 
         FcbResult last = results[^1];
         Assert.AreEqual(262.47m, last.UpperBand);
@@ -96,6 +96,6 @@ public class Fcb : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToFcb(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToFcb(1));
 }

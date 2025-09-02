@@ -10,9 +10,9 @@ public class Kvo : StaticSeriesTestBase
             Quotes.ToKvo();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(446, results.Count(x => x.Oscillator != null));
-        Assert.AreEqual(434, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(446, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(434, results.Where(x => x.Signal != null));
 
         // sample values
         KvoResult r55 = results[55];
@@ -51,8 +51,8 @@ public class Kvo : StaticSeriesTestBase
             .ToKvo()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(437, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(437, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -61,8 +61,8 @@ public class Kvo : StaticSeriesTestBase
         IReadOnlyList<KvoResult> r = BadQuotes
             .ToKvo();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -71,12 +71,12 @@ public class Kvo : StaticSeriesTestBase
         IReadOnlyList<KvoResult> r0 = Noquotes
             .ToKvo();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<KvoResult> r1 = Onequote
             .ToKvo();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -87,7 +87,7 @@ public class Kvo : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (55 + 150), results.Count);
+        Assert.HasCount(502 - (55 + 150), results);
 
         KvoResult last = results[^1];
         Assert.AreEqual(-539224047, Math.Round(last.Oscillator.Value, 0));

@@ -10,7 +10,7 @@ public class HeikinAshi : StaticSeriesTestBase
             .ToHeikinAshi();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
 
         // sample value
         HeikinAshiResult r = results[501];
@@ -35,7 +35,7 @@ public class HeikinAshi : StaticSeriesTestBase
         IReadOnlyList<HeikinAshiResult> r = BadQuotes
             .ToHeikinAshi();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -44,11 +44,11 @@ public class HeikinAshi : StaticSeriesTestBase
         IReadOnlyList<HeikinAshiResult> r0 = Noquotes
             .ToHeikinAshi();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<HeikinAshiResult> r1 = Onequote
             .ToHeikinAshi();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

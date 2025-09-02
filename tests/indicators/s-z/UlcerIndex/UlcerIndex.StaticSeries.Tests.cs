@@ -10,8 +10,8 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToUlcerIndex();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.UlcerIndex != null));
 
         // sample value
         UlcerIndexResult r = results[501];
@@ -25,8 +25,8 @@ public class UlcerIndex : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToUlcerIndex();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.UlcerIndex != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.UlcerIndex != null));
     }
 
     [TestMethod]
@@ -36,8 +36,8 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToSma(2)
             .ToUlcerIndex();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.UlcerIndex != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.UlcerIndex != null));
     }
 
     [TestMethod]
@@ -47,8 +47,8 @@ public class UlcerIndex : StaticSeriesTestBase
             .ToUlcerIndex()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class UlcerIndex : StaticSeriesTestBase
         IReadOnlyList<UlcerIndexResult> r = BadQuotes
             .ToUlcerIndex(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UlcerIndex is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.UlcerIndex is double.NaN));
     }
 
     [TestMethod]
@@ -67,12 +67,12 @@ public class UlcerIndex : StaticSeriesTestBase
         IReadOnlyList<UlcerIndexResult> r0 = Noquotes
             .ToUlcerIndex();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<UlcerIndexResult> r1 = Onequote
             .ToUlcerIndex();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class UlcerIndex : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 13, results.Count);
+        Assert.HasCount(502 - 13, results);
 
         UlcerIndexResult last = results[^1];
         Assert.AreEqual(5.7255, last.UlcerIndex.Round(4));
@@ -92,6 +92,6 @@ public class UlcerIndex : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToUlcerIndex(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToUlcerIndex(0));
 }

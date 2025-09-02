@@ -11,11 +11,11 @@ public class RemoveWarmup : TestBase
             .ToHeikinAshi()
             .RemoveWarmupPeriods(102);
 
-        Assert.AreEqual(400, results.Count);
+        Assert.HasCount(400, results);
 
         // bad remove period
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToAdx().RemoveWarmupPeriods(-1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToAdx().RemoveWarmupPeriods(-1));
     }
 
     [TestMethod]
@@ -26,6 +26,6 @@ public class RemoveWarmup : TestBase
             .ToHeikinAshi()
             .RemoveWarmupPeriods(600);
 
-        Assert.AreEqual(0, results.Count);
+        Assert.IsEmpty(results);
     }
 }

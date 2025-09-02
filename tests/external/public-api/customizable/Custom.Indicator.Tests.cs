@@ -22,8 +22,8 @@ public class CustomIndicators
             .GetIndicator(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -41,8 +41,8 @@ public class CustomIndicators
             .Use(CandlePart.Open)
             .GetIndicator(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -60,8 +60,8 @@ public class CustomIndicators
             .Use(CandlePart.Volume)
             .GetIndicator(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         CustomReusable r24 = results[24];
@@ -82,8 +82,8 @@ public class CustomIndicators
             .GetIndicator(10)
             .ToEma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -94,7 +94,7 @@ public class CustomIndicators
         IReadOnlyList<Quote> h = mismatch.ToSortedList();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
@@ -115,7 +115,7 @@ public class CustomIndicators
         IReadOnlyList<CustomReusable> r = Data.GetBtcUsdNan()
             .GetIndicator(50);
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -124,8 +124,8 @@ public class CustomIndicators
         IReadOnlyList<CustomReusable> r = badQuotes
             .GetIndicator(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.HasCount(0, r.Where(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -134,12 +134,12 @@ public class CustomIndicators
         IReadOnlyList<CustomReusable> r0 = noquotes
             .GetIndicator(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<CustomReusable> r1 = onequote
             .GetIndicator(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -149,7 +149,7 @@ public class CustomIndicators
             .GetIndicator(20)
             .RemoveWarmupPeriods(19);
 
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
         Assert.AreEqual(251.8600, Math.Round(results[^1].Sma.Value, 4));
     }
 

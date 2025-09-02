@@ -10,8 +10,8 @@ public class Tr : StaticSeriesTestBase
             .ToTr();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Tr != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Tr != null));
 
         // sample values
         TrResult r0 = results[0];
@@ -63,8 +63,8 @@ public class Tr : StaticSeriesTestBase
         IReadOnlyList<TrResult> r = BadQuotes
             .ToTr();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tr is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Tr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,11 +73,11 @@ public class Tr : StaticSeriesTestBase
         IReadOnlyList<TrResult> r0 = Noquotes
             .ToTr();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<TrResult> r1 = Onequote
             .ToTr();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

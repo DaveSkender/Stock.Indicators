@@ -10,9 +10,9 @@ public class Smi : StaticSeriesTestBase
             .ToSmi(14, 20, 5);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.Smi != null));
-        Assert.AreEqual(489, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.Smi != null));
+        Assert.HasCount(489, results.Where(x => x.Signal != null));
 
         // sample values
         SmiResult r12 = results[12];
@@ -51,8 +51,8 @@ public class Smi : StaticSeriesTestBase
             .ToSmi(14, 20, 5)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -95,8 +95,8 @@ public class Smi : StaticSeriesTestBase
         IReadOnlyList<SmiResult> r = BadQuotes
             .ToSmi(5, 5, 1, 5);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Smi is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Smi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -105,12 +105,12 @@ public class Smi : StaticSeriesTestBase
         IReadOnlyList<SmiResult> r0 = Noquotes
             .ToSmi(5, 5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<SmiResult> r1 = Onequote
             .ToSmi(5, 3, 3);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public class Smi : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(501 - (14 + 100), results.Count);
+        Assert.HasCount(501 - (14 + 100), results);
 
         SmiResult last = results[^1];
         Assert.AreEqual(-52.6560, last.Smi.Round(4));

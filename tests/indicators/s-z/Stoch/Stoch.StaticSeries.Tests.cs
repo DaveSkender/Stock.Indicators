@@ -14,9 +14,9 @@ public class Stoch : StaticSeriesTestBase
             .ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(487, results.Count(x => x.Oscillator != null));
-        Assert.AreEqual(485, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(487, results.Where(x => x.Oscillator != null));
+        Assert.HasCount(485, results.Where(x => x.Signal != null));
 
         // sample values
         StochResult r15 = results[15];
@@ -48,23 +48,8 @@ public class Stoch : StaticSeriesTestBase
 
         foreach (StochResult r in results)
         {
-            if (r.Oscillator is not null)
-            {
-                Assert.IsTrue(r.Oscillator >= 0);
-                Assert.IsTrue(r.Oscillator <= 100);
-            }
-
-            if (r.Signal is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
-
-            if (r.PercentJ is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
+            r.Oscillator?.Should().BeInRange(0d, 100d);
+            r.Signal?.Should().BeInRange(0d, 100d);
         }
     }
 
@@ -75,9 +60,9 @@ public class Stoch : StaticSeriesTestBase
             Quotes.ToStoch(9, 3, 3, 5, 4, MaType.SMMA);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(494, results.Count(x => x.K != null));
-        Assert.AreEqual(494, results.Count(x => x.D != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(494, results.Where(x => x.K != null));
+        Assert.HasCount(494, results.Where(x => x.D != null));
 
         // sample values
         StochResult r7 = results[7];
@@ -118,8 +103,8 @@ public class Stoch : StaticSeriesTestBase
             .ToStoch()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(478, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(478, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -184,8 +169,9 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> r = BadQuotes
             .ToStoch(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
+
     }
 
     [TestMethod]
@@ -194,12 +180,12 @@ public class Stoch : StaticSeriesTestBase
         IReadOnlyList<StochResult> r0 = Noquotes
             .ToStoch();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<StochResult> r1 = Onequote
             .ToStoch();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -214,7 +200,7 @@ public class Stoch : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (lookbackPeriods + smoothPeriods - 2), results.Count);
+        Assert.HasCount(502 - (lookbackPeriods + smoothPeriods - 2), results);
 
         StochResult last = results[^1];
         Assert.AreEqual(43.1353, last.Oscillator.Round(4));
@@ -239,23 +225,8 @@ public class Stoch : StaticSeriesTestBase
         {
             StochResult r = results[i];
 
-            if (r.Oscillator is not null)
-            {
-                Assert.IsTrue(r.Oscillator >= 0);
-                Assert.IsTrue(r.Oscillator <= 100);
-            }
-
-            if (r.Signal is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
-
-            if (r.PercentJ is not null)
-            {
-                Assert.IsTrue(r.Signal >= 0);
-                Assert.IsTrue(r.Signal <= 100);
-            }
+            r.Oscillator?.Should().BeInRange(0d, 100d);
+            r.Signal?.Should().BeInRange(0d, 100d);
         }
     }
 

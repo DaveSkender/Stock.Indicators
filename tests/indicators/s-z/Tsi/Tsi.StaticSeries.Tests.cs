@@ -10,9 +10,9 @@ public class Tsi : StaticSeriesTestBase
             .ToTsi();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
-        Assert.AreEqual(459, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(465, results.Where(x => x.Tsi != null));
+        Assert.HasCount(459, results.Where(x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
@@ -47,8 +47,8 @@ public class Tsi : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToTsi();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(465, results.Where(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -58,8 +58,8 @@ public class Tsi : StaticSeriesTestBase
             .ToSma(2)
             .ToTsi();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(464, results.Count(x => x.Tsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(464, results.Where(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -69,8 +69,8 @@ public class Tsi : StaticSeriesTestBase
             .ToTsi()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(456, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(456, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -79,8 +79,8 @@ public class Tsi : StaticSeriesTestBase
         IReadOnlyList<TsiResult> r = BadQuotes
             .ToTsi();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tsi is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Tsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class Tsi : StaticSeriesTestBase
         IReadOnlyList<TsiResult> r = BigQuotes
             .ToTsi();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -98,12 +98,12 @@ public class Tsi : StaticSeriesTestBase
         IReadOnlyList<TsiResult> r0 = Noquotes
             .ToTsi();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<TsiResult> r1 = Onequote
             .ToTsi();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -114,7 +114,7 @@ public class Tsi : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (25 + 13 + 250), results.Count);
+        Assert.HasCount(502 - (25 + 13 + 250), results);
 
         TsiResult last = results[^1];
         Assert.AreEqual(-28.3513, last.Tsi.Round(4));

@@ -11,9 +11,9 @@ public class Renko : StaticSeriesTestBase
 
         // assertions
 
-        Assert.AreEqual(112, results.Count);
-        Assert.AreEqual(62, results.Count(x => x.IsUp));
-        Assert.AreEqual(50, results.Count(x => !x.IsUp));
+        Assert.HasCount(112, results);
+        Assert.HasCount(62, results.Where(x => x.IsUp));
+        Assert.HasCount(50, results.Where(x => !x.IsUp));
 
         // sample values
         RenkoResult r0 = results[0];
@@ -49,7 +49,7 @@ public class Renko : StaticSeriesTestBase
 
         // assertions
 
-        Assert.AreEqual(159, results.Count);
+        Assert.HasCount(159, results);
 
         // sample values
         RenkoResult r0 = results[0];
@@ -84,7 +84,7 @@ public class Renko : StaticSeriesTestBase
             .ToRenkoAtr(14);
 
         // proper quantities
-        Assert.AreEqual(29, results.Count);
+        Assert.HasCount(29, results);
 
         // sample values
         RenkoResult r0 = results[0];
@@ -109,7 +109,7 @@ public class Renko : StaticSeriesTestBase
     {
         IReadOnlyList<RenkoResult> renkoQuotes = Quotes.ToRenko(2.5m);
         IReadOnlyList<SmaResult> renkoSma = renkoQuotes.ToSma(5);
-        Assert.AreEqual(108, renkoSma.Count(x => x.Sma != null));
+        Assert.HasCount(108, renkoSma.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -127,18 +127,18 @@ public class Renko : StaticSeriesTestBase
         IReadOnlyList<RenkoResult> r0 = Noquotes
             .ToRenko(0.01m);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad arguments
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToRenko(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToRenko(0));
 
         // bad end type
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToRenko(2, (EndType)int.MaxValue));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToRenko(2, (EndType)int.MaxValue));
     }
 }

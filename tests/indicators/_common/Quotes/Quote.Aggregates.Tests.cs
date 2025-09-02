@@ -14,7 +14,7 @@ public partial class Quotes : TestBase
             .Aggregate(PeriodSize.FifteenMinutes);
 
         // proper quantities
-        Assert.AreEqual(108, results.Count);
+        Assert.HasCount(108, results);
 
         // sample values
         Quote r0 = results[0];
@@ -57,7 +57,7 @@ public partial class Quotes : TestBase
             .Aggregate(TimeSpan.FromMinutes(15));
 
         // proper quantities
-        Assert.AreEqual(108, results.Count);
+        Assert.HasCount(108, results);
 
         // sample values
         Quote r0 = results[0];
@@ -98,7 +98,7 @@ public partial class Quotes : TestBase
             .Aggregate(PeriodSize.Month);
 
         // proper quantities
-        Assert.AreEqual(24, results.Count);
+        Assert.HasCount(24, results);
 
         // sample values
         Quote r0 = results[0];
@@ -128,6 +128,6 @@ public partial class Quotes : TestBase
 
     [TestMethod]  // bad period size
     public void AggregateBadSize()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.Aggregate(TimeSpan.Zero));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.Aggregate(TimeSpan.Zero));
 }

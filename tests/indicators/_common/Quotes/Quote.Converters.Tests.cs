@@ -13,7 +13,7 @@ public partial class Quotes : TestBase
         IReadOnlyList<Quote> h = quotes.ToSortedList();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", TestBase.invariantCulture);

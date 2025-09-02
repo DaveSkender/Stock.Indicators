@@ -10,9 +10,9 @@ public class ElderRay : StaticSeriesTestBase
             .ToElderRay();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(490, results.Count(x => x.BullPower != null));
-        Assert.AreEqual(490, results.Count(x => x.BearPower != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(490, results.Where(x => x.BullPower != null));
+        Assert.HasCount(490, results.Where(x => x.BearPower != null));
 
         // sample values
         ElderRayResult r1 = results[11];
@@ -53,8 +53,8 @@ public class ElderRay : StaticSeriesTestBase
             .ToElderRay()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -63,8 +63,8 @@ public class ElderRay : StaticSeriesTestBase
         IReadOnlyList<ElderRayResult> r = BadQuotes
             .ToElderRay();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.BullPower is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.BullPower is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,12 +73,12 @@ public class ElderRay : StaticSeriesTestBase
         IReadOnlyList<ElderRayResult> r0 = Noquotes
             .ToElderRay();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ElderRayResult> r1 = Onequote
             .ToElderRay();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class ElderRay : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (100 + 13), results.Count);
+        Assert.HasCount(502 - (100 + 13), results);
 
         ElderRayResult last = results[^1];
         Assert.AreEqual(246.0129, last.Ema.Round(4));
@@ -100,6 +100,6 @@ public class ElderRay : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToElderRay(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToElderRay(0));
 }

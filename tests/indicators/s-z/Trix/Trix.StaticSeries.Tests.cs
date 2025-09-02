@@ -10,9 +10,9 @@ public class Trix : StaticSeriesTestBase
             .ToTrix(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Ema3 != null));
-        Assert.AreEqual(482, results.Count(x => x.Trix != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Ema3 != null));
+        Assert.HasCount(482, results.Where(x => x.Trix != null));
 
         // sample values
         TrixResult r24 = results[24];
@@ -39,8 +39,8 @@ public class Trix : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToTrix(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Trix != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class Trix : StaticSeriesTestBase
             .ToSma(2)
             .ToTrix(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Trix != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -61,8 +61,8 @@ public class Trix : StaticSeriesTestBase
             .ToTrix(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -71,8 +71,8 @@ public class Trix : StaticSeriesTestBase
         IReadOnlyList<TrixResult> r = BadQuotes
             .ToTrix(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trix is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Trix is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -81,12 +81,12 @@ public class Trix : StaticSeriesTestBase
         IReadOnlyList<TrixResult> r0 = Noquotes
             .ToTrix(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<TrixResult> r1 = Onequote
             .ToTrix(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -97,7 +97,7 @@ public class Trix : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
+        Assert.HasCount(502 - ((3 * 20) + 100), results);
 
         TrixResult last = results[^1];
         Assert.AreEqual(263.3216, last.Ema3.Round(4));
@@ -107,6 +107,6 @@ public class Trix : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToTrix(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToTrix(0));
 }

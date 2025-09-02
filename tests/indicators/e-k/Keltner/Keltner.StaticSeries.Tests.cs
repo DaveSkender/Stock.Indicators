@@ -14,13 +14,13 @@ public class Keltner : StaticSeriesTestBase
             .ToKeltner(emaPeriods, multiplier, atrPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
 
         int warmupPeriod = 502 - Math.Max(emaPeriods, atrPeriods) + 1;
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.LowerBand != null));
-        Assert.AreEqual(warmupPeriod, results.Count(x => x.Width != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.Centerline != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(warmupPeriod, results.Where(x => x.Width != null));
 
         // sample value
         KeltnerResult r1 = results[485];
@@ -42,8 +42,8 @@ public class Keltner : StaticSeriesTestBase
         IReadOnlyList<KeltnerResult> r = BadQuotes
             .ToKeltner(10, 3, 15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -52,12 +52,12 @@ public class Keltner : StaticSeriesTestBase
         IReadOnlyList<KeltnerResult> r0 = Noquotes
             .ToKeltner();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<KeltnerResult> r1 = Onequote
             .ToKeltner();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class Keltner : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(483, results.Count);
+        Assert.HasCount(483, results);
 
         KeltnerResult last = results[^1];
         Assert.AreEqual(262.1873, last.UpperBand.Round(4));

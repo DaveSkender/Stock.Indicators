@@ -14,10 +14,10 @@ public class Pvo : StaticSeriesTestBase
             Quotes.ToPvo(fastPeriods, slowPeriods, signalPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.Pvo != null));
-        Assert.AreEqual(469, results.Count(x => x.Signal != null));
-        Assert.AreEqual(469, results.Count(x => x.Histogram != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(477, results.Where(x => x.Pvo != null));
+        Assert.HasCount(469, results.Where(x => x.Signal != null));
+        Assert.HasCount(469, results.Where(x => x.Histogram != null));
 
         // sample values
         PvoResult r1 = results[24];
@@ -53,8 +53,8 @@ public class Pvo : StaticSeriesTestBase
             .ToPvo()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(468, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(468, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -63,8 +63,8 @@ public class Pvo : StaticSeriesTestBase
         IReadOnlyList<PvoResult> r = BadQuotes
             .ToPvo(10, 20, 5);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Pvo is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Pvo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -73,12 +73,12 @@ public class Pvo : StaticSeriesTestBase
         IReadOnlyList<PvoResult> r0 = Noquotes
             .ToPvo();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<PvoResult> r1 = Onequote
             .ToPvo();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class Pvo : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + signalPeriods + 250), results);
 
         PvoResult last = results[^1];
         Assert.AreEqual(10.4395, last.Pvo.Round(4));

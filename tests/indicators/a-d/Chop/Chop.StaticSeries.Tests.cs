@@ -10,8 +10,8 @@ public class Chop : StaticSeriesTestBase
             .ToChop();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Chop != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Chop != null));
 
         // sample values
         ChopResult r1 = results[13];
@@ -34,8 +34,8 @@ public class Chop : StaticSeriesTestBase
             .ToChop()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -46,8 +46,8 @@ public class Chop : StaticSeriesTestBase
             .ToChop(lookbackPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Chop != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Chop != null));
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class Chop : StaticSeriesTestBase
         IReadOnlyList<ChopResult> r = BadQuotes
             .ToChop(20);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Chop is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Chop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -66,12 +66,12 @@ public class Chop : StaticSeriesTestBase
         IReadOnlyList<ChopResult> r0 = Noquotes
             .ToChop();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ChopResult> r1 = Onequote
             .ToChop();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Chop : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         ChopResult last = results[^1];
         Assert.AreEqual(38.6526, last.Chop.Round(4));

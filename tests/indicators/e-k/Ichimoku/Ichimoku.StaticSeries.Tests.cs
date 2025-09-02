@@ -14,12 +14,12 @@ public class Ichimoku : StaticSeriesTestBase
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(494, results.Count(x => x.TenkanSen != null));
-        Assert.AreEqual(477, results.Count(x => x.KijunSen != null));
-        Assert.AreEqual(451, results.Count(x => x.SenkouSpanA != null));
-        Assert.AreEqual(425, results.Count(x => x.SenkouSpanB != null));
-        Assert.AreEqual(476, results.Count(x => x.ChikouSpan != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(494, results.Where(x => x.TenkanSen != null));
+        Assert.HasCount(477, results.Where(x => x.KijunSen != null));
+        Assert.HasCount(451, results.Where(x => x.SenkouSpanA != null));
+        Assert.HasCount(425, results.Where(x => x.SenkouSpanB != null));
+        Assert.HasCount(476, results.Where(x => x.ChikouSpan != null));
 
         // sample values
         IchimokuResult r1 = results[51];
@@ -57,7 +57,7 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> results = Quotes
             .ToIchimoku(3, 13, 40, 0, 0);
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> r = BadQuotes
             .ToIchimoku();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -75,12 +75,12 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> r0 = Noquotes
             .ToIchimoku();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<IchimokuResult> r1 = Onequote
             .ToIchimoku();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -90,7 +90,7 @@ public class Ichimoku : StaticSeriesTestBase
             .ToIchimoku()
             .Condense();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]

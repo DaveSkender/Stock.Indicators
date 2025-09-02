@@ -13,8 +13,8 @@ public class SuperTrend : StaticSeriesTestBase
             .ToSuperTrend(lookbackPeriods, multiplier);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.SuperTrend != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.SuperTrend != null));
 
         // sample values
         SuperTrendResult r13 = results[13];
@@ -56,7 +56,7 @@ public class SuperTrend : StaticSeriesTestBase
         IReadOnlyList<SuperTrendResult> results = h
             .ToSuperTrend();
 
-        Assert.AreEqual(1246, results.Count);
+        Assert.HasCount(1246, results);
 
         SuperTrendResult r = results[1208];
         Assert.AreEqual(16242.2704m, r.LowerBand.Round(4));
@@ -68,7 +68,7 @@ public class SuperTrend : StaticSeriesTestBase
         IReadOnlyList<SuperTrendResult> r = BadQuotes
             .ToSuperTrend(7);
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -77,12 +77,12 @@ public class SuperTrend : StaticSeriesTestBase
         IReadOnlyList<SuperTrendResult> r0 = Noquotes
             .ToSuperTrend();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<SuperTrendResult> r1 = Onequote
             .ToSuperTrend();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class SuperTrend : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.HasCount(488, results);
 
         SuperTrendResult last = results[^1];
         Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));
@@ -115,7 +115,7 @@ public class SuperTrend : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(488, results.Count);
+        Assert.HasCount(488, results);
 
         SuperTrendResult last = results[^1];
         Assert.AreEqual(250.7954m, last.SuperTrend.Round(4));

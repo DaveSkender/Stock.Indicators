@@ -10,8 +10,8 @@ public class WilliamsR : StaticSeriesTestBase
             .ToWilliamsR();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.WilliamsR != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.WilliamsR != null));
 
         // sample values
         WilliamsResult r1 = results[343];
@@ -25,11 +25,7 @@ public class WilliamsR : StaticSeriesTestBase
         {
             WilliamsResult r = results[i];
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 
@@ -40,8 +36,8 @@ public class WilliamsR : StaticSeriesTestBase
             .ToWilliamsR()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -50,8 +46,8 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> results = BadQuotes
             .ToWilliamsR(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(0, results.Count(x => x.WilliamsR is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.IsEmpty(results.Where(x => x.WilliamsR is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -60,12 +56,12 @@ public class WilliamsR : StaticSeriesTestBase
         IReadOnlyList<WilliamsResult> r0 = Noquotes
             .ToWilliamsR();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<WilliamsResult> r1 = Onequote
             .ToWilliamsR();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -76,7 +72,7 @@ public class WilliamsR : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 13, results.Count);
+        Assert.HasCount(502 - 13, results);
 
         WilliamsResult last = results[^1];
         Assert.AreEqual(-52.0121, last.WilliamsR.Round(4));
@@ -94,11 +90,7 @@ public class WilliamsR : StaticSeriesTestBase
         {
             WilliamsResult r = results[i];
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 
@@ -128,17 +120,13 @@ public class WilliamsR : StaticSeriesTestBase
 
             Console.WriteLine($"{q.Timestamp:s} {r.WilliamsR}");
 
-            if (r.WilliamsR is not null)
-            {
-                Assert.IsTrue(r.WilliamsR <= 0);
-                Assert.IsTrue(r.WilliamsR >= -100);
-            }
+            r.WilliamsR?.Should().BeInRange(-100d, 0d);
         }
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToWilliamsR(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToWilliamsR(0));
 }

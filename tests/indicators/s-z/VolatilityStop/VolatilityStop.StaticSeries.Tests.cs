@@ -10,8 +10,8 @@ public class VolatilityStop : StaticSeriesTestBase
             Quotes.ToVolatilityStop(14);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(448, results.Count(x => x.Sar != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(448, results.Where(x => x.Sar != null));
 
         // sample values
         VolatilityStopResult r53 = results[53];
@@ -67,8 +67,8 @@ public class VolatilityStop : StaticSeriesTestBase
             .ToVolatilityStop()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(439, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(439, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -77,8 +77,8 @@ public class VolatilityStop : StaticSeriesTestBase
         IReadOnlyList<VolatilityStopResult> r = BadQuotes
             .ToVolatilityStop();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sar is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -87,12 +87,12 @@ public class VolatilityStop : StaticSeriesTestBase
         IReadOnlyList<VolatilityStopResult> r0 = Noquotes
             .ToVolatilityStop();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<VolatilityStopResult> r1 = Onequote
             .ToVolatilityStop();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -103,7 +103,7 @@ public class VolatilityStop : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(402, results.Count);
+        Assert.HasCount(402, results);
 
         VolatilityStopResult last = results[^1];
         Assert.AreEqual(249.2423, last.Sar.Round(4));

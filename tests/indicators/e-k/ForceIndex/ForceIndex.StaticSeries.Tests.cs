@@ -9,8 +9,8 @@ public class ForceIndex : StaticSeriesTestBase
         IReadOnlyList<ForceIndexResult> r = Quotes.ToForceIndex(13).ToList();
 
         // proper quantities
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(489, r.Count(x => x.ForceIndex != null));
+        Assert.HasCount(502, r);
+        Assert.HasCount(489, r.Where(x => x.ForceIndex != null));
 
         // sample values
         Assert.IsNull(r[12].ForceIndex);
@@ -29,8 +29,8 @@ public class ForceIndex : StaticSeriesTestBase
             .ToForceIndex(13)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -39,8 +39,8 @@ public class ForceIndex : StaticSeriesTestBase
         IReadOnlyList<ForceIndexResult> r = BadQuotes
             .ToForceIndex();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.ForceIndex is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.ForceIndex is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -49,12 +49,12 @@ public class ForceIndex : StaticSeriesTestBase
         IReadOnlyList<ForceIndexResult> r0 = Noquotes
             .ToForceIndex(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ForceIndexResult> r1 = Onequote
             .ToForceIndex(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -65,7 +65,7 @@ public class ForceIndex : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (13 + 100), results.Count);
+        Assert.HasCount(502 - (13 + 100), results);
 
         ForceIndexResult last = results[^1];
         Assert.AreEqual(-16824018.428, Math.Round(last.ForceIndex.Value, 3));
@@ -74,6 +74,6 @@ public class ForceIndex : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToForceIndex(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToForceIndex(0));
 }

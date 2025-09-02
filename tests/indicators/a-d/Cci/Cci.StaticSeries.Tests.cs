@@ -10,8 +10,8 @@ public class Cci : StaticSeriesTestBase
             .ToCci();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Cci != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Cci != null));
 
         // sample value
         CciResult r = results[501];
@@ -25,8 +25,8 @@ public class Cci : StaticSeriesTestBase
             .ToCci()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -35,8 +35,8 @@ public class Cci : StaticSeriesTestBase
         IReadOnlyList<CciResult> r = BadQuotes
             .ToCci(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cci is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Cci is double.NaN));
     }
 
     [TestMethod]
@@ -45,12 +45,12 @@ public class Cci : StaticSeriesTestBase
         IReadOnlyList<CciResult> r0 = Noquotes
             .ToCci();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<CciResult> r1 = Onequote
             .ToCci();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -61,7 +61,7 @@ public class Cci : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         CciResult last = results[^1];
         Assert.AreEqual(-52.9946, last.Cci.Round(4));

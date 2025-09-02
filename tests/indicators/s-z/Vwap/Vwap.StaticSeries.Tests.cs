@@ -14,8 +14,8 @@ public class Vwap : StaticSeriesTestBase
         IReadOnlyList<VwapResult> results = intraday.ToVwap();
 
         // proper quantities
-        Assert.AreEqual(391, results.Count);
-        Assert.AreEqual(391, results.Count(x => x.Vwap != null));
+        Assert.HasCount(391, results);
+        Assert.HasCount(391, results.Where(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[0];
@@ -41,8 +41,8 @@ public class Vwap : StaticSeriesTestBase
             .ToVwap(startDate);
 
         // proper quantities
-        Assert.AreEqual(391, results.Count);
-        Assert.AreEqual(361, results.Count(x => x.Vwap != null));
+        Assert.HasCount(391, results);
+        Assert.HasCount(361, results.Where(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[29];
@@ -65,8 +65,8 @@ public class Vwap : StaticSeriesTestBase
             .ToVwap()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -75,8 +75,8 @@ public class Vwap : StaticSeriesTestBase
         IReadOnlyList<VwapResult> r = BadQuotes
             .ToVwap();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Vwap is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Vwap is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -85,12 +85,12 @@ public class Vwap : StaticSeriesTestBase
         IReadOnlyList<VwapResult> r0 = Noquotes
             .ToVwap();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<VwapResult> r1 = Onequote
             .ToVwap();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -102,7 +102,7 @@ public class Vwap : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(391, results.Count);
+        Assert.HasCount(391, results);
 
         VwapResult last = results[^1];
         Assert.AreEqual(368.1804, last.Vwap.Round(4));
@@ -116,7 +116,7 @@ public class Vwap : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(361, sdResults.Count);
+        Assert.HasCount(361, sdResults);
 
         VwapResult sdLast = sdResults[^1];
         Assert.AreEqual(368.2908, sdLast.Vwap.Round(4));
@@ -130,6 +130,6 @@ public class Vwap : StaticSeriesTestBase
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", invariantCulture);
 
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(
-            () => Quotes.ToVwap(startDate));
+            () => intraday.ToVwap(startDate));
     }
 }

@@ -10,8 +10,8 @@ public class FisherTransform : StaticSeriesTestBase
             .ToFisherTransform();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Fisher != 0));
 
         // sample values
         Assert.AreEqual(0, results[0].Fisher);
@@ -52,8 +52,8 @@ public class FisherTransform : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToFisherTransform();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -63,8 +63,8 @@ public class FisherTransform : StaticSeriesTestBase
             .ToSma(2)
             .ToFisherTransform();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Fisher != 0));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Fisher != 0));
     }
 
     [TestMethod]
@@ -74,8 +74,8 @@ public class FisherTransform : StaticSeriesTestBase
             .ToFisherTransform()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -84,8 +84,8 @@ public class FisherTransform : StaticSeriesTestBase
         IReadOnlyList<FisherTransformResult> r = BadQuotes
             .ToFisherTransform(9);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Fisher is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Fisher is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -94,17 +94,17 @@ public class FisherTransform : StaticSeriesTestBase
         IReadOnlyList<FisherTransformResult> r0 = Noquotes
             .ToFisherTransform();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<FisherTransformResult> r1 = Onequote
             .ToFisherTransform();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(()
-            => Quotes.ToFisherTransform(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToFisherTransform(0));
 }

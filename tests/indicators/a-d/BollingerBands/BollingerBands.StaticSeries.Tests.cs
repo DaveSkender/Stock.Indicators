@@ -10,13 +10,13 @@ public class BollingerBands : StaticSeriesTestBase
             Quotes.ToBollingerBands();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
-        Assert.AreEqual(483, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(483, results.Count(x => x.LowerBand != null));
-        Assert.AreEqual(483, results.Count(x => x.PercentB != null));
-        Assert.AreEqual(483, results.Count(x => x.ZScore != null));
-        Assert.AreEqual(483, results.Count(x => x.Width != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
+        Assert.HasCount(483, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(483, results.Where(x => x.LowerBand != null));
+        Assert.HasCount(483, results.Where(x => x.PercentB != null));
+        Assert.HasCount(483, results.Where(x => x.ZScore != null));
+        Assert.HasCount(483, results.Where(x => x.Width != null));
 
         // sample values
         BollingerBandsResult r1 = results[249];
@@ -43,8 +43,8 @@ public class BollingerBands : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToBollingerBands();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -54,8 +54,8 @@ public class BollingerBands : StaticSeriesTestBase
             .ToSma(2)
             .ToBollingerBands();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.UpperBand != null));
     }
 
     [TestMethod]
@@ -65,8 +65,8 @@ public class BollingerBands : StaticSeriesTestBase
             .ToBollingerBands()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -75,8 +75,8 @@ public class BollingerBands : StaticSeriesTestBase
         IReadOnlyList<BollingerBandsResult> r = BadQuotes
             .ToBollingerBands(15, 3);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperBand is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.UpperBand is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -85,12 +85,12 @@ public class BollingerBands : StaticSeriesTestBase
         IReadOnlyList<BollingerBandsResult> r0 = Noquotes
             .ToBollingerBands();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<BollingerBandsResult> r1 = Onequote
             .ToBollingerBands();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class BollingerBands : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         BollingerBandsResult last = results[^1];
         Assert.AreEqual(251.8600, last.Sma.Round(4));
