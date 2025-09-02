@@ -35,7 +35,7 @@ public class EmaTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(483, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class EmaTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class EmaTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(474, results.Count(x => x.Sma != null));
-        Assert.AreEqual(0, results.Count(x => x.Sma is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Sma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -119,7 +119,7 @@ public class EmaTests : TestBase
         // assertions
         Assert.HasCount(502, results);
         Assert.AreEqual(469, results.Count(x => x.Ema != null));
-        Assert.AreEqual(0, results.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Ema is double v && double.IsNaN(v)));
 
         // sample values
         EmaResult r32 = results[32];
@@ -166,7 +166,7 @@ public class EmaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Ema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Ema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

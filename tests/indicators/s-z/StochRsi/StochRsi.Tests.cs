@@ -87,7 +87,7 @@ public class StochRsiTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
-        Assert.AreEqual(0, results.Count(x => x.StochRsi is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -98,7 +98,7 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -133,7 +133,7 @@ public class StochRsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.StochRsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

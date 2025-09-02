@@ -53,7 +53,7 @@ public class WilliamsRTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.IsEmpty(results.Where(x => x.WilliamsR is double and double.NaN));
+        Assert.IsEmpty(results.Where(x => x.WilliamsR is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

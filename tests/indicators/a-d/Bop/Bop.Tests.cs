@@ -49,7 +49,7 @@ public class BopTests : TestBase
         IEnumerable<BopResult> r = TestData.GetBtcUsdNan()
             .GetBop(50);
 
-        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -60,7 +60,7 @@ public class BopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Bop is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

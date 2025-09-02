@@ -53,7 +53,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class CorrelationTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Correlation != null));
-        Assert.AreEqual(0, results.Count(x => x.Correlation is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class CorrelationTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Correlation is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Correlation is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

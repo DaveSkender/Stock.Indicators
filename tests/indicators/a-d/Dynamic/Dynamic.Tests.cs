@@ -38,7 +38,7 @@ public class McGinleyDynamicTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
-        Assert.AreEqual(0, results.Count(x => x.Dynamic is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class McGinleyDynamicTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Dynamic is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

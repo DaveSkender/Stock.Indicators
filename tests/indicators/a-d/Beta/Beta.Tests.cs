@@ -116,7 +116,7 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Beta is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Beta is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -141,7 +141,7 @@ public class BetaTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(481, results.Count(x => x.Beta != null));
-        Assert.AreEqual(0, results.Count(x => x.Beta is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Beta is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -152,21 +152,21 @@ public class BetaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r1);
-        Assert.AreEqual(0, r1.Count(x => x.Beta is double and double.NaN));
+        Assert.AreEqual(0, r1.Count(x => x.Beta is double v && double.IsNaN(v)));
 
         List<BetaResult> r2 = badQuotes
             .GetBeta(badQuotes, 15, BetaType.Up)
             .ToList();
 
         Assert.HasCount(502, r2);
-        Assert.AreEqual(0, r2.Count(x => x.BetaUp is double and double.NaN));
+        Assert.AreEqual(0, r2.Count(x => x.BetaUp is double v && double.IsNaN(v)));
 
         List<BetaResult> r3 = badQuotes
             .GetBeta(badQuotes, 15, BetaType.Down)
             .ToList();
 
         Assert.HasCount(502, r3);
-        Assert.AreEqual(0, r3.Count(x => x.BetaDown is double and double.NaN));
+        Assert.AreEqual(0, r3.Count(x => x.BetaDown is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

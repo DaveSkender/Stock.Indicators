@@ -48,7 +48,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class DemaTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Dema is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Dema is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

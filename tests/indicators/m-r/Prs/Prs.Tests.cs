@@ -55,7 +55,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class PrsTests : TestBase
 
         Assert.HasCount(502, results);
         Assert.AreEqual(501, results.Count(x => x.Prs != null));
-        Assert.AreEqual(0, results.Count(x => x.Prs is double and double.NaN));
+        Assert.AreEqual(0, results.Count(x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public class PrsTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

@@ -62,7 +62,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.StdDev is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -124,7 +124,7 @@ public class StdDevTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.StdDev is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.StdDev is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

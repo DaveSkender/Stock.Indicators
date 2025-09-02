@@ -66,7 +66,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Lips is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Lips is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -101,7 +101,7 @@ public class AlligatorTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Jaw is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Jaw is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

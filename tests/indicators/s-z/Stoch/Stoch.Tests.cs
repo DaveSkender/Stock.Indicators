@@ -179,7 +179,7 @@ public class StochTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.IsEmpty(r.Where(x => x.Oscillator is double and double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

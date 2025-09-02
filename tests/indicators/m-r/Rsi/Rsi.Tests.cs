@@ -80,7 +80,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(200, r);
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class RsiTests : TestBase
         IEnumerable<RsiResult> r = TestData.GetBtcUsdNan()
             .GetRsi(14);
 
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -124,7 +124,7 @@ public class RsiTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

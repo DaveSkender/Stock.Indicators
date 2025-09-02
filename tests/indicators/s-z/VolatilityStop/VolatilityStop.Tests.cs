@@ -81,7 +81,7 @@ public class VolatilityStopTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Sar is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Sar is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

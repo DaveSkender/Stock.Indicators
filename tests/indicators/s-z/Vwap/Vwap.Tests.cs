@@ -79,7 +79,7 @@ public class VwapTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Vwap is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Vwap is double v && double.IsNaN(v)));
     }
 
     [TestMethod]

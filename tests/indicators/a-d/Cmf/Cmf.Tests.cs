@@ -51,7 +51,7 @@ public class CmfTests : TestBase
             .ToList();
 
         Assert.HasCount(502, r);
-        Assert.AreEqual(0, r.Count(x => x.Cmf is double and double.NaN));
+        Assert.AreEqual(0, r.Count(x => x.Cmf is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
