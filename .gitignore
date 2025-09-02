@@ -329,8 +329,11 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
 
-# Jekyll site
-_site/
-
 # zip artifacts
 .DS_Store
+
+# dotnet-tool manifest
+/.config/
+
+# Playwright
+/.playwright*

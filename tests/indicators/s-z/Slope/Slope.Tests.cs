@@ -11,10 +11,10 @@ public class SlopeTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Slope != null));
-        Assert.AreEqual(483, results.Count(x => x.StdDev != null));
-        Assert.AreEqual(20, results.Count(x => x.Line != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Slope != null));
+        Assert.HasCount(483, results.Where(x => x.StdDev != null));
+        Assert.HasCount(20, results.Where(x => x.Line != null));
 
         // sample values
         SlopeResult r1 = results[249];
@@ -22,7 +22,7 @@ public class SlopeTests : TestBase
         Assert.AreEqual(180.4164, r1.Intercept.Round(4));
         Assert.AreEqual(0.8056, r1.RSquared.Round(4));
         Assert.AreEqual(2.0071, r1.StdDev.Round(4));
-        Assert.AreEqual(null, r1.Line);
+        Assert.IsNull(r1.Line);
 
         SlopeResult r2 = results[482];
         Assert.AreEqual(-0.337015, r2.Slope.Round(6));
@@ -47,8 +47,8 @@ public class SlopeTests : TestBase
             .GetSlope(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Slope != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -58,8 +58,8 @@ public class SlopeTests : TestBase
             .GetSlope(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Slope is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Slope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -70,8 +70,8 @@ public class SlopeTests : TestBase
             .GetSlope(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Slope != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Slope != null));
     }
 
     [TestMethod]
@@ -82,8 +82,8 @@ public class SlopeTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -93,8 +93,8 @@ public class SlopeTests : TestBase
             .GetSlope(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Slope is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Slope is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class SlopeTests : TestBase
             .GetSlope(250)
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -114,13 +114,13 @@ public class SlopeTests : TestBase
             .GetSlope(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<SlopeResult> r1 = onequote
             .GetSlope(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -132,7 +132,7 @@ public class SlopeTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         SlopeResult last = results.LastOrDefault();
         Assert.AreEqual(-1.689143, last.Slope.Round(6));
@@ -145,6 +145,6 @@ public class SlopeTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetSlope(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSlope(1));
 }

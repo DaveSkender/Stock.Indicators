@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read   # Required for checkout
-  actions: read    # Required for workflow runs
-  checks: write    # Required for test results
+  contents: read # Required for checkout
+  actions: read # Required for workflow runs
+  checks: write # Required for test results
 
 jobs:
   test:
@@ -28,7 +28,6 @@ jobs:
         dotnet-version: ["6.0.x", "9.0.x"]
 
     env:
-
       # identifying primary configuration so only one reports coverage
       IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
 
@@ -38,9 +37,8 @@ jobs:
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:
-
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -97,4 +95,3 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-indicators/**/coverage.cobertura.xml
         continue-on-error: true
-

@@ -35,8 +35,8 @@ public class Syncing : TestBase
         // prepend option
         List<EmaResult> prepend = eval.SyncIndex(baseline, SyncType.Prepend).ToList();
 
-        Assert.AreEqual(9, prepend.Count);
-        Assert.AreEqual(3, prepend.Count(x => x.Ema is null));
+        Assert.HasCount(9, prepend);
+        Assert.HasCount(3, prepend.Where(x => x.Ema is null));
 
         for (int i = 0; i < 6; i++)
         {
@@ -49,8 +49,8 @@ public class Syncing : TestBase
         // append option
         List<EmaResult> append = eval.SyncIndex(baseline, SyncType.AppendOnly).ToList();
 
-        Assert.AreEqual(10, append.Count);
-        Assert.AreEqual(4, append.Count(x => x.Ema is null));
+        Assert.HasCount(10, append);
+        Assert.HasCount(4, append.Where(x => x.Ema is null));
 
         for (int i = 0; i < 8; i++)
         {
@@ -63,17 +63,17 @@ public class Syncing : TestBase
         // remove option
         List<EmaResult> remove = eval.SyncIndex(baseline, SyncType.RemoveOnly).ToList();
 
-        Assert.AreEqual(6, remove.Count);
-        Assert.AreEqual(0, remove.Count(x => x.Ema is null));
-        Assert.AreEqual(0, remove.Count(x =>
+        Assert.HasCount(6, remove);
+        Assert.IsEmpty(remove.Where(x => x.Ema is null));
+        Assert.IsEmpty(remove.Where(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         // full option
         List<EmaResult> fullmatch = eval.SyncIndex(baseline, SyncType.FullMatch).ToList();
 
-        Assert.AreEqual(9, fullmatch.Count);
-        Assert.AreEqual(3, fullmatch.Count(x => x.Ema is null));
-        Assert.AreEqual(0, fullmatch.Count(x =>
+        Assert.HasCount(9, fullmatch);
+        Assert.HasCount(3, fullmatch.Where(x => x.Ema is null));
+        Assert.IsEmpty(fullmatch.Where(x =>
             x.Date == DateTime.Parse("1/10/2000", EnglishCulture)));
 
         for (int i = 0; i < baseline.Count; i++)
@@ -95,7 +95,7 @@ public class Syncing : TestBase
         Assert.IsFalse(noEvalResults.Any());
 
         // bad sync type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => eval.SyncIndex(baseline, (SyncType)int.MaxValue));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => eval.SyncIndex(baseline, (SyncType)int.MaxValue));
     }
 }

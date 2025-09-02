@@ -11,10 +11,10 @@ public class TrixTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Ema3 != null));
-        Assert.AreEqual(482, results.Count(x => x.Trix != null));
-        Assert.AreEqual(478, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Ema3 != null));
+        Assert.HasCount(482, results.Where(x => x.Trix != null));
+        Assert.HasCount(478, results.Where(x => x.Signal != null));
 
         // sample values
         TrixResult r24 = results[24];
@@ -46,8 +46,8 @@ public class TrixTests : TestBase
             .GetTrix(20, 5)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Trix != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class TrixTests : TestBase
             .GetTrix(6, 2)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Trix is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -69,8 +69,8 @@ public class TrixTests : TestBase
             .GetTrix(20, 5)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Trix != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Trix != null));
     }
 
     [TestMethod]
@@ -81,8 +81,8 @@ public class TrixTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -92,8 +92,8 @@ public class TrixTests : TestBase
             .GetTrix(15, 2)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Trix is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Trix is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -103,13 +103,13 @@ public class TrixTests : TestBase
             .GetTrix(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<TrixResult> r1 = onequote
             .GetTrix(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public class TrixTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - ((3 * 20) + 100), results.Count);
+        Assert.HasCount(502 - ((3 * 20) + 100), results);
 
         TrixResult last = results.LastOrDefault();
         Assert.AreEqual(263.3216, last.Ema3.Round(4));
@@ -132,6 +132,6 @@ public class TrixTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetTrix(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTrix(0));
 }

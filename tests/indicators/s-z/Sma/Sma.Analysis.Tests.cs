@@ -11,8 +11,8 @@ public class SmaExtendedTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample value
         SmaAnalysis r = results[501];
@@ -30,8 +30,8 @@ public class SmaExtendedTests : TestBase
             .GetSmaAnalysis(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -41,8 +41,8 @@ public class SmaExtendedTests : TestBase
             .GetSmaAnalysis(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mse is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Mse is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -53,8 +53,8 @@ public class SmaExtendedTests : TestBase
             .GetSmaAnalysis(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -65,8 +65,8 @@ public class SmaExtendedTests : TestBase
             .GetEma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -76,8 +76,8 @@ public class SmaExtendedTests : TestBase
             .GetSmaAnalysis(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mape is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Mape is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -87,13 +87,13 @@ public class SmaExtendedTests : TestBase
             .GetSmaAnalysis(6)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<SmaAnalysis> r1 = onequote
             .GetSmaAnalysis(6)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -105,13 +105,13 @@ public class SmaExtendedTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
         Assert.AreEqual(251.8600, Math.Round(results.LastOrDefault().Sma.Value, 4));
     }
 
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetSmaAnalysis(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetSmaAnalysis(0));
 }

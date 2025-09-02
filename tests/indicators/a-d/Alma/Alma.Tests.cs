@@ -15,12 +15,12 @@ public class Alma : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
         // sample values
         AlmaResult r1 = results[8];
-        Assert.AreEqual(null, r1.Alma);
+        Assert.IsNull(r1.Alma);
 
         AlmaResult r2 = results[9];
         Assert.AreEqual(214.1839, r2.Alma.Round(4));
@@ -46,7 +46,7 @@ public class Alma : TestBase
             .GetAlma(10, 0.85, 6)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(493, results.Count(x => x.Alma != null));
 
         AlmaResult last = results.LastOrDefault();
@@ -60,8 +60,8 @@ public class Alma : TestBase
             .GetAlma()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public class Alma : TestBase
             .GetAlma(10, 0.85, 6)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(492, results.Count(x => x.Alma != null));
     }
 
@@ -88,7 +88,7 @@ public class Alma : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(484, results.Count(x => x.Sma != null));
     }
 
@@ -97,11 +97,11 @@ public class Alma : TestBase
     {
         List<AlmaResult> r1 = TestData.GetBtcUsdNan().GetAlma(9, 0.85, 6).ToList();
 
-        Assert.AreEqual(0, r1.Count(x => x.Alma is double and double.NaN));
+        Assert.IsEmpty(r1.Where(x => x.Alma is double v && double.IsNaN(v)));
 
         List<AlmaResult> r2 = TestData.GetBtcUsdNan().GetAlma(20, 0.85, 6).ToList();
 
-        Assert.AreEqual(0, r2.Count(x => x.Alma is double and double.NaN));
+        Assert.IsEmpty(r2.Where(x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -111,8 +111,8 @@ public class Alma : TestBase
             .GetAlma(14, 0.5, 3)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Alma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -122,13 +122,13 @@ public class Alma : TestBase
             .GetAlma()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<AlmaResult> r1 = onequote
             .GetAlma()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -140,7 +140,7 @@ public class Alma : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 9, results.Count);
+        Assert.HasCount(502 - 9, results);
 
         AlmaResult last = results.LastOrDefault();
         Assert.AreEqual(242.1871, last.Alma.Round(4));
@@ -150,15 +150,15 @@ public class Alma : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(0, 1, 5));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlma(0, 1, 5));
 
         // bad offset
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(15, 1.1, 3));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlma(15, 1.1, 3));
 
         // bad sigma
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAlma(10, 0.5, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAlma(10, 0.5, 0));
     }
 }

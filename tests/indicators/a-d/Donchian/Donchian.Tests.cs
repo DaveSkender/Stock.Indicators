@@ -11,7 +11,7 @@ public class DonchianTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(482, results.Count(x => x.Centerline != null));
         Assert.AreEqual(482, results.Count(x => x.UpperBand != null));
         Assert.AreEqual(482, results.Count(x => x.LowerBand != null));
@@ -19,10 +19,10 @@ public class DonchianTests : TestBase
 
         // sample values
         DonchianResult r1 = results[19];
-        Assert.AreEqual(null, r1.Centerline);
-        Assert.AreEqual(null, r1.UpperBand);
-        Assert.AreEqual(null, r1.LowerBand);
-        Assert.AreEqual(null, r1.Width);
+        Assert.IsNull(r1.Centerline);
+        Assert.IsNull(r1.UpperBand);
+        Assert.IsNull(r1.LowerBand);
+        Assert.IsNull(r1.Width);
 
         DonchianResult r2 = results[20];
         Assert.AreEqual(214.2700m, r2.Centerline.Round(4));
@@ -56,7 +56,7 @@ public class DonchianTests : TestBase
             .GetDonchian(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -66,13 +66,13 @@ public class DonchianTests : TestBase
             .GetDonchian()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<DonchianResult> r1 = onequote
             .GetDonchian()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -84,7 +84,7 @@ public class DonchianTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 20, r.Count);
+        Assert.HasCount(502 - 20, r);
 
         DonchianResult last = r.LastOrDefault();
         Assert.AreEqual(251.5050m, last.Centerline.Round(4));
@@ -102,7 +102,7 @@ public class DonchianTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 20, results.Count);
+        Assert.HasCount(502 - 20, results);
 
         DonchianResult last = results.LastOrDefault();
         Assert.AreEqual(251.5050m, last.Centerline.Round(4));
@@ -114,6 +114,6 @@ public class DonchianTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetDonchian(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetDonchian(0));
 }

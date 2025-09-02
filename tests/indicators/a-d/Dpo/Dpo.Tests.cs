@@ -57,8 +57,8 @@ public class DpoTests : TestBase
             .GetDpo(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.Dpo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -68,8 +68,8 @@ public class DpoTests : TestBase
             .GetDpo(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Dpo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -80,8 +80,8 @@ public class DpoTests : TestBase
             .GetDpo(14)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Dpo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -92,8 +92,8 @@ public class DpoTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
@@ -103,8 +103,8 @@ public class DpoTests : TestBase
             .GetDpo(5)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dpo is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Dpo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -114,18 +114,18 @@ public class DpoTests : TestBase
             .GetDpo(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<DpoResult> r1 = onequote
             .GetDpo(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     // bad SMA period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetDpo(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetDpo(0));
 }

@@ -19,8 +19,7 @@ public class Numerixs : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Null parameter.")]
-    public void StdDevNull() => Numerix.StdDev(null);
+    public void StdDevNull() => Assert.ThrowsExactly<ArgumentNullException>(() => Numerix.StdDev(null));
 
     [TestMethod]
     public void Slope()
@@ -31,16 +30,16 @@ public class Numerixs : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Null X parameter.")]
-    public void SlopeXnull() => Numerix.Slope(null, x);
+    public void SlopeXnull()
+        => Assert.ThrowsExactly<ArgumentNullException>(() => Numerix.Slope(null, x));
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException), "Null Y parameter.")]
-    public void SlopeYnull() => Numerix.Slope(x, null);
+    public void SlopeYnull()
+        => Assert.ThrowsExactly<ArgumentNullException>(() => Numerix.Slope(x, null));
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentException), "X and Y different lengths.")]
-    public void SlopeMismatch() => Numerix.Slope(x, y);
+    public void SlopeMismatch()
+        => Assert.ThrowsExactly<ArgumentException>(() => Numerix.Slope(x, y));
 
     [TestMethod]
     public void RoundDownDate()

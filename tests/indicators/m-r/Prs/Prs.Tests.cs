@@ -14,15 +14,15 @@ public class PrsTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Prs != null));
-        Assert.AreEqual(493, results.Count(x => x.PrsSma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Prs != null));
+        Assert.HasCount(493, results.Where(x => x.PrsSma != null));
 
         // sample values
         PrsResult r1 = results[8];
         Assert.AreEqual(1.108340, r1.Prs.Round(6));
-        Assert.AreEqual(null, r1.PrsSma);
-        Assert.AreEqual(null, r1.PrsPercent);
+        Assert.IsNull(r1.PrsSma);
+        Assert.IsNull(r1.PrsPercent);
 
         PrsResult r2 = results[249];
         Assert.AreEqual(1.222373, r2.Prs.Round(6));
@@ -43,8 +43,8 @@ public class PrsTests : TestBase
             .GetPrs(quotes.Use(CandlePart.Close), 20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Prs != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Prs != null));
     }
 
     [TestMethod]
@@ -54,8 +54,8 @@ public class PrsTests : TestBase
             .GetPrs(tupleNanny, 6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -66,8 +66,8 @@ public class PrsTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -78,9 +78,9 @@ public class PrsTests : TestBase
             .GetPrs(otherQuotes.GetSma(2), 20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Prs != null));
-        Assert.AreEqual(0, results.Count(x => x.Prs is double and double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Prs != null));
+        Assert.IsEmpty(results.Where(x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,8 +90,8 @@ public class PrsTests : TestBase
             .GetPrs(badQuotes, 15, 4)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Prs is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Prs is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -101,36 +101,36 @@ public class PrsTests : TestBase
             .GetPrs(noquotes)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<PrsResult> r1 = onequote
             .GetPrs(onequote)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            otherQuotes.GetPrs(quotes, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => otherQuotes.GetPrs(quotes, 0));
 
         // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            otherQuotes.GetPrs(quotes, 14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => otherQuotes.GetPrs(quotes, 14, 0));
 
         // insufficient quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            TestData.GetCompare(13).GetPrs(quotes, 14));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => TestData.GetCompare(13).GetPrs(quotes, 14));
 
         // insufficient eval quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            TestData.GetCompare(300).GetPrs(quotes, 14));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => TestData.GetCompare(300).GetPrs(quotes, 14));
 
         // mismatch quotes
-        Assert.ThrowsException<InvalidQuotesException>(() =>
-            otherQuotes.GetPrs(mismatchQuotes, 14));
+        Assert.ThrowsExactly<InvalidQuotesException>(
+            () => otherQuotes.GetPrs(mismatchQuotes, 14));
     }
 }

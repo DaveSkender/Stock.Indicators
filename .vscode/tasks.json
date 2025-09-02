@@ -1,0 +1,93 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install: .NET Packages",
+      "type": "shell",
+      "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [
+        "$msCompile"
+      ]
+    },
+    {
+      "label": "Build: .NET Solution",
+      "type": "shell",
+      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore -v minimal --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "dependsOn": "Install: .NET Packages",
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Test: .NET Solution",
+      "type": "shell",
+      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "dependsOn": "Install: .NET Packages",
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Run: Doc Site with LiveReload",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload --open-url",
+      "dependsOn": "Install: Ruby Packages (docs)",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "Install: Ruby Packages (docs)",
+      "type": "shell",
+      "command": "bundle install --jobs 4 && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "Update: Ruby Packages (docs)",
+      "type": "shell",
+      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": []
+    }
+  ]
+}

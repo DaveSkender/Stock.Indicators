@@ -11,7 +11,7 @@ public class HeikinAshiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
 
         // sample value
         HeikinAshiResult r = results[501];
@@ -62,7 +62,7 @@ public class HeikinAshiTests : TestBase
             .GetHeikinAshi()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -72,12 +72,12 @@ public class HeikinAshiTests : TestBase
             .GetHeikinAshi()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<HeikinAshiResult> r1 = onequote
             .GetHeikinAshi()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 }

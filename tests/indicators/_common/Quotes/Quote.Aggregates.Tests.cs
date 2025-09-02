@@ -14,7 +14,7 @@ public class QuoteHistory : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(108, results.Count);
+        Assert.HasCount(108, results);
 
         // sample values
         Quote r0 = results[0];
@@ -58,7 +58,7 @@ public class QuoteHistory : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(108, results.Count);
+        Assert.HasCount(108, results);
 
         // sample values
         Quote r0 = results[0];
@@ -100,7 +100,7 @@ public class QuoteHistory : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(24, results.Count);
+        Assert.HasCount(24, results);
 
         // sample values
         Quote r0 = results[0];
@@ -129,9 +129,8 @@ public class QuoteHistory : TestBase
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentOutOfRangeException), "Bad aggregation size.")]
     public void BadAggregationSize() =>
 
     // bad period size
-    quotes.Aggregate(TimeSpan.Zero);
+    Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => quotes.Aggregate(TimeSpan.Zero));
 }

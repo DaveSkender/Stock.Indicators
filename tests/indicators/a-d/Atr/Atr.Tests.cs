@@ -11,14 +11,14 @@ public class AtrTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(488, results.Count(x => x.Atr != null));
 
         // sample values
         AtrResult r13 = results[13];
         Assert.AreEqual(1.45, r13.Tr.Round(8));
-        Assert.AreEqual(null, r13.Atr);
-        Assert.AreEqual(null, r13.Atrp);
+        Assert.IsNull(r13.Atr);
+        Assert.IsNull(r13.Atrp);
 
         AtrResult r14 = results[14];
         Assert.AreEqual(1.82, r14.Tr.Round(8));
@@ -49,7 +49,7 @@ public class AtrTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
     }
 
@@ -60,8 +60,8 @@ public class AtrTests : TestBase
             .GetAtr(20)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Atr is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Atr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -71,13 +71,13 @@ public class AtrTests : TestBase
             .GetAtr()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<AtrResult> r1 = onequote
             .GetAtr()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -89,7 +89,7 @@ public class AtrTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         AtrResult last = results.LastOrDefault();
         Assert.AreEqual(2.67, last.Tr.Round(8));
@@ -100,6 +100,6 @@ public class AtrTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions() =>
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetAtr(1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetAtr(1));
 }

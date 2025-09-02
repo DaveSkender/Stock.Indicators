@@ -14,8 +14,8 @@ public class VwapTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(391, results.Count);
-        Assert.AreEqual(391, results.Count(x => x.Vwap != null));
+        Assert.HasCount(391, results);
+        Assert.HasCount(391, results.Where(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[0];
@@ -42,12 +42,12 @@ public class VwapTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(391, results.Count);
-        Assert.AreEqual(361, results.Count(x => x.Vwap != null));
+        Assert.HasCount(391, results);
+        Assert.HasCount(361, results.Where(x => x.Vwap != null));
 
         // sample values
         VwapResult r1 = results[29];
-        Assert.AreEqual(null, r1.Vwap);
+        Assert.IsNull(r1.Vwap);
 
         VwapResult r2 = results[30];
         Assert.AreEqual(366.8100, r2.Vwap.Round(4));
@@ -67,8 +67,8 @@ public class VwapTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -78,8 +78,8 @@ public class VwapTests : TestBase
             .GetVwap()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Vwap is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Vwap is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,13 +89,13 @@ public class VwapTests : TestBase
             .GetVwap()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<VwapResult> r1 = onequote
             .GetVwap()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -108,7 +108,7 @@ public class VwapTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(391, results.Count);
+        Assert.HasCount(391, results);
 
         VwapResult last = results.LastOrDefault();
         Assert.AreEqual(368.1804, last.Vwap.Round(4));
@@ -123,7 +123,7 @@ public class VwapTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(361, sdResults.Count);
+        Assert.HasCount(361, sdResults);
 
         VwapResult sdLast = sdResults.LastOrDefault();
         Assert.AreEqual(368.2908, sdLast.Vwap.Round(4));
@@ -136,7 +136,7 @@ public class VwapTests : TestBase
         DateTime startDate =
             DateTime.ParseExact("2000-12-15", "yyyy-MM-dd", EnglishCulture);
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetVwap(startDate));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetVwap(startDate));
     }
 }

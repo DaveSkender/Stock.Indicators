@@ -13,7 +13,7 @@ public class QuoteUtility : TestBase
         Collection<Quote> h = quotes.ToSortedCollection();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
@@ -36,7 +36,7 @@ public class QuoteUtility : TestBase
         List<Quote> h = quotes.ToSortedList();
 
         // proper quantities
-        Assert.AreEqual(502, h.Count);
+        Assert.HasCount(502, h);
 
         // check first date
         DateTime firstDate = DateTime.ParseExact("01/18/2016", "MM/dd/yyyy", EnglishCulture);
@@ -108,12 +108,12 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToTuple(CandlePart.OHLC4).value, 10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToTuple((CandlePart)999));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => q.ToTuple((CandlePart)999));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToBasicData((CandlePart)999));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => q.ToBasicData((CandlePart)999));
     }
 
     [TestMethod]
@@ -124,8 +124,8 @@ public class QuoteUtility : TestBase
             .ToTupleCollection(CandlePart.Close);
 
         Assert.IsNotNull(collection);
-        Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(collection.LastOrDefault().Item2, 245.28d);
+        Assert.HasCount(502, collection);
+        Assert.AreEqual(245.28d, collection.LastOrDefault().Item2);
     }
 
     [TestMethod]
@@ -137,8 +137,8 @@ public class QuoteUtility : TestBase
             .ToSortedCollection();
 
         Assert.IsNotNull(collection);
-        Assert.AreEqual(502, collection.Count);
-        Assert.AreEqual(collection.LastOrDefault().Item2, 245.28d);
+        Assert.HasCount(502, collection);
+        Assert.AreEqual(245.28d, collection.LastOrDefault().Item2);
     }
 
     [TestMethod]
@@ -198,8 +198,8 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToBasicData(CandlePart.OHLC4).Value, 10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToBasicData((CandlePart)999));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => q.ToBasicData((CandlePart)999));
     }
 
     [TestMethod]
@@ -259,7 +259,7 @@ public class QuoteUtility : TestBase
             NullMath.Round(q.ToTuple(CandlePart.OHLC4).Item2, 10));
 
         // bad argument
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => q.ToTuple((CandlePart)999));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => q.ToTuple((CandlePart)999));
     }
 }

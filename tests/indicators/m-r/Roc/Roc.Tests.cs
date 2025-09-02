@@ -11,26 +11,26 @@ public class RocTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Momentum != null));
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
-        Assert.AreEqual(false, results.Any(x => x.RocSma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Momentum != null));
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.IsFalse(results.Any(x => x.RocSma != null));
 
         // sample values
         RocResult r49 = results[49];
         Assert.AreEqual(4.96, r49.Momentum.Round(4));
         Assert.AreEqual(2.2465, r49.Roc.Round(4));
-        Assert.AreEqual(null, r49.RocSma);
+        Assert.IsNull(r49.RocSma);
 
         RocResult r249 = results[249];
         Assert.AreEqual(6.25, r249.Momentum.Round(4));
         Assert.AreEqual(2.4827, r249.Roc.Round(4));
-        Assert.AreEqual(null, r249.RocSma);
+        Assert.IsNull(r249.RocSma);
 
         RocResult r501 = results[501];
         Assert.AreEqual(-22.05, r501.Momentum.Round(4));
         Assert.AreEqual(-8.2482, r501.Roc.Round(4));
-        Assert.AreEqual(null, r501.RocSma);
+        Assert.IsNull(r501.RocSma);
     }
 
     [TestMethod]
@@ -44,9 +44,9 @@ public class RocTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
-        Assert.AreEqual(478, results.Count(x => x.RocSma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(478, results.Where(x => x.RocSma != null));
 
         // sample values
         RocResult r1 = results[29];
@@ -66,8 +66,8 @@ public class RocTests : TestBase
             .GetRoc(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -77,8 +77,8 @@ public class RocTests : TestBase
             .GetRoc(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Roc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -89,8 +89,8 @@ public class RocTests : TestBase
             .GetRoc(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -101,8 +101,8 @@ public class RocTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -112,8 +112,8 @@ public class RocTests : TestBase
             .GetRoc(35, 2)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Roc is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Roc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -123,13 +123,13 @@ public class RocTests : TestBase
             .GetRoc(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<RocResult> r1 = onequote
             .GetRoc(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -141,22 +141,22 @@ public class RocTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 20, results.Count);
+        Assert.HasCount(502 - 20, results);
 
         RocResult last = results.LastOrDefault();
         Assert.AreEqual(-8.2482, last.Roc.Round(4));
-        Assert.AreEqual(null, last.RocSma);
+        Assert.IsNull(last.RocSma);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRoc(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRoc(0));
 
         // bad SMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetRoc(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetRoc(14, 0));
     }
 }

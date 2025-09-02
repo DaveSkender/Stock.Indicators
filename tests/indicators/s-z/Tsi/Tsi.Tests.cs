@@ -11,14 +11,14 @@ public class TsiTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
-        Assert.AreEqual(459, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(465, results.Where(x => x.Tsi != null));
+        Assert.HasCount(459, results.Where(x => x.Signal != null));
 
         // sample values
         TsiResult r2 = results[37];
         Assert.AreEqual(53.1204, r2.Tsi.Round(4));
-        Assert.AreEqual(null, r2.Signal);
+        Assert.IsNull(r2.Signal);
 
         TsiResult r3a = results[43];
         Assert.AreEqual(46.0960, r3a.Tsi.Round(4));
@@ -49,8 +49,8 @@ public class TsiTests : TestBase
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Count(x => x.Tsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(465, results.Where(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -60,8 +60,8 @@ public class TsiTests : TestBase
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Tsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -72,8 +72,8 @@ public class TsiTests : TestBase
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(464, results.Count(x => x.Tsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(464, results.Where(x => x.Tsi != null));
     }
 
     [TestMethod]
@@ -84,8 +84,8 @@ public class TsiTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(456, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(456, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -95,8 +95,8 @@ public class TsiTests : TestBase
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Tsi is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Tsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class TsiTests : TestBase
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -116,13 +116,13 @@ public class TsiTests : TestBase
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<TsiResult> r1 = onequote
             .GetTsi()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -134,7 +134,7 @@ public class TsiTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (25 + 13 + 250), results.Count);
+        Assert.HasCount(502 - (25 + 13 + 250), results);
 
         TsiResult last = results.LastOrDefault();
         Assert.AreEqual(-28.3513, last.Tsi.Round(4));
@@ -145,15 +145,15 @@ public class TsiTests : TestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTsi(0));
 
         // bad smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(25, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTsi(25, 0));
 
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetTsi(25, 13, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetTsi(25, 13, -1));
     }
 }

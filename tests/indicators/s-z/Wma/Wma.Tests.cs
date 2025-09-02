@@ -11,8 +11,8 @@ public class WmaTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Wma != null));
 
         // sample values
         WmaResult r1 = results[149];
@@ -30,8 +30,8 @@ public class WmaTests : TestBase
             .GetWma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Wma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -41,8 +41,8 @@ public class WmaTests : TestBase
             .GetWma(6)
             .ToList();
 
-        Assert.AreEqual(200, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
+        Assert.HasCount(200, r);
+        Assert.IsEmpty(r.Where(x => x.Wma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -53,8 +53,8 @@ public class WmaTests : TestBase
             .GetWma(20)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Wma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Wma != null));
     }
 
     [TestMethod]
@@ -65,8 +65,8 @@ public class WmaTests : TestBase
             .GetSma(10)
             .ToList();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -99,8 +99,8 @@ public class WmaTests : TestBase
             .GetWma(15)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Wma is double and double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Wma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -110,13 +110,13 @@ public class WmaTests : TestBase
             .GetWma(5)
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<WmaResult> r1 = onequote
             .GetWma(5)
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -128,7 +128,7 @@ public class WmaTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         WmaResult last = results.LastOrDefault();
         Assert.AreEqual(246.5110, last.Wma.Round(4));
@@ -137,6 +137,6 @@ public class WmaTests : TestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => quotes.GetWma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetWma(0));
 }

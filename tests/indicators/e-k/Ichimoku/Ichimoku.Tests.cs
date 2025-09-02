@@ -15,7 +15,7 @@ public class IchimokuTests : TestBase
             .ToList();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(494, results.Count(x => x.TenkanSen != null));
         Assert.AreEqual(477, results.Count(x => x.KijunSen != null));
         Assert.AreEqual(451, results.Count(x => x.SenkouSpanA != null));
@@ -27,7 +27,7 @@ public class IchimokuTests : TestBase
         Assert.AreEqual(224.465m, r1.TenkanSen);
         Assert.AreEqual(221.94m, r1.KijunSen);
         Assert.AreEqual(214.8325m, r1.SenkouSpanA);
-        Assert.AreEqual(null, r1.SenkouSpanB);
+        Assert.IsNull(r1.SenkouSpanB);
         Assert.AreEqual(226.35m, r1.ChikouSpan);
 
         IchimokuResult r2 = results[249];
@@ -49,7 +49,7 @@ public class IchimokuTests : TestBase
         Assert.AreEqual(251.505m, r4.KijunSen);
         Assert.AreEqual(264.77m, r4.SenkouSpanA);
         Assert.AreEqual(269.82m, r4.SenkouSpanB);
-        Assert.AreEqual(null, r4.ChikouSpan);
+        Assert.IsNull(r4.ChikouSpan);
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public class IchimokuTests : TestBase
             .GetIchimoku(3, 13, 40, 0, 0)
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class IchimokuTests : TestBase
             .GetIchimoku()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -79,13 +79,13 @@ public class IchimokuTests : TestBase
             .GetIchimoku()
             .ToList();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         List<IchimokuResult> r1 = onequote
             .GetIchimoku()
             .ToList();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -96,32 +96,32 @@ public class IchimokuTests : TestBase
             .Condense()
             .ToList();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(0));
 
         // bad short span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 0, 52));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 0, 52));
 
         // bad long span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 26));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 26));
 
         // invalid offsets
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 52, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 52, -1));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 52, -1, 12));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 52, -1, 12));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
-            quotes.GetIchimoku(9, 26, 52, 12, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => quotes.GetIchimoku(9, 26, 52, 12, -1));
     }
 }
