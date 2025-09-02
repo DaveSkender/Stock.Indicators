@@ -14,7 +14,7 @@ on:
   push:
     branches:
       - main
-      - 'v*'
+      - "v*"
 
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ on:
         default: true
         required: true
       dry_run:
-        description: 'Dry-run only (no deploy)'
+        description: "Dry-run only (no deploy)"
         type: boolean
         default: true
         required: true
@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -89,7 +89,6 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
-
       - name: Set default inputs for dispatch
         id: settings
         run: |
@@ -104,7 +103,7 @@ jobs:
           fi
 
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -220,7 +219,6 @@ jobs:
       NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
