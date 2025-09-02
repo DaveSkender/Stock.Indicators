@@ -24,7 +24,7 @@ public sealed partial class UrlSafeAttribute : ValidationAttribute
     /// <param name="value">The value to validate.</param>
     /// <returns><c>true</c> if the value is URL-safe; otherwise, <c>false</c>.</returns>
     public override bool IsValid(object? value)
-        => value is null || value is string str && (string.IsNullOrEmpty(str) || UrlSafeRegex.IsMatch(str));
+        => value is null || (value is string str && (string.IsNullOrEmpty(str) || UrlSafeRegex.IsMatch(str)));
 
     /// <summary>
     /// Formats the error message to include the property name.

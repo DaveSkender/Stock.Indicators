@@ -1,8 +1,3 @@
-using System.Collections.ObjectModel;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-
 namespace Catalog;
 
 [TestClass]

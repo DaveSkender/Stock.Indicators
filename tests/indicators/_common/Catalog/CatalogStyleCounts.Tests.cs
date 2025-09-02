@@ -1,7 +1,3 @@
-using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Skender.Stock.Indicators;
-
 namespace Catalog;
 
 [TestClass]
@@ -11,11 +7,11 @@ public class CatalogStyleCounts : TestBase
     public void CatalogShouldHaveCorrectStyleCounts()
     {
         // Arrange & Act
-        var catalog = IndicatorCatalog.Catalog;
+        IReadOnlyList<IndicatorListing> catalog = IndicatorCatalog.Catalog;
 
-        var seriesCount = catalog.Count(x => x.Style == Style.Series);
-        var streamCount = catalog.Count(x => x.Style == Style.Stream);
-        var bufferCount = catalog.Count(x => x.Style == Style.Buffer);
+        int seriesCount = catalog.Count(x => x.Style == Style.Series);
+        int streamCount = catalog.Count(x => x.Style == Style.Stream);
+        int bufferCount = catalog.Count(x => x.Style == Style.Buffer);
 
         // Output actual counts for debugging
         Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
@@ -26,7 +22,7 @@ public class CatalogStyleCounts : TestBase
         streamCount.Should().Be(8, "there should be exactly 8 stream style indicators");
 
         // Total verification
-        var totalCount = seriesCount + streamCount + bufferCount;
+        int totalCount = seriesCount + streamCount + bufferCount;
         totalCount.Should().Be(94, "total indicators should be exactly 94");
     }
 }

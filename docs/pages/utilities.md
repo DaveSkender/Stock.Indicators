@@ -11,7 +11,7 @@ layout: page
 - [for historical quotes](#utilities-for-historical-quotes)
 - [for indicator results](#utilities-for-indicator-results)
 - [for numerical analysis](#utilities-for-numerical-analysis)
-- [metadata catalog](#metadata-catalog)
+- [indicator metadata catalog](#indicator-catalog-metadata)
 
 ## Utilities for historical quotes
 
@@ -173,60 +173,62 @@ Most `NullMath` methods work exactly like the `System.Math` library in C#, excep
 | Null2NaN | `var val = null;`<br>`var n2n = val.Null2NaN()` » `[NaN]`
 | NaN2Null | `var val = double.NaN;`<br>`var n2n = val.NaN2Null()` » `null`
 
-## Metadata catalog
+## Indicator catalog (metadata)
 
-The `IndicatorMetadata` utility provides information about all the indicators in the library, their parameters, and configurations. This is useful for:
+Use the indicator catalog to discover indicators, build simple pickers, or export metadata for a UI.
 
-- Building dynamic UI for indicator configuration
-- Generating documentation
-- Creating indicator pickers or configuration dialogs
-- Exporting indicator configurations for other systems
+- Discover indicators and parameters at runtime
+- Build configuration UIs or export to JSON
+- Optionally execute an indicator by ID (no compile-time generics required)
 
-### Get all indicators
-
-Export the complete indicator catalog to a JSON string.
+### Browse or export the catalog
 
 ```csharp
-// Get all indicators with chart styling information
-string json = IndicatorMetadata.ToJson();
+using Skender.Stock.Indicators;
+using System.Text.Json;
 
-// Get all indicators without chart styling information
-string minimalJson = IndicatorMetadata.ToJson(includeChartConfig: false);
+// all listings (name, id, style, category, parameters, results)
+IReadOnlyCollection<IndicatorListing> indicatorCatalog
+    = IndicatorRegistry.GetCatalog();
+
+// optional: filter helpers
+IndicatorListing? emaSeriesListing 
+    = IndicatorRegistry.GetByIdAndStyle("EMA", Style.Series);
+
+IReadOnlyCollection<IndicatorListing> seriesListings
+    = IndicatorRegistry.GetByStyle(Style.Series);
+
+// export to JSON
+string catalogJson = JsonSerializer.Serialize(indicatorCatalog);
 ```
 
-### Get indicators with API endpoints
-
-Export the indicator catalog to a JSON string, with URLs for API endpoints.
+### Execute by ID (dynamic)
 
 ```csharp
-// Generate with API endpoints
-var baseUrl = new Uri("https://api.example.com/indicators");
-string jsonWithEndpoints = IndicatorMetadata.ToJson(baseUrl);
-
-// Generate with API endpoints but without chart styling
-string minimalJsonWithEndpoints = IndicatorMetadata.ToJson(baseUrl, includeChartConfig: false);
+// run an indicator using just ID + Style (typed)
+IReadOnlyList<EmaResult> emaResultsById = quotes.ExecuteById<EmaResult>(
+  id: "EMA",
+  style: Style.Series,
+  parameters: new() { ["lookbackPeriods"] = 20 });
 ```
 
-### Get indicator by ID
-
-Get indicator metadata by indicator ID.
+### Execute by config (JSON)
 
 ```csharp
-// Get a specific indicator by ID
-var smaInfo = IndicatorMetadata.GetById("SMA");
-
-// Get a specific indicator by ID without chart styling
-var rsiInfo = IndicatorMetadata.GetById("RSI", includeChartConfig: false);
+// execute from a JSON config string
+string emaConfigJson = "{\"id\":\"EMA\",\"style\":\"Series\",\"parameters\":{\"lookbackPeriods\":20}}";
+IReadOnlyList<EmaResult> emaResultsFromJson = quotes.ExecuteFromJson<EmaResult>(emaConfigJson);
 ```
 
-### Get indicator by method name
-
-Get metadata for the indicator by method name.
+### Execute with strong typing
 
 ```csharp
-// Get indicator metadata by method name
-var emaInfo = IndicatorMetadata.GetByMethod("GetEma");
+// prefer typed results when you know the indicator
+IndicatorListing indicatorListing = IndicatorRegistry
+  .GetByIdAndStyle("EMA", Style.Series)
+  ?? throw new InvalidOperationException("Indicator 'EMA' (Series) not found.");
 
-// You can also use fully-qualified method names
-var macdInfo = IndicatorMetadata.GetByMethod("Macd.GetMacd");
+IReadOnlyList<EmaResult> emaResultsTyped = indicatorListing
+  .From(quotes)
+  .Execute<EmaResult>();
 ```

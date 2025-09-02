@@ -316,7 +316,7 @@ public class IndicatorListingBuilder
         // Validate reusable result rules:
         // - For IReusable models: exactly one result must be marked as reusable
         // - For ISeries models: no results should be marked as reusable
-        var reusableResults = _results.Where(r => r.IsReusable).ToList();
+        List<IndicatorResult> reusableResults = _results.Where(r => r.IsReusable).ToList();
 
         if (reusableResults.Count > 1)
         {

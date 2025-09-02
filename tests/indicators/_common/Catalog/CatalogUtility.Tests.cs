@@ -17,7 +17,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteById(id, style);
+        IReadOnlyList<RsiResult> results = quotes.ExecuteById<RsiResult>(id, style);
 
         // Assert
         results.Should().NotBeNull();
@@ -25,7 +25,7 @@ public class CatalogUtilityTests : TestBase
         results.Should().HaveCountGreaterThan(0);
 
         // Check that we got actual RSI results
-        results.Should().AllBeOfType<RsiResult>();
+        // typed results
 
         // Verify the results match what we'd get from calling Rsi directly
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi();
@@ -34,11 +34,11 @@ public class CatalogUtilityTests : TestBase
         // Compare actual values
         for (int i = 0; i < results.Count; i++)
         {
-            var dynamicResult = (RsiResult)results[i];
-            var directResult = directResults[i];
+            RsiResult result = results[i];
+            RsiResult directResult = directResults[i];
 
-            dynamicResult.Timestamp.Should().Be(directResult.Timestamp);
-            dynamicResult.Rsi.Should().Be(directResult.Rsi);
+            result.Timestamp.Should().Be(directResult.Timestamp);
+            result.Rsi.Should().Be(directResult.Rsi);
         }
     }
 
@@ -49,15 +49,15 @@ public class CatalogUtilityTests : TestBase
         string id = "RSI";
         Style style = Style.Series;
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        var parameters = new Dictionary<string, object> { { "lookbackPeriods", 10 } };
+        Dictionary<string, object> parameters = new() { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
+        IReadOnlyList<RsiResult> results = quotes.ExecuteById<RsiResult>(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
-        results.Should().AllBeOfType<RsiResult>();
+        // typed results
 
         // Verify the results match what we'd get from calling Rsi directly with same parameters
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi(10);
@@ -66,11 +66,11 @@ public class CatalogUtilityTests : TestBase
         // Compare actual values
         for (int i = 0; i < results.Count; i++)
         {
-            var dynamicResult = (RsiResult)results[i];
-            var directResult = directResults[i];
+            RsiResult result = results[i];
+            RsiResult directResult = directResults[i];
 
-            dynamicResult.Timestamp.Should().Be(directResult.Timestamp);
-            dynamicResult.Rsi.Should().Be(directResult.Rsi);
+            result.Timestamp.Should().Be(directResult.Timestamp);
+            result.Rsi.Should().Be(directResult.Rsi);
         }
     }
 
@@ -81,15 +81,15 @@ public class CatalogUtilityTests : TestBase
         string id = "EMA";
         Style style = Style.Series;
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        var parameters = new Dictionary<string, object> { { "lookbackPeriods", 20 } };
+        Dictionary<string, object> parameters = new() { { "lookbackPeriods", 20 } };
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
+        IReadOnlyList<EmaResult> results = quotes.ExecuteById<EmaResult>(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
-        results.Should().AllBeOfType<EmaResult>();
+        // typed results
 
         // Verify the results match what we'd get from calling Ema directly
         IReadOnlyList<EmaResult> directResults = quotes.ToEma(20);
@@ -98,11 +98,11 @@ public class CatalogUtilityTests : TestBase
         // Compare actual values
         for (int i = 0; i < results.Count; i++)
         {
-            var dynamicResult = (EmaResult)results[i];
-            var directResult = directResults[i];
+            EmaResult result = results[i];
+            EmaResult directResult = directResults[i];
 
-            dynamicResult.Timestamp.Should().Be(directResult.Timestamp);
-            dynamicResult.Ema.Should().Be(directResult.Ema);
+            result.Timestamp.Should().Be(directResult.Timestamp);
+            result.Ema.Should().Be(directResult.Ema);
         }
     }
 
@@ -115,7 +115,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteById(id, style);
+        Action act = () => quotes.ExecuteById<RsiResult>(id, style);
         act.Should().Throw<InvalidOperationException>()
            .WithMessage("*not found in registry*");
     }
@@ -129,7 +129,7 @@ public class CatalogUtilityTests : TestBase
         IEnumerable<IQuote> quotes = null!;
 
         // Act & Assert
-        Action act = () => quotes.ExecuteById(id, style);
+        Action act = () => quotes.ExecuteById<RsiResult>(id, style);
         act.Should().Throw<ArgumentNullException>()
            .WithMessage("*quotes*");
     }
@@ -140,10 +140,10 @@ public class CatalogUtilityTests : TestBase
         // Arrange
         string id = "";
         Style style = Style.Series;
-        var quotes = Quotes.Take(50);
+        IEnumerable<Quote> quotes = Quotes.Take(50);
 
         // Act & Assert
-        Action act = () => quotes.ExecuteById(id, style);
+        Action act = () => quotes.ExecuteById<RsiResult>(id, style);
         act.Should().Throw<ArgumentException>()
            .WithMessage("*ID cannot be null or empty*");
     }
@@ -152,7 +152,7 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonWithValidConfigReturnsResults()
     {
         // Arrange
-        var config = new IndicatorConfig {
+        IndicatorConfig config = new() {
             Id = "RSI",
             Style = Style.Series,
             Parameters = new Dictionary<string, object> { { "lookbackPeriods", 14 } }
@@ -161,12 +161,12 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteFromJson(json);
+        IReadOnlyList<RsiResult> results = quotes.ExecuteFromJson<RsiResult>(json);
 
         // Assert
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
-        results.Should().AllBeOfType<RsiResult>();
+        // typed results
 
         // Verify the results match what we'd get from calling Rsi directly
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi(14);
@@ -175,11 +175,11 @@ public class CatalogUtilityTests : TestBase
         // Compare actual values
         for (int i = 0; i < results.Count; i++)
         {
-            var dynamicResult = (RsiResult)results[i];
-            var directResult = directResults[i];
+            RsiResult result = results[i];
+            RsiResult directResult = directResults[i];
 
-            dynamicResult.Timestamp.Should().Be(directResult.Timestamp);
-            dynamicResult.Rsi.Should().Be(directResult.Rsi);
+            result.Timestamp.Should().Be(directResult.Timestamp);
+            result.Rsi.Should().Be(directResult.Rsi);
         }
     }
 
@@ -187,7 +187,7 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonWithMinimalConfigReturnsResults()
     {
         // Arrange - minimal configuration with just ID and Style
-        var config = new IndicatorConfig {
+        IndicatorConfig config = new() {
             Id = "EMA",
             Style = Style.Series
         };
@@ -195,12 +195,12 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteFromJson(json);
+        IReadOnlyList<EmaResult> results = quotes.ExecuteFromJson<EmaResult>(json);
 
         // Assert
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
-        results.Should().AllBeOfType<EmaResult>();
+        // typed results
     }
 
     [TestMethod]
@@ -211,7 +211,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteFromJson(json);
+        Action act = () => quotes.ExecuteFromJson<object>(json);
         act.Should().Throw<ArgumentException>()
            .WithMessage("*Invalid JSON configuration*");
     }
@@ -224,7 +224,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteFromJson(json);
+        Action act = () => quotes.ExecuteFromJson<object>(json);
         act.Should().Throw<ArgumentNullException>()
            .WithMessage("*json*");
     }
@@ -237,7 +237,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteFromJson(json);
+        Action act = () => quotes.ExecuteFromJson<object>(json);
         act.Should().Throw<ArgumentException>()
            .WithMessage("*JSON configuration cannot be null or empty*");
     }
@@ -246,12 +246,12 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonWithNullQuotesThrowsArgumentNullException()
     {
         // Arrange
-        var config = new IndicatorConfig { Id = "RSI", Style = Style.Series };
+        IndicatorConfig config = new() { Id = "RSI", Style = Style.Series };
         string json = JsonSerializer.Serialize(config);
         IEnumerable<IQuote> quotes = null!;
 
         // Act & Assert
-        Action act = () => quotes.ExecuteFromJson(json);
+        Action act = () => quotes.ExecuteFromJson<object>(json);
         act.Should().Throw<ArgumentNullException>()
            .WithMessage("*quotes*");
     }
@@ -263,15 +263,15 @@ public class CatalogUtilityTests : TestBase
         string id = "SMA";
         Style style = Style.Series;
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        var parameters = new Dictionary<string, object> { { "lookbackPeriods", 10 } };
+        Dictionary<string, object> parameters = new() { { "lookbackPeriods", 10 } };
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
+        IReadOnlyList<SmaResult> results = quotes.ExecuteById<SmaResult>(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
-        results.Should().AllBeOfType<SmaResult>();
+        // typed results
 
         // Verify the results match what we'd get from calling Sma directly
         IReadOnlyList<SmaResult> directResults = quotes.ToSma(10);
@@ -280,11 +280,11 @@ public class CatalogUtilityTests : TestBase
         // Compare actual values
         for (int i = 0; i < results.Count; i++)
         {
-            var dynamicResult = (SmaResult)results[i];
-            var directResult = directResults[i];
+            SmaResult result = results[i];
+            SmaResult directResult = directResults[i];
 
-            dynamicResult.Timestamp.Should().Be(directResult.Timestamp);
-            dynamicResult.Sma.Should().Be(directResult.Sma);
+            result.Timestamp.Should().Be(directResult.Timestamp);
+            result.Sma.Should().Be(directResult.Sma);
         }
     }
 
@@ -292,7 +292,7 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonRoundTripProducesConsistentResults()
     {
         // Arrange - test that we can serialize and deserialize a config and get the same results
-        var originalConfig = new IndicatorConfig {
+        IndicatorConfig originalConfig = new() {
             Id = "EMA",
             Style = Style.Series,
             Parameters = new Dictionary<string, object> { { "lookbackPeriods", 20 } },
@@ -304,21 +304,20 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act
-        IReadOnlyList<object> jsonResults = quotes.ExecuteFromJson(json);
-        IReadOnlyList<object> directResults = quotes.ExecuteById(originalConfig.Id, originalConfig.Style, originalConfig.Parameters);
+        IReadOnlyList<EmaResult> jsonResults = quotes.ExecuteFromJson<EmaResult>(json);
+        IReadOnlyList<EmaResult> directResults = quotes.ExecuteById<EmaResult>(originalConfig.Id, originalConfig.Style, originalConfig.Parameters);
 
         // Assert
         jsonResults.Should().NotBeNull();
         directResults.Should().NotBeNull();
         jsonResults.Should().HaveCount(directResults.Count);
-        jsonResults.Should().AllBeOfType<EmaResult>();
-        directResults.Should().AllBeOfType<EmaResult>();
+        // typed results
 
         // Compare actual values
         for (int i = 0; i < jsonResults.Count; i++)
         {
-            var jsonResult = (EmaResult)jsonResults[i];
-            var directResult = (EmaResult)directResults[i];
+            EmaResult jsonResult = jsonResults[i];
+            EmaResult directResult = directResults[i];
 
             jsonResult.Timestamp.Should().Be(directResult.Timestamp);
             jsonResult.Ema.Should().Be(directResult.Ema);
@@ -334,7 +333,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteById(id, style);
+        Action act = () => quotes.ExecuteById<object>(id, style);
         act.Should().Throw<InvalidOperationException>()
            .WithMessage("*not found in registry*");
     }
@@ -346,11 +345,11 @@ public class CatalogUtilityTests : TestBase
         string id = "RSI";
         Style style = Style.Series;
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        var parameters = new Dictionary<string, object> { { "lookbackPeriods", "invalid_string" } }; // Should be int
+        Dictionary<string, object> parameters = new() { { "lookbackPeriods", "invalid_string" } };
 
         // Act & Assert
-        Action act = () => quotes.ExecuteById(id, style, parameters);
-        act.Should().Throw<Exception>(); // IndicatorExecutor will handle parameter validation
+        Action act = () => quotes.ExecuteById<RsiResult>(id, style, parameters);
+        act.Should().Throw<ArgumentException>();
     }
 
     [TestMethod]
@@ -360,15 +359,15 @@ public class CatalogUtilityTests : TestBase
         string id = "RSI";
         Style style = Style.Series;
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
-        var parameters = new Dictionary<string, object>(); // Empty parameters - should use defaults
+        Dictionary<string, object> parameters = [];
 
         // Act
-        IReadOnlyList<object> results = quotes.ExecuteById(id, style, parameters);
+        IReadOnlyList<RsiResult> results = quotes.ExecuteById<RsiResult>(id, style, parameters);
 
         // Assert
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
-        results.Should().AllBeOfType<RsiResult>();
+        // typed results
 
         // Should match default RSI behavior
         IReadOnlyList<RsiResult> defaultResults = quotes.ToRsi();
@@ -377,11 +376,11 @@ public class CatalogUtilityTests : TestBase
         // Compare actual values to ensure defaults were used correctly
         for (int i = 0; i < results.Count; i++)
         {
-            var dynamicResult = (RsiResult)results[i];
-            var defaultResult = defaultResults[i];
+            RsiResult result = results[i];
+            RsiResult defaultResult = defaultResults[i];
 
-            dynamicResult.Timestamp.Should().Be(defaultResult.Timestamp);
-            dynamicResult.Rsi.Should().Be(defaultResult.Rsi);
+            result.Timestamp.Should().Be(defaultResult.Timestamp);
+            result.Rsi.Should().Be(defaultResult.Rsi);
         }
     }
 
@@ -401,8 +400,8 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteFromJson(json);
-        act.Should().Throw<Exception>(); // IndicatorExecutor will handle parameter validation
+        Action act = () => quotes.ExecuteFromJson<RsiResult>(json);
+        act.Should().Throw<ArgumentException>();
     }
 
     [TestMethod]
@@ -418,7 +417,7 @@ public class CatalogUtilityTests : TestBase
         IReadOnlyList<Quote> quotes = Quotes.Take(50).ToList();
 
         // Act & Assert
-        Action act = () => quotes.ExecuteFromJson(json);
+        Action act = () => quotes.ExecuteFromJson<RsiResult>(json);
         act.Should().Throw<InvalidOperationException>()
            .WithMessage("*not found in registry*");
     }

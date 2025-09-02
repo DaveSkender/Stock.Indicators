@@ -164,7 +164,7 @@ public class EmaTests : TestBase
 
         // Act - Test the new FromSource<T> method with series data
         // Use the fluent API to set series parameters explicitly with parameter names
-        var customIndicator = correlationListing
+        CustomIndicatorBuilder customIndicator = correlationListing
             .WithParamValue("sourceA", emaResults)  // Set first series parameter explicitly
             .WithParamValue("lookbackPeriods", 10);  // Additional parameter
 
@@ -211,7 +211,7 @@ public class EmaTests : TestBase
         correlationListing.Should().NotBeNull();
 
         // Act - Use the new FromSource<T> extension method
-        var customBuilder = correlationListing
+        CustomIndicatorBuilder customBuilder = correlationListing
             .FromSource(emaResults, "sourceA")
             .WithParamValue("sourceB", quotes.ToSma(20))
             .WithParamValue("lookbackPeriods", 10);
@@ -223,8 +223,8 @@ public class EmaTests : TestBase
         customBuilder.ParameterOverrides["lookbackPeriods"].Should().Be(10);
 
         // Act - Test series execution with alternative syntax
-        var smaResults = quotes.ToSma(15);
-        var secondBuilder = correlationListing.FromSource(smaResults, "sourceA");
+        IReadOnlyList<SmaResult> smaResults = quotes.ToSma(15);
+        CustomIndicatorBuilder secondBuilder = correlationListing.FromSource(smaResults, "sourceA");
         secondBuilder.ParameterOverrides["sourceA"].Should().BeEquivalentTo(smaResults);
 
         // Test parameter type validation for series

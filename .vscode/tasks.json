@@ -44,6 +44,50 @@
       "problemMatcher": [],
       "dependsOn": "Install: .NET Packages",
       "dependsOrder": "sequence"
+    },
+    {
+      "label": "Run: Doc Site with LiveReload",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload --open-url",
+      "dependsOn": "Install: Ruby Packages (docs)",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "Install: Ruby Packages (docs)",
+      "type": "shell",
+      "command": "bundle install --jobs 4 && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "Update: Ruby Packages (docs)",
+      "type": "shell",
+      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": []
     }
   ]
 }

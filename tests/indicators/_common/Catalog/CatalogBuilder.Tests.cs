@@ -1,5 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Catalog;
 
 [TestClass]
@@ -9,7 +7,7 @@ public class CatalogBuilder : TestBase
     public void CreateValidListings()
     {
         // Arrange & Act
-        var listing = new IndicatorListingBuilder()
+        IndicatorListing listing = new IndicatorListingBuilder()
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)
@@ -25,7 +23,7 @@ public class CatalogBuilder : TestBase
 
         listing.Parameters.Should().NotBeNull();
         listing.Parameters.Should().HaveCount(1);
-        var param = listing.Parameters[0];
+        IndicatorParam param = listing.Parameters[0];
         param.ParameterName.Should().Be("lookbackPeriods");
         param.DisplayName.Should().Be("Lookback Period");
         param.Description.Should().Be("Test description");
@@ -34,7 +32,7 @@ public class CatalogBuilder : TestBase
 
         listing.Results.Should().NotBeNull();
         listing.Results.Should().HaveCount(1);
-        var result = listing.Results[0];
+        IndicatorResult result = listing.Results[0];
         result.DataName.Should().Be("TestResult");
         result.DisplayName.Should().Be("Test Result");
         result.DataType.Should().Be(ResultType.Default);
@@ -45,7 +43,7 @@ public class CatalogBuilder : TestBase
     public void AddPriceHlcResult()
     {
         // Arrange & Act
-        var listing = new IndicatorListingBuilder()
+        IndicatorListing listing = new IndicatorListingBuilder()
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)
@@ -64,50 +62,43 @@ public class CatalogBuilder : TestBase
     }
 
     [TestMethod]
-    public void MissingName()
-    {
+    public void MissingName() =>
         // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => new IndicatorListingBuilder()
                 .WithId("TEST")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
                 .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
                 .Build());
-    }
 
     [TestMethod]
-    public void MissingId()
-    {
+    public void MissingId() =>
         // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => new IndicatorListingBuilder()
                 .WithName("Test Indicator")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
                 .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
                 .Build());
-    }
 
     [TestMethod]
-    public void MissingResults()
-    {
+    public void MissingResults() =>
         // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => new IndicatorListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
                 .WithCategory(Category.MovingAverage)
                 .Build());
-    }
 
     [TestMethod]
-    public void DuplicateParameters()
-    {
+    public void DuplicateParameters() =>
         // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => new IndicatorListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -116,14 +107,12 @@ public class CatalogBuilder : TestBase
                 .AddParameter<string>("param", "Parameter 2")
                 .AddResult("TestResult", "Test Result", ResultType.Default, isReusable: true)
                 .Build());
-    }
 
     [TestMethod]
-    public void DuplicateResults()
-    {
+    public void DuplicateResults() =>
         // Arrange & Act & Assert
-        Assert.ThrowsExactly<InvalidOperationException>(() =>
-            new IndicatorListingBuilder()
+        Assert.ThrowsExactly<InvalidOperationException>(
+            () => new IndicatorListingBuilder()
                 .WithName("Test Indicator")
                 .WithId("TEST")
                 .WithStyle(Style.Series)
@@ -131,13 +120,12 @@ public class CatalogBuilder : TestBase
                 .AddResult("result", "Result 1", ResultType.Default, isReusable: true)
                 .AddResult("result", "Result 2", ResultType.Default)
                 .Build());
-    }
 
     [TestMethod]
     public void MultipleResultsNoneReusable()
     {
         // Arrange & Act
-        var result = new IndicatorListingBuilder()
+        IndicatorListing result = new IndicatorListingBuilder()
             .WithName("Test Indicator")
             .WithId("TEST")
             .WithStyle(Style.Series)

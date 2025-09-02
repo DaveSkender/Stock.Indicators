@@ -1,6 +1,3 @@
-using FluentAssertions;
-using Skender.Stock.Indicators;
-
 namespace Tests.Indicators;
 
 /// <summary>
@@ -32,7 +29,7 @@ public class OneListingPerStyleTests
     {
         // Arrange: Create style-specific listings using the one-listing-per-style approach
 
-        var seriesListing = new IndicatorListingBuilder()
+        IndicatorListing seriesListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Series")
             .WithStyle(Style.Series)
@@ -40,7 +37,7 @@ public class OneListingPerStyleTests
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
-        var streamListing = new IndicatorListingBuilder()
+        IndicatorListing streamListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Stream")
             .WithStyle(Style.Stream)
@@ -48,7 +45,7 @@ public class OneListingPerStyleTests
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
-        var bufferListing = new IndicatorListingBuilder()
+        IndicatorListing bufferListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Buffer")
             .WithStyle(Style.Buffer)
@@ -72,7 +69,7 @@ public class OneListingPerStyleTests
     {
         // Arrange: Create style-specific listings using the one-listing-per-style approach
 
-        var seriesListing = new IndicatorListingBuilder()
+        IndicatorListing seriesListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Series")
             .WithStyle(Style.Series)
@@ -80,7 +77,7 @@ public class OneListingPerStyleTests
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
-        var streamListing = new IndicatorListingBuilder()
+        IndicatorListing streamListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Stream")
             .WithStyle(Style.Stream)
@@ -88,7 +85,7 @@ public class OneListingPerStyleTests
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
-        var bufferListing = new IndicatorListingBuilder()
+        IndicatorListing bufferListing = new IndicatorListingBuilder()
             .WithName("Multi Style Test")
             .WithId("MULTI-Buffer")
             .WithStyle(Style.Buffer)
@@ -96,7 +93,7 @@ public class OneListingPerStyleTests
             .AddResult("Value", "Value", ResultType.Default, isReusable: true)
             .Build();
 
-        var seriesOnlyListing = new IndicatorListingBuilder()
+        IndicatorListing seriesOnlyListing = new IndicatorListingBuilder()
             .WithName("Series Only Test")
             .WithId("SERIES")
             .WithStyle(Style.Series)
@@ -111,9 +108,9 @@ public class OneListingPerStyleTests
         IndicatorRegistry.Register(seriesOnlyListing);
 
         // Act & Assert
-        var seriesCatalog = IndicatorRegistry.GetCatalog(Style.Series);
-        var streamCatalog = IndicatorRegistry.GetCatalog(Style.Stream);
-        var bufferCatalog = IndicatorRegistry.GetCatalog(Style.Buffer);
+        IReadOnlyCollection<IndicatorListing> seriesCatalog = IndicatorRegistry.GetCatalog(Style.Series);
+        IReadOnlyCollection<IndicatorListing> streamCatalog = IndicatorRegistry.GetCatalog(Style.Stream);
+        IReadOnlyCollection<IndicatorListing> bufferCatalog = IndicatorRegistry.GetCatalog(Style.Buffer);
 
         // Multi-style indicator should appear in all catalogs with style-specific IDs
         seriesCatalog.Should().Contain(i => i.Uiid == "MULTI-Series");
@@ -130,10 +127,10 @@ public class OneListingPerStyleTests
     public void ShouldCreateConsistentListingsAcrossStyles()
     {
         // Arrange: Create listings for the same indicator across different styles
-        var baseName = "Consistent Test Indicator";
-        var baseCategory = Category.Oscillator;
+        string baseName = "Consistent Test Indicator";
+        Category baseCategory = Category.Oscillator;
 
-        var seriesListing = new IndicatorListingBuilder()
+        IndicatorListing seriesListing = new IndicatorListingBuilder()
             .WithName(baseName)
             .WithId("CONSISTENT-Series")
             .WithStyle(Style.Series)
@@ -142,7 +139,7 @@ public class OneListingPerStyleTests
             .AddResult("Value", "Value", ResultType.Centerline, isReusable: true)
             .Build();
 
-        var streamListing = new IndicatorListingBuilder()
+        IndicatorListing streamListing = new IndicatorListingBuilder()
             .WithName(baseName)
             .WithId("CONSISTENT-Stream")
             .WithStyle(Style.Stream)

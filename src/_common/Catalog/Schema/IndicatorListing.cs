@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Skender.Stock.Indicators;
 #pragma warning disable CA1308 // Normalize strings to uppercase

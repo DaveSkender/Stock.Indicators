@@ -5,8 +5,11 @@ namespace Catalog;
 
 [TestClass]
 [DoNotParallelize]
-public class CatalogRegistry : TestBase
+public class CatalogRegistry(TestContext testContext) : TestBase
 {
+    public TestContext TestContext { get; set; } = testContext;
+    public CancellationToken TestCancellationToken { get; set; } = testContext.CancellationTokenSource.Token;
+
     [TestInitialize]
     public void Setup() =>
         // Clear the registry before each test
@@ -359,10 +362,10 @@ public class CatalogRegistry : TestBase
                         exceptions.Add(ex);
                     }
                 }
-            }));
+            }, TestCancellationToken));
         }
 
-        Task.WaitAll(tasks.ToArray());
+        Task.WaitAll(tasks.ToArray(), TestCancellationToken);
 
         // Assert
         exceptions.Should().BeEmpty("All registrations should succeed with unique UIIDs");
@@ -384,10 +387,12 @@ public class CatalogRegistry : TestBase
         // Act
         for (int i = 0; i < threadCount; i++)
         {
-            tasks.Add(Task.Run(() => IndicatorRegistry.GetIndicator("CONCURRENT")));
+            tasks.Add(Task.Run(() => IndicatorRegistry.GetIndicator("CONCURRENT"), TestCancellationToken));
         }
 
-        IndicatorListing?[] results = Task.WhenAll(tasks).Result;
+        Task<IndicatorListing?[]> allTask = Task.WhenAll(tasks);
+        allTask.Wait(TestCancellationToken);
+        IndicatorListing?[] results = allTask.Result;
 
         // Assert
         results.Should().AllSatisfy(result => {
