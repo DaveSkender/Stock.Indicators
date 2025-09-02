@@ -17,7 +17,7 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 
 ```csharp
 // C# usage syntax
-IEnumerable<StochRsiResult> results =
+IReadOnlyList<StochRsiResult> results =
   quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
@@ -42,7 +42,7 @@ You must have at least `N` periods of `quotes`, where `N` is the greater of `R+S
 ## Response
 
 ```csharp
-IEnumerable<StochRsiResult>
+IReadOnlyList<StochRsiResult>
 ```
 
 - This method returns a time series of all available indicator values for the `quotes` provided.
@@ -54,7 +54,7 @@ IEnumerable<StochRsiResult>
 
 ### StochRsiResult
 
-**`Date`** _`DateTime`_ - Date from evaluated `TQuote`
+**`Timestamp`** _`DateTime`_ - date from evaluated `TQuote`
 
 **`StochRsi`** _`double`_ - %K Oscillator = Stochastic RSI = Stoch(`S`,`G`,`M`) of RSI(`R`) of price
 

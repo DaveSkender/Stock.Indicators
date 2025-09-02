@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read # Required for checkout
-  actions: read # Required for workflow runs
-  checks: write # Required for test results
+  contents: read   # Required for checkout
+  actions: read    # Required for workflow runs
+  checks: write    # Required for test results
 
 jobs:
   test:
@@ -25,18 +25,20 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["6.0.x", "9.0.x"]
+        dotnet-version: ["8.0.x", "9.0.x"]
 
     env:
+
       # identifying primary configuration so only one reports coverage
       IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
 
       # Identifies the current target framework
       TARGET_FRAMEWORK: >
-        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+        ${{ matrix.dotnet-version == '8.0.x' && 'net8.0' ||
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:
+
       - name: Checkout source
         uses: actions/checkout@v5
 
@@ -54,37 +56,25 @@ jobs:
           -warnAsError
 
       - name: Test indicators
-        env:
-          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
-          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
-          dotnet test tests/indicators/Tests.Indicators.csproj
+          dotnet test
           --configuration Release
+          --settings tests/tests.unit.runsettings
+          --results-directory ./test-results
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./test-indicators
 
       # the remaining steps are only needed from one primary instance
-
-      - name: Test other items
-        if: env.IS_PRIMARY == 'true'
-        run: >
-          dotnet test tests/other/Tests.Other.csproj
-          --configuration Release
-          --no-build
-          --verbosity normal
-          --logger trx
-          --results-directory ./test-other
 
       - name: Post test results
         uses: dorny/test-reporter@v2.1.0
         if: env.IS_PRIMARY == 'true' && always()
         with:
           name: Test results
-          path: ./test-indicators/**/*.trx
+          path: ./test-results/**/*.trx
           reporter: dotnet-trx
         continue-on-error: true
 
@@ -93,5 +83,5 @@ jobs:
         if: env.IS_PRIMARY == 'true' && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-indicators/**/coverage.cobertura.xml
+          coverage-reports: ./test-results/**/coverage.cobertura.xml
         continue-on-error: true

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Shared warnings suppression for all test projects under /tests -->
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);NU1507;CS1591;CA1303</NoWarn>
+  </PropertyGroup>
+</Project>

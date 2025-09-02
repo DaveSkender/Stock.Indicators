@@ -10,7 +10,7 @@ on:
     branches: ["*"]
     paths:
       - docs/examples/**
-      - ".github/workflows/test-examples.yml"
+      - .github/workflows/test-examples.yml
 
 permissions:
   contents: read
@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout source
         uses: actions/checkout@v5
 

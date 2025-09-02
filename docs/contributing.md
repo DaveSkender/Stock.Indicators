@@ -66,7 +66,7 @@ Running the `Tests.Performance` console application in `Release` mode will produ
 dotnet run -c Release
 
 # run individual performance benchmark
-dotnet run -c Release --filter *.GetAdx
+dotnet run -c Release --filter *.ToAdx
 ```
 
 ## Documentation
@@ -114,7 +114,7 @@ Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 

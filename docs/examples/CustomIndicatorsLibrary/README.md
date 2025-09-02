@@ -21,14 +21,14 @@ using Skender.Stock.Indicators;
 namespace Custom.Stock.Indicators;
 
 // custom results class
-public class AtrWmaResult : ResultBase, IReusableResult
+public class AtrWmaResult : ResultBase, IReusable
 {
   // date property is inherited here,
   // so you only need to add custom items
   public double? AtrWma { get; set; }
 
   // to enable further chaining
-  double? IReusableResult.Value => AtrWma;
+  double? IReusable.Value => AtrWma;
 }
 ```
 
@@ -44,8 +44,14 @@ namespace Custom.Stock.Indicators;
 public static class CustomIndicator
 {
   // Custom ATR WMA calculation
-  public static IEnumerable<AtrWmaResult> GetAtrWma<TQuote>(
-    this IEnumerable<TQuote> quotes,
+  [Series(
+    "ATR_WMA",
+    "ATR Weighted Moving Average",
+    Category.MovingAverage,
+    ChartType.Overlay,
+    legendOverride: "ATR WMA {0}")] // Custom legend format
+  public static IReadOnlyList<AtrWmaResult> GetAtrWma<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods)
     where TQuote : IQuote
   {
@@ -61,7 +67,7 @@ public static class CustomIndicator
       .GetAtr(lookbackPeriods)
       .ToList();
 
-    // roll through quotes
+    // roll through source values
     for (int i = 0; i < quotesList.Count; i++)
     {
       TQuote q = quotesList[i];
@@ -98,6 +104,27 @@ public static class CustomIndicator
 }
 ```
 
+### Using custom legend template formats
+
+The `legendOverride` parameter in the indicator attribute allows you to customize the legend display in charts and documentation. By default, the indicator legend is automatically generated from the indicator ID and its parameters (e.g., "ATR_WMA(14)").
+
+With `legendOverride`, you can create more user-friendly or descriptive legends:
+
+```csharp
+[Series(
+  "ATR_WMA",
+  "ATR Weighted Moving Average",
+  Category.MovingAverage,
+  ChartType.Overlay,
+  legendOverride: "ATR WMA {0}")] // Will show as "ATR WMA 14" instead of "ATR_WMA(14)"
+```
+
+This is especially useful when:
+
+- You want more readable formatting for display purposes
+- The default parameter-based format isn't descriptive enough
+- You want to use specific terminology in chart legends
+
 ## STEP 3: Use your indicator just like the others
 
 ```csharp
@@ -107,10 +134,10 @@ using Custom.Stock.Indicators; // your custom library
 [..]
 
 // fetch historical quotes from your feed (your method)
-IEnumerable<Quote> quotes = GetQuotesFromFeed("MSFT");
+IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 10-period ATR WMA
-IEnumerable<AtrWmaResult> results = quotes.GetAtrWma(10);
+IReadOnlyList<AtrWmaResult> results = quotes.GetAtrWma(10);
 
 // use results as needed for your use case (example only)
 foreach (AtrWmaResult r in results)
