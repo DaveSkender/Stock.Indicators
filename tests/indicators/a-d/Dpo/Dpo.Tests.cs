@@ -58,7 +58,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(489, results.Count(x => x.Dpo != null));
+        Assert.HasCount(489, results.Where(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(488, results.Count(x => x.Dpo != null));
+        Assert.HasCount(488, results.Where(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -93,7 +93,7 @@ public class DpoTests : TestBase
             .ToList();
 
         Assert.HasCount(502, results);
-        Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
+        Assert.HasCount(480, results.Where(x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]

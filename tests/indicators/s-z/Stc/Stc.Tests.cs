@@ -145,7 +145,7 @@ public class StcTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + cyclePeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + cyclePeriods + 250), results);
 
         StcResult last = results.LastOrDefault();
         Assert.AreEqual(19.2544, last.Stc.Round(4));

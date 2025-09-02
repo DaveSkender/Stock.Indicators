@@ -211,7 +211,7 @@ public class StochTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (lookbackPeriods + smoothPeriods - 2), results.Count);
+        Assert.HasCount(502 - (lookbackPeriods + smoothPeriods - 2), results);
 
         StochResult last = results.LastOrDefault();
         Assert.AreEqual(43.1353, last.Oscillator.Round(4));

@@ -88,7 +88,7 @@ public class StarcBandsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - lookbackPeriods + 1, results.Count);
+        Assert.HasCount(502 - lookbackPeriods + 1, results);
 
         StarcBandsResult last = results.LastOrDefault();
         Assert.AreEqual(251.8600, last.Centerline.Round(4));
@@ -110,7 +110,7 @@ public class StarcBandsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (lookbackPeriods + 150), results.Count);
+        Assert.HasCount(502 - (lookbackPeriods + 150), results);
 
         StarcBandsResult last = results.LastOrDefault();
         Assert.AreEqual(251.8600, last.Centerline.Round(4));

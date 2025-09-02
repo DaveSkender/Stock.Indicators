@@ -167,7 +167,7 @@ public class StochRsiTests : TestBase
 
         // assertions
         int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
-        Assert.AreEqual(502 - removeQty, results.Count);
+        Assert.HasCount(502 - removeQty, results);
 
         StochRsiResult last = results.LastOrDefault();
         Assert.AreEqual(89.8385, last.StochRsi.Round(4));

@@ -412,7 +412,7 @@ public class RollingPivotsTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (windowPeriods + offsetPeriods), results.Count);
+        Assert.HasCount(502 - (windowPeriods + offsetPeriods), results);
 
         RollingPivotsResult last = results.LastOrDefault();
         Assert.AreEqual(260.0267m, last.PP.Round(4));

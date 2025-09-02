@@ -99,7 +99,7 @@ public class PvoTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + signalPeriods + 250), results);
 
         PvoResult last = results.LastOrDefault();
         Assert.AreEqual(10.4395, last.Pvo.Round(4));

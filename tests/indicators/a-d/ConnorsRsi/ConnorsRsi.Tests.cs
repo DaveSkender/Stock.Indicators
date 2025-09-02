@@ -125,7 +125,7 @@ public class ConnorsRsiTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - removePeriods + 1, results.Count);
+        Assert.HasCount(502 - removePeriods + 1, results);
 
         ConnorsRsiResult last = results.LastOrDefault();
         Assert.AreEqual(68.8087, last.Rsi.Round(4));

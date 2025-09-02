@@ -130,7 +130,7 @@ public class MacdTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + signalPeriods + 250), results.Count);
+        Assert.HasCount(502 - (slowPeriods + signalPeriods + 250), results);
 
         MacdResult last = results.LastOrDefault();
         Assert.AreEqual(-6.2198, last.Macd.Round(4));

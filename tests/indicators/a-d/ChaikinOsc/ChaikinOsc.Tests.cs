@@ -76,7 +76,7 @@ public class ChaikinOscTests : TestBase
             .ToList();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
+        Assert.HasCount(502 - (slowPeriods + 100), results);
 
         ChaikinOscResult last = results.LastOrDefault();
         Assert.AreEqual(3439986548.42, last.Adl.Round(2));

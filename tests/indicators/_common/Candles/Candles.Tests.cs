@@ -73,6 +73,7 @@ public class Candles : TestBase
     public void ToCandles()
     {
         IEnumerable<CandleProperties> candles = quotes.ToCandles();
-        Assert.AreEqual(quotes.Count(), candles.Count());
+        candles.Should().HaveCount(502);
+        candles.Should().BeEquivalentTo(quotes);
     }
 }
