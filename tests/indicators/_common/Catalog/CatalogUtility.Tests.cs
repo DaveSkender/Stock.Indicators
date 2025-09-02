@@ -23,10 +23,10 @@ public class CatalogUtilityTests : TestBase
         results.Should().NotBeNull();
         results.Should().NotBeEmpty();
         results.Should().HaveCountGreaterThan(0);
-        
+
         // Check that we got actual RSI results
         results.Should().AllBeOfType<RsiResult>();
-        
+
         // Verify the results match what we'd get from calling Rsi directly
         IReadOnlyList<RsiResult> directResults = quotes.ToRsi();
         results.Should().HaveCount(directResults.Count);
@@ -152,8 +152,7 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonWithValidConfigReturnsResults()
     {
         // Arrange
-        var config = new IndicatorConfig
-        {
+        var config = new IndicatorConfig {
             Id = "RSI",
             Style = Style.Series,
             Parameters = new Dictionary<string, object> { { "lookbackPeriods", 14 } }
@@ -188,8 +187,7 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonWithMinimalConfigReturnsResults()
     {
         // Arrange - minimal configuration with just ID and Style
-        var config = new IndicatorConfig
-        {
+        var config = new IndicatorConfig {
             Id = "EMA",
             Style = Style.Series
         };
@@ -294,8 +292,7 @@ public class CatalogUtilityTests : TestBase
     public void ExecuteFromJsonRoundTripProducesConsistentResults()
     {
         // Arrange - test that we can serialize and deserialize a config and get the same results
-        var originalConfig = new IndicatorConfig
-        {
+        var originalConfig = new IndicatorConfig {
             Id = "EMA",
             Style = Style.Series,
             Parameters = new Dictionary<string, object> { { "lookbackPeriods", 20 } },
