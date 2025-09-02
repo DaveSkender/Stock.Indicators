@@ -37,11 +37,11 @@ public class StochRsiTests : TestBase
 
         IndicatorResult stochrsiResult = listing.Results.SingleOrDefault(r => r.DataName == "StochRsi");
         stochrsiResult.Should().NotBeNull();
-        stochrsiResult!.DisplayName.Should().Be("%K");
+        stochrsiResult?.DisplayName.Should().Be("%K");
         stochrsiResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("%D");
+        signalResult1?.DisplayName.Should().Be("%D");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

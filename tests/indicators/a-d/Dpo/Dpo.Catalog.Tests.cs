@@ -31,11 +31,11 @@ public class DpoTests : TestBase
 
         IndicatorResult dpoResult = listing.Results.SingleOrDefault(r => r.DataName == "Dpo");
         dpoResult.Should().NotBeNull();
-        dpoResult!.DisplayName.Should().Be("DPO");
+        dpoResult?.DisplayName.Should().Be("DPO");
         dpoResult.IsReusable.Should().Be(true);
         IndicatorResult smaResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
         smaResult1.Should().NotBeNull();
-        smaResult1!.DisplayName.Should().Be("SMA");
+        smaResult1?.DisplayName.Should().Be("SMA");
         smaResult1.IsReusable.Should().Be(false);
     }
 }

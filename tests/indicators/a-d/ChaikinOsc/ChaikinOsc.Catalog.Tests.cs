@@ -33,19 +33,19 @@ public class ChaikinOscTests : TestBase
 
         IndicatorResult moneyflowmultiplierResult = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowMultiplier");
         moneyflowmultiplierResult.Should().NotBeNull();
-        moneyflowmultiplierResult!.DisplayName.Should().Be("Money Flow Multiplier");
+        moneyflowmultiplierResult?.DisplayName.Should().Be("Money Flow Multiplier");
         moneyflowmultiplierResult.IsReusable.Should().Be(false);
         IndicatorResult moneyflowvolumeResult1 = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowVolume");
         moneyflowvolumeResult1.Should().NotBeNull();
-        moneyflowvolumeResult1!.DisplayName.Should().Be("Money Flow Volume");
+        moneyflowvolumeResult1?.DisplayName.Should().Be("Money Flow Volume");
         moneyflowvolumeResult1.IsReusable.Should().Be(false);
         IndicatorResult adlResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Adl");
         adlResult2.Should().NotBeNull();
-        adlResult2!.DisplayName.Should().Be("ADL");
+        adlResult2?.DisplayName.Should().Be("ADL");
         adlResult2.IsReusable.Should().Be(false);
         IndicatorResult oscillatorResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
         oscillatorResult3.Should().NotBeNull();
-        oscillatorResult3!.DisplayName.Should().Be("Oscillator");
+        oscillatorResult3?.DisplayName.Should().Be("Oscillator");
         oscillatorResult3.IsReusable.Should().Be(true);
     }
 }

@@ -31,19 +31,19 @@ public class ElderRayTests : TestBase
 
         IndicatorResult emaResult = listing.Results.SingleOrDefault(r => r.DataName == "Ema");
         emaResult.Should().NotBeNull();
-        emaResult!.DisplayName.Should().Be("EMA");
+        emaResult?.DisplayName.Should().Be("EMA");
         emaResult.IsReusable.Should().Be(false);
         IndicatorResult bullpowerResult1 = listing.Results.SingleOrDefault(r => r.DataName == "BullPower");
         bullpowerResult1.Should().NotBeNull();
-        bullpowerResult1!.DisplayName.Should().Be("Bull Power");
+        bullpowerResult1?.DisplayName.Should().Be("Bull Power");
         bullpowerResult1.IsReusable.Should().Be(false);
         IndicatorResult bearpowerResult2 = listing.Results.SingleOrDefault(r => r.DataName == "BearPower");
         bearpowerResult2.Should().NotBeNull();
-        bearpowerResult2!.DisplayName.Should().Be("Bear Power");
+        bearpowerResult2?.DisplayName.Should().Be("Bear Power");
         bearpowerResult2.IsReusable.Should().Be(false);
         IndicatorResult valueResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Value");
         valueResult3.Should().NotBeNull();
-        valueResult3!.DisplayName.Should().Be("Elder Ray");
+        valueResult3?.DisplayName.Should().Be("Elder Ray");
         valueResult3.IsReusable.Should().Be(true);
     }
 }

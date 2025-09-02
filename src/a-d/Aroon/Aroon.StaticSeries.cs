@@ -12,7 +12,6 @@ public static partial class Aroon
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 25.</param>
     /// <returns>A list of Aroon results.</returns>
-    [SeriesIndicator("AROON")]
     public static IReadOnlyList<AroonResult> ToAroon<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 25)

@@ -14,7 +14,6 @@ public static partial class Hma
     /// <returns>A list of HMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are less than 2.</exception>
-    [SeriesIndicator("HMA")]
     public static IReadOnlyList<HmaResult> ToHma<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

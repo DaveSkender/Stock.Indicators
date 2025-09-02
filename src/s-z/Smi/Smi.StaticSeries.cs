@@ -15,7 +15,6 @@ public static partial class Smi
     /// <param name="secondSmoothPeriods">The number of periods for the second smoothing.</param>
     /// <param name="signalPeriods">The number of periods for the signal line smoothing.</param>
     /// <returns>A list of SMI results.</returns>
-    [SeriesIndicator("SMI")]
     public static IReadOnlyList<SmiResult> ToSmi<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 13,

@@ -16,7 +16,6 @@ public static partial class Kama
     /// <returns>A list of KAMA results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    [SeriesIndicator("KAMA")]
     public static IReadOnlyList<KamaResult> ToKama<T>(
         this IReadOnlyList<T> source,
         int erPeriods = 10,

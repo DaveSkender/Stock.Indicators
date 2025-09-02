@@ -33,11 +33,11 @@ public class ParabolicSarTests : TestBase
 
         IndicatorResult sarResult = listing.Results.SingleOrDefault(r => r.DataName == "Sar");
         sarResult.Should().NotBeNull();
-        sarResult!.DisplayName.Should().Be("Parabolic SAR");
+        sarResult?.DisplayName.Should().Be("Parabolic SAR");
         sarResult.IsReusable.Should().Be(true);
         IndicatorResult isreversalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "IsReversal");
         isreversalResult1.Should().NotBeNull();
-        isreversalResult1!.DisplayName.Should().Be("Is Reversal");
+        isreversalResult1?.DisplayName.Should().Be("Is Reversal");
         isreversalResult1.IsReusable.Should().Be(false);
     }
 }

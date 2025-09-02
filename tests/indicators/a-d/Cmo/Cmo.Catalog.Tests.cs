@@ -31,7 +31,7 @@ public class CmoTests : TestBase
 
         IndicatorResult cmoResult = listing.Results.SingleOrDefault(r => r.DataName == "Cmo");
         cmoResult.Should().NotBeNull();
-        cmoResult!.DisplayName.Should().Be("CMO");
+        cmoResult?.DisplayName.Should().Be("CMO");
         cmoResult.IsReusable.Should().Be(true);
     }
 }

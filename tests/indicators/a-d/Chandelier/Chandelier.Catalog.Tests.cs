@@ -33,7 +33,7 @@ public class ChandelierTests : TestBase
 
         IndicatorResult chandelierexitResult = listing.Results.SingleOrDefault(r => r.DataName == "ChandelierExit");
         chandelierexitResult.Should().NotBeNull();
-        chandelierexitResult!.DisplayName.Should().Be("Chandelier Exit");
+        chandelierexitResult?.DisplayName.Should().Be("Chandelier Exit");
         chandelierexitResult.IsReusable.Should().Be(true);
     }
 }

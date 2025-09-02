@@ -15,7 +15,6 @@ public static partial class PivotPoints
     /// <param name="windowSize">The size of the window for pivot point calculation.</param>
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>A list of pivot point results.</returns>
-    [SeriesIndicator("PIVPNT")]
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         PeriodSize windowSize = PeriodSize.Month,

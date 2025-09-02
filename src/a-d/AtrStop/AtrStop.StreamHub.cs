@@ -16,7 +16,6 @@ public static partial class AtrStop
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
     /// <returns>An instance of <see cref="AtrStopHub{TIn}"/>.</returns>
-    [StreamIndicator("ATR-STOP")]
     public static AtrStopHub<TIn> ToAtrStop<TIn>(
        this IQuoteProvider<TIn> quoteProvider,
        int lookbackPeriods = 21,

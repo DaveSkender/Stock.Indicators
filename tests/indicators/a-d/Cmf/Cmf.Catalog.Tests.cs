@@ -31,15 +31,15 @@ public class CmfTests : TestBase
 
         IndicatorResult moneyflowmultiplierResult = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowMultiplier");
         moneyflowmultiplierResult.Should().NotBeNull();
-        moneyflowmultiplierResult!.DisplayName.Should().Be("Money Flow Multiplier");
+        moneyflowmultiplierResult?.DisplayName.Should().Be("Money Flow Multiplier");
         moneyflowmultiplierResult.IsReusable.Should().Be(false);
         IndicatorResult moneyflowvolumeResult1 = listing.Results.SingleOrDefault(r => r.DataName == "MoneyFlowVolume");
         moneyflowvolumeResult1.Should().NotBeNull();
-        moneyflowvolumeResult1!.DisplayName.Should().Be("Money Flow Volume");
+        moneyflowvolumeResult1?.DisplayName.Should().Be("Money Flow Volume");
         moneyflowvolumeResult1.IsReusable.Should().Be(false);
         IndicatorResult cmfResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Cmf");
         cmfResult2.Should().NotBeNull();
-        cmfResult2!.DisplayName.Should().Be("CMF");
+        cmfResult2?.DisplayName.Should().Be("CMF");
         cmfResult2.IsReusable.Should().Be(true);
     }
 }

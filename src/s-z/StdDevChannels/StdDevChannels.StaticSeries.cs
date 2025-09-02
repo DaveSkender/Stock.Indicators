@@ -14,7 +14,6 @@ public static partial class StdDevChannels
     /// The number of periods for the lookback. Default is 20.</param>
     /// <param name="stdDeviations">The number of standard deviations for the channel width. Default is 2.</param>
     /// <returns>A list of <see cref="StdDevChannelsResult"/> containing the Standard Deviation Channels values.</returns>
-    [SeriesIndicator("STDEV-CHANNELS")]
     public static IReadOnlyList<StdDevChannelsResult> ToStdDevChannels<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 20,

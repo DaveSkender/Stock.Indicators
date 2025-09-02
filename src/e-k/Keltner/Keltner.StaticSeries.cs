@@ -15,7 +15,6 @@ public static partial class Keltner
     /// <param name="atrPeriods">The number of periods for the ATR. Default is 10.</param>
     /// <returns>A list of Keltner Channel results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    [SeriesIndicator("KELTNER")]
     public static IReadOnlyList<KeltnerResult> ToKeltner<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int emaPeriods = 20,

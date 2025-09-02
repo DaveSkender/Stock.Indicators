@@ -15,7 +15,6 @@ public static partial class Tsi
     /// <param name="signalPeriods">The number of periods for the signal calculation. Default is 7.</param>
     /// <returns>A list of TsiResult containing the TSI and signal values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("TSI")]
     public static IReadOnlyList<TsiResult> ToTsi<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 25,

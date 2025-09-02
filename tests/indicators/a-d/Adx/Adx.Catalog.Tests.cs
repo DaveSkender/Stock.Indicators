@@ -31,23 +31,23 @@ public class AdxTests : TestBase
 
         IndicatorResult pdiResult = listing.Results.SingleOrDefault(r => r.DataName == "Pdi");
         pdiResult.Should().NotBeNull();
-        pdiResult!.DisplayName.Should().Be("+DI");
+        pdiResult?.DisplayName.Should().Be("+DI");
         pdiResult.IsReusable.Should().Be(false);
         IndicatorResult mdiResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Mdi");
         mdiResult1.Should().NotBeNull();
-        mdiResult1!.DisplayName.Should().Be("-DI");
+        mdiResult1?.DisplayName.Should().Be("-DI");
         mdiResult1.IsReusable.Should().Be(false);
         IndicatorResult dxResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Dx");
         dxResult2.Should().NotBeNull();
-        dxResult2!.DisplayName.Should().Be("DX");
+        dxResult2?.DisplayName.Should().Be("DX");
         dxResult2.IsReusable.Should().Be(false);
         IndicatorResult adxResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Adx");
         adxResult3.Should().NotBeNull();
-        adxResult3!.DisplayName.Should().Be("ADX");
+        adxResult3?.DisplayName.Should().Be("ADX");
         adxResult3.IsReusable.Should().Be(true);
         IndicatorResult adxrResult4 = listing.Results.SingleOrDefault(r => r.DataName == "Adxr");
         adxrResult4.Should().NotBeNull();
-        adxrResult4!.DisplayName.Should().Be("ADXR");
+        adxrResult4?.DisplayName.Should().Be("ADXR");
         adxrResult4.IsReusable.Should().Be(false);
     }
     [TestMethod]
@@ -75,23 +75,23 @@ public class AdxTests : TestBase
 
         IndicatorResult pdiResult = listing.Results.SingleOrDefault(r => r.DataName == "Pdi");
         pdiResult.Should().NotBeNull();
-        pdiResult!.DisplayName.Should().Be("+DI");
+        pdiResult?.DisplayName.Should().Be("+DI");
         pdiResult.IsReusable.Should().Be(false);
         IndicatorResult mdiResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Mdi");
         mdiResult1.Should().NotBeNull();
-        mdiResult1!.DisplayName.Should().Be("-DI");
+        mdiResult1?.DisplayName.Should().Be("-DI");
         mdiResult1.IsReusable.Should().Be(false);
         IndicatorResult dxResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Dx");
         dxResult2.Should().NotBeNull();
-        dxResult2!.DisplayName.Should().Be("DX");
+        dxResult2?.DisplayName.Should().Be("DX");
         dxResult2.IsReusable.Should().Be(false);
         IndicatorResult adxResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Adx");
         adxResult3.Should().NotBeNull();
-        adxResult3!.DisplayName.Should().Be("ADX");
+        adxResult3?.DisplayName.Should().Be("ADX");
         adxResult3.IsReusable.Should().Be(true);
         IndicatorResult adxrResult4 = listing.Results.SingleOrDefault(r => r.DataName == "Adxr");
         adxrResult4.Should().NotBeNull();
-        adxrResult4!.DisplayName.Should().Be("ADXR");
+        adxrResult4?.DisplayName.Should().Be("ADXR");
         adxrResult4.IsReusable.Should().Be(false);
     }
 }

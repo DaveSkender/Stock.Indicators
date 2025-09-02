@@ -28,7 +28,7 @@ public class AdlTests : TestBase
 
         IndicatorResult adlResult = listing.Results.SingleOrDefault(r => r.DataName == "Adl");
         adlResult.Should().NotBeNull();
-        adlResult!.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
+        adlResult?.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
         adlResult.IsReusable.Should().Be(true);
     }
     [TestMethod]
@@ -53,7 +53,7 @@ public class AdlTests : TestBase
 
         IndicatorResult adlResult = listing.Results.SingleOrDefault(r => r.DataName == "Adl");
         adlResult.Should().NotBeNull();
-        adlResult!.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
+        adlResult?.DisplayName.Should().Be("Accumulation Distribution Line (ADL)");
         adlResult.IsReusable.Should().Be(true);
     }
 }

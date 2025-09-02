@@ -13,7 +13,6 @@ public static partial class Rsi
     /// <param name="lookbackPeriods">The number of periods to look back for the RSI calculation.</param>
     /// <returns>A list of RSI results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("RSI")]
     public static IReadOnlyList<RsiResult> ToRsi<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 14)

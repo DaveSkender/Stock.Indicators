@@ -31,7 +31,7 @@ public class TrixTests : TestBase
 
         IndicatorResult trixResult = listing.Results.SingleOrDefault(r => r.DataName == "Trix");
         trixResult.Should().NotBeNull();
-        trixResult!.DisplayName.Should().Be("TRIX");
+        trixResult?.DisplayName.Should().Be("TRIX");
         trixResult.IsReusable.Should().Be(true);
     }
 }

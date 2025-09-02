@@ -35,23 +35,23 @@ public class IchimokuTests : TestBase
 
         IndicatorResult tenkansenResult = listing.Results.SingleOrDefault(r => r.DataName == "TenkanSen");
         tenkansenResult.Should().NotBeNull();
-        tenkansenResult!.DisplayName.Should().Be("Tenkan-sen");
+        tenkansenResult?.DisplayName.Should().Be("Tenkan-sen");
         tenkansenResult.IsReusable.Should().Be(true);
         IndicatorResult kijunsenResult1 = listing.Results.SingleOrDefault(r => r.DataName == "KijunSen");
         kijunsenResult1.Should().NotBeNull();
-        kijunsenResult1!.DisplayName.Should().Be("Kijun-sen");
+        kijunsenResult1?.DisplayName.Should().Be("Kijun-sen");
         kijunsenResult1.IsReusable.Should().Be(false);
         IndicatorResult senkouspanaResult2 = listing.Results.SingleOrDefault(r => r.DataName == "SenkouSpanA");
         senkouspanaResult2.Should().NotBeNull();
-        senkouspanaResult2!.DisplayName.Should().Be("Senkou Span A");
+        senkouspanaResult2?.DisplayName.Should().Be("Senkou Span A");
         senkouspanaResult2.IsReusable.Should().Be(false);
         IndicatorResult senkouspanbResult3 = listing.Results.SingleOrDefault(r => r.DataName == "SenkouSpanB");
         senkouspanbResult3.Should().NotBeNull();
-        senkouspanbResult3!.DisplayName.Should().Be("Senkou Span B");
+        senkouspanbResult3?.DisplayName.Should().Be("Senkou Span B");
         senkouspanbResult3.IsReusable.Should().Be(false);
         IndicatorResult chikouspanResult4 = listing.Results.SingleOrDefault(r => r.DataName == "ChikouSpan");
         chikouspanResult4.Should().NotBeNull();
-        chikouspanResult4!.DisplayName.Should().Be("Chikou Span");
+        chikouspanResult4?.DisplayName.Should().Be("Chikou Span");
         chikouspanResult4.IsReusable.Should().Be(false);
     }
 }

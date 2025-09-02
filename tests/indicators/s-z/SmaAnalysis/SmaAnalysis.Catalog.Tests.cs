@@ -31,19 +31,19 @@ public class SmaAnalysisTests : TestBase
 
         IndicatorResult smaResult = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
         smaResult.Should().NotBeNull();
-        smaResult!.DisplayName.Should().Be("SMA");
+        smaResult?.DisplayName.Should().Be("SMA");
         smaResult.IsReusable.Should().Be(true);
         IndicatorResult madResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Mad");
         madResult1.Should().NotBeNull();
-        madResult1!.DisplayName.Should().Be("Mean Absolute Deviation");
+        madResult1?.DisplayName.Should().Be("Mean Absolute Deviation");
         madResult1.IsReusable.Should().Be(false);
         IndicatorResult mseResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Mse");
         mseResult2.Should().NotBeNull();
-        mseResult2!.DisplayName.Should().Be("Mean Square Error");
+        mseResult2?.DisplayName.Should().Be("Mean Square Error");
         mseResult2.IsReusable.Should().Be(false);
         IndicatorResult mapeResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Mape");
         mapeResult3.Should().NotBeNull();
-        mapeResult3!.DisplayName.Should().Be("Mean Absolute Percentage Error");
+        mapeResult3?.DisplayName.Should().Be("Mean Absolute Percentage Error");
         mapeResult3.IsReusable.Should().Be(false);
     }
 }

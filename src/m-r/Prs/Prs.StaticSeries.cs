@@ -26,7 +26,6 @@ public static partial class Prs
     /// <returns>A list of PRS results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
-    [SeriesIndicator("PRS")]
     public static IReadOnlyList<PrsResult> ToPrs<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceBase,

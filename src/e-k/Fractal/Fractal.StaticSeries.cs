@@ -15,7 +15,6 @@ public static partial class Fractal
     /// <returns>A list of Fractal results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
-    [SeriesIndicator("FRACTAL")]
     public static IReadOnlyList<FractalResult> ToFractal<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int windowSpan = 2,

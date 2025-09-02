@@ -31,11 +31,11 @@ public class FisherTransformTests : TestBase
 
         IndicatorResult fisherResult = listing.Results.SingleOrDefault(r => r.DataName == "Fisher");
         fisherResult.Should().NotBeNull();
-        fisherResult!.DisplayName.Should().Be("Fisher");
+        fisherResult?.DisplayName.Should().Be("Fisher");
         fisherResult.IsReusable.Should().Be(true);
         IndicatorResult triggerResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Trigger");
         triggerResult1.Should().NotBeNull();
-        triggerResult1!.DisplayName.Should().Be("Trigger");
+        triggerResult1?.DisplayName.Should().Be("Trigger");
         triggerResult1.IsReusable.Should().Be(false);
     }
 }

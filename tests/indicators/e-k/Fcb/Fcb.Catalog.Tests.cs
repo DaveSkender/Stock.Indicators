@@ -31,11 +31,11 @@ public class FcbTests : TestBase
 
         IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
-        upperbandResult!.DisplayName.Should().Be("Upper Band");
+        upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(true);
         IndicatorResult lowerbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
         lowerbandResult1.Should().NotBeNull();
-        lowerbandResult1!.DisplayName.Should().Be("Lower Band");
+        lowerbandResult1?.DisplayName.Should().Be("Lower Band");
         lowerbandResult1.IsReusable.Should().Be(false);
     }
 }

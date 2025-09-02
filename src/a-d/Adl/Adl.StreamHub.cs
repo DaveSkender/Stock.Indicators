@@ -11,7 +11,6 @@ public static partial class Adl
     /// <typeparam name="TIn">The type of the input quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>An instance of <see cref="AdlHub{TIn}"/>.</returns>
-    [StreamIndicator("ADL")]
     public static AdlHub<TIn> ToAdl<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote

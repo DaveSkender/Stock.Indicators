@@ -16,7 +16,6 @@ public static partial class Sma
     /// <returns>An SMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [StreamIndicator("SMA")]
     public static SmaHub<TIn> ToSma<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)

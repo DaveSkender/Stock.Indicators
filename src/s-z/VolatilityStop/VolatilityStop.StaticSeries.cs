@@ -14,7 +14,6 @@ public static partial class VolatilityStop
     /// <param name="multiplier">The multiplier for the Average True Range. Default is 3.</param>
     /// <returns>A list of VolatilityStopResult containing the Volatility Stop values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("VOL-STOP")]
     public static IReadOnlyList<VolatilityStopResult> ToVolatilityStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 7,

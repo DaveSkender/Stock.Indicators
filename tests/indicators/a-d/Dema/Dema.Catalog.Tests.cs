@@ -31,7 +31,7 @@ public class DemaTests : TestBase
 
         IndicatorResult demaResult = listing.Results.SingleOrDefault(r => r.DataName == "Dema");
         demaResult.Should().NotBeNull();
-        demaResult!.DisplayName.Should().Be("DEMA");
+        demaResult?.DisplayName.Should().Be("DEMA");
         demaResult.IsReusable.Should().Be(true);
     }
 }

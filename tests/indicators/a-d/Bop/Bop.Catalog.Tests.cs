@@ -31,7 +31,7 @@ public class BopTests : TestBase
 
         IndicatorResult bopResult = listing.Results.SingleOrDefault(r => r.DataName == "Bop");
         bopResult.Should().NotBeNull();
-        bopResult!.DisplayName.Should().Be("BOP");
+        bopResult?.DisplayName.Should().Be("BOP");
         bopResult.IsReusable.Should().Be(true);
     }
 }

@@ -33,15 +33,15 @@ public class SuperTrendTests : TestBase
 
         IndicatorResult supertrendResult = listing.Results.SingleOrDefault(r => r.DataName == "SuperTrend");
         supertrendResult.Should().NotBeNull();
-        supertrendResult!.DisplayName.Should().Be("SuperTrend");
+        supertrendResult?.DisplayName.Should().Be("SuperTrend");
         supertrendResult.IsReusable.Should().Be(true);
         IndicatorResult upperbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
         upperbandResult1.Should().NotBeNull();
-        upperbandResult1!.DisplayName.Should().Be("Upper Band");
+        upperbandResult1?.DisplayName.Should().Be("Upper Band");
         upperbandResult1.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
-        lowerbandResult2!.DisplayName.Should().Be("Lower Band");
+        lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
     }
 }

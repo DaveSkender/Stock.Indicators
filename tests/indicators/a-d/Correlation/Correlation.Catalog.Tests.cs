@@ -31,23 +31,23 @@ public class CorrelationTests : TestBase
 
         IndicatorResult varianceaResult = listing.Results.SingleOrDefault(r => r.DataName == "VarianceA");
         varianceaResult.Should().NotBeNull();
-        varianceaResult!.DisplayName.Should().Be("Variance A");
+        varianceaResult?.DisplayName.Should().Be("Variance A");
         varianceaResult.IsReusable.Should().Be(false);
         IndicatorResult variancebResult1 = listing.Results.SingleOrDefault(r => r.DataName == "VarianceB");
         variancebResult1.Should().NotBeNull();
-        variancebResult1!.DisplayName.Should().Be("Variance B");
+        variancebResult1?.DisplayName.Should().Be("Variance B");
         variancebResult1.IsReusable.Should().Be(false);
         IndicatorResult covarianceResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Covariance");
         covarianceResult2.Should().NotBeNull();
-        covarianceResult2!.DisplayName.Should().Be("Covariance");
+        covarianceResult2?.DisplayName.Should().Be("Covariance");
         covarianceResult2.IsReusable.Should().Be(false);
         IndicatorResult correlationResult3 = listing.Results.SingleOrDefault(r => r.DataName == "Correlation");
         correlationResult3.Should().NotBeNull();
-        correlationResult3!.DisplayName.Should().Be("Correlation");
+        correlationResult3?.DisplayName.Should().Be("Correlation");
         correlationResult3.IsReusable.Should().Be(true);
         IndicatorResult rsquaredResult4 = listing.Results.SingleOrDefault(r => r.DataName == "RSquared");
         rsquaredResult4.Should().NotBeNull();
-        rsquaredResult4!.DisplayName.Should().Be("R-Squared");
+        rsquaredResult4?.DisplayName.Should().Be("R-Squared");
         rsquaredResult4.IsReusable.Should().Be(false);
     }
 }

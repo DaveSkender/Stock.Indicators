@@ -35,7 +35,7 @@ public class AlmaTests : TestBase
 
         IndicatorResult almaResult = listing.Results.SingleOrDefault(r => r.DataName == "Alma");
         almaResult.Should().NotBeNull();
-        almaResult!.DisplayName.Should().Be("Arnaud Legoux Moving Average (ALMA)");
+        almaResult?.DisplayName.Should().Be("Arnaud Legoux Moving Average (ALMA)");
         almaResult.IsReusable.Should().Be(true);
     }
 }

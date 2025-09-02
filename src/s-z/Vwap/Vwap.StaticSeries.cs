@@ -13,7 +13,6 @@ public static partial class Vwap
     /// <param name="startDate">The start date for the VWAP calculation.</param>
     /// <returns>A list of VwapResult containing the VWAP values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("VWAP")]
     public static IReadOnlyList<VwapResult> ToVwap<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         DateTime startDate)

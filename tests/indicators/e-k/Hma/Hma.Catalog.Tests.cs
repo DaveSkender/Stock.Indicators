@@ -31,7 +31,7 @@ public class HmaTests : TestBase
 
         IndicatorResult hmaResult = listing.Results.SingleOrDefault(r => r.DataName == "Hma");
         hmaResult.Should().NotBeNull();
-        hmaResult!.DisplayName.Should().Be("HMA");
+        hmaResult?.DisplayName.Should().Be("HMA");
         hmaResult.IsReusable.Should().Be(true);
     }
 }

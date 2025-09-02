@@ -35,15 +35,15 @@ public class PvoTests : TestBase
 
         IndicatorResult pvoResult = listing.Results.SingleOrDefault(r => r.DataName == "Pvo");
         pvoResult.Should().NotBeNull();
-        pvoResult!.DisplayName.Should().Be("PVO");
+        pvoResult?.DisplayName.Should().Be("PVO");
         pvoResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("Signal");
+        signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
         IndicatorResult histogramResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Histogram");
         histogramResult2.Should().NotBeNull();
-        histogramResult2!.DisplayName.Should().Be("Histogram");
+        histogramResult2?.DisplayName.Should().Be("Histogram");
         histogramResult2.IsReusable.Should().Be(false);
     }
 }

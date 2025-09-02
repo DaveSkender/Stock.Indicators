@@ -33,7 +33,7 @@ public class T3Tests : TestBase
 
         IndicatorResult t3Result = listing.Results.SingleOrDefault(r => r.DataName == "T3");
         t3Result.Should().NotBeNull();
-        t3Result!.DisplayName.Should().Be("T3");
+        t3Result?.DisplayName.Should().Be("T3");
         t3Result.IsReusable.Should().Be(true);
     }
 }

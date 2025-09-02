@@ -13,7 +13,6 @@ public static partial class UlcerIndex
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of UlcerIndexResult containing the Ulcer Index values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("ULCER")]
     public static IReadOnlyList<UlcerIndexResult> ToUlcerIndex<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 14)

@@ -31,7 +31,7 @@ public class VwmaTests : TestBase
 
         IndicatorResult vwmaResult = listing.Results.SingleOrDefault(r => r.DataName == "Vwma");
         vwmaResult.Should().NotBeNull();
-        vwmaResult!.DisplayName.Should().Be("VWMA");
+        vwmaResult?.DisplayName.Should().Be("VWMA");
         vwmaResult.IsReusable.Should().Be(true);
     }
 }

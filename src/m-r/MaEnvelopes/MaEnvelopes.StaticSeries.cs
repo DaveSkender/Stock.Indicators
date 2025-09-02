@@ -19,7 +19,6 @@ public static partial class MaEnvelopes
     /// <param name="movingAverageType">The type of moving average to use. Default is SMA.</param>
     /// <returns>A list of Moving Average Envelope results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the moving average type is not supported.</exception>
-    [SeriesIndicator("MA-ENV")]
     public static IReadOnlyList<MaEnvelopeResult> ToMaEnvelopes<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods,

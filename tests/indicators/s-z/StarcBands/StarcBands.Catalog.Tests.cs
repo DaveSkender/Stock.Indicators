@@ -35,15 +35,15 @@ public class StarcBandsTests : TestBase
 
         IndicatorResult upperbandResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
         upperbandResult.Should().NotBeNull();
-        upperbandResult!.DisplayName.Should().Be("Upper Band");
+        upperbandResult?.DisplayName.Should().Be("Upper Band");
         upperbandResult.IsReusable.Should().Be(false);
         IndicatorResult centerlineResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Centerline");
         centerlineResult1.Should().NotBeNull();
-        centerlineResult1!.DisplayName.Should().Be("Centerline");
+        centerlineResult1?.DisplayName.Should().Be("Centerline");
         centerlineResult1.IsReusable.Should().Be(true);
         IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
-        lowerbandResult2!.DisplayName.Should().Be("Lower Band");
+        lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
     }
 }

@@ -33,11 +33,11 @@ public class AwesomeTests : TestBase
 
         IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
-        oscillatorResult!.DisplayName.Should().Be("Oscillator");
+        oscillatorResult?.DisplayName.Should().Be("Oscillator");
         oscillatorResult.IsReusable.Should().Be(true);
         IndicatorResult normalizedResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Normalized");
         normalizedResult1.Should().NotBeNull();
-        normalizedResult1!.DisplayName.Should().Be("Normalized");
+        normalizedResult1?.DisplayName.Should().Be("Normalized");
         normalizedResult1.IsReusable.Should().Be(false);
     }
 }

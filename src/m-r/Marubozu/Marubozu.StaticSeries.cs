@@ -14,7 +14,6 @@ public static partial class Marubozu
     /// <returns>A list of <see cref="CandleResult"/> indicating the presence of Marubozu patterns.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the minimum body percentage is out of range.</exception>
-    [SeriesIndicator("MARUBOZU")]
     public static IReadOnlyList<CandleResult> ToMarubozu<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         double minBodyPercent = 95)

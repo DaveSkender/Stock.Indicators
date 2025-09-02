@@ -31,7 +31,7 @@ public class HurstTests : TestBase
 
         IndicatorResult hurstexponentResult = listing.Results.SingleOrDefault(r => r.DataName == "HurstExponent");
         hurstexponentResult.Should().NotBeNull();
-        hurstexponentResult!.DisplayName.Should().Be("Hurst Exponent");
+        hurstexponentResult?.DisplayName.Should().Be("Hurst Exponent");
         hurstexponentResult.IsReusable.Should().Be(true);
     }
 }

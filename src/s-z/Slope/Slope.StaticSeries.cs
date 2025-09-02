@@ -14,7 +14,6 @@ public static partial class Slope
     /// <returns>A read-only list of Slope results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback period is less than 1.</exception>
-    [SeriesIndicator("SLOPE")]
     public static IReadOnlyList<SlopeResult> ToSlope<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

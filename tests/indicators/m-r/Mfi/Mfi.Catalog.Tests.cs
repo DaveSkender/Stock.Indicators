@@ -31,7 +31,7 @@ public class MfiTests : TestBase
 
         IndicatorResult mfiResult = listing.Results.SingleOrDefault(r => r.DataName == "Mfi");
         mfiResult.Should().NotBeNull();
-        mfiResult!.DisplayName.Should().Be("MFI");
+        mfiResult?.DisplayName.Should().Be("MFI");
         mfiResult.IsReusable.Should().Be(true);
     }
 }

@@ -31,7 +31,7 @@ public class RocTests : TestBase
 
         IndicatorResult rocResult = listing.Results.SingleOrDefault(r => r.DataName == "Roc");
         rocResult.Should().NotBeNull();
-        rocResult!.DisplayName.Should().Be("ROC");
+        rocResult?.DisplayName.Should().Be("ROC");
         rocResult.IsReusable.Should().Be(true);
     }
 }

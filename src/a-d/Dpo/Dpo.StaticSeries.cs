@@ -14,7 +14,6 @@ public static partial class Dpo
     /// <returns>A list of DPO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [SeriesIndicator("DPO")]
     public static IReadOnlyList<DpoResult> ToDpo<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

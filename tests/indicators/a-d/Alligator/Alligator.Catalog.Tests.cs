@@ -41,15 +41,15 @@ public class AlligatorTests : TestBase
 
         IndicatorResult jawResult = listing.Results.SingleOrDefault(r => r.DataName == "Jaw");
         jawResult.Should().NotBeNull();
-        jawResult!.DisplayName.Should().Be("Jaw");
+        jawResult?.DisplayName.Should().Be("Jaw");
         jawResult.IsReusable.Should().Be(false);
         IndicatorResult teethResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Teeth");
         teethResult1.Should().NotBeNull();
-        teethResult1!.DisplayName.Should().Be("Teeth");
+        teethResult1?.DisplayName.Should().Be("Teeth");
         teethResult1.IsReusable.Should().Be(false);
         IndicatorResult lipsResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Lips");
         lipsResult2.Should().NotBeNull();
-        lipsResult2!.DisplayName.Should().Be("Lips");
+        lipsResult2?.DisplayName.Should().Be("Lips");
         lipsResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
@@ -87,15 +87,15 @@ public class AlligatorTests : TestBase
 
         IndicatorResult jawResult = listing.Results.SingleOrDefault(r => r.DataName == "Jaw");
         jawResult.Should().NotBeNull();
-        jawResult!.DisplayName.Should().Be("Jaw");
+        jawResult?.DisplayName.Should().Be("Jaw");
         jawResult.IsReusable.Should().Be(false);
         IndicatorResult teethResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Teeth");
         teethResult1.Should().NotBeNull();
-        teethResult1!.DisplayName.Should().Be("Teeth");
+        teethResult1?.DisplayName.Should().Be("Teeth");
         teethResult1.IsReusable.Should().Be(false);
         IndicatorResult lipsResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Lips");
         lipsResult2.Should().NotBeNull();
-        lipsResult2!.DisplayName.Should().Be("Lips");
+        lipsResult2?.DisplayName.Should().Be("Lips");
         lipsResult2.IsReusable.Should().Be(true);
     }
 }

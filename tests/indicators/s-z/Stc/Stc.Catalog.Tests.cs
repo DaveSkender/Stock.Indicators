@@ -35,7 +35,7 @@ public class StcTests : TestBase
 
         IndicatorResult stcResult = listing.Results.SingleOrDefault(r => r.DataName == "Stc");
         stcResult.Should().NotBeNull();
-        stcResult!.DisplayName.Should().Be("STC");
+        stcResult?.DisplayName.Should().Be("STC");
         stcResult.IsReusable.Should().Be(true);
     }
 }

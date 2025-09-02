@@ -35,11 +35,11 @@ public class TsiTests : TestBase
 
         IndicatorResult tsiResult = listing.Results.SingleOrDefault(r => r.DataName == "Tsi");
         tsiResult.Should().NotBeNull();
-        tsiResult!.DisplayName.Should().Be("TSI");
+        tsiResult?.DisplayName.Should().Be("TSI");
         tsiResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("Signal");
+        signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

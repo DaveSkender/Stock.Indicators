@@ -31,7 +31,7 @@ public class StdDevTests : TestBase
 
         IndicatorResult stddevResult = listing.Results.SingleOrDefault(r => r.DataName == "StdDev");
         stddevResult.Should().NotBeNull();
-        stddevResult!.DisplayName.Should().Be("Standard Deviation");
+        stddevResult?.DisplayName.Should().Be("Standard Deviation");
         stddevResult.IsReusable.Should().Be(true);
     }
 }

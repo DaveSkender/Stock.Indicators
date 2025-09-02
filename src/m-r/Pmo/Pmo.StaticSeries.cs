@@ -15,7 +15,6 @@ public static partial class Pmo
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PMO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    [SeriesIndicator("PMO")]
     public static IReadOnlyList<PmoResult> ToPmo<T>(
         this IReadOnlyList<T> source,
         int timePeriods = 35,

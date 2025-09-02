@@ -31,7 +31,7 @@ public class UlcerIndexTests : TestBase
 
         IndicatorResult ulcerindexResult = listing.Results.SingleOrDefault(r => r.DataName == "UlcerIndex");
         ulcerindexResult.Should().NotBeNull();
-        ulcerindexResult!.DisplayName.Should().Be("Ulcer Index");
+        ulcerindexResult?.DisplayName.Should().Be("Ulcer Index");
         ulcerindexResult.IsReusable.Should().Be(true);
     }
 }

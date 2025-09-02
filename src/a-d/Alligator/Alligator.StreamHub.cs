@@ -16,7 +16,6 @@ public static partial class Alligator
     /// <param name="lipsPeriods">The number of periods for the lips.</param>
     /// <param name="lipsOffset">The offset for the lips.</param>
     /// <returns>An Alligator hub.</returns>
-    [StreamIndicator("ALLIGATOR")]
     public static AlligatorHub<TIn> ToAlligator<TIn>(
         this IChainProvider<TIn> chainProvider,
         int jawPeriods = 13,

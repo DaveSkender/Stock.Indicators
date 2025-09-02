@@ -31,7 +31,7 @@ public class ForceIndexTests : TestBase
 
         IndicatorResult forceindexResult = listing.Results.SingleOrDefault(r => r.DataName == "ForceIndex");
         forceindexResult.Should().NotBeNull();
-        forceindexResult!.DisplayName.Should().Be("Force Index");
+        forceindexResult?.DisplayName.Should().Be("Force Index");
         forceindexResult.IsReusable.Should().Be(true);
     }
 }

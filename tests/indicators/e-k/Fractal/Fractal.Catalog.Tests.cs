@@ -31,11 +31,11 @@ public class FractalTests : TestBase
 
         IndicatorResult fractalbearResult = listing.Results.SingleOrDefault(r => r.DataName == "FractalBear");
         fractalbearResult.Should().NotBeNull();
-        fractalbearResult!.DisplayName.Should().Be("Bear Fractal");
+        fractalbearResult?.DisplayName.Should().Be("Bear Fractal");
         fractalbearResult.IsReusable.Should().Be(false);
         IndicatorResult fractalbullResult1 = listing.Results.SingleOrDefault(r => r.DataName == "FractalBull");
         fractalbullResult1.Should().NotBeNull();
-        fractalbullResult1!.DisplayName.Should().Be("Bull Fractal");
+        fractalbullResult1?.DisplayName.Should().Be("Bull Fractal");
         fractalbullResult1.IsReusable.Should().Be(true);
     }
 }

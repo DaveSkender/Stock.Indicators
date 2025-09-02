@@ -31,7 +31,7 @@ public class CciTests : TestBase
 
         IndicatorResult cciResult = listing.Results.SingleOrDefault(r => r.DataName == "Cci");
         cciResult.Should().NotBeNull();
-        cciResult!.DisplayName.Should().Be("CCI");
+        cciResult?.DisplayName.Should().Be("CCI");
         cciResult.IsReusable.Should().Be(true);
     }
 }

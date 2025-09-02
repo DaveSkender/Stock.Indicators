@@ -35,11 +35,11 @@ public class KvoTests : TestBase
 
         IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
-        oscillatorResult!.DisplayName.Should().Be("Oscillator");
+        oscillatorResult?.DisplayName.Should().Be("Oscillator");
         oscillatorResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("Signal");
+        signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

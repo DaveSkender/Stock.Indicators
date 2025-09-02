@@ -13,7 +13,6 @@ public static partial class Vwma
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A list of VwmaResult containing the VWMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("VWMA")]
     public static IReadOnlyList<VwmaResult> ToVwma<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)

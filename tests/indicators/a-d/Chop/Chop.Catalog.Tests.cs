@@ -31,7 +31,7 @@ public class ChopTests : TestBase
 
         IndicatorResult chopResult = listing.Results.SingleOrDefault(r => r.DataName == "Chop");
         chopResult.Should().NotBeNull();
-        chopResult!.DisplayName.Should().Be("CHOP");
+        chopResult?.DisplayName.Should().Be("CHOP");
         chopResult.IsReusable.Should().Be(true);
     }
 }

@@ -14,7 +14,6 @@ public static partial class ConnorsRsi
     /// <param name="streakPeriods">The number of periods to use for the streak calculation. Default is 2.</param>
     /// <param name="rankPeriods">The number of periods to use for the percent rank calculation. Default is 100.</param>
     /// <returns>A read-only list of <see cref="ConnorsRsiResult"/> containing the Connors RSI calculation results.</returns>
-    [SeriesIndicator("CRSI")]
     public static IReadOnlyList<ConnorsRsiResult> ToConnorsRsi<T>(
         this IReadOnlyList<T> source,
         int rsiPeriods = 3,

@@ -15,7 +15,6 @@ public static partial class RocWb
     /// <param name="stdDevPeriods">The number of periods for the standard deviation calculation.</param>
     /// <returns>A list of RocWb results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("ROC-WB")]
     public static IReadOnlyList<RocWbResult> ToRocWb<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods,

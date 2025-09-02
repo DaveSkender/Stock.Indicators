@@ -28,7 +28,7 @@ public class TrTests : TestBase
 
         IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
-        trResult!.DisplayName.Should().Be("True Range");
+        trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(true);
     }
     [TestMethod]
@@ -53,7 +53,7 @@ public class TrTests : TestBase
 
         IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
-        trResult!.DisplayName.Should().Be("True Range");
+        trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(true);
     }
 }

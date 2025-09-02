@@ -16,7 +16,6 @@ public static partial class StochRsi
     /// <param name="smoothPeriods">The number of periods for smoothing (default is 1).</param>
     /// <returns>A list of StochRsiResult.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
-    [SeriesIndicator("STOCH-RSI")]
     public static IReadOnlyList<StochRsiResult> ToStochRsi<T>(
         this IReadOnlyList<T> source,
         int rsiPeriods,

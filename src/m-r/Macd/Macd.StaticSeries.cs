@@ -16,7 +16,6 @@ public static partial class Macd
     /// <returns>A list of MACD results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    [SeriesIndicator("MACD")]
     public static IReadOnlyList<MacdResult> ToMacd<T>(
         this IReadOnlyList<T> source,
         int fastPeriods = 12,

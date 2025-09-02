@@ -28,15 +28,15 @@ public class VwapTests : TestBase
 
         IndicatorResult vwapResult = listing.Results.SingleOrDefault(r => r.DataName == "Vwap");
         vwapResult.Should().NotBeNull();
-        vwapResult!.DisplayName.Should().Be("VWAP");
+        vwapResult?.DisplayName.Should().Be("VWAP");
         vwapResult.IsReusable.Should().Be(true);
         IndicatorResult upperbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
         upperbandResult1.Should().NotBeNull();
-        upperbandResult1!.DisplayName.Should().Be("Upper Band");
+        upperbandResult1?.DisplayName.Should().Be("Upper Band");
         upperbandResult1.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
-        lowerbandResult2!.DisplayName.Should().Be("Lower Band");
+        lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
     }
 }

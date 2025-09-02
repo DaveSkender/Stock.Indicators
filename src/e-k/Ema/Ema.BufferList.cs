@@ -12,7 +12,6 @@ public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
     /// Initializes a new instance of the <see cref="EmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    [BufferIndicator("EMA")]
     public EmaList(
         int lookbackPeriods
     )

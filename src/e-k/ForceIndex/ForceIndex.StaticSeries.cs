@@ -14,7 +14,6 @@ public static partial class ForceIndex
     /// <returns>A list of Force Index results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [SeriesIndicator("FORCE")]
     public static IReadOnlyList<ForceIndexResult> ToForceIndex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 2)

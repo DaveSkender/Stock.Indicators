@@ -31,15 +31,15 @@ public class AtrTests : TestBase
 
         IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
-        trResult!.DisplayName.Should().Be("True Range");
+        trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(false);
         IndicatorResult atrResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Atr");
         atrResult1.Should().NotBeNull();
-        atrResult1!.DisplayName.Should().Be("ATR");
+        atrResult1?.DisplayName.Should().Be("ATR");
         atrResult1.IsReusable.Should().Be(false);
         IndicatorResult atrpResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Atrp");
         atrpResult2.Should().NotBeNull();
-        atrpResult2!.DisplayName.Should().Be("ATR %");
+        atrpResult2?.DisplayName.Should().Be("ATR %");
         atrpResult2.IsReusable.Should().Be(true);
     }
     [TestMethod]
@@ -67,15 +67,15 @@ public class AtrTests : TestBase
 
         IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
         trResult.Should().NotBeNull();
-        trResult!.DisplayName.Should().Be("True Range");
+        trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(false);
         IndicatorResult atrResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Atr");
         atrResult1.Should().NotBeNull();
-        atrResult1!.DisplayName.Should().Be("ATR");
+        atrResult1?.DisplayName.Should().Be("ATR");
         atrResult1.IsReusable.Should().Be(false);
         IndicatorResult atrpResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Atrp");
         atrpResult2.Should().NotBeNull();
-        atrpResult2!.DisplayName.Should().Be("ATR %");
+        atrpResult2?.DisplayName.Should().Be("ATR %");
         atrpResult2.IsReusable.Should().Be(true);
     }
 }

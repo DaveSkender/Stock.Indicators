@@ -22,7 +22,6 @@ public static partial class Alligator
     /// <exception cref="ArgumentOutOfRangeException">
     /// Invalid parameter value provided.
     /// </exception>
-    [SeriesIndicator("ALLIGATOR")]
     public static IReadOnlyList<AlligatorResult> ToAlligator<T>(
         this IReadOnlyList<T> source,
         int jawPeriods = 13,

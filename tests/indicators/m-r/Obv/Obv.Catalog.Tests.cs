@@ -28,7 +28,7 @@ public class ObvTests : TestBase
 
         IndicatorResult obvResult = listing.Results.SingleOrDefault(r => r.DataName == "Obv");
         obvResult.Should().NotBeNull();
-        obvResult!.DisplayName.Should().Be("OBV");
+        obvResult?.DisplayName.Should().Be("OBV");
         obvResult.IsReusable.Should().Be(true);
     }
 }

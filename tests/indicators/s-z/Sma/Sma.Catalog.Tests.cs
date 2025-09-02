@@ -31,7 +31,7 @@ public class SmaTests : TestBase
 
         IndicatorResult smaResult = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
         smaResult.Should().NotBeNull();
-        smaResult!.DisplayName.Should().Be("SMA");
+        smaResult?.DisplayName.Should().Be("SMA");
         smaResult.IsReusable.Should().Be(true);
     }
     [TestMethod]
@@ -59,7 +59,7 @@ public class SmaTests : TestBase
 
         IndicatorResult smaResult = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
         smaResult.Should().NotBeNull();
-        smaResult!.DisplayName.Should().Be("SMA");
+        smaResult?.DisplayName.Should().Be("SMA");
         smaResult.IsReusable.Should().Be(true);
     }
 }

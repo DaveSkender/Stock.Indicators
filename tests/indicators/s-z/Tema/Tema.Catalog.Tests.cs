@@ -31,7 +31,7 @@ public class TemaTests : TestBase
 
         IndicatorResult temaResult = listing.Results.SingleOrDefault(r => r.DataName == "Tema");
         temaResult.Should().NotBeNull();
-        temaResult!.DisplayName.Should().Be("TEMA");
+        temaResult?.DisplayName.Should().Be("TEMA");
         temaResult.IsReusable.Should().Be(true);
     }
 }

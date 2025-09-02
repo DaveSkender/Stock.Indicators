@@ -31,7 +31,7 @@ public class MarubozuTests : TestBase
 
         IndicatorResult matchResult = listing.Results.SingleOrDefault(r => r.DataName == "Match");
         matchResult.Should().NotBeNull();
-        matchResult!.DisplayName.Should().Be("Match");
+        matchResult?.DisplayName.Should().Be("Match");
         matchResult.IsReusable.Should().Be(true);
     }
 }

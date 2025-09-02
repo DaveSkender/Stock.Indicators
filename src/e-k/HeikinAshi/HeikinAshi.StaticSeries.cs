@@ -12,7 +12,6 @@ public static partial class HeikinAshi
     /// <param name="quotes">The list of quotes.</param>
     /// <returns>A list of Heikin-Ashi results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    [SeriesIndicator("HEIKINASHI")]
     public static IReadOnlyList<HeikinAshiResult> ToHeikinAshi<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote

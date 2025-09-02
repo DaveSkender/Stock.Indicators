@@ -15,7 +15,6 @@ public static partial class Ultimate
     /// <param name="longPeriods">The number of long lookback periods. Default is 28.</param>
     /// <returns>A list of UltimateResult containing the Ultimate Oscillator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("UO")]
     public static IReadOnlyList<UltimateResult> ToUltimate<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int shortPeriods = 7,

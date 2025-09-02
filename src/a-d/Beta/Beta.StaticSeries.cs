@@ -16,7 +16,6 @@ public static partial class Beta
     /// <returns>A list of Beta results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when sourceEval or sourceMrkt is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamps of sourceEval and sourceMrkt do not match.</exception>
-    [SeriesIndicator("BETA")]
     public static IReadOnlyList<BetaResult> ToBeta<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceMrkt,

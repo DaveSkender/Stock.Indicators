@@ -31,7 +31,7 @@ public class RsiTests : TestBase
 
         IndicatorResult rsiResult = listing.Results.SingleOrDefault(r => r.DataName == "Rsi");
         rsiResult.Should().NotBeNull();
-        rsiResult!.DisplayName.Should().Be("RSI");
+        rsiResult?.DisplayName.Should().Be("RSI");
         rsiResult.IsReusable.Should().Be(true);
     }
 }

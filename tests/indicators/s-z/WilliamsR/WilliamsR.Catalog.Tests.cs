@@ -31,7 +31,7 @@ public class WilliamsRTests : TestBase
 
         IndicatorResult williamsrResult = listing.Results.SingleOrDefault(r => r.DataName == "WilliamsR");
         williamsrResult.Should().NotBeNull();
-        williamsrResult!.DisplayName.Should().Be("Williams %R");
+        williamsrResult?.DisplayName.Should().Be("Williams %R");
         williamsrResult.IsReusable.Should().Be(true);
     }
 }

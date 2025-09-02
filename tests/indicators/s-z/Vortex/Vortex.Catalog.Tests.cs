@@ -31,11 +31,11 @@ public class VortexTests : TestBase
 
         IndicatorResult pviResult = listing.Results.SingleOrDefault(r => r.DataName == "Pvi");
         pviResult.Should().NotBeNull();
-        pviResult!.DisplayName.Should().Be("VI+");
+        pviResult?.DisplayName.Should().Be("VI+");
         pviResult.IsReusable.Should().Be(true);
         IndicatorResult nviResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Nvi");
         nviResult1.Should().NotBeNull();
-        nviResult1!.DisplayName.Should().Be("VI-");
+        nviResult1?.DisplayName.Should().Be("VI-");
         nviResult1.IsReusable.Should().Be(false);
     }
 }

@@ -37,11 +37,11 @@ public class SmiTests : TestBase
 
         IndicatorResult smiResult = listing.Results.SingleOrDefault(r => r.DataName == "Smi");
         smiResult.Should().NotBeNull();
-        smiResult!.DisplayName.Should().Be("SMI");
+        smiResult?.DisplayName.Should().Be("SMI");
         smiResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("Signal");
+        signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

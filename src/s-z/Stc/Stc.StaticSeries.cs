@@ -16,7 +16,6 @@ public static partial class Stc
     /// <returns>A list of <see cref="StcResult"/> containing the STC values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source series is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are less than or equal to 0.</exception>
-    [SeriesIndicator("STC")]
     public static IReadOnlyList<StcResult> ToStc<T>(
         this IReadOnlyList<T> source,
         int cyclePeriods = 10,

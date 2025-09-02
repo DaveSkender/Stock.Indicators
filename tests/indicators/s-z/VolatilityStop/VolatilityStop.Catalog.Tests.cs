@@ -33,11 +33,11 @@ public class VolatilityStopTests : TestBase
 
         IndicatorResult sarResult = listing.Results.SingleOrDefault(r => r.DataName == "Sar");
         sarResult.Should().NotBeNull();
-        sarResult!.DisplayName.Should().Be("Stop and Reverse");
+        sarResult?.DisplayName.Should().Be("Stop and Reverse");
         sarResult.IsReusable.Should().Be(true);
         IndicatorResult isstopResult1 = listing.Results.SingleOrDefault(r => r.DataName == "IsStop");
         isstopResult1.Should().NotBeNull();
-        isstopResult1!.DisplayName.Should().Be("Is Stop");
+        isstopResult1?.DisplayName.Should().Be("Is Stop");
         isstopResult1.IsReusable.Should().Be(false);
     }
 }

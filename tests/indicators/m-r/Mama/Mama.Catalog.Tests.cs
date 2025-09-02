@@ -33,11 +33,11 @@ public class MamaTests : TestBase
 
         IndicatorResult mamaResult = listing.Results.SingleOrDefault(r => r.DataName == "Mama");
         mamaResult.Should().NotBeNull();
-        mamaResult!.DisplayName.Should().Be("MAMA");
+        mamaResult?.DisplayName.Should().Be("MAMA");
         mamaResult.IsReusable.Should().Be(true);
         IndicatorResult famaResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Fama");
         famaResult1.Should().NotBeNull();
-        famaResult1!.DisplayName.Should().Be("FAMA");
+        famaResult1?.DisplayName.Should().Be("FAMA");
         famaResult1.IsReusable.Should().Be(false);
     }
 }

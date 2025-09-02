@@ -11,7 +11,6 @@ public class AdxList : List<AdxResult>, IAdx, IBufferQuote
     /// Initializes a new instance of the <see cref="AdxList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    [BufferIndicator("ADX")]
     public AdxList(int lookbackPeriods)
     {
         Adx.Validate(lookbackPeriods);

@@ -16,7 +16,6 @@ public static partial class Stoch
     /// <param name="signalPeriods">The signal period for the oscillator.</param>
     /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
     /// <returns>A list of StochResult containing the oscillator values.</returns>
-    [SeriesIndicator("STOCH")]
     public static IReadOnlyList<StochResult> ToStoch<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14,

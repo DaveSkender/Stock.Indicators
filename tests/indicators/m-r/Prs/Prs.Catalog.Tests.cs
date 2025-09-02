@@ -31,15 +31,15 @@ public class PrsTests : TestBase
 
         IndicatorResult prsResult = listing.Results.SingleOrDefault(r => r.DataName == "Prs");
         prsResult.Should().NotBeNull();
-        prsResult!.DisplayName.Should().Be("PRS");
+        prsResult?.DisplayName.Should().Be("PRS");
         prsResult.IsReusable.Should().Be(true);
         IndicatorResult prspercentResult1 = listing.Results.SingleOrDefault(r => r.DataName == "PrsPercent");
         prspercentResult1.Should().NotBeNull();
-        prspercentResult1!.DisplayName.Should().Be("PRS %");
+        prspercentResult1?.DisplayName.Should().Be("PRS %");
         prspercentResult1.IsReusable.Should().Be(false);
         IndicatorResult smaResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
         smaResult2.Should().NotBeNull();
-        smaResult2!.DisplayName.Should().Be("SMA");
+        smaResult2?.DisplayName.Should().Be("SMA");
         smaResult2.IsReusable.Should().Be(false);
     }
 }

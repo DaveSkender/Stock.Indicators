@@ -31,7 +31,7 @@ public class WmaTests : TestBase
 
         IndicatorResult wmaResult = listing.Results.SingleOrDefault(r => r.DataName == "Wma");
         wmaResult.Should().NotBeNull();
-        wmaResult!.DisplayName.Should().Be("WMA");
+        wmaResult?.DisplayName.Should().Be("WMA");
         wmaResult.IsReusable.Should().Be(true);
     }
 }

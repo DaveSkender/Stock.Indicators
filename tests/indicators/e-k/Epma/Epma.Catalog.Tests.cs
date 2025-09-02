@@ -31,7 +31,7 @@ public class EpmaTests : TestBase
 
         IndicatorResult epmaResult = listing.Results.SingleOrDefault(r => r.DataName == "Epma");
         epmaResult.Should().NotBeNull();
-        epmaResult!.DisplayName.Should().Be("EPMA");
+        epmaResult?.DisplayName.Should().Be("EPMA");
         epmaResult.IsReusable.Should().Be(true);
     }
 }

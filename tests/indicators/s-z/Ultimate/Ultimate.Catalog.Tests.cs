@@ -35,7 +35,7 @@ public class UltimateTests : TestBase
 
         IndicatorResult ultimateResult = listing.Results.SingleOrDefault(r => r.DataName == "Ultimate");
         ultimateResult.Should().NotBeNull();
-        ultimateResult!.DisplayName.Should().Be("Ultimate Oscillator");
+        ultimateResult?.DisplayName.Should().Be("Ultimate Oscillator");
         ultimateResult.IsReusable.Should().Be(true);
     }
 }

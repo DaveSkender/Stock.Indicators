@@ -33,7 +33,7 @@ public class DynamicTests : TestBase
 
         IndicatorResult dynamicResult = listing.Results.SingleOrDefault(r => r.DataName == "Dynamic");
         dynamicResult.Should().NotBeNull();
-        dynamicResult!.DisplayName.Should().Be("McGinley Dynamic");
+        dynamicResult?.DisplayName.Should().Be("McGinley Dynamic");
         dynamicResult.IsReusable.Should().Be(true);
     }
 }

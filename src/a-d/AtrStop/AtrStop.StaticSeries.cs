@@ -14,7 +14,6 @@ public static partial class AtrStop
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
     /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
-    [SeriesIndicator("ATR-STOP")]
     public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 21,

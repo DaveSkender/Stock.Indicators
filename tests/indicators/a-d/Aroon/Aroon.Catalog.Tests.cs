@@ -31,15 +31,15 @@ public class AroonTests : TestBase
 
         IndicatorResult aroonupResult = listing.Results.SingleOrDefault(r => r.DataName == "AroonUp");
         aroonupResult.Should().NotBeNull();
-        aroonupResult!.DisplayName.Should().Be("Aroon Up");
+        aroonupResult?.DisplayName.Should().Be("Aroon Up");
         aroonupResult.IsReusable.Should().Be(false);
         IndicatorResult aroondownResult1 = listing.Results.SingleOrDefault(r => r.DataName == "AroonDown");
         aroondownResult1.Should().NotBeNull();
-        aroondownResult1!.DisplayName.Should().Be("Aroon Down");
+        aroondownResult1?.DisplayName.Should().Be("Aroon Down");
         aroondownResult1.IsReusable.Should().Be(false);
         IndicatorResult oscillatorResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
         oscillatorResult2.Should().NotBeNull();
-        oscillatorResult2!.DisplayName.Should().Be("Oscillator");
+        oscillatorResult2?.DisplayName.Should().Be("Oscillator");
         oscillatorResult2.IsReusable.Should().Be(true);
     }
 }

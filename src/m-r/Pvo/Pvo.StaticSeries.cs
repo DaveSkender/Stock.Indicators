@@ -15,7 +15,6 @@ public static partial class Pvo
     /// <param name="signalPeriods">The number of periods for the signal line.</param>
     /// <returns>A list of PVO results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    [SeriesIndicator("PVO")]
     public static IReadOnlyList<PvoResult> ToPvo<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int fastPeriods = 12,

@@ -31,7 +31,7 @@ public class SmmaTests : TestBase
 
         IndicatorResult smmaResult = listing.Results.SingleOrDefault(r => r.DataName == "Smma");
         smmaResult.Should().NotBeNull();
-        smmaResult!.DisplayName.Should().Be("SMMA");
+        smmaResult?.DisplayName.Should().Be("SMMA");
         smmaResult.IsReusable.Should().Be(true);
     }
 }

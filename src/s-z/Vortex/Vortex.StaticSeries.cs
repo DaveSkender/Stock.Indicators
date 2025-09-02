@@ -13,7 +13,6 @@ public static partial class Vortex
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of VortexResult containing the Vortex indicator values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("VORTEX")]
     public static IReadOnlyList<VortexResult> ToVortex<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)

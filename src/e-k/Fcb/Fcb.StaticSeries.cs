@@ -14,7 +14,6 @@ public static partial class Fcb
     /// <returns>A list of FCB results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the window span is invalid.</exception>
-    [SeriesIndicator("FCB")]
     public static IReadOnlyList<FcbResult> ToFcb<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int windowSpan = 2)

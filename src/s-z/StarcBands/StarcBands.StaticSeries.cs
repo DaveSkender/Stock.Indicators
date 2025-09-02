@@ -14,7 +14,6 @@ public static partial class StarcBands
     /// <param name="multiplier">The multiplier for the Average True Range (ATR).</param>
     /// <param name="atrPeriods">The number of periods for the ATR calculation.</param>
     /// <returns>A list of <see cref="StarcBandsResult"/> containing the STARC Bands values.</returns>
-    [SeriesIndicator("STARC")]
     public static IReadOnlyList<StarcBandsResult> ToStarcBands<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int smaPeriods,

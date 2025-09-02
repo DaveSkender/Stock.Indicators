@@ -33,27 +33,27 @@ public class BollingerBandsTests : TestBase
 
         IndicatorResult smaResult = listing.Results.SingleOrDefault(r => r.DataName == "Sma");
         smaResult.Should().NotBeNull();
-        smaResult!.DisplayName.Should().Be("Centerline (SMA)");
+        smaResult?.DisplayName.Should().Be("Centerline (SMA)");
         smaResult.IsReusable.Should().Be(false);
         IndicatorResult upperbandResult1 = listing.Results.SingleOrDefault(r => r.DataName == "UpperBand");
         upperbandResult1.Should().NotBeNull();
-        upperbandResult1!.DisplayName.Should().Be("Upper Band");
+        upperbandResult1?.DisplayName.Should().Be("Upper Band");
         upperbandResult1.IsReusable.Should().Be(false);
         IndicatorResult lowerbandResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerBand");
         lowerbandResult2.Should().NotBeNull();
-        lowerbandResult2!.DisplayName.Should().Be("Lower Band");
+        lowerbandResult2?.DisplayName.Should().Be("Lower Band");
         lowerbandResult2.IsReusable.Should().Be(false);
         IndicatorResult percentbResult3 = listing.Results.SingleOrDefault(r => r.DataName == "PercentB");
         percentbResult3.Should().NotBeNull();
-        percentbResult3!.DisplayName.Should().Be("%B");
+        percentbResult3?.DisplayName.Should().Be("%B");
         percentbResult3.IsReusable.Should().Be(true);
         IndicatorResult zscoreResult4 = listing.Results.SingleOrDefault(r => r.DataName == "ZScore");
         zscoreResult4.Should().NotBeNull();
-        zscoreResult4!.DisplayName.Should().Be("Z-Score");
+        zscoreResult4?.DisplayName.Should().Be("Z-Score");
         zscoreResult4.IsReusable.Should().Be(false);
         IndicatorResult widthResult5 = listing.Results.SingleOrDefault(r => r.DataName == "Width");
         widthResult5.Should().NotBeNull();
-        widthResult5!.DisplayName.Should().Be("Width");
+        widthResult5?.DisplayName.Should().Be("Width");
         widthResult5.IsReusable.Should().Be(false);
     }
 }

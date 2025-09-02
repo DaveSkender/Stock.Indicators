@@ -13,7 +13,6 @@ public static partial class Atr
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for ATR calculation. Default is 14.</param>
     /// <returns>A read-only list of ATR results.</returns>
-    [SeriesIndicator("ATR")]
     public static IReadOnlyList<AtrResult> ToAtr<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)

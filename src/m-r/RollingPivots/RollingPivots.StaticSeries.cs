@@ -15,7 +15,6 @@ public static partial class RollingPivots
     /// <param name="pointType">The type of pivot point calculation to use.</param>
     /// <returns>A list of Rolling Pivot Points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes are null.</exception>
-    [SeriesIndicator("ROLLING-PIVOTS")]
     public static IReadOnlyList<RollingPivotsResult> ToRollingPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int windowPeriods,

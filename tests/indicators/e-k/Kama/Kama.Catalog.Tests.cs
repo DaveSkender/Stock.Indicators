@@ -35,11 +35,11 @@ public class KamaTests : TestBase
 
         IndicatorResult erResult = listing.Results.SingleOrDefault(r => r.DataName == "Er");
         erResult.Should().NotBeNull();
-        erResult!.DisplayName.Should().Be("ER");
+        erResult?.DisplayName.Should().Be("ER");
         erResult.IsReusable.Should().Be(false);
         IndicatorResult kamaResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Kama");
         kamaResult1.Should().NotBeNull();
-        kamaResult1!.DisplayName.Should().Be("KAMA");
+        kamaResult1?.DisplayName.Should().Be("KAMA");
         kamaResult1.IsReusable.Should().Be(true);
     }
 }

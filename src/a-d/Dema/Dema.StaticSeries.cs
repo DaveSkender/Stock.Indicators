@@ -14,7 +14,6 @@ public static partial class Dema
     /// <returns>A list of <see cref="DemaResult"/> containing the DEMA values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
-    [SeriesIndicator("DEMA")]
     public static IReadOnlyList<DemaResult> ToDema<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)

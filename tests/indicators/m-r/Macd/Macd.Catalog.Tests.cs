@@ -35,11 +35,11 @@ public class MacdTests : TestBase
 
         IndicatorResult macdResult = listing.Results.SingleOrDefault(r => r.DataName == "Macd");
         macdResult.Should().NotBeNull();
-        macdResult!.DisplayName.Should().Be("MACD");
+        macdResult?.DisplayName.Should().Be("MACD");
         macdResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("Signal");
+        signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

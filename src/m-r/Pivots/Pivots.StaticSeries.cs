@@ -16,7 +16,6 @@ public static partial class Pivots
     /// <param name="endType">The type of end point for the pivot calculation.</param>
     /// <returns>A list of pivot points results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
-    [SeriesIndicator("PIVOTS")]
     public static IReadOnlyList<PivotsResult> ToPivots<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int leftSpan = 2,

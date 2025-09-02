@@ -14,7 +14,6 @@ public static partial class Donchian
     /// <returns>A list of Donchian Channel results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    [SeriesIndicator("DONCHIAN")]
     public static IReadOnlyList<DonchianResult> ToDonchian<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 20)

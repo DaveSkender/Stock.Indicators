@@ -35,11 +35,11 @@ public class StochTests : TestBase
 
         IndicatorResult oscillatorResult = listing.Results.SingleOrDefault(r => r.DataName == "Oscillator");
         oscillatorResult.Should().NotBeNull();
-        oscillatorResult!.DisplayName.Should().Be("%K");
+        oscillatorResult?.DisplayName.Should().Be("%K");
         oscillatorResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("%D");
+        signalResult1?.DisplayName.Should().Be("%D");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

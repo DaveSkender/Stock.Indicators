@@ -13,7 +13,6 @@ public static partial class WilliamsR
     /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
     /// <returns>A list of WilliamsResult containing the Williams %R values.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    [SeriesIndicator("WILLR")]
     public static IReadOnlyList<WilliamsResult> ToWilliamsR<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14)

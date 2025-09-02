@@ -14,7 +14,6 @@ public static partial class Ichimoku
     /// <param name="kijunPeriods">The number of periods for the Kijun-sen (base line). Default is 26.</param>
     /// <param name="senkouBPeriods">The number of periods for the Senkou Span B (leading span B). Default is 52.</param>
     /// <returns>A list of Ichimoku Cloud results.</returns>
-    [SeriesIndicator("ICHIMOKU")]
     public static IReadOnlyList<IchimokuResult> ToIchimoku<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int tenkanPeriods = 9,

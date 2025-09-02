@@ -33,15 +33,15 @@ public class StdDevChannelsTests : TestBase
 
         IndicatorResult upperchannelResult = listing.Results.SingleOrDefault(r => r.DataName == "UpperChannel");
         upperchannelResult.Should().NotBeNull();
-        upperchannelResult!.DisplayName.Should().Be("Upper Channel");
+        upperchannelResult?.DisplayName.Should().Be("Upper Channel");
         upperchannelResult.IsReusable.Should().Be(false);
         IndicatorResult centerlineResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Centerline");
         centerlineResult1.Should().NotBeNull();
-        centerlineResult1!.DisplayName.Should().Be("Centerline");
+        centerlineResult1?.DisplayName.Should().Be("Centerline");
         centerlineResult1.IsReusable.Should().Be(true);
         IndicatorResult lowerchannelResult2 = listing.Results.SingleOrDefault(r => r.DataName == "LowerChannel");
         lowerchannelResult2.Should().NotBeNull();
-        lowerchannelResult2!.DisplayName.Should().Be("Lower Channel");
+        lowerchannelResult2?.DisplayName.Should().Be("Lower Channel");
         lowerchannelResult2.IsReusable.Should().Be(false);
     }
 }

@@ -31,19 +31,19 @@ public class SlopeTests : TestBase
 
         IndicatorResult slopeResult = listing.Results.SingleOrDefault(r => r.DataName == "Slope");
         slopeResult.Should().NotBeNull();
-        slopeResult!.DisplayName.Should().Be("Slope");
+        slopeResult?.DisplayName.Should().Be("Slope");
         slopeResult.IsReusable.Should().Be(true);
         IndicatorResult interceptResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Intercept");
         interceptResult1.Should().NotBeNull();
-        interceptResult1!.DisplayName.Should().Be("Intercept");
+        interceptResult1?.DisplayName.Should().Be("Intercept");
         interceptResult1.IsReusable.Should().Be(false);
         IndicatorResult stddevResult2 = listing.Results.SingleOrDefault(r => r.DataName == "StdDev");
         stddevResult2.Should().NotBeNull();
-        stddevResult2!.DisplayName.Should().Be("Standard Deviation");
+        stddevResult2?.DisplayName.Should().Be("Standard Deviation");
         stddevResult2.IsReusable.Should().Be(false);
         IndicatorResult rsquaredResult3 = listing.Results.SingleOrDefault(r => r.DataName == "RSquared");
         rsquaredResult3.Should().NotBeNull();
-        rsquaredResult3!.DisplayName.Should().Be("R-Squared");
+        rsquaredResult3?.DisplayName.Should().Be("R-Squared");
         rsquaredResult3.IsReusable.Should().Be(false);
     }
 }

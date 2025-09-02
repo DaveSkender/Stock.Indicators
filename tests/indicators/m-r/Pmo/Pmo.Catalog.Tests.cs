@@ -35,11 +35,11 @@ public class PmoTests : TestBase
 
         IndicatorResult pmoResult = listing.Results.SingleOrDefault(r => r.DataName == "Pmo");
         pmoResult.Should().NotBeNull();
-        pmoResult!.DisplayName.Should().Be("PMO");
+        pmoResult?.DisplayName.Should().Be("PMO");
         pmoResult.IsReusable.Should().Be(true);
         IndicatorResult signalResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Signal");
         signalResult1.Should().NotBeNull();
-        signalResult1!.DisplayName.Should().Be("Signal");
+        signalResult1?.DisplayName.Should().Be("Signal");
         signalResult1.IsReusable.Should().Be(false);
     }
 }

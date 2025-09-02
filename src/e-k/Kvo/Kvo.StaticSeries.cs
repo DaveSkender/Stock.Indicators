@@ -15,7 +15,6 @@ public static partial class Kvo
     /// <param name="signalPeriods">The number of periods for the signal line. Default is 13.</param>
     /// <returns>A list of KVO results.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    [SeriesIndicator("KVO")]
     public static IReadOnlyList<KvoResult> ToKvo<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int fastPeriods = 34,
