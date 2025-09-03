@@ -124,6 +124,17 @@
               "src/**/*.html"
             ]
           }
+        },
+        "e2e": {
+          "builder": "playwright-ng-schematics:playwright",
+          "options": {
+            "devServerTarget": "docs-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "docs-app:serve:production"
+            }
+          }
         }
       }
     }

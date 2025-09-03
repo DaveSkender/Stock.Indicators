@@ -34,7 +34,7 @@
     "@angular-devkit/build-angular": "^20.2.1",
     "@angular/cli": "^20.2.1",
     "@angular/compiler-cli": "^20.2.3",
-    "@playwright/test": "^1.47.0",
+    "@playwright/test": "1.55.0",
     "@types/jest": "^29.5.12",
     "@types/marked": "^6.0.0",
     "angular-eslint": "20.2.0",
@@ -46,6 +46,7 @@
     "jest-util": "^29.7.0",
     "markdownlint": "^0.36.1",
     "markdownlint-cli": "^0.43.0",
+    "playwright-ng-schematics": "^2.1.0",
     "ts-jest": "^29.2.5",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.40.0"
