@@ -71,23 +71,50 @@ dotnet run -c Release --filter *.ToAdx
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
+This site uses Angular with standalone components.
 Our documentation site code is in the `docs` folder.
 Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve -o -l
+npm install
+npm run start
 
-# the site will open http://127.0.0.1:4000
+# the site will open at http://localhost:4200
+```
+
+For production builds:
+
+```bash
+# from /docs folder
+npm run build:complete
+
+# to serve the built site locally
+npx http-server dist/static -p 4000
+```
+
+### Testing the documentation site
+
+The documentation site uses Jest for unit tests and Playwright for end-to-end testing:
+
+```bash
+# Run unit tests
+npm run test
+
+# Run unit tests in watch mode
+npm run test:watch
+
+# Run end-to-end tests
+npm run e2e
+
+# Run end-to-end tests with UI
+npm run e2e:ui
 ```
 
 When adding or updating indicators:
 
-- Add or update the `/docs/_indicators/` documentation files.
-- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+- Add or update the `/docs/public/docs/` documentation files.
+- Page image assets go here: `/docs/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 

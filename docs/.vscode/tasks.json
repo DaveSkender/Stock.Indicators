@@ -77,6 +77,79 @@
       }
     },
     {
+      "label": "test: jest",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "test: jest:watch",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:watch"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "test: playwright",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "e2e"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "test: playwright:ui",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "e2e:ui"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
       "label": "lint: all",
       "type": "shell",
       "command": "npm",
