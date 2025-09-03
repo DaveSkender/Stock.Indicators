@@ -54,58 +54,33 @@
       }
     },
     {
-      "label": "Run: Doc Site with LiveReload",
+      "label": "Run: Docs Dev Server",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby Packages (docs)",
+      "command": "npm start",
       "isBackground": true,
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
       "group": "none",
-      "problemMatcher": [],
+      "problemMatcher": "$tsc",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
       }
     },
     {
-      "label": "Install: Ruby Packages (docs)",
+      "label": "Build: Docs Site",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force",
+      "command": "npm run build:complete",
       "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+        "cwd": "${workspaceFolder}/docs"
       },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Update: Ruby Packages (docs)",
-      "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
+      "group": {
+        "kind": "build"
       },
-      "group": "none",
-      "problemMatcher": [],
+      "problemMatcher": "$tsc",
       "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "panel": "dedicated"
       }
     }

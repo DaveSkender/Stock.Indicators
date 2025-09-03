@@ -5,7 +5,9 @@
       "label": "ng: serve",
       "type": "shell",
       "command": "ng",
-      "args": ["serve"],
+      "args": [
+        "serve"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -24,7 +26,9 @@
       "label": "ng: build",
       "type": "shell",
       "command": "ng",
-      "args": ["build"],
+      "args": [
+        "build"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -43,13 +47,16 @@
       "label": "ng: build:complete",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "build:complete"],
+      "args": [
+        "run",
+        "build:complete"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
       "group": "build",
       "presentation": {
-        "echo": true,
+        "group": "none",
         "reveal": "always",
         "focus": false,
         "panel": "shared",
@@ -59,10 +66,33 @@
       "problemMatcher": "$tsc"
     },
     {
-      "label": "ng: test",
+      "label": "tests: unit (jest)",
       "type": "shell",
-      "command": "ng",
-      "args": ["test"],
+      "command": "npm",
+      "args": [
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "tests: e2e (playwright)",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "e2e"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -80,7 +110,10 @@
       "label": "lint: all",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "lint"],
+      "args": [
+        "run",
+        "lint"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -98,7 +131,10 @@
       "label": "lint: markdown",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "lint:md"],
+      "args": [
+        "run",
+        "lint:md"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
@@ -116,7 +152,10 @@
       "label": "lint: markdown:fix",
       "type": "shell",
       "command": "npm",
-      "args": ["run", "lint:md:fix"],
+      "args": [
+        "run",
+        "lint:md:fix"
+      ],
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },

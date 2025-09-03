@@ -29,8 +29,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
           cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
@@ -39,11 +39,8 @@ jobs:
       - name: Build site
         run: npm run build:complete
 
-      - name: Install html-proofer
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby-dev
-          gem install html-proofer
+      - name: Install linkinator
+        run: npm install -g linkinator
 
       - name: Serve site
         run: |
@@ -52,15 +49,8 @@ jobs:
           sleep 5
 
       - name: Test for broken URLs
-        run: >
-          htmlproofer dist/static
-          --no-enforce-https
-          --no-check-external-hash
-          --ignore-status-codes "0,302,403,406,408,429,503,999"
-          --ignore-urls "/fonts.gstatic.com/"
-          --check-html
-          --check-img-http
-          --check-opengraph
+        run: |
+          npx linkinator http://127.0.0.1:4000 --recurse --skip "/fonts.gstatic.com/" --skip ".*google-analytics.com.*" --retry 3 --retry-errors
 
       - name: Kill site (failsafe)
         if: always()

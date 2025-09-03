@@ -71,17 +71,17 @@ dotnet run -c Release --filter *.ToAdx
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
-Our documentation site code is in the `docs` folder.
-Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
+Our documentation site is an Angular application in the `docs` folder.
+Unit tests use Jest and end-to-end tests use Playwright.
+Build and preview locally with:
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve -o -l
+npm install
+npm start # opens http://localhost:4200
 
-# the site will open http://127.0.0.1:4000
+# build static site
+npm run build:complete
 ```
 
 When adding or updating indicators:
@@ -107,6 +107,7 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 ### Pull Request naming convention
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
+
 - `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
 - `Subject` starts with an uppercase letter
 
@@ -137,8 +138,9 @@ This repository is optimized for GitHub Copilot and coding agents with:
 - **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
 
 When using GitHub Copilot:
+
 - Follow the established patterns documented in the Copilot instructions
-- Ensure all financial calculations maintain decimal precision 
+- Ensure all financial calculations maintain decimal precision
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 
