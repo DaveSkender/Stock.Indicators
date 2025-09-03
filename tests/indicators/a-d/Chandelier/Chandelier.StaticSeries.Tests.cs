@@ -12,8 +12,8 @@ public class Chandelier : StaticSeriesTestBase
             Quotes.ToChandelier(lookbackPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, longResult.Count);
-        Assert.AreEqual(480, longResult.Count(x => x.ChandelierExit != null));
+        Assert.HasCount(502, longResult);
+        Assert.HasCount(480, longResult.Where(x => x.ChandelierExit != null));
 
         // sample values (long)
         ChandelierResult a = longResult[501];
@@ -24,7 +24,7 @@ public class Chandelier : StaticSeriesTestBase
 
         // short
         IReadOnlyList<ChandelierResult> shortResult =
-            Quotes.ToChandelier(lookbackPeriods, 3, ChandelierType.Short);
+            Quotes.ToChandelier(lookbackPeriods, 3, Direction.Short);
 
         ChandelierResult c = shortResult[501];
         Assert.AreEqual(246.4240, c.ChandelierExit.Round(4));
@@ -37,8 +37,8 @@ public class Chandelier : StaticSeriesTestBase
             .ToChandelier()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(471, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(471, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -47,8 +47,8 @@ public class Chandelier : StaticSeriesTestBase
         IReadOnlyList<ChandelierResult> r = BadQuotes
             .ToChandelier(15, 2);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.ChandelierExit is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.ChandelierExit is double.NaN));
     }
 
     [TestMethod]
@@ -57,12 +57,12 @@ public class Chandelier : StaticSeriesTestBase
         IReadOnlyList<ChandelierResult> r0 = Noquotes
             .ToChandelier();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ChandelierResult> r1 = Onequote
             .ToChandelier();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@ public class Chandelier : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 22, results.Count);
+        Assert.HasCount(502 - 22, results);
 
         ChandelierResult last = results[^1];
         Assert.AreEqual(256.5860, last.ChandelierExit.Round(4));
@@ -83,15 +83,15 @@ public class Chandelier : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChandelier(0));
 
         // bad multiplier
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChandelier(25, 0));
 
         // bad type
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.ToChandelier(25, 2, (ChandelierType)int.MaxValue));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToChandelier(25, 2, (Direction)int.MaxValue));
     }
 }

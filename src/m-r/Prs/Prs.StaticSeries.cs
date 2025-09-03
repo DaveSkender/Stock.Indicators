@@ -5,20 +5,31 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public static partial class Prs
 {
+    #region Overloads
+
+    /// <inheritdoc cref="ToPrs{T}(IReadOnlyList{T}, IReadOnlyList{T}, int)" />
+    public static IReadOnlyList<PrsResult> ToPrs<T>(
+        this IReadOnlyList<T> sourceEval,
+        IReadOnlyList<T> sourceBase)
+        where T : IReusable => sourceEval.ToPrs(sourceBase, int.MinValue);
+    #endregion
+
     /// <summary>
     /// Converts a list of evaluation source values and base source values to a list of PRS results.
     /// </summary>
     /// <typeparam name="T">The type of the source values.</typeparam>
     /// <param name="sourceEval">The list of evaluation source values.</param>
     /// <param name="sourceBase">The list of base source values.</param>
-    /// <param name="lookbackPeriods">The number of periods for the lookback calculation.</param>
+    /// <param name="lookbackPeriods">
+    /// The number of periods for the PRS% lookback calculation.  Optional.
+    /// </param>
     /// <returns>A list of PRS results.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="InvalidQuotesException">Thrown when the timestamp sequence does not match.</exception>
     public static IReadOnlyList<PrsResult> ToPrs<T>(
         this IReadOnlyList<T> sourceEval,
         IReadOnlyList<T> sourceBase,
-        int? lookbackPeriods = null)
+        int lookbackPeriods)
         where T : IReusable
     {
         // check parameter arguments
@@ -46,10 +57,10 @@ public static partial class Prs
 
             double? prsPercent = null;
 
-            if (lookbackPeriods is not null && i > lookbackPeriods - 1)
+            if (lookbackPeriods > 0 && i > lookbackPeriods - 1)
             {
-                T bo = sourceBase[i - (int)lookbackPeriods];
-                T eo = sourceEval[i - (int)lookbackPeriods];
+                T bo = sourceBase[i - lookbackPeriods];
+                T eo = sourceEval[i - lookbackPeriods];
 
                 if (bo.Value != 0 && eo.Value != 0)
                 {

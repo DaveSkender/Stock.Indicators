@@ -13,10 +13,10 @@ public class StdDevChannels : StaticSeriesTestBase
             Quotes.ToStdDevChannels(lookbackPeriods, standardDeviations);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(500, results.Count(x => x.UpperChannel != null));
-        Assert.AreEqual(500, results.Count(x => x.LowerChannel != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
+        Assert.HasCount(500, results.Where(x => x.UpperChannel != null));
+        Assert.HasCount(500, results.Where(x => x.LowerChannel != null));
 
         // sample value
         StdDevChannelsResult r1 = results[1];
@@ -65,17 +65,17 @@ public class StdDevChannels : StaticSeriesTestBase
     [TestMethod]
     public void FullHistory()
     {
-        // null provided for lookback period
+        // full history linear regression
 
         IReadOnlyList<StdDevChannelsResult> results =
-            Quotes.ToStdDevChannels(null);
+            Quotes.ToStdDevChannels(Quotes.Count);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.Centerline != null));
-        Assert.AreEqual(502, results.Count(x => x.UpperChannel != null));
-        Assert.AreEqual(502, results.Count(x => x.LowerChannel != null));
-        Assert.AreEqual(501, results.Count(x => !x.BreakPoint));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.Centerline != null));
+        Assert.HasCount(502, results.Where(x => x.UpperChannel != null));
+        Assert.HasCount(502, results.Where(x => x.LowerChannel != null));
+        Assert.HasCount(501, results.Where(x => !x.BreakPoint));
 
         // sample value
         StdDevChannelsResult r1 = results[0];
@@ -102,8 +102,8 @@ public class StdDevChannels : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToStdDevChannels();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -113,8 +113,8 @@ public class StdDevChannels : StaticSeriesTestBase
             .ToSma(2)
             .ToStdDevChannels();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(500, results.Count(x => x.Centerline != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(500, results.Where(x => x.Centerline != null));
     }
 
     [TestMethod]
@@ -123,8 +123,8 @@ public class StdDevChannels : StaticSeriesTestBase
         IReadOnlyList<StdDevChannelsResult> r = BadQuotes
             .ToStdDevChannels();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.UpperChannel is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.UpperChannel is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -133,12 +133,12 @@ public class StdDevChannels : StaticSeriesTestBase
         IReadOnlyList<StdDevChannelsResult> r0 = Noquotes
             .ToStdDevChannels();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<StdDevChannelsResult> r1 = Onequote
             .ToStdDevChannels();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -152,7 +152,7 @@ public class StdDevChannels : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(500, results.Count);
+        Assert.HasCount(500, results);
         StdDevChannelsResult last = results[^1];
         Assert.AreEqual(235.8131, last.Centerline.Round(4));
         Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
@@ -171,7 +171,7 @@ public class StdDevChannels : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(500, results.Count);
+        Assert.HasCount(500, results);
         StdDevChannelsResult last = results[^1];
         Assert.AreEqual(235.8131, last.Centerline.Round(4));
         Assert.AreEqual(257.6536, last.UpperChannel.Round(4));
@@ -183,11 +183,11 @@ public class StdDevChannels : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStdDevChannels(0));
 
         // bad standard deviations
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStdDevChannels(20, 0));
     }
 }

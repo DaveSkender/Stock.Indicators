@@ -36,8 +36,8 @@ public class CustomQuotes
         IReadOnlyList<EmaResult> results = Ema.ToEma(myGenericHistory, 20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];
@@ -112,7 +112,7 @@ public class CustomQuotes
             .Aggregate(PeriodSize.TwoHours);
 
         // proper quantities
-        Assert.AreEqual(20, quotesList.Count);
+        Assert.HasCount(20, quotesList);
 
         // sample values
         Quote r19 = quotesList[19];
@@ -138,7 +138,7 @@ public class CustomQuotes
             .Aggregate(TimeSpan.FromHours(2));
 
         // proper quantities
-        Assert.AreEqual(20, quotesList.Count);
+        Assert.HasCount(20, quotesList);
 
         // sample values
         Quote r19 = quotesList[19];
@@ -162,8 +162,8 @@ public class CustomQuotes
         IReadOnlyList<EmaResult> results = myGenericHistory.ToEma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Ema != null));
 
         // sample values
         EmaResult r1 = results[501];

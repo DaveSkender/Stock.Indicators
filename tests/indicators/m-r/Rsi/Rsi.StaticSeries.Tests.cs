@@ -10,12 +10,12 @@ public class Rsi : StaticSeriesTestBase
             .ToRsi();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Rsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[13];
-        Assert.AreEqual(null, r1.Rsi);
+        Assert.IsNull(r1.Rsi);
 
         RsiResult r2 = results[14];
         Assert.AreEqual(62.0541, r2.Rsi.Round(4));
@@ -35,8 +35,8 @@ public class Rsi : StaticSeriesTestBase
             .ToRsi(lookbackPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Rsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Rsi != null));
 
         // sample values
         RsiResult r1 = results[28];
@@ -54,7 +54,7 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> r = btc
             .ToRsi(1);
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -64,8 +64,8 @@ public class Rsi : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToRsi();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Rsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -75,8 +75,8 @@ public class Rsi : StaticSeriesTestBase
             .ToSma(2)
             .ToRsi();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(487, results.Count(x => x.Rsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(487, results.Where(x => x.Rsi != null));
     }
 
     [TestMethod]
@@ -86,8 +86,8 @@ public class Rsi : StaticSeriesTestBase
             .ToRsi()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(479, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(479, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> r = Data.GetBtcUsdNan()
             .ToRsi();
 
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -105,8 +105,8 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> r = BadQuotes
             .ToRsi(20);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -115,12 +115,12 @@ public class Rsi : StaticSeriesTestBase
         IReadOnlyList<RsiResult> r0 = Noquotes
             .ToRsi();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<RsiResult> r1 = Onequote
             .ToRsi();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -131,7 +131,7 @@ public class Rsi : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (10 * 14), results.Count);
+        Assert.HasCount(502 - (10 * 14), results);
 
         RsiResult last = results[^1];
         Assert.AreEqual(42.0773, last.Rsi.Round(4));
@@ -140,6 +140,6 @@ public class Rsi : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToRsi(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToRsi(0));
 }

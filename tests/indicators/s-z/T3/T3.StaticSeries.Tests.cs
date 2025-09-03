@@ -10,8 +10,8 @@ public class T3 : StaticSeriesTestBase
             .ToT3();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.T3 != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.T3 != null));
 
         // sample values
         T3Result r5 = results[5];
@@ -40,8 +40,8 @@ public class T3 : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToT3();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(502, results.Count(x => x.T3 != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(502, results.Where(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -51,8 +51,8 @@ public class T3 : StaticSeriesTestBase
             .ToSma(2)
             .ToT3();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.T3 != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.T3 != null));
     }
 
     [TestMethod]
@@ -62,7 +62,7 @@ public class T3 : StaticSeriesTestBase
             .ToT3()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]
@@ -71,8 +71,8 @@ public class T3 : StaticSeriesTestBase
         IReadOnlyList<T3Result> r = BadQuotes
             .ToT3();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.T3 is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.T3 is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -81,23 +81,23 @@ public class T3 : StaticSeriesTestBase
         IReadOnlyList<T3Result> r0 = Noquotes
             .ToT3();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<T3Result> r1 = Onequote
             .ToT3();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToT3(0));
 
         // bad volume factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToT3(25, 0));
     }
 }

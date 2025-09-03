@@ -1,19 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-#region hub interface and initializer
-
-/// <summary>
-/// Interface for Average True Range (ATR) Hub.
-/// </summary>
-public interface IAtrHub
-{
-    /// <summary>
-    /// Gets the lookback periods for ATR calculation.
-    /// </summary>
-    int LookbackPeriods { get; }
-}
-#endregion
-
 public static partial class Atr
 {
     /// <summary>
@@ -29,12 +15,13 @@ public static partial class Atr
         where TIn : IQuote
         => new(quoteProvider, lookbackPeriods);
 }
+
 /// <summary>
 /// Represents a hub for calculating the Average True Range (ATR) indicator.
 /// </summary>
 /// <typeparam name="TIn">The type of the input quote.</typeparam>
 public class AtrHub<TIn>
-    : ChainProvider<TIn, AtrResult>, IAtrHub
+    : ChainProvider<TIn, AtrResult>, IAtr
     where TIn : IQuote
 {
     #region constructors

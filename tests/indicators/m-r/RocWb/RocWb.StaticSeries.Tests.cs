@@ -10,11 +10,11 @@ public class RocWb : StaticSeriesTestBase
             .ToRocWb(20, 3, 20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
-        Assert.AreEqual(480, results.Count(x => x.RocEma != null));
-        Assert.AreEqual(463, results.Count(x => x.UpperBand != null));
-        Assert.AreEqual(463, results.Count(x => x.LowerBand != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
+        Assert.HasCount(480, results.Where(x => x.RocEma != null));
+        Assert.HasCount(463, results.Where(x => x.UpperBand != null));
+        Assert.HasCount(463, results.Where(x => x.LowerBand != null));
 
         // sample values
         RocWbResult r19 = results[19];
@@ -73,8 +73,8 @@ public class RocWb : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToRocWb(20, 3, 20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -84,8 +84,8 @@ public class RocWb : StaticSeriesTestBase
             .ToSma(2)
             .ToRocWb(20, 3, 20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Roc != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Roc != null));
     }
 
     [TestMethod]
@@ -95,8 +95,8 @@ public class RocWb : StaticSeriesTestBase
             .ToRocWb(20, 3, 20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -105,8 +105,8 @@ public class RocWb : StaticSeriesTestBase
         IReadOnlyList<RocWbResult> r = BadQuotes
             .ToRocWb(35, 3, 35);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Roc is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Roc is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -115,12 +115,12 @@ public class RocWb : StaticSeriesTestBase
         IReadOnlyList<RocWbResult> r0 = Noquotes
             .ToRocWb(5, 3, 2);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<RocWbResult> r1 = Onequote
             .ToRocWb(5, 3, 2);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -131,7 +131,7 @@ public class RocWb : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (20 + 3 + 100), results.Count);
+        Assert.HasCount(502 - (20 + 3 + 100), results);
 
         RocWbResult last = results[^1];
         Assert.AreEqual(-8.2482, Math.Round(last.Roc.Value, 4));
@@ -144,15 +144,15 @@ public class RocWb : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToRocWb(0, 3, 12));
 
         // bad EMA period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToRocWb(14, 0, 14));
 
         // bad STDDEV period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToRocWb(15, 3, 16));
     }
 }

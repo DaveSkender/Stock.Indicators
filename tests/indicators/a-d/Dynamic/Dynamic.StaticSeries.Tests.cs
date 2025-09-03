@@ -10,8 +10,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToDynamic(14);
 
         // assertions
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
 
         // sample values
         DynamicResult r1 = results[1];
@@ -34,9 +34,9 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToDynamic(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(501, results.Count(x => x.Dynamic != null));
-        Assert.AreEqual(0, results.Count(x => x.Dynamic is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(501, results.Where(x => x.Dynamic != null));
+        Assert.IsEmpty(results.Where(x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -46,8 +46,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToSma(10)
             .ToDynamic(14);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.Dynamic != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.Dynamic != null));
     }
 
     [TestMethod]
@@ -57,8 +57,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
             .ToDynamic(14)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -67,8 +67,8 @@ public class McGinleyDynamic : StaticSeriesTestBase
         IReadOnlyList<DynamicResult> r = BadQuotes
             .ToDynamic(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dynamic is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Dynamic is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -77,23 +77,23 @@ public class McGinleyDynamic : StaticSeriesTestBase
         IReadOnlyList<DynamicResult> r0 = Noquotes
             .ToDynamic(14);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<DynamicResult> r1 = Onequote
             .ToDynamic(14);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToDynamic(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToDynamic(0));
 
         // bad k-factor
-        Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToDynamic(14, 0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToDynamic(14, 0));
     }
 }

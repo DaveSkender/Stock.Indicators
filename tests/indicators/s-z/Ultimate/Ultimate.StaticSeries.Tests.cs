@@ -10,8 +10,8 @@ public class Ultimate : StaticSeriesTestBase
             .ToUltimate();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Ultimate != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Ultimate != null));
 
         // sample values
         UltimateResult r1 = results[74];
@@ -31,8 +31,8 @@ public class Ultimate : StaticSeriesTestBase
             .ToUltimate()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(465, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(465, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -41,8 +41,8 @@ public class Ultimate : StaticSeriesTestBase
         IReadOnlyList<UltimateResult> r = BadQuotes
             .ToUltimate(1, 2, 3);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Ultimate is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Ultimate is double.NaN));
     }
 
     [TestMethod]
@@ -51,12 +51,12 @@ public class Ultimate : StaticSeriesTestBase
         IReadOnlyList<UltimateResult> r0 = Noquotes
             .ToUltimate();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<UltimateResult> r1 = Onequote
             .ToUltimate();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Ultimate : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 28, results.Count);
+        Assert.HasCount(502 - 28, results);
 
         UltimateResult last = results[^1];
         Assert.AreEqual(49.5257, last.Ultimate.Round(4));
@@ -77,15 +77,15 @@ public class Ultimate : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad short period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToUltimate(0));
 
         // bad middle period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToUltimate(7, 6));
 
         // bad long period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToUltimate(7, 14, 11));
     }
 }

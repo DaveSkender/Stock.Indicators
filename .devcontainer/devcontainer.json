@@ -20,14 +20,13 @@
         "chat.mcp.discovery.enabled": true
       },
       "extensions": [
-        "DavidAnson.vscode-markdownlint",
-        "ms-dotnettools.csdevkit",
-        "DotJoshJohnson.xml",
-        "redhat.vscode-yaml",
         "bierner.github-markdown-preview",
-        "EditorConfig.EditorConfig",
-        "ms-dotnettools.vscodeintellicode-csharp"
         "DavidAnson.vscode-markdownlint",
+        "DotJoshJohnson.xml",
+        "EditorConfig.EditorConfig",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "redhat.vscode-yaml",
         "GitHub.copilot-chat"
       ]
     }

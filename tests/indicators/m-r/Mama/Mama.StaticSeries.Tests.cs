@@ -13,13 +13,13 @@ public class Mama : StaticSeriesTestBase
             .ToMama(fastLimit, slowLimit);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Count(x => x.Mama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(497, results.Where(x => x.Mama != null));
 
         // sample values
         MamaResult r1 = results[4];
-        Assert.AreEqual(null, r1.Mama);
-        Assert.AreEqual(null, r1.Fama);
+        Assert.IsNull(r1.Mama);
+        Assert.IsNull(r1.Fama);
 
         MamaResult r2 = results[5];
         Assert.AreEqual(213.73, r2.Mama);
@@ -53,8 +53,8 @@ public class Mama : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToMama();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(497, results.Count(x => x.Mama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(497, results.Where(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -64,8 +64,8 @@ public class Mama : StaticSeriesTestBase
             .ToSma(2)
             .ToMama();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(496, results.Count(x => x.Mama != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(496, results.Where(x => x.Mama != null));
     }
 
     [TestMethod]
@@ -75,8 +75,8 @@ public class Mama : StaticSeriesTestBase
             .ToMama()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -85,8 +85,8 @@ public class Mama : StaticSeriesTestBase
         IReadOnlyList<MamaResult> r = BadQuotes
             .ToMama();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Mama is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Mama is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -94,11 +94,11 @@ public class Mama : StaticSeriesTestBase
     {
         IReadOnlyList<MamaResult> r0 = Noquotes.ToMama();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<MamaResult> r1 = Onequote.ToMama();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public class Mama : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 50, results.Count);
+        Assert.HasCount(502 - 50, results);
 
         MamaResult last = results[^1];
         Assert.AreEqual(244.1092, last.Mama.Round(4));
@@ -123,15 +123,15 @@ public class Mama : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast period (same as slow period)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMama(0.5, 0.5));
 
         // bad fast period (cannot be 1 or more)
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMama(1, 0.5));
 
         // bad slow period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToMama(0.5, 0));
     }
 }
