@@ -71,51 +71,22 @@ dotnet run -c Release --filter *.ToAdx
 
 ## Documentation
 
-This site uses Angular with standalone components.
-Our documentation site code is in the `docs` folder.
-Build the site locally to test that it works properly.
+Our documentation site is an Angular application in the `docs` folder.
+Build and preview locally with:
 
 ```bash
 # from /docs folder
 npm install
-<<<<<<< HEAD
-npm run start
+npm start # http://localhost:4200
 
-# the site will open at http://localhost:4200
-```
-
-For production builds:
-
-```bash
-# from /docs folder
+# build static site
 npm run build:complete
-
-# to serve the built site locally
-npx http-server dist/static -p 4000
-```
-
-### Testing the documentation site
-
-The documentation site uses Jest for unit tests and Playwright for end-to-end testing:
-
-```bash
-# Run unit tests
-npm run test
-
-# Run unit tests in watch mode
-npm run test:watch
-
-# Run end-to-end tests
-npm run e2e
-
-# Run end-to-end tests with UI
-npm run e2e:ui
 ```
 
 When adding or updating indicators:
 
-- Add or update the `/docs/public/docs/` documentation files.
-- Page image assets go here: `/docs/public/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
+- Add or update the `/docs/_indicators/` documentation files.
+- Page image assets go here: `/docs/assets/` and can be optimized to `webp` format using [ImageMagick](https://imagemagick.org) or the [cwebp Encoder CLI](https://developers.google.com/speed/webp/docs/cwebp) and a command like `cwebp -resize 832 0 -q 100 examples.png -o examples-832.webp`
 
 ### Accessibility testing
 

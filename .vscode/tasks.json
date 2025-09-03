@@ -112,6 +112,133 @@
         "reveal": "always",
         "panel": "dedicated"
       }
+    },
+    {
+      "label": "Test: Jest Unit Tests",
+      "type": "shell",
+      "command": "npm",
+      "args": ["test"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Test: Jest Watch Mode",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:watch"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Test: Playwright E2E",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "e2e"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Test: Playwright UI Mode",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "e2e:ui"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Lint: ESLint",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "lint"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Lint: Markdown",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "lint:md"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "Lint: Markdown Fix",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "lint:md:fix"],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
     }
   ]
 }

@@ -117,11 +117,6 @@
     }
   },
   "cli": {
-<<<<<<< HEAD
-    "schematicCollections": [
-      "angular-eslint"
-    ]
-=======
     "analytics": false,
     "schematicCollections": [
       "angular-eslint"
@@ -152,6 +147,5 @@
     "@schematics/angular:resolver": {
       "typeSeparator": "."
     }
->>>>>>> copilot/fix-235794f1-4f57-48ec-8261-d31476d7cbab
   }
 }
