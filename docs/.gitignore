@@ -15,3 +15,8 @@
 
 # Build outputs
 /tmp/
+
+# Testing artifacts
+/coverage
+/playwright-report
+/test-results
