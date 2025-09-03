@@ -1,8 +1,8 @@
-name: Website URLs
+# Checks website for broken links
+name: Website Links
 
 on:
   pull_request:
-    branches: ["*"]
     paths:
       - docs/**
       - .github/workflows/test-website-links.yml
@@ -21,53 +21,58 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          ruby-version: 3.3
+          python-version: '3.x'
+          cache: 'pip'
 
       - name: Install dependencies
         run: |
-          bundle install
-          gem install html-proofer
-
-      - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "data-src"
-          replace: "src"
-          regex: false
+          pip install -r requirements.txt
+          pip install linkchecker
 
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
         with:
           find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
+          replace: "http://127.0.0.1:8000"
           regex: false
+          include: "docs/**"
+
+      - name: Copy non-production robots.txt
+        run: cp website/robots_nonprod.txt website/robots.txt
 
       - name: Build site
-        run: bundle exec jekyll build
+        env:
+          GOOGLE_ANALYTICS_KEY: ""
+        run: mkdocs build
 
       - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
+        run: mkdocs serve --no-livereload &
 
-        # see help in setup step
+      # Wait for the server to start
+      - name: Wait for server
+        run: sleep 5
+
+      # Test for broken URLs
       - name: Test for broken URLs
-        run: >
-          htmlproofer _site
-          --no-enforce-https
-          --no-check-external-hash
-          --ignore-status-codes "0,302,403,406,408,429,503,999"
-          --ignore-urls "/fonts.gstatic.com/"
+        run: |
+          echo "Starting link check..."
+          # Run linkchecker with only internal link checking
+          if linkchecker --no-robots --output text http://127.0.0.1:8000; then
+            echo "✅ Link check passed: No broken links found"
+          else
+            exit_code=$?
+            echo "❌ Link check failed with code ${exit_code}: Found broken links"
+            echo "See detailed report in the log above"
+            exit 1
+          fi
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: pkill -f mkdocs || true

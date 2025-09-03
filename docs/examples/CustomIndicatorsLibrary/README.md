@@ -10,7 +10,7 @@ layout: page
 
 At some point in your journey, you may want to create your own custom indicators.
 The following is an example of how you'd create your own.
-This example is also included in our [example usage code]({{site.baseurl}}/examples/#content).
+This example is also included in our [example usage code]({{site.baseurl}}/examples/).
 
 ## STEP 1: Create the Results class
 

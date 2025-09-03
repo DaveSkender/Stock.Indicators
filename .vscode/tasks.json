@@ -2,112 +2,110 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Restore: .NET Packages",
+      "label": "MkDocs: build",
       "type": "shell",
-      "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [
-        "$msCompile"
+      "command": "python",
+      "args": [
+        "-m",
+        "mkdocs",
+        "build",
+        "--clean"
       ],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "MkDocs: serve",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "-m",
+        "mkdocs",
+        "serve",
+        "-a",
+        "127.0.0.1:8000"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "mkdocs-serve",
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Serving on*"
+        }
+      },
+      "dependsOn": [
+        "MkDocs: build"
+      ],
+      "dependsOrder": "sequence",
       "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "panel": "dedicated"
       }
     },
     {
-      "label": "Build: .NET Solution",
+      "label": "MkDocs: open-browser",
       "type": "shell",
-      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" -v minimal --nologo",
+      "command": "powershell",
+      "args": [
+        "-Command",
+        "Start-Process http://127.0.0.1:8000"
+      ],
       "options": {
-        "cwd": "${workspaceFolder}"
+        "cwd": "${workspaceFolder}/docs"
       },
+      "problemMatcher": [],
+      "dependsOn": [
+        "MkDocs: serve"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "Build Project",
+      "type": "shell",
+      "command": "dotnet build Stock.Indicators.sln",
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": [
-        "$msCompile"
-      ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "problemMatcher": "$msCompile"
     },
     {
-      "label": "Test: .NET Solution",
+      "label": "Run Unit Tests",
       "type": "shell",
-      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore --nologo",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
+      "command": "dotnet test tests --filter \"TestCategory=Unit\"",
       "group": {
         "kind": "test",
         "isDefault": true
       },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "problemMatcher": "$msCompile"
     },
     {
-      "label": "Run: Doc Site with LiveReload",
+      "label": "Run Integration Tests",
       "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby Packages (docs)",
-      "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "command": "dotnet test tests --filter \"TestCategory=Integration\"",
+      "group": "test",
+      "problemMatcher": "$msCompile"
     },
     {
-      "label": "Install: Ruby Packages (docs)",
+      "label": "Run Performance Tests",
       "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Update: Ruby Packages (docs)",
-      "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
+      "command": "dotnet test tests --filter \"TestCategory=Performance\"",
+      "group": "test",
+      "problemMatcher": "$msCompile"
     }
   ]
 }
