@@ -17,7 +17,7 @@ public static partial class PivotPoints
     /// <returns>A list of pivot point results.</returns>
     public static IReadOnlyList<PivotPointsResult> ToPivotPoints<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        PeriodSize windowSize,
+        PeriodSize windowSize = PeriodSize.Month,
         PivotPointType pointType = PivotPointType.Standard)
         where TQuote : IQuote
     {

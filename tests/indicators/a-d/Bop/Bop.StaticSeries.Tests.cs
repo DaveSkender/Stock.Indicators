@@ -10,12 +10,12 @@ public class Bop : StaticSeriesTestBase
             .ToBop();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.Bop != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.Bop != null));
 
         // sample values
         BopResult r1 = results[12];
-        Assert.AreEqual(null, r1.Bop);
+        Assert.IsNull(r1.Bop);
 
         BopResult r2 = results[13];
         Assert.AreEqual(0.081822, r2.Bop.Round(6));
@@ -37,8 +37,8 @@ public class Bop : StaticSeriesTestBase
             .ToBop()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -47,7 +47,7 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> r = Data.GetBtcUsdNan()
             .ToBop(50);
 
-        Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class Bop : StaticSeriesTestBase
         IReadOnlyList<BopResult> r = BadQuotes
             .ToBop();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Bop is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Bop is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -65,11 +65,11 @@ public class Bop : StaticSeriesTestBase
     {
         IReadOnlyList<BopResult> r0 = Noquotes
             .ToBop();
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<BopResult> r1 = Onequote
             .ToBop();
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public class Bop : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 13, results.Count);
+        Assert.HasCount(502 - 13, results);
 
         BopResult last = results[^1];
         Assert.AreEqual(-0.292788, last.Bop.Round(6));
@@ -89,6 +89,6 @@ public class Bop : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToBop(0));
 }

@@ -17,9 +17,9 @@ public class StochRsi : StaticSeriesTestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
-        Assert.AreEqual(473, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(475, results.Where(x => x.StochRsi != null));
+        Assert.HasCount(473, results.Where(x => x.Signal != null));
 
         // sample values
         StochRsiResult r1 = results[31];
@@ -53,9 +53,9 @@ public class StochRsi : StaticSeriesTestBase
         // assertions
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(473, results.Count(x => x.StochRsi != null));
-        Assert.AreEqual(471, results.Count(x => x.Signal != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(473, results.Where(x => x.StochRsi != null));
+        Assert.HasCount(471, results.Where(x => x.Signal != null));
 
         // sample values
         StochRsiResult r1 = results[31];
@@ -82,9 +82,9 @@ public class StochRsi : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToStochRsi(14, 14, 3);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(475, results.Count(x => x.StochRsi != null));
-        Assert.AreEqual(0, results.Count(x => x.StochRsi is double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(475, results.Where(x => x.StochRsi != null));
+        Assert.IsEmpty(results.Where(x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -94,8 +94,8 @@ public class StochRsi : StaticSeriesTestBase
             .ToSma(2)
             .ToStochRsi(14, 14, 3);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.StochRsi != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.StochRsi != null));
     }
 
     [TestMethod]
@@ -105,8 +105,8 @@ public class StochRsi : StaticSeriesTestBase
             .ToStochRsi(14, 14, 3, 3)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(464, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(464, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -115,8 +115,8 @@ public class StochRsi : StaticSeriesTestBase
         IReadOnlyList<StochRsiResult> r = BadQuotes
             .ToStochRsi(15, 20, 3, 2);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.StochRsi is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.StochRsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -125,12 +125,12 @@ public class StochRsi : StaticSeriesTestBase
         IReadOnlyList<StochRsiResult> r0 = Noquotes
             .ToStochRsi(10, 20, 3);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<StochRsiResult> r1 = Onequote
             .ToStochRsi(8, 13, 2);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -147,7 +147,7 @@ public class StochRsi : StaticSeriesTestBase
 
         // assertions
         int removeQty = rsiPeriods + stochPeriods + smoothPeriods + 100;
-        Assert.AreEqual(502 - removeQty, results.Count);
+        Assert.HasCount(502 - removeQty, results);
 
         StochRsiResult last = results[^1];
         Assert.AreEqual(89.8385, last.StochRsi.Round(4));
@@ -158,19 +158,19 @@ public class StochRsi : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(0, 14, 3));
 
         // bad STO period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(14, 0, 3, 3));
 
         // bad STO signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(14, 14, 0));
 
         // bad STO smoothing period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToStochRsi(14, 14, 3, 0));
     }
 }

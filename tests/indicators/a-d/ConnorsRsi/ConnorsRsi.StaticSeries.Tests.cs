@@ -15,8 +15,8 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToConnorsRsi(rsiPeriods, streakPeriods, rankPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results1.Count);
-        Assert.AreEqual(502 - startPeriod + 1, results1.Count(x => x.ConnorsRsi != null));
+        Assert.HasCount(502, results1);
+        Assert.HasCount(502 - startPeriod + 1, results1.Where(x => x.ConnorsRsi != null));
 
         // sample value
         ConnorsRsiResult r1 = results1[501];
@@ -41,7 +41,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToConnorsRsi();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(401, results.Count(x => x.ConnorsRsi != null));
     }
 
@@ -52,7 +52,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToSma(2)
             .ToConnorsRsi();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(400, results.Count(x => x.ConnorsRsi != null));
     }
 
@@ -63,7 +63,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .ToConnorsRsi()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(392, results.Count(x => x.Sma != null));
     }
 
@@ -73,8 +73,8 @@ public class ConnorsRsi : StaticSeriesTestBase
         IReadOnlyList<ConnorsRsiResult> r = BadQuotes
             .ToConnorsRsi(4, 3, 25);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Rsi is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Rsi is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -83,12 +83,12 @@ public class ConnorsRsi : StaticSeriesTestBase
         IReadOnlyList<ConnorsRsiResult> r0 = Noquotes
             .ToConnorsRsi();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ConnorsRsiResult> r1 = Onequote
             .ToConnorsRsi();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -106,7 +106,7 @@ public class ConnorsRsi : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - removePeriods + 1, results.Count);
+        Assert.HasCount(502 - removePeriods + 1, results);
 
         ConnorsRsiResult last = results[^1];
         Assert.AreEqual(68.8087, last.Rsi.Round(4));
@@ -119,15 +119,15 @@ public class ConnorsRsi : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad RSI period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToConnorsRsi(1));
 
         // bad Streak period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToConnorsRsi(3, 1));
 
         // bad Rank period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToConnorsRsi(3, 2, 1));
     }
 }

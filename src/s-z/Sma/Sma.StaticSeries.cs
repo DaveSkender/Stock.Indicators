@@ -66,3 +66,4 @@ public static partial class Sma
         return new List<SmaResult>(results);
     }
 }
+

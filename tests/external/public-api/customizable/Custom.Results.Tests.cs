@@ -24,7 +24,7 @@ public class CustomResults
             MyProperty = false
         };
 
-        Assert.AreEqual(false, myIndicator.MyProperty);
+        Assert.IsFalse(myIndicator.MyProperty);
     }
 
     [TestMethod]
@@ -63,7 +63,7 @@ public class CustomResults
             })
             .ToList();
 
-        Assert.IsTrue(myIndicatorResults.Count > 0);
+        Assert.IsGreaterThan(0, myIndicatorResults.Count);
 
         // find specific date
         DateTime findDate = DateTime.ParseExact(

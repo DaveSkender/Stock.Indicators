@@ -10,8 +10,8 @@ public class Hma : StaticSeriesTestBase
             .ToHma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Hma != null));
 
         // sample values
         HmaResult r1 = results[149];
@@ -28,8 +28,8 @@ public class Hma : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToHma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Hma != null));
     }
 
     [TestMethod]
@@ -39,8 +39,8 @@ public class Hma : StaticSeriesTestBase
             .ToSma(2)
             .ToHma(19);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Hma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Hma != null));
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class Hma : StaticSeriesTestBase
             .ToHma(20)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(471, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(471, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -60,8 +60,8 @@ public class Hma : StaticSeriesTestBase
         IReadOnlyList<HmaResult> r = BadQuotes
             .ToHma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Hma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Hma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -70,12 +70,12 @@ public class Hma : StaticSeriesTestBase
         IReadOnlyList<HmaResult> r0 = Noquotes
             .ToHma(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<HmaResult> r1 = Onequote
             .ToHma(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public class Hma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(480, results.Count);
+        Assert.HasCount(480, results);
 
         HmaResult last = results[^1];
         Assert.AreEqual(235.6972, last.Hma.Round(4));
@@ -95,6 +95,6 @@ public class Hma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToHma(1));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToHma(1));
 }

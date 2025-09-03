@@ -1,7 +1,7 @@
 using System.Globalization;
 using Test.Utilities;
 
-namespace Tests.Common;
+namespace Utilities;
 
 [TestClass]
 public class StringOutputs : TestBase

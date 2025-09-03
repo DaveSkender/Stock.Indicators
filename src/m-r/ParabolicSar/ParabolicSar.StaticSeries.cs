@@ -19,6 +19,7 @@ public static partial class ParabolicSar
         this IReadOnlyList<TQuote> quotes,
         double accelerationStep = 0.02,
         double maxAccelerationFactor = 0.2)
+
         where TQuote : IQuote => quotes
             .ToQuoteDList()
             .CalcParabolicSar(

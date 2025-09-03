@@ -10,8 +10,8 @@ public class Vwma : StaticSeriesTestBase
             .ToVwma(10);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Vwma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Vwma != null));
 
         // sample values
         VwmaResult r8 = results[8];
@@ -31,8 +31,8 @@ public class Vwma : StaticSeriesTestBase
             .ToVwma(10)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -41,8 +41,8 @@ public class Vwma : StaticSeriesTestBase
         IReadOnlyList<VwmaResult> r = BadQuotes
             .ToVwma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Vwma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Vwma is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -51,12 +51,12 @@ public class Vwma : StaticSeriesTestBase
         IReadOnlyList<VwmaResult> r0 = Noquotes
             .ToVwma(4);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<VwmaResult> r1 = Onequote
             .ToVwma(4);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public class Vwma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 9, results.Count);
+        Assert.HasCount(502 - 9, results);
 
         VwmaResult last = results[^1];
         Assert.AreEqual(242.101548, last.Vwma.Round(6));
@@ -76,6 +76,6 @@ public class Vwma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToVwma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToVwma(0));
 }

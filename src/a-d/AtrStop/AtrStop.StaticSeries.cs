@@ -6,13 +6,13 @@ namespace Skender.Stock.Indicators;
 public static partial class AtrStop
 {
     /// <summary>
-    /// Calculates the ATR Trailing Stop from a series of quotes.
+    /// Calculates the ATR Trailing Stop (High/Low offset) from a series of quotes.
     /// </summary>
     /// <typeparam name="TQuote">The type of the quote.</typeparam>
     /// <param name="quotes">The list of quotes.</param>
     /// <param name="lookbackPeriods">The number of periods to look back. Default is 21.</param>
     /// <param name="multiplier">The multiplier for the ATR. Default is 3.</param>
-    /// <param name="endType">The type of price to use for the calculation. Default is <see cref="EndType.Close"/>.</param>
+    /// <param name="endType">The candle threshold point to use for reversals.</param>
     /// <returns>A list of ATR Trailing Stop results.</returns>
     public static IReadOnlyList<AtrStopResult> ToAtrStop<TQuote>(
         this IReadOnlyList<TQuote> quotes,
@@ -23,14 +23,6 @@ public static partial class AtrStop
             .ToQuoteDList()
             .CalcAtrStop(lookbackPeriods, multiplier, endType);
 
-    /// <summary>
-    /// Calculates the ATR Trailing Stop for the given source data.
-    /// </summary>
-    /// <param name="source">The source data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="multiplier">The multiplier for the ATR.</param>
-    /// <param name="endType">The type of price to use for the calculation.</param>
-    /// <returns>A list of ATR Trailing Stop results.</returns>
     private static List<AtrStopResult> CalcAtrStop(
         this List<QuoteD> source,
         int lookbackPeriods,

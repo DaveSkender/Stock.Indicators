@@ -37,4 +37,6 @@ public static partial class Adl
 
         return results;
     }
+
+    // ...existing code...
 }

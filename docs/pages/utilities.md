@@ -11,6 +11,7 @@ layout: page
 - [for historical quotes](#utilities-for-historical-quotes)
 - [for indicator results](#utilities-for-indicator-results)
 - [for numerical analysis](#utilities-for-numerical-analysis)
+- [indicator metadata catalog](#indicator-catalog-metadata)
 
 ## Utilities for historical quotes
 
@@ -171,3 +172,81 @@ Most `NullMath` methods work exactly like the `System.Math` library in C#, excep
 | Round | `var rnd = NullMath.Round(1.234, 1)` » `1.2`<br>`var rnd = NullMath.Round(null, 1)` » `null`
 | Null2NaN | `var val = null;`<br>`var n2n = val.Null2NaN()` » `[NaN]`
 | NaN2Null | `var val = double.NaN;`<br>`var n2n = val.NaN2Null()` » `null`
+
+## Indicator catalog (metadata)
+
+Use the indicator catalog to discover indicators, build simple pickers, or export metadata for a UI.
+
+- Discover indicators and parameters at runtime
+- Build configuration UIs or export to JSON
+- Optionally execute an indicator by ID (no compile-time generics required)
+
+> [!IMPORTANT]
+> _The Catalog_ provides a programatic way to interact with indicators and options; however, it is not the idiomatic .NET way to use this library.  See the examples in [the Guide](guide.md) for normal sytax examples.
+
+### Browse or export the catalog
+
+```csharp
+using Skender.Stock.Indicators;
+using System.Text.Json;
+
+// all listings (name, id, style, category, parameters, results)
+IReadOnlyCollection<IndicatorListing> indicatorListings
+    = CatalogRegistry.Get();
+
+// optional: filter helpers
+IndicatorListing? emaSeriesListing 
+    = CatalogRegistry.Get("EMA", Style.Series);
+
+IReadOnlyCollection<IndicatorListing> seriesListings
+    = CatalogRegistry.Get(Style.Series);
+
+// convert to JSON
+string catalogJson = myListings.ToJson();
+```
+
+### Execute by ID (dynamic)
+
+```csharp
+// run an indicator using just ID + Style
+IReadOnlyList<EmaResult> byId = quotes.ExecuteById<EmaResult>(
+    id: "EMA",
+    style: Style.Series,
+    parameters: new() {
+        { "lookbackPeriods", lookback }
+    });
+```
+
+### Execute by config (JSON)
+
+```csharp
+string string json = """
+    {
+        "id" : "EMA",
+        "style" : "Series",
+        "parameters" : { "lookbackPeriods" : 20 }
+    }
+    """;
+
+IReadOnlyList<EmaResult> emaResultsFromJson
+    = quotes.ExecuteFromJson<EmaResult>(json);
+```
+
+### Execute with strong typing
+
+```csharp
+// prefer typed results when you know the indicator
+IndicatorListing indicatorListing = IndicatorRegistry
+  .GetByIdAndStyle("EMA", Style.Series)
+  ?? throw new InvalidOperationException("Indicator 'EMA' (Series) not found.");
+
+// Call the quotes overload directly
+IReadOnlyList<EmaResult> emaResultsWithDefaults = indicatorListing
+  .Execute<EmaResult>(quotes);
+
+// Or with specified parameters
+IReadOnlyList<EmaResult> emaResultsWithParams = indicatorListing
+  .FromSource(quotes)
+  .WithParamValue("lookbackPeriods", 10)
+  .Execute<EmaResult>();
+```
