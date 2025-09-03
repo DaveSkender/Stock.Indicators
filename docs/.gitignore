@@ -14,9 +14,10 @@
 .offline/
 
 # Build outputs
-/tmp/
+./tmp/
 
-# Playwright
-/test-results/
-/playwright-report/
-/playwright/.cache/
+# Testing artifacts
+./coverage
+./playwright-report
+./test-results
+./playwright/.cache/

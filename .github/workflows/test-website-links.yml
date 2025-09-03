@@ -39,18 +39,25 @@ jobs:
       - name: Build site
         run: npm run build:complete
 
-      - name: Install linkinator
-        run: npm install -g linkinator
-
-      - name: Serve site
-        run: |
-          npx http-server dist/static -p 4000 --silent &
-          echo $! > .server.pid
-          sleep 5
-
       - name: Test for broken URLs
+        run: >
+          npx linkinator http://127.0.0.1:4000
+          --recurse
+          --silent
+          --skip "fonts.gstatic.com"
+          --format json > linkinator-results.json || true
+
+      - name: Process linkinator results
         run: |
-          npx linkinator http://127.0.0.1:4000 --recurse --skip "/fonts.gstatic.com/" --skip ".*google-analytics.com.*" --retry 3 --retry-errors
+          # Check if linkinator found any broken links
+          BROKEN_LINKS=$(cat linkinator-results.json | grep -o '"state":"BROKEN"' | wc -l)
+          if [ "$BROKEN_LINKS" -gt 0 ]; then
+            echo "Found $BROKEN_LINKS broken links:"
+            cat linkinator-results.json | grep -B2 -A2 '"state":"BROKEN"'
+            exit 1
+          else
+            echo "No broken links found!"
+          fi
 
       - name: Kill site (failsafe)
         if: always()

@@ -1,9 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-not-found',
-  standalone: true,
   template: `
     <div style="text-align:center; margin-top:50px;">
       <h1>Your strategy was unprofitable</h1>
@@ -24,9 +23,10 @@ import { Title } from '@angular/platform-browser';
     .btn:hover {
       background-color: #0056b3;
     }
-  `]
+  `],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotFoundComponent {
+export class NotFoundComponent implements OnInit {
   private titleService = inject(Title);
   
   ngOnInit() {
