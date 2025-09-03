@@ -78,9 +78,10 @@ Build the site locally to test that it works properly.
 ```bash
 # from /docs folder
 npm install
+<<<<<<< HEAD
 npm run start
 
-# the site will open http://localhost:4200
+# the site will open at http://localhost:4200
 ```
 
 For production builds:
@@ -134,6 +135,7 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 ### Pull Request naming convention
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
+
 - `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
 - `Subject` starts with an uppercase letter
 
@@ -141,7 +143,7 @@ Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
-After a Pull Request is reviewed, accepted, and [squash] merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
+After a Pull Request is reviewed, accepted, and _squash_ merged to `main`, we may batch changes before publishing a new package version to the [public NuGet repository](https://www.nuget.org/packages/Skender.Stock.Indicators).  Please be patient with turnaround time.
 
 ## Code reviews and administration
 
@@ -164,8 +166,9 @@ This repository is optimized for GitHub Copilot and coding agents with:
 - **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
 
 When using GitHub Copilot:
+
 - Follow the established patterns documented in the Copilot instructions
-- Ensure all financial calculations maintain decimal precision 
+- Ensure all financial calculations maintain decimal precision
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 

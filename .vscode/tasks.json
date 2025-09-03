@@ -56,14 +56,14 @@
     {
       "label": "Run: Angular Dev Server",
       "type": "shell",
-      "command": "ng serve",
+      "command": "npm start",
       "dependsOn": "Install: NPM Packages (docs)",
       "isBackground": true,
       "options": {
         "cwd": "${workspaceFolder}/docs"
       },
       "group": "none",
-      "problemMatcher": [],
+      "problemMatcher": "$tsc",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
@@ -94,6 +94,22 @@
       "problemMatcher": [],
       "presentation": {
         "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Build: Docs Site",
+      "type": "shell",
+      "command": "npm run build:complete",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": {
+        "kind": "build"
+      },
+      "problemMatcher": "$tsc",
+      "presentation": {
+        "reveal": "always",
         "panel": "dedicated"
       }
     }

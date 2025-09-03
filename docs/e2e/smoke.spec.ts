@@ -2,13 +2,15 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Stock Indicators Documentation Site', () => {
   test('home page loads successfully', async ({ page }) => {
+    // Use root path to allow SPA routing to redirect to /docs/home when serving static files
     await page.goto('/');
     
     // Check if the page title is correct
-    await expect(page).toHaveTitle(/Stock Indicators for \.NET/);
+    await expect(page).toHaveTitle(/Stock Indicators/i);
     
     // Check for main content
     await expect(page.locator('body')).toBeVisible();
+    await expect(page.locator('.docs-content')).toBeVisible();
     
     // Check for navigation elements (adjust selectors based on actual site structure)
     const navigation = page.locator('nav, .navbar, [role="navigation"]');

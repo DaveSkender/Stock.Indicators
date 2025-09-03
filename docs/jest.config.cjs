@@ -5,8 +5,9 @@ module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   testEnvironment: 'jsdom',
+  resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
   transform: {
-    '^.+\\.(ts|js|html)$': [
+    '^.+\\.(ts|js|html|mjs|svg)$': [
       'jest-preset-angular',
       {
         tsconfig: 'tsconfig.spec.json',
@@ -14,13 +15,16 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   moduleNameMapper: {
     ...pathsToModuleNameMapper(compilerOptions.paths || {}, {
       prefix: '<rootDir>/',
     }),
+    '\\.(css|scss|sass)$': 'identity-obj-proxy',
     '^src/(.*)$': '<rootDir>/src/$1',
   },
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
+  extensionsToTreatAsEsm: ['.ts'],
   collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'text-summary', 'json-summary'],
@@ -33,5 +37,8 @@ module.exports = {
   ],
   testMatch: ['<rootDir>/src/**/*.spec.ts'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/', '/e2e/'],
+  testEnvironmentOptions: {
+    customExportConditions: ['node', 'node-addons']
+  },
   restoreMocks: true,
 };

@@ -29,8 +29,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
           cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
@@ -38,12 +38,6 @@ jobs:
 
       - name: Build site
         run: npm run build:complete
-
-      - name: Serve site
-        run: |
-          npx http-server dist/static -p 4000 --silent &
-          echo $! > .server.pid
-          sleep 5
 
       - name: Test for broken URLs
         run: >

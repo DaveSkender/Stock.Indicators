@@ -2,7 +2,7 @@
 
 Visit [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) to read our documentation.
 
-It is developed with Angular and is not intended to be read from the code repo.
+It is developed with Angular with standalone components and is not intended to be read from the code repo.
 
 ## Development
 
