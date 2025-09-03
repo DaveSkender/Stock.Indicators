@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Provides methods for calculating Simple Moving Average (SMA) with extended analysis.
 /// </summary>
-public static partial class Sma
+public static partial class SmaAnalysis
 {
     /// <summary>
     /// Converts a source list to a list of SMA analysis results.
@@ -12,21 +12,21 @@ public static partial class Sma
     /// <param name="source">The source list to analyze.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the SMA calculation.</param>
     /// <returns>A read-only list of SMA analysis results.</returns>
-    public static IReadOnlyList<SmaAnalysis> ToSmaAnalysis<T>(
+    public static IReadOnlyList<SmaAnalysisResult> ToSmaAnalysis<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods)
         where T : IReusable
     {
         // initialize
-        List<SmaAnalysis> results = source
+        List<SmaAnalysisResult> results = source
             .ToSma(lookbackPeriods)
-            .Select(s => new SmaAnalysis(s.Timestamp, s.Sma))
+            .Select(s => new SmaAnalysisResult(s.Timestamp, s.Sma))
             .ToList();
 
         // roll through source values
         for (int i = lookbackPeriods - 1; i < results.Count; i++)
         {
-            SmaAnalysis r = results[i];
+            SmaAnalysisResult r = results[i];
             double sma = r.Sma ?? double.NaN;
 
             double sumMad = 0;

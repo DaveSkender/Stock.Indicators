@@ -10,7 +10,7 @@ namespace Skender.Stock.Indicators;
 /// <param name="Mse">The Mean Square Error (MSE) at this point.</param>
 /// <param name="Mape">The Mean Absolute Percentage Error (MAPE) at this point.</param>
 [Serializable]
-public record SmaAnalysis
+public record SmaAnalysisResult
 (
     DateTime Timestamp,
     double? Sma = null,

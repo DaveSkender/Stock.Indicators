@@ -48,8 +48,8 @@ public class Dpo : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToDpo(14);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(489, results.Count(x => x.Dpo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(489, results.Where(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -59,8 +59,8 @@ public class Dpo : StaticSeriesTestBase
             .ToSma(2)
             .ToDpo(14);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Dpo != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Dpo != null));
     }
 
     [TestMethod]
@@ -70,8 +70,8 @@ public class Dpo : StaticSeriesTestBase
             .ToDpo(14)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(480, results.Count(x => x.Sma is not null and not double.NaN));
+        Assert.HasCount(502, results);
+        Assert.HasCount(480, results.Where(x => x.Sma is not null and not double.NaN));
     }
 
     [TestMethod]
@@ -80,8 +80,8 @@ public class Dpo : StaticSeriesTestBase
         IReadOnlyList<DpoResult> r = BadQuotes
             .ToDpo(5);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Dpo is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Dpo is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -90,17 +90,17 @@ public class Dpo : StaticSeriesTestBase
         IReadOnlyList<DpoResult> r0 = Noquotes
             .ToDpo(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<DpoResult> r1 = Onequote
             .ToDpo(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     // bad SMA period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToDpo(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToDpo(0));
 }

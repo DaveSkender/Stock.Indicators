@@ -10,11 +10,11 @@ public class Gator : StaticSeriesTestBase
             .ToGator();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Upper != null));
-        Assert.AreEqual(490, results.Count(x => x.Lower != null));
-        Assert.AreEqual(481, results.Count(x => x.UpperIsExpanding != null));
-        Assert.AreEqual(489, results.Count(x => x.LowerIsExpanding != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Upper != null));
+        Assert.HasCount(490, results.Where(x => x.Lower != null));
+        Assert.HasCount(481, results.Where(x => x.UpperIsExpanding != null));
+        Assert.HasCount(489, results.Where(x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -80,11 +80,11 @@ public class Gator : StaticSeriesTestBase
             .ToGator();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Upper != null));
-        Assert.AreEqual(490, results.Count(x => x.Lower != null));
-        Assert.AreEqual(481, results.Count(x => x.UpperIsExpanding != null));
-        Assert.AreEqual(489, results.Count(x => x.LowerIsExpanding != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Upper != null));
+        Assert.HasCount(490, results.Where(x => x.Lower != null));
+        Assert.HasCount(481, results.Where(x => x.UpperIsExpanding != null));
+        Assert.HasCount(489, results.Where(x => x.LowerIsExpanding != null));
 
         // sample values
         GatorResult r11 = results[11];
@@ -149,8 +149,8 @@ public class Gator : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToGator();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(482, results.Count(x => x.Upper != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(482, results.Where(x => x.Upper != null));
     }
 
     [TestMethod]
@@ -160,8 +160,8 @@ public class Gator : StaticSeriesTestBase
             .ToSma(2)
             .ToGator();
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(481, results.Count(x => x.Upper != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(481, results.Where(x => x.Upper != null));
     }
 
     [TestMethod]
@@ -170,8 +170,8 @@ public class Gator : StaticSeriesTestBase
         IReadOnlyList<GatorResult> r = BadQuotes
             .ToGator();
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Upper is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Upper is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -180,12 +180,12 @@ public class Gator : StaticSeriesTestBase
         IReadOnlyList<GatorResult> r0 = Noquotes
             .ToGator();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<GatorResult> r1 = Onequote
             .ToGator();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -196,7 +196,7 @@ public class Gator : StaticSeriesTestBase
             .Condense();
 
         // assertions
-        Assert.AreEqual(490, results.Count);
+        Assert.HasCount(490, results);
 
         GatorResult last = results[^1];
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));
@@ -213,7 +213,7 @@ public class Gator : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 150, results.Count);
+        Assert.HasCount(502 - 150, results);
 
         GatorResult last = results[^1];
         Assert.AreEqual(7.4538, Math.Round(last.Upper.Value, 4));

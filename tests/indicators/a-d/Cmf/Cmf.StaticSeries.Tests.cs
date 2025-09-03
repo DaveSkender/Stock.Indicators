@@ -10,8 +10,8 @@ public class Cmf : StaticSeriesTestBase
             .ToCmf();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Cmf != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Cmf != null));
 
         // sample values
         CmfResult r1 = results[49];
@@ -37,8 +37,8 @@ public class Cmf : StaticSeriesTestBase
             .ToCmf()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(474, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(474, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -47,8 +47,8 @@ public class Cmf : StaticSeriesTestBase
         IReadOnlyList<CmfResult> r = BadQuotes
             .ToCmf(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Cmf is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Cmf is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -57,7 +57,7 @@ public class Cmf : StaticSeriesTestBase
         IReadOnlyList<CmfResult> r = BigQuotes
             .ToCmf(150);
 
-        Assert.AreEqual(1246, r.Count);
+        Assert.HasCount(1246, r);
     }
 
     [TestMethod]
@@ -66,12 +66,12 @@ public class Cmf : StaticSeriesTestBase
         IReadOnlyList<CmfResult> r0 = Noquotes
             .ToCmf();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<CmfResult> r1 = Onequote
             .ToCmf();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -82,7 +82,7 @@ public class Cmf : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
 
         CmfResult last = results[^1];
         Assert.AreEqual(0.8052, last.MoneyFlowMultiplier.Round(4));
@@ -93,6 +93,6 @@ public class Cmf : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToCmf(0));
 }

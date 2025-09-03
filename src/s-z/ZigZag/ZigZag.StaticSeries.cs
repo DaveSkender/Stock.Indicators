@@ -16,7 +16,8 @@ public static partial class ZigZag
     public static IReadOnlyList<ZigZagResult> ToZigZag<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         EndType endType = EndType.Close,
-        decimal percentChange = 5)
+        decimal percentChange = 5
+    )
         where TQuote : IQuote
     {
         // check parameter arguments

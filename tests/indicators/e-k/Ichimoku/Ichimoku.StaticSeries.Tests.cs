@@ -14,19 +14,19 @@ public class Ichimoku : StaticSeriesTestBase
             .ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(494, results.Count(x => x.TenkanSen != null));
-        Assert.AreEqual(477, results.Count(x => x.KijunSen != null));
-        Assert.AreEqual(451, results.Count(x => x.SenkouSpanA != null));
-        Assert.AreEqual(425, results.Count(x => x.SenkouSpanB != null));
-        Assert.AreEqual(476, results.Count(x => x.ChikouSpan != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(494, results.Where(x => x.TenkanSen != null));
+        Assert.HasCount(477, results.Where(x => x.KijunSen != null));
+        Assert.HasCount(451, results.Where(x => x.SenkouSpanA != null));
+        Assert.HasCount(425, results.Where(x => x.SenkouSpanB != null));
+        Assert.HasCount(476, results.Where(x => x.ChikouSpan != null));
 
         // sample values
         IchimokuResult r1 = results[51];
         Assert.AreEqual(224.465m, r1.TenkanSen);
         Assert.AreEqual(221.94m, r1.KijunSen);
         Assert.AreEqual(214.8325m, r1.SenkouSpanA);
-        Assert.AreEqual(null, r1.SenkouSpanB);
+        Assert.IsNull(r1.SenkouSpanB);
         Assert.AreEqual(226.35m, r1.ChikouSpan);
 
         IchimokuResult r2 = results[249];
@@ -48,16 +48,16 @@ public class Ichimoku : StaticSeriesTestBase
         Assert.AreEqual(251.505m, r4.KijunSen);
         Assert.AreEqual(264.77m, r4.SenkouSpanA);
         Assert.AreEqual(269.82m, r4.SenkouSpanB);
-        Assert.AreEqual(null, r4.ChikouSpan);
+        Assert.IsNull(r4.ChikouSpan);
     }
 
     [TestMethod]
     public void Extended()
     {
         IReadOnlyList<IchimokuResult> results = Quotes
-            .GetIchimoku(3, 13, 40, 0, 0);
+            .ToIchimoku(3, 13, 40, 0, 0);
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]
@@ -66,7 +66,7 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> r = BadQuotes
             .ToIchimoku();
 
-        Assert.AreEqual(502, r.Count);
+        Assert.HasCount(502, r);
     }
 
     [TestMethod]
@@ -75,12 +75,12 @@ public class Ichimoku : StaticSeriesTestBase
         IReadOnlyList<IchimokuResult> r0 = Noquotes
             .ToIchimoku();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<IchimokuResult> r1 = Onequote
             .ToIchimoku();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -90,32 +90,32 @@ public class Ichimoku : StaticSeriesTestBase
             .ToIchimoku()
             .Condense();
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
     }
 
     [TestMethod]
     public void Exceptions()
     {
         // bad signal period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToIchimoku(0));
 
         // bad short span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToIchimoku(9, 0));
 
         // bad long span period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToIchimoku(9, 26, 26));
 
         // invalid offsets
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.GetIchimoku(9, 26, 52, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToIchimoku(9, 26, 52, -1));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.GetIchimoku(9, 26, 52, -1, 12));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToIchimoku(9, 26, 52, -1, 12));
 
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
-            () => Quotes.GetIchimoku(9, 26, 52, 12, -1));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToIchimoku(9, 26, 52, 12, -1));
     }
 }

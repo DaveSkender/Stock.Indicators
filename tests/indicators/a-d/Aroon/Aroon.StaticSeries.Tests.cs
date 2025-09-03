@@ -10,10 +10,10 @@ public class Aroon : StaticSeriesTestBase
             .ToAroon();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(477, results.Count(x => x.AroonUp != null));
-        Assert.AreEqual(477, results.Count(x => x.AroonDown != null));
-        Assert.AreEqual(477, results.Count(x => x.Oscillator != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(477, results.Where(x => x.AroonUp != null));
+        Assert.HasCount(477, results.Where(x => x.AroonDown != null));
+        Assert.HasCount(477, results.Where(x => x.Oscillator != null));
 
         // sample values
         AroonResult r1 = results[210];
@@ -49,8 +49,8 @@ public class Aroon : StaticSeriesTestBase
             .ToAroon()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(468, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(468, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -59,8 +59,8 @@ public class Aroon : StaticSeriesTestBase
         IReadOnlyList<AroonResult> r = BadQuotes
             .ToAroon(20);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -69,12 +69,12 @@ public class Aroon : StaticSeriesTestBase
         IReadOnlyList<AroonResult> r0 = Noquotes
             .ToAroon();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AroonResult> r1 = Onequote
             .ToAroon();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -85,7 +85,7 @@ public class Aroon : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 25, results.Count);
+        Assert.HasCount(502 - 25, results);
 
         AroonResult last = results[^1];
         Assert.AreEqual(28, last.AroonUp);
@@ -96,6 +96,6 @@ public class Aroon : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAroon(0));
 }

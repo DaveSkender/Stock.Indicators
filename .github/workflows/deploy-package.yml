@@ -14,7 +14,7 @@ on:
   push:
     branches:
       - main
-      - 'v*'
+      - "v*"
 
   workflow_dispatch:
     inputs:
@@ -32,7 +32,7 @@ on:
         default: true
         required: true
       dry_run:
-        description: 'Dry-run only (no deploy)'
+        description: "Dry-run only (no deploy)"
         type: boolean
         default: true
         required: true
@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -63,7 +63,7 @@ jobs:
 
       - name: Show GitVersion config
         run: dotnet gitversion -config src/gitversion.yml -showconfig
-  
+
       - name: Show GitVersion output
         run: dotnet gitversion -config src/gitversion.yml -updateassemblyinfo
 
@@ -104,7 +104,7 @@ jobs:
           fi
 
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -150,6 +150,13 @@ jobs:
           echo "version=$ver" >> $GITHUB_OUTPUT
           echo "Generated version: $ver"
 
+      - name: Replace "dumb" version markers
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
+        with:
+          find: "#{PACKAGE_VERSION}#"
+          replace: "${{ steps.version_info.outputs.version }}"
+          regex: false
+
       - name: Compose package info
         id: package_info
         run: |
@@ -166,6 +173,7 @@ jobs:
           dotnet build src/Indicators.csproj
           --configuration Release
           --property:Version=${{ steps.version_info.outputs.version }}
+          --property:DefineConstants=VERSIONED_BUILD
           --property:ContinuousIntegrationBuild=true
           -warnAsError
 

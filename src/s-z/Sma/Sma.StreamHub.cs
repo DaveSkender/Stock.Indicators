@@ -2,19 +2,6 @@ namespace Skender.Stock.Indicators;
 
 // SIMPLE MOVING AVERAGE (STREAM HUB)
 
-#region hub interface and initializer
-
-/// <summary>
-/// Interface for Simple Moving Average (SMA) hub.
-/// </summary>
-public interface ISmaHub
-{
-    /// <summary>
-    /// Gets the number of lookback periods.
-    /// </summary>
-    int LookbackPeriods { get; }
-}
-
 /// <summary>
 /// Provides methods for creating SMA hubs.
 /// </summary>
@@ -27,20 +14,21 @@ public static partial class Sma
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>An SMA hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static SmaHub<TIn> ToSma<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
         where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
 }
-#endregion
 
 /// <summary>
 /// Represents a Simple Moving Average (SMA) stream hub.
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
 public class SmaHub<TIn>
-    : ChainProvider<TIn, SmaResult>, ISmaHub
+    : ChainProvider<TIn, SmaResult>, ISma
     where TIn : IReusable
 {
     #region constructors

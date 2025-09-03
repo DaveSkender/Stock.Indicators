@@ -10,14 +10,14 @@ public class Atr : StaticSeriesTestBase
             .ToAtr();
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(488, results.Count(x => x.Atr != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(488, results.Where(x => x.Atr != null));
 
         // sample values
         AtrResult r13 = results[13];
         Assert.AreEqual(1.45, r13.Tr.Round(8));
-        Assert.AreEqual(null, r13.Atr);
-        Assert.AreEqual(null, r13.Atrp);
+        Assert.IsNull(r13.Atr);
+        Assert.IsNull(r13.Atrp);
 
         AtrResult r14 = results[14];
         Assert.AreEqual(1.82, r14.Tr.Round(8));
@@ -68,7 +68,7 @@ public class Atr : StaticSeriesTestBase
             .ToAtr(10)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
+        Assert.HasCount(502, results);
         Assert.AreEqual(502 - 19, results.Count(x => x.Sma != null));
     }
 
@@ -78,8 +78,8 @@ public class Atr : StaticSeriesTestBase
         IReadOnlyList<AtrResult> r = BadQuotes
             .ToAtr(20);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Atr is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Atr is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -88,12 +88,12 @@ public class Atr : StaticSeriesTestBase
         IReadOnlyList<AtrResult> r0 = Noquotes
             .ToAtr();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AtrResult> r1 = Onequote
             .ToAtr();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public class Atr : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 14, results.Count);
+        Assert.HasCount(502 - 14, results);
 
         AtrResult last = results[^1];
         Assert.AreEqual(2.67, last.Tr.Round(8));
@@ -115,6 +115,6 @@ public class Atr : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAtr(1));
 }

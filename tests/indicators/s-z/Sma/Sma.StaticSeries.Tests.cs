@@ -10,8 +10,8 @@ public partial class Sma : StaticSeriesTestBase
             .ToSma(20);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -29,8 +29,8 @@ public partial class Sma : StaticSeriesTestBase
             .Use(CandlePart.Open)
             .ToSma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         Assert.IsNull(results[18].Sma);
@@ -48,8 +48,8 @@ public partial class Sma : StaticSeriesTestBase
             .Use(CandlePart.Volume)
             .ToSma(20);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(483, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(483, results.Where(x => x.Sma != null));
 
         // sample values
         SmaResult r24 = results[24];
@@ -70,8 +70,8 @@ public partial class Sma : StaticSeriesTestBase
             .ToSma(10)
             .ToEma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Ema != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Ema != null));
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r = Data.GetBtcUsdNan()
             .ToSma(50);
 
-        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
+        Assert.IsEmpty(r.Where(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -89,8 +89,8 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r = BadQuotes
             .ToSma(15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Sma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Sma is double.NaN));
     }
 
     [TestMethod]
@@ -99,12 +99,12 @@ public partial class Sma : StaticSeriesTestBase
         IReadOnlyList<SmaResult> r0 = Noquotes
             .ToSma(5);
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<SmaResult> r1 = Onequote
             .ToSma(5);
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -115,7 +115,7 @@ public partial class Sma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 19, results.Count);
+        Assert.HasCount(502 - 19, results);
         Assert.AreEqual(251.8600, results[^1].Sma.Round(4));
     }
 
@@ -144,6 +144,6 @@ public partial class Sma : StaticSeriesTestBase
     // bad lookback period
     [TestMethod]
     public void Exceptions()
-        => Assert.ThrowsException<ArgumentOutOfRangeException>(()
-            => Quotes.ToSma(0));
+        => Assert.ThrowsExactly<ArgumentOutOfRangeException>(
+            () => Quotes.ToSma(0));
 }

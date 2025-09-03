@@ -1,0 +1,19 @@
+namespace Skender.Stock.Indicators;
+
+public static partial class Cmo
+{
+    // CMO Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder()
+            .WithName("Chande Momentum Oscillator")
+            .WithId("CMO")
+            .WithStyle(Style.Series)
+            .WithCategory(Category.Oscillator)
+            .WithMethodName("ToCmo")
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 14, minimum: 1, maximum: 250)
+            .AddResult("Cmo", "CMO", ResultType.Default, isReusable: true)
+            .Build();
+
+    // No StreamListing for CMO.
+    // No BufferListing for CMO.
+}

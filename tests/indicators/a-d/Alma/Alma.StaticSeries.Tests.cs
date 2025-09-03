@@ -14,12 +14,12 @@ public class Alma : StaticSeriesTestBase
             .ToAlma(lookbackPeriods, offset, sigma);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Alma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Alma != null));
 
         // sample values
         AlmaResult r1 = results[8];
-        Assert.AreEqual(null, r1.Alma);
+        Assert.IsNull(r1.Alma);
 
         AlmaResult r2 = results[9];
         Assert.AreEqual(214.1839, r2.Alma.Round(4));
@@ -44,8 +44,8 @@ public class Alma : StaticSeriesTestBase
             .Use(CandlePart.Close)
             .ToAlma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Alma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Alma != null));
 
         AlmaResult last = results[^1];
         Assert.AreEqual(242.1871, last.Alma.Round(4));
@@ -58,8 +58,8 @@ public class Alma : StaticSeriesTestBase
             .ToSma(2)
             .ToAlma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(492, results.Count(x => x.Alma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(492, results.Where(x => x.Alma != null));
     }
 
     [TestMethod]
@@ -73,8 +73,8 @@ public class Alma : StaticSeriesTestBase
             .ToAlma(lookbackPeriods, offset, sigma)
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -83,12 +83,12 @@ public class Alma : StaticSeriesTestBase
         IReadOnlyList<AlmaResult> r1
             = Data.GetBtcUsdNan().ToAlma();
 
-        Assert.AreEqual(0, r1.Count(x => x.Alma is double.NaN));
+        Assert.IsEmpty(r1.Where(x => x.Alma is double.NaN));
 
         IReadOnlyList<AlmaResult> r2
             = Data.GetBtcUsdNan().ToAlma(20);
 
-        Assert.AreEqual(0, r2.Count(x => x.Alma is double.NaN));
+        Assert.IsEmpty(r2.Where(x => x.Alma is double.NaN));
     }
 
     [TestMethod]
@@ -96,8 +96,8 @@ public class Alma : StaticSeriesTestBase
     {
         IReadOnlyList<AlmaResult> r = BadQuotes.ToAlma(14, 0.5, 3);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Alma is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Alma is double.NaN));
     }
 
     [TestMethod]
@@ -105,11 +105,11 @@ public class Alma : StaticSeriesTestBase
     {
         IReadOnlyList<AlmaResult> r0 = Noquotes.ToAlma();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<AlmaResult> r1 = Onequote.ToAlma();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -120,7 +120,7 @@ public class Alma : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - 9, results.Count);
+        Assert.HasCount(502 - 9, results);
 
         AlmaResult last = results[^1];
         Assert.AreEqual(242.1871, last.Alma.Round(4));
@@ -130,15 +130,15 @@ public class Alma : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad lookback period
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAlma(0, 1, 5));
 
         // bad offset
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAlma(15, 1.1, 3));
 
         // bad sigma
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToAlma(10, 0.5, 0));
     }
 }

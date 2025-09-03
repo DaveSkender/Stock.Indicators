@@ -13,8 +13,8 @@ public class ChaikinOsc : StaticSeriesTestBase
             .ToChaikinOsc(fastPeriods, slowPeriods);
 
         // proper quantities
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(493, results.Count(x => x.Oscillator != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(493, results.Where(x => x.Oscillator != null));
 
         // sample value
         ChaikinOscResult r = results[501];
@@ -31,8 +31,8 @@ public class ChaikinOsc : StaticSeriesTestBase
             .ToChaikinOsc()
             .ToSma(10);
 
-        Assert.AreEqual(502, results.Count);
-        Assert.AreEqual(484, results.Count(x => x.Sma != null));
+        Assert.HasCount(502, results);
+        Assert.HasCount(484, results.Where(x => x.Sma != null));
     }
 
     [TestMethod]
@@ -41,8 +41,8 @@ public class ChaikinOsc : StaticSeriesTestBase
         IReadOnlyList<ChaikinOscResult> r = BadQuotes
             .ToChaikinOsc(5, 15);
 
-        Assert.AreEqual(502, r.Count);
-        Assert.AreEqual(0, r.Count(x => x.Oscillator is double.NaN));
+        Assert.HasCount(502, r);
+        Assert.IsEmpty(r.Where(x => x.Oscillator is double v && double.IsNaN(v)));
     }
 
     [TestMethod]
@@ -51,12 +51,12 @@ public class ChaikinOsc : StaticSeriesTestBase
         IReadOnlyList<ChaikinOscResult> r0 = Noquotes
             .ToChaikinOsc();
 
-        Assert.AreEqual(0, r0.Count);
+        Assert.IsEmpty(r0);
 
         IReadOnlyList<ChaikinOscResult> r1 = Onequote
             .ToChaikinOsc();
 
-        Assert.AreEqual(1, r1.Count);
+        Assert.HasCount(1, r1);
     }
 
     [TestMethod]
@@ -70,7 +70,7 @@ public class ChaikinOsc : StaticSeriesTestBase
             .RemoveWarmupPeriods();
 
         // assertions
-        Assert.AreEqual(502 - (slowPeriods + 100), results.Count);
+        Assert.HasCount(502 - (slowPeriods + 100), results);
 
         ChaikinOscResult last = results[^1];
         Assert.AreEqual(3439986548.42, last.Adl.Round(2));
@@ -83,11 +83,11 @@ public class ChaikinOsc : StaticSeriesTestBase
     public void Exceptions()
     {
         // bad fast lookback
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChaikinOsc(0));
 
         // bad slow lookback
-        Assert.ThrowsException<ArgumentOutOfRangeException>(
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(
             () => Quotes.ToChaikinOsc(10, 5));
     }
 }
