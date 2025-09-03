@@ -13,6 +13,12 @@ module.exports = tseslint.config(
       ...angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.json"],
+        createDefaultProgram: true,
+      },
+    },
     rules: {
       "@angular-eslint/directive-selector": [
         "error",
@@ -30,6 +36,10 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      // Angular best practices
+      "@angular-eslint/use-lifecycle-interface": "error",
+      "@angular-eslint/prefer-on-push-component-change-detection": "warn",
+      "@typescript-eslint/no-explicit-any": "error",
     },
   },
   {
@@ -38,6 +48,9 @@ module.exports = tseslint.config(
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
-    rules: {},
+    rules: {
+      // Accessibility and modern practices
+      "@angular-eslint/template/prefer-ngsrc": "warn",
+    },
   }
 );

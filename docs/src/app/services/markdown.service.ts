@@ -4,15 +4,17 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { marked } from 'marked';
 
+export interface MarkdownFrontmatter {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  permalink?: string;
+  [key: string]: string | undefined;
+}
+
 export interface MarkdownContent {
   content: string;
-  frontmatter: {
-    title?: string;
-    description?: string;
-    keywords?: string;
-    permalink?: string;
-    [key: string]: any;
-  };
+  frontmatter: MarkdownFrontmatter;
 }
 
 @Injectable({
@@ -50,7 +52,7 @@ export class MarkdownService {
     const contentText = parts.slice(2).join('---');
     
     // Parse YAML frontmatter
-    const frontmatter: any = {};
+    const frontmatter: MarkdownFrontmatter = {};
     frontmatterText.split('\n').forEach(line => {
       const colonIndex = line.indexOf(':');
       if (colonIndex > 0) {
