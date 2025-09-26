@@ -35,4 +35,4 @@ if [ ! -f "$SPEC_FILE" ]; then
 fi
 
 # Output JSON for the spec-kit command
-echo "{\"BRANCH_NAME\": \"$BRANCH_NAME\", \"SPEC_FILE\": \"$SPEC_FILE\"}"
+jq -n --arg branch "$BRANCH_NAME" --arg spec "$SPEC_FILE" '{BRANCH_NAME: $branch, SPEC_FILE: $spec}'
