@@ -1,0 +1,57 @@
+{
+  // Lean configuration per markdown.instructions.md
+  "config": {
+    // Enforce consistent list markers - always use hyphens
+    "MD004": {
+      "style": "dash"
+    },
+    // ATX style headers with space after marker
+    "MD003": {
+      "style": "atx"
+    },
+    // Allow HTML tags specified in instructions
+    "MD033": {
+      "allowed_elements": [
+        "details",
+        "summary",
+        "br",
+        "sub",
+        "sup",
+        "kbd",
+        "abbr",
+        "a",
+        "img",
+        "p",
+        "h1",
+        "ul",
+        "li",
+        "nav"
+      ]
+    },
+    // Line length - allow longer lines for documentation with URLs and code examples
+    "MD013": {
+      "line_length": 200,
+      "code_blocks": false,
+      "tables": false,
+      "headings": false,
+      "stern": true
+    },
+    // Allow multiple h1 in Jekyll docs (due to {{ page.title }} pattern)
+    "MD025": false,
+    // Allow first line to not be h1 (for Jekyll front matter and includes)
+    "MD041": false,
+    // Allow emphasis as heading (for Jekyll templates)
+    "MD036": false,
+    // Allow table column count variation (for complex Jekyll tables)
+    "MD056": false,
+    // Relax link fragment validation for Jekyll templating
+    "MD051": false
+  },
+  "globs": [
+    "**/*.md"
+  ],
+  "ignores": [
+    "node_modules/**",
+    ".git/**"
+  ]
+}
