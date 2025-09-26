@@ -30,6 +30,7 @@ tests/
 ## Code review guidelines
 
 ### What to look for
+
 - Input validation completeness
 - Edge case handling (insufficient data, zero/negative values)
 - Mathematical accuracy vs reference implementations
@@ -38,8 +39,21 @@ tests/
 - Consistent error messages and exception types
 
 ### Code quality standards
+
 - All public methods must have XML documentation
 - Unit test coverage for all code paths
 - Performance tests for computationally intensive indicators
 - Validation for all user inputs
 - Consistent formatting using `.editorconfig`
+
+## Spec-Driven Development Integration
+
+This repository uses [GitHub Spec-Kit](https://github.com/github/spec-kit) for structured development workflows. Use the following commands for new feature development:
+
+- **`/constitution`** - Review or update project governance principles
+- **`/specify`** - Create detailed feature specifications for new indicators
+- **`/plan`** - Define technical implementation approach
+- **`/tasks`** - Break down features into actionable development tasks
+- **`/implement`** - Execute planned implementation
+
+For detailed guidance, see [Spec-Kit Integration Guide](./.github/spec-kit-integration.md).
