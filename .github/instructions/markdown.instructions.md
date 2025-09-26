@@ -119,7 +119,6 @@ Rules for Mermaid diagrams:
 - Recommend VS Code extension: `DavidAnson.vscode-markdownlint` (add to `.vscode/extensions.json`).
 - Keep configuration minimal; avoid separate ignore files unless required.
 
-
 ## Additional resources
 
 - Refer to repository documentation standards; if absent, add `.github/instructions/documentation.instructions.md`.
