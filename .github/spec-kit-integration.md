@@ -18,7 +18,7 @@ Spec-Kit implements "Spec-Driven Development" - a methodology where specificatio
 
 ### Prerequisites
 
-- Python 3.11+ 
+- Python 3.11+
 - `uv` package manager (installed via `pip install uv`)
 - Git version control
 - GitHub Copilot (recommended AI agent)
@@ -26,11 +26,13 @@ Spec-Kit implements "Spec-Driven Development" - a methodology where specificatio
 ### Setup
 
 1. **Install Spec-Kit CLI**:
+
    ```bash
    uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
    ```
 
 2. **Verify Installation**:
+
    ```bash
    specify --help
    specify check
@@ -81,6 +83,7 @@ Describe new indicators or features using natural language:
 **Command**: `/specify Build a new Relative Strength Index (RSI) indicator with customizable periods and overbought/oversold thresholds`
 
 This creates:
+
 - New feature branch
 - Specification document
 - Structured requirements

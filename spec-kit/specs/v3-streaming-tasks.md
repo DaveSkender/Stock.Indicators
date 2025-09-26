@@ -13,6 +13,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Setup & Foundation Tasks
 
 **T1.1** [P] **Project Structure Setup**
+
 - Create streaming infrastructure project structure
 - Set up namespace organization for streaming components
 - Configure build targets for streaming libraries
@@ -21,6 +22,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Project builds with streaming namespaces
 
 **T1.2** [P] **Buffer Management Interface Design**
+
 - Define `IBufferManager<T>` interface for circular buffer operations
 - Specify buffer size optimization strategies
 - Design memory-efficient buffer lifecycle management
@@ -29,6 +31,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Interface defined with comprehensive documentation
 
 **T1.3** [P] **Streaming Indicator Base Classes**
+
 - Create `IStreamingIndicator` interface
 - Implement `StreamingIndicatorBase` abstract class
 - Define incremental update patterns
@@ -39,6 +42,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Core Implementation Tasks
 
 **T1.4** **Buffer Manager Implementation**
+
 - Implement circular buffer with configurable size
 - Add buffer overflow/underflow handling
 - Optimize memory allocation patterns
@@ -47,6 +51,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Buffer handles 10k+ quotes efficiently, <1ms access time
 
 **T1.5** **Stream Hub Coordination**
+
 - Implement `StreamHub` for coordinating multiple indicators
 - Add quote distribution mechanisms
 - Handle indicator registration/deregistration
@@ -55,6 +60,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Hub coordinates multiple indicators without performance degradation
 
 **T1.6** [P] **EMA Streaming Enhancement**
+
 - Extend existing EMA implementation with streaming support
 - Add buffer-style incrementor for EMA calculations
 - Maintain backward compatibility with batch processing
@@ -63,6 +69,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: EMA processes incremental updates <1ms, maintains mathematical accuracy
 
 **T1.7** [P] **SMA Streaming Enhancement**
+
 - Extend existing SMA implementation with streaming support
 - Optimize sliding window calculations for performance
 - Add buffer management for historical quotes
@@ -75,6 +82,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Moving Average Streaming Tasks
 
 **T2.1** [P] **HMA Streaming Implementation**
+
 - Implement Hull Moving Average with streaming support
 - Optimize nested moving average calculations
 - Add buffer management for multiple timeframes
@@ -83,6 +91,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: HMA streaming matches batch accuracy
 
 **T2.2** [P] **WMA Streaming Implementation**
+
 - Implement Weighted Moving Average streaming
 - Optimize weight calculations for incremental updates
 - Add efficient weight recalculation mechanisms
@@ -91,6 +100,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: WMA streaming performance targets met
 
 **T2.3** [P] **TEMA Streaming Implementation**
+
 - Implement Triple Exponential Moving Average streaming
 - Handle nested exponential calculations efficiently
 - Optimize for high-frequency updates
@@ -99,6 +109,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: TEMA maintains accuracy under high-frequency updates
 
 **T2.4** **Moving Average Integration Testing**
+
 - Create comprehensive integration tests for all MA indicators
 - Test chaining of multiple moving averages
 - Validate memory usage under extended operation
@@ -111,6 +122,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Oscillator Streaming Tasks
 
 **T3.1** [P] **RSI Streaming Implementation**
+
 - Implement Relative Strength Index with streaming support
 - Optimize gain/loss calculations for incremental updates
 - Add efficient running averages for RS calculations
@@ -119,6 +131,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: RSI streaming matches batch accuracy, <1ms updates
 
 **T3.2** [P] **MACD Streaming Implementation**
+
 - Implement MACD with streaming support
 - Handle multiple EMA calculations efficiently
 - Add signal line and histogram streaming
@@ -127,6 +140,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: MACD components maintain synchronization in streaming mode
 
 **T3.3** [P] **Stochastic Streaming Implementation**
+
 - Implement Stochastic Oscillator streaming
 - Optimize high/low lookback calculations
 - Add efficient %K and %D streaming calculations
@@ -137,6 +151,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Volume Indicator Tasks
 
 **T3.4** [P] **OBV Streaming Implementation**
+
 - Implement On-Balance Volume with streaming support
 - Add efficient running volume calculations
 - Handle volume accumulation in streaming mode
@@ -145,6 +160,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: OBV accumulates volume correctly in streaming mode
 
 **T3.5** **Volume Integration Testing**
+
 - Test volume-based indicators under various market conditions
 - Validate volume calculations with real market data
 - Test performance with high-volume trading periods
@@ -157,6 +173,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Catalog System Integration
 
 **T4.1** **Catalog Integration for Streaming**
+
 - Integrate streaming indicators with catalog automation system
 - Add streaming-specific metadata to catalog entries
 - Update catalog generation for streaming modes
@@ -165,6 +182,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Catalog supports both batch and streaming modes
 
 **T4.2** [P] **Performance Benchmarking Suite**
+
 - Create comprehensive benchmarking framework
 - Add streaming vs batch performance comparisons
 - Generate performance reports and metrics
@@ -175,6 +193,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 ### Documentation & Examples
 
 **T4.3** [P] **WebSocket Integration Examples**
+
 - Create WebSocket integration examples
 - Add real-time data feed examples
 - Document streaming API usage patterns
@@ -183,6 +202,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Working examples for common WebSocket libraries
 
 **T4.4** [P] **Migration Documentation**
+
 - Create v2.x to v3.x migration guide
 - Document breaking changes and compatibility notes
 - Add upgrade path examples and best practices
@@ -191,6 +211,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 - **Acceptance Criteria**: Clear migration path with working examples
 
 **T4.5** **Community Feedback Integration**
+
 - Incorporate feedback from preview releases
 - Address community-reported issues
 - Optimize based on real-world usage patterns
