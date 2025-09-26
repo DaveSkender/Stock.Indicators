@@ -147,7 +147,7 @@ For new indicator development, use the integrated [GitHub Spec-Kit](https://gith
 4. **`/tasks`** - Break down into actionable development tasks
 5. **`/implement`** - Execute planned implementation
 
-See [Spec-Kit Integration Guide](./.github/spec-kit-integration.md) for detailed usage instructions.
+See [Spec-Kit Integration Guide](../.github/spec-kit-integration.md) for detailed usage instructions.
 
 When using GitHub Copilot:
 - Follow the established patterns documented in the Copilot instructions
