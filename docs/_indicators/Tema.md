@@ -44,6 +44,7 @@ IEnumerable<TemaResult>
 - The first `N-1` periods will have `null` values since there's not enough data to calculate.  Also note that we are using the proper [weighted variant](https://en.wikipedia.org/wiki/Triple_exponential_moving_average) for TEMA.  If you prefer the unweighted raw 3 EMAs value, please use the `Ema3` output from the [TRIX]({{site.baseurl}}/indicators/Trix#content) oscillator instead.
 
 **Example for TEMA(20)**:
+
 ```
 Period 1-19:  null values (incalculable)
 Period 20:    first TEMA value (may have convergence issues)

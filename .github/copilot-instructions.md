@@ -30,6 +30,7 @@ tests/
 ## Code review guidelines
 
 ### What to look for
+
 - Input validation completeness
 - Edge case handling (insufficient data, zero/negative values)
 - Mathematical accuracy vs reference implementations
@@ -38,6 +39,7 @@ tests/
 - Consistent error messages and exception types
 
 ### Code quality standards
+
 - All public methods must have XML documentation
 - Unit test coverage for all code paths
 - Performance tests for computationally intensive indicators
