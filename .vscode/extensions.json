@@ -1,5 +1,11 @@
 {
   "recommendations": [
-    "DavidAnson.vscode-markdownlint"
+    "bierner.github-markdown-preview",
+    "DavidAnson.vscode-markdownlint",
+    "DotJoshJohnson.xml",
+    "EditorConfig.EditorConfig",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.vscodeintellicode-csharp",
+    "redhat.vscode-yaml"
   ]
 }
