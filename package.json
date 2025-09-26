@@ -2,14 +2,13 @@
   "name": "stock.indicators",
   "version": "1.0.0",
   "description": "C# library providing 200+ technical analysis indicators for financial data analysis",
-  "private": true,
+  "private": false,
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "scripts": {
-    "lint:md": "markdownlint-cli2 \"**/*.md\"",
-    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\""
+    "lint:md": "markdownlint-cli2 --fix \"**/*.md\""
   },
   "keywords": [
     "stock",
