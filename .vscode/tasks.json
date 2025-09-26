@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Restore: .NET Packages",
+      "label": "Install: .NET Packages",
       "type": "shell",
       "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
       "options": {
@@ -11,16 +11,12 @@
       "group": "none",
       "problemMatcher": [
         "$msCompile"
-      ],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
+      ]
     },
     {
       "label": "Build: .NET Solution",
       "type": "shell",
-      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" -v minimal --nologo",
+      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore -v minimal --nologo",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -31,10 +27,8 @@
       "problemMatcher": [
         "$msCompile"
       ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "dependsOn": "Install: .NET Packages",
+      "dependsOrder": "sequence"
     },
     {
       "label": "Test: .NET Solution",
@@ -48,10 +42,8 @@
         "isDefault": true
       },
       "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "dependsOn": "Install: .NET Packages",
+      "dependsOrder": "sequence"
     },
     {
       "label": "Run: Doc Site with LiveReload",
@@ -67,11 +59,7 @@
         }
       },
       "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
+      "problemMatcher": []
     },
     {
       "label": "Install: Ruby Packages (docs)",
@@ -85,11 +73,7 @@
         }
       },
       "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
+      "problemMatcher": []
     },
     {
       "label": "Update: Ruby Packages (docs)",
@@ -103,10 +87,23 @@
         }
       },
       "group": "none",
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint: Markdown Files",
+      "type": "shell",
+      "command": "npm run lint:md",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
       "problemMatcher": [],
       "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true
       }
     }
   ]

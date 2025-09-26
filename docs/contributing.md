@@ -107,6 +107,7 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 ### Pull Request naming convention
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
+
 - `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
 - `Subject` starts with an uppercase letter
 
@@ -150,9 +151,10 @@ For new indicator development, use the integrated [GitHub Spec-Kit](https://gith
 See [Spec-Kit Integration Guide](../.github/spec-kit-integration.md) for detailed usage instructions.
 
 When using GitHub Copilot:
+
 - Follow the established patterns documented in the Copilot instructions
 - Use spec-kit commands for structured feature development
-- Ensure all financial calculations maintain decimal precision 
+- Ensure all financial calculations maintain decimal precision
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 
