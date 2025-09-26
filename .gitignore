@@ -299,6 +299,28 @@ paket-files/
 __pycache__/
 *.pyc
 
+##
+## Python stuff: when tools are not installed by dev-container
+##
+
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+.Python
+venv/
+.venv
+
+##
+## Spec-Kit temporary files
+##
+
+# Temporary spec files during development
+spec-kit/specs/.tmp*
+spec-kit/specs/*.tmp
+# Generated branch-specific specs (will be committed when ready)
+# spec-kit/specs/
+
 # Cake - Uncomment if you are using it
 # tools/**
 # !tools/packages.config
