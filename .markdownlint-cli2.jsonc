@@ -52,6 +52,13 @@
   ],
   "ignores": [
     "node_modules/**",
-    ".git/**"
+    ".git/**",
+    "**/bin/**",
+    "**/obj/**",
+    "**/.vs/**",
+    "**/BenchmarkDotNet.Artifacts/**",
+    "**/TestResults/**",
+    "**/BuildLog.*",
+    "**/vendor/**"
   ]
 }
