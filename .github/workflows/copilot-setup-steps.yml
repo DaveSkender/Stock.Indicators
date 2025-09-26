@@ -29,6 +29,11 @@ jobs:
           uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
         continue-on-error: true
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.207.0
+        with:
+          ruby-version: 3.3
+
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
