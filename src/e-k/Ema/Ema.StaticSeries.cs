@@ -21,7 +21,7 @@ public static partial class Ema
     {
         // check parameter arguments
         ArgumentNullException.ThrowIfNull(source);
-        Validate(lookbackPeriods);
+        IndicatorUtilities.ValidateLookbackPeriods(lookbackPeriods, "EMA");
 
         // initialize
         int length = source.Count;
