@@ -50,8 +50,8 @@ jobs:
 
       - name: Verify Spec-Kit installation
         run: |
-          ~/.local/bin/specify --help
-          ~/.local/bin/specify check
+          specify --help
+          specify check
         continue-on-error: true
 
       - name: Restore .NET packages
