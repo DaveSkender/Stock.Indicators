@@ -2,10 +2,10 @@
 
 ## Core Principles
 
-### I. Mathematical Precision (NON-NEGOTIABLE)
-All financial calculations MUST use `decimal` type to maintain precision. Floating-point types (`double`, `float`) are forbidden for financial computations to prevent precision loss. All indicators MUST be mathematically accurate against established reference implementations.
+### I. Mathematical Precision
+Financial calculations SHOULD prioritize precision and accuracy. While the current codebase primarily uses `double` types for performance reasons, `decimal` types are PREFERRED for price-sensitive calculations where precision loss could impact results. All indicators MUST be mathematically accurate against established reference implementations.
 
-**Rationale**: Financial calculations require exactness; precision loss can compound over time and lead to incorrect trading decisions.
+**Rationale**: Financial calculations require accuracy; the choice between `double` and `decimal` types should balance precision needs with performance requirements based on the specific use case.
 
 ### II. Performance First
 Every indicator MUST be optimized for performance with minimal memory allocation. Excessive LINQ chaining is prohibited. All computationally intensive indicators REQUIRE performance benchmarks. Memory usage patterns MUST be validated for large datasets.
