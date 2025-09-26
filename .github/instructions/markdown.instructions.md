@@ -108,7 +108,7 @@ Last updated: July 4, 2025
 
 Rules for Mermaid diagrams:
 
-- use GitHub flavored syntax. for example, you must use quotes like `B["POST /user/facts/{factKey}"]` instead of `B[POST /user/facts/{factKey}]`
+- Use GitHub flavored syntax. For example, you must use quotes like `B["POST /user/facts/{factKey}"]` instead of `B[POST /user/facts/{factKey}]`
 - Do not use background fill colors like `style AC fill:#e1f5fe`; if colors are needed for differentiation, use colored element borders like `style AC stroke:#e1f5fe`
 
 ## Linting and automation (optional)
