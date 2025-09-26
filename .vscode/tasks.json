@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Install: .NET Packages",
+      "label": "Restore: .NET Packages",
       "type": "shell",
       "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
       "options": {
@@ -11,12 +11,16 @@
       "group": "none",
       "problemMatcher": [
         "$msCompile"
-      ]
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Build: .NET Solution",
       "type": "shell",
-      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore -v minimal --nologo",
+      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" -v minimal --nologo",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -27,8 +31,10 @@
       "problemMatcher": [
         "$msCompile"
       ],
-      "dependsOn": "Install: .NET Packages",
-      "dependsOrder": "sequence"
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Test: .NET Solution",
@@ -42,8 +48,10 @@
         "isDefault": true
       },
       "problemMatcher": [],
-      "dependsOn": "Install: .NET Packages",
-      "dependsOrder": "sequence"
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Run: Doc Site with LiveReload",
@@ -59,7 +67,11 @@
         }
       },
       "group": "none",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Install: Ruby Packages (docs)",
@@ -73,7 +85,11 @@
         }
       },
       "group": "none",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Update: Ruby Packages (docs)",
@@ -87,7 +103,11 @@
         }
       },
       "group": "none",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
     },
     {
       "label": "Lint: Markdown Files",
