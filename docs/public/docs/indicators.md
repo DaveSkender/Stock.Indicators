@@ -15,33 +15,43 @@ Categories include price trends, price channels, oscillators, stop and reverse, 
 The following technical indicators are available in the library, organized by category:
 
 ### Price Trends
+
 Technical indicators that identify the direction and strength of price movements.
 
 ### Price Channels  
+
 Indicators that create channels or bands around price movements to identify support and resistance levels.
 
 ### Oscillators
+
 Momentum-based indicators that oscillate between fixed upper and lower bounds to identify overbought/oversold conditions.
 
 ### Stop and Reverse
+
 Indicators designed to provide entry and exit signals for trading strategies.
 
 ### Candlestick Patterns
+
 Recognition algorithms for traditional Japanese candlestick patterns and other price patterns.
 
 ### Volume-based
+
 Indicators that incorporate trading volume to analyze price movements and confirm trends.
 
 ### Moving Averages
+
 Various smoothing algorithms that reduce price noise and highlight trends.
 
 ### Price Transforms
+
 Utilities for transforming and normalizing price data (OHLC, HLC3, etc.).
 
 ### Price Characteristics
+
 Indicators that measure specific characteristics of price movements like volatility, momentum, and statistical properties.
 
 ### Numerical Analysis
+
 Classic statistical and mathematical analysis functions for financial time series data.
 
 ## Complete Indicator List
@@ -54,6 +64,7 @@ All 200+ indicators included in the library can be found in the [GitHub reposito
 - **S-Z**: [Indicators S through Z](https://github.com/DaveSkender/Stock.Indicators/tree/main/src/s-z)
 
 Each indicator includes:
+
 - Implementation source code
 - Usage examples
 - Result models
