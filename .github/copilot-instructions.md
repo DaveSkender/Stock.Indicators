@@ -1,7 +1,7 @@
 # GitHub Copilot Instructions for Stock Indicators for .NET
 
-This is **Stock Indicators for .NET** - a comprehensive C# library providing 200+ 
-technical analysis indicators for financial data analysis. The library focuses on 
+This is **Stock Indicators for .NET** - a comprehensive C# library providing 200+
+technical analysis indicators for financial data analysis. The library focuses on
 performance, accuracy, and ease of use for .NET developers working with financial data.
 
 ## Project structure

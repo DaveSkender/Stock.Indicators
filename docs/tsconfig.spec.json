@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "isolatedModules": true,
+    "types": [
+      "jest",
+      "node"
+    ],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts",
+    "setup-jest.ts"
+  ]
+}

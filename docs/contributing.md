@@ -71,17 +71,16 @@ dotnet run -c Release --filter *.ToAdx
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
-Our documentation site code is in the `docs` folder.
-Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
+Our documentation site is an Angular application in the `docs` folder.
+Build and preview locally with:
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve -o -l
+npm install
+npm start # http://localhost:4200
 
-# the site will open http://127.0.0.1:4000
+# build static site
+npm run build:complete
 ```
 
 When adding or updating indicators:
@@ -108,7 +107,14 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
 
+<<<<<<< HEAD
+
+- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
+=======
 - `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan (lowercase)
+
+>>>>>>> remotes/origin/v3
+
 - `Subject` starts with an uppercase letter
 
 Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`, `plan: Define technical implementation approach`

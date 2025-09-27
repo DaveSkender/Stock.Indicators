@@ -21,53 +21,48 @@ jobs:
     defaults:
       run:
         working-directory: docs
-    env:
-      BUNDLE_GEMFILE: ${{github.workspace}}/docs/Gemfile
-      JEKYLL_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          ruby-version: 3.3
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: docs/package-lock.json
 
       - name: Install dependencies
-        run: |
-          bundle install
-          gem install html-proofer
-
-      - name: Replace "data-src"
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "data-src"
-          replace: "src"
-          regex: false
-
-      - name: Use 'localhost'
-        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
-        with:
-          find: "https://dotnet.stockindicators.dev"
-          replace: "http://127.0.0.1:4000"
-          regex: false
+        run: npm ci
 
       - name: Build site
-        run: bundle exec jekyll build
+        run: npm run build:complete
 
-      - name: Serve site
-        run: bundle exec jekyll serve --port 4000 --detach
-
-        # see help in setup step
       - name: Test for broken URLs
         run: >
-          htmlproofer _site
-          --no-enforce-https
-          --no-check-external-hash
-          --ignore-status-codes "0,302,403,406,408,429,503,999"
-          --ignore-urls "/fonts.gstatic.com/"
+          npx linkinator http://127.0.0.1:4000
+          --recurse
+          --silent
+          --skip "fonts.gstatic.com"
+          --format json > linkinator-results.json || true
+
+      - name: Process linkinator results
+        run: |
+          # Check if linkinator found any broken links
+          BROKEN_LINKS=$(cat linkinator-results.json | grep -o '"state":"BROKEN"' | wc -l)
+          if [ "$BROKEN_LINKS" -gt 0 ]; then
+            echo "Found $BROKEN_LINKS broken links:"
+            cat linkinator-results.json | grep -B2 -A2 '"state":"BROKEN"'
+            exit 1
+          else
+            echo "No broken links found!"
+          fi
 
       - name: Kill site (failsafe)
         if: always()
-        run: pkill -f jekyll
+        run: |
+          if [ -f .server.pid ]; then
+            kill $(cat .server.pid) || true
+            rm .server.pid
+          fi
