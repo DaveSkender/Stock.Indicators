@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Python for Spec-Kit
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -28,11 +28,6 @@ jobs:
         run: |
           uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
         continue-on-error: true
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.207.0
-        with:
-          ruby-version: 3.3
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
