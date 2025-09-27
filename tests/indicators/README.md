@@ -62,6 +62,7 @@ All external integration and API tests can be run with one CLI
 # CLI equivalent
 dotnet test --settings tests/tests.integration.runsettings
 ```
+
 Since we assume tests are non-integration tests by default, set the category attribute on any new test classes that contain integration tests.  This can be applied uniquely to `[TestMethod]` as well.
 
 ```csharp
@@ -74,9 +75,6 @@ public class MyIntegrationTests : TestBase
 
 > `external/tests.Indicators.csproj` exercises real-world scenarios against a directly loaded package.
 
-
-
 ### Integration tests
 
 - `indicators/tests.Indicators.csproj` unit tests the main NuGet library
-

@@ -107,10 +107,14 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
 
+<<<<<<< HEAD
 - `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
+=======
+- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan (lowercase)
+>>>>>>> remotes/origin/v3
 - `Subject` starts with an uppercase letter
 
-Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`
+Examples: `feat: Add RSI indicator`, `fix: Resolve calculation error in MACD`, `docs: Update API documentation`, `plan: Define technical implementation approach`
 
 Always write a clear log message for your commits. One-line messages are fine for most changes.
 
@@ -135,10 +139,24 @@ This repository is optimized for GitHub Copilot and coding agents with:
 - **Enhanced VS Code settings** in `.vscode/settings.json` with Copilot-specific configurations for optimal suggestions
 - **Environment setup workflow** in `.github/workflows/copilot-setup-steps.yml` for automated dependency installation
 - **MCP server configurations** in `.github/mcp-servers.md` for extended AI capabilities with financial mathematics and .NET performance analysis
+- **Spec-Kit integration** in `spec-kit/` directory enabling Spec-Driven Development workflows with structured commands
+
+### Spec-Driven Development
+
+For new indicator development, use the integrated [GitHub Spec-Kit](https://github.com/github/spec-kit) workflow:
+
+1. **`/constitution`** - Review project governance principles
+2. **`/specify`** - Create detailed feature specifications  
+3. **`/plan`** - Define technical implementation approach
+4. **`/tasks`** - Break down into actionable development tasks
+5. **`/implement`** - Execute planned implementation
+
+See Spec-Kit Integration Guide (`.github/spec-kit-integration.md`) for detailed usage instructions.
 
 When using GitHub Copilot:
 
 - Follow the established patterns documented in the Copilot instructions
+- Use spec-kit commands for structured feature development
 - Ensure all financial calculations maintain decimal precision
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations

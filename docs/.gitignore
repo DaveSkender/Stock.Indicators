@@ -14,10 +14,15 @@
 .offline/
 
 # Build outputs
-./tmp/
+../tmp/
 
 # Testing artifacts
-./coverage
-./playwright-report
-./test-results
-./playwright/.cache/
+../coverage
+../playwright-report
+../test-results
+../playwright/.cache/
+
+# Jekyll site artifacts (for legacy compatibility)
+_site/
+vendor/
+.bundle/
