@@ -107,13 +107,7 @@ When ready, submit a [Pull Request](https://help.github.com/pull-requests) with 
 
 Pull Request titles must follow the [Conventional Commits](https://www.conventionalcommits.org) format: `type: Subject` where:
 
-<<<<<<< HEAD
-
-- `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert (lowercase)
-=======
 - `type` is one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan (lowercase)
-
->>>>>>> remotes/origin/v3
 
 - `Subject` starts with an uppercase letter
 
