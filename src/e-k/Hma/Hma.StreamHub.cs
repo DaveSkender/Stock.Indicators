@@ -86,7 +86,8 @@ public class HmaHub<TIn>
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // update buffers for WMA calculations
-        UpdateBuffers(item.Value);
+        Hma.UpdateBuffer(bufferN1, wmaN1Periods, item.Value);
+        Hma.UpdateBuffer(bufferN2, wmaN2Periods, item.Value);
 
         double? hma = null;
         int shiftQty = LookbackPeriods - 1;
@@ -96,8 +97,8 @@ public class HmaHub<TIn>
         if (i >= shiftQty)
         {
             // calculate WMA(n/2) and WMA(n) for current period
-            double? wmaN2 = CalculateWma(bufferN2, wmaN2Periods, divisorN2);
-            double? wmaN1 = CalculateWma(bufferN1, wmaN1Periods, divisorN1);
+            double? wmaN2 = Hma.ComputeWeightedMovingAverage(bufferN2, wmaN2Periods, divisorN2);
+            double? wmaN1 = Hma.ComputeWeightedMovingAverage(bufferN1, wmaN1Periods, divisorN1);
 
             if (wmaN2.HasValue && wmaN1.HasValue)
             {
@@ -105,18 +106,13 @@ public class HmaHub<TIn>
                 double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
 
                 // update synthetic buffer
-                if (synthBuffer.Count == sqrtPeriods)
-                {
-                    synthBuffer.Dequeue();
-                }
-
-                synthBuffer.Enqueue(synthValue);
+                Hma.UpdateBuffer(synthBuffer, sqrtPeriods, synthValue);
 
                 // calculate final HMA = WMA(sqrt(n)) of synthetic values
                 // Need enough synthetic values for the final WMA calculation
                 if (synthBuffer.Count == sqrtPeriods)
                 {
-                    hma = CalculateWma(synthBuffer, sqrtPeriods, divisorSqrt);
+                    hma = Hma.ComputeWeightedMovingAverage(synthBuffer, sqrtPeriods, divisorSqrt);
                 }
             }
         }
@@ -127,42 +123,5 @@ public class HmaHub<TIn>
             Hma: hma);
 
         return (r, i);
-    }
-
-    private void UpdateBuffers(double value)
-    {
-        // update buffer for WMA(n)
-        if (bufferN1.Count == wmaN1Periods)
-        {
-            bufferN1.Dequeue();
-        }
-
-        bufferN1.Enqueue(value);
-
-        // update buffer for WMA(n/2)
-        if (bufferN2.Count == wmaN2Periods)
-        {
-            bufferN2.Dequeue();
-        }
-
-        bufferN2.Enqueue(value);
-    }
-
-    private static double? CalculateWma(Queue<double> buffer, int periods, double divisor)
-    {
-        if (buffer.Count < periods)
-        {
-            return null;
-        }
-
-        double wma = 0;
-        double[] values = buffer.ToArray();
-
-        for (int j = 0; j < periods; j++)
-        {
-            wma += values[j] * (j + 1) / divisor;
-        }
-
-        return wma;
     }
 }

@@ -90,7 +90,7 @@ Based on PR #1014, v3.0 focuses on streaming capabilities that allow indicators 
 
 ## Progress Updates
 
-- **2025-09-28** — Completed task T2.1 (*HMA Streaming Implementation*) via PR [#1397](https://github.com/DaveSkender/Stock.Indicators/pull/1397): added `HmaHub`, `HmaList`, catalog wiring, and parity tests ensuring streaming matches batch accuracy. Next focus: T2.2 (*WMA Streaming Implementation*).
+- **2025-09-28** — Task T2.1 (*HMA Streaming Implementation*) is complete via PR [#1397](https://github.com/DaveSkender/Stock.Indicators/pull/1397): adds `HmaHub`, `HmaList`, catalog wiring, and parity tests that keep streaming aligned with batch accuracy. Next focus stays on T2.2 (*WMA Streaming Implementation*).
 
 ## Success Criteria
 
