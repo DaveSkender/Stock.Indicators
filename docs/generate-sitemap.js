@@ -4,7 +4,7 @@ const path = require('path');
 const docsDir = path.join(__dirname, 'public', 'docs');
 const indicatorsDir = path.join(__dirname, 'public', '_indicators');
 const outputDir = path.join(__dirname, 'dist', 'static');
-const baseUrl = 'https://dotnet.stockindicators.dev';
+const baseUrl = 'https://stockindicators.dev';
 
 function generateSitemap() {
   const urls = [];

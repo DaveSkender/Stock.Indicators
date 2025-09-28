@@ -1,6 +1,12 @@
 name: Deploy website
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/**
+      - .github/workflows/deploy-website.yml
 
 concurrency:
   group: docs-website
