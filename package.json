@@ -1,26 +1,20 @@
 {
-  "name": "stock.indicators",
-  "version": "1.0.0",
-  "description": "C# library providing 200+ technical analysis indicators for financial data analysis",
+  "name": "stock-indicators",
+  "description": "Stock Indicators for .NET",
+  "author": "Dave Skender",
+  "license": "Apache-2.0",
   "private": false,
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
+  "packageManager": "npm@11.6.1",
+  "engines": {
+    "node": ">=22"
   },
   "scripts": {
+    "clean": "rimraf --glob \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/BenchmarkDotNet.Artifacts\" \"node_modules\" \"**/node_modules\"",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\""
   },
-  "keywords": [
-    "stock",
-    "indicators",
-    "technical-analysis",
-    "finance",
-    "dotnet"
-  ],
-  "author": "Dave Skender",
-  "license": "Apache-2.0",
   "devDependencies": {
-    "markdownlint-cli2": "^0.18.1"
+    "markdownlint-cli2": "^0.18.1",
+    "rimraf": "^6.0.1"
   }
 }
