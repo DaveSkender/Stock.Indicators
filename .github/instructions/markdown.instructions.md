@@ -64,7 +64,7 @@ Include a `Last updated: <Month Day, Year>` line at the end, preceded by a blank
 Rules for Last updated element:
 
 - Use only for specification, instructional, and developer documentation.
-  - Do not include on Markdown files used as website source pages.
+  - Do not include on Markdown files used as website source pages (e.g. Jekyll).
 - Place it last.
 - Use the current date.
 

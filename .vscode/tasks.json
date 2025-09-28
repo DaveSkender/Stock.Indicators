@@ -110,6 +110,20 @@
       }
     },
     {
+      "label": "Clean: Cache Folders",
+      "type": "shell",
+      "command": "npm run clean",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Lint: Markdown Files",
       "type": "shell",
       "command": "npm run lint:md",
