@@ -14,6 +14,10 @@ npm i -g npm@latest
 echo "📦 Restoring Angular CLI..."
 npm install -g @angular/cli
 
+if ! command -v uv >/dev/null 2>&1; then
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
 echo "📦 Restoring Spec-Kit..."
 uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 
