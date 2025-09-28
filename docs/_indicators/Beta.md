@@ -71,7 +71,7 @@ IReadOnlyList<BetaResult>
 
 **`Ratio`** _`double`_ - Beta ratio is `BetaUp/BetaDown`
 
-**`Convexity`** _`double`_ - Beta convexity is <code>(BetaUp-BetaDown)<sup>2</sup></code>
+**`Convexity`** _`double`_ - Beta convexity is `(BetaUp-BetaDown)^2`
 
 **`ReturnsEval`** _`double`_ - Returns of evaluated quotes (`R`)
 

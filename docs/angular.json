@@ -24,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/static",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -35,9 +35,24 @@
             "assets": [
               "src/favicon.ico",
               {
-                "glob": "**/*",
-                "input": "public",
+                "glob": "*.md",
+                "input": ".",
                 "output": "/"
+              },
+              {
+                "glob": "examples.*",
+                "input": ".",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "pages",
+                "output": "/pages"
+              },
+              {
+                "glob": "**/*",
+                "input": "_indicators",
+                "output": "/_indicators"
               },
               {
                 "glob": "**/*",

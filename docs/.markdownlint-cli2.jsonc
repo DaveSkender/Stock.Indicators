@@ -1,16 +1,14 @@
 {
-  "globs": ["**/*.md", "**/*.markdown"],
+  "globs": [
+    "pages/**/*.md",
+    "_indicators/**/*.md",
+    "*.md"
+  ],
   "ignores": [
-    "**/.git/**",
-    "**/.vs/**",
-    "**/BuildLog.*",
-    "**/node_modules/**",
-    "**/bin/**",
-    "**/obj/**",
-    "**/BenchmarkDotNet.Artifacts/**",
-    "**/TestResults/**",
-    "**/*playwright*/**",
-    "**/spec-kit/**"
+    "node_modules/**",
+    "dist/**",
+    ".angular/**",
+    "coverage/**"
   ],
   "config": {
     "default": true,
@@ -38,7 +36,8 @@
         "kbd",
         "abbr",
         "a",
-        "img"
+        "img",
+        "p"
       ]
     },
     "MD041": {

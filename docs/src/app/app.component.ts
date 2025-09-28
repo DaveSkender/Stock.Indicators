@@ -4,71 +4,9 @@ import { HeaderComponent } from './components/header.component';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <div class="app">
-      <app-header />
-      <main id="content" class="main-content" role="main">
-        <router-outlet />
-      </main>
-    </div>
-  `,
-  styles: [`
-    .app {
-      min-height: 100vh;
-    }
-    
-    .main-content {
-      word-wrap: break-word;
-      margin: 0 auto;
-      padding: 0;
-      color: #424242;
-    }
-
-    @media screen and (min-width: 1024px) {
-      .main-content {
-        max-width: 64rem;
-        padding: 2rem 6rem;
-        font-size: 1.1rem;
-      }
-    }
-
-    @media screen and (min-width: 768px) and (max-width: 1024px) {
-      .main-content {
-        padding: 2rem 4rem;
-        font-size: 1.1rem;
-      }
-    }
-
-    @media screen and (min-width: 480px) and (max-width: 768px) {
-      .main-content {
-        padding: 2rem 2.5rem;
-        font-size: 1rem;
-      }
-    }
-
-    @media screen and (max-width: 480px) {
-      .main-content {
-        padding: 2rem 1rem;
-        font-size: 1rem;
-      }
-    }
-
-    .main-content :first-child {
-      margin-top: 0;
-    }
-
-    .main-content ul li {
-      margin-top: 0;
-      padding-bottom: 0.5rem;
-    }
-
-    @media screen and (max-width: 480px) {
-      .main-content ul li {
-        padding-top: 0.1rem;
-        padding-bottom: 0.7rem;
-      }
-    }
-  `],
+  standalone: true,
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, HeaderComponent]
 })

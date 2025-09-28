@@ -1,10 +1,29 @@
 const fs = require('fs');
 const path = require('path');
 
-const publicDir = path.join(__dirname, 'public');
-const indicatorsDir = path.join(__dirname, 'public', '_indicators');
-const outputDir = path.join(__dirname, 'dist', 'static');
+const pagesDir = path.join(__dirname, 'pages');
+const indicatorsDir = path.join(__dirname, '_indicators');
+const outputDir = path.join(__dirname, 'dist');
 const baseUrl = 'https://stockindicators.dev';
+
+function getMarkdownFiles(dir, recursive = true) {
+  if (!fs.existsSync(dir)) {
+    return [];
+  }
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    if (entry.isDirectory() && recursive) {
+      files.push(...getMarkdownFiles(path.join(dir, entry.name), recursive));
+    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+      files.push(path.join(dir, entry.name));
+    }
+  }
+
+  return files;
+}
 
 function generateSitemap() {
   const urls = [];
@@ -16,20 +35,36 @@ function generateSitemap() {
     <priority>1.0</priority>
   </url>`);
 
-  // Add root level pages (excluding index.md since that's the root)
-  if (fs.existsSync(publicDir)) {
-    const rootFiles = fs.readdirSync(publicDir)
-      .filter(file => file.endsWith('.md') && file !== 'index.md')
-      .map(file => file.replace('.md', ''));
+  // Add root level pages (excluding home.md since that's the root)
+  const contentDirectories = fs.existsSync(pagesDir) ? [pagesDir] : [__dirname];
 
-    rootFiles.forEach(slug => {
+  contentDirectories.forEach(dir => {
+    const recursive = dir === pagesDir;
+    const markdownFiles = getMarkdownFiles(dir, recursive);
+
+    markdownFiles.forEach(filePath => {
+      const content = fs.readFileSync(filePath, 'utf8');
+      const permalinkMatch = content.match(/^permalink:\s*(.+)$/m);
+
+      if (!permalinkMatch) {
+        return;
+      }
+
+      const permalink = permalinkMatch[1].trim();
+
+      if (permalink === '/' || permalink.length === 0) {
+        return;
+      }
+
+      const normalized = permalink.endsWith('/') ? permalink : `${permalink}/`;
+      const href = normalized.startsWith('/') ? normalized : `/${normalized}`;
       urls.push(`  <url>
-    <loc>${baseUrl}/${slug}/</loc>
+    <loc>${baseUrl}${href}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`);
     });
-  }
+  });
 
   // Add indicator pages
   if (fs.existsSync(indicatorsDir)) {

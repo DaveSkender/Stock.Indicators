@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD041 -->
 [![image](https://raw.githubusercontent.com/DaveSkender/Stock.Indicators/main/docs/assets/social-banner.png)](https://dotnet.StockIndicators.dev/)
 
 [![GitHub Stars](https://img.shields.io/github/stars/DaveSkender/Stock.Indicators?logo=github&label=Stars)](https://github.com/DaveSkender/Stock.Indicators)
@@ -6,8 +7,6 @@
 
 > [!IMPORTANT]
 > This branch contains **vNext (v3)** code that is under development. For the currently released stable version (v2), please see the [`main` branch](https://github.com/DaveSkender/Stock.Indicators/blob/main/README.md).
-
-# Stock Indicators for .NET
 
 **Stock Indicators for .NET** is a C# [library package](https://www.nuget.org/packages/Skender.Stock.Indicators) that produces financial market technical indicators.  Send in historical price quotes and get back desired indicators such as moving averages, Relative Strength Index, Stochastic Oscillator, Parabolic SAR, etc.  Nothing more.
 
@@ -22,3 +21,5 @@ Visit our project site for more information:
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
 - [Contributing](https://dotnet.stockindicators.dev/contributing/)
+
+<!-- markdownlint-enable MD041 -->

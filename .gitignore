@@ -367,4 +367,7 @@ ASALocalRun/
 /playwright/.cache/
 
 # Playwright
-/.playwright*
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/.playwright-mcp/

@@ -1,0 +1,20 @@
+<div class="docs-content">
+  @if (loading()) {
+    <div class="loading">Loading...</div>
+  } @else if (error()) {
+    <div class="error">
+      <h1>Page Not Found</h1>
+      <p>The documentation page you're looking for doesn't exist.</p>
+      <p><a href="/">Return to home</a></p>
+    </div>
+  } @else {
+    <div [innerHTML]="htmlContent()"></div>
+  }
+
+  <app-footer
+    [indicatorName]="indicatorName()"
+    [discussionUrl]="discussionUrl()"
+    [showFooter]="isIndicatorPage()"
+  >
+  </app-footer>
+</div>

@@ -20,7 +20,19 @@ internal static readonly IndicatorListing SeriesListing = new IndicatorDefinitio
         .Build();
 ```
 
-Core builder methods: `.WithName`, `.WithId`, `.WithStyle`, `.WithCategory`, `.WithMethodName`, `.AddParameter<T>`, `.AddEnumParameter<TEnum>`, `.AddDateParameter`, `.AddSeriesParameter`, `.AddResult`, `.Build`.
+Core builder methods include:
+
+- `.WithName`
+- `.WithId`
+- `.WithStyle`
+- `.WithCategory`
+- `.WithMethodName`
+- `.AddParameter<T>`
+- `.AddEnumParameter<TEnum>`
+- `.AddDateParameter`
+- `.AddSeriesParameter`
+- `.AddResult`
+- `.Build`
 
 ### Multi-style rules
 
@@ -63,7 +75,10 @@ Dynamic shortcuts via `CatalogUtility` (no generic type required):
 
 ```csharp
 // by ID + Style (typed)
-IReadOnlyList<EmaResult> emaResultsById = quotes.ExecuteById<EmaResult>("EMA", Style.Series, new() { ["lookbackPeriods"] = 20 });
+IReadOnlyList<EmaResult> emaResultsById = quotes.ExecuteById<EmaResult>(
+        "EMA",
+        Style.Series,
+        new() { ["lookbackPeriods"] = 20 });
 
 // from JSON config (typed)
 string rsiConfigJson = "{\"id\":\"RSI\",\"style\":\"Series\",\"parameters\":{\"lookbackPeriods\":14}}";

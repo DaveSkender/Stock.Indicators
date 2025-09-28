@@ -1,0 +1,18 @@
+.loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+}
+
+.error a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.error a:hover {
+  text-decoration: underline;
+}

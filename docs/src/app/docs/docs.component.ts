@@ -9,47 +9,9 @@ import { FooterComponent } from '../components/footer.component';
 
 @Component({
   selector: 'app-docs',
-  template: `
-    <div class="docs-content">
-      @if (loading()) {
-        <div class="loading">Loading...</div>
-      } @else if (error()) {
-        <div class="error">
-          <h1>Page Not Found</h1>
-          <p>The documentation page you're looking for doesn't exist.</p>
-          <p><a href="/">Return to home</a></p>
-        </div>
-      } @else {
-        <div [innerHTML]="htmlContent()"></div>
-      }
-      
-      <app-footer 
-        [indicatorName]="indicatorName()"
-        [discussionUrl]="discussionUrl()"
-        [showFooter]="isIndicatorPage()">
-      </app-footer>
-    </div>
-  `,
-  styles: [`
-    .loading {
-      text-align: center;
-      padding: 2rem;
-    }
-    
-    .error {
-      text-align: center;
-      padding: 2rem;
-    }
-    
-    .error a {
-      color: #0366d6;
-      text-decoration: none;
-    }
-    
-    .error a:hover {
-      text-decoration: underline;
-    }
-  `],
+  standalone: true,
+  templateUrl: './docs.component.html',
+  styleUrls: ['./docs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, FooterComponent]
 })
@@ -86,7 +48,7 @@ export class DocsComponent implements OnInit {
         let slug: string;
         
         if (currentPath === '/' || currentPath === '') {
-          slug = 'index'; // Load index.md for root route
+          slug = 'home'; // Load home.md for root route
         } else {
           slug = currentPath.startsWith('/') ? currentPath.substring(1) : currentPath;
         }

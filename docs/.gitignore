@@ -1,7 +1,7 @@
 # Angular build artifacts
-/dist
-/.angular
-/node_modules
+dist/
+.angular/
+node_modules/
 
 # Temporary files
 *.tmp
@@ -19,5 +19,8 @@ vendor/
 .bundle/
 
 # Test results and reports
-/test-results
-/playwright-report
+blob-report/
+test-results/
+playwright-report/
+playwright/.cache/
+playwright/.auth/

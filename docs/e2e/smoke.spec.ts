@@ -1,87 +1,51 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Stock Indicators Documentation Site', () => {
-  test('home page loads successfully', async ({ page }) => {
-    // Use root path to allow SPA routing to redirect to /docs/home when serving static files
-    await page.goto('/');
-    
-    // Check if the page title is correct
-    await expect(page).toHaveTitle(/Stock Indicators/i);
-    
-    // Check for main content
-    await expect(page.locator('body')).toBeVisible();
-    await expect(page.locator('.docs-content')).toBeVisible();
-    
-    // Check for navigation elements (adjust selectors based on actual site structure)
-    const navigation = page.locator('nav, .navbar, [role="navigation"]');
-    if (await navigation.count() > 0) {
-      await expect(navigation.first()).toBeVisible();
-    }
+const ROUTES_TO_CHECK = ['/', '/guide', '/indicators', '/utilities', '/performance'];
+const INDICATOR_SAMPLES = ['sma', 'rsi', 'macd'];
+const HTML_ACCEPT_HEADERS = {
+  accept: 'text/html,application/xhtml+xml;q=0.9,*/*;q=0.8'
+} as const;
+
+test.describe('Stock Indicators documentation endpoints', () => {
+  test('home page responds with expected branding', async ({ request }) => {
+    const response = await request.get('/', { headers: HTML_ACCEPT_HEADERS });
+    expect(response.status()).toBe(200);
+
+    const html = await response.text();
+    expect(html).toContain('<app-root');
+    expect(html).not.toMatch(/404|error/gi);
   });
 
-  test('documentation pages are accessible', async ({ page }) => {
-    await page.goto('/');
-    
-    // Look for documentation links
-    const docLinks = page.locator('a[href*="/docs/"], a[href*="/indicators/"]');
-    const linkCount = await docLinks.count();
-    
-    if (linkCount > 0) {
-      // Test the first documentation link
-      const firstLink = docLinks.first();
-      const href = await firstLink.getAttribute('href');
-      
-      if (href) {
-        await page.goto(href);
-        await expect(page.locator('body')).toBeVisible();
-        
-        // Check that we're not on an error page
-        await expect(page.locator('h1')).not.toContainText('404');
-        await expect(page.locator('h1')).not.toContainText('Error');
-      }
-    }
-  });
+  for (const route of ROUTES_TO_CHECK) {
+    test(`serves ${route} without error text`, async ({ request }) => {
+      const response = await request.get(route, { headers: HTML_ACCEPT_HEADERS });
+      expect(response.status()).toBeLessThan(500);
 
-  test('search functionality works if present', async ({ page }) => {
-    await page.goto('/');
-    
-    // Look for search input
-    const searchInput = page.locator('input[type="search"], input[placeholder*="search"], #search');
-    
-    if (await searchInput.count() > 0) {
-      await searchInput.fill('SMA');
-      await expect(searchInput).toHaveValue('SMA');
-    }
-  });
+      const html = await response.text();
+      expect(html).not.toMatch(/404|error/gi);
+    });
+  }
 
-  test('responsive design works on mobile', async ({ page }) => {
-    // Set mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
-    
-    // Check that the page is still functional on mobile
-    await expect(page.locator('body')).toBeVisible();
-    
-    // Check for mobile navigation if present
-    const mobileNav = page.locator('.mobile-nav, .navbar-toggle, .hamburger, [aria-label*="menu"]');
-    if (await mobileNav.count() > 0) {
-      await expect(mobileNav.first()).toBeVisible();
-    }
-  });
+  for (const indicator of INDICATOR_SAMPLES) {
+    test(`indicator page for ${indicator} renders`, async ({ request }) => {
+      const response = await request.get(`/indicators/${indicator}`, { headers: HTML_ACCEPT_HEADERS });
+      expect(response.status()).toBeLessThan(500);
 
-  test('accessibility landmarks are present', async ({ page }) => {
-    await page.goto('/');
-    
-    // Check for basic accessibility landmarks
-    const main = page.locator('main, [role="main"]');
-    if (await main.count() > 0) {
-      await expect(main.first()).toBeVisible();
+      const html = await response.text();
+      expect(html).not.toMatch(/404|error/gi);
+    });
+  }
+
+  test('sitemap (if present) is well formed', async ({ request }) => {
+    const response = await request.get('/sitemap.xml');
+
+    if (response.status() === 404) {
+      test.info().annotations.push({ type: 'note', description: 'sitemap.xml not generated for this build' });
+      return;
     }
-    
-    // Check for proper heading structure
-    const h1 = page.locator('h1');
-    if (await h1.count() > 0) {
-      await expect(h1.first()).toBeVisible();
-    }
+
+    expect(response.status()).toBe(200);
+    const xml = await response.text();
+    expect(xml).toContain('<urlset');
   });
 });

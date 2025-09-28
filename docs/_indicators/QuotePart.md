@@ -27,6 +27,8 @@ IReadOnlyList<QuotePart> results =
 
 **`candlePart`** _`CandlePart`_ - The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
 
+<a id="candlepart-options"></a>
+
 ### Historical quotes requirements
 
 You must have at least 1 period of `quotes`.

@@ -23,7 +23,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 
 **T1.2** [P] **Buffer Management Interface Design** ✅ COMPLETE (Pre-existing)
 
-- ✅ Existing Queue<T> pattern already provides efficient buffer operations
+- ✅ Existing `Queue<T>` pattern already provides efficient buffer operations
 - ✅ AdxList demonstrates proven circular buffer functionality
 - ✅ No additional interfaces needed - existing patterns sufficient
 - **Dependencies**: T1.1
@@ -43,7 +43,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 
 **T1.4** **Buffer Manager Implementation** ✅ COMPLETE (Pre-existing)
 
-- ✅ Existing Queue<T> implementations provide efficient circular buffer behavior
+- ✅ Existing `Queue<T>` implementations provide efficient circular buffer behavior
 - ✅ AdxList demonstrates buffer overflow/underflow handling
 - ✅ Memory allocation patterns already optimized in existing implementations
 - **Dependencies**: T1.2, T1.3
