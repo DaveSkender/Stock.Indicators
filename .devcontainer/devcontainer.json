@@ -7,6 +7,9 @@
     },
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
+    },
+    "ghcr.io/devcontainers-extra/features/uv:1": {
+      "version": "latest"
     }
   },
   "customizations": {
