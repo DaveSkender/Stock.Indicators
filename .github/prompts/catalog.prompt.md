@@ -103,7 +103,7 @@ public class {IndicatorName}Tests : TestBase
 - `AddParameter<int>()` - integers with min/max
 - `AddEnumParameter<T>()` - enum types
 - `AddDateParameter()` - DateTime values
-- `AddSeriesParameter()` - IReadOnlyList<T> inputs
+- `AddSeriesParameter()` - `IReadOnlyList<T>` inputs
 
 **Critical Rule**: Only `IReusable.Value` mappings get `isReusable: true`. Everything else is `false`.
 

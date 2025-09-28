@@ -4,7 +4,6 @@ description: >-
   This NuGet package is an open-source project.
   Learn how to contribute issues, fixes, new indicators, new features, or to our discussions.
 permalink: /contributing/
-relative_path: pages/contributing.md
 layout: page
 ---
 
@@ -71,17 +70,16 @@ dotnet run -c Release --filter *.ToAdx
 
 ## Documentation
 
-This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
-Our documentation site code is in the `docs` folder.
-Build the site locally to test that it works properly.
-See [Ruby Jekyll documentation](https://jekyllrb.com/docs) for initial setup.
+Our documentation site is an Angular application in the `docs` folder.
+Build and preview locally with:
 
 ```bash
 # from /docs folder
-bundle install
-bundle exec jekyll serve -o -l
+npm install
+npm start # http://localhost:4200
 
-# the site will open http://127.0.0.1:4000
+# build static site
+npm run build:complete
 ```
 
 When adding or updating indicators:

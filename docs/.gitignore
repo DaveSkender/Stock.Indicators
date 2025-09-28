@@ -1,4 +1,26 @@
-# Jekyll site
+# Angular build artifacts
+dist/
+.angular/
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+
+# IDE files
+.vscode/settings.json
+
+# Offline files that shouldn't be processed
+.offline/
+
+# Jekyll site artifacts (for legacy compatibility)
 _site/
 vendor/
 .bundle/
+
+# Test results and reports
+blob-report/
+test-results/
+playwright-report/
+playwright/.cache/
+playwright/.auth/

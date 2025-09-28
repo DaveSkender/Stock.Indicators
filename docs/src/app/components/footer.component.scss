@@ -1,0 +1,45 @@
+.site-footer {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid #e0e0e0;
+  background-color: #fafafa;
+}
+
+.discussion-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.discussion-section p {
+  margin: 0.5rem 0;
+}
+
+.discussion-section a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.discussion-section a:hover {
+  text-decoration: underline;
+}
+
+.back-to-top {
+  text-align: center;
+}
+
+.back-to-top-btn {
+  background: none;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  color: #586069;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.back-to-top-btn:hover {
+  background-color: #f6f8fa;
+  border-color: #d1d5da;
+  text-decoration: none;
+}

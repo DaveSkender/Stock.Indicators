@@ -1,0 +1,20 @@
+@if (showFooter()) {
+  <footer class="site-footer">
+    <div class="discussion-section">
+      <p>
+        <strong>Discuss this indicator</strong> 💬
+      </p>
+      <p>
+        <a [href]="discussionUrl()" target="_blank" rel="noopener">
+          Join the community discussion about {{ indicatorName() }}
+        </a>
+      </p>
+    </div>
+
+    <div class="back-to-top">
+      <button (click)="scrollToTop()" class="back-to-top-btn">
+        ↑ Back to top
+      </button>
+    </div>
+  </footer>
+}

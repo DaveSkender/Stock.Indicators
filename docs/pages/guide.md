@@ -1,33 +1,29 @@
 ---
 title: Guide and Pro tips
-description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms.  Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
+description: Learn how to use the Stock Indicators for .NET Nuget library in your own software tools and platforms. Whether you're just getting started or an advanced professional, this guide explains how to get setup, example usage code, and instructions on how to use historical price quotes, make custom quote classes, chain indicators of indicators, and create custom technical indicators.
 permalink: /guide/
-relative_path: pages/guide.md
-layout: page
 ---
 
-# {{ page.title }}
+# Guide and Pro tips
 
-<nav role="navigation" aria-label="guide page menu">
-<ul class="pipe-list">
-  <li><a href="#installation-and-setup">Installation and setup</a></li>
-  <li><a href="#prerequisite-data">Prerequisite data</a></li>
-  <li><a href="#example-usage">Example usage</a></li>
-  <li><a href="#historical-quotes">Historical quotes</a></li>
-  <li><a href="#using-custom-quote-classes">Using custom quote classes</a></li>
-  <li><a href="#generating-indicator-of-indicators">Generating indicator of indicators</a></li>
-  <li><a href="#candlestick-patterns">Candlestick patterns</a></li>
-  <li><a href="{{site.baseurl}}/custom-indicators/#content">Creating custom indicators</a></li>
-  <li><a href="{{site.baseurl}}/utilities/#content">Utilities and helper functions</a></li>
-  <li><a href="{{site.baseurl}}/contributing/#content">Contributing guidelines</a></li>
-</ul>
-</nav>
+## Table of Contents
+
+- [Installation and setup](#installation-and-setup)
+- [Prerequisite data](#prerequisite-data)
+- [Example usage](#example-usage)
+- [Historical quotes](#historical-quotes)
+- [Using custom quote classes](#using-custom-quote-classes)
+- [Generating indicator of indicators](#generating-indicator-of-indicators)
+- [Candlestick patterns](#candlestick-patterns)
+- [Creating custom indicators](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples/CustomIndicatorsLibrary)
+- [Utilities and helper functions](/utilities)
+- [Contributing guidelines](/contributing)
 
 ## Getting started
 
 ### Installation and setup
 
-Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project.  See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
+Find and install the [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package into your Project. See more [help for installing packages](https://www.google.com/search?q=install+nuget+package).
 
 ```powershell
 # dotnet CLI example
@@ -80,11 +76,11 @@ SMA on 4/26/2018 was $255.9705
 ..
 ```
 
-See [individual indicator pages]({{site.baseurl}}/indicators/) for specific usage guidance.
+See [individual indicator pages](/indicators/) for specific usage guidance.
 
 More examples available:
 
-- [Example usage code]({{site.baseurl}}/examples/#content) in a simple working console application
+- [Example usage code](/examples/#content) in a simple working console application
 - [Demo site](https://charts.stockindicators.dev) (a stock chart)
 
 ## Historical quotes
@@ -102,7 +98,7 @@ You must provide historical price quotes to the library in the standard OHLCV `I
 
 ### Where can I get historical quote data?
 
-There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data]({{site.github.repository_url}}/discussions/579) for ideas.
+There are many places to get financial market data.  Check with your brokerage or other commercial sites.  If you're looking for a free developer API, see our ongoing [discussion on market data](https://github.com/DaveSkender/Stock.Indicators/discussions/579) for ideas.
 
 ### How much historical quote data do I need?
 
@@ -112,7 +108,7 @@ Each indicator will need different amounts of price `quotes` to calculate.  You 
 >
 > For example, if you are using daily data and want one year of precise EMA(250) data, you need to provide 3 years of historical quotes (1 extra year for the lookback period and 1 extra year for convergence); thereafter, you would discard or not use the first two years of results.  Occasionally, even more is required for optimal precision.
 >
-> See [discussion on warmup and convergence]({{site.github.repository_url}}/discussions/688) for more information.
+> See [discussion on warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) for more information.
 
 ### Using custom quote classes
 
@@ -196,13 +192,13 @@ IReadOnlyList<RsiResult> rsiOfObv = obvResults.GetRsi(14);
 
 ## Candlestick patterns
 
-[Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern) are a unique form of indicator and have a common output model.
+[Candlestick Patterns](/indicators/#candlestick-pattern) are a unique form of indicator and have a common output model.
 
 {% include candle-result.md %}
 
 ### Match
 
-When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern]({{site.baseurl}}/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
+When a candlestick pattern is recognized, it produces a matching signal.  In some cases, an intrinsic confirmation is also available after the signal.  In cases where previous bars were used to identify a pattern, they are indicated as the basis for the signal.  This `enum` can also be referenced as an `int` value.  [Documentation for each candlestick pattern](/indicators/#candlestick-pattern) will indicate whether confirmation and/or basis information is produced.
 
 | type | int | description
 |-- |--: |--
@@ -217,10 +213,10 @@ When a candlestick pattern is recognized, it produces a matching signal.  In som
 
 ### Candle
 
-The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility]({{site.baseurl}}/utilities/#extended-candle-properties), and further used as the basis for calculating indicators.
+The `CandleProperties` class is an extended version of `Quote`, and contains additional calculated properties.  `TQuote` classes can be converted to `CandleProperties` with the `.ToCandle()` [utility](/utilities/#extended-candle-properties), and further used as the basis for calculating indicators.
 
 {% include candle-properties.md %}
 
 ## Utilities
 
-See [Utilities and helper functions]({{site.baseurl}}/utilities/#content) for additional tools.
+See [Utilities and helper functions](/utilities/#content) for additional tools.

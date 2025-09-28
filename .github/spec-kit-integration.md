@@ -40,7 +40,7 @@ Spec-Kit implements "Spec-Driven Development" - a methodology where specificatio
 
 ## Project Structure
 
-```
+```text
 spec-kit/
 ├── memory/
 │   └── constitution.md          # Project governance principles

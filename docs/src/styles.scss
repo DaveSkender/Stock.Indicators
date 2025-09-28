@@ -1,0 +1,162 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&family=Google+Sans:wght@400;500&display=swap');
+
+/* Global Jekyll-style resets and base styles */
+html {
+  font-family: "Rubik", "Google Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  color: #424242;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Rubik", "Google Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.2rem;
+  line-height: 2.2rem;
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+}
+
+h2 {
+  font-size: 1.8rem;
+  line-height: 1.6rem;
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+@media screen and (max-width: 480px) {
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+@media screen and (max-width: 480px) {
+  h4 {
+    font-size: 1.1rem;
+  }
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Code blocks styling */
+pre {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 16px;
+  overflow: auto;
+  font-size: 0.85em;
+  line-height: 1.45;
+}
+
+code {
+  background-color: rgba(175, 184, 193, 0.2);
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 0.85em;
+  border-radius: 6px;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* Links */
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  padding-left: 2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #d0d7de;
+  padding: 6px 13px;
+  text-align: left;
+}
+
+th {
+  background-color: #f6f8fa;
+  font-weight: 600;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Blockquotes */
+blockquote {
+  padding: 0 1rem;
+  margin: 0 0 1rem 0;
+  color: #6a737d;
+  border-left: 0.25rem solid #dfe2e5;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
