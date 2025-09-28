@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { catchError, of } from 'rxjs';
 
 import { MarkdownService, MarkdownContent } from '../services/markdown.service';
+import { FooterComponent } from '../components/footer.component';
 
 @Component({
   selector: 'app-docs',
@@ -21,6 +22,12 @@ import { MarkdownService, MarkdownContent } from '../services/markdown.service';
       } @else {
         <div [innerHTML]="htmlContent()"></div>
       }
+      
+      <app-footer 
+        [indicatorName]="indicatorName()"
+        [discussionUrl]="discussionUrl()"
+        [showFooter]="isIndicatorPage()">
+      </app-footer>
     </div>
   `,
   styles: [`
@@ -44,7 +51,7 @@ import { MarkdownService, MarkdownContent } from '../services/markdown.service';
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule]
+  imports: [CommonModule, FooterComponent]
 })
 export class DocsComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -58,6 +65,9 @@ export class DocsComponent implements OnInit {
   content = signal<MarkdownContent | null>(null);
   
   htmlContent = computed(() => this.content()?.content || '');
+  indicatorName = signal<string>('');
+  discussionUrl = signal<string>('');
+  currentIndicator = signal<string>('');
   
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -65,8 +75,12 @@ export class DocsComponent implements OnInit {
       const indicator = params['indicator'];
       
       if (indicator) {
+        this.currentIndicator.set(indicator);
+        this.indicatorName.set(indicator);
+        this.discussionUrl.set(`https://github.com/DaveSkender/Stock.Indicators/discussions`);
         this.loadIndicatorContent(indicator);
       } else {
+        this.currentIndicator.set('');
         // Determine which page to load based on current route
         const currentPath = this.router.url.split('?')[0]; // Remove query params
         let slug: string;
@@ -80,6 +94,10 @@ export class DocsComponent implements OnInit {
         this.loadContent(slug);
       }
     });
+  }
+
+  isIndicatorPage(): boolean {
+    return !!this.currentIndicator();
   }
 
   private loadIndicatorContent(indicator: string) {

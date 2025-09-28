@@ -2,11 +2,9 @@
 title: Utilities and helpers
 description: The Stock Indicators for .NET library includes utilities to help you use and transform historical prices quotes and indicator results, and to create custom indicators.
 permalink: /utilities/
-relative_path: pages/utilities.md
-layout: page
 ---
 
-# {{ page.title }}
+# Utilities and helpers
 
 - [for historical quotes](#utilities-for-historical-quotes)
 - [for indicator results](#utilities-for-indicator-results)
@@ -27,7 +25,18 @@ var results = quotes
   .GetRsi(14);
 ```
 
-{% include candlepart-options.md %}
+#### CandlePart options
+
+- `CandlePart.Open`
+- `CandlePart.High`
+- `CandlePart.Low`
+- `CandlePart.Close`
+- `CandlePart.Volume`
+- `CandlePart.HL2` (High + Low) / 2
+- `CandlePart.HLC3` (High + Low + Close) / 3
+- `CandlePart.OC2` (Open + Close) / 2
+- `CandlePart.OHL3` (Open + High + Low) / 3
+- `CandlePart.OHLC4` (Open + High + Low + Close) / 4
 
 ### Sort quotes
 
@@ -80,7 +89,25 @@ CandleProperties candle = quote.ToCandle();
 IReadOnlyList<CandleProperties> candles = quotes.ToCandles();
 ```
 
-{% include candle-properties.md %}
+#### CandleProperties
+
+| name | type | description |
+| -- |-- |-- |
+| `Date` | DateTime | Date
+| `Open` | decimal | Open price
+| `High` | decimal | High price
+| `Low` | decimal | Low price
+| `Close` | decimal | Close price
+| `Volume` | decimal | Volume
+| `HL2` | decimal | (High + Low) / 2
+| `HLC3` | decimal | (High + Low + Close) / 3
+| `OC2` | decimal | (Open + Close) / 2
+| `OHL3` | decimal | (Open + High + Low) / 3
+| `OHLC4` | decimal | (Open + High + Low + Close) / 4
+| `Range` | decimal | High - Low
+| `Size` | decimal | Close - Open  
+| `IsBullish` | bool | Close > Open
+| `IsBearish` | bool | Close < Open
 
 ### Validate quote history
 
