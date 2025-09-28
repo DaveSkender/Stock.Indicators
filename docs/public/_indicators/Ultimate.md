@@ -10,7 +10,7 @@ layout: indicator
 # Ultimate Oscillator
 
 Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wiki/Ultimate_oscillator) uses several moving averages to weigh buying power against true range price to produce on oversold / overbought oscillator.
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/231 "Community discussion about this indicator")
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/231 "Community discussion about this indicator")
 
 ![chart for Ultimate Oscillator](/assets/charts/Ultimate.png)
 
@@ -32,7 +32,7 @@ IReadOnlyList<UltimateResult> results =
 
 You must have at least `L+1` periods of `quotes` to cover the warmup periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -53,12 +53,12 @@ IReadOnlyList<UltimateResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

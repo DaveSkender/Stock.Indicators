@@ -10,7 +10,7 @@ layout: indicator
 # Ehlers Fisher Transform
 
 Created by John Ehlers, the [Fisher Transform](https://www.investopedia.com/terms/f/fisher-transform.asp) converts prices into a Gaussian normal distribution.
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/409 "Community discussion about this indicator")
 
 ![chart for Ehlers Fisher Transform](/assets/charts/FisherTransform.png)
 
@@ -26,9 +26,9 @@ IReadOnlyList<FisherTransformResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotes` to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.
+You must have at least `N` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -52,9 +52,9 @@ IReadOnlyList<FisherTransformResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
 For pruning of warmup periods, we recommend using the following guidelines:
 
@@ -63,7 +63,7 @@ quotes.GetFisherTransform(lookbackPeriods)
   .RemoveWarmupPeriods(lookbackPeriods+15);
 ```
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

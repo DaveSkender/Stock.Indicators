@@ -40,6 +40,11 @@
                 "output": "/"
               },
               {
+                "glob": "**/*",
+                "input": "assets",
+                "output": "/assets"
+              },
+              {
                 "glob": "_headers",
                 "input": ".",
                 "output": "/"

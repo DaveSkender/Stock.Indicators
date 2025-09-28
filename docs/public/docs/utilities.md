@@ -101,7 +101,7 @@ var results = quotes
 
 ### Condense
 
-`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns]({{site.baseurl}}/indicators/#candlestick-pattern), it will only return records where a signal is generated.
+`results.Condense()` will remove non-essential results so it only returns meaningful data records.  For example, when used on [Candlestick Patterns](/indicators/#candlestick-pattern), it will only return records where a signal is generated.
 
 ```csharp
 // example: only show Marubozu signals
@@ -141,7 +141,7 @@ IReadOnlyList<AdxResult> results =
   quotes.GetAdx(n).RemoveWarmupPeriods(n+100);
 ```
 
-See [individual indicator pages]({{site.baseurl}}/indicators/#content) for information on recommended pruning quantities.
+See [individual indicator pages](/indicators/#content) for information on recommended pruning quantities.
 
 > &#128161; **Note**: `.RemoveWarmupPeriods()` is not available on some indicators; however, you can still do a custom pruning by using the customizable `.RemoveWarmupPeriods(removePeriods)`.
 >
@@ -149,11 +149,11 @@ See [individual indicator pages]({{site.baseurl}}/indicators/#content) for infor
 
 ### Sort results
 
-`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators]({{site.baseurl}}/custom-indicators/#content).
+`results.ToSortedList()` sorts any collection of indicator results and returns it as a `IReadOnlyList` sorted by ascending `Timestamp`.  Results from the library indicators are already sorted, so you'd only potentially need this if you're creating [custom indicators](/custom-indicators/#content).
 
 ## Utilities for numerical analysis
 
-This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators]({{site.baseurl}}/custom-indicators/).
+This library also includes several tools that we use internally to calculate indicator algorithms.  These can be useful if you are creating your own [custom indicators](/custom-indicators/).
 
 ### Numerical methods
 

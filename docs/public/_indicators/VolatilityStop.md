@@ -9,8 +9,8 @@ layout: indicator
 
 # Volatility Stop
 
-Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR]({{site.baseurl}}/indicators/Atr/#content) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR]({{site.baseurl}}/indicators/ParabolicSar/#content) and [SuperTrend]({{site.baseurl}}/indicators/SuperTrend/#content).
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/564 "Community discussion about this indicator")
+Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newconceptsintec00wild), also known his Volatility System, is an [ATR](/indicators/Atr/#content) based indicator used to determine trend direction, stops, and reversals.  It is similar to Wilder's [Parabolic SAR]({{site.baseurl}}/indicators/ParabolicSar/#content) and [SuperTrend]({{site.baseurl}}/indicators/SuperTrend/#content).
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/564 "Community discussion about this indicator")
 
 ![chart for Volatility Stop](/assets/charts/VolatilityStop.png)
 
@@ -28,9 +28,9 @@ IReadOnlyList<VolatilityStopResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals.
+You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.  Since the underlying ATR uses a smoothing technique, we recommend you use at least `N+250` data points prior to the intended usage date for better precision.  Initial values prior to the first reversal are not accurate and are excluded from the results.  Therefore, provide sufficient quotes to capture prior trend reversals.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -61,12 +61,12 @@ IReadOnlyList<VolatilityStopResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

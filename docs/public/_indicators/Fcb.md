@@ -9,8 +9,8 @@ layout: indicator
 
 # Fractal Chaos Bands (FCB)
 
-Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of <a href="{{site.baseurl}}/indicators/Fractal/#content" rel="nofollow">Williams Fractal</a>.
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/347 "Community discussion about this indicator")
+Created by Edward William Dreiss, Fractal Chaos Bands outline high and low price channels to depict broad less-chaotic price movements.  FCB is a channelized depiction of <a href="/indicators/Fractal/#content" rel="nofollow">Williams Fractal</a>.
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/347 "Community discussion about this indicator")
 
 ![chart for Fractal Chaos Bands (FCB)](/assets/charts/Fcb.png)
 
@@ -24,13 +24,13 @@ IReadOnlyList<FcbResult> results =
 
 **`windowSpan`** _`int`_ - Fractal evaluation window span width (`S`).  Must be at least 2.  Default is 2.
 
-The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal]({{site.baseurl}}/indicators/Fractal/#content) for more information about Fractals and `windowSpan`.
+The total evaluation window size is `2×S+1`, representing `±S` from the evaluation date.  See [Williams Fractal](/indicators/Fractal/#content) for more information about Fractals and `windowSpan`.
 
 ### Historical quotes requirements
 
 You must have at least `2×S+1` periods of `quotes` to cover the warmup periods; however, more is typically provided since this is a chartable candlestick pattern.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -53,12 +53,12 @@ IReadOnlyList<FcbResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

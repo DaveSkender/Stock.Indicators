@@ -9,8 +9,8 @@ layout: indicator
 
 # Stochastic Momentum Index (SMI)
 
-Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the [Stochastic Oscillator]({{site.baseurl}}/indicators/Stoch/#content), depicted on a scale from -100 to 100.
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/625 "Community discussion about this indicator")
+Created by William Blau, the Stochastic Momentum Index (SMI) oscillator is a double-smoothed variant of the [Stochastic Oscillator](/indicators/Stoch/#content), depicted on a scale from -100 to 100.
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/625 "Community discussion about this indicator")
 
 ![chart for Stochastic Momentum Index (SMI)](/assets/charts/Smi.png)
 
@@ -33,9 +33,9 @@ IReadOnlyList<SmiResult> results =
 
 ### Historical quotes requirements
 
-You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence]({{site.github.repository_url}}/discussions/688) periods.
+You must have at least `N+100` periods of `quotes` to cover the [warmup and convergence](https://github.com/DaveSkender/Stock.Indicators/discussions/688) periods.
 
-`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotes` is a collection of generic `TQuote` historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -60,12 +60,12 @@ IReadOnlyList<SmiResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

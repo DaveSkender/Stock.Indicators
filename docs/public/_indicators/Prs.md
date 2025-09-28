@@ -9,8 +9,8 @@ layout: indicator
 
 # Price Relative Strength (PRS)
 
-[Price Relative Strength (PRS)](https://en.wikipedia.org/wiki/Relative_strength), also called Comparative Relative Strength, shows the ratio of two quote histories, based on price.  It is often used to compare against a market index or sector ETF.  When using the optional `lookbackPeriods`, this also returns relative percent change over the specified periods.  This is not the same as the more prevalent <a href="{{site.baseurl}}/indicators/Rsi/#content" rel="nofollow">Relative Strength Index (RSI)</a>.
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/243 "Community discussion about this indicator")
+[Price Relative Strength (PRS)](https://en.wikipedia.org/wiki/Relative_strength), also called Comparative Relative Strength, shows the ratio of two quote histories, based on price.  It is often used to compare against a market index or sector ETF.  When using the optional `lookbackPeriods`, this also returns relative percent change over the specified periods.  This is not the same as the more prevalent <a href="/indicators/Rsi/#content" rel="nofollow">Relative Strength Index (RSI)</a>.
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/243 "Community discussion about this indicator")
 
 ![chart for Price Relative Strength (PRS)](/assets/charts/Prs.png)
 
@@ -22,7 +22,7 @@ IReadOnlyList<PrsResult> results =
 
 ## Parameters
 
-**`quotesBase`** _`IReadOnlyList<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
+**`quotesBase`** _`IReadOnlyList<TQuote>`_ - [Historical quotes](/guide/#historical-quotes) used as the basis for comparison.  This is usually market index data.  You must have the same number of periods as `quotesEval`.
 
 **`lookbackPeriods`** _`int`_ - Optional.  Number of periods (`N`) to lookback to compute % difference.  Must be greater than 0 if specified or `null`.
 
@@ -30,7 +30,7 @@ IReadOnlyList<PrsResult> results =
 
 You must have at least `N` periods of `quotesEval` to calculate `PrsPercent` if `lookbackPeriods` is specified; otherwise, you must specify at least `S+1` periods.  More than the minimum is typically specified.  For this indicator, the elements must match (e.g. the `n`th elements must be the same date).  An `Exception` will be thrown for mismatch dates.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).
 
-`quotesEval` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+`quotesEval` is an `IReadOnlyList<TQuote>` collection of historical price quotes.  It should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 ## Response
 
@@ -53,11 +53,11 @@ IReadOnlyList<PrsResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 

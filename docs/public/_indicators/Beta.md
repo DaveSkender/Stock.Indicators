@@ -10,7 +10,7 @@ layout: indicator
 # Beta Coefficient
 
 [Beta](https://en.wikipedia.org/wiki/Beta_(finance)) shows how strongly one asset's price responds to systemic volatility of the entire market.  [Upside Beta](https://en.wikipedia.org/wiki/Upside_beta) (Beta+) and [Downside Beta](https://en.wikipedia.org/wiki/Downside_beta) (Beta-), [popularized by Harry M. Markowitz](https://www.jstor.org/stable/j.ctt1bh4c8h), are also included.
-[[Discuss] 🗨️](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
+[[Discuss] 💬](https://github.com/DaveSkender/Stock.Indicators/discussions/268 "Community discussion about this indicator")
 
 ![chart for Beta Coefficient](/assets/charts/Beta.png)
 
@@ -22,7 +22,7 @@ IReadOnlyList<BetaResult> results = quotesEval
 
 ## Parameters
 
-**`quotesMarket`** _`IReadOnlyList<TQuote>`_ - [Historical quotes]({{site.baseurl}}/guide/#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
+**`quotesMarket`** _`IReadOnlyList<TQuote>`_ - [Historical quotes](/guide/#historical-quotes) market data should be at any consistent frequency (day, hour, minute, etc).  This `market` quotes will be used to establish the baseline.
 
 **`lookbackPeriods`** _`int`_ - Number of periods (`N`) in the lookback window.  Must be greater than 0 to calculate; however we suggest a larger period for statistically appropriate sample size and especially when using Beta +/-.
 
@@ -30,7 +30,7 @@ IReadOnlyList<BetaResult> results = quotesEval
 
 ### Historical quotes requirements
 
-You must have at least `N` periods of `quotesEval` to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  An `InvalidQuotesException` will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide]({{site.baseurl}}/guide/#historical-quotes) for more information.
+You must have at least `N` periods of `quotesEval` to cover the warmup periods.  You must have at least the same matching date elements of `quotesMarket`.  An `InvalidQuotesException` will be thrown if not matched.  Historical price quotes should have a consistent frequency (day, hour, minute, etc).  See [the Guide](/guide/#historical-quotes) for more information.
 
 #### BetaType options
 
@@ -44,7 +44,7 @@ You must have at least `N` periods of `quotesEval` to cover the warmup periods. 
 
 > &#128161; **Pro tip**
 >
-> Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()]({{site.baseurl}}/utilities#resize-quote-history) utility to convert it.
+> Financial institutions often depict a single number for Beta on their sites.  To get that same long-term Beta value, use 5 years of monthly bars for `quotes` and a value of 60 for `lookbackPeriods`.  If you only have smaller bars, use the [Aggregate()](/utilities#resize-quote-history) utility to convert it.
 >
 > [Alpha](https://en.wikipedia.org/wiki/Alpha_(finance)) is calculated as `R – Rf – Beta (Rm - Rf)`, where `Rf` is the risk-free rate.
 
@@ -79,12 +79,12 @@ IReadOnlyList<BetaResult>
 
 ### Utilities
 
-- [.Condense()]({{site.baseurl}}/utilities#condense)
-- [.Find(lookupDate)]({{site.baseurl}}/utilities#find-indicator-result-by-date)
-- [.RemoveWarmupPeriods()]({{site.baseurl}}/utilities#remove-warmup-periods)
-- [.RemoveWarmupPeriods(qty)]({{site.baseurl}}/utilities#remove-warmup-periods)
+- [.Condense()](/utilities#condense)
+- [.Find(lookupDate)](/utilities#find-indicator-result-by-date)
+- [.RemoveWarmupPeriods()](/utilities#remove-warmup-periods)
+- [.RemoveWarmupPeriods(qty)](/utilities#remove-warmup-periods)
 
-See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
+See [Utilities and helpers](/utilities#utilities-for-indicator-results) for more information.
 
 ## Chaining
 
