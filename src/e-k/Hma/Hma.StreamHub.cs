@@ -109,6 +109,7 @@ public class HmaHub<TIn>
                 {
                     synthBuffer.Dequeue();
                 }
+
                 synthBuffer.Enqueue(synthValue);
 
                 // calculate final HMA = WMA(sqrt(n)) of synthetic values
@@ -135,6 +136,7 @@ public class HmaHub<TIn>
         {
             bufferN1.Dequeue();
         }
+
         bufferN1.Enqueue(value);
 
         // update buffer for WMA(n/2)
@@ -142,13 +144,16 @@ public class HmaHub<TIn>
         {
             bufferN2.Dequeue();
         }
+
         bufferN2.Enqueue(value);
     }
 
     private static double? CalculateWma(Queue<double> buffer, int periods, double divisor)
     {
         if (buffer.Count < periods)
+        {
             return null;
+        }
 
         double wma = 0;
         double[] values = buffer.ToArray();

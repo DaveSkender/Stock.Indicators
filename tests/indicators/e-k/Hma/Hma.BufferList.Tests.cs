@@ -45,8 +45,9 @@ public class HmaStreaming : BufferListTestBase
         IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
 
         // act - using batch add
-        HmaList actual = new(lookbackPeriods);
-        actual.Add(Quotes);
+        HmaList actual = new(lookbackPeriods) {
+            Quotes
+        };
 
         // assert
         Assert.HasCount(expected.Count, actual);
@@ -76,8 +77,9 @@ public class HmaStreaming : BufferListTestBase
         IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
 
         // act - using IReusable interface
-        HmaList actual = new(lookbackPeriods);
-        actual.Add(Quotes.Use(CandlePart.Close));
+        HmaList actual = new(lookbackPeriods) {
+            Quotes.Use(CandlePart.Close)
+        };
 
         // assert
         Assert.HasCount(expected.Count, actual);
@@ -145,8 +147,9 @@ public class HmaStreaming : BufferListTestBase
             IReadOnlyList<HmaResult> expected = Quotes.ToHma(period);
 
             // act
-            HmaList actual = new(period);
-            actual.Add(Quotes);
+            HmaList actual = new(period) {
+                Quotes
+            };
 
             // assert
             Assert.HasCount(expected.Count, actual, $"Count mismatch for period {period}");
@@ -175,10 +178,10 @@ public class HmaStreaming : BufferListTestBase
     public void HmaListEdgeCases()
     {
         // Test with minimal lookback period (2)
-        HmaList hmaList = new(2);
-
-        // Add first quote - should be null (not enough data)
-        hmaList.Add(Quotes[0]);
+        HmaList hmaList = new(2) {
+            // Add first quote - should be null (not enough data)
+            Quotes[0]
+        };
         Assert.HasCount(1, hmaList);
         Assert.IsNull(hmaList[0].Hma, "First quote should have null HMA");
 
@@ -187,7 +190,7 @@ public class HmaStreaming : BufferListTestBase
         Assert.HasCount(2, hmaList);
 
         // Compare with static series to see what's expected  
-        var expectedResults = Quotes.Take(2).ToList().ToHma(2);
+        IReadOnlyList<HmaResult> expectedResults = Quotes.Take(2).ToList().ToHma(2);
         if (expectedResults[1].Hma is null)
         {
             Assert.IsNull(hmaList[1].Hma, "Second quote should have null HMA based on static series");
