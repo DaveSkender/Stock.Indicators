@@ -28,7 +28,6 @@ jobs:
         dotnet-version: ["8.0.x", "9.0.x"]
 
     env:
-
       # identifying primary configuration so only one reports coverage
       IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
 
@@ -38,12 +37,11 @@ jobs:
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:
-
       - name: Checkout source
         uses: actions/checkout@v5
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"

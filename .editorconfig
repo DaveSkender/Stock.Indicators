@@ -16,7 +16,8 @@ indent_style = space
 indent_size = 2
 tab_width = 2
 
-max_line_length = 150
+# Disable max line length enforcement
+max_line_length = off
 
 #### File Type Overrides ####
 

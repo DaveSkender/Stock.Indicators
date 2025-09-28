@@ -89,7 +89,6 @@ jobs:
       dry_run: ${{ steps.settings.outputs.dry_run }}
 
     steps:
-
       - name: Set default inputs for dispatch
         id: settings
         run: |
@@ -109,7 +108,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
@@ -224,15 +223,12 @@ jobs:
       environ: ${{ needs.package.outputs.environ }}
       url: ${{ needs.package.outputs.url }}
       name: ${{ needs.package.outputs.name }}
-      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org'
-        && 'https://api.nuget.org/v3/index.json'
-        || format('https://nuget.pkg.github.com/{0}/index.json', github.repository) }}
+      NUGET_PUBLISH_URL: ${{ needs.package.outputs.environ == 'nuget.org' && 'https://api.nuget.org/v3/index.json' || format('https://nuget.pkg.github.com/{0}/index.json', github.repository) }}
       NUGET_API_KEY: ${{ needs.package.outputs.environ == 'nuget.org' && secrets.NUGET_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
-
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
