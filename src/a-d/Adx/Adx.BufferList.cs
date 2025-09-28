@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Average Directional Index (ADX) from incremental reusable values.
 /// </summary>
-public class AdxList : List<AdxResult>, IAdx, IBufferQuote
+public class AdxList : List<AdxResult>, IAdx, IBufferList
 {
     private readonly Queue<AdxBuffer> _buffer;
 
@@ -174,6 +174,15 @@ public class AdxList : List<AdxResult>, IAdx, IBufferQuote
         {
             Add(quotes[i]);
         }
+    }
+
+    /// <summary>
+    /// Clears the list and resets internal buffers so the instance can be reused.
+    /// </summary>
+    public new void Clear()
+    {
+        base.Clear();
+        _buffer.Clear();
     }
 
     internal class AdxBuffer(

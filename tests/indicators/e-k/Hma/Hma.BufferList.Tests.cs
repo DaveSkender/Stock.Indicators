@@ -189,7 +189,7 @@ public class HmaStreaming : BufferListTestBase
         hmaList.Add(Quotes[1]);
         Assert.HasCount(2, hmaList);
 
-        // Compare with static series to see what's expected  
+        // Compare with static series to see what's expected
         IReadOnlyList<HmaResult> expectedResults = Quotes.Take(2).ToList().ToHma(2);
         if (expectedResults[1].Hma is null)
         {
@@ -198,6 +198,51 @@ public class HmaStreaming : BufferListTestBase
         else
         {
             Assert.IsNotNull(hmaList[1].Hma, "Second quote should have HMA value based on static series");
+        }
+    }
+
+    [TestMethod]
+    public void ClearResetsState()
+    {
+        int lookbackPeriods = 14;
+        List<Quote> subset = Quotes.Take(120).ToList();
+
+        HmaList hmaList = new(lookbackPeriods);
+
+        for (int i = 0; i < subset.Count; i++)
+        {
+            hmaList.Add(subset[i]);
+        }
+
+        Assert.IsTrue(hmaList.Any(r => r.Hma.HasValue), "Warm-up should complete before clearing");
+
+        hmaList.Clear();
+
+        Assert.IsEmpty(hmaList, "Clear should remove existing results");
+
+        for (int i = 0; i < subset.Count; i++)
+        {
+            hmaList.Add(subset[i]);
+        }
+
+        IReadOnlyList<HmaResult> expected = subset.ToHma(lookbackPeriods);
+
+        Assert.AreEqual(expected.Count, hmaList.Count);
+
+        for (int i = 0; i < expected.Count; i++)
+        {
+            HmaResult expectedResult = expected[i];
+            HmaResult actualResult = hmaList[i];
+
+            Assert.AreEqual(expectedResult.Timestamp, actualResult.Timestamp);
+            if (expectedResult.Hma is null)
+            {
+                Assert.IsNull(actualResult.Hma);
+            }
+            else
+            {
+                Assert.AreEqual(expectedResult.Hma.Round(8), actualResult.Hma.Round(8));
+            }
         }
     }
 

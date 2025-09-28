@@ -33,12 +33,10 @@ public class HmaHub<TIn>
     private readonly int wmaN1Periods;
     private readonly int wmaN2Periods;
     private readonly int sqrtPeriods;
-    private readonly Queue<double> bufferN1;
-    private readonly Queue<double> bufferN2;
-    private readonly Queue<double> synthBuffer;
     private readonly double divisorN1;
     private readonly double divisorN2;
     private readonly double divisorSqrt;
+    private readonly int shiftQty;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HmaHub{TIn}"/> class.
@@ -64,10 +62,7 @@ public class HmaHub<TIn>
         divisorN2 = (double)wmaN2Periods * (wmaN2Periods + 1) / 2d;
         divisorSqrt = (double)sqrtPeriods * (sqrtPeriods + 1) / 2d;
 
-        // initialize buffers for nested calculations
-        bufferN1 = new Queue<double>(wmaN1Periods);
-        bufferN2 = new Queue<double>(wmaN2Periods);
-        synthBuffer = new Queue<double>(sqrtPeriods);
+        shiftQty = lookbackPeriods - 1;
 
         hubName = $"HMA({lookbackPeriods})";
         Reinitialize();
@@ -83,45 +78,66 @@ public class HmaHub<TIn>
     protected override (HmaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
-        int i = indexHint ?? ProviderCache.IndexOf(item, true);
+        int index = indexHint ?? ProviderCache.IndexOf(item, true);
+        double? hma = CalculateHma(index);
 
-        // update buffers for WMA calculations
-        Hma.UpdateBuffer(bufferN1, wmaN1Periods, item.Value);
-        Hma.UpdateBuffer(bufferN2, wmaN2Periods, item.Value);
-
-        double? hma = null;
-        int shiftQty = LookbackPeriods - 1;
-
-        // HMA calculation can only start after we have enough periods
-        // to calculate both WMA values and then the synthetic buffer
-        if (i >= shiftQty)
-        {
-            // calculate WMA(n/2) and WMA(n) for current period
-            double? wmaN2 = Hma.ComputeWeightedMovingAverage(bufferN2, wmaN2Periods, divisorN2);
-            double? wmaN1 = Hma.ComputeWeightedMovingAverage(bufferN1, wmaN1Periods, divisorN1);
-
-            if (wmaN2.HasValue && wmaN1.HasValue)
-            {
-                // synthetic value: 2 * WMA(n/2) - WMA(n)
-                double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
-
-                // update synthetic buffer
-                Hma.UpdateBuffer(synthBuffer, sqrtPeriods, synthValue);
-
-                // calculate final HMA = WMA(sqrt(n)) of synthetic values
-                // Need enough synthetic values for the final WMA calculation
-                if (synthBuffer.Count == sqrtPeriods)
-                {
-                    hma = Hma.ComputeWeightedMovingAverage(synthBuffer, sqrtPeriods, divisorSqrt);
-                }
-            }
-        }
-
-        // candidate result
-        HmaResult r = new(
+        HmaResult result = new(
             Timestamp: item.Timestamp,
             Hma: hma);
 
-        return (r, i);
+        return (result, index);
+    }
+
+    private double? CalculateHma(int index)
+    {
+        int minIndex = shiftQty + sqrtPeriods - 1;
+        if (index < minIndex)
+        {
+            return null;
+        }
+
+        double hma = 0d;
+        int start = index - sqrtPeriods + 1;
+
+        for (int offset = 0; offset < sqrtPeriods; offset++)
+        {
+            int synthIndex = start + offset;
+            double? wmaN2 = CalculateWma(synthIndex, wmaN2Periods, divisorN2);
+            double? wmaN1 = CalculateWma(synthIndex, wmaN1Periods, divisorN1);
+
+            if (!wmaN2.HasValue || !wmaN1.HasValue)
+            {
+                return null;
+            }
+
+            double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
+            hma += synthValue * (offset + 1) / divisorSqrt;
+        }
+
+        return hma;
+    }
+
+    private double? CalculateWma(int index, int periods, double divisor)
+    {
+        int start = index - periods + 1;
+        if (start < 0)
+        {
+            return null;
+        }
+
+        double wma = 0d;
+
+        for (int offset = 0; offset < periods; offset++)
+        {
+            double value = ProviderCache[start + offset].Value;
+            if (double.IsNaN(value))
+            {
+                return null;
+            }
+
+            wma += value * (offset + 1) / divisor;
+        }
+
+        return wma;
     }
 }

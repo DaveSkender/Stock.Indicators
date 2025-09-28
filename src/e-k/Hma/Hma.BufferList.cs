@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Hull Moving Average (HMA) from incremental reusable values.
 /// </summary>
-public class HmaList : List<HmaResult>, IHma, IBufferQuote, IBufferReusable
+public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
 {
     private readonly int wmaN1Periods;
     private readonly int wmaN2Periods;
@@ -137,5 +137,16 @@ public class HmaList : List<HmaResult>, IHma, IBufferQuote, IBufferReusable
         {
             Add(quotes[i].Timestamp, quotes[i].Value);
         }
+    }
+
+    /// <summary>
+    /// Clears the list and resets internal buffers so the instance can be reused.
+    /// </summary>
+    public new void Clear()
+    {
+        base.Clear();
+        bufferN1.Clear();
+        bufferN2.Clear();
+        synthBuffer.Clear();
     }
 }
