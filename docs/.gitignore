@@ -17,3 +17,7 @@
 _site/
 vendor/
 .bundle/
+
+# Test results and reports
+/test-results
+/playwright-report
