@@ -3,21 +3,27 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/docs/home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'docs',
     loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
   },
   {
-    path: 'docs/:slug',
+    path: 'guide',
+    loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
+  },
+  {
+    path: 'contributing',
+    loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
+  },
+  {
+    path: 'utilities',
+    loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
+  },
+  {
+    path: 'performance',
     loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
   },
   {
     path: 'indicators',
-    redirectTo: '/docs/indicators',
-    pathMatch: 'full'
+    loadComponent: () => import('./docs/docs.component').then(m => m.DocsComponent)
   },
   {
     path: 'indicators/:indicator',

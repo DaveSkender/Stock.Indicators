@@ -15,14 +15,14 @@ Build your technical analysis, trading algorithms, machine learning, charting, o
 
 Explore more information:
 
-- [Indicators and overlays](/docs/indicators)
-- [Guide and Pro tips](/docs/guide)
-- [Utilities and helper functions](/docs/utilities)
+- [Indicators and overlays](/indicators)
+- [Guide and Pro tips](/guide)
+- [Utilities and helper functions](/utilities)
 - [Demo site](https://charts.stockindicators.dev/) (a stock chart)
 - [Example usage code](https://github.com/DaveSkender/Stock.Indicators/tree/main/docs/examples)
 - [Release notes](https://github.com/DaveSkender/Stock.Indicators/releases)
 - [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussions)
-- [Contributing guidelines](/docs/contributing)
+- [Contributing guidelines](/contributing)
 
 ## Reputable and extensible indicators
 
@@ -37,7 +37,7 @@ You'll get all of the industry standard indicators out-of-the-box. Additionally,
 IReadOnlyList<SmaResult> results = quotes.GetSma(20);
 ```
 
-See more [usage examples](/docs/guide).
+See more [usage examples](/guide).
 
 ## Use chaining for unique insights
 
@@ -57,7 +57,7 @@ IReadOnlyList<EmaResult> results
     .GetEma(20);
 ```
 
-See the [guide](/docs/guide) and the [full list of indicators and overlays](/docs/indicators) for more information.
+See the [guide](/guide) and the [full list of indicators and overlays](/indicators) for more information.
 
 ## Optimized for modern .NET frameworks
 
@@ -85,10 +85,10 @@ If you want to buy me a beer or are interested in ongoing support as a patron, [
 
 ## Contribute to help others
 
-This NuGet package is an open-source project [on GitHub](https://github.com/DaveSkender/Stock.Indicators). If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](/docs/contributing) and [the backlog](https://github.com/users/DaveSkender/projects/1).
+This NuGet package is an open-source project [on GitHub](https://github.com/DaveSkender/Stock.Indicators). If you want to report bugs or contribute fixes, new indicators, or new features, please review our [contributing guidelines](/contributing) and [the backlog](https://github.com/users/DaveSkender/projects/1).
 
 Special thanks to all of our community code contributors!
 
 [View contributors on GitHub](https://github.com/DaveSkender/Stock.Indicators/graphs/contributors)
 
-» see our [full list of indicators and overlays](/docs/indicators)
+» see our [full list of indicators and overlays](/indicators)

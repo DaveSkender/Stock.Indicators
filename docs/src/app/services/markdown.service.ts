@@ -24,7 +24,7 @@ export class MarkdownService {
   private http = inject(HttpClient);
 
   loadMarkdown(slug: string): Observable<MarkdownContent> {
-    return this.http.get(`/docs/${slug}.md`, { responseType: 'text' })
+    return this.http.get(`/${slug}.md`, { responseType: 'text' })
       .pipe(
         map(markdown => this.parseMarkdown(markdown))
       );

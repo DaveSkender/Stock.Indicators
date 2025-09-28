@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const docsDir = path.join(__dirname, 'public', 'docs');
+const publicDir = path.join(__dirname, 'public');
 const indicatorsDir = path.join(__dirname, 'public', '_indicators');
 const outputDir = path.join(__dirname, 'dist', 'static');
 const baseUrl = 'https://stockindicators.dev';
@@ -16,15 +16,15 @@ function generateSitemap() {
     <priority>1.0</priority>
   </url>`);
 
-  // Add docs pages
-  if (fs.existsSync(docsDir)) {
-    const docsFiles = fs.readdirSync(docsDir)
-      .filter(file => file.endsWith('.md'))
+  // Add root level pages (excluding index.md since that's the root)
+  if (fs.existsSync(publicDir)) {
+    const rootFiles = fs.readdirSync(publicDir)
+      .filter(file => file.endsWith('.md') && file !== 'index.md')
       .map(file => file.replace('.md', ''));
 
-    docsFiles.forEach(slug => {
+    rootFiles.forEach(slug => {
       urls.push(`  <url>
-    <loc>${baseUrl}/docs/${slug}</loc>
+    <loc>${baseUrl}/${slug}/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`);

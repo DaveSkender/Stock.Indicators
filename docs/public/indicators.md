@@ -173,4 +173,4 @@ Many indicators are known by multiple names. Some common alternative names inclu
 
 ## Getting Started
 
-See the [Guide](/docs/guide) for detailed usage instructions and examples.
+See the [Guide](/guide) for detailed usage instructions and examples.

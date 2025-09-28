@@ -16,7 +16,7 @@ import { MarkdownService, MarkdownContent } from '../services/markdown.service';
         <div class="error">
           <h1>Page Not Found</h1>
           <p>The documentation page you're looking for doesn't exist.</p>
-          <p><a href="/docs/home">Return to home</a></p>
+          <p><a href="/">Return to home</a></p>
         </div>
       } @else {
         <div [innerHTML]="htmlContent()"></div>
@@ -69,11 +69,20 @@ export class DocsComponent implements OnInit {
     this.route.params.subscribe(params => {
       // Check if we're on an indicator route
       const indicator = params['indicator'];
-      const slug = params['slug'] || 'home';
       
       if (indicator) {
         this.loadIndicatorContent(indicator);
       } else {
+        // Determine which page to load based on current route
+        const currentPath = this.router.url.split('?')[0]; // Remove query params
+        let slug: string;
+        
+        if (currentPath === '/' || currentPath === '') {
+          slug = 'index'; // Load index.md for root route
+        } else {
+          slug = currentPath.startsWith('/') ? currentPath.substring(1) : currentPath;
+        }
+        
         this.loadContent(slug);
       }
     });

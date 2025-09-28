@@ -42,7 +42,7 @@ This is a test.`;
       expect(result.content).toContain('<h1>Test Content</h1>');
     });
 
-    const req = httpMock.expectOne('/docs/test.md');
+    const req = httpMock.expectOne('/test.md');
     expect(req.request.method).toBe('GET');
     req.flush(markdown);
   });
