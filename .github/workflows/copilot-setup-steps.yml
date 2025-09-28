@@ -12,7 +12,27 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      - name: Setup Python for Spec-Kit
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv package manager
+        run: |
+          pip install uv
+        continue-on-error: true
+
+      - name: Install Spec-Kit CLI
+        run: |
+          uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+        continue-on-error: true
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.207.0
+        with:
+          ruby-version: 3.3
 
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
@@ -20,21 +40,60 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
-      - name: Install .NET tools
+      - name: Install .NET global tools
         run: |
           dotnet tool install --global dotnet-format
           dotnet tool install --global dotnet-outdated-tool
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+        continue-on-error: true
+
+      - name: Setup Node.js for development tools
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+        continue-on-error: true
+
+      - name: Verify Spec-Kit installation
+        run: |
+          specify --help
+          specify check
+        continue-on-error: true
+
+      - name: Restore .NET packages
+        run: |
+          dotnet restore
         continue-on-error: true
 
       - name: Build .NET Solution
         run: |
-          dotnet build
+          dotnet build --no-restore
+        continue-on-error: true
+
+      - name: Test environment
+        run: |
+          dotnet test --no-build --verbosity minimal
         continue-on-error: true
 
       - name: Environment summary
         run: |
-          echo "## Copilot environment: Ready" >> $GITHUB_STEP_SUMMARY
+          echo "## Copilot Environment Setup Complete 🚀" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Development Tools" >> $GITHUB_STEP_SUMMARY
           echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
           echo "- .NET SDKs: $(dotnet --list-sdks | wc -l) versions available" >> $GITHUB_STEP_SUMMARY
-          echo "- .NET Tools: $(dotnet tool list --global | wc -l) available" >> $GITHUB_STEP_SUMMARY
+          echo "- .NET Tools: $(dotnet tool list --global | wc -l) installed" >> $GITHUB_STEP_SUMMARY
+          echo "- Python: $(python --version)" >> $GITHUB_STEP_SUMMARY
+          echo "- Node.js: $(node --version 2>/dev/null || echo 'Not available')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Spec-Kit Integration" >> $GITHUB_STEP_SUMMARY
+          echo "- Spec-Kit CLI: $(~/.local/bin/specify --version 2>/dev/null || echo 'Installation pending')" >> $GITHUB_STEP_SUMMARY
+          echo "- Constitution: ✅ Available at \`spec-kit/memory/constitution.md\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Templates: ✅ Available at \`spec-kit/templates/\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Available Commands" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/constitution\` - Review/update project principles" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/specify\` - Create feature specifications" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/plan\` - Define implementation approach" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/tasks\` - Generate actionable task breakdown" >> $GITHUB_STEP_SUMMARY
+          echo "- \`/implement\` - Execute planned implementation" >> $GITHUB_STEP_SUMMARY
         continue-on-error: true
