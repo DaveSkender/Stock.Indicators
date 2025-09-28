@@ -1,6 +1,7 @@
 {
   "globs": ["**/*.md", "**/*.markdown"],
   "ignores": [
+    "**/.angular/**",
     "**/.git/**",
     "**/.vs/**",
     "**/BuildLog.*",
@@ -33,23 +34,12 @@
         "code",
         "details",
         "summary",
-        "br",
         "sub",
         "sup",
         "kbd",
         "abbr",
-        "a",
-        "img",
-        "p",
-        "h1",
-        "ul",
-        "li",
-        "nav"
+        "img"
       ]
-    },
-    "MD041": {
-      "level": 1,
-      "front_matter_title": "title"
     },
     "MD046": {
       "style": "fenced"
