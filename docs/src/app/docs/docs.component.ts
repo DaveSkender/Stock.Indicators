@@ -24,12 +24,6 @@ import { MarkdownService, MarkdownContent } from '../services/markdown.service';
     </div>
   `,
   styles: [`
-    .docs-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-    
     .loading {
       text-align: center;
       padding: 2rem;
