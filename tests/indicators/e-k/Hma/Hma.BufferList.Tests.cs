@@ -74,7 +74,7 @@ public class HmaStreaming : BufferListTestBase
         // arrange
         int lookbackPeriods = 15;
         IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
-        
+
         // act - using IReusable interface
         HmaList actual = new(lookbackPeriods);
         actual.Add(Quotes.Use(CandlePart.Close));
@@ -105,7 +105,7 @@ public class HmaStreaming : BufferListTestBase
         // arrange
         int lookbackPeriods = 10;
         IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
-        
+
         // act - using timestamp/value method
         HmaList actual = new(lookbackPeriods);
         for (int i = 0; i < Quotes.Count; i++)
@@ -130,7 +130,7 @@ public class HmaStreaming : BufferListTestBase
             {
                 Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8));
             }
-        }  
+        }
     }
 
     [TestMethod]
@@ -157,14 +157,14 @@ public class HmaStreaming : BufferListTestBase
                 HmaResult a = actual[i];
 
                 Assert.AreEqual(e.Timestamp, a.Timestamp, $"Timestamp mismatch at index {i} for period {period}");
-                
+
                 if (e.Hma is null)
                 {
                     Assert.IsNull(a.Hma, $"Expected null HMA at index {i} for period {period}");
                 }
                 else
                 {
-                    Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8), 
+                    Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8),
                         $"HMA value mismatch at index {i} for period {period}. Expected: {e.Hma:F8}, Actual: {a.Hma:F8}");
                 }
             }
@@ -176,7 +176,7 @@ public class HmaStreaming : BufferListTestBase
     {
         // Test with minimal lookback period (2)
         HmaList hmaList = new(2);
-        
+
         // Add first quote - should be null (not enough data)
         hmaList.Add(Quotes[0]);
         Assert.HasCount(1, hmaList);

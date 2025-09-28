@@ -53,22 +53,22 @@ public class HmaHub<TIn>
     {
         Hma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        
+
         // initialize periods for nested WMA calculations
         wmaN1Periods = lookbackPeriods;
         wmaN2Periods = lookbackPeriods / 2;
         sqrtPeriods = (int)Math.Sqrt(lookbackPeriods);
-        
+
         // calculate divisors for WMA
         divisorN1 = (double)wmaN1Periods * (wmaN1Periods + 1) / 2d;
         divisorN2 = (double)wmaN2Periods * (wmaN2Periods + 1) / 2d;
         divisorSqrt = (double)sqrtPeriods * (sqrtPeriods + 1) / 2d;
-        
+
         // initialize buffers for nested calculations
         bufferN1 = new Queue<double>(wmaN1Periods);
         bufferN2 = new Queue<double>(wmaN2Periods);
         synthBuffer = new Queue<double>(sqrtPeriods);
-        
+
         hubName = $"HMA({lookbackPeriods})";
         Reinitialize();
     }
@@ -103,14 +103,14 @@ public class HmaHub<TIn>
             {
                 // synthetic value: 2 * WMA(n/2) - WMA(n)
                 double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
-                
+
                 // update synthetic buffer
                 if (synthBuffer.Count == sqrtPeriods)
                 {
                     synthBuffer.Dequeue();
                 }
                 synthBuffer.Enqueue(synthValue);
-                
+
                 // calculate final HMA = WMA(sqrt(n)) of synthetic values
                 // Need enough synthetic values for the final WMA calculation
                 if (synthBuffer.Count == sqrtPeriods)
@@ -152,12 +152,12 @@ public class HmaHub<TIn>
 
         double wma = 0;
         double[] values = buffer.ToArray();
-        
+
         for (int j = 0; j < periods; j++)
         {
             wma += values[j] * (j + 1) / divisor;
         }
-        
+
         return wma;
     }
 }
