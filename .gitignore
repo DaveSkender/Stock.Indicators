@@ -359,5 +359,12 @@ ASALocalRun/
 # dotnet-tool manifest
 /.config/
 
+# Documentation and testing artifacts
+/tmp/
+/coverage/
+/playwright-report/
+/test-results/
+/playwright/.cache/
+
 # Playwright
 /.playwright*

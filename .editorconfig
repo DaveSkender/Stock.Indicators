@@ -25,6 +25,7 @@ max_line_length = 150
 
 # Allow trailing whitespace for line breaks
 trim_trailing_whitespace = false
+max_line_length = unset
 
 [*.{json,jsonc,xml,csproj}]
 indent_size = 2

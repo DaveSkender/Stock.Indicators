@@ -13,15 +13,6 @@
 # Offline files that shouldn't be processed
 .offline/
 
-# Build outputs
-../tmp/
-
-# Testing artifacts
-../coverage
-../playwright-report
-../test-results
-../playwright/.cache/
-
 # Jekyll site artifacts (for legacy compatibility)
 _site/
 vendor/
