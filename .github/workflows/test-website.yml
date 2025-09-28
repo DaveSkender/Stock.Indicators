@@ -5,7 +5,7 @@ on:
     branches: ["*"]
     paths:
       - docs/**
-      - .github/workflows/test-docs.yml
+      - .github/workflows/test-website.yml
   push:
     branches: [main]
     paths:
