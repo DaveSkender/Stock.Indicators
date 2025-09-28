@@ -52,15 +52,20 @@ public static partial class Hma
         {
             return null;
         }
+        double weightedSum = 0d;
+        int weight = 1;
 
-        double wma = 0d;
-        double[] values = buffer.ToArray();
-
-        for (int i = 0; i < periods; i++)
+        // iterate queue directly to avoid allocation from ToArray(); break after required periods
+        foreach (double value in buffer)
         {
-            wma += values[i] * (i + 1) / divisor;
+            weightedSum += value * weight;
+
+            if (++weight > periods)
+            {
+                break;
+            }
         }
 
-        return wma;
+        return weightedSum / divisor;
     }
 }
