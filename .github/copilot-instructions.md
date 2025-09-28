@@ -23,7 +23,7 @@ tests/
 
 1. **Off-by-one errors** in lookback period calculations
 2. **Null reference exceptions** with insufficient data
-3. **Precision loss** in financial calculations - use `decimal` not `double`
+3. **Precision loss** in financial calculations – favor `double` for performance, but switch to `decimal` when price-sensitive accuracy demands it
 4. **Index out of bounds** when accessing historical data
 5. **Performance regression** from excessive LINQ chaining
 

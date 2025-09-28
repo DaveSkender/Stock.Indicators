@@ -154,7 +154,7 @@ When using GitHub Copilot:
 
 - Follow the established patterns documented in the Copilot instructions
 - Use spec-kit commands for structured feature development
-- Ensure all financial calculations maintain decimal precision
+- Ensure financial calculations prioritize accuracy – default to `double` for performance and reach for `decimal` when price-sensitive precision requires it
 - Include comprehensive unit tests for any new indicators
 - Validate mathematical accuracy against reference implementations
 

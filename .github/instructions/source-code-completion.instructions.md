@@ -277,7 +277,7 @@ public static partial class Indicator
 
 1. **Off-by-one errors** in lookback period calculations
 2. **Null reference exceptions** with insufficient data
-3. **Precision loss** using `double` instead of `decimal`
+3. **Precision loss** in price-sensitive calculations – default to `double` for performance and switch to `decimal` when additional precision materially impacts results
 4. **Index out of bounds** when accessing historical data
 5. **Performance regression** from excessive LINQ operations
 

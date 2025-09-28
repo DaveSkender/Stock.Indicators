@@ -68,7 +68,7 @@ spec-kit/
 
 The project constitution defines core principles for Stock Indicators development:
 
-- **Mathematical Precision**: All financial calculations use `decimal` types
+- **Mathematical Precision**: Financial calculations prioritize accuracy—default to `double` for performance and reach for `decimal` when price-sensitive precision demands it
 - **Performance First**: Optimized algorithms with minimal memory allocation  
 - **Comprehensive Validation**: Complete input validation and error handling
 - **Test-Driven Quality**: Unit tests for all code paths
@@ -92,7 +92,7 @@ This creates:
 
 Define technical approach and architecture:
 
-**Command**: `/plan Use existing indicator patterns with decimal precision calculations, implement as both Series and Stream styles, include comprehensive validation`
+**Command**: `/plan Use existing indicator patterns with appropriate numeric precision (default double, decimal when price-sensitive), implement as both Series and Stream styles, include comprehensive validation`
 
 ### 4. Task Breakdown
 
@@ -112,7 +112,7 @@ Execute the planned tasks:
 
 Spec-Kit templates have been customized for financial indicator development:
 
-- **Precision Requirements**: All monetary calculations use `decimal` types
+- **Precision Requirements**: Monetary calculations prioritize accuracy—favor `double` unless price-sensitive precision requires `decimal`
 - **Performance Standards**: Benchmarking requirements for large datasets
 - **Validation Patterns**: Standard approaches for financial data validation
 - **Testing Requirements**: Mathematical accuracy verification against reference implementations
@@ -174,7 +174,7 @@ support for different moving average types (SMA, EMA), and validation for minimu
 Include performance and precision considerations:
 
 ```bash
-/plan Implement using decimal arithmetic, optimize for streaming data, 
+/plan Implement with default double precision, elevate to decimal where price-sensitive accuracy requires it, optimize for streaming data, 
 include buffer management for real-time updates, add comprehensive input validation
 ```
 

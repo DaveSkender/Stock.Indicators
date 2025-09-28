@@ -10,7 +10,7 @@ This directory contains the GitHub Spec-Kit integration for Spec-Driven Developm
 2. Use spec-kit commands directly:
    - `/constitution` - Review project principles
    - `/specify Build a new RSI indicator`
-   - `/plan Use decimal precision with streaming support`
+   - `/plan Use optimal precision with streaming support`
    - `/tasks` - Generate implementation tasks
    - `/implement` - Execute the plan
 
