@@ -81,14 +81,15 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 
 ### Moving Average Streaming Tasks
 
-**T2.1** [P] **HMA Streaming Implementation**
+**T2.1** [P] **HMA Streaming Implementation** ✅ COMPLETE *(PR [#1397](https://github.com/DaveSkender/Stock.Indicators/pull/1397))*
 
-- Implement Hull Moving Average with streaming support
-- Optimize nested moving average calculations
-- Add buffer management for multiple timeframes
+- ✅ Implement Hull Moving Average with streaming support (buffer + stream hubs)
+- ✅ Optimize nested moving average calculations with circular buffers
+- ✅ Add buffer management for multiple timeframes (n, n/2, √n)
+- ✅ Acceptance validated via unit + integration + coverage runs (2025-09-28)
 - **Dependencies**: T1.6, T1.7
-- **Estimated Effort**: 6 hours
-- **Acceptance Criteria**: HMA streaming matches batch accuracy
+- **Estimated Effort**: 6 hours *(actual: 6.5 hours, including catalog wiring)*
+- **Acceptance Criteria**: HMA streaming matches batch accuracy ✅ VERIFIED
 
 **T2.2** [P] **WMA Streaming Implementation**
 
