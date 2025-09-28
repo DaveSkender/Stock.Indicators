@@ -41,7 +41,7 @@
     "@types/jest": "29.5.14",
     "@types/marked": "^6.0.0",
     "@types/node": "^20.11.19",
-    "angular-eslint": "20.2.0",
+    "angular-eslint": "20.3.0",
     "eslint": "^9.33.0",
     "http-server": "^14.1.1",
     "identity-obj-proxy": "^3.0.0",
