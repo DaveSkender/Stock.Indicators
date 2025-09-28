@@ -23,7 +23,7 @@
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
         "github.vscode-github-actions",
-        "github.copilot-chat",
+        "GitHub.copilot-chat",
         "ms-dotnettools.vscodeintellicode-csharp",
         "redhat.vscode-yaml"
       ]
