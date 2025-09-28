@@ -8,20 +8,17 @@ echo "🚀 Starting Stock Indicators dev container setup..."
 # Verify Node.js and npm are available
 echo "🔍 Verifying Node.js environment..."
 node --version
-npm install -g npm@latest
+npm i -g npm@latest
+
+# Restore global tools
+echo "📦 Restoring Angular CLI..."
+npm install -g @angular/cli
+
+echo "📦 Restoring Spec-Kit..."
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 
 # Restore .NET packages
 echo "📦 Restoring .NET packages..."
 dotnet restore
 
 echo "✅ Dev container setup complete!"
-echo ""
-echo "📋 Available MCP servers:"
-echo "  - Memory Server (via npx)"
-echo "  - Sequential Thinking Server (via npx)"
-echo "  - File System Server (via npx)"
-echo ""
-echo "🔍 Next steps:"
-echo "  - Open GitHub Copilot Chat to test MCP server functionality"
-echo "  - See .github/instructions/mcp-servers.md for details"
-echo ""

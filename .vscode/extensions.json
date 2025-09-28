@@ -4,7 +4,8 @@
     "DavidAnson.vscode-markdownlint",
     "DotJoshJohnson.xml",
     "EditorConfig.EditorConfig",
-    "ms-dotnettools.csdevkit",
+    "github.vscode-github-actions",
+    "github.copilot-chat",
     "ms-dotnettools.vscodeintellicode-csharp",
     "redhat.vscode-yaml"
   ]

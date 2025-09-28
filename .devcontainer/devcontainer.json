@@ -1,6 +1,6 @@
 {
   "name": "Stock Indicators Dev Container",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+  "image": "mcr.microsoft.com/dotnet/sdk:9.0",
   "features": {
     "ghcr.io/devcontainers/features/ruby:1": {
       "version": "3.3"
@@ -12,43 +12,17 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "files.autoSave": "afterDelay",
-        "files.autoSaveDelay": 3000,
-        "files.encoding": "utf8",
-        "files.exclude": {
-          "**/.vs/**": true,
-          "**/bin/**": true,
-          "**/obj/**": true,
-          "**/TestResults/**": true,
-          "**/*.csproj.user": true
-        },
-        "search.exclude": {
-          "**/_site/**": true
-        },
-        "dotnet-test-explorer.testProjectPath": "tests/**/*Tests*.csproj",
-        "editor.codeLens": false,
-        "editor.bracketPairColorization.enabled": true,
-        "editor.guides.bracketPairs": "active",
-        "editor.formatOnPaste": true,
-        "terminal.integrated.defaultProfile.windows": "Git Bash",
-        "terminal.integrated.defaultProfile.linux": "bash",
-        "scss.validate": false,
-        "markdownlint.config": {
-          "MD033": false,
-          "MD025": false
-        },
-        "chat.mcp.enabled": true,
-        "chat.mcp.discovery.enabled": true
+        "terminal.integrated.defaultProfile.linux": "bash"
       },
       "extensions": [
         "bierner.github-markdown-preview",
         "DavidAnson.vscode-markdownlint",
         "DotJoshJohnson.xml",
         "EditorConfig.EditorConfig",
-        "ms-dotnettools.csdevkit",
+        "github.vscode-github-actions",
+        "github.copilot-chat",
         "ms-dotnettools.vscodeintellicode-csharp",
-        "redhat.vscode-yaml",
-        "GitHub.copilot-chat"
+        "redhat.vscode-yaml"
       ]
     }
   },
