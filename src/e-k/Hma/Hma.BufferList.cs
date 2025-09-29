@@ -48,9 +48,9 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffers for WMA calculations
-        Hma.UpdateBuffer(bufferN1, wmaN1Periods, value);
-        Hma.UpdateBuffer(bufferN2, wmaN2Periods, value);
+        // update buffers for WMA calculations using extension methods
+        bufferN1.Update(wmaN1Periods, value);
+        bufferN2.Update(wmaN2Periods, value);
 
         double? hma = null;
         int shiftQty = LookbackPeriods - 1;
@@ -60,22 +60,22 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
         if (Count >= shiftQty)
         {
             // calculate WMA(n/2) and WMA(n) for current period
-            double? wmaN2 = Hma.ComputeWeightedMovingAverage(bufferN2, wmaN2Periods, divisorN2);
-            double? wmaN1 = Hma.ComputeWeightedMovingAverage(bufferN1, wmaN1Periods, divisorN1);
+            double? wmaN2 = Wma.ComputeWeightedMovingAverage(bufferN2, wmaN2Periods, divisorN2);
+            double? wmaN1 = Wma.ComputeWeightedMovingAverage(bufferN1, wmaN1Periods, divisorN1);
 
             if (wmaN2.HasValue && wmaN1.HasValue)
             {
                 // synthetic value: 2 * WMA(n/2) - WMA(n)
                 double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
 
-                // update synthetic buffer
-                Hma.UpdateBuffer(synthBuffer, sqrtPeriods, synthValue);
+                // update synthetic buffer using extension method
+                synthBuffer.Update(sqrtPeriods, synthValue);
 
                 // calculate final HMA = WMA(sqrt(n)) of synthetic values
                 // Need enough synthetic values for the final WMA calculation
                 if (synthBuffer.Count == sqrtPeriods)
                 {
-                    hma = Hma.ComputeWeightedMovingAverage(synthBuffer, sqrtPeriods, divisorSqrt);
+                    hma = Wma.ComputeWeightedMovingAverage(synthBuffer, sqrtPeriods, divisorSqrt);
                 }
             }
         }
