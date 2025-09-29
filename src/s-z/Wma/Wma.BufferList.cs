@@ -1,27 +1,28 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Exponential Moving Average (EMA) from incremental reusable values.
+/// Weighted Moving Average (WMA) from incremental reusable values.
 /// </summary>
-public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
+public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
 {
     private readonly Queue<double> _buffer;
-    private double _bufferSum;
+    private readonly double _divisor;
+    private double _sum;
+    private double _weightedAverage;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmaList"/> class.
+    /// Initializes a new instance of the <see cref="WmaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    public EmaList(
-        int lookbackPeriods
-    )
+    public WmaList(int lookbackPeriods)
     {
-        Ema.Validate(lookbackPeriods);
+        Wma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        K = 2d / (lookbackPeriods + 1);
+
+        // Pre-calculate divisor for WMA: n * (n + 1) / 2
+        _divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
         _buffer = new Queue<double>(lookbackPeriods);
-        _bufferSum = 0;
     }
 
     /// <summary>
@@ -29,49 +30,27 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets the smoothing factor for the calculation.
-    /// </summary>
-    public double K { get; private init; }
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer and track dequeued value for sum maintenance using extension method
+        double sumBefore = _sum;
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        // update running sum
-        if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
-        {
-            _bufferSum = _bufferSum - dequeuedValue.Value + value;
-        }
-        else
-        {
-            _bufferSum += value;
-        }
+        _sum = dequeuedValue.HasValue
+            ? sumBefore - dequeuedValue.Value + value
+            : sumBefore + value;
 
-        // add nulls for incalculable periods
-        if (Count < LookbackPeriods - 1)
+        double? wma = Wma.ComputeWeightedMovingAverage(
+            _buffer,
+            LookbackPeriods,
+            _divisor);
+
+        if (wma.HasValue)
         {
-            base.Add(new EmaResult(timestamp));
-            return;
+            _weightedAverage = wma.Value;
         }
 
-        double? lastEma = this[^1].Ema;
-
-        // re/initialize as SMA
-        if (lastEma is null)
-        {
-            base.Add(new EmaResult(
-                timestamp,
-                _bufferSum / LookbackPeriods));
-            return;
-        }
-
-        // calculate EMA normally
-        base.Add(new EmaResult(
-            timestamp,
-            Ema.Increment(K, lastEma.Value, value)));
+        base.Add(new WmaResult(timestamp, wma));
     }
 
     /// <inheritdoc />
@@ -115,6 +94,7 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
     {
         base.Clear();
         _buffer.Clear();
-        _bufferSum = 0;
+        _sum = 0d;
+        _weightedAverage = 0d;
     }
 }
