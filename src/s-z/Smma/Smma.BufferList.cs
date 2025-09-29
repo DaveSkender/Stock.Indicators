@@ -33,14 +33,18 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer for SMA initialization
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _bufferSum -= _buffer.Dequeue();
-        }
+        // update buffer for SMA initialization using buffer utilities
+        double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        _buffer.Enqueue(value);
-        _bufferSum += value;
+        // update running sum efficiently
+        if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
+        {
+            _bufferSum = _bufferSum - dequeuedValue.Value + value;
+        }
+        else
+        {
+            _bufferSum += value;
+        }
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)

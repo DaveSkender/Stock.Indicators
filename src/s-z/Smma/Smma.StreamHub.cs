@@ -62,7 +62,7 @@ public class SmmaHub<TIn>
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         double smma = i >= LookbackPeriods - 1
-            
+
             // normal SMMA calculation when we have previous value
             ? Cache[i - 1].Smma is not null
                 ? ((Cache[i - 1].Value * (LookbackPeriods - 1)) + item.Value) / LookbackPeriods
