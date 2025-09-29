@@ -5,15 +5,13 @@ namespace Skender.Stock.Indicators;
 /// </summary>
 public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
 {
-    // MAMA parameters
-    private readonly double fastLimit;
-    private readonly double slowLimit;
-
     // State tracking
     private double prevMama = double.NaN;
     private double prevFama = double.NaN;
 
     // Arrays for algorithm state (using List for dynamic sizing)
+    // Note: MAMA requires historical data arrays that grow with each quote
+    // Unlike simple moving averages, this cannot use fixed-size buffers
     private readonly List<double> pr = new(); // price
     private readonly List<double> sm = new(); // smooth
     private readonly List<double> dt = new(); // detrender
@@ -41,15 +39,15 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
     {
         Mama.Validate(fastLimit, slowLimit);
         
-        this.fastLimit = fastLimit;
-        this.slowLimit = slowLimit;
+        FastLimit = fastLimit;
+        SlowLimit = slowLimit;
     }
 
     /// <inheritdoc />
-    public double FastLimit => fastLimit;
+    public double FastLimit { get; init; }
 
     /// <inheritdoc />
-    public double SlowLimit => slowLimit;
+    public double SlowLimit { get; init; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -59,7 +57,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         // Add value to price array
         pr.Add(value);
 
-        // Initialize arrays for new position
+        // Initialize arrays for new position (only once per position)
         sm.Add(0);
         dt.Add(0);
         pd.Add(0);
@@ -81,10 +79,12 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         double mama;
         double fama;
 
-        // Initialization
+        // Initialization at index 5 (first calculable period)
         if (double.IsNaN(prevMama))
         {
             double sum = 0;
+            
+            // Reset all values for the initialization range
             for (int p = i - 5; p <= i; p++)
             {
                 pd[p] = 0;
@@ -106,7 +106,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
 
             mama = fama = sum / 6;
         }
-        // Normal MAMA calculation
+        // Normal MAMA calculation for subsequent periods
         else
         {
             double adj = (0.075 * pd[i - 1]) + 0.54;
@@ -187,7 +187,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
             double delta = Math.Max(i > 0 ? ph[i - 1] - ph[i] : 1, 1);
 
             // Adaptive alpha value
-            double alpha = Math.Max(fastLimit / delta, slowLimit);
+            double alpha = Math.Max(FastLimit / delta, SlowLimit);
 
             // Final indicators
             mama = (alpha * pr[i]) + ((1d - alpha) * prevMama);
