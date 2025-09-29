@@ -14,9 +14,9 @@ The codebase implements several types of stream hub I/O patterns:
 1. **IQuote → IReusable** (e.g., EMA, SMA): Takes quote input, produces single reusable value output
 2. **IQuote → ISeries** (e.g., Alligator, AtrStop): Takes quote input, produces multi-value series output  
 3. **IReusable → IReusable** (e.g., chained indicators): Takes reusable input, produces reusable output
-4. **IQuote → QuotePart** (e.g., QuotePart selector): Takes quote input, extracts specific price component
+4. **IQuote → IQuote** (e.g., Renko, Quote converters): Takes quote input, produces modified quote output
 
-Note: IQuote → IQuote converters (e.g., Renko) exist but are rarely used for new indicators.
+Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
 
 ## File naming conventions
 

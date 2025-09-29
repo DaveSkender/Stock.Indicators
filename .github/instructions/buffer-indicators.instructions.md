@@ -308,7 +308,7 @@ private double CalculateFromBuffer()
 Study these exemplary buffer indicators:
 
 - **EMA**: `src/e-k/Ema/Ema.BufferList.cs`
-- **SMA**: `src/s-z/Sma/Sma.BufferList.cs` (if implemented)
+- **SMA**: `src/s-z/Sma/Sma.BufferList.cs`
 
 ## Integration with other styles
 
