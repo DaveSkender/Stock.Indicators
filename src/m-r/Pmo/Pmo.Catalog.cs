@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pmo
 {
-    // Price Momentum Oscillator Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Price Momentum Oscillator Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Price Momentum Oscillator")
             .WithId("PMO")
-            .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToPmo")
             .AddParameter<int>("timePeriods", "Time Periods", description: "Number of periods for the time frame", isRequired: false, defaultValue: 35, minimum: 1, maximum: 250)
@@ -16,4 +15,13 @@ public static partial class Pmo
             .AddResult("Pmo", "PMO", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
+
+    // Price Momentum Oscillator Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for PMO.
+    // No BufferListing for PMO.
 }
