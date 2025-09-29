@@ -38,7 +38,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         double slowLimit = 0.05)
     {
         Mama.Validate(fastLimit, slowLimit);
-        
+
         FastLimit = fastLimit;
         SlowLimit = slowLimit;
     }
@@ -83,7 +83,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         if (double.IsNaN(prevMama))
         {
             double sum = 0;
-            
+
             // Reset all values for the initialization range
             for (int p = i - 5; p <= i; p++)
             {
@@ -243,7 +243,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
     public new void Clear()
     {
         base.Clear();
-        
+
         // Reset state
         prevMama = double.NaN;
         prevFama = double.NaN;
