@@ -8,11 +8,11 @@ public static partial class Adx
     /// Creates a stream hub for ADX indicator calculations.
     /// </summary>
     public static AdxHub<TIn> ToAdx<TIn>(
-        this IChainProvider<TIn> chainProvider,
+        this IQuoteProvider<TIn> quoteProvider,
         int lookbackPeriods = 14)
         where TIn : IQuote
         => new(
-            chainProvider,
+            quoteProvider,
             lookbackPeriods);
 }
 
@@ -32,12 +32,12 @@ public class AdxHub<TIn>
     /// <summary>
     /// Initializes a new instance of the <see cref="AdxHub{TIn}"/> class.
     /// </summary>
-    /// <param name="provider">The chain provider.</param>
+    /// <param name="quoteProvider">The stream observable provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back.</param>
     internal AdxHub(
-        IChainProvider<TIn> provider,
+        IQuoteProvider<TIn> quoteProvider,
         int lookbackPeriods)
-        : base(provider)
+        : base(quoteProvider)
     {
         Adx.Validate(lookbackPeriods);
 
@@ -50,6 +50,8 @@ public class AdxHub<TIn>
         _sumPdm = 0;
         _sumMdm = 0;
         _sumDx = 0;
+
+        Reinitialize();
     }
 
     #endregion
@@ -80,7 +82,9 @@ public class AdxHub<TIn>
     // METHODS
 
     /// <inheritdoc/>
-    public override string ToString() => hubName;
+    public override string ToString() => Results.Count > 0
+        ? $"{hubName}({Results[0].Timestamp:d})"
+        : hubName;
 
     /// <inheritdoc/>
     protected override (AdxResult result, int index)
@@ -115,7 +119,9 @@ public class AdxHub<TIn>
 
         double? pdi = null;
         double? mdi = null;
+        double? dx = null;
         double? adx = null;
+        double? adxr = null; // Average Directional Movement Rating (ADX rating)
 
         if (i < LookbackPeriods)
         {
@@ -130,56 +136,58 @@ public class AdxHub<TIn>
             _sumTr += tr;
             _sumPdm += pdm1;
             _sumMdm += mdm1;
-
-            _prevTrs = _sumTr / LookbackPeriods;
-            _prevPdm = _sumPdm / LookbackPeriods;
-            _prevMdm = _sumMdm / LookbackPeriods;
+            // Initialize with SUM values (not averages) per StaticSeries implementation
+            _prevTrs = _sumTr;
+            _prevPdm = _sumPdm;
+            _prevMdm = _sumMdm;
 
             pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
             mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0
+                dx = pdi.Value + mdi.Value != 0
                     ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
-                _sumDx = dx;
+                _sumDx = dx.Value;
             }
         }
         else if (i < 2 * LookbackPeriods - 1)
         {
             // Smoothed values calculation
-            _prevTrs = ((_prevTrs * (LookbackPeriods - 1)) + tr) / LookbackPeriods;
-            _prevPdm = ((_prevPdm * (LookbackPeriods - 1)) + pdm1) / LookbackPeriods;
-            _prevMdm = ((_prevMdm * (LookbackPeriods - 1)) + mdm1) / LookbackPeriods;
+            // Wilder's smoothing keeps values on SUM scale
+            _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+            _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+            _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
 
             pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
             mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0
+                dx = pdi.Value + mdi.Value != 0
                     ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
-                _sumDx += dx;
+                _sumDx += dx.Value;
             }
         }
         else if (i == 2 * LookbackPeriods - 1)
         {
             // First ADX calculation
-            _prevTrs = ((_prevTrs * (LookbackPeriods - 1)) + tr) / LookbackPeriods;
-            _prevPdm = ((_prevPdm * (LookbackPeriods - 1)) + pdm1) / LookbackPeriods;
-            _prevMdm = ((_prevMdm * (LookbackPeriods - 1)) + mdm1) / LookbackPeriods;
+            // Final smoothing before initial ADX
+            _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+            _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+            _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
 
             pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
             mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0
+                dx = pdi.Value + mdi.Value != 0
                     ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
-                _sumDx += dx;
+                _sumDx += dx.Value;
 
                 _prevAdx = _sumDx / LookbackPeriods;
                 adx = _prevAdx;
@@ -188,21 +196,38 @@ public class AdxHub<TIn>
         else
         {
             // Subsequent ADX calculations
-            _prevTrs = ((_prevTrs * (LookbackPeriods - 1)) + tr) / LookbackPeriods;
-            _prevPdm = ((_prevPdm * (LookbackPeriods - 1)) + pdm1) / LookbackPeriods;
-            _prevMdm = ((_prevMdm * (LookbackPeriods - 1)) + mdm1) / LookbackPeriods;
+            _prevTrs = _prevTrs - (_prevTrs / LookbackPeriods) + tr;
+            _prevPdm = _prevPdm - (_prevPdm / LookbackPeriods) + pdm1;
+            _prevMdm = _prevMdm - (_prevMdm / LookbackPeriods) + mdm1;
 
             pdi = _prevTrs != 0 ? 100 * _prevPdm / _prevTrs : null;
             mdi = _prevTrs != 0 ? 100 * _prevMdm / _prevTrs : null;
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0
+                dx = pdi.Value + mdi.Value != 0
                     ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
 
-                _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;
+                _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx.Value) / LookbackPeriods;
                 adx = _prevAdx;
+
+                // ADXR becomes available once we have an ADX value from (lookbackPeriods - 1) periods earlier
+                // Static series: i >= 3*lookbackPeriods - 2 (because first ADX at index 2*lookback -1)
+                int firstAdxIndex = (2 * LookbackPeriods) - 1;
+                int firstAdxrIndex = (3 * LookbackPeriods) - 2; // matches series implementation expectation
+                if (i >= firstAdxrIndex)
+                {
+                    int priorAdxIndex = i - LookbackPeriods + 1; // same offset as static series
+                    if (priorAdxIndex >= 0 && priorAdxIndex < Results.Count)
+                    {
+                        double? priorAdx = Results[priorAdxIndex].Adx;
+                        if (priorAdx.HasValue && adx.HasValue)
+                        {
+                            adxr = (adx.Value + priorAdx.Value) / 2d;
+                        }
+                    }
+                }
             }
         }
 
@@ -215,7 +240,9 @@ public class AdxHub<TIn>
             item.Timestamp,
             pdi,
             mdi,
-            adx);
+            dx,
+            adx,
+            adxr);
 
         return (result, i);
     }
