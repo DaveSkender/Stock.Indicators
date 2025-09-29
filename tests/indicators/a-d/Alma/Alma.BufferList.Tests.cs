@@ -218,25 +218,25 @@ public class Alma : BufferListTestBase
     public void AlmaListExceptions()
     {
         // test constructor validation
-        Action act1 = () => new AlmaList(1, 0.85, 6);
+        Action act1 = () => _ = new AlmaList(1, 0.85, 6);
         act1.Should().Throw<ArgumentOutOfRangeException>("Lookback periods must be greater than 1");
 
-        Action act2 = () => new AlmaList(0, 0.85, 6);
+        Action act2 = () => _ = new AlmaList(0, 0.85, 6);
         act2.Should().Throw<ArgumentOutOfRangeException>("Lookback periods must be greater than 1");
 
-        Action act3 = () => new AlmaList(-1, 0.85, 6);
+        Action act3 = () => _ = new AlmaList(-1, 0.85, 6);
         act3.Should().Throw<ArgumentOutOfRangeException>("Lookback periods must be greater than 1");
 
-        Action act4 = () => new AlmaList(10, 1.1, 6);
+        Action act4 = () => _ = new AlmaList(10, 1.1, 6);
         act4.Should().Throw<ArgumentOutOfRangeException>("Offset must be between 0 and 1");
 
-        Action act5 = () => new AlmaList(10, -0.1, 6);
+        Action act5 = () => _ = new AlmaList(10, -0.1, 6);
         act5.Should().Throw<ArgumentOutOfRangeException>("Offset must be between 0 and 1");
 
-        Action act6 = () => new AlmaList(10, 0.85, 0);
+        Action act6 = () => _ = new AlmaList(10, 0.85, 0);
         act6.Should().Throw<ArgumentOutOfRangeException>("Sigma must be greater than 0");
 
-        Action act7 = () => new AlmaList(10, 0.85, -1);
+        Action act7 = () => _ = new AlmaList(10, 0.85, -1);
         act7.Should().Throw<ArgumentOutOfRangeException>("Sigma must be greater than 0");
 
         // test null arguments
