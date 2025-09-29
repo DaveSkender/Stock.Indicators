@@ -14,8 +14,9 @@ The codebase implements several types of stream hub I/O patterns:
 1. **IQuote → IReusable** (e.g., EMA, SMA): Takes quote input, produces single reusable value output
 2. **IQuote → ISeries** (e.g., Alligator, AtrStop): Takes quote input, produces multi-value series output  
 3. **IReusable → IReusable** (e.g., chained indicators): Takes reusable input, produces reusable output
-4. **IQuote → IQuote** (e.g., Renko, Quote converters): Takes quote input, produces modified quote output
-5. **IQuote → QuotePart** (e.g., QuotePart selector): Takes quote input, extracts specific price component
+4. **IQuote → QuotePart** (e.g., QuotePart selector): Takes quote input, extracts specific price component
+
+Note: IQuote → IQuote converters (e.g., Renko) exist but are rarely used for new indicators.
 
 ## File naming conventions
 
@@ -71,7 +72,7 @@ public sealed class {IndicatorName}StreamHub : IStreamHub<{IndicatorName}Result>
 /// Creates a stream hub for real-time {IndicatorName} calculations
 /// </summary>
 public static {IndicatorName}StreamHub To{IndicatorName}StreamHub<TQuote>(
-    this IEnumerable<TQuote> quotes,
+    this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods = {defaultValue})
     where TQuote : IQuote
 {
@@ -155,7 +156,7 @@ public class {IndicatorName}StreamHubTests : TestBase
             streamResults.Add(streamHub.Add(quote));
         }
         
-        IEnumerable<{IndicatorName}Result> seriesResults = quotes.To{IndicatorName}();
+        IReadOnlyList<{IndicatorName}Result> seriesResults = quotes.To{IndicatorName}();
         
         streamResults.Should().BeEquivalentTo(seriesResults);
     }

@@ -27,8 +27,8 @@ Series indicators should follow these naming patterns:
 /// <param name="quotes">Historical price quotes</param>
 /// <param name="lookbackPeriods">Lookback period (default value)</param>
 /// <returns>Collection of {IndicatorName}Result records</returns>
-public static IEnumerable<{IndicatorName}Result> To{IndicatorName}<TQuote>(
-    this IEnumerable<TQuote> quotes,
+public static IReadOnlyList<{IndicatorName}Result> To{IndicatorName}<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods = {defaultValue})
     where TQuote : IQuote
 {
@@ -81,7 +81,7 @@ public class {IndicatorName}StaticSeriesTests : TestBase
     public void Standard()
     {
         // Test against historical data with expected results
-        IEnumerable<{IndicatorName}Result> results = quotes.To{IndicatorName}();
+        IReadOnlyList<{IndicatorName}Result> results = quotes.To{IndicatorName}();
         
         // Verify specific data points
         {IndicatorName}Result result = results.ElementAt(index);
@@ -92,7 +92,7 @@ public class {IndicatorName}StaticSeriesTests : TestBase
     public void InsufficientQuotes()
     {
         // Test with insufficient data
-        IEnumerable<{IndicatorName}Result> results = TestData.GetDefault(10).To{IndicatorName}(20);
+        IReadOnlyList<{IndicatorName}Result> results = TestData.GetDefault(10).To{IndicatorName}(20);
         results.Should().BeEmpty();
     }
 

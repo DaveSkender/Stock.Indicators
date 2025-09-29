@@ -24,19 +24,24 @@ Buffer indicators extend the `IBufferList<TResult>` interface and provide effici
 /// <summary>
 /// Buffer implementation for {IndicatorName} indicator
 /// </summary>
-public sealed class {IndicatorName}BufferList : IBufferList<{IndicatorName}Result>
+public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}, IBufferList, IBufferReusable
 {
-    private readonly int _lookbackPeriods;
     private readonly Queue<double> _buffer;
     
-    public {IndicatorName}BufferList(int lookbackPeriods)
+    public {IndicatorName}List(
+        int lookbackPeriods
+    )
     {
-        _lookbackPeriods = lookbackPeriods;
+        {IndicatorName}.Validate(lookbackPeriods);
+        LookbackPeriods = lookbackPeriods;
+
         _buffer = new Queue<double>(lookbackPeriods);
     }
 
+    public int LookbackPeriods { get; init; }
+
     /// <inheritdoc />
-    public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
+    public void Add(DateTime timestamp, double value)
     {
         // Add quote to buffer and calculate result
     }
@@ -56,8 +61,8 @@ public sealed class {IndicatorName}BufferList : IBufferList<{IndicatorName}Resul
 /// <summary>
 /// Creates a buffer list for {IndicatorName} calculations
 /// </summary>
-public static {IndicatorName}BufferList To{IndicatorName}BufferList<TQuote>(
-    this IEnumerable<TQuote> quotes,
+public static {IndicatorName}List To{IndicatorName}BufferList<TQuote>(
+    this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods = {defaultValue})
     where TQuote : IQuote
 {
@@ -70,7 +75,7 @@ public static {IndicatorName}BufferList To{IndicatorName}BufferList<TQuote>(
     }
 
     // Initialize buffer and populate
-    {IndicatorName}BufferList bufferList = new(lookbackPeriods);
+    {IndicatorName}List bufferList = new(lookbackPeriods);
     
     foreach (TQuote quote in quotes)
     {
@@ -97,58 +102,102 @@ Buffer indicator tests must cover:
 
 ```csharp
 [TestClass]
-public class {IndicatorName}BufferListTests : TestBase
+public class {IndicatorName}BufferListTests : BufferListTestBase
 {
+    private const int lookbackPeriods = 14;
+
+    private static readonly IReadOnlyList<IReusable> reusables
+       = Quotes
+        .Cast<IReusable>()
+        .ToList();
+
+    private static readonly IReadOnlyList<{IndicatorName}Result> series
+       = Quotes.To{IndicatorName}(lookbackPeriods);
+
     [TestMethod]
-    public void Add()
+    public void FromReusableSplit()
     {
-        // Test incremental addition
-        {IndicatorName}BufferList bufferList = new(lookbackPeriods);
-        
-        foreach (Quote quote in quotes.Take(50))
+        {IndicatorName}List sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
         {
-            {IndicatorName}Result result = bufferList.Add(quote);
-            
-            // Verify incremental results
-            if (shouldHaveValue)
-            {
-                result.{Property}.Should().BeApproximately(expectedValue, precision);
-            }
+            sut.Add(item.Timestamp, item.Value);
         }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
-    public void AddWithInsufficientData()
+    public void FromReusableItem()
     {
-        {IndicatorName}BufferList bufferList = new(lookbackPeriods);
-        
-        // Add fewer quotes than required
-        foreach (Quote quote in quotes.Take(lookbackPeriods - 1))
+        {IndicatorName}List sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables) { sut.Add(item); }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void FromReusableBatch()
+    {
+        {IndicatorName}List sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public override void FromQuote()
+    {
+        {IndicatorName}List sut = new(lookbackPeriods);
+
+        foreach (Quote q in Quotes) { sut.Add(q); }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public override void FromQuoteBatch()
+    {
+        {IndicatorName}List sut = new(lookbackPeriods) { Quotes };
+
+        IReadOnlyList<{IndicatorName}Result> series
+            = Quotes.To{IndicatorName}(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+
+        {IndicatorName}List sut = new(lookbackPeriods);
+
+        foreach (Quote quote in subset)
         {
-            {IndicatorName}Result result = bufferList.Add(quote);
-            result.{Property}.Should().BeNull();
+            sut.Add(quote);
         }
-    }
 
-    [TestMethod]
-    public void Clear()
-    {
-        {IndicatorName}BufferList bufferList = quotes.To{IndicatorName}BufferList();
-        bufferList.Clear();
-        
-        // Verify state is reset
-        {IndicatorName}Result result = bufferList.Add(quotes.First());
-        result.{Property}.Should().BeNull();
-    }
+        sut.Should().HaveCount(subset.Count);
 
-    [TestMethod]
-    public void FullyPopulated()
-    {
-        // Compare buffer results with series results for perfect match
-        IEnumerable<{IndicatorName}Result> bufferResults = quotes.To{IndicatorName}BufferList();
-        IEnumerable<{IndicatorName}Result> seriesResults = quotes.To{IndicatorName}();
-        
-        bufferResults.Should().BeEquivalentTo(seriesResults);
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        foreach (Quote quote in subset)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<{IndicatorName}Result> expected = subset.To{IndicatorName}(lookbackPeriods);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected);
     }
 }
 ```
@@ -173,7 +222,7 @@ public void BufferIndicator{IndicatorName}()
 
 **Performance expectations**:
 
-- Buffer processing should be significantly faster than series processing
+- Buffer processing provides memory-efficient incremental processing for streaming scenarios
 - Memory usage should remain constant regardless of dataset size
 - Should handle real-time data updates efficiently
 
