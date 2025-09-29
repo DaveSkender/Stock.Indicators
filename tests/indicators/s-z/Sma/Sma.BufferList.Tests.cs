@@ -4,7 +4,6 @@ namespace BufferLists;
 public class Sma : BufferListTestBase
 {
     private const int lookbackPeriods = 14;
-    private const double BufferPrecision = 1E-12; // Slightly larger tolerance for buffer algorithms
 
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
@@ -25,22 +24,7 @@ public class Sma : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            SmaResult e = series[i];
-            SmaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp);
-            if (e.Sma is null)
-            {
-                a.Sma.Should().BeNull();
-            }
-            else
-            {
-                a.Sma.Should().BeApproximately(e.Sma.Value, BufferPrecision);
-            }
-        }
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -51,22 +35,7 @@ public class Sma : BufferListTestBase
         foreach (IReusable item in reusables) { sut.Add(item); }
 
         sut.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            SmaResult e = series[i];
-            SmaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp);
-            if (e.Sma is null)
-            {
-                a.Sma.Should().BeNull();
-            }
-            else
-            {
-                a.Sma.Should().BeApproximately(e.Sma.Value, BufferPrecision);
-            }
-        }
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -75,22 +44,7 @@ public class Sma : BufferListTestBase
         SmaList sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            SmaResult e = series[i];
-            SmaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp);
-            if (e.Sma is null)
-            {
-                a.Sma.Should().BeNull();
-            }
-            else
-            {
-                a.Sma.Should().BeApproximately(e.Sma.Value, BufferPrecision);
-            }
-        }
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -101,22 +55,7 @@ public class Sma : BufferListTestBase
         foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            SmaResult e = series[i];
-            SmaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp);
-            if (e.Sma is null)
-            {
-                a.Sma.Should().BeNull();
-            }
-            else
-            {
-                a.Sma.Should().BeApproximately(e.Sma.Value, BufferPrecision);
-            }
-        }
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -128,22 +67,7 @@ public class Sma : BufferListTestBase
             = Quotes.ToSma(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            SmaResult e = series[i];
-            SmaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp);
-            if (e.Sma is null)
-            {
-                a.Sma.Should().BeNull();
-            }
-            else
-            {
-                a.Sma.Should().BeApproximately(e.Sma.Value, BufferPrecision);
-            }
-        }
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -172,21 +96,6 @@ public class Sma : BufferListTestBase
         IReadOnlyList<SmaResult> expected = subset.ToSma(lookbackPeriods);
 
         sut.Should().HaveCount(expected.Count);
-
-        for (int i = 0; i < sut.Count; i++)
-        {
-            SmaResult e = expected[i];
-            SmaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp);
-            if (e.Sma is null)
-            {
-                a.Sma.Should().BeNull();
-            }
-            else
-            {
-                a.Sma.Should().BeApproximately(e.Sma.Value, BufferPrecision);
-            }
-        }
+        sut.Should().BeEquivalentTo(expected);
     }
 }

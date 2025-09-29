@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
 {
     private readonly Queue<double> buffer;
-    private double sum;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaList"/> class.
@@ -17,7 +16,6 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         buffer = new Queue<double>(lookbackPeriods);
-        sum = 0d;
     }
 
     /// <summary>
@@ -32,20 +30,26 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
     /// <param name="value">The value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer and sum
+        // Update the rolling buffer
         if (buffer.Count == LookbackPeriods)
         {
-            // Remove the oldest value from the sum
-            double oldValue = buffer.Dequeue();
-            sum -= oldValue;
+            buffer.Dequeue();
         }
 
-        // Add the new value to the buffer and sum
         buffer.Enqueue(value);
-        sum += value;
 
-        // Calculate SMA when we have enough values
-        double? sma = buffer.Count == LookbackPeriods ? sum / LookbackPeriods : null;
+        // Calculate SMA when we have enough values by recalculating the sum
+        // This matches the precision of the static series implementation
+        double? sma = null;
+        if (buffer.Count == LookbackPeriods)
+        {
+            double sum = 0;
+            foreach (double val in buffer)
+            {
+                sum += val;
+            }
+            sma = sum / LookbackPeriods;
+        }
 
         base.Add(new SmaResult(timestamp, sma));
     }
@@ -109,6 +113,5 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
     {
         base.Clear();
         buffer.Clear();
-        sum = 0d;
     }
 }
