@@ -1,75 +1,88 @@
-# GitHub Copilot Instructions for Stock Indicators for .NET
+# GitHub Copilot instructions for Stock Indicators for .NET
 
-This is **Stock Indicators for .NET** - a comprehensive C# library providing 200+ technical analysis indicators for financial data analysis. The library focuses on performance, accuracy, and ease of use for .NET developers working with financial data.
+This repository hosts **Stock Indicators for .NET**, the production source for the widely used [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
-## Project structure
+- Multi-targets `net9.0` and `net8.0` with analyzers enabled for strict code quality.
+- Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
+- Documentation at [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) is sourced from the `docs/` content in this repository.
+
+## Repository layout
 
 ```text
-src/
-├── _common/          # Shared utilities, base classes, and common types
-├── a-d/              # Indicators A-D (alphabetical organization)
-├── e-k/              # Indicators E-K
-├── m-r/              # Indicators M-R
-├── s-z/              # Indicators S-Z
-└── Indicators.csproj # Main project file
-
-tests/
-├── indicators/       # Unit tests for indicators
-├── other/            # Integration and utility tests
-└── performance/      # Performance benchmarks
+(root)
+├── src/                   # Library source code
+│    ├── _common/          # Shared utilities, base classes, and common types
+│    ├── a-d/              # Indicators A-D (alphabetical organization)
+│    ├── e-k/              # Indicators E-K
+│    ├── m-r/              # Indicators M-R
+│    ├── s-z/              # Indicators S-Z
+│    └── Indicators.csproj # Main project file
+├── tests/                 # Unit, integration, performance, and simulation suites
+└── Stock.Indicators.sln   # Primary solution for src + tests
+.
+├── docs/                  # Public documentation site (Jekyll)
+└── spec-kit/              # Specifications, workflows, memory, and templates
 ```
+
+## Build and verification
+
+- Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root.
+- Keep analyzers clean; treat warnings as build failures.
+- Update documentation and samples when indicators change behavior, especially for streaming scenarios.
 
 ## Common pitfalls to avoid
 
-1. **Off-by-one errors** in lookback period calculations
-2. **Null reference exceptions** with insufficient data
-3. **Precision loss** in financial calculations - use `decimal` not `double`
-4. **Index out of bounds** when accessing historical data
-5. **Performance regression** from excessive LINQ chaining
+1. **Off-by-one windows** when calculating lookback or warmup periods.
+2. **Null or empty quotes** causing stateful streaming regressions—always validate input sequences.
+3. **Precision loss** in chained calculations. Favor `double` for performance, switching to `decimal` only when business accuracy demands it.
+4. **Index out of range** and buffer reuse issues in streaming indicators—guard shared spans and caches.
+5. **Performance regressions** from unnecessary allocations or LINQ. Prefer span-friendly loops and avoid boxing.
+6. **Documentation drift** between code comments, XML docs, and the published docs site.
 
 ## Code review guidelines
 
 ### What to look for
 
-- Input validation completeness
-- Edge case handling (insufficient data, zero/negative values)
-- Mathematical accuracy vs reference implementations
-- Performance characteristics
-- XML documentation completeness
-- Consistent error messages and exception types
+- Comprehensive validation of periods, warmup requirements, and null checks.
+- Accurate math across both batch and streaming paths; compare against reference data.
+- Performance characteristics, especially allocations within hot loops.
+- XML documentation completeness and clarity for public APIs.
+- Consistent error messages and exception types that match established patterns.
 
 ### Code quality standards
 
-- All public methods must have XML documentation
-- Unit test coverage for all code paths
-- Performance tests for computationally intensive indicators
-- Validation for all user inputs
-- Consistent formatting using `.editorconfig`
+- Provide XML comments for all public types and members.
+- Cover happy paths, edge cases, and streaming flows with unit tests.
+- Add or update performance benchmarks when modifying core indicator loops.
+- Maintain `.editorconfig` conventions; let analyzers and style rules guide formatting.
+- Keep package metadata aligned with NuGet expectations (icon, README, license).
 
-## Spec-Driven Development Integration
+## Spec-driven development integration
 
-This repository uses [GitHub Spec-Kit](https://github.com/github/spec-kit) for structured development workflows. Use the following commands for new feature development:
+This repository relies on [GitHub Spec-Kit](https://github.com/github/spec-kit) for structured development. Before adding or changing indicators, consult the relevant spec in `spec-kit/` and use chat commands to align with the active plan:
 
-- **`/constitution`** - Review or update project governance principles
-- **`/specify`** - Create detailed feature specifications for new indicators
-- **`/plan`** - Define technical implementation approach
-- **`/tasks`** - Break down features into actionable development tasks
-- **`/implement`** - Execute planned implementation
+- **`/constitution`** — Review or update project governance principles.
+- **`/specify`** — Draft detailed specifications for new or revised indicators.
+- **`/plan`** — Outline the implementation approach.
+- **`/tasks`** — Break work into actionable units.
+- **`/implement`** — Execute the agreed-upon plan and document outcomes.
 
-For detailed guidance, see [Spec-Kit Integration Guide](./.github/spec-kit-integration.md).
+Refer to [Spec-Kit Integration Guide](./.github/spec-kit-integration.md) for usage details.
 
-## Pull Request Guidelines
+## Pull request guidelines
 
-When creating pull requests, follow these guidelines:
-
-- **PR titles must follow [Conventional Commits](https://www.conventionalcommits.org) format**: `type: Subject`
-- **Keep titles under 65 characters** for better readability
-- **Available types**: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan
-- **Subject must start with uppercase letter**
+- Follow [Conventional Commits](https://www.conventionalcommits.org) for titles: `type: Subject` (subject starts uppercase, ≤ 65 characters).
+- Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
+- Link or reference the governing spec/task thread when applicable.
+- Ensure `dotnet test --no-restore` passes and the docs site builds when content changes.
+- Provide before/after validation notes or benchmarks when touching performance-critical code.
 
 Examples:
 
-- `feat: Add RSI indicator` ✓ (20 chars)
-- `fix: Resolve MACD calculation error` ✓ (35 chars)
-- `plan: Define streaming indicators approach` ✓ (42 chars)
-- `docs: Update API documentation` ✓ (31 chars)
+- `feat: Add RSI indicator`
+- `fix: Resolve MACD calculation error`
+- `plan: Define streaming indicators approach`
+- `docs: Update API documentation`
+
+---
+Last updated: September 28, 2025

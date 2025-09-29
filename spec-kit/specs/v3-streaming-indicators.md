@@ -2,7 +2,7 @@
 
 **Feature Branch**: `feature/v3-streaming-indicators`  
 **Created**: 2025-09-26  
-**Status**: Draft  
+**Status**: In Progress *(Updated 2025-09-28)*  
 **Input**: User description: "v3 streaming indicators implementation with buffer style incrementors and enhanced performance for real-time data processing"
 
 ## Overview
@@ -87,6 +87,10 @@ Based on PR #1014, v3.0 focuses on streaming capabilities that allow indicators 
 - Documentation and migration guides
 - Community feedback incorporation
 - Performance optimization
+
+## Progress Updates
+
+- **2025-09-28** — Task T2.1 (*HMA Streaming Implementation*) is complete via PR [#1397](https://github.com/DaveSkender/Stock.Indicators/pull/1397): adds `HmaHub`, `HmaList`, catalog wiring, and parity tests that keep streaming aligned with batch accuracy. Next focus stays on T2.2 (*WMA Streaming Implementation*).
 
 ## Success Criteria
 

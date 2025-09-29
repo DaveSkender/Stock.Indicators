@@ -30,4 +30,33 @@ public class Adx : BufferListTestBase
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
     }
+
+    [TestMethod]
+    public void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+
+        AdxList sut = new(lookbackPeriods);
+
+        foreach (Quote quote in subset)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(subset.Count);
+
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        foreach (Quote quote in subset)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<AdxResult> expected = subset.ToAdx(lookbackPeriods);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected);
+    }
 }

@@ -161,7 +161,9 @@ public static partial class Catalog
         _listings.Add(HeikinAshi.SeriesListing);
 
         // HMA (Hull Moving Average)
+        _listings.Add(Hma.BufferListing);
         _listings.Add(Hma.SeriesListing);
+        _listings.Add(Hma.StreamListing);
 
         // HT Trendline (Hilbert Transform)
         _listings.Add(HtTrendline.SeriesListing);

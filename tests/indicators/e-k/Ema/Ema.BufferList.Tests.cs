@@ -69,4 +69,33 @@ public class Ema : BufferListTestBase
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series);
     }
+
+    [TestMethod]
+    public void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+
+        EmaList sut = new(lookbackPeriods);
+
+        foreach (Quote quote in subset)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(subset.Count);
+
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        foreach (Quote quote in subset)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<EmaResult> expected = subset.ToEma(lookbackPeriods);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected);
+    }
 }

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Exponential Moving Average (EMA) from incremental reusable values.
 /// </summary>
-public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
+public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -124,5 +124,15 @@ public class EmaList : List<EmaResult>, IEma, IBufferQuote, IBufferReusable
         {
             Add(quotes[i].Timestamp, quotes[i].Value);
         }
+    }
+
+    /// <summary>
+    /// Clears the list and resets internal buffers so the instance can be reused.
+    /// </summary>
+    public new void Clear()
+    {
+        base.Clear();
+        _buffer.Clear();
+        _bufferSum = 0;
     }
 }

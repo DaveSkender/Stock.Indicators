@@ -68,7 +68,7 @@ spec-kit/
 
 The project constitution defines core principles for Stock Indicators development:
 
-- **Mathematical Precision**: All financial calculations use `decimal` types
+- **Mathematical Precision**: Financial calculations prioritize accuracy—run indicator pipelines in `double` for performance, then promote to `decimal` whenever exposing price or monetary results that need the extra precision
 - **Performance First**: Optimized algorithms with minimal memory allocation  
 - **Comprehensive Validation**: Complete input validation and error handling
 - **Test-Driven Quality**: Unit tests for all code paths
@@ -92,7 +92,7 @@ This creates:
 
 Define technical approach and architecture:
 
-**Command**: `/plan Use existing indicator patterns with decimal precision calculations, implement as both Series and Stream styles, include comprehensive validation`
+**Command**: `/plan Use existing indicator patterns with appropriate numeric precision (default double, decimal when price-sensitive), implement as both Series and Stream styles, include comprehensive validation`
 
 ### 4. Task Breakdown
 
@@ -112,10 +112,13 @@ Execute the planned tasks:
 
 Spec-Kit templates have been customized for financial indicator development:
 
-- **Precision Requirements**: All monetary calculations use `decimal` types
+- **Precision Requirements**: Execute iterative indicator math in `double` for throughput, and convert to `decimal` for price-sensitive or monetary values so contributors preserve trading accuracy
 - **Performance Standards**: Benchmarking requirements for large datasets
 - **Validation Patterns**: Standard approaches for financial data validation
 - **Testing Requirements**: Mathematical accuracy verification against reference implementations
+
+> [!IMPORTANT]
+> The canonical numeric precision policy lives in `.github/instructions/source-code-completion.instructions.md`. Earlier guidance that mandated `decimal` everywhere is deprecated—follow the documented rule: start calculations in `double` for performance, then promote to `decimal` whenever price-sensitive accuracy demands it.
 
 ### Existing Workflow Compatibility
 
@@ -174,7 +177,7 @@ support for different moving average types (SMA, EMA), and validation for minimu
 Include performance and precision considerations:
 
 ```bash
-/plan Implement using decimal arithmetic, optimize for streaming data, 
+/plan Implement with default double precision, elevate to decimal when emitting price-sensitive values, optimize for streaming data, 
 include buffer management for real-time updates, add comprehensive input validation
 ```
 
