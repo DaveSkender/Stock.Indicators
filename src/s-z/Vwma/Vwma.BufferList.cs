@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Volume Weighted Moving Average (VWMA) from incremental quote values.
 /// </summary>
-public class VwmaList : List<VwmaResult>, IVwma, IBufferList, IBufferReusable
+public class VwmaList : List<VwmaResult>, IVwma, IBufferList
 {
     private readonly Queue<(double price, double volume)> _buffer;
 
@@ -25,33 +25,6 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList, IBufferReusable
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <inheritdoc />
-    public void Add(DateTime timestamp, double value)
-    {
-        // For VWMA, we need both price and volume, so this method cannot be implemented
-        // without additional volume data. Users should use Add(IQuote) instead.
-        throw new NotSupportedException(
-            "VWMA requires both price and volume data. Use Add(IQuote) or Add(timestamp, price, volume) instead.");
-    }
-
-    /// <inheritdoc />
-    public void Add(IReusable value)
-    {
-        // For VWMA, we need both price and volume, so this method cannot be implemented
-        // without additional volume data. Users should use Add(IQuote) instead.
-        throw new NotSupportedException(
-            "VWMA requires both price and volume data. Use Add(IQuote) instead.");
-    }
-
-    /// <inheritdoc />
-    public void Add(IReadOnlyList<IReusable> values)
-    {
-        // For VWMA, we need both price and volume, so this method cannot be implemented
-        // without additional volume data. Users should use Add(IQuote) instead.
-        throw new NotSupportedException(
-            "VWMA requires both price and volume data. Use Add(IReadOnlyList<IQuote>) instead.");
-    }
 
     /// <inheritdoc />
     public void Add(IQuote quote)

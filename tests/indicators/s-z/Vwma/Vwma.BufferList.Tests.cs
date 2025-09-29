@@ -59,29 +59,4 @@ public class Vwma : BufferListTestBase
         sut.Should().HaveCount(expected.Count);
         sut.Should().BeEquivalentTo(expected);
     }
-
-    [TestMethod]
-    public void UnsupportedReusableMethods()
-    {
-        VwmaList sut = new(lookbackPeriods);
-
-        // VWMA requires both price and volume, so IReusable methods should throw
-        sut.Invoking(s => s.Add(DateTime.Now, 100.0))
-            .Should().Throw<NotSupportedException>()
-            .WithMessage("*requires both price and volume*");
-
-        sut.Invoking(s => s.Add(new TestReusable { Timestamp = DateTime.Now, Value = 100.0 }))
-            .Should().Throw<NotSupportedException>()
-            .WithMessage("*requires both price and volume*");
-
-        sut.Invoking(s => s.Add(new List<TestReusable>()))
-            .Should().Throw<NotSupportedException>()
-            .WithMessage("*requires both price and volume*");
-    }
-
-    private class TestReusable : IReusable
-    {
-        public DateTime Timestamp { get; set; }
-        public double Value { get; set; }
-    }
 }
