@@ -49,8 +49,8 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
     public void Add(DateTime timestamp, double value)
     {
         // update buffers for WMA calculations
-        Hma.UpdateBuffer(bufferN1, wmaN1Periods, value);
-        Hma.UpdateBuffer(bufferN2, wmaN2Periods, value);
+        Wma.UpdateBuffer(bufferN1, wmaN1Periods, value);
+        Wma.UpdateBuffer(bufferN2, wmaN2Periods, value);
 
         double? hma = null;
         int shiftQty = LookbackPeriods - 1;
@@ -60,8 +60,8 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
         if (Count >= shiftQty)
         {
             // calculate WMA(n/2) and WMA(n) for current period
-            double? wmaN2 = Hma.ComputeWeightedMovingAverage(bufferN2, wmaN2Periods, divisorN2);
-            double? wmaN1 = Hma.ComputeWeightedMovingAverage(bufferN1, wmaN1Periods, divisorN1);
+            double? wmaN2 = Wma.ComputeWeightedMovingAverage(bufferN2, wmaN2Periods, divisorN2);
+            double? wmaN1 = Wma.ComputeWeightedMovingAverage(bufferN1, wmaN1Periods, divisorN1);
 
             if (wmaN2.HasValue && wmaN1.HasValue)
             {
@@ -69,13 +69,13 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
                 double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
 
                 // update synthetic buffer
-                Hma.UpdateBuffer(synthBuffer, sqrtPeriods, synthValue);
+                Wma.UpdateBuffer(synthBuffer, sqrtPeriods, synthValue);
 
                 // calculate final HMA = WMA(sqrt(n)) of synthetic values
                 // Need enough synthetic values for the final WMA calculation
                 if (synthBuffer.Count == sqrtPeriods)
                 {
-                    hma = Hma.ComputeWeightedMovingAverage(synthBuffer, sqrtPeriods, divisorSqrt);
+                    hma = Wma.ComputeWeightedMovingAverage(synthBuffer, sqrtPeriods, divisorSqrt);
                 }
             }
         }

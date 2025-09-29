@@ -31,29 +31,11 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _buffer.Dequeue();
-        }
+        // Update the rolling buffer using the utility method
+        Wma.UpdateBuffer(_buffer, LookbackPeriods, value);
 
-        _buffer.Enqueue(value);
-
-        // Calculate WMA when we have enough values exactly like static series
-        // This matches the precision of the static series implementation exactly
-        double? wma = null;
-        if (_buffer.Count == LookbackPeriods)
-        {
-            wma = 0;
-            int weight = 1;
-
-            // Calculate exactly like static series: divide inside the loop like the original
-            foreach (double bufferValue in _buffer)
-            {
-                wma += bufferValue * weight / _divisor;
-                weight++;
-            }
-        }
+        // Calculate WMA using the utility method
+        double? wma = Wma.ComputeWeightedMovingAverage(_buffer, LookbackPeriods, _divisor);
 
         base.Add(new WmaResult(timestamp, wma));
     }
