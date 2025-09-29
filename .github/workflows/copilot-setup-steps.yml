@@ -63,9 +63,9 @@ jobs:
           specify --help || echo "Specify help not available"
         continue-on-error: true
 
-      - name: Restore .NET packages
+      - name: Restore packages
         run: |
-          dotnet restore
+          dotnet restore && npm install
         continue-on-error: true
 
       - name: Build .NET Solution
