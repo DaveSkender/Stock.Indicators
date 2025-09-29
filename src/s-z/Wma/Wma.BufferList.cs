@@ -7,6 +7,8 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private readonly double _divisor;
+    private double _sum;
+    private double _weightedAverage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WmaList"/> class.
@@ -31,11 +33,22 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer using extension method
-        _buffer.Update(LookbackPeriods, value);
+        double sumBefore = _sum;
+        double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        // Calculate WMA using the utility method
-        double? wma = Wma.ComputeWeightedMovingAverage(_buffer, LookbackPeriods, _divisor);
+        _sum = dequeuedValue.HasValue
+            ? sumBefore - dequeuedValue.Value + value
+            : sumBefore + value;
+
+        double? wma = Wma.ComputeWeightedMovingAverage(
+            _buffer,
+            LookbackPeriods,
+            _divisor);
+
+        if (wma.HasValue)
+        {
+            _weightedAverage = wma.Value;
+        }
 
         base.Add(new WmaResult(timestamp, wma));
     }
@@ -81,5 +94,7 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     {
         base.Clear();
         _buffer.Clear();
+        _sum = 0d;
+        _weightedAverage = 0d;
     }
 }
