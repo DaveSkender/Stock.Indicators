@@ -77,12 +77,12 @@ public static partial class Stoch
         ArgumentNullException.ThrowIfNull(quotes);
 
         StochList bufferList = new(lookbackPeriods, signalPeriods, smoothPeriods);
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 
@@ -111,12 +111,12 @@ public static partial class Stoch
         ArgumentNullException.ThrowIfNull(quotes);
 
         StochList bufferList = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 

@@ -12,7 +12,7 @@ public class StochList : List<StochResult>, IStoch, IBufferList
     private readonly Queue<double> _closeBuffer;
     private readonly Queue<double> _rawKBuffer;
     private readonly Queue<double> _smoothKBuffer;
-    
+
     private double _prevSmoothK = double.NaN;
     private double _prevSignal = double.NaN;
 
@@ -71,7 +71,7 @@ public class StochList : List<StochResult>, IStoch, IBufferList
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.High, quote.Low, quote.Close);
+        Add(quote.Timestamp, (double)quote.High, (double)quote.Low, (double)quote.Close);
     }
 
     /// <inheritdoc />
@@ -94,17 +94,10 @@ public class StochList : List<StochResult>, IStoch, IBufferList
     /// <param name="close">The close price.</param>
     public void Add(DateTime timestamp, double high, double low, double close)
     {
-        // Update rolling buffers
-        if (_highBuffer.Count == LookbackPeriods)
-        {
-            _highBuffer.Dequeue();
-            _lowBuffer.Dequeue();
-            _closeBuffer.Dequeue();
-        }
-
-        _highBuffer.Enqueue(high);
-        _lowBuffer.Enqueue(low);
-        _closeBuffer.Enqueue(close);
+        // Update rolling buffers using BufferUtilities
+        _highBuffer.Update(LookbackPeriods, high);
+        _lowBuffer.Update(LookbackPeriods, low);
+        _closeBuffer.Update(LookbackPeriods, close);
 
         // Calculate raw %K oscillator when we have enough data
         double? rawK = null;
@@ -112,7 +105,7 @@ public class StochList : List<StochResult>, IStoch, IBufferList
         {
             double highHigh = _highBuffer.Max();
             double lowLow = _lowBuffer.Min();
-            
+
             if (highHigh - lowLow != 0)
             {
                 rawK = 100.0 * (close - lowLow) / (highHigh - lowLow);
@@ -134,17 +127,12 @@ public class StochList : List<StochResult>, IStoch, IBufferList
             }
             else
             {
-                // Update raw K buffer for smoothing
-                if (_rawKBuffer.Count == SmoothPeriods)
-                {
-                    _rawKBuffer.Dequeue();
-                }
-                _rawKBuffer.Enqueue(rawK.Value);
+                // Update raw K buffer for smoothing using BufferUtilities
+                _rawKBuffer.Update(SmoothPeriods, rawK.Value);
 
                 if (_rawKBuffer.Count == SmoothPeriods)
                 {
-                    smoothK = MovingAverageType switch
-                    {
+                    smoothK = MovingAverageType switch {
                         MaType.SMA => _rawKBuffer.Average(),
                         MaType.SMMA => CalculateSmma(_rawKBuffer.Last(), ref _prevSmoothK, SmoothPeriods),
                         _ => throw new InvalidOperationException("Invalid Stochastic moving average type.")
@@ -163,17 +151,12 @@ public class StochList : List<StochResult>, IStoch, IBufferList
             }
             else
             {
-                // Update smooth K buffer for signal calculation
-                if (_smoothKBuffer.Count == SignalPeriods)
-                {
-                    _smoothKBuffer.Dequeue();
-                }
-                _smoothKBuffer.Enqueue(smoothK.Value);
+                // Update smooth K buffer for signal calculation using BufferUtilities
+                _smoothKBuffer.Update(SignalPeriods, smoothK.Value);
 
                 if (_smoothKBuffer.Count == SignalPeriods)
                 {
-                    signal = MovingAverageType switch
-                    {
+                    signal = MovingAverageType switch {
                         MaType.SMA => _smoothKBuffer.Average(),
                         MaType.SMMA => CalculateSmma(_smoothKBuffer.Last(), ref _prevSignal, SignalPeriods),
                         _ => throw new InvalidOperationException("Invalid Stochastic moving average type.")
