@@ -66,6 +66,8 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 Results can be further processed on `Adx` with additional chain-enabled indicators.
 
 ```csharp
@@ -74,8 +76,6 @@ var results = quotes
     .GetAdx(..)
     .GetRsi(..);
 ```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Streaming
 

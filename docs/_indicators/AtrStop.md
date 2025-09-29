@@ -95,5 +95,3 @@ foreach (Quote quote in quotes)  // simulating stream
 
 IReadOnlyList<AtrStopResult> results = observer.Results;
 ```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
