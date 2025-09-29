@@ -159,7 +159,7 @@ public class Alma : BufferListTestBase
             };
 
             // assert
-            actual.Should().HaveCount(expected.Count, 
+            actual.Should().HaveCount(expected.Count,
                 $"Count mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
 
             for (int i = 0; i < actual.Count; i++)
@@ -167,7 +167,7 @@ public class Alma : BufferListTestBase
                 AlmaResult e = expected[i];
                 AlmaResult a = actual[i];
 
-                a.Timestamp.Should().Be(e.Timestamp, 
+                a.Timestamp.Should().Be(e.Timestamp,
                     $"Timestamp mismatch at index {i} for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
 
                 if (e.Alma is null)

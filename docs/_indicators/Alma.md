@@ -79,3 +79,33 @@ var results = quotes
     .GetAlma(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AlmaList almaList = new(lookbackPeriods, offset, sigma);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  almaList.Add(quote);
+}
+
+// based on `List<AlmaResult>`
+IReadOnlyList<AlmaResult> results = almaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+AlmaHub<Quote> observer = provider.ToAlma(lookbackPeriods, offset, sigma);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AlmaResult> results = observer.Results;
+```

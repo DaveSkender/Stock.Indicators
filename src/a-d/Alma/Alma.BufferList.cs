@@ -21,7 +21,7 @@ public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
         double sigma = 6)
     {
         Alma.Validate(lookbackPeriods, offset, sigma);
-        
+
         LookbackPeriods = lookbackPeriods;
         Offset = offset;
         Sigma = sigma;
@@ -63,13 +63,8 @@ public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _buffer.Dequeue();
-        }
-
-        _buffer.Enqueue(value);
+        // Use universal buffer extension method for consistent buffer management
+        _buffer.Update(LookbackPeriods, value);
 
         double? alma = null;
 
