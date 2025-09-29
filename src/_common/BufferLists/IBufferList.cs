@@ -6,13 +6,13 @@ namespace Skender.Stock.Indicators;
 public interface IBufferList
 {
     /// <summary>
-    /// Converts an incremental quote into the next incremental indicator value and adds it to the list.
+    /// Apply new quote for calculating incremental indicator values and storing calculated results in the list.
     /// </summary>
     /// <param name="quote">The next quote value.</param>
     void Add(IQuote quote);
 
     /// <summary>
-    /// Converts a batch of quotes into the next incremental indicator values and adds them to the list.
+    /// Apply batch of quotes for calculating incremental indicator values and storing calculated results in the list.
     /// </summary>
     /// <param name="quotes">A chronologically ordered batch of quotes.</param>
     void Add(IReadOnlyList<IQuote> quotes);
@@ -29,20 +29,20 @@ public interface IBufferList
 public interface IBufferReusable : IBufferList
 {
     /// <summary>
-    /// Converts an incremental value into the next incremental indicator value and adds it to the list.
+    /// Apply new input value for calculating incremental indicator values and storing calculated results in the list.
     /// </summary>
     /// <param name="timestamp">The date context.</param>
     /// <param name="value">The next value.</param>
     void Add(DateTime timestamp, double value);
 
     /// <summary>
-    /// Converts an incremental reusable value into the next incremental indicator value and adds it to the list.
+    /// Apply new reusable input value for calculating incremental indicator values and storing calculated results in the list.
     /// </summary>
     /// <param name="value">The next reusable value.</param>
     void Add(IReusable value);
 
     /// <summary>
-    /// Converts a batch of reusable values into the next incremental indicator values and adds them to the list.
+    /// Apply batch of reusable input values for calculating incremental indicator values and storing calculated results in the list.
     /// </summary>
     /// <param name="values">A chronologically ordered batch of <see cref="IReusable"/> values.</param>
     void Add(IReadOnlyList<IReusable> values);
