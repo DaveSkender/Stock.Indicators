@@ -9,7 +9,7 @@ auto_review:
   drafts: false
   base_branches:
     - main
-    - v* # e.g. v3
+    - v*
 
 # Review configuration
 reviews:
