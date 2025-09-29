@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pvo
 {
-    // Price Volume Oscillator Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Price Volume Oscillator Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Price Volume Oscillator")
             .WithId("PVO")
-            .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToPvo")
             .AddParameter<int>("fastPeriods", "Fast Periods", description: "Number of periods for the fast EMA", isRequired: false, defaultValue: 12, minimum: 1, maximum: 100)
@@ -17,4 +16,13 @@ public static partial class Pvo
             .AddResult("Signal", "Signal", ResultType.Default)
             .AddResult("Histogram", "Histogram", ResultType.Default)
             .Build();
+
+    // Price Volume Oscillator Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for PVO.
+    // No BufferListing for PVO.
 }
