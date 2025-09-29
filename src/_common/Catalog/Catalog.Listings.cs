@@ -247,6 +247,7 @@ public static partial class Catalog
         // SMA (Simple Moving Average)
         _listings.Add(Sma.SeriesListing);
         _listings.Add(Sma.StreamListing);
+        _listings.Add(Sma.BufferListing);
 
         // SMA Analysis
         _listings.Add(SmaAnalysis.SeriesListing);

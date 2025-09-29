@@ -29,10 +29,10 @@ public class CatalogMetricsTests : TestBase
         Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
 
         seriesCount.Should().Be(84);
-        bufferCount.Should().Be(3);
+        bufferCount.Should().Be(4);
         streamCount.Should().Be(9);
 
         int totalCount = seriesCount + streamCount + bufferCount;
-        totalCount.Should().Be(96);
+        totalCount.Should().Be(97);
     }
 }
