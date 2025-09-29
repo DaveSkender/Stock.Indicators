@@ -12,9 +12,24 @@ These instructions apply to stream-style indicators that support real-time data 
 The codebase implements several types of stream hub I/O patterns:
 
 1. **IQuote → IReusable** (e.g., EMA, SMA): Takes quote input, produces single reusable value output
+   - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
+   - Generic constraint: `where TIn : IReusable`
 2. **IQuote → ISeries** (e.g., Alligator, AtrStop): Takes quote input, produces multi-value series output  
+   - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
+   - Generic constraint: `where TIn : IReusable`
 3. **IReusable → IReusable** (e.g., chained indicators): Takes reusable input, produces reusable output
+   - Uses `IChainProvider<TIn>` and extends `ChainProvider<TIn, TResult>`
+   - Generic constraint: `where TIn : IReusable`
 4. **IQuote → IQuote** (e.g., Renko, Quote converters): Takes quote input, produces modified quote output
+   - Uses `IQuoteProvider<TIn>` and extends `QuoteProvider<TIn, TResult>`
+   - Generic constraint: `where TIn : IQuote`
+5. **IQuote → VolumeWeighted** (e.g., VWMA): Takes quote input, requires both price and volume data
+   - Uses `IQuoteProvider<TIn>` and extends `QuoteProvider<TIn, TResult>`
+   - Generic constraint: `where TIn : IQuote`
+
+**Provider Selection Guidelines**: 
+- Use `IQuoteProvider<TIn>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
+- Use `IChainProvider<TIn>` and `ChainProvider<TIn, TResult>` when the indicator can work with single reusable values
 
 Note: IQuote → QuotePart selectors exist but are rarely used for new indicators.
 

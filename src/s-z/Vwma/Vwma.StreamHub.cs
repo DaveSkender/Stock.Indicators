@@ -8,21 +8,21 @@ namespace Skender.Stock.Indicators;
 public static partial class Vwma
 {
     /// <summary>
-    /// Converts the chain provider to a VWMA hub.
+    /// Converts the quote provider to a VWMA hub.
     /// </summary>
     /// <typeparam name="TIn">The type of the input.</typeparam>
-    /// <param name="chainProvider">The chain provider.</param>
+    /// <param name="quoteProvider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     /// <returns>A VWMA hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
+    /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static VwmaHub<TIn> ToVwma<TIn>(
-        this IChainProvider<TIn> chainProvider,
+        this IQuoteProvider<TIn> quoteProvider,
         int lookbackPeriods)
         where TIn : IQuote
     {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
+        ArgumentNullException.ThrowIfNull(quoteProvider);
+        return new(quoteProvider, lookbackPeriods);
     }
 }
 
@@ -39,10 +39,10 @@ public class VwmaHub<TIn>
     /// <summary>
     /// Initializes a new instance of the <see cref="VwmaHub{TIn}"/> class.
     /// </summary>
-    /// <param name="provider">The chain provider.</param>
+    /// <param name="provider">The quote provider.</param>
     /// <param name="lookbackPeriods">The number of lookback periods.</param>
     internal VwmaHub(
-        IChainProvider<TIn> provider,
+        IQuoteProvider<TIn> provider,
         int lookbackPeriods) : base(provider)
     {
         Vwma.Validate(lookbackPeriods);

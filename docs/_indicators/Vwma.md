@@ -110,4 +110,4 @@ VwmaList vwmaList = new(lookbackPeriods);
 vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
 ```
 
-**Note**: VWMA requires both price and volume data, so methods that accept only `IReusable` values (which contain only a single value) will throw `NotSupportedException`. Always use methods that accept `IQuote` or direct price/volume parameters.
+**Note**: VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.
