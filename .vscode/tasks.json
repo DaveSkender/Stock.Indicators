@@ -141,43 +141,9 @@
       }
     },
     {
-      "label": "Test: Unit Tests with Coverage",
-      "type": "shell",
-      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --settings \"${workspaceFolder}/tests/tests.unit.runsettings\" --collect:\"Code Coverage\" --no-restore --nologo",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Test: Integration Tests with Coverage",
-      "type": "shell",
-      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --settings \"${workspaceFolder}/tests/tests.integration.runsettings\" --collect:\"Code Coverage\" --no-restore --nologo",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": {
-        "kind": "test",
-        "isDefault": false
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Test: All Tests with Coverage",
-      "type": "shell",
-      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --collect:\"Code Coverage\" --no-restore --nologo",
+      "label": "Test: Run Tests with Coverage",
+      "type": "npm",
+      "script": "test:coverage",
       "options": {
         "cwd": "${workspaceFolder}"
       },
