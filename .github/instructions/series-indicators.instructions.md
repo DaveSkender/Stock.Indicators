@@ -1,5 +1,5 @@
 ---
-applyTo: "src/**/*.StaticSeries.cs,tests/**/*.StaticSeries.Tests.cs"
+applyTo: "src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs"
 description: "Series-style indicator development and testing guidelines"
 ---
 
@@ -108,7 +108,7 @@ public class {IndicatorName}StaticSeriesTests : TestBase
 
 ### Performance benchmarking
 
-Series indicators with significant computational complexity must include performance tests:
+Series indicators with significant computational complexity must include performance tests in the `tests/performance` project:
 
 ```csharp
 // In tests/performance project

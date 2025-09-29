@@ -7,6 +7,16 @@ description: "Stream-style indicator development and testing guidelines"
 
 These instructions apply to stream-style indicators that support real-time data processing with stateful operations. Stream indicators maintain internal state and can process individual quotes as they arrive.
 
+## Stream Hub I/O Scenarios
+
+The codebase implements several types of stream hub I/O patterns:
+
+1. **IQuote → IReusable** (e.g., EMA, SMA): Takes quote input, produces single reusable value output
+2. **IQuote → ISeries** (e.g., Alligator, AtrStop): Takes quote input, produces multi-value series output  
+3. **IReusable → IReusable** (e.g., chained indicators): Takes reusable input, produces reusable output
+4. **IQuote → IQuote** (e.g., Renko, Quote converters): Takes quote input, produces modified quote output
+5. **IQuote → QuotePart** (e.g., QuotePart selector): Takes quote input, extracts specific price component
+
 ## File naming conventions
 
 Stream indicators should follow these naming patterns:
@@ -179,9 +189,10 @@ public class {IndicatorName}StreamHubTests : TestBase
 
 ### Performance benchmarking
 
-Stream indicators must include performance tests for high-frequency scenarios:
+Stream indicators must include performance tests in the `tests/performance` project for high-frequency scenarios:
 
 ```csharp
+// In tests/performance project
 [MethodImpl(MethodImplOptions.NoInlining)]
 public void StreamIndicator{IndicatorName}()
 {

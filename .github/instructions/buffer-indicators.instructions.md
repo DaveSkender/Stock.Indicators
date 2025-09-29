@@ -27,12 +27,12 @@ Buffer indicators extend the `IBufferList<TResult>` interface and provide effici
 public sealed class {IndicatorName}BufferList : IBufferList<{IndicatorName}Result>
 {
     private readonly int _lookbackPeriods;
-    private readonly CircularBuffer<double> _buffer;
+    private readonly Queue<double> _buffer;
     
     public {IndicatorName}BufferList(int lookbackPeriods)
     {
         _lookbackPeriods = lookbackPeriods;
-        _buffer = new CircularBuffer<double>(lookbackPeriods);
+        _buffer = new Queue<double>(lookbackPeriods);
     }
 
     /// <inheritdoc />
@@ -47,7 +47,8 @@ public sealed class {IndicatorName}BufferList : IBufferList<{IndicatorName}Resul
         _buffer.Clear();
     }
 }
-```
+
+> **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
 
 ### Extension method
 
@@ -143,7 +144,7 @@ public class {IndicatorName}BufferListTests : TestBase
     [TestMethod]
     public void FullyPopulated()
     {
-        // Compare buffer results with series results
+        // Compare buffer results with series results for perfect match
         IEnumerable<{IndicatorName}Result> bufferResults = quotes.To{IndicatorName}BufferList();
         IEnumerable<{IndicatorName}Result> seriesResults = quotes.To{IndicatorName}();
         
@@ -154,9 +155,10 @@ public class {IndicatorName}BufferListTests : TestBase
 
 ### Performance benchmarking
 
-Buffer indicators must include performance tests that verify efficiency:
+Buffer indicators must include performance tests in the `tests/performance` project that verify efficiency:
 
 ```csharp
+// In tests/performance project
 [MethodImpl(MethodImplOptions.NoInlining)]
 public void BufferIndicator{IndicatorName}()
 {
@@ -179,7 +181,7 @@ public void BufferIndicator{IndicatorName}()
 
 ### Memory management
 
-- Use circular buffers to maintain constant memory usage
+- Use `Queue<T>` to maintain efficient FIFO operations with constant memory usage
 - Implement proper disposal patterns when applicable
 - Avoid unnecessary object allocations in hot paths
 - Profile memory usage with large datasets
@@ -198,22 +200,28 @@ public void BufferIndicator{IndicatorName}()
 
 ## Buffer patterns
 
-### Circular buffer usage
+### Efficient buffer usage
 
 ```csharp
-private readonly CircularBuffer<double> _values;
-private readonly CircularBuffer<DateTime> _timestamps;
+private readonly Queue<double> _values;
+private readonly Queue<DateTime> _timestamps;
 
 public {IndicatorName}BufferList(int lookbackPeriods)
 {
-    _values = new CircularBuffer<double>(lookbackPeriods);
-    _timestamps = new CircularBuffer<DateTime>(lookbackPeriods);
+    _values = new Queue<double>(lookbackPeriods);
+    _timestamps = new Queue<DateTime>(lookbackPeriods);
 }
 
 public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
 {
-    _values.Add(quote.Close);
-    _timestamps.Add(quote.Date);
+    _values.Enqueue(quote.Close);
+    _timestamps.Enqueue(quote.Date);
+    
+    if (_values.Count > _lookbackPeriods)
+    {
+        _values.Dequeue();
+        _timestamps.Dequeue();
+    }
     
     if (_values.Count < _lookbackPeriods)
     {
