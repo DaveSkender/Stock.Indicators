@@ -25,7 +25,7 @@ Examine `{IndicatorName}.Models.cs`:
 
 ## Step 3: Build the catalog
 
-### For single-style indicators:
+### For single-style indicators
 
 ```csharp
 namespace Skender.Stock.Indicators;
@@ -48,7 +48,7 @@ public static partial class {IndicatorName}
 }
 ```
 
-### For multi-style indicators (preferred DRY pattern):
+### For multi-style indicators (preferred DRY pattern)
 
 ```csharp
 namespace Skender.Stock.Indicators;
