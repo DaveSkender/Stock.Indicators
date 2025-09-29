@@ -84,7 +84,12 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
 
         base.Add(new TemaResult(
             timestamp,
-            tema.NaN2Null()));
+            tema.NaN2Null())
+        {
+            Ema1 = ema1,
+            Ema2 = ema2,
+            Ema3 = ema3
+        });
 
         // store state for next calculation
         _lastEma1 = ema1;

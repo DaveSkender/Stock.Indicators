@@ -57,6 +57,15 @@ public class TemaHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
+        // if out-of-order change (insertion/deletion before current index) occurred
+        // invalidate state and backfill from previous cached EMA layers
+        if (i > 0 && Cache.Count > i && Cache[i - 1].Tema is not null && (double.IsNaN(lastEma1) || Cache[i - 1].Ema1 != lastEma1))
+        {
+            lastEma1 = Cache[i - 1].Ema1;
+            lastEma2 = Cache[i - 1].Ema2;
+            lastEma3 = Cache[i - 1].Ema3;
+        }
+
         double tema = i >= LookbackPeriods - 1
             ? Cache[i - 1].Tema is not null
 
@@ -71,7 +80,12 @@ public class TemaHub<TIn>
 
         TemaResult r = new(
             Timestamp: item.Timestamp,
-            Tema: tema.NaN2Null());
+            Tema: tema.NaN2Null())
+        {
+            Ema1 = lastEma1,
+            Ema2 = lastEma2,
+            Ema3 = lastEma3
+        };
 
         return (r, i);
     }
