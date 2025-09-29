@@ -81,6 +81,8 @@ var results = quotes
     .GetSlope(..);
 ```
 
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations without a hub:
@@ -110,5 +112,3 @@ foreach (Quote quote in quotes)  // simulating stream
 
 IReadOnlyList<AtrResult> results = observer.Results;
 ```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

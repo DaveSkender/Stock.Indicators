@@ -91,4 +91,18 @@ foreach (IQuote quote in quotes)  // simulating stream
 IReadOnlyList<AdxResult> results = adxList;
 ```
 
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+AdxHub<Quote> observer = provider.ToAdx(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AdxResult> results = observer.Results;
+```
+
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

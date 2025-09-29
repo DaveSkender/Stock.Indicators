@@ -76,6 +76,10 @@ IReadOnlyList<AtrStopResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Chaining
+
+This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
 ## Streaming
 
 Subscribe to a `QuoteHub` for streaming scenarios:
@@ -92,6 +96,4 @@ foreach (Quote quote in quotes)  // simulating stream
 IReadOnlyList<AtrStopResult> results = observer.Results;
 ```
 
-## Chaining
-
-This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

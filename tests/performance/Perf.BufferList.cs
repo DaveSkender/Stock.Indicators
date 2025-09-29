@@ -31,6 +31,10 @@ public class BufferListIndicators
         => quotes.ToAdx(n);
 
     [Benchmark]
+    public IReadOnlyList<AdxResult> AdxStream()
+        => provider.ToAdx(n).Results;
+
+    [Benchmark]
     public EmaList EmaBuffer()
         => new(n) { quotes };
 
