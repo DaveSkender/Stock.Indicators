@@ -24,11 +24,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
     /// </summary>
     public int LookbackPeriods { get; private init; }
 
-    /// <summary>
-    /// Adds a new quote to the ADX list.
-    /// </summary>
-    /// <param name="quote">The quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
+    /// <inheritdoc />
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
@@ -161,11 +157,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         base.Add(r);
     }
 
-    /// <summary>
-    /// Adds a list of quotes to the ADX list.
-    /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <inheritdoc />
     public void Add(IReadOnlyList<IQuote> quotes)
     {
         ArgumentNullException.ThrowIfNull(quotes);
@@ -176,9 +168,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         }
     }
 
-    /// <summary>
-    /// Clears the list and resets internal buffers so the instance can be reused.
-    /// </summary>
+    /// <inheritdoc />
     public new void Clear()
     {
         base.Clear();

@@ -34,11 +34,7 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
     /// </summary>
     public double K { get; private init; }
 
-    /// <summary>
-    /// Adds a new value to the EMA list.
-    /// </summary>
-    /// <param name="timestamp">The timestamp of the value.</param>
-    /// <param name="value">The value to add.</param>
+    /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
         // update buffer
@@ -74,22 +70,14 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
             Ema.Increment(K, lastEma.Value, value)));
     }
 
-    /// <summary>
-    /// Adds a new reusable value to the EMA list.
-    /// </summary>
-    /// <param name="value">The reusable value to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the value is null.</exception>
+    /// <inheritdoc />
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
         Add(value.Timestamp, value.Value);
     }
 
-    /// <summary>
-    /// Adds a list of reusable values to the EMA list.
-    /// </summary>
-    /// <param name="values">The list of reusable values to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the values list is null.</exception>
+    /// <inheritdoc />
     public void Add(IReadOnlyList<IReusable> values)
     {
         ArgumentNullException.ThrowIfNull(values);
@@ -100,22 +88,14 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         }
     }
 
-    /// <summary>
-    /// Adds a new quote to the EMA list.
-    /// </summary>
-    /// <param name="quote">The quote to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quote is null.</exception>
+    /// <inheritdoc />
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
         Add(quote.Timestamp, quote.Value);
     }
 
-    /// <summary>
-    /// Adds a list of quotes to the EMA list.
-    /// </summary>
-    /// <param name="quotes">The list of quotes to add.</param>
-    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <inheritdoc />
     public void Add(IReadOnlyList<IQuote> quotes)
     {
         ArgumentNullException.ThrowIfNull(quotes);
@@ -126,9 +106,7 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         }
     }
 
-    /// <summary>
-    /// Clears the list and resets internal buffers so the instance can be reused.
-    /// </summary>
+    /// <inheritdoc />
     public new void Clear()
     {
         base.Clear();
