@@ -39,6 +39,12 @@ reviews:
     base_branches:
       - main
       - v*
+  # Exclude [bot] from triggering
+  # since CodeRabbit skips them anyway
+    ignore_usernames:
+      - "copilot[bot]"
+      - "github-copilot[bot]"  
+      - "github-actions[bot]"
 
   # Code enhancement features
   finishing_touches:
