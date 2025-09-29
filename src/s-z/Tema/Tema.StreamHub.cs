@@ -90,6 +90,22 @@ public class TemaHub<TIn>
         return (r, i);
     }
 
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int i = ProviderCache.IndexGte(timestamp);
+        if (i > LookbackPeriods)
+        {
+            TemaResult prior = Cache[i - 1];
+            lastEma1 = prior.Ema1;
+            lastEma2 = prior.Ema2;
+            lastEma3 = prior.Ema3;
+        }
+        else
+        {
+            lastEma1 = lastEma2 = lastEma3 = double.NaN;
+        }
+    }
+
     private double InitializeTema(int index)
     {
         double sum = 0;
