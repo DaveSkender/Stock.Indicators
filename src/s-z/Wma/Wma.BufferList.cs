@@ -39,21 +39,20 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
 
         _buffer.Enqueue(value);
 
-        // Calculate WMA when we have enough values
+        // Calculate WMA when we have enough values exactly like static series
+        // This matches the precision of the static series implementation exactly
         double? wma = null;
         if (_buffer.Count == LookbackPeriods)
         {
-            // Calculate weighted sum using linear weights (newest value gets highest weight)
-            double weightedSum = 0;
-            double[] values = _buffer.ToArray();
+            wma = 0;
+            int weight = 1;
             
-            for (int i = 0; i < values.Length; i++)
+            // Calculate exactly like static series: divide inside the loop like the original
+            foreach (double value in _buffer)
             {
-                int weight = i + 1; // Linear weight: 1, 2, 3, ..., n
-                weightedSum += values[i] * weight;
+                wma += value * weight / _divisor;
+                weight++;
             }
-            
-            wma = weightedSum / _divisor;
         }
 
         base.Add(new WmaResult(timestamp, wma));
