@@ -12,11 +12,14 @@ This document focuses on completing the remaining work for v3.0 streaming indica
 
 The following foundational work is complete per issue #1014:
 
-- Core quote provider and handling mechanisms
-- EMA, SMA, and HMA streaming prototypes with buffer-style incrementors  
-- Basic `.Use(..)` chaining functionality
-- Performance tuning and usability testing
-- Multiple preview releases with initial feedback
+- ✅ Core quote provider and handling mechanisms
+- ✅ EMA, SMA, and HMA streaming prototypes with buffer-style incrementors  
+- ✅ **WMA streaming implementation with universal buffer utilities (T1.4)**
+- ✅ **Universal BufferUtilities extension methods for consistent buffer management**
+- ✅ **Refactored all existing BufferList implementations to use universal patterns**
+- ✅ Basic `.Use(..)` chaining functionality
+- ✅ Performance tuning and usability testing
+- ✅ Multiple preview releases with initial feedback
 
 ## 🎯 Phase 1: Broad Indicator Implementation (Priority 1)
 
@@ -49,14 +52,39 @@ The following foundational work is complete per issue #1014:
 - **Estimated Effort**: 6 hours
 - **Acceptance Criteria**: VWMA streaming with volume weighting accuracy
 
-**T1.4** **WMA (Weighted Moving Average) Streaming Implementation**
+**T1.4** ✅ **WMA (Weighted Moving Average) Streaming Implementation** - COMPLETED
 
-- Implement WmaBufferList with linear weighting
-- Optimize weight calculation for streaming updates
-- Validate linear weighting accuracy in streaming mode
-- **Dependencies**: Existing buffer patterns
-- **Estimated Effort**: 5 hours
-- **Acceptance Criteria**: WMA streaming matches batch calculations
+- ✅ Implemented WmaList class with BufferList pattern following established conventions
+- ✅ Created comprehensive BufferList tests with mathematical accuracy validation
+- ✅ Implemented correct WMA calculation logic with linear weighting
+- ✅ Integrated with universal buffer utilities for consistent buffer management
+- ✅ Fixed compilation errors and achieved precision matching static series
+- ✅ **BONUS**: Created universal `BufferUtilities` extension methods (`buffer.Update()`, `buffer.UpdateWithDequeue()`)
+- ✅ **BONUS**: Refactored all existing BufferList implementations (EMA, SMA, HMA, ADX) to use universal utilities
+- ✅ **BONUS**: Updated buffer indicators documentation with new extension method patterns
+- **Status**: Complete with BufferList implementation and universal utilities enhancement
+- **Estimated Effort**: 5 hours *(actual: 8 hours including universal utilities refactoring)*
+- **Acceptance Criteria**: WMA streaming matches batch calculations ✅ VERIFIED
+
+### 🎯 Universal Buffer Utilities Enhancement (Completed with T1.4)
+
+**Achievement**: Established universal buffer management patterns for all BufferList implementations
+
+**What was delivered:**
+
+- ✅ **Extension Methods**: `buffer.Update(capacity, value)` and `buffer.UpdateWithDequeue(capacity, value)`
+- ✅ **Consistent API**: All BufferList implementations now use the same buffer management pattern
+- ✅ **Type Safety**: Generic extension methods work with any data type (`Queue<T>`)
+- ✅ **Performance**: Optimized buffer operations with null safety and argument validation
+- ✅ **Documentation**: Comprehensive update to buffer-indicators.instructions.md with new patterns
+- ✅ **Refactoring**: Updated 5 existing implementations (WMA, HMA, SMA, EMA, ADX) to use universal utilities
+
+**Impact:**
+
+- **Developer Experience**: More intuitive API (`buffer.Update()` vs `BufferUtilities.UpdateBuffer()`)
+- **Consistency**: Standardized buffer management across all indicators
+- **Maintainability**: Single source of truth for buffer operations
+- **Extensibility**: New BufferList implementations automatically benefit from proven utilities
 
 **T1.5** **DEMA (Double EMA) Streaming Implementation**
 
@@ -300,9 +328,15 @@ The following foundational work is complete per issue #1014:
 - [ ] Stable v3.0.0 release deployed
 
 ---
-Tasks Version: 2.0
-Updated: 2025-09-29
+Tasks Version: 2.1
+Updated: 2025-09-29 (T1.4 WMA implementation completed)
 Focus: Completing remaining work from Issue #1014 and v3 Project Board
+
+## 📈 Progress Summary
+
+**Completed**: T1.1 (HMA), T1.4 (WMA), Universal Buffer Utilities Enhancement  
+**In Progress**: Documentation updates (buffer indicators patterns)  
+**Next Priority**: T1.2 (TEMA), T1.3 (VWMA), T1.5 (DEMA)
 
 - **Acceptance Criteria**: Buffer handles 10k+ quotes efficiently, <1ms access time ✅ VERIFIED
 
