@@ -56,4 +56,45 @@ public static partial class Wma
 
         return wma;
     }
+
+    /// <summary>
+    /// Calculates a weighted moving average for the specified index using reusable source values.
+    /// </summary>
+    /// <typeparam name="T">The reusable type within the source list.</typeparam>
+    /// <param name="source">The source list of reusable values.</param>
+    /// <param name="lookbackPeriods">The number of periods in the weighted average.</param>
+    /// <param name="endIndex">The ending index (inclusive) for the calculation.</param>
+    /// <returns>The weighted moving average, or <see cref="double.NaN"/> if insufficient data is present.</returns>
+    internal static double Increment<T>(
+        IReadOnlyList<T> source,
+        int lookbackPeriods,
+        int endIndex)
+        where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
+        {
+            return double.NaN;
+        }
+
+        double divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
+
+        double wma = 0d;
+        int weight = 1;
+
+        for (int i = endIndex - lookbackPeriods + 1; i <= endIndex; i++)
+        {
+            double value = source[i].Value;
+            if (double.IsNaN(value))
+            {
+                return double.NaN;
+            }
+
+            wma += value * weight / divisor;
+            weight++;
+        }
+
+        return wma;
+    }
 }
