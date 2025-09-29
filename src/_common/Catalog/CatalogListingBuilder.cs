@@ -46,8 +46,7 @@ internal class CatalogListingBuilder
         {
             foreach (IndicatorParam param in baseListing.Parameters)
             {
-                _parameters.Add(new IndicatorParam
-                {
+                _parameters.Add(new IndicatorParam {
                     ParameterName = param.ParameterName,
                     DisplayName = param.DisplayName,
                     Description = param.Description,
@@ -63,8 +62,7 @@ internal class CatalogListingBuilder
         // Deep copy results to avoid shared references
         foreach (IndicatorResult result in baseListing.Results)
         {
-            _results.Add(new IndicatorResult
-            {
+            _results.Add(new IndicatorResult {
                 DataName = result.DataName,
                 DisplayName = result.DisplayName,
                 DataType = result.DataType,
