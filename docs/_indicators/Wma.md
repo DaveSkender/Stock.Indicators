@@ -75,3 +75,33 @@ var results = quotes
     .GetWma(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+WmaList wmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+// based on `List<WmaResult>`
+IReadOnlyList<WmaResult> results = wmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+WmaHub<Quote> observer = provider.ToWma(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<WmaResult> results = observer.Results;
+```

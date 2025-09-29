@@ -23,20 +23,11 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
     /// </summary>
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Adds a new value to the SMA list.
-    /// </summary>
-    /// <param name="timestamp">The timestamp of the value.</param>
-    /// <param name="value">The value to add.</param>
+    /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer
-        if (buffer.Count == LookbackPeriods)
-        {
-            buffer.Dequeue();
-        }
-
-        buffer.Enqueue(value);
+        // Update the rolling buffer using extension method
+        buffer.Update(LookbackPeriods, value);
 
         // Calculate SMA when we have enough values by recalculating the sum
         // This matches the precision of the static series implementation
