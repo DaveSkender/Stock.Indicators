@@ -30,7 +30,7 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 - Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root.
 - Keep analyzers clean; treat warnings as build failures.
 - Update documentation and samples when indicators change behavior, especially for streaming scenarios.
-- Always update `/docs` for individual indicators when adding or updating.
+- Update the matching `docs/_indicators/<Indicator>.md` file whenever an indicator changes. Keep the primary public API example, parameter details, warmup guidance, and outputs in sync with the implementation.
 
 ## Common pitfalls to avoid
 
@@ -85,6 +85,7 @@ All public methods must have complete XML documentation. Code examples must be p
 - Prefer explicit variable names over `var` (following `.editorconfig` conventions).
 - Use filenames that match the containing class name, with modifiers for partial classes spread across files.
 - Keep package metadata aligned with NuGet expectations (icon, README, license).
+- Keep `docs/_indicators/*.md` pages aligned with their indicator APIs, including usage examples, parameter defaults, warmup guidance, and notable streaming behavior.
 
 ## Spec-driven development integration
 
@@ -100,7 +101,7 @@ Refer to <a>Spec-Kit Integration Guide</a> for usage details.
 
 ## Pull request guidelines
 
-- Follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> for titles: `type: Subject` (subject starts uppercase, ≤ 65 characters).
+- PR titles must follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> format: `type: Subject` (subject starts uppercase, ≤ 65 characters).
 - Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
 - Link or reference the governing spec/task thread when applicable.
 - Ensure `dotnet test --no-restore` passes and the docs site builds when content changes.
