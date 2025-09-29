@@ -11,7 +11,8 @@
   "scripts": {
     "clean": "rimraf --glob \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/BenchmarkDotNet.Artifacts\" \"node_modules\" \"**/node_modules\"",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
-    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\""
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
+    "mdfix": "markdownlint-cli2 --fix \"**/*.md\""
   },
   "devDependencies": {
     "markdownlint-cli2": "^0.18.1",
