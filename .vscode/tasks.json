@@ -139,6 +139,23 @@
         "panel": "shared",
         "showReuseMessage": true
       }
+    },
+    {
+      "label": "Test: Run Tests with Coverage",
+      "type": "npm",
+      "script": "test:coverage",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
     }
   ]
 }

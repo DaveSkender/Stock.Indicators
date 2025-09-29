@@ -46,6 +46,26 @@ jobs:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
 
+      - name: Setup Node.js
+        if: env.IS_PRIMARY == 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install npm dependencies
+        if: env.IS_PRIMARY == 'true'
+        run: npm install
+
+      - name: Check .NET code formatting
+        if: env.IS_PRIMARY == 'true'
+        run: dotnet format --verify-no-changes
+
+      - name: Check Markdown linting
+        if: env.IS_PRIMARY == 'true'
+        run: npm run lint:md
+
       - name: Build library
         run: >
           dotnet build
