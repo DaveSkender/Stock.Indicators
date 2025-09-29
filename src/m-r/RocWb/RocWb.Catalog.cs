@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class RocWb
 {
-    // ROC with Bands Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // ROC with Bands Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("ROC with Bands")
             .WithId("ROC-WB")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
             .WithMethodName("ToRocWb")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the ROC calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
@@ -18,4 +17,13 @@ public static partial class RocWb
             .AddResult("UpperBand", "Upper Band", ResultType.Default)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
+
+    // ROC with Bands Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for ROC with Bands.
+    // No BufferListing for ROC with Bands.
 }
