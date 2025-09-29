@@ -67,18 +67,20 @@ var results = quotes
     .GetRsi(..);
 ```
 
-## Real-time Usage
+## Streaming
 
-This indicator supports real-time streaming scenarios. Use the `.ToAdl()` extension method on a quote provider for continuous updates:
+Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-// Real-time streaming
-var provider = new QuoteHub<Quote>();
-var adlHub = provider.ToAdl();
+QuoteHub<Quote> provider = new();
+AdlHub<Quote> observer = provider.ToAdl();
 
-// Add quotes as they arrive
-provider.Add(newQuote);
-var currentResults = adlHub.Results;
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AdlResult> results = observer.Results;
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

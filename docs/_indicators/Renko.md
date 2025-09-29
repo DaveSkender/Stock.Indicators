@@ -119,18 +119,20 @@ IReadOnlyList<RenkoResult>
 - This method returns a time series of all available indicator values for the `quotes` provided.
 - It does not return a single incremental indicator value.
 
-## Real-time Usage
+## Streaming
 
-This indicator supports real-time streaming scenarios. Use the `.ToRenko()` extension method on a quote provider for continuous updates:
+Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-// Real-time streaming
-var provider = new QuoteHub<Quote>();
-var renkoHub = provider.ToRenko(2.5m);
+QuoteHub<Quote> provider = new();
+RenkoHub<Quote> observer = provider.ToRenko(brickSize);
 
-// Add quotes as they arrive
-provider.Add(newQuote);
-var currentResults = renkoHub.Results;
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<RenkoResult> results = observer.Results;
 ```
 
 > &#128681; **Warning**: Unlike most indicators in this library, this indicator DOES NOT return the same number of elements as there are in the historical quotes.  Renko bricks are added to the results once the `brickSize` change is achieved.  For example, if it takes 3 days for a $2.50 price change to occur an entry is made on the third day while the first two are skipped.  If a period change occurs at multiples of `brickSize`, multiple bricks are drawn with the same `Date`.  See [online documentation](https://www.investopedia.com/terms/r/renkochart.asp) for more information.

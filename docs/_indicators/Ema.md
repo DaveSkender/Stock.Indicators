@@ -78,32 +78,32 @@ var results = quotes
     .GetRsi(..);
 ```
 
-## Real-time Usage
+## Streaming
 
-This indicator supports real-time streaming scenarios. Use the `.ToEma()` extension method on a quote provider for continuous updates:
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
 
 ```csharp
-// Real-time streaming
-var provider = new QuoteHub<Quote>();
-var emaHub = provider.ToEma(14);
+EmaList emaList = new(lookbackPeriods);
 
-// Add quotes as they arrive
-provider.Add(newQuote);
-var currentResults = emaHub.Results;
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  emaList.Add(quote);
+}
+
+// based on `List<EmaResult>`
+IReadOnlyList<EmaResult> results = emaList;
 ```
 
-## Incremental Usage  
-
-For incremental processing scenarios, use the buffer-style implementation:
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-// Buffer-style incremental processing
-var emaBuffer = new EmaList(14);
+QuoteHub<Quote> provider = new();
+EmaHub<Quote> observer = provider.ToEma(lookbackPeriods);
 
-// Add quotes incrementally
-emaBuffer.Add(quote1);
-emaBuffer.Add(quote2);
-// ... continue adding quotes
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
 
-var results = emaBuffer.ToList();
+IReadOnlyList<EmaResult> results = observer.Results;
 ```

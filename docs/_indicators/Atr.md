@@ -81,18 +81,20 @@ var results = quotes
     .GetSlope(..);
 ```
 
-## Real-time Usage
+## Streaming
 
-This indicator supports real-time streaming scenarios. Use the `.ToAtr()` extension method on a quote provider for continuous updates:
+Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
-// Real-time streaming
-var provider = new QuoteHub<Quote>();
-var atrHub = provider.ToAtr(14);
+QuoteHub<Quote> provider = new();
+AtrHub<Quote> observer = provider.ToAtr(lookbackPeriods);
 
-// Add quotes as they arrive
-provider.Add(newQuote);
-var currentResults = atrHub.Results;
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AtrResult> results = observer.Results;
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

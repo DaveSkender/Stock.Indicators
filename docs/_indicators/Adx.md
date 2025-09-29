@@ -75,20 +75,20 @@ var results = quotes
     .GetRsi(..);
 ```
 
-## Incremental Usage
+## Streaming
 
-For incremental processing scenarios, use the buffer-style implementation:
+Use the buffer-style `List<T>` when you need incremental calculations:
 
 ```csharp
-// Buffer-style incremental processing
-var adxBuffer = new AdxList(14);
+AdxList adxList = new(lookbackPeriods);
 
-// Add quotes incrementally
-adxBuffer.Add(quote1);
-adxBuffer.Add(quote2);
-// ... continue adding quotes
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  adxList.Add(quote);
+}
 
-var results = adxBuffer.ToList();
+// based on `List<AdxResult>`
+IReadOnlyList<AdxResult> results = adxList;
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

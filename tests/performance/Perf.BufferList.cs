@@ -65,4 +65,16 @@ public class BufferListIndicators
     [Benchmark]
     public IReadOnlyList<SmaResult> SmaStream()
         => provider.ToSma(n).Results;
+
+    [Benchmark]
+    public WmaList WmaBuffer()
+        => new(n) { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<WmaResult> WmaSeries()
+        => quotes.ToWma(n);
+
+    [Benchmark]
+    public IReadOnlyList<WmaResult> WmaStream()
+        => provider.ToWma(n).Results;
 }

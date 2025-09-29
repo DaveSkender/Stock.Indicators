@@ -78,4 +78,7 @@ public class StreamIndicators
 
     [Benchmark]
     public object TrHub() => provider.ToTr().Results;
+
+    [Benchmark]
+    public object WmaHub() => provider.ToWma(14).Results;
 }
