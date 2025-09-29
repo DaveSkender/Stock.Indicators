@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class MaEnvelopes
 {
-    // MA-ENV Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // MA-ENV Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Moving Average Envelopes")
             .WithId("MA-ENV")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToMaEnvelopes")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 1, maximum: 250)
@@ -16,6 +15,12 @@ public static partial class MaEnvelopes
             .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
             .AddResult("UpperEnvelope", "Upper Envelope", ResultType.Default)
             .AddResult("LowerEnvelope", "Lower Envelope", ResultType.Default)
+            .Build();
+
+    // MA-ENV Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for MA-ENV.

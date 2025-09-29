@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ConnorsRsi
 {
-    // CRSI Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // CRSI Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("ConnorsRSI (CRSI)")
             .WithId("CRSI")
-            .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToConnorsRsi")
             .AddParameter<int>("rsiPeriods", "RSI Periods", defaultValue: 3, minimum: 2, maximum: 250)
@@ -18,6 +17,12 @@ public static partial class ConnorsRsi
             .AddResult("RsiStreak", "RSI of Streak", ResultType.Default)
             .AddResult("PercentRank", "Percent Rank", ResultType.Default)
             .AddResult("ConnorsRsi", "ConnorsRSI", ResultType.Default, isReusable: true)
+            .Build();
+
+    // CRSI Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for CRSI.

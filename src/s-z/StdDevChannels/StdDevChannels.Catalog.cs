@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StdDevChannels
 {
-    // Standard Deviation Channels Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Standard Deviation Channels Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Standard Deviation Channels")
             .WithId("STDEV-CHANNELS")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToStdDevChannels")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the standard deviation calculation", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
@@ -16,4 +15,13 @@ public static partial class StdDevChannels
             .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
             .AddResult("LowerChannel", "Lower Channel", ResultType.Default)
             .Build();
+
+    // Standard Deviation Channels Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Standard Deviation Channels.
+    // No BufferListing for Standard Deviation Channels.
 }

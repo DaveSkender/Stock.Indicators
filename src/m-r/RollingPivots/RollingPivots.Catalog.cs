@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class RollingPivots
 {
-    // Rolling Pivots Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Rolling Pivots Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Rolling Pivots")
             .WithId("ROLLING-PIVOTS")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
             .WithMethodName("ToRollingPivots")
             .AddParameter<int>("windowPeriods", "Window Periods", description: "Number of periods for the rolling window", isRequired: false, defaultValue: 20, minimum: 1, maximum: 250)
@@ -21,4 +20,13 @@ public static partial class RollingPivots
             .AddResult("S2", "Support 2", ResultType.Default)
             .AddResult("S3", "Support 3", ResultType.Default)
             .Build();
+
+    // Rolling Pivots Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Rolling Pivots.
+    // No BufferListing for Rolling Pivots.
 }
