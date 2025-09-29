@@ -19,6 +19,13 @@ Based on issue #1014, significant progress has been made:
 - Index operations avoiding "Get" overuses
 - Base documentation improvements
 
+### ✅ Recently Completed (T1.4 - September 2025)
+
+- **WMA BufferList Implementation**: Complete implementation with universal buffer utilities
+- **Universal Buffer Utilities**: Extension methods for consistent buffer management across all indicators  
+- **Documentation Updates**: Comprehensive buffer indicators documentation with new patterns
+- **Code Quality**: All existing BufferList implementations refactored to use universal utilities
+
 ### 🎯 Remaining Critical Work
 
 The following items from #1014 need completion before stable v3 release:
@@ -31,7 +38,7 @@ Expand streaming support from EMA/SMA base cases to most common indicators
 
 ### Scope
 
-- **Moving Average Indicators**: Implement streaming for HMA, TEMA, VWMA, LWMA, T3
+- **Moving Average Indicators**: ✅ HMA complete, ✅ WMA complete, implement streaming for TEMA, VWMA, LWMA, T3
 - **Common Technical Indicators**: Implement streaming for RSI, MACD, Bollinger Bands, Stochastic
 - **Volume Indicators**: Implement streaming for OBV, Chaikin Money Flow
 - **Trend Indicators**: Implement streaming for ADX, Aroon, Parabolic SAR
@@ -81,7 +88,7 @@ Expand streaming support from EMA/SMA base cases to most common indicators
 
 ### Technical Approach
 
-1. **Pattern Replication**: Use proven EMA/SMA streaming patterns as templates
+1. **Pattern Replication**: Use proven EMA/SMA/HMA/WMA streaming patterns established as templates
 2. **Incremental Rollout**: Implement indicators in order of usage frequency
 3. **Performance First**: Maintain sub-millisecond single quote processing
 4. **Backward Compatibility**: Ensure seamless v2.x API compatibility
@@ -131,9 +138,11 @@ Expand streaming support from EMA/SMA base cases to most common indicators
 - Memory efficiency for high-frequency trading scenarios
 - Thread safety for concurrent streaming operations
 - API stability for production trading systems
+- Universal buffer utilities for consistent memory management across all streaming indicators
 
 ---
-Plan Version: 1.0
+Plan Version: 1.1
 Created: 2025-09-29
+Updated: 2025-09-29 (T1.4 completion, universal buffer utilities)
 Based on: Issue #1014 and v3 Project Board
 Status: Active Development
