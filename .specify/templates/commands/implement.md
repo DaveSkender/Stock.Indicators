@@ -1,11 +1,11 @@
-# Implement Command Template
-
 ---
 description: Execute the implementation plan by working through the generated tasks.
 scripts:
   sh: scripts/execute-implementation.sh
   ps: scripts/execute-implementation.ps1
 ---
+
+# Implement Command Template
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 

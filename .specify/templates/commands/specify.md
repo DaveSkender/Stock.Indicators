@@ -1,11 +1,11 @@
-# Specify Command Template
-
 ---
 description: Create or update a feature specification from a natural language description.
 scripts:
   sh: scripts/create-specification.sh
   ps: scripts/create-specification.ps1
 ---
+
+# Specify Command Template
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 

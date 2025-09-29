@@ -1,11 +1,11 @@
-# Tasks Command Template
-
 ---
 description: Generate actionable, dependency-ordered tasks from an implementation plan.
 scripts:
   sh: scripts/create-tasks.sh
   ps: scripts/create-tasks.ps1
 ---
+
+# Tasks Command Template
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 

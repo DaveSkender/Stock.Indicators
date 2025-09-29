@@ -1,11 +1,11 @@
-# Constitution Command Template
-
 ---
 description: Create or update the project constitution with governance principles and standards.
 scripts:
   sh: scripts/update-constitution.sh
   ps: scripts/update-constitution.ps1
 ---
+
+# Constitution Command Template
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 
@@ -24,7 +24,7 @@ $ARGUMENTS
    - Development workflow processes
 
 4. Ensure the constitution reflects the current state of the Stock Indicators project:
-   - .NET 8.0 and 9.0 multi-targeting
+   - .NET 9.0 and 8.0 multi-targeting
    - Focus on streaming indicators and real-time processing
    - Emphasis on accuracy over speed where financial precision matters
    - Comprehensive unit testing with >95% coverage expectations

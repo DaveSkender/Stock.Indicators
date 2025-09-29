@@ -10,9 +10,7 @@
     "**/obj/**",
     "**/BenchmarkDotNet.Artifacts/**",
     "**/TestResults/**",
-    "**/*playwright*/**",
-    "**/spec-kit/**",
-    "**/.specify/templates/commands/**"
+    "**/*playwright*/**"
   ],
   "config": {
     "default": true,

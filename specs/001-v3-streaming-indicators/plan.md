@@ -127,7 +127,7 @@ Expand streaming support from EMA/SMA base cases to most common indicators
 
 ### Technical Constraints
 
-- .NET 8.0+ target framework requirements
+- .NET 9.0+ target framework requirements
 - Memory efficiency for high-frequency trading scenarios
 - Thread safety for concurrent streaming operations
 - API stability for production trading systems

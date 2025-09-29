@@ -13,25 +13,23 @@ This document focuses on completing the remaining work for v3.0 streaming indica
 The following foundational work is complete per issue #1014:
 
 - Core quote provider and handling mechanisms
-- EMA and SMA streaming prototypes with buffer-style incrementors
+- EMA, SMA, and HMA streaming prototypes with buffer-style incrementors  
 - Basic `.Use(..)` chaining functionality
 - Performance tuning and usability testing
 - Multiple preview releases with initial feedback
 
 ## 🎯 Phase 1: Broad Indicator Implementation (Priority 1)
 
-**Objective**: Expand streaming support to most common moving average and technical indicators
+**Objective**: Expand streaming support to remaining moving average and technical indicators
 
 ### Moving Average Indicators
 
-**T1.1** **HMA (Hull Moving Average) Streaming Implementation**
+**T1.1** ✅ **HMA (Hull Moving Average) Streaming Implementation** - COMPLETED
 
-- Implement HmaBufferList following EmaList pattern
-- Add streaming support with weighted moving average calculations
-- Validate mathematical accuracy against batch implementation target
-- **Dependencies**: Existing buffer patterns
-- **Estimated Effort**: 6 hours
-- **Acceptance Criteria**: HMA streaming matches batch calculations, <1ms processing time
+- ✅ HmaBufferList implemented following EmaList pattern
+- ✅ Streaming support with weighted moving average calculations
+- ✅ Mathematical accuracy validated against batch implementation
+- **Status**: Complete with BufferList and StreamHub implementations
 
 **T1.2** **TEMA (Triple EMA) Streaming Implementation**  
 
@@ -51,18 +49,72 @@ The following foundational work is complete per issue #1014:
 - **Estimated Effort**: 6 hours
 - **Acceptance Criteria**: VWMA streaming with volume weighting accuracy
 
-**T1.4** [P] **LWMA (Linear Weighted MA) Streaming Implementation**
+**T1.4** **WMA (Weighted Moving Average) Streaming Implementation**
 
-- Implement LwmaBufferList with linear weighting
+- Implement WmaBufferList with linear weighting
 - Optimize weight calculation for streaming updates
 - Validate linear weighting accuracy in streaming mode
 - **Dependencies**: Existing buffer patterns
 - **Estimated Effort**: 5 hours
-- **Acceptance Criteria**: LWMA streaming matches batch calculations
+- **Acceptance Criteria**: WMA streaming matches batch calculations
+
+**T1.5** **DEMA (Double EMA) Streaming Implementation**
+
+- Implement DemaBufferList with double EMA calculations
+- Handle nested EMA calculations efficiently in streaming mode
+- Optimize memory usage for double buffering
+- **Dependencies**: EMA streaming patterns
+- **Estimated Effort**: 6 hours
+- **Acceptance Criteria**: DEMA streaming accuracy validated
+
+**T1.6** **ALMA (Arnaud Legoux MA) Streaming Implementation**
+
+- Implement AlmaBufferList with ALMA-specific calculations
+- Handle variable weighting in streaming buffers
+- Optimize for ALMA's sigma and offset parameters
+- **Dependencies**: Existing buffer patterns
+- **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: ALMA streaming matches batch calculations
+
+**T1.7** **KAMA (Kaufman Adaptive MA) Streaming Implementation**
+
+- Implement KamaBufferList with adaptive calculations
+- Handle efficiency ratio calculations in streaming mode
+- Optimize adaptive smoothing constant updates
+- **Dependencies**: Volatility calculation patterns
+- **Estimated Effort**: 10 hours
+- **Acceptance Criteria**: KAMA streaming with adaptive behavior
+
+**T1.8** **SMMA (Smoothed MA) Streaming Implementation**
+
+- Implement SmmaBufferList with smoothed calculations
+- Handle SMMA's recursive calculation in streaming mode
+- Optimize for SMMA's momentum-based smoothing
+- **Dependencies**: Existing buffer patterns  
+- **Estimated Effort**: 6 hours
+- **Acceptance Criteria**: SMMA streaming matches batch calculations
+
+**T1.9** **EPMA (End Point MA) Streaming Implementation**
+
+- Implement EpmaBufferList with endpoint calculations
+- Handle linear regression calculations in streaming buffers
+- Optimize for EPMA's trend-following characteristics
+- **Dependencies**: Linear regression patterns
+- **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: EPMA streaming accuracy validated
+
+**T1.10** **MAMA (MESA Adaptive MA) Streaming Implementation**
+
+- Implement MamaBufferList with adaptive calculations
+- Handle complex MESA algorithm in streaming mode
+- Optimize for MAMA's cycle-adaptive behavior
+- **Dependencies**: Advanced signal processing patterns
+- **Estimated Effort**: 12 hours
+- **Acceptance Criteria**: MAMA streaming with adaptive cycles
 
 ### Common Technical Indicators
 
-**T1.5** **RSI Streaming Implementation**
+**T1.11** **RSI Streaming Implementation**
 
 - Implement RsiBufferList with gain/loss tracking
 - Handle RSI smoothing in streaming mode
@@ -71,16 +123,16 @@ The following foundational work is complete per issue #1014:
 - **Estimated Effort**: 10 hours  
 - **Acceptance Criteria**: RSI streaming accuracy, performance benchmarks met
 
-**T1.6** **MACD Streaming Implementation**
+**T1.12** **MACD Streaming Implementation**
 
 - Implement MacdBufferList with dual EMA calculations
 - Handle MACD line, signal line, and histogram in streaming
 - Integrate with existing EMA streaming patterns
-- **Dependencies**: T1.1 (EMA patterns)
+- **Dependencies**: EMA streaming patterns
 - **Estimated Effort**: 12 hours
 - **Acceptance Criteria**: Full MACD streaming with signal generation
 
-**T1.7** [P] **Bollinger Bands Streaming Implementation**
+**T1.13** [P] **Bollinger Bands Streaming Implementation**
 
 - Implement BollingerBandsBufferList with SMA and standard deviation
 - Handle real-time band calculations
@@ -89,7 +141,7 @@ The following foundational work is complete per issue #1014:
 - **Estimated Effort**: 8 hours
 - **Acceptance Criteria**: Dynamic band calculations in real-time
 
-**T1.8** [P] **Stochastic Oscillator Streaming Implementation**
+**T1.14** [P] **Stochastic Oscillator Streaming Implementation**
 
 - Implement StochasticBufferList with %K and %D calculations
 - Handle highest high / lowest low tracking in buffers
@@ -100,7 +152,7 @@ The following foundational work is complete per issue #1014:
 
 ### Volume and Trend Indicators
 
-**T1.9** [P] **OBV (On Balance Volume) Streaming Implementation**
+**T1.15** [P] **OBV (On Balance Volume) Streaming Implementation**
 
 - Implement ObvBufferList with cumulative volume tracking
 - Handle volume direction changes in streaming mode
@@ -109,7 +161,7 @@ The following foundational work is complete per issue #1014:
 - **Estimated Effort**: 6 hours
 - **Acceptance Criteria**: Real-time OBV updates with volume data
 
-**T1.10** **ADX Streaming Implementation**
+**T1.16** **ADX Streaming Implementation**
 
 - Implement AdxBufferList building on existing AdxList patterns
 - Enhance directional movement calculations for streaming

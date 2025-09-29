@@ -1,11 +1,11 @@
-# Plan Command Template
-
 ---
 description: Create a detailed implementation plan for a feature specification.
 scripts:
   sh: scripts/create-plan.sh
   ps: scripts/create-plan.ps1
 ---
+
+# Plan Command Template
 
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 
