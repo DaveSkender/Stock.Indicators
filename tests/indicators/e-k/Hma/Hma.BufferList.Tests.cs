@@ -197,7 +197,10 @@ public class HmaStreaming : BufferListTestBase
         }
         else
         {
-            Assert.IsNotNull(hmaList[1].Hma, "Second quote should have HMA value based on static series");
+            Assert.AreEqual(
+                expectedResults[1].Hma!.Round(8),
+                hmaList[1].Hma!.Round(8),
+                "Second quote HMA mismatch based on static series");
         }
     }
 

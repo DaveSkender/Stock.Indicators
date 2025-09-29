@@ -81,7 +81,7 @@ This document provides an actionable, dependency-ordered task breakdown for impl
 
 ### Moving Average Streaming Tasks
 
-**T2.1** [P] **HMA Streaming Implementation** ✅ COMPLETE *(PR [#1397](https://github.com/DaveSkender/Stock.Indicators/pull/1397))*
+**T2.1** [P] **HMA Streaming Implementation** ✅ COMPLETE *(PR [#1406](https://github.com/DaveSkender/Stock.Indicators/pull/1397))*
 
 - ✅ Implement Hull Moving Average with streaming support (buffer + stream hubs)
 - ✅ Optimize nested moving average calculations with circular buffers

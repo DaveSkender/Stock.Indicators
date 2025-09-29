@@ -18,7 +18,10 @@ public static partial class Hma
         this IChainProvider<T> chainProvider,
         int lookbackPeriods)
         where T : IReusable
-        => new(chainProvider, lookbackPeriods);
+    {
+        ArgumentNullException.ThrowIfNull(chainProvider);
+        return new(chainProvider, lookbackPeriods);
+    }
 }
 
 /// <summary>
