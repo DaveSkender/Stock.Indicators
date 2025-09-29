@@ -27,7 +27,8 @@ The codebase implements several types of stream hub I/O patterns:
    - Uses `IQuoteProvider<TIn>` and extends `QuoteProvider<TIn, TResult>`
    - Generic constraint: `where TIn : IQuote`
 
-**Provider Selection Guidelines**: 
+**Provider Selection Guidelines**:
+
 - Use `IQuoteProvider<TIn>` and `QuoteProvider<TIn, TResult>` when the indicator requires multiple quote properties (e.g., OHLCV data)
 - Use `IChainProvider<TIn>` and `ChainProvider<TIn, TResult>` when the indicator can work with single reusable values
 

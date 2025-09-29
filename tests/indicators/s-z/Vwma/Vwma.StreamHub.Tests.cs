@@ -66,8 +66,7 @@ public class Vwma : StreamHubTestBase
         VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
 
         // Create quotes with zero volume
-        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(q => new Quote
-        {
+        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(q => new Quote {
             Timestamp = q.Timestamp,
             Open = q.Open,
             High = q.High,
@@ -82,7 +81,7 @@ public class Vwma : StreamHubTestBase
         }
 
         IReadOnlyList<VwmaResult> results = observer.Results;
-        
+
         // Results with sufficient data but zero volume should have null VWMA
         results.Skip(lookbackPeriods - 1).All(r => r.Vwma == null).Should().BeTrue();
     }
