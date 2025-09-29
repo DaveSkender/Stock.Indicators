@@ -49,31 +49,25 @@ All public methods MUST have complete XML documentation. Code examples MUST be p
 
 ## Development Workflow
 
-### Code Review Requirements
+### Spec-Driven Development
 
-- Input validation completeness verification
-- Mathematical accuracy validation against reference sources
-- Performance characteristic review
-- XML documentation completeness check
-- Unit test coverage validation
-- Consistent error message and exception type review
+1. All new features begin with specification using `/specify` command
+2. Technical planning follows with `/plan` command
+3. Implementation tasks are generated using `/tasks` command  
+4. Development proceeds with `/implement` command
+5. All phases include peer review and validation against constitution
 
-### Quality Gates
+### Quality Assurance
 
-- All tests MUST pass before merge
-- Performance benchmarks MUST not regress
-- Code coverage MUST maintain established thresholds
-- Mathematical accuracy MUST be verified for new indicators
+- Unit tests must achieve >95% code coverage
+- Performance benchmarks required for computational indicators
+- Mathematical accuracy validated against reference implementations
+- Documentation updated with every API change
 
 ## Governance
 
-This constitution supersedes all other development practices. All code reviews MUST verify compliance with these principles. Any deviation requires explicit justification and approval.
+**Ratification Date**: 2025-01-27
+**Last Amended**: 2025-01-27
+**Constitution Version**: 2.0.0
 
-Amendments to this constitution require:
-
-1. Documentation of the change rationale
-2. Impact assessment on existing codebase
-3. Migration plan for affected components
-4. Approval from project maintainers
-
-**Version**: 1.0.0 | **Ratified**: 2025-09-26 | **Last Amended**: 2025-09-26
+This constitution governs all development activities for the Stock Indicators for .NET library and ensures consistent, high-quality implementations that serve the financial analysis community.
