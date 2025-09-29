@@ -285,6 +285,7 @@ public static partial class Catalog
         // TEMA (Triple Exponential Moving Average)
         _listings.Add(Tema.BufferListing);
         _listings.Add(Tema.SeriesListing);
+        _listings.Add(Tema.StreamListing);
 
         // TR (True Range)
         _listings.Add(Tr.SeriesListing);

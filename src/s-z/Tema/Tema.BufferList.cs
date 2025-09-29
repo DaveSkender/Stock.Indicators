@@ -42,14 +42,18 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _bufferSum -= _buffer.Dequeue();
-        }
+        // Use BufferUtilities extension method for efficient buffer management
+        double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        _buffer.Enqueue(value);
-        _bufferSum += value;
+        // Update running sum efficiently
+        if (dequeuedValue.HasValue)
+        {
+            _bufferSum = _bufferSum - dequeuedValue.Value + value;
+        }
+        else
+        {
+            _bufferSum += value;
+        }
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
@@ -155,12 +159,12 @@ public static partial class Tema
 
         // Initialize buffer and populate
         TemaList bufferList = new(lookbackPeriods);
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 }
