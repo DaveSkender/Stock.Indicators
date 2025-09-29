@@ -62,6 +62,9 @@ public class StreamIndicators
     }
 
     [Benchmark]
+    public object HmaHub() => provider.ToHma(14).Results;
+
+    [Benchmark]
     public object QuoteHub() => provider.ToQuote().Results;
 
     [Benchmark]

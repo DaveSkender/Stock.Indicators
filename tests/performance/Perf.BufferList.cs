@@ -41,4 +41,28 @@ public class BufferListIndicators
     [Benchmark]
     public IReadOnlyList<EmaResult> EmaStream()
         => provider.ToEma(n).Results;
+
+    [Benchmark]
+    public HmaList HmaBuffer()
+        => new(n) { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<HmaResult> HmaSeries()
+        => quotes.ToHma(n);
+
+    [Benchmark]
+    public IReadOnlyList<HmaResult> HmaStream()
+        => provider.ToHma(n).Results;
+
+    [Benchmark]
+    public SmaList SmaBuffer()
+        => new(n) { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<SmaResult> SmaSeries()
+        => quotes.ToSma(n);
+
+    [Benchmark]
+    public IReadOnlyList<SmaResult> SmaStream()
+        => provider.ToSma(n).Results;
 }

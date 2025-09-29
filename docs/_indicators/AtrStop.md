@@ -76,6 +76,20 @@ IReadOnlyList<AtrStopResult>
 
 See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-results) for more information.
 
+## Real-time Usage
+
+This indicator supports real-time streaming scenarios. Use the `.ToAtrStop()` extension method on a quote provider for continuous updates:
+
+```csharp
+// Real-time streaming
+var provider = new QuoteHub<Quote>();
+var atrStopHub = provider.ToAtrStop(14);
+
+// Add quotes as they arrive  
+provider.Add(newQuote);
+var currentResults = atrStopHub.Results;
+```
+
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.

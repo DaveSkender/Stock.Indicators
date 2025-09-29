@@ -83,4 +83,18 @@ var results = quotes
     .GetAlligator();
 ```
 
+## Real-time Usage
+
+This indicator supports real-time streaming scenarios. Use the `.ToAlligator()` extension method on a quote provider for continuous updates:
+
+```csharp
+// Real-time streaming
+var provider = new QuoteHub<Quote>();
+var alligatorHub = provider.ToAlligator();
+
+// Add quotes as they arrive
+provider.Add(newQuote);
+var currentResults = alligatorHub.Results;
+```
+
 Results **cannot** be further chained with additional transforms.

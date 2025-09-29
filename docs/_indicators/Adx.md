@@ -75,4 +75,20 @@ var results = quotes
     .GetRsi(..);
 ```
 
+## Incremental Usage
+
+For incremental processing scenarios, use the buffer-style implementation:
+
+```csharp
+// Buffer-style incremental processing
+var adxBuffer = new AdxList(14);
+
+// Add quotes incrementally
+adxBuffer.Add(quote1);
+adxBuffer.Add(quote2);
+// ... continue adding quotes
+
+var results = adxBuffer.ToList();
+```
+
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

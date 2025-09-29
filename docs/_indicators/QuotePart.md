@@ -68,4 +68,18 @@ var results = quotes
     .GetRsi(..);
 ```
 
+## Real-time Usage
+
+This indicator supports real-time streaming scenarios. Use the `.ToQuotePart()` extension method on a quote provider for continuous updates:
+
+```csharp
+// Real-time streaming
+var provider = new QuoteHub<Quote>();
+var quotePartHub = provider.ToQuotePart(CandlePart.HL2);
+
+// Add quotes as they arrive
+provider.Add(newQuote);
+var currentResults = quotePartHub.Results;
+```
+
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
