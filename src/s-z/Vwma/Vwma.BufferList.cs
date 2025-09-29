@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Volume Weighted Moving Average (VWMA) from incremental quote values.
 /// </summary>
-public class VwmaList : List<VwmaResult>, IVwma, IBufferList
+public class VwmaList : List<VwmaResult>, IVwma, IBufferList, IBufferReusable
 {
     private readonly Queue<(double price, double volume)> _buffer;
 
@@ -25,6 +25,33 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+    /// <inheritdoc />
+    public void Add(DateTime timestamp, double value)
+    {
+        // For VWMA, we need both price and volume, so this method cannot be implemented
+        // without additional volume data. Users should use Add(IQuote) instead.
+        throw new NotSupportedException(
+            "VWMA requires both price and volume data. Use Add(IQuote) or Add(timestamp, price, volume) instead.");
+    }
+
+    /// <inheritdoc />
+    public void Add(IReusable value)
+    {
+        // For VWMA, we need both price and volume, so this method cannot be implemented
+        // without additional volume data. Users should use Add(IQuote) instead.
+        throw new NotSupportedException(
+            "VWMA requires both price and volume data. Use Add(IQuote) instead.");
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IReusable> values)
+    {
+        // For VWMA, we need both price and volume, so this method cannot be implemented
+        // without additional volume data. Users should use Add(IQuote) instead.
+        throw new NotSupportedException(
+            "VWMA requires both price and volume data. Use Add(IReadOnlyList<IQuote>) instead.");
+    }
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -52,13 +79,8 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
     /// <param name="volume">The volume value.</param>
     public void Add(DateTime timestamp, double price, double volume)
     {
-        // Update the rolling buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _buffer.Dequeue();
-        }
-
-        _buffer.Enqueue((price, volume));
+        // Use BufferUtilities extension method for consistent buffer management
+        _buffer.Update(LookbackPeriods, (price, volume));
 
         // Calculate VWMA when we have enough values by recalculating from buffer
         // This matches the precision of the static series implementation

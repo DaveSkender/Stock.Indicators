@@ -19,8 +19,12 @@ public static partial class Vwma
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for VWMA.
-    
+    // Volume Weighted Moving Average Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
     // Volume Weighted Moving Average Buffer Listing
     internal static readonly IndicatorListing BufferListing =
         new CatalogListingBuilder(CommonListing)

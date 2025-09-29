@@ -312,6 +312,7 @@ public static partial class Catalog
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
+        _listings.Add(Vwma.StreamListing);
         _listings.Add(Vwma.BufferListing);
 
         // Williams %R
