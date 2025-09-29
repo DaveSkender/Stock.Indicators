@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StochRsi
 {
-    // Stochastic RSI Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Stochastic RSI Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Stochastic RSI")
             .WithId("STOCH-RSI")
-            .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToStochRsi")
             .AddParameter<int>("rsiPeriods", "RSI Periods", description: "Number of periods for the RSI calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 250)
@@ -17,4 +16,13 @@ public static partial class StochRsi
             .AddResult("StochRsi", "%K", ResultType.Default, isReusable: true)
             .AddResult("Signal", "%D", ResultType.Default)
             .Build();
+
+    // Stochastic RSI Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Stochastic RSI.
+    // No BufferListing for Stochastic RSI.
 }

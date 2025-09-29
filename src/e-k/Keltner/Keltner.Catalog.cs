@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Keltner
 {
-    // KELTNER Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // KELTNER Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Keltner Channels")
             .WithId("KELTNER")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToKeltner")
             .AddParameter<int>("emaPeriods", "EMA Periods", defaultValue: 20, minimum: 2, maximum: 250)
@@ -17,6 +16,12 @@ public static partial class Keltner
             .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .AddResult("Width", "Width", ResultType.Default)
+            .Build();
+
+    // KELTNER Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for KELTNER.

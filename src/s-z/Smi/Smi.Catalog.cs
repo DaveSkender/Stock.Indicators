@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Smi
 {
-    // Stochastic Momentum Index Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Stochastic Momentum Index Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Stochastic Momentum Index")
             .WithId("SMI")
-            .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToSmi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMI calculation", isRequired: false, defaultValue: 13, minimum: 1, maximum: 300)
@@ -17,4 +16,13 @@ public static partial class Smi
             .AddResult("Smi", "SMI", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
+
+    // Stochastic Momentum Index Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for SMI.
+    // No BufferListing for SMI.
 }
