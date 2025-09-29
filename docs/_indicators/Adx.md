@@ -75,6 +75,8 @@ var results = quotes
     .GetRsi(..);
 ```
 
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
 ## Streaming
 
 Use the buffer-style `List<T>` when you need incremental calculations:
@@ -104,5 +106,3 @@ foreach (Quote quote in quotes)  // simulating stream
 
 IReadOnlyList<AdxResult> results = observer.Results;
 ```
-
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
