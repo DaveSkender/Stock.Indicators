@@ -11,7 +11,8 @@
     "**/BenchmarkDotNet.Artifacts/**",
     "**/TestResults/**",
     "**/*playwright*/**",
-    "**/spec-kit/**"
+    "**/spec-kit/**",
+    "**/.specify/templates/commands/**"
   ],
   "config": {
     "default": true,
@@ -31,6 +32,7 @@
     },
     "MD033": {
       "allowed_elements": [
+        "a",
         "code",
         "details",
         "summary",
@@ -38,7 +40,8 @@
         "sup",
         "kbd",
         "abbr",
-        "img"
+        "img",
+        "br"
       ]
     },
     "MD046": {

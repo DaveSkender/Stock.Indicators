@@ -1,3 +1,5 @@
+# Tasks Command Template
+
 ---
 description: Generate actionable, dependency-ordered tasks from an implementation plan.
 scripts:

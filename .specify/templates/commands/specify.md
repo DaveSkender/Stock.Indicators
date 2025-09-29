@@ -1,3 +1,5 @@
+# Specify Command Template
+
 ---
 description: Create or update a feature specification from a natural language description.
 scripts:

@@ -3,18 +3,21 @@
 ## Architecture Overview
 
 ### Code Organization
+
 - **Location**: `src/[a-d|e-k|m-r|s-z]/[IndicatorName]/`
-- **Files**: 
+- **Files**:
   - `[IndicatorName].cs` - Main implementation
   - `[IndicatorName].Models.cs` - Result models
   - `[IndicatorName].Validation.cs` - Input validation (if complex)
 
 ### Integration Points
+
 - **Base Classes**: Extends standard indicator patterns
 - **Utilities**: Uses common validation and calculation helpers
 - **Dependencies**: [List any specific dependencies]
 
 ### Data Flow
+
 1. Input validation and parameter checking
 2. Quote sequence processing and warmup period handling
 3. Mathematical calculation implementation
@@ -24,6 +27,7 @@
 ## Implementation Phases
 
 ### Phase 1: Core Implementation
+
 **Duration**: [X] days
 **Dependencies**: None
 
@@ -48,6 +52,7 @@
    - Add Value property for chainability
 
 ### Phase 2: Performance Optimization
+
 **Duration**: [X] days
 **Dependencies**: Phase 1 complete
 
@@ -67,6 +72,7 @@
    - Optimize hot paths identified in profiling
 
 ### Phase 3: Testing & Validation
+
 **Duration**: [X] days
 **Dependencies**: Phase 1 complete (can run parallel to Phase 2)
 
@@ -86,6 +92,7 @@
    - Check compatibility with existing patterns
 
 ### Phase 4: Documentation & Polish
+
 **Duration**: [X] days  
 **Dependencies**: Phases 1-3 complete
 
@@ -107,32 +114,37 @@
 ## Technical Decisions
 
 ### Precision Choice
+
 **Decision**: [double/decimal]
 **Rationale**: [Performance vs accuracy trade-off analysis]
 
 ### Streaming Implementation
+
 **Decision**: [Full streaming/Batch only/Hybrid]
 **Rationale**: [Complexity vs benefit analysis]
 
 ### Memory Management
+
 **Strategy**: [Span-based/Traditional/Hybrid]
 **Rationale**: [Performance characteristics and complexity]
 
 ## Risk Assessment
 
 ### Technical Risks
+
 - **Mathematical Complexity**: [Assessment and mitigation]
 - **Performance Requirements**: [Challenges and solutions]
 - **Integration Issues**: [Potential conflicts and handling]
 
 ### Mitigation Strategies
+
 - Validate against multiple reference sources
 - Implement comprehensive test coverage
 - Performance benchmark from early implementation
 
 ## File Structure
 
-```
+```text
 src/[letter-group]/[IndicatorName]/
 ├── [IndicatorName].cs              # Main implementation
 ├── [IndicatorName].Models.cs       # Result models
@@ -146,10 +158,12 @@ tests/indicators/[letter-group]/[IndicatorName]/
 ## Dependencies
 
 ### Required Libraries
+
 - Core library utilities and base classes
 - [Additional dependencies if any]
 
 ### Development Tools
+
 - Standard .NET development toolchain
 - Performance profiling tools
 - Test data generation utilities

@@ -11,6 +11,7 @@ This document focuses on completing the remaining work for v3.0 streaming indica
 ## ✅ Completed Infrastructure
 
 The following foundational work is complete per issue #1014:
+
 - Core quote provider and handling mechanisms
 - EMA and SMA streaming prototypes with buffer-style incrementors
 - Basic `.Use(..)` chaining functionality
@@ -24,14 +25,16 @@ The following foundational work is complete per issue #1014:
 ### Moving Average Indicators
 
 **T1.1** **HMA (Hull Moving Average) Streaming Implementation**
+
 - Implement HmaBufferList following EmaList pattern
 - Add streaming support with weighted moving average calculations
-- Validate mathematical accuracy against batch implementation target 
+- Validate mathematical accuracy against batch implementation target
 - **Dependencies**: Existing buffer patterns
 - **Estimated Effort**: 6 hours
 - **Acceptance Criteria**: HMA streaming matches batch calculations, <1ms processing time
 
 **T1.2** **TEMA (Triple EMA) Streaming Implementation**  
+
 - Implement TemaBufferList with triple EMA chaining
 - Handle complex nested EMA calculations in streaming mode
 - Optimize memory usage for triple buffering
@@ -40,6 +43,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: TEMA streaming accuracy validated, memory profiled
 
 **T1.3** **VWMA (Volume Weighted MA) Streaming Implementation**
+
 - Implement VwmaBufferList with volume-weighted calculations
 - Handle volume data integration in streaming buffers
 - Validate volume-weighted accuracy in real-time scenarios
@@ -48,6 +52,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: VWMA streaming with volume weighting accuracy
 
 **T1.4** [P] **LWMA (Linear Weighted MA) Streaming Implementation**
+
 - Implement LwmaBufferList with linear weighting
 - Optimize weight calculation for streaming updates
 - Validate linear weighting accuracy in streaming mode
@@ -58,6 +63,7 @@ The following foundational work is complete per issue #1014:
 ### Common Technical Indicators
 
 **T1.5** **RSI Streaming Implementation**
+
 - Implement RsiBufferList with gain/loss tracking
 - Handle RSI smoothing in streaming mode
 - Optimize for common 14-period RSI calculations
@@ -66,6 +72,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: RSI streaming accuracy, performance benchmarks met
 
 **T1.6** **MACD Streaming Implementation**
+
 - Implement MacdBufferList with dual EMA calculations
 - Handle MACD line, signal line, and histogram in streaming
 - Integrate with existing EMA streaming patterns
@@ -74,6 +81,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Full MACD streaming with signal generation
 
 **T1.7** [P] **Bollinger Bands Streaming Implementation**
+
 - Implement BollingerBandsBufferList with SMA and standard deviation
 - Handle real-time band calculations
 - Optimize standard deviation calculations for streaming
@@ -82,6 +90,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Dynamic band calculations in real-time
 
 **T1.8** [P] **Stochastic Oscillator Streaming Implementation**
+
 - Implement StochasticBufferList with %K and %D calculations
 - Handle highest high / lowest low tracking in buffers
 - Optimize for common 14-period stochastic calculations
@@ -92,6 +101,7 @@ The following foundational work is complete per issue #1014:
 ### Volume and Trend Indicators
 
 **T1.9** [P] **OBV (On Balance Volume) Streaming Implementation**
+
 - Implement ObvBufferList with cumulative volume tracking
 - Handle volume direction changes in streaming mode
 - Optimize for high-frequency volume data processing
@@ -100,6 +110,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Real-time OBV updates with volume data
 
 **T1.10** **ADX Streaming Implementation**
+
 - Implement AdxBufferList building on existing AdxList patterns
 - Enhance directional movement calculations for streaming
 - Integrate +DI, -DI, and ADX line calculations
@@ -114,6 +125,7 @@ The following foundational work is complete per issue #1014:
 ### Documentation Tasks (Issue #1403)
 
 **T2.1** **Streaming API Documentation**
+
 - Complete streaming indicators documentation gaps per issue #1403
 - Create comprehensive usage guides and examples
 - Document performance characteristics and best practices
@@ -122,6 +134,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Complete API documentation for all streaming indicators
 
 **T2.2** [P] **Migration Guide Creation**
+
 - Create v2.x to v3.x migration documentation
 - Document breaking changes and compatibility notes
 - Provide code examples for common migration scenarios
@@ -130,6 +143,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Comprehensive migration guide published
 
 **T2.3** [P] **Performance Benchmarking Documentation**
+
 - Document performance characteristics for all streaming indicators
 - Create performance comparison guides (streaming vs batch)
 - Include memory usage and latency documentation
@@ -140,6 +154,7 @@ The following foundational work is complete per issue #1014:
 ### Integration Tasks
 
 **T2.4** **Catalog System Integration**
+
 - Integrate all streaming indicators with catalog automation
 - Ensure streaming capabilities are properly discoverable
 - Update automated documentation generation
@@ -148,6 +163,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: All streaming indicators in catalog
 
 **T2.5** **CI/CD Pipeline Updates**
+
 - Add streaming-specific test suites to CI/CD
 - Include performance regression testing
 - Add memory leak detection for streaming operations
@@ -162,6 +178,7 @@ The following foundational work is complete per issue #1014:
 ### Feedback Integration Tasks
 
 **T3.1** **Community Feedback Analysis**
+
 - Collect and analyze feedback from preview releases
 - Identify and prioritize user-reported issues
 - Document API improvements based on feedback
@@ -170,6 +187,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Feedback analysis complete, issues prioritized
 
 **T3.2** **Performance Optimization**
+
 - Address performance concerns from community feedback
 - Optimize memory usage patterns identified in testing
 - Fine-tune buffer sizes for optimal performance
@@ -180,6 +198,7 @@ The following foundational work is complete per issue #1014:
 ### Release Preparation Tasks
 
 **T3.3** **Comprehensive Testing Suite**
+
 - Create comprehensive test suite for all streaming indicators
 - Validate streaming vs batch mathematical accuracy
 - Include extended operation memory leak testing
@@ -188,6 +207,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: >95% test coverage, all accuracy tests pass
 
 **T3.4** **Release Documentation**
+
 - Create v3.0.0 release notes and changelog
 - Document new streaming capabilities and breaking changes
 - Update README and getting started guides
@@ -196,6 +216,7 @@ The following foundational work is complete per issue #1014:
 - **Acceptance Criteria**: Complete release documentation
 
 **T3.5** **Stable Release Preparation**
+
 - Finalize v3.0.0 API surface and ensure stability
 - Complete version number updates and package metadata
 - Prepare release artifacts and distribution
@@ -206,18 +227,21 @@ The following foundational work is complete per issue #1014:
 ## 📋 Success Criteria Summary
 
 ### Performance Targets
+
 - [ ] Single quote processing: <1ms for all streaming indicators
 - [ ] Memory stability: No leaks during 24hr streaming operations  
 - [ ] Throughput: Support 1000+ quotes/second for common indicators
 - [ ] Latency: Real-time updates with <10ms delay
 
 ### Quality Metrics
+
 - [ ] Test coverage: >95% for all streaming implementations
 - [ ] Documentation completeness: 100% API coverage per issue #1403
 - [ ] Mathematical accuracy: Streaming matches batch calculations
 - [ ] Backward compatibility: Zero breaking changes for v2.x code
 
 ### Release Readiness
+
 - [ ] Community feedback integrated from preview releases
 - [ ] Performance benchmarks meet or exceed targets
 - [ ] Documentation complete and published
@@ -227,6 +251,7 @@ The following foundational work is complete per issue #1014:
 Tasks Version: 2.0
 Updated: 2025-09-29
 Focus: Completing remaining work from Issue #1014 and v3 Project Board
+
 - **Acceptance Criteria**: Buffer handles 10k+ quotes efficiently, <1ms access time ✅ VERIFIED
 
 **T1.5** **Stream Hub Coordination** ✅ COMPLETE (Pre-existing)

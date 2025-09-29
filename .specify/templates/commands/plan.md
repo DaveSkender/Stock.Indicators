@@ -1,3 +1,5 @@
+# Plan Command Template
+
 ---
 description: Create a detailed implementation plan for a feature specification.
 scripts:
@@ -22,7 +24,7 @@ $ARGUMENTS
    - Performance optimization strategies
 
    **Implementation Phases**
-   
+
    *Phase 1: Core Implementation*
    - Create indicator method signature following established patterns
    - Implement mathematical calculation logic

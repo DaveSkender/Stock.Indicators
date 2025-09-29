@@ -1,3 +1,5 @@
+# Constitution Command Template
+
 ---
 description: Create or update the project constitution with governance principles and standards.
 scripts:
