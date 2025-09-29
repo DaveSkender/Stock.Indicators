@@ -49,6 +49,14 @@ reviews:
 
   # Path-based configuration
   path_instructions:
+    # Indicator documentation pages must stay aligned with the current API surface
+    - path: "docs/_indicators/*.md"
+      instructions: |
+        Keep each indicator page synchronized with its public API:
+        - Refresh the primary usage example (extension method and `Get{Indicator}` call) to match the latest signature and defaults
+        - Document required and optional parameters, warmup expectations, and key output columns
+        - Note any behavior changes, streaming considerations, or spec references introduced by the PR
+
     # Source code - Focus on financial accuracy and performance
     - path: "src/**/*.cs"
       instructions: |
@@ -166,6 +174,13 @@ reviews:
       enabled: false
     unit_tests:
       enabled: false
+
+  # Pre-merge checks keep contributors aligned with workflow guardrails
+  pre_merge_checks:
+    title:
+      mode: "warning"
+      requirements: |
+        PR titles must follow the Conventional Commit format `type: Subject`, where `type` is one of {feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan} and `Subject` starts uppercase and stays ≤ 65 characters.
 
 # Knowledge base configuration
 # Domain highlights:
