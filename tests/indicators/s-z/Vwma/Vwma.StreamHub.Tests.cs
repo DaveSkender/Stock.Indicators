@@ -1,0 +1,88 @@
+namespace StreamHubs;
+
+[TestClass]
+public class Vwma : StreamHubTestBase
+{
+    private const int lookbackPeriods = 10;
+
+    [TestMethod]
+    public override void QuoteObserver()
+    {
+        QuoteHub<Quote> provider = new();
+        VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            provider.Add(quote);
+        }
+
+        IReadOnlyList<VwmaResult> results = observer.Results;
+        IReadOnlyList<VwmaResult> expected = Quotes.ToVwma(lookbackPeriods);
+
+        results.Should().HaveCount(expected.Count);
+        results.Should().BeEquivalentTo(expected);
+    }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        QuoteHub<Quote> provider = new();
+        VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+
+        observer.ToString().Should().Be($"VWMA({lookbackPeriods})");
+    }
+
+    [TestMethod]
+    public void EmptyProvider()
+    {
+        QuoteHub<Quote> provider = new();
+        VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+
+        IReadOnlyList<VwmaResult> results = observer.Results;
+        results.Should().BeEmpty();
+    }
+
+    [TestMethod]
+    public void InsufficientQuotes()
+    {
+        QuoteHub<Quote> provider = new();
+        VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+
+        // Add fewer quotes than required
+        for (int i = 0; i < lookbackPeriods - 1; i++)
+        {
+            provider.Add(Quotes[i]);
+        }
+
+        IReadOnlyList<VwmaResult> results = observer.Results;
+        results.Should().HaveCount(lookbackPeriods - 1);
+        results.All(r => r.Vwma == null).Should().BeTrue();
+    }
+
+    [TestMethod]
+    public void ZeroVolume()
+    {
+        QuoteHub<Quote> provider = new();
+        VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+
+        // Create quotes with zero volume
+        List<Quote> zeroVolumeQuotes = Quotes.Take(20).Select(q => new Quote {
+            Timestamp = q.Timestamp,
+            Open = q.Open,
+            High = q.High,
+            Low = q.Low,
+            Close = q.Close,
+            Volume = 0
+        }).ToList();
+
+        foreach (Quote quote in zeroVolumeQuotes)
+        {
+            provider.Add(quote);
+        }
+
+        IReadOnlyList<VwmaResult> results = observer.Results;
+
+        // Results with sufficient data but zero volume should have null VWMA
+        results.Skip(lookbackPeriods - 1).All(r => r.Vwma == null).Should().BeTrue();
+    }
+}
