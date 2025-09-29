@@ -61,12 +61,12 @@ public static partial class Epma
 
         // Initialize buffer and populate
         EpmaList bufferList = new(lookbackPeriods);
-        
+
         foreach (T item in source)
         {
             bufferList.Add(item);
         }
-        
+
         return bufferList;
     }
 }

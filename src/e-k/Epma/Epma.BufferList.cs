@@ -26,13 +26,8 @@ public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _buffer.Dequeue();
-        }
-
-        _buffer.Enqueue(value);
+        // Use universal buffer extension method for consistent buffer management
+        _buffer.Update(LookbackPeriods, value);
 
         // Calculate EPMA when we have enough values
         double? epma = null;
@@ -46,7 +41,7 @@ public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
                 // EPMA calculation: slope * (current_index + 1) + intercept
                 // The current index for endpoint calculation is the buffer count
                 epma = (slope.Value * LookbackPeriods) + intercept.Value;
-                
+
                 // Apply null handling for NaN values
                 epma = epma.Value.NaN2Null();
             }
@@ -92,7 +87,7 @@ public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public void Clear()
+    public new void Clear()
     {
         _buffer.Clear();
         base.Clear();
