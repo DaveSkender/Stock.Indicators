@@ -25,4 +25,16 @@ public static partial class Sma
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMA calculation", isRequired: true, defaultValue: 20, minimum: 1, maximum: 250)
             .AddResult("Sma", "SMA", ResultType.Default, isReusable: true)
             .Build();
+
+    // SMA Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder()
+            .WithName("Simple Moving Average")
+            .WithId("SMA")
+            .WithStyle(Style.Buffer)
+            .WithCategory(Category.MovingAverage)
+            .WithMethodName("ToSma")
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMA calculation", isRequired: true, defaultValue: 20, minimum: 1, maximum: 250)
+            .AddResult("Sma", "SMA", ResultType.Default, isReusable: true)
+            .Build();
 }
