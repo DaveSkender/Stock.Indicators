@@ -83,6 +83,8 @@ var results = quotes
     .GetAlligator();
 ```
 
+Results **cannot** be further chained with additional transforms.
+
 ## Streaming
 
 Subscribe to a `QuoteHub` for streaming scenarios:
@@ -98,5 +100,3 @@ foreach (Quote quote in quotes)  // simulating stream
 
 IReadOnlyList<AlligatorResult> results = observer.Results;
 ```
-
-Results **cannot** be further chained with additional transforms.
