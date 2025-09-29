@@ -70,4 +70,60 @@ public static partial class Smma
 
         return results;
     }
+
+    /// <summary>
+    /// Creates a <see cref="SmmaList"/> from a list of quotes
+    /// for incremental calculation of the Smoothed Moving Average.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the quotes, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A <see cref="SmmaList"/> populated with the provided quotes.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the quotes list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static SmmaList ToSmmaBufferList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 20)
+        where TQuote : IQuote
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(quotes);
+        Validate(lookbackPeriods);
+
+        // initialize buffer list
+        SmmaList bufferList = new(lookbackPeriods);
+
+        // add quotes to buffer list
+        bufferList.Add(quotes);
+
+        return bufferList;
+    }
+
+    /// <summary>
+    /// Creates a <see cref="SmmaList"/> from a list of reusable values
+    /// for incremental calculation of the Smoothed Moving Average.
+    /// </summary>
+    /// <typeparam name="T">The type of the reusable values, which must implement IReusable.</typeparam>
+    /// <param name="source">The list of reusable values.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A <see cref="SmmaList"/> populated with the provided values.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static SmmaList ToSmmaBufferList<T>(
+        this IReadOnlyList<T> source,
+        int lookbackPeriods = 20)
+        where T : IReusable
+    {
+        // check parameter arguments
+        ArgumentNullException.ThrowIfNull(source);
+        Validate(lookbackPeriods);
+
+        // initialize buffer list
+        SmmaList bufferList = new(lookbackPeriods);
+
+        // add values to buffer list
+        bufferList.Add(source);
+
+        return bufferList;
+    }
 }
