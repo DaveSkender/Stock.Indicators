@@ -189,4 +189,4 @@ Study these exemplary series indicators:
 - **ALLIGATOR**: `src/a-d/Alligator/Alligator.StaticSeries.cs`
 
 ---
-Last updated: December 28, 2024
+Last updated: September 29, 2025
