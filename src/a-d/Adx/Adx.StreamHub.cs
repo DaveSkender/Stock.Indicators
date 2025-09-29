@@ -40,7 +40,7 @@ public class AdxHub<TIn>
         : base(provider)
     {
         Adx.Validate(lookbackPeriods);
-        
+
         LookbackPeriods = lookbackPeriods;
         hubName = $"ADX({LookbackPeriods})";
 
@@ -140,8 +140,8 @@ public class AdxHub<TIn>
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0 
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value) 
+                double dx = pdi.Value + mdi.Value != 0
+                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
                 _sumDx = dx;
             }
@@ -158,8 +158,8 @@ public class AdxHub<TIn>
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0 
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value) 
+                double dx = pdi.Value + mdi.Value != 0
+                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
                 _sumDx += dx;
             }
@@ -176,8 +176,8 @@ public class AdxHub<TIn>
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0 
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value) 
+                double dx = pdi.Value + mdi.Value != 0
+                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
                 _sumDx += dx;
 
@@ -197,8 +197,8 @@ public class AdxHub<TIn>
 
             if (pdi.HasValue && mdi.HasValue)
             {
-                double dx = pdi.Value + mdi.Value != 0 
-                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value) 
+                double dx = pdi.Value + mdi.Value != 0
+                    ? 100 * Math.Abs(pdi.Value - mdi.Value) / (pdi.Value + mdi.Value)
                     : 0;
 
                 _prevAdx = ((_prevAdx * (LookbackPeriods - 1)) + dx) / LookbackPeriods;

@@ -19,12 +19,12 @@ public static partial class Atr
 
         // Initialize buffer and populate
         AtrList bufferList = new(lookbackPeriods);
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 }
@@ -72,14 +72,14 @@ public class AtrList : List<AtrResult>, IAtr, IBufferList
         {
             _previousClose = close;
             _isInitialized = true;
-            
+
             base.Add(new AtrResult(timestamp, null, null, null));
             return;
         }
 
         // Calculate True Range
         double tr = Tr.Increment(high, low, _previousClose);
-        
+
         double atr;
         double? atrp;
 

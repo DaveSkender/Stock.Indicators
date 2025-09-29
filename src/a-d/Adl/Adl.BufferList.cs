@@ -17,12 +17,12 @@ public static partial class Adl
 
         // Initialize buffer and populate
         AdlList bufferList = new();
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 }

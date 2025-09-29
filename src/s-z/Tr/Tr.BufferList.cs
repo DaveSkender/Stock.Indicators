@@ -17,12 +17,12 @@ public static partial class Tr
 
         // Initialize buffer and populate
         TrList bufferList = new();
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 }
