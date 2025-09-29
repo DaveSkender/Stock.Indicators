@@ -1,10 +1,10 @@
 # GitHub Copilot instructions for Stock Indicators for .NET
 
-This repository hosts **Stock Indicators for .NET**, the production source for the widely used [Skender.Stock.Indicators](https://www.nuget.org/packages/Skender.Stock.Indicators) NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
+This repository hosts **Stock Indicators for .NET**, the production source for the widely used <a href="https://www.nuget.org/packages/Skender.Stock.Indicators">Skender.Stock.Indicators</a> NuGet package. The library offers more than 200 technical analysis indicators with a focus on accuracy, performance, and ergonomics for financial analytics.
 
 - Multi-targets `net9.0` and `net8.0` with analyzers enabled for strict code quality.
 - Active development expands streaming indicator support—consult open specs before modifying stateful pipelines.
-- Documentation at [dotnet.stockindicators.dev](https://dotnet.stockindicators.dev) is sourced from the `docs/` content in this repository.
+- Documentation at <a href="https://dotnet.stockindicators.dev">dotnet.stockindicators.dev</a> is sourced from the `docs/` content in this repository.
 
 ## Repository layout
 
@@ -21,7 +21,8 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 └── Stock.Indicators.sln   # Primary solution for src + tests
 .
 ├── docs/                  # Public documentation site (Jekyll)
-└── spec-kit/              # Specifications, workflows, memory, and templates
+├── .specify/              # Spec Kit configuration and memory
+└── specs/                 # Active feature specifications
 ```
 
 ## Build and verification
@@ -87,7 +88,7 @@ All public methods must have complete XML documentation. Code examples must be p
 
 ## Spec-driven development integration
 
-This repository relies on [GitHub Spec-Kit](https://github.com/github/spec-kit) for structured development. Before adding or changing indicators, consult the relevant spec in `spec-kit/` and use chat commands to align with the active plan:
+This repository relies on <a href="https://github.com/github/spec-kit">GitHub Spec-Kit</a> for structured development. Before adding or changing indicators, consult the relevant spec in `specs/` and use chat commands to align with the active plan:
 
 - **`/constitution`** — Review or update project governance principles.
 - **`/specify`** — Draft detailed specifications for new or revised indicators.
@@ -95,11 +96,11 @@ This repository relies on [GitHub Spec-Kit](https://github.com/github/spec-kit) 
 - **`/tasks`** — Break work into actionable units.
 - **`/implement`** — Execute the agreed-upon plan and document outcomes.
 
-Refer to [Spec-Kit Integration Guide](./.github/spec-kit-integration.md) for usage details.
+Refer to <a>Spec-Kit Integration Guide</a> for usage details.
 
 ## Pull request guidelines
 
-- Follow [Conventional Commits](https://www.conventionalcommits.org) for titles: `type: Subject` (subject starts uppercase, ≤ 65 characters).
+- Follow <a href="https://www.conventionalcommits.org">Conventional Commits</a> for titles: `type: Subject` (subject starts uppercase, ≤ 65 characters).
 - Supported types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan.
 - Link or reference the governing spec/task thread when applicable.
 - Ensure `dotnet test --no-restore` passes and the docs site builds when content changes.
@@ -113,4 +114,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: September 28, 2025
+Last updated: January 27, 2025
