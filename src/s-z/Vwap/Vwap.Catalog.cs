@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Vwap
 {
-    // VWAP Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // VWAP Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Volume Weighted Average Price")
             .WithId("VWAP")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToVwap")
             .AddDateParameter("startDate", "Start Date", description: "Starting date for VWAP calculation", isRequired: true)
@@ -15,4 +14,13 @@ public static partial class Vwap
             .AddResult("UpperBand", "Upper Band", ResultType.Default)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
+
+    // VWAP Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for VWAP.
+    // No BufferListing for VWAP.
 }

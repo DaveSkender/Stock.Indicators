@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class BollingerBands
 {
-    // BB Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // BB Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Bollinger Bands®")
             .WithId("BB")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToBollingerBands")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250)
@@ -18,6 +17,12 @@ public static partial class BollingerBands
             .AddResult("PercentB", "%B", ResultType.Default, isReusable: true)
             .AddResult("ZScore", "Z-Score", ResultType.Default)
             .AddResult("Width", "Width", ResultType.Default)
+            .Build();
+
+    // BB Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for BB.
