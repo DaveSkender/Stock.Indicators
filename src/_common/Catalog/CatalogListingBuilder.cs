@@ -20,6 +20,58 @@ internal class CatalogListingBuilder
     protected Style CurrentStyle { get; private set; } = Style.Series;
 
     /// <summary>
+    /// Initializes a new instance of the CatalogListingBuilder class.
+    /// </summary>
+    internal CatalogListingBuilder()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the CatalogListingBuilder class from an existing listing.
+    /// This enables the "inherit and override" pattern for creating multiple styles.
+    /// </summary>
+    /// <param name="baseListing">The base listing to inherit properties from.</param>
+    internal CatalogListingBuilder(IndicatorListing baseListing)
+    {
+        ArgumentNullException.ThrowIfNull(baseListing);
+
+        _name = baseListing.Name;
+        _id = baseListing.Uiid;
+        _category = baseListing.Category;
+        _methodName = baseListing.MethodName;
+        CurrentStyle = baseListing.Style;
+
+        // Deep copy parameters to avoid shared references
+        if (baseListing.Parameters != null)
+        {
+            foreach (IndicatorParam param in baseListing.Parameters)
+            {
+                _parameters.Add(new IndicatorParam {
+                    ParameterName = param.ParameterName,
+                    DisplayName = param.DisplayName,
+                    Description = param.Description,
+                    DataType = param.DataType,
+                    IsRequired = param.IsRequired,
+                    DefaultValue = param.DefaultValue,
+                    Minimum = param.Minimum,
+                    Maximum = param.Maximum
+                });
+            }
+        }
+
+        // Deep copy results to avoid shared references
+        foreach (IndicatorResult result in baseListing.Results)
+        {
+            _results.Add(new IndicatorResult {
+                DataName = result.DataName,
+                DisplayName = result.DisplayName,
+                DataType = result.DataType,
+                IsReusable = result.IsReusable
+            });
+        }
+    }
+
+    /// <summary>
     /// Sets the name of the indicator.
     /// </summary>
     /// <param name="name">The indicator name.</param>

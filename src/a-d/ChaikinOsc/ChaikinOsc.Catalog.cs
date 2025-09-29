@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class ChaikinOsc
 {
-    // CHAIKIN-OSC Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // CHAIKIN-OSC Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Chaikin Money Flow Oscillator")
             .WithId("CHAIKIN-OSC")
-            .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToChaikinOsc")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 3, minimum: 1, maximum: 100)
@@ -16,6 +15,12 @@ public static partial class ChaikinOsc
             .AddResult("MoneyFlowVolume", "Money Flow Volume", ResultType.Default)
             .AddResult("Adl", "ADL", ResultType.Default)
             .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
+            .Build();
+
+    // CHAIKIN-OSC Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for CHAIKIN-OSC.

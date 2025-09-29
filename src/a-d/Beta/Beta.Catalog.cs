@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Beta
 {
-    // BETA Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // BETA Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Beta")
             .WithId("BETA")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
             .WithMethodName("ToBeta")
             .AddSeriesParameter("sourceEval", "Evaluated Prices")
@@ -21,6 +20,12 @@ public static partial class Beta
             .AddResult("Convexity", "Convexity", ResultType.Default)
             .AddResult("ReturnsEval", "Returns Eval", ResultType.Default)
             .AddResult("ReturnsMrkt", "Returns Mrkt", ResultType.Default)
+            .Build();
+
+    // BETA Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for BETA.

@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Correlation
 {
-    // CORR Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // CORR Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Correlation")
             .WithId("CORR")
-            .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToCorrelation")
             .AddSeriesParameter("sourceA", "Source A")
@@ -18,6 +17,12 @@ public static partial class Correlation
             .AddResult("Covariance", "Covariance", ResultType.Default)
             .AddResult("Correlation", "Correlation", ResultType.Default, isReusable: true)
             .AddResult("RSquared", "R-Squared", ResultType.Default)
+            .Build();
+
+    // CORR Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for CORR.

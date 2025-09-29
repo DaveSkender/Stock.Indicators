@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class StarcBands
 {
-    // STARC Bands Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // STARC Bands Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("STARC Bands")
             .WithId("STARC")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceChannel)
             .WithMethodName("ToStarcBands")
             .AddParameter<int>("smaPeriods", "SMA Periods", description: "Number of periods for the SMA calculation", isRequired: false, defaultValue: 5, minimum: 1, maximum: 50)
@@ -17,4 +16,13 @@ public static partial class StarcBands
             .AddResult("Centerline", "Centerline", ResultType.Default, isReusable: true)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
+
+    // STARC Bands Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for STARC Bands.
+    // No BufferListing for STARC Bands.
 }

@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class SuperTrend
 {
-    // SuperTrend Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // SuperTrend Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("SuperTrend")
             .WithId("SUPERTREND")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
             .WithMethodName("ToSuperTrend")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SuperTrend calculation", isRequired: false, defaultValue: 10, minimum: 1, maximum: 50)
@@ -16,4 +15,13 @@ public static partial class SuperTrend
             .AddResult("UpperBand", "Upper Band", ResultType.Default)
             .AddResult("LowerBand", "Lower Band", ResultType.Default)
             .Build();
+
+    // SuperTrend Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for SuperTrend.
+    // No BufferListing for SuperTrend.
 }

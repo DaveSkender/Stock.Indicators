@@ -25,6 +25,8 @@ Examine `{IndicatorName}.Models.cs`:
 
 ## Step 3: Build the catalog
 
+### For single-style indicators
+
 ```csharp
 namespace Skender.Stock.Indicators;
 
@@ -43,6 +45,44 @@ public static partial class {IndicatorName}
 
     // No StreamListing for {INDICATOR_ID}.
     // No BufferListing for {INDICATOR_ID}.
+}
+```
+
+### For multi-style indicators (preferred DRY pattern)
+
+```csharp
+namespace Skender.Stock.Indicators;
+
+public static partial class {IndicatorName}
+{
+    // {INDICATOR_ID} Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
+        new CatalogListingBuilder()
+            .WithName("{Full Name}")
+            .WithId("{UPPERCASE_ID}")
+            .WithCategory(Category.{Category})
+            .WithMethodName("To{IndicatorName}")
+            .AddParameter<int>("periods", "Periods", isRequired: true, defaultValue: 20, minimum: 2, maximum: 250)
+            .AddResult("PropertyName", "Display Name", ResultType.Default, isReusable: true) // Only if IReusable.Value
+            .Build();
+
+    // {INDICATOR_ID} Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // {INDICATOR_ID} Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // {INDICATOR_ID} Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
 ```
 
@@ -106,6 +146,8 @@ public class {IndicatorName}Tests : TestBase
 - `AddSeriesParameter()` - `IReadOnlyList<T>` inputs
 
 **Critical Rule**: Only `IReusable.Value` mappings get `isReusable: true`. Everything else is `false`.
+
+**Multi-style Pattern**: Use the `CommonListing` pattern with inheritance constructor `new CatalogListingBuilder(CommonListing)` to eliminate duplication. The constructor copies all properties from the base listing, and you only need to override the style.
 
 ---
 Last updated: September 28, 2025

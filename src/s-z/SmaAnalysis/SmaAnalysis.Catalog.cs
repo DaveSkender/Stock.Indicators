@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class SmaAnalysis
 {
-    // SMA Analysis Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // SMA Analysis Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Simple Moving Average Analysis")
             .WithId("SMA-ANALYSIS")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
             .WithMethodName("ToSmaAnalysis")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the SMA analysis", isRequired: true, defaultValue: 20, minimum: 1, maximum: 250)
@@ -16,4 +15,13 @@ public static partial class SmaAnalysis
             .AddResult("Mse", "Mean Square Error", ResultType.Default)
             .AddResult("Mape", "Mean Absolute Percentage Error", ResultType.Default)
             .Build();
+
+    // SMA Analysis Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for SMA Analysis.
+    // No BufferListing for SMA Analysis.
 }
