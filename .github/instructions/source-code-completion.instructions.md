@@ -50,10 +50,10 @@ These instructions apply to all files in the `src/` and `tests/` folders and cov
 
 ### Step 4 – Testing
 
-- Run unit tests: `dotnet test "Stock.Indicators.sln" --no-restore --settings tests/tests.unit.runsettings --nologo`.
-- Run integration tests when applicable: `dotnet test "Stock.Indicators.sln" --no-restore --settings tests/tests.integration.runsettings --nologo`.
+- Run unit tests: `dotnet test "Stock.Indicators.sln" --no-restore --nologo`.
 - Collect coverage: `dotnet test "Stock.Indicators.sln" --no-restore --collect:"Code Coverage" --nologo`.
-- Add or update tests until coverage remains above the >95% project expectation.
+- Add or update tests until coverage remains above the 98% project expectation.
+- Run performance tests when applicable: `cd tests/performance && dotnet run -c Release`.
 
 > **Verification**: Repeat the affected test runs until all pass and coverage reports show no regressions.
 
@@ -62,6 +62,7 @@ These instructions apply to all files in the `src/` and `tests/` folders and cov
 ### Step 1 – Documentation: Update everything that changed
 
 - Refresh XML documentation, inline comments, and user-facing content under `docs/`, especially indicator reference pages.
+- Always update `/docs` for individual indicators when adding or updating.
 - Keep wording consistent across source code and documentation.
 
 > **Verification**: Manually review updated documentation against the implemented behavior.
@@ -80,20 +81,32 @@ Run this sequence and confirm each command completes successfully.
 ```bash
 dotnet format --verify-no-changes
 dotnet build "Stock.Indicators.sln" -v minimal --nologo
-dotnet test "Stock.Indicators.sln" --no-build --settings tests/tests.unit.runsettings --nologo
-dotnet test "Stock.Indicators.sln" --no-build --settings tests/tests.integration.runsettings --nologo
+dotnet test "Stock.Indicators.sln" --no-build --nologo
 npm run lint:md
 ```
 
 If any command fails, fix the issue and restart this step from the top.
 
-### Step 4 – Manual inspection of documentation site
+### Step 4 – Optional but recommended: Codacy checks
+
+Run optional Codacy checks for additional code quality insights:
+
+```bash
+# Install Codacy CLI if not already installed (optional)
+curl -L https://github.com/codacy/codacy-analysis-cli/releases/latest/download/codacy-analysis-cli-linux -o codacy-analysis-cli
+chmod +x codacy-analysis-cli
+
+# Run Codacy analysis (optional)
+./codacy-analysis-cli analyze --project-token [YOUR_TOKEN] --directory .
+```
+
+### Step 5 – Manual inspection of documentation site
 
 - Start the site via the **Run: Doc Site with LiveReload** task (runs `bundle exec jekyll serve`).
 - Inspect key pages using the Playwright MCP server or a browser to confirm layout and content.
 - Stop the server with `Ctrl+C` after verification.
 
-### Step 5 – Golden test: Prove a clean rebuild succeeds
+### Step 6 – Golden test: Prove a clean rebuild succeeds
 
 Run the following sequence to detect hidden state issues.
 
@@ -106,13 +119,13 @@ dotnet test "Stock.Indicators.sln" --no-build --nologo
 
 - If benchmarks or docs packaging were affected, rerun `dotnet run -c Release` from `tests/performance` and `bundle exec jekyll build`.
 
-### Step 6 – Sign-off: Confirm completion
+### Step 7 – Sign-off: Confirm completion
 
 - [ ] All dead or debugging code removed
 - [ ] `dotnet format --verify-no-changes` passes without edits
 - [ ] `dotnet build` succeeds with zero warnings
 - [ ] All required test suites pass
-- [ ] Coverage meets or exceeds the >95% goal
+- [ ] Coverage meets or exceeds the 98% goal
 - [ ] Documentation and XML comments updated
 - [ ] Markdown linting succeeds
 - [ ] Documentation site inspected (when changed)
@@ -173,7 +186,13 @@ dotnet test --settings tests/tests.integration.runsettings
 
 # run with coverage reporting
 dotnet test --collect:"Code Coverage"
+
+# generate detailed coverage report
+dotnet test --collect:"XPlat Code Coverage" --results-directory:./coverage
+reportgenerator -reports:./coverage/*/*.xml -targetdir:./coverage/report -reporttypes:Html
 ```
+
+> **Code Coverage**: Maintain 98% line coverage. Use the generated HTML report to identify uncovered lines and add appropriate tests.
 
 #### Test organization requirements
 
@@ -308,7 +327,7 @@ public record MacdResult : ISeries
 
 - **EditorConfig**: Follow formatting rules in `.editorconfig`
 - **Roslyn analyzers**: Address all compiler warnings
-- **Code coverage**: Maintain high test coverage (>95%)
+- **Code coverage**: Maintain high test coverage (98%)
 - **Security scanning**: Use tools like Codacy for vulnerability detection
 
 #### Pre-commit validation
