@@ -7,7 +7,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBufferList, IBuff
 {
     private readonly Queue<double> buffer;
     private readonly double standardDeviations;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class.
     /// </summary>
@@ -38,13 +38,8 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBufferList, IBuff
     /// <param name="value">The value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer
-        if (buffer.Count == LookbackPeriods)
-        {
-            buffer.Dequeue();
-        }
-
-        buffer.Enqueue(value);
+        // Use universal buffer extension method for consistent buffer management
+        buffer.Update(LookbackPeriods, value);
 
         // Calculate Bollinger Bands when we have enough values
         if (buffer.Count == LookbackPeriods)
@@ -68,7 +63,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBufferList, IBuff
             // Calculate derived values
             double? percentB = upperBand - lowerBand == 0 ? null
                 : (value - lowerBand) / (upperBand - lowerBand);
-            
+
             double? zScore = stdDev == 0 ? null : (value - sma) / stdDev;
             double? width = sma == 0 ? null : (upperBand - lowerBand) / sma;
 
@@ -176,12 +171,12 @@ public static partial class BollingerBands
 
         // Initialize buffer and populate
         BollingerBandsList bufferList = new(lookbackPeriods, standardDeviations);
-        
+
         foreach (TQuote quote in quotes)
         {
             bufferList.Add(quote);
         }
-        
+
         return bufferList;
     }
 }

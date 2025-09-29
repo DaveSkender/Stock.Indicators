@@ -56,4 +56,54 @@ public class BollingerBandsTests : TestBase
         widthResult5?.DisplayName.Should().Be("Width");
         widthResult5.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void BollingerBandsStreamListing()
+    {
+        // Act
+        IndicatorListing listing = BollingerBands.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Bollinger Bands®");
+        listing.Uiid.Should().Be("BB");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToBollingerBands");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(6);
+
+        IndicatorResult percentbResult = listing.Results.SingleOrDefault(r => r.DataName == "PercentB");
+        percentbResult.Should().NotBeNull();
+        percentbResult?.IsReusable.Should().Be(true);
+    }
+
+    [TestMethod]
+    public void BollingerBandsBufferListing()
+    {
+        // Act
+        IndicatorListing listing = BollingerBands.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Bollinger Bands®");
+        listing.Uiid.Should().Be("BB");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceChannel);
+        listing.MethodName.Should().Be("ToBollingerBands");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(6);
+
+        IndicatorResult percentbResult = listing.Results.SingleOrDefault(r => r.DataName == "PercentB");
+        percentbResult.Should().NotBeNull();
+        percentbResult?.IsReusable.Should().Be(true);
+    }
 }
