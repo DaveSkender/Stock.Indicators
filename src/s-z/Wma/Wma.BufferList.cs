@@ -16,10 +16,10 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     {
         Wma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        
+
         // Pre-calculate divisor for WMA: n * (n + 1) / 2
         _divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
-        
+
         _buffer = new Queue<double>(lookbackPeriods);
     }
 
@@ -46,11 +46,11 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
         {
             wma = 0;
             int weight = 1;
-            
+
             // Calculate exactly like static series: divide inside the loop like the original
-            foreach (double value in _buffer)
+            foreach (double bufferValue in _buffer)
             {
-                wma += value * weight / _divisor;
+                wma += bufferValue * weight / _divisor;
                 weight++;
             }
         }
