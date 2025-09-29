@@ -175,7 +175,9 @@ public static partial class Catalog
         _listings.Add(Ichimoku.SeriesListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
+        _listings.Add(Kama.BufferListing);
         _listings.Add(Kama.SeriesListing);
+        _listings.Add(Kama.StreamListing);
 
         // Keltner Channels
         _listings.Add(Keltner.SeriesListing);

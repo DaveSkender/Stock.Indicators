@@ -9,12 +9,12 @@ public interface IKama
     /// Gets the number of periods for the Efficiency Ratio (ER).
     /// </summary>
     int ErPeriods { get; }
-    
+
     /// <summary>
     /// Gets the number of periods for the fast EMA.
     /// </summary>
     int FastPeriods { get; }
-    
+
     /// <summary>
     /// Gets the number of periods for the slow EMA.
     /// </summary>

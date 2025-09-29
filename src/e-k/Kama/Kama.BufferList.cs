@@ -24,12 +24,12 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
     )
     {
         Kama.Validate(erPeriods, fastPeriods, slowPeriods);
-        
+
         _erPeriods = erPeriods;
         ErPeriods = erPeriods;
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
-        
+
         _scFast = 2d / (fastPeriods + 1);
         _scSlow = 2d / (slowPeriods + 1);
 
@@ -40,12 +40,12 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
     /// Gets the number of periods for the Efficiency Ratio (ER).
     /// </summary>
     public int ErPeriods { get; init; }
-    
+
     /// <summary>
     /// Gets the number of periods for the fast EMA.
     /// </summary>
     public int FastPeriods { get; init; }
-    
+
     /// <summary>
     /// Gets the number of periods for the slow EMA.
     /// </summary>
@@ -54,12 +54,8 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer
-        _buffer.Enqueue(value);
-        if (_buffer.Count > _erPeriods + 1)
-        {
-            _buffer.Dequeue();
-        }
+        // Use universal buffer extension method for consistent buffer management
+        _buffer.Update(_erPeriods + 1, value);
 
         // add nulls for incalculable periods
         if (Count < _erPeriods - 1)
@@ -76,13 +72,13 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
         {
             double[] bufferArray = _buffer.ToArray();
             double newVal = bufferArray[^1]; // Current value
-            
+
             // Check if we have a previous KAMA value
             if (!double.IsNaN(_prevKama))
             {
                 // ER period change
                 double change = Math.Abs(newVal - bufferArray[0]); // First value in buffer
-                
+
                 // volatility - sum of absolute differences
                 double sumPv = 0;
                 for (int i = 1; i < bufferArray.Length; i++)

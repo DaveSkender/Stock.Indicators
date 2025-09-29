@@ -56,10 +56,10 @@ public class KamaHub<TIn>
         ErPeriods = erPeriods;
         FastPeriods = fastPeriods;
         SlowPeriods = slowPeriods;
-        
+
         _scFast = 2d / (fastPeriods + 1);
         _scSlow = 2d / (slowPeriods + 1);
-        
+
         hubName = $"KAMA({erPeriods},{fastPeriods},{slowPeriods})";
 
         Reinitialize();
@@ -67,10 +67,10 @@ public class KamaHub<TIn>
 
     /// <inheritdoc/>
     public int ErPeriods { get; init; }
-    
+
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
-    
+
     /// <inheritdoc/>
     public int SlowPeriods { get; init; }
 
