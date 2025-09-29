@@ -6,8 +6,6 @@ namespace Skender.Stock.Indicators;
 public class VwmaList : List<VwmaResult>, IVwma, IBufferList
 {
     private readonly Queue<(double price, double volume)> _buffer;
-    private double _priceVolumeSum;
-    private double _volumeSum;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VwmaList"/> class.
@@ -21,8 +19,6 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
         LookbackPeriods = lookbackPeriods;
 
         _buffer = new Queue<(double, double)>(lookbackPeriods);
-        _priceVolumeSum = 0;
-        _volumeSum = 0;
     }
 
     /// <summary>
@@ -56,27 +52,32 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
     /// <param name="volume">The volume value.</param>
     public void Add(DateTime timestamp, double price, double volume)
     {
-        // update buffer - remove oldest values if at capacity
+        // Update the rolling buffer
         if (_buffer.Count == LookbackPeriods)
         {
-            var (oldPrice, oldVolume) = _buffer.Dequeue();
-            _priceVolumeSum -= oldPrice * oldVolume;
-            _volumeSum -= oldVolume;
+            _buffer.Dequeue();
         }
 
-        // add new values
         _buffer.Enqueue((price, volume));
-        _priceVolumeSum += price * volume;
-        _volumeSum += volume;
 
-        // calculate VWMA (or null if insufficient data or zero volume)
-        double? vwma = _buffer.Count >= LookbackPeriods && _volumeSum != 0
-            ? _priceVolumeSum / _volumeSum
-            : null;
+        // Calculate VWMA when we have enough values by recalculating from buffer
+        // This matches the precision of the static series implementation
+        double? vwma = null;
+        if (_buffer.Count == LookbackPeriods)
+        {
+            double priceVolumeSum = 0;
+            double volumeSum = 0;
+            foreach (var (p, v) in _buffer)
+            {
+                priceVolumeSum += p * v;
+                volumeSum += v;
+            }
+            vwma = volumeSum != 0 ? priceVolumeSum / volumeSum : double.NaN;
+        }
 
         base.Add(new VwmaResult(
             timestamp,
-            vwma));
+            vwma.NaN2Null()));
     }
 
     /// <inheritdoc />
@@ -84,7 +85,5 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
     {
         base.Clear();
         _buffer.Clear();
-        _priceVolumeSum = 0;
-        _volumeSum = 0;
     }
 }
