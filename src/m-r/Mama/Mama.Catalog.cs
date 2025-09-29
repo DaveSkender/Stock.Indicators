@@ -21,6 +21,11 @@ public static partial class Mama
             .WithStyle(Style.Series)
             .Build();
 
+    // MAMA Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
+
     // No StreamListing for MAMA.
-    // No BufferListing for MAMA.
 }
