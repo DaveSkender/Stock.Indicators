@@ -1,53 +1,232 @@
-# Implementation Tasks: v3.0 Streaming Indicators
+# Implementation Tasks: v3.0 Streaming Indicators Completion
 
-**Feature**: v3.0 Streaming Indicators Implementation  
-**Generated**: 2025-09-26  
-**Dependencies**: Based on v3-streaming-indicators.md specification and PR #1014  
+**Feature**: v3.0 Streaming Indicators - Remaining Work  
+**Updated**: 2025-09-29  
+**Based on**: [Issue #1014](https://github.com/DaveSkender/Stock.Indicators/issues/1014) and [v3 Project Board](https://github.com/users/DaveSkender/projects/6?pane=issue&itemId=58144081)
 
 ## Task Overview
 
-This document provides an actionable, dependency-ordered task breakdown for implementing v3.0 streaming indicators with buffer-style incrementors and enhanced performance for real-time data processing.
+This document focuses on completing the remaining work for v3.0 streaming indicators as outlined in issue #1014. Core infrastructure is complete; focus is now on broad implementation and release preparation.
 
-## Phase 1: Core Infrastructure (Immediate Priority)
+## ✅ Completed Infrastructure
 
-### Setup & Foundation Tasks
+The following foundational work is complete per issue #1014:
+- Core quote provider and handling mechanisms
+- EMA and SMA streaming prototypes with buffer-style incrementors
+- Basic `.Use(..)` chaining functionality
+- Performance tuning and usability testing
+- Multiple preview releases with initial feedback
 
-**T1.1** [P] **Project Structure Setup** ✅ COMPLETE
+## 🎯 Phase 1: Broad Indicator Implementation (Priority 1)
 
-- ✅ Create streaming infrastructure project structure
-- ✅ Set up namespace organization for streaming components
-- ✅ Configure build targets for streaming libraries
-- **Dependencies**: None
-- **Estimated Effort**: 2 hours
-- **Acceptance Criteria**: Project builds with streaming namespaces ✅ VERIFIED
+**Objective**: Expand streaming support to most common moving average and technical indicators
 
-**T1.2** [P] **Buffer Management Interface Design** ✅ COMPLETE (Pre-existing)
+### Moving Average Indicators
 
-- ✅ Existing Queue<T> pattern already provides efficient buffer operations
-- ✅ AdxList demonstrates proven circular buffer functionality
-- ✅ No additional interfaces needed - existing patterns sufficient
-- **Dependencies**: T1.1
-- **Estimated Effort**: 4 hours
-- **Acceptance Criteria**: Interface defined with comprehensive documentation ✅ VERIFIED
-
-**T1.3** [P] **Streaming Indicator Base Classes** ✅ COMPLETE (Pre-existing)
-
-- ✅ Existing BufferList pattern already provides incremental update patterns
-- ✅ EmaList/AdxList demonstrate proven streaming indicator base functionality
-- ✅ No additional base classes needed - existing patterns sufficient
-- **Dependencies**: T1.2
+**T1.1** **HMA (Hull Moving Average) Streaming Implementation**
+- Implement HmaBufferList following EmaList pattern
+- Add streaming support with weighted moving average calculations
+- Validate mathematical accuracy against batch implementation target 
+- **Dependencies**: Existing buffer patterns
 - **Estimated Effort**: 6 hours
-- **Acceptance Criteria**: Base classes support incremental quote processing ✅ VERIFIED
+- **Acceptance Criteria**: HMA streaming matches batch calculations, <1ms processing time
 
-### Core Implementation Tasks
-
-**T1.4** **Buffer Manager Implementation** ✅ COMPLETE (Pre-existing)
-
-- ✅ Existing Queue<T> implementations provide efficient circular buffer behavior
-- ✅ AdxList demonstrates buffer overflow/underflow handling
-- ✅ Memory allocation patterns already optimized in existing implementations
-- **Dependencies**: T1.2, T1.3
+**T1.2** **TEMA (Triple EMA) Streaming Implementation**  
+- Implement TemaBufferList with triple EMA chaining
+- Handle complex nested EMA calculations in streaming mode
+- Optimize memory usage for triple buffering
+- **Dependencies**: EMA streaming patterns
 - **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: TEMA streaming accuracy validated, memory profiled
+
+**T1.3** **VWMA (Volume Weighted MA) Streaming Implementation**
+- Implement VwmaBufferList with volume-weighted calculations
+- Handle volume data integration in streaming buffers
+- Validate volume-weighted accuracy in real-time scenarios
+- **Dependencies**: Volume data handling patterns
+- **Estimated Effort**: 6 hours
+- **Acceptance Criteria**: VWMA streaming with volume weighting accuracy
+
+**T1.4** [P] **LWMA (Linear Weighted MA) Streaming Implementation**
+- Implement LwmaBufferList with linear weighting
+- Optimize weight calculation for streaming updates
+- Validate linear weighting accuracy in streaming mode
+- **Dependencies**: Existing buffer patterns
+- **Estimated Effort**: 5 hours
+- **Acceptance Criteria**: LWMA streaming matches batch calculations
+
+### Common Technical Indicators
+
+**T1.5** **RSI Streaming Implementation**
+- Implement RsiBufferList with gain/loss tracking
+- Handle RSI smoothing in streaming mode
+- Optimize for common 14-period RSI calculations
+- **Dependencies**: Average true range patterns
+- **Estimated Effort**: 10 hours  
+- **Acceptance Criteria**: RSI streaming accuracy, performance benchmarks met
+
+**T1.6** **MACD Streaming Implementation**
+- Implement MacdBufferList with dual EMA calculations
+- Handle MACD line, signal line, and histogram in streaming
+- Integrate with existing EMA streaming patterns
+- **Dependencies**: T1.1 (EMA patterns)
+- **Estimated Effort**: 12 hours
+- **Acceptance Criteria**: Full MACD streaming with signal generation
+
+**T1.7** [P] **Bollinger Bands Streaming Implementation**
+- Implement BollingerBandsBufferList with SMA and standard deviation
+- Handle real-time band calculations
+- Optimize standard deviation calculations for streaming
+- **Dependencies**: SMA streaming patterns
+- **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: Dynamic band calculations in real-time
+
+**T1.8** [P] **Stochastic Oscillator Streaming Implementation**
+- Implement StochasticBufferList with %K and %D calculations
+- Handle highest high / lowest low tracking in buffers
+- Optimize for common 14-period stochastic calculations
+- **Dependencies**: Min/max tracking patterns
+- **Estimated Effort**: 10 hours
+- **Acceptance Criteria**: Stochastic streaming with smooth %D line
+
+### Volume and Trend Indicators
+
+**T1.9** [P] **OBV (On Balance Volume) Streaming Implementation**
+- Implement ObvBufferList with cumulative volume tracking
+- Handle volume direction changes in streaming mode
+- Optimize for high-frequency volume data processing
+- **Dependencies**: Volume data patterns
+- **Estimated Effort**: 6 hours
+- **Acceptance Criteria**: Real-time OBV updates with volume data
+
+**T1.10** **ADX Streaming Implementation**
+- Implement AdxBufferList building on existing AdxList patterns
+- Enhance directional movement calculations for streaming
+- Integrate +DI, -DI, and ADX line calculations
+- **Dependencies**: Existing ADX implementation
+- **Estimated Effort**: 12 hours
+- **Acceptance Criteria**: Full ADX streaming with directional indicators
+
+## 🎯 Phase 2: Documentation and Integration (Priority 2)
+
+**Objective**: Address documentation gaps and integrate with existing systems
+
+### Documentation Tasks (Issue #1403)
+
+**T2.1** **Streaming API Documentation**
+- Complete streaming indicators documentation gaps per issue #1403
+- Create comprehensive usage guides and examples
+- Document performance characteristics and best practices
+- **Dependencies**: T1.1-T1.10 completion
+- **Estimated Effort**: 16 hours
+- **Acceptance Criteria**: Complete API documentation for all streaming indicators
+
+**T2.2** [P] **Migration Guide Creation**
+- Create v2.x to v3.x migration documentation
+- Document breaking changes and compatibility notes
+- Provide code examples for common migration scenarios
+- **Dependencies**: Streaming implementations complete
+- **Estimated Effort**: 12 hours
+- **Acceptance Criteria**: Comprehensive migration guide published
+
+**T2.3** [P] **Performance Benchmarking Documentation**
+- Document performance characteristics for all streaming indicators
+- Create performance comparison guides (streaming vs batch)
+- Include memory usage and latency documentation
+- **Dependencies**: Performance testing complete
+- **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: Performance documentation complete
+
+### Integration Tasks
+
+**T2.4** **Catalog System Integration**
+- Integrate all streaming indicators with catalog automation
+- Ensure streaming capabilities are properly discoverable
+- Update automated documentation generation
+- **Dependencies**: Catalog system patterns
+- **Estimated Effort**: 6 hours
+- **Acceptance Criteria**: All streaming indicators in catalog
+
+**T2.5** **CI/CD Pipeline Updates**
+- Add streaming-specific test suites to CI/CD
+- Include performance regression testing
+- Add memory leak detection for streaming operations
+- **Dependencies**: Test infrastructure
+- **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: Automated streaming validation in CI/CD
+
+## 🎯 Phase 3: Final Validation and Release Preparation (Priority 3)
+
+**Objective**: Prepare for stable v3.0.0 release
+
+### Feedback Integration Tasks
+
+**T3.1** **Community Feedback Analysis**
+- Collect and analyze feedback from preview releases
+- Identify and prioritize user-reported issues
+- Document API improvements based on feedback
+- **Dependencies**: Preview release deployment
+- **Estimated Effort**: 12 hours
+- **Acceptance Criteria**: Feedback analysis complete, issues prioritized
+
+**T3.2** **Performance Optimization**
+- Address performance concerns from community feedback
+- Optimize memory usage patterns identified in testing
+- Fine-tune buffer sizes for optimal performance
+- **Dependencies**: T3.1, performance testing
+- **Estimated Effort**: 16 hours
+- **Acceptance Criteria**: Performance targets met, no regressions
+
+### Release Preparation Tasks
+
+**T3.3** **Comprehensive Testing Suite**
+- Create comprehensive test suite for all streaming indicators
+- Validate streaming vs batch mathematical accuracy
+- Include extended operation memory leak testing
+- **Dependencies**: All streaming implementations
+- **Estimated Effort**: 20 hours
+- **Acceptance Criteria**: >95% test coverage, all accuracy tests pass
+
+**T3.4** **Release Documentation**
+- Create v3.0.0 release notes and changelog
+- Document new streaming capabilities and breaking changes
+- Update README and getting started guides
+- **Dependencies**: All features complete
+- **Estimated Effort**: 8 hours
+- **Acceptance Criteria**: Complete release documentation
+
+**T3.5** **Stable Release Preparation**
+- Finalize v3.0.0 API surface and ensure stability
+- Complete version number updates and package metadata
+- Prepare release artifacts and distribution
+- **Dependencies**: All testing and documentation complete
+- **Estimated Effort**: 6 hours
+- **Acceptance Criteria**: v3.0.0 ready for stable release
+
+## 📋 Success Criteria Summary
+
+### Performance Targets
+- [ ] Single quote processing: <1ms for all streaming indicators
+- [ ] Memory stability: No leaks during 24hr streaming operations  
+- [ ] Throughput: Support 1000+ quotes/second for common indicators
+- [ ] Latency: Real-time updates with <10ms delay
+
+### Quality Metrics
+- [ ] Test coverage: >95% for all streaming implementations
+- [ ] Documentation completeness: 100% API coverage per issue #1403
+- [ ] Mathematical accuracy: Streaming matches batch calculations
+- [ ] Backward compatibility: Zero breaking changes for v2.x code
+
+### Release Readiness
+- [ ] Community feedback integrated from preview releases
+- [ ] Performance benchmarks meet or exceed targets
+- [ ] Documentation complete and published
+- [ ] Stable v3.0.0 release deployed
+
+---
+Tasks Version: 2.0
+Updated: 2025-09-29
+Focus: Completing remaining work from Issue #1014 and v3 Project Board
 - **Acceptance Criteria**: Buffer handles 10k+ quotes efficiently, <1ms access time ✅ VERIFIED
 
 **T1.5** **Stream Hub Coordination** ✅ COMPLETE (Pre-existing)
