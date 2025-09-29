@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Prs
 {
-    // Price Relative Strength Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Price Relative Strength Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Price Relative Strength")
             .WithId("PRS")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceCharacteristic)
             .WithMethodName("ToPrs")
             .AddSeriesParameter("sourceEval", "Source Evaluated", description: "Source data to be evaluated")
@@ -17,4 +16,13 @@ public static partial class Prs
             .AddResult("PrsPercent", "PRS %", ResultType.Default)
             .AddResult("Sma", "SMA", ResultType.Default)
             .Build();
+
+    // Price Relative Strength Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for PRS.
+    // No BufferListing for PRS.
 }
