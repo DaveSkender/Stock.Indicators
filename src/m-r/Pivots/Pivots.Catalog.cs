@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Pivots
 {
-    // Pivot Points Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Pivot Points Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Pivot Points")
             .WithId("PIVOTS")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
             .WithMethodName("ToPivots")
             .AddEnumParameter<PivotPointType>("pointType", "Point Type", description: "Type of pivot points to calculate", isRequired: false, defaultValue: PivotPointType.Standard)
@@ -19,4 +18,13 @@ public static partial class Pivots
             .AddResult("S2", "Support 2", ResultType.Default)
             .AddResult("S3", "Support 3", ResultType.Default)
             .Build();
+
+    // Pivot Points Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Pivot Points.
+    // No BufferListing for Pivot Points.
 }

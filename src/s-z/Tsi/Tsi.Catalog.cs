@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Tsi
 {
-    // True Strength Index Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // True Strength Index Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("True Strength Index")
             .WithId("TSI")
-            .WithStyle(Style.Series)
             .WithCategory(Category.Oscillator)
             .WithMethodName("ToTsi")
             .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the TSI calculation", isRequired: false, defaultValue: 25, minimum: 1, maximum: 250)
@@ -16,4 +15,13 @@ public static partial class Tsi
             .AddResult("Tsi", "TSI", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
             .Build();
+
+    // True Strength Index Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for TSI.
+    // No BufferListing for TSI.
 }

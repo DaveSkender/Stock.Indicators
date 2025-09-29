@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class HeikinAshi
 {
-    // HEIKINASHI Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // HEIKINASHI Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("HeikinAshi")
             .WithId("HEIKINASHI")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceTransform)
             .WithMethodName("ToHeikinAshi")
             .AddResult("Open", "Open", ResultType.Default)
@@ -15,6 +14,12 @@ public static partial class HeikinAshi
             .AddResult("Low", "Low", ResultType.Default)
             .AddResult("Close", "Close", ResultType.Default, isReusable: true)
             .AddResult("Volume", "Volume", ResultType.Default)
+            .Build();
+
+    // HEIKINASHI Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for HEIKINASHI.

@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Fractal
 {
-    // Fractal Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Fractal Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Williams Fractal (high/low)")
             .WithId("FRACTAL")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PricePattern)
             .WithMethodName("ToFractal")
             .AddParameter<int>("windowSpan", "Window Span", description: "Number of periods to look back and forward for the calculation", isRequired: false, defaultValue: 2, minimum: 1, maximum: 100)
@@ -15,4 +14,13 @@ public static partial class Fractal
             .AddResult("FractalBear", "Bear Fractal", ResultType.Default)
             .AddResult("FractalBull", "Bull Fractal", ResultType.Default, isReusable: true)
             .Build();
+
+    // Fractal Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Fractal.
+    // No BufferListing for Fractal.
 }

@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class Kvo
 {
-    // KVO Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // KVO Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Klinger Volume Oscillator")
             .WithId("KVO")
-            .WithStyle(Style.Series)
             .WithCategory(Category.VolumeBased)
             .WithMethodName("ToKvo")
             .AddParameter<int>("fastPeriods", "Fast Periods", defaultValue: 34, minimum: 1, maximum: 200)
@@ -15,6 +14,12 @@ public static partial class Kvo
             .AddParameter<int>("signalPeriods", "Signal Periods", defaultValue: 13, minimum: 1, maximum: 50)
             .AddResult("Oscillator", "Oscillator", ResultType.Default, isReusable: true)
             .AddResult("Signal", "Signal", ResultType.Default)
+            .Build();
+
+    // KVO Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
             .Build();
 
     // No StreamListing for KVO.

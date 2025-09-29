@@ -2,12 +2,11 @@ namespace Skender.Stock.Indicators;
 
 public static partial class RenkoAtr
 {
-    // Renko (ATR) Series Listing
-    internal static readonly IndicatorListing SeriesListing =
+    // Renko (ATR) Common Base Listing
+    internal static readonly IndicatorListing CommonListing =
         new CatalogListingBuilder()
             .WithName("Renko (ATR)")
             .WithId("RENKO-ATR")
-            .WithStyle(Style.Series)
             .WithCategory(Category.PriceTrend)
             .WithMethodName("ToRenkoAtr")
             .AddParameter<int>("atrPeriods", "ATR Periods", description: "Number of periods for the ATR calculation", isRequired: false, defaultValue: 14, minimum: 1, maximum: 100)
@@ -19,4 +18,13 @@ public static partial class RenkoAtr
             .AddResult("Volume", "Volume", ResultType.Default)
             .AddResult("IsUp", "Is Up", ResultType.Default)
             .Build();
+
+    // Renko (ATR) Series Listing
+    internal static readonly IndicatorListing SeriesListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Series)
+            .Build();
+
+    // No StreamListing for Renko (ATR).
+    // No BufferListing for Renko (ATR).
 }
