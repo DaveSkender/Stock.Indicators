@@ -239,6 +239,7 @@ public static partial class Catalog
         _listings.Add(RollingPivots.SeriesListing);
 
         // RSI (Relative Strength Index)
+        _listings.Add(Rsi.BufferListing);
         _listings.Add(Rsi.SeriesListing);
 
         // Slope
