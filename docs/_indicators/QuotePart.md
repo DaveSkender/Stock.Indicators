@@ -83,5 +83,5 @@ foreach (Quote quote in quotes)  // simulating stream
   provider.Add(quote);
 }
 
-IReadOnlyList<QuotePartResult> results = observer.Results;
+IReadOnlyList<QuotePart> results = observer.Results;
 ```

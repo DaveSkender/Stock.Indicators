@@ -86,7 +86,7 @@ Subscribe to a `QuoteHub` for streaming scenarios:
 
 ```csharp
 QuoteHub<Quote> provider = new();
-AtrStopHub<Quote> observer = provider.ToAtrStop(lookbackPeriods);
+AtrStopHub<Quote> observer = provider.ToAtrStop(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
