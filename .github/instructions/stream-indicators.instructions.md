@@ -364,4 +364,4 @@ public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
 ```
 
 ---
-Last updated: December 28, 2024
+Last updated: September 28, 2025

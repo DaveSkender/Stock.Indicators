@@ -7,6 +7,10 @@ description: "Buffer-style indicator development and testing guidelines"
 
 These instructions apply to buffer-style indicators that process data incrementally with efficient buffering mechanisms. Buffer indicators optimize memory usage and processing for scenarios involving incremental data updates.
 
+## Universal buffer utilities
+
+All buffer indicators must use the common `BufferUtilities` extension methods from `src/_common/BufferLists/BufferUtilities.cs` for consistent buffer management across the codebase.
+
 ## File naming conventions
 
 Buffer indicators should follow these naming patterns:
@@ -18,7 +22,7 @@ Buffer indicators should follow these naming patterns:
 
 ### Core structure
 
-Buffer indicators extend the `IBufferList<TResult>` interface and provide efficient incremental processing:
+Buffer indicators extend the `IBufferList<TResult>` interface and provide efficient incremental processing using universal buffer utilities:
 
 ```csharp
 /// <summary>
@@ -43,15 +47,36 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Add quote to buffer and calculate result
+        // Use universal buffer extension method for consistent buffer management
+        _buffer.Update(LookbackPeriods, value);
+        
+        // Calculate result using buffer data
+        double? result = CalculateIndicator();
+        
+        base.Add(new {IndicatorName}Result(timestamp, result));
     }
 
     /// <inheritdoc />
     public void Clear()
     {
+        base.Clear();
         _buffer.Clear();
     }
+    
+    private double? CalculateIndicator()
+    {
+        // Implement indicator-specific calculation logic
+        // Return null if insufficient data
+        if (_buffer.Count < LookbackPeriods)
+        {
+            return null;
+        }
+        
+        // Perform calculation using buffer data
+        return /* calculated value */;
+    }
 }
+```
 
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
 
@@ -228,9 +253,19 @@ public void BufferIndicator{IndicatorName}()
 
 ## Quality standards
 
+### Universal buffer utility usage
+
+- **Always use `BufferUtilities` extension methods** - Never implement custom buffer management logic
+- **Choose the right extension method**:
+  - Use `buffer.Update()` for standard rolling buffer scenarios
+  - Use `buffer.UpdateWithDequeue()` when tracking removed values for sums or calculations
+- **Type safety** - Extension methods are generic and work with any data type
+- **Null safety** - Extension methods include proper argument validation
+
 ### Memory management
 
 - Use `Queue<T>` to maintain efficient FIFO operations with constant memory usage
+- Leverage `BufferUtilities` extension methods for consistent memory patterns across all indicators
 - Implement proper disposal patterns when applicable
 - Avoid unnecessary object allocations in hot paths
 - Profile memory usage with large datasets
@@ -247,68 +282,97 @@ public void BufferIndicator{IndicatorName}()
 - Ensure buffer state is consistent across operations
 - Handle edge cases in buffer wraparound scenarios
 
-## Buffer patterns
+## Buffer utility patterns
 
-### Efficient buffer usage
+### Standard buffer management
+
+Use `buffer.Update()` extension method for most buffer management scenarios:
 
 ```csharp
-private readonly Queue<double> _values;
-private readonly Queue<DateTime> _timestamps;
-
-public {IndicatorName}BufferList(int lookbackPeriods)
+/// <inheritdoc />
+public void Add(DateTime timestamp, double value)
 {
-    _values = new Queue<double>(lookbackPeriods);
-    _timestamps = new Queue<DateTime>(lookbackPeriods);
-}
-
-public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
-{
-    _values.Enqueue(quote.Close);
-    _timestamps.Enqueue(quote.Date);
+    // Standard buffer management using extension method
+    _buffer.Update(LookbackPeriods, value);
     
-    if (_values.Count > _lookbackPeriods)
-    {
-        _values.Dequeue();
-        _timestamps.Dequeue();
-    }
+    // Calculate when buffer has sufficient data
+    double? result = _buffer.Count == LookbackPeriods 
+        ? CalculateIndicator() 
+        : null;
     
-    if (_values.Count < _lookbackPeriods)
-    {
-        return new {IndicatorName}Result { Timestamp = quote.Date };
-    }
-    
-    // Calculate using buffer data
-    double calculatedValue = CalculateFromBuffer();
-    
-    return new {IndicatorName}Result
-    {
-        Timestamp = quote.Date,
-        Value = calculatedValue
-    };
+    base.Add(new {IndicatorName}Result(timestamp, result));
 }
 ```
 
-### Efficient calculations
+### Buffer management with dequeue tracking
+
+Use `buffer.UpdateWithDequeue()` extension method when you need to track removed values (e.g., for running sums):
 
 ```csharp
-private double CalculateFromBuffer()
+private double _runningSum;
+
+/// <inheritdoc />
+public void Add(DateTime timestamp, double value)
 {
-    // Use buffer data efficiently
-    double sum = 0;
-    for (int i = 0; i < _values.Count; i++)
+    // Track dequeued value for running sum maintenance using extension method
+    double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
+    
+    // Update running sum efficiently
+    if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
     {
-        sum += _values[i];
+        _runningSum = _runningSum - dequeuedValue.Value + value;
     }
-    return sum / _values.Count;
+    else
+    {
+        _runningSum += value;
+    }
+    
+    // Calculate result using running sum
+    double? result = _buffer.Count == LookbackPeriods 
+        ? _runningSum / LookbackPeriods 
+        : null;
+    
+    base.Add(new {IndicatorName}Result(timestamp, result));
+}
+```
+
+### Complex buffer scenarios
+
+For indicators requiring multiple buffers (like HMA), use the extension methods consistently:
+
+```csharp
+/// <inheritdoc />
+public void Add(DateTime timestamp, double value)
+{
+    // Update all buffers using extension methods
+    _bufferN1.Update(_periodsN1, value);
+    _bufferN2.Update(_periodsN2, value);
+    
+    // Perform multi-stage calculations
+    double? intermediate = CalculateIntermediate();
+    if (intermediate.HasValue)
+    {
+        _synthBuffer.Update(_synthPeriods, intermediate.Value);
+        
+        double? result = CalculateFinal();
+        base.Add(new {IndicatorName}Result(timestamp, result));
+    }
+    else
+    {
+        base.Add(new {IndicatorName}Result(timestamp));
+    }
 }
 ```
 
 ## Reference examples
 
-Study these exemplary buffer indicators:
+Study these exemplary buffer indicators that demonstrate proper use of universal buffer utilities:
 
-- **EMA**: `src/e-k/Ema/Ema.BufferList.cs`
-- **SMA**: `src/s-z/Sma/Sma.BufferList.cs`
+- **WMA**: `src/s-z/Wma/Wma.BufferList.cs` - Standard buffer management with WMA calculation
+- **SMA**: `src/s-z/Sma/Sma.BufferList.cs` - Simple buffer management with sum calculation
+- **EMA**: `src/e-k/Ema/Ema.BufferList.cs` - Buffer management with dequeue tracking for running sum
+- **HMA**: `src/e-k/Hma/Hma.BufferList.cs` - Multi-buffer management for complex calculations
+- **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
 
 ## Integration with other styles
 
@@ -319,5 +383,112 @@ Buffer indicators should maintain consistency with their series counterparts:
 - Error handling should follow the same patterns
 - Documentation should reference the relationship between styles
 
+## Common anti-patterns to avoid
+
+### ❌ Manual buffer management
+
+```csharp
+// DON'T: Implement custom buffer logic
+if (_buffer.Count == capacity)
+{
+    _buffer.Dequeue();
+}
+_buffer.Enqueue(value);
+```
+
+```csharp
+// DO: Use extension methods for buffer management
+_buffer.Update(capacity, value);
+```
+
+### ❌ Inconsistent buffer patterns
+
+```csharp
+// DON'T: Mix manual and extension-based buffer management
+_buffer1.Update(capacity, value);
+if (_buffer2.Count == capacity) _buffer2.Dequeue(); // Inconsistent!
+_buffer2.Enqueue(value);
+```
+
+```csharp
+// DO: Use extension methods consistently across all buffers
+_buffer1.Update(capacity1, value);
+_buffer2.Update(capacity2, value);
+```
+
+### ❌ Ignoring dequeue tracking for sums
+
+```csharp
+// DON'T: Recalculate sum every time (inefficient)
+_buffer.Update(capacity, value);
+double sum = _buffer.Sum(); // O(n) operation every time
+```
+
+```csharp
+// DO: Use dequeue tracking extension method for efficient sum maintenance
+double? dequeued = _buffer.UpdateWithDequeue(capacity, value);
+if (dequeued.HasValue) _sum = _sum - dequeued.Value + value;
+else _sum += value;
+```
+
+## Best practices
+
+- **Consistency**: Always use `BufferUtilities` extension methods for all buffer operations
+- **Efficiency**: Choose `UpdateWithDequeue()` when tracking removed values
+- **Type safety**: Leverage generic extension methods for any data type
+- **Validation**: Trust extension methods to handle null safety and argument validation
+- **Performance**: Use running calculations when possible instead of recalculating from scratch
+
+## Reference implementations
+
+### Simple buffer indicator (SMA pattern)
+
+```csharp
+/// <inheritdoc />
+public void Add(DateTime timestamp, double value)
+{
+    _buffer.Update(LookbackPeriods, value);
+    
+    double? sma = null;
+    if (_buffer.Count == LookbackPeriods)
+    {
+        double sum = 0;
+        foreach (double val in _buffer)
+        {
+            sum += val;
+        }
+        sma = sum / LookbackPeriods;
+    }
+    
+    base.Add(new SmaResult(timestamp, sma));
+}
+```
+
+### Running sum indicator (EMA pattern)
+
+```csharp
+/// <inheritdoc />
+public void Add(DateTime timestamp, double value)
+{
+    double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
+    
+    if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
+    {
+        _bufferSum = _bufferSum - dequeuedValue.Value + value;
+    }
+    else
+    {
+        _bufferSum += value;
+    }
+    
+    // Use _bufferSum for efficient calculations
+    double? result = _buffer.Count == LookbackPeriods 
+        ? _bufferSum / LookbackPeriods 
+        : null;
+    
+    base.Add(new EmaResult(timestamp, result));
+}
+```
+
 ---
-Last updated: December 28, 2024
+Last updated: September 29, 2025
