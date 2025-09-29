@@ -29,12 +29,6 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        // update buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _buffer.Dequeue();
-        }
-
         DateTime timestamp = quote.Timestamp;
 
         AdxBuffer curr = new(
@@ -45,14 +39,14 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         // skip first period
         if (Count == 0)
         {
-            _buffer.Enqueue(curr);
+            _buffer.Update(LookbackPeriods, curr);
             base.Add(new AdxResult(timestamp));
             return;
         }
 
-        // get last, then add current object
+        // get last, then add current object using extension method
         AdxBuffer last = _buffer.Last();
-        _buffer.Enqueue(curr);
+        _buffer.Update(LookbackPeriods, curr);
 
         // calculate TR, PDM, and MDM
         double hmpc = Math.Abs(curr.High - last.Close);

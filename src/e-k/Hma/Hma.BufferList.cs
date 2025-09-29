@@ -48,9 +48,9 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffers for WMA calculations
-        Wma.UpdateBuffer(bufferN1, wmaN1Periods, value);
-        Wma.UpdateBuffer(bufferN2, wmaN2Periods, value);
+        // update buffers for WMA calculations using extension methods
+        bufferN1.Update(wmaN1Periods, value);
+        bufferN2.Update(wmaN2Periods, value);
 
         double? hma = null;
         int shiftQty = LookbackPeriods - 1;
@@ -68,8 +68,8 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
                 // synthetic value: 2 * WMA(n/2) - WMA(n)
                 double synthValue = (wmaN2.Value * 2d) - wmaN1.Value;
 
-                // update synthetic buffer
-                Wma.UpdateBuffer(synthBuffer, sqrtPeriods, synthValue);
+                // update synthetic buffer using extension method
+                synthBuffer.Update(sqrtPeriods, synthValue);
 
                 // calculate final HMA = WMA(sqrt(n)) of synthetic values
                 // Need enough synthetic values for the final WMA calculation

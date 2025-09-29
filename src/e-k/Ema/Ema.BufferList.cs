@@ -37,14 +37,18 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer
-        if (_buffer.Count == LookbackPeriods)
-        {
-            _bufferSum -= _buffer.Dequeue();
-        }
+        // update buffer and track dequeued value for sum maintenance using extension method
+        double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        _buffer.Enqueue(value);
-        _bufferSum += value;
+        // update running sum
+        if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
+        {
+            _bufferSum = _bufferSum - dequeuedValue.Value + value;
+        }
+        else
+        {
+            _bufferSum += value;
+        }
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)

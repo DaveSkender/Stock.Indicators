@@ -31,8 +31,8 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update the rolling buffer using the utility method
-        Wma.UpdateBuffer(_buffer, LookbackPeriods, value);
+        // Update the rolling buffer using extension method
+        _buffer.Update(LookbackPeriods, value);
 
         // Calculate WMA using the utility method
         double? wma = Wma.ComputeWeightedMovingAverage(_buffer, LookbackPeriods, _divisor);

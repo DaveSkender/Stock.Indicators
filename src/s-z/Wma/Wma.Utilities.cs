@@ -25,22 +25,6 @@ public static partial class Wma
     }
 
     /// <summary>
-    /// Updates the rolling buffer used for weighted moving average calculations.
-    /// </summary>
-    /// <param name="buffer">The buffer that stores recent values.</param>
-    /// <param name="capacity">The maximum number of elements allowed in the buffer.</param>
-    /// <param name="value">The new value to enqueue.</param>
-    internal static void UpdateBuffer(Queue<double> buffer, int capacity, double value)
-    {
-        if (buffer.Count == capacity)
-        {
-            buffer.Dequeue();
-        }
-
-        buffer.Enqueue(value);
-    }
-
-    /// <summary>
     /// Calculates a weighted moving average from the supplied buffer.
     /// </summary>
     /// <param name="buffer">The buffer containing the values to average.</param>
