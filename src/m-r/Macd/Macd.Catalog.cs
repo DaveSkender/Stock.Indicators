@@ -24,5 +24,10 @@ public static partial class Macd
             .Build();
 
     // No StreamListing for MACD.
-    // No BufferListing for MACD.
+    
+    // MACD BufferList Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
