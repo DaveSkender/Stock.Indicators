@@ -89,4 +89,28 @@ public class BufferListIndicators
     [Benchmark]
     public IReadOnlyList<TrResult> TrStream()
         => provider.ToTr().Results;
+
+    [Benchmark]
+    public AdlList AdlBuffer()
+        => new() { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<AdlResult> AdlSeries()
+        => quotes.ToAdl();
+
+    [Benchmark]
+    public IReadOnlyList<AdlResult> AdlStream()
+        => provider.ToAdl().Results;
+
+    [Benchmark]
+    public AtrList AtrBuffer()
+        => new(n) { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<AtrResult> AtrSeries()
+        => quotes.ToAtr(n);
+
+    [Benchmark]
+    public IReadOnlyList<AtrResult> AtrStream()
+        => provider.ToAtr(n).Results;
 }

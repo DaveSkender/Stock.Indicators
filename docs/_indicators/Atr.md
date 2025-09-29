@@ -83,7 +83,21 @@ var results = quotes
 
 ## Streaming
 
-Subscribe to a `QuoteHub` for streaming scenarios:
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+AtrList atrList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  atrList.Add(quote);
+}
+
+// based on `List<AtrResult>`
+IReadOnlyList<AtrResult> results = atrList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
 QuoteHub<Quote> provider = new();
