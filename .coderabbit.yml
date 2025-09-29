@@ -10,19 +10,27 @@ early_access: true
 # REVIEW CONFIGURATION
 reviews:
   profile: "chill"
-  request_changes_workflow: false
-  high_level_summary: false
-  poem: false
   review_status: true
+  commit_status: true
+  fail_commit_status: false
+  request_changes_workflow: false
+  in_progress_fortune: false
+
+  high_level_summary: false
+  high_level_summary_in_walkthrough: false
+  collapse_walkthrough: true
   changed_files_summary: false
   sequence_diagrams: false
   estimate_code_review_effort: false
+  poem: false
+
   related_issues: false
   related_prs: false
+
   suggested_labels: false
+  auto_apply_labels: false
   suggested_reviewers: false
-  in_progress_fortune: true
-  collapse_walkthrough: false
+  auto_assign_reviewers: false
 
   # Automatic review scheduling
   auto_review:
@@ -31,6 +39,26 @@ reviews:
     base_branches:
       - main
       - v*
+
+  # Code enhancement features
+  finishing_touches:
+    docstrings:
+      enabled: false              # Generate docstrings for PRs/MRs (default: true)
+    unit_tests:
+      enabled: false              # Generate unit tests for PRs/MRs (default: true)
+
+  # Pre-merge validation checks
+  pre_merge_checks:
+    docstrings:                   # Docstring coverage check (default: warning)
+      mode: off
+    description:                  # PR description validation (default: warning)
+      mode: off
+    issue_assessment:             # Linked issue assessment (default: warning)
+      mode: off
+    title:                        # PR title validation (default: warning)
+      mode: "warning"
+      requirements: |
+        PR titles must follow the Conventional Commit format `type: Subject`, where `type` is one of {feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan} and `Subject` starts uppercase and stays ≤ 65 characters.
 
   # Files to include/exclude from reviews
   path_filters:
@@ -131,26 +159,6 @@ reviews:
         - **Performance**: Compiler optimizations enabled for release builds
         - **Analyzers**: Code quality rules properly configured
         - **Packaging**: NuGet metadata complete and accurate
-
-  # Code enhancement features
-  finishing_touches:
-    docstrings:
-      enabled: false              # Generate docstrings for PRs/MRs (default: true)
-    unit_tests:
-      enabled: false              # Generate unit tests for PRs/MRs (default: true)
-
-  # Pre-merge validation checks
-  pre_merge_checks:
-    docstrings:                   # Docstring coverage check (default: warning)
-      mode: off
-    description:                  # PR description validation (default: warning)
-      mode: off
-    issue_assessment:             # Linked issue assessment (default: warning)
-      mode: off
-    title:                        # PR title validation (default: warning)
-      mode: "warning"
-      requirements: |
-        PR titles must follow the Conventional Commit format `type: Subject`, where `type` is one of {feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan} and `Subject` starts uppercase and stays ≤ 65 characters.
 
   # Tool integrations
   tools:
