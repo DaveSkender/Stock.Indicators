@@ -5,11 +5,11 @@
 
 # General settings
 language: "en-US"
-early_access: false
+early_access: true
 
-# Review configuration
+# REVIEW CONFIGURATION
 reviews:
-  profile: "chill" # Balanced approach - thorough but not overwhelming
+  profile: "chill"
   request_changes_workflow: false
   high_level_summary: false
   poem: false
@@ -21,7 +21,7 @@ reviews:
   related_prs: false
   suggested_labels: false
   suggested_reviewers: false
-  in_progress_fortune: false
+  in_progress_fortune: true
   collapse_walkthrough: false
 
   # Automatic review scheduling
@@ -45,10 +45,12 @@ reviews:
     - "!**/*.bak"            # Backup files
     - "!**/.jekyll-cache/**" # Jekyll cache
     - "!**/Gemfile.lock"     # Ruby dependencies lock
-    - "!**/*.Calc.xlsx"      # Manual calculation spreadsheets (test artifacts)
+    - "!**/*-lock.json"      # NPM/PNPM lock files
+    - "!**/*.xlsx"           # Manual calculation spreadsheets
 
   # Path-based configuration
   path_instructions:
+
     # Indicator documentation pages must stay aligned with the current API surface
     - path: "docs/_indicators/*.md"
       instructions: |
@@ -130,6 +132,26 @@ reviews:
         - **Analyzers**: Code quality rules properly configured
         - **Packaging**: NuGet metadata complete and accurate
 
+  # Code enhancement features
+  finishing_touches:
+    docstrings:
+      enabled: false              # Generate docstrings for PRs/MRs (default: true)
+    unit_tests:
+      enabled: false              # Generate unit tests for PRs/MRs (default: true)
+
+  # Pre-merge validation checks
+  pre_merge_checks:
+    docstrings:                   # Docstring coverage check (default: warning)
+      mode: off
+    description:                  # PR description validation (default: warning)
+      mode: off
+    issue_assessment:             # Linked issue assessment (default: warning)
+      mode: off
+    title:                        # PR title validation (default: warning)
+      mode: "warning"
+      requirements: |
+        PR titles must follow the Conventional Commit format `type: Subject`, where `type` is one of {feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan} and `Subject` starts uppercase and stays ≤ 65 characters.
+
   # Tool integrations
   tools:
     gitleaks:
@@ -168,27 +190,7 @@ reviews:
     oxc:
       enabled: false
 
-  # Disable automatic finishing touches to keep reviews focused on manual intent
-  finishing_touches:
-    docstrings:
-      enabled: false
-    unit_tests:
-      enabled: false
-
-  # Pre-merge checks keep contributors aligned with workflow guardrails
-  pre_merge_checks:
-    title:
-      mode: "warning"
-      requirements: |
-        PR titles must follow the Conventional Commit format `type: Subject`, where `type` is one of {feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert, plan} and `Subject` starts uppercase and stays ≤ 65 characters.
-
-# Knowledge base configuration
-# Domain highlights:
-# - This is a .NET library for technical analysis indicators used in financial markets
-# - Performance is critical; prefer `double` over `decimal` unless business accuracy requires it
-# - Indicators must handle insufficient data with null-safe patterns and enforce lookback rules
-# - Streaming indicators maintain state between updates for real-time scenarios
-# - Documentation and instructions live in .github/instructions and related guideline files
+# KNOWLEDGE BASE CONFIGURATION
 knowledge_base:
   opt_out: false
   code_guidelines:
@@ -206,7 +208,7 @@ knowledge_base:
   mcp:
     usage: "auto"
 
-# Custom checks for financial calculations
+# CUSTOM CHECKS for financial calculations
 checks:
   # Financial accuracy patterns
   - pattern: "decimal.*price"
@@ -233,36 +235,30 @@ checks:
   - pattern: "public.*\\(.*\\).*=>.*;"
     message: "Public methods should include XML documentation with parameter descriptions and return value details."
 
-# Integration with existing tools
+# TOOL INTEGRATIONS
 integration:
-  # Respect existing .editorconfig rules
-  editorconfig: true
+  editorconfig: true              # Respect existing .editorconfig rules
+  dotnet_analyzers: true          # Work with existing analyzers
+  github_actions: true            # Coordinate with existing GitHub workflows
 
-  # Work with existing analyzers
-  dotnet_analyzers: true
-
-  # Coordinate with existing GitHub workflows
-  github_actions: true
-
-# Metrics and reporting preferences
+# REPORTING PREFERENCES
 reporting:
-  # Key metrics for this repository type
-  metrics:
+
+  metrics:                        # Key metrics for this repository type
     - "test_coverage"
     - "code_duplication"
     - "cyclomatic_complexity"
     - "maintainability_index"
     - "performance_indicators"
 
-  # Focus areas for dashboard
-  focus_areas:
+  focus_areas:                    # Focus areas for dashboard
     - "mathematical_accuracy"
     - "performance_optimization"
     - "api_consistency"
     - "documentation_completeness"
     - "test_coverage"
 
-# Custom review templates
+# REVIEW TEMPLATES
 templates:
   performance_review: |
     ## Performance Analysis
