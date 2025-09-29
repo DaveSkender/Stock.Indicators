@@ -29,8 +29,8 @@ public class CatalogMetricsTests : TestBase
         Console.WriteLine($"Actual Catalog Style Counts: Series={seriesCount}, Stream={streamCount}, Buffer={bufferCount}, Total={seriesCount + streamCount + bufferCount}");
 
         seriesCount.Should().Be(84);
-        bufferCount.Should().Be(5);  // Added TEMA BufferList
-        streamCount.Should().Be(10); // Added TEMA StreamHub
+        bufferCount.Should().Be(5);
+        streamCount.Should().Be(10);
 
         int totalCount = seriesCount + streamCount + bufferCount;
         totalCount.Should().Be(99);
