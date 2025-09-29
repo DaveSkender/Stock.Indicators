@@ -77,4 +77,16 @@ public class BufferListIndicators
     [Benchmark]
     public IReadOnlyList<WmaResult> WmaStream()
         => provider.ToWma(n).Results;
+
+    [Benchmark]
+    public TrList TrBuffer()
+        => new() { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<TrResult> TrSeries()
+        => quotes.ToTr();
+
+    [Benchmark]
+    public IReadOnlyList<TrResult> TrStream()
+        => provider.ToTr().Results;
 }
