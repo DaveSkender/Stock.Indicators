@@ -210,6 +210,41 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     }
 
     [TestMethod]
+    public void Reset()
+    {
+        List<Quote> quotesList = Quotes.ToList();
+
+        // setup quote provider
+        QuoteHub<Quote> provider = new();
+
+        // initialize observer with sample parameters
+        AlmaHub<Quote> observer = provider.ToAlma(14, 0.85, 6);
+
+        // Add ~50 quotes to populate state
+        for (int i = 0; i < 50; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        // assert observer.Results has 50 entries and the last result has a non-null Alma value
+        observer.Results.Should().HaveCount(50);
+        observer.Results[^1].Alma.Should().NotBeNull();
+
+        // call observer.Reinitialize()
+        observer.Reinitialize();
+
+        // Add one more quote and assert observer.Results has count 1 and that the single result's Alma is null (or uninitialized)
+        provider.Add(quotesList[50]);
+
+        observer.Results.Should().HaveCount(1);
+        observer.Results[^1].Alma.Should().BeNull();
+
+        // cleanup
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
     public void AlmaHubExceptions()
     {
         QuoteHub<Quote> provider = new();
