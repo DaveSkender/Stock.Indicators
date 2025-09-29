@@ -30,6 +30,7 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 - Use the solution tasks (`Restore`, `Build`, `Test`) or run `dotnet restore`, `dotnet build`, and `dotnet test --no-restore` from the repository root.
 - Keep analyzers clean; treat warnings as build failures.
 - Update documentation and samples when indicators change behavior, especially for streaming scenarios.
+- Always update `/docs` for individual indicators when adding or updating.
 
 ## Common pitfalls to avoid
 
@@ -39,6 +40,30 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 4. **Index out of range** and buffer reuse issues in streaming indicators—guard shared spans and caches.
 5. **Performance regressions** from unnecessary allocations or LINQ. Prefer span-friendly loops and avoid boxing.
 6. **Documentation drift** between code comments, XML docs, and the published docs site.
+
+## Guiding principles
+
+This library follows the [guiding principles](https://github.com/DaveSkender/Stock.Indicators/discussions/648) that emphasize:
+
+### I. Mathematical Precision
+
+Default to `double` for performance and reach for `decimal` when price-sensitive precision requires it. All financial calculations must be mathematically accurate and verified against reference implementations.
+
+### II. Performance First
+
+Minimize memory allocations, avoid excessive LINQ operations in hot paths, and use span-friendly loops. Performance benchmarks are mandatory for computationally intensive indicators.
+
+### III. Comprehensive Validation
+
+All public methods require complete input validation with descriptive error messages. Handle edge cases (insufficient data, zero/negative values, null inputs) explicitly with consistent exception types.
+
+### IV. Test-Driven Quality
+
+Every indicator requires comprehensive unit tests covering all code paths. Mathematical accuracy must be verified against reference implementations. Performance tests are mandatory for computationally intensive indicators.
+
+### V. Documentation Excellence
+
+All public methods must have complete XML documentation. Code examples must be provided for complex indicators. Documentation must include parameter constraints, return value descriptions, and usage patterns.
 
 ## Code review guidelines
 
@@ -53,9 +78,12 @@ This repository hosts **Stock Indicators for .NET**, the production source for t
 ### Code quality standards
 
 - Provide XML comments for all public types and members.
+- Use `/// <inheritdoc />` instead of repeating same XML code comments on implementations.
 - Cover happy paths, edge cases, and streaming flows with unit tests.
 - Add or update performance benchmarks when modifying core indicator loops.
 - Maintain `.editorconfig` conventions; let analyzers and style rules guide formatting.
+- Prefer explicit variable names over `var` (following `.editorconfig` conventions).
+- Use filenames that match the containing class name, with modifiers for partial classes spread across files.
 - Keep package metadata aligned with NuGet expectations (icon, README, license).
 
 ## Spec-driven development integration
