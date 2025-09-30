@@ -14,6 +14,9 @@ public class Mama : BufferListTestBase
     private static readonly IReadOnlyList<MamaResult> series
        = Quotes.ToMama(fastLimit, slowLimit);
 
+    private static readonly IReadOnlyList<MamaResult> reusableSeries
+       = reusables.ToMama(fastLimit, slowLimit);
+
     [TestMethod]
     public void FromReusableSplit()
     {
@@ -25,7 +28,7 @@ public class Mama : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(reusableSeries);
     }
 
     [TestMethod]
@@ -36,7 +39,7 @@ public class Mama : BufferListTestBase
         foreach (IReusable item in reusables) { sut.Add(item); }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(reusableSeries);
     }
 
     [TestMethod]
@@ -45,7 +48,7 @@ public class Mama : BufferListTestBase
         MamaList sut = new(fastLimit, slowLimit) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(reusableSeries);
     }
 
     [TestMethod]

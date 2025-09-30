@@ -74,7 +74,9 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
-        Add(quote.Timestamp, quote.Value);
+        // Calculate HL2 for MAMA algorithm (as per MAMA specification)
+        double hl2 = (double)(quote.High + quote.Low) / 2;
+        Add(quote.Timestamp, hl2);
     }
 
     /// <inheritdoc />
@@ -84,7 +86,10 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
 
         for (int i = 0; i < quotes.Count; i++)
         {
-            Add(quotes[i].Timestamp, quotes[i].Value);
+            IQuote quote = quotes[i];
+            // Calculate HL2 for MAMA algorithm (as per MAMA specification)
+            double hl2 = (double)(quote.High + quote.Low) / 2;
+            Add(quote.Timestamp, hl2);
         }
     }
 
