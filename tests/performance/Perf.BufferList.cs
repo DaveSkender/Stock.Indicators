@@ -35,6 +35,18 @@ public class BufferListIndicators
         => provider.ToAdx(n).Results;
 
     [Benchmark]
+    public AlmaList AlmaBuffer()
+        => new(n, 0.85, 6) { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<AlmaResult> AlmaSeries()
+        => quotes.ToAlma(n, 0.85, 6);
+
+    [Benchmark]
+    public IReadOnlyList<AlmaResult> AlmaStream()
+        => provider.ToAlma(n, 0.85, 6).Results;
+
+    [Benchmark]
     public EmaList EmaBuffer()
         => new(n) { quotes };
 

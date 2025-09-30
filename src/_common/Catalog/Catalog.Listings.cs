@@ -175,7 +175,9 @@ public static partial class Catalog
         _listings.Add(Ichimoku.SeriesListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
+        _listings.Add(Kama.BufferListing);
         _listings.Add(Kama.SeriesListing);
+        _listings.Add(Kama.StreamListing);
 
         // Keltner Channels
         _listings.Add(Keltner.SeriesListing);
@@ -257,6 +259,8 @@ public static partial class Catalog
 
         // SMMA (Smoothed Moving Average)
         _listings.Add(Smma.SeriesListing);
+        _listings.Add(Smma.StreamListing);
+        _listings.Add(Smma.BufferListing);
 
         // STARC Bands
         _listings.Add(StarcBands.SeriesListing);
