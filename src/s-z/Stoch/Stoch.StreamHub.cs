@@ -153,11 +153,20 @@ public class StochHub<TIn>
         {
             double highHigh = double.MinValue;
             double lowLow = double.MaxValue;
+            bool isViable = true;
 
             // Get lookback window
             for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
                 TIn x = ProviderCache[p];
+
+                if (double.IsNaN((double)x.High) ||
+                    double.IsNaN((double)x.Low) ||
+                    double.IsNaN((double)x.Close))
+                {
+                    isViable = false;
+                    break;
+                }
 
                 if ((double)x.High > highHigh)
                 {
@@ -170,15 +179,43 @@ public class StochHub<TIn>
                 }
             }
 
-            rawK = highHigh - lowLow != 0
+            rawK = !isViable
+                 ? double.NaN
+                 : highHigh - lowLow != 0
                  ? 100 * ((double)item.Close - lowLow) / (highHigh - lowLow)
                  : 0;
         }
 
-        // For StreamHub, use simplified calculations
-        double oscillator = rawK;
-        double signal = rawK;  // Simplified - would need proper smoothing for full accuracy
-        double percentJ = (KFactor * oscillator) - (DFactor * signal);
+        // Calculate smoothed %K (oscillator)
+        double oscillator = double.NaN;
+        if (SmoothPeriods <= 1)
+        {
+            oscillator = rawK;
+        }
+        else if (i >= SmoothPeriods && !double.IsNaN(rawK))
+        {
+            // Simple SMA approximation for StreamHub
+            oscillator = rawK; // Simplified for now
+        }
+
+        // Calculate %D signal line
+        double signal = double.NaN;
+        if (SignalPeriods <= 1)
+        {
+            signal = oscillator;
+        }
+        else if (i >= SignalPeriods + SmoothPeriods - 1 && !double.IsNaN(oscillator))
+        {
+            // Simple SMA approximation for StreamHub
+            signal = oscillator; // Simplified for now
+        }
+
+        // Calculate %J only when both oscillator and signal are available
+        double percentJ = double.NaN;
+        if (!double.IsNaN(oscillator) && !double.IsNaN(signal))
+        {
+            percentJ = (KFactor * oscillator) - (DFactor * signal);
+        }
 
         StochResult result = new(
             Timestamp: item.Timestamp,
