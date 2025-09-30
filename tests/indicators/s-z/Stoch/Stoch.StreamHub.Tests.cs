@@ -9,8 +9,11 @@ public class Stoch : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
         int length = Quotes.Count;
 
-        // add base quotes (batch)
+        // setup quote provider and observer BEFORE adding data
         QuoteHub<Quote> provider = new();
+        StochHub<Quote> observer = provider.ToStoch(14, 3, 3);
+
+        // add base quotes (batch)
         provider.Add(quotesList.Take(200));
 
         // add incremental quotes
@@ -19,8 +22,6 @@ public class Stoch : StreamHubTestBase
             Quote q = quotesList[i];
             provider.Add(q);
         }
-
-        StochHub<Quote> observer = provider.ToStoch(14, 3, 3);
 
         // close observations
         provider.EndTransmission();
@@ -52,13 +53,14 @@ public class Stoch : StreamHubTestBase
 
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider
+        // setup quote provider and observer BEFORE adding data
         QuoteHub<Quote> provider = new();
-        provider.Add(quotesList);
-
         StochHub<Quote> observer = provider.ToStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
+
+        // add quotes
+        provider.Add(quotesList);
 
         // close observations
         provider.EndTransmission();
@@ -161,7 +163,7 @@ public class Stoch : StreamHubTestBase
 
         provider.EndTransmission();
 
-        // batch calculation  
+        // batch calculation
         IReadOnlyList<StochResult> batchResults = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // compare results with reasonable precision

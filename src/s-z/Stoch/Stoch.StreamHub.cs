@@ -186,28 +186,146 @@ public class StochHub<TIn>
                  : 0;
         }
 
-        // Calculate smoothed %K (oscillator)
+        // Calculate smoothed %K (oscillator) - matches StaticSeries logic
         double oscillator = double.NaN;
         if (SmoothPeriods <= 1)
         {
             oscillator = rawK;
         }
-        else if (i >= SmoothPeriods && !double.IsNaN(rawK))
+        else if (i >= SmoothPeriods)
         {
-            // Simple SMA approximation for StreamHub
-            oscillator = rawK; // Simplified for now
+            switch (MovingAverageType)
+            {
+                case MaType.SMA:
+                    {
+                        double sum = 0;
+                        // Recalculate raw K for each position in the smoothing window
+                        for (int p = i - SmoothPeriods + 1; p <= i; p++)
+                        {
+                            double rawKAtP = double.NaN;
+                            if (p >= LookbackPeriods - 1 && p >= 0)
+                            {
+                                double hh = double.MinValue;
+                                double ll = double.MaxValue;
+                                bool viable = true;
+
+                                for (int q = p - LookbackPeriods + 1; q <= p; q++)
+                                {
+                                    if (q < 0 || q >= ProviderCache.Count)
+                                    {
+                                        viable = false;
+                                        break;
+                                    }
+
+                                    TIn x = ProviderCache[q];
+                                    if (double.IsNaN((double)x.High) ||
+                                        double.IsNaN((double)x.Low) ||
+                                        double.IsNaN((double)x.Close))
+                                    {
+                                        viable = false;
+                                        break;
+                                    }
+                                    if ((double)x.High > hh) hh = (double)x.High;
+                                    if ((double)x.Low < ll) ll = (double)x.Low;
+                                }
+
+                                if (p >= 0 && p < ProviderCache.Count)
+                                {
+                                    TIn pItem = ProviderCache[p];
+                                    rawKAtP = !viable
+                                           ? double.NaN
+                                           : hh - ll != 0
+                                           ? 100 * ((double)pItem.Close - ll) / (hh - ll)
+                                           : 0;
+                                }
+                            }
+
+                            sum += rawKAtP;
+                        }
+
+                        oscillator = sum / SmoothPeriods;
+                        break;
+                    }
+
+                case MaType.SMMA:
+                    {
+                        // Get previous smoothed K from cache
+                        double prevSmoothK = double.NaN;
+                        if (i > SmoothPeriods && Cache.Count >= i && Cache[i - 1].Oscillator.HasValue)
+                        {
+                            prevSmoothK = Cache[i - 1].Oscillator!.Value;
+                        }
+                        else
+                        {
+                            // Re/initialize with current raw K
+                            prevSmoothK = rawK;
+                        }
+
+                        oscillator = ((prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                        break;
+                    }
+
+                default:
+                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
+            }
         }
 
-        // Calculate %D signal line
+        // Calculate %D signal line - matches StaticSeries logic
         double signal = double.NaN;
         if (SignalPeriods <= 1)
         {
             signal = oscillator;
         }
-        else if (i >= SignalPeriods + SmoothPeriods - 1 && !double.IsNaN(oscillator))
+        else if (i >= SignalPeriods)
         {
-            // Simple SMA approximation for StreamHub
-            signal = oscillator; // Simplified for now
+            switch (MovingAverageType)
+            {
+                case MaType.SMA:
+                    {
+                        double sum = 0;
+                        // Get smoothed K values from cache for the signal window
+                        for (int p = i - SignalPeriods + 1; p <= i; p++)
+                        {
+                            double smoothKAtP = double.NaN;
+                            if (p < i && Cache.Count > p && Cache[p].Oscillator.HasValue)
+                            {
+                                // Get from cache for previous positions
+                                smoothKAtP = Cache[p].Oscillator!.Value;
+                            }
+                            else if (p == i)
+                            {
+                                // Use current oscillator for position i
+                                smoothKAtP = oscillator;
+                            }
+
+                            sum += smoothKAtP;
+                        }
+
+                        signal = sum / SignalPeriods;
+                        break;
+                    }
+
+                case MaType.SMMA:
+                    {
+                        // Get previous signal from cache
+                        double prevSignal = double.NaN;
+                        if (i > SignalPeriods && Cache.Count >= i && Cache[i - 1].Signal.HasValue)
+                        {
+                            prevSignal = Cache[i - 1].Signal!.Value;
+                        }
+                        else
+                        {
+                            // Re/initialize with current oscillator
+                            prevSignal = oscillator;
+                        }
+
+                        signal = ((prevSignal * (SignalPeriods - 1)) + oscillator) / SignalPeriods;
+                        break;
+                    }
+
+                default:
+                    throw new InvalidOperationException("Invalid Stochastic moving average type.");
+            }
         }
 
         // Calculate %J only when both oscillator and signal are available
