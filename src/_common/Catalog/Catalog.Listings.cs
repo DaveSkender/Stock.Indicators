@@ -64,6 +64,7 @@ public static partial class Catalog
         // ADX (Average Directional Index)
         _listings.Add(Adx.BufferListing);
         _listings.Add(Adx.SeriesListing);
+        _listings.Add(Adx.StreamListing);
 
         // Alligator
         _listings.Add(Alligator.SeriesListing);
@@ -259,6 +260,8 @@ public static partial class Catalog
 
         // SMMA (Smoothed Moving Average)
         _listings.Add(Smma.SeriesListing);
+        _listings.Add(Smma.StreamListing);
+        _listings.Add(Smma.BufferListing);
 
         // STARC Bands
         _listings.Add(StarcBands.SeriesListing);
