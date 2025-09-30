@@ -57,7 +57,7 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
-        IReadOnlyList<MamaResult> seriesList = quotesList.ToMama(5);
+        IReadOnlyList<MamaResult> seriesList = quotesList.ToMama(fastLimit, slowLimit);
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
