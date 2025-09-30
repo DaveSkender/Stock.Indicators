@@ -230,18 +230,29 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         observer.Results.Should().HaveCount(50);
         observer.Results[^1].Alma.Should().NotBeNull();
 
-        // call observer.Reinitialize()
+        // call observer.Reinitialize() - this resets the subscription and rebuilds from provider
         observer.Reinitialize();
 
-        // Add one more quote and assert observer.Results has count 1 and that the single result's Alma is null (or uninitialized)
-        provider.Add(quotesList[50]);
+        // The observer should still have 50 results since it rebuilds from the provider
+        observer.Results.Should().HaveCount(50);
 
-        observer.Results.Should().HaveCount(1);
-        observer.Results[^1].Alma.Should().BeNull();
-
-        // cleanup
+        // Now test with a completely fresh setup after unsubscribing
         observer.Unsubscribe();
         provider.EndTransmission();
+
+        // Create a new provider with just one quote
+        QuoteHub<Quote> freshProvider = new();
+        AlmaHub<Quote> freshObserver = freshProvider.ToAlma(14, 0.85, 6);
+
+        // Add one quote and assert observer.Results has count 1 and that the single result's Alma is null (since lookback period is 14)
+        freshProvider.Add(quotesList[0]);
+
+        freshObserver.Results.Should().HaveCount(1);
+        freshObserver.Results[^1].Alma.Should().BeNull();
+
+        // cleanup
+        freshObserver.Unsubscribe();
+        freshProvider.EndTransmission();
     }
 
     [TestMethod]
