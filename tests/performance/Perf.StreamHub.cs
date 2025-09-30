@@ -43,7 +43,13 @@ public class StreamIndicators
     public object AtrStopHub() => provider.ToAtrStop().Results;
 
     [Benchmark]
+    public object AdxHub() => provider.ToAdx(14).Results;
+
+    [Benchmark]
     public object AlligatorHub() => provider.ToAlligator().Results;
+
+    [Benchmark]
+    public object AlmaHub() => provider.ToAlma(10, 0.85, 6).Results;
 
     [Benchmark]
     public object EmaHub() => provider.ToEma(14).Results;
@@ -62,6 +68,9 @@ public class StreamIndicators
     }
 
     [Benchmark]
+    public object HmaHub() => provider.ToHma(14).Results;
+
+    [Benchmark]
     public object QuoteHub() => provider.ToQuote().Results;
 
     [Benchmark]
@@ -75,4 +84,7 @@ public class StreamIndicators
 
     [Benchmark]
     public object TrHub() => provider.ToTr().Results;
+
+    [Benchmark]
+    public object WmaHub() => provider.ToWma(14).Results;
 }

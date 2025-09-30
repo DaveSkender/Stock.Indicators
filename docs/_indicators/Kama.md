@@ -85,3 +85,33 @@ var results = quotes
     .GetKama(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+KamaList kamaList = new(erPeriods, fastPeriods, slowPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  kamaList.Add(quote);
+}
+
+// based on `List<KamaResult>`
+IReadOnlyList<KamaResult> results = kamaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+KamaHub<Quote> observer = provider.ToKama(erPeriods, fastPeriods, slowPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<KamaResult> results = observer.Results;
+```
