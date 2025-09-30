@@ -30,9 +30,9 @@ public class CatalogMetricsTests : TestBase
 
         seriesCount.Should().Be(84);
         bufferCount.Should().Be(7);
-        streamCount.Should().Be(12);
+        streamCount.Should().Be(13);
 
         int totalCount = seriesCount + streamCount + bufferCount;
-        totalCount.Should().Be(103);
+        totalCount.Should().Be(104);
     }
 }
