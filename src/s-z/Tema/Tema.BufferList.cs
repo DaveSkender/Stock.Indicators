@@ -1,22 +1,27 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Exponential Moving Average (EMA) from incremental reusable values.
+/// Triple Exponential Moving Average (TEMA) from incremental reusable values.
 /// </summary>
-public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
+public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
 
+    // State for triple EMA calculations
+    private double _lastEma1 = double.NaN;
+    private double _lastEma2 = double.NaN;
+    private double _lastEma3 = double.NaN;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmaList"/> class.
+    /// Initializes a new instance of the <see cref="TemaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    public EmaList(
+    public TemaList(
         int lookbackPeriods
     )
     {
-        Ema.Validate(lookbackPeriods);
+        Tema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
@@ -24,20 +29,24 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         _bufferSum = 0;
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets the number of periods to look back for the calculation.
+    /// </summary>
     public int LookbackPeriods { get; init; }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets the smoothing factor for the calculation.
+    /// </summary>
     public double K { get; private init; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer and track dequeued value for sum maintenance using extension method
+        // Use BufferUtilities extension method for efficient buffer management
         double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
 
-        // update running sum
-        if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
+        // Update running sum efficiently
+        if (dequeuedValue.HasValue)
         {
             _bufferSum = _bufferSum - dequeuedValue.Value + value;
         }
@@ -49,25 +58,42 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new EmaResult(timestamp));
+            base.Add(new TemaResult(timestamp));
             return;
         }
 
-        double? lastEma = this[^1].Ema;
+        double ema1;
+        double ema2;
+        double ema3;
 
-        // re/initialize as SMA
-        if (lastEma is null)
+        // when no prior EMA, reset as SMA
+        if (double.IsNaN(_lastEma3))
         {
-            base.Add(new EmaResult(
-                timestamp,
-                _bufferSum / LookbackPeriods));
-            return;
+            ema1 = ema2 = ema3 = _bufferSum / LookbackPeriods;
+        }
+        // normal TEMA calculation
+        else
+        {
+            ema1 = _lastEma1 + (K * (value - _lastEma1));
+            ema2 = _lastEma2 + (K * (ema1 - _lastEma2));
+            ema3 = _lastEma3 + (K * (ema2 - _lastEma3));
         }
 
-        // calculate EMA normally
-        base.Add(new EmaResult(
+        // calculate TEMA
+        double tema = (3 * ema1) - (3 * ema2) + ema3;
+
+        base.Add(new TemaResult(
             timestamp,
-            Ema.Increment(K, lastEma.Value, value)));
+            tema.NaN2Null()) {
+            Ema1 = ema1,
+            Ema2 = ema2,
+            Ema3 = ema3
+        });
+
+        // store state for next calculation
+        _lastEma1 = ema1;
+        _lastEma2 = ema2;
+        _lastEma3 = ema3;
     }
 
     /// <inheritdoc />
@@ -112,15 +138,18 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         base.Clear();
         _buffer.Clear();
         _bufferSum = 0;
+        _lastEma1 = double.NaN;
+        _lastEma2 = double.NaN;
+        _lastEma3 = double.NaN;
     }
 }
 
-public static partial class Ema
+public static partial class Tema
 {
     /// <summary>
-    /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
+    /// Creates a buffer list for TEMA calculations.
     /// </summary>
-    public static EmaList ToEmaList<TQuote>(
+    public static TemaList ToTemaList<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods)
         where TQuote : IQuote

@@ -69,3 +69,19 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+QuotePartHub<Quote> observer = provider.ToQuotePart(CandlePart.HL2);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<QuotePart> results = observer.Results;
+```
