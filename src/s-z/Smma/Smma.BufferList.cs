@@ -53,18 +53,12 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
             return;
         }
 
-        double smma;
+        double smma = _previousSmma is null
+            ? _bufferSum / LookbackPeriods
+            // normal SMMA calculation
+            : ((_previousSmma.Value * (LookbackPeriods - 1)) + value) / LookbackPeriods;
 
         // when no prior SMMA, reset as SMA
-        if (_previousSmma is null)
-        {
-            smma = _bufferSum / LookbackPeriods;
-        }
-        // normal SMMA calculation
-        else
-        {
-            smma = ((_previousSmma.Value * (LookbackPeriods - 1)) + value) / LookbackPeriods;
-        }
 
         SmmaResult result = new(timestamp, smma.NaN2Null());
         base.Add(result);

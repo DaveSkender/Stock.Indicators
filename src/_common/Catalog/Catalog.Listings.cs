@@ -195,7 +195,9 @@ public static partial class Catalog
         _listings.Add(Macd.SeriesListing);
 
         // MAMA (MESA Adaptive Moving Average)
+        _listings.Add(Mama.BufferListing);
         _listings.Add(Mama.SeriesListing);
+        _listings.Add(Mama.StreamListing);
 
         // Marubozu
         _listings.Add(Marubozu.SeriesListing);
