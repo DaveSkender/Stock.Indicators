@@ -1,5 +1,8 @@
 {
-  "globs": ["**/*.md", "**/*.markdown"],
+  "globs": [
+    "**/*.md",
+    "**/*.markdown"
+  ],
   "ignores": [
     "**/.angular/**",
     "**/.git/**",
@@ -10,7 +13,8 @@
     "**/obj/**",
     "**/BenchmarkDotNet.Artifacts/**",
     "**/TestResults/**",
-    "**/*playwright*/**"
+    "**/*playwright*/**",
+    "**/vendor/**"
   ],
   "config": {
     "default": true,
