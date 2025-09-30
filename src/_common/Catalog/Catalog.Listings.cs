@@ -283,7 +283,9 @@ public static partial class Catalog
         _listings.Add(T3.SeriesListing);
 
         // TEMA (Triple Exponential Moving Average)
+        _listings.Add(Tema.BufferListing);
         _listings.Add(Tema.SeriesListing);
+        _listings.Add(Tema.StreamListing);
 
         // TR (True Range)
         _listings.Add(Tr.SeriesListing);
@@ -312,6 +314,8 @@ public static partial class Catalog
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
+        _listings.Add(Vwma.StreamListing);
+        _listings.Add(Vwma.BufferListing);
 
         // Williams %R
         _listings.Add(WilliamsR.SeriesListing);
