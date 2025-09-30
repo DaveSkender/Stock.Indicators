@@ -1,4 +1,5 @@
 namespace BufferLists;
+#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Tr : BufferListTestBase

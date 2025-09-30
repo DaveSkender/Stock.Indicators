@@ -1,4 +1,5 @@
 namespace BufferLists;
+#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Adl : BufferListTestBase
@@ -36,10 +37,7 @@ public class Adl : BufferListTestBase
 
         AdlList sut = new();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        foreach (Quote q in subset) { sut.Add(q); }
 
         sut.Should().HaveCount(subset.Count);
 

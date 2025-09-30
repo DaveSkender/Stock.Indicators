@@ -1,30 +1,14 @@
 namespace Skender.Stock.Indicators;
 
-/// <summary>
-/// Accumulation/Distribution Line (ADL) from incremental quotes.
-/// </summary>
 public static partial class Adl
 {
     /// <summary>
     /// Creates a buffer list for Accumulation/Distribution Line calculations.
     /// </summary>
-    public static AdlList ToAdlBufferList<TQuote>(
+    public static AdlList ToAdlList<TQuote>(
         this IReadOnlyList<TQuote> quotes)
         where TQuote : IQuote
-    {
-        // Input validation
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        // Initialize buffer and populate
-        AdlList bufferList = new();
-
-        foreach (TQuote quote in quotes)
-        {
-            bufferList.Add(quote);
-        }
-
-        return bufferList;
-    }
+        => new() { (IReadOnlyList<IQuote>)quotes };
 }
 
 /// <summary>

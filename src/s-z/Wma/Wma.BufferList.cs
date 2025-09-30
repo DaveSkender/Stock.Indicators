@@ -1,5 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+public static partial class Wma
+{
+    /// <summary>
+    /// Creates a buffer list for Weighted Moving Average (VWMA) calculations.
+    /// </summary>
+    public static WmaList ToWmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}
+
 /// <summary>
 /// Weighted Moving Average (WMA) from incremental reusable values.
 /// </summary>
