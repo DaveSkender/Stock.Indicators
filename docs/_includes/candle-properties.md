@@ -2,14 +2,14 @@
 
 | name | type | notes
 | -- |-- |--
-| `Date` | DateTime | Date
+| `Timestamp` | DateTime | Close date
 | `Open` | decimal | Open price
 | `High` | decimal | High price
 | `Low` | decimal | Low price
 | `Close` | decimal | Close price
 | `Volume` | decimal | Volume
 | `Size` | decimal | `High-Low`
-| `Body` | decimal | `|Open-Close|`
+| `Body` | decimal | `\|Open-Close\|`
 | `UpperWick` | decimal | Upper wick size
 | `LowerWick` | decimal | Lower wick size
 | `BodyPct` | double | `Body/Size`
