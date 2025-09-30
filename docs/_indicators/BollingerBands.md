@@ -87,3 +87,33 @@ var results = quotes
     .GetBollingerBands(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+BollingerBandsList bbList = new(lookbackPeriods, standardDeviations);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  bbList.Add(quote);
+}
+
+// based on `List<BollingerBandsResult>`
+IReadOnlyList<BollingerBandsResult> results = bbList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+BollingerBandsHub<Quote> observer = provider.ToBollingerBands(lookbackPeriods, standardDeviations);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<BollingerBandsResult> results = observer.Results;
+```
