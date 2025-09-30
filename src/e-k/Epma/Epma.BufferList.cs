@@ -141,3 +141,15 @@ public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
         return (slope, intercept);
     }
 }
+
+public static partial class Epma
+{
+    /// <summary>
+    /// Creates a buffer list for Endpoint Moving Average (EPMA) calculations.
+    /// </summary>
+    public static EpmaList ToEpmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

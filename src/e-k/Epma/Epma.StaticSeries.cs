@@ -40,33 +40,4 @@ public static partial class Epma
 
         return results;
     }
-
-    /// <summary>
-    /// Creates a buffered list for incremental EPMA calculations.
-    /// </summary>
-    /// <typeparam name="T">The type of the source data.</typeparam>
-    /// <param name="source">The source list of data.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    /// <returns>An EpmaList for incremental calculations.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the source is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static EpmaList ToEpmaBufferList<T>(
-        this IReadOnlyList<T> source,
-        int lookbackPeriods)
-        where T : IReusable
-    {
-        // Input validation
-        ArgumentNullException.ThrowIfNull(source);
-        Validate(lookbackPeriods);
-
-        // Initialize buffer and populate
-        EpmaList bufferList = new(lookbackPeriods);
-
-        foreach (T item in source)
-        {
-            bufferList.Add(item);
-        }
-
-        return bufferList;
-    }
 }
