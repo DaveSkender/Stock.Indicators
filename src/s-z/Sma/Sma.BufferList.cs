@@ -39,6 +39,7 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
             {
                 sum += val;
             }
+
             sma = sum / LookbackPeriods;
         }
 
@@ -105,4 +106,16 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
         base.Clear();
         buffer.Clear();
     }
+}
+
+public static partial class Sma
+{
+    /// <summary>
+    /// Creates a buffer list for Simple Moving Average (SMA) calculations.
+    /// </summary>
+    public static SmaList ToSmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

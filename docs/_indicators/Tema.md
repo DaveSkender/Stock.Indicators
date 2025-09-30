@@ -89,3 +89,33 @@ var results = quotes
     .GetTema(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+TemaList temaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  temaList.Add(quote);
+}
+
+// based on `List<TemaResult>`
+IReadOnlyList<TemaResult> results = temaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+TemaHub<Quote> observer = provider.ToTema(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<TemaResult> results = observer.Results;
+```

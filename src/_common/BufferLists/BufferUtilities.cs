@@ -18,6 +18,7 @@ public static class BufferUtilities
     public static void Update<T>(this Queue<T> buffer, int capacity, T value)
     {
         ArgumentNullException.ThrowIfNull(buffer);
+
         if (capacity <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than 0.");
@@ -45,12 +46,13 @@ public static class BufferUtilities
     public static T? UpdateWithDequeue<T>(this Queue<T> buffer, int capacity, T value)
     {
         ArgumentNullException.ThrowIfNull(buffer);
+
         if (capacity <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than 0.");
         }
 
-        T? dequeuedValue = default(T);
+        T? dequeuedValue = default;
 
         if (buffer.Count == capacity)
         {
