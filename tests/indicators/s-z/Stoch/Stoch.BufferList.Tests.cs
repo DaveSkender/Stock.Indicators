@@ -162,7 +162,7 @@ public class Stoch : BufferListTestBase
     public void BufferListExtension()
     {
         // Test extension method
-        StochList fromExtension = Quotes.ToStochBufferList(lookbackPeriods, signalPeriods, smoothPeriods);
+        StochList fromExtension = Quotes.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
         StochList fromConstructor = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
         fromExtension.Should().BeEquivalentTo(fromConstructor);

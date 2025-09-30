@@ -61,44 +61,18 @@ public static partial class Stoch
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <returns>A StochList containing the oscillator calculations.</returns>
-    public static StochList ToStochBufferList<TQuote>(
+    public static StochList ToStochList<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods = 14,
         int signalPeriods = 3,
         int smoothPeriods = 3)
         where TQuote : IQuote
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        StochList bufferList = new(lookbackPeriods, signalPeriods, smoothPeriods);
-
-        foreach (TQuote quote in quotes)
-        {
-            bufferList.Add(quote);
-        }
-
-        return bufferList;
-    }
+        => new(lookbackPeriods, signalPeriods, smoothPeriods) { (IReadOnlyList<IQuote>)quotes };
 
     /// <summary>
     /// Creates a buffer list for Stochastic Oscillator calculations with extended parameters.
     /// </summary>
-    /// <typeparam name="TQuote">The type of the quote.</typeparam>
-    /// <param name="quotes">The list of quotes.</param>
-    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
-    /// <param name="signalPeriods">The signal period for the oscillator.</param>
-    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
-    /// <param name="kFactor">The factor for the %K line.</param>
-    /// <param name="dFactor">The factor for the %D line.</param>
-    /// <param name="movingAverageType">The type of moving average to use.</param>
-    /// <returns>A StochList containing the oscillator calculations.</returns>
-    public static StochList ToStochBufferList<TQuote>(
+    public static StochList ToStochList<TQuote>(
         this IReadOnlyList<TQuote> quotes,
         int lookbackPeriods,
         int signalPeriods,
@@ -107,18 +81,7 @@ public static partial class Stoch
         double dFactor,
         MaType movingAverageType)
         where TQuote : IQuote
-    {
-        ArgumentNullException.ThrowIfNull(quotes);
-
-        StochList bufferList = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
-
-        foreach (TQuote quote in quotes)
-        {
-            bufferList.Add(quote);
-        }
-
-        return bufferList;
-    }
+        => new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { (IReadOnlyList<IQuote>)quotes };
 
     /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
