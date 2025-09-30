@@ -53,6 +53,8 @@ public class MamaHub<TIn>
         FastLimit = fastLimit;
         SlowLimit = slowLimit;
         hubName = $"MAMA({fastLimit},{slowLimit})";
+
+        Reinitialize();
     }
 
     /// <inheritdoc/>
