@@ -84,6 +84,11 @@ public class MamaHub<TIn>
     protected override (MamaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
+        // NOTE: MAMA has complex internal state.  We maintain state arrays that are
+        // truncated on rebuild events.  See RollbackState() override below.
+        // For correctness (matching StaticSeries), we re-derive values strictly
+        // from prior cached state and provider items.  No partial recalculation shortcuts.
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Ensure arrays have enough capacity
@@ -102,7 +107,8 @@ public class MamaHub<TIn>
             ph.Add(0);
         }
 
-        pr[i] = item.Value;
+        // prefer HL2 when available (IQuote), matching static series behavior
+        pr[i] = item.Hl2OrValue();
 
         // Skip incalculable periods
         if (i < 5)
@@ -221,5 +227,43 @@ public class MamaHub<TIn>
             Fama: fama.NaN2Null());
 
         return (result, i);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
+    {
+        int index = ProviderCache.IndexGte(timestamp);
+
+        if (index <= 0)
+        {
+            pr.Clear();
+            sm.Clear();
+            dt.Clear();
+            pd.Clear();
+            q1.Clear();
+            i1.Clear();
+            q2.Clear();
+            i2.Clear();
+            re.Clear();
+            im.Clear();
+            ph.Clear();
+            return;
+        }
+
+        if (index < pr.Count)
+        {
+            int removeCount = pr.Count - index;
+            pr.RemoveRange(index, removeCount);
+            sm.RemoveRange(index, removeCount);
+            dt.RemoveRange(index, removeCount);
+            pd.RemoveRange(index, removeCount);
+            q1.RemoveRange(index, removeCount);
+            i1.RemoveRange(index, removeCount);
+            q2.RemoveRange(index, removeCount);
+            i2.RemoveRange(index, removeCount);
+            re.RemoveRange(index, removeCount);
+            im.RemoveRange(index, removeCount);
+            ph.RemoveRange(index, removeCount);
+        }
     }
 }
