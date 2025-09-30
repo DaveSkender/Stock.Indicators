@@ -95,15 +95,6 @@ public class MacdHub<TIn>
     public override string ToString() => hubName;
 
     /// <inheritdoc/>
-    protected override void OnReinitialize()
-    {
-        base.OnReinitialize();
-        _lastFastEma = null;
-        _lastSlowEma = null;
-        _lastSignalEma = null;
-    }
-
-    /// <inheritdoc/>
     protected override (MacdResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
@@ -162,7 +153,7 @@ public class MacdHub<TIn>
                 {
                     if (Cache[j].Macd.HasValue)
                     {
-                        sum += Cache[j].Macd.Value;
+                        sum += Cache[j].Macd!.Value;
                     }
                 }
                 signal = sum / SignalPeriods;

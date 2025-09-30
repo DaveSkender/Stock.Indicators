@@ -3,6 +3,29 @@ namespace StreamHub;
 [TestClass]
 public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
+    public override void CustomToString()
+    {
+        List<Quote> quotesList = Quotes.ToList();
+
+        // setup quote provider
+        QuoteHub<Quote> provider = new();
+
+        // initialize observer
+        MacdHub<Quote> observer = provider
+            .ToMacd(12, 26, 9);
+
+        // emulate quote stream
+        for (int i = 0; i < 20; i++)
+        {
+            provider.Add(quotesList[i]);
+        }
+
+        // test string output
+        observer.ToString().Should().Be("MACD(12,26,9)");
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
     [TestMethod]
     public override void QuoteObserver()
     {
@@ -121,9 +144,8 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         int length = quotesList.Count;
 
         // setup chain provider
-        SmaHub<Quote> provider = Quotes
-            .ToQuoteHub()
-            .ToSma(smaPeriods);
+        QuoteHub<Quote> quoteProvider = new();
+        SmaHub<Quote> provider = quoteProvider.ToSma(smaPeriods);
 
         // initialize observer
         MacdHub<SmaResult> observer = provider
@@ -132,7 +154,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // emulate live quotes
         for (int i = length - 50; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteProvider.Add(quotesList[i]);
         }
 
         // final results
@@ -151,6 +173,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         observer.Unsubscribe();
         provider.EndTransmission();
+        quoteProvider.EndTransmission();
     }
 
     [TestMethod]
@@ -179,7 +202,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         IReadOnlyList<MacdResult> streamResults = observer.Results;
 
         // time-series for comparison
-        IReadOnlyList<MacdResult> seriesResults = quotesList.Take(100).ToMacd(fastPeriods, slowPeriods, signalPeriods);
+        IReadOnlyList<MacdResult> seriesResults = quotesList.Take(100).ToList().ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
         // validate specific data points
         MacdResult streamResult = streamResults[50];
@@ -220,7 +243,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         // verify results consistency
         IReadOnlyList<MacdResult> streamResults = observer.Results;
-        IReadOnlyList<MacdResult> seriesResults = quotesList.Take(50).ToMacd(8, 21, 5);
+        IReadOnlyList<MacdResult> seriesResults = quotesList.Take(50).ToList().ToMacd(8, 21, 5);
 
         streamResults.Should().BeEquivalentTo(seriesResults);
 
