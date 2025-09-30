@@ -1,18 +1,17 @@
 name: Test Indicators (matrix)
 
 on:
+  push:
+    branches:
+      - "main"
+      - "v[0-9]*"
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Test Indicators"]
-    types:
-      - completed
 
 permissions:
-  contents: read   # Required for checkout
+  contents: read # Required for checkout
 
 jobs:
   test:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     name: matrix validation
     runs-on: ${{ matrix.os }}
 
