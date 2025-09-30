@@ -49,6 +49,9 @@ public class StreamIndicators
     public object AlligatorHub() => provider.ToAlligator().Results;
 
     [Benchmark]
+    public object AlmaHub() => provider.ToAlma(10, 0.85, 6).Results;
+
+    [Benchmark]
     public object EmaHub() => provider.ToEma(14).Results;
 
     [Benchmark]
