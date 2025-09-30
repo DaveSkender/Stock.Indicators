@@ -30,30 +30,20 @@ public static partial class Obv
         List<ObvResult> results = new(length);
 
         double prevClose = double.NaN;
-        double obv = 0;
 
         // roll through source values
         for (int i = 0; i < length; i++)
         {
             QuoteD q = source[i];
 
-            if (double.IsNaN(prevClose) || q.Close == prevClose)
-            {
-                // no change to OBV
-            }
-            else if (q.Close > prevClose)
-            {
-                obv += q.Volume;
-            }
-            else if (q.Close < prevClose)
-            {
-                obv -= q.Volume;
-            }
+            ObvResult r = Obv.Increment(
+                q.Timestamp,
+                q.Close,
+                q.Volume,
+                prevClose,
+                i > 0 ? results[i - 1].Obv : 0);
 
-            results.Add(new ObvResult(
-                Timestamp: q.Timestamp,
-                Obv: obv));
-
+            results.Add(r);
             prevClose = q.Close;
         }
 
