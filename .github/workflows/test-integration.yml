@@ -1,15 +1,14 @@
-name: Indicators
+name: Test Integration
 
 on:
   push:
-    branches: ["main"]
-
-  pull_request:
-    branches: ["*"]
+    branches:
+      - "main"
+      - "v[0-9]*"
+  workflow_dispatch:
 
 jobs:
   test:
-    name: integration tests
     runs-on: ubuntu-latest
 
     permissions:
