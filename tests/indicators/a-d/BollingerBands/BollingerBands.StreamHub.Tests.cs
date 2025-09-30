@@ -118,7 +118,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase
         // Create a simple test to debug the StreamHub
         QuoteHub<Quote> provider = new();
         List<Quote> quotes = Quotes.Take(25).ToList();
-        
+
         // Add some quotes
         for (int i = 0; i < 5; i++)
         {
@@ -127,26 +127,26 @@ public class BollingerBandsStreamHub : StreamHubTestBase
 
         // Create observer
         BollingerBandsHub<Quote> observer = provider.ToBollingerBands(20, 2);
-        
+
         // Check initial state
         Assert.AreEqual(0, observer.Results.Count, "Initial results count should be 0");
-        
+
         // Add more quotes
         for (int i = 5; i < 25; i++)
         {
             provider.Add(quotes[i]);
         }
-        
+
         // Check final state
         int resultCount = observer.Results.Count;
         Console.WriteLine($"Result count: {resultCount}");
-        
+
         if (resultCount > 0)
         {
             var lastResult = observer.Results.Last();
             Console.WriteLine($"Last result: SMA={lastResult.Sma}, Upper={lastResult.UpperBand}, Lower={lastResult.LowerBand}");
         }
-        
+
         // Cleanup
         observer.Unsubscribe();
         provider.EndTransmission();
