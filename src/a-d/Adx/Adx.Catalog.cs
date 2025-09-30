@@ -23,7 +23,11 @@ public static partial class Adx
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for ADX.
+    // ADX Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
 
     // ADX Buffer Listing
     internal static readonly IndicatorListing BufferListing =

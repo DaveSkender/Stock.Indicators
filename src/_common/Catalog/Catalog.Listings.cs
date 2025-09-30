@@ -64,6 +64,7 @@ public static partial class Catalog
         // ADX (Average Directional Index)
         _listings.Add(Adx.BufferListing);
         _listings.Add(Adx.SeriesListing);
+        _listings.Add(Adx.StreamListing);
 
         // Alligator
         _listings.Add(Alligator.SeriesListing);
@@ -243,7 +244,9 @@ public static partial class Catalog
         _listings.Add(RollingPivots.SeriesListing);
 
         // RSI (Relative Strength Index)
+        _listings.Add(Rsi.BufferListing);
         _listings.Add(Rsi.SeriesListing);
+        _listings.Add(Rsi.StreamListing);
 
         // Slope
         _listings.Add(Slope.SeriesListing);
