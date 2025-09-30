@@ -190,6 +190,7 @@ public static partial class Catalog
         _listings.Add(MaEnvelopes.SeriesListing);
 
         // MACD (Moving Average Convergence Divergence)
+        _listings.Add(Macd.BufferListing);
         _listings.Add(Macd.SeriesListing);
 
         // MAMA (MESA Adaptive Moving Average)

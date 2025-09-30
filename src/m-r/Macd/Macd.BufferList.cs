@@ -16,25 +16,13 @@ public static partial class Macd
     /// <returns>A MACD buffer list.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    public static MacdList ToMacdBufferList<T>(
+    public static MacdList ToMacdList<T>(
         this IReadOnlyList<T> source,
         int fastPeriods = 12,
         int slowPeriods = 26,
         int signalPeriods = 9)
         where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(source);
-        Validate(fastPeriods, slowPeriods, signalPeriods);
-
-        MacdList bufferList = new(fastPeriods, slowPeriods, signalPeriods);
-        
-        foreach (T item in source)
-        {
-            bufferList.Add(item);
-        }
-        
-        return bufferList;
-    }
+        => new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
 }
 
 /// <summary>
@@ -48,7 +36,7 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
     private double _fastBufferSum;
     private double _slowBufferSum;
     private double _macdBufferSum;
-    
+
     private double? _lastFastEma;
     private double? _lastSlowEma;
     private double? _lastSignalEma;
@@ -76,7 +64,7 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
         _fastBuffer = new Queue<double>(fastPeriods);
         _slowBuffer = new Queue<double>(slowPeriods);
         _macdBuffer = new Queue<double>(signalPeriods);
-        
+
         _fastBufferSum = 0;
         _slowBufferSum = 0;
         _macdBufferSum = 0;
@@ -109,21 +97,27 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Update fast EMA buffer
-        if (_fastBuffer.Count == FastPeriods)
+        // Update fast EMA buffer using BufferUtilities
+        double? dequeuedFast = _fastBuffer.UpdateWithDequeue(FastPeriods, value);
+        if (dequeuedFast.HasValue)
         {
-            _fastBufferSum -= _fastBuffer.Dequeue();
+            _fastBufferSum = _fastBufferSum - dequeuedFast.Value + value;
         }
-        _fastBuffer.Enqueue(value);
-        _fastBufferSum += value;
+        else
+        {
+            _fastBufferSum += value;
+        }
 
-        // Update slow EMA buffer
-        if (_slowBuffer.Count == SlowPeriods)
+        // Update slow EMA buffer using BufferUtilities
+        double? dequeuedSlow = _slowBuffer.UpdateWithDequeue(SlowPeriods, value);
+        if (dequeuedSlow.HasValue)
         {
-            _slowBufferSum -= _slowBuffer.Dequeue();
+            _slowBufferSum = _slowBufferSum - dequeuedSlow.Value + value;
         }
-        _slowBuffer.Enqueue(value);
-        _slowBufferSum += value;
+        else
+        {
+            _slowBufferSum += value;
+        }
 
         // Calculate Fast EMA
         double? fastEma = null;
@@ -170,13 +164,16 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
         double? signal = null;
         if (macd.HasValue)
         {
-            // Update MACD buffer for signal calculation
-            if (_macdBuffer.Count == SignalPeriods)
+            // Update MACD buffer for signal calculation using BufferUtilities
+            double? dequeuedMacd = _macdBuffer.UpdateWithDequeue(SignalPeriods, macd.Value);
+            if (dequeuedMacd.HasValue)
             {
-                _macdBufferSum -= _macdBuffer.Dequeue();
+                _macdBufferSum = _macdBufferSum - dequeuedMacd.Value + macd.Value;
             }
-            _macdBuffer.Enqueue(macd.Value);
-            _macdBufferSum += macd.Value;
+            else
+            {
+                _macdBufferSum += macd.Value;
+            }
 
             // Calculate signal line
             if (Count >= SlowPeriods + SignalPeriods - 2)
