@@ -81,3 +81,33 @@ var results = quotes
     .GetMama(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+MamaList mamaList = new(fastLimit, slowLimit);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  mamaList.Add(quote);
+}
+
+// based on `List<MamaResult>`
+IReadOnlyList<MamaResult> results = mamaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+MamaHub<Quote> observer = provider.ToMama(fastLimit, slowLimit);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<MamaResult> results = observer.Results;
+```
