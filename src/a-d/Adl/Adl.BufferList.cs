@@ -15,6 +15,16 @@ public class AdlList : List<AdlResult>, IBufferList
         _previousAdl = 0;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AdlList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public AdlList(IReadOnlyList<IQuote> quotes)
+    {
+        _previousAdl = 0;
+        Add(quotes);
+    }
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

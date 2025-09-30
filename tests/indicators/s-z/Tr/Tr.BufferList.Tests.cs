@@ -1,5 +1,4 @@
 namespace BufferLists;
-#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Tr : BufferListTestBase
@@ -35,12 +34,7 @@ public class Tr : BufferListTestBase
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        TrList sut = new();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        TrList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
 

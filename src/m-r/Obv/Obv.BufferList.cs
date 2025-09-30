@@ -16,6 +16,15 @@ public class ObvList : List<ObvResult>, IBufferList
         // OBV doesn't require any parameters or initialization
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ObvList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public ObvList(IReadOnlyList<IQuote> quotes)
+    {
+        Add(quotes);
+    }
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

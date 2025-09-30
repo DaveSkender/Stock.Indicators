@@ -1,5 +1,4 @@
 namespace BufferLists;
-#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Obv : BufferListTestBase
@@ -31,12 +30,7 @@ public class Obv : BufferListTestBase
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        ObvList sut = new();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        ObvList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
 

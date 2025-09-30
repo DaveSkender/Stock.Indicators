@@ -15,6 +15,16 @@ public class TrList : List<TrResult>, IBufferList
         _buffer = new Queue<TrBuffer>(2); // Only need current and previous
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TrList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public TrList(IReadOnlyList<IQuote> quotes)
+    {
+        _buffer = new Queue<TrBuffer>(2); // Only need current and previous
+        Add(quotes);
+    }
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
