@@ -8,6 +8,7 @@ public class Mama : BufferListTestBase
 
     private static readonly IReadOnlyList<IReusable> reusables
        = Quotes
+        .Use(CandlePart.HL2)  // HL2 values (not Close) for comparables
         .Cast<IReusable>()
         .ToList();
 
