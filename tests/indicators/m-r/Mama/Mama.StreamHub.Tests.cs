@@ -52,182 +52,126 @@ public class MamaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // late arrival
         provider.Insert(quotesList[80]);
 
-        // get actual results
-        IReadOnlyList<MamaResult> actualList
-            = observer.Results;
+        // delete
+        provider.Remove(quotesList[400]);
+        quotesList.RemoveAt(400);
 
-        // trim to exclude extra quotes that may be added
-        IReadOnlyList<MamaResult> actual
-            = actualList.Take(502).ToList();
+        // time-series, for comparison
+        IReadOnlyList<MamaResult> seriesList = quotesList.ToMama(5);
 
-        // get expected results
-        IReadOnlyList<MamaResult> expected
-            = Quotes.ToMama(fastLimit, slowLimit);
+        // assert, should equal series
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
 
-        // assertions
-        Assert.HasCount(502, actual);
-        Assert.HasCount(502, expected);
-
-        for (int i = 0; i < 502; i++)
-        {
-            MamaResult a = actual[i];
-            MamaResult e = expected[i];
-
-            // compare results
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-
-            if (e.Mama is null)
-            {
-                Assert.IsNull(a.Mama);
-            }
-            else
-            {
-                // MAMA is sensitive to calculation order; allow tolerance for streaming with out-of-order insertions
-                Assert.AreEqual(e.Mama.Value, a.Mama.Value, 10.0);
-            }
-
-            if (e.Fama is null)
-            {
-                Assert.IsNull(a.Fama);
-            }
-            else
-            {
-                // FAMA is sensitive to calculation order; allow tolerance for streaming with out-of-order insertions
-                Assert.AreEqual(e.Fama.Value, a.Fama.Value, 10.0);
-            }
-        }
-    }
-
-    [TestMethod]
-    public override void CustomToString()
-    {
-        QuoteHub<Quote> provider = new();
-        MamaHub<Quote> observer = provider.ToMama(fastLimit, slowLimit);
-
-        Assert.AreEqual($"MAMA({fastLimit},{slowLimit})", observer.ToString());
-    }
-
-    [TestMethod]
-    public void ChainProvider()
-    {
-        List<Quote> quotesList = Quotes.ToList();
-        int length = quotesList.Count;
-
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
-
-        // prefill quotes to provider
-        for (int i = 0; i < 20; i++)
-        {
-            provider.Add(quotesList[i]);
-        }
-
-        // initialize chain
-        SmaHub<Quote> sma = provider.ToSma(10);
-        MamaHub<SmaResult> observer = sma.ToMama(fastLimit, slowLimit);
-
-        // emulate adding quotes to provider
-        for (int i = 20; i < length; i++)
-        {
-            Quote q = quotesList[i];
-            provider.Add(q);
-        }
-
-        // get actual results
-        IReadOnlyList<MamaResult> actualList = observer.Results;
-        IReadOnlyList<MamaResult> actual = actualList.Take(502).ToList();
-
-        // get expected results
-        IReadOnlyList<MamaResult> expected = Quotes
-            .ToSma(10)
-            .ToMama(fastLimit, slowLimit);
-
-        // assertions
-        Assert.HasCount(502, actual);
-        Assert.HasCount(502, expected);
-
-        for (int i = 0; i < 502; i++)
-        {
-            MamaResult a = actual[i];
-            MamaResult e = expected[i];
-
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-
-            if (e.Mama is null)
-            {
-                Assert.IsNull(a.Mama);
-            }
-            else
-            {
-                Assert.AreEqual(e.Mama.Round(4), a.Mama.Round(4));
-            }
-
-            if (e.Fama is null)
-            {
-                Assert.IsNull(a.Fama);
-            }
-            else
-            {
-                Assert.AreEqual(e.Fama.Round(4), a.Fama.Round(4));
-            }
-        }
+        observer.Unsubscribe();
+        provider.EndTransmission();
     }
 
     [TestMethod]
     public void ChainObserver()
     {
+        int smaPeriods = 8;
+
         List<Quote> quotesList = Quotes.ToList();
+
         int length = quotesList.Count;
 
         // setup quote provider
         QuoteHub<Quote> provider = new();
 
-        // prefill quotes to provider
-        for (int i = 0; i < 20; i++)
+        // initialize observer
+        MamaHub<SmaResult> observer = provider
+            .ToSma(smaPeriods)
+            .ToMama(fastLimit, slowLimit);
+
+        // emulate quote stream
+        for (int i = 0; i < length; i++)
         {
             provider.Add(quotesList[i]);
         }
 
-        // initialize chain
-        MamaHub<Quote> mama = provider.ToMama(fastLimit, slowLimit);
-        SmaHub<MamaResult> observer = mama.ToSma(10);
+        // final results
+        IReadOnlyList<MamaResult> streamList
+            = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<MamaResult> seriesList
+           = quotesList
+            .ToSma(smaPeriods)
+            .ToMama(fastLimit, slowLimit);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length);
+        streamList.Should().BeEquivalentTo(seriesList);
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public void ChainProvider()
+    {
+        int smaPeriods = 10;
+
+        List<Quote> quotesList = Quotes.ToList();
+
+        int length = quotesList.Count;
+
+        // setup quote provider
+        QuoteHub<Quote> provider = new();
+
+        // initialize observer
+        SmaHub<MamaResult> observer = provider
+            .ToMama(fastLimit, slowLimit)
+            .ToSma(smaPeriods);
 
         // emulate adding quotes to provider
-        for (int i = 20; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
+            // skip one (add later)
+            if (i == 80)
+            {
+                continue;
+            }
+
             Quote q = quotesList[i];
             provider.Add(q);
-        }
 
-        // get actual results
-        IReadOnlyList<SmaResult> actualList = observer.Results;
-        IReadOnlyList<SmaResult> actual = actualList.Take(502).ToList();
-
-        // get expected results
-        IReadOnlyList<SmaResult> expected = Quotes
-            .ToMama(fastLimit, slowLimit)
-            .ToSma(10);
-
-        // assertions
-        Assert.HasCount(502, actual);
-        Assert.HasCount(502, expected);
-
-        for (int i = 0; i < 502; i++)
-        {
-            SmaResult a = actual[i];
-            SmaResult e = expected[i];
-
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-
-            if (e.Sma is null)
+            // resend duplicate quotes
+            if (i is > 100 and < 105)
             {
-                Assert.IsNull(a.Sma);
-            }
-            else
-            {
-                // MAMA upstream is sensitive; allow tolerance for chained streaming
-                Assert.AreEqual(e.Sma.Value, a.Sma.Value, 5.0);
+                provider.Add(q);
             }
         }
+
+        // late arrival
+        provider.Insert(quotesList[80]);
+
+        // delete
+        provider.Remove(quotesList[400]);
+        quotesList.RemoveAt(400);
+
+        // final results
+        IReadOnlyList<SmaResult> streamList
+            = observer.Results;
+
+        // time-series, for comparison
+        IReadOnlyList<SmaResult> seriesList
+           = quotesList.ToMama(fastLimit, slowLimit)
+            .ToSma(smaPeriods);
+
+        // assert, should equal series
+        streamList.Should().HaveCount(length - 1);
+        streamList.Should().BeEquivalentTo(seriesList);
+
+        observer.Unsubscribe();
+        provider.EndTransmission();
+    }
+
+    [TestMethod]
+    public override void CustomToString()
+    {
+        MamaHub<Quote> hub = new(new QuoteHub<Quote>(), fastLimit, slowLimit);
+        hub.ToString().Should().Be("MAMA(0.5,0.05)");
     }
 }

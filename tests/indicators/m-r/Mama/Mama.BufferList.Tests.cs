@@ -14,8 +14,8 @@ public class Mama : BufferListTestBase
     private static readonly IReadOnlyList<MamaResult> series
        = Quotes.ToMama(fastLimit, slowLimit);
 
-    private static readonly IReadOnlyList<MamaResult> reusableSeries
-       = reusables.ToMama(fastLimit, slowLimit);
+    // private static readonly IReadOnlyList<MamaResult> reusableSeries
+    //    = reusables.ToMama(fastLimit, slowLimit);
 
     [TestMethod]
     public void FromReusableSplit()
@@ -27,36 +27,8 @@ public class Mama : BufferListTestBase
             sut.Add(item.Timestamp, item.Value);
         }
 
-        sut.Should().HaveCount(reusableSeries.Count);
-
-        // Use tolerance-based comparison for floating-point precision
-        for (int i = 0; i < sut.Count; i++)
-        {
-            MamaResult e = reusableSeries[i];
-            MamaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i}");
-
-            if (e.Mama is null)
-            {
-                a.Mama.Should().BeNull($"Expected null MAMA at index {i}");
-            }
-            else
-            {
-                a.Mama.Should().BeApproximately(e.Mama.Value, 1e-8,
-                    $"MAMA value mismatch at index {i}. Expected: {e.Mama:F8}, Actual: {a.Mama:F8}");
-            }
-
-            if (e.Fama is null)
-            {
-                a.Fama.Should().BeNull($"Expected null FAMA at index {i}");
-            }
-            else
-            {
-                a.Fama.Should().BeApproximately(e.Fama.Value, 1e-8,
-                    $"FAMA value mismatch at index {i}. Expected: {e.Fama:F8}, Actual: {a.Fama:F8}");
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -66,36 +38,8 @@ public class Mama : BufferListTestBase
 
         foreach (IReusable item in reusables) { sut.Add(item); }
 
-        sut.Should().HaveCount(reusableSeries.Count);
-
-        // Use tolerance-based comparison for floating-point precision
-        for (int i = 0; i < sut.Count; i++)
-        {
-            MamaResult e = reusableSeries[i];
-            MamaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i}");
-
-            if (e.Mama is null)
-            {
-                a.Mama.Should().BeNull($"Expected null MAMA at index {i}");
-            }
-            else
-            {
-                a.Mama.Should().BeApproximately(e.Mama.Value, 1e-8,
-                    $"MAMA value mismatch at index {i}. Expected: {e.Mama:F8}, Actual: {a.Mama:F8}");
-            }
-
-            if (e.Fama is null)
-            {
-                a.Fama.Should().BeNull($"Expected null FAMA at index {i}");
-            }
-            else
-            {
-                a.Fama.Should().BeApproximately(e.Fama.Value, 1e-8,
-                    $"FAMA value mismatch at index {i}. Expected: {e.Fama:F8}, Actual: {a.Fama:F8}");
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -103,36 +47,8 @@ public class Mama : BufferListTestBase
     {
         MamaList sut = new(fastLimit, slowLimit) { reusables };
 
-        sut.Should().HaveCount(reusableSeries.Count);
-
-        // Use tolerance-based comparison for floating-point precision
-        for (int i = 0; i < sut.Count; i++)
-        {
-            MamaResult e = reusableSeries[i];
-            MamaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i}");
-
-            if (e.Mama is null)
-            {
-                a.Mama.Should().BeNull($"Expected null MAMA at index {i}");
-            }
-            else
-            {
-                a.Mama.Should().BeApproximately(e.Mama.Value, 1e-8,
-                    $"MAMA value mismatch at index {i}. Expected: {e.Mama:F8}, Actual: {a.Mama:F8}");
-            }
-
-            if (e.Fama is null)
-            {
-                a.Fama.Should().BeNull($"Expected null FAMA at index {i}");
-            }
-            else
-            {
-                a.Fama.Should().BeApproximately(e.Fama.Value, 1e-8,
-                    $"FAMA value mismatch at index {i}. Expected: {e.Fama:F8}, Actual: {a.Fama:F8}");
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -142,36 +58,8 @@ public class Mama : BufferListTestBase
 
         foreach (Quote q in Quotes) { sut.Add(q); }
 
-        sut.Should().HaveCount(series.Count);
-
-        // Use tolerance-based comparison for floating-point precision
-        for (int i = 0; i < sut.Count; i++)
-        {
-            MamaResult e = series[i];
-            MamaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i}");
-
-            if (e.Mama is null)
-            {
-                a.Mama.Should().BeNull($"Expected null MAMA at index {i}");
-            }
-            else
-            {
-                a.Mama.Should().BeApproximately(e.Mama.Value, 1e-8,
-                    $"MAMA value mismatch at index {i}. Expected: {e.Mama:F8}, Actual: {a.Mama:F8}");
-            }
-
-            if (e.Fama is null)
-            {
-                a.Fama.Should().BeNull($"Expected null FAMA at index {i}");
-            }
-            else
-            {
-                a.Fama.Should().BeApproximately(e.Fama.Value, 1e-8,
-                    $"FAMA value mismatch at index {i}. Expected: {e.Fama:F8}, Actual: {a.Fama:F8}");
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -179,39 +67,11 @@ public class Mama : BufferListTestBase
     {
         MamaList sut = new(fastLimit, slowLimit) { Quotes };
 
-        IReadOnlyList<MamaResult> expected
+        IReadOnlyList<MamaResult> series
             = Quotes.ToMama(fastLimit, slowLimit);
 
-        sut.Should().HaveCount(expected.Count);
-
-        // Use tolerance-based comparison for floating-point precision
-        for (int i = 0; i < sut.Count; i++)
-        {
-            MamaResult e = expected[i];
-            MamaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i}");
-
-            if (e.Mama is null)
-            {
-                a.Mama.Should().BeNull($"Expected null MAMA at index {i}");
-            }
-            else
-            {
-                a.Mama.Should().BeApproximately(e.Mama.Value, 1e-8,
-                    $"MAMA value mismatch at index {i}. Expected: {e.Mama:F8}, Actual: {a.Mama:F8}");
-            }
-
-            if (e.Fama is null)
-            {
-                a.Fama.Should().BeNull($"Expected null FAMA at index {i}");
-            }
-            else
-            {
-                a.Fama.Should().BeApproximately(e.Fama.Value, 1e-8,
-                    $"FAMA value mismatch at index {i}. Expected: {e.Fama:F8}, Actual: {a.Fama:F8}");
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -240,34 +100,6 @@ public class Mama : BufferListTestBase
         IReadOnlyList<MamaResult> expected = subset.ToMama(fastLimit, slowLimit);
 
         sut.Should().HaveCount(expected.Count);
-
-        // Use tolerance-based comparison for floating-point precision
-        for (int i = 0; i < sut.Count; i++)
-        {
-            MamaResult e = expected[i];
-            MamaResult a = sut[i];
-
-            a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i}");
-
-            if (e.Mama is null)
-            {
-                a.Mama.Should().BeNull($"Expected null MAMA at index {i}");
-            }
-            else
-            {
-                a.Mama.Should().BeApproximately(e.Mama.Value, 1e-8,
-                    $"MAMA value mismatch at index {i}. Expected: {e.Mama:F8}, Actual: {a.Mama:F8}");
-            }
-
-            if (e.Fama is null)
-            {
-                a.Fama.Should().BeNull($"Expected null FAMA at index {i}");
-            }
-            else
-            {
-                a.Fama.Should().BeApproximately(e.Fama.Value, 1e-8,
-                    $"FAMA value mismatch at index {i}. Expected: {e.Fama:F8}, Actual: {a.Fama:F8}");
-            }
-        }
+        sut.Should().BeEquivalentTo(expected);
     }
 }
