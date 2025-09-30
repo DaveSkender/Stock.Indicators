@@ -19,6 +19,15 @@ public static partial class Rsi
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for RSI.
-    // No BufferListing for RSI.
+    // RSI Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // RSI Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

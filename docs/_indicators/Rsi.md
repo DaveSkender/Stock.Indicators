@@ -77,3 +77,33 @@ var results = quotes
     .GetRsi(..)
     .GetSlope(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+RsiList rsiList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  rsiList.Add(quote);
+}
+
+// based on `List<RsiResult>`
+IReadOnlyList<RsiResult> results = rsiList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+RsiHub<Quote> observer = provider.ToRsi(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<RsiResult> results = observer.Results;
+```
