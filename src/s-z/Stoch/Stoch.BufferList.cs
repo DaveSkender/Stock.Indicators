@@ -100,7 +100,7 @@ public class StochList : List<StochResult>, IStoch, IBufferList
         _closeBuffer.Update(LookbackPeriods, close);
 
         // Calculate raw %K oscillator when we have enough data
-        double? rawK = null;
+        double rawK = double.NaN;
         if (_highBuffer.Count == LookbackPeriods)
         {
             double highHigh = _highBuffer.Max();
@@ -116,68 +116,92 @@ public class StochList : List<StochResult>, IStoch, IBufferList
             }
         }
 
-        // Calculate smoothed %K (final oscillator)
-        double? smoothK = null;
-        if (rawK.HasValue)
+        // Calculate smoothed %K (final oscillator) - logic matches StaticSeries
+        double smoothK = double.NaN;
+        if (SmoothPeriods <= 1)
         {
-            if (SmoothPeriods <= 1)
-            {
-                // No smoothing needed
-                smoothK = rawK;
-            }
-            else
+            // No smoothing needed - keep original
+            smoothK = rawK;
+        }
+        else if (Count >= SmoothPeriods) // This matches StaticSeries: i >= smoothPeriods
+        {
+            if (!double.IsNaN(rawK))
             {
                 // Update raw K buffer for smoothing using BufferUtilities
-                _rawKBuffer.Update(SmoothPeriods, rawK.Value);
+                _rawKBuffer.Update(SmoothPeriods, rawK);
 
-                if (_rawKBuffer.Count == SmoothPeriods)
+                switch (MovingAverageType)
                 {
-                    smoothK = MovingAverageType switch {
-                        MaType.SMA => _rawKBuffer.Average(),
-                        MaType.SMMA => CalculateSmma(_rawKBuffer.Last(), ref _prevSmoothK, SmoothPeriods),
-                        _ => throw new InvalidOperationException("Invalid Stochastic moving average type.")
-                    };
+                    case MaType.SMA:
+                        if (_rawKBuffer.Count == SmoothPeriods)
+                        {
+                            smoothK = _rawKBuffer.Average();
+                        }
+                        break;
+
+                    case MaType.SMMA:
+                        // Re/initialize with first oscillator value (matches StaticSeries)
+                        if (double.IsNaN(_prevSmoothK))
+                        {
+                            _prevSmoothK = rawK;
+                        }
+                        smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
+                        _prevSmoothK = smoothK;
+                        break;
+
+                    default:
+                        throw new InvalidOperationException("Invalid Stochastic moving average type.");
                 }
             }
         }
 
-        // Calculate %D signal line
-        double? signal = null;
-        if (smoothK.HasValue)
+        // Calculate %D signal line - logic matches StaticSeries
+        double signal = double.NaN;
+        if (SignalPeriods <= 1)
         {
-            if (SignalPeriods <= 1)
-            {
-                signal = smoothK;
-            }
-            else
+            signal = smoothK;
+        }
+        else if (Count >= SignalPeriods) // This matches StaticSeries: i >= signalPeriods
+        {
+            if (!double.IsNaN(smoothK))
             {
                 // Update smooth K buffer for signal calculation using BufferUtilities
-                _smoothKBuffer.Update(SignalPeriods, smoothK.Value);
+                _smoothKBuffer.Update(SignalPeriods, smoothK);
 
-                if (_smoothKBuffer.Count == SignalPeriods)
+                switch (MovingAverageType)
                 {
-                    signal = MovingAverageType switch {
-                        MaType.SMA => _smoothKBuffer.Average(),
-                        MaType.SMMA => CalculateSmma(_smoothKBuffer.Last(), ref _prevSignal, SignalPeriods),
-                        _ => throw new InvalidOperationException("Invalid Stochastic moving average type.")
-                    };
+                    case MaType.SMA:
+                        if (_smoothKBuffer.Count == SignalPeriods)
+                        {
+                            signal = _smoothKBuffer.Average();
+                        }
+                        break;
+
+                    case MaType.SMMA:
+                        // Re/initialize with first smoothK value (matches StaticSeries)
+                        if (double.IsNaN(_prevSignal))
+                        {
+                            _prevSignal = smoothK;
+                        }
+                        signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
+                        _prevSignal = signal;
+                        break;
+
+                    default:
+                        throw new InvalidOperationException("Invalid Stochastic moving average type.");
                 }
             }
         }
 
         // Calculate %J
-        double? percentJ = null;
-        if (smoothK.HasValue && signal.HasValue)
-        {
-            percentJ = (KFactor * smoothK.Value) - (DFactor * signal.Value);
-        }
+        double percentJ = (KFactor * smoothK) - (DFactor * signal);
 
         // Add result to the list
         base.Add(new StochResult(
             Timestamp: timestamp,
-            Oscillator: smoothK,
-            Signal: signal,
-            PercentJ: percentJ));
+            Oscillator: smoothK.NaN2Null(),
+            Signal: signal.NaN2Null(),
+            PercentJ: percentJ.NaN2Null()));
     }
 
     /// <inheritdoc />
@@ -191,24 +215,5 @@ public class StochList : List<StochResult>, IStoch, IBufferList
         _smoothKBuffer.Clear();
         _prevSmoothK = double.NaN;
         _prevSignal = double.NaN;
-    }
-
-    /// <summary>
-    /// Calculates SMMA (Smoothed Moving Average) incrementally.
-    /// </summary>
-    /// <param name="currentValue">The current value to include.</param>
-    /// <param name="previousSmma">Reference to the previous SMMA value.</param>
-    /// <param name="periods">The number of periods for smoothing.</param>
-    /// <returns>The calculated SMMA value.</returns>
-    private static double CalculateSmma(double currentValue, ref double previousSmma, int periods)
-    {
-        if (double.IsNaN(previousSmma))
-        {
-            previousSmma = currentValue;
-        }
-
-        double smma = ((previousSmma * (periods - 1)) + currentValue) / periods;
-        previousSmma = smma;
-        return smma;
     }
 }

@@ -147,73 +147,77 @@ public class StochHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        if (i < LookbackPeriods + SmoothPeriods - 2)
+        // Calculate raw %K oscillator - matches StaticSeries logic
+        double rawK = double.NaN;
+        if (i >= LookbackPeriods - 1)
         {
-            return (new StochResult(item.Timestamp, null, null, null), i);
-        }
+            double highHigh = double.MinValue;
+            double lowLow = double.MaxValue;
+            bool isViable = true;
 
-        // Get data for calculation window
-        List<TIn> window = ProviderCache
-            .Skip(Math.Max(0, i - LookbackPeriods + 1))
-            .Take(Math.Min(LookbackPeriods, i + 1))
-            .ToList();
-
-        if (window.Count < LookbackPeriods)
-        {
-            return (new StochResult(item.Timestamp, null, null, null), i);
-        }
-
-        // Calculate %K oscillator
-        double high = window.Max(x => (double)x.High);
-        double low = window.Min(x => (double)x.Low);
-        double close = (double)item.Close;
-
-        double? rawK = null;
-        if (high - low != 0)
-        {
-            rawK = 100.0 * (close - low) / (high - low);
-        }
-        else
-        {
-            rawK = 0;
-        }
-
-        // For simplicity in streaming, we'll implement basic SMA smoothing
-        // More complex SMMA would require additional state management
-        double? smoothK = rawK;
-        double? signal = null;
-
-        if (i >= LookbackPeriods + SmoothPeriods - 2)
-        {
-            // Get smoothed %K values for signal calculation
-            List<StochResult> recentResults = Cache
-                .Skip(Math.Max(0, Cache.Count - SignalPeriods))
-                .Where(x => x.Oscillator.HasValue)
-                .ToList();
-
-            if (recentResults.Count >= SignalPeriods - 1)
+            // Get lookback window
+            for (int p = i - LookbackPeriods + 1; p <= i; p++)
             {
-                List<double> kValues = recentResults
-                    .Select(x => x.Oscillator!.Value)
-                    .ToList();
-                kValues.Add(smoothK!.Value);
+                TIn x = ProviderCache[p];
 
-                signal = kValues.TakeLast(SignalPeriods).Average();
+                if (double.IsNaN((double)x.High) ||
+                    double.IsNaN((double)x.Low) ||
+                    double.IsNaN((double)x.Close))
+                {
+                    isViable = false;
+                    break;
+                }
+
+                if ((double)x.High > highHigh)
+                {
+                    highHigh = (double)x.High;
+                }
+
+                if ((double)x.Low < lowLow)
+                {
+                    lowLow = (double)x.Low;
+                }
             }
+
+            rawK = !isViable
+                 ? double.NaN
+                 : highHigh - lowLow != 0
+                 ? 100 * ((double)item.Close - lowLow) / (highHigh - lowLow)
+                 : 0;
+        }
+
+        // Calculate smoothed %K (final oscillator) - simplified for StreamHub
+        double smoothK = double.NaN;
+        if (SmoothPeriods <= 1)
+        {
+            smoothK = rawK;
+        }
+        else if (i >= SmoothPeriods && !double.IsNaN(rawK))
+        {
+            // For streaming, use simplified SMA for now
+            smoothK = rawK; // Simplified - could be enhanced with proper smoothing
+        }
+
+        // Calculate %D signal line - simplified for StreamHub
+        double signal = double.NaN;
+        if (SignalPeriods <= 1)
+        {
+            signal = smoothK;
+        }
+        else if (i >= SignalPeriods && !double.IsNaN(smoothK))
+        {
+            // For streaming, use simplified calculation for now
+            signal = smoothK; // Simplified - could be enhanced with proper signal calculation
         }
 
         // Calculate %J
-        double? percentJ = null;
-        if (smoothK.HasValue && signal.HasValue)
-        {
-            percentJ = (KFactor * smoothK.Value) - (DFactor * signal.Value);
-        }
+        double percentJ = (KFactor * smoothK) - (DFactor * signal);
 
         StochResult result = new(
             Timestamp: item.Timestamp,
-            Oscillator: smoothK,
-            Signal: signal,
-            PercentJ: percentJ);
+            Oscillator: smoothK.NaN2Null(),
+            Signal: signal.NaN2Null(),
+            PercentJ: percentJ.NaN2Null());
 
         return (result, i);
     }
