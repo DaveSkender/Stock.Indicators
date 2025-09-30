@@ -68,3 +68,46 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+VwmaList vwmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  vwmaList.Add(quote);
+}
+
+// based on `List<VwmaResult>`
+IReadOnlyList<VwmaResult> results = vwmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+VwmaHub<Quote> observer = provider.ToVwma(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<VwmaResult> results = observer.Results;
+```
+
+### Additional buffering methods
+
+For volume-weighted calculations, VWMA also supports direct price and volume input:
+
+```csharp
+VwmaList vwmaList = new(lookbackPeriods);
+
+// Add individual price and volume data
+vwmaList.Add(DateTime.Now, price: 100.50, volume: 1000);
+```
+
+**Note**: VWMA requires both price and volume data, so it only supports methods that accept `IQuote` or direct price/volume parameters.

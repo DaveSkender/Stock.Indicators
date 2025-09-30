@@ -78,6 +78,12 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 }
 ```
 
+> **Interface Selection Guidelines**:
+>
+> - Use `IBufferList, IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
+> - Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
+> - Match the interface pattern to what the static series implementation supports
+>
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
 
 ### Extension method
@@ -86,29 +92,11 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 /// <summary>
 /// Creates a buffer list for {IndicatorName} calculations
 /// </summary>
-public static {IndicatorName}List To{IndicatorName}BufferList<TQuote>(
+public static {IndicatorName}List To{IndicatorName}List<TQuote>(
     this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods = {defaultValue})
     where TQuote : IQuote
-{
-    // Input validation
-    quotes.ThrowIfNull();
-    
-    if (lookbackPeriods <= 0)
-    {
-        throw new ArgumentOutOfRangeException(nameof(lookbackPeriods));
-    }
-
-    // Initialize buffer and populate
-    {IndicatorName}List bufferList = new(lookbackPeriods);
-    
-    foreach (TQuote quote in quotes)
-    {
-        bufferList.Add(quote);
-    }
-    
-    return bufferList;
-}
+    => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 ```
 
 ## Testing requirements

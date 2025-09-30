@@ -84,3 +84,19 @@ var results = quotes
 ```
 
 Results **cannot** be further chained with additional transforms.
+
+## Streaming
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+AlligatorHub<Quote> observer = provider.ToAlligator();
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AlligatorResult> results = observer.Results;
+```
