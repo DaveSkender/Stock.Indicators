@@ -1,29 +1,28 @@
 name: Test Indicators (matrix)
 
 on:
+  push:
+    branches:
+      - "main"
+      - "v[0-9]*"
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Test Indicators"]
-    types:
-      - completed
 
 permissions:
-  contents: read   # Required for checkout
+  contents: read # Required for checkout
 
 jobs:
   test:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     name: matrix validation
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["6.0.x", "9.0.x"]
+        dotnet-version: ["8.0.x", "9.0.x"]
 
     env:
       TARGET_FRAMEWORK: >
-        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
+        ${{ matrix.dotnet-version == '8.0.x' && 'net8.0' ||
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
 
     steps:
