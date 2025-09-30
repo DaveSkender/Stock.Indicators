@@ -103,6 +103,19 @@ Expand streaming support from EMA/SMA base cases to most common indicators
 - ❌ Migration tooling and guidance
 - ❌ Stable v3.0.0 release preparation
 
+## Phase 4: Optional Future Enhancements (Post v3.0.0)
+
+### Additional Indicators (Lower Priority)
+
+The following indicators exist as StaticSeries but could benefit from streaming implementations in future releases:
+
+- **Chaikin Money Flow (CMF)**: Volume-based indicator
+- **Aroon**: Trend strength indicator
+- **Parabolic SAR**: Stop and reverse indicator
+- **Additional oscillators and trend indicators**
+
+These are NOT required for v3.0.0 stable release but could be added based on community demand and usage patterns.
+
 ## Implementation Strategy
 
 ### Technical Approach

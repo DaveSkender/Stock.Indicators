@@ -530,3 +530,35 @@ Focus: Documentation completion (Phase 2) and T3 indicator implementation
 2. T2.1: Begin streaming API documentation
 3. T2.7: Verify CI/CD pipeline status
 4. T2.8: Verify performance benchmarking integration
+
+## 🔮 Phase 4: Optional Future Enhancements (Post v3.0.0)
+
+**Objective**: Add streaming support to additional indicators based on community demand
+
+**Status**: DEFERRED - Not required for v3.0.0 stable release
+
+### Additional Indicator Streaming Tasks - FUTURE WORK
+
+**T4.1** **CMF (Chaikin Money Flow) Streaming Implementation** - FUTURE
+
+- Implement CmfBufferList with money flow calculations
+- Handle volume-weighted accumulation in streaming mode
+- **Estimated Effort**: 8 hours
+- **Priority**: LOW - Based on community demand
+
+**T4.2** **Aroon Streaming Implementation** - FUTURE
+
+- Implement AroonBufferList with trend strength calculations
+- Handle high/low tracking for Aroon Up/Down calculations
+- **Estimated Effort**: 10 hours
+- **Priority**: LOW - Based on community demand
+
+**T4.3** **Parabolic SAR Streaming Implementation** - FUTURE
+
+- Implement ParabolicSarBufferList with SAR calculations
+- Handle acceleration factor adjustments in streaming mode
+- Handle trend reversal detection in real-time
+- **Estimated Effort**: 12 hours
+- **Priority**: LOW - Based on community demand
+
+These tasks are NOT part of the v3.0.0 release scope but could be implemented in future versions based on user feedback and usage patterns.
