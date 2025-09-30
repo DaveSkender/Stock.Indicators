@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// On-Balance Volume (OBV) from incremental quote values.
 /// </summary>
-public class ObvList : List<ObvResult>, IBufferList
+public class ObvList : List<ObvResult>, IObv, IBufferList
 {
     private double _previousClose = double.NaN;
     private double _obvValue;
