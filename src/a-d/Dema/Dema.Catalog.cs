@@ -9,7 +9,7 @@ public static partial class Dema
             .WithId("DEMA")
             .WithCategory(Category.MovingAverage)
             .WithMethodName("ToDema")
-            .AddParameter<int>("lookbackPeriods", "Lookback Periods", defaultValue: 20, minimum: 2, maximum: 250)
+            .AddParameter<int>("lookbackPeriods", "Lookback Periods", description: "Number of periods for the DEMA calculation", isRequired: false, defaultValue: 14, minimum: 2, maximum: 250)
             .AddResult("Dema", "DEMA", ResultType.Default, isReusable: true)
             .Build();
 
@@ -19,6 +19,15 @@ public static partial class Dema
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for DEMA.
-    // No BufferListing for DEMA.
+    // DEMA Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // DEMA Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

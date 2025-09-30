@@ -1,28 +1,29 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Smoothed Moving Average (SMMA) from incremental reusable values.
+/// Double Exponential Moving Average (DEMA) from incremental reusable values.
 /// </summary>
-public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
+public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
 {
-    private double? _previousSmma;
     private readonly Queue<double> _buffer;
     private double _bufferSum;
+    private double _lastEma1 = double.NaN;
+    private double _lastEma2 = double.NaN;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SmmaList"/> class.
+    /// Initializes a new instance of the <see cref="DemaList"/> class.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
-    public SmmaList(
+    public DemaList(
         int lookbackPeriods
     )
     {
-        Smma.Validate(lookbackPeriods);
+        Dema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        K = 2d / (lookbackPeriods + 1);
 
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
-        _previousSmma = null;
     }
 
     /// <summary>
@@ -30,39 +31,53 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+    /// <summary>
+    /// Gets the smoothing factor for the calculation.
+    /// </summary>
+    public double K { get; private init; }
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // update buffer for SMA initialization using buffer utilities
-        double? dequeuedValue = _buffer.UpdateWithDequeue(LookbackPeriods, value);
+        // update buffer
+        if (_buffer.Count == LookbackPeriods)
+        {
+            _bufferSum -= _buffer.Dequeue();
+        }
 
-        // update running sum efficiently
-        if (_buffer.Count == LookbackPeriods && dequeuedValue.HasValue)
-        {
-            _bufferSum = _bufferSum - dequeuedValue.Value + value;
-        }
-        else
-        {
-            _bufferSum += value;
-        }
+        _buffer.Enqueue(value);
+        _bufferSum += value;
 
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new SmmaResult(timestamp));
+            base.Add(new DemaResult(timestamp));
             return;
         }
 
-        double smma = _previousSmma is null
-            ? _bufferSum / LookbackPeriods
-            // normal SMMA calculation
-            : ((_previousSmma.Value * (LookbackPeriods - 1)) + value) / LookbackPeriods;
+        double ema1;
+        double ema2;
 
-        // when no prior SMMA, reset as SMA
+        // when no prior EMA, reset as SMA
+        if (double.IsNaN(_lastEma2))
+        {
+            ema1 = ema2 = _bufferSum / LookbackPeriods;
+        }
+        else
+        {
+            // normal DEMA calculation
+            ema1 = Ema.Increment(K, _lastEma1, value);
+            ema2 = Ema.Increment(K, _lastEma2, ema1);
+        }
 
-        SmmaResult result = new(timestamp, smma.NaN2Null());
-        base.Add(result);
-        _previousSmma = smma;
+        // store state for next iteration
+        _lastEma1 = ema1;
+        _lastEma2 = ema2;
+
+        // calculate and store DEMA result
+        base.Add(new DemaResult(
+            timestamp,
+            Dema.Calculate(ema1, ema2)));
     }
 
     /// <inheritdoc />
@@ -107,6 +122,7 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
         base.Clear();
         _buffer.Clear();
         _bufferSum = 0;
-        _previousSmma = null;
+        _lastEma1 = double.NaN;
+        _lastEma2 = double.NaN;
     }
 }

@@ -12,6 +12,10 @@ public record DemaResult
     double? Dema = null
 ) : IReusable
 {
+    // internal state (not exposed publicly) to support robust stream recalculations
+    [JsonIgnore] internal double Ema1 { get; init; }
+    [JsonIgnore] internal double Ema2 { get; init; }
+
     /// <inheritdoc/>
     [JsonIgnore]
     public double Value => Dema.Null2NaN();

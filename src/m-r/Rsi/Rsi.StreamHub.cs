@@ -66,7 +66,7 @@ public class RsiHub<TIn>
         if (i >= LookbackPeriods)
         {
             // Build a subset of provider cache for RSI calculation
-            List<TIn> subset = new();
+            List<TIn> subset = [];
             for (int k = 0; k <= i; k++)
             {
                 subset.Add(ProviderCache[k]);
