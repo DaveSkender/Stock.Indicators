@@ -68,7 +68,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase
         provider.Add(Quotes);
         BollingerBandsHub<Quote> observer = provider.ToBollingerBands(20, 2);
 
-        Assert.AreEqual("BB(20,2)", observer.ToString());
+        observer.ToString().Should().Be("BB(20,2)");
     }
 
     [TestMethod]
@@ -128,8 +128,8 @@ public class BollingerBandsStreamHub : StreamHubTestBase
         // Create observer AFTER quotes are added
         BollingerBandsHub<Quote> observer = provider.ToBollingerBands(5, 2); // smaller period for testing
 
-        // Check initial state
-        Assert.AreEqual(0, observer.Results.Count, "Initial results count should be 0");
+        // Check initial state (after Reinitialize(), cache will be built)
+        observer.Results.Count.Should().Be(5);
 
         // Add more quotes
         for (int i = 5; i < 25; i++)

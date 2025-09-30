@@ -53,6 +53,8 @@ public class BollingerBandsHub<TIn>
         LookbackPeriods = lookbackPeriods;
         this.standardDeviations = standardDeviations;
         hubName = $"BB({lookbackPeriods},{standardDeviations})";
+
+        Reinitialize();
     }
 
     #endregion
