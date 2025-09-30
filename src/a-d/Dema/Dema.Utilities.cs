@@ -6,6 +6,24 @@ namespace Skender.Stock.Indicators;
 public static partial class Dema
 {
     /// <summary>
+    /// Calculates DEMA from two EMA values.
+    /// </summary>
+    /// <param name="ema1">The first EMA value (EMA of price).</param>
+    /// <param name="ema2">The second EMA value (EMA of EMA1).</param>
+    /// <returns>The DEMA value.</returns>
+    public static double Calculate(double ema1, double ema2)
+        => (2d * ema1) - ema2;
+
+    /// <summary>
+    /// Calculates DEMA from two EMA values, handling nullable inputs.
+    /// </summary>
+    /// <param name="ema1">The first EMA value (EMA of price).</param>
+    /// <param name="ema2">The second EMA value (EMA of EMA1).</param>
+    /// <returns>The DEMA value, or null if either input is null.</returns>
+    public static double? Calculate(double? ema1, double? ema2)
+        => (ema1.HasValue && ema2.HasValue) ? Calculate(ema1.Value, ema2.Value) : null;
+
+    /// <summary>
     /// Removes the recommended warmup periods from the DEMA results.
     /// </summary>
     /// <param name="results">The list of DEMA results.</param>
