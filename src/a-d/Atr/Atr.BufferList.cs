@@ -1,17 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Atr
-{
-    /// <summary>
-    /// Creates a buffer list for Average True Range calculations.
-    /// </summary>
-    public static AtrList ToAtrList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
-}
-
 /// <summary>
 /// Average True Range (ATR) from incremental quotes.
 /// </summary>
@@ -119,4 +107,16 @@ public class AtrList : List<AtrResult>, IAtr, IBufferList
         _sumTr = 0;
         _isInitialized = false;
     }
+}
+
+public static partial class Atr
+{
+    /// <summary>
+    /// Creates a buffer list for Average True Range calculations.
+    /// </summary>
+    public static AtrList ToAtrList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }
