@@ -130,6 +130,9 @@ public class Macd : BufferListTestBase
         streamResult.Histogram.Should().BeApproximately(seriesResult.Histogram, 0.0001);
         streamResult.FastEma.Should().BeApproximately(seriesResult.FastEma, 0.0001);
         streamResult.SlowEma.Should().BeApproximately(seriesResult.SlowEma, 0.0001);
+
+        streamResult.Should().Be(seriesResult);
+        sut.ToList().Should().BeEquivalentTo(series.Take(100));
     }
 
     [TestMethod]
