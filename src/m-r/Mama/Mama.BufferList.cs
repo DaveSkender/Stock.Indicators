@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
 {
     // Price data storage for recalculation
-    private readonly List<double> pr = new(); // price
+    private readonly List<double> pr = []; // price
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class.
@@ -34,6 +34,12 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
     {
         // Add the raw quote data
         pr.Add(value);
+
+        // NOTE: This implementation recalculates the entire series on each Add operation.
+        // While this has O(n²) complexity for sequential additions, it ensures mathematical
+        // accuracy for the complex MESA Adaptive Moving Average algorithm, which requires
+        // precise state calculations that are difficult to maintain incrementally.
+        // For high-frequency updates, consider using StaticSeries with batch processing.
 
         // Create a list of QuotePart values (which implement IReusable)
         var values = pr.Select((p, i) => new QuotePart(
