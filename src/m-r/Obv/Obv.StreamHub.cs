@@ -45,37 +45,17 @@ public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>, IObv
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        // Handle volume direction changes in streaming mode
-        double obvValue;
-        if (i > 0)
-        {
-            double currentClose = (double)item.Close;
-            double previousClose = (double)ProviderCache[i - 1].Close;
-            
-            double previousObv = Cache[i - 1].Obv;
-            
-            if (currentClose > previousClose)
-            {
-                obvValue = previousObv + (double)item.Volume;
-            }
-            else if (currentClose < previousClose)
-            {
-                obvValue = previousObv - (double)item.Volume;
-            }
-            else
-            {
-                obvValue = previousObv; // No change if prices are equal
-            }
-        }
-        else
-        {
-            obvValue = 0; // First period starts at 0
-        }
+        // Get previous close and OBV values for calculation
+        double prevClose = i > 0 ? (double)ProviderCache[i - 1].Close : double.NaN;
+        double prevObv = i > 0 ? Cache[i - 1].Obv : 0;
 
-        // Create result
-        ObvResult r = new(
-            Timestamp: item.Timestamp,
-            Obv: obvValue);
+        // Calculate OBV using the Increment method
+        ObvResult r = Obv.Increment(
+            item.Timestamp,
+            (double)item.Close,
+            (double)item.Volume,
+            prevClose,
+            prevObv);
 
         return (r, i);
     }

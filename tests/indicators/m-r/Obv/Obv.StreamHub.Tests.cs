@@ -9,35 +9,49 @@ public class ObvHubTests : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
+        // setup quote provider
         QuoteHub<Quote> provider = new();
 
-        // Add initial quote
-        provider.Add(quotesList[0]);
-
-        ObvHub<Quote> observer = provider.ToObv();
-
-        for (int i = 1; i < length; i++)
+        // prefill quotes to provider
+        for (int i = 0; i < 20; i++)
         {
+            provider.Add(quotesList[i]);
+        }
+
+        // initialize observer
+        StreamHub<Quote, ObvResult> observer = provider.ToObv();
+
+        // fetch initial results (early)
+        IReadOnlyList<ObvResult> streamList = observer.Results;
+
+        // emulate adding quotes to provider
+        for (int i = 20; i < length; i++)
+        {
+            // skip one (add later)
             if (i == 80)
             {
                 continue;
             }
 
-            Quote quote = quotesList[i];
-            provider.Add(quote);
+            Quote q = quotesList[i];
+            provider.Add(q);
 
-            if (i is > 110 and < 115)
+            // resend duplicate quotes
+            if (i is > 100 and < 105)
             {
-                provider.Add(quote);
+                provider.Add(q);
             }
         }
 
+        // late arrival
         provider.Insert(quotesList[80]);
 
+        // removal
         provider.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
-        IReadOnlyList<ObvResult> streamList = observer.Results;
+        // final results
+        streamList = observer.Results;
         IReadOnlyList<ObvResult> seriesList = quotesList.ToObv();
 
         streamList.Should().HaveCount(length - 1);
