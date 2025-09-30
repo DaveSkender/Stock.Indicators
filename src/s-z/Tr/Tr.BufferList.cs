@@ -1,16 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Tr
-{
-    /// <summary>
-    /// Creates a buffer list for True Range calculations.
-    /// </summary>
-    public static TrList ToTrList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
-        => new() { (IReadOnlyList<IQuote>)quotes };
-}
-
 /// <summary>
 /// True Range (TR) from incremental quotes.
 /// </summary>
@@ -83,4 +72,15 @@ public class TrList : List<TrResult>, IBufferList
         public double Low { get; init; } = low;
         public double Close { get; init; } = close;
     }
+}
+
+public static partial class Tr
+{
+    /// <summary>
+    /// Creates a buffer list for True Range calculations.
+    /// </summary>
+    public static TrList ToTrList<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
+        where TQuote : IQuote
+        => new() { (IReadOnlyList<IQuote>)quotes };
 }

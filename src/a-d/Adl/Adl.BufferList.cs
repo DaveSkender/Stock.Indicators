@@ -1,16 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Adl
-{
-    /// <summary>
-    /// Creates a buffer list for Accumulation/Distribution Line calculations.
-    /// </summary>
-    public static AdlList ToAdlList<TQuote>(
-        this IReadOnlyList<TQuote> quotes)
-        where TQuote : IQuote
-        => new() { (IReadOnlyList<IQuote>)quotes };
-}
-
 /// <summary>
 /// Accumulation/Distribution Line (ADL) from incremental quotes.
 /// </summary>
@@ -65,4 +54,15 @@ public class AdlList : List<AdlResult>, IBufferList
         base.Clear();
         _previousAdl = 0;
     }
+}
+
+public static partial class Adl
+{
+    /// <summary>
+    /// Creates a buffer list for Accumulation/Distribution Line calculations.
+    /// </summary>
+    public static AdlList ToAdlList<TQuote>(
+        this IReadOnlyList<TQuote> quotes)
+        where TQuote : IQuote
+        => new() { (IReadOnlyList<IQuote>)quotes };
 }

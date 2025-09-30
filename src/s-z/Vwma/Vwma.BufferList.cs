@@ -1,17 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Vwma
-{
-    /// <summary>
-    /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
-    /// </summary>
-    public static VwmaList ToVwmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
-}
-
 /// <summary>
 /// Volume Weighted Moving Average (VWMA) from incremental quote values.
 /// </summary>
@@ -74,11 +62,12 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
         {
             double priceVolumeSum = 0;
             double volumeSum = 0;
-            foreach (var (p, v) in _buffer)
+            foreach ((double p, double v) in _buffer)
             {
                 priceVolumeSum += p * v;
                 volumeSum += v;
             }
+
             vwma = volumeSum != 0 ? priceVolumeSum / volumeSum : double.NaN;
         }
 
@@ -93,4 +82,16 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
         base.Clear();
         _buffer.Clear();
     }
+}
+
+public static partial class Vwma
+{
+    /// <summary>
+    /// Creates a buffer list for Volume Weighted Moving Average (VWMA) calculations.
+    /// </summary>
+    public static VwmaList ToVwmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }
