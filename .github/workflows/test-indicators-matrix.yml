@@ -22,7 +22,6 @@ jobs:
         dotnet-version: ["6.0.x", "9.0.x"]
 
     env:
-      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
       TARGET_FRAMEWORK: >
         ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
             matrix.dotnet-version == '9.0.x' && 'net9.0' }}
