@@ -1,5 +1,8 @@
 {
-  "globs": ["**/*.md", "**/*.markdown"],
+  "globs": [
+    "**/*.md",
+    "**/*.markdown"
+  ],
   "ignores": [
     ".offline"
   ],

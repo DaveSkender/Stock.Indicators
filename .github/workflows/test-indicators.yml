@@ -8,33 +8,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read   # Required for checkout
-  actions: read    # Required for workflow runs
-  checks: write    # Required for test results
+  contents: read  # Required for checkout
+  checks: write   # Required for test results
 
 jobs:
   test:
     name: unit tests
-    runs-on: ${{ matrix.os }}
-
-    permissions:
-      contents: read
-      actions: read
-      checks: write
-
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["8.0.x", "9.0.x"]
+    runs-on: ubuntu-latest
 
     env:
-      # identifying primary configuration so only one reports coverage
-      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
-
-      # Identifies the current target framework
-      TARGET_FRAMEWORK: >
-        ${{ matrix.dotnet-version == '8.0.x' && 'net8.0' ||
-            matrix.dotnet-version == '9.0.x' && 'net9.0' }}
+      TARGET_FRAMEWORK: net9.0
 
     steps:
       - name: Checkout source
@@ -47,23 +30,19 @@ jobs:
           dotnet-quality: "ga"
 
       - name: Setup Node.js
-        if: env.IS_PRIMARY == 'true'
         uses: actions/setup-node@v5
         with:
-          node-version: "22"
+          node-version: ">=22"
           cache: "npm"
           cache-dependency-path: package-lock.json
 
       - name: Install npm dependencies
-        if: env.IS_PRIMARY == 'true'
         run: npm install
 
       - name: Check .NET code formatting
-        if: env.IS_PRIMARY == 'true'
         run: dotnet format --verify-no-changes
 
       - name: Check Markdown linting
-        if: env.IS_PRIMARY == 'true'
         run: npm run lint:md
 
       - name: Build library
@@ -85,11 +64,9 @@ jobs:
           --logger trx
           --collect:"XPlat Code Coverage"
 
-      # the remaining steps are only needed from one primary instance
-
       - name: Post test results
         uses: dorny/test-reporter@v2.1.0
-        if: env.IS_PRIMARY == 'true' && always()
+        if: always()
         with:
           name: Test results
           path: ./test-results/**/*.trx
@@ -98,7 +75,7 @@ jobs:
 
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: env.IS_PRIMARY == 'true' && github.actor != 'dependabot[bot]'
+        if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./test-results/**/coverage.cobertura.xml
