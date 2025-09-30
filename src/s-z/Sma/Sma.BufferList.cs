@@ -1,5 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+public static partial class Sma
+{
+    /// <summary>
+    /// Creates a buffer list for Simple Moving Average (SMA) calculations.
+    /// </summary>
+    public static SmaList ToSmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}
+
 /// <summary>
 /// Simple Moving Average (SMA) from incremental reusable values.
 /// </summary>

@@ -1,5 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+public static partial class Hma
+{
+    /// <summary>
+    /// Creates a buffer list for Hull Moving Average (HMA) calculations.
+    /// </summary>
+    public static HmaList ToHmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}
+
 /// <summary>
 /// Hull Moving Average (HMA) from incremental reusable values.
 /// </summary>

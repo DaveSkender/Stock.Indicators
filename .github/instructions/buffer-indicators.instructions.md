@@ -92,29 +92,11 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 /// <summary>
 /// Creates a buffer list for {IndicatorName} calculations
 /// </summary>
-public static {IndicatorName}List To{IndicatorName}BufferList<TQuote>(
+public static {IndicatorName}List To{IndicatorName}List<TQuote>(
     this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods = {defaultValue})
     where TQuote : IQuote
-{
-    // Input validation
-    quotes.ThrowIfNull();
-    
-    if (lookbackPeriods <= 0)
-    {
-        throw new ArgumentOutOfRangeException(nameof(lookbackPeriods));
-    }
-
-    // Initialize buffer and populate
-    {IndicatorName}List bufferList = new(lookbackPeriods);
-    
-    foreach (TQuote quote in quotes)
-    {
-        bufferList.Add(quote);
-    }
-    
-    return bufferList;
-}
+    => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 ```
 
 ## Testing requirements

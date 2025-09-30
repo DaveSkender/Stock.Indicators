@@ -4,7 +4,6 @@
   "author": "Dave Skender",
   "license": "Apache-2.0",
   "private": false,
-  "packageManager": "npm@11.6.1",
   "engines": {
     "node": ">=22"
   },
