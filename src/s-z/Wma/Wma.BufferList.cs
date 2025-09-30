@@ -98,3 +98,15 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
         _weightedAverage = 0d;
     }
 }
+
+public static partial class Wma
+{
+    /// <summary>
+    /// Creates a buffer list for Weighted Moving Average (VWMA) calculations.
+    /// </summary>
+    public static WmaList ToWmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

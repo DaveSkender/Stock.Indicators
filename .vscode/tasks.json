@@ -2,9 +2,23 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Install: NPM Packages",
+      "type": "shell",
+      "command": "npm install",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Restore: .NET Packages",
       "type": "shell",
-      "command": "dotnet restore \"${workspaceFolder}/Stock.Indicators.sln\"",
+      "command": "dotnet restore",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -18,9 +32,67 @@
       }
     },
     {
+      "label": "Install: Ruby Packages",
+      "type": "shell",
+      "command": "bundle install --jobs 4 && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Update: Ruby Packages",
+      "type": "shell",
+      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Restore: All Dependencies",
+      "dependsOn": [
+        "Install: NPM Packages",
+        "Restore: .NET Packages"
+      ],
+      "dependsOrder": "parallel"
+    },
+    {
+      "label": "Clean: Cache Folders",
+      "type": "npm",
+      "script": "clean",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
       "label": "Build: .NET Solution",
       "type": "shell",
-      "command": "dotnet build \"${workspaceFolder}/Stock.Indicators.sln\" -v minimal --nologo",
+      "command": "dotnet build -v minimal --nologo",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -39,7 +111,7 @@
     {
       "label": "Test: .NET Solution",
       "type": "shell",
-      "command": "dotnet test \"${workspaceFolder}/Stock.Indicators.sln\" --no-restore --nologo",
+      "command": "dotnet test --no-restore --nologo",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -47,97 +119,12 @@
         "kind": "test",
         "isDefault": true
       },
-      "problemMatcher": [],
+      "problemMatcher": [
+        "$msCompile"
+      ],
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Run: Doc Site with LiveReload",
-      "type": "shell",
-      "command": "bundle exec jekyll serve --livereload --open-url",
-      "dependsOn": "Install: Ruby Packages (docs)",
-      "isBackground": true,
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Install: Ruby Packages (docs)",
-      "type": "shell",
-      "command": "bundle install --jobs 4 && bundle clean --force",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Update: Ruby Packages (docs)",
-      "type": "shell",
-      "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
-      "options": {
-        "cwd": "${workspaceFolder}/docs",
-        "env": {
-          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
-          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
-        }
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Clean: Cache Folders",
-      "type": "shell",
-      "command": "npm run clean",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
-      }
-    },
-    {
-      "label": "Lint: Markdown Files",
-      "type": "shell",
-      "command": "npm run lint:md",
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared",
-        "showReuseMessage": true
       }
     },
     {
@@ -151,6 +138,108 @@
         "kind": "test",
         "isDefault": false
       },
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Lint: .NET Code (format check)",
+      "type": "shell",
+      "command": "dotnet format --verify-no-changes --severity info --no-restore",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Lint: Markdown Files",
+      "type": "npm",
+      "script": "lint:md",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [
+        {
+          "owner": "markdownlint",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*\\.md):(\\d+):(\\d+)\\s+([A-Z0-9/\\-]+)\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "code": 4,
+            "message": 5
+          }
+        }
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true
+      }
+    },
+    {
+      "label": "Fix: Run fixall (code & md)",
+      "type": "npm",
+      "script": "fixall",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "problemMatcher": [
+        "$msCompile",
+        {
+          "owner": "markdownlint",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}"
+          ],
+          "pattern": {
+            "regexp": "^(.*\\.md):(\\d+):(\\d+)\\s+([A-Z0-9/\\-]+)\\s+(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "code": 4,
+            "message": 5
+          }
+        }
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Run: Doc Site with LiveReload",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload --open-url",
+      "dependsOn": "Install: Ruby Packages",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "group": "none",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
