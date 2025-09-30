@@ -30,6 +30,8 @@ public class DemaHub<TIn>
     where TIn : IReusable
 {
     private readonly string hubName;
+    private double lastEma1 = double.NaN;
+    private double lastEma2 = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DemaHub{TIn}"/> class.
@@ -63,103 +65,74 @@ public class DemaHub<TIn>
     protected override (DemaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
+        // TODO: Optimize by persisting layered EMA state (ema1, ema2)
+        // and implementing a targeted rollback that only recomputes the
+        // affected tail segment after edits. See discussion in PR #1433.
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double? dema = null;
-
-        if (i >= LookbackPeriods - 1)
+        // if out-of-order change (insertion/deletion before current index) occurred
+        // invalidate state and backfill from previous cached EMA layers
+        if (i > 0 && Cache.Count > i && Cache[i - 1].Dema is not null && (double.IsNaN(lastEma1) || Cache[i - 1].Ema1 != lastEma1))
         {
-            // Calculate DEMA following the same algorithm as StaticSeries
-            // For StreamHub, we need to compute EMA1 and EMA2 on-demand
-
-            double ema1, ema2;
-
-            if (i == LookbackPeriods - 1)
-            {
-                // First calculable period - initialize with SMA
-                ema1 = ema2 = Sma.Increment(ProviderCache, LookbackPeriods, i);
-            }
-            else
-            {
-                // Get previous DEMA result to extract EMA state
-                DemaResult? prevResult = Cache.Count > 0 ? Cache[i - 1] : null;
-
-                if (prevResult?.Dema.HasValue == true)
-                {
-                    // We need to recalculate the previous EMA1 and EMA2 values
-                    // This is not ideal for performance but matches the pattern
-                    double prevEma1 = CalculateEmaAtIndex(i - 1);
-                    double prevEma2 = CalculateEma2AtIndex(i - 1);
-
-                    // Calculate current EMA values
-                    ema1 = Ema.Increment(K, prevEma1, item.Value);
-                    ema2 = Ema.Increment(K, prevEma2, ema1);
-                }
-                else
-                {
-                    // Fallback to SMA initialization
-                    ema1 = ema2 = Sma.Increment(ProviderCache, LookbackPeriods, i);
-                }
-            }
-
-            dema = Dema.Calculate(ema1, ema2);
+            lastEma1 = Cache[i - 1].Ema1;
+            lastEma2 = Cache[i - 1].Ema2;
         }
 
-        // candidate result
+        double dema = i >= LookbackPeriods - 1
+            ? Cache[i - 1].Dema is not null
+
+                // normal
+                ? CalculateIncrement(item.Value)
+
+                // re/initialize as SMA
+                : InitializeDema(i)
+
+            // warmup periods are never calculable
+            : double.NaN;
+
         DemaResult r = new(
             Timestamp: item.Timestamp,
-            Dema: dema);
+            Dema: dema.NaN2Null()) {
+            Ema1 = lastEma1,
+            Ema2 = lastEma2
+        };
 
         return (r, i);
     }
 
-    /// <summary>
-    /// Calculates EMA1 value at a specific index by recomputing from SMA start.
-    /// </summary>
-    private double CalculateEmaAtIndex(int index)
+    /// <inheritdoc/>
+    protected override void RollbackState(DateTime timestamp)
     {
-        if (index < LookbackPeriods - 1) return double.NaN;
-
-        // Start with SMA for the first calculable period
-        double ema = Sma.Increment(ProviderCache, LookbackPeriods, LookbackPeriods - 1);
-
-        // Incrementally calculate EMA up to the requested index
-        for (int j = LookbackPeriods; j <= index; j++)
+        int i = ProviderCache.IndexGte(timestamp);
+        if (i > LookbackPeriods)
         {
-            ema = Ema.Increment(K, ema, ProviderCache[j].Value);
+            DemaResult prior = Cache[i - 1];
+            lastEma1 = prior.Ema1;
+            lastEma2 = prior.Ema2;
         }
-
-        return ema;
+        else
+        {
+            lastEma1 = lastEma2 = double.NaN;
+        }
     }
 
-    /// <summary>
-    /// Calculates EMA2 value at a specific index (EMA of EMA1 values).
-    /// </summary>
-    private double CalculateEma2AtIndex(int index)
+    private double InitializeDema(int index)
     {
-        if (index < LookbackPeriods - 1) return double.NaN;
-
-        // First, calculate the initial EMA1 values for the SMA period
-        List<double> ema1Values = new();
-
-        // Build initial EMA1 values
-        double ema1 = Sma.Increment(ProviderCache, LookbackPeriods, LookbackPeriods - 1);
-        ema1Values.Add(ema1);
-
-        for (int j = LookbackPeriods; j <= index; j++)
+        double sum = 0;
+        for (int p = index - LookbackPeriods + 1; p <= index; p++)
         {
-            ema1 = Ema.Increment(K, ema1, ProviderCache[j].Value);
-            ema1Values.Add(ema1);
+            sum += ProviderCache[p].Value;
         }
 
-        // Now calculate EMA2 from the EMA1 values
-        double ema2 = ema1Values[0]; // Start with first EMA1 value
+        lastEma1 = lastEma2 = sum / LookbackPeriods;
+        return (2 * lastEma1) - lastEma2;
+    }
 
-        for (int j = 1; j < ema1Values.Count; j++)
-        {
-            ema2 = Ema.Increment(K, ema2, ema1Values[j]);
-        }
-
-        return ema2;
+    private double CalculateIncrement(double value)
+    {
+        lastEma1 = Ema.Increment(K, lastEma1, value);
+        lastEma2 = Ema.Increment(K, lastEma2, lastEma1);
+        return (2 * lastEma1) - lastEma2;
     }
 }

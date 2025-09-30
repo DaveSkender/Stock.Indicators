@@ -15,6 +15,7 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "chat.tools.global.autoApprove": true,
         "chat.mcp.autostart": "never",
         "terminal.integrated.defaultProfile.linux": "bash"
       },
