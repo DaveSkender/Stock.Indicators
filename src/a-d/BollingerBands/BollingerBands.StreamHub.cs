@@ -84,9 +84,9 @@ public class BollingerBandsHub<TIn>
 
         // candidate result using Increment method like SMA
         BollingerBandsResult r = BollingerBands.Increment(
-            ProviderCache, 
-            LookbackPeriods, 
-            standardDeviations, 
+            ProviderCache,
+            LookbackPeriods,
+            standardDeviations,
             i);
 
         return (r, i);
