@@ -37,6 +37,7 @@ public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>
     internal ObvHub(
         IQuoteProvider<TIn> provider) : base(provider)
     {
+        Reinitialize();
     }
 
     /// <inheritdoc/>
@@ -47,7 +48,7 @@ public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>
 
         // Get previous close and OBV values for calculation
         double prevClose = i > 0 ? (double)ProviderCache[i - 1].Close : double.NaN;
-        double prevObv = i > 0 ? Cache[i - 1].Obv : 0;
+        double prevObv = i > 0 ? Cache[i - 1].Value : 0;
 
         // Calculate OBV using the Increment method
         ObvResult r = Obv.Increment(
