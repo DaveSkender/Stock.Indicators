@@ -97,3 +97,33 @@ var results = quotes
     .GetSma(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+SmaList smaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  smaList.Add(quote);
+}
+
+// based on `List<SmaResult>`
+IReadOnlyList<SmaResult> results = smaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+SmaHub<Quote> observer = provider.ToSma(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<SmaResult> results = observer.Results;
+```

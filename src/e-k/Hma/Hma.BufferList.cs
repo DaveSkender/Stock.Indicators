@@ -128,3 +128,15 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
         synthBuffer.Clear();
     }
 }
+
+public static partial class Hma
+{
+    /// <summary>
+    /// Creates a buffer list for Hull Moving Average (HMA) calculations.
+    /// </summary>
+    public static HmaList ToHmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

@@ -175,7 +175,9 @@ public static partial class Catalog
         _listings.Add(Ichimoku.SeriesListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
+        _listings.Add(Kama.BufferListing);
         _listings.Add(Kama.SeriesListing);
+        _listings.Add(Kama.StreamListing);
 
         // Keltner Channels
         _listings.Add(Keltner.SeriesListing);
@@ -283,7 +285,9 @@ public static partial class Catalog
         _listings.Add(T3.SeriesListing);
 
         // TEMA (Triple Exponential Moving Average)
+        _listings.Add(Tema.BufferListing);
         _listings.Add(Tema.SeriesListing);
+        _listings.Add(Tema.StreamListing);
 
         // TR (True Range)
         _listings.Add(Tr.SeriesListing);
@@ -312,6 +316,8 @@ public static partial class Catalog
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
+        _listings.Add(Vwma.StreamListing);
+        _listings.Add(Vwma.BufferListing);
 
         // Williams %R
         _listings.Add(WilliamsR.SeriesListing);
