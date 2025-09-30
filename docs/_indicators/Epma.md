@@ -75,3 +75,33 @@ var results = quotes
     .GetEpma(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+EpmaList epmaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  epmaList.Add(quote);
+}
+
+// based on `List<EpmaResult>`
+IReadOnlyList<EpmaResult> results = epmaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+EpmaHub<Quote> observer = provider.ToEpma(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<EpmaResult> results = observer.Results;
+```
