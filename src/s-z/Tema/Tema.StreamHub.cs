@@ -16,12 +16,9 @@ public static partial class Tema
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
     public static TemaHub<T> ToTema<T>(
         this IChainProvider<T> chainProvider,
-        int lookbackPeriods)
+        int lookbackPeriods = 20)
         where T : IReusable
-    {
-        ArgumentNullException.ThrowIfNull(chainProvider);
-        return new(chainProvider, lookbackPeriods);
-    }
+        => new(chainProvider, lookbackPeriods);
 }
 
 /// <summary>
@@ -45,16 +42,27 @@ public class TemaHub<TIn>
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
         hubName = $"TEMA({lookbackPeriods})";
+
         Reinitialize();
     }
 
+    /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
+
+    /// <inheritdoc/>
     public double K { get; private init; }
+
+    /// <inheritdoc/>
     public override string ToString() => hubName;
 
+    /// <inheritdoc/>
     protected override (TemaResult result, int index)
         ToIndicator(TIn item, int? indexHint)
     {
+        // TODO: Optimize by persisting layered EMA state (ema1, ema2, ema3)
+        // and implementing a targeted rollback that only recomputes the
+        // affected tail segment after edits. See discussion in PR #1433.
+
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // if out-of-order change (insertion/deletion before current index) occurred
@@ -80,8 +88,7 @@ public class TemaHub<TIn>
 
         TemaResult r = new(
             Timestamp: item.Timestamp,
-            Tema: tema.NaN2Null())
-        {
+            Tema: tema.NaN2Null()) {
             Ema1 = lastEma1,
             Ema2 = lastEma2,
             Ema3 = lastEma3
@@ -90,6 +97,7 @@ public class TemaHub<TIn>
         return (r, i);
     }
 
+    /// <inheritdoc/>
     protected override void RollbackState(DateTime timestamp)
     {
         int i = ProviderCache.IndexGte(timestamp);

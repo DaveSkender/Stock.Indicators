@@ -70,8 +70,7 @@ public static partial class Tema
 
             results.Add(new TemaResult(
                 Timestamp: s.Timestamp,
-                Tema: ((3 * ema1) - (3 * ema2) + ema3).NaN2Null())
-            {
+                Tema: ((3 * ema1) - (3 * ema2) + ema3).NaN2Null()) {
                 Ema1 = ema1,
                 Ema2 = ema2,
                 Ema3 = ema3
