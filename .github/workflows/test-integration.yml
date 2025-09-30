@@ -1,15 +1,14 @@
-name: Indicators
+name: Test Integration
 
 on:
   push:
-    branches: ["main"]
-
-  pull_request:
-    branches: ["*"]
+    branches:
+      - "main"
+      - "v[0-9]*"
+  workflow_dispatch:
 
 jobs:
   test:
-    name: integration tests
     runs-on: ubuntu-latest
 
     permissions:
@@ -49,7 +48,7 @@ jobs:
           --logger trx
 
       - name: Post test summary
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2.1.0
         if: always()
         with:
           name: Test results
