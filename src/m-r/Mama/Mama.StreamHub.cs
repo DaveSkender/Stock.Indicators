@@ -90,7 +90,7 @@ public class MamaHub<TIn>
         {
             // Very simplified MAMA approximation using EMA-like calculation
             double alpha = FastLimit;
-            
+
             if (i == 5)
             {
                 // Initialize with simple average
@@ -108,7 +108,7 @@ public class MamaHub<TIn>
                 double currentValue = pr[i];
                 double prevMama = 0;
                 double prevFama = 0;
-                
+
                 // Try to get previous result from cache if available
                 if (Cache.Count > 0 && Cache.Count > i - 1)
                 {
@@ -121,7 +121,7 @@ public class MamaHub<TIn>
                     prevMama = currentValue;
                     prevFama = currentValue;
                 }
-                
+
                 mama = (alpha * currentValue) + ((1 - alpha) * prevMama);
                 fama = (0.5 * alpha * mama.Value) + ((1 - (0.5 * alpha)) * prevFama);
             }
