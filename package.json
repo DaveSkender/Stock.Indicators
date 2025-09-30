@@ -1,26 +1,21 @@
 {
-  "name": "stock.indicators",
-  "version": "1.0.0",
-  "description": "C# library providing 200+ technical analysis indicators for financial data analysis",
-  "private": false,
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  },
-  "scripts": {
-    "lint:md": "markdownlint-cli2 \"**/*.md\"",
-    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\""
-  },
-  "keywords": [
-    "stock",
-    "indicators",
-    "technical-analysis",
-    "finance",
-    "dotnet"
-  ],
+  "name": "stock-indicators",
+  "description": "Stock Indicators for .NET",
   "author": "Dave Skender",
   "license": "Apache-2.0",
+  "private": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "clean": "rimraf --glob \"**/bin\" \"**/obj\" \"**/TestResults\" \"**/BenchmarkDotNet.Artifacts\" \"node_modules\" \"**/node_modules\"",
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
+    "fixall": "dotnet format && markdownlint-cli2 --fix \"**/*.md\"",
+    "test:coverage": "dotnet test \"Stock.Indicators.sln\" --collect:\"Code Coverage\" --no-restore --nologo"
+  },
   "devDependencies": {
-    "markdownlint-cli2": "^0.18.1"
+    "markdownlint-cli2": "^0.18.1",
+    "rimraf": "^6.0.1"
   }
 }

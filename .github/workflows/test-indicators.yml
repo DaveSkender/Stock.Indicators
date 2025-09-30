@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read   # Required for checkout
-  checks: write    # Required for test results
+  contents: read  # Required for checkout
+  checks: write   # Required for test results
 
 jobs:
   test:
