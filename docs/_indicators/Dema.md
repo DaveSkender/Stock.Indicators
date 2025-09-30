@@ -79,3 +79,33 @@ var results = quotes
     .GetDema(..)
     .GetRsi(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+DemaList demaList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  demaList.Add(quote);
+}
+
+// based on `List<DemaResult>`
+IReadOnlyList<DemaResult> results = demaList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+DemaHub<Quote> observer = provider.ToDema(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<DemaResult> results = observer.Results;
+```
