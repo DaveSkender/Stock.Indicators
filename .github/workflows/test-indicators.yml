@@ -7,6 +7,11 @@ on:
       - "v[0-9]*"
   pull_request:
     branches: ["*"]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "package*.json"
+      - ".github/workflows/test-indicators.yml"
   workflow_dispatch:
 
 permissions:
