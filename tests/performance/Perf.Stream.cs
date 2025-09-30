@@ -51,10 +51,31 @@ public class StreamIndicators
     public object AtrStopHub() => provider.ToAtrStop().Results;
 
     [Benchmark]
+    public object BollingerBandsHub() => provider.ToBollingerBands(20, 2).Results;
+
+    [Benchmark]
+    public object DemaHub() => provider.ToDema(14).Results;
+
+    [Benchmark]
     public object EmaHub() => provider.ToEma(14).Results;
 
     [Benchmark]
+    public object EpmaHub() => provider.ToEpma(14).Results;
+
+    [Benchmark]
     public object HmaHub() => provider.ToHma(14).Results;
+
+    [Benchmark]
+    public object KamaHub() => provider.ToKama(10, 2, 30).Results;
+
+    [Benchmark]
+    public object MacdHub() => provider.ToMacd(12, 26, 9).Results;
+
+    [Benchmark]
+    public object MamaHub() => provider.ToMama(0.5, 0.05).Results;
+
+    [Benchmark]
+    public object ObvHub() => provider.ToObv().Results;
 
     [Benchmark]
     public object QuoteHub() => provider.ToQuote().Results;
@@ -66,10 +87,25 @@ public class StreamIndicators
     public object RenkoHub() => provider.ToRenko(2.5m).Results;
 
     [Benchmark]
+    public object RsiHub() => provider.ToRsi(14).Results;
+
+    [Benchmark]
     public object SmaHub() => provider.ToSma(10).Results;
 
     [Benchmark]
+    public object SmmaHub() => provider.ToSmma(14).Results;
+
+    [Benchmark]
+    public object StochHub() => provider.ToStoch(14, 3, 3).Results;
+
+    [Benchmark]
+    public object TemaHub() => provider.ToTema(14).Results;
+
+    [Benchmark]
     public object TrHub() => provider.ToTr().Results;
+
+    [Benchmark]
+    public object VwmaHub() => provider.ToVwma(14).Results;
 
     [Benchmark]
     public object WmaHub() => provider.ToWma(14).Results;

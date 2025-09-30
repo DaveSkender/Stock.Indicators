@@ -3,7 +3,19 @@ name: Benchmark performance
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+      - "v[0-9]*"
+    paths:
+      - tests/performance/**
+  pull_request:
+    branches: ["*"]
+    paths:
+      - tests/performance/**
+      - ".github/workflows/test-performance.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -62,11 +74,14 @@ jobs:
           echo "## Series indicators" >> $GITHUB_STEP_SUMMARY
           cat Performance.SeriesIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
 
-          echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY
+          echo "## Stream indicators" >> $GITHUB_STEP_SUMMARY
           cat Performance.StreamIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
 
-          echo "## Incrementing buffer-style indicators" >> $GITHUB_STEP_SUMMARY
-          cat Performance.BufferLists-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "## Buffer indicators" >> $GITHUB_STEP_SUMMARY
+          cat Performance.BufferIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+
+          echo "## Style comparison" >> $GITHUB_STEP_SUMMARY
+          cat Performance.StyleComparison-report-github.md >> $GITHUB_STEP_SUMMARY
 
           echo "## Utilities" >> $GITHUB_STEP_SUMMARY
           cat Performance.Utility-report-github.md >> $GITHUB_STEP_SUMMARY
