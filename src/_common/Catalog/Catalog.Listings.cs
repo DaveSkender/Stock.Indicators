@@ -121,7 +121,9 @@ public static partial class Catalog
         _listings.Add(Correlation.SeriesListing);
 
         // DEMA (Double Exponential Moving Average)
+        _listings.Add(Dema.BufferListing);
         _listings.Add(Dema.SeriesListing);
+        _listings.Add(Dema.StreamListing);
 
         // Doji
         _listings.Add(Doji.SeriesListing);
@@ -193,7 +195,9 @@ public static partial class Catalog
         _listings.Add(Macd.SeriesListing);
 
         // MAMA (MESA Adaptive Moving Average)
+        _listings.Add(Mama.BufferListing);
         _listings.Add(Mama.SeriesListing);
+        _listings.Add(Mama.StreamListing);
 
         // Marubozu
         _listings.Add(Marubozu.SeriesListing);

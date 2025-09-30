@@ -51,7 +51,6 @@ public class ObvHubTests : StreamHubTestBase
         quotesList.RemoveAt(400);
 
         // final results
-        streamList = observer.Results;
         IReadOnlyList<ObvResult> seriesList = quotesList.ToObv();
 
         streamList.Should().HaveCount(length - 1);
