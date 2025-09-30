@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// On-Balance Volume (OBV) from incremental quote values.
 /// </summary>
-public class ObvList : List<ObvResult>, IObv, IBufferList
+public class ObvList : List<ObvResult>, IBufferList
 {
     private double _previousClose = double.NaN;
     private double _obvValue;
@@ -20,7 +20,7 @@ public class ObvList : List<ObvResult>, IObv, IBufferList
     public void Add(IQuote quote)
     {
         ArgumentNullException.ThrowIfNull(quote);
-        
+
         // Handle volume direction changes in streaming mode
         if (!double.IsNaN(_previousClose))
         {

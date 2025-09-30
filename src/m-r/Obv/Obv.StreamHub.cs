@@ -27,7 +27,7 @@ public static partial class Obv
 /// Represents an On-Balance Volume (OBV) stream hub.
 /// </summary>
 /// <typeparam name="TIn">The type of the input.</typeparam>
-public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>, IObv
+public class ObvHub<TIn> : ChainProvider<TIn, ObvResult>
     where TIn : IQuote
 {
     /// <summary>

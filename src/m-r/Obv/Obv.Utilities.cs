@@ -19,7 +19,7 @@ public static partial class Obv
         double prevObv)
     {
         double obv;
-        
+
         if (double.IsNaN(prevClose))
         {
             // First period starts at 0
