@@ -36,7 +36,6 @@ public class BollingerBandsHub<TIn>
     #region constructors
 
     private readonly string hubName;
-    private readonly double standardDeviations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BollingerBandsHub{TIn}"/> class.
@@ -51,7 +50,7 @@ public class BollingerBandsHub<TIn>
     {
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
         LookbackPeriods = lookbackPeriods;
-        this.standardDeviations = standardDeviations;
+        StandardDeviations = standardDeviations;
         hubName = $"BB({lookbackPeriods},{standardDeviations})";
 
         Reinitialize();
@@ -69,7 +68,7 @@ public class BollingerBandsHub<TIn>
     /// <summary>
     /// Gets the number of standard deviations.
     /// </summary>
-    public double StandardDeviations => standardDeviations;
+    public double StandardDeviations { get; }
 
     #endregion
 
@@ -88,7 +87,7 @@ public class BollingerBandsHub<TIn>
         BollingerBandsResult r = BollingerBands.Increment(
             ProviderCache,
             LookbackPeriods,
-            standardDeviations,
+            StandardDeviations,
             i);
 
         return (r, i);

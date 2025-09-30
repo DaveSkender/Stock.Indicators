@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, IBufferList, IBufferReusable
 {
     private readonly Queue<double> buffer;
-    private readonly double standardDeviations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class.
@@ -17,7 +16,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
     {
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
         LookbackPeriods = lookbackPeriods;
-        this.standardDeviations = standardDeviations;
+        StandardDeviations = standardDeviations;
         buffer = new Queue<double>(lookbackPeriods);
     }
 
@@ -29,7 +28,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
     /// <summary>
     /// Gets the number of standard deviations for the bands.
     /// </summary>
-    public double StandardDeviations => standardDeviations;
+    public double StandardDeviations { get; }
 
     /// <summary>
     /// Adds a new value to the Bollinger Bands list.
@@ -57,8 +56,8 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
             double stdDev = window.StdDev();
 
             // Calculate bands
-            double upperBand = sma + (standardDeviations * stdDev);
-            double lowerBand = sma - (standardDeviations * stdDev);
+            double upperBand = sma + (StandardDeviations * stdDev);
+            double lowerBand = sma - (StandardDeviations * stdDev);
 
             // Calculate derived values
             double? percentB = upperBand - lowerBand == 0 ? null

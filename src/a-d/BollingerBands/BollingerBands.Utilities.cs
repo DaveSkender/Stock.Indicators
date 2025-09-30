@@ -30,9 +30,20 @@ public static partial class BollingerBands
         int endIndex)
         where T : IReusable
     {
-        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
+        ArgumentNullException.ThrowIfNull(source);
+
+        if ((uint)endIndex >= (uint)source.Count)
         {
-            return new BollingerBandsResult(source[endIndex].Timestamp);
+            throw new ArgumentOutOfRangeException(
+                nameof(endIndex), endIndex,
+                "End index must refer to an existing element in the source cache.");
+        }
+
+        DateTime timestamp = source[endIndex].Timestamp;
+
+        if (endIndex < lookbackPeriods - 1)
+        {
+            return new BollingerBandsResult(timestamp);
         }
 
         // Calculate SMA
@@ -67,7 +78,7 @@ public static partial class BollingerBands
         double? width = sma == 0 ? null : (upperBand - lowerBand) / sma;
 
         return new BollingerBandsResult(
-            Timestamp: source[endIndex].Timestamp,
+            Timestamp: timestamp,
             Sma: sma,
             UpperBand: upperBand,
             LowerBand: lowerBand,

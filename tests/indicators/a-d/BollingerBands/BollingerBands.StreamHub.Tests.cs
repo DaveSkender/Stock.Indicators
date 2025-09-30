@@ -55,7 +55,9 @@ public class BollingerBandsStreamHub : StreamHubTestBase
 
         // assert, should equal series
         streamList.Should().HaveCount(length - 1);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         provider.EndTransmission();
@@ -106,42 +108,46 @@ public class BollingerBandsStreamHub : StreamHubTestBase
 
         // assert, should equal series
         streamList.Should().HaveCount(length);
-        streamList.Should().BeEquivalentTo(seriesList);
+        streamList.Should().BeEquivalentTo(
+            seriesList,
+            options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
         provider.EndTransmission();
     }
 
     [TestMethod]
-    public void DebugStreamHub()
+    public void PrefilledProviderRebuilds()
     {
-        // Create a simple test to debug the StreamHub
         QuoteHub<Quote> provider = new();
         List<Quote> quotes = Quotes.Take(25).ToList();
 
-        // Add some quotes
         for (int i = 0; i < 5; i++)
         {
             provider.Add(quotes[i]);
         }
 
-        // Create observer AFTER quotes are added
-        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(5, 2); // smaller period for testing
+        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(5, 2);
 
-        // Check initial state (after Reinitialize(), cache will be built)
-        observer.Results.Count.Should().Be(5);
+        IReadOnlyList<BollingerBandsResult> initialResults = observer.Results;
+        IReadOnlyList<BollingerBandsResult> expectedInitial = quotes
+            .Take(5)
+            .ToList()
+            .ToBollingerBands(5, 2);
 
-        // Add more quotes
-        for (int i = 5; i < 25; i++)
+        initialResults.Should().BeEquivalentTo(
+            expectedInitial,
+            options => options.WithStrictOrdering());
+
+        for (int i = 5; i < quotes.Count; i++)
         {
             provider.Add(quotes[i]);
         }
 
-        // Check final state
-        int resultCount = observer.Results.Count;
-        Console.WriteLine($"Result count: {resultCount}");
+        observer.Results.Should().BeEquivalentTo(
+            quotes.ToBollingerBands(5, 2),
+            options => options.WithStrictOrdering());
 
-        // Cleanup
         observer.Unsubscribe();
         provider.EndTransmission();
     }
