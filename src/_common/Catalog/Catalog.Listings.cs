@@ -243,6 +243,7 @@ public static partial class Catalog
         // RSI (Relative Strength Index)
         _listings.Add(Rsi.BufferListing);
         _listings.Add(Rsi.SeriesListing);
+        _listings.Add(Rsi.StreamListing);
 
         // Slope
         _listings.Add(Slope.SeriesListing);

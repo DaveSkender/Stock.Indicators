@@ -20,7 +20,7 @@ public class RsiList : List<RsiResult>, IRsi, IBufferList, IBufferReusable
     {
         Rsi.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        
+
         _gainBuffer = new Queue<double>(lookbackPeriods);
         _lossBuffer = new Queue<double>(lookbackPeriods);
     }
@@ -52,15 +52,9 @@ public class RsiList : List<RsiResult>, IRsi, IBufferList, IBufferReusable
             gain = loss = double.NaN;
         }
 
-        // Update buffers
-        if (_gainBuffer.Count == LookbackPeriods)
-        {
-            _gainBuffer.Dequeue();
-            _lossBuffer.Dequeue();
-        }
-
-        _gainBuffer.Enqueue(gain);
-        _lossBuffer.Enqueue(loss);
+        // Update buffers using universal buffer utilities
+        _gainBuffer.Update(LookbackPeriods, gain);
+        _lossBuffer.Update(LookbackPeriods, loss);
 
         double? rsi = null;
         _prevValue = value;

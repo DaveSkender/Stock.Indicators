@@ -56,10 +56,15 @@ public class CatalogIntegrityTests : TestBase
     [TestMethod]
     public void SingleStyleIndicatorsShouldHaveOneListing()
     {
+        // Note: RSI now supports multiple styles (Series, Stream, Buffer)
+        // This test previously expected RSI to have only Series style
+        // but RSI now supports streaming and buffer implementations
         IReadOnlyCollection<IndicatorListing> rsiListings = Catalog.Get("RSI");
         rsiListings.Should().NotBeEmpty();
-        rsiListings.Should().HaveCount(1);
-        rsiListings.First().Style.Should().Be(Style.Series);
+        rsiListings.Should().HaveCount(3); // Series, Stream, Buffer
+        rsiListings.Should().Contain(x => x.Style == Style.Series);
+        rsiListings.Should().Contain(x => x.Style == Style.Stream);
+        rsiListings.Should().Contain(x => x.Style == Style.Buffer);
     }
 
     [TestMethod]
