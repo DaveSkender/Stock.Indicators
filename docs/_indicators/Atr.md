@@ -72,9 +72,7 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 
 ## Chaining
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
-Results can be further processed on `Atr` with additional chain-enabled indicators.
+Results can be further processed on `Atrp` with additional chain-enabled indicators.
 
 ```csharp
 // example
@@ -82,6 +80,8 @@ var results = quotes
     .GetAtr(..)
     .GetSlope(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Streaming
 

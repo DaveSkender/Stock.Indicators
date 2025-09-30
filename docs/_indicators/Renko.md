@@ -40,8 +40,6 @@ You must have at least two periods of `quotes` to cover the warmup periods; howe
 
 ## Chaining
 
-This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
-
 Results are based in `IQuote` and can be further used in any indicator.
 
 ```csharp
@@ -50,6 +48,8 @@ var results = quotes
     .GetRenko(..)
     .GetRsi(..);
 ```
+
+This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
 
 ## Response
 
