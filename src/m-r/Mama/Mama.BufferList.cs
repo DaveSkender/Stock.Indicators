@@ -262,3 +262,16 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         ph.Clear();
     }
 }
+
+public static partial class Mama
+{
+    /// <summary>
+    /// Creates a buffer list for MESA Adaptive Moving Average (MAMA) calculations.
+    /// </summary>
+    public static MamaList ToMamaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        double fastLimit = 0.5,
+        double slowLimit = 0.05)
+        where TQuote : IQuote
+        => new(fastLimit, slowLimit) { (IReadOnlyList<IQuote>)quotes };
+}
