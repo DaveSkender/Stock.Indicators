@@ -14,6 +14,80 @@ public static partial class BollingerBands
         return results.Remove(removePeriods);
     }
 
+    /// <summary>
+    /// Bollinger Bands calculation for streaming scenarios.
+    /// </summary>
+    /// <param name="source">List of chainable values.</param>
+    /// <param name="lookbackPeriods">Window to evaluate, prior to 'endIndex'.</param>
+    /// <param name="standardDeviations">Number of standard deviations for bands.</param>
+    /// <param name="endIndex">Index position to evaluate.</param>
+    /// <typeparam name="T">IReusable (chainable) type.</typeparam>
+    /// <returns>Bollinger Bands result or null result when insufficient data.</returns>
+    internal static BollingerBandsResult Increment<T>(
+        IReadOnlyList<T> source,
+        int lookbackPeriods,
+        double standardDeviations,
+        int endIndex)
+        where T : IReusable
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        if ((uint)endIndex >= (uint)source.Count)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(endIndex), endIndex,
+                "End index must refer to an existing element in the source cache.");
+        }
+
+        DateTime timestamp = source[endIndex].Timestamp;
+
+        if (endIndex < lookbackPeriods - 1)
+        {
+            return new BollingerBandsResult(timestamp);
+        }
+
+        // Calculate SMA
+        double sum = 0;
+        for (int i = endIndex - lookbackPeriods + 1; i <= endIndex; i++)
+        {
+            sum += source[i].Value;
+        }
+        double sma = sum / lookbackPeriods;
+
+        // Calculate standard deviation
+        double sumSquaredDiff = 0;
+        for (int i = endIndex - lookbackPeriods + 1; i <= endIndex; i++)
+        {
+            double diff = source[i].Value - sma;
+            sumSquaredDiff += diff * diff;
+        }
+        double stdDev = Math.Sqrt(sumSquaredDiff / lookbackPeriods);
+
+        // Calculate bands
+        double upperBand = sma + (standardDeviations * stdDev);
+        double lowerBand = sma - (standardDeviations * stdDev);
+
+        // Get current value for derived calculations
+        double currentValue = source[endIndex].Value;
+
+        // Calculate derived values
+        double? percentB = upperBand - lowerBand == 0 ? null
+            : (currentValue - lowerBand) / (upperBand - lowerBand);
+
+        double? zScore = stdDev == 0 ? null : (currentValue - sma) / stdDev;
+        double? width = sma == 0 ? null : (upperBand - lowerBand) / sma;
+
+        return new BollingerBandsResult(
+            Timestamp: timestamp,
+            Sma: sma,
+            UpperBand: upperBand,
+            LowerBand: lowerBand,
+            PercentB: percentB,
+            ZScore: zScore,
+            Width: width
+        );
+    }
+
     // parameter validation
     internal static void Validate(
         int lookbackPeriods,
