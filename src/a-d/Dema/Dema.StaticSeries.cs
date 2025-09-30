@@ -86,7 +86,7 @@ public static partial class Dema
     /// <returns>A <see cref="DemaList"/> containing the DEMA calculations.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the source list is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are not valid.</exception>
-    public static DemaList ToDemaBufferList<T>(
+    public static DemaList ToDemaList<T>(
         this IReadOnlyList<T> source,
         int lookbackPeriods = 14)
         where T : IReusable
@@ -95,7 +95,13 @@ public static partial class Dema
         Validate(lookbackPeriods);
 
         DemaList bufferList = new(lookbackPeriods);
-        bufferList.Add(source);
+        
+        // Add each item individually
+        for (int i = 0; i < source.Count; i++)
+        {
+            bufferList.Add(source[i]);
+        }
+        
         return bufferList;
     }
 }
