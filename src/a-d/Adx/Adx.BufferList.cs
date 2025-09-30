@@ -1,5 +1,17 @@
 namespace Skender.Stock.Indicators;
 
+public static partial class Adx
+{
+    /// <summary>
+    /// Creates a buffer list for Average Directional Index (ADX) calculations.
+    /// </summary>
+    public static AdxList ToAdxList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}
+
 /// <summary>
 /// Average Directional Index (ADX) from incremental reusable values.
 /// </summary>

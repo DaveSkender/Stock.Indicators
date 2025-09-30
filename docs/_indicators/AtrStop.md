@@ -79,3 +79,19 @@ See [Utilities and helpers]({{site.baseurl}}/utilities#utilities-for-indicator-r
 ## Chaining
 
 This indicator is not chain-enabled and must be generated from `quotes`.  It **cannot** be used for further processing by other chain-enabled indicators.
+
+## Streaming
+
+Subscribe to a `QuoteHub` for streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+AtrStopHub<Quote> observer = provider.ToAtrStop(lookbackPeriods, multiplier: 3.0, endType: EndType.Close);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AtrStopResult> results = observer.Results;
+```
