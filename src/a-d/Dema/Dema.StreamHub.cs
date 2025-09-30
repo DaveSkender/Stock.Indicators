@@ -71,7 +71,7 @@ public class DemaHub<TIn>
         {
             // Calculate DEMA following the same algorithm as StaticSeries
             // For StreamHub, we need to compute EMA1 and EMA2 on-demand
-            
+
             double ema1, ema2;
 
             if (i == LookbackPeriods - 1)
@@ -80,7 +80,7 @@ public class DemaHub<TIn>
                 ema1 = ema2 = Sma.Increment(ProviderCache, LookbackPeriods, i);
             }
             else
-            { 
+            {
                 // Get previous DEMA result to extract EMA state
                 DemaResult? prevResult = Cache.Count > 0 ? Cache[i - 1] : null;
 
@@ -141,7 +141,7 @@ public class DemaHub<TIn>
 
         // First, calculate the initial EMA1 values for the SMA period
         List<double> ema1Values = new();
-        
+
         // Build initial EMA1 values
         double ema1 = Sma.Increment(ProviderCache, LookbackPeriods, LookbackPeriods - 1);
         ema1Values.Add(ema1);

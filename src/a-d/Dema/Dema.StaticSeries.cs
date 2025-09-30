@@ -95,13 +95,13 @@ public static partial class Dema
         Validate(lookbackPeriods);
 
         DemaList bufferList = new(lookbackPeriods);
-        
+
         // Add each item individually
         for (int i = 0; i < source.Count; i++)
         {
             bufferList.Add(source[i]);
         }
-        
+
         return bufferList;
     }
 }
