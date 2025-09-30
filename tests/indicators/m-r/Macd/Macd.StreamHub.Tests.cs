@@ -152,7 +152,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             .ToMacd(macdFast, macdSlow, macdSignal);
 
         // emulate live quotes
-        for (int i = length - 50; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
             quoteProvider.Add(quotesList[i]);
         }

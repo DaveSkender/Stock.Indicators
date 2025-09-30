@@ -34,9 +34,6 @@ public class MacdHub<TIn>
     where TIn : IReusable
 {
     private readonly string hubName;
-    private double? _lastFastEma;
-    private double? _lastSlowEma;
-    private double? _lastSignalEma;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MacdHub{TIn}"/> class.
@@ -101,86 +98,54 @@ public class MacdHub<TIn>
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
         // Calculate Fast EMA
-        double? fastEma = null;
-        if (i >= FastPeriods - 1)
-        {
-            if (_lastFastEma is null)
-            {
-                // Initialize as SMA
-                fastEma = Sma.Increment(ProviderCache, FastPeriods, i);
-            }
-            else
-            {
+        double fastEma = i >= FastPeriods - 1
+            ? i > 0 && Cache[i - 1].FastEma is not null
                 // Calculate EMA normally
-                fastEma = Ema.Increment(FastK, _lastFastEma.Value, item.Value);
-            }
-            _lastFastEma = fastEma;
-        }
+                ? Ema.Increment(FastK, Cache[i - 1].FastEma!.Value, item.Value)
+                // Initialize as SMA
+                : Sma.Increment(ProviderCache, FastPeriods, i)
+            // warmup periods are never calculable
+            : double.NaN;
 
         // Calculate Slow EMA
-        double? slowEma = null;
-        if (i >= SlowPeriods - 1)
-        {
-            if (_lastSlowEma is null)
-            {
-                // Initialize as SMA
-                slowEma = Sma.Increment(ProviderCache, SlowPeriods, i);
-            }
-            else
-            {
+        double slowEma = i >= SlowPeriods - 1
+            ? i > 0 && Cache[i - 1].SlowEma is not null
                 // Calculate EMA normally
-                slowEma = Ema.Increment(SlowK, _lastSlowEma.Value, item.Value);
-            }
-            _lastSlowEma = slowEma;
-        }
+                ? Ema.Increment(SlowK, Cache[i - 1].SlowEma!.Value, item.Value)
+                // Initialize as SMA
+                : Sma.Increment(ProviderCache, SlowPeriods, i)
+            // warmup periods are never calculable
+            : double.NaN;
 
         // Calculate MACD
-        double? macd = null;
-        if (fastEma.HasValue && slowEma.HasValue)
-        {
-            macd = fastEma.Value - slowEma.Value;
-        }
+        double macd = fastEma - slowEma;
 
         // Calculate Signal
-        double? signal = null;
-        if (macd.HasValue && i >= SlowPeriods + SignalPeriods - 2)
+        double signal;
+        if (i >= SignalPeriods + SlowPeriods - 2 && (i == 0 || Cache[i - 1].Signal is null))
         {
-            if (_lastSignalEma is null)
+            // Initialize signal as SMA of MACD values
+            double sum = macd;
+            for (int j = i - SignalPeriods + 1; j < i; j++)
             {
-                // Initialize signal as SMA of MACD values
-                double sum = macd.Value;
-                for (int j = Math.Max(0, i - SignalPeriods + 1); j < i; j++)
-                {
-                    if (Cache[j].Macd.HasValue)
-                    {
-                        sum += Cache[j].Macd!.Value;
-                    }
-                }
-                signal = sum / SignalPeriods;
+                sum += Cache[j].Value;
             }
-            else
-            {
-                // Calculate signal EMA normally
-                signal = Ema.Increment(SignalK, _lastSignalEma.Value, macd.Value);
-            }
-            _lastSignalEma = signal;
+            signal = sum / SignalPeriods;
         }
-
-        // Calculate Histogram
-        double? histogram = null;
-        if (macd.HasValue && signal.HasValue)
+        else
         {
-            histogram = macd.Value - signal.Value;
+            // Calculate signal EMA normally
+            signal = Ema.Increment(SignalK, i > 0 ? Cache[i - 1].Signal ?? double.NaN : double.NaN, macd);
         }
 
         // Candidate result
         MacdResult r = new(
             Timestamp: item.Timestamp,
-            Macd: macd,
-            Signal: signal,
-            Histogram: histogram,
-            FastEma: fastEma,
-            SlowEma: slowEma);
+            Macd: macd.NaN2Null(),
+            Signal: signal.NaN2Null(),
+            Histogram: (macd - signal).NaN2Null(),
+            FastEma: fastEma.NaN2Null(),
+            SlowEma: slowEma.NaN2Null());
 
         return (r, i);
     }
