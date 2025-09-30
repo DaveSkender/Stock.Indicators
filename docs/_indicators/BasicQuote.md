@@ -18,7 +18,7 @@ IEnumerable<BasicData> results =
 
 ## Parameters
 
-**`candlePart`** _`CandlePart`_ - The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.  See [CandlePart options](#candlepart-options) below.
+**`candlePart`** _`CandlePart`_ - The [OHLCV]({{site.baseurl}}/guide/#historical-quotes) element or simple price transform.
 
 ### Historical quotes requirements
 

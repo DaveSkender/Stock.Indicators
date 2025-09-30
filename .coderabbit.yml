@@ -43,7 +43,7 @@ reviews:
   # since CodeRabbit skips them anyway
     ignore_usernames:
       - "copilot[bot]"
-      - "github-copilot[bot]"  
+      - "github-copilot[bot]"
       - "github-actions[bot]"
 
   # Code enhancement features

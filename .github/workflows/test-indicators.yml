@@ -8,43 +8,42 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read # Required for checkout
-  actions: read # Required for workflow runs
-  checks: write # Required for test results
+  contents: read  # Required for checkout
+  checks: write   # Required for test results
 
 jobs:
   test:
     name: unit tests
-    runs-on: ${{ matrix.os }}
-
-    permissions:
-      contents: read
-      actions: read
-      checks: write
-
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet-version: ["6.0.x", "9.0.x"]
+    runs-on: ubuntu-latest
 
     env:
-      # identifying primary configuration so only one reports coverage
-      IS_PRIMARY: ${{ matrix.os == 'ubuntu-latest' && matrix.dotnet-version == '9.0.x' }}
-
-      # Identifies the current target framework
-      TARGET_FRAMEWORK: >
-        ${{ matrix.dotnet-version == '6.0.x' && 'net6.0' ||
-            matrix.dotnet-version == '9.0.x' && 'net9.0' }}
+      TARGET_FRAMEWORK: net9.0
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "9.x"
           dotnet-quality: "ga"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: ">=22"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Check .NET code formatting
+        run: dotnet format --verify-no-changes
+
+      - name: Check Markdown linting
+        run: npm run lint:md
 
       - name: Build library
         run: >
@@ -54,44 +53,30 @@ jobs:
           -warnAsError
 
       - name: Test indicators
-        env:
-          ALPACA_KEY: ${{ secrets.ALPACA_KEY }}
-          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
         run: >
-          dotnet test tests/indicators/Tests.Indicators.csproj
+          dotnet test
           --configuration Release
+          --settings tests/tests.unit.runsettings
+          --results-directory ./test-results
           --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
           --no-build
           --verbosity normal
           --logger trx
           --collect:"XPlat Code Coverage"
-          --results-directory ./test-indicators
-
-      # the remaining steps are only needed from one primary instance
-
-      - name: Test other items
-        if: env.IS_PRIMARY == 'true'
-        run: >
-          dotnet test tests/other/Tests.Other.csproj
-          --configuration Release
-          --no-build
-          --verbosity normal
-          --logger trx
-          --results-directory ./test-other
 
       - name: Post test results
         uses: dorny/test-reporter@v2.1.0
-        if: env.IS_PRIMARY == 'true' && always()
+        if: always()
         with:
           name: Test results
-          path: ./test-indicators/**/*.trx
+          path: ./test-results/**/*.trx
           reporter: dotnet-trx
         continue-on-error: true
 
       - name: Publish coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
-        if: env.IS_PRIMARY == 'true' && github.actor != 'dependabot[bot]'
+        if: success() && github.actor != 'dependabot[bot]'
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./test-indicators/**/coverage.cobertura.xml
+          coverage-reports: ./test-results/**/coverage.cobertura.xml
         continue-on-error: true

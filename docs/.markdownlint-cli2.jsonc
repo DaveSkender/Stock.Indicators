@@ -1,0 +1,31 @@
+{
+  "globs": [
+    "**/*.md",
+    "**/*.markdown"
+  ],
+  "ignores": [
+    ".offline"
+  ],
+  "config": {
+    "MD033": {
+      "allowed_elements": [
+        "code",
+        "details",
+        "summary",
+        "br",
+        "sub",
+        "sup",
+        "kbd",
+        "abbr",
+        "a",
+        "img",
+        "p",
+        "h1",
+        "ul",
+        "li",
+        "nav"
+      ]
+    },
+    "MD041": false
+  }
+}
