@@ -64,6 +64,7 @@ public static partial class Catalog
         // ADX (Average Directional Index)
         _listings.Add(Adx.BufferListing);
         _listings.Add(Adx.SeriesListing);
+        _listings.Add(Adx.StreamListing);
 
         // Alligator
         _listings.Add(Alligator.SeriesListing);
