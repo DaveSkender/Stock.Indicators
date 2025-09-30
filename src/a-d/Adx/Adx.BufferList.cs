@@ -190,3 +190,15 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         internal double Adx { get; set; } = double.NaN;
     }
 }
+
+public static partial class Adx
+{
+    /// <summary>
+    /// Creates a buffer list for Average Directional Index (ADX) calculations.
+    /// </summary>
+    public static AdxList ToAdxList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

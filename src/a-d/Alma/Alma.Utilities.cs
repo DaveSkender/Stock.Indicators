@@ -6,6 +6,54 @@ namespace Skender.Stock.Indicators;
 public static partial class Alma
 {
     /// <summary>
+    /// ALMA calculation for streaming scenarios.
+    /// </summary>
+    /// <param name="source">List of chainable values.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="offset">The offset parameter for the ALMA calculation.</param>
+    /// <param name="sigma">The sigma parameter for the ALMA calculation.</param>
+    /// <param name="endIndex">Index position to evaluate.</param>
+    /// <typeparam name="T">IReusable (chainable) type.</typeparam>
+    /// <returns>ALMA value or <see langword="double.NaN"/> when incalculable.</returns>
+    internal static double Increment<T>(
+        IReadOnlyList<T> source,
+        int lookbackPeriods,
+        double offset,
+        double sigma,
+        int endIndex)
+        where T : IReusable
+    {
+        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
+        {
+            return double.NaN;
+        }
+
+        // Pre-calculate weights and normalization factor for efficiency
+        double m = offset * (lookbackPeriods - 1);
+        double s = lookbackPeriods / sigma;
+
+        double[] weight = new double[lookbackPeriods];
+        double norm = 0;
+
+        for (int i = 0; i < lookbackPeriods; i++)
+        {
+            double wt = Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
+            weight[i] = wt;
+            norm += wt;
+        }
+
+        // Apply weights to values in the lookback window
+        double weightedSum = 0;
+        for (int i = 0; i < lookbackPeriods; i++)
+        {
+            int sourceIndex = endIndex - lookbackPeriods + 1 + i;
+            weightedSum += weight[i] * source[sourceIndex].Value;
+        }
+
+        return weightedSum / norm;
+    }
+
+    /// <summary>
     /// Validates the parameters for the ALMA calculation.
     /// </summary>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
