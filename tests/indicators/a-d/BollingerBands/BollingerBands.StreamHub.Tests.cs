@@ -125,8 +125,8 @@ public class BollingerBandsStreamHub : StreamHubTestBase
             provider.Add(quotes[i]);
         }
 
-        // Create observer
-        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(20, 2);
+        // Create observer AFTER quotes are added
+        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(5, 2); // smaller period for testing
 
         // Check initial state
         Assert.AreEqual(0, observer.Results.Count, "Initial results count should be 0");
@@ -140,12 +140,6 @@ public class BollingerBandsStreamHub : StreamHubTestBase
         // Check final state
         int resultCount = observer.Results.Count;
         Console.WriteLine($"Result count: {resultCount}");
-
-        if (resultCount > 0)
-        {
-            var lastResult = observer.Results.Last();
-            Console.WriteLine($"Last result: SMA={lastResult.Sma}, Upper={lastResult.UpperBand}, Lower={lastResult.LowerBand}");
-        }
 
         // Cleanup
         observer.Unsubscribe();
