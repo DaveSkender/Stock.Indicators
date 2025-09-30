@@ -144,31 +144,14 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
     }
 }
 
-/// <summary>
-/// Extensions for creating TEMA BufferList
-/// </summary>
 public static partial class Tema
 {
     /// <summary>
-    /// Creates a buffer list for TEMA calculations
+    /// Creates a buffer list for TEMA calculations.
     /// </summary>
-    public static TemaList ToTemaBufferList<TQuote>(
+    public static TemaList ToTemaList<TQuote>(
         this IReadOnlyList<TQuote> quotes,
-        int lookbackPeriods = 20)
+        int lookbackPeriods)
         where TQuote : IQuote
-    {
-        // Input validation
-        ArgumentNullException.ThrowIfNull(quotes);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(lookbackPeriods);
-
-        // Initialize buffer and populate
-        TemaList bufferList = new(lookbackPeriods);
-
-        foreach (TQuote quote in quotes)
-        {
-            bufferList.Add(quote);
-        }
-
-        return bufferList;
-    }
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

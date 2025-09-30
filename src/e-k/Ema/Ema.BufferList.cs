@@ -1,17 +1,5 @@
 namespace Skender.Stock.Indicators;
 
-public static partial class Ema
-{
-    /// <summary>
-    /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
-    /// </summary>
-    public static EmaList ToEmaList<TQuote>(
-        this IReadOnlyList<TQuote> quotes,
-        int lookbackPeriods)
-        where TQuote : IQuote
-        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
-}
-
 /// <summary>
 /// Exponential Moving Average (EMA) from incremental reusable values.
 /// </summary>
@@ -125,4 +113,16 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         _buffer.Clear();
         _bufferSum = 0;
     }
+}
+
+public static partial class Ema
+{
+    /// <summary>
+    /// Creates a buffer list for Exponential Moving Average (EMA) calculations.
+    /// </summary>
+    public static EmaList ToEmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }
