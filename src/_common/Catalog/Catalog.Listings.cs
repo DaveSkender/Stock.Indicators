@@ -64,6 +64,7 @@ public static partial class Catalog
         // ADX (Average Directional Index)
         _listings.Add(Adx.BufferListing);
         _listings.Add(Adx.SeriesListing);
+        _listings.Add(Adx.StreamListing);
 
         // Alligator
         _listings.Add(Alligator.SeriesListing);
@@ -120,7 +121,9 @@ public static partial class Catalog
         _listings.Add(Correlation.SeriesListing);
 
         // DEMA (Double Exponential Moving Average)
+        _listings.Add(Dema.BufferListing);
         _listings.Add(Dema.SeriesListing);
+        _listings.Add(Dema.StreamListing);
 
         // Doji
         _listings.Add(Doji.SeriesListing);
@@ -175,7 +178,9 @@ public static partial class Catalog
         _listings.Add(Ichimoku.SeriesListing);
 
         // KAMA (Kaufman Adaptive Moving Average)
+        _listings.Add(Kama.BufferListing);
         _listings.Add(Kama.SeriesListing);
+        _listings.Add(Kama.StreamListing);
 
         // Keltner Channels
         _listings.Add(Keltner.SeriesListing);
@@ -187,10 +192,14 @@ public static partial class Catalog
         _listings.Add(MaEnvelopes.SeriesListing);
 
         // MACD (Moving Average Convergence Divergence)
+        _listings.Add(Macd.BufferListing);
         _listings.Add(Macd.SeriesListing);
+        _listings.Add(Macd.StreamListing);
 
         // MAMA (MESA Adaptive Moving Average)
+        _listings.Add(Mama.BufferListing);
         _listings.Add(Mama.SeriesListing);
+        _listings.Add(Mama.StreamListing);
 
         // Marubozu
         _listings.Add(Marubozu.SeriesListing);
@@ -239,7 +248,9 @@ public static partial class Catalog
         _listings.Add(RollingPivots.SeriesListing);
 
         // RSI (Relative Strength Index)
+        _listings.Add(Rsi.BufferListing);
         _listings.Add(Rsi.SeriesListing);
+        _listings.Add(Rsi.StreamListing);
 
         // Slope
         _listings.Add(Slope.SeriesListing);
@@ -257,6 +268,8 @@ public static partial class Catalog
 
         // SMMA (Smoothed Moving Average)
         _listings.Add(Smma.SeriesListing);
+        _listings.Add(Smma.StreamListing);
+        _listings.Add(Smma.BufferListing);
 
         // STARC Bands
         _listings.Add(StarcBands.SeriesListing);
@@ -283,7 +296,9 @@ public static partial class Catalog
         _listings.Add(T3.SeriesListing);
 
         // TEMA (Triple Exponential Moving Average)
+        _listings.Add(Tema.BufferListing);
         _listings.Add(Tema.SeriesListing);
+        _listings.Add(Tema.StreamListing);
 
         // TR (True Range)
         _listings.Add(Tr.SeriesListing);
@@ -312,6 +327,8 @@ public static partial class Catalog
 
         // VWMA (Volume Weighted Moving Average)
         _listings.Add(Vwma.SeriesListing);
+        _listings.Add(Vwma.StreamListing);
+        _listings.Add(Vwma.BufferListing);
 
         // Williams %R
         _listings.Add(WilliamsR.SeriesListing);

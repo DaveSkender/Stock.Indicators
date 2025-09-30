@@ -19,6 +19,15 @@ public static partial class Tema
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for TEMA.
-    // No BufferListing for TEMA.
+    // Triple Exponential Moving Average Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Triple Exponential Moving Average Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

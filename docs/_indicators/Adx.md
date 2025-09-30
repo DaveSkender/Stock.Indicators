@@ -76,3 +76,33 @@ var results = quotes
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations:
+
+```csharp
+AdxList adxList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  adxList.Add(quote);
+}
+
+// based on `List<AdxResult>`
+IReadOnlyList<AdxResult> results = adxList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+AdxHub<Quote> observer = provider.ToAdx(lookbackPeriods);
+
+foreach (Quote quote in quotes)  // simulating stream
+{
+  provider.Add(quote);
+}
+
+IReadOnlyList<AdxResult> results = observer.Results;
+```

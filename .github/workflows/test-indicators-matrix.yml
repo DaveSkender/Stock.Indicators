@@ -1,0 +1,51 @@
+name: Test Indicators (matrix)
+
+on:
+  push:
+    branches:
+      - "main"
+      - "v[0-9]*"
+  workflow_dispatch:
+
+permissions:
+  contents: read # Required for checkout
+
+jobs:
+  test:
+    name: matrix validation
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        dotnet-version: ["8.0.x", "9.0.x"]
+
+    env:
+      TARGET_FRAMEWORK: >
+        ${{ matrix.dotnet-version == '8.0.x' && 'net8.0' ||
+            matrix.dotnet-version == '9.0.x' && 'net9.0' }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-quality: "ga"
+
+      - name: Build library
+        run: >
+          dotnet build
+          --configuration Release
+          --property:ContinuousIntegrationBuild=true
+          -warnAsError
+
+      - name: Test indicators
+        run: >
+          dotnet test
+          --configuration Release
+          --settings tests/tests.unit.runsettings
+          --property:TestFramework="${{ env.TARGET_FRAMEWORK }}"
+          --no-build
