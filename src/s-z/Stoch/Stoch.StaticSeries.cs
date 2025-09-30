@@ -59,6 +59,46 @@ public static partial class Stoch
                 movingAverageType);
 
     /// <summary>
+    /// Creates a buffer list for Stochastic Oscillator calculations.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of quote implementing IQuote.</typeparam>
+    /// <param name="quotes">The list of quotes to process.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator. Default is 14.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator. Default is 3.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator. Default is 3.</param>
+    /// <returns>A StochList instance initialized with the provided quotes.</returns>
+    public static StochList ToStochList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14,
+        int signalPeriods = 3,
+        int smoothPeriods = 3)
+        where TQuote : IQuote
+        => new(lookbackPeriods, signalPeriods, smoothPeriods) { (IReadOnlyList<IQuote>)quotes };
+
+    /// <summary>
+    /// Creates a buffer list for Stochastic Oscillator calculations with extended parameters.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of quote implementing IQuote.</typeparam>
+    /// <param name="quotes">The list of quotes to process.</param>
+    /// <param name="lookbackPeriods">The lookback period for the oscillator.</param>
+    /// <param name="signalPeriods">The signal period for the oscillator.</param>
+    /// <param name="smoothPeriods">The smoothing period for the oscillator.</param>
+    /// <param name="kFactor">The factor for the %K line.</param>
+    /// <param name="dFactor">The factor for the %D line.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <returns>A StochList instance initialized with the provided quotes and extended parameters.</returns>
+    public static StochList ToStochList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods,
+        int signalPeriods,
+        int smoothPeriods,
+        double kFactor,
+        double dFactor,
+        MaType movingAverageType)
+        where TQuote : IQuote
+        => new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType) { (IReadOnlyList<IQuote>)quotes };
+
+    /// <summary>
     /// Calculates the Stochastic Oscillator for a series of quotes.
     /// </summary>
     /// <param name="source">The list of quotes.</param>
