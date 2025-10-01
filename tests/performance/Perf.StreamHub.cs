@@ -83,6 +83,9 @@ public class StreamIndicators
     public object SmaHub() => provider.ToSma(10).Results;
 
     [Benchmark]
+    public object T3Hub() => provider.ToT3(5, 0.7).Results;
+
+    [Benchmark]
     public object TrHub() => provider.ToTr().Results;
 
     [Benchmark]

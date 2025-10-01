@@ -12,6 +12,14 @@ public record T3Result
     double? T3
 ) : IReusable
 {
+    // internal state (not exposed publicly) to support robust stream recalculations
+    [JsonIgnore] internal double E1 { get; init; }
+    [JsonIgnore] internal double E2 { get; init; }
+    [JsonIgnore] internal double E3 { get; init; }
+    [JsonIgnore] internal double E4 { get; init; }
+    [JsonIgnore] internal double E5 { get; init; }
+    [JsonIgnore] internal double E6 { get; init; }
+
     /// <inheritdoc/>
     [JsonIgnore]
     public double Value => T3.Null2NaN();

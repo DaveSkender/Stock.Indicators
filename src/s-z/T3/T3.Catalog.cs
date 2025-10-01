@@ -20,6 +20,15 @@ public static partial class T3
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for T3.
-    // No BufferListing for T3.
+    // T3 Moving Average Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // T3 Moving Average Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
