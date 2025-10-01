@@ -35,6 +35,5 @@ public static class Program
      * Performance results are exported to:
      * - BenchmarkDotNet.Artifacts/results/*.md (GitHub markdown)
      * - BenchmarkDotNet.Artifacts/results/*.json (JSON for analysis)
-     * - BenchmarkDotNet.Artifacts/results/*.html (HTML reports)
      */
 }

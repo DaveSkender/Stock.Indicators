@@ -100,8 +100,8 @@ Typical execution times (for 502 periods of historical data):
 Establish performance baselines for comparison:
 
 ```bash
-# After running benchmarks
-cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/baseline-v3.0.0.json
+# After running benchmarks (from repo root)
+cp tests/performance/BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json tests/performance/baselines/baseline-v3.0.0.json
 ```
 
 ### Detecting regressions
@@ -109,14 +109,14 @@ cp BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json baselines/ba
 Compare current results against baseline:
 
 ```bash
-# Automatic detection with default 10% threshold
-pwsh detect-regressions.ps1
+# Automatic detection with default 10% threshold (from repo root)
+pwsh tests/performance/detect-regressions.ps1
 
 # Custom threshold
-pwsh detect-regressions.ps1 -ThresholdPercent 15
+pwsh tests/performance/detect-regressions.ps1 -ThresholdPercent 15
 
 # Specific files
-pwsh detect-regressions.ps1 -BaselineFile baselines/baseline-v3.0.0.json -CurrentFile BenchmarkDotNet.Artifacts/results/current.json
+pwsh tests/performance/detect-regressions.ps1 -BaselineFile tests/performance/baselines/baseline-v3.0.0.json -CurrentFile tests/performance/BenchmarkDotNet.Artifacts/results/current.json
 ```
 
 ### Regression analysis
@@ -271,7 +271,7 @@ When contributing performance improvements:
 ## Resources
 
 - [BenchmarkDotNet Documentation](https://benchmarkdotnet.org/)
-- [Performance Best Practices for .NET](https://docs.microsoft.com/en-us/dotnet/core/performance/)
+- [Performance Best Practices for .NET](https://learn.microsoft.com/dotnet/core/performance/)
 - [Repository Performance Page](https://dotnet.stockindicators.dev/performance/)
 
 ---
