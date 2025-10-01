@@ -45,6 +45,11 @@ public class ObvTests : TestBase
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.VolumeBased);
         listing.MethodName.Should().Be("ToObv");
+
+        listing.Parameters?.Count.Should().Be(0);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -60,5 +65,10 @@ public class ObvTests : TestBase
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.VolumeBased);
         listing.MethodName.Should().Be("ToObv");
+
+        listing.Parameters?.Count.Should().Be(0);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
     }
 }

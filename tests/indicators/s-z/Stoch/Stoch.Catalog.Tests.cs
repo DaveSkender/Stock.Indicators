@@ -56,6 +56,12 @@ public class StochTests : TestBase
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.Oscillator);
         listing.MethodName.Should().Be("ToStoch");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
     }
 
     [TestMethod]
@@ -71,5 +77,11 @@ public class StochTests : TestBase
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.Oscillator);
         listing.MethodName.Should().Be("ToStoch");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
     }
 }

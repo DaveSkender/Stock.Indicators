@@ -48,6 +48,12 @@ public class WmaTests : TestBase
         listing.Style.Should().Be(Style.Stream);
         listing.Category.Should().Be(Category.MovingAverage);
         listing.MethodName.Should().Be("ToWma");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
     }
 
     [TestMethod]
@@ -63,5 +69,11 @@ public class WmaTests : TestBase
         listing.Style.Should().Be(Style.Buffer);
         listing.Category.Should().Be(Category.MovingAverage);
         listing.MethodName.Should().Be("ToWma");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
     }
 }
