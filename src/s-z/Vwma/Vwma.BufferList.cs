@@ -30,11 +30,8 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
     )
+        : this(lookbackPeriods)
     {
-        Vwma.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-
-        _buffer = new Queue<(double, double)>(lookbackPeriods);
         Add(quotes);
     }
 

@@ -46,11 +46,8 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         double fastLimit,
         double slowLimit,
         IReadOnlyList<IQuote> quotes)
+        : this(fastLimit, slowLimit)
     {
-        Mama.Validate(fastLimit, slowLimit);
-
-        FastLimit = fastLimit;
-        SlowLimit = slowLimit;
         Add(quotes);
     }
 

@@ -35,13 +35,8 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
     )
+        : this(lookbackPeriods)
     {
-        Dema.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-        K = 2d / (lookbackPeriods + 1);
-
-        _buffer = new Queue<double>(lookbackPeriods);
-        _bufferSum = 0;
         Add(quotes);
     }
 

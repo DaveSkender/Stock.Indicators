@@ -20,8 +20,8 @@ public class TrList : List<TrResult>, IBufferList
     /// </summary>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public TrList(IReadOnlyList<IQuote> quotes)
+        : this()
     {
-        _buffer = new Queue<TrBuffer>(2); // Only need current and previous
         Add(quotes);
     }
 

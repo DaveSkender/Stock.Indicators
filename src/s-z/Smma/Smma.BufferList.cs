@@ -34,13 +34,8 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
     )
+        : this(lookbackPeriods)
     {
-        Smma.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-
-        _buffer = new Queue<double>(lookbackPeriods);
-        _bufferSum = 0;
-        _previousSmma = null;
         Add(quotes);
     }
 

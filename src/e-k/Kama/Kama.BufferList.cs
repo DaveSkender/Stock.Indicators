@@ -49,18 +49,8 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
         int slowPeriods,
         IReadOnlyList<IQuote> quotes
     )
+        : this(erPeriods, fastPeriods, slowPeriods)
     {
-        Kama.Validate(erPeriods, fastPeriods, slowPeriods);
-
-        _erPeriods = erPeriods;
-        ErPeriods = erPeriods;
-        FastPeriods = fastPeriods;
-        SlowPeriods = slowPeriods;
-
-        _scFast = 2d / (fastPeriods + 1);
-        _scSlow = 2d / (slowPeriods + 1);
-
-        _buffer = new Queue<double>(erPeriods + 1);
         Add(quotes);
     }
 

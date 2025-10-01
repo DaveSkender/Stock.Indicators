@@ -67,21 +67,8 @@ public class StochList : List<StochResult>, IStoch, IBufferList
         double dFactor,
         MaType movingAverageType,
         IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType)
     {
-        Stoch.Validate(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
-
-        LookbackPeriods = lookbackPeriods;
-        SignalPeriods = signalPeriods;
-        SmoothPeriods = smoothPeriods;
-        KFactor = kFactor;
-        DFactor = dFactor;
-        MovingAverageType = movingAverageType;
-
-        _highBuffer = new Queue<double>(lookbackPeriods);
-        _lowBuffer = new Queue<double>(lookbackPeriods);
-        _closeBuffer = new Queue<double>(lookbackPeriods);
-        _rawKBuffer = new Queue<double>(smoothPeriods);
-        _smoothKBuffer = new Queue<double>(signalPeriods);
         Add(quotes);
     }
 

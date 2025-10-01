@@ -29,12 +29,8 @@ public class AtrList : List<AtrResult>, IAtr, IBufferList
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AtrList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods)
     {
-        Atr.Validate(lookbackPeriods);
-        _lookbackPeriods = lookbackPeriods;
-        LookbackPeriods = lookbackPeriods;
-        _isInitialized = false;
-        _sumTr = 0;
         Add(quotes);
     }
 

@@ -20,8 +20,8 @@ public class AdlList : List<AdlResult>, IBufferList
     /// </summary>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AdlList(IReadOnlyList<IQuote> quotes)
+        : this()
     {
-        _previousAdl = 0;
         Add(quotes);
     }
 

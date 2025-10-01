@@ -38,13 +38,8 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
     )
+        : this(lookbackPeriods)
     {
-        Tema.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-        K = 2d / (lookbackPeriods + 1);
-
-        _buffer = new Queue<double>(lookbackPeriods);
-        _bufferSum = 0;
         Add(quotes);
     }
 

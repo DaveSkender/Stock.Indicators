@@ -21,6 +21,7 @@ public class ObvList : List<ObvResult>, IBufferList
     /// </summary>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public ObvList(IReadOnlyList<IQuote> quotes)
+        : this()
     {
         Add(quotes);
     }

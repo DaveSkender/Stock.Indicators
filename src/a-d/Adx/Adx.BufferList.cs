@@ -25,11 +25,8 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AdxList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods)
     {
-        Adx.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-
-        _buffer = new Queue<AdxBuffer>(lookbackPeriods);
         Add(quotes);
     }
 

@@ -24,10 +24,8 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods)
     {
-        Sma.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-        buffer = new Queue<double>(lookbackPeriods);
         Add(quotes);
     }
 

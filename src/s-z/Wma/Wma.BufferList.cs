@@ -31,14 +31,8 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public WmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods)
     {
-        Wma.Validate(lookbackPeriods);
-        LookbackPeriods = lookbackPeriods;
-
-        // Pre-calculate divisor for WMA: n * (n + 1) / 2
-        _divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
-
-        _buffer = new Queue<double>(lookbackPeriods);
         Add(quotes);
     }
 

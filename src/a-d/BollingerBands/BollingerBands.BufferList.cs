@@ -27,11 +27,8 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
     /// <param name="standardDeviations">The number of standard deviations to use for the bands.</param>
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods, standardDeviations)
     {
-        BollingerBands.Validate(lookbackPeriods, standardDeviations);
-        LookbackPeriods = lookbackPeriods;
-        StandardDeviations = standardDeviations;
-        buffer = new Queue<double>(lookbackPeriods);
         Add(quotes);
     }
 
