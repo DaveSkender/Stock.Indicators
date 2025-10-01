@@ -49,6 +49,42 @@ public class StochList : List<StochResult>, IStoch, IBufferList
         _smoothKBuffer = new Queue<double>(signalPeriods);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StochList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the oscillator calculation.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="smoothPeriods">The number of periods for smoothing the oscillator.</param>
+    /// <param name="kFactor">The K factor for the Stochastic calculation.</param>
+    /// <param name="dFactor">The D factor for the Stochastic calculation.</param>
+    /// <param name="movingAverageType">The type of moving average to use.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public StochList(
+        int lookbackPeriods,
+        int signalPeriods,
+        int smoothPeriods,
+        double kFactor,
+        double dFactor,
+        MaType movingAverageType,
+        IReadOnlyList<IQuote> quotes)
+    {
+        Stoch.Validate(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
+
+        LookbackPeriods = lookbackPeriods;
+        SignalPeriods = signalPeriods;
+        SmoothPeriods = smoothPeriods;
+        KFactor = kFactor;
+        DFactor = dFactor;
+        MovingAverageType = movingAverageType;
+
+        _highBuffer = new Queue<double>(lookbackPeriods);
+        _lowBuffer = new Queue<double>(lookbackPeriods);
+        _closeBuffer = new Queue<double>(lookbackPeriods);
+        _rawKBuffer = new Queue<double>(smoothPeriods);
+        _smoothKBuffer = new Queue<double>(signalPeriods);
+        Add(quotes);
+    }
+
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 

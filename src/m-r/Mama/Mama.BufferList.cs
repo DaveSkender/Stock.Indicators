@@ -36,6 +36,24 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         SlowLimit = slowLimit;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MamaList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="fastLimit">The fast limit for the MAMA calculation.</param>
+    /// <param name="slowLimit">The slow limit for the MAMA calculation.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public MamaList(
+        double fastLimit,
+        double slowLimit,
+        IReadOnlyList<IQuote> quotes)
+    {
+        Mama.Validate(fastLimit, slowLimit);
+
+        FastLimit = fastLimit;
+        SlowLimit = slowLimit;
+        Add(quotes);
+    }
+
     /// <inheritdoc />
     public double FastLimit { get; init; }
 

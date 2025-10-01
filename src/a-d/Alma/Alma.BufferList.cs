@@ -46,6 +46,45 @@ public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="AlmaList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="offset">The offset for the ALMA calculation. Default is 0.85.</param>
+    /// <param name="sigma">The sigma for the ALMA calculation. Default is 6.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public AlmaList(
+        int lookbackPeriods,
+        double offset,
+        double sigma,
+        IReadOnlyList<IQuote> quotes)
+    {
+        Alma.Validate(lookbackPeriods, offset, sigma);
+
+        LookbackPeriods = lookbackPeriods;
+        Offset = offset;
+        Sigma = sigma;
+
+        _buffer = new Queue<double>(lookbackPeriods);
+
+        // Pre-calculate weights and normalization factor for efficiency
+        double m = offset * (lookbackPeriods - 1);
+        double s = lookbackPeriods / sigma;
+
+        _weight = new double[lookbackPeriods];
+        double norm = 0;
+
+        for (int i = 0; i < lookbackPeriods; i++)
+        {
+            double wt = Math.Exp(-((i - m) * (i - m)) / (2 * s * s));
+            _weight[i] = wt;
+            norm += wt;
+        }
+
+        _norm = norm;
+        Add(quotes);
+    }
+
+    /// <summary>
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }

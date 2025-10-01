@@ -41,6 +41,33 @@ public class HmaList : List<HmaResult>, IHma, IBufferList, IBufferReusable
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="HmaList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public HmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)
+    {
+        Hma.Validate(lookbackPeriods);
+        LookbackPeriods = lookbackPeriods;
+
+        // initialize periods for nested WMA calculations
+        wmaN1Periods = lookbackPeriods;
+        wmaN2Periods = lookbackPeriods / 2;
+        sqrtPeriods = (int)Math.Sqrt(lookbackPeriods);
+
+        // calculate divisors for WMA
+        divisorN1 = (double)wmaN1Periods * (wmaN1Periods + 1) / 2d;
+        divisorN2 = (double)wmaN2Periods * (wmaN2Periods + 1) / 2d;
+        divisorSqrt = (double)sqrtPeriods * (sqrtPeriods + 1) / 2d;
+
+        // initialize buffers for nested calculations
+        bufferN1 = new Queue<double>(wmaN1Periods);
+        bufferN2 = new Queue<double>(wmaN2Periods);
+        synthBuffer = new Queue<double>(sqrtPeriods);
+        Add(quotes);
+    }
+
+    /// <summary>
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
