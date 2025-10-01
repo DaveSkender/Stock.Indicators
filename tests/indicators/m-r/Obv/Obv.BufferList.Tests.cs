@@ -1,5 +1,4 @@
 namespace BufferLists;
-#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Obv : BufferListTestBase
@@ -27,16 +26,39 @@ public class Obv : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        ObvList sut = new(Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void FromQuotesCtorPartial()
+    {
+        // Test split initialization: half on construction, half after
+        int splitPoint = Quotes.Count / 2;
+        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
+        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+
+        ObvList sut = new(firstHalf);
+
+        foreach (Quote q in secondHalf)
+        {
+            sut.Add(q);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        ObvList sut = new();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        ObvList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
 

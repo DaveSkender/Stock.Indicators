@@ -42,6 +42,18 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
         _buffer = new Queue<double>(lookbackPeriods);
     }
 
+    /// <summary>
+    /// Initializes a new instance with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public {IndicatorName}List(
+        int lookbackPeriods,
+        IReadOnlyList<IQuote> quotes
+    )
+        : this(lookbackPeriods)
+        => Add(quotes);
+
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -78,12 +90,29 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 }
 ```
 
-> **Interface Selection Guidelines**:
->
-> - Use `IBufferList, IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
-> - Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
-> - Match the interface pattern to what the static series implementation supports
->
+**Constructor Pattern**:
+
+- **ALL buffer list implementations MUST provide two constructors**:
+  1. Standard constructor with parameters only
+  2. Constructor with parameters PLUS `IReadOnlyList<IQuote> quotes` as the LAST parameter
+- **Use constructor chaining** with `: this(...)` to avoid duplicating initialization logic
+- **Use expression-bodied syntax** `=> Add(quotes);` for the quotes constructor body
+- For parameterless buffer lists (like AdlList, ObvList, TrList):
+  - Primary: `ClassName()`
+  - Quotes: `ClassName(IReadOnlyList<IQuote> quotes) : this() => Add(quotes);`
+- For buffer lists with parameters:
+  - Primary: `SmaList(int lookbackPeriods)`
+  - Quotes: `SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods) => Add(quotes);`
+- For buffer lists with multiple parameters:
+  - Primary: `AlmaList(int lookbackPeriods, double offset = 0.85, double sigma = 6)`
+  - Quotes: `AlmaList(int lookbackPeriods, double offset, double sigma, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods, offset, sigma) => Add(quotes);`
+
+**Interface Selection Guidelines**:
+
+- Use `IBufferList, IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
+- Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
+- Match the interface pattern to what the static series implementation supports
+
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
 
 ### Extension method
@@ -185,16 +214,20 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        {IndicatorName}List sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        {IndicatorName}List sut = new(lookbackPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        {IndicatorName}List sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
 
@@ -214,6 +247,13 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
     }
 }
 ```
+
+> **Test Pattern Notes**:
+>
+> - The `FromQuote()` test validates single-quote Add usage (iterative adding)
+> - The `FromQuoteBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
+> - The new `FromQuotesCtor()` test validates the constructor with quotes parameter
+> - The `ClearResetsState()` test should use the quotes constructor since `FromQuote()` already covers single-quote add
 
 ### Performance benchmarking
 

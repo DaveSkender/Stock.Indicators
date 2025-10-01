@@ -37,6 +37,22 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="KamaList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="erPeriods">The number of periods for the Efficiency Ratio (ER).</param>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public KamaList(
+        int erPeriods,
+        int fastPeriods,
+        int slowPeriods,
+        IReadOnlyList<IQuote> quotes
+    )
+        : this(erPeriods, fastPeriods, slowPeriods)
+        => Add(quotes);
+
+    /// <summary>
     /// Gets the number of periods for the Efficiency Ratio (ER).
     /// </summary>
     public int ErPeriods { get; init; }

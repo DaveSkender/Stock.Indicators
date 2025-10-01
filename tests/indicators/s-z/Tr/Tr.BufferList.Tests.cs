@@ -1,5 +1,4 @@
 namespace BufferLists;
-#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Tr : BufferListTestBase
@@ -31,16 +30,39 @@ public class Tr : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        TrList sut = new(Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void FromQuotesCtorPartial()
+    {
+        // Test split initialization: half on construction, half after
+        int splitPoint = Quotes.Count / 2;
+        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
+        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+
+        TrList sut = new(firstHalf);
+
+        foreach (Quote q in secondHalf)
+        {
+            sut.Add(q);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        TrList sut = new();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        TrList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
 

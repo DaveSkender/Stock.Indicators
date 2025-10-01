@@ -24,6 +24,18 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         _bufferSum = 0;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EmaList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public EmaList(
+        int lookbackPeriods,
+        IReadOnlyList<IQuote> quotes
+    )
+        : this(lookbackPeriods)
+        => Add(quotes);
+
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }
 

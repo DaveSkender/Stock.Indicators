@@ -35,6 +35,20 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
         C4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T3List"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="volumeFactor">The volume factor for the calculation.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public T3List(
+        int lookbackPeriods,
+        double volumeFactor,
+        IReadOnlyList<IQuote> quotes
+    )
+        : this(lookbackPeriods, volumeFactor)
+        => Add(quotes);
+
     /// <inheritdoc/>
     public int LookbackPeriods { get; init; }
 

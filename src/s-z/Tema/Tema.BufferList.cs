@@ -30,6 +30,18 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="TemaList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public TemaList(
+        int lookbackPeriods,
+        IReadOnlyList<IQuote> quotes
+    )
+        : this(lookbackPeriods)
+        => Add(quotes);
+
+    /// <summary>
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }

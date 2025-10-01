@@ -72,16 +72,39 @@ public class T3 : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        T3List sut = new(lookbackPeriods, volumeFactor, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void FromQuotesCtorPartial()
+    {
+        // Test split initialization: half on construction, half after
+        int splitPoint = Quotes.Count / 2;
+        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
+        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+
+        T3List sut = new(lookbackPeriods, volumeFactor, firstHalf);
+
+        foreach (Quote q in secondHalf)
+        {
+            sut.Add(q);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        T3List sut = new(lookbackPeriods, volumeFactor);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        T3List sut = new(lookbackPeriods, volumeFactor, subset);
 
         sut.Should().HaveCount(subset.Count);
 

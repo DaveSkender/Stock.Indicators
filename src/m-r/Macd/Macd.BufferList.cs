@@ -70,6 +70,21 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
         _macdBufferSum = 0;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MacdList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="fastPeriods">The number of periods for the fast EMA.</param>
+    /// <param name="slowPeriods">The number of periods for the slow EMA.</param>
+    /// <param name="signalPeriods">The number of periods for the signal line.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public MacdList(
+        int fastPeriods,
+        int slowPeriods,
+        int signalPeriods,
+        IReadOnlyList<IQuote> quotes)
+        : this(fastPeriods, slowPeriods, signalPeriods)
+        => Add(quotes);
+
     /// <inheritdoc/>
     public int FastPeriods { get; init; }
 

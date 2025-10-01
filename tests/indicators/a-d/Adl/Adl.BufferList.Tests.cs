@@ -1,5 +1,4 @@
 namespace BufferLists;
-#pragma warning disable IDE0028 // required for test case when no params
 
 [TestClass]
 public class Adl : BufferListTestBase
@@ -31,13 +30,39 @@ public class Adl : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        AdlList sut = new(Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void FromQuotesCtorPartial()
+    {
+        // Test split initialization: half on construction, half after
+        int splitPoint = Quotes.Count / 2;
+        List<Quote> firstHalf = Quotes.Take(splitPoint).ToList();
+        List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
+
+        AdlList sut = new(firstHalf);
+
+        foreach (Quote q in secondHalf)
+        {
+            sut.Add(q);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        AdlList sut = new();
-
-        foreach (Quote q in subset) { sut.Add(q); }
+        AdlList sut = new(subset);
 
         sut.Should().HaveCount(subset.Count);
 
