@@ -90,29 +90,29 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 }
 ```
 
-> **Constructor Pattern**:
->
-> - **ALL buffer list implementations MUST provide two constructors**:
->   1. Standard constructor with parameters only
->   2. Constructor with parameters PLUS `IReadOnlyList<IQuote> quotes` as the LAST parameter
-> - **Use constructor chaining** with `: this(...)` to avoid duplicating initialization logic
-> - **Use expression-bodied syntax** `=> Add(quotes);` for the quotes constructor body
-> - For parameterless buffer lists (like AdlList, ObvList, TrList):
->   - Primary: `ClassName()`
->   - Quotes: `ClassName(IReadOnlyList<IQuote> quotes) : this() => Add(quotes);`
-> - For buffer lists with parameters:
->   - Primary: `SmaList(int lookbackPeriods)`
->   - Quotes: `SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods) => Add(quotes);`
-> - For buffer lists with multiple parameters:
->   - Primary: `AlmaList(int lookbackPeriods, double offset = 0.85, double sigma = 6)`
->   - Quotes: `AlmaList(int lookbackPeriods, double offset, double sigma, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods, offset, sigma) => Add(quotes);`
+**Constructor Pattern**:
 
-> **Interface Selection Guidelines**:
->
-> - Use `IBufferList, IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
-> - Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
-> - Match the interface pattern to what the static series implementation supports
->
+- **ALL buffer list implementations MUST provide two constructors**:
+  1. Standard constructor with parameters only
+  2. Constructor with parameters PLUS `IReadOnlyList<IQuote> quotes` as the LAST parameter
+- **Use constructor chaining** with `: this(...)` to avoid duplicating initialization logic
+- **Use expression-bodied syntax** `=> Add(quotes);` for the quotes constructor body
+- For parameterless buffer lists (like AdlList, ObvList, TrList):
+  - Primary: `ClassName()`
+  - Quotes: `ClassName(IReadOnlyList<IQuote> quotes) : this() => Add(quotes);`
+- For buffer lists with parameters:
+  - Primary: `SmaList(int lookbackPeriods)`
+  - Quotes: `SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods) => Add(quotes);`
+- For buffer lists with multiple parameters:
+  - Primary: `AlmaList(int lookbackPeriods, double offset = 0.85, double sigma = 6)`
+  - Quotes: `AlmaList(int lookbackPeriods, double offset, double sigma, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods, offset, sigma) => Add(quotes);`
+
+**Interface Selection Guidelines**:
+
+- Use `IBufferList, IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
+- Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
+- Match the interface pattern to what the static series implementation supports
+
 > **Note**: The current codebase uses `Queue<T>` for efficient FIFO buffering operations. `Queue<T>` provides O(1) enqueue/dequeue operations and is well-suited for sliding window calculations where you need to remove the oldest value when adding a new one.
 
 ### Extension method
