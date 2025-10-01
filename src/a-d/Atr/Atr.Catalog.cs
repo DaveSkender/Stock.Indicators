@@ -27,5 +27,9 @@ public static partial class Atr
             .WithStyle(Style.Stream)
             .Build();
 
-    // No BufferListing for ATR.
+    // ATR Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
