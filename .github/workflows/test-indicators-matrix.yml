@@ -5,6 +5,12 @@ on:
     branches:
       - "main"
       - "v[0-9]*"
+  pull_request:
+    branches:
+      - "main"
+      - "v[0-9]*"
+    paths:
+      - ".github/workflows/test-indicators-matrix.yml"
   workflow_dispatch:
 
 permissions:
