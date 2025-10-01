@@ -22,9 +22,7 @@ public class ObvList : List<ObvResult>, IBufferList
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public ObvList(IReadOnlyList<IQuote> quotes)
         : this()
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <inheritdoc />
     public void Add(IQuote quote)

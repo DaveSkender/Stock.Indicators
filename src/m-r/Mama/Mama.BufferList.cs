@@ -47,9 +47,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         double slowLimit,
         IReadOnlyList<IQuote> quotes)
         : this(fastLimit, slowLimit)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <inheritdoc />
     public double FastLimit { get; init; }

@@ -39,9 +39,7 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
         IReadOnlyList<IQuote> quotes
     )
         : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

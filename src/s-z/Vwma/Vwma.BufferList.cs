@@ -31,9 +31,7 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
         IReadOnlyList<IQuote> quotes
     )
         : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

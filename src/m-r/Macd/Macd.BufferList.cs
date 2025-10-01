@@ -83,9 +83,7 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
         int signalPeriods,
         IReadOnlyList<IQuote> quotes)
         : this(fastPeriods, slowPeriods, signalPeriods)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <inheritdoc/>
     public int FastPeriods { get; init; }

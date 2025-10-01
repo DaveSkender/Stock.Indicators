@@ -50,10 +50,9 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
     public {IndicatorName}List(
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
-    ) : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+    )
+        : this(lookbackPeriods)
+        => Add(quotes);
 
     public int LookbackPeriods { get; init; }
 
@@ -97,16 +96,16 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 >   1. Standard constructor with parameters only
 >   2. Constructor with parameters PLUS `IReadOnlyList<IQuote> quotes` as the LAST parameter
 > - **Use constructor chaining** with `: this(...)` to avoid duplicating initialization logic
-> - The quotes constructor should ONLY call the primary constructor and then call `Add(quotes)`
+> - **Use expression-bodied syntax** `=> Add(quotes);` for the quotes constructor body
 > - For parameterless buffer lists (like AdlList, ObvList, TrList):
 >   - Primary: `ClassName()`
->   - Quotes: `ClassName(IReadOnlyList<IQuote> quotes) : this()`
+>   - Quotes: `ClassName(IReadOnlyList<IQuote> quotes) : this() => Add(quotes);`
 > - For buffer lists with parameters:
 >   - Primary: `SmaList(int lookbackPeriods)`
->   - Quotes: `SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods)`
+>   - Quotes: `SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods) => Add(quotes);`
 > - For buffer lists with multiple parameters:
 >   - Primary: `AlmaList(int lookbackPeriods, double offset = 0.85, double sigma = 6)`
->   - Quotes: `AlmaList(int lookbackPeriods, double offset, double sigma, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods, offset, sigma)`
+>   - Quotes: `AlmaList(int lookbackPeriods, double offset, double sigma, IReadOnlyList<IQuote> quotes) : this(lookbackPeriods, offset, sigma) => Add(quotes);`
 
 > **Interface Selection Guidelines**:
 >

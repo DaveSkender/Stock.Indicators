@@ -34,9 +34,7 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         IReadOnlyList<IQuote> quotes
     )
         : this(lookbackPeriods)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <inheritdoc />
     public int LookbackPeriods { get; init; }

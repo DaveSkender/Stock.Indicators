@@ -28,9 +28,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public BollingerBandsList(int lookbackPeriods, double standardDeviations, IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, standardDeviations)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

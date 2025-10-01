@@ -21,9 +21,7 @@ public class TrList : List<TrResult>, IBufferList
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public TrList(IReadOnlyList<IQuote> quotes)
         : this()
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <inheritdoc />
     public void Add(IQuote quote)

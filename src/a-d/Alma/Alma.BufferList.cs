@@ -58,9 +58,7 @@ public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
         double sigma,
         IReadOnlyList<IQuote> quotes)
         : this(lookbackPeriods, offset, sigma)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods to look back for the calculation.

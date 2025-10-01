@@ -21,9 +21,7 @@ public class AdlList : List<AdlResult>, IBufferList
     /// <param name="quotes">Initial quotes to populate the list.</param>
     public AdlList(IReadOnlyList<IQuote> quotes)
         : this()
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <inheritdoc />
     public void Add(IQuote quote)

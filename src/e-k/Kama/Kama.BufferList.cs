@@ -50,9 +50,7 @@ public class KamaList : List<KamaResult>, IKama, IBufferList, IBufferReusable
         IReadOnlyList<IQuote> quotes
     )
         : this(erPeriods, fastPeriods, slowPeriods)
-    {
-        Add(quotes);
-    }
+        => Add(quotes);
 
     /// <summary>
     /// Gets the number of periods for the Efficiency Ratio (ER).
