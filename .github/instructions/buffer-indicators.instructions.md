@@ -50,8 +50,7 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
     public {IndicatorName}List(
         int lookbackPeriods,
         IReadOnlyList<IQuote> quotes
-    )
-        : this(lookbackPeriods)
+    ) : this(lookbackPeriods)
     {
         Add(quotes);
     }
