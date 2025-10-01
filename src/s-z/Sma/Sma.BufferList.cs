@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Simple Moving Average (SMA) from incremental reusable values.
 /// </summary>
-public class SmaList : BufferListBase<SmaResult>, ISma, IBufferList, IBufferReusable
+public class SmaList : BufferList<SmaResult>, ISma, IBufferList, IBufferReusable
 {
     private readonly Queue<double> buffer;
 
@@ -110,27 +110,10 @@ public class SmaList : BufferListBase<SmaResult>, ISma, IBufferList, IBufferReus
     /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
-    public new void Clear()
+    public override void Clear()
     {
         ClearInternal();
         buffer.Clear();
-        RollbackState(-1);
-    }
-
-    /// <inheritdoc/>
-    protected override void RollbackState(int index)
-    {
-        // Reset buffer to initial state
-        buffer.Clear();
-
-        // If index >= 0, we should only have values up to that index
-        // However, we don't have the input values to rebuild
-        // The best we can do is clear the buffer and mark it as requiring rebuild
-        // For SMA, we'd need the last lookbackPeriods values
-
-        // For now, simply clear the buffer which will prevent further
-        // calculations until new data is added
-        // A more sophisticated implementation could store input values
     }
 }
 

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Double Exponential Moving Average (DEMA) from incremental reusable values.
 /// </summary>
-public class DemaList : BufferListBase<DemaResult>, IDema, IBufferList, IBufferReusable
+public class DemaList : BufferList<DemaResult>, IDema, IBufferList, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -129,29 +129,12 @@ public class DemaList : BufferListBase<DemaResult>, IDema, IBufferList, IBufferR
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
         ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
-        RollbackState(-1);
-    }
-
-    /// <inheritdoc/>
-    protected override void RollbackState(int index)
-    {
-        // Reset all internal state to initial values
-        _buffer.Clear();
-        _bufferSum = 0;
-        _lastEma1 = double.NaN;
-        _lastEma2 = double.NaN;
-
-        // Note: A more sophisticated implementation could rebuild state
-        // from the results up to index, but we don't have the input values
-        // stored to do that accurately. The current approach clears state,
-        // which will prevent further accurate calculations until enough
-        // new data is added to refill the buffer.
     }
 }

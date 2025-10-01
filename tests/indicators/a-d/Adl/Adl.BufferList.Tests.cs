@@ -80,41 +80,4 @@ public class Adl : BufferListTestBase
         sut.Should().HaveCount(expected.Count);
         sut.Should().BeEquivalentTo(expected);
     }
-
-    [TestMethod]
-    public void ManualRemovalTriggersRollback()
-    {
-        // Test that ADL can recover from manual removal
-        // ADL stores previous value, which can be extracted from results
-        AdlList sut = new();
-
-        // Add initial quotes
-        List<Quote> initialQuotes = Quotes.Take(50).ToList();
-        foreach (Quote q in initialQuotes)
-        {
-            sut.Add(q);
-        }
-
-        sut.Should().HaveCount(50);
-        double lastAdl = sut[^1].Adl;
-
-        // Manually remove the last item
-        sut.RemoveAt(49);
-
-        // List should now have 49 items
-        sut.Should().HaveCount(49);
-
-        // Previous ADL state was rolled back to item at index 48
-        double rolledBackAdl = sut[48].Adl;
-
-        // Continue adding - should use the rolled back value
-        Quote nextQuote = Quotes[50];
-        sut.Add(nextQuote);
-
-        // Should successfully add
-        sut.Should().HaveCount(50);
-
-        // The ADL value continues from the rolled back state
-        // (It will differ from lastAdl because state was rolled back)
-    }
 }
