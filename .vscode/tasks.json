@@ -326,7 +326,6 @@
           "beginsPattern": ".*Configuration file:.*_config.yml.*",
           "endsPattern": ".*Server running.*"
         }
-      }
       },
       "presentation": {
         "reveal": "always",
