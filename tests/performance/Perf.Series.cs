@@ -1,6 +1,6 @@
 namespace Performance;
 
-// TIME-SERIES INDICATORS
+// SERIES-STYLE INDICATORS
 
 [ShortRunJob]
 public class SeriesIndicators

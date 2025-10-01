@@ -1,14 +1,15 @@
 namespace Performance;
 
-// BUFFER-STYLE INCREMENTING INDICATORS
+// STYLE COMPARISON BENCHMARKS
+// Compares performance between different indicator styles
 
 [ShortRunJob]
-public class BufferListIndicators
+public class StyleComparison
 {
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();
 
-    private static readonly QuoteHub<Quote> provider = new();
+    private readonly QuoteHub<Quote> provider = new();
 
     private const int n = 14;
 
@@ -23,12 +24,24 @@ public class BufferListIndicators
     }
 
     [Benchmark]
-    public AdxList AdxBuffer()
-        => new(n) { quotes };
+    public AdlList AdlBuffer()
+        => new() { quotes };
+
+    [Benchmark]
+    public IReadOnlyList<AdlResult> AdlSeries()
+        => quotes.ToAdl();
+
+    [Benchmark]
+    public IReadOnlyList<AdlResult> AdlStream()
+        => provider.ToAdl().Results;
 
     [Benchmark]
     public IReadOnlyList<AdxResult> AdxSeries()
         => quotes.ToAdx(n);
+
+    [Benchmark]
+    public AdxList AdxBuffer()
+        => new(n) { quotes };
 
     [Benchmark]
     public IReadOnlyList<AdxResult> AdxStream()
@@ -47,12 +60,16 @@ public class BufferListIndicators
         => provider.ToAlma(n, 0.85, 6).Results;
 
     [Benchmark]
-    public EmaList EmaBuffer()
+    public AtrList AtrBuffer()
         => new(n) { quotes };
 
     [Benchmark]
-    public IReadOnlyList<EmaResult> EmaSeries()
-        => quotes.ToEma(n);
+    public IReadOnlyList<AtrResult> AtrSeries()
+        => quotes.ToAtr(n);
+
+    [Benchmark]
+    public IReadOnlyList<AtrResult> AtrStream()
+        => provider.ToAtr(n).Results;
 
     [Benchmark]
     public IReadOnlyList<EmaResult> EmaStream()
@@ -105,28 +122,4 @@ public class BufferListIndicators
     [Benchmark]
     public IReadOnlyList<TrResult> TrStream()
         => provider.ToTr().Results;
-
-    [Benchmark]
-    public AdlList AdlBuffer()
-        => new() { quotes };
-
-    [Benchmark]
-    public IReadOnlyList<AdlResult> AdlSeries()
-        => quotes.ToAdl();
-
-    [Benchmark]
-    public IReadOnlyList<AdlResult> AdlStream()
-        => provider.ToAdl().Results;
-
-    [Benchmark]
-    public AtrList AtrBuffer()
-        => new(n) { quotes };
-
-    [Benchmark]
-    public IReadOnlyList<AtrResult> AtrSeries()
-        => quotes.ToAtr(n);
-
-    [Benchmark]
-    public IReadOnlyList<AtrResult> AtrStream()
-        => provider.ToAtr(n).Results;
 }

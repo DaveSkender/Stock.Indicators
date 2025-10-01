@@ -2,8 +2,21 @@ name: Benchmark performance
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+      - "v[0-9]*"
+    paths:
+      - tests/performance/**
+  pull_request:
+    branches: ["*"]
+    paths:
+      - tests/performance/**
+      - ".github/workflows/test-performance.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,20 +30,6 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-
-      - name: Setup GitVersion
-        uses: gittools/actions/gitversion/setup@v3.2.1
-        with:
-          versionSpec: "5.x"
-          preferLatestVersion: true
-
-      - name: Determine version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v3.2.1
-        with:
-          updateAssemblyInfo: true
-          useConfigFile: true
-          configFilePath: src/gitversion.yml
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
@@ -57,16 +56,24 @@ jobs:
       - name: Publish summary
         working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
         run: |
-          echo "### Package version ${{ steps.gitversion.outputs.fullSemVer }}" >> $GITHUB_STEP_SUMMARY
+          echo "## Performance Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
-          echo "## Series indicators" >> $GITHUB_STEP_SUMMARY
+          echo "### Series indicators" >> $GITHUB_STEP_SUMMARY
           cat Performance.SeriesIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
-          echo "## Stream indicators (with Quote caching)" >> $GITHUB_STEP_SUMMARY
+          echo "### Stream indicators" >> $GITHUB_STEP_SUMMARY
           cat Performance.StreamIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
-          echo "## Incrementing buffer-style indicators" >> $GITHUB_STEP_SUMMARY
-          cat Performance.BufferLists-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "### Buffer indicators" >> $GITHUB_STEP_SUMMARY
+          cat Performance.BufferIndicators-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
-          echo "## Utilities" >> $GITHUB_STEP_SUMMARY
+          echo "### Style comparison" >> $GITHUB_STEP_SUMMARY
+          cat Performance.StyleComparison-report-github.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "### Utilities" >> $GITHUB_STEP_SUMMARY
           cat Performance.Utility-report-github.md >> $GITHUB_STEP_SUMMARY
