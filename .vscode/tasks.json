@@ -324,8 +324,9 @@
         "background": {
           "activeOnStart": true,
           "beginsPattern": ".*Configuration file:.*_config.yml.*",
-          "endsPattern": ".*Server running.*http://.*:.*"
+          "endsPattern": ".*Server running.*"
         }
+      }
       },
       "presentation": {
         "reveal": "always",
