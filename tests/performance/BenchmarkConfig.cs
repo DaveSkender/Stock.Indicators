@@ -16,14 +16,11 @@ public class PerformanceConfig : ManualConfig
         // Add standard exporters for different formats
         AddExporter(MarkdownExporter.GitHub);
         AddExporter(JsonExporter.Full);
-        AddExporter(HtmlExporter.Default);
 
         // Add columns for detailed analysis
         AddColumn(StatisticColumn.Mean);
         AddColumn(StatisticColumn.Error);
         AddColumn(StatisticColumn.StdDev);
-        AddColumn(StatisticColumn.Min);
-        AddColumn(StatisticColumn.Max);
 
         // Add logger
         AddLogger(ConsoleLogger.Default);

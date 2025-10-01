@@ -56,17 +56,13 @@ dotnet run -c Release --filter *.EmaHub
 BenchmarkDotNet generates multiple output formats in `BenchmarkDotNet.Artifacts/results/`:
 
 - `*.md` - GitHub-flavored markdown tables
-- `*.html` - Interactive HTML reports
 - `*.json` - Detailed JSON data for analysis
-- `*.csv` - CSV exports for spreadsheet analysis
 
 ### Key metrics
 
 - **Mean** - Average execution time (most important for typical usage)
 - **Error** - Standard error of the mean
 - **StdDev** - Standard deviation (variability indicator)
-- **Min/Max** - Minimum and maximum observed times
-- **Allocated** - Memory allocated per operation
 
 ### Interpreting performance
 

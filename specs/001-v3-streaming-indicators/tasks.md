@@ -329,7 +329,7 @@ Phase 1 streaming indicator implementation is now 100% complete with all 16 plan
 
 - ✅ Integrate streaming benchmarks into performance test suite (already present in Perf.Stream.cs)
 - ✅ Add automated performance regression detection (detect-regressions.ps1 script)
-- ✅ Document benchmark results and trends (BENCHMARKING.md guide)
+- ✅ Document benchmark results and trends (benchmarking.md guide)
 - ✅ Enhanced BenchmarkDotNet configuration with JSON/HTML exports
 - ✅ Baseline management system with documentation
 - ✅ Updated contributing.md with regression detection guidance
