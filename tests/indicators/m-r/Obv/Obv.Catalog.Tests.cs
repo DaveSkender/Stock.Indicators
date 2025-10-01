@@ -31,4 +31,34 @@ public class ObvTests : TestBase
         obvResult?.DisplayName.Should().Be("OBV");
         obvResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void ObvStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Obv.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("On-Balance Volume");
+        listing.Uiid.Should().Be("OBV");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.VolumeBased);
+        listing.MethodName.Should().Be("ToObv");
+    }
+
+    [TestMethod]
+    public void ObvBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Obv.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("On-Balance Volume");
+        listing.Uiid.Should().Be("OBV");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.VolumeBased);
+        listing.MethodName.Should().Be("ToObv");
+    }
 }

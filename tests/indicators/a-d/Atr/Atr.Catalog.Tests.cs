@@ -78,4 +78,19 @@ public class AtrTests : TestBase
         atrpResult2?.DisplayName.Should().Be("ATR %");
         atrpResult2.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void AtrBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Atr.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Average True Range (ATR)");
+        listing.Uiid.Should().Be("ATR");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceCharacteristic);
+        listing.MethodName.Should().Be("ToAtr");
+    }
 }

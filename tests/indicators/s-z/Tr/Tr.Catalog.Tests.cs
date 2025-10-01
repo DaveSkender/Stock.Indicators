@@ -56,4 +56,19 @@ public class TrTests : TestBase
         trResult?.DisplayName.Should().Be("True Range");
         trResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void TrBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Tr.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("True Range");
+        listing.Uiid.Should().Be("TR");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceCharacteristic);
+        listing.MethodName.Should().Be("ToTr");
+    }
 }

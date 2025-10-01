@@ -38,4 +38,34 @@ public class AlmaTests : TestBase
         almaResult?.DisplayName.Should().Be("Arnaud Legoux Moving Average (ALMA)");
         almaResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void AlmaStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Alma.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Arnaud Legoux Moving Average (ALMA)");
+        listing.Uiid.Should().Be("ALMA");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.MovingAverage);
+        listing.MethodName.Should().Be("ToAlma");
+    }
+
+    [TestMethod]
+    public void AlmaBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Alma.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Arnaud Legoux Moving Average (ALMA)");
+        listing.Uiid.Should().Be("ALMA");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.MovingAverage);
+        listing.MethodName.Should().Be("ToAlma");
+    }
 }
