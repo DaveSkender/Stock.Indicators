@@ -36,4 +36,46 @@ public class T3Tests : TestBase
         t3Result?.DisplayName.Should().Be("T3");
         t3Result.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void T3StreamListing()
+    {
+        // Act
+        IndicatorListing listing = T3.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("T3 Moving Average");
+        listing.Uiid.Should().Be("T3");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.MovingAverage);
+        listing.MethodName.Should().Be("ToT3");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+    }
+
+    [TestMethod]
+    public void T3BufferListing()
+    {
+        // Act
+        IndicatorListing listing = T3.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("T3 Moving Average");
+        listing.Uiid.Should().Be("T3");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.MovingAverage);
+        listing.MethodName.Should().Be("ToT3");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(2);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+    }
 }
