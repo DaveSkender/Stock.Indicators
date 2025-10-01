@@ -18,6 +18,15 @@ public static partial class Obv
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for OBV.
-    // No BufferListing for OBV.
+    // OBV Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // OBV Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
