@@ -2,73 +2,217 @@
 
 ## Overview
 
-This plan focuses on completing the remaining work for v3.0 streaming indicators as outlined in [issue #1014](https://github.com/DaveSkender/Stock.Indicators/issues/1014) and the [v3 project board](https://github.com/users/DaveSkender/projects/6?pane=issue&itemId=58144081).
+This plan focuses on completing Phase 1 streaming indicator implementations for v3.0 as outlined in [issue #1014](https://github.com/DaveSkender/Stock.Indicators/issues/1014) and the [v3 project board](https://github.com/users/DaveSkender/projects/6?pane=issue&itemId=58144081).
+
+**Expanded Scope**: Phase 1 now encompasses ALL series-style indicators (84 total) with matching BufferList and StreamHub implementations. This represents a comprehensive expansion beyond the original 16-indicator plan.
+
+**Current Progress**: 22/84 indicators complete (26%) with 62 remaining across three priority tiers.
 
 ## Current Status Assessment
 
-Based on issue #1014, significant progress has been made:
+Based on comprehensive codebase analysis, the streaming indicator implementation stands at:
 
-### ✅ Completed Core Infrastructure
+### ✅ Completed Infrastructure (September-October 2025)
 
 - Core quote provider and handling mechanisms
-- EMA and SMA streaming prototypes
+- Universal BufferUtilities extension methods for consistent buffer management
+- Catalog integration system for automated discovery
+- Comprehensive test patterns (BufferList and StreamHub)
+- Performance benchmarking framework
 - Basic `.Use(..)` chaining functionality
-- Multiple preview releases with feedback incorporation
-- Performance tuning and usability testing
-- Buffer-style incrementors for EMA
-- Index operations avoiding "Get" overuses
-- Base documentation improvements
 
-### ✅ Recently Completed (October 2025)
+### ✅ Completed Indicators (22 of 84 - 26%)
 
-- **T3 Indicator Streaming Implementation**: Complete BufferList and StreamHub implementations (PR #1451)
-  - T3BufferList with volume factor parameter support
-  - T3StreamHub for real-time processing
-  - Comprehensive test coverage and catalog integration
+**Moving Average Indicators (13 complete)**:
 
-### ✅ Completed September 2025
+- EMA, SMA, HMA, WMA (foundational prototypes)
+- TEMA, DEMA, ALMA, KAMA (initial expansion)
+- SMMA, EPMA, MAMA, T3 (continued expansion)
+- VWMA (volume-weighted)
 
-- **All Phase 1 Moving Average Indicators**: Complete BufferList and StreamHub implementations
-  - HMA, WMA, TEMA, VWMA, DEMA, ALMA, KAMA, SMMA, EPMA, MAMA
-- **All Phase 1 Technical Indicators**: Complete BufferList and StreamHub implementations
-  - RSI, MACD, Bollinger Bands, Stochastic Oscillator
-- **All Phase 1 Volume/Trend Indicators**: Complete BufferList and StreamHub implementations
-  - OBV, ADX
-- **Universal Buffer Utilities**: Extension methods for consistent buffer management across all indicators
-- **Comprehensive Test Coverage**: BufferList and StreamHub tests for all implemented indicators
-- **Catalog Integration**: All streaming indicators integrated with catalog automation system
-- **Code Quality**: All BufferList implementations refactored to use universal utilities
+**Technical Indicators (4 complete)**:
 
-### 🎯 Remaining Critical Work
+- RSI, MACD, Bollinger Bands, Stochastic Oscillator
 
-The following items from #1014 need completion before stable v3 release:
+**Volume/Trend Indicators (5 complete)**:
 
-## Phase 1: Broad Indicator Implementation ✅ COMPLETE
+- OBV, ADX, ADL, ATR, TR
+
+### ⚠️ Partial Implementations (3 indicators)
+
+- **Alligator**: StreamHub complete, BufferList needed
+- **AtrStop**: StreamHub complete, BufferList needed
+- **Renko**: StreamHub complete, BufferList needed
+
+### 🎯 Remaining Implementations (59 indicators)
+
+**Phase 1A Priority (28 indicators)**: High-usage oscillators, channels, bands, trend indicators, and volume indicators - CCI, CMO, StochRsi, WilliamsR, ROC, Trix, TSI, Ultimate, Awesome, BOP, MFI, Keltner, Donchian, StarcBands, StdDevChannels, StdDev, Aroon, ParabolicSar, SuperTrend, Vortex, Ichimoku, ElderRay, CMF, ChaikinOsc, ForceIndex, PVO, MaEnvelopes, Gator
+
+**Phase 1B Additional (24 indicators)**: Standard usage technical analysis, volatility, market analysis - SMI, STC, PMO, ConnorsRsi, DPO, HtTrendline, FisherTransform, FCB, Chop, UlcerIndex, Chandelier, VolatilityStop, Beta, Correlation, Slope, Hurst, HeikinAshi, RenkoAtr, Fractal, PRS, RocWb, SmaAnalysis, KVO, VWAP
+
+**Phase 1C Specialized (7 indicators)**: Lower priority specialized indicators - PivotPoints, Pivots, RollingPivots, Doji, Marubozu, Dynamic, ZigZag
+
+## Phase 1: Broad Indicator Implementation 🔄 IN PROGRESS (22/84 Complete - 26%)
 
 ### Objective
 
-Expand streaming support from EMA/SMA base cases to most common indicators
+Expand streaming support to ALL series-style indicators, creating matching BufferList and StreamHub implementations
 
-### Scope - COMPLETED
+### Current Status - 22 Complete, 62 Remaining
 
-- **Moving Average Indicators**: ✅ ALL COMPLETE (HMA, WMA, TEMA, VWMA, DEMA, ALMA, KAMA, SMMA, EPMA, MAMA, T3)
-- **Common Technical Indicators**: ✅ ALL COMPLETE (RSI, MACD, Bollinger Bands, Stochastic)
-- **Volume Indicators**: ✅ OBV COMPLETE
-- **Trend Indicators**: ✅ ADX COMPLETE
+**✅ Implemented (22 indicators)**:
 
-### Outstanding Items
+- Moving Averages: EMA, SMA, HMA, WMA, TEMA, DEMA, ALMA, KAMA, SMMA, EPMA, MAMA, T3, VWMA
+- Technical Indicators: RSI, MACD, Bollinger Bands, Stochastic
+- Volume/Trend: OBV, ADX, ADL, ATR, TR
 
-- **Chaikin Money Flow**: Not yet implemented (lower priority)
-- **Aroon**: Not yet implemented (lower priority)
-- **Parabolic SAR**: Not yet implemented (lower priority)
+**⚠️ Partial Implementation (3 indicators)**:
 
-### Success Criteria - ACHIEVED
+- Alligator (StreamHub only - needs BufferList)
+- AtrStop (StreamHub only - needs BufferList)
+- Renko (StreamHub only - needs BufferList)
 
-- ✅ All common indicators support streaming mode
-- ✅ Performance parity with existing EMA/SMA implementations
-- ✅ Comprehensive test coverage for streaming vs batch accuracy
-- ✅ Memory usage remains stable across all implementations
-- ✅ Universal buffer utilities established for consistent patterns
+**❌ Not Yet Implemented (59 indicators)**: See detailed breakdown below
+
+### Phase 1A: Priority Indicators (High Usage)
+
+These indicators are commonly used and should be prioritized:
+
+**Oscillators & Technical Indicators (11)**:
+
+- CCI (Commodity Channel Index)
+- CMO (Chande Momentum Oscillator)
+- StochRsi (Stochastic RSI)
+- WilliamsR (Williams %R)
+- ROC (Rate of Change)
+- Trix (Triple Exponential Average)
+- TSI (True Strength Index)
+- Ultimate (Ultimate Oscillator)
+- Awesome (Awesome Oscillator)
+- BOP (Balance of Power)
+- MFI (Money Flow Index)
+
+**Channels & Bands (5)**:
+
+- Keltner (Keltner Channels)
+- Donchian (Donchian Channels)
+- StarcBands (STARC Bands)
+- StdDevChannels (Standard Deviation Channels)
+- StdDev (Standard Deviation)
+
+**Trend Indicators (6)**:
+
+- Aroon (Aroon Indicator)
+- ParabolicSar (Parabolic SAR)
+- SuperTrend (SuperTrend)
+- Vortex (Vortex Indicator)
+- Ichimoku (Ichimoku Cloud)
+- ElderRay (Elder Ray)
+
+**Volume Indicators (4)**:
+
+- CMF (Chaikin Money Flow)
+- ChaikinOsc (Chaikin Oscillator)
+- ForceIndex (Force Index)
+- PVO (Percentage Volume Oscillator)
+
+**Moving Averages (2)**:
+
+- MaEnvelopes (Moving Average Envelopes)
+- Gator (Gator Oscillator)
+
+### Phase 1B: Additional Indicators (Standard Usage)
+
+**Technical Analysis (8)**:
+
+- SMI (Stochastic Momentum Index)
+- STC (Schaff Trend Cycle)
+- PMO (Price Momentum Oscillator)
+- ConnorsRsi (Connors RSI)
+- DPO (Detrended Price Oscillator)
+- HtTrendline (Hilbert Transform Trendline)
+- FisherTransform (Fisher Transform)
+- FCB (Fractal Chaos Bands)
+
+**Volatility & Risk (4)**:
+
+- Chop (Choppiness Index)
+- UlcerIndex (Ulcer Index)
+- Chandelier (Chandelier Exit)
+- VolatilityStop (Volatility Stop)
+
+**Market Analysis (4)**:
+
+- Beta (Beta Coefficient)
+- Correlation (Correlation Coefficient)
+- Slope (Slope)
+- Hurst (Hurst Exponent)
+
+**Price Patterns (3)**:
+
+- HeikinAshi (Heikin-Ashi)
+- RenkoAtr (Renko ATR)
+- Fractal (Williams Fractal)
+
+**Comparative Analysis (3)**:
+
+- PRS (Price Relative Strength)
+- RocWb (ROC with Bands)
+- SmaAnalysis (SMA Analysis)
+
+**Volume Analysis (2)**:
+
+- KVO (Klinger Volume Oscillator)
+- VWAP (Volume Weighted Average Price)
+
+### Phase 1C: Specialized Indicators (Lower Priority)
+
+**Pivot Points (3)**:
+
+- PivotPoints (Standard Pivot Points)
+- Pivots (Alternative Pivots)
+- RollingPivots (Rolling Pivot Points)
+
+**Candlestick Patterns (2)**:
+
+- Doji (Doji Pattern)
+- Marubozu (Marubozu Pattern)
+
+**Complex Indicators (2)**:
+
+- Dynamic (Dynamic Momentum Index)
+- ZigZag (ZigZag)
+
+### Success Criteria
+
+**Phase 1A Success (Priority Indicators)**:
+
+- ✅ All 28 priority indicators have BufferList implementations
+- ✅ All 28 priority indicators have StreamHub implementations  
+- ✅ Comprehensive test coverage (>95%) for all implementations
+- ✅ Catalog integration complete for all indicators
+- ✅ Performance benchmarks meet targets (<1ms per quote)
+- ✅ Memory stability validated for extended operations
+
+**Phase 1B Success (Additional Indicators)**:
+
+- ✅ All 24 additional indicators have BufferList implementations
+- ✅ All 24 additional indicators have StreamHub implementations
+- ✅ Same quality standards as Phase 1A
+
+**Phase 1C Success (Specialized Indicators)**:
+
+- ✅ All 7 specialized indicators have BufferList implementations
+- ✅ All 7 specialized indicators have StreamHub implementations
+- ✅ Same quality standards as Phase 1A/1B
+
+**Overall Phase 1 Success**:
+
+- ✅ 84 total indicators with complete streaming support (22 done, 62 remaining)
+- ✅ 3 partial indicators completed (Alligator, AtrStop, Renko BufferList implementations)
+- ✅ Universal buffer patterns established and documented
+- ✅ Performance parity across all indicator types
+- ✅ Documentation updated for all streaming implementations
 
 ## Phase 2: Advanced Documentation and Integration (Priority 1 - CURRENT FOCUS)
 
@@ -85,8 +229,8 @@ Expand streaming support from EMA/SMA base cases to most common indicators
 
 - ✅ Catalog system integration for all streaming indicators (COMPLETE)
 - ✅ Automated discovery of streaming capabilities (COMPLETE)
+- ✅ CI/CD pipeline updates for streaming tests (VERIFIED COMPLETE - October 2025)
 - ⚠️ Performance benchmarking integration (NEEDS VERIFICATION)
-- ⚠️ CI/CD pipeline updates for streaming tests (NEEDS VERIFICATION)
 
 ## Phase 3: Final Validation and Release Preparation (Priority 2)
 
@@ -175,8 +319,8 @@ These are NOT required for v3.0.0 stable release but could be added based on com
 - Universal buffer utilities for consistent memory management across all streaming indicators
 
 ---
-Plan Version: 2.1
+Plan Version: 3.0
 Created: 2025-09-29
-Updated: 2025-10-01 (Phase 1 now 100% complete - T3 implemented)
+Updated: 2025-10-01 (Phase 1 expanded to include all 84 indicators)
 Based on: Issue #1014 and v3 Project Board
-Status: Phase 1 Complete, Phase 2 Documentation in Progress
+Status: Phase 1 In Progress (22/84 complete - 26%), Phase 2 Documentation Pending
