@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Accumulation/Distribution Line (ADL) from incremental quotes.
 /// </summary>
-public class AdlList : List<AdlResult>, IBufferList
+public class AdlList : BufferListBase<AdlResult>, IBufferList
 {
     private double _previousAdl;
 
@@ -42,7 +42,7 @@ public class AdlList : List<AdlResult>, IBufferList
         // Update previous ADL for next calculation
         _previousAdl = result.Adl;
 
-        base.Add(result);
+        AddInternal(result);
     }
 
     /// <inheritdoc />
@@ -59,8 +59,21 @@ public class AdlList : List<AdlResult>, IBufferList
     /// <inheritdoc />
     public new void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _previousAdl = 0;
+        RollbackState(-1);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(int index)
+    {
+        // Reset to initial state
+        // For ADL, we could potentially extract the previous ADL value
+        // from the result at index, but since manual modifications are
+        // not a recommended pattern, we'll just reset to zero
+        _previousAdl = index >= 0 && index < Count
+            ? this[index].Adl
+            : 0;
     }
 }
 

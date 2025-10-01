@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Double Exponential Moving Average (DEMA) from incremental reusable values.
 /// </summary>
-public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
+public class DemaList : BufferListBase<DemaResult>, IDema, IBufferList, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -63,7 +63,7 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new DemaResult(timestamp));
+            AddInternal(new DemaResult(timestamp));
             return;
         }
 
@@ -87,7 +87,7 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
         _lastEma2 = ema2;
 
         // calculate and store DEMA result
-        base.Add(new DemaResult(
+        AddInternal(new DemaResult(
             timestamp,
             Dema.Calculate(ema1, ema2)));
     }
@@ -131,10 +131,27 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
     /// <inheritdoc />
     public new void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
+        RollbackState(-1);
+    }
+
+    /// <inheritdoc/>
+    protected override void RollbackState(int index)
+    {
+        // Reset all internal state to initial values
+        _buffer.Clear();
+        _bufferSum = 0;
+        _lastEma1 = double.NaN;
+        _lastEma2 = double.NaN;
+
+        // Note: A more sophisticated implementation could rebuild state
+        // from the results up to index, but we don't have the input values
+        // stored to do that accurately. The current approach clears state,
+        // which will prevent further accurate calculations until enough
+        // new data is added to refill the buffer.
     }
 }

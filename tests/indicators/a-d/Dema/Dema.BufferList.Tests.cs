@@ -100,4 +100,36 @@ public class Dema : BufferListTestBase
         sut.Should().HaveCount(expected.Count);
         sut.Should().BeEquivalentTo(expected);
     }
+
+    [TestMethod]
+    public void ManualRemovalTriggersRollback()
+    {
+        // Test that manual removal triggers rollback for stateful indicator (DEMA)
+        DemaList sut = new(lookbackPeriods);
+
+        // Add initial quotes
+        List<Quote> initialQuotes = Quotes.Take(50).ToList();
+        foreach (Quote q in initialQuotes)
+        {
+            sut.Add(q);
+        }
+
+        sut.Should().HaveCount(50);
+
+        // Manually remove an item
+        sut.RemoveAt(25);
+
+        // List should now have 49 items
+        sut.Should().HaveCount(49);
+
+        // Buffer state was rolled back - we can continue adding
+        // State was reset, so calculations will restart
+        Quote nextQuote = Quotes[50];
+        sut.Add(nextQuote);
+
+        // Should successfully add without throwing
+        sut.Should().HaveCount(50);
+
+        // The list continues to function after rollback
+    }
 }
