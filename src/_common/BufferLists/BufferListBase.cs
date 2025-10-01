@@ -60,7 +60,7 @@ public abstract class BufferList<TResult> : ICollection<TResult>
     #region ICollection<TResult> Implementation
 
     /// <inheritdoc/>
-    public void Add(TResult item)
+    void ICollection<TResult>.Add(TResult item)
     {
         throw new NotSupportedException(
             "Direct use of Add(TResult) is not supported. " +
@@ -81,7 +81,7 @@ public abstract class BufferList<TResult> : ICollection<TResult>
     public IEnumerator<TResult> GetEnumerator() => _internalList.GetEnumerator();
 
     /// <inheritdoc/>
-    public bool Remove(TResult item)
+    bool ICollection<TResult>.Remove(TResult item)
     {
         throw new NotSupportedException(
             "Remove is not supported. Buffer lists do not support item removal.");
