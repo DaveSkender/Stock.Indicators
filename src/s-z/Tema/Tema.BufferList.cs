@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Triple Exponential Moving Average (TEMA) from incremental reusable values.
 /// </summary>
-public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
+public class TemaList : BufferList<TemaResult>, ITema, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -70,7 +70,7 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new TemaResult(timestamp));
+            AddInternal(new TemaResult(timestamp));
             return;
         }
 
@@ -94,7 +94,7 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
         // calculate TEMA
         double tema = (3 * ema1) - (3 * ema2) + ema3;
 
-        base.Add(new TemaResult(
+        AddInternal(new TemaResult(
             timestamp,
             tema.NaN2Null()) {
             Ema1 = ema1,
@@ -145,9 +145,9 @@ public class TemaList : List<TemaResult>, ITema, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
         _lastEma1 = double.NaN;

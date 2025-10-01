@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Exponential Moving Average (EMA) from incremental reusable values.
 /// </summary>
-public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
+public class EmaList : BufferList<EmaResult>, IEma, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -61,7 +61,7 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new EmaResult(timestamp));
+            AddInternal(new EmaResult(timestamp));
             return;
         }
 
@@ -70,14 +70,14 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
         // re/initialize as SMA
         if (lastEma is null)
         {
-            base.Add(new EmaResult(
+            AddInternal(new EmaResult(
                 timestamp,
                 _bufferSum / LookbackPeriods));
             return;
         }
 
         // calculate EMA normally
-        base.Add(new EmaResult(
+        AddInternal(new EmaResult(
             timestamp,
             Ema.Increment(K, lastEma.Value, value)));
     }
@@ -119,9 +119,9 @@ public class EmaList : List<EmaResult>, IEma, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
     }

@@ -15,7 +15,7 @@ namespace Skender.Stock.Indicators;
     "Naming",
     "CA1710:Identifiers should have correct suffix",
     Justification = "BufferList is the established naming convention for this library")]
-public abstract class BufferList<TResult> : ICollection<TResult>
+public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<TResult>
     where TResult : ISeries
 {
     private readonly List<TResult> _internalList = [];

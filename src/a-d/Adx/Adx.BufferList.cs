@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Average Directional Index (ADX) from incremental reusable values.
 /// </summary>
-public class AdxList : List<AdxResult>, IAdx, IBufferList
+public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
 {
     private readonly Queue<AdxBuffer> _buffer;
 
@@ -49,7 +49,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         if (Count == 0)
         {
             _buffer.Update(LookbackPeriods, curr);
-            base.Add(new AdxResult(timestamp));
+            AddInternal(new AdxResult(timestamp));
             return;
         }
 
@@ -71,7 +71,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         // skip incalculable
         if (Count < LookbackPeriods)
         {
-            base.Add(new AdxResult(timestamp));
+            AddInternal(new AdxResult(timestamp));
             return;
         }
 
@@ -97,7 +97,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         // skip incalculable periods
         if (curr.Trs == 0)
         {
-            base.Add(new AdxResult(timestamp));
+            AddInternal(new AdxResult(timestamp));
             return;
         }
 
@@ -115,7 +115,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
         // skip incalculable ADX periods
         if (Count < (2 * LookbackPeriods) - 1)
         {
-            base.Add(new AdxResult(timestamp,
+            AddInternal(new AdxResult(timestamp,
                 Pdi: pdi.NaN2Null(),
                 Mdi: mdi.NaN2Null(),
                 Dx: curr.Dx.NaN2Null()));
@@ -157,7 +157,7 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
             Adx: curr.Adx.NaN2Null(),
             Adxr: adxr.NaN2Null());
 
-        base.Add(r);
+        AddInternal(r);
     }
 
     /// <inheritdoc />
@@ -172,9 +172,9 @@ public class AdxList : List<AdxResult>, IAdx, IBufferList
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
     }
 

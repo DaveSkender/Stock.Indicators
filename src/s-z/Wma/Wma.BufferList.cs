@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Weighted Moving Average (WMA) from incremental reusable values.
 /// </summary>
-public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
+public class WmaList : BufferList<WmaResult>, IWma, IBufferReusable
 {
     private readonly Queue<double> _buffer;
     private readonly double _divisor;
@@ -59,7 +59,7 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
             _weightedAverage = wma.Value;
         }
 
-        base.Add(new WmaResult(timestamp, wma));
+        AddInternal(new WmaResult(timestamp, wma));
     }
 
     /// <inheritdoc />
@@ -99,9 +99,9 @@ public class WmaList : List<WmaResult>, IWma, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
         _sum = 0d;
         _weightedAverage = 0d;

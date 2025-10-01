@@ -28,7 +28,7 @@ public static partial class Macd
 /// <summary>
 /// MACD (Moving Average Convergence Divergence) from incremental reusable values.
 /// </summary>
-public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
+public class MacdList : BufferList<MacdResult>, IMacd, IBufferReusable
 {
     private readonly Queue<double> _fastBuffer;
     private readonly Queue<double> _slowBuffer;
@@ -223,7 +223,7 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
             FastEma: fastEma,
             SlowEma: slowEma);
 
-        base.Add(result);
+        AddInternal(result);
     }
 
     /// <inheritdoc />
@@ -263,9 +263,9 @@ public class MacdList : List<MacdResult>, IMacd, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _fastBuffer.Clear();
         _slowBuffer.Clear();
         _macdBuffer.Clear();

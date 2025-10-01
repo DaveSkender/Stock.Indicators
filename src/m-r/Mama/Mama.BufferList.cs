@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// MESA Adaptive Moving Average (MAMA) from incremental reusable values.
 /// </summary>
-public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
+public class MamaList : BufferList<MamaResult>, IMama, IBufferReusable
 {
     // Internal state arrays matching StaticSeries implementation
     private readonly List<double> pr = []; // price (HL2 when quote)
@@ -79,7 +79,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         // skip until we have 6 price points (index 0..5)
         if (i < 5)
         {
-            base.Add(new MamaResult(timestamp));
+            AddInternal(new MamaResult(timestamp));
             return;
         }
 
@@ -91,7 +91,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
             mama = fama = sum / 6d;
             prevMama = mama;
             prevFama = fama;
-            base.Add(new MamaResult(timestamp, mama, fama));
+            AddInternal(new MamaResult(timestamp, mama, fama));
             return;
         }
 
@@ -142,7 +142,7 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
         prevMama = mama;
         prevFama = fama;
 
-        base.Add(new MamaResult(timestamp, mama.NaN2Null(), fama.NaN2Null()));
+        AddInternal(new MamaResult(timestamp, mama.NaN2Null(), fama.NaN2Null()));
     }
 
     /// <inheritdoc />
@@ -191,9 +191,9 @@ public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         pr.Clear();
         sm.Clear();
         dt.Clear();

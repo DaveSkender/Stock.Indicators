@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// True Range (TR) from incremental quotes.
 /// </summary>
-public class TrList : List<TrResult>, IBufferList
+public class TrList : BufferList<TrResult>, IBufferList
 {
     private readonly Queue<TrBuffer> _buffer;
 
@@ -39,7 +39,7 @@ public class TrList : List<TrResult>, IBufferList
         if (Count == 0)
         {
             _buffer.Update(2, curr);
-            base.Add(new TrResult(timestamp, null));
+            AddInternal(new TrResult(timestamp, null));
             return;
         }
 
@@ -50,7 +50,7 @@ public class TrList : List<TrResult>, IBufferList
         // calculate True Range
         double tr = Tr.Increment(curr.High, curr.Low, prev.Close);
 
-        base.Add(new TrResult(timestamp, tr));
+        AddInternal(new TrResult(timestamp, tr));
     }
 
     /// <inheritdoc />
@@ -65,9 +65,9 @@ public class TrList : List<TrResult>, IBufferList
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
     }
 

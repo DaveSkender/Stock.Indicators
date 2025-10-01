@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Endpoint Moving Average (EPMA) from incremental reusable values.
 /// </summary>
-public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
+public class EpmaList : BufferList<EpmaResult>, IEpma, IBufferReusable
 {
     private readonly Queue<double> _buffer;
 
@@ -56,7 +56,7 @@ public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
             }
         }
 
-        base.Add(new EpmaResult(timestamp, epma));
+        AddInternal(new EpmaResult(timestamp, epma));
     }
 
     /// <inheritdoc />
@@ -96,10 +96,10 @@ public class EpmaList : List<EpmaResult>, IEpma, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
         _buffer.Clear();
-        base.Clear();
+        ClearInternal();
     }
 
     /// <summary>
