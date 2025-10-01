@@ -21,6 +21,15 @@ public static partial class Alma
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for ALMA.
-    // No BufferListing for ALMA.
+    // ALMA Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // ALMA Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
