@@ -32,12 +32,12 @@ public class T3Hub<TIn>
     where TIn : IReusable
 {
     private readonly string hubName;
-    private double lastE1 = double.NaN;
-    private double lastE2 = double.NaN;
-    private double lastE3 = double.NaN;
-    private double lastE4 = double.NaN;
-    private double lastE5 = double.NaN;
-    private double lastE6 = double.NaN;
+    private double lastEma1 = double.NaN;
+    private double lastEma2 = double.NaN;
+    private double lastEma3 = double.NaN;
+    private double lastEma4 = double.NaN;
+    private double lastEma5 = double.NaN;
+    private double lastEma6 = double.NaN;
 
     internal T3Hub(
         IChainProvider<TIn> provider,
@@ -92,14 +92,14 @@ public class T3Hub<TIn>
 
         // if out-of-order change (insertion/deletion before current index) occurred
         // invalidate state and backfill from previous cached EMA layers
-        if (i > 0 && Cache.Count > i && Cache[i - 1].T3 is not null && (double.IsNaN(lastE1) || Cache[i - 1].E1 != lastE1))
+        if (i > 0 && Cache.Count > i && Cache[i - 1].T3 is not null && (double.IsNaN(lastEma1) || Cache[i - 1].Ema1 != lastEma1))
         {
-            lastE1 = Cache[i - 1].E1;
-            lastE2 = Cache[i - 1].E2;
-            lastE3 = Cache[i - 1].E3;
-            lastE4 = Cache[i - 1].E4;
-            lastE5 = Cache[i - 1].E5;
-            lastE6 = Cache[i - 1].E6;
+            lastEma1 = Cache[i - 1].Ema1;
+            lastEma2 = Cache[i - 1].Ema2;
+            lastEma3 = Cache[i - 1].Ema3;
+            lastEma4 = Cache[i - 1].Ema4;
+            lastEma5 = Cache[i - 1].Ema5;
+            lastEma6 = Cache[i - 1].Ema6;
         }
 
         double t3 = CalculateIncrement(item.Value, i == 0);
@@ -107,12 +107,12 @@ public class T3Hub<TIn>
         T3Result r = new(
             Timestamp: item.Timestamp,
             T3: t3.NaN2Null()) {
-            E1 = lastE1,
-            E2 = lastE2,
-            E3 = lastE3,
-            E4 = lastE4,
-            E5 = lastE5,
-            E6 = lastE6
+            Ema1 = lastEma1,
+            Ema2 = lastEma2,
+            Ema3 = lastEma3,
+            Ema4 = lastEma4,
+            Ema5 = lastEma5,
+            Ema6 = lastEma6
         };
 
         return (r, i);
@@ -125,36 +125,36 @@ public class T3Hub<TIn>
         if (i > 0 && Cache.Count > i - 1)
         {
             T3Result prior = Cache[i - 1];
-            lastE1 = prior.E1;
-            lastE2 = prior.E2;
-            lastE3 = prior.E3;
-            lastE4 = prior.E4;
-            lastE5 = prior.E5;
-            lastE6 = prior.E6;
+            lastEma1 = prior.Ema1;
+            lastEma2 = prior.Ema2;
+            lastEma3 = prior.Ema3;
+            lastEma4 = prior.Ema4;
+            lastEma5 = prior.Ema5;
+            lastEma6 = prior.Ema6;
         }
         else
         {
-            lastE1 = lastE2 = lastE3 = lastE4 = lastE5 = lastE6 = double.NaN;
+            lastEma1 = lastEma2 = lastEma3 = lastEma4 = lastEma5 = lastEma6 = double.NaN;
         }
     }
 
     private double CalculateIncrement(double value, bool isFirst)
     {
         // re/seed values on first data point
-        if (isFirst || double.IsNaN(lastE6))
+        if (isFirst || double.IsNaN(lastEma6))
         {
-            lastE1 = lastE2 = lastE3 = lastE4 = lastE5 = lastE6 = value;
+            lastEma1 = lastEma2 = lastEma3 = lastEma4 = lastEma5 = lastEma6 = value;
         }
         else
         {
-            lastE1 = Ema.Increment(K, lastE1, value);
-            lastE2 = Ema.Increment(K, lastE2, lastE1);
-            lastE3 = Ema.Increment(K, lastE3, lastE2);
-            lastE4 = Ema.Increment(K, lastE4, lastE3);
-            lastE5 = Ema.Increment(K, lastE5, lastE4);
-            lastE6 = Ema.Increment(K, lastE6, lastE5);
+            lastEma1 = Ema.Increment(K, lastEma1, value);
+            lastEma2 = Ema.Increment(K, lastEma2, lastEma1);
+            lastEma3 = Ema.Increment(K, lastEma3, lastEma2);
+            lastEma4 = Ema.Increment(K, lastEma4, lastEma3);
+            lastEma5 = Ema.Increment(K, lastEma5, lastEma4);
+            lastEma6 = Ema.Increment(K, lastEma6, lastEma5);
         }
 
-        return (C1 * lastE6) + (C2 * lastE5) + (C3 * lastE4) + (C4 * lastE3);
+        return (C1 * lastEma6) + (C2 * lastEma5) + (C3 * lastEma4) + (C4 * lastEma3);
     }
 }

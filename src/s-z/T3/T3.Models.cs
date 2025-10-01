@@ -13,12 +13,12 @@ public record T3Result
 ) : IReusable
 {
     // internal state (not exposed publicly) to support robust stream recalculations
-    [JsonIgnore] internal double E1 { get; init; }
-    [JsonIgnore] internal double E2 { get; init; }
-    [JsonIgnore] internal double E3 { get; init; }
-    [JsonIgnore] internal double E4 { get; init; }
-    [JsonIgnore] internal double E5 { get; init; }
-    [JsonIgnore] internal double E6 { get; init; }
+    [JsonIgnore] internal double Ema1 { get; init; }
+    [JsonIgnore] internal double Ema2 { get; init; }
+    [JsonIgnore] internal double Ema3 { get; init; }
+    [JsonIgnore] internal double Ema4 { get; init; }
+    [JsonIgnore] internal double Ema5 { get; init; }
+    [JsonIgnore] internal double Ema6 { get; init; }
 
     /// <inheritdoc/>
     [JsonIgnore]

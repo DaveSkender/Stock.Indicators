@@ -6,12 +6,12 @@ namespace Skender.Stock.Indicators;
 public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
 {
     // State for six-layer EMA calculations
-    private double _lastE1 = double.NaN;
-    private double _lastE2 = double.NaN;
-    private double _lastE3 = double.NaN;
-    private double _lastE4 = double.NaN;
-    private double _lastE5 = double.NaN;
-    private double _lastE6 = double.NaN;
+    private double _lastEma1 = double.NaN;
+    private double _lastEma2 = double.NaN;
+    private double _lastEma3 = double.NaN;
+    private double _lastEma4 = double.NaN;
+    private double _lastEma5 = double.NaN;
+    private double _lastEma6 = double.NaN;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T3List"/> class.
@@ -59,43 +59,43 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        double e1;
-        double e2;
-        double e3;
-        double e4;
-        double e5;
-        double e6;
+        double ema1;
+        double ema2;
+        double ema3;
+        double ema4;
+        double ema5;
+        double ema6;
 
         // re/seed values on first data point
-        if (double.IsNaN(_lastE6))
+        if (double.IsNaN(_lastEma6))
         {
-            e1 = e2 = e3 = e4 = e5 = e6 = value;
+            ema1 = ema2 = ema3 = ema4 = ema5 = ema6 = value;
         }
         // normal T3 calculation with six layers
         else
         {
-            e1 = _lastE1 + (K * (value - _lastE1));
-            e2 = _lastE2 + (K * (e1 - _lastE2));
-            e3 = _lastE3 + (K * (e2 - _lastE3));
-            e4 = _lastE4 + (K * (e3 - _lastE4));
-            e5 = _lastE5 + (K * (e4 - _lastE5));
-            e6 = _lastE6 + (K * (e5 - _lastE6));
+            ema1 = _lastEma1 + (K * (value - _lastEma1));
+            ema2 = _lastEma2 + (K * (ema1 - _lastEma2));
+            ema3 = _lastEma3 + (K * (ema2 - _lastEma3));
+            ema4 = _lastEma4 + (K * (ema3 - _lastEma4));
+            ema5 = _lastEma5 + (K * (ema4 - _lastEma5));
+            ema6 = _lastEma6 + (K * (ema5 - _lastEma6));
         }
 
         // calculate T3 with coefficients
-        double t3 = (C1 * e6) + (C2 * e5) + (C3 * e4) + (C4 * e3);
+        double t3 = (C1 * ema6) + (C2 * ema5) + (C3 * ema4) + (C4 * ema3);
 
         base.Add(new T3Result(
             timestamp,
             t3.NaN2Null()));
 
         // store state for next calculation
-        _lastE1 = e1;
-        _lastE2 = e2;
-        _lastE3 = e3;
-        _lastE4 = e4;
-        _lastE5 = e5;
-        _lastE6 = e6;
+        _lastEma1 = ema1;
+        _lastEma2 = ema2;
+        _lastEma3 = ema3;
+        _lastEma4 = ema4;
+        _lastEma5 = ema5;
+        _lastEma6 = ema6;
     }
 
     /// <inheritdoc />
@@ -138,12 +138,12 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
     public new void Clear()
     {
         base.Clear();
-        _lastE1 = double.NaN;
-        _lastE2 = double.NaN;
-        _lastE3 = double.NaN;
-        _lastE4 = double.NaN;
-        _lastE5 = double.NaN;
-        _lastE6 = double.NaN;
+        _lastEma1 = double.NaN;
+        _lastEma2 = double.NaN;
+        _lastEma3 = double.NaN;
+        _lastEma4 = double.NaN;
+        _lastEma5 = double.NaN;
+        _lastEma6 = double.NaN;
     }
 }
 
