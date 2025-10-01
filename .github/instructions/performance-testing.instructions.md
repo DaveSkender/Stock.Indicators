@@ -1,3 +1,8 @@
+---
+applyTo: "tests/performance/**/*.cs,tests/performance/**/*.ps1,tests/performance/**/*.md"
+description: "Performance testing, benchmarking, and regression detection guidelines"
+---
+
 # Performance testing and benchmarking guidelines
 
 These instructions apply to performance testing, benchmarking, and regression detection for the Stock Indicators library.
