@@ -3,6 +3,7 @@
   "tasks": [
     {
       "label": "Install: NPM Packages",
+      "detail": "Install root workspace NPM dependencies",
       "type": "shell",
       "command": "npm install",
       "options": {
@@ -17,6 +18,7 @@
     },
     {
       "label": "Restore: .NET Packages",
+      "detail": "Restore NuGet packages for solution",
       "type": "shell",
       "command": "dotnet restore",
       "options": {
@@ -29,10 +31,14 @@
       "presentation": {
         "reveal": "silent",
         "panel": "dedicated"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
       }
     },
     {
       "label": "Install: Ruby Packages",
+      "detail": "Install Ruby gems for docs site (Jekyll)",
       "type": "shell",
       "command": "bundle install --jobs 4 && bundle clean --force",
       "options": {
@@ -51,6 +57,7 @@
     },
     {
       "label": "Update: Ruby Packages",
+      "detail": "Update Ruby gems conservatively and clean",
       "type": "shell",
       "command": "bundle lock --add-platform x86_64-linux x64-mingw-ucrt && bundle update --conservative && bundle clean --force",
       "options": {
@@ -69,6 +76,7 @@
     },
     {
       "label": "Restore: All Dependencies",
+      "detail": "Restore both NPM and .NET packages in parallel",
       "dependsOn": [
         "Install: NPM Packages",
         "Restore: .NET Packages"
@@ -76,7 +84,26 @@
       "dependsOrder": "parallel"
     },
     {
+      "label": "Clean: .NET Solution",
+      "detail": "Clean build outputs (bin/obj) for solution",
+      "type": "shell",
+      "command": "dotnet clean -v minimal --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
       "label": "Clean: Cache Folders",
+      "detail": "Run NPM script clean (cache/temp)",
       "type": "npm",
       "script": "clean",
       "options": {
@@ -91,6 +118,7 @@
     },
     {
       "label": "Build: .NET Solution",
+      "detail": "Incremental build of solution (default)",
       "type": "shell",
       "command": "dotnet build -v minimal --nologo",
       "options": {
@@ -109,7 +137,26 @@
       }
     },
     {
+      "label": "Build: .NET Solution (No Incremental)",
+      "detail": "Full rebuild without incremental compilation",
+      "type": "shell",
+      "command": "dotnet build -v minimal --nologo --no-incremental",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
       "label": "Test: .NET Solution",
+      "detail": "Run all unit tests (no restore)",
       "type": "shell",
       "command": "dotnet test --no-restore --nologo",
       "options": {
@@ -129,6 +176,7 @@
     },
     {
       "label": "Test: Run Tests with Coverage",
+      "detail": "Run tests with coverage collection (npm script)",
       "type": "npm",
       "script": "test:coverage",
       "options": {
@@ -148,6 +196,7 @@
     },
     {
       "label": "Lint: .NET Code (format check)",
+      "detail": "Verify code formatting and style",
       "type": "shell",
       "command": "dotnet format --verify-no-changes --severity info --no-restore",
       "options": {
@@ -164,6 +213,7 @@
     },
     {
       "label": "Lint: Markdown Files",
+      "detail": "Run markdownlint over documentation",
       "type": "npm",
       "script": "lint:md",
       "options": {
@@ -197,6 +247,7 @@
     },
     {
       "label": "Fix: Run fixall (code & md)",
+      "detail": "Auto-fix code format and markdown issues",
       "type": "npm",
       "script": "fixall",
       "options": {
@@ -228,6 +279,7 @@
     },
     {
       "label": "Run: Doc Site with LiveReload",
+      "detail": "Serve Jekyll docs site with livereload",
       "type": "shell",
       "command": "bundle exec jekyll serve --livereload --open-url",
       "dependsOn": "Install: Ruby Packages",
@@ -244,6 +296,75 @@
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Docs: Serve",
+      "detail": "Alias: run docs site (background) with simple readiness matcher",
+      "type": "shell",
+      "command": "bundle exec jekyll serve --livereload",
+      "dependsOn": "Install: Ruby Packages",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/docs",
+        "env": {
+          "BUNDLE_GEMFILE": "${workspaceFolder}/docs/Gemfile",
+          "BUNDLE_PATH": "${workspaceFolder}/docs/vendor/bundle"
+        }
+      },
+      "problemMatcher": {
+        "owner": "jekyll",
+        "pattern": {
+          "regexp": ".*",
+          "file": 0,
+          "line": 0,
+          "column": 0,
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Configuration file:.*_config.yml.*",
+          "endsPattern": ".*Server running.*http://.*:.*"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      }
+    },
+    {
+      "label": "Verify: Code & Docs Lint",
+      "detail": "Run .NET format check and markdown lint sequentially",
+      "dependsOn": [
+        "Lint: .NET Code (format check)",
+        "Lint: Markdown Files"
+      ],
+      "dependsOrder": "sequence",
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Verify: Build & Test",
+      "detail": "Composite: Restore → Build → Test",
+      "dependsOn": [
+        "Restore: .NET Packages",
+        "Build: .NET Solution",
+        "Test: .NET Solution"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
       }
     }
   ]
