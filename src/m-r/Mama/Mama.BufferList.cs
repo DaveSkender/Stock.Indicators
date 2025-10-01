@@ -3,9 +3,36 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// MESA Adaptive Moving Average (MAMA) from incremental reusable values.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Exception to BufferUtilities Pattern:</b> MAMA does not use the standard
+/// <see cref="BufferUtilities"/> extension methods (Update/UpdateWithDequeue) due to
+/// the unique complexity of the MESA (Maximum Entropy Spectrum Analysis) algorithm.
+/// </para>
+/// <para>
+/// <b>Algorithmic Requirements:</b>
+/// <list type="bullet">
+/// <item>Maintains 11 parallel state arrays (pr, sm, dt, pd, q1, i1, q2, i2, re, im, ph)
+/// for different phases of the MESA calculation</item>
+/// <item>Requires indexed lookback access up to 6 periods (e.g., <c>sm[i - 6]</c>)
+/// for phase calculations</item>
+/// <item>Performs multi-stage phasor calculations with cross-referencing between arrays</item>
+/// </list>
+/// </para>
+/// <para>
+/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by BufferUtilities does not provide indexed access to historical values, which is
+/// essential for the MESA algorithm's phase and period calculations.
+/// </para>
+/// <para>
+/// This implementation uses <see cref="List{T}"/> arrays to maintain full calculation history,
+/// matching the StaticSeries and StreamHub implementations for mathematical consistency.
+/// </para>
+/// </remarks>
 public class MamaList : List<MamaResult>, IMama, IBufferList, IBufferReusable
 {
     // Internal state arrays matching StaticSeries implementation
+    // These arrays grow with each added value to support indexed lookback access
     private readonly List<double> pr = []; // price (HL2 when quote)
     private readonly List<double> sm = []; // smooth
     private readonly List<double> dt = []; // detrender
