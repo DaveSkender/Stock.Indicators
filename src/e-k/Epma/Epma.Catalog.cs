@@ -19,6 +19,15 @@ public static partial class Epma
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for EPMA.
-    // No BufferListing for EPMA.
+    // EPMA Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // EPMA Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
