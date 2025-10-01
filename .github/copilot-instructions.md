@@ -65,6 +65,23 @@ Every indicator requires comprehensive unit tests covering all code paths. Mathe
 
 All public methods must have complete XML documentation. Code examples must be provided for complex indicators. Documentation must include parameter constraints, return value descriptions, and usage patterns.
 
+## Scoped instruction files
+
+This repository uses scoped instruction files for specific development areas. These files contain detailed guidelines that apply to particular file patterns:
+
+| Pattern | File | Description |
+| ------- | ---- | ----------- |
+| `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [series-indicators.instructions.md](.github/instructions/series-indicators.instructions.md) | Series-style indicator development and testing guidelines |
+| `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [stream-indicators.instructions.md](.github/instructions/stream-indicators.instructions.md) | Stream indicator development guidelines |
+| `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [buffer-indicators.instructions.md](.github/instructions/buffer-indicators.instructions.md) | Buffer indicator development guidelines |
+| `**/src/**/*.Catalog.cs,**/tests/**/*.Catalog.Tests.cs` | [catalog.instructions.md](.github/instructions/catalog.instructions.md) | Catalog file conventions |
+| `src/**,tests/**` | [source-code-completion.instructions.md](.github/instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
+| `**/*.md` | [markdown.instructions.md](.github/instructions/markdown.instructions.md) | Markdown formatting rules |
+| `docs/**` | [documentation.instructions.md](.github/instructions/documentation.instructions.md) | Documentation website instructions |
+| `tests/performance/**` | [performance-testing.instructions.md](.github/instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
+
+These scoped files are automatically applied when working with files matching their patterns.
+
 ## Code review guidelines
 
 ### What to look for
