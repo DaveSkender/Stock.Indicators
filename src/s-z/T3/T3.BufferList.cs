@@ -85,8 +85,8 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
         // calculate T3 with coefficients
         double t3 = (C1 * ema6) + (C2 * ema5) + (C3 * ema4) + (C4 * ema3);
 
-        base.Add(new T3Result(
-            timestamp,
+        base.Add(new T3Result(timestamp, t3.NaN2Null())
+        {
             t3.NaN2Null()) {
             Ema1 = ema1,
             Ema2 = ema2,
@@ -94,6 +94,27 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
             Ema4 = ema4,
             Ema5 = ema5,
             Ema6 = ema6
+        });
+            Ema2 = ema2,
+            Ema3 = ema3,
+            Ema4 = ema4,
+            Ema5 = ema5,
+            Ema6 = ema6
+        });
+            Ema3 = ema3,
+            Ema4 = ema4,
+            Ema5 = ema5,
+            Ema6 = ema6
+        });
+            Ema4 = ema4,
+            Ema5 = ema5,
+            Ema6 = ema6
+        });
+            Ema5 = ema5,
+            Ema6 = ema6
+        });
+            Ema6 = ema6
+        });
         });
 
         // store state for next calculation
