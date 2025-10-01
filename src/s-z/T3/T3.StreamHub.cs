@@ -13,7 +13,6 @@ public static partial class T3
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <param name="volumeFactor">The volume factor for the calculation.</param>
     /// <returns>A T3 hub.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods or volume factor are invalid.</exception>
     public static T3Hub<T> ToT3<T>(
         this IChainProvider<T> chainProvider,

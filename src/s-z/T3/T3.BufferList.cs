@@ -87,7 +87,14 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
 
         base.Add(new T3Result(
             timestamp,
-            t3.NaN2Null()));
+            t3.NaN2Null()) {
+            Ema1 = ema1,
+            Ema2 = ema2,
+            Ema3 = ema3,
+            Ema4 = ema4,
+            Ema5 = ema5,
+            Ema6 = ema6
+        });
 
         // store state for next calculation
         _lastEma1 = ema1;
