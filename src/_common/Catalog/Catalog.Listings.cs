@@ -58,6 +58,7 @@ public static partial class Catalog
     private static void PopulateCatalog()
     {
         // ADL (Accumulation Distribution Line)
+        _listings.Add(Adl.BufferListing);
         _listings.Add(Adl.SeriesListing);
         _listings.Add(Adl.StreamListing);
 
@@ -71,12 +72,15 @@ public static partial class Catalog
         _listings.Add(Alligator.StreamListing);
 
         // ALMA (Arnaud Legoux Moving Average)
+        _listings.Add(Alma.BufferListing);
         _listings.Add(Alma.SeriesListing);
+        _listings.Add(Alma.StreamListing);
 
         // Aroon
         _listings.Add(Aroon.SeriesListing);
 
         // ATR (Average True Range)
+        _listings.Add(Atr.BufferListing);
         _listings.Add(Atr.SeriesListing);
         _listings.Add(Atr.StreamListing);
 
@@ -91,7 +95,9 @@ public static partial class Catalog
         _listings.Add(Beta.SeriesListing);
 
         // Bollinger Bands
+        _listings.Add(BollingerBands.BufferListing);
         _listings.Add(BollingerBands.SeriesListing);
+        _listings.Add(BollingerBands.StreamListing);
 
         // BOP (Balance of Power)
         _listings.Add(Bop.SeriesListing);
@@ -143,7 +149,9 @@ public static partial class Catalog
         _listings.Add(Ema.StreamListing);
 
         // EPMA (Endpoint Moving Average)
+        _listings.Add(Epma.BufferListing);
         _listings.Add(Epma.SeriesListing);
+        _listings.Add(Epma.StreamListing);
 
         // FCB (Fractal Chaos Bands)
         _listings.Add(Fcb.SeriesListing);
@@ -211,7 +219,9 @@ public static partial class Catalog
         _listings.Add(MgDynamic.SeriesListing);
 
         // OBV (On Balance Volume)
+        _listings.Add(Obv.BufferListing);
         _listings.Add(Obv.SeriesListing);
+        _listings.Add(Obv.StreamListing);
 
         // Parabolic SAR
         _listings.Add(ParabolicSar.SeriesListing);
@@ -284,7 +294,9 @@ public static partial class Catalog
         _listings.Add(StdDevChannels.SeriesListing);
 
         // Stochastic Oscillator
+        _listings.Add(Stoch.BufferListing);
         _listings.Add(Stoch.SeriesListing);
+        _listings.Add(Stoch.StreamListing);
 
         // Stochastic RSI
         _listings.Add(StochRsi.SeriesListing);
@@ -301,6 +313,7 @@ public static partial class Catalog
         _listings.Add(Tema.StreamListing);
 
         // TR (True Range)
+        _listings.Add(Tr.BufferListing);
         _listings.Add(Tr.SeriesListing);
         _listings.Add(Tr.StreamListing);
 
@@ -334,7 +347,9 @@ public static partial class Catalog
         _listings.Add(WilliamsR.SeriesListing);
 
         // WMA (Weighted Moving Average)
+        _listings.Add(Wma.BufferListing);
         _listings.Add(Wma.SeriesListing);
+        _listings.Add(Wma.StreamListing);
 
         // ZigZag
         _listings.Add(ZigZag.SeriesListing);

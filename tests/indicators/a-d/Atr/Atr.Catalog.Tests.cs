@@ -78,4 +78,41 @@ public class AtrTests : TestBase
         atrpResult2?.DisplayName.Should().Be("ATR %");
         atrpResult2.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void AtrBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Atr.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Average True Range (ATR)");
+        listing.Uiid.Should().Be("ATR");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.PriceCharacteristic);
+        listing.MethodName.Should().Be("ToAtr");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(3);
+
+        IndicatorResult trResult = listing.Results.SingleOrDefault(r => r.DataName == "Tr");
+        trResult.Should().NotBeNull();
+        trResult?.DisplayName.Should().Be("True Range");
+        trResult.IsReusable.Should().Be(false);
+        IndicatorResult atrResult1 = listing.Results.SingleOrDefault(r => r.DataName == "Atr");
+        atrResult1.Should().NotBeNull();
+        atrResult1?.DisplayName.Should().Be("ATR");
+        atrResult1.IsReusable.Should().Be(false);
+        IndicatorResult atrpResult2 = listing.Results.SingleOrDefault(r => r.DataName == "Atrp");
+        atrpResult2.Should().NotBeNull();
+        atrpResult2?.DisplayName.Should().Be("ATR %");
+        atrpResult2.IsReusable.Should().Be(true);
+    }
 }

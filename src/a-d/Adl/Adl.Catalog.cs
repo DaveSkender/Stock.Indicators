@@ -24,5 +24,9 @@ public static partial class Adl
             .WithStyle(Style.Stream)
             .Build();
 
-    // No BufferListing for ADL.
+    // ADL Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

@@ -34,4 +34,46 @@ public class WmaTests : TestBase
         wmaResult?.DisplayName.Should().Be("WMA");
         wmaResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void WmaStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Wma.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Weighted Moving Average");
+        listing.Uiid.Should().Be("WMA");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.MovingAverage);
+        listing.MethodName.Should().Be("ToWma");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+    }
+
+    [TestMethod]
+    public void WmaBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Wma.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Weighted Moving Average");
+        listing.Uiid.Should().Be("WMA");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.MovingAverage);
+        listing.MethodName.Should().Be("ToWma");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+    }
 }

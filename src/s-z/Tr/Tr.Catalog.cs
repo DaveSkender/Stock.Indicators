@@ -23,4 +23,10 @@ public static partial class Tr
         new CatalogListingBuilder(CommonListing)
             .WithStyle(Style.Stream)
             .Build();
+
+    // TR Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

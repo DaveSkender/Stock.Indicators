@@ -22,6 +22,15 @@ public static partial class Stoch
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Stochastic Oscillator.
-    // No BufferListing for Stochastic Oscillator.
+    // Stochastic Oscillator Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Stochastic Oscillator Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
