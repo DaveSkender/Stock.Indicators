@@ -33,11 +33,10 @@ jobs:
         uses: ruby/setup-ruby@v1.207.0
         with:
           ruby-version: 3.3
+          bundler-cache: true
 
       - name: Install dependencies
-        run: |
-          bundle install
-          gem install html-proofer
+        run: gem install html-proofer
 
       - name: Replace "data-src"
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
