@@ -328,7 +328,7 @@ Phase 1 streaming indicator implementation is now 100% complete with all 16 plan
   - 26 StreamHub indicator benchmarks in `Perf.Stream.cs`
   - Results published to GitHub Actions summary
   - Runs on performance code changes and can be triggered manually
-- ⚠️ Memory leak detection not explicitly implemented
+- ⚠️ Memory leak detection not explicitly implemented (see [#1458](https://github.com/DaveSkender/Stock.Indicators/issues/1458))
   - BenchmarkDotNet provides memory diagnostics but not leak detection
   - Recommended as future enhancement if issues arise
   - Current test coverage and performance monitoring sufficient for v3.0.0
