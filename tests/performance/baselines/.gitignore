@@ -1,0 +1,5 @@
+# Ignore all JSON baseline files (they can be large)
+*.json
+
+# But keep the README
+!README.md
