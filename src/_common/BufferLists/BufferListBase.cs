@@ -38,7 +38,7 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     public int Count => _internalList.Count;
 
     /// <inheritdoc/>
-    public bool IsReadOnly => false;
+    public bool IsReadOnly => true;
 
     /// <summary>
     /// Adds an item to the list using internal buffer logic.
