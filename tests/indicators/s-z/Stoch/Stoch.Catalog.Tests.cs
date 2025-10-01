@@ -42,4 +42,46 @@ public class StochTests : TestBase
         signalResult1?.DisplayName.Should().Be("%D");
         signalResult1.IsReusable.Should().Be(false);
     }
+
+    [TestMethod]
+    public void StochStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Stoch.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Stochastic Oscillator");
+        listing.Uiid.Should().Be("STOCH");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToStoch");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
+
+    [TestMethod]
+    public void StochBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Stoch.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Stochastic Oscillator");
+        listing.Uiid.Should().Be("STOCH");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToStoch");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(3);
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(2);
+    }
 }
