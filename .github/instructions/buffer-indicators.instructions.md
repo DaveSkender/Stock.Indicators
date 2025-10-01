@@ -42,6 +42,23 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
         _buffer = new Queue<double>(lookbackPeriods);
     }
 
+    /// <summary>
+    /// Initializes a new instance with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public {IndicatorName}List(
+        int lookbackPeriods,
+        IReadOnlyList<IQuote> quotes
+    )
+    {
+        {IndicatorName}.Validate(lookbackPeriods);
+        LookbackPeriods = lookbackPeriods;
+
+        _buffer = new Queue<double>(lookbackPeriods);
+        Add(quotes);
+    }
+
     public int LookbackPeriods { get; init; }
 
     /// <inheritdoc />
@@ -77,6 +94,19 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
     }
 }
 ```
+
+> **Constructor Pattern**:
+>
+> - **ALL buffer list implementations MUST provide two constructors**:
+>   1. Standard constructor with parameters only
+>   2. Constructor with parameters PLUS `IReadOnlyList<IQuote> quotes` as the LAST parameter
+> - For parameterless buffer lists (like AdlList, ObvList, TrList):
+>   - Provide both `ClassName()` and `ClassName(IReadOnlyList<IQuote> quotes)`
+> - For buffer lists with parameters:
+>   - Always add `IReadOnlyList<IQuote> quotes` as the LAST parameter
+>   - Example: `SmaList(int lookbackPeriods, IReadOnlyList<IQuote> quotes)`
+>   - Example: `AlmaList(int lookbackPeriods, double offset, double sigma, IReadOnlyList<IQuote> quotes)`
+> - The quotes constructor should initialize all state, then call `Add(quotes)`
 
 > **Interface Selection Guidelines**:
 >
@@ -185,16 +215,20 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        {IndicatorName}List sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        {IndicatorName}List sut = new(lookbackPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        {IndicatorName}List sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
 
@@ -214,6 +248,13 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
     }
 }
 ```
+
+> **Test Pattern Notes**:
+>
+> - The `FromQuote()` test validates single-quote Add usage (iterative adding)
+> - The `FromQuoteBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
+> - The new `FromQuotesCtor()` test validates the constructor with quotes parameter
+> - The `ClearResetsState()` test should use the quotes constructor since `FromQuote()` already covers single-quote add
 
 ### Performance benchmarking
 
