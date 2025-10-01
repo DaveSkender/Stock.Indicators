@@ -47,7 +47,7 @@ public class Tr : BufferListTestBase
         List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
 
         TrList sut = new(firstHalf);
-        
+
         foreach (Quote q in secondHalf)
         {
             sut.Add(q);

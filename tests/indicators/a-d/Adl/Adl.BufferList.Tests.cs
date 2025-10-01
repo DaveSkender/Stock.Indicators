@@ -47,7 +47,7 @@ public class Adl : BufferListTestBase
         List<Quote> secondHalf = Quotes.Skip(splitPoint).ToList();
 
         AdlList sut = new(firstHalf);
-        
+
         foreach (Quote q in secondHalf)
         {
             sut.Add(q);
