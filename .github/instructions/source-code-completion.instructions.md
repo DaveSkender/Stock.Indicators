@@ -53,7 +53,7 @@ These instructions apply to all files in the `src/` and `tests/` folders and cov
 - Run unit tests: `dotnet test "Stock.Indicators.sln" --no-restore --nologo`.
 - Collect coverage: `dotnet test "Stock.Indicators.sln" --no-restore --collect:"Code Coverage" --nologo`.
 - Add or update tests until coverage remains above the 98% project expectation.
-- Run performance tests when applicable: `cd tests/performance && dotnet run -c Release`.
+- Run performance tests when applicable: `cd tools/performance && dotnet run -c Release`.
 
 > **Verification**: Repeat the affected test runs until all pass and coverage reports show no regressions.
 
@@ -117,7 +117,7 @@ dotnet build "Stock.Indicators.sln" -v minimal --nologo
 dotnet test "Stock.Indicators.sln" --no-build --nologo
 ```
 
-- If benchmarks or docs packaging were affected, rerun `dotnet run -c Release` from `tests/performance` and `bundle exec jekyll build`.
+- If benchmarks or docs packaging were affected, rerun `dotnet run -c Release` from `tools/performance` and `bundle exec jekyll build`.
 
 ### Step 7 – Sign-off: Confirm completion
 
@@ -197,9 +197,9 @@ reportgenerator -reports:./coverage/*/*.xml -targetdir:./coverage/report -report
 #### Test organization requirements
 
 - **Unit tests**: Place in `tests/indicators/` following existing structure
-- **Performance tests**: Use `tests/performance/` for benchmark tests
+- **Performance tests**: Use `tools/performance/` for benchmark tests
 - **Integration tests**: Mark with `[TestCategory("Integration")]` attribute
-- **External tests**: Place API tests in `tests/external/` folders
+- **External tests**: Place API tests in `tests/integration/` and `tests/public-api/` folders
 
 #### Test patterns and standards
 
@@ -223,7 +223,7 @@ public class MyIndicatorTests : TestBase
 
 ```bash
 # run all performance benchmarks (~15-20 minutes)
-cd tests/performance
+cd tools/performance
 dotnet run -c Release
 
 # run specific benchmark
