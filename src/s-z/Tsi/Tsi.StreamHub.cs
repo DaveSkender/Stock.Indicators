@@ -114,7 +114,7 @@ public class TsiHub<TIn>
         // Calculate first smoothing (cs1, as1) - EMA of price change
         double cs1 = double.NaN;
         double as1 = double.NaN;
-        
+
         if (i >= LookbackPeriods)
         {
             if (i > 0 && Cache[i - 1].Tsi is not null)
@@ -135,7 +135,7 @@ public class TsiHub<TIn>
         // Calculate second smoothing (cs2, as2) - EMA of first smoothed values
         double cs2 = double.NaN;
         double as2 = double.NaN;
-        
+
         if (!double.IsNaN(cs1) && !double.IsNaN(as1) && i >= LookbackPeriods + SmoothPeriods - 1)
         {
             if (i > LookbackPeriods && Cache[i - 1].Tsi is not null)

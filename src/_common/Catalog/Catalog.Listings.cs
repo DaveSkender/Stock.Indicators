@@ -323,7 +323,9 @@ public static partial class Catalog
         _listings.Add(Trix.SeriesListing);
 
         // TSI (True Strength Index)
+        _listings.Add(Tsi.BufferListing);
         _listings.Add(Tsi.SeriesListing);
+        _listings.Add(Tsi.StreamListing);
 
         // Ulcer Index
         _listings.Add(UlcerIndex.SeriesListing);

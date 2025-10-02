@@ -35,14 +35,14 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
     private readonly Queue<double> _smoothBufferC;    // first smooth change buffer
     private readonly Queue<double> _smoothBufferA;    // first smooth abs change buffer
     private readonly Queue<double> _signalBuffer;     // signal line buffer
-    
+
     private double _lookbackBufferSumC;
     private double _lookbackBufferSumA;
     private double _smoothBufferSumC;
     private double _smoothBufferSumA;
     private double _signalBufferSum;
     private int _tsiCount;  // Count of TSI values calculated
-    
+
     private double? _lastPriceChange;
     private double? _lastCs1;
     private double? _lastAs1;
@@ -142,7 +142,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         // Update lookback buffers using BufferUtilities
         double? dequeuedC = _lookbackBufferC.UpdateWithDequeue(LookbackPeriods, priceChange);
         double? dequeuedA = _lookbackBufferA.UpdateWithDequeue(LookbackPeriods, absChange);
-        
+
         if (dequeuedC.HasValue)
         {
             _lookbackBufferSumC = _lookbackBufferSumC - dequeuedC.Value + priceChange;
@@ -157,7 +157,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         // Calculate first smoothing (cs1, as1)
         double? cs1 = null;
         double? as1 = null;
-        
+
         if (Count >= LookbackPeriods)
         {
             if (_lastCs1 is null)
@@ -172,7 +172,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
                 cs1 = ((priceChange - _lastCs1.Value) * Mult1) + _lastCs1.Value;
                 as1 = ((absChange - _lastAs1!.Value) * Mult1) + _lastAs1.Value;
             }
-            
+
             _lastCs1 = cs1;
             _lastAs1 = as1;
         }
@@ -180,13 +180,13 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         // Calculate second smoothing (cs2, as2)
         double? cs2 = null;
         double? as2 = null;
-        
+
         if (cs1.HasValue && as1.HasValue)
         {
             // Update smooth buffers
             double? dequeuedCs = _smoothBufferC.UpdateWithDequeue(SmoothPeriods, cs1.Value);
             double? dequeuedAs = _smoothBufferA.UpdateWithDequeue(SmoothPeriods, as1.Value);
-            
+
             if (dequeuedCs.HasValue)
             {
                 _smoothBufferSumC = _smoothBufferSumC - dequeuedCs.Value + cs1.Value;
@@ -212,7 +212,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
                     cs2 = ((cs1.Value - _lastCs2.Value) * Mult2) + _lastCs2.Value;
                     as2 = ((as1.Value - _lastAs2!.Value) * Mult2) + _lastAs2.Value;
                 }
-                
+
                 _lastCs2 = cs2;
                 _lastAs2 = as2;
             }
@@ -234,7 +234,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
             {
                 // Update signal buffer
                 double? dequeuedSignal = _signalBuffer.UpdateWithDequeue(SignalPeriods, tsi.Value);
-                
+
                 if (dequeuedSignal.HasValue)
                 {
                     _signalBufferSum = _signalBufferSum - dequeuedSignal.Value + tsi.Value;
@@ -256,7 +256,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
                     // Normal EMA calculation
                     signal = ((tsi.Value - _lastSignal.Value) * MultS) + _lastSignal.Value;
                 }
-                
+
                 if (signal.HasValue)
                 {
                     _lastSignal = signal;
