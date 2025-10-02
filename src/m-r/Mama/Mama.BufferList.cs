@@ -25,8 +25,10 @@ namespace Skender.Stock.Indicators;
 /// essential for the MESA algorithm's phase and period calculations.
 /// </para>
 /// <para>
-/// This implementation uses <see cref="List{T}"/> arrays to maintain full calculation history,
-/// matching the StaticSeries and StreamHub implementations for mathematical consistency.
+/// <b>Memory Management:</b> This implementation uses <see cref="List{T}"/> arrays to maintain
+/// calculation state with periodic pruning to prevent unbounded growth. The <see cref="MaxSize"/>
+/// property (default 5000) controls when pruning occurs, keeping only the minimum required 
+/// 7 periods for calculations while removing older data.
 /// </para>
 /// </remarks>
 public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
@@ -48,6 +50,10 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
     private double prevMama = double.NaN;
     private double prevFama = double.NaN;
 
+    private const int MinBufferSize = 7; // Minimum required for 6-period lookback
+    private const int DefaultMaxSize = 5000; // Default max size before pruning
+    private int _itemsSinceLastPrune;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class.
     /// </summary>
@@ -61,6 +67,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
         FastLimit = fastLimit;
         SlowLimit = slowLimit;
+        MaxSize = DefaultMaxSize;
     }
 
     /// <summary>
@@ -81,6 +88,13 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
     /// <inheritdoc />
     public double SlowLimit { get; init; }
+
+    /// <summary>
+    /// Gets or sets the maximum size of the internal state arrays before pruning occurs.
+    /// When the arrays exceed this size, older data is removed while preserving the minimum
+    /// required 7 periods for calculations. Default is 5000.
+    /// </summary>
+    public int MaxSize { get; init; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -170,6 +184,46 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         prevFama = fama;
 
         AddInternal(new MamaResult(timestamp, mama.NaN2Null(), fama.NaN2Null()));
+
+        // Periodically prune state arrays to prevent unbounded growth
+        // Check every 100 additions to avoid overhead on every call
+        _itemsSinceLastPrune++;
+        if (_itemsSinceLastPrune >= 100)
+        {
+            _itemsSinceLastPrune = 0;
+            PruneStateArrays();
+        }
+    }
+
+    /// <summary>
+    /// Prunes the internal state arrays to prevent unbounded memory growth.
+    /// Removes older data while preserving the minimum required periods for calculations.
+    /// </summary>
+    private void PruneStateArrays()
+    {
+        if (pr.Count <= MaxSize)
+        {
+            return;
+        }
+
+        // Calculate how many items to remove
+        // Keep at least MinBufferSize (7) elements for lookback calculations
+        int removeCount = pr.Count - MinBufferSize;
+
+        if (removeCount > 0)
+        {
+            pr.RemoveRange(0, removeCount);
+            sm.RemoveRange(0, removeCount);
+            dt.RemoveRange(0, removeCount);
+            pd.RemoveRange(0, removeCount);
+            q1.RemoveRange(0, removeCount);
+            i1.RemoveRange(0, removeCount);
+            q2.RemoveRange(0, removeCount);
+            i2.RemoveRange(0, removeCount);
+            re.RemoveRange(0, removeCount);
+            im.RemoveRange(0, removeCount);
+            ph.RemoveRange(0, removeCount);
+        }
     }
 
     /// <inheritdoc />
@@ -234,6 +288,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         ph.Clear();
         prevMama = double.NaN;
         prevFama = double.NaN;
+        _itemsSinceLastPrune = 0;
     }
 }
 
