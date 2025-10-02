@@ -34,8 +34,9 @@ public static partial class StdDevChannels
     public static IReadOnlyList<StdDevChannelsResult> RemoveWarmupPeriods(
         this IReadOnlyList<StdDevChannelsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);

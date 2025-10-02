@@ -13,8 +13,9 @@ public static partial class Kama
     public static IReadOnlyList<KamaResult> RemoveWarmupPeriods(
         this IReadOnlyList<KamaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int erPeriods = results
-            .ToList()
             .FindIndex(x => x.Er != null);
 
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));
