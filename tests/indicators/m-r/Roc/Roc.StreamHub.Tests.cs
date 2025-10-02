@@ -159,4 +159,57 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         observer.Unsubscribe();
         provider.EndTransmission();
     }
+
+    [TestMethod]
+    public void ToRocStreamHubFromQuotes()
+    {
+        // Test basic usage
+        RocHub<Quote> hub = Quotes.ToRocStreamHub(20);
+        IReadOnlyList<RocResult> streamResults = hub.Results;
+
+        // Compare with series results
+        IReadOnlyList<RocResult> seriesResults = Quotes.ToRoc(20);
+
+        // Assert
+        streamResults.Should().HaveCount(Quotes.Count);
+        streamResults.Should().BeEquivalentTo(seriesResults);
+
+        hub.Unsubscribe();
+    }
+
+    [TestMethod]
+    public void ToRocStreamHubDefaultLookback()
+    {
+        // Test with default lookback period
+        RocHub<Quote> hub = Quotes.ToRocStreamHub();
+        IReadOnlyList<RocResult> streamResults = hub.Results;
+
+        // Compare with series results using default
+        IReadOnlyList<RocResult> seriesResults = Quotes.ToRoc(14);
+
+        // Assert
+        streamResults.Should().HaveCount(Quotes.Count);
+        streamResults.Should().BeEquivalentTo(seriesResults);
+
+        hub.Unsubscribe();
+    }
+
+    [TestMethod]
+    public void ToRocStreamHubNullQuotes()
+    {
+        // Test null quotes throws ArgumentNullException
+        IReadOnlyList<Quote> nullQuotes = null;
+        Action act = () => nullQuotes.ToRocStreamHub();
+        act.Should().Throw<ArgumentNullException>();
+    }
+
+    [TestMethod]
+    public void ToRocStreamHubEmptyQuotes()
+    {
+        // Test empty quotes throws ArgumentException
+        IReadOnlyList<Quote> emptyQuotes = new List<Quote>();
+        Action act = () => emptyQuotes.ToRocStreamHub();
+        act.Should().Throw<ArgumentException>()
+            .WithMessage("Quotes list cannot be empty.*");
+    }
 }

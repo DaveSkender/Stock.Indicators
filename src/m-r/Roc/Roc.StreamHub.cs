@@ -19,6 +19,44 @@ public static partial class Roc
         int lookbackPeriods)
         where T : IReusable
         => new(chainProvider, lookbackPeriods);
+
+    /// <summary>
+    /// Creates a ROC hub from a list of quotes.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of quote.</typeparam>
+    /// <param name="quotes">The list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
+    /// <returns>A ROC hub.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when quotes is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when quotes is empty.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
+    public static RocHub<TQuote> ToRocStreamHub<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote
+    {
+        // Validate inputs
+        ArgumentNullException.ThrowIfNull(quotes);
+
+        if (quotes.Count == 0)
+        {
+            throw new ArgumentException("Quotes list cannot be empty.", nameof(quotes));
+        }
+
+        // Create a QuoteHub provider from the quotes
+        QuoteHub<TQuote> provider = new();
+
+        // Instantiate the RocHub with the provider
+        RocHub<TQuote> hub = provider.ToRoc(lookbackPeriods);
+
+        // Seed the hub by adding each quote
+        foreach (TQuote quote in quotes)
+        {
+            provider.Add(quote);
+        }
+
+        return hub;
+    }
 }
 
 /// <summary>
