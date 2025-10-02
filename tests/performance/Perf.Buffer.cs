@@ -67,6 +67,10 @@ public class BufferIndicators
         => new(n) { quotes };
 
     [Benchmark]
+    public RocList RocBuffer()
+        => new(20) { quotes };
+
+    [Benchmark]
     public SmaList SmaBuffer()
         => new(n) { quotes };
 
