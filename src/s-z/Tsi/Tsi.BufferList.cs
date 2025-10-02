@@ -41,6 +41,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
     private double _smoothBufferSumC;
     private double _smoothBufferSumA;
     private double _signalBufferSum;
+    private int _tsiCount;  // Count of TSI values calculated
     
     private double? _lastPriceChange;
     private double? _lastCs1;
@@ -80,6 +81,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         _smoothBufferSumC = 0;
         _smoothBufferSumA = 0;
         _signalBufferSum = 0;
+        _tsiCount = 0;
     }
 
     /// <summary>
@@ -221,42 +223,48 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         if (cs2.HasValue && as2.HasValue && as2.Value != 0)
         {
             tsi = 100d * (cs2.Value / as2.Value);
+            _tsiCount++;
         }
 
         // Calculate Signal line
         double? signal = null;
-        if (tsi.HasValue && SignalPeriods > 0)
+        if (tsi.HasValue)
         {
-            // Update signal buffer
-            double? dequeuedSignal = _signalBuffer.UpdateWithDequeue(SignalPeriods, tsi.Value);
-            
-            if (dequeuedSignal.HasValue)
+            if (SignalPeriods > 1)
             {
-                _signalBufferSum = _signalBufferSum - dequeuedSignal.Value + tsi.Value;
-            }
-            else
-            {
-                _signalBufferSum += tsi.Value;
-            }
-
-            if (_signalBuffer.Count >= SignalPeriods)
-            {
-                if (SignalPeriods == 1)
+                // Update signal buffer
+                double? dequeuedSignal = _signalBuffer.UpdateWithDequeue(SignalPeriods, tsi.Value);
+                
+                if (dequeuedSignal.HasValue)
                 {
-                    signal = tsi.Value;
+                    _signalBufferSum = _signalBufferSum - dequeuedSignal.Value + tsi.Value;
                 }
-                else if (_lastSignal is null)
+                else
+                {
+                    _signalBufferSum += tsi.Value;
+                }
+
+                // Initialize signal when we have signalPeriods or more TSI values
+                if (_lastSignal is null && _tsiCount >= SignalPeriods)
                 {
                     // Initialize as SMA
                     signal = _signalBufferSum / SignalPeriods;
                 }
-                else
+                // Continue with EMA after initialization
+                else if (_lastSignal is not null)
                 {
                     // Normal EMA calculation
                     signal = ((tsi.Value - _lastSignal.Value) * MultS) + _lastSignal.Value;
                 }
                 
-                _lastSignal = signal;
+                if (signal.HasValue)
+                {
+                    _lastSignal = signal;
+                }
+            }
+            else if (SignalPeriods == 1)
+            {
+                signal = tsi.Value;
             }
         }
 
@@ -319,6 +327,7 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         _smoothBufferSumC = 0;
         _smoothBufferSumA = 0;
         _signalBufferSum = 0;
+        _tsiCount = 0;
         _lastPriceChange = null;
         _lastCs1 = null;
         _lastAs1 = null;
