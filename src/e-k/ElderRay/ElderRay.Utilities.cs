@@ -12,6 +12,8 @@ public static partial class ElderRay
     public static IReadOnlyList<ElderRayResult> RemoveWarmupPeriods(
         this IReadOnlyList<ElderRayResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
           .FindIndex(x => x.BullPower != null) + 1;
 

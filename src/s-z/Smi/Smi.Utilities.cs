@@ -13,6 +13,8 @@ public static partial class Smi
     public static IReadOnlyList<SmiResult> RemoveWarmupPeriods(
         this IReadOnlyList<SmiResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.Smi != null);
 

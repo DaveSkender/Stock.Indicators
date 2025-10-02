@@ -13,6 +13,8 @@ public static partial class ChaikinOsc
     public static IReadOnlyList<ChaikinOscResult> RemoveWarmupPeriods(
         this IReadOnlyList<ChaikinOscResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int s = results
             .FindIndex(x => x.Oscillator != null) + 1;
 

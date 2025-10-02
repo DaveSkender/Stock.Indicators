@@ -13,6 +13,8 @@ public static partial class VolatilityStop
     public static IReadOnlyList<VolatilityStopResult> RemoveWarmupPeriods(
         this IReadOnlyList<VolatilityStopResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.Sar != null);
 

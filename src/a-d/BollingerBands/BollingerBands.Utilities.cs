@@ -7,6 +7,8 @@ public static partial class BollingerBands
     public static IReadOnlyList<BollingerBandsResult> RemoveWarmupPeriods(
         this IReadOnlyList<BollingerBandsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.Width != null);
 

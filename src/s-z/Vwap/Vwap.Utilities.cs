@@ -13,6 +13,8 @@ public static partial class Vwap
     public static IReadOnlyList<VwapResult> RemoveWarmupPeriods(
         this IReadOnlyList<VwapResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.Vwap != null);
 

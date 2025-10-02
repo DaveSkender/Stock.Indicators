@@ -13,6 +13,8 @@ public static partial class Stoch
     public static IReadOnlyList<StochResult> RemoveWarmupPeriods(
         this IReadOnlyList<StochResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.Oscillator != null);
 

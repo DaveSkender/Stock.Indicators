@@ -31,6 +31,8 @@ public static partial class StarcBands
     public static IReadOnlyList<StarcBandsResult> RemoveWarmupPeriods(
         this IReadOnlyList<StarcBandsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
             .FindIndex(x => x.UpperBand != null || x.LowerBand != null) + 1;
 

@@ -29,6 +29,8 @@ public static partial class Donchian
     public static IReadOnlyList<DonchianResult> RemoveWarmupPeriods(
         this IReadOnlyList<DonchianResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
           .FindIndex(x => x.Width != null);
 

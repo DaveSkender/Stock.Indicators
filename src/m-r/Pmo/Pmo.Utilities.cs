@@ -12,6 +12,8 @@ public static partial class Pmo
     public static IReadOnlyList<PmoResult> RemoveWarmupPeriods(
         this IReadOnlyList<PmoResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int ts = results
             .FindIndex(x => x.Pmo != null) + 1;
 

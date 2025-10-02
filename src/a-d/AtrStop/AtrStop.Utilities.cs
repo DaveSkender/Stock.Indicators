@@ -29,6 +29,8 @@ public static partial class AtrStop
     public static IReadOnlyList<AtrStopResult> RemoveWarmupPeriods(
         this IReadOnlyList<AtrStopResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.AtrStop != null);
 

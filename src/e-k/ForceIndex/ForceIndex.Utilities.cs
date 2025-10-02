@@ -12,6 +12,8 @@ public static partial class ForceIndex
     public static IReadOnlyList<ForceIndexResult> RemoveWarmupPeriods(
         this IReadOnlyList<ForceIndexResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
             .FindIndex(x => x.ForceIndex != null);
 

@@ -13,6 +13,8 @@ public static partial class Tsi
     public static IReadOnlyList<TsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<TsiResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int nm = results
             .FindIndex(x => x.Tsi != null) + 1;
 

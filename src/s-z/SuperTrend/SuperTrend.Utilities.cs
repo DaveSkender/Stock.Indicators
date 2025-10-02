@@ -31,6 +31,8 @@ public static partial class SuperTrend
     public static IReadOnlyList<SuperTrendResult> RemoveWarmupPeriods(
         this IReadOnlyList<SuperTrendResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.SuperTrend != null);
 

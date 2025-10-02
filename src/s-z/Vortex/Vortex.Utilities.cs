@@ -31,6 +31,8 @@ public static partial class Vortex
     public static IReadOnlyList<VortexResult> RemoveWarmupPeriods(
         this IReadOnlyList<VortexResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.Pvi != null || x.Nvi != null);
 

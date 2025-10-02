@@ -12,6 +12,8 @@ public static partial class RollingPivots
     public static IReadOnlyList<RollingPivotsResult> RemoveWarmupPeriods(
         this IReadOnlyList<RollingPivotsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .FindIndex(x => x.PP != null);
 

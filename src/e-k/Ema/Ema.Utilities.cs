@@ -55,6 +55,8 @@ public static partial class Ema
     public static IReadOnlyList<EmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<EmaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
           .FindIndex(x => x.Ema != null) + 1;
 

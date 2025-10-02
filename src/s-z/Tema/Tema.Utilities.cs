@@ -13,6 +13,8 @@ public static partial class Tema
     public static IReadOnlyList<TemaResult> RemoveWarmupPeriods(
         this IReadOnlyList<TemaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
           .FindIndex(x => x.Tema != null) + 1;
 

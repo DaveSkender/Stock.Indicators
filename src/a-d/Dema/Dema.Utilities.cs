@@ -31,6 +31,8 @@ public static partial class Dema
     public static IReadOnlyList<DemaResult> RemoveWarmupPeriods(
         this IReadOnlyList<DemaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
           .FindIndex(x => x.Dema != null) + 1;
 
