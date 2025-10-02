@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Arnaud Legoux Moving Average (ALMA) from incremental reusable values.
 /// </summary>
-public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
+public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
 {
     private readonly Queue<double> _buffer;
     private readonly double[] _weight;
@@ -99,7 +99,7 @@ public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
             alma = weightedSum / _norm;
         }
 
-        base.Add(new AlmaResult(timestamp, alma));
+        AddInternal(new AlmaResult(timestamp, alma));
     }
 
     /// <inheritdoc />
@@ -139,9 +139,9 @@ public class AlmaList : List<AlmaResult>, IAlma, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
     }
 }

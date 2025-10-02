@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Average True Range (ATR) from incremental quotes.
 /// </summary>
-public class AtrList : List<AtrResult>, IAtr, IBufferList
+public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
 {
     private readonly int _lookbackPeriods;
     private double _previousClose;
@@ -53,7 +53,7 @@ public class AtrList : List<AtrResult>, IAtr, IBufferList
             _previousClose = close;
             _isInitialized = true;
 
-            base.Add(new AtrResult(timestamp, null, null, null));
+            AddInternal(new AtrResult(timestamp, null, null, null));
             return;
         }
 
@@ -92,7 +92,7 @@ public class AtrList : List<AtrResult>, IAtr, IBufferList
             atr.NaN2Null(),
             atrp);
 
-        base.Add(result);
+        AddInternal(result);
         _previousClose = close;
     }
 
@@ -108,9 +108,9 @@ public class AtrList : List<AtrResult>, IAtr, IBufferList
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _previousClose = 0;
         _previousAtr = null;
         _sumTr = 0;

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Smoothed Moving Average (SMMA) from incremental reusable values.
 /// </summary>
-public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
+public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
 {
     private double? _previousSmma;
     private readonly Queue<double> _buffer;
@@ -61,7 +61,7 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new SmmaResult(timestamp));
+            AddInternal(new SmmaResult(timestamp));
             return;
         }
 
@@ -73,7 +73,7 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
         // when no prior SMMA, reset as SMA
 
         SmmaResult result = new(timestamp, smma.NaN2Null());
-        base.Add(result);
+        AddInternal(result);
         _previousSmma = smma;
     }
 
@@ -114,9 +114,9 @@ public class SmmaList : List<SmmaResult>, ISmma, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
         _previousSmma = null;

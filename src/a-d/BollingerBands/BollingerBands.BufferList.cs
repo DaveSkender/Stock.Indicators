@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Bollinger Bands from incremental reusable values.
 /// </summary>
-public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, IBufferList, IBufferReusable
+public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusable, IBollingerBands
 {
     private readonly Queue<double> buffer;
 
@@ -76,7 +76,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
             double? zScore = stdDev == 0 ? null : (value - sma) / stdDev;
             double? width = sma == 0 ? null : (upperBand - lowerBand) / sma;
 
-            base.Add(new BollingerBandsResult(
+            AddInternal(new BollingerBandsResult(
                 Timestamp: timestamp,
                 Sma: sma,
                 UpperBand: upperBand,
@@ -89,7 +89,7 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
         else
         {
             // Initialization period - return null values
-            base.Add(new BollingerBandsResult(timestamp));
+            AddInternal(new BollingerBandsResult(timestamp));
         }
     }
 
@@ -148,9 +148,9 @@ public class BollingerBandsList : List<BollingerBandsResult>, IBollingerBands, I
     /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         buffer.Clear();
     }
 }
