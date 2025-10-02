@@ -30,7 +30,6 @@ public static partial class Fcb
         this IReadOnlyList<FcbResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.UpperBand != null || x.LowerBand != null);
 
         return results.Remove(removePeriods);

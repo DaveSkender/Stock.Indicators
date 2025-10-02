@@ -32,7 +32,6 @@ public static partial class Keltner
         this IReadOnlyList<KeltnerResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Width != null) + 1;
 
         return results.Remove(Math.Max(2 * n, n + 100));

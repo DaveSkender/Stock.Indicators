@@ -13,7 +13,6 @@ public static partial class ElderRay
         this IReadOnlyList<ElderRayResult> results)
     {
         int n = results
-          .ToList()
           .FindIndex(x => x.BullPower != null) + 1;
 
         return results.Remove(n + 100);

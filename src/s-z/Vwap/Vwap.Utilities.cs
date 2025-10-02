@@ -14,7 +14,6 @@ public static partial class Vwap
         this IReadOnlyList<VwapResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Vwap != null);
 
         return results.Remove(removePeriods);

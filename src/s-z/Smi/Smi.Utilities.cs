@@ -14,7 +14,6 @@ public static partial class Smi
         this IReadOnlyList<SmiResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Smi != null);
 
         return results.Remove(removePeriods + 2 + 100);

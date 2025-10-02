@@ -14,7 +14,6 @@ public static partial class Trix
         this IReadOnlyList<TrixResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Trix != null);
 
         return results.Remove((3 * n) + 100);

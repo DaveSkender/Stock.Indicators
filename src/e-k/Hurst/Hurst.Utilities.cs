@@ -13,7 +13,6 @@ public static partial class Hurst
         this IReadOnlyList<HurstResult> results)
     {
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.HurstExponent != null);
 
         return results.Remove(removePeriods);

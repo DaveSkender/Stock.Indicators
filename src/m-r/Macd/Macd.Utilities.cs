@@ -14,7 +14,6 @@ public static partial class Macd
         this IReadOnlyList<MacdResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Signal != null) + 2;
 
         return results.Remove(n + 250);

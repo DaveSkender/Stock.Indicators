@@ -14,7 +14,6 @@ public static partial class Smma
         this IReadOnlyList<SmmaResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Smma != null) + 1;
 
         return results.Remove(n + 100);

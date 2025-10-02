@@ -32,7 +32,6 @@ public static partial class Dema
         this IReadOnlyList<DemaResult> results)
     {
         int n = results
-          .ToList()
           .FindIndex(x => x.Dema != null) + 1;
 
         return results.Remove((2 * n) + 100);

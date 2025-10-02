@@ -14,7 +14,6 @@ public static partial class ChaikinOsc
         this IReadOnlyList<ChaikinOscResult> results)
     {
         int s = results
-            .ToList()
             .FindIndex(x => x.Oscillator != null) + 1;
 
         return results.Remove(s + 100);

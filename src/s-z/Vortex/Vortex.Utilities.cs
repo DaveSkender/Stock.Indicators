@@ -32,7 +32,6 @@ public static partial class Vortex
         this IReadOnlyList<VortexResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Pvi != null || x.Nvi != null);
 
         return results.Remove(removePeriods);

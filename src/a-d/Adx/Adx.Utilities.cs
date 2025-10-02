@@ -14,7 +14,6 @@ public static partial class Adx
         this IReadOnlyList<AdxResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Pdi != null);
 
         return results.Remove((2 * n) + 100);

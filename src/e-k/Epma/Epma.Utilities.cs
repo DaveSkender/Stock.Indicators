@@ -13,7 +13,6 @@ public static partial class Epma
         this IReadOnlyList<EpmaResult> results)
     {
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.Epma != null);
 
         return results.Remove(removePeriods);

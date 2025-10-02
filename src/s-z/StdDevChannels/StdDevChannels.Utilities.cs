@@ -35,7 +35,6 @@ public static partial class StdDevChannels
         this IReadOnlyList<StdDevChannelsResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.UpperChannel != null || x.LowerChannel != null);
 
         return results.Remove(removePeriods);

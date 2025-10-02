@@ -14,7 +14,6 @@ public static partial class StochRsi
         this IReadOnlyList<StochRsiResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.StochRsi != null) + 2;
 
         return results.Remove(n + 100);

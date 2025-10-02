@@ -32,7 +32,6 @@ public static partial class Alligator
         this IReadOnlyList<AlligatorResult> results)
     {
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.Jaw != null) + 251;
 
         return results.Remove(removePeriods);

@@ -13,7 +13,6 @@ public static partial class RollingPivots
         this IReadOnlyList<RollingPivotsResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.PP != null);
 
         return results.Remove(removePeriods);

@@ -13,7 +13,6 @@ public static partial class Pmo
         this IReadOnlyList<PmoResult> results)
     {
         int ts = results
-            .ToList()
             .FindIndex(x => x.Pmo != null) + 1;
 
         return results.Remove(ts + 250);

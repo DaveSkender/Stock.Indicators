@@ -13,7 +13,6 @@ public static partial class Rsi
         this IReadOnlyList<RsiResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Rsi != null);
 
         return results.Remove(10 * n);

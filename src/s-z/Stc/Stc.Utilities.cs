@@ -14,7 +14,6 @@ public static partial class Stc
         this IReadOnlyList<StcResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Stc != null);
 
         return results.Remove(n + 250);

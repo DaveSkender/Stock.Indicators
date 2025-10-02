@@ -13,7 +13,6 @@ public static partial class Kvo
         this IReadOnlyList<KvoResult> results)
     {
         int l = results
-            .ToList()
             .FindIndex(x => x.Oscillator != null) - 1;
 
         return results.Remove(l + 150);

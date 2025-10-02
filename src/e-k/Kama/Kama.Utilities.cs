@@ -14,7 +14,6 @@ public static partial class Kama
         this IReadOnlyList<KamaResult> results)
     {
         int erPeriods = results
-            .ToList()
             .FindIndex(x => x.Er != null);
 
         return results.Remove(Math.Max(erPeriods + 100, 10 * erPeriods));

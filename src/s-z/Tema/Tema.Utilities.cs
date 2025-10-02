@@ -14,7 +14,6 @@ public static partial class Tema
         this IReadOnlyList<TemaResult> results)
     {
         int n = results
-          .ToList()
           .FindIndex(x => x.Tema != null) + 1;
 
         return results.Remove((3 * n) + 100);

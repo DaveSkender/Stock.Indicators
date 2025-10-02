@@ -13,7 +13,6 @@ public static partial class ForceIndex
         this IReadOnlyList<ForceIndexResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.ForceIndex != null);
 
         return results.Remove(n + 100);

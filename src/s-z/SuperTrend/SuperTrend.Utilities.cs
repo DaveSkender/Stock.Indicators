@@ -32,7 +32,6 @@ public static partial class SuperTrend
         this IReadOnlyList<SuperTrendResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.SuperTrend != null);
 
         return results.Remove(removePeriods);

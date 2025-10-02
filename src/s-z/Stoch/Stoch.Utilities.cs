@@ -14,7 +14,6 @@ public static partial class Stoch
         this IReadOnlyList<StochResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Oscillator != null);
 
         return results.Remove(removePeriods);

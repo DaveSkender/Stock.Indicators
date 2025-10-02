@@ -30,7 +30,6 @@ public static partial class Donchian
         this IReadOnlyList<DonchianResult> results)
     {
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.Width != null);
 
         return results.Remove(removePeriods);

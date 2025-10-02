@@ -32,7 +32,6 @@ public static partial class StarcBands
         this IReadOnlyList<StarcBandsResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.UpperBand != null || x.LowerBand != null) + 1;
 
         return results.Remove(n + 150);

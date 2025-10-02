@@ -14,7 +14,6 @@ public static partial class VolatilityStop
         this IReadOnlyList<VolatilityStopResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Sar != null);
 
         removePeriods = Math.Max(100, removePeriods);

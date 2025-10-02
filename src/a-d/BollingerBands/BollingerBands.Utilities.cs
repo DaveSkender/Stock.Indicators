@@ -8,7 +8,6 @@ public static partial class BollingerBands
         this IReadOnlyList<BollingerBandsResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Width != null);
 
         return results.Remove(removePeriods);

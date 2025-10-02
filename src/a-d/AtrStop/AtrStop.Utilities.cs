@@ -30,7 +30,6 @@ public static partial class AtrStop
         this IReadOnlyList<AtrStopResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.AtrStop != null);
 
         return results.Remove(removePeriods);

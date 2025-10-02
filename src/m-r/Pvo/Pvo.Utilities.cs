@@ -13,7 +13,6 @@ public static partial class Pvo
         this IReadOnlyList<PvoResult> results)
     {
         int n = results
-            .ToList()
             .FindIndex(x => x.Signal != null) + 2;
 
         return results.Remove(n + 250);

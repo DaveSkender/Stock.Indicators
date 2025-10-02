@@ -56,7 +56,6 @@ public static partial class Ema
         this IReadOnlyList<EmaResult> results)
     {
         int n = results
-          .ToList()
           .FindIndex(x => x.Ema != null) + 1;
 
         return results.Remove(n + 100);

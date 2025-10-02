@@ -13,7 +13,6 @@ public static partial class Mfi
         this IReadOnlyList<MfiResult> results)
     {
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Mfi != null);
 
         return results.Remove(removePeriods);
