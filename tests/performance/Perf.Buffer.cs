@@ -91,6 +91,10 @@ public class BufferIndicators
         => new() { quotes };
 
     [Benchmark]
+    public UltimateList UltimateBuffer()
+        => new(7, 14, 28) { quotes };
+
+    [Benchmark]
     public VwmaList VwmaBuffer()
         => new(n) { quotes };
 
