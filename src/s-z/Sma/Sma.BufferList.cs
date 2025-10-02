@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Simple Moving Average (SMA) from incremental reusable values.
 /// </summary>
-public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
+public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
 {
     private readonly Queue<double> buffer;
 
@@ -52,7 +52,7 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
             sma = sum / LookbackPeriods;
         }
 
-        base.Add(new SmaResult(timestamp, sma));
+        AddInternal(new SmaResult(timestamp, sma));
     }
 
     /// <summary>
@@ -110,9 +110,9 @@ public class SmaList : List<SmaResult>, ISma, IBufferList, IBufferReusable
     /// <summary>
     /// Clears the list and resets internal buffers so the instance can be reused.
     /// </summary>
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         buffer.Clear();
     }
 }
