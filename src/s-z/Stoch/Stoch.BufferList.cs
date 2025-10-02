@@ -5,7 +5,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Stochastic Oscillator from incremental quote values.
 /// </summary>
-public class StochList : List<StochResult>, IStoch, IBufferList
+public class StochList : BufferList<StochResult>, IStoch, IBufferList
 {
     private readonly Queue<double> _highBuffer;
     private readonly Queue<double> _lowBuffer;
@@ -218,7 +218,7 @@ public class StochList : List<StochResult>, IStoch, IBufferList
         double percentJ = (KFactor * smoothK) - (DFactor * signal);
 
         // Add result to the list
-        base.Add(new StochResult(
+        AddInternal(new StochResult(
             Timestamp: timestamp,
             Oscillator: smoothK.NaN2Null(),
             Signal: signal.NaN2Null(),
@@ -226,9 +226,9 @@ public class StochList : List<StochResult>, IStoch, IBufferList
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _highBuffer.Clear();
         _lowBuffer.Clear();
         _closeBuffer.Clear();

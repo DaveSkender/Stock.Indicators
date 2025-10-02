@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Double Exponential Moving Average (DEMA) from incremental reusable values.
 /// </summary>
-public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
+public class DemaList : BufferList<DemaResult>, IBufferReusable, IDema
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
@@ -63,7 +63,7 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
         // add nulls for incalculable periods
         if (Count < LookbackPeriods - 1)
         {
-            base.Add(new DemaResult(timestamp));
+            AddInternal(new DemaResult(timestamp));
             return;
         }
 
@@ -87,7 +87,7 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
         _lastEma2 = ema2;
 
         // calculate and store DEMA result
-        base.Add(new DemaResult(
+        AddInternal(new DemaResult(
             timestamp,
             Dema.Calculate(ema1, ema2)));
     }
@@ -129,9 +129,9 @@ public class DemaList : List<DemaResult>, IDema, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
         _lastEma1 = double.NaN;

@@ -22,13 +22,13 @@ Buffer indicators should follow these naming patterns:
 
 ### Core structure
 
-Buffer indicators extend the `IBufferList<TResult>` interface and provide efficient incremental processing using universal buffer utilities:
+Buffer indicators inherit from the `BufferList<TResult>` base class and implement appropriate interfaces (`IBufferList` or `IBufferReusable`):
 
 ```csharp
 /// <summary>
 /// Buffer implementation for {IndicatorName} indicator
 /// </summary>
-public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}, IBufferList, IBufferReusable
+public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReusable, I{IndicatorName}
 {
     private readonly Queue<double> _buffer;
     
@@ -65,13 +65,13 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
         // Calculate result using buffer data
         double? result = CalculateIndicator();
         
-        base.Add(new {IndicatorName}Result(timestamp, result));
+        AddInternal(new {IndicatorName}Result(timestamp, result));
     }
 
     /// <inheritdoc />
-    public void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
     }
     
@@ -89,6 +89,17 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
     }
 }
 ```
+
+**Base Class Pattern**:
+
+- **ALL buffer list implementations MUST inherit from `BufferList<TResult>`** instead of `List<TResult>`
+- The base class provides:
+  - `AddInternal(TResult item)` - Protected method to add items to the internal list
+  - `ClearInternal()` - Protected method to clear the internal list
+  - `abstract void Clear()` - Derived classes must override to reset both list and buffers
+  - `ICollection<TResult>` and `IReadOnlyList<TResult>` interfaces
+  - Read-only indexer and Count property
+  - Blocks problematic operations (`ICollection<T>.Add()` and `ICollection<T>.Remove()`)
 
 **Constructor Pattern**:
 
@@ -109,7 +120,8 @@ public class {IndicatorName}List : List<{IndicatorName}Result>, I{IndicatorName}
 
 **Interface Selection Guidelines**:
 
-- Use `IBufferList, IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
+- Use `IBufferReusable` when the indicator's static series can accept `IReusable` values (single values like SMA, EMA)
+  - Note: `IBufferReusable` extends `IBufferList`, so only `IBufferReusable` needs to be declared
 - Use only `IBufferList` when the indicator's static series requires `IQuote` (multiple values like VWMA needs price+volume, ADX needs OHLC)
 - Match the interface pattern to what the static series implementation supports
 

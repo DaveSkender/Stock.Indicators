@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// T3 Moving Average from incremental reusable values.
 /// </summary>
-public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
+public class T3List : BufferList<T3Result>, IT3, IBufferReusable
 {
     // State for six-layer EMA calculations
     private double _lastEma1 = double.NaN;
@@ -99,7 +99,7 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
         // calculate T3 with coefficients
         double t3 = (C1 * ema6) + (C2 * ema5) + (C3 * ema4) + (C4 * ema3);
 
-        base.Add(new T3Result(
+        AddInternal(new T3Result(
             timestamp,
             t3.NaN2Null()) {
             Ema1 = ema1,
@@ -156,9 +156,9 @@ public class T3List : List<T3Result>, IT3, IBufferList, IBufferReusable
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
         _lastEma3 = double.NaN;

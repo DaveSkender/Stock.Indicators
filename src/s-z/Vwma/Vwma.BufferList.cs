@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Volume Weighted Moving Average (VWMA) from incremental quote values.
 /// </summary>
-public class VwmaList : List<VwmaResult>, IVwma, IBufferList
+public class VwmaList : BufferList<VwmaResult>, IVwma, IBufferList
 {
     private readonly Queue<(double price, double volume)> _buffer;
 
@@ -83,15 +83,15 @@ public class VwmaList : List<VwmaResult>, IVwma, IBufferList
             vwma = volumeSum != 0 ? priceVolumeSum / volumeSum : double.NaN;
         }
 
-        base.Add(new VwmaResult(
+        AddInternal(new VwmaResult(
             timestamp,
             vwma.NaN2Null()));
     }
 
     /// <inheritdoc />
-    public new void Clear()
+    public override void Clear()
     {
-        base.Clear();
+        ClearInternal();
         _buffer.Clear();
     }
 }

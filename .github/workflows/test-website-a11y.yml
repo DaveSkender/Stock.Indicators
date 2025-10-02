@@ -33,11 +33,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.3
+          bundler-cache: true
 
       - name: Install dependencies
-        run: |
-          bundle install
-          npm install -g pa11y-ci
+        run: npm install -g pa11y-ci
 
       - name: Use 'localhost'
         uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5
