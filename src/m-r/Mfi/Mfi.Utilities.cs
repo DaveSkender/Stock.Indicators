@@ -12,8 +12,9 @@ public static partial class Mfi
     public static IReadOnlyList<MfiResult> RemoveWarmupPeriods(
         this IReadOnlyList<MfiResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-            .ToList()
             .FindIndex(x => x.Mfi != null);
 
         return results.Remove(removePeriods);

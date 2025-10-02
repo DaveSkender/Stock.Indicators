@@ -35,4 +35,11 @@ public class Utility
 
     [Benchmark]
     public object Aggregate() => intraday.Aggregate(PeriodSize.FifteenMinutes);
+
+    [Benchmark]
+    public object RemoveWarmupPeriods()
+    {
+        IReadOnlyList<RsiResult> results = quotes.ToRsi(14);
+        return results.RemoveWarmupPeriods();
+    }
 }

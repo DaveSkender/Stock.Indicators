@@ -12,8 +12,9 @@ public static partial class RocWb
     public static IReadOnlyList<RocWbResult> RemoveWarmupPeriods(
         this IReadOnlyList<RocWbResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.RocEma != null) + 1;
 
         return results.Remove(n + 100);
