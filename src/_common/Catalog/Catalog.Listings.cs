@@ -329,7 +329,9 @@ public static partial class Catalog
         _listings.Add(UlcerIndex.SeriesListing);
 
         // Ultimate Oscillator
+        _listings.Add(Ultimate.BufferListing);
         _listings.Add(Ultimate.SeriesListing);
+        _listings.Add(Ultimate.StreamListing);
 
         // Volatility Stop
         _listings.Add(VolatilityStop.SeriesListing);
