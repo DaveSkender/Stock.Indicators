@@ -41,4 +41,17 @@ public static partial class WilliamsR
              ))
             .ToList();
     }
+
+    /// <summary>
+    /// Creates a buffer list for Williams %R calculations.
+    /// </summary>
+    /// <typeparam name="TQuote">The type of the elements in the source list, which must implement IQuote.</typeparam>
+    /// <param name="quotes">The source list of quotes.</param>
+    /// <param name="lookbackPeriods">The number of lookback periods. Default is 14.</param>
+    /// <returns>A WilliamsRList instance.</returns>
+    public static WilliamsRList ToWilliamsRList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 14)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

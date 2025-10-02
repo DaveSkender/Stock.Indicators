@@ -346,7 +346,9 @@ public static partial class Catalog
         _listings.Add(Vwma.BufferListing);
 
         // Williams %R
+        _listings.Add(WilliamsR.BufferListing);
         _listings.Add(WilliamsR.SeriesListing);
+        _listings.Add(WilliamsR.StreamListing);
 
         // WMA (Weighted Moving Average)
         _listings.Add(Wma.BufferListing);
