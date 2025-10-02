@@ -13,8 +13,9 @@ public static partial class StochRsi
     public static IReadOnlyList<StochRsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<StochRsiResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.StochRsi != null) + 2;
 
         return results.Remove(n + 100);
