@@ -321,6 +321,8 @@ public static partial class Catalog
 
         // TRIX
         _listings.Add(Trix.SeriesListing);
+        _listings.Add(Trix.BufferListing);
+        _listings.Add(Trix.StreamListing);
 
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
