@@ -28,7 +28,7 @@ Buffer indicators inherit from the `BufferList<TResult>` base class and implemen
 /// <summary>
 /// Buffer implementation for {IndicatorName} indicator
 /// </summary>
-public class {IndicatorName}List : BufferList<{IndicatorName}Result>, I{IndicatorName}, IBufferReusable
+public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReusable, I{IndicatorName}
 {
     private readonly Queue<double> _buffer;
     

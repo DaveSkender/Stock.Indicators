@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Double Exponential Moving Average (DEMA) from incremental reusable values.
 /// </summary>
-public class DemaList : BufferList<DemaResult>, IDema, IBufferReusable
+public class DemaList : BufferList<DemaResult>, IBufferReusable, IDema
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;

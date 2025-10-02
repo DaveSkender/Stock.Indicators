@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Bollinger Bands from incremental reusable values.
 /// </summary>
-public class BollingerBandsList : BufferList<BollingerBandsResult>, IBollingerBands, IBufferReusable
+public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusable, IBollingerBands
 {
     private readonly Queue<double> buffer;
 

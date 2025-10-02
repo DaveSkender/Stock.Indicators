@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// MESA Adaptive Moving Average (MAMA) from incremental reusable values.
 /// </summary>
-public class MamaList : BufferList<MamaResult>, IMama, IBufferReusable
+public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 {
     // Internal state arrays matching StaticSeries implementation
     private readonly List<double> pr = []; // price (HL2 when quote)

@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Triple Exponential Moving Average (TEMA) from incremental reusable values.
 /// </summary>
-public class TemaList : BufferList<TemaResult>, ITema, IBufferReusable
+public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;

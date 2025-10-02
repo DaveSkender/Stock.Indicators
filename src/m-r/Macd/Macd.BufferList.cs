@@ -28,7 +28,7 @@ public static partial class Macd
 /// <summary>
 /// MACD (Moving Average Convergence Divergence) from incremental reusable values.
 /// </summary>
-public class MacdList : BufferList<MacdResult>, IMacd, IBufferReusable
+public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
 {
     private readonly Queue<double> _fastBuffer;
     private readonly Queue<double> _slowBuffer;

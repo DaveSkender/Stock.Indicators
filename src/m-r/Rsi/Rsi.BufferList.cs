@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Relative Strength Index (RSI) from incremental reusable values.
 /// </summary>
-public class RsiList : BufferList<RsiResult>, IRsi, IBufferReusable
+public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
 {
     private readonly Queue<double> _gainBuffer;
     private readonly Queue<double> _lossBuffer;

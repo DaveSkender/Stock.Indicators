@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Weighted Moving Average (WMA) from incremental reusable values.
 /// </summary>
-public class WmaList : BufferList<WmaResult>, IWma, IBufferReusable
+public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
 {
     private readonly Queue<double> _buffer;
     private readonly double _divisor;

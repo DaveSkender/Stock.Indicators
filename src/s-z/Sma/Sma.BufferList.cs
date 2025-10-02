@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Simple Moving Average (SMA) from incremental reusable values.
 /// </summary>
-public class SmaList : BufferList<SmaResult>, ISma, IBufferReusable
+public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
 {
     private readonly Queue<double> buffer;
 

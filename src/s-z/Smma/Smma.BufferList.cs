@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Smoothed Moving Average (SMMA) from incremental reusable values.
 /// </summary>
-public class SmmaList : BufferList<SmmaResult>, ISmma, IBufferReusable
+public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
 {
     private double? _previousSmma;
     private readonly Queue<double> _buffer;
