@@ -59,7 +59,7 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 
 ### Performance benchmarking
 
-Running the `Tests.Performance` console application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site. For comprehensive guidance, see [tests/performance/benchmarking.md](../tests/performance/benchmarking.md).
+Running the `Tests.Performance` console application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
 ```bash
 # run all performance benchmarks (~15-20 minutes)
@@ -81,8 +81,6 @@ Use the regression detection script to compare results with baseline:
 # from tests/performance directory
 pwsh detect-regressions.ps1
 ```
-
-See [benchmarking.md](../tests/performance/benchmarking.md) for details on baseline management and regression analysis.
 
 ## Documentation
 
