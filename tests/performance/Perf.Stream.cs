@@ -99,6 +99,9 @@ public class StreamIndicators
     public object StochHub() => provider.ToStoch(14, 3, 3).Results;
 
     [Benchmark]
+    public object StochRsiHub() => provider.ToStochRsi(14, 14, 3, 1).Results;
+
+    [Benchmark]
     public object T3Hub() => provider.ToT3(5, 0.7).Results;
 
     [Benchmark]
