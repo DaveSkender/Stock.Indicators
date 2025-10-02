@@ -75,3 +75,39 @@ var results = quotes
     .GetCmo(..)
     .GetEma(..);
 ```
+
+## Streaming
+
+Use the buffer-style `List<T>` when you need incremental calculations without a hub:
+
+```csharp
+CmoList cmoList = new(lookbackPeriods);
+
+foreach (IQuote quote in quotes)  // simulating stream
+{
+  cmoList.Add(quote);
+}
+
+// based on `List<CmoResult>`
+IReadOnlyList<CmoResult> results = cmoList;
+```
+
+Subscribe to a `QuoteHub` for advanced streaming scenarios:
+
+```csharp
+QuoteHub<Quote> provider = new();
+CmoHub<Quote> observer = provider.ToCmo(lookbackPeriods);
+
+// stream quotes into provider
+foreach (Quote quote in quotes)
+{
+  provider.Add(quote);
+}
+
+provider.EndTransmission();
+
+// based on `List<CmoResult>`
+IReadOnlyList<CmoResult> results = observer.Results;
+```
+
+See the [Streaming guide]({{site.baseurl}}/guide/#streaming) for more information.
