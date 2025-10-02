@@ -16,15 +16,15 @@ public class WilliamsR : BufferListTestBase
         foreach (Quote q in Quotes) { sut.Add(q); }
 
         sut.Should().HaveCount(Quotes.Count);
-        
+
         // Compare with tolerance for floating point precision
         for (int i = 0; i < sut.Count; i++)
         {
             WilliamsResult actual = sut[i];
             WilliamsResult expected = series[i];
-            
+
             actual.Timestamp.Should().Be(expected.Timestamp);
-            
+
             if (expected.WilliamsR.HasValue && actual.WilliamsR.HasValue)
             {
                 actual.WilliamsR.Should().BeApproximately(expected.WilliamsR.Value, 0.0001);
@@ -42,15 +42,15 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList sut = new(lookbackPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        
+
         // Compare with tolerance for floating point precision
         for (int i = 0; i < sut.Count; i++)
         {
             WilliamsResult actual = sut[i];
             WilliamsResult expected = series[i];
-            
+
             actual.Timestamp.Should().Be(expected.Timestamp);
-            
+
             if (expected.WilliamsR.HasValue && actual.WilliamsR.HasValue)
             {
                 actual.WilliamsR.Should().BeApproximately(expected.WilliamsR.Value, 0.0001);
@@ -68,15 +68,15 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        
+
         // Compare with tolerance for floating point precision
         for (int i = 0; i < sut.Count; i++)
         {
             WilliamsResult actual = sut[i];
             WilliamsResult expected = series[i];
-            
+
             actual.Timestamp.Should().Be(expected.Timestamp);
-            
+
             if (expected.WilliamsR.HasValue && actual.WilliamsR.HasValue)
             {
                 actual.WilliamsR.Should().BeApproximately(expected.WilliamsR.Value, 0.0001);
@@ -109,15 +109,15 @@ public class WilliamsR : BufferListTestBase
         IReadOnlyList<WilliamsResult> expected = subset.ToWilliamsR(lookbackPeriods);
 
         sut.Should().HaveCount(expected.Count);
-        
+
         // Compare with tolerance for floating point precision
         for (int i = 0; i < sut.Count; i++)
         {
             WilliamsResult actual = sut[i];
             WilliamsResult exp = expected[i];
-            
+
             actual.Timestamp.Should().Be(exp.Timestamp);
-            
+
             if (exp.WilliamsR.HasValue && actual.WilliamsR.HasValue)
             {
                 actual.WilliamsR.Should().BeApproximately(exp.WilliamsR.Value, 0.0001);
@@ -202,15 +202,15 @@ public class WilliamsR : BufferListTestBase
         WilliamsRList fromConstructor = new(lookbackPeriods) { Quotes };
 
         fromExtension.Should().HaveCount(fromConstructor.Count);
-        
+
         // Compare with tolerance for floating point precision
         for (int i = 0; i < fromExtension.Count; i++)
         {
             WilliamsResult ext = fromExtension[i];
             WilliamsResult con = fromConstructor[i];
-            
+
             ext.Timestamp.Should().Be(con.Timestamp);
-            
+
             if (ext.WilliamsR.HasValue && con.WilliamsR.HasValue)
             {
                 ext.WilliamsR.Should().BeApproximately(con.WilliamsR.Value, 0.0001);

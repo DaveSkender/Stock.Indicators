@@ -32,14 +32,14 @@ public class WilliamsR : StreamHubTestBase
         // verify against static series calculation with tolerance
         IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(14);
         observer.Cache.Should().HaveCount(expected.Count);
-        
+
         for (int i = 0; i < observer.Cache.Count; i++)
         {
             WilliamsResult actual = observer.Cache[i];
             WilliamsResult exp = expected[i];
-            
+
             actual.Timestamp.Should().Be(exp.Timestamp);
-            
+
             if (exp.WilliamsR.HasValue && actual.WilliamsR.HasValue)
             {
                 actual.WilliamsR.Should().BeApproximately(exp.WilliamsR.Value, 0.001);
@@ -81,14 +81,14 @@ public class WilliamsR : StreamHubTestBase
         // verify consistency with tolerance
         IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(lookbackPeriods);
         observer.Cache.Should().HaveCount(expected.Count);
-        
+
         for (int i = 0; i < observer.Cache.Count; i++)
         {
             WilliamsResult actual = observer.Cache[i];
             WilliamsResult exp = expected[i];
-            
+
             actual.Timestamp.Should().Be(exp.Timestamp);
-            
+
             if (exp.WilliamsR.HasValue && actual.WilliamsR.HasValue)
             {
                 actual.WilliamsR.Should().BeApproximately(exp.WilliamsR.Value, 0.001);
