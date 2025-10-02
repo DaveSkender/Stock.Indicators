@@ -57,33 +57,6 @@ Use the [Discussions](https://github.com/DaveSkender/Stock.Indicators/discussion
 - We expect all unit tests to execute successfully and all Errors and Warning resolved before you submit your code.
 - Failed builds or unit testing will block acceptance of your Pull Request when submitting changes.
 
-### Performance benchmarking
-
-Running the `Tests.Performance` console application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site. For comprehensive guidance, see the [performance benchmarking guide]({{site.baseurl}}/performance/benchmarking/#content).
-
-```bash
-# run all performance benchmarks (~15-20 minutes)
-dotnet run -c Release
-
-# run specific benchmark categories
-dotnet run -c Release --filter *Stream*
-dotnet run -c Release --filter *Buffer*
-
-# run individual performance benchmark
-dotnet run -c Release --filter *.ToAdx
-```
-
-#### Performance regression detection
-
-Use the regression detection script to compare results with baseline:
-
-```bash
-# from tests/performance directory
-pwsh detect-regressions.ps1
-```
-
-See the [performance benchmarking guide]({{site.baseurl}}/performance/benchmarking/#content) for details on baseline management and regression analysis.
-
 ## Documentation
 
 This site uses [Jekyll](https://jekyllrb.com) construction with _Front Matter_.
