@@ -111,7 +111,7 @@ if ([string]::IsNullOrEmpty($CurrentFile)) {
 }
 
 if ([string]::IsNullOrEmpty($BaselineFile)) {
-    $baselineDir = "tests/performance/baselines"
+    $baselineDir = "baselines"
     if (Test-Path $baselineDir) {
         $baselineFiles = Get-ChildItem -Path $baselineDir -Filter "*.json" -File |
                         Sort-Object LastWriteTime -Descending

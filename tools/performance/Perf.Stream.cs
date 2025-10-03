@@ -90,6 +90,9 @@ public class StreamIndicators
     public object RsiHub() => provider.ToRsi(14).Results;
 
     [Benchmark]
+    public object RocHub() => provider.ToRoc(20).Results;
+
+    [Benchmark]
     public object SmaHub() => provider.ToSma(10).Results;
 
     [Benchmark]
@@ -97,6 +100,9 @@ public class StreamIndicators
 
     [Benchmark]
     public object StochHub() => provider.ToStoch(14, 3, 3).Results;
+
+    [Benchmark]
+    public object StochRsiHub() => provider.ToStochRsi(14, 14, 3, 1).Results;
 
     [Benchmark]
     public object T3Hub() => provider.ToT3(5, 0.7).Results;
