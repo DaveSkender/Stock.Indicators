@@ -10,7 +10,7 @@ on:
       - main
       - "v[0-9]*"
     paths:
-      - tests/performance/**
+      - tools/performance/**
   pull_request:
     branches: ["*"]
     paths:
@@ -43,17 +43,17 @@ jobs:
           --property:ContinuousIntegrationBuild=true
 
       - name: Test performance
-        working-directory: tests/performance
+        working-directory: tools/performance
         run: dotnet run -c Release
 
       - name: Save test results
         uses: actions/upload-artifact@v4
         with:
           name: test-summaries
-          path: tests/performance/BenchmarkDotNet.Artifacts/results
+          path: tools/performance/BenchmarkDotNet.Artifacts/results
 
       - name: Publish summary
-        working-directory: tests/performance/BenchmarkDotNet.Artifacts/results
+        working-directory: tools/performance/BenchmarkDotNet.Artifacts/results
         run: |
           echo "## Performance Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

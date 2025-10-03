@@ -125,7 +125,7 @@ Parallel Tasks: [X] (marked with [P])
 ### T054: Add Performance Tests [P]
 
 **Description**: Benchmark computational performance
-**Location**: `tests/performance/[IndicatorName].Performance.cs`
+**Location**: `tools/performance/[IndicatorName].Performance.cs`
 **Dependencies**: T051, T012
 **Acceptance Criteria**:
 
