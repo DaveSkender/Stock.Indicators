@@ -31,8 +31,9 @@ public static partial class Keltner
     public static IReadOnlyList<KeltnerResult> RemoveWarmupPeriods(
         this IReadOnlyList<KeltnerResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Width != null) + 1;
 
         return results.Remove(Math.Max(2 * n, n + 100));

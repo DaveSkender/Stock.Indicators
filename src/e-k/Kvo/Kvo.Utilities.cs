@@ -12,8 +12,9 @@ public static partial class Kvo
     public static IReadOnlyList<KvoResult> RemoveWarmupPeriods(
         this IReadOnlyList<KvoResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int l = results
-            .ToList()
             .FindIndex(x => x.Oscillator != null) - 1;
 
         return results.Remove(l + 150);

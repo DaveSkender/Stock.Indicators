@@ -13,8 +13,9 @@ public static partial class Trix
     public static IReadOnlyList<TrixResult> RemoveWarmupPeriods(
         this IReadOnlyList<TrixResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Trix != null);
 
         return results.Remove((3 * n) + 100);

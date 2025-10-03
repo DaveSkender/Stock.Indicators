@@ -57,7 +57,6 @@ public static partial class Reusable
         // be overridden in the specific indicator class
 
         int removePeriods = results
-            .ToList()
             .FindIndex(x => !double.IsNaN(x.Value));
 
         return results.Remove(removePeriods);
