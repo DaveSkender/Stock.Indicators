@@ -1,7 +1,5 @@
-# yaml-language-server: $schema=https://storage.googleapis.com/coderabbit_public_assets/schema.v2.json
-# documentation: https://docs.coderabbit.ai/reference/configuration
-# CodeRabbit Configuration for Stock Indicators for .NET
-# Optimized for financial calculation accuracy, performance, and .NET best practices
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit config docs: https://docs.coderabbit.ai/reference/configuration
 
 # General settings
 language: "en-US"

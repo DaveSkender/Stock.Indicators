@@ -41,20 +41,20 @@ Spec-Kit implements "Spec-Driven Development" - a methodology where specificatio
 ## Project Structure
 
 ```text
-spec-kit/
+.specify/
 ├── memory/
 │   └── constitution.md          # Project governance principles
 ├── templates/
-│   ├── commands/               # AI agent command templates
-│   │   ├── constitution.md     # Constitution management
-│   │   ├── specify.md          # Feature specification
-│   │   ├── plan.md            # Implementation planning
-│   │   ├── tasks.md           # Task breakdown
-│   │   └── implement.md       # Implementation execution
-│   ├── spec-template.md       # Feature specification template
-│   ├── plan-template.md       # Technical plan template
-│   └── tasks-template.md      # Task list template
-├── specs/                     # Generated specifications
+│   ├── commands/                # AI agent command templates
+│   │   ├── constitution.md      # Constitution management
+│   │   ├── specify.md           # Feature specification
+│   │   ├── plan.md              # Implementation planning
+│   │   ├── tasks.md             # Task breakdown
+│   │   └── implement.md         # Implementation execution
+│   ├── spec-template.md         # Feature specification template
+│   ├── plan-template.md         # Technical plan template
+│   └── tasks-template.md        # Task list template
+├── specs/                        # Generated specifications
 ├── scripts/
 │   ├── bash/
 │   │   └── create-new-feature.sh
@@ -198,13 +198,13 @@ Test the integration:
 
 ```bash
 # Test script functionality
-./spec-kit/scripts/bash/create-new-feature.sh --json "test feature"
+./.specify/scripts/bash/create-new-feature.sh --json "test feature"
 
 # Verify templates are accessible
-ls spec-kit/templates/commands/
+ls .specify/templates/commands/
 
 # Check constitution compliance
-cat spec-kit/memory/constitution.md
+cat .specify/memory/constitution.md
 ```
 
 ### Integration Testing
