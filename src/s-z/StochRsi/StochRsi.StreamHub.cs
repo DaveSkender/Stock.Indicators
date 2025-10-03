@@ -33,7 +33,7 @@ public static partial class StochRsi
 /// Represents a Stochastic RSI stream hub.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
-public class StochRsiHub<TIn>
+public sealed class StochRsiHub<TIn>
     : ChainProvider<TIn, StochRsiResult>
     where TIn : IReusable
 {
