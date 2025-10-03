@@ -301,7 +301,9 @@ public static partial class Catalog
         _listings.Add(Stoch.StreamListing);
 
         // Stochastic RSI
+        _listings.Add(StochRsi.BufferListing);
         _listings.Add(StochRsi.SeriesListing);
+        _listings.Add(StochRsi.StreamListing);
 
         // SuperTrend
         _listings.Add(SuperTrend.SeriesListing);
@@ -323,6 +325,8 @@ public static partial class Catalog
 
         // TRIX
         _listings.Add(Trix.SeriesListing);
+        _listings.Add(Trix.BufferListing);
+        _listings.Add(Trix.StreamListing);
 
         // TSI (True Strength Index)
         _listings.Add(Tsi.BufferListing);
