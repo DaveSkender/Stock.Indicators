@@ -129,9 +129,6 @@ public class Tsi : BufferListTestBase
         TsiResult streamResult = sut[50];
         TsiResult seriesResult = series[50];
 
-        streamResult.Tsi.Should().BeApproximately(seriesResult.Tsi, 0.0001);
-        streamResult.Signal.Should().BeApproximately(seriesResult.Signal, 0.0001);
-
         streamResult.Should().Be(seriesResult);
         sut.ToList().Should().BeEquivalentTo(series.Take(100));
     }
