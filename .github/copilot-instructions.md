@@ -78,7 +78,7 @@ This repository uses scoped instruction files for specific development areas. Th
 | `src/**,tests/**` | [source-code-completion.instructions.md](.github/instructions/source-code-completion.instructions.md) | Source code, testing, and pre-commit code completion checklist |
 | `**/*.md` | [markdown.instructions.md](.github/instructions/markdown.instructions.md) | Markdown formatting rules |
 | `docs/**` | [documentation.instructions.md](.github/instructions/documentation.instructions.md) | Documentation website instructions |
-| `tests/performance/**` | [performance-testing.instructions.md](.github/instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
+| `tools/performance/**` | [performance-testing.instructions.md](.github/instructions/performance-testing.instructions.md) | Performance testing and benchmarking guidelines |
 
 These scoped files are automatically applied when working with files matching their patterns.
 
