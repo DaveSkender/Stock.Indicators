@@ -251,7 +251,9 @@ public static partial class Catalog
         _listings.Add(RenkoAtr.SeriesListing);
 
         // ROC (Rate of Change)
+        _listings.Add(Roc.BufferListing);
         _listings.Add(Roc.SeriesListing);
+        _listings.Add(Roc.StreamListing);
 
         // ROC with Bands
         _listings.Add(RocWb.SeriesListing);

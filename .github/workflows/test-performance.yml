@@ -14,7 +14,6 @@ on:
   pull_request:
     branches: ["*"]
     paths:
-      - tests/performance/**
       - ".github/workflows/test-performance.yml"
   workflow_dispatch:
 
