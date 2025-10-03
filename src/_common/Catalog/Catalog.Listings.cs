@@ -103,7 +103,9 @@ public static partial class Catalog
         _listings.Add(Bop.SeriesListing);
 
         // CCI (Commodity Channel Index)
+        _listings.Add(Cci.BufferListing);
         _listings.Add(Cci.SeriesListing);
+        _listings.Add(Cci.StreamListing);
 
         // Chaikin Oscillator
         _listings.Add(ChaikinOsc.SeriesListing);
@@ -118,7 +120,9 @@ public static partial class Catalog
         _listings.Add(Cmf.SeriesListing);
 
         // CMO (Chande Momentum Oscillator)
+        _listings.Add(Cmo.BufferListing);
         _listings.Add(Cmo.SeriesListing);
+        _listings.Add(Cmo.StreamListing);
 
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
@@ -354,7 +358,9 @@ public static partial class Catalog
         _listings.Add(Vwma.BufferListing);
 
         // Williams %R
+        _listings.Add(WilliamsR.BufferListing);
         _listings.Add(WilliamsR.SeriesListing);
+        _listings.Add(WilliamsR.StreamListing);
 
         // WMA (Weighted Moving Average)
         _listings.Add(Wma.BufferListing);
