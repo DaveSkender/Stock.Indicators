@@ -118,7 +118,9 @@ public static partial class Catalog
         _listings.Add(Cmf.SeriesListing);
 
         // CMO (Chande Momentum Oscillator)
+        _listings.Add(Cmo.BufferListing);
         _listings.Add(Cmo.SeriesListing);
+        _listings.Add(Cmo.StreamListing);
 
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);

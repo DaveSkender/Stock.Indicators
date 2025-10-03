@@ -19,6 +19,15 @@ public static partial class Cmo
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for CMO.
-    // No BufferListing for CMO.
+    // CMO Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // CMO Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
