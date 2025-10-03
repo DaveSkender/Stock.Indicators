@@ -13,8 +13,9 @@ public static partial class Macd
     public static IReadOnlyList<MacdResult> RemoveWarmupPeriods(
         this IReadOnlyList<MacdResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Signal != null) + 2;
 
         return results.Remove(n + 250);

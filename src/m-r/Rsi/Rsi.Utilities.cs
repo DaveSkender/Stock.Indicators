@@ -12,8 +12,9 @@ public static partial class Rsi
     public static IReadOnlyList<RsiResult> RemoveWarmupPeriods(
         this IReadOnlyList<RsiResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Rsi != null);
 
         return results.Remove(10 * n);

@@ -13,8 +13,9 @@ public static partial class Smma
     public static IReadOnlyList<SmmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<SmmaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Smma != null) + 1;
 
         return results.Remove(n + 100);
