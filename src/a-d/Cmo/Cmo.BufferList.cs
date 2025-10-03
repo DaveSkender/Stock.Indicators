@@ -89,7 +89,7 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
                 {
                     cmo = sH + sL != 0
                         ? (100 * (sH - sL) / (sH + sL)).NaN2Null()
-                        : null;
+                        : 0d;
                 }
             }
 
