@@ -34,4 +34,62 @@ public class CmoTests : TestBase
         cmoResult?.DisplayName.Should().Be("CMO");
         cmoResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void CmoBufferListing()
+    {
+        // Act
+        IndicatorListing listing = Cmo.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Chande Momentum Oscillator");
+        listing.Uiid.Should().Be("CMO");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToCmo");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+
+        IndicatorResult cmoResult = listing.Results.SingleOrDefault(r => r.DataName == "Cmo");
+        cmoResult.Should().NotBeNull();
+        cmoResult?.DisplayName.Should().Be("CMO");
+        cmoResult.IsReusable.Should().Be(true);
+    }
+
+    [TestMethod]
+    public void CmoStreamListing()
+    {
+        // Act
+        IndicatorListing listing = Cmo.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Chande Momentum Oscillator");
+        listing.Uiid.Should().Be("CMO");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToCmo");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+
+        IndicatorResult cmoResult = listing.Results.SingleOrDefault(r => r.DataName == "Cmo");
+        cmoResult.Should().NotBeNull();
+        cmoResult?.DisplayName.Should().Be("CMO");
+        cmoResult.IsReusable.Should().Be(true);
+    }
 }

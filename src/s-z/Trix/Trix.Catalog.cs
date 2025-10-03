@@ -19,6 +19,15 @@ public static partial class Trix
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for TRIX.
-    // No BufferListing for TRIX.
+    // TRIX Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // TRIX Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
