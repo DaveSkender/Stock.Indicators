@@ -269,10 +269,10 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
 
 ### Performance benchmarking
 
-Buffer indicators must include performance tests in the `tests/performance` project that verify efficiency:
+Buffer indicators must include performance tests in the `tools/performance` project that verify efficiency:
 
 ```csharp
-// In tests/performance project
+// In tools/performance project
 [MethodImpl(MethodImplOptions.NoInlining)]
 public void BufferIndicator{IndicatorName}()
 {
