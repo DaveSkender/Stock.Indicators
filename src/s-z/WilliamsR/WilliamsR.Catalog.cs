@@ -19,6 +19,15 @@ public static partial class WilliamsR
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Williams %R.
-    // No BufferListing for Williams %R.
+    // Williams %R Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Williams %R Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
