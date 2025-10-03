@@ -17,7 +17,7 @@ The Stock Indicators library uses [BenchmarkDotNet](https://benchmarkdotnet.org/
 ### Run all benchmarks
 
 ```bash
-cd tests/performance
+cd tools/performance
 dotnet run -c Release
 ```
 
@@ -101,7 +101,7 @@ Establish performance baselines for comparison:
 
 ```bash
 # After running benchmarks (from repo root)
-cp tests/performance/BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json tests/performance/baselines/baseline-v3.0.0.json
+cp tools/performance/BenchmarkDotNet.Artifacts/results/Performance.*-report-full.json tools/performance/baselines/baseline-v3.0.0.json
 ```
 
 ### Detecting regressions
@@ -110,13 +110,13 @@ Compare current results against baseline:
 
 ```bash
 # Automatic detection with default 10% threshold (from repo root)
-pwsh tests/performance/detect-regressions.ps1
+pwsh tools/performance/detect-regressions.ps1
 
 # Custom threshold
-pwsh tests/performance/detect-regressions.ps1 -ThresholdPercent 15
+pwsh tools/performance/detect-regressions.ps1 -ThresholdPercent 15
 
 # Specific files
-pwsh tests/performance/detect-regressions.ps1 -BaselineFile tests/performance/baselines/baseline-v3.0.0.json -CurrentFile tests/performance/BenchmarkDotNet.Artifacts/results/current.json
+pwsh tools/performance/detect-regressions.ps1 -BaselineFile tools/performance/baselines/baseline-v3.0.0.json -CurrentFile tools/performance/BenchmarkDotNet.Artifacts/results/current.json
 ```
 
 ### Regression analysis
@@ -144,7 +144,7 @@ To fail builds on regressions, add to workflow:
 
 ```yaml
 - name: Detect regressions
-  working-directory: tests/performance
+  working-directory: tools/performance
   run: |
     pwsh detect-regressions.ps1 -ThresholdPercent 10
 ```

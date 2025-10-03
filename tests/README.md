@@ -23,7 +23,7 @@ dotnet test --settings tests/tests.unit.runsettings
 
 ## Performance tests
 
-> `tests/performance/Tests.Performance.csproj` benchmark tests
+> `tools/performance/Tests.Performance.csproj` benchmark tests
 
 Running the `Tests.Performance` console application in `Release` mode will produce [benchmark performance data](https://dotnet.stockindicators.dev/performance/) that we include on our documentation site.
 
