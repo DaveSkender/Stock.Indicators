@@ -12,8 +12,9 @@ public static partial class Hurst
     public static IReadOnlyList<HurstResult> RemoveWarmupPeriods(
         this IReadOnlyList<HurstResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.HurstExponent != null);
 
         return results.Remove(removePeriods);

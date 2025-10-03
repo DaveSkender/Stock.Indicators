@@ -78,7 +78,7 @@ dotnet run -c Release --filter *.ToAdx
 Use the regression detection script to compare results with baseline:
 
 ```bash
-# from tests/performance directory
+# from tools/performance directory
 pwsh detect-regressions.ps1
 ```
 
