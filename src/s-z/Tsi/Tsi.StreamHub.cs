@@ -117,7 +117,7 @@ public class TsiHub<TIn>
 
         if (i >= LookbackPeriods)
         {
-            if (i > 0 && Cache[i - 1].Tsi is not null)
+            if (i > LookbackPeriods)
             {
                 // Get previous smoothed values from cache
                 // We need to cache these intermediate values for proper calculation
@@ -138,7 +138,7 @@ public class TsiHub<TIn>
 
         if (!double.IsNaN(cs1) && !double.IsNaN(as1) && i >= LookbackPeriods + SmoothPeriods - 1)
         {
-            if (i > LookbackPeriods && Cache[i - 1].Tsi is not null)
+            if (i > LookbackPeriods + SmoothPeriods - 1)
             {
                 // Calculate EMA of smoothed values
                 cs2 = CalculateCs2(i, cs1);
