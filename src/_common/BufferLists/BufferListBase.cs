@@ -57,6 +57,15 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
         _internalList.Clear();
     }
 
+    /// <summary>
+    /// Removes the item at the specified index from the internal list.
+    /// </summary>
+    /// <param name="index">The zero-based index of the item to remove.</param>
+    protected void RemoveAtInternal(int index)
+    {
+        _internalList.RemoveAt(index);
+    }
+
     #region ICollection<TResult> Implementation
 
     /// <inheritdoc/>

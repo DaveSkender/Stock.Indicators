@@ -206,10 +206,10 @@ public class {IndicatorName}StreamHubTests : TestBase
 
 ### Performance benchmarking
 
-Stream indicators must include performance tests in the `tests/performance` project for high-frequency scenarios:
+Stream indicators must include performance tests in the `tools/performance` project for high-frequency scenarios:
 
 ```csharp
-// In tests/performance project
+// In tools/performance project
 [MethodImpl(MethodImplOptions.NoInlining)]
 public void StreamIndicator{IndicatorName}()
 {

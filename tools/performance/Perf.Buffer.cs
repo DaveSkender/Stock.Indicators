@@ -83,6 +83,10 @@ public class BufferIndicators
         => new(14, 3, 3) { quotes };
 
     [Benchmark]
+    public StochRsiList StochRsiBuffer()
+        => new(14, 14, 3, 1) { quotes };
+
+    [Benchmark]
     public T3List T3Buffer()
         => new(5, 0.7) { quotes };
 

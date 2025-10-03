@@ -108,10 +108,10 @@ public class {IndicatorName}StaticSeriesTests : TestBase
 
 ### Performance benchmarking
 
-Series indicators with significant computational complexity must include performance tests in the `tests/performance` project:
+Series indicators with significant computational complexity must include performance tests in the `tools/performance` project:
 
 ```csharp
-// In tests/performance project
+// In tools/performance project
 [MethodImpl(MethodImplOptions.NoInlining)]
 public void SeriesIndicator{IndicatorName}()
 {
