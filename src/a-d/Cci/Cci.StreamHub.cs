@@ -30,6 +30,7 @@ public class CciHub<TIn>
     where TIn : IQuote
 {
     private readonly string hubName;
+    private CciList _cciList;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CciHub{TIn}"/> class.
@@ -45,6 +46,7 @@ public class CciHub<TIn>
         Cci.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         hubName = $"CCI({lookbackPeriods})";
+        _cciList = new CciList(lookbackPeriods);
 
         Reinitialize();
     }
@@ -61,28 +63,41 @@ public class CciHub<TIn>
     {
         int i = indexHint ?? ProviderCache.IndexOf(item, true);
 
-        double? cci = null;
-
-        if (i >= LookbackPeriods - 1)
+        // Synchronize _cciList state with the current index
+        if (i == 0)
         {
-            // Build a subset of provider cache for CCI calculation
-            List<TIn> subset = [];
-            for (int k = 0; k <= i; k++)
+            // Starting fresh - clear and add first item
+            _cciList.Clear();
+            _cciList.Add(item);
+        }
+        else if (_cciList.Count == i)
+        {
+            // Normal incremental case - list is in sync, just add the new item
+            _cciList.Add(item);
+        }
+        else if (_cciList.Count < i)
+        {
+            // Missing data - add any skipped items from ProviderCache, then add current
+            for (int k = _cciList.Count; k < i; k++)
             {
-                subset.Add(ProviderCache[k]);
+                _cciList.Add(ProviderCache[k]);
             }
-
-            // Use the existing series calculation
-            var seriesResults = subset.ToCci(LookbackPeriods);
-            var latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
-
-            cci = latestResult?.Cci;
+            _cciList.Add(item);
+        }
+        else // _cciList.Count > i
+        {
+            // Late arrival/rebuild scenario - items were removed/reordered
+            // Must rebuild from scratch to ensure correctness
+            _cciList.Clear();
+            for (int k = 0; k < i; k++)
+            {
+                _cciList.Add(ProviderCache[k]);
+            }
+            _cciList.Add(item);
         }
 
-        // candidate result
-        CciResult r = new(
-            Timestamp: item.Timestamp,
-            Cci: cci);
+        // Get the latest result from the CciList
+        CciResult r = _cciList[_cciList.Count - 1];
 
         return (r, i);
     }
