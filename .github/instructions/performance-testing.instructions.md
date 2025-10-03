@@ -1,5 +1,5 @@
 ---
-applyTo: "tests/performance/**/*.cs,tests/performance/**/*.ps1,tests/performance/**/*.md"
+applyTo: "tools/performance/**/*.cs,tools/performance/**/*.ps1,tools/performance/**/*.md"
 description: "Performance testing, benchmarking, and regression detection guidelines"
 ---
 
@@ -9,7 +9,7 @@ These instructions apply to performance testing, benchmarking, and regression de
 
 ## Overview
 
-The library uses [BenchmarkDotNet](https://benchmarkdotnet.org/) for comprehensive performance testing. Performance tests are located in `tests/performance/` and cover:
+The library uses [BenchmarkDotNet](https://benchmarkdotnet.org/) for comprehensive performance testing. Performance tests are located in `tools/performance/` and cover:
 
 - **Series-style indicators** - Traditional batch processing
 - **Stream-style indicators** - Real-time streaming with QuoteHub
@@ -32,7 +32,7 @@ Performance test files follow these patterns:
 ### Basic commands
 
 ```bash
-cd tests/performance
+cd tools/performance
 
 # Run all benchmarks (~15-20 minutes)
 dotnet run -c Release
@@ -218,7 +218,7 @@ To fail builds on regressions, add to workflow:
 
 ```yaml
 - name: Detect regressions
-  working-directory: tests/performance
+  working-directory: tools/performance
   run: pwsh detect-regressions.ps1 -ThresholdPercent 10
 ```
 

@@ -13,8 +13,9 @@ public static partial class Adx
     public static IReadOnlyList<AdxResult> RemoveWarmupPeriods(
         this IReadOnlyList<AdxResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Pdi != null);
 
         return results.Remove((2 * n) + 100);
