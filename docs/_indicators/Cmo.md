@@ -110,4 +110,4 @@ provider.EndTransmission();
 IReadOnlyList<CmoResult> results = observer.Results;
 ```
 
-See the [Streaming guide]({{site.baseurl}}/guide/#streaming) for more information.
+See the [guide]({{site.baseurl}}/guide/) for more information.
