@@ -239,12 +239,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         // Remove oldest results while keeping the list under MaxListSize
         while (Count >= MaxListSize)
         {
-            // Remove from internal list via ClearInternal and rebuild
-            // This is a simple approach - remove the first (oldest) item
-            // Note: BufferList doesn't expose RemoveAt, so we need to work with what we have
-            // For now, we'll just not add more items once we hit the limit
-            // A more sophisticated approach would require BufferList base class changes
-            break; // Prevent adding more items once limit is reached
+            RemoveAtInternal(0);
         }
     }
 
