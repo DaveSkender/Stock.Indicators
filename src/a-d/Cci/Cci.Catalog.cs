@@ -19,6 +19,15 @@ public static partial class Cci
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for CCI.
-    // No BufferListing for CCI.
+    // CCI Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // CCI Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

@@ -103,7 +103,9 @@ public static partial class Catalog
         _listings.Add(Bop.SeriesListing);
 
         // CCI (Commodity Channel Index)
+        _listings.Add(Cci.BufferListing);
         _listings.Add(Cci.SeriesListing);
+        _listings.Add(Cci.StreamListing);
 
         // Chaikin Oscillator
         _listings.Add(ChaikinOsc.SeriesListing);
