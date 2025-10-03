@@ -27,6 +27,8 @@ public static partial class PivotPoints
     public static IReadOnlyList<PivotPointsResult> RemoveWarmupPeriods(
         this IReadOnlyList<PivotPointsResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
             .ToList()  // TODO: is there a no-copy way to do this?  Many places.
             .FindIndex(x => x.PP != null);

@@ -22,6 +22,28 @@ public static class Pruning
             : series.Remove(removePeriods);
 
     /// <summary>
+    /// Finds the index of the first element that matches the specified predicate.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the series.</typeparam>
+    /// <param name="series">The series to search.</param>
+    /// <param name="match">The predicate that defines the conditions of the element to search for.</param>
+    /// <returns>The zero-based index of the first occurrence of an element that matches the conditions defined by match, if found; otherwise, -1.</returns>
+    internal static int FindIndex<T>(
+        this IReadOnlyList<T> series,
+        Func<T, bool> match)
+    {
+        for (int i = 0; i < series.Count; i++)
+        {
+            if (match(series[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>
     /// Removes a specified number of periods from the beginning of the series.
     /// </summary>
     /// <typeparam name="T">The type of elements in the series.</typeparam>

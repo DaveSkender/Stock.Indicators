@@ -13,8 +13,9 @@ public static partial class Stc
     public static IReadOnlyList<StcResult> RemoveWarmupPeriods(
         this IReadOnlyList<StcResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int n = results
-            .ToList()
             .FindIndex(x => x.Stc != null);
 
         return results.Remove(n + 250);
