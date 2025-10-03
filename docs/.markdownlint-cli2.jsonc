@@ -1,8 +1,5 @@
+// modifications from base
 {
-  "globs": [
-    "**/*.md",
-    "**/*.markdown"
-  ],
   "ignores": [
     ".offline"
   ],
