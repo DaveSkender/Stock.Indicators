@@ -19,6 +19,15 @@ public static partial class Roc
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for ROC.
-    // No BufferListing for ROC.
+    // Rate of Change Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Rate of Change Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

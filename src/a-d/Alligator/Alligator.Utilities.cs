@@ -31,8 +31,9 @@ public static partial class Alligator
     public static IReadOnlyList<AlligatorResult> RemoveWarmupPeriods(
         this IReadOnlyList<AlligatorResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.Jaw != null) + 251;
 
         return results.Remove(removePeriods);

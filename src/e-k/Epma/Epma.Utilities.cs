@@ -12,8 +12,9 @@ public static partial class Epma
     public static IReadOnlyList<EpmaResult> RemoveWarmupPeriods(
         this IReadOnlyList<EpmaResult> results)
     {
+        ArgumentNullException.ThrowIfNull(results);
+
         int removePeriods = results
-          .ToList()
           .FindIndex(x => x.Epma != null);
 
         return results.Remove(removePeriods);
