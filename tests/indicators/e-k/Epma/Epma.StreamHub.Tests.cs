@@ -22,30 +22,9 @@ public class EpmaStreamHubTests : StreamHubTestBase
 
         IReadOnlyList<EpmaResult> results = epmaHub.Results;
 
-        // Verify results match series calculation with tolerance for floating-point precision
+        // Verify results match series calculation exactly
         results.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            EpmaResult actual = results[i];
-            EpmaResult expected = series[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-
-            if (expected.Epma.HasValue && actual.Epma.HasValue)
-            {
-                actual.Epma.Should().BeApproximately(expected.Epma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actual.Epma.Should().Be(expected.Epma, $"at index {i}");
-            }
-        }
-
-        // Verify specific values
-        EpmaResult last = results[^1];
-        EpmaResult expectedLast = series[^1];
-        last.Epma.Should().BeApproximately(expectedLast.Epma, 6);
+        results.Should().BeEquivalentTo(series);
     }
 
     [TestMethod]
@@ -73,23 +52,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
         IReadOnlyList<EpmaResult> seriesResults = Quotes.ToEpma(lookbackPeriods);
 
         streamResults.Should().HaveCount(seriesResults.Count);
-
-        for (int i = 0; i < streamResults.Count; i++)
-        {
-            EpmaResult actual = streamResults[i];
-            EpmaResult expected = seriesResults[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-
-            if (expected.Epma.HasValue && actual.Epma.HasValue)
-            {
-                actual.Epma.Should().BeApproximately(expected.Epma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actual.Epma.Should().Be(expected.Epma, $"at index {i}");
-            }
-        }
+        streamResults.Should().BeEquivalentTo(seriesResults);
     }
 
     [TestMethod]
@@ -149,23 +112,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
             .ToSma(10);
 
         chainedResults.Should().HaveCount(expectedChained.Count);
-
-        for (int i = 0; i < chainedResults.Count; i++)
-        {
-            SmaResult actual = chainedResults[i];
-            SmaResult expected = expectedChained[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-
-            if (expected.Sma.HasValue && actual.Sma.HasValue)
-            {
-                actual.Sma.Should().BeApproximately(expected.Sma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actual.Sma.Should().Be(expected.Sma, $"at index {i}");
-            }
-        }
+        chainedResults.Should().BeEquivalentTo(expectedChained);
     }
 
     [TestMethod]
@@ -182,22 +129,6 @@ public class EpmaStreamHubTests : StreamHubTestBase
 
         IReadOnlyList<EpmaResult> results = epmaHub.Results;
         results.Should().HaveCount(Quotes.Count);
-
-        for (int i = 0; i < results.Count; i++)
-        {
-            EpmaResult actual = results[i];
-            EpmaResult expected = series[i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-
-            if (expected.Epma.HasValue && actual.Epma.HasValue)
-            {
-                actual.Epma.Should().BeApproximately(expected.Epma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actual.Epma.Should().Be(expected.Epma, $"at index {i}");
-            }
-        }
+        results.Should().BeEquivalentTo(series);
     }
 }

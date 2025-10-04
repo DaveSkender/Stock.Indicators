@@ -16,23 +16,7 @@ public class EpmaBufferListTests : BufferListTestBase
     private static void ValidateResults(IReadOnlyList<EpmaResult> actual, IReadOnlyList<EpmaResult> expected)
     {
         actual.Should().HaveCount(expected.Count);
-
-        for (int i = 0; i < actual.Count; i++)
-        {
-            EpmaResult actualResult = actual[i];
-            EpmaResult expectedResult = expected[i];
-
-            actualResult.Timestamp.Should().Be(expectedResult.Timestamp);
-
-            if (expectedResult.Epma.HasValue && actualResult.Epma.HasValue)
-            {
-                actualResult.Epma.Should().BeApproximately(expectedResult.Epma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actualResult.Epma.Should().Be(expectedResult.Epma, $"at index {i}");
-            }
-        }
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
