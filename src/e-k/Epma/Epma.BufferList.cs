@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 {
     private readonly Queue<double> _buffer;
+    private int _index;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class.
@@ -16,6 +17,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         Epma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods);
+        _index = 0;
     }
 
     /// <summary>
@@ -47,15 +49,16 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 
             if (slope.HasValue && intercept.HasValue)
             {
-                // EPMA calculation: slope * (current_index + 1) + intercept
-                // The current index for endpoint calculation is the buffer count
-                epma = (slope.Value * LookbackPeriods) + intercept.Value;
+                // EPMA calculation: slope * (current_global_index + 1) + intercept
+                // The current global index is _index (0-based), so we use (_index + 1)
+                epma = (slope.Value * (_index + 1)) + intercept.Value;
 
                 // Apply null handling for NaN values
                 epma = epma.Value.NaN2Null();
             }
         }
 
+        _index++;
         AddInternal(new EpmaResult(timestamp, epma));
     }
 
@@ -99,6 +102,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     public override void Clear()
     {
         _buffer.Clear();
+        _index = 0;
         ClearInternal();
     }
 
@@ -118,13 +122,16 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         double[] values = _buffer.ToArray();
         int periods = values.Length;
 
+        // Calculate the starting global index for this window
+        int startIndex = _index - periods + 1;
+
         // Calculate averages
         double sumX = 0;
         double sumY = 0;
 
         for (int i = 0; i < periods; i++)
         {
-            sumX += i + 1d; // X values are 1, 2, 3, ..., n
+            sumX += startIndex + i + 1d; // X values are global positions (1-based)
             sumY += values[i];
         }
 
@@ -137,7 +144,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 
         for (int i = 0; i < periods; i++)
         {
-            double devX = (i + 1d) - avgX;
+            double devX = (startIndex + i + 1d) - avgX;
             double devY = values[i] - avgY;
 
             sumSqX += devX * devX;

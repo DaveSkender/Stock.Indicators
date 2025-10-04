@@ -97,13 +97,13 @@ public class EpmaHub<TIn>
         // Calculate linear regression for the lookback window
         int startIndex = endIndex - lookbackPeriods + 1;
 
-        // Calculate averages
+        // Calculate averages using global position indices
         double sumX = 0;
         double sumY = 0;
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            sumX += i + 1d; // X values are 1, 2, 3, ..., n
+            sumX += startIndex + i + 1d; // X values are global positions (1-based)
             sumY += source[startIndex + i].Value;
         }
 
@@ -116,7 +116,7 @@ public class EpmaHub<TIn>
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            double devX = (i + 1d) - avgX;
+            double devX = (startIndex + i + 1d) - avgX;
             double devY = source[startIndex + i].Value - avgY;
 
             sumSqX += devX * devX;
@@ -132,8 +132,8 @@ public class EpmaHub<TIn>
         double intercept = avgY - (slope * avgX);
 
         // EPMA calculation: slope * (endpoint_index + 1) + intercept
-        // The endpoint index for EPMA calculation is the lookback period
-        double epma = (slope * lookbackPeriods) + intercept;
+        // The endpoint index is the actual position (endIndex) in the dataset (1-based)
+        double epma = (slope * (endIndex + 1)) + intercept;
 
         return epma;
     }
