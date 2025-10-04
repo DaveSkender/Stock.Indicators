@@ -114,6 +114,9 @@ public class StreamIndicators
     public object TrHub() => provider.ToTr().Results;
 
     [Benchmark]
+    public object UltimateHub() => provider.ToUltimate(7, 14, 28).Results;
+
+    [Benchmark]
     public object VwmaHub() => provider.ToVwma(14).Results;
 
     [Benchmark]
