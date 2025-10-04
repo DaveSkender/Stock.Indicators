@@ -110,7 +110,7 @@ public class WilliamsRHub<TIn>
             williamsR = !isViable
                  ? double.NaN
                  : highHigh - lowLow != 0
-                 ? -100 * (highHigh - (double)item.Close) / (highHigh - lowLow)
+                 ? 100 * ((double)item.Close - lowLow) / (highHigh - lowLow) - 100
                  : 0;
         }
 
