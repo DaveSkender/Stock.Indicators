@@ -3,9 +3,21 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Endpoint Moving Average (EPMA) from incremental reusable values.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Memory Management:</b> This implementation maintains a cache of all added values
+/// to support the EPMA calculation which requires global position indices. The cache
+/// is automatically pruned when it exceeds <see cref="MaxCacheSize"/> items, keeping
+/// only the minimum required for the lookback period plus a buffer.
+/// </para>
+/// </remarks>
 public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 {
     private readonly Queue<double> _buffer;
+    private readonly List<IReusable> _cache;
+    private int _cacheOffset; // Tracks how many items have been pruned from cache
+
+    private const int MaxCacheSize = 1000; // Trigger point to prune cache
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class.
@@ -16,6 +28,8 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         Epma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods);
+        _cache = [];
+        _cacheOffset = 0;
     }
 
     /// <summary>
@@ -38,25 +52,19 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         // Use universal buffer extension method for consistent buffer management
         _buffer.Update(LookbackPeriods, value);
 
-        // Calculate EPMA when we have enough values
-        double? epma = null;
-        if (_buffer.Count == LookbackPeriods)
-        {
-            // Calculate linear regression (slope and intercept) for the buffer
-            (double? slope, double? intercept) = CalculateLinearRegression();
+        // Add to cache for Increment calculation
+        _cache.Add(new Quote { Timestamp = timestamp, Close = (decimal)value });
 
-            if (slope.HasValue && intercept.HasValue)
-            {
-                // EPMA calculation: slope * (current_index + 1) + intercept
-                // The current index for endpoint calculation is the buffer count
-                epma = (slope.Value * LookbackPeriods) + intercept.Value;
+        // Calculate EPMA when we have enough values using shared Increment method
+        // The actual global index is cache index + offset (to account for pruned items)
+        int cacheIndex = _cache.Count - 1;
+        int globalIndex = _cacheOffset + cacheIndex;
+        double epma = Epma.Increment(_cache, LookbackPeriods, cacheIndex, globalIndex);
 
-                // Apply null handling for NaN values
-                epma = epma.Value.NaN2Null();
-            }
-        }
+        AddInternal(new EpmaResult(timestamp, epma.NaN2Null()));
 
-        AddInternal(new EpmaResult(timestamp, epma));
+        // Prune cache if it exceeds MaxCacheSize
+        PruneCache();
     }
 
     /// <inheritdoc />
@@ -99,55 +107,31 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     public override void Clear()
     {
         _buffer.Clear();
+        _cache.Clear();
+        _cacheOffset = 0;
         ClearInternal();
     }
 
     /// <summary>
-    /// Calculates the linear regression (slope and intercept) for the current buffer values.
-    /// This implements the same least squares method as the static Slope implementation.
+    /// Prunes the internal cache to prevent unbounded memory growth.
+    /// Removes older data while preserving the minimum required periods for calculations.
     /// </summary>
-    /// <returns>A tuple containing the slope and intercept values.</returns>
-    private (double? slope, double? intercept) CalculateLinearRegression()
+    private void PruneCache()
     {
-        if (_buffer.Count < LookbackPeriods)
+        if (_cache.Count <= MaxCacheSize)
         {
-            return (null, null);
+            return;
         }
 
-        // Convert buffer to array for easier indexing
-        double[] values = _buffer.ToArray();
-        int periods = values.Length;
+        // Calculate how many items to remove
+        // Keep at least LookbackPeriods elements for calculations
+        int removeCount = _cache.Count - LookbackPeriods;
 
-        // Calculate averages
-        double sumX = 0;
-        double sumY = 0;
-
-        for (int i = 0; i < periods; i++)
+        if (removeCount > 0)
         {
-            sumX += i + 1d; // X values are 1, 2, 3, ..., n
-            sumY += values[i];
+            _cache.RemoveRange(0, removeCount);
+            _cacheOffset += removeCount; // Track total number of items removed
         }
-
-        double avgX = sumX / periods;
-        double avgY = sumY / periods;
-
-        // Least squares method
-        double sumSqX = 0;
-        double sumSqXy = 0;
-
-        for (int i = 0; i < periods; i++)
-        {
-            double devX = (i + 1d) - avgX;
-            double devY = values[i] - avgY;
-
-            sumSqX += devX * devX;
-            sumSqXy += devX * devY;
-        }
-
-        double? slope = (sumSqXy / sumSqX).NaN2Null();
-        double? intercept = (avgY - (slope * avgX)).NaN2Null();
-
-        return (slope, intercept);
     }
 }
 

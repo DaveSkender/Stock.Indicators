@@ -16,23 +16,7 @@ public class EpmaBufferListTests : BufferListTestBase
     private static void ValidateResults(IReadOnlyList<EpmaResult> actual, IReadOnlyList<EpmaResult> expected)
     {
         actual.Should().HaveCount(expected.Count);
-
-        for (int i = 0; i < actual.Count; i++)
-        {
-            EpmaResult actualResult = actual[i];
-            EpmaResult expectedResult = expected[i];
-
-            actualResult.Timestamp.Should().Be(expectedResult.Timestamp);
-
-            if (expectedResult.Epma.HasValue && actualResult.Epma.HasValue)
-            {
-                actualResult.Epma.Should().BeApproximately(expectedResult.Epma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actualResult.Epma.Should().Be(expectedResult.Epma, $"at index {i}");
-            }
-        }
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
@@ -111,6 +95,44 @@ public class EpmaBufferListTests : BufferListTestBase
 
         IReadOnlyList<EpmaResult> expected = subset.ToEpma(lookbackPeriods);
 
+        ValidateResults(sut, expected);
+    }
+
+    [TestMethod]
+    public void LargeDatasetWithPruning()
+    {
+        // Create a dataset larger than the pruning threshold (1000)
+        // to verify that pruning doesn't affect accuracy
+        const int dataSize = 1500;
+        EpmaList sut = new(lookbackPeriods);
+
+        // Generate test data
+        List<Quote> largeDataset = [];
+        DateTime startDate = new(2020, 1, 1);
+        Random random = new(42); // Fixed seed for reproducibility
+
+        for (int i = 0; i < dataSize; i++)
+        {
+            largeDataset.Add(new Quote {
+                Timestamp = startDate.AddDays(i),
+                Close = (decimal)(200 + (random.NextDouble() * 20) - 10)
+            });
+        }
+
+        // Add all data to buffer list
+        foreach (Quote quote in largeDataset)
+        {
+            sut.Add(quote);
+        }
+
+        // Verify we have all results
+        sut.Should().HaveCount(dataSize);
+
+        // Calculate expected results using static series
+        IReadOnlyList<EpmaResult> expected = largeDataset.ToEpma(lookbackPeriods);
+
+        // Verify the buffer list results match static series
+        // This confirms pruning doesn't affect accuracy
         ValidateResults(sut, expected);
     }
 }
