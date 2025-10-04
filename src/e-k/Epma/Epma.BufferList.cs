@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 {
     private readonly Queue<double> _buffer;
-    private int _index;
+    private readonly List<IReusable> _cache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class.
@@ -17,7 +17,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         Epma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods);
-        _index = 0;
+        _cache = [];
     }
 
     /// <summary>
@@ -40,26 +40,14 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         // Use universal buffer extension method for consistent buffer management
         _buffer.Update(LookbackPeriods, value);
 
-        // Calculate EPMA when we have enough values
-        double? epma = null;
-        if (_buffer.Count == LookbackPeriods)
-        {
-            // Calculate linear regression (slope and intercept) for the buffer
-            (double? slope, double? intercept) = CalculateLinearRegression();
+        // Add to cache for Increment calculation
+        _cache.Add(new Quote { Timestamp = timestamp, Close = (decimal)value });
 
-            if (slope.HasValue && intercept.HasValue)
-            {
-                // EPMA calculation: slope * (current_global_index + 1) + intercept
-                // The current global index is _index (0-based), so we use (_index + 1)
-                epma = (slope.Value * (_index + 1)) + intercept.Value;
+        // Calculate EPMA when we have enough values using shared Increment method
+        int currentIndex = _cache.Count - 1;
+        double epma = Epma.Increment(_cache, LookbackPeriods, currentIndex);
 
-                // Apply null handling for NaN values
-                epma = epma.Value.NaN2Null();
-            }
-        }
-
-        _index++;
-        AddInternal(new EpmaResult(timestamp, epma));
+        AddInternal(new EpmaResult(timestamp, epma.NaN2Null()));
     }
 
     /// <inheritdoc />
@@ -102,59 +90,8 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     public override void Clear()
     {
         _buffer.Clear();
-        _index = 0;
+        _cache.Clear();
         ClearInternal();
-    }
-
-    /// <summary>
-    /// Calculates the linear regression (slope and intercept) for the current buffer values.
-    /// This implements the same least squares method as the static Slope implementation.
-    /// </summary>
-    /// <returns>A tuple containing the slope and intercept values.</returns>
-    private (double? slope, double? intercept) CalculateLinearRegression()
-    {
-        if (_buffer.Count < LookbackPeriods)
-        {
-            return (null, null);
-        }
-
-        // Convert buffer to array for easier indexing
-        double[] values = _buffer.ToArray();
-        int periods = values.Length;
-
-        // Calculate the starting global index for this window
-        int startIndex = _index - periods + 1;
-
-        // Calculate averages
-        double sumX = 0;
-        double sumY = 0;
-
-        for (int i = 0; i < periods; i++)
-        {
-            sumX += startIndex + i + 1d; // X values are global positions (1-based)
-            sumY += values[i];
-        }
-
-        double avgX = sumX / periods;
-        double avgY = sumY / periods;
-
-        // Least squares method
-        double sumSqX = 0;
-        double sumSqXy = 0;
-
-        for (int i = 0; i < periods; i++)
-        {
-            double devX = (startIndex + i + 1d) - avgX;
-            double devY = values[i] - avgY;
-
-            sumSqX += devX * devX;
-            sumSqXy += devX * devY;
-        }
-
-        double? slope = (sumSqXy / sumSqX).NaN2Null();
-        double? intercept = (avgY - (slope * avgX)).NaN2Null();
-
-        return (slope, intercept);
     }
 }
 

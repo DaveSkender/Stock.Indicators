@@ -71,70 +71,8 @@ public class EpmaHub<TIn>
         // candidate result
         EpmaResult r = new(
             Timestamp: item.Timestamp,
-            Epma: Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
+            Epma: Epma.Increment(ProviderCache, LookbackPeriods, i).NaN2Null());
 
         return (r, i);
-    }
-
-    /// <summary>
-    /// Calculates EPMA increment for the current position using linear regression.
-    /// </summary>
-    /// <param name="source">The source data provider cache.</param>
-    /// <param name="lookbackPeriods">The number of periods to look back.</param>
-    /// <param name="endIndex">The current index position to evaluate.</param>
-    /// <returns>The EPMA value or double.NaN if incalculable.</returns>
-    private static double Increment<T>(
-        IReadOnlyList<T> source,
-        int lookbackPeriods,
-        int endIndex)
-        where T : IReusable
-    {
-        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
-        {
-            return double.NaN;
-        }
-
-        // Calculate linear regression for the lookback window
-        int startIndex = endIndex - lookbackPeriods + 1;
-
-        // Calculate averages using global position indices
-        double sumX = 0;
-        double sumY = 0;
-
-        for (int i = 0; i < lookbackPeriods; i++)
-        {
-            sumX += startIndex + i + 1d; // X values are global positions (1-based)
-            sumY += source[startIndex + i].Value;
-        }
-
-        double avgX = sumX / lookbackPeriods;
-        double avgY = sumY / lookbackPeriods;
-
-        // Least squares method
-        double sumSqX = 0;
-        double sumSqXy = 0;
-
-        for (int i = 0; i < lookbackPeriods; i++)
-        {
-            double devX = (startIndex + i + 1d) - avgX;
-            double devY = source[startIndex + i].Value - avgY;
-
-            sumSqX += devX * devX;
-            sumSqXy += devX * devY;
-        }
-
-        if (sumSqX == 0)
-        {
-            return double.NaN;
-        }
-
-        double slope = sumSqXy / sumSqX;
-        double intercept = avgY - (slope * avgX);
-
-        // EPMA calculation: slope * (endpoint_index + 1) + intercept
-        // The endpoint index is the actual position (endIndex) in the dataset (1-based)
-        double epma = (slope * (endIndex + 1)) + intercept;
-
-        return epma;
     }
 }
