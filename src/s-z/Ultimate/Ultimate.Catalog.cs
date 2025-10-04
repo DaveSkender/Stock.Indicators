@@ -21,6 +21,15 @@ public static partial class Ultimate
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Ultimate Oscillator.
-    // No BufferListing for Ultimate Oscillator.
+    // Ultimate Oscillator Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Ultimate Oscillator Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }
