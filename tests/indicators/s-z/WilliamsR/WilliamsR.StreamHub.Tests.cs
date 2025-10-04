@@ -29,26 +29,10 @@ public class WilliamsR : StreamHubTestBase
         // assert results
         observer.Cache.Should().HaveCount(length);
 
-        // verify against static series calculation with tolerance
+        // verify against static series calculation
         IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(14);
         observer.Cache.Should().HaveCount(expected.Count);
-
-        for (int i = 0; i < observer.Cache.Count; i++)
-        {
-            WilliamsResult actual = observer.Cache[i];
-            WilliamsResult exp = expected[i];
-
-            actual.Timestamp.Should().Be(exp.Timestamp);
-
-            if (exp.WilliamsR.HasValue && actual.WilliamsR.HasValue)
-            {
-                actual.WilliamsR.Should().BeApproximately(exp.WilliamsR.Value, 0.001);
-            }
-            else
-            {
-                actual.WilliamsR.Should().Be(exp.WilliamsR);
-            }
-        }
+        observer.Cache.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
@@ -78,26 +62,10 @@ public class WilliamsR : StreamHubTestBase
         // close observations
         provider.EndTransmission();
 
-        // verify consistency with tolerance
+        // verify consistency
         IReadOnlyList<WilliamsResult> expected = Quotes.ToWilliamsR(lookbackPeriods);
         observer.Cache.Should().HaveCount(expected.Count);
-
-        for (int i = 0; i < observer.Cache.Count; i++)
-        {
-            WilliamsResult actual = observer.Cache[i];
-            WilliamsResult exp = expected[i];
-
-            actual.Timestamp.Should().Be(exp.Timestamp);
-
-            if (exp.WilliamsR.HasValue && actual.WilliamsR.HasValue)
-            {
-                actual.WilliamsR.Should().BeApproximately(exp.WilliamsR.Value, 0.001);
-            }
-            else
-            {
-                actual.WilliamsR.Should().Be(exp.WilliamsR);
-            }
-        }
+        observer.Cache.Should().BeEquivalentTo(expected);
     }
 
     [TestMethod]
@@ -146,25 +114,9 @@ public class WilliamsR : StreamHubTestBase
         // batch calculation
         IReadOnlyList<WilliamsResult> batchResults = Quotes.ToWilliamsR(lookbackPeriods);
 
-        // compare results with reasonable precision
+        // compare results
         streamObserver.Cache.Should().HaveCount(batchResults.Count);
-
-        for (int i = 0; i < streamObserver.Cache.Count; i++)
-        {
-            WilliamsResult streamResult = streamObserver.Cache[i];
-            WilliamsResult batchResult = batchResults[i];
-
-            streamResult.Timestamp.Should().Be(batchResult.Timestamp);
-
-            if (streamResult.WilliamsR.HasValue && batchResult.WilliamsR.HasValue)
-            {
-                streamResult.WilliamsR.Should().BeApproximately(batchResult.WilliamsR.Value, 0.001);
-            }
-            else
-            {
-                streamResult.WilliamsR.Should().Be(batchResult.WilliamsR);
-            }
-        }
+        streamObserver.Cache.Should().BeEquivalentTo(batchResults);
     }
 
     [TestMethod]
