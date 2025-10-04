@@ -177,7 +177,7 @@ public class Alma : BufferListTestBase
                 }
                 else
                 {
-                    a.Alma.Should().BeApproximately(e.Alma.Value, 0.00000001,
+                    a.Alma.Should().Be(e.Alma.Value,
                         $"ALMA value mismatch at index {i} for parameters: lookback={lookback}, offset={offset}, sigma={sigma}. " +
                         $"Expected: {e.Alma:F8}, Actual: {a.Alma:F8}");
                 }
@@ -208,8 +208,8 @@ public class Alma : BufferListTestBase
         }
         else
         {
-            almaList[1].Alma.Should().BeApproximately(
-                expectedResults[1].Alma!.Value, 0.00000001,
+            almaList[1].Alma.Should().Be(
+                expectedResults[1].Alma!.Value,
                 "Second quote ALMA mismatch based on static series");
         }
     }
