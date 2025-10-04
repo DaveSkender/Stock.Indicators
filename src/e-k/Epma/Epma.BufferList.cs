@@ -3,10 +3,21 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Endpoint Moving Average (EPMA) from incremental reusable values.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Memory Management:</b> This implementation maintains a cache of all added values
+/// to support the EPMA calculation which requires global position indices. The cache
+/// is automatically pruned when it exceeds <see cref="MaxCacheSize"/> items, keeping
+/// only the minimum required for the lookback period plus a buffer.
+/// </para>
+/// </remarks>
 public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 {
     private readonly Queue<double> _buffer;
     private readonly List<IReusable> _cache;
+    private int _cacheOffset; // Tracks how many items have been pruned from cache
+
+    private const int MaxCacheSize = 1000; // Trigger point to prune cache
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EpmaList"/> class.
@@ -18,6 +29,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         LookbackPeriods = lookbackPeriods;
         _buffer = new Queue<double>(lookbackPeriods);
         _cache = [];
+        _cacheOffset = 0;
     }
 
     /// <summary>
@@ -44,10 +56,15 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         _cache.Add(new Quote { Timestamp = timestamp, Close = (decimal)value });
 
         // Calculate EPMA when we have enough values using shared Increment method
-        int currentIndex = _cache.Count - 1;
-        double epma = Epma.Increment(_cache, LookbackPeriods, currentIndex);
+        // The actual global index is cache index + offset (to account for pruned items)
+        int cacheIndex = _cache.Count - 1;
+        int globalIndex = _cacheOffset + cacheIndex;
+        double epma = Epma.Increment(_cache, LookbackPeriods, cacheIndex, globalIndex);
 
         AddInternal(new EpmaResult(timestamp, epma.NaN2Null()));
+
+        // Prune cache if it exceeds MaxCacheSize
+        PruneCache();
     }
 
     /// <inheritdoc />
@@ -91,7 +108,30 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     {
         _buffer.Clear();
         _cache.Clear();
+        _cacheOffset = 0;
         ClearInternal();
+    }
+
+    /// <summary>
+    /// Prunes the internal cache to prevent unbounded memory growth.
+    /// Removes older data while preserving the minimum required periods for calculations.
+    /// </summary>
+    private void PruneCache()
+    {
+        if (_cache.Count <= MaxCacheSize)
+        {
+            return;
+        }
+
+        // Calculate how many items to remove
+        // Keep at least LookbackPeriods elements for calculations
+        int removeCount = _cache.Count - LookbackPeriods;
+
+        if (removeCount > 0)
+        {
+            _cache.RemoveRange(0, removeCount);
+            _cacheOffset += removeCount; // Track total number of items removed
+        }
     }
 }
 

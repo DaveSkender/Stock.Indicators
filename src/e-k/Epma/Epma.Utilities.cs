@@ -51,14 +51,32 @@ public static partial class Epma
         int lookbackPeriods,
         int endIndex)
         where T : IReusable
+        => Increment(source, lookbackPeriods, endIndex, endIndex);
+
+    /// <summary>
+    /// Calculates EPMA increment for the current position using linear regression.
+    /// </summary>
+    /// <typeparam name="T">The type of the source items, must implement IReusable.</typeparam>
+    /// <param name="source">The source data provider cache.</param>
+    /// <param name="lookbackPeriods">The number of periods to look back.</param>
+    /// <param name="cacheIndex">The index position in the cache to evaluate.</param>
+    /// <param name="globalIndex">The actual global position in the full dataset (accounting for pruning).</param>
+    /// <returns>The EPMA value or double.NaN if incalculable.</returns>
+    internal static double Increment<T>(
+        IReadOnlyList<T> source,
+        int lookbackPeriods,
+        int cacheIndex,
+        int globalIndex)
+        where T : IReusable
     {
-        if (endIndex < lookbackPeriods - 1 || endIndex >= source.Count)
+        if (cacheIndex < lookbackPeriods - 1 || cacheIndex >= source.Count)
         {
             return double.NaN;
         }
 
-        // Calculate linear regression for the lookback window
-        int startIndex = endIndex - lookbackPeriods + 1;
+        // Calculate linear regression for the lookback window using cache indices
+        int startCacheIndex = cacheIndex - lookbackPeriods + 1;
+        int startGlobalIndex = globalIndex - lookbackPeriods + 1;
 
         // Calculate averages using global position indices
         double sumX = 0;
@@ -66,8 +84,8 @@ public static partial class Epma
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            sumX += startIndex + i + 1d; // X values are global positions (1-based)
-            sumY += source[startIndex + i].Value;
+            sumX += startGlobalIndex + i + 1d; // X values are global positions (1-based)
+            sumY += source[startCacheIndex + i].Value;
         }
 
         double avgX = sumX / lookbackPeriods;
@@ -79,8 +97,8 @@ public static partial class Epma
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            double devX = (startIndex + i + 1d) - avgX;
-            double devY = source[startIndex + i].Value - avgY;
+            double devX = (startGlobalIndex + i + 1d) - avgX;
+            double devY = source[startCacheIndex + i].Value - avgY;
 
             sumSqX += devX * devX;
             sumSqXy += devX * devY;
@@ -95,8 +113,8 @@ public static partial class Epma
         double intercept = avgY - (slope * avgX);
 
         // EPMA calculation: slope * (endpoint_index + 1) + intercept
-        // The endpoint index is the actual position (endIndex) in the dataset (1-based)
-        double epma = (slope * (endIndex + 1)) + intercept;
+        // The endpoint index is the actual global position (1-based)
+        double epma = (slope * (globalIndex + 1)) + intercept;
 
         return epma;
     }
