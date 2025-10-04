@@ -41,7 +41,6 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
     private double _smoothBufferSumC;
     private double _smoothBufferSumA;
     private double _signalBufferSum;
-    private int _tsiCount;  // Count of TSI values calculated
 
     private double? _lastPriceChange;
     private double? _lastCs1;
@@ -81,7 +80,6 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         _smoothBufferSumC = 0;
         _smoothBufferSumA = 0;
         _signalBufferSum = 0;
-        _tsiCount = 0;
     }
 
     /// <summary>
@@ -141,16 +139,22 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
 
         // Update lookback buffers using BufferUtilities
         double? dequeuedC = _lookbackBufferC.UpdateWithDequeue(LookbackPeriods, priceChange);
-        double? dequeuedA = _lookbackBufferA.UpdateWithDequeue(LookbackPeriods, absChange);
-
         if (dequeuedC.HasValue)
         {
             _lookbackBufferSumC = _lookbackBufferSumC - dequeuedC.Value + priceChange;
-            _lookbackBufferSumA = _lookbackBufferSumA - dequeuedA.Value + absChange;
         }
         else
         {
             _lookbackBufferSumC += priceChange;
+        }
+
+        double? dequeuedA = _lookbackBufferA.UpdateWithDequeue(LookbackPeriods, absChange);
+        if (dequeuedA.HasValue)
+        {
+            _lookbackBufferSumA = _lookbackBufferSumA - dequeuedA.Value + absChange;
+        }
+        else
+        {
             _lookbackBufferSumA += absChange;
         }
 
@@ -169,8 +173,8 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
             else
             {
                 // Normal EMA calculation
-                cs1 = ((priceChange - _lastCs1.Value) * Mult1) + _lastCs1.Value;
-                as1 = ((absChange - _lastAs1!.Value) * Mult1) + _lastAs1.Value;
+                cs1 = Ema.Increment(Mult1, _lastCs1.Value, priceChange);
+                as1 = Ema.Increment(Mult1, _lastAs1!.Value, absChange);
             }
 
             _lastCs1 = cs1;
@@ -185,20 +189,26 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         {
             // Update smooth buffers
             double? dequeuedCs = _smoothBufferC.UpdateWithDequeue(SmoothPeriods, cs1.Value);
-            double? dequeuedAs = _smoothBufferA.UpdateWithDequeue(SmoothPeriods, as1.Value);
-
             if (dequeuedCs.HasValue)
             {
                 _smoothBufferSumC = _smoothBufferSumC - dequeuedCs.Value + cs1.Value;
-                _smoothBufferSumA = _smoothBufferSumA - dequeuedAs!.Value + as1.Value;
             }
             else
             {
                 _smoothBufferSumC += cs1.Value;
+            }
+
+            double? dequeuedAs = _smoothBufferA.UpdateWithDequeue(SmoothPeriods, as1.Value);
+            if (dequeuedAs.HasValue)
+            {
+                _smoothBufferSumA = _smoothBufferSumA - dequeuedAs.Value + as1.Value;
+            }
+            else
+            {
                 _smoothBufferSumA += as1.Value;
             }
 
-            if (_smoothBufferC.Count >= SmoothPeriods)
+            if (Count >= LookbackPeriods + SmoothPeriods - 1)
             {
                 if (_lastCs2 is null)
                 {
@@ -209,8 +219,8 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
                 else
                 {
                     // Normal EMA calculation
-                    cs2 = ((cs1.Value - _lastCs2.Value) * Mult2) + _lastCs2.Value;
-                    as2 = ((as1.Value - _lastAs2!.Value) * Mult2) + _lastAs2.Value;
+                    cs2 = Ema.Increment(Mult2, _lastCs2.Value, cs1.Value);
+                    as2 = Ema.Increment(Mult2, _lastAs2!.Value, as1.Value);
                 }
 
                 _lastCs2 = cs2;
@@ -223,7 +233,6 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         if (cs2.HasValue && as2.HasValue && as2.Value != 0)
         {
             tsi = 100d * (cs2.Value / as2.Value);
-            _tsiCount++;
         }
 
         // Calculate Signal line
@@ -234,7 +243,6 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
             {
                 // Update signal buffer
                 double? dequeuedSignal = _signalBuffer.UpdateWithDequeue(SignalPeriods, tsi.Value);
-
                 if (dequeuedSignal.HasValue)
                 {
                     _signalBufferSum = _signalBufferSum - dequeuedSignal.Value + tsi.Value;
@@ -244,21 +252,20 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
                     _signalBufferSum += tsi.Value;
                 }
 
-                // Initialize signal when we have signalPeriods or more TSI values
-                if (_lastSignal is null && _tsiCount >= SignalPeriods)
+                // Initialize when we have enough total results
+                if (Count >= LookbackPeriods + SmoothPeriods + SignalPeriods - 2)
                 {
-                    // Initialize as SMA
-                    signal = _signalBufferSum / SignalPeriods;
-                }
-                // Continue with EMA after initialization
-                else if (_lastSignal is not null)
-                {
-                    // Normal EMA calculation
-                    signal = ((tsi.Value - _lastSignal.Value) * MultS) + _lastSignal.Value;
-                }
+                    if (_lastSignal is null)
+                    {
+                        // Initialize as SMA
+                        signal = _signalBufferSum / SignalPeriods;
+                    }
+                    else
+                    {
+                        // Normal EMA calculation
+                        signal = Ema.Increment(MultS, _lastSignal.Value, tsi.Value);
+                    }
 
-                if (signal.HasValue)
-                {
                     _lastSignal = signal;
                 }
             }
@@ -327,7 +334,6 @@ public class TsiList : BufferList<TsiResult>, IBufferReusable, ITsi
         _smoothBufferSumC = 0;
         _smoothBufferSumA = 0;
         _signalBufferSum = 0;
-        _tsiCount = 0;
         _lastPriceChange = null;
         _lastCs1 = null;
         _lastAs1 = null;
