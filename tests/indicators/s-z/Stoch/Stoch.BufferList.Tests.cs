@@ -95,33 +95,9 @@ public class Stoch : BufferListTestBase
             StochResult bat = batch[i];
 
             inc.Timestamp.Should().Be(bat.Timestamp);
-
-            if (inc.Oscillator.HasValue && bat.Oscillator.HasValue)
-            {
-                inc.Oscillator.Should().BeApproximately(bat.Oscillator.Value, 0.0001);
-            }
-            else
-            {
-                inc.Oscillator.Should().Be(bat.Oscillator);
-            }
-
-            if (inc.Signal.HasValue && bat.Signal.HasValue)
-            {
-                inc.Signal.Should().BeApproximately(bat.Signal.Value, 0.0001);
-            }
-            else
-            {
-                inc.Signal.Should().Be(bat.Signal);
-            }
-
-            if (inc.PercentJ.HasValue && bat.PercentJ.HasValue)
-            {
-                inc.PercentJ.Should().BeApproximately(bat.PercentJ.Value, 0.0001);
-            }
-            else
-            {
-                inc.PercentJ.Should().Be(bat.PercentJ);
-            }
+            inc.Oscillator.Should().Be(bat.Oscillator);
+            inc.Signal.Should().Be(bat.Signal);
+            inc.PercentJ.Should().Be(bat.PercentJ);
         }
     }
 
