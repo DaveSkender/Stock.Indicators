@@ -125,11 +125,11 @@ public class Macd : BufferListTestBase
         MacdResult streamResult = sut[50];
         MacdResult seriesResult = series[50];
 
-        streamResult.Macd.Should().BeApproximately(seriesResult.Macd, 0.0001);
-        streamResult.Signal.Should().BeApproximately(seriesResult.Signal, 0.0001);
-        streamResult.Histogram.Should().BeApproximately(seriesResult.Histogram, 0.0001);
-        streamResult.FastEma.Should().BeApproximately(seriesResult.FastEma, 0.0001);
-        streamResult.SlowEma.Should().BeApproximately(seriesResult.SlowEma, 0.0001);
+        streamResult.Macd.Should().Be(seriesResult.Macd);
+        streamResult.Signal.Should().Be(seriesResult.Signal);
+        streamResult.Histogram.Should().Be(seriesResult.Histogram);
+        streamResult.FastEma.Should().Be(seriesResult.FastEma);
+        streamResult.SlowEma.Should().Be(seriesResult.SlowEma);
 
         streamResult.Should().Be(seriesResult);
         sut.ToList().Should().BeEquivalentTo(series.Take(100));
