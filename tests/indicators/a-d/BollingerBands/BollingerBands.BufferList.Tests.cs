@@ -132,7 +132,7 @@ public class BollingerBandsBufferList : BufferListTestBase
                 }
                 else
                 {
-                    a.Sma.Should().BeApproximately(e.Sma.Value, 0.0001, $"SMA mismatch at index {i} for period {period}");
+                    a.Sma.Should().Be(e.Sma.Value, $"SMA mismatch at index {i} for period {period}");
                 }
 
                 if (e.UpperBand is null)
@@ -141,7 +141,7 @@ public class BollingerBandsBufferList : BufferListTestBase
                 }
                 else
                 {
-                    a.UpperBand.Should().BeApproximately(e.UpperBand.Value, 0.0001, $"UpperBand mismatch at index {i} for period {period}");
+                    a.UpperBand.Should().Be(e.UpperBand.Value, $"UpperBand mismatch at index {i} for period {period}");
                 }
 
                 if (e.LowerBand is null)
@@ -150,7 +150,7 @@ public class BollingerBandsBufferList : BufferListTestBase
                 }
                 else
                 {
-                    a.LowerBand.Should().BeApproximately(e.LowerBand.Value, 0.0001, $"LowerBand mismatch at index {i} for period {period}");
+                    a.LowerBand.Should().Be(e.LowerBand.Value, $"LowerBand mismatch at index {i} for period {period}");
                 }
             }
         }
@@ -179,7 +179,7 @@ public class BollingerBandsBufferList : BufferListTestBase
         }
         else
         {
-            bbList[1].Sma.Should().BeApproximately(expectedResults[1].Sma.Value, 0.0001, "Second quote SMA should match expected");
+            bbList[1].Sma.Should().Be(expectedResults[1].Sma.Value, "Second quote SMA should match expected");
         }
     }
 
