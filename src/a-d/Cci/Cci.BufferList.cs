@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class CciList : BufferList<CciResult>, IBufferList, ICci
 {
     private readonly Queue<double> _tpBuffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CciList"/> class.
@@ -16,6 +17,7 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
         Cci.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
+        MaxListSize = DefaultMaxListSize;
         _tpBuffer = new Queue<double>(lookbackPeriods);
     }
 
@@ -32,6 +34,14 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -71,6 +81,7 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
         }
 
         AddInternal(new CciResult(quote.Timestamp, cci));
+        PruneList();
     }
 
     /// <inheritdoc />
@@ -89,5 +100,22 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
     {
         ClearInternal();
         _tpBuffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }

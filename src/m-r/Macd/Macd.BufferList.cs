@@ -31,6 +31,7 @@ public static partial class Macd
 public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
 {
     private readonly Queue<double> _fastBuffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly Queue<double> _slowBuffer;
     private readonly Queue<double> _macdBuffer;
     private double _fastBufferSum;
@@ -61,6 +62,7 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
         SlowK = 2d / (slowPeriods + 1);
         SignalK = 2d / (signalPeriods + 1);
 
+        MaxListSize = DefaultMaxListSize;
         _fastBuffer = new Queue<double>(fastPeriods);
         _slowBuffer = new Queue<double>(slowPeriods);
         _macdBuffer = new Queue<double>(signalPeriods);
@@ -108,6 +110,14 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
     /// Gets the smoothing factor for the signal line.
     /// </summary>
     public double SignalK { get; private init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -224,6 +234,7 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
             SlowEma: slowEma);
 
         AddInternal(result);
+        PruneList();
     }
 
     /// <inheritdoc />
@@ -275,5 +286,22 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
         _lastFastEma = null;
         _lastSlowEma = null;
         _lastSignalEma = null;
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }

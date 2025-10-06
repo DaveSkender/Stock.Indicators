@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
 {
     private readonly int _lookbackPeriods;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private double _previousClose;
     private double? _previousAtr;
     private double _sumTr;
@@ -21,7 +22,8 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
         LookbackPeriods = lookbackPeriods;
         _isInitialized = false;
         _sumTr = 0;
-    }
+
+        MaxListSize = DefaultMaxListSize;    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtrList"/> class with initial quotes.
@@ -36,6 +38,14 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -54,6 +64,7 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
             _isInitialized = true;
 
             AddInternal(new AtrResult(timestamp, null, null, null));
+            PruneList();
             return;
         }
 
@@ -93,6 +104,7 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
             atrp);
 
         AddInternal(result);
+        PruneList();
         _previousClose = close;
     }
 
@@ -115,6 +127,23 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
         _previousAtr = null;
         _sumTr = 0;
         _isInitialized = false;
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
 

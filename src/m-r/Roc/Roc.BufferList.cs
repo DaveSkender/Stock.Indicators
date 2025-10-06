@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
 {
     private readonly Queue<double> buffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RocList"/> class.
@@ -15,7 +16,8 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     {
         Roc.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        buffer = new Queue<double>(lookbackPeriods + 1);
+
+        MaxListSize = DefaultMaxListSize;        buffer = new Queue<double>(lookbackPeriods + 1);
     }
 
     /// <summary>
@@ -31,6 +33,14 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -64,6 +74,7 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
             Timestamp: timestamp,
             Momentum: momentum.NaN2Null(),
             Roc: roc.NaN2Null()));
+        PruneList();
     }
 
     /// <summary>
@@ -125,6 +136,23 @@ public class RocList : BufferList<RocResult>, IBufferReusable, IRoc
     {
         ClearInternal();
         buffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
 

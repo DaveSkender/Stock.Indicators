@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
 {
     private readonly Queue<double> _gainBuffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly Queue<double> _lossBuffer;
     private double _avgGain = double.NaN;
     private double _avgLoss = double.NaN;
@@ -21,6 +22,7 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
         Rsi.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
+        MaxListSize = DefaultMaxListSize;
         _gainBuffer = new Queue<double>(lookbackPeriods);
         _lossBuffer = new Queue<double>(lookbackPeriods);
     }
@@ -38,6 +40,14 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -112,6 +122,7 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
         }
 
         AddInternal(new RsiResult(timestamp, rsi));
+        PruneList();
     }
 
     /// <inheritdoc />
@@ -160,5 +171,22 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
         _avgLoss = double.NaN;
         _prevValue = double.NaN;
         _isInitialized = false;
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }

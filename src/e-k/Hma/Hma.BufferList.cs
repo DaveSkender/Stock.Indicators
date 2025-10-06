@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class HmaList : BufferList<HmaResult>, IBufferReusable, IHma
 {
     private readonly int wmaN1Periods;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly int wmaN2Periods;
     private readonly int sqrtPeriods;
     private readonly Queue<double> bufferN1;
@@ -34,6 +35,7 @@ public class HmaList : BufferList<HmaResult>, IBufferReusable, IHma
         divisorN2 = (double)wmaN2Periods * (wmaN2Periods + 1) / 2d;
         divisorSqrt = (double)sqrtPeriods * (sqrtPeriods + 1) / 2d;
 
+        MaxListSize = DefaultMaxListSize;
         // initialize buffers for nested calculations
         bufferN1 = new Queue<double>(wmaN1Periods);
         bufferN2 = new Queue<double>(wmaN2Periods);
@@ -53,6 +55,14 @@ public class HmaList : BufferList<HmaResult>, IBufferReusable, IHma
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -90,6 +100,7 @@ public class HmaList : BufferList<HmaResult>, IBufferReusable, IHma
         }
 
         AddInternal(new HmaResult(timestamp, hma));
+        PruneList();
     }
 
     /// <inheritdoc />
@@ -135,6 +146,23 @@ public class HmaList : BufferList<HmaResult>, IBufferReusable, IHma
         bufferN1.Clear();
         bufferN2.Clear();
         synthBuffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
 
