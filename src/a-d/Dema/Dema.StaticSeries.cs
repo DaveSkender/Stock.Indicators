@@ -94,6 +94,11 @@ public static partial class Dema
         ArgumentNullException.ThrowIfNull(source);
         Validate(lookbackPeriods);
 
+        if (source is IReadOnlyList<IQuote> quotes)
+        {
+            return new(lookbackPeriods) { quotes };
+        }
+
         DemaList bufferList = new(lookbackPeriods);
 
         // Add each item individually

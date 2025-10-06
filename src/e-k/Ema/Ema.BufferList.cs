@@ -42,6 +42,7 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
     /// <inheritdoc />
     public double K { get; private init; }
 
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -62,6 +63,7 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new EmaResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -73,6 +75,7 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
             AddInternal(new EmaResult(
                 timestamp,
                 _bufferSum / LookbackPeriods));
+            PruneList();
             return;
         }
 

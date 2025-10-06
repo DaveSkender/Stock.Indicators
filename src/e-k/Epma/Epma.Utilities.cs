@@ -97,7 +97,7 @@ public static partial class Epma
 
         for (int i = 0; i < lookbackPeriods; i++)
         {
-            double devX = (startGlobalIndex + i + 1d) - avgX;
+            double devX = startGlobalIndex + i + 1d - avgX;
             double devY = source[startCacheIndex + i].Value - avgY;
 
             sumSqX += devX * devX;

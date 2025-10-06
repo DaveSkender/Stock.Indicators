@@ -6,41 +6,51 @@ public class Stoch : BufferListTestBase
     private const int lookbackPeriods = 14;
     private const int signalPeriods = 3;
     private const int smoothPeriods = 3;
+    private const double kFactor = 3;
+    private const double dFactor = 2;
+    private const MaType movingAverageType = MaType.SMA;
 
     private static readonly IReadOnlyList<StochResult> series
        = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void WithQuotesCtor()
+    {
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, subset);
 
         sut.Should().HaveCount(subset.Count);
 
@@ -56,7 +66,7 @@ public class Stoch : BufferListTestBase
         IReadOnlyList<StochResult> expected = subset.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -71,7 +81,7 @@ public class Stoch : BufferListTestBase
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -87,18 +97,7 @@ public class Stoch : BufferListTestBase
         }
 
         incremental.Should().HaveCount(batch.Count);
-
-        // Compare specific values to ensure accuracy
-        for (int i = 0; i < incremental.Count; i++)
-        {
-            StochResult inc = incremental[i];
-            StochResult bat = batch[i];
-
-            inc.Timestamp.Should().Be(bat.Timestamp);
-            inc.Oscillator.Should().Be(bat.Oscillator);
-            inc.Signal.Should().Be(bat.Signal);
-            inc.PercentJ.Should().Be(bat.PercentJ);
-        }
+        incremental.Should().BeEquivalentTo(batch, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -141,6 +140,27 @@ public class Stoch : BufferListTestBase
         StochList fromExtension = Quotes.ToStochList(lookbackPeriods, signalPeriods, smoothPeriods);
         StochList fromConstructor = new(lookbackPeriods, signalPeriods, smoothPeriods) { Quotes };
 
-        fromExtension.Should().BeEquivalentTo(fromConstructor);
+        fromExtension.Should().BeEquivalentTo(fromConstructor, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<StochResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

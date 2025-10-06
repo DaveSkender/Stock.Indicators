@@ -61,6 +61,9 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
     /// </summary>
     public int LongPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -78,6 +81,7 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
             _isInitialized = true;
 
             AddInternal(new UltimateResult(timestamp, null));
+            PruneList();
             return;
         }
 

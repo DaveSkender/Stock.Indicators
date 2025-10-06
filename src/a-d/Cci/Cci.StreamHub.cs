@@ -30,7 +30,7 @@ public class CciHub<TIn>
     where TIn : IQuote
 {
     private readonly string hubName;
-    private CciList _cciList;
+    private readonly CciList _cciList;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CciHub{TIn}"/> class.
@@ -82,6 +82,7 @@ public class CciHub<TIn>
             {
                 _cciList.Add(ProviderCache[k]);
             }
+
             _cciList.Add(item);
         }
         else // _cciList.Count > i
@@ -93,11 +94,12 @@ public class CciHub<TIn>
             {
                 _cciList.Add(ProviderCache[k]);
             }
+
             _cciList.Add(item);
         }
 
         // Get the latest result from the CciList
-        CciResult r = _cciList[_cciList.Count - 1];
+        CciResult r = _cciList[^1];
 
         return (r, i);
     }

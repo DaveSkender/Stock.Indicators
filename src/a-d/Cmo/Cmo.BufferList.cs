@@ -35,6 +35,9 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -143,4 +146,16 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
         _prevValue = double.NaN;
         _isInitialized = false;
     }
+}
+
+public static partial class Cmo
+{
+    /// <summary>
+    /// Creates a buffer list for Chande Momentum Oscillator (CMO) calculations.
+    /// </summary>
+    public static CmoList ToCmoList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

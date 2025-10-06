@@ -95,7 +95,7 @@ public class TrixHub<TIn>
         else
         {
             // warmup periods are never calculable
-            ema1 = ema2 = ema3 = double.NaN;
+            ema1 = ema2 = double.NaN;
         }
 
         TrixResult r = new(

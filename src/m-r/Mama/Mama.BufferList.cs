@@ -29,7 +29,7 @@ namespace Skender.Stock.Indicators;
 /// calculation state with automatic pruning to prevent unbounded growth:
 /// <list type="bullet">
 /// <item>State arrays are pruned at 1000 items, keeping minimum 7 periods for calculations</item>
-/// <item>Result list is pruned at <see cref="MaxListSize"/> (default 90% of int.MaxValue)</item>
+/// <item>Result list is pruned at <see cref="BufferList{MamaResult}.MaxListSize"/> (default 90% of int.MaxValue)</item>
 /// </list>
 /// </para>
 /// </remarks>
@@ -54,8 +54,6 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
     private const int MinBufferSize = 7; // Minimum required for 6-period lookback
     private const int MaxBufferSize = 1000; // Trigger point to prune buffers to MinBufferSize
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue); // Default max for result list
-
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class.
     /// </summary>
@@ -69,7 +67,6 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
         FastLimit = fastLimit;
         SlowLimit = slowLimit;
-        MaxListSize = DefaultMaxListSize;
     }
 
     /// <summary>
@@ -90,13 +87,6 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
     /// <inheritdoc />
     public double SlowLimit { get; init; }
-
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// This is separate from internal buffer pruning which occurs at 1000 items.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -131,6 +121,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         {
             double sum = 0;
             for (int p = i - 5; p <= i; p++) { sum += pr[p]; }
+
             mama = fama = sum / 6d;
             prevMama = mama;
             prevFama = fama;
@@ -189,9 +180,6 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
         // Prune state arrays if they exceed MaxBufferSize
         PruneStateArrays();
-
-        // Prune result list if it exceeds MaxListSize
-        PruneList();
     }
 
     /// <summary>
@@ -211,36 +199,26 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 
         if (removeCount > 0)
         {
-            pr.RemoveRange(0, removeCount);
-            sm.RemoveRange(0, removeCount);
-            dt.RemoveRange(0, removeCount);
-            pd.RemoveRange(0, removeCount);
-            q1.RemoveRange(0, removeCount);
-            i1.RemoveRange(0, removeCount);
-            q2.RemoveRange(0, removeCount);
-            i2.RemoveRange(0, removeCount);
-            re.RemoveRange(0, removeCount);
-            im.RemoveRange(0, removeCount);
-            ph.RemoveRange(0, removeCount);
+            RemoveStateRange(removeCount);
         }
     }
 
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth,
-    /// similar to StreamHub cache pruning.
-    /// </summary>
-    private void PruneList()
+    /// <inheritdoc />
+    protected override void PruneList()
     {
-        if (Count < MaxListSize)
+        int overflow = Count - MaxListSize;
+
+        if (overflow > 0)
         {
-            return;
+            int removable = Math.Min(overflow, Math.Max(0, pr.Count - MinBufferSize));
+
+            if (removable > 0)
+            {
+                RemoveStateRange(removable);
+            }
         }
 
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
+        base.PruneList();
     }
 
     /// <inheritdoc />
@@ -305,6 +283,21 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         ph.Clear();
         prevMama = double.NaN;
         prevFama = double.NaN;
+    }
+
+    private void RemoveStateRange(int count)
+    {
+        pr.RemoveRange(0, count);
+        sm.RemoveRange(0, count);
+        dt.RemoveRange(0, count);
+        pd.RemoveRange(0, count);
+        q1.RemoveRange(0, count);
+        i1.RemoveRange(0, count);
+        q2.RemoveRange(0, count);
+        i2.RemoveRange(0, count);
+        re.RemoveRange(0, count);
+        im.RemoveRange(0, count);
+        ph.RemoveRange(0, count);
     }
 }
 

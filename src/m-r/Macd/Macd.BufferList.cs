@@ -22,7 +22,14 @@ public static partial class Macd
         int slowPeriods = 26,
         int signalPeriods = 9)
         where T : IReusable
-        => new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
+    {
+        ArgumentNullException.ThrowIfNull(source);
+
+        return source is IReadOnlyList<IQuote> quotes
+            ? new(fastPeriods, slowPeriods, signalPeriods) { quotes }
+            : new(fastPeriods, slowPeriods, signalPeriods) { (IReadOnlyList<IReusable>)source };
+    }
+
 }
 
 /// <summary>
@@ -109,6 +116,9 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
     /// </summary>
     public double SignalK { get; private init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -148,6 +158,7 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
                 // Calculate EMA normally
                 fastEma = Ema.Increment(FastK, _lastFastEma.Value, value);
             }
+
             _lastFastEma = fastEma;
         }
 
@@ -165,6 +176,7 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
                 // Calculate EMA normally
                 slowEma = Ema.Increment(SlowK, _lastSlowEma.Value, value);
             }
+
             _lastSlowEma = slowEma;
         }
 
@@ -203,6 +215,7 @@ public class MacdList : BufferList<MacdResult>, IBufferReusable, IMacd
                     // Calculate signal EMA normally
                     signal = Ema.Increment(SignalK, _lastSignalEma.Value, macd.Value);
                 }
+
                 _lastSignalEma = signal;
             }
         }

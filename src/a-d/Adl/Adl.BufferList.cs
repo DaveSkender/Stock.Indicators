@@ -23,6 +23,9 @@ public class AdlList : BufferList<AdlResult>, IBufferList
         : this()
         => Add(quotes);
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

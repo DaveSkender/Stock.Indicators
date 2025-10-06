@@ -39,6 +39,9 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -82,6 +85,7 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
             {
                 sumGain += g;
             }
+
             foreach (double l in _lossBuffer)
             {
                 sumLoss += l;
@@ -161,4 +165,16 @@ public class RsiList : BufferList<RsiResult>, IBufferReusable, IRsi
         _prevValue = double.NaN;
         _isInitialized = false;
     }
+}
+
+public static partial class Rsi
+{
+    /// <summary>
+    /// Creates a buffer list for Relative Strength Index (RSI) calculations.
+    /// </summary>
+    public static RsiList ToRsiList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

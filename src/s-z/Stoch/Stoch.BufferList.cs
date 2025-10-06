@@ -1,5 +1,3 @@
-using System.Collections;
-
 namespace Skender.Stock.Indicators;
 
 /// <summary>
@@ -88,6 +86,9 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
     /// <inheritdoc />
     public MaType MovingAverageType { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -127,14 +128,9 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
             double highHigh = _highBuffer.Max();
             double lowLow = _lowBuffer.Min();
 
-            if (highHigh - lowLow != 0)
-            {
-                rawK = 100.0 * (close - lowLow) / (highHigh - lowLow);
-            }
-            else
-            {
-                rawK = 0;
-            }
+            rawK = highHigh - lowLow != 0
+                ? 100.0 * (close - lowLow) / (highHigh - lowLow)
+                : 0;
         }
 
         // Calculate smoothed %K (final oscillator) - logic matches StaticSeries
@@ -158,6 +154,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
                         {
                             smoothK = _rawKBuffer.Average();
                         }
+
                         break;
 
                     case MaType.SMMA:
@@ -166,6 +163,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
                         {
                             _prevSmoothK = rawK;
                         }
+
                         smoothK = ((_prevSmoothK * (SmoothPeriods - 1)) + rawK) / SmoothPeriods;
                         _prevSmoothK = smoothK;
                         break;
@@ -196,6 +194,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
                         {
                             signal = _smoothKBuffer.Average();
                         }
+
                         break;
 
                     case MaType.SMMA:
@@ -204,6 +203,7 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
                         {
                             _prevSignal = smoothK;
                         }
+
                         signal = ((_prevSignal * (SignalPeriods - 1)) + smoothK) / SignalPeriods;
                         _prevSignal = signal;
                         break;

@@ -67,6 +67,9 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
     /// </summary>
     public int SlowPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -74,9 +77,10 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         _buffer.Update(_erPeriods + 1, value);
 
         // add nulls for incalculable periods
-        if (Count < _erPeriods - 1)
+        if (_buffer.Count < _erPeriods)
         {
             AddInternal(new KamaResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -84,7 +88,7 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         double kama;
 
         // Calculate if we have enough data
-        if (Count >= _erPeriods - 1 && _buffer.Count == _erPeriods + 1)
+        if (_buffer.Count == _erPeriods + 1)
         {
             double[] bufferArray = _buffer.ToArray();
             double newVal = bufferArray[^1]; // Current value
@@ -185,4 +189,18 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         _buffer.Clear();
         _prevKama = double.NaN;
     }
+}
+
+public static partial class Kama
+{
+    /// <summary>
+    /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
+    /// </summary>
+    public static KamaList ToKamaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int erPeriods = 10,
+        int fastPeriods = 2,
+        int slowPeriods = 30)
+        where TQuote : IQuote
+        => new(erPeriods, fastPeriods, slowPeriods) { (IReadOnlyList<IQuote>)quotes };
 }
