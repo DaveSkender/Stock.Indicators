@@ -13,6 +13,7 @@ public class TrList : BufferList<TrResult>, IBufferList
     /// </summary>
     public TrList()
     {
+        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<TrBuffer>(2); // Only need current and previous
     }
 

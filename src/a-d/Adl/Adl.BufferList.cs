@@ -13,6 +13,7 @@ public class AdlList : BufferList<AdlResult>, IBufferList
     /// </summary>
     public AdlList()
     {
+        MaxListSize = DefaultMaxListSize;
         _previousAdl = 0;
     }
 

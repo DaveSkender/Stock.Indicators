@@ -14,6 +14,7 @@ public class ObvList : BufferList<ObvResult>, IBufferList
     /// </summary>
     public ObvList()
     {
+        MaxListSize = DefaultMaxListSize;
         // OBV doesn't require any parameters or initialization
     }
 
