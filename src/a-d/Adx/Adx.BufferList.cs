@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
 {
     private readonly Queue<AdxBuffer> _buffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AdxList"/> class.
@@ -15,6 +16,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
     {
         Adx.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
+        MaxListSize = DefaultMaxListSize;
 
         _buffer = new Queue<AdxBuffer>(lookbackPeriods);
     }
@@ -33,6 +35,12 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
     /// </summary>
     public int LookbackPeriods { get; private init; }
 
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -50,6 +58,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         {
             _buffer.Update(LookbackPeriods, curr);
             AddInternal(new AdxResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -72,6 +81,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         if (Count < LookbackPeriods)
         {
             AddInternal(new AdxResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -98,6 +108,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         if (curr.Trs == 0)
         {
             AddInternal(new AdxResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -120,6 +131,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
                 Mdi: mdi.NaN2Null(),
                 Dx: curr.Dx.NaN2Null()));
 
+            PruneList();
             return;
         }
 
@@ -158,6 +170,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
             Adxr: adxr.NaN2Null());
 
         AddInternal(r);
+        PruneList();
     }
 
     /// <inheritdoc />
@@ -176,6 +189,23 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
     {
         ClearInternal();
         _buffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 
     internal class AdxBuffer(
