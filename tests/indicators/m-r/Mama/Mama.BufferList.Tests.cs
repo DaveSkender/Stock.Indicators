@@ -131,6 +131,10 @@ public class Mama : BufferListTestBase
         lastResult.Mama.Should().NotBeNull();
         lastResult.Fama.Should().NotBeNull();
         
+        // Store the last result values for comparison
+        double? lastMama = lastResult.Mama;
+        double? lastFama = lastResult.Fama;
+        
         // Verify that the indicator still produces valid results after pruning
         // (both state array pruning and result list pruning)
         Quote newQuote = Quotes[0];
@@ -139,5 +143,24 @@ public class Mama : BufferListTestBase
         MamaResult finalResult = sut[^1];
         finalResult.Mama.Should().NotBeNull();
         finalResult.Fama.Should().NotBeNull();
+        
+        // Verify the new result is numerically valid and reasonable
+        // (should be different from previous but within reasonable bounds)
+        finalResult.Mama.Should().NotBe(lastMama);
+        finalResult.Fama.Should().NotBe(lastFama);
+        
+        // Verify values are within reasonable ranges (not NaN, infinity, or extreme values)
+        finalResult.Mama.Should().BeInRange(-1000, 1000);
+        finalResult.Fama.Should().BeInRange(-1000, 1000);
+        
+        // Add one more quote to verify continuous operation
+        Quote anotherQuote = Quotes[1];
+        sut.Add(anotherQuote.Timestamp.AddDays(1201), (double)(anotherQuote.High + anotherQuote.Low) / 2);
+        
+        MamaResult nextResult = sut[^1];
+        nextResult.Mama.Should().NotBeNull();
+        nextResult.Fama.Should().NotBeNull();
+        nextResult.Mama.Should().BeInRange(-1000, 1000);
+        nextResult.Fama.Should().BeInRange(-1000, 1000);
     }
 }

@@ -135,4 +135,57 @@ public class EpmaBufferListTests : BufferListTestBase
         // This confirms pruning doesn't affect accuracy
         ValidateResults(sut, expected);
     }
+
+    [TestMethod]
+    public void AutoPruning()
+    {
+        // Test that EPMA's result list auto-pruning (from base class)
+        // works correctly alongside its internal cache pruning
+        
+        // Create buffer list with small MaxListSize for testing result list pruning
+        EpmaList sut = new(lookbackPeriods) { MaxListSize = 100 };
+
+        // Add enough quotes to trigger both:
+        // 1. Internal cache pruning (happens at 1000 items)
+        // 2. Result list pruning (happens at MaxListSize = 100)
+        for (int i = 0; i < 1200; i++)
+        {
+            Quote quote = Quotes[i % Quotes.Count];
+            sut.Add(quote.Timestamp.AddDays(i), (double)quote.Close);
+        }
+
+        // Verify result list was pruned to stay under MaxListSize
+        sut.Count.Should().BeLessThan(100);
+        
+        // Verify most recent results are retained and calculations still work
+        EpmaResult lastResult = sut[^1];
+        lastResult.Should().NotBeNull();
+        lastResult.Epma.Should().NotBeNull();
+        
+        // Store the last result value for comparison
+        double? lastEpma = lastResult.Epma;
+        
+        // Verify that the indicator still produces valid results after pruning
+        // (both cache pruning and result list pruning)
+        Quote newQuote = Quotes[0];
+        sut.Add(newQuote.Timestamp.AddDays(1200), (double)newQuote.Close);
+        
+        EpmaResult finalResult = sut[^1];
+        finalResult.Epma.Should().NotBeNull();
+        
+        // Verify the new result is numerically valid and reasonable
+        // (should be different from previous but within reasonable bounds)
+        finalResult.Epma.Should().NotBe(lastEpma);
+        
+        // Verify values are within reasonable ranges (not NaN, infinity, or extreme values)
+        finalResult.Epma.Should().BeInRange(100, 300);
+        
+        // Add one more quote to verify continuous operation
+        Quote anotherQuote = Quotes[1];
+        sut.Add(anotherQuote.Timestamp.AddDays(1201), (double)anotherQuote.Close);
+        
+        EpmaResult nextResult = sut[^1];
+        nextResult.Epma.Should().NotBeNull();
+        nextResult.Epma.Should().BeInRange(100, 300);
+    }
 }
