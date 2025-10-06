@@ -294,6 +294,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
 > - The `FromQuoteBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
 > - The new `FromQuotesCtor()` test validates the constructor with quotes parameter
 > - The `ClearResetsState()` test should use the quotes constructor since `FromQuote()` already covers single-quote add
+> - **Auto-pruning test coverage**: Not all indicators need an `AutoPruning()` test since the functionality is in the base class. Representative tests in a few indicators (e.g., SMA, EMA, ADX) verify the base class behavior. Indicators with special pruning logic (e.g., MAMA with state array pruning) should have their own `AutoPruning()` test to verify both pruning mechanisms work together correctly.
 
 ### Performance benchmarking
 
