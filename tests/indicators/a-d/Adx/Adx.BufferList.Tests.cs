@@ -63,8 +63,10 @@ public class Adx : BufferListTestBase
     [TestMethod]
     public void AutoPruning()
     {
+        const int maxListSize = 100;
+
         // Create buffer list with small MaxListSize for testing
-        AdxList sut = new(lookbackPeriods) { MaxListSize = 100 };
+        AdxList sut = new(lookbackPeriods) { MaxListSize = maxListSize };
 
         // Add more quotes than MaxListSize
         for (int i = 0; i < 150; i++)
@@ -73,8 +75,8 @@ public class Adx : BufferListTestBase
             sut.Add(quote);
         }
 
-        // Verify list was pruned to stay under MaxListSize
-        sut.Count.Should().BeLessThan(100);
+    // Verify list was pruned to stay at MaxListSize
+    sut.Count.Should().Be(maxListSize);
 
         // Verify most recent results are retained
         AdxResult lastResult = sut[^1];

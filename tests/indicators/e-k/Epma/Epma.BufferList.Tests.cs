@@ -139,13 +139,15 @@ public class EpmaBufferListTests : BufferListTestBase
     [TestMethod]
     public void AutoPruning()
     {
+        const int maxListSize = 100;
+
         // Test that EPMA's result list auto-pruning (from base class)
         // works correctly alongside its internal cache pruning
-        
+
         // Generate a continuous dataset to test pruning and calculation accuracy
         List<Quote> testQuotes = [];
         DateTime startDate = new(2020, 1, 1);
-        
+
         // Create 1250 quotes for testing both pruning mechanisms
         for (int i = 0; i < 1250; i++)
         {
@@ -160,13 +162,13 @@ public class EpmaBufferListTests : BufferListTestBase
                 Volume = quote.Volume
             });
         }
-        
+
         // Calculate expected results for ALL quotes using static series
         // This gives us the baseline for comparison
         IReadOnlyList<EpmaResult> fullExpectedResults = testQuotes.ToEpma(lookbackPeriods);
-        
+
         // Create buffer list with small MaxListSize for testing result list pruning
-        EpmaList sut = new(lookbackPeriods) { MaxListSize = 100 };
+    EpmaList sut = new(lookbackPeriods) { MaxListSize = maxListSize };
 
         // Add first 1200 quotes to trigger both:
         // 1. Internal cache pruning (happens at 1000 items)
@@ -176,9 +178,9 @@ public class EpmaBufferListTests : BufferListTestBase
             sut.Add(testQuotes[i]);
         }
 
-        // Verify result list was pruned to stay under MaxListSize
-        sut.Count.Should().BeLessThan(100);
-        
+    // Verify result list was pruned to stay at MaxListSize
+    sut.Count.Should().Be(maxListSize);
+
         // Add the next 50 quotes after pruning and verify accuracy
         List<EpmaResult> actualFinalResults = [];
         for (int i = 1200; i < 1250; i++)
@@ -186,18 +188,18 @@ public class EpmaBufferListTests : BufferListTestBase
             sut.Add(testQuotes[i]);
             actualFinalResults.Add(sut[^1]);
         }
-        
+
         // Compare the final 50 results against static series calculations
         // This ensures pruning didn't affect mathematical accuracy
         actualFinalResults.Count.Should().Be(50);
-        
+
         for (int i = 0; i < actualFinalResults.Count; i++)
         {
             EpmaResult actual = actualFinalResults[i];
             EpmaResult expected = fullExpectedResults[1200 + i];
-            
+
             actual.Timestamp.Should().Be(expected.Timestamp);
-            
+
             if (expected.Epma.HasValue)
             {
                 actual.Epma.Should().NotBeNull();

@@ -82,13 +82,13 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     /// </summary>
     protected virtual void PruneList()
     {
-        if (Count < MaxListSize)
+        if (Count <= MaxListSize)
         {
             return;
         }
 
         // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
+        while (Count > MaxListSize)
         {
             RemoveAtInternal(0);
         }

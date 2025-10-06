@@ -107,13 +107,15 @@ public class Mama : BufferListTestBase
     [TestMethod]
     public void AutoPruning()
     {
+        const int maxListSize = 100;
+
         // Test that MAMA's result list auto-pruning (from base class)
         // works correctly alongside its internal state array pruning
-        
+
         // Generate a continuous dataset to test pruning and calculation accuracy
         List<Quote> testQuotes = [];
         DateTime startDate = new(2020, 1, 1);
-        
+
         // Create 1250 quotes for testing both pruning mechanisms
         for (int i = 0; i < 1250; i++)
         {
@@ -128,13 +130,13 @@ public class Mama : BufferListTestBase
                 Volume = quote.Volume
             });
         }
-        
+
         // Calculate expected results for ALL quotes using static series
         // This gives us the baseline for comparison
         IReadOnlyList<MamaResult> fullExpectedResults = testQuotes.ToMama(fastLimit, slowLimit);
-        
+
         // Create buffer list with small MaxListSize for testing result list pruning
-        MamaList sut = new(fastLimit, slowLimit) { MaxListSize = 100 };
+    MamaList sut = new(fastLimit, slowLimit) { MaxListSize = maxListSize };
 
         // Add first 1200 quotes to trigger both:
         // 1. Internal state array pruning (happens at 1000 items)
@@ -144,9 +146,9 @@ public class Mama : BufferListTestBase
             sut.Add(testQuotes[i]);
         }
 
-        // Verify result list was pruned to stay under MaxListSize
-        sut.Count.Should().BeLessThan(100);
-        
+    // Verify result list was pruned to stay at MaxListSize
+    sut.Count.Should().Be(maxListSize);
+
         // Add the next 50 quotes after pruning and verify accuracy
         List<MamaResult> actualFinalResults = [];
         for (int i = 1200; i < 1250; i++)
@@ -154,18 +156,18 @@ public class Mama : BufferListTestBase
             sut.Add(testQuotes[i]);
             actualFinalResults.Add(sut[^1]);
         }
-        
+
         // Compare the final 50 results against static series calculations
         // This ensures pruning didn't affect mathematical accuracy
         actualFinalResults.Count.Should().Be(50);
-        
+
         for (int i = 0; i < actualFinalResults.Count; i++)
         {
             MamaResult actual = actualFinalResults[i];
             MamaResult expected = fullExpectedResults[1200 + i];
-            
+
             actual.Timestamp.Should().Be(expected.Timestamp);
-            
+
             if (expected.Mama.HasValue)
             {
                 actual.Mama.Should().NotBeNull();
@@ -175,7 +177,7 @@ public class Mama : BufferListTestBase
             {
                 actual.Mama.Should().BeNull();
             }
-            
+
             if (expected.Fama.HasValue)
             {
                 actual.Fama.Should().NotBeNull();

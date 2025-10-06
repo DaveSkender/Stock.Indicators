@@ -102,8 +102,10 @@ public class Ema : BufferListTestBase
     [TestMethod]
     public void AutoPruning()
     {
+        const int maxListSize = 100;
+
         // Create buffer list with small MaxListSize for testing
-        EmaList sut = new(lookbackPeriods) { MaxListSize = 100 };
+        EmaList sut = new(lookbackPeriods) { MaxListSize = maxListSize };
 
         // Add more quotes than MaxListSize
         for (int i = 0; i < 150; i++)
@@ -112,8 +114,8 @@ public class Ema : BufferListTestBase
             sut.Add(quote.Timestamp.AddDays(i), quote.Value);
         }
 
-        // Verify list was pruned to stay under MaxListSize
-        sut.Count.Should().BeLessThan(100);
+    // Verify list was pruned to stay at MaxListSize
+    sut.Count.Should().Be(maxListSize);
 
         // Verify most recent results are retained
         EmaResult lastResult = sut[^1];
