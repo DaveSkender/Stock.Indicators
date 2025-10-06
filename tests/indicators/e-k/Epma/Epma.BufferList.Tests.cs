@@ -142,50 +142,71 @@ public class EpmaBufferListTests : BufferListTestBase
         // Test that EPMA's result list auto-pruning (from base class)
         // works correctly alongside its internal cache pruning
         
+        // Generate a continuous dataset to test pruning and calculation accuracy
+        List<Quote> testQuotes = [];
+        DateTime startDate = new(2020, 1, 1);
+        
+        // Create 1250 quotes for testing both pruning mechanisms
+        for (int i = 0; i < 1250; i++)
+        {
+            Quote quote = Quotes[i % Quotes.Count];
+            testQuotes.Add(new Quote
+            {
+                Timestamp = startDate.AddDays(i),
+                Open = quote.Open,
+                High = quote.High,
+                Low = quote.Low,
+                Close = quote.Close,
+                Volume = quote.Volume
+            });
+        }
+        
+        // Calculate expected results for ALL quotes using static series
+        // This gives us the baseline for comparison
+        IReadOnlyList<EpmaResult> fullExpectedResults = testQuotes.ToEpma(lookbackPeriods);
+        
         // Create buffer list with small MaxListSize for testing result list pruning
         EpmaList sut = new(lookbackPeriods) { MaxListSize = 100 };
 
-        // Add enough quotes to trigger both:
+        // Add first 1200 quotes to trigger both:
         // 1. Internal cache pruning (happens at 1000 items)
         // 2. Result list pruning (happens at MaxListSize = 100)
         for (int i = 0; i < 1200; i++)
         {
-            Quote quote = Quotes[i % Quotes.Count];
-            sut.Add(quote.Timestamp.AddDays(i), (double)quote.Close);
+            sut.Add(testQuotes[i]);
         }
 
         // Verify result list was pruned to stay under MaxListSize
         sut.Count.Should().BeLessThan(100);
         
-        // Verify most recent results are retained and calculations still work
-        EpmaResult lastResult = sut[^1];
-        lastResult.Should().NotBeNull();
-        lastResult.Epma.Should().NotBeNull();
+        // Add the next 50 quotes after pruning and verify accuracy
+        List<EpmaResult> actualFinalResults = [];
+        for (int i = 1200; i < 1250; i++)
+        {
+            sut.Add(testQuotes[i]);
+            actualFinalResults.Add(sut[^1]);
+        }
         
-        // Store the last result value for comparison
-        double? lastEpma = lastResult.Epma;
+        // Compare the final 50 results against static series calculations
+        // This ensures pruning didn't affect mathematical accuracy
+        actualFinalResults.Count.Should().Be(50);
         
-        // Verify that the indicator still produces valid results after pruning
-        // (both cache pruning and result list pruning)
-        Quote newQuote = Quotes[0];
-        sut.Add(newQuote.Timestamp.AddDays(1200), (double)newQuote.Close);
-        
-        EpmaResult finalResult = sut[^1];
-        finalResult.Epma.Should().NotBeNull();
-        
-        // Verify the new result is numerically valid and reasonable
-        // (should be different from previous but within reasonable bounds)
-        finalResult.Epma.Should().NotBe(lastEpma);
-        
-        // Verify values are within reasonable ranges (not NaN, infinity, or extreme values)
-        finalResult.Epma.Should().BeInRange(100, 300);
-        
-        // Add one more quote to verify continuous operation
-        Quote anotherQuote = Quotes[1];
-        sut.Add(anotherQuote.Timestamp.AddDays(1201), (double)anotherQuote.Close);
-        
-        EpmaResult nextResult = sut[^1];
-        nextResult.Epma.Should().NotBeNull();
-        nextResult.Epma.Should().BeInRange(100, 300);
+        for (int i = 0; i < actualFinalResults.Count; i++)
+        {
+            EpmaResult actual = actualFinalResults[i];
+            EpmaResult expected = fullExpectedResults[1200 + i];
+            
+            actual.Timestamp.Should().Be(expected.Timestamp);
+            
+            if (expected.Epma.HasValue)
+            {
+                actual.Epma.Should().NotBeNull();
+                actual.Epma.Should().BeApproximately(expected.Epma!.Value, 0.0001);
+            }
+            else
+            {
+                actual.Epma.Should().BeNull();
+            }
+        }
     }
 }
