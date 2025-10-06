@@ -70,6 +70,33 @@ public class HmaStreaming : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        int lookbackPeriods = 18;
+        IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
+
+        HmaList actual = new(lookbackPeriods, Quotes);
+
+        Assert.HasCount(expected.Count, actual);
+
+        for (int i = 0; i < actual.Count; i++)
+        {
+            HmaResult e = expected[i];
+            HmaResult a = actual[i];
+
+            Assert.AreEqual(e.Timestamp, a.Timestamp);
+            if (e.Hma is null)
+            {
+                Assert.IsNull(a.Hma);
+            }
+            else
+            {
+                Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8));
+            }
+        }
+    }
+
+    [TestMethod]
     public void HmaListViaReusable()
     {
         // arrange
@@ -210,12 +237,7 @@ public class HmaStreaming : BufferListTestBase
         int lookbackPeriods = 14;
         List<Quote> subset = Quotes.Take(120).ToList();
 
-        HmaList hmaList = new(lookbackPeriods);
-
-        for (int i = 0; i < subset.Count; i++)
-        {
-            hmaList.Add(subset[i]);
-        }
+        HmaList hmaList = new(lookbackPeriods, subset);
 
         Assert.IsTrue(hmaList.Any(r => r.Hma.HasValue), "Warm-up should complete before clearing");
 

@@ -73,16 +73,20 @@ public class Macd : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
 

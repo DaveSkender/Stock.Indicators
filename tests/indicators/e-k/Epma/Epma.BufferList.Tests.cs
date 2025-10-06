@@ -71,16 +71,19 @@ public class EpmaBufferListTests : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        EpmaList sut = new(lookbackPeriods, Quotes);
+
+        ValidateResults(sut, series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        EpmaList sut = new(lookbackPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        EpmaList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
 

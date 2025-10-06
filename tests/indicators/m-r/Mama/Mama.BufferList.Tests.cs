@@ -76,16 +76,41 @@ public class Mama : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        MamaList sut = new(fastLimit, slowLimit, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
+    public void AutoPrunesAtConfiguredMax()
+    {
+        const int maxListSize = 150;
+
+        MamaList sut = new(fastLimit, slowLimit) {
+            MaxListSize = maxListSize
+        };
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<MamaResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        MamaList sut = new(fastLimit, slowLimit);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        MamaList sut = new(fastLimit, slowLimit, subset);
 
         sut.Should().HaveCount(subset.Count);
 

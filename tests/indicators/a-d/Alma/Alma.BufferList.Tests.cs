@@ -73,16 +73,20 @@ public class Alma : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        AlmaList sut = new(lookbackPeriods, offset, sigma, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        AlmaList sut = new(lookbackPeriods, offset, sigma);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        AlmaList sut = new(lookbackPeriods, offset, sigma, subset);
 
         sut.Should().HaveCount(subset.Count);
 

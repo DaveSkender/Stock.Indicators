@@ -73,16 +73,20 @@ public class Kama : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        KamaList sut = new(erPeriods, fastPeriods, slowPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        KamaList sut = new(erPeriods, fastPeriods, slowPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        KamaList sut = new(erPeriods, fastPeriods, slowPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
 

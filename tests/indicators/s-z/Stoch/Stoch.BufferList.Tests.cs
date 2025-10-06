@@ -6,6 +6,9 @@ public class Stoch : BufferListTestBase
     private const int lookbackPeriods = 14;
     private const int signalPeriods = 3;
     private const int smoothPeriods = 3;
+    private const double kFactor = 3;
+    private const double dFactor = 2;
+    private const MaType movingAverageType = MaType.SMA;
 
     private static readonly IReadOnlyList<StochResult> series
        = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -31,16 +34,20 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        StochList sut = new(lookbackPeriods, signalPeriods, smoothPeriods, kFactor, dFactor, movingAverageType, subset);
 
         sut.Should().HaveCount(subset.Count);
 

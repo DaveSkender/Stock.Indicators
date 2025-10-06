@@ -95,17 +95,18 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
 - **ALL buffer list implementations MUST inherit from `BufferList<TResult>`** instead of `List<TResult>`
 - The base class provides:
-  - `AddInternal(TResult item)` - Protected method to add items to the internal list (automatically prunes when MaxListSize is exceeded)
+  - `AddInternal(TResult item)` - Protected method to add items to the internal list and automatically prune when `MaxListSize` is exceeded
   - `ClearInternal()` - Protected method to clear the internal list
-  - `RemoveAtInternal(int index)` - Protected method to remove items by index
+  - `RemoveAtInternal(int index)` - Protected method to remove specific items (used by the base pruner)
+  - `PruneList()` - Virtual hook for custom pruning logic (rarely needed; base implementation trims overflow only)
+  - `MaxListSize` property - Configurable limit (default is 90% of `int.MaxValue`)
   - `abstract void Clear()` - Derived classes must override to reset both list and buffers
-  - `virtual void PruneList()` - Can be overridden for custom pruning logic (rarely needed)
-  - `MaxListSize` property - Configurable limit (default 90% of int.MaxValue), inherited from base class
   - `ICollection<TResult>` and `IReadOnlyList<TResult>` interfaces
   - Read-only indexer and Count property
   - Blocks problematic operations (`ICollection<T>.Add()` and `ICollection<T>.Remove()`)
-- **Auto-pruning is automatic**: Simply call `AddInternal()` and the base class handles pruning
-- **No manual pruning code needed**: Don't add `PruneList()` calls, `MaxListSize` property, or `DefaultMaxListSize` constant
+- **Auto-pruning is automatic**: Always call `AddInternal()` (never `base.Add()`). Do **not** call `PruneList()` from indicator code—the base class removes only the overflow entries after each addition.
+- **Do not shadow base members**: Never add a `DefaultMaxListSize` constant or re-declare the `MaxListSize` property in derived classes, and never mutate `_internalList` directly. Configure `MaxListSize` via object initializers when a smaller cap is necessary (for example, tests).
+- **Custom state pruning**: Indicators that maintain additional `List<T>` buffers (for example, `MamaList`) must prune those lists themselves while keeping at least the minimum lookback length. `Queue<T>` buffers stay bounded automatically through the extension helpers and do not need manual trimming.
 
 **Constructor Pattern**:
 
@@ -155,7 +156,7 @@ Buffer indicator tests must cover:
 1. **Incremental processing** - Verify correct calculation as quotes are added
 2. **Buffer capacity** - Test behavior at and beyond buffer limits
 3. **State management** - Verify Clear() method resets state properly
-4. **Auto-pruning** - Verify result list pruning works correctly when MaxListSize is exceeded
+4. **Auto-pruning verification** - Exercise overflow scenarios for indicators that extend the base behavior (see notes below)
 5. **Memory efficiency** - Confirm no memory leaks or excessive allocations
 6. **Performance benchmarks** - Must not exceed expected performance thresholds
 
@@ -266,24 +267,25 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
     }
 
     [TestMethod]
-    public void AutoPruning()
+    public void AutoPrunesAtConfiguredMax()
     {
-        // Create buffer list with small MaxListSize for testing
-        {IndicatorName}List sut = new(lookbackPeriods) { MaxListSize = 100 };
+        const int maxListSize = 120;
 
-        // Add more quotes than MaxListSize
-        for (int i = 0; i < 150; i++)
+        {IndicatorName}List sut = new(lookbackPeriods)
         {
-            Quote quote = Quotes[i % Quotes.Count];
-            sut.Add(quote.Timestamp.AddDays(i), quote.Value);
+            MaxListSize = maxListSize
+        };
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
         }
 
-        // Verify list was pruned to stay under MaxListSize
-        sut.Count.Should().BeLessThan(100);
-        
-        // Verify most recent results are retained
-        {IndicatorName}Result lastResult = sut[^1];
-        lastResult.Should().NotBeNull();
+        IReadOnlyList<{IndicatorName}Result> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }
 ```
@@ -294,7 +296,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
 > - The `FromQuoteBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
 > - The new `FromQuotesCtor()` test validates the constructor with quotes parameter
 > - The `ClearResetsState()` test should use the quotes constructor since `FromQuote()` already covers single-quote add
-> - **Auto-pruning test coverage**: Not all indicators need an `AutoPruning()` test since the functionality is in the base class. Representative tests in a few indicators (e.g., SMA, EMA, ADX) verify the base class behavior. Indicators with special pruning logic (e.g., MAMA with state array pruning) should have their own `AutoPruning()` test to verify both pruning mechanisms work together correctly.
+> - Use the `AutoPrunesAtConfiguredMax()` pattern whenever the indicator introduces custom pruning or maintains auxiliary state lists. Baseline indicators (SMA, EMA, ADX, etc.) already cover the base-class pruning behavior, so only add the test when additional coverage is warranted.
 
 ### Performance benchmarking
 
@@ -338,65 +340,6 @@ public void BufferIndicator{IndicatorName}()
 - Implement proper disposal patterns when applicable
 - Avoid unnecessary object allocations in hot paths
 - Profile memory usage with large datasets
-
-### Auto-pruning for long-running scenarios
-
-Buffer indicators maintain a result list that grows with each added quote. For long-running scenarios (e.g., live trading systems), this can lead to unbounded memory growth. The `BufferList<TResult>` base class automatically handles this:
-
-**How auto-pruning works**:
-
-- The `BufferList<TResult>` base class includes a `MaxListSize` property (default 90% of int.MaxValue)
-- The `AddInternal()` method automatically calls `PruneList()` after adding each item
-- When the list exceeds `MaxListSize`, the oldest results are removed to keep the list under the limit
-- **No manual implementation needed** - the base class handles everything
-
-**Configuring MaxListSize**:
-
-Users can configure the limit at construction time using the `init` property:
-
-```csharp
-// Use default limit (90% of int.MaxValue)
-SmaList sut = new(14);
-
-// Use custom limit for testing or specific scenarios
-SmaList sut = new(14) { MaxListSize = 100 };
-```
-
-**Implementation requirements**:
-
-- **Do NOT add** `DefaultMaxListSize` constant to indicator classes
-- **Do NOT add** `MaxListSize` property to indicator classes (inherited from base)
-- **Do NOT add** `PruneList()` method to indicator classes (inherited from base)
-- **Do NOT call** `PruneList()` after `AddInternal()` (base class does this automatically)
-- Simply call `AddInternal()` and the base class handles pruning
-
-**Additional considerations for List-based state buffers**:
-
-When using `List<T>` for internal state (like MAMA's indexed lookback requirements), implement separate pruning for those internal buffers only:
-
-```csharp
-private const int MinBufferSize = 7;  // Minimum required for lookback
-private const int MaxBufferSize = 1000; // Trigger point for pruning
-
-private void PruneStateArrays()
-{
-    if (_stateList.Count <= MaxBufferSize)
-    {
-        return;
-    }
-    
-    int removeCount = _stateList.Count - MinBufferSize;
-    if (removeCount > 0)
-    {
-        _stateList.RemoveRange(0, removeCount);
-        // Prune all parallel state lists similarly
-    }
-}
-
-// Call PruneStateArrays() in your Add method after updating state
-```
-
-> **Note**: Internal state buffers using `Queue<T>` are already bounded and don't need pruning. Only result lists and `List<T>`-based state buffers need pruning logic.
 
 ### Thread safety considerations
 
@@ -568,6 +511,35 @@ else _sum += value;
 - **Validation**: Trust extension methods to handle null safety and argument validation
 - **Performance**: Use running calculations when possible instead of recalculating from scratch
 
+## Auto-pruning for long-running scenarios
+
+- Each `BufferList<TResult>` defaults `MaxListSize` to 90% of `int.MaxValue`. Override it with an object initializer when a smaller cap is required (for example, tests or constrained-memory pipelines).
+- The base implementation of `AddInternal()` automatically trims only the overflow entries. Do **not** add `DefaultMaxListSize` constants, redeclare `MaxListSize`, or call `PruneList()` manually.
+- When indicators maintain additional state backed by `List<T>`, prune those lists after calculating the current value while keeping the minimum lookback. Example:
+
+  ```csharp
+  private const int MinBufferSize = 7;
+  private const int MaxBufferSize = 1000;
+
+  private void PruneStateBuffers()
+  {
+      if (_state.Count <= MaxBufferSize)
+      {
+          return;
+      }
+
+      int remove = _state.Count - MinBufferSize;
+      if (remove > 0)
+      {
+          _state.RemoveRange(0, remove);
+          _stateAux.RemoveRange(0, remove); // keep parallel lists aligned
+      }
+  }
+  ```
+
+- `Queue<T>` buffers rarely need extra work—the `BufferUtilities` helpers bound them automatically.
+- When custom pruning occurs, add a unit test that overflows both the result list and the auxiliary buffers to prove the indicator continues to match the static series output.
+
 ## Reference implementations
 
 ### Simple buffer indicator (SMA pattern)
@@ -620,4 +592,4 @@ public void Add(DateTime timestamp, double value)
 ```
 
 ---
-Last updated: January 27, 2025
+Last updated: September 29, 2025

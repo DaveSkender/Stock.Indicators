@@ -72,16 +72,20 @@ public class BollingerBandsBufferList : BufferListTestBase
     }
 
     [TestMethod]
+    public void FromQuotesCtor()
+    {
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series);
+    }
+
+    [TestMethod]
     public void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations, subset);
 
         sut.Should().HaveCount(subset.Count);
 
