@@ -111,7 +111,7 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
-            PruneList();
+        PruneList();
         Add(value.Timestamp, value.Value);
     }
 

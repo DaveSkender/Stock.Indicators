@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Rsi : BufferListTestBase
+public class Rsi : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -14,7 +14,62 @@ public class Rsi : BufferListTestBase
        = Quotes.ToRsi(lookbackPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
+    {
+        RsiList sut = new(lookbackPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        RsiList sut = Quotes.ToRsiList(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        RsiList sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        RsiList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        RsiList sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         RsiList sut = new(lookbackPeriods);
 
@@ -24,82 +79,46 @@ public class Rsi : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
-    {
-        RsiList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        RsiList sut = new(lookbackPeriods) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        RsiList sut = new(lookbackPeriods);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        RsiList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<RsiResult> series
-            = Quotes.ToRsi(lookbackPeriods);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromQuotesCtor()
-    {
-        RsiList sut = new(lookbackPeriods, Quotes);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<RsiResult> expected = subset.ToRsi(lookbackPeriods);
 
         RsiList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<RsiResult> expected = subset.ToRsi(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        RsiList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<RsiResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

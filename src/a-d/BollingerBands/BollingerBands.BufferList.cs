@@ -60,6 +60,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
             {
                 sum += val;
             }
+
             double sma = sum / LookbackPeriods;
 
             // Calculate standard deviation using the same algorithm as the static series

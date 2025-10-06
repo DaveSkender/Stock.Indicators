@@ -73,8 +73,8 @@ public class CmoHub<TIn>
             }
 
             // Use the existing series calculation
-            var seriesResults = subset.ToCmo(LookbackPeriods);
-            var latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
+            IReadOnlyList<CmoResult> seriesResults = subset.ToCmo(LookbackPeriods);
+            CmoResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
 
             cmo = latestResult?.Cmo;
         }

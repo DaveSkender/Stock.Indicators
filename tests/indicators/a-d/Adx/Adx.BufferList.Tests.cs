@@ -9,81 +9,76 @@ public class Adx : BufferListTestBase
        = Quotes.ToAdx(lookbackPeriods);
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         AdxList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         AdxList sut = new(lookbackPeriods) { Quotes };
 
-        IReadOnlyList<AdxResult> series
-            = Quotes.ToAdx(lookbackPeriods);
-
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         AdxList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<AdxResult> expected = subset.ToAdx(lookbackPeriods);
 
         AdxList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<AdxResult> expected = subset.ToAdx(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void AutoPruning()
+    public void AutoPrunesAtConfiguredMax()
     {
         const int maxListSize = 100;
 
-        // Create buffer list with small MaxListSize for testing
-        AdxList sut = new(lookbackPeriods) { MaxListSize = maxListSize };
+        AdxList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
 
-        // Add more quotes than MaxListSize
-        for (int i = 0; i < 150; i++)
-        {
-            Quote quote = Quotes[i % Quotes.Count];
-            sut.Add(quote);
-        }
+        sut.Add(Quotes);
 
-    // Verify list was pruned to stay at MaxListSize
-    sut.Count.Should().Be(maxListSize);
+        IReadOnlyList<AdxResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
 
-        // Verify most recent results are retained
-        AdxResult lastResult = sut[^1];
-        lastResult.Should().NotBeNull();
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
+
+    public override void AutoListPruning() => throw new NotImplementedException();
 }

@@ -3,7 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Maintainability",
     "CA1510:Use ArgumentNullException throw helper",
-    Justification = "Does not support .NET Standard.")]
+    Justification = "Does not support .NET Standard and before .NET 6")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1710:Identifiers should have correct suffix",
+    Justification = "BufferList is the established naming convention for this library",
+    Scope = "type",
+    Target = "~T:Skender.Stock.Indicators.BufferList`1")]
 
 [assembly: SuppressMessage("Naming",
     "CA1720:Identifier contains type name"
@@ -24,11 +31,6 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "Not really an issue.",
     Scope = "member",
     Target = "~F:Skender.Stock.Indicators.Direction.Short")]
-
-[assembly: SuppressMessage(
-    "Maintainability",
-    "CA1510:Use ArgumentNullException throw helper",
-    Justification = "Can only use with .NET 6 or later.  We support .NET Framework and .NET Standard.")]
 
 [assembly: SuppressMessage(
     "Naming",

@@ -79,7 +79,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
         _rsiList.Add(timestamp, value);
 
         // Get the latest RSI result
-        RsiResult rsiResult = _rsiList[_rsiList.Count - 1];
+        RsiResult rsiResult = _rsiList[^1];
 
         // If RSI has a value, feed it to the Stochastic calculation
         if (rsiResult.Rsi.HasValue)
@@ -92,7 +92,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
         StochRsiResult result;
         if (_stochList.Count > 0)
         {
-            StochResult stochResult = _stochList[_stochList.Count - 1];
+            StochResult stochResult = _stochList[^1];
             result = new StochRsiResult(
                 Timestamp: timestamp,
                 StochRsi: stochResult.Oscillator,
@@ -149,4 +149,19 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
         _rsiList.Clear();
         _stochList.Clear();
     }
+}
+
+public static partial class StochRsi
+{
+    /// <summary>
+    /// Creates a buffer list for Stochastic RSI calculations.
+    /// </summary>
+    public static StochRsiList ToStochRsiList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int rsiPeriods,
+        int stochPeriods,
+        int signalPeriods,
+        int smoothPeriods = 1)
+        where TQuote : IQuote
+        => new(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

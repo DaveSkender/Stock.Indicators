@@ -164,7 +164,7 @@ Buffer indicator tests must cover:
 
 ```csharp
 [TestClass]
-public class {IndicatorName}BufferListTests : BufferListTestBase
+public class {IndicatorName}BufferListTests : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -177,7 +177,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
        = Quotes.To{IndicatorName}(lookbackPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public void AddDiscreteValues()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
 
@@ -187,87 +187,90 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
+    public void AddReusableItems()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
 
-        foreach (IReusable item in reusables) { sut.Add(item); }
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableBatch()
+    public void AddReusableItemsBatch()
     {
         {IndicatorName}List sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         {IndicatorName}List sut = new(lookbackPeriods) { Quotes };
 
-        IReadOnlyList<{IndicatorName}Result> series
+        IReadOnlyList<{IndicatorName}Result> expectedSeries
             = Quotes.To{IndicatorName}(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(expectedSeries, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         {IndicatorName}List sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<{IndicatorName}Result> expected = subset.To{IndicatorName}(lookbackPeriods);
 
         {IndicatorName}List sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<{IndicatorName}Result> expected = subset.To{IndicatorName}(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void AutoPrunesAtConfiguredMax()
+    public override void AutoListPruning()
     {
         const int maxListSize = 120;
 
@@ -276,10 +279,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
-        {
-            sut.Add(quote);
-        }
+        sut.Add(Quotes);
 
         IReadOnlyList<{IndicatorName}Result> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -292,11 +292,14 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
 
 > **Test Pattern Notes**:
 >
-> - The `FromQuote()` test validates single-quote Add usage (iterative adding)
-> - The `FromQuoteBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
-> - The new `FromQuotesCtor()` test validates the constructor with quotes parameter
-> - The `ClearResetsState()` test should use the quotes constructor since `FromQuote()` already covers single-quote add
+> - The `AddQuotes()` test validates single-quote Add usage (iterative adding)
+> - The `AddQuotesBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
+> - The new `WithQuotesCtor()` test validates the constructor with quotes parameter
+> - The `ClearResetsState()` test should use the quotes constructor since `AddQuotes()` already covers single-quote add
 > - Use the `AutoPrunesAtConfiguredMax()` pattern whenever the indicator introduces custom pruning or maintains auxiliary state lists. Baseline indicators (SMA, EMA, ADX, etc.) already cover the base-class pruning behavior, so only add the test when additional coverage is warranted.
+> - Implement `ITestReusableBufferList` on buffer-list tests when the indicator supports `IReusable` inputs. Provide `AddReusableItems`, `AddReusableItemsBatch`, and `AddDiscreteValues` test methods to satisfy the interface contract.
+> - For indicators that maintain non-`Queue<T>` caches (for example, custom `List<T>` history buffers), also implement `ITestNonStandardBufferListCache` and add an `AutoBufferPruning()` test that exercises list-level auto-pruning alongside cache pruning.
+> - All `BeEquivalentTo` assertions **must** call `options => options.WithStrictOrdering()` to enforce chronological ordering in test comparisons.
 
 ### Performance benchmarking
 

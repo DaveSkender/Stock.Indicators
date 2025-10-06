@@ -53,6 +53,7 @@ public static partial class BollingerBands
         {
             sum += source[i].Value;
         }
+
         double sma = sum / lookbackPeriods;
 
         // Calculate standard deviation
@@ -62,6 +63,7 @@ public static partial class BollingerBands
             double diff = source[i].Value - sma;
             sumSquaredDiff += diff * diff;
         }
+
         double stdDev = Math.Sqrt(sumSquaredDiff / lookbackPeriods);
 
         // Calculate bands

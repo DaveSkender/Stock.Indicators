@@ -126,3 +126,15 @@ public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
         _previousSmma = null;
     }
 }
+
+public static partial class Smma
+{
+    /// <summary>
+    /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
+    /// </summary>
+    public static SmmaList ToSmmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

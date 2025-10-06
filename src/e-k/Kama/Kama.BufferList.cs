@@ -190,3 +190,17 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         _prevKama = double.NaN;
     }
 }
+
+public static partial class Kama
+{
+    /// <summary>
+    /// Creates a buffer list for Kaufman's Adaptive Moving Average (KAMA) calculations.
+    /// </summary>
+    public static KamaList ToKamaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int erPeriods = 10,
+        int fastPeriods = 2,
+        int slowPeriods = 30)
+        where TQuote : IQuote
+        => new(erPeriods, fastPeriods, slowPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

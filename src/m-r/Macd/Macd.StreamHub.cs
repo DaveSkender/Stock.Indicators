@@ -130,6 +130,7 @@ public class MacdHub<TIn>
             {
                 sum += Cache[j].Value;
             }
+
             signal = sum / SignalPeriods;
         }
         else

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Ema : BufferListTestBase
+public class Ema : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -14,7 +14,59 @@ public class Ema : BufferListTestBase
        = Quotes.ToEma(lookbackPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
+    {
+        EmaList sut = new(lookbackPeriods);
+
+        foreach (Quote q in Quotes) { sut.Add(q); }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        EmaList sut = new(lookbackPeriods) { Quotes };
+
+        IReadOnlyList<EmaResult> series
+            = Quotes.ToEma(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        EmaList sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        EmaList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables) { sut.Add(item); }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        EmaList sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         EmaList sut = new(lookbackPeriods);
 
@@ -24,63 +76,11 @@ public class Ema : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
-    {
-        EmaList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        EmaList sut = new(lookbackPeriods) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        EmaList sut = new(lookbackPeriods);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        EmaList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<EmaResult> series
-            = Quotes.ToEma(lookbackPeriods);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromQuotesCtor()
-    {
-        EmaList sut = new(lookbackPeriods, Quotes);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void AutoPrunesAtConfiguredMax()
+    public override void AutoListPruning()
     {
         const int maxListSize = 120;
 
@@ -88,10 +88,7 @@ public class Ema : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
-        {
-            sut.Add(quote);
-        }
+        sut.Add(Quotes);
 
         IReadOnlyList<EmaResult> expected
             = series.Skip(series.Count - maxListSize).ToList();
@@ -101,49 +98,23 @@ public class Ema : BufferListTestBase
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<EmaResult> expected = subset.ToEma(lookbackPeriods);
 
         EmaList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<EmaResult> expected = subset.ToEma(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
-    }
-
-    [TestMethod]
-    public void AutoPruning()
-    {
-        const int maxListSize = 100;
-
-        // Create buffer list with small MaxListSize for testing
-        EmaList sut = new(lookbackPeriods) { MaxListSize = maxListSize };
-
-        // Add more quotes than MaxListSize
-        for (int i = 0; i < 150; i++)
-        {
-            Quote quote = Quotes[i % Quotes.Count];
-            sut.Add(quote.Timestamp.AddDays(i), quote.Value);
-        }
-
-    // Verify list was pruned to stay at MaxListSize
-    sut.Count.Should().Be(maxListSize);
-
-        // Verify most recent results are retained
-        EmaResult lastResult = sut[^1];
-        lastResult.Should().NotBeNull();
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

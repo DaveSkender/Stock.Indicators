@@ -83,7 +83,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
             {
                 // Match the calculation order in StaticSeries (via Stochastic)
                 // which is: 100 * (close - lowLow) / (highHigh - lowLow) - 100
-                williamsR = 100.0 * (close - lowLow) / (highHigh - lowLow) - 100.0;
+                williamsR = (100.0 * (close - lowLow) / (highHigh - lowLow)) - 100.0;
             }
             else
             {

@@ -58,6 +58,7 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
             {
                 avgTp += tpValue;
             }
+
             avgTp /= LookbackPeriods;
 
             // Calculate average Deviation over lookback
@@ -66,6 +67,7 @@ public class CciList : BufferList<CciResult>, IBufferList, ICci
             {
                 avgDv += Math.Abs(avgTp - tpValue);
             }
+
             avgDv /= LookbackPeriods;
 
             // Calculate CCI

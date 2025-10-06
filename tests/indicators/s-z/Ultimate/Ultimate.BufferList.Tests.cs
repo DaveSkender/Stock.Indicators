@@ -11,39 +11,39 @@ public class Ultimate : BufferListTestBase
        = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods) { Quotes };
 
-        IReadOnlyList<UltimateResult> series
-            = Quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
-
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         UltimateList sut = new(shortPeriods, middlePeriods, longPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
@@ -63,6 +63,29 @@ public class Ultimate : BufferListTestBase
         IReadOnlyList<UltimateResult> expected = subset.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
+
+    [TestMethod]
+    public void AutoPrunesAtConfiguredMax()
+    {
+        const int maxListSize = 120;
+
+        UltimateList sut = new(shortPeriods, middlePeriods, longPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<UltimateResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    public override void AutoListPruning() => throw new NotImplementedException();
 }

@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Mama : BufferListTestBase
+public class Mama : BufferListTestBase, ITestReusableBufferList, ITestNonStandardBufferListCache
 {
     private const double fastLimit = 0.5;
     private const double slowLimit = 0.05;
@@ -15,11 +15,63 @@ public class Mama : BufferListTestBase
     private static readonly IReadOnlyList<MamaResult> series
        = Quotes.ToMama(fastLimit, slowLimit);
 
-    // private static readonly IReadOnlyList<MamaResult> reusableSeries
-    //    = reusables.ToMama(fastLimit, slowLimit);
+    [TestMethod]
+    public override void AddQuotes()
+    {
+        MamaList sut = new(fastLimit, slowLimit);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotesBatch()
+    {
+        MamaList sut = new(fastLimit, slowLimit) { Quotes };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        MamaList sut = new(fastLimit, slowLimit, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        MamaList sut = new(fastLimit, slowLimit);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        MamaList sut = new(fastLimit, slowLimit) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         MamaList sut = new(fastLimit, slowLimit);
 
@@ -29,63 +81,32 @@ public class Mama : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
+    public override void ClearResetsState()
     {
-        MamaList sut = new(fastLimit, slowLimit);
+        List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<MamaResult> expected = subset.ToMama(fastLimit, slowLimit);
 
-        foreach (IReusable item in reusables) { sut.Add(item); }
+        MamaList sut = new(fastLimit, slowLimit, subset);
 
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        sut.Add(subset);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableBatch()
-    {
-        MamaList sut = new(fastLimit, slowLimit) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        MamaList sut = new(fastLimit, slowLimit);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        MamaList sut = new(fastLimit, slowLimit) { Quotes };
-
-        IReadOnlyList<MamaResult> series
-            = Quotes.ToMama(fastLimit, slowLimit);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromQuotesCtor()
-    {
-        MamaList sut = new(fastLimit, slowLimit, Quotes);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void AutoPrunesAtConfiguredMax()
+    public override void AutoListPruning()
     {
         const int maxListSize = 150;
 
@@ -93,125 +114,40 @@ public class Mama : BufferListTestBase
             MaxListSize = maxListSize
         };
 
-        foreach (Quote quote in Quotes)
-        {
-            sut.Add(quote);
-        }
+        sut.Add(Quotes);
 
-        IReadOnlyList<MamaResult> expected
-            = series.Skip(series.Count - maxListSize).ToList();
+        IReadOnlyList<MamaResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
 
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public void AutoBufferPruning()
     {
-        List<Quote> subset = Quotes.Take(80).ToList();
+        const int maxListSize = 200;
+        const int quotesSize = 1250;
 
-        MamaList sut = new(fastLimit, slowLimit, subset);
+        // Use a test data that exceeds all cache size thresholds
+        List<Quote> quotes = LongishQuotes
+            .Take(quotesSize)
+            .ToList();
 
-        sut.Should().HaveCount(subset.Count);
+        // Expected results after pruning (tail end)
+        IReadOnlyList<MamaResult> expected = quotes
+            .ToMama(fastLimit, slowLimit)
+            .Skip(quotesSize - maxListSize)
+            .ToList();
 
-        sut.Clear();
+        // Generate buffer list
+        MamaList sut = new(fastLimit, slowLimit, quotes) {
+            MaxListSize = maxListSize
+        };
 
-        sut.Should().BeEmpty();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<MamaResult> expected = subset.ToMama(fastLimit, slowLimit);
-
-        sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
-    }
-
-    [TestMethod]
-    public void AutoPruning()
-    {
-        const int maxListSize = 100;
-
-        // Test that MAMA's result list auto-pruning (from base class)
-        // works correctly alongside its internal state array pruning
-
-        // Generate a continuous dataset to test pruning and calculation accuracy
-        List<Quote> testQuotes = [];
-        DateTime startDate = new(2020, 1, 1);
-
-        // Create 1250 quotes for testing both pruning mechanisms
-        for (int i = 0; i < 1250; i++)
-        {
-            Quote quote = Quotes[i % Quotes.Count];
-            testQuotes.Add(new Quote
-            {
-                Timestamp = startDate.AddDays(i),
-                Open = quote.Open,
-                High = quote.High,
-                Low = quote.Low,
-                Close = quote.Close,
-                Volume = quote.Volume
-            });
-        }
-
-        // Calculate expected results for ALL quotes using static series
-        // This gives us the baseline for comparison
-        IReadOnlyList<MamaResult> fullExpectedResults = testQuotes.ToMama(fastLimit, slowLimit);
-
-        // Create buffer list with small MaxListSize for testing result list pruning
-    MamaList sut = new(fastLimit, slowLimit) { MaxListSize = maxListSize };
-
-        // Add first 1200 quotes to trigger both:
-        // 1. Internal state array pruning (happens at 1000 items)
-        // 2. Result list pruning (happens at MaxListSize = 100)
-        for (int i = 0; i < 1200; i++)
-        {
-            sut.Add(testQuotes[i]);
-        }
-
-    // Verify result list was pruned to stay at MaxListSize
-    sut.Count.Should().Be(maxListSize);
-
-        // Add the next 50 quotes after pruning and verify accuracy
-        List<MamaResult> actualFinalResults = [];
-        for (int i = 1200; i < 1250; i++)
-        {
-            sut.Add(testQuotes[i]);
-            actualFinalResults.Add(sut[^1]);
-        }
-
-        // Compare the final 50 results against static series calculations
-        // This ensures pruning didn't affect mathematical accuracy
-        actualFinalResults.Count.Should().Be(50);
-
-        for (int i = 0; i < actualFinalResults.Count; i++)
-        {
-            MamaResult actual = actualFinalResults[i];
-            MamaResult expected = fullExpectedResults[1200 + i];
-
-            actual.Timestamp.Should().Be(expected.Timestamp);
-
-            if (expected.Mama.HasValue)
-            {
-                actual.Mama.Should().NotBeNull();
-                actual.Mama.Should().BeApproximately(expected.Mama!.Value, 0.0001);
-            }
-            else
-            {
-                actual.Mama.Should().BeNull();
-            }
-
-            if (expected.Fama.HasValue)
-            {
-                actual.Fama.Should().NotBeNull();
-                actual.Fama.Should().BeApproximately(expected.Fama!.Value, 0.0001);
-            }
-            else
-            {
-                actual.Fama.Should().BeNull();
-            }
-        }
+        // Verify expected results matching equivalent series values
+        sut.Count.Should().Be(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

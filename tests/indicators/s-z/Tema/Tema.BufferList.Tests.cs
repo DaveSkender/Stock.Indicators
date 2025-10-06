@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Tema : BufferListTestBase
+public class Tema : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -14,7 +14,83 @@ public class Tema : BufferListTestBase
        = Quotes.ToTema(lookbackPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
+    {
+        TemaList sut = new(lookbackPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        TemaList sut = new(lookbackPeriods) { Quotes };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        TemaList sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<TemaResult> expected = subset.ToTema(lookbackPeriods);
+
+        TemaList sut = new(lookbackPeriods, subset);
+
+        sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        sut.Add(subset);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        TemaList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        TemaList sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         TemaList sut = new(lookbackPeriods);
 
@@ -24,82 +100,25 @@ public class Tema : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
+    public override void AutoListPruning()
     {
-        TemaList sut = new(lookbackPeriods);
+        const int maxListSize = 120;
 
-        foreach (IReusable item in reusables) { sut.Add(item); }
+        TemaList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
 
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
+        sut.Add(Quotes);
 
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        TemaList sut = new(lookbackPeriods) { reusables };
+        IReadOnlyList<TemaResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
 
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        TemaList sut = new(lookbackPeriods);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        TemaList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<TemaResult> series
-            = Quotes.ToTema(lookbackPeriods);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromQuotesCtor()
-    {
-        TemaList sut = new(lookbackPeriods, Quotes);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
-    {
-        List<Quote> subset = Quotes.Take(80).ToList();
-
-        TemaList sut = new(lookbackPeriods, subset);
-
-        sut.Should().HaveCount(subset.Count);
-
-        sut.Clear();
-
-        sut.Should().BeEmpty();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<TemaResult> expected = subset.ToTema(lookbackPeriods);
-
-        sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

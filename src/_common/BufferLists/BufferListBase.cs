@@ -11,10 +11,6 @@ namespace Skender.Stock.Indicators;
 /// safe operations for buffer list implementations. It does not support removal
 /// or modification operations that would desynchronize internal buffer state.
 /// </remarks>
-[System.Diagnostics.CodeAnalysis.SuppressMessage(
-    "Naming",
-    "CA1710:Identifiers should have correct suffix",
-    Justification = "BufferList is the established naming convention for this library")]
 public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<TResult>
     where TResult : ISeries
 {
@@ -49,8 +45,7 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     public int MaxListSize
     {
         get => _maxListSize;
-        set
-        {
+        set {
             if (value <= 0)
             {
                 throw new ArgumentOutOfRangeException(

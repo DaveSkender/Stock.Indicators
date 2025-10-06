@@ -147,3 +147,15 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
         _isInitialized = false;
     }
 }
+
+public static partial class Cmo
+{
+    /// <summary>
+    /// Creates a buffer list for Chande Momentum Oscillator (CMO) calculations.
+    /// </summary>
+    public static CmoList ToCmoList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
+}

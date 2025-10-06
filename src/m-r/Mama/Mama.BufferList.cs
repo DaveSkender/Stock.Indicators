@@ -121,6 +121,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         {
             double sum = 0;
             for (int p = i - 5; p <= i; p++) { sum += pr[p]; }
+
             mama = fama = sum / 6d;
             prevMama = mama;
             prevFama = fama;

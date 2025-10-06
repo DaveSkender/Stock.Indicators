@@ -9,58 +9,76 @@ public class Cci : BufferListTestBase
        = Quotes.ToCci(lookbackPeriods);
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         CciList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         CciList sut = new(lookbackPeriods) { Quotes };
 
-        IReadOnlyList<CciResult> series
-            = Quotes.ToCci(lookbackPeriods);
-
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         CciList sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<CciResult> expected = subset.ToCci(lookbackPeriods);
 
         CciList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<CciResult> expected = subset.ToCci(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
+
+    [TestMethod]
+    public void AutoPrunesAtConfiguredMax()
+    {
+        const int maxListSize = 120;
+
+        CciList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<CciResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    public override void AutoListPruning() => throw new NotImplementedException();
 }

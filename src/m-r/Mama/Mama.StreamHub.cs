@@ -143,6 +143,7 @@ public class MamaHub<TIn>
             {
                 prevMama = prev.Mama.Value;
             }
+
             if (prev.Fama.HasValue)
             {
                 prevFama = prev.Fama.Value;
