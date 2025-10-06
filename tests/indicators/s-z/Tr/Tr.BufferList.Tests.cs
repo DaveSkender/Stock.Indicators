@@ -13,7 +13,10 @@ public class Tr : BufferListTestBase
         TrList sut = new();
 #pragma warning restore IDE0028
 
-        sut.Add(Quotes);
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
