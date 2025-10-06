@@ -8,7 +8,6 @@ namespace Skender.Stock.Indicators;
 public class StochList : BufferList<StochResult>, IStoch, IBufferList
 {
     private readonly Queue<double> _highBuffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly Queue<double> _lowBuffer;
     private readonly Queue<double> _closeBuffer;
     private readonly Queue<double> _rawKBuffer;
@@ -43,7 +42,6 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
         DFactor = dFactor;
         MovingAverageType = movingAverageType;
 
-        MaxListSize = DefaultMaxListSize;
         _highBuffer = new Queue<double>(lookbackPeriods);
         _lowBuffer = new Queue<double>(lookbackPeriods);
         _closeBuffer = new Queue<double>(lookbackPeriods);
@@ -91,11 +89,6 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
     public MaType MovingAverageType { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -239,7 +232,6 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
     public override void Clear()
     {
         ClearInternal();
-        PruneList();
         _highBuffer.Clear();
         _lowBuffer.Clear();
         _closeBuffer.Clear();
@@ -247,22 +239,5 @@ public class StochList : BufferList<StochResult>, IStoch, IBufferList
         _smoothKBuffer.Clear();
         _prevSmoothK = double.NaN;
         _prevSignal = double.NaN;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }

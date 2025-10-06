@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
 {
     private readonly Queue<double> _buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly double _divisor;
     private double _sum;
     private double _weightedAverage;
@@ -23,7 +22,6 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
         // Pre-calculate divisor for WMA: n * (n + 1) / 2
         _divisor = (double)lookbackPeriods * (lookbackPeriods + 1) / 2d;
 
-        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<double>(lookbackPeriods);
     }
 
@@ -42,11 +40,6 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
     public int LookbackPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -70,7 +63,6 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
         }
 
         AddInternal(new WmaResult(timestamp, wma));
-        PruneList();
     }
 
     /// <inheritdoc />
@@ -116,23 +108,6 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
         _buffer.Clear();
         _sum = 0d;
         _weightedAverage = 0d;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }
 

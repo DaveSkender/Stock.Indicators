@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
 {
     private readonly Queue<double> buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SmaList"/> class.
@@ -16,7 +15,6 @@ public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
     {
         Sma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        MaxListSize = DefaultMaxListSize;
         buffer = new Queue<double>(lookbackPeriods);
     }
 
@@ -33,12 +31,6 @@ public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
     /// Gets the number of periods to look back for the calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
-
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -61,9 +53,6 @@ public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
         }
 
         AddInternal(new SmaResult(timestamp, sma));
-
-        // Prune result list if it exceeds MaxListSize
-        PruneList();
     }
 
     /// <summary>
@@ -125,23 +114,6 @@ public class SmaList : BufferList<SmaResult>, IBufferReusable, ISma
     {
         ClearInternal();
         buffer.Clear();
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }
 

@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
 {
     private readonly Queue<(bool? isUp, double value)> _tickBuffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private double _prevValue = double.NaN;
     private bool _isInitialized;
 
@@ -19,7 +18,6 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
         Cmo.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        MaxListSize = DefaultMaxListSize;
         _tickBuffer = new Queue<(bool? isUp, double value)>(lookbackPeriods);
     }
 
@@ -38,11 +36,6 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
     public int LookbackPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -107,7 +100,6 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
         }
 
         AddInternal(new CmoResult(timestamp, cmo));
-        PruneList();
     }
 
     /// <inheritdoc />
@@ -153,22 +145,5 @@ public class CmoList : BufferList<CmoResult>, IBufferReusable, ICmo
         _tickBuffer.Clear();
         _prevValue = double.NaN;
         _isInitialized = false;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }

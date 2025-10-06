@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class VwmaList : BufferList<VwmaResult>, IVwma, IBufferList
 {
     private readonly Queue<(double price, double volume)> _buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VwmaList"/> class.
@@ -19,7 +18,6 @@ public class VwmaList : BufferList<VwmaResult>, IVwma, IBufferList
         Vwma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
-        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<(double, double)>(lookbackPeriods);
     }
 
@@ -41,11 +39,6 @@ public class VwmaList : BufferList<VwmaResult>, IVwma, IBufferList
     public int LookbackPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -96,7 +89,6 @@ public class VwmaList : BufferList<VwmaResult>, IVwma, IBufferList
         AddInternal(new VwmaResult(
             timestamp,
             vwma.NaN2Null()));
-        PruneList();
     }
 
     /// <inheritdoc />
@@ -104,23 +96,6 @@ public class VwmaList : BufferList<VwmaResult>, IVwma, IBufferList
     {
         ClearInternal();
         _buffer.Clear();
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }
 

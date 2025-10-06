@@ -7,7 +7,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
 {
     private readonly Queue<double> _buffer;
     private double _bufferSum;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EmaList"/> class.
@@ -20,7 +19,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
         Ema.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
-        MaxListSize = DefaultMaxListSize;
 
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
@@ -44,11 +42,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
     /// <inheritdoc />
     public double K { get; private init; }
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -90,7 +83,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
         AddInternal(new EmaResult(
             timestamp,
             Ema.Increment(K, lastEma.Value, value)));
-        PruneList();
     }
 
     /// <inheritdoc />
@@ -135,23 +127,6 @@ public class EmaList : BufferList<EmaResult>, IBufferReusable, IEma
         ClearInternal();
         _buffer.Clear();
         _bufferSum = 0;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }
 

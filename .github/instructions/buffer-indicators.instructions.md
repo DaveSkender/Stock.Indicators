@@ -31,7 +31,6 @@ Buffer indicators inherit from the `BufferList<TResult>` base class and implemen
 public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReusable, I{IndicatorName}
 {
     private readonly Queue<double> _buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     
     public {IndicatorName}List(
         int lookbackPeriods
@@ -39,7 +38,6 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
     {
         {IndicatorName}.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-        MaxListSize = DefaultMaxListSize;
 
         _buffer = new Queue<double>(lookbackPeriods);
     }
@@ -58,12 +56,6 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
     public int LookbackPeriods { get; init; }
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
-
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -73,10 +65,8 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
         // Calculate result using buffer data
         double? result = CalculateIndicator();
         
+        // AddInternal automatically prunes the list when MaxListSize is exceeded
         AddInternal(new {IndicatorName}Result(timestamp, result));
-        
-        // Prune result list if it exceeds MaxListSize
-        PruneList();
     }
 
     /// <inheritdoc />
@@ -98,23 +88,6 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
         // Perform calculation using buffer data
         return /* calculated value */;
     }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-        
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
-    }
 }
 ```
 
@@ -122,12 +95,17 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
 - **ALL buffer list implementations MUST inherit from `BufferList<TResult>`** instead of `List<TResult>`
 - The base class provides:
-  - `AddInternal(TResult item)` - Protected method to add items to the internal list
+  - `AddInternal(TResult item)` - Protected method to add items to the internal list (automatically prunes when MaxListSize is exceeded)
   - `ClearInternal()` - Protected method to clear the internal list
+  - `RemoveAtInternal(int index)` - Protected method to remove items by index
   - `abstract void Clear()` - Derived classes must override to reset both list and buffers
+  - `virtual void PruneList()` - Can be overridden for custom pruning logic (rarely needed)
+  - `MaxListSize` property - Configurable limit (default 90% of int.MaxValue), inherited from base class
   - `ICollection<TResult>` and `IReadOnlyList<TResult>` interfaces
   - Read-only indexer and Count property
   - Blocks problematic operations (`ICollection<T>.Add()` and `ICollection<T>.Remove()`)
+- **Auto-pruning is automatic**: Simply call `AddInternal()` and the base class handles pruning
+- **No manual pruning code needed**: Don't add `PruneList()` calls, `MaxListSize` property, or `DefaultMaxListSize` constant
 
 **Constructor Pattern**:
 
@@ -362,58 +340,38 @@ public void BufferIndicator{IndicatorName}()
 
 ### Auto-pruning for long-running scenarios
 
-Buffer indicators maintain a result list that grows with each added quote. For long-running scenarios (e.g., live trading systems), this can lead to unbounded memory growth. Implement optional auto-pruning to prevent this:
+Buffer indicators maintain a result list that grows with each added quote. For long-running scenarios (e.g., live trading systems), this can lead to unbounded memory growth. The `BufferList<TResult>` base class automatically handles this:
 
-**When to implement auto-pruning**:
+**How auto-pruning works**:
 
-- All buffer list implementations should support auto-pruning via `MaxListSize` property
-- Pruning applies to the result list (inherited `BufferList<TResult>`)
-- Internal state buffers using `Queue<T>` are already bounded and don't need pruning
-- Internal state buffers using `List<T>` (for indexed access) may need separate pruning logic
+- The `BufferList<TResult>` base class includes a `MaxListSize` property (default 90% of int.MaxValue)
+- The `AddInternal()` method automatically calls `PruneList()` after adding each item
+- When the list exceeds `MaxListSize`, the oldest results are removed to keep the list under the limit
+- **No manual implementation needed** - the base class handles everything
 
-**Standard auto-pruning pattern**:
+**Configuring MaxListSize**:
+
+Users can configure the limit at construction time using the `init` property:
 
 ```csharp
-private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
+// Use default limit (90% of int.MaxValue)
+SmaList sut = new(14);
 
-/// <summary>
-/// Gets or sets the maximum size of the result list before pruning occurs.
-/// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-/// </summary>
-public int MaxListSize { get; init; } = DefaultMaxListSize;
-
-/// <inheritdoc />
-public void Add(DateTime timestamp, double value)
-{
-    // ... normal indicator calculation logic ...
-    
-    AddInternal(new {IndicatorName}Result(timestamp, result));
-    
-    // Prune result list if it exceeds MaxListSize
-    PruneList();
-}
-
-/// <summary>
-/// Prunes the result list to prevent unbounded memory growth.
-/// </summary>
-private void PruneList()
-{
-    if (Count < MaxListSize)
-    {
-        return;
-    }
-    
-    // Remove oldest results while keeping the list under MaxListSize
-    while (Count >= MaxListSize)
-    {
-        RemoveAtInternal(0);
-    }
-}
+// Use custom limit for testing or specific scenarios
+SmaList sut = new(14) { MaxListSize = 100 };
 ```
+
+**Implementation requirements**:
+
+- **Do NOT add** `DefaultMaxListSize` constant to indicator classes
+- **Do NOT add** `MaxListSize` property to indicator classes (inherited from base)
+- **Do NOT add** `PruneList()` method to indicator classes (inherited from base)
+- **Do NOT call** `PruneList()` after `AddInternal()` (base class does this automatically)
+- Simply call `AddInternal()` and the base class handles pruning
 
 **Additional considerations for List-based state buffers**:
 
-When using `List<T>` for internal state (like MAMA's indexed lookback requirements), implement separate pruning:
+When using `List<T>` for internal state (like MAMA's indexed lookback requirements), implement separate pruning for those internal buffers only:
 
 ```csharp
 private const int MinBufferSize = 7;  // Minimum required for lookback
@@ -433,7 +391,11 @@ private void PruneStateArrays()
         // Prune all parallel state lists similarly
     }
 }
+
+// Call PruneStateArrays() in your Add method after updating state
 ```
+
+> **Note**: Internal state buffers using `Queue<T>` are already bounded and don't need pruning. Only result lists and `List<T>`-based state buffers need pruning logic.
 
 ### Thread safety considerations
 
@@ -466,9 +428,6 @@ public void Add(DateTime timestamp, double value)
         : null;
     
     AddInternal(new {IndicatorName}Result(timestamp, result));
-    
-    // Prune result list if it exceeds MaxListSize
-    PruneList();
 }
 ```
 
@@ -501,9 +460,6 @@ public void Add(DateTime timestamp, double value)
         : null;
     
     AddInternal(new {IndicatorName}Result(timestamp, result));
-    
-    // Prune result list if it exceeds MaxListSize
-    PruneList();
 }
 ```
 
@@ -532,9 +488,6 @@ public void Add(DateTime timestamp, double value)
     {
         AddInternal(new {IndicatorName}Result(timestamp));
     }
-    
-    // Prune result list if it exceeds MaxListSize
-    PruneList();
 }
 ```
 
@@ -547,7 +500,7 @@ Study these exemplary buffer indicators that demonstrate proper use of universal
 - **EMA**: `src/e-k/Ema/Ema.BufferList.cs` - Buffer management with dequeue tracking for running sum
 - **HMA**: `src/e-k/Hma/Hma.BufferList.cs` - Multi-buffer management for complex calculations
 - **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
-- **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with auto-pruning (both state arrays and result list)
+- **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with separate state array pruning (result list pruning is automatic)
 
 ## Integration with other styles
 
@@ -636,9 +589,6 @@ public void Add(DateTime timestamp, double value)
     }
     
     AddInternal(new SmaResult(timestamp, sma));
-    
-    // Prune result list if it exceeds MaxListSize
-    PruneList();
 }
 ```
 
@@ -665,11 +615,8 @@ public void Add(DateTime timestamp, double value)
         : null;
     
     AddInternal(new EmaResult(timestamp, result));
-    
-    // Prune result list if it exceeds MaxListSize
-    PruneList();
 }
 ```
 
 ---
-Last updated: September 29, 2025
+Last updated: January 27, 2025

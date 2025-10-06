@@ -14,7 +14,6 @@ namespace Skender.Stock.Indicators;
 public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
 {
     private readonly Queue<double> _buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly List<IReusable> _cache;
     private int _cacheOffset; // Tracks how many items have been pruned from cache
 
@@ -28,8 +27,7 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     {
         Epma.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
-
-        MaxListSize = DefaultMaxListSize;        _buffer = new Queue<double>(lookbackPeriods);
+        _buffer = new Queue<double>(lookbackPeriods);
         _cache = [];
         _cacheOffset = 0;
     }
@@ -49,11 +47,6 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
     public int LookbackPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -72,7 +65,6 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         double epma = Epma.Increment(_cache, LookbackPeriods, cacheIndex, globalIndex);
 
         AddInternal(new EpmaResult(timestamp, epma.NaN2Null()));
-        PruneList();
 
         // Prune cache if it exceeds MaxCacheSize
         PruneCache();
@@ -121,23 +113,6 @@ public class EpmaList : BufferList<EpmaResult>, IBufferReusable, IEpma
         _cache.Clear();
         _cacheOffset = 0;
         ClearInternal();
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 
     /// <summary>

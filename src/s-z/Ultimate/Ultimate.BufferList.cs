@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
 {
     private readonly Queue<double> _bpBuffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly Queue<double> _trBuffer;
     private double _previousClose;
     private bool _isInitialized;
@@ -27,7 +26,6 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
         MiddlePeriods = middlePeriods;
         LongPeriods = longPeriods;
 
-        MaxListSize = DefaultMaxListSize;
         _bpBuffer = new Queue<double>(longPeriods);
         _trBuffer = new Queue<double>(longPeriods);
         _isInitialized = false;
@@ -64,11 +62,6 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
     public int LongPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -151,7 +144,6 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
         }
 
         AddInternal(new UltimateResult(timestamp, ultimate));
-        PruneList();
         _previousClose = close;
     }
 
@@ -174,23 +166,6 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
         _trBuffer.Clear();
         _previousClose = 0;
         _isInitialized = false;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }
 

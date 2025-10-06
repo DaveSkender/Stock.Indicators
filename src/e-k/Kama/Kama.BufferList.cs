@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
 {
     private readonly Queue<double> _buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly int _erPeriods;
     private readonly double _scFast;
     private readonly double _scSlow;
@@ -34,7 +33,6 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         _scFast = 2d / (fastPeriods + 1);
         _scSlow = 2d / (slowPeriods + 1);
 
-        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<double>(erPeriods + 1);
     }
 
@@ -70,11 +68,6 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
     public int SlowPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -149,7 +142,6 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
             Timestamp: timestamp,
             Er: er.NaN2Null(),
             Kama: kama.NaN2Null()));
-        PruneList();
 
         _prevKama = kama;
     }
@@ -196,22 +188,5 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         ClearInternal();
         _buffer.Clear();
         _prevKama = double.NaN;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }

@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
 {
     private readonly RsiList _rsiList;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly StochList _stochList;
 
     /// <summary>
@@ -31,8 +30,7 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
 
         _rsiList = new RsiList(rsiPeriods);
         _stochList = new StochList(stochPeriods, signalPeriods, smoothPeriods, 3, 2, MaType.SMA);
-
-        MaxListSize = DefaultMaxListSize;    }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StochRsiList"/> class with initial quotes.
@@ -72,11 +70,6 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
     public int SmoothPeriods { get; init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -111,7 +104,6 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
         }
 
         AddInternal(result);
-        PruneList();
     }
 
     /// <inheritdoc />
@@ -156,22 +148,5 @@ public class StochRsiList : BufferList<StochRsiResult>, IBufferReusable
         ClearInternal();
         _rsiList.Clear();
         _stochList.Clear();
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }

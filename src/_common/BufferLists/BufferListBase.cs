@@ -19,12 +19,14 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     where TResult : ISeries
 {
     private readonly List<TResult> _internalList = [];
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BufferList{TResult}"/> class.
     /// </summary>
     protected BufferList()
     {
+        MaxListSize = DefaultMaxListSize;
     }
 
     /// <summary>
@@ -41,12 +43,20 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     public bool IsReadOnly => true;
 
     /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
+    /// <summary>
     /// Adds an item to the list using internal buffer logic.
+    /// Automatically prunes the list if it exceeds MaxListSize.
     /// </summary>
     /// <param name="item">The item to add.</param>
     protected void AddInternal(TResult item)
     {
         _internalList.Add(item);
+        PruneList();
     }
 
     /// <summary>
@@ -64,6 +74,24 @@ public abstract class BufferList<TResult> : ICollection<TResult>, IReadOnlyList<
     protected void RemoveAtInternal(int index)
     {
         _internalList.RemoveAt(index);
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// Can be overridden in derived classes for custom pruning logic.
+    /// </summary>
+    protected virtual void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 
     #region ICollection<TResult> Implementation

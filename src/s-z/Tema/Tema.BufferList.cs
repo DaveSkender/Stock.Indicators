@@ -6,7 +6,6 @@ namespace Skender.Stock.Indicators;
 public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
 {
     private readonly Queue<double> _buffer;
-    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private double _bufferSum;
 
     // State for triple EMA calculations
@@ -26,7 +25,6 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
-        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
     }
@@ -54,11 +52,6 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
     public double K { get; private init; }
 
 
-    /// <summary>
-    /// Gets or sets the maximum size of the result list before pruning occurs.
-    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
-    /// </summary>
-    public int MaxListSize { get; init; }
 
 
     /// <inheritdoc />
@@ -112,7 +105,6 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
             Ema2 = ema2,
             Ema3 = ema3
         });
-        PruneList();
 
         // store state for next calculation
         _lastEma1 = ema1;
@@ -165,23 +157,6 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
         _lastEma3 = double.NaN;
-    }
-
-    /// <summary>
-    /// Prunes the result list to prevent unbounded memory growth.
-    /// </summary>
-    private void PruneList()
-    {
-        if (Count < MaxListSize)
-        {
-            return;
-        }
-
-        // Remove oldest results while keeping the list under MaxListSize
-        while (Count >= MaxListSize)
-        {
-            RemoveAtInternal(0);
-        }
     }
 }
 
