@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
 {
     private readonly Queue<double> _buffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private double _bufferSum;
 
     // State for triple EMA calculations
@@ -25,6 +26,7 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
         LookbackPeriods = lookbackPeriods;
         K = 2d / (lookbackPeriods + 1);
 
+        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<double>(lookbackPeriods);
         _bufferSum = 0;
     }
@@ -47,6 +49,14 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     /// <inheritdoc />
     public double K { get; private init; }
 
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -67,6 +77,7 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new TrixResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -80,6 +91,7 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
             ema1 = ema2 = ema3 = _bufferSum / LookbackPeriods;
 
             AddInternal(new TrixResult(timestamp));
+            PruneList();
         }
         // normal TRIX calculation
         else
@@ -106,6 +118,7 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
     public void Add(IReusable value)
     {
         ArgumentNullException.ThrowIfNull(value);
+            PruneList();
         Add(value.Timestamp, value.Value);
     }
 
@@ -147,6 +160,23 @@ public class TrixList : BufferList<TrixResult>, IBufferReusable, ITrix
         _lastEma1 = double.NaN;
         _lastEma2 = double.NaN;
         _lastEma3 = double.NaN;
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
 

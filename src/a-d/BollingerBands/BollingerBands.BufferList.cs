@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusable, IBollingerBands
 {
     private readonly Queue<double> buffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BollingerBandsList"/> class.
@@ -17,7 +18,8 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
         BollingerBands.Validate(lookbackPeriods, standardDeviations);
         LookbackPeriods = lookbackPeriods;
         StandardDeviations = standardDeviations;
-        buffer = new Queue<double>(lookbackPeriods);
+
+        MaxListSize = DefaultMaxListSize;        buffer = new Queue<double>(lookbackPeriods);
     }
 
     /// <summary>
@@ -39,6 +41,12 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
     /// Gets the number of standard deviations for the bands.
     /// </summary>
     public double StandardDeviations { get; }
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
 
     /// <summary>
     /// Adds a new value to the Bollinger Bands list.
@@ -85,11 +93,13 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
                 ZScore: zScore,
                 Width: width
             ));
+            PruneList();
         }
         else
         {
             // Initialization period - return null values
             AddInternal(new BollingerBandsResult(timestamp));
+            PruneList();
         }
     }
 
@@ -152,6 +162,23 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
     {
         ClearInternal();
         buffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
 

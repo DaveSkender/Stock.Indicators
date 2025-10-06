@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
 {
     private readonly Queue<double> _buffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly double[] _weight;
     private readonly double _norm;
 
@@ -26,6 +27,7 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
         Offset = offset;
         Sigma = sigma;
 
+        MaxListSize = DefaultMaxListSize;
         _buffer = new Queue<double>(lookbackPeriods);
 
         // Pre-calculate weights and normalization factor for efficiency
@@ -75,6 +77,14 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
     /// </summary>
     public double Sigma { get; init; }
 
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -100,6 +110,7 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
         }
 
         AddInternal(new AlmaResult(timestamp, alma));
+        PruneList();
     }
 
     /// <inheritdoc />
@@ -143,5 +154,22 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
     {
         ClearInternal();
         _buffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }

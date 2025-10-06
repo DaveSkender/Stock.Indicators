@@ -7,6 +7,7 @@ public class T3List : BufferList<T3Result>, IT3, IBufferReusable
 {
     // State for six-layer EMA calculations
     private double _lastEma1 = double.NaN;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private double _lastEma2 = double.NaN;
     private double _lastEma3 = double.NaN;
     private double _lastEma4 = double.NaN;
@@ -33,7 +34,8 @@ public class T3List : BufferList<T3Result>, IT3, IBufferReusable
         C2 = (3 * a * a) + (3 * a * a * a);
         C3 = (-6 * a * a) - (3 * a) - (3 * a * a * a);
         C4 = 1 + (3 * a) + (a * a * a) + (3 * a * a);
-    }
+
+        MaxListSize = DefaultMaxListSize;    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T3List"/> class with initial quotes.
@@ -69,6 +71,14 @@ public class T3List : BufferList<T3Result>, IT3, IBufferReusable
 
     /// <inheritdoc/>
     public double C4 { get; private init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
@@ -109,6 +119,7 @@ public class T3List : BufferList<T3Result>, IT3, IBufferReusable
             Ema5 = ema5,
             Ema6 = ema6
         });
+        PruneList();
 
         // store state for next calculation
         _lastEma1 = ema1;
@@ -165,6 +176,23 @@ public class T3List : BufferList<T3Result>, IT3, IBufferReusable
         _lastEma4 = double.NaN;
         _lastEma5 = double.NaN;
         _lastEma6 = double.NaN;
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
 

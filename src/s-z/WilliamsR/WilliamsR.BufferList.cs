@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
 {
     private readonly Queue<double> _highBuffer;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private readonly Queue<double> _lowBuffer;
 
     /// <summary>
@@ -18,6 +19,7 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
         WilliamsR.Validate(lookbackPeriods);
         LookbackPeriods = lookbackPeriods;
 
+        MaxListSize = DefaultMaxListSize;
         _highBuffer = new Queue<double>(lookbackPeriods);
         _lowBuffer = new Queue<double>(lookbackPeriods);
     }
@@ -37,6 +39,14 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
     /// Gets the lookback periods for Williams %R calculation.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -98,7 +108,25 @@ public class WilliamsRList : BufferList<WilliamsResult>, IWilliamsR, IBufferList
     public override void Clear()
     {
         ClearInternal();
+        PruneList();
         _highBuffer.Clear();
         _lowBuffer.Clear();
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }

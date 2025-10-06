@@ -6,6 +6,7 @@ namespace Skender.Stock.Indicators;
 public class ObvList : BufferList<ObvResult>, IBufferList
 {
     private double _previousClose = double.NaN;
+    private const int DefaultMaxListSize = (int)(0.9 * int.MaxValue);
     private double _obvValue;
 
     /// <summary>
@@ -23,6 +24,14 @@ public class ObvList : BufferList<ObvResult>, IBufferList
     public ObvList(IReadOnlyList<IQuote> quotes)
         : this()
         => Add(quotes);
+
+
+    /// <summary>
+    /// Gets or sets the maximum size of the result list before pruning occurs.
+    /// When the list exceeds this size, older results are removed. Default is 90% of int.MaxValue.
+    /// </summary>
+    public int MaxListSize { get; init; }
+
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -47,6 +56,7 @@ public class ObvList : BufferList<ObvResult>, IBufferList
         AddInternal(new ObvResult(
             Timestamp: quote.Timestamp,
             Obv: _obvValue));
+        PruneList();
 
         // Update previous close for next iteration
         _previousClose = (double)quote.Close;
@@ -69,5 +79,22 @@ public class ObvList : BufferList<ObvResult>, IBufferList
         ClearInternal();
         _previousClose = double.NaN;
         _obvValue = 0;
+    }
+
+    /// <summary>
+    /// Prunes the result list to prevent unbounded memory growth.
+    /// </summary>
+    private void PruneList()
+    {
+        if (Count < MaxListSize)
+        {
+            return;
+        }
+
+        // Remove oldest results while keeping the list under MaxListSize
+        while (Count >= MaxListSize)
+        {
+            RemoveAtInternal(0);
+        }
     }
 }
