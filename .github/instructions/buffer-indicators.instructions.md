@@ -295,8 +295,8 @@ public class {IndicatorName}BufferListTests : BufferListTestBase, ITestReusableB
 > - The `AddQuotes()` test validates single-quote Add usage (iterative adding)
 > - The `AddQuotesBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
 > - The new `WithQuotesCtor()` test validates the constructor with quotes parameter
+> - Use the `AutoListPruning()` pattern override of `BufferListTestBase` to cover the base-class list pruning behavior.
 > - The `ClearResetsState()` test should use the quotes constructor since `AddQuotes()` already covers single-quote add
-> - Use the `AutoPrunesAtConfiguredMax()` pattern whenever the indicator introduces custom pruning or maintains auxiliary state lists. Baseline indicators (SMA, EMA, ADX, etc.) already cover the base-class pruning behavior, so only add the test when additional coverage is warranted.
 > - Implement `ITestReusableBufferList` on buffer-list tests when the indicator supports `IReusable` inputs. Provide `AddReusableItems`, `AddReusableItemsBatch`, and `AddDiscreteValues` test methods to satisfy the interface contract.
 > - For indicators that maintain non-`Queue<T>` caches (for example, custom `List<T>` history buffers), also implement `ITestNonStandardBufferListCache` and add an `AutoBufferPruning()` test that exercises list-level auto-pruning alongside cache pruning.
 > - All `BeEquivalentTo` assertions **must** call `options => options.WithStrictOrdering()` to enforce chronological ordering in test comparisons.

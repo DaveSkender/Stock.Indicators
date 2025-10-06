@@ -124,7 +124,7 @@ public class WilliamsR : BufferListTestBase
     }
 
     [TestMethod]
-    public void AutoPrunesAtConfiguredMax()
+    public override void AutoListPruning()
     {
         const int maxListSize = 120;
 
@@ -158,6 +158,4 @@ public class WilliamsR : BufferListTestBase
             }
         }
     }
-
-    public override void AutoListPruning() => throw new NotImplementedException();
 }

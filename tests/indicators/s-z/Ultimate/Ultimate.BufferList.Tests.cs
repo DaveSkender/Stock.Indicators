@@ -67,7 +67,7 @@ public class Ultimate : BufferListTestBase
     }
 
     [TestMethod]
-    public void AutoPrunesAtConfiguredMax()
+    public override void AutoListPruning()
     {
         const int maxListSize = 120;
 
@@ -86,6 +86,4 @@ public class Ultimate : BufferListTestBase
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
-
-    public override void AutoListPruning() => throw new NotImplementedException();
 }

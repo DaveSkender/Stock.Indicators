@@ -144,7 +144,7 @@ public class Stoch : BufferListTestBase
     }
 
     [TestMethod]
-    public void AutoPrunesAtConfiguredMax()
+    public override void AutoListPruning()
     {
         const int maxListSize = 120;
 
@@ -163,6 +163,4 @@ public class Stoch : BufferListTestBase
         sut.Should().HaveCount(maxListSize);
         sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
-
-    public override void AutoListPruning() => throw new NotImplementedException();
 }
