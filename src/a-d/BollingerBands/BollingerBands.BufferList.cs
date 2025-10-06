@@ -40,6 +40,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
     /// </summary>
     public double StandardDeviations { get; }
 
+
     /// <summary>
     /// Adds a new value to the Bollinger Bands list.
     /// </summary>
@@ -59,6 +60,7 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
             {
                 sum += val;
             }
+
             double sma = sum / LookbackPeriods;
 
             // Calculate standard deviation using the same algorithm as the static series
@@ -85,11 +87,13 @@ public class BollingerBandsList : BufferList<BollingerBandsResult>, IBufferReusa
                 ZScore: zScore,
                 Width: width
             ));
+            PruneList();
         }
         else
         {
             // Initialization period - return null values
             AddInternal(new BollingerBandsResult(timestamp));
+            PruneList();
         }
     }
 

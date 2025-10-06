@@ -48,6 +48,9 @@ public class DemaList : BufferList<DemaResult>, IBufferReusable, IDema
     /// </summary>
     public double K { get; private init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -64,6 +67,7 @@ public class DemaList : BufferList<DemaResult>, IBufferReusable, IDema
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new DemaResult(timestamp));
+            PruneList();
             return;
         }
 

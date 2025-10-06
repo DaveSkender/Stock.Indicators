@@ -24,6 +24,9 @@ public class ObvList : BufferList<ObvResult>, IBufferList
         : this()
         => Add(quotes);
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {

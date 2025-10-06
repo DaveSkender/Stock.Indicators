@@ -176,7 +176,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
     public void WarmupPeriodsRemainNull()
     {
         int sqrtPeriods = (int)Math.Sqrt(LookbackPeriods);
-        int minSamples = (LookbackPeriods - 1) + sqrtPeriods - 1;
+        int minSamples = LookbackPeriods - 1 + sqrtPeriods - 1;
 
         QuoteHub<Quote> provider = new();
         HmaHub<Quote> observer = provider.ToHma(LookbackPeriods);

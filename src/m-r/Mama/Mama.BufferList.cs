@@ -3,9 +3,40 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// MESA Adaptive Moving Average (MAMA) from incremental reusable values.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Exception to BufferUtilities Pattern:</b> MAMA does not use the standard
+/// <see cref="BufferUtilities"/> extension methods (Update/UpdateWithDequeue) due to
+/// the unique complexity of the MESA (Maximum Entropy Spectrum Analysis) algorithm.
+/// </para>
+/// <para>
+/// <b>Algorithmic Requirements:</b>
+/// <list type="bullet">
+/// <item>Maintains 11 parallel state arrays (pr, sm, dt, pd, q1, i1, q2, i2, re, im, ph)
+/// for different phases of the MESA calculation</item>
+/// <item>Requires indexed lookback access up to 6 periods (e.g., <c>sm[i - 6]</c>)
+/// for phase calculations</item>
+/// <item>Performs multi-stage phasor calculations with cross-referencing between arrays</item>
+/// </list>
+/// </para>
+/// <para>
+/// <b>Why Queue&lt;T&gt; Cannot Be Used:</b> The standard <see cref="Queue{T}"/> data structure
+/// used by BufferUtilities does not provide indexed access to historical values, which is
+/// essential for the MESA algorithm's phase and period calculations.
+/// </para>
+/// <para>
+/// <b>Memory Management:</b> This implementation uses <see cref="List{T}"/> arrays to maintain
+/// calculation state with automatic pruning to prevent unbounded growth:
+/// <list type="bullet">
+/// <item>State arrays are pruned at 1000 items, keeping minimum 7 periods for calculations</item>
+/// <item>Result list is pruned at <see cref="BufferList{MamaResult}.MaxListSize"/> (default 90% of int.MaxValue)</item>
+/// </list>
+/// </para>
+/// </remarks>
 public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
 {
     // Internal state arrays matching StaticSeries implementation
+    // These arrays grow with each added value to support indexed lookback access
     private readonly List<double> pr = []; // price (HL2 when quote)
     private readonly List<double> sm = []; // smooth
     private readonly List<double> dt = []; // detrender
@@ -21,6 +52,8 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
     private double prevMama = double.NaN;
     private double prevFama = double.NaN;
 
+    private const int MinBufferSize = 7; // Minimum required for 6-period lookback
+    private const int MaxBufferSize = 1000; // Trigger point to prune buffers to MinBufferSize
     /// <summary>
     /// Initializes a new instance of the <see cref="MamaList"/> class.
     /// </summary>
@@ -88,6 +121,7 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         {
             double sum = 0;
             for (int p = i - 5; p <= i; p++) { sum += pr[p]; }
+
             mama = fama = sum / 6d;
             prevMama = mama;
             prevFama = fama;
@@ -143,6 +177,48 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         prevFama = fama;
 
         AddInternal(new MamaResult(timestamp, mama.NaN2Null(), fama.NaN2Null()));
+
+        // Prune state arrays if they exceed MaxBufferSize
+        PruneStateArrays();
+    }
+
+    /// <summary>
+    /// Prunes the internal state arrays to prevent unbounded memory growth.
+    /// Removes older data while preserving the minimum required periods for calculations.
+    /// </summary>
+    private void PruneStateArrays()
+    {
+        if (pr.Count <= MaxBufferSize)
+        {
+            return;
+        }
+
+        // Calculate how many items to remove
+        // Keep at least MinBufferSize (7) elements for lookback calculations
+        int removeCount = pr.Count - MinBufferSize;
+
+        if (removeCount > 0)
+        {
+            RemoveStateRange(removeCount);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void PruneList()
+    {
+        int overflow = Count - MaxListSize;
+
+        if (overflow > 0)
+        {
+            int removable = Math.Min(overflow, Math.Max(0, pr.Count - MinBufferSize));
+
+            if (removable > 0)
+            {
+                RemoveStateRange(removable);
+            }
+        }
+
+        base.PruneList();
     }
 
     /// <inheritdoc />
@@ -207,6 +283,21 @@ public class MamaList : BufferList<MamaResult>, IBufferReusable, IMama
         ph.Clear();
         prevMama = double.NaN;
         prevFama = double.NaN;
+    }
+
+    private void RemoveStateRange(int count)
+    {
+        pr.RemoveRange(0, count);
+        sm.RemoveRange(0, count);
+        dt.RemoveRange(0, count);
+        pd.RemoveRange(0, count);
+        q1.RemoveRange(0, count);
+        i1.RemoveRange(0, count);
+        q2.RemoveRange(0, count);
+        i2.RemoveRange(0, count);
+        re.RemoveRange(0, count);
+        im.RemoveRange(0, count);
+        ph.RemoveRange(0, count);
     }
 }
 

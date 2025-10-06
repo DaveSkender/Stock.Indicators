@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Smma : BufferListTestBase
+public class Smma : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 20;
 
@@ -14,7 +14,83 @@ public class Smma : BufferListTestBase
        = Quotes.ToSmma(lookbackPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
+    {
+        SmmaList sut = new(lookbackPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        SmmaList sut = Quotes.ToSmmaList(lookbackPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        SmmaList sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<SmmaResult> expected = subset.ToSmma(lookbackPeriods);
+
+        SmmaList sut = new(lookbackPeriods, subset);
+
+        sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        sut.Add(subset);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        SmmaList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        SmmaList sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         SmmaList sut = new(lookbackPeriods);
 
@@ -24,78 +100,25 @@ public class Smma : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
+    public override void AutoListPruning()
     {
-        SmmaList sut = new(lookbackPeriods);
+        const int maxListSize = 120;
 
-        foreach (IReusable item in reusables) { sut.Add(item); }
+        SmmaList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
 
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
+        sut.Add(Quotes);
 
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        SmmaList sut = new(lookbackPeriods) { reusables };
+        IReadOnlyList<SmmaResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
 
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        SmmaList sut = new(lookbackPeriods);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        SmmaList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<SmmaResult> series
-            = Quotes.ToSmma(lookbackPeriods);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
-    {
-        List<Quote> subset = Quotes.Take(80).ToList();
-
-        SmmaList sut = new(lookbackPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        sut.Should().HaveCount(subset.Count);
-
-        sut.Clear();
-
-        sut.Should().BeEmpty();
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<SmmaResult> expected = subset.ToSmma(lookbackPeriods);
-
-        sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

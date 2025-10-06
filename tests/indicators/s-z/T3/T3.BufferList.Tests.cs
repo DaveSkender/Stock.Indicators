@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class T3 : BufferListTestBase
+public class T3 : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 5;
     private const double volumeFactor = 0.7;
@@ -15,73 +15,39 @@ public class T3 : BufferListTestBase
        = Quotes.ToT3(lookbackPeriods, volumeFactor);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
     {
         T3List sut = new(lookbackPeriods, volumeFactor);
 
-        foreach (IReusable item in reusables)
+        foreach (Quote quote in Quotes)
         {
-            sut.Add(item.Timestamp, item.Value);
+            sut.Add(quote);
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
-    {
-        T3List sut = new(lookbackPeriods, volumeFactor);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        T3List sut = new(lookbackPeriods, volumeFactor) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        T3List sut = new(lookbackPeriods, volumeFactor);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         T3List sut = new(lookbackPeriods, volumeFactor) { Quotes };
 
-        IReadOnlyList<T3Result> series
-            = Quotes.ToT3(lookbackPeriods, volumeFactor);
-
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         T3List sut = new(lookbackPeriods, volumeFactor, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtorPartial()
+    public void WithQuotesCtorPartial()
     {
         // Test split initialization: half on construction, half after
         int splitPoint = Quotes.Count / 2;
@@ -96,30 +62,83 @@ public class T3 : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<T3Result> expected = subset.ToT3(lookbackPeriods, volumeFactor);
 
         T3List sut = new(lookbackPeriods, volumeFactor, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<T3Result> expected = subset.ToT3(lookbackPeriods, volumeFactor);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        T3List sut = new(lookbackPeriods, volumeFactor);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        T3List sut = new(lookbackPeriods, volumeFactor) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
+    {
+        T3List sut = new(lookbackPeriods, volumeFactor);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item.Timestamp, item.Value);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        T3List sut = new(lookbackPeriods, volumeFactor) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<T3Result> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

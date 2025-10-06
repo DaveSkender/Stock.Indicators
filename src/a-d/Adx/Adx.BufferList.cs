@@ -33,6 +33,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
     /// </summary>
     public int LookbackPeriods { get; private init; }
 
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -50,6 +51,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         {
             _buffer.Update(LookbackPeriods, curr);
             AddInternal(new AdxResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -72,6 +74,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         if (Count < LookbackPeriods)
         {
             AddInternal(new AdxResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -98,6 +101,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
         if (curr.Trs == 0)
         {
             AddInternal(new AdxResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -120,6 +124,7 @@ public class AdxList : BufferList<AdxResult>, IAdx, IBufferList
                 Mdi: mdi.NaN2Null(),
                 Dx: curr.Dx.NaN2Null()));
 
+            PruneList();
             return;
         }
 

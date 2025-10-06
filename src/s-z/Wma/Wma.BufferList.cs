@@ -39,6 +39,9 @@ public class WmaList : BufferList<WmaResult>, IBufferReusable, IWma
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {

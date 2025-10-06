@@ -38,21 +38,87 @@ public abstract class TestBase  // base for all tests
 /// </summary>
 public abstract class StaticSeriesTestBase : TestBase
 {
+    /// <summary>
+    /// Tests default use case and parameters arguments
+    /// </summary>
     public abstract void Standard();
 
+    /// <summary>
+    /// Tests proper handling of incompatible quote data
+    /// </summary>
     public abstract void BadData();
 
+    /// <summary>
+    /// Tests that empty quotes sets return empty results set
+    /// </summary>
     public abstract void NoQuotes();
 }
 
 /// <summary>
-/// Base tests that all buffered list indicators should have.
+/// Base tests that all buffered list indicators should have for essential interfaces.
 /// </summary>
+/// <remarks>
+/// Tests should additionally include AutoListPruning() or AutoCachePruning() test cases
+/// when the buffer list includes non-standard Queue-based history caching.
+/// </remarks>
 public abstract class BufferListTestBase : TestBase
 {
-    public abstract void FromQuote();
+    /// <summary>
+    /// Tests adding individual quotes one-at-a-time
+    /// </summary>
+    public abstract void AddQuotes();
 
-    public abstract void FromQuoteBatch();
+    /// <summary>
+    /// Tests adding a batch of quotes
+    /// </summary>
+    public abstract void AddQuotesBatch();
+
+    /// <summary>
+    /// Tests if buffer list can be instantiated with initial quotes
+    /// </summary>
+    public abstract void WithQuotesCtor();
+
+    /// <summary>
+    /// Tests normal list auto-pruning behaviors
+    /// </summary>
+    public abstract void AutoListPruning();
+
+    /// <summary>
+    /// Tests clearing the list, queues/caches, and internals
+    /// </summary>
+    public abstract void ClearResetsState();
+}
+
+/// <summary>
+/// Add this to buffer list tests for <see cref="IBufferReusable" /> types.
+/// </summary>
+public interface ITestReusableBufferList
+{
+    /// <summary>
+    /// Tests adding IReusable type values one-at-a-time
+    /// </summary>
+    void AddReusableItems();
+
+    /// <summary>
+    /// Tests adding a batch of IReusable type values
+    /// </summary>
+    void AddReusableItemsBatch();
+
+    /// <summary>
+    /// Tests adding raw date/value pairs
+    /// </summary>
+    void AddDiscreteValues();
+}
+
+/// <summary>
+/// Add this to buffer list tests where a non-standard cache is used instead of the standard <see cref="Queue{T}"/> implementation.
+/// </summary>
+public interface ITestNonStandardBufferListCache
+{
+    /// <summary>
+    /// Tests non-standard internal cache pruning behavior while list-level auto-pruning occurs simultaneously.
+    /// </summary>
+    void AutoBufferPruning();
 }
 
 /// <summary>
@@ -60,8 +126,14 @@ public abstract class BufferListTestBase : TestBase
 /// </summary>
 public abstract class StreamHubTestBase : TestBase  // default: quote observer
 {
+    /// <summary>
+    /// Tests hub compatibility with quote provider
+    /// </summary>
     public abstract void QuoteObserver();
 
+    /// <summary>
+    /// Tests hub-unique name string
+    /// </summary>
     public abstract void CustomToString();
 }
 
@@ -70,6 +142,9 @@ public abstract class StreamHubTestBase : TestBase  // default: quote observer
 /// </summary>
 public interface ITestChainObserver
 {
+    /// <summary>
+    /// Tests hub compatibility with chain providers
+    /// </summary>
     void ChainObserver();
 }
 
@@ -78,5 +153,8 @@ public interface ITestChainObserver
 /// </summary>
 public interface ITestChainProvider
 {
+    /// <summary>
+    /// Tests hub capability as a chain provider
+    /// </summary>
     void ChainProvider();
 }

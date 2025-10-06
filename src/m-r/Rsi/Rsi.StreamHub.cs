@@ -73,8 +73,8 @@ public class RsiHub<TIn>
             }
 
             // Use the existing series calculation
-            var seriesResults = subset.ToRsi(LookbackPeriods);
-            var latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
+            IReadOnlyList<RsiResult> seriesResults = subset.ToRsi(LookbackPeriods);
+            RsiResult? latestResult = seriesResults.Count > 0 ? seriesResults[seriesResults.Count - 1] : null;
 
             rsi = latestResult?.Rsi;
         }

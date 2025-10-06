@@ -51,6 +51,9 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
     /// </summary>
     public double K { get; private init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -71,6 +74,7 @@ public class TemaList : BufferList<TemaResult>, IBufferReusable, ITema
         if (Count < LookbackPeriods - 1)
         {
             AddInternal(new TemaResult(timestamp));
+            PruneList();
             return;
         }
 

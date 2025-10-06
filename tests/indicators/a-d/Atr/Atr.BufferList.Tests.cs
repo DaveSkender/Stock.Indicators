@@ -9,54 +9,74 @@ public class Atr : BufferListTestBase
        = Quotes.ToAtr(lookbackPeriods);
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         AtrList sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        AtrList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<AtrResult> series
-            = Quotes.ToAtr(lookbackPeriods);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
-    {
-        List<Quote> subset = Quotes.Take(80).ToList();
-
-        AtrList sut = new(lookbackPeriods);
-
-        foreach (Quote quote in subset)
+        foreach (Quote quote in Quotes)
         {
             sut.Add(quote);
         }
 
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        AtrList sut = new(lookbackPeriods) { Quotes };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        AtrList sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<AtrResult> expected = subset.ToAtr(lookbackPeriods);
+
+        AtrList sut = new(lookbackPeriods, subset);
+
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<AtrResult> expected = subset.ToAtr(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        AtrList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<AtrResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

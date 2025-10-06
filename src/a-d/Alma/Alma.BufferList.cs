@@ -75,6 +75,9 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
     /// </summary>
     public double Sigma { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -144,4 +147,18 @@ public class AlmaList : BufferList<AlmaResult>, IBufferReusable, IAlma
         ClearInternal();
         _buffer.Clear();
     }
+}
+
+public static partial class Alma
+{
+    /// <summary>
+    /// Creates a buffer list for Arnaud Legoux Moving Average (ALMA) calculations.
+    /// </summary>
+    public static AlmaList ToAlmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods,
+        double offset = 0.85,
+        double sigma = 6)
+        where TQuote : IQuote
+        => new(lookbackPeriods, offset, sigma) { (IReadOnlyList<IQuote>)quotes };
 }

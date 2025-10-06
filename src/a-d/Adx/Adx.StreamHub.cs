@@ -152,7 +152,7 @@ public class AdxHub<TIn>
                 _sumDx = dx.Value;
             }
         }
-        else if (i < 2 * LookbackPeriods - 1)
+        else if (i < (2 * LookbackPeriods) - 1)
         {
             // Smoothed values calculation
             // Wilder's smoothing keeps values on SUM scale
@@ -171,7 +171,7 @@ public class AdxHub<TIn>
                 _sumDx += dx.Value;
             }
         }
-        else if (i == 2 * LookbackPeriods - 1)
+        else if (i == (2 * LookbackPeriods) - 1)
         {
             // First ADX calculation
             // Final smoothing before initial ADX

@@ -1,21 +1,76 @@
 namespace BufferLists;
 
 [TestClass]
-public class BollingerBandsBufferList : BufferListTestBase
+public class BollingerBands : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 20;
     private const double standardDeviations = 2;
 
     private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
-        .Cast<IReusable>()
-        .ToList();
+        = Quotes
+            .Cast<IReusable>()
+            .ToList();
 
     private static readonly IReadOnlyList<BollingerBandsResult> series
-       = Quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
+        = Quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
+    {
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { Quotes };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
 
@@ -25,178 +80,46 @@ public class BollingerBandsBufferList : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
-    {
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) { Quotes };
-
-        IReadOnlyList<BollingerBandsResult> series
-            = Quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<BollingerBandsResult> expected = subset.ToBollingerBands(lookbackPeriods, standardDeviations);
 
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<BollingerBandsResult> expected = subset.ToBollingerBands(lookbackPeriods, standardDeviations);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void BollingerBandsListWithDifferentPeriods()
+    public override void AutoListPruning()
     {
-        // test various lookback periods
-        int[] periods = [5, 10, 14, 20, 30];
+        const int maxListSize = 120;
 
-        foreach (int period in periods)
-        {
-            // arrange
-            IReadOnlyList<BollingerBandsResult> expected = Quotes.ToBollingerBands(period, standardDeviations);
-
-            // act
-            BollingerBandsList actual = new(period, standardDeviations) {
-                Quotes
-            };
-
-            // assert
-            actual.Should().HaveCount(expected.Count, $"Count mismatch for period {period}");
-
-            for (int i = 0; i < actual.Count; i++)
-            {
-                BollingerBandsResult e = expected[i];
-                BollingerBandsResult a = actual[i];
-
-                a.Timestamp.Should().Be(e.Timestamp, $"Timestamp mismatch at index {i} for period {period}");
-
-                if (e.Sma is null)
-                {
-                    a.Sma.Should().BeNull($"SMA should be null at index {i} for period {period}");
-                }
-                else
-                {
-                    a.Sma.Should().BeApproximately(e.Sma.Value, 0.0001, $"SMA mismatch at index {i} for period {period}");
-                }
-
-                if (e.UpperBand is null)
-                {
-                    a.UpperBand.Should().BeNull($"UpperBand should be null at index {i} for period {period}");
-                }
-                else
-                {
-                    a.UpperBand.Should().BeApproximately(e.UpperBand.Value, 0.0001, $"UpperBand mismatch at index {i} for period {period}");
-                }
-
-                if (e.LowerBand is null)
-                {
-                    a.LowerBand.Should().BeNull($"LowerBand should be null at index {i} for period {period}");
-                }
-                else
-                {
-                    a.LowerBand.Should().BeApproximately(e.LowerBand.Value, 0.0001, $"LowerBand mismatch at index {i} for period {period}");
-                }
-            }
-        }
-    }
-
-    [TestMethod]
-    public void BollingerBandsListEdgeCases()
-    {
-        // Test with minimal lookback period (2)
-        BollingerBandsList bbList = new(2, standardDeviations) {
-            // Add first quote - should be null (not enough data)
-            Quotes[0]
+        BollingerBandsList sut = new(lookbackPeriods, standardDeviations) {
+            MaxListSize = maxListSize
         };
-        bbList.Should().HaveCount(1);
-        bbList[0].Sma.Should().BeNull("First quote should have null SMA");
 
-        // Add second quote - BB might be available (need to check against static series)
-        bbList.Add(Quotes[1]);
-        bbList.Should().HaveCount(2);
+        sut.Add(Quotes);
 
-        // Compare with static series to see what's expected
-        IReadOnlyList<BollingerBandsResult> expectedResults = Quotes.Take(2).ToList().ToBollingerBands(2, standardDeviations);
-        if (expectedResults[1].Sma is null)
-        {
-            bbList[1].Sma.Should().BeNull("Second quote should have null SMA when period is 2");
-        }
-        else
-        {
-            bbList[1].Sma.Should().BeApproximately(expectedResults[1].Sma.Value, 0.0001, "Second quote SMA should match expected");
-        }
-    }
+        IReadOnlyList<BollingerBandsResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
 
-    [TestMethod]
-    public void BollingerBandsListExceptions()
-    {
-        // Test invalid constructor parameters
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new BollingerBandsList(1));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new BollingerBandsList(20, 0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new BollingerBandsList(20, -1));
-
-        BollingerBandsList sut = new(lookbackPeriods, standardDeviations);
-
-        // Test null arguments
-        Assert.ThrowsExactly<ArgumentNullException>(() => sut.Add((IReusable)null!));
-        Assert.ThrowsExactly<ArgumentNullException>(() => sut.Add((IQuote)null!));
-        Assert.ThrowsExactly<ArgumentNullException>(() => sut.Add((IReadOnlyList<IReusable>)null!));
-        Assert.ThrowsExactly<ArgumentNullException>(() => sut.Add((IReadOnlyList<IQuote>)null!));
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }
