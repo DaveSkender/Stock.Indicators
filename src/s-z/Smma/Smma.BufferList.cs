@@ -62,7 +62,7 @@ public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
         }
 
         // add nulls for incalculable periods
-        if (Count < LookbackPeriods - 1)
+        if (_buffer.Count < LookbackPeriods)
         {
             AddInternal(new SmmaResult(timestamp));
             PruneList();

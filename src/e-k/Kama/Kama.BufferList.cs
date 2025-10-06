@@ -77,7 +77,7 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         _buffer.Update(_erPeriods + 1, value);
 
         // add nulls for incalculable periods
-        if (Count < _erPeriods - 1)
+        if (_buffer.Count < _erPeriods)
         {
             AddInternal(new KamaResult(timestamp));
             PruneList();
@@ -88,7 +88,7 @@ public class KamaList : BufferList<KamaResult>, IBufferReusable, IKama
         double kama;
 
         // Calculate if we have enough data
-        if (Count >= _erPeriods - 1 && _buffer.Count == _erPeriods + 1)
+        if (_buffer.Count == _erPeriods + 1)
         {
             double[] bufferArray = _buffer.ToArray();
             double newVal = bufferArray[^1]; // Current value
