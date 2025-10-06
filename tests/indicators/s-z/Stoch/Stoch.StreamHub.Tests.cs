@@ -175,33 +175,9 @@ public class Stoch : StreamHubTestBase
             StochResult batchResult = batchResults[i];
 
             streamResult.Timestamp.Should().Be(batchResult.Timestamp);
-
-            if (streamResult.Oscillator.HasValue && batchResult.Oscillator.HasValue)
-            {
-                streamResult.Oscillator.Should().BeApproximately(batchResult.Oscillator.Value, 0.001);
-            }
-            else
-            {
-                streamResult.Oscillator.Should().Be(batchResult.Oscillator);
-            }
-
-            if (streamResult.Signal.HasValue && batchResult.Signal.HasValue)
-            {
-                streamResult.Signal.Should().BeApproximately(batchResult.Signal.Value, 0.001);
-            }
-            else
-            {
-                streamResult.Signal.Should().Be(batchResult.Signal);
-            }
-
-            if (streamResult.PercentJ.HasValue && batchResult.PercentJ.HasValue)
-            {
-                streamResult.PercentJ.Should().BeApproximately(batchResult.PercentJ.Value, 0.001);
-            }
-            else
-            {
-                streamResult.PercentJ.Should().Be(batchResult.PercentJ);
-            }
+            streamResult.Oscillator.Should().Be(batchResult.Oscillator);
+            streamResult.Signal.Should().Be(batchResult.Signal);
+            streamResult.PercentJ.Should().Be(batchResult.PercentJ);
         }
     }
 

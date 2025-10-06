@@ -1,7 +1,7 @@
 namespace BufferLists;
 
 [TestClass]
-public class Macd : BufferListTestBase
+public class Macd : BufferListTestBase, ITestReusableBufferList
 {
     private const int fastPeriods = 12;
     private const int slowPeriods = 26;
@@ -16,7 +16,62 @@ public class Macd : BufferListTestBase
        = Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotes()
+    {
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        MacdList sut = Quotes.ToMacdList(fastPeriods, slowPeriods, signalPeriods);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
@@ -26,79 +81,28 @@ public class Macd : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
-    {
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods) { Quotes };
-
-        IReadOnlyList<MacdResult> series
-            = Quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<MacdResult> expected = subset.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<MacdResult> expected = subset.ToMacd(fastPeriods, slowPeriods, signalPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
@@ -107,60 +111,72 @@ public class Macd : BufferListTestBase
         MacdList sut = Quotes.ToMacdList(fastPeriods, slowPeriods, signalPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
     public void StreamingAccuracy()
     {
-        // Test streaming vs batch accuracy with specific data points
         MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
 
-        for (int i = 0; i < 100; i++)
-        {
-            sut.Add(Quotes[i]);
-        }
-
-        // Validate specific calculations match series results
-        MacdResult streamResult = sut[50];
-        MacdResult seriesResult = series[50];
-
-        streamResult.Macd.Should().BeApproximately(seriesResult.Macd, 0.0001);
-        streamResult.Signal.Should().BeApproximately(seriesResult.Signal, 0.0001);
-        streamResult.Histogram.Should().BeApproximately(seriesResult.Histogram, 0.0001);
-        streamResult.FastEma.Should().BeApproximately(seriesResult.FastEma, 0.0001);
-        streamResult.SlowEma.Should().BeApproximately(seriesResult.SlowEma, 0.0001);
-
-        streamResult.Should().Be(seriesResult);
-        sut.ToList().Should().BeEquivalentTo(series.Take(100));
-    }
-
-    [TestMethod]
-    public void RealTimeSimulation()
-    {
-        // Simulate real-time data processing
-        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
-
-        // Process initial historical data
         foreach (Quote quote in Quotes.Take(100))
         {
             sut.Add(quote);
         }
 
-        // Process new incoming quotes
+        MacdResult streamResult = sut[50];
+        MacdResult seriesResult = series[50];
+
+        streamResult.Should().BeEquivalentTo(seriesResult, options => options.WithStrictOrdering());
+        sut.Should().HaveCount(100);
+        sut.Should().BeEquivalentTo(series.Take(100), options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void RealTimeSimulation()
+    {
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods);
+
+        foreach (Quote quote in Quotes.Take(100))
+        {
+            sut.Add(quote);
+        }
+
         foreach (Quote quote in Quotes.Skip(100).Take(10))
         {
-            MacdResult result = sut[^1]; // Last result before adding new
-            sut.Add(quote);
-            MacdResult newResult = sut[^1]; // New result after adding
+            MacdResult previous = sut[^1];
 
-            // Verify calculations are consistent
-            if (newResult.Macd.HasValue)
+            sut.Add(quote);
+
+            MacdResult current = sut[^1];
+
+            if (current.Macd.HasValue)
             {
-                newResult.Macd.Should().NotBeNull();
-                newResult.FastEma.Should().NotBeNull();
-                newResult.SlowEma.Should().NotBeNull();
+                current.Macd.Should().NotBeNull();
+                current.FastEma.Should().NotBeNull();
+                current.SlowEma.Should().NotBeNull();
             }
+
+            current.Timestamp.Should().BeAfter(previous.Timestamp);
         }
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        MacdList sut = new(fastPeriods, slowPeriods, signalPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<MacdResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

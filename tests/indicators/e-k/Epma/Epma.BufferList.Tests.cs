@@ -1,7 +1,7 @@
-namespace BufferList;
+namespace BufferLists;
 
 [TestClass]
-public class EpmaBufferListTests : BufferListTestBase
+public class Epma : BufferListTestBase, ITestReusableBufferList, ITestNonStandardBufferListCache
 {
     private const int lookbackPeriods = 20;
 
@@ -13,30 +13,63 @@ public class EpmaBufferListTests : BufferListTestBase
     private static readonly IReadOnlyList<EpmaResult> series
        = Quotes.ToEpma(lookbackPeriods);
 
-    private static void ValidateResults(IReadOnlyList<EpmaResult> actual, IReadOnlyList<EpmaResult> expected)
+    [TestMethod]
+    public override void AddQuotes()
     {
-        actual.Should().HaveCount(expected.Count);
+        EpmaList sut = new(lookbackPeriods);
 
-        for (int i = 0; i < actual.Count; i++)
+        foreach (Quote quote in Quotes)
         {
-            EpmaResult actualResult = actual[i];
-            EpmaResult expectedResult = expected[i];
-
-            actualResult.Timestamp.Should().Be(expectedResult.Timestamp);
-
-            if (expectedResult.Epma.HasValue && actualResult.Epma.HasValue)
-            {
-                actualResult.Epma.Should().BeApproximately(expectedResult.Epma.Value, 6, $"at index {i}");
-            }
-            else
-            {
-                actualResult.Epma.Should().Be(expectedResult.Epma, $"at index {i}");
-            }
+            sut.Add(quote);
         }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableSplit()
+    public override void AddQuotesBatch()
+    {
+        EpmaList sut = new(lookbackPeriods) { Quotes };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        EpmaList sut = new(lookbackPeriods, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        EpmaList sut = new(lookbackPeriods);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        EpmaList sut = new(lookbackPeriods) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddDiscreteValues()
     {
         EpmaList sut = new(lookbackPeriods);
 
@@ -45,72 +78,74 @@ public class EpmaBufferListTests : BufferListTestBase
             sut.Add(item.Timestamp, item.Value);
         }
 
-        ValidateResults(sut, series);
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
-    {
-        EpmaList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        ValidateResults(sut, series);
-    }
-
-    [TestMethod]
-    public void FromReusableBatch()
-    {
-        EpmaList sut = new(lookbackPeriods) { reusables };
-
-        ValidateResults(sut, series);
-    }
-
-    [TestMethod]
-    public override void FromQuote()
-    {
-        EpmaList sut = new(lookbackPeriods);
-
-        foreach (Quote q in Quotes) { sut.Add(q); }
-
-        ValidateResults(sut, series);
-    }
-
-    [TestMethod]
-    public override void FromQuoteBatch()
-    {
-        EpmaList sut = new(lookbackPeriods) { Quotes };
-
-        IReadOnlyList<EpmaResult> expected = Quotes.ToEpma(lookbackPeriods);
-
-        ValidateResults(sut, expected);
-    }
-
-    [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<EpmaResult> expected = subset.ToEpma(lookbackPeriods);
 
-        EpmaList sut = new(lookbackPeriods);
-
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        EpmaList sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
+        sut.Add(subset);
 
-        IReadOnlyList<EpmaResult> expected = subset.ToEpma(lookbackPeriods);
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
 
-        ValidateResults(sut, expected);
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        EpmaList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<EpmaResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AutoBufferPruning()
+    {
+        const int maxListSize = 150;
+        const int quotesSize = 1250;
+
+        // Use a test data that exceeds all cache size thresholds
+        List<Quote> quotes = LongishQuotes
+            .Take(quotesSize)
+            .ToList();
+
+        // Expected results after pruning (tail end)
+        IReadOnlyList<EpmaResult> expected = quotes
+            .ToEpma(lookbackPeriods)
+            .Skip(quotesSize - maxListSize)
+            .ToList();
+
+        // Generate buffer list
+        EpmaList sut = new(lookbackPeriods, quotes) {
+            MaxListSize = maxListSize
+        };
+
+        // Verify expected results matching equivalent series values
+        sut.Count.Should().Be(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

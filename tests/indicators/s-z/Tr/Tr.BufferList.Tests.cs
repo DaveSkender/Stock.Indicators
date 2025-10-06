@@ -7,39 +7,41 @@ public class Tr : BufferListTestBase
        = Quotes.ToTr();
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
+#pragma warning disable IDE0028 // Collection expression incompatible with IQuote Add overloads
         TrList sut = new();
+#pragma warning restore IDE0028
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         TrList sut = new() { Quotes };
 
-        IReadOnlyList<TrResult> series
-            = Quotes.ToTr();
-
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         TrList sut = new(Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtorPartial()
+    public void WithQuotesCtorPartial()
     {
         // Test split initialization: half on construction, half after
         int splitPoint = Quotes.Count / 2;
@@ -48,17 +50,17 @@ public class Tr : BufferListTestBase
 
         TrList sut = new(firstHalf);
 
-        foreach (Quote q in secondHalf)
+        foreach (Quote quote in secondHalf)
         {
-            sut.Add(q);
+            sut.Add(quote);
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
 
@@ -78,6 +80,27 @@ public class Tr : BufferListTestBase
         IReadOnlyList<TrResult> expected = subset.ToTr();
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        TrList sut = new() {
+            MaxListSize = maxListSize
+        };
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        IReadOnlyList<TrResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

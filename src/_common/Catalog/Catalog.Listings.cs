@@ -103,7 +103,9 @@ public static partial class Catalog
         _listings.Add(Bop.SeriesListing);
 
         // CCI (Commodity Channel Index)
+        _listings.Add(Cci.BufferListing);
         _listings.Add(Cci.SeriesListing);
+        _listings.Add(Cci.StreamListing);
 
         // Chaikin Oscillator
         _listings.Add(ChaikinOsc.SeriesListing);
@@ -118,7 +120,9 @@ public static partial class Catalog
         _listings.Add(Cmf.SeriesListing);
 
         // CMO (Chande Momentum Oscillator)
+        _listings.Add(Cmo.BufferListing);
         _listings.Add(Cmo.SeriesListing);
+        _listings.Add(Cmo.StreamListing);
 
         // ConnorsRSI
         _listings.Add(ConnorsRsi.SeriesListing);
@@ -301,7 +305,9 @@ public static partial class Catalog
         _listings.Add(Stoch.StreamListing);
 
         // Stochastic RSI
+        _listings.Add(StochRsi.BufferListing);
         _listings.Add(StochRsi.SeriesListing);
+        _listings.Add(StochRsi.StreamListing);
 
         // SuperTrend
         _listings.Add(SuperTrend.SeriesListing);
@@ -323,6 +329,8 @@ public static partial class Catalog
 
         // TRIX
         _listings.Add(Trix.SeriesListing);
+        _listings.Add(Trix.BufferListing);
+        _listings.Add(Trix.StreamListing);
 
         // TSI (True Strength Index)
         _listings.Add(Tsi.SeriesListing);
@@ -331,7 +339,9 @@ public static partial class Catalog
         _listings.Add(UlcerIndex.SeriesListing);
 
         // Ultimate Oscillator
+        _listings.Add(Ultimate.BufferListing);
         _listings.Add(Ultimate.SeriesListing);
+        _listings.Add(Ultimate.StreamListing);
 
         // Volatility Stop
         _listings.Add(VolatilityStop.SeriesListing);
@@ -348,7 +358,9 @@ public static partial class Catalog
         _listings.Add(Vwma.BufferListing);
 
         // Williams %R
+        _listings.Add(WilliamsR.BufferListing);
         _listings.Add(WilliamsR.SeriesListing);
+        _listings.Add(WilliamsR.StreamListing);
 
         // WMA (Weighted Moving Average)
         _listings.Add(Wma.BufferListing);

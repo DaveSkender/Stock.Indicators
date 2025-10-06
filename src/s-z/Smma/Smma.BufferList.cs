@@ -42,6 +42,9 @@ public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
@@ -59,9 +62,10 @@ public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
         }
 
         // add nulls for incalculable periods
-        if (Count < LookbackPeriods - 1)
+        if (_buffer.Count < LookbackPeriods)
         {
             AddInternal(new SmmaResult(timestamp));
+            PruneList();
             return;
         }
 
@@ -121,4 +125,16 @@ public class SmmaList : BufferList<SmmaResult>, IBufferReusable, ISmma
         _bufferSum = 0;
         _previousSmma = null;
     }
+}
+
+public static partial class Smma
+{
+    /// <summary>
+    /// Creates a buffer list for Smoothed Moving Average (SMMA) calculations.
+    /// </summary>
+    public static SmmaList ToSmmaList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods)
+        where TQuote : IQuote
+        => new(lookbackPeriods) { (IReadOnlyList<IQuote>)quotes };
 }

@@ -1,267 +1,124 @@
 namespace BufferLists;
 
 [TestClass]
-public class HmaStreaming : BufferListTestBase
+public class Hma : BufferListTestBase, ITestReusableBufferList
 {
+    private const int lookbackPeriods = 14;
+
+    private static readonly IReadOnlyList<IReusable> reusables
+       = Quotes
+        .Cast<IReusable>()
+        .ToList();
+
+    private static readonly IReadOnlyList<HmaResult> series
+       = Quotes.ToHma(lookbackPeriods);
+
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
-        // arrange
-        int lookbackPeriods = 14;
-        IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
+        HmaList sut = new(lookbackPeriods);
 
-        // act - add quotes one by one
-        HmaList actual = new(lookbackPeriods);
-        for (int i = 0; i < Quotes.Count; i++)
+        foreach (Quote quote in Quotes)
         {
-            actual.Add(Quotes[i]);
+            sut.Add(quote);
         }
 
-        // assert
-        Assert.HasCount(expected.Count, actual);
-
-        for (int i = 0; i < actual.Count; i++)
-        {
-            HmaResult e = expected[i];
-            HmaResult a = actual[i];
-
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-            if (e.Hma is null)
-            {
-                Assert.IsNull(a.Hma);
-            }
-            else
-            {
-                Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8));
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
-        // arrange
-        int lookbackPeriods = 20;
-        IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
+        HmaList sut = new(lookbackPeriods) { Quotes };
 
-        // act - using batch add
-        HmaList actual = new(lookbackPeriods) {
-            Quotes
-        };
-
-        // assert
-        Assert.HasCount(expected.Count, actual);
-
-        for (int i = 0; i < actual.Count; i++)
-        {
-            HmaResult e = expected[i];
-            HmaResult a = actual[i];
-
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-            if (e.Hma is null)
-            {
-                Assert.IsNull(a.Hma);
-            }
-            else
-            {
-                Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8));
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void HmaListViaReusable()
+    public override void WithQuotesCtor()
     {
-        // arrange
-        int lookbackPeriods = 15;
-        IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
+        HmaList sut = new(lookbackPeriods, Quotes);
 
-        // act - using IReusable interface
-        HmaList actual = new(lookbackPeriods) {
-            Quotes.Use(CandlePart.Close)
-        };
-
-        // assert
-        Assert.HasCount(expected.Count, actual);
-
-        for (int i = 0; i < actual.Count; i++)
-        {
-            HmaResult e = expected[i];
-            HmaResult a = actual[i];
-
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-            if (e.Hma is null)
-            {
-                Assert.IsNull(a.Hma);
-            }
-            else
-            {
-                Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8));
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void HmaListViaTimestampValue()
+    public void AddReusableItems()
     {
-        // arrange
-        int lookbackPeriods = 10;
-        IReadOnlyList<HmaResult> expected = Quotes.ToHma(lookbackPeriods);
+        HmaList sut = new(lookbackPeriods);
 
-        // act - using timestamp/value method
-        HmaList actual = new(lookbackPeriods);
-        for (int i = 0; i < Quotes.Count; i++)
+        foreach (IReusable item in reusables)
         {
-            actual.Add(Quotes[i].Timestamp, (double)Quotes[i].Close);
+            sut.Add(item);
         }
 
-        // assert
-        Assert.HasCount(expected.Count, actual);
-
-        for (int i = 0; i < actual.Count; i++)
-        {
-            HmaResult e = expected[i];
-            HmaResult a = actual[i];
-
-            Assert.AreEqual(e.Timestamp, a.Timestamp);
-            if (e.Hma is null)
-            {
-                Assert.IsNull(a.Hma);
-            }
-            else
-            {
-                Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8));
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void HmaListWithDifferentPeriods()
+    public void AddReusableItemsBatch()
     {
-        // test various lookback periods
-        int[] periods = [5, 10, 14, 20, 30];
+        HmaList sut = new(lookbackPeriods) { reusables };
 
-        foreach (int period in periods)
-        {
-            // arrange
-            IReadOnlyList<HmaResult> expected = Quotes.ToHma(period);
-
-            // act
-            HmaList actual = new(period) {
-                Quotes
-            };
-
-            // assert
-            Assert.HasCount(expected.Count, actual, $"Count mismatch for period {period}");
-
-            for (int i = 0; i < actual.Count; i++)
-            {
-                HmaResult e = expected[i];
-                HmaResult a = actual[i];
-
-                Assert.AreEqual(e.Timestamp, a.Timestamp, $"Timestamp mismatch at index {i} for period {period}");
-
-                if (e.Hma is null)
-                {
-                    Assert.IsNull(a.Hma, $"Expected null HMA at index {i} for period {period}");
-                }
-                else
-                {
-                    Assert.AreEqual(e.Hma.Round(8), a.Hma.Round(8),
-                        $"HMA value mismatch at index {i} for period {period}. Expected: {e.Hma:F8}, Actual: {a.Hma:F8}");
-                }
-            }
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void HmaListEdgeCases()
+    public void AddDiscreteValues()
     {
-        // Test with minimal lookback period (2)
-        HmaList hmaList = new(2) {
-            // Add first quote - should be null (not enough data)
-            Quotes[0]
-        };
-        Assert.HasCount(1, hmaList);
-        Assert.IsNull(hmaList[0].Hma, "First quote should have null HMA");
+        HmaList sut = new(lookbackPeriods);
 
-        // Add second quote - HMA might be available (need to check against static series)
-        hmaList.Add(Quotes[1]);
-        Assert.HasCount(2, hmaList);
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item.Timestamp, item.Value);
+        }
 
-        // Compare with static series to see what's expected
-        IReadOnlyList<HmaResult> expectedResults = Quotes.Take(2).ToList().ToHma(2);
-        if (expectedResults[1].Hma is null)
-        {
-            Assert.IsNull(hmaList[1].Hma, "Second quote should have null HMA based on static series");
-        }
-        else
-        {
-            Assert.AreEqual(
-                expectedResults[1].Hma!.Round(8),
-                hmaList[1].Hma!.Round(8),
-                "Second quote HMA mismatch based on static series");
-        }
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
-        int lookbackPeriods = 14;
-        List<Quote> subset = Quotes.Take(120).ToList();
-
-        HmaList hmaList = new(lookbackPeriods);
-
-        for (int i = 0; i < subset.Count; i++)
-        {
-            hmaList.Add(subset[i]);
-        }
-
-        Assert.IsTrue(hmaList.Any(r => r.Hma.HasValue), "Warm-up should complete before clearing");
-
-        hmaList.Clear();
-
-        Assert.IsEmpty(hmaList, "Clear should remove existing results");
-
-        for (int i = 0; i < subset.Count; i++)
-        {
-            hmaList.Add(subset[i]);
-        }
-
+        List<Quote> subset = Quotes.Take(80).ToList();
         IReadOnlyList<HmaResult> expected = subset.ToHma(lookbackPeriods);
 
-        Assert.AreEqual(expected.Count, hmaList.Count);
+        HmaList sut = new(lookbackPeriods, subset);
 
-        for (int i = 0; i < expected.Count; i++)
-        {
-            HmaResult expectedResult = expected[i];
-            HmaResult actualResult = hmaList[i];
+        sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
-            Assert.AreEqual(expectedResult.Timestamp, actualResult.Timestamp);
-            if (expectedResult.Hma is null)
-            {
-                Assert.IsNull(actualResult.Hma);
-            }
-            else
-            {
-                Assert.AreEqual(expectedResult.Hma.Round(8), actualResult.Hma.Round(8));
-            }
-        }
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        sut.Add(subset);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void HmaListExceptions()
+    public override void AutoListPruning()
     {
-        // test constructor validation
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new HmaList(1));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new HmaList(0));
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new HmaList(-1));
+        const int maxListSize = 120;
 
-        // test null arguments
-        HmaList validList = new(10);
-        Assert.ThrowsExactly<ArgumentNullException>(() => validList.Add((IQuote)null!));
-        Assert.ThrowsExactly<ArgumentNullException>(() => validList.Add((IReusable)null!));
-        Assert.ThrowsExactly<ArgumentNullException>(() => validList.Add((IReadOnlyList<IQuote>)null!));
-        Assert.ThrowsExactly<ArgumentNullException>(() => validList.Add((IReadOnlyList<IReusable>)null!));
+        HmaList sut = new(lookbackPeriods) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<HmaResult> expected = series
+            .Skip(series.Count - maxListSize)
+            .ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }

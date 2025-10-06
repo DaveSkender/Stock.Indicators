@@ -65,6 +65,7 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
         // Calculate result using buffer data
         double? result = CalculateIndicator();
         
+        // AddInternal automatically prunes the list when MaxListSize is exceeded
         AddInternal(new {IndicatorName}Result(timestamp, result));
     }
 
@@ -94,12 +95,18 @@ public class {IndicatorName}List : BufferList<{IndicatorName}Result>, IBufferReu
 
 - **ALL buffer list implementations MUST inherit from `BufferList<TResult>`** instead of `List<TResult>`
 - The base class provides:
-  - `AddInternal(TResult item)` - Protected method to add items to the internal list
+  - `AddInternal(TResult item)` - Protected method to add items to the internal list and automatically prune when `MaxListSize` is exceeded
   - `ClearInternal()` - Protected method to clear the internal list
+  - `RemoveAtInternal(int index)` - Protected method to remove specific items (used by the base pruner)
+  - `PruneList()` - Virtual hook for custom pruning logic (rarely needed; base implementation trims overflow only)
+  - `MaxListSize` property - Configurable limit (default is 90% of `int.MaxValue`)
   - `abstract void Clear()` - Derived classes must override to reset both list and buffers
   - `ICollection<TResult>` and `IReadOnlyList<TResult>` interfaces
   - Read-only indexer and Count property
   - Blocks problematic operations (`ICollection<T>.Add()` and `ICollection<T>.Remove()`)
+- **Auto-pruning is automatic**: Always call `AddInternal()` (never `base.Add()`). Do **not** call `PruneList()` from indicator code—the base class removes only the overflow entries after each addition.
+- **Do not shadow base members**: Never add a `DefaultMaxListSize` constant or re-declare the `MaxListSize` property in derived classes, and never mutate `_internalList` directly. Configure `MaxListSize` via object initializers when a smaller cap is necessary (for example, tests).
+- **Custom state pruning**: Indicators that maintain additional `List<T>` buffers (for example, `MamaList`) must prune those lists themselves while keeping at least the minimum lookback length. `Queue<T>` buffers stay bounded automatically through the extension helpers and do not need manual trimming.
 
 **Constructor Pattern**:
 
@@ -149,14 +156,15 @@ Buffer indicator tests must cover:
 1. **Incremental processing** - Verify correct calculation as quotes are added
 2. **Buffer capacity** - Test behavior at and beyond buffer limits
 3. **State management** - Verify Clear() method resets state properly
-4. **Memory efficiency** - Confirm no memory leaks or excessive allocations
-5. **Performance benchmarks** - Must not exceed expected performance thresholds
+4. **Auto-pruning verification** - Exercise overflow scenarios for indicators that extend the base behavior (see notes below)
+5. **Memory efficiency** - Confirm no memory leaks or excessive allocations
+6. **Performance benchmarks** - Must not exceed expected performance thresholds
 
 ### Test structure pattern
 
 ```csharp
 [TestClass]
-public class {IndicatorName}BufferListTests : BufferListTestBase
+public class {IndicatorName}BufferListTests : BufferListTestBase, ITestReusableBufferList
 {
     private const int lookbackPeriods = 14;
 
@@ -169,7 +177,7 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
        = Quotes.To{IndicatorName}(lookbackPeriods);
 
     [TestMethod]
-    public void FromReusableSplit()
+    public void AddDiscreteValues()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
 
@@ -179,100 +187,126 @@ public class {IndicatorName}BufferListTests : BufferListTestBase
         }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableItem()
+    public void AddReusableItems()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
 
-        foreach (IReusable item in reusables) { sut.Add(item); }
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromReusableBatch()
+    public void AddReusableItemsBatch()
     {
         {IndicatorName}List sut = new(lookbackPeriods) { reusables };
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuote()
+    public override void AddQuotes()
     {
         {IndicatorName}List sut = new(lookbackPeriods);
 
-        foreach (Quote q in Quotes) { sut.Add(q); }
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public override void FromQuoteBatch()
+    public override void AddQuotesBatch()
     {
         {IndicatorName}List sut = new(lookbackPeriods) { Quotes };
 
-        IReadOnlyList<{IndicatorName}Result> series
+        IReadOnlyList<{IndicatorName}Result> expectedSeries
             = Quotes.To{IndicatorName}(lookbackPeriods);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(expectedSeries, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void FromQuotesCtor()
+    public override void WithQuotesCtor()
     {
         {IndicatorName}List sut = new(lookbackPeriods, Quotes);
 
         sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
     }
 
     [TestMethod]
-    public void ClearResetsState()
+    public override void ClearResetsState()
     {
         List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<{IndicatorName}Result> expected = subset.To{IndicatorName}(lookbackPeriods);
 
         {IndicatorName}List sut = new(lookbackPeriods, subset);
 
         sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 
         sut.Clear();
 
         sut.Should().BeEmpty();
 
-        foreach (Quote quote in subset)
-        {
-            sut.Add(quote);
-        }
-
-        IReadOnlyList<{IndicatorName}Result> expected = subset.To{IndicatorName}(lookbackPeriods);
+        sut.Add(subset);
 
         sut.Should().HaveCount(expected.Count);
-        sut.Should().BeEquivalentTo(expected);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        {IndicatorName}List sut = new(lookbackPeriods)
+        {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<{IndicatorName}Result> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
     }
 }
 ```
 
 > **Test Pattern Notes**:
 >
-> - The `FromQuote()` test validates single-quote Add usage (iterative adding)
-> - The `FromQuoteBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
-> - The new `FromQuotesCtor()` test validates the constructor with quotes parameter
-> - The `ClearResetsState()` test should use the quotes constructor since `FromQuote()` already covers single-quote add
+> - The `AddQuotes()` test validates single-quote Add usage (iterative adding)
+> - The `AddQuotesBatch()` test validates collection initializer syntax using `Add(IReadOnlyList<IQuote>)` method
+> - The new `WithQuotesCtor()` test validates the constructor with quotes parameter
+> - Use the `AutoListPruning()` pattern override of `BufferListTestBase` to cover the base-class list pruning behavior.
+> - The `ClearResetsState()` test should use the quotes constructor since `AddQuotes()` already covers single-quote add
+> - Implement `ITestReusableBufferList` on buffer-list tests when the indicator supports `IReusable` inputs. Provide `AddReusableItems`, `AddReusableItemsBatch`, and `AddDiscreteValues` test methods to satisfy the interface contract.
+> - For indicators that maintain non-`Queue<T>` caches (for example, custom `List<T>` history buffers), also implement `ITestNonStandardBufferListCache` and add an `AutoBufferPruning()` test that exercises list-level auto-pruning alongside cache pruning.
+> - All `BeEquivalentTo` assertions **must** call `options => options.WithStrictOrdering()` to enforce chronological ordering in test comparisons.
 
 ### Performance benchmarking
 
-Buffer indicators must include performance tests in the `tests/performance` project that verify efficiency:
+Buffer indicators must include performance tests in the `tools/performance` project that verify efficiency:
 
 ```csharp
-// In tests/performance project
+// In tools/performance project
 [MethodImpl(MethodImplOptions.NoInlining)]
 public void BufferIndicator{IndicatorName}()
 {
@@ -340,7 +374,7 @@ public void Add(DateTime timestamp, double value)
         ? CalculateIndicator() 
         : null;
     
-    base.Add(new {IndicatorName}Result(timestamp, result));
+    AddInternal(new {IndicatorName}Result(timestamp, result));
 }
 ```
 
@@ -372,7 +406,7 @@ public void Add(DateTime timestamp, double value)
         ? _runningSum / LookbackPeriods 
         : null;
     
-    base.Add(new {IndicatorName}Result(timestamp, result));
+    AddInternal(new {IndicatorName}Result(timestamp, result));
 }
 ```
 
@@ -395,11 +429,11 @@ public void Add(DateTime timestamp, double value)
         _synthBuffer.Update(_synthPeriods, intermediate.Value);
         
         double? result = CalculateFinal();
-        base.Add(new {IndicatorName}Result(timestamp, result));
+        AddInternal(new {IndicatorName}Result(timestamp, result));
     }
     else
     {
-        base.Add(new {IndicatorName}Result(timestamp));
+        AddInternal(new {IndicatorName}Result(timestamp));
     }
 }
 ```
@@ -413,6 +447,7 @@ Study these exemplary buffer indicators that demonstrate proper use of universal
 - **EMA**: `src/e-k/Ema/Ema.BufferList.cs` - Buffer management with dequeue tracking for running sum
 - **HMA**: `src/e-k/Hma/Hma.BufferList.cs` - Multi-buffer management for complex calculations
 - **ADX**: `src/a-d/Adx/Adx.BufferList.cs` - Complex object buffer management
+- **MAMA**: `src/m-r/Mama/Mama.BufferList.cs` - List-based state with separate state array pruning (result list pruning is automatic)
 
 ## Integration with other styles
 
@@ -479,6 +514,35 @@ else _sum += value;
 - **Validation**: Trust extension methods to handle null safety and argument validation
 - **Performance**: Use running calculations when possible instead of recalculating from scratch
 
+## Auto-pruning for long-running scenarios
+
+- Each `BufferList<TResult>` defaults `MaxListSize` to 90% of `int.MaxValue`. Override it with an object initializer when a smaller cap is required (for example, tests or constrained-memory pipelines).
+- The base implementation of `AddInternal()` automatically trims only the overflow entries. Do **not** add `DefaultMaxListSize` constants, redeclare `MaxListSize`, or call `PruneList()` manually.
+- When indicators maintain additional state backed by `List<T>`, prune those lists after calculating the current value while keeping the minimum lookback. Example:
+
+  ```csharp
+  private const int MinBufferSize = 7;
+  private const int MaxBufferSize = 1000;
+
+  private void PruneStateBuffers()
+  {
+      if (_state.Count <= MaxBufferSize)
+      {
+          return;
+      }
+
+      int remove = _state.Count - MinBufferSize;
+      if (remove > 0)
+      {
+          _state.RemoveRange(0, remove);
+          _stateAux.RemoveRange(0, remove); // keep parallel lists aligned
+      }
+  }
+  ```
+
+- `Queue<T>` buffers rarely need extra work—the `BufferUtilities` helpers bound them automatically.
+- When custom pruning occurs, add a unit test that overflows both the result list and the auxiliary buffers to prove the indicator continues to match the static series output.
+
 ## Reference implementations
 
 ### Simple buffer indicator (SMA pattern)
@@ -500,7 +564,7 @@ public void Add(DateTime timestamp, double value)
         sma = sum / LookbackPeriods;
     }
     
-    base.Add(new SmaResult(timestamp, sma));
+    AddInternal(new SmaResult(timestamp, sma));
 }
 ```
 
@@ -526,7 +590,7 @@ public void Add(DateTime timestamp, double value)
         ? _bufferSum / LookbackPeriods 
         : null;
     
-    base.Add(new EmaResult(timestamp, result));
+    AddInternal(new EmaResult(timestamp, result));
 }
 ```
 

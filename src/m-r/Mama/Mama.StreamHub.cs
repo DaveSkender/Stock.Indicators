@@ -27,6 +27,18 @@ public static partial class Mama
 /// Represents a hub for MESA Adaptive Moving Average (MAMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
+/// <remarks>
+/// <para>
+/// <b>State Management Approach:</b> MAMA uses List&lt;double&gt; arrays for state
+/// management to support the complex MESA algorithm requirements. The algorithm requires
+/// indexed lookback access up to 6 periods for phase and period calculations, which
+/// necessitates using arrays rather than queue-based buffers.
+/// </para>
+/// <para>
+/// For consistency with StaticSeries and BufferList implementations, this StreamHub
+/// maintains full calculation history in parallel state arrays.
+/// </para>
+/// </remarks>
 public class MamaHub<TIn>
     : ChainProvider<TIn, MamaResult>, IMama
     where TIn : IReusable
@@ -34,6 +46,7 @@ public class MamaHub<TIn>
     private readonly string hubName;
 
     // State arrays for MESA algorithm
+    // These arrays grow with each added value to support indexed lookback access
     private readonly List<double> pr = []; // price
     private readonly List<double> sm = []; // smooth
     private readonly List<double> dt = []; // detrender
@@ -130,6 +143,7 @@ public class MamaHub<TIn>
             {
                 prevMama = prev.Mama.Value;
             }
+
             if (prev.Fama.HasValue)
             {
                 prevFama = prev.Fama.Value;

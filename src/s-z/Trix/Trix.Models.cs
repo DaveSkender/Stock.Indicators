@@ -14,6 +14,10 @@ public record TrixResult
     double? Trix = null
 ) : IReusable
 {
+    // internal state (not exposed publicly) to support robust stream recalculations
+    [JsonIgnore] internal double Ema1 { get; init; }
+    [JsonIgnore] internal double Ema2 { get; init; }
+
     /// <inheritdoc/>
     [JsonIgnore]
     public double Value => Trix.Null2NaN();

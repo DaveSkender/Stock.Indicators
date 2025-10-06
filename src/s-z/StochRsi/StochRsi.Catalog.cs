@@ -23,6 +23,15 @@ public static partial class StochRsi
             .WithStyle(Style.Series)
             .Build();
 
-    // No StreamListing for Stochastic RSI.
-    // No BufferListing for Stochastic RSI.
+    // Stochastic RSI Stream Listing
+    internal static readonly IndicatorListing StreamListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Stream)
+            .Build();
+
+    // Stochastic RSI Buffer Listing
+    internal static readonly IndicatorListing BufferListing =
+        new CatalogListingBuilder(CommonListing)
+            .WithStyle(Style.Buffer)
+            .Build();
 }

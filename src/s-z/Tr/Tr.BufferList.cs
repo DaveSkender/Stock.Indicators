@@ -23,6 +23,9 @@ public class TrList : BufferList<TrResult>, IBufferList
         : this()
         => Add(quotes);
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -40,6 +43,7 @@ public class TrList : BufferList<TrResult>, IBufferList
         {
             _buffer.Update(2, curr);
             AddInternal(new TrResult(timestamp, null));
+            PruneList();
             return;
         }
 

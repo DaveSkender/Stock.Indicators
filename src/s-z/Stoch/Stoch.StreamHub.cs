@@ -225,8 +225,16 @@ public class StochHub<TIn>
                                         viable = false;
                                         break;
                                     }
-                                    if ((double)x.High > hh) hh = (double)x.High;
-                                    if ((double)x.Low < ll) ll = (double)x.Low;
+
+                                    if ((double)x.High > hh)
+                                    {
+                                        hh = (double)x.High;
+                                    }
+
+                                    if ((double)x.Low < ll)
+                                    {
+                                        ll = (double)x.Low;
+                                    }
                                 }
 
                                 if (p >= 0 && p < ProviderCache.Count)
@@ -250,7 +258,7 @@ public class StochHub<TIn>
                 case MaType.SMMA:
                     {
                         // Get previous smoothed K from cache
-                        double prevSmoothK = double.NaN;
+                        double prevSmoothK;
                         if (i > SmoothPeriods && Cache.Count >= i && Cache[i - 1].Oscillator.HasValue)
                         {
                             prevSmoothK = Cache[i - 1].Oscillator!.Value;
@@ -308,7 +316,7 @@ public class StochHub<TIn>
                 case MaType.SMMA:
                     {
                         // Get previous signal from cache
-                        double prevSignal = double.NaN;
+                        double prevSignal;
                         if (i > SignalPeriods && Cache.Count >= i && Cache[i - 1].Signal.HasValue)
                         {
                             prevSignal = Cache[i - 1].Signal!.Value;

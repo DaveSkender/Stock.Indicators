@@ -34,4 +34,62 @@ public class WilliamsRTests : TestBase
         williamsrResult?.DisplayName.Should().Be("Williams %R");
         williamsrResult.IsReusable.Should().Be(true);
     }
+
+    [TestMethod]
+    public void WilliamsRBufferListing()
+    {
+        // Act
+        IndicatorListing listing = WilliamsR.BufferListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Williams %R");
+        listing.Uiid.Should().Be("WILLR");
+        listing.Style.Should().Be(Style.Buffer);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToWilliamsR");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+
+        IndicatorResult williamsrResult = listing.Results.SingleOrDefault(r => r.DataName == "WilliamsR");
+        williamsrResult.Should().NotBeNull();
+        williamsrResult?.DisplayName.Should().Be("Williams %R");
+        williamsrResult.IsReusable.Should().Be(true);
+    }
+
+    [TestMethod]
+    public void WilliamsRStreamListing()
+    {
+        // Act
+        IndicatorListing listing = WilliamsR.StreamListing;
+
+        // Assert
+        listing.Should().NotBeNull();
+        listing.Name.Should().Be("Williams %R");
+        listing.Uiid.Should().Be("WILLR");
+        listing.Style.Should().Be(Style.Stream);
+        listing.Category.Should().Be(Category.Oscillator);
+        listing.MethodName.Should().Be("ToWilliamsR");
+
+        listing.Parameters.Should().NotBeNull();
+        listing.Parameters.Should().HaveCount(1);
+
+        IndicatorParam lookbackPeriodsParam = listing.Parameters.SingleOrDefault(p => p.ParameterName == "lookbackPeriods");
+        lookbackPeriodsParam.Should().NotBeNull();
+
+        listing.Results.Should().NotBeNull();
+        listing.Results.Should().HaveCount(1);
+
+        IndicatorResult williamsrResult = listing.Results.SingleOrDefault(r => r.DataName == "WilliamsR");
+        williamsrResult.Should().NotBeNull();
+        williamsrResult?.DisplayName.Should().Be("Williams %R");
+        williamsrResult.IsReusable.Should().Be(true);
+    }
 }

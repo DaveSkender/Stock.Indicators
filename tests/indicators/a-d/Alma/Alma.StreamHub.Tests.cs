@@ -167,17 +167,17 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     public void AlmaHubParameters()
     {
         // Test various parameter combinations
-        var parameters = new[]
-        {
+        (int lookback, double offset, double sigma)[] parameters =
+        [
             (lookback: 5, offset: 0.85, sigma: 6.0),
             (lookback: 10, offset: 0.5, sigma: 4.0),
             (lookback: 14, offset: 0.9, sigma: 8.0),
             (lookback: 20, offset: 0.25, sigma: 3.0)
-        };
+        ];
 
         List<Quote> quotesList = Quotes.ToList();
 
-        foreach (var (lookback, offset, sigma) in parameters)
+        foreach ((int lookback, double offset, double sigma) in parameters)
         {
             // setup quote provider
             QuoteHub<Quote> provider = new();

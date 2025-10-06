@@ -37,6 +37,9 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
     /// </summary>
     public int LookbackPeriods { get; init; }
 
+
+
+
     /// <inheritdoc />
     public void Add(IQuote quote)
     {
@@ -54,6 +57,7 @@ public class AtrList : BufferList<AtrResult>, IAtr, IBufferList
             _isInitialized = true;
 
             AddInternal(new AtrResult(timestamp, null, null, null));
+            PruneList();
             return;
         }
 
