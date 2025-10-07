@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Chaikin Oscillator from incremental quotes.
 /// </summary>
-public class ChaikinOscList : BufferList<ChaikinOscResult>, IBufferList
+public class ChaikinOscList : BufferList<ChaikinOscResult>, IBufferList, IChaikinOsc
 {
     private readonly AdlList _adlList;
     private readonly EmaList _fastEmaList;

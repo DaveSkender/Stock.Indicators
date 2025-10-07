@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Balance of Power (BOP) from incremental quotes.
 /// </summary>
-public class BopList : BufferList<BopResult>, IBufferList
+public class BopList : BufferList<BopResult>, IBufferList, IBop
 {
     private readonly Queue<double> _buffer;
 

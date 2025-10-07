@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Choppiness Index (CHOP) from incremental quotes.
 /// </summary>
-public class ChopList : BufferList<ChopResult>, IBufferList
+public class ChopList : BufferList<ChopResult>, IBufferList, IChop
 {
     private readonly Queue<double> _trueHighBuffer;
     private readonly Queue<double> _trueLowBuffer;

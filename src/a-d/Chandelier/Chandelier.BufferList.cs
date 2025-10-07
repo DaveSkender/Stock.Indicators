@@ -3,13 +3,11 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Chandelier Exit from incremental quotes.
 /// </summary>
-public class ChandelierList : BufferList<ChandelierResult>, IBufferList
+public class ChandelierList : BufferList<ChandelierResult>, IBufferList, IChandelier
 {
     private readonly AtrList _atrList;
     private readonly Queue<double> _highBuffer;
     private readonly Queue<double> _lowBuffer;
-    private readonly double _multiplier;
-    private readonly Direction _type;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChandelierList"/> class.
@@ -21,8 +19,8 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList
     {
         Chandelier.Validate(lookbackPeriods, multiplier);
         LookbackPeriods = lookbackPeriods;
-        _multiplier = multiplier;
-        _type = type;
+        Multiplier = multiplier;
+        Type = type;
 
         _atrList = new AtrList(lookbackPeriods);
         _highBuffer = new Queue<double>(lookbackPeriods);
@@ -44,6 +42,16 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList
     /// Gets the number of periods to use for the lookback window.
     /// </summary>
     public int LookbackPeriods { get; init; }
+
+    /// <summary>
+    /// Gets the ATR multiplier.
+    /// </summary>
+    public double Multiplier { get; init; }
+
+    /// <summary>
+    /// Gets the direction type (Long or Short).
+    /// </summary>
+    public Direction Type { get; init; }
 
     /// <inheritdoc />
     public void Add(IQuote quote)
@@ -69,20 +77,20 @@ public class ChandelierList : BufferList<ChandelierResult>, IBufferList
         {
             double atr = atrResult.Atr.Value;
 
-            switch (_type)
+            switch (Type)
             {
                 case Direction.Long:
                     double maxHigh = _highBuffer.Max();
-                    exit = maxHigh - (atr * _multiplier);
+                    exit = maxHigh - (atr * Multiplier);
                     break;
 
                 case Direction.Short:
                     double minLow = _lowBuffer.Min();
-                    exit = minLow + (atr * _multiplier);
+                    exit = minLow + (atr * Multiplier);
                     break;
 
                 default:
-                    throw new InvalidOperationException($"Unknown direction type: {_type}");
+                    throw new InvalidOperationException($"Unknown direction type: {Type}");
             }
         }
 
