@@ -56,6 +56,9 @@ $ARGUMENTS
    - Report final status with summary of completed work
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `/tasks` first to regenerate the task list.
+
+---
+Last updated: October 7, 2025
 ---
 Last updated: October 7, 2025
 
