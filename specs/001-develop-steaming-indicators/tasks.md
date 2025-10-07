@@ -1,12 +1,12 @@
 # Tasks: streaming indicators framework
 
 **Input**: Design documents from `/specs/001-develop-steaming-indicators/`
-**Prerequisites**: plan.md (required), data-model.md, quickstart.md
+**Prerequisites**: plan.md (required), data-model.md
 
-## Format: `[ID] [P?] Description`
+## Format: `[ID] Description`
 
-- **[P]**: Can run in parallel (different files, no dependencies)
 - Include exact file paths in descriptions
+- All tasks are independently parallelizable
 
 ## Path Conventions
 
@@ -15,209 +15,198 @@ Paths assume the single-project layout at the repository root:
 - Source: `src/`
 - Tests: `tests/`
 
-## Phase 3.1: Setup and infrastructure
+## Missing BufferList Implementations
 
-- [ ] T001 Prepare streaming infrastructure directory `src/_common/Streaming/` and ensure namespace alignment in `GlobalUsings.cs` if needed
-- [ ] T002 [P] Define streaming interface contract in `src/_common/Streaming/IStreamingIndicator.cs`
-  - Include Add, Reset, WarmupPeriod, and IsWarmedUp members with XML docs
-  - Enforce null and timestamp validation expectations in documentation
-- [ ] T003 [P] Add warmup state enum in `src/_common/Streaming/StreamingState.cs`
-  - Provide NotWarmedUp and Ready members with summaries
-- [ ] T004 [P] Add streaming result wrapper in `src/_common/Streaming/StreamingResult.cs`
-  - Implement generic record with Timestamp, Value, State properties
-  - Include XML docs and guard clauses for required init properties
-- [ ] T005 [P] Create streaming test helpers in `tests/indicators/_common/StreamingTestHelpers.cs`
-  - Provide shared quote feeders, tolerance assertions, and reset utilities
+The following indicators have series-style implementations but lack BufferList implementations:
 
-## Phase 3.2: Tests first (TDD) – SMA indicator ⚠️ MUST COMPLETE BEFORE 3.3
+### A-D Group (16 indicators)
 
-- [ ] T006 [P] Create SMA BufferList streaming tests in `tests/indicators/a-d/Sma/Sma.BufferList.Tests.cs`
-  - Cover warmup gating, reset behavior, duplicate/out-of-order timestamps, and buffered window rollover
-  - Add parity test comparing against batch SMA with 1e-12 tolerance
-- [ ] T007 [P] Create SMA StreamHub streaming tests in `tests/indicators/a-d/Sma/Sma.StreamHub.Tests.cs`
-  - Cover warmup gating, reset behavior, duplicate/out-of-order timestamps, and circular buffer wraparound
-  - Add parity test comparing against batch SMA with 1e-12 tolerance
+- [ ] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs`
+- [ ] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs`
+- [ ] T003 Implement AtrStop BufferList in `src/a-d/AtrStop/AtrStop.BufferList.cs`
+- [ ] T004 Implement Awesome BufferList in `src/a-d/Awesome/Awesome.BufferList.cs`
+- [ ] T005 Implement Beta BufferList in `src/a-d/Beta/Beta.BufferList.cs`
+- [ ] T006 Implement Bop BufferList in `src/a-d/Bop/Bop.BufferList.cs`
+- [ ] T007 Implement ChaikinOsc BufferList in `src/a-d/ChaikinOsc/ChaikinOsc.BufferList.cs`
+- [ ] T008 Implement Chandelier BufferList in `src/a-d/Chandelier/Chandelier.BufferList.cs`
+- [ ] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs`
+- [ ] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs`
+- [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
+- [ ] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs`
+- [ ] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs`
+- [ ] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs`
+- [ ] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs`
+- [ ] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs`
 
-## Phase 3.3: Core implementation – SMA (ONLY after tests are failing)
+### E-K Group (12 indicators)
 
-- [ ] T008 [P] Implement SMA BufferList indicator in `src/a-d/Sma/Sma.BufferList.cs`
-  - Maintain bounded List state and enforce timestamp ordering
-  - Return null until warmed and emit results matching batch SMA
-- [ ] T009 [P] Implement SMA StreamHub indicator in `src/a-d/Sma/Sma.StreamHub.cs`
-  - Use circular buffer with span-friendly calculations and minimal allocations
+- [ ] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs`
+- [ ] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs`
+- [ ] T019 Implement FisherTransform BufferList in `src/e-k/FisherTransform/FisherTransform.BufferList.cs`
+- [ ] T020 Implement ForceIndex BufferList in `src/e-k/ForceIndex/ForceIndex.BufferList.cs`
+- [ ] T021 Implement Fractal BufferList in `src/e-k/Fractal/Fractal.BufferList.cs`
+- [ ] T022 Implement Gator BufferList in `src/e-k/Gator/Gator.BufferList.cs`
+- [ ] T023 Implement HeikinAshi BufferList in `src/e-k/HeikinAshi/HeikinAshi.BufferList.cs`
+- [ ] T024 Implement HtTrendline BufferList in `src/e-k/HtTrendline/HtTrendline.BufferList.cs`
+- [ ] T025 Implement Hurst BufferList in `src/e-k/Hurst/Hurst.BufferList.cs`
+- [ ] T026 Implement Ichimoku BufferList in `src/e-k/Ichimoku/Ichimoku.BufferList.cs`
+- [ ] T027 Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs`
+- [ ] T028 Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs`
 
-## Phase 3.4: Tests first (TDD) – EMA indicator
+### M-R Group (13 indicators)
 
-- [ ] T010 [P] Create EMA BufferList streaming tests in `tests/indicators/e-k/Ema/Ema.BufferList.Tests.cs`
-  - Validate warmup seed, recursive EMA accuracy, reset behavior, and timestamp validation
-  - Include parity checks versus batch EMA with 1e-12 tolerance
-- [ ] T011 [P] Create EMA StreamHub streaming tests in `tests/indicators/e-k/Ema/Ema.StreamHub.Tests.cs`
-  - Mirror BufferList coverage plus circular buffer assertions
+- [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
+- [ ] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs`
+- [ ] T031 Implement Mfi BufferList in `src/m-r/Mfi/Mfi.BufferList.cs`
+- [ ] T032 Implement ParabolicSar BufferList in `src/m-r/ParabolicSar/ParabolicSar.BufferList.cs`
+- [ ] T033 Implement PivotPoints BufferList in `src/m-r/PivotPoints/PivotPoints.BufferList.cs`
+- [ ] T034 Implement Pivots BufferList in `src/m-r/Pivots/Pivots.BufferList.cs`
+- [ ] T035 Implement Pmo BufferList in `src/m-r/Pmo/Pmo.BufferList.cs`
+- [ ] T036 Implement Prs BufferList in `src/m-r/Prs/Prs.BufferList.cs`
+- [ ] T037 Implement Pvo BufferList in `src/m-r/Pvo/Pvo.BufferList.cs`
+- [ ] T038 Implement Renko BufferList in `src/m-r/Renko/Renko.BufferList.cs`
+- [ ] T039 Implement RenkoAtr BufferList in `src/m-r/RenkoAtr/RenkoAtr.BufferList.cs`
+- [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
+- [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
 
-## Phase 3.5: Core implementation – EMA
+### S-Z Group (14 indicators)
 
-- [ ] T012 [P] Implement EMA BufferList indicator in `src/e-k/Ema/Ema.BufferList.cs`
-  - Seed with SMA, maintain recursive state, and enforce warmup semantics
-- [ ] T013 [P] Implement EMA StreamHub indicator in `src/e-k/Ema/Ema.StreamHub.cs`
-  - Optimize seed handling and recursive updates with span buffers
+- [ ] T042 Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs`
+- [ ] T043 Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs`
+- [ ] T044 Implement Smi BufferList in `src/s-z/Smi/Smi.BufferList.cs`
+- [ ] T045 Implement StarcBands BufferList in `src/s-z/StarcBands/StarcBands.BufferList.cs`
+- [ ] T046 Implement Stc BufferList in `src/s-z/Stc/Stc.BufferList.cs`
+- [ ] T047 Implement StdDev BufferList in `src/s-z/StdDev/StdDev.BufferList.cs`
+- [ ] T048 Implement StdDevChannels BufferList in `src/s-z/StdDevChannels/StdDevChannels.BufferList.cs`
+- [ ] T049 Implement SuperTrend BufferList in `src/s-z/SuperTrend/SuperTrend.BufferList.cs`
+- [ ] T050 Implement Tsi BufferList in `src/s-z/Tsi/Tsi.BufferList.cs`
+- [ ] T051 Implement UlcerIndex BufferList in `src/s-z/UlcerIndex/UlcerIndex.BufferList.cs`
+- [ ] T052 Implement VolatilityStop BufferList in `src/s-z/VolatilityStop/VolatilityStop.BufferList.cs`
+- [ ] T053 Implement Vortex BufferList in `src/s-z/Vortex/Vortex.BufferList.cs`
+- [ ] T054 Implement Vwap BufferList in `src/s-z/Vwap/Vwap.BufferList.cs`
+- [ ] T055 Implement ZigZag BufferList in `src/s-z/ZigZag/ZigZag.BufferList.cs`
 
-## Phase 3.6: Tests first (TDD) – RSI indicator
+## Missing StreamHub Implementations
 
-- [ ] T014 [P] Create RSI BufferList streaming tests in `tests/indicators/m-r/Rsi/Rsi.BufferList.Tests.cs`
-  - Verify warmup period (period + 1), gain/loss accumulation, bounds, and reset
-  - Add parity assertions versus batch RSI
-- [ ] T015 [P] Create RSI StreamHub streaming tests in `tests/indicators/m-r/Rsi/Rsi.StreamHub.Tests.cs`
-  - Mirror BufferList coverage with circular buffer assertions
+The following indicators have series-style implementations but lack StreamHub implementations:
 
-## Phase 3.7: Core implementation – RSI
+### A-D Group (14 indicators)
 
-- [ ] T016 [P] Implement RSI BufferList indicator in `src/m-r/Rsi/Rsi.BufferList.cs`
-  - Track average gains/losses and emit RSI values within expected bounds
-- [ ] T017 [P] Implement RSI StreamHub indicator in `src/m-r/Rsi/Rsi.StreamHub.cs`
-  - Optimize rolling averages with span math and low allocations
+- [ ] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs`
+- [ ] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs`
+- [ ] T058 Implement Beta StreamHub in `src/a-d/Beta/Beta.StreamHub.cs`
+- [ ] T059 Implement Bop StreamHub in `src/a-d/Bop/Bop.StreamHub.cs`
+- [ ] T060 Implement ChaikinOsc StreamHub in `src/a-d/ChaikinOsc/ChaikinOsc.StreamHub.cs`
+- [ ] T061 Implement Chandelier StreamHub in `src/a-d/Chandelier/Chandelier.StreamHub.cs`
+- [ ] T062 Implement Chop StreamHub in `src/a-d/Chop/Chop.StreamHub.cs`
+- [ ] T063 Implement Cmf StreamHub in `src/a-d/Cmf/Cmf.StreamHub.cs`
+- [ ] T064 Implement ConnorsRsi StreamHub in `src/a-d/ConnorsRsi/ConnorsRsi.StreamHub.cs`
+- [ ] T065 Implement Correlation StreamHub in `src/a-d/Correlation/Correlation.StreamHub.cs`
+- [ ] T066 Implement Doji StreamHub in `src/a-d/Doji/Doji.StreamHub.cs`
+- [ ] T067 Implement Donchian StreamHub in `src/a-d/Donchian/Donchian.StreamHub.cs`
+- [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
+- [ ] T069 Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
 
-## Phase 3.8: Tests first (TDD) – MACD indicator
+### E-K Group (12 indicators)
 
-- [ ] T018 [P] Create MACD BufferList streaming tests in `tests/indicators/m-r/Macd/Macd.BufferList.Tests.cs`
-  - Validate warmup (slow period), fast/slow EMA alignment, signal line, histogram, and reset paths
-- [ ] T019 [P] Create MACD StreamHub streaming tests in `tests/indicators/m-r/Macd/Macd.StreamHub.Tests.cs`
-  - Mirror BufferList coverage with circular buffer assertions and parity checks
+- [ ] T070 Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
+- [ ] T071 Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
+- [ ] T072 Implement FisherTransform StreamHub in `src/e-k/FisherTransform/FisherTransform.StreamHub.cs`
+- [ ] T073 Implement ForceIndex StreamHub in `src/e-k/ForceIndex/ForceIndex.StreamHub.cs`
+- [ ] T074 Implement Fractal StreamHub in `src/e-k/Fractal/Fractal.StreamHub.cs`
+- [ ] T075 Implement Gator StreamHub in `src/e-k/Gator/Gator.StreamHub.cs`
+- [ ] T076 Implement HeikinAshi StreamHub in `src/e-k/HeikinAshi/HeikinAshi.StreamHub.cs`
+- [ ] T077 Implement HtTrendline StreamHub in `src/e-k/HtTrendline/HtTrendline.StreamHub.cs`
+- [ ] T078 Implement Hurst StreamHub in `src/e-k/Hurst/Hurst.StreamHub.cs`
+- [ ] T079 Implement Ichimoku StreamHub in `src/e-k/Ichimoku/Ichimoku.StreamHub.cs`
+- [ ] T080 Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs`
+- [ ] T081 Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs`
 
-## Phase 3.9: Core implementation – MACD
+### M-R Group (12 indicators)
 
-- [ ] T020 [P] Implement MACD BufferList indicator in `src/m-r/Macd/Macd.BufferList.cs`
-  - Maintain dual EMA and signal state plus histogram calculation
-- [ ] T021 [P] Implement MACD StreamHub indicator in `src/m-r/Macd/Macd.StreamHub.cs`
-  - Optimize dual EMA updates using span-friendly buffers
+- [ ] T082 Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
+- [ ] T083 Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs`
+- [ ] T084 Implement Mfi StreamHub in `src/m-r/Mfi/Mfi.StreamHub.cs`
+- [ ] T085 Implement ParabolicSar StreamHub in `src/m-r/ParabolicSar/ParabolicSar.StreamHub.cs`
+- [ ] T086 Implement PivotPoints StreamHub in `src/m-r/PivotPoints/PivotPoints.StreamHub.cs`
+- [ ] T087 Implement Pivots StreamHub in `src/m-r/Pivots/Pivots.StreamHub.cs`
+- [ ] T088 Implement Pmo StreamHub in `src/m-r/Pmo/Pmo.StreamHub.cs`
+- [ ] T089 Implement Prs StreamHub in `src/m-r/Prs/Prs.StreamHub.cs`
+- [ ] T090 Implement Pvo StreamHub in `src/m-r/Pvo/Pvo.StreamHub.cs`
+- [ ] T091 Implement RenkoAtr StreamHub in `src/m-r/RenkoAtr/RenkoAtr.StreamHub.cs`
+- [ ] T092 Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
+- [ ] T093 Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs`
 
-## Phase 3.10: Tests first (TDD) – Bollinger Bands indicator
+### S-Z Group (14 indicators)
 
-- [ ] T022 [P] Create Bollinger Bands BufferList streaming tests in `tests/indicators/a-d/BollingerBands/BollingerBands.BufferList.Tests.cs`
-  - Validate warmup, SMA core, standard deviation math, band widths, reset, and timestamp ordering
-- [ ] T023 [P] Create Bollinger Bands StreamHub streaming tests in `tests/indicators/a-d/BollingerBands/BollingerBands.StreamHub.Tests.cs`
-  - Mirror BufferList coverage with circular buffer assertions and parity checks
+- [ ] T094 Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
+- [ ] T095 Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
+- [ ] T096 Implement Smi StreamHub in `src/s-z/Smi/Smi.StreamHub.cs`
+- [ ] T097 Implement StarcBands StreamHub in `src/s-z/StarcBands/StarcBands.StreamHub.cs`
+- [ ] T098 Implement Stc StreamHub in `src/s-z/Stc/Stc.StreamHub.cs`
+- [ ] T099 Implement StdDev StreamHub in `src/s-z/StdDev/StdDev.StreamHub.cs`
+- [ ] T100 Implement StdDevChannels StreamHub in `src/s-z/StdDevChannels/StdDevChannels.StreamHub.cs`
+- [ ] T101 Implement SuperTrend StreamHub in `src/s-z/SuperTrend/SuperTrend.StreamHub.cs`
+- [ ] T102 Implement Tsi StreamHub in `src/s-z/Tsi/Tsi.StreamHub.cs`
+- [ ] T103 Implement UlcerIndex StreamHub in `src/s-z/UlcerIndex/UlcerIndex.StreamHub.cs`
+- [ ] T104 Implement VolatilityStop StreamHub in `src/s-z/VolatilityStop/VolatilityStop.StreamHub.cs`
+- [ ] T105 Implement Vortex StreamHub in `src/s-z/Vortex/Vortex.StreamHub.cs`
+- [ ] T106 Implement Vwap StreamHub in `src/s-z/Vwap/Vwap.StreamHub.cs`
+- [ ] T107 Implement ZigZag StreamHub in `src/s-z/ZigZag/ZigZag.StreamHub.cs`
 
-## Phase 3.11: Core implementation – Bollinger Bands
+## Implementation Guidelines
 
-- [ ] T024 [P] Implement Bollinger Bands BufferList indicator in `src/a-d/BollingerBands/BollingerBands.BufferList.cs`
-  - Compute SMA, standard deviation, and upper/lower bands with bounded List state
-- [ ] T025 [P] Implement Bollinger Bands StreamHub indicator in `src/a-d/BollingerBands/BollingerBands.StreamHub.cs`
-  - Optimize rolling statistics with span buffers and minimal allocations
+Each task should follow these guidelines:
 
-## Phase 3.12: Performance testing
+### BufferList Implementation Requirements
 
-- [ ] T026 [P] Author BufferList performance benchmarks in `tests/performance/Benchmarks/StreamingBufferList.cs`
-  - Measure SMA, EMA, RSI, MACD, Bollinger scenarios and confirm <5ms avg / <10ms p95 latency and <10KB memory
-- [ ] T027 [P] Author StreamHub performance benchmarks in `tests/performance/Benchmarks/StreamingStreamHub.cs`
-  - Measure same scenarios verifying <2ms avg / <5ms p95 latency and <5KB memory
+- Inherit from `BufferList<TResult>` base class
+- Implement appropriate interface (`IBufferReusable` or `IBufferList`)
+- Follow patterns from `.github/instructions/buffer-indicators.instructions.md`
+- Provide both standard constructor and constructor with quotes parameter
+- Use universal `BufferUtilities` extension methods for buffer management
+- Include comprehensive unit tests matching patterns in existing tests
+- Ensure mathematical correctness matches series implementation
 
-## Phase 3.13: Integration testing
+### StreamHub Implementation Requirements
 
-- [ ] T028 Implement BufferList quickstart integration test in `tests/indicators/_common/StreamingIntegrationTests.cs`
-  - Execute quickstart BufferList loop, assert 483 results, IsWarmedUp true, and parity with batch SMA
-- [ ] T029 Implement StreamHub quickstart integration test in `tests/indicators/_common/StreamingIntegrationTests.cs`
-  - Execute quickstart StreamHub loop, assert 483 results, performance <50ms, parity with batch SMA
-- [ ] T030 Implement streaming error-handling integration tests in `tests/indicators/_common/StreamingIntegrationTests.cs`
-  - Assert exceptions for duplicate timestamps, out-of-order timestamps, invalid period, and null quotes
+- Extend `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
+- Follow patterns from `.github/instructions/stream-indicators.instructions.md`
+- Implement efficient state management for real-time processing
+- Include comprehensive unit tests matching patterns in existing tests
+- Ensure mathematical correctness matches series implementation
+- Optimize for low-latency, high-frequency scenarios
 
-## Phase 3.14: Documentation and release artifacts
+### Testing Requirements
 
-- [ ] T031 [P] Update SMA documentation in `docs/_indicators/Sma.md` with streaming usage, warmup guidance, and examples
-- [ ] T032 [P] Update EMA documentation in `docs/_indicators/Ema.md` with streaming usage, warmup guidance, and examples
-- [ ] T033 [P] Update RSI documentation in `docs/_indicators/Rsi.md` with streaming usage, warmup guidance, and examples
-- [ ] T034 [P] Update MACD documentation in `docs/_indicators/Macd.md` with streaming usage, warmup guidance, and examples
-- [ ] T035 [P] Update Bollinger Bands documentation in `docs/_indicators/BollingerBands.md` with streaming usage, warmup guidance, and examples
-- [ ] T036 Refresh top-level streaming overview in `README.md`
-  - Summarize BufferList vs StreamHub, provide quickstart snippet, and link indicator docs without changelog-style language
-- [ ] T037 Update streaming migration guidance in `src/_common/ObsoleteV3.md`
-  - Document BufferList vs StreamHub usage, supported indicators, and migration notes for the v3 release
-
-## Phase 3.15: API and quality verification
-
-- [ ] T038 Execute public API conformance check via `tests/public-api` suite
-  - Ensure streaming types follow existing naming, namespace, and accessibility conventions
-  - Confirm no unintended public surface changes or breaking modifications
+- Create corresponding test files in `tests/indicators/{folder}/{indicator}/`
+- Follow naming convention: `{Indicator}.BufferList.Tests.cs` or `{Indicator}.StreamHub.Tests.cs`
+- Include all required test methods from test base classes
+- Verify parity with series-style calculations
+- Test edge cases, reset behavior, and state management
 
 ## Dependencies
 
-- T001 precedes T002–T005 (directory scaffold before files)
-- T006 and T007 require T002–T005 complete; both must fail before T008–T009 begin
-- For each indicator, complete tests (e.g., T010–T011) before implementations (e.g., T012–T013)
-- Indicator rollout order: SMA → EMA → RSI → MACD → Bollinger (later indicators depend on foundations from earlier ones)
-- Performance benchmarks (T026–T027) depend on all indicator implementations (T008–T025)
-- Integration tests (T028–T030) depend on all implementations and helpers
-- Documentation tasks (T031–T037) depend on successful integration tests and benchmark validation
-- API conformance (T038) runs after implementations to validate surface stability before release prep
-
-## Parallel execution examples
-
-### Infrastructure burst
-
-```markdown
-Task: "Define streaming interface contract in src/_common/Streaming/IStreamingIndicator.cs"
-Task: "Add warmup state enum in src/_common/Streaming/StreamingState.cs"
-Task: "Add streaming result wrapper in src/_common/Streaming/StreamingResult.cs"
-Task: "Create streaming test helpers in tests/indicators/_common/StreamingTestHelpers.cs"
-Command: /tasks run T002 T003 T004 T005
-```
-
-### SMA test sprint (after setup)
-
-```markdown
-Task: "Create SMA BufferList streaming tests in tests/indicators/a-d/Sma/Sma.BufferList.Tests.cs"
-Task: "Create SMA StreamHub streaming tests in tests/indicators/a-d/Sma/Sma.StreamHub.Tests.cs"
-Command: /tasks run T006 T007
-```
-
-### Performance validation pairing
-
-```markdown
-Task: "Author BufferList performance benchmarks in tests/performance/Benchmarks/StreamingBufferList.cs"
-Task: "Author StreamHub performance benchmarks in tests/performance/Benchmarks/StreamingStreamHub.cs"
-Command: /tasks run T026 T027
-```
-
-### Documentation blitz
-
-```markdown
-Task: "Update EMA documentation in docs/_indicators/Ema.md with streaming usage, warmup guidance, and examples"
-Task: "Update MACD documentation in docs/_indicators/Macd.md with streaming usage, warmup guidance, and examples"
-Task: "Update Bollinger Bands documentation in docs/_indicators/BollingerBands.md with streaming usage, warmup guidance, and examples"
-Command: /tasks run T032 T034 T035
-
-```
-
-### API validation wrap-up
-
-```markdown
-Task: "Execute public API conformance check via tests/public-api suite"
-Command: /tasks run T038
-```
+- Each BufferList and StreamHub implementation is independent
+- Tests should be created alongside implementations
+- Follow existing patterns in the codebase for consistency
+- Reference instruction files for authoritative guidance
 
 ## Notes
 
-- [P] markers indicate tasks touching distinct files with no blocking dependencies
-- Maintain strict TDD: author tests, observe failures, then implement
-- Run `dotnet test --no-restore` after each implementation phase and benchmark tasks before documentation updates
-- Reuse streaming helpers to minimize duplication across test suites
-- Align documentation tone with repository standards and include streaming parity guidance drawn from quickstart.md
+- All tasks can be executed in parallel as they touch different files
+- Maintain strict adherence to existing patterns and conventions
+- Run `dotnet test --no-restore` after each implementation
+- Follow pre-commit checklist from `.github/instructions/source-code-completion.instructions.md`
+- Update catalog entries and documentation as implementations are completed
 
-## Validation checklist
+## Summary
 
-- [x] All entities from data-model.md have corresponding tasks (interface, state, result, indicator implementations)
-- [x] Every indicator style has tests scheduled before implementation
-- [x] Performance and integration coverage align with quickstart expectations
-- [x] Parallel tasks avoid file collisions
-- [x] Documentation updates cover all affected public pages and README
-- [x] Streaming migration guidance updated in `src/_common/ObsoleteV3.md`
-- [x] Public API conventions verified post-implementation
+- **Total BufferList tasks**: 55
+- **Total StreamHub tasks**: 52
+- **Total implementation tasks**: 107
+- **Current implementations**: BufferList (29), StreamHub (34)
+- **Target coverage**: All 84 series indicators with both BufferList and StreamHub styles
 
 ---
-
-- **Total tasks**: 38
-- **Parallelizable tasks**: 24 (marked with [P])
-- **Sequential tasks**: 14
-- **Estimated completion**: 10 focused TDD sessions with follow-up validation
-
----
-Last updated: October 6, 2025
+Last updated: January 27, 2025
