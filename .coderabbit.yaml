@@ -67,8 +67,9 @@ reviews:
   # Files to include/exclude from reviews
   path_filters:
     - "**"                # Include all (base)
-    - "!.specify/"        # Spec Kit
-    - ".specify/memory/"  # (keep memory)
+    - "!.specify/"        # Spec Kit (except memory)
+    - ".specify/memory/"  # (keep memory for constitution)
+    - "!.github/prompts/speckit.*"  # Spec Kit command templates
     - "!node_modules/"    # NPM dependencies
     - "!*-lock.json"      # NPM/PNPM lock files
     - "!packages/"        # NuGet packages cache
