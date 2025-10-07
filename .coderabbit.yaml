@@ -66,21 +66,21 @@ reviews:
 
   # Files to include/exclude from reviews
   path_filters:
-    - "**"                # Include all (base)
-    - "!.specify/"        # Spec Kit (except memory)
-    - ".specify/memory/"  # (keep memory for constitution)
+    - "**"                  # Include all (base)
+    - "!.specify/"          # Spec Kit (except memory)
+    - ".specify/memory/**"  # (keep memory)
     - "!.github/prompts/speckit.*"  # Spec Kit command templates
-    - "!node_modules/"    # NPM dependencies
-    - "!*-lock.json"      # NPM/PNPM lock files
-    - "!packages/"        # NuGet packages cache
-    - "!.jekyll-cache/"   # Jekyll cache
-    - "!vendor/"          #  and gem files
-    - "!Gemfile.lock"     # Ruby dependencies lock
-    - "!bin/"             # .NET build output
-    - "!obj/"             # .NET build intermediate files
-    - "!*.g.cs"           # Generated source files
-    - "!*.xlsx"           # Manual calculation spreadsheets
-    - "!*.bak"            # Backup files
+    - "!node_modules/"      # NPM dependencies
+    - "!*-lock.json"        # NPM/PNPM lock files
+    - "!packages/"          # NuGet packages cache
+    - "!.jekyll-cache/"     # Jekyll cache
+    - "!vendor/"            #  and gem files
+    - "!Gemfile.lock"       # Ruby dependencies lock
+    - "!bin/"               # .NET build output
+    - "!obj/"               # .NET build intermediate files
+    - "!*.g.cs"             # Generated source files
+    - "!*.xlsx"             # Manual calculation spreadsheets
+    - "!*.bak"              # Backup files
 
   # Path-based configuration
   path_instructions:
