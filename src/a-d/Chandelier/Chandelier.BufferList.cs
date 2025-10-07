@@ -1,0 +1,125 @@
+namespace Skender.Stock.Indicators;
+
+/// <summary>
+/// Chandelier Exit from incremental quotes.
+/// </summary>
+public class ChandelierList : BufferList<ChandelierResult>, IBufferList
+{
+    private readonly AtrList _atrList;
+    private readonly Queue<double> _highBuffer;
+    private readonly Queue<double> _lowBuffer;
+    private readonly double _multiplier;
+    private readonly Direction _type;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChandelierList"/> class.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    public ChandelierList(int lookbackPeriods = 22, double multiplier = 3, Direction type = Direction.Long)
+    {
+        Chandelier.Validate(lookbackPeriods, multiplier);
+        LookbackPeriods = lookbackPeriods;
+        _multiplier = multiplier;
+        _type = type;
+
+        _atrList = new AtrList(lookbackPeriods);
+        _highBuffer = new Queue<double>(lookbackPeriods);
+        _lowBuffer = new Queue<double>(lookbackPeriods);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ChandelierList"/> class with initial quotes.
+    /// </summary>
+    /// <param name="lookbackPeriods">The number of periods to use for the lookback window.</param>
+    /// <param name="multiplier">The multiplier to apply to the ATR.</param>
+    /// <param name="type">The type of Chandelier Exit to calculate (Long or Short).</param>
+    /// <param name="quotes">Initial quotes to populate the list.</param>
+    public ChandelierList(int lookbackPeriods, double multiplier, Direction type, IReadOnlyList<IQuote> quotes)
+        : this(lookbackPeriods, multiplier, type)
+        => Add(quotes);
+
+    /// <summary>
+    /// Gets the number of periods to use for the lookback window.
+    /// </summary>
+    public int LookbackPeriods { get; init; }
+
+    /// <inheritdoc />
+    public void Add(IQuote quote)
+    {
+        ArgumentNullException.ThrowIfNull(quote);
+
+        DateTime timestamp = quote.Timestamp;
+        double high = (double)quote.High;
+        double low = (double)quote.Low;
+
+        // Calculate ATR
+        _atrList.Add(quote);
+        AtrResult atrResult = _atrList[^1];
+
+        // Update high/low buffers
+        _highBuffer.Update(LookbackPeriods, high);
+        _lowBuffer.Update(LookbackPeriods, low);
+
+        double? exit = null;
+
+        // Calculate exit when we have enough data
+        if (_highBuffer.Count == LookbackPeriods && atrResult.Atr.HasValue)
+        {
+            double atr = atrResult.Atr.Value;
+
+            switch (_type)
+            {
+                case Direction.Long:
+                    double maxHigh = _highBuffer.Max();
+                    exit = maxHigh - (atr * _multiplier);
+                    break;
+
+                case Direction.Short:
+                    double minLow = _lowBuffer.Min();
+                    exit = minLow + (atr * _multiplier);
+                    break;
+
+                default:
+                    throw new InvalidOperationException($"Unknown direction type: {_type}");
+            }
+        }
+
+        AddInternal(new ChandelierResult(timestamp, exit));
+    }
+
+    /// <inheritdoc />
+    public void Add(IReadOnlyList<IQuote> quotes)
+    {
+        ArgumentNullException.ThrowIfNull(quotes);
+
+        for (int i = 0; i < quotes.Count; i++)
+        {
+            Add(quotes[i]);
+        }
+    }
+
+    /// <inheritdoc />
+    public override void Clear()
+    {
+        ClearInternal();
+        _atrList.Clear();
+        _highBuffer.Clear();
+        _lowBuffer.Clear();
+    }
+}
+
+public static partial class Chandelier
+{
+    /// <summary>
+    /// Creates a buffer list for Chandelier Exit calculations.
+    /// </summary>
+    public static ChandelierList ToChandelierList<TQuote>(
+        this IReadOnlyList<TQuote> quotes,
+        int lookbackPeriods = 22,
+        double multiplier = 3,
+        Direction type = Direction.Long)
+        where TQuote : IQuote
+        => new(lookbackPeriods, multiplier, type) { (IReadOnlyList<IQuote>)quotes };
+}
