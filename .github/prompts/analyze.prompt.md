@@ -109,3 +109,6 @@ Behavior rules:
 - If zero issues found, emit a success report with coverage statistics and proceed recommendation.
 
 Context: $ARGUMENTS
+---
+Last updated: October 7, 2025
+

@@ -154,7 +154,7 @@ in PR description + Complexity Tracking section of the plan.
 - PR reviewers MUST cite specific principle(s) when requesting changes.
 - Merging code that violates a principle without documented exception is grounds for immediate follow-up issue.
 
-**Version**: 1.0.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-02
+**Version**: 1.1.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-02
 
 ### 6. Scope & Stewardship
 

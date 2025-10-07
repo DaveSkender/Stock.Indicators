@@ -62,3 +62,6 @@ $ARGUMENTS
 Context for task generation: $ARGUMENTS
 
 The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
+---
+Last updated: October 7, 2025
+
