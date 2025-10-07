@@ -1,73 +1,173 @@
-# Stock Indicators for .NET Constitution
+<!--
+Sync Impact Report
+- Version change: 1.0.0 → 1.1.0 (MINOR: added new principle consolidating scope & stewardship themes from Discussion #648)
+- Modified principles: (added) Principle 6: Scope & Stewardship
+- Added sections: Principle 6 subsection
+- Removed sections: None
+- Templates requiring updates:
+	- .specify/templates/plan-template.md (✅ gating bullet added for Scope & Stewardship, version ref already updated earlier)
+	- .specify/templates/spec-template.md (✅ no changes needed)
+	- .specify/templates/tasks-template.md (✅ no changes needed)
+- Follow-up TODOs: None
+-->
+
+# Stock Indicators Project Constitution
 
 ## Core Principles
 
-### I. Mathematical Precision
+### 1. Mathematical Precision (NON‑NEGOTIABLE)
 
-Financial calculations SHOULD prioritize precision and accuracy. While the current codebase primarily uses `double` types for performance reasons, `decimal` types are PREFERRED for price-sensitive calculations where precision loss could impact results. All indicators MUST be mathematically accurate against established reference implementations.
+All indicator calculations MUST be mathematically correct, deterministic, and reproducible across
+supported target frameworks (.NET 8 & .NET 9).
 
-**Rationale**: Financial calculations require accuracy; the choice between `double` and `decimal` types should balance precision needs with performance requirements based on the specific use case.
+Rules:
 
-### II. Performance First
+- No silent rounding or implicit unit conversions; use explicit casting when required.
+- Default numeric type is double; decimal ONLY when price-sensitive rounding would materially change output.
+- Results MUST match validated reference data (published examples, academic definitions, or vetted calculators).
+- Streaming and batch paths MUST converge to identical final values (within 1e-12 tolerance where floating point drift unavoidable).
+- Any new indicator requires a written spec (math definition + parameter constraints) before implementation.
+- Breaking mathematical behavior changes require a MAJOR library version bump and release note callout.
 
-Every indicator MUST be optimized for performance with minimal memory allocation. Excessive LINQ chaining is prohibited. All computationally intensive indicators REQUIRE performance benchmarks. Memory usage patterns MUST be validated for large datasets.
+### 2. Performance First
 
-**Rationale**: Technical analysis often involves processing thousands of data points; performance directly impacts user experience and scalability.
+The library prioritizes low allocation, cache-friendly, single-pass (O(n)) computations.
 
-### III. Comprehensive Validation
+Rules:
 
-All public methods MUST include complete input validation with descriptive error messages. Edge cases (insufficient data, zero/negative values, null inputs) MUST be handled explicitly. Exception types MUST be consistent across the library.
+- No per-iteration heap allocations in hot loops (avoid LINQ in inner loops; prefer for loops and Span/ReadOnlySpan when possible).
+- Performance benchmarks MUST accompany substantial algorithmic changes; regressions >2% mean or >5% p95 MUST be justified or reverted.
+- Avoid premature micro-optimizations; prove via BenchmarkDotNet before merging.
+- Memory growth MUST be bounded by input length; no unbounded collections or hidden caches.
+- Streaming indicators MUST not exceed batch baseline complexity or add >5% overhead steady-state.
 
-**Rationale**: Financial data can be unpredictable; robust validation prevents runtime failures and provides clear feedback to developers.
+### 3. Comprehensive Validation
 
-### IV. Test-Driven Quality
+Input and state validation prevents undefined behavior.
 
-Every indicator REQUIRES comprehensive unit tests covering all code paths. Mathematical accuracy MUST be verified against reference implementations. Performance tests are MANDATORY for computationally intensive indicators.
+Rules:
 
-**Rationale**: Financial calculations require absolute correctness; comprehensive testing ensures reliability in production trading systems.
+- Public APIs MUST guard against null inputs, empty sequences, and insufficient history length with clear ArgumentException messages.
+- Parameter constraints (min periods, non-negative lengths, etc.) MUST be enforced uniformly and documented.
+- Streaming state MUST NOT leak or mutate shared buffers across independent consumers.
+- Invariants (e.g., WarmupPeriod >= LookbackPeriod) documented in XML comments and tests.
+- Fail fast: detect invalid conditions before allocating large result buffers.
 
-### V. Documentation Excellence
+### 4. Test‑Driven Quality
 
-All public methods MUST have complete XML documentation. Code examples MUST be provided for complex indicators. Documentation MUST include parameter constraints, return value descriptions, and usage patterns.
+Quality is enforced through disciplined test-first development.
 
-**Rationale**: Technical analysis is complex; clear documentation enables developers to implement indicators correctly and efficiently.
+Rules:
 
-## API Design Standards
+- New indicators: write unit + edge + streaming parity tests before implementation (initially failing).
+- Bug fixes MUST add a regression test proving the defect then verifying the fix.
+- Public surface behavior (parameters, defaults, warmup length) MUST be covered; changes require test updates.
+- Performance baselines updated only when intentional; accidental deltas investigated.
+- CI MUST run unit, integration (where applicable), and performance smoke benchmarks before release tagging.
 
-### Consistency Requirements
+### 5. Documentation Excellence & Transparency
 
-- All indicators follow consistent naming conventions and parameter patterns
-- Return types use immutable `record` structures
-- Chainable indicators implement `IReusable` interface
-- Utility methods follow established patterns for extension and transformation
+Documentation is a first-class deliverable.
 
-### Backward Compatibility
+Rules:
 
-- Breaking changes require major version increments
-- Obsolete methods provide clear migration paths
-- New features maintain compatibility with existing workflows
+- Every public type/member has XML docs (use `inheritdoc` when inheriting unchanged semantics).
+- Indicator doc pages (docs/_indicators/*.md) MUST be updated when parameters, formulas, warmup, or examples change.
+- Release notes MUST enumerate breaking changes and notable deprecations with migration guidance.
+- Examples MUST compile and reflect current API; stale examples are treated as defects.
+- Governance, versioning policy, and amendment history remain visible in this constitution.
 
-## Development Workflow
+## Additional Constraints
 
-### Spec-Driven Development
+### Performance & Compatibility Standards
 
-1. All new features begin with specification using `/specify` command
-2. Technical planning follows with `/plan` command
-3. Implementation tasks are generated using `/tasks` command  
-4. Development proceeds with `/implement` command
-5. All phases include peer review and validation against constitution
+- Supported Targets: net8.0, net9.0 (both must build & pass tests).
+- Baseline Complexity: Single pass O(n) unless mathematically impossible (justify exceptions in PR).
+- Warmup Guidance: Provide a deterministic WarmupPeriod helper or documented rule for each indicator.
+- Precision Policy: Use double for speed; escalate to decimal only when rounding materially affects financial correctness (> 0.5 tick at 4-decimal pricing).
+- Allocation Budget: Result list + minimal working buffers only; no temporary per-step Lists or LINQ projections inside loops.
+- Thread Safety: Stateless calculations are thread-safe; streaming hubs must isolate instance state—do not use static mutable fields.
+- Backward Compatibility: Renaming public members or altering default parameter values requires MAJOR version bump.
 
-### Quality Assurance
+### Error & Exception Conventions
 
-- Unit tests must achieve >95% code coverage
-- Performance benchmarks required for computational indicators
-- Mathematical accuracy validated against reference implementations
-- Documentation updated with every API change
+- Use ArgumentOutOfRangeException for invalid numeric parameter ranges.
+- Use ArgumentException for semantic misuse (e.g., insufficient history).
+- Never swallow exceptions; wrap only to add domain context.
+- Messages MUST include parameter name and offending value when relevant.
+
+## Development Workflow & Quality Gates
+
+### Spec-Driven Flow
+
+1. Draft feature spec (spec-template) capturing WHAT, not HOW.
+2. Implementation plan (/plan) enforces Constitution Check before design tasks proceed.
+3. Task generation (/tasks) produces ordered TDD-first execution list.
+4. Implementation strictly follows Red → Green → Refactor loop.
+5. Validation: unit tests, streaming parity, performance smoke, docs sync.
+
+### Pull Request Requirements
+
+- PR title uses Conventional Commits; link to spec or issue.
+- All analyzer warnings resolved or explicitly suppressed with justification.
+- Added/changed indicator: include warmup guidance, parameter constraints, example snippet.
+- Performance-sensitive changes: attach benchmark delta summary (mean, alloc).
+- Streaming indicators: prove batch vs streaming value parity for representative sample in tests.
+
+### Quality Gates (Must Pass)
+
+- Build succeeds with zero warnings treated as errors.
+- Unit test suite green; new tests cover modified logic branches.
+- No net increase in benchmark mean >2% for unchanged indicators.
+- Docs pages updated for any public behavior change.
+- Constitution Check shows zero unapproved violations (Complexity Tracking used if temporary deviation).
 
 ## Governance
 
-**Ratification Date**: 2025-01-27
-**Last Amended**: 2025-01-27
-**Constitution Version**: 2.0.0
+### Authority & Scope
 
-This constitution governs all development activities for the Stock Indicators for .NET library and ensures consistent, high-quality implementations that serve the financial analysis community.
+This constitution governs engineering decisions for the Stock Indicators project. Where conflicts arise,
+its directives supersede ad-hoc conventions. Exceptions require explicit, time-bounded approval recorded
+in PR description + Complexity Tracking section of the plan.
+
+### Amendment Procedure
+
+1. Open an Issue or Discussion proposing change (motivation, impact, classification: patch/minor/major).
+2. Draft PR updating constitution + any affected templates (plan/spec/tasks) + Sync Impact Report.
+3. Require at least one maintainer approval; major changes require two.
+4. Upon merge: increment version per rules; announce in release notes if impactful to contributors.
+
+### Versioning Policy (Semantic)
+
+- MAJOR: Remove or redefine a principle; change governance process; invalidate existing gating rules.
+- MINOR: Add a new principle/section or materially expand requirements.
+- PATCH: Clarify wording, fix typos, tighten language without changing intent.
+
+### Compliance & Review Cadence
+
+- Automated Constitution Check executed during /plan ensures early detection.
+- Quarterly review (January/April/July/October) to assess relevance of performance targets & principles.
+- Any deviation longer than one release cycle MUST be escalated or removed.
+
+### Enforcement
+
+- PR reviewers MUST cite specific principle(s) when requesting changes.
+- Merging code that violates a principle without documented exception is grounds for immediate follow-up issue.
+
+### 6. Scope & Stewardship
+
+Defines the boundaries and community ethos ensuring longevity and focused value delivery.
+
+Rules:
+
+- Ease of Use: Public APIs favor clarity over convenience abstractions; zero hidden magic.
+- Unopinionated Implementation: Indicators implement reputable, published formulas without reinterpretation or secret tweaks.
+- Single Responsibility: Library ONLY transforms historical quotes + parameters → indicator results; no signal engines, data fetchers, trading logic, or storage layers.
+- Encapsulation & Purity: No runtime calls to external services or third‑party packages; caller owns data acquisition and persistence.
+- Broad Instrument Support: Maintain correctness for equities, commodities, forex, crypto (including extreme price scales & fractional volumes).
+- Simplicity over Feature Creep: Decline features that dilute core purpose (“Could we?” is not “Should we?”)—reassess via governance if disputed.
+- Community & Openness: Keep contributions reviewable, traceable, and standards-aligned; fast, transparent handling of bug and security reports.
+
+Rationale: Consolidates long‑standing design tenets (Discussion #648) that were implicit but not yet enforceable as a formal principle.
+
+**Version**: 1.1.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-02
