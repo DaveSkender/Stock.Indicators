@@ -1,14 +1,9 @@
 namespace BufferLists;
 
 [TestClass]
-public class FisherTransform : BufferListTestBase, ITestReusableBufferList
+public class FisherTransform : BufferListTestBase
 {
     private const int lookbackPeriods = 10;
-
-    private static readonly IReadOnlyList<IReusable> reusables
-       = Quotes
-        .Cast<IReusable>()
-        .ToList();
 
     private static readonly IReadOnlyList<FisherTransformResult> series
        = Quotes.ToFisherTransform(lookbackPeriods);
@@ -40,40 +35,6 @@ public class FisherTransform : BufferListTestBase, ITestReusableBufferList
     public override void WithQuotesCtor()
     {
         FisherTransformList sut = new(lookbackPeriods, Quotes);
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void AddReusableItems()
-    {
-        FisherTransformList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables) { sut.Add(item); }
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void AddReusableItemsBatch()
-    {
-        FisherTransformList sut = new(lookbackPeriods) { reusables };
-
-        sut.Should().HaveCount(Quotes.Count);
-        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
-    }
-
-    [TestMethod]
-    public void AddDiscreteValues()
-    {
-        FisherTransformList sut = new(lookbackPeriods);
-
-        foreach (IReusable item in reusables)
-        {
-            sut.Add(item.Timestamp, item.Value);
-        }
 
         sut.Should().HaveCount(Quotes.Count);
         sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());

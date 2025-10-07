@@ -50,8 +50,7 @@ public class FcbList : BufferList<FcbResult>, IBufferList
     {
         ArgumentNullException.ThrowIfNull(quote);
 
-        Quote q = new()
-        {
+        Quote q = new() {
             Timestamp = quote.Timestamp,
             Open = quote.Open,
             High = quote.High,
