@@ -48,24 +48,23 @@ specs/002-regression-baselines/
 tools/performance/BaselineGenerator/
 ├── BaselineGenerator.csproj          # Console tool project
 ├── Program.cs                        # Entry point, CLI argument handling
-├── BaselineWriter.cs                 # JSON serialization and file writing
 └── IndicatorExecutor.cs              # Test execution and output capture
 
 tests/indicators/
-├── .baselines/                       # Generated baseline JSON files
-│   ├── Adl.Standard.json
-│   ├── Adx.Standard.json
-│   ├── Sma.Standard.json
-│   └── ... (one per indicator)
+├── s-z/Sma/
+│   ├── Sma.Baseline.json             # SMA baseline (colocated with tests)
+│   └── Sma.StaticSeries.Tests.cs     # SMA tests
+├── m-r/Macd/
+│   ├── Macd.Baseline.json            # MACD baseline (colocated with tests)
+│   └── Macd.StaticSeries.Tests.cs    # MACD tests
 ├── RegressionTests.cs                # Regression test suite
-├── BaselineComparer.cs               # Comparison logic with tolerance
-└── BaselineReader.cs                 # JSON deserialization
+└── BaselineComparer.cs               # Comparison logic with tolerance
 
 .github/workflows/
 └── test-indicators.yml               # Updated to include regression tests
 ```
 
-**Structure decision**: Single baseline file per indicator in dedicated `.baselines/` directory. Generator tool as standalone console app in `tools/performance/`. Regression tests integrated into existing test project.
+**Structure decision**: Baseline files colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`). Direct JSON serialization of result arrays (e.g., `List<SmaResult>`). Generator tool as standalone console app in `tools/performance/`. Regression tests integrated into existing test project.
 
 ## Phase 0: Research and design decisions
 
@@ -114,42 +113,53 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
 **Entities**:
 
-- **BaselineFile**: Root object containing metadata + results array
-  - `Metadata`: { indicatorName, scenarioName, generatedAt, libraryVersion, warmupPeriodCount }
-  - `Results`: Array of BaselineResult objects (one per date)
-- **BaselineResult**: Single result entry
-  - `Date`: DateTime in ISO 8601 format
-  - `Properties`: Dictionary<string, double?> for all result properties (e.g., `{ "sma": 214.52 }`)
+- **Baseline files**: Direct JSON serialization of indicator result arrays
+  - Format: `List<TResult>` where `TResult` is the indicator's result type (e.g., `SmaResult`, `MacdResult`)
+  - Location: Colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+  - No custom wrapper models needed - uses existing result types directly
 - **BaselineComparer**: Comparison logic
   - `Compare(expected, actual, tolerance)` → ComparisonResult
   - `ComparisonResult`: { IsMatch, Mismatches: List of MismatchDetail }
   - `MismatchDetail`: { Date, PropertyName, Expected, Actual, Delta }
 - **BaselineGenerator tool**: Console application (located in `tools/performance/BaselineGenerator/`)
-  - `GenerateBaseline(indicatorName)` → BaselineFile
-  - `WriteBaseline(BaselineFile, filePath)`
-  - CLI: `--indicator <name>` | `--all` | `--output <dir>`
+  - `GenerateBaseline(indicatorName)` → `List<TResult>`
+  - Direct JSON serialization using `System.Text.Json`
+  - CLI: `--indicator <name>` | `--all`
 
 ### API contracts
 
 **Baseline JSON format**:
 
 ```json
-{
-  "metadata": {
-    "indicatorName": "SMA",
-    "scenarioName": "Standard",
-    "generatedAt": "2025-10-06T12:34:56Z",
-    "libraryVersion": "3.0.0",
-    "warmupPeriodCount": 19
+[
+  {
+    "timestamp": "2016-01-04T00:00:00",
+    "sma": null
   },
-  "results": [
-    { "date": "2016-01-04", "sma": null },
-    { "date": "2016-01-05", "sma": null },
-    ...
-    { "date": "2016-02-01", "sma": 214.52 },
-    { "date": "2016-02-02", "sma": 215.18 }
-  ]
-}
+  {
+    "timestamp": "2016-01-05T00:00:00",
+    "sma": null
+  },
+  {
+    "timestamp": "2016-02-01T00:00:00",
+    "sma": 214.52
+  },
+  {
+    "timestamp": "2016-02-02T00:00:00",
+    "sma": 215.18
+  }
+]
+```
+
+**Direct deserialization**:
+
+```csharp
+// Load and deserialize baseline using standard JSON serialization
+var options = new JsonSerializerOptions 
+{ 
+    PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+};
+List<SmaResult> baseline = JsonSerializer.Deserialize<List<SmaResult>>(json, options);
 ```
 
 **BaselineComparer API**:
@@ -182,15 +192,14 @@ public record MismatchDetail(
 **BaselineGenerator tool CLI**:
 
 ```bash
-# Generate single indicator baseline
-dotnet run --project tools/performance/BaselineGenerator -- --indicator SMA
+# Generate single indicator baseline (colocated with tests)
+dotnet run --project tools/performance/BaselineGenerator -- --indicator Sma
 
-# Generate all baselines
+# Generate all baselines (colocated with tests)
 dotnet run --project tools/performance/BaselineGenerator -- --all
-
-# Specify output directory
-dotnet run --project tools/performance/BaselineGenerator -- --all --output tests/indicators/.baselines/
 ```
+
+**Output location**: Files are automatically colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
 
 ### Test scenarios
 
