@@ -488,6 +488,10 @@ update_existing_agent_file() {
         fi
     done < "$target_file"
 
+    if [[ $in_changes_section == true ]] && [[ $changes_entries_added == false ]] && [[ -n "$new_change_entry" ]] && [[ $skip_adding_new_change == false ]]; then
+        echo "$new_change_entry" >> "$temp_file"
+    fi
+
     # Post-loop check: if we're still in the Active Technologies section and haven't added new entries
     if [[ $in_tech_section == true ]] && [[ $tech_entries_added == false ]] && [[ ${#new_tech_entries[@]} -gt 0 ]]; then
         printf '%s\n' "${new_tech_entries[@]}" >> "$temp_file"
