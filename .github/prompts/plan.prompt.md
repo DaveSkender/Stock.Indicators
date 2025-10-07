@@ -2,6 +2,8 @@
 description: Execute the implementation planning workflow using the plan template to generate design artifacts.
 ---
 
+# Plan command
+
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 
 User input:
