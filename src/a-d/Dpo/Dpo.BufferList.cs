@@ -2,6 +2,7 @@ namespace Skender.Stock.Indicators;
 
 /// <summary>
 /// Detrended Price Oscillator (DPO) from incremental reusable values.
+/// Note: DPO requires lookahead, so results are delayed by offset periods.
 /// </summary>
 public class DpoList : BufferList<DpoResult>, IBufferReusable
 {
@@ -42,38 +43,40 @@ public class DpoList : BufferList<DpoResult>, IBufferReusable
     /// <inheritdoc />
     public void Add(DateTime timestamp, double value)
     {
-        // Add value and timestamp to buffers
+        // Store value and timestamp
         valueBuffer.Add(value);
         timestampBuffer.Add(timestamp);
 
         // Add to SMA calculation
         smaList.Add(timestamp, value);
 
-        // Calculate DPO
-        int currentIndex = valueBuffer.Count - 1;
-        double? dpoSma = null;
-        double? dpoVal = null;
+        // Calculate DPO for past values that now have enough future data
+        // We can calculate DPO for index (Count - offset - 1) because we now have SMA at (Count - 1)
+        int dpoIndex = valueBuffer.Count - offset - 1;
 
-        // Check if we can calculate DPO for current position
-        // We need: currentIndex >= LookbackPeriods - offset - 1
-        // AND we need future SMA available at (currentIndex + offset)
-        if (currentIndex >= LookbackPeriods - offset - 1 
-            && currentIndex + offset < valueBuffer.Count)
+        if (dpoIndex >= 0)
         {
-            // Get the SMA for the future period
-            int smaIndex = currentIndex + offset;
-            if (smaIndex < smaList.Count)
+            double? dpoSma = null;
+            double? dpoVal = null;
+
+            // Check if we're in the valid calculation range
+            // Need: dpoIndex >= lookbackPeriods - offset - 1
+            if (dpoIndex >= LookbackPeriods - offset - 1)
             {
-                SmaResult smaResult = smaList[smaIndex];
-                if (smaResult.Sma.HasValue)
+                int smaIndex = dpoIndex + offset;
+                if (smaIndex < smaList.Count)
                 {
-                    dpoSma = smaResult.Sma;
-                    dpoVal = valueBuffer[currentIndex] - smaResult.Sma;
+                    SmaResult smaResult = smaList[smaIndex];
+                    if (smaResult.Sma.HasValue)
+                    {
+                        dpoSma = smaResult.Sma;
+                        dpoVal = valueBuffer[dpoIndex] - smaResult.Sma;
+                    }
                 }
             }
-        }
 
-        AddInternal(new DpoResult(timestamp, dpoVal, dpoSma));
+            AddInternal(new DpoResult(timestampBuffer[dpoIndex], dpoVal, dpoSma));
+        }
     }
 
     /// <summary>
