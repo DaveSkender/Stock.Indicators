@@ -19,7 +19,7 @@ Paths assume the single-project layout at the repository root:
 
 The following indicators have series-style implementations but lack BufferList implementations:
 
-### A-D Group (16 indicators)
+### BufferList A-D Group (16 indicators)
 
 - [ ] T001 Implement Alligator BufferList in `src/a-d/Alligator/Alligator.BufferList.cs`
 - [ ] T002 Implement Aroon BufferList in `src/a-d/Aroon/Aroon.BufferList.cs`
@@ -38,7 +38,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs`
 - [ ] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs`
 
-### E-K Group (12 indicators)
+### BufferList E-K Group (12 indicators)
 
 - [ ] T017 Implement ElderRay BufferList in `src/e-k/ElderRay/ElderRay.BufferList.cs`
 - [ ] T018 Implement Fcb BufferList in `src/e-k/Fcb/Fcb.BufferList.cs`
@@ -53,7 +53,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T027 Implement Keltner BufferList in `src/e-k/Keltner/Keltner.BufferList.cs`
 - [ ] T028 Implement Kvo BufferList in `src/e-k/Kvo/Kvo.BufferList.cs`
 
-### M-R Group (13 indicators)
+### BufferList M-R Group (13 indicators)
 
 - [ ] T029 Implement MaEnvelopes BufferList in `src/m-r/MaEnvelopes/MaEnvelopes.BufferList.cs`
 - [ ] T030 Implement Marubozu BufferList in `src/m-r/Marubozu/Marubozu.BufferList.cs`
@@ -69,7 +69,7 @@ The following indicators have series-style implementations but lack BufferList i
 - [ ] T040 Implement RocWb BufferList in `src/m-r/RocWb/RocWb.BufferList.cs`
 - [ ] T041 Implement RollingPivots BufferList in `src/m-r/RollingPivots/RollingPivots.BufferList.cs`
 
-### S-Z Group (14 indicators)
+### BufferList S-Z Group (14 indicators)
 
 - [ ] T042 Implement Slope BufferList in `src/s-z/Slope/Slope.BufferList.cs`
 - [ ] T043 Implement SmaAnalysis BufferList in `src/s-z/SmaAnalysis/SmaAnalysis.BufferList.cs`
@@ -90,7 +90,7 @@ The following indicators have series-style implementations but lack BufferList i
 
 The following indicators have series-style implementations but lack StreamHub implementations:
 
-### A-D Group (14 indicators)
+### StreamHub A-D Group (14 indicators)
 
 - [ ] T056 Implement Aroon StreamHub in `src/a-d/Aroon/Aroon.StreamHub.cs`
 - [ ] T057 Implement Awesome StreamHub in `src/a-d/Awesome/Awesome.StreamHub.cs`
@@ -107,7 +107,7 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T068 Implement Dpo StreamHub in `src/a-d/Dpo/Dpo.StreamHub.cs`
 - [ ] T069 Implement Dynamic StreamHub in `src/a-d/Dynamic/Dynamic.StreamHub.cs`
 
-### E-K Group (12 indicators)
+### StreamHub E-K Group (12 indicators)
 
 - [ ] T070 Implement ElderRay StreamHub in `src/e-k/ElderRay/ElderRay.StreamHub.cs`
 - [ ] T071 Implement Fcb StreamHub in `src/e-k/Fcb/Fcb.StreamHub.cs`
@@ -122,7 +122,7 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T080 Implement Keltner StreamHub in `src/e-k/Keltner/Keltner.StreamHub.cs`
 - [ ] T081 Implement Kvo StreamHub in `src/e-k/Kvo/Kvo.StreamHub.cs`
 
-### M-R Group (12 indicators)
+### StreamHub M-R Group (12 indicators)
 
 - [ ] T082 Implement MaEnvelopes StreamHub in `src/m-r/MaEnvelopes/MaEnvelopes.StreamHub.cs`
 - [ ] T083 Implement Marubozu StreamHub in `src/m-r/Marubozu/Marubozu.StreamHub.cs`
@@ -137,7 +137,7 @@ The following indicators have series-style implementations but lack StreamHub im
 - [ ] T092 Implement RocWb StreamHub in `src/m-r/RocWb/RocWb.StreamHub.cs`
 - [ ] T093 Implement RollingPivots StreamHub in `src/m-r/RollingPivots/RollingPivots.StreamHub.cs`
 
-### S-Z Group (14 indicators)
+### StreamHub S-Z Group (14 indicators)
 
 - [ ] T094 Implement Slope StreamHub in `src/s-z/Slope/Slope.StreamHub.cs`
 - [ ] T095 Implement SmaAnalysis StreamHub in `src/s-z/SmaAnalysis/SmaAnalysis.StreamHub.cs`
