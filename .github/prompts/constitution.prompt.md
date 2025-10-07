@@ -77,9 +77,3 @@ Do not create a new template; always operate on the existing `.specify/memory/co
 
 ---
 Last updated: January 28, 2025
-
----
-Last updated: October 7, 2025
----
-Last updated: October 7, 2025
-

@@ -111,7 +111,4 @@ Behavior rules:
 Context: $ARGUMENTS
 
 ---
-Last updated: October 7, 2025
----
-Last updated: October 7, 2025
-
+Last updated: January 28, 2025
