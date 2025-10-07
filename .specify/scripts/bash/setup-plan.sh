@@ -53,8 +53,19 @@ fi
 
 # Output results
 if $JSON_MODE; then
-    printf '{"FEATURE_SPEC":"%s","IMPL_PLAN":"%s","SPECS_DIR":"%s","BRANCH":"%s","HAS_GIT":"%s"}\n' \
-        "$FEATURE_SPEC" "$IMPL_PLAN" "$FEATURE_DIR" "$CURRENT_BRANCH" "$HAS_GIT"
+    # Use Python to safely encode JSON, escaping special characters
+    python3 -c '
+import json
+import sys
+data = {
+    "FEATURE_SPEC": sys.argv[1],
+    "IMPL_PLAN": sys.argv[2],
+    "SPECS_DIR": sys.argv[3],
+    "BRANCH": sys.argv[4],
+    "HAS_GIT": sys.argv[5]
+}
+print(json.dumps(data))
+' "$FEATURE_SPEC" "$IMPL_PLAN" "$FEATURE_DIR" "$CURRENT_BRANCH" "$HAS_GIT"
 else
     echo "FEATURE_SPEC: $FEATURE_SPEC"
     echo "IMPL_PLAN: $IMPL_PLAN"
