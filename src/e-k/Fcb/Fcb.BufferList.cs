@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Fractal Chaos Bands (FCB) from incremental quote values.
 /// </summary>
-public class FcbList : BufferList<FcbResult>, IBufferList
+public class FcbList : BufferList<FcbResult>, IBufferList, IFcb
 {
     private readonly Queue<Quote> _quoteBuffer;
     private readonly int _windowSpan;

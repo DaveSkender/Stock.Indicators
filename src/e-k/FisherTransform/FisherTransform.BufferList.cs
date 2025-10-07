@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Fisher Transform from incremental reusable values.
 /// </summary>
-public class FisherTransformList : BufferList<FisherTransformResult>, IBufferReusable
+public class FisherTransformList : BufferList<FisherTransformResult>, IBufferReusable, IFisherTransform
 {
     private readonly Queue<double> _priceBuffer;
     private double _previousXv;

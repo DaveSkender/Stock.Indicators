@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// McGinley Dynamic from incremental reusable values.
 /// </summary>
-public class DynamicList : BufferList<DynamicResult>, IBufferReusable
+public class DynamicList : BufferList<DynamicResult>, IBufferReusable, IDynamic
 {
     private double? _previousDynamic;
     private double _previousValue;

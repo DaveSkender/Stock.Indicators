@@ -3,7 +3,7 @@ namespace Skender.Stock.Indicators;
 /// <summary>
 /// Force Index from incremental quote values.
 /// </summary>
-public class ForceIndexList : BufferList<ForceIndexResult>, IBufferList
+public class ForceIndexList : BufferList<ForceIndexResult>, IBufferList, IForceIndex
 {
     private readonly Queue<double> _rawFiBuffer;
     private double _sumRawFi;
