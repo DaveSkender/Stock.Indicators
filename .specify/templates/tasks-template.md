@@ -3,9 +3,9 @@
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), research.md, data-model.md, contracts/
 
-## Execution Flow (main)
+## Execution flow (main)
 
-```markdown
+```text
 1. Load plan.md from feature directory
    → If not found: ERROR "No implementation plan found"
    → Extract: tech stack, libraries, structure
@@ -102,20 +102,9 @@
 
 ## Dependencies
 
-- Tests (T004-T007) before implementation (T008-T014)
-- T008 blocks T009, T015
-- T016 blocks T018
-- Implementation before polish (T019-T023)
-
-## Parallel Example
-
-```markdown
-# Launch T004-T007 together:
-Task: "Contract test POST /api/users in tests/contract/test_users_post.py"
-Task: "Contract test GET /api/users/{id} in tests/contract/test_users_get.py"
-Task: "Integration test registration in tests/integration/test_registration.py"
-Task: "Integration test auth in tests/integration/test_auth.py"
-```
+- Document dependencies using the generated task IDs (e.g., `T00A blocks T00B`)
+- Ensure tests precede their corresponding implementation tasks
+- Integration/polish tasks must wait on the implementation work they depend on
 
 ## Notes
 
@@ -123,6 +112,9 @@ Task: "Integration test auth in tests/integration/test_auth.py"
 - Verify tests fail before implementing
 - Commit after each task
 - Avoid: vague tasks, same file conflicts
+
+---
+Last updated: January 28, 2025
 
 ## Task Generation Rules
 

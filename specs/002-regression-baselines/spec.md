@@ -16,10 +16,10 @@ This framework establishes "known good" output snapshots that can be regenerated
 
 ### Primary use cases
 
-1. **Continuous integration regression detection**: Automatically detect when indicator outputs drift from established baselines during PR validation
-2. **Refactoring confidence**: Enable safe code refactoring with immediate feedback if outputs change unexpectedly
-3. **Version migration validation**: Verify indicator behavior remains consistent when upgrading .NET versions or dependencies
-4. **Algorithm change documentation**: Provide clear before/after comparison when intentionally modifying indicator calculations
+- **Continuous integration regression detection**: Automatically detect when indicator outputs drift from established baselines during PR validation
+- **Refactoring confidence**: Enable safe code refactoring with immediate feedback if outputs change unexpectedly
+- **Version migration validation**: Verify indicator behavior remains consistent when upgrading .NET versions or dependencies
+- **Algorithm change documentation**: Provide clear before/after comparison when intentionally modifying indicator calculations
 
 ### Success scenarios
 

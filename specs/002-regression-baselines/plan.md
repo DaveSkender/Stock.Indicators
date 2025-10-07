@@ -73,36 +73,36 @@ No external research required—design extends existing test infrastructure patt
 
 ### Key decisions
 
-1. **JSON file format rationale**:
-   - Human-readable for code review during baseline regeneration
-   - System.Text.Json for .NET standard serialization
-   - Deterministic property order for minimal diff noise
-   - camelCase convention matches JavaScript/TypeScript ecosystem
-   - One file per indicator enables parallel baseline generation and clear git history
+- **JSON file format rationale**:
+  - Human-readable for code review during baseline regeneration
+  - System.Text.Json for .NET standard serialization
+  - Deterministic property order for minimal diff noise
+  - camelCase convention matches JavaScript/TypeScript ecosystem
+  - One file per indicator enables parallel baseline generation and clear git history
 
-2. **Numeric tolerance strategy**:
-   - Default tolerance 1e-12 accounts for acceptable floating-point precision differences
-   - Strict mode (tolerance = 0) for validating intentional algorithm changes
-   - Configurable per-test to handle indicators with different precision requirements
-   - Comparison uses absolute difference (not relative percentage) for simplicity
+- **Numeric tolerance strategy**:
+  - Default tolerance 1e-12 accounts for acceptable floating-point precision differences
+  - Strict mode (tolerance = 0) for validating intentional algorithm changes
+  - Configurable per-test to handle indicators with different precision requirements
+  - Comparison uses absolute difference (not relative percentage) for simplicity
 
-3. **Baseline file location**:
-   - `tests/indicators/.baselines/` co-locates baselines with test code
-   - `.gitignore` exception ensures baseline files are version-controlled
-   - One JSON file per indicator (e.g., `Sma.Standard.json`) enables selective regeneration
-   - Directory structure flat (no subdirectories) for simplicity
+- **Baseline file location**:
+  - `tests/indicators/.baselines/` co-locates baselines with test code
+  - `.gitignore` exception ensures baseline files are version-controlled
+  - One JSON file per indicator (e.g., `Sma.Standard.json`) enables selective regeneration
+  - Directory structure flat (no subdirectories) for simplicity
 
-4. **Generator tool architecture**:
-   - Standalone console app in `tools/performance/BaselineGenerator/`
-   - Leverages existing test data (TestData.GetDefault()) to avoid duplication
-   - Batch mode generates all baselines in parallel for performance
-   - Single-indicator mode for selective regeneration during development
+- **Generator tool architecture**:
+  - Standalone console app in `tools/performance/BaselineGenerator/`
+  - Leverages existing test data (TestData.GetDefault()) to avoid duplication
+  - Batch mode generates all baselines in parallel for performance
+  - Single-indicator mode for selective regeneration during development
 
-5. **CI integration approach**:
-   - Regression tests run in existing `test-indicators.yml` workflow
-   - Environment variable `RUN_REGRESSION_TESTS=true` gates execution (opt-in for now)
-   - Baseline drift fails build (prevents merging unintended changes)
-   - CI logs drift summary (count of mismatches, affected indicators) for visibility
+- **CI integration approach**:
+  - Regression tests run in existing `test-indicators.yml` workflow
+  - Environment variable `RUN_REGRESSION_TESTS=true` gates execution (opt-in for now)
+  - Baseline drift fails build (prevents merging unintended changes)
+  - CI logs drift summary (count of mismatches, affected indicators) for visibility
 
 **Output**: No separate research.md needed (decisions captured above)
 

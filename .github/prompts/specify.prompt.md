@@ -21,3 +21,6 @@ Given that feature description, do this:
 4. Report completion with branch name, spec file path, and readiness for the next phase.
 
 Note: The script creates and checks out the new branch and initializes the spec file before writing.
+
+---
+Last updated: October 6, 2025
