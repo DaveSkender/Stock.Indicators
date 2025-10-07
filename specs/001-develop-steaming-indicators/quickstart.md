@@ -1,4 +1,4 @@
-# Quickstart: Streaming Indicators
+# Quickstart: streaming indicators
 
 **Feature**: 001-develop-steaming-indicators | **Generated**: 2025-10-02
 
@@ -12,9 +12,9 @@ Demonstrate real-time SMA calculation using both BufferList and StreamHub stream
 - Stock.Indicators library built with streaming support
 - Test data: 502 quotes from `TestData.GetDefault()` or similar
 
-## Quickstart Code
+## Quickstart code
 
-### BufferList Example
+### BufferList example
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -56,7 +56,7 @@ foreach (var quote in TestData.GetDefault().Take(25))
 }
 ```
 
-### StreamHub Example
+### StreamHub example
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -78,7 +78,7 @@ foreach (var quote in TestData.GetDefault())
 }
 ```
 
-### Batch vs Streaming Parity Validation
+### Batch vs streaming parity validation
 
 ```csharp
 using Skender.Stock.Indicators;
@@ -127,7 +127,7 @@ Console.WriteLine($"Parity check: {(maxDifference < 1e-12 ? "PASS" : "FAIL")}");
 
 ## Expected Output
 
-### BufferList Output (First 25 Lines)
+### BufferList output (first 25 lines)
 
 ```text
 2024-09-24 | Warming up... (1 of 20)
@@ -139,7 +139,7 @@ Console.WriteLine($"Parity check: {(maxDifference < 1e-12 ? "PASS" : "FAIL")}");
 ...
 ```
 
-### Parity Validation Output
+### Parity validation output
 
 ```text
 Batch results: 483
@@ -150,9 +150,9 @@ Max difference: 0.000000E+00
 Parity check: PASS
 ```
 
-## Error Handling Examples
+## Error handling examples
 
-### Duplicate Timestamp
+### Duplicate timestamp
 
 ```csharp
 var sma = new SmaBufferList(period: 5);
@@ -173,7 +173,7 @@ catch (ArgumentException ex)
 }
 ```
 
-### Out-of-Order Timestamp
+### Out-of-order timestamp
 
 ```csharp
 var sma = new SmaBufferList(period: 5);
@@ -193,7 +193,7 @@ catch (ArgumentException ex)
 }
 ```
 
-### Invalid Period
+### Invalid period
 
 ```csharp
 try
@@ -207,9 +207,9 @@ catch (ArgumentOutOfRangeException ex)
 }
 ```
 
-## Performance Characteristics
+## Performance characteristics
 
-### BufferList Benchmark
+### BufferList benchmark
 
 ```csharp
 using System.Diagnostics;
@@ -229,7 +229,7 @@ Console.WriteLine($"Avg per quote: {sw.Elapsed.TotalMilliseconds / quotes.Count:
 // Expected: <5ms avg per quote
 ```
 
-### StreamHub Benchmark
+### StreamHub benchmark
 
 ```csharp
 using System.Diagnostics;
@@ -249,7 +249,7 @@ Console.WriteLine($"Avg per quote: {sw.Elapsed.TotalMilliseconds / quotes.Count:
 // Expected: <2ms avg per quote
 ```
 
-## Integration Test Template
+## Integration test template
 
 ```csharp
 [TestClass]
@@ -336,7 +336,7 @@ public class StreamingIntegrationTests
 }
 ```
 
-## Next Steps
+## Next steps
 
 1. Run quickstart code to validate streaming behavior
 2. Execute integration tests to verify parity with batch
@@ -355,3 +355,6 @@ public class StreamingIntegrationTests
 ---
 
 *See plan.md for full implementation roadmap and data-model.md for entity definitions*
+
+---
+Last updated: October 6, 2025

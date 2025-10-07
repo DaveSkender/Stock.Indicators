@@ -1,4 +1,4 @@
-# Data Model: Streaming Indicators Framework
+# Data model: streaming indicators framework
 
 **Feature**: 001-develop-steaming-indicators | **Generated**: 2025-10-02
 
@@ -6,7 +6,7 @@
 
 This document defines entities, interfaces, and state management for streaming technical indicators. All types support incremental updates (O(1) per quote) and maintain parity with batch calculations.
 
-## Core Entities
+## Core entities
 
 ### IStreamingIndicator<TQuote, TResult>
 
@@ -55,14 +55,14 @@ public interface IStreamingIndicator<in TQuote, out TResult>
 }
 ```
 
-**Validation Rules**:
+**Validation rules**:
 
 - `Add()` must enforce strictly ascending timestamps (reject duplicates/out-of-order)
 - `Add()` must return null when `IsWarmedUp == false`
 - `Reset()` must clear all buffers and set `IsWarmedUp = false`
 - `WarmupPeriod` must match the batch indicator's documented warmup requirement
 
-**State Transitions**:
+**State transitions**:
 
 ```text
 [Initial] --Add(quote)--> [Accumulating] (IsWarmedUp = false)
@@ -71,7 +71,7 @@ public interface IStreamingIndicator<in TQuote, out TResult>
 [Any State] --Reset()--> [Initial]
 ```
 
-### StreamingState (Enum)
+### StreamingState (enum)
 
 **Purpose**: Tracks indicator warmup status
 
@@ -99,7 +99,7 @@ public enum StreamingState
 
 **Usage**: Embedded in result types to communicate warmup status to consumers
 
-### StreamingResult (Optional Wrapper)
+### StreamingResult (optional wrapper)
 
 **Purpose**: Augments indicator results with timestamp and state metadata
 
@@ -133,9 +133,9 @@ public sealed record StreamingResult<T>
 
 **Note**: This wrapper is optional. Many indicators can return their native result types directly (e.g., `SmaResult?`) instead of wrapping in `StreamingResult<SmaResult>`. Use native types for simplicity unless additional metadata is required.
 
-## Implementation Entities
+## Implementation entities
 
-### BufferList Indicator (List-backed)
+### BufferList indicator (list-backed)
 
 **Purpose**: Simple streaming implementation using `List<T>` for state storage
 
@@ -146,7 +146,7 @@ public sealed record StreamingResult<T>
 - Suitable for moderate frequency (<1k ticks/sec)
 - Easier to debug (standard collection semantics)
 
-**Generic Pattern**:
+**Generic pattern**:
 
 ```csharp
 public sealed class [IndicatorName]BufferList : IStreamingIndicator<Quote, [IndicatorName]Result>
@@ -203,7 +203,7 @@ public sealed class [IndicatorName]BufferList : IStreamingIndicator<Quote, [Indi
 }
 ```
 
-### StreamHub Indicator (Span-optimized)
+### StreamHub indicator (span-optimized)
 
 **Purpose**: High-performance streaming using circular buffers
 
@@ -214,7 +214,7 @@ public sealed class [IndicatorName]BufferList : IStreamingIndicator<Quote, [Indi
 - Suitable for high frequency (>10k ticks/sec)
 - Minimal allocations (spans, no List growth)
 
-**Generic Pattern**:
+**Generic pattern**:
 
 ```csharp
 public sealed class [IndicatorName]StreamHub : IStreamingIndicator<Quote, [IndicatorName]Result>
@@ -279,9 +279,9 @@ public sealed class [IndicatorName]StreamHub : IStreamingIndicator<Quote, [Indic
 }
 ```
 
-## Initial Indicator Coverage
+## Initial indicator coverage
 
-### Phase 1 Indicators (5 Total)
+### Phase 1 indicators (5 total)
 
 1. **SMA (Simple Moving Average)**:
    - Warmup: `period` quotes
@@ -317,7 +317,7 @@ Quote (existing) ──uses──> BufferList/StreamHub implementations
 SmaResult (existing) <──returns── SmaBufferList/SmaStreamHub
 ```
 
-## Validation Matrix
+## Validation matrix
 
 | Entity | Validation | Error Type |
 |--------|-----------|-----------|
@@ -328,7 +328,7 @@ SmaResult (existing) <──returns── SmaBufferList/SmaStreamHub
 | BufferList.Add() | Buffer capacity bounded | (automatic removal) |
 | StreamHub.Add() | Circular wraparound | (automatic overwrite) |
 
-## Performance Targets
+## Performance targets
 
 | Metric | BufferList | StreamHub | Rationale |
 |--------|-----------|-----------|-----------|
@@ -337,9 +337,9 @@ SmaResult (existing) <──returns── SmaBufferList/SmaStreamHub
 | Memory per instance | <10KB | <5KB | Bounded buffers, no unbounded growth |
 | Throughput | 1k ticks/sec | 20k ticks/sec | BufferList simpler, StreamHub faster |
 
-## Testing Entities
+## Testing entities
 
-### Streaming Parity Test Fixture
+### Streaming parity test fixture
 
 **Purpose**: Validate streaming output matches batch calculation
 
@@ -380,3 +380,6 @@ public class [Indicator]ParityTests
 ---
 
 *See plan.md for implementation roadmap and Phase 2 task generation approach*
+
+---
+Last updated: October 6, 2025

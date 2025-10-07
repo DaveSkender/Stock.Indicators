@@ -2,6 +2,8 @@
 description: Perform a non-destructive cross-artifact consistency and quality analysis across spec.md, plan.md, and tasks.md after task generation.
 ---
 
+# Analyze command
+
 The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
 
 User input:
@@ -39,7 +41,7 @@ Execution steps:
       - Identify near-duplicate requirements. Mark lower-quality phrasing for consolidation.
    B. Ambiguity detection:
       - Flag vague adjectives (fast, scalable, secure, intuitive, robust) lacking measurable criteria.
-      - Flag unresolved placeholders (TODO, TKTK, ???, <placeholder>, etc.).
+      - Flag unresolved placeholders (TODO, TKTK, ???, `<placeholder>`, etc.).
    C. Underspecification:
       - Requirements with verbs but missing object or measurable outcome.
       - User stories missing acceptance criteria alignment.
@@ -65,33 +67,41 @@ Execution steps:
 
 6. Produce a Markdown report (no file writes) with sections:
 
-   ### Specification Analysis Report
-   | ID | Category | Severity | Location(s) | Summary | Recommendation |
-   |----|----------|----------|-------------|---------|----------------|
-   | A1 | Duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
-   (Add one row per finding; generate stable IDs prefixed by category initial.)
+## Specification analysis report
 
-   Additional subsections:
-   - Coverage Summary Table:
-     | Requirement Key | Has Task? | Task IDs | Notes |
-   - Constitution Alignment Issues (if any)
-   - Unmapped Tasks (if any)
-   - Metrics:
-     * Total Requirements
-     * Total Tasks
-     * Coverage % (requirements with >=1 task)
-     * Ambiguity Count
-     * Duplication Count
-     * Critical Issues Count
+| ID | Category | Severity | Location(s) | Summary | Recommendation |
+|----|----------|----------|-------------|---------|----------------|
+| A1 | Duplication | HIGH | spec.md:L120-134 | Two similar requirements ... | Merge phrasing; keep clearer version |
 
-7. At end of report, output a concise Next Actions block:
-   - If CRITICAL issues exist: Recommend resolving before `/implement`.
-   - If only LOW/MEDIUM: User may proceed, but provide improvement suggestions.
-   - Provide explicit command suggestions: e.g., "Run /specify with refinement", "Run /plan to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'".
+(Add one row per finding; generate stable IDs prefixed by category initial.)
 
-8. Ask the user: "Would you like me to suggest concrete remediation edits for the top N issues?" (Do NOT apply them automatically.)
+Additional subsections:
+
+- Coverage Summary Table:
+
+| Requirement Key | Has Task? | Task IDs | Notes |
+|-----------------|-----------|----------|-------|
+
+- Constitution Alignment Issues (if any)
+- Unmapped Tasks (if any)
+- Metrics:
+  - Total Requirements
+  - Total Tasks
+  - Coverage % (requirements with >=1 task)
+  - Ambiguity Count
+  - Duplication Count
+  - Critical Issues Count
+
+Next actions:
+
+- If CRITICAL issues exist: Recommend resolving before `/implement`.
+- If only LOW/MEDIUM: User may proceed, but provide improvement suggestions.
+- Provide explicit command suggestions: e.g., "Run /specify with refinement", "Run /plan to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'".
+
+User prompt: "Would you like me to suggest concrete remediation edits for the top N issues?" (Do NOT apply them automatically.)
 
 Behavior rules:
+
 - NEVER modify files.
 - NEVER hallucinate missing sections—if absent, report them.
 - KEEP findings deterministic: if rerun without changes, produce consistent IDs and counts.

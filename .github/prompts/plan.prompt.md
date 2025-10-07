@@ -27,9 +27,9 @@ Given the implementation details provided as an argument, do this:
    - The template is self-contained and executable
    - Follow error handling and gate checks as specified
    - Let the template guide artifact generation in $SPECS_DIR:
-     * Phase 0 generates research.md
-     * Phase 1 generates data-model.md, contracts/, quickstart.md
-     * Phase 2 generates tasks.md
+     - Phase 0 generates research.md
+     - Phase 1 generates data-model.md, contracts/, quickstart.md
+     - Phase 2 generates tasks.md
    - Incorporate user-provided details from arguments into Technical Context: $ARGUMENTS
    - Update Progress Tracking as you complete each phase
 

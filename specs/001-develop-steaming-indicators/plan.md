@@ -1,5 +1,4 @@
-
-# Implementation Plan: Streaming Indicators Framework
+# Implementation plan: streaming indicators framework
 
 **Branch**: `001-develop-steaming-indicators` | **Date**: 2025-10-02 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-develop-steaming-indicators/spec.md`
@@ -8,19 +7,19 @@
 
 Implement two streaming indicator styles (BufferList and StreamHub) enabling incremental calculation of technical indicators from real-time market data feeds. BufferList provides simpler List-backed state management while StreamHub offers optimized span-based buffers for high-frequency scenarios. Both styles maintain state across ticks, validate warmup requirements, and converge to batch-calculated results within floating-point tolerance.
 
-## Technical Context
+## Technical context
 
-**Language/Version**: C# / .NET 8.0 & .NET 9.0  
-**Primary Dependencies**: None (library follows zero-dependency principle)  
-**Storage**: In-memory state (bounded buffers, no persistence)  
-**Testing**: MSTest with streaming parity tests, unit tests, performance benchmarks  
-**Target Platform**: Multi-target net8.0;net9.0  
-**Project Type**: Single project (library enhancement)  
-**Performance Goals**: <5ms avg per-tick latency (p95 <10ms), <10KB memory per instance  
-**Constraints**: O(1) incremental updates, streaming parity with batch within 1e-12, bounded buffers  
-**Scale/Scope**: 5 initial indicators (SMA, EMA, RSI, MACD, Bollinger Bands), extensible pattern for 200+ total
+- Language/version: C# / .NET 8.0 and .NET 9.0
+- Primary dependencies: None (library follows zero-dependency principle)
+- Storage: In-memory state (bounded buffers, no persistence)
+- Testing: MSTest with streaming parity tests, unit tests, performance benchmarks
+- Target platform: Multi-target `net8.0;net9.0`
+- Project type: Single project (library enhancement)
+- Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
+- Constraints: O(1) incremental updates, streaming parity with batch within 1e-12, bounded buffers
+- Scale/scope: Five initial indicators (SMA, EMA, RSI, MACD, Bollinger Bands), extensible pattern for 200+ total
 
-## Constitution Check
+## Constitution check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
@@ -33,7 +32,7 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 
 **Status**: PASS (no violations)
 
-## Project Structure
+## Project structure
 
 ### Documentation (this feature)
 
@@ -46,7 +45,7 @@ specs/001-develop-steaming-indicators/
 └── tasks.md             # Phase 2 output (/tasks command)
 ```
 
-### Source Code (repository root)
+### Source code (repository root)
 
 ```text
 src/
@@ -81,13 +80,13 @@ tests/performance/
     └── StreamingStreamHub.cs            # StreamHub benchmarks
 ```
 
-**Structure Decision**: Single project enhancement. Streaming code added alongside existing Series-based indicators using partial classes or new sibling files.
+**Structure decision**: Single project enhancement. Streaming code added alongside existing Series-based indicators using partial classes or new sibling files.
 
-## Phase 0: Research & Design Decisions
+## Phase 0: Research and design decisions
 
 No external research required—design extends existing indicator patterns.
 
-### Key Decisions
+### Key decisions
 
 1. **Two Streaming Styles Rationale**:
    - BufferList: Simpler to implement and debug, familiar List-based API, suitable for moderate frequency (<1k ticks/sec)
@@ -102,8 +101,8 @@ No external research required—design extends existing indicator patterns.
    - Return null results until warmed up (consistent with batch behavior)
 
 4. **Timestamp Validation**:
-   - Enforce strictly ascending timestamps (reject duplicates/out-of-order by default)
-   - Future enhancement: optional reorder buffer (deferred to v2)
+    - Enforce strictly ascending timestamps; any duplicate or out-of-order quote triggers `ArgumentException`
+    - Future enhancement: optional reorder buffer (deferred to v2 once requirements clarified)
 
 5. **Parity Testing Strategy**:
    - Feed identical quote sequences to batch and streaming
@@ -112,11 +111,11 @@ No external research required—design extends existing indicator patterns.
 
 **Output**: No separate research.md needed (decisions captured above)
 
-## Phase 1: Design & Contracts
+## Phase 1: Design and contracts
 
 Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
-### Data Model
+### Data model
 
 **Entities**:
 
@@ -126,7 +125,7 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 - **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity
 - **StreamHub**: Span-optimized implementation with circular buffer, `Add()`, `Reset()`
 
-### API Contracts
+### API contracts
 
 **IStreamingIndicator Interface**:
 
@@ -167,7 +166,7 @@ class SmaStreamHub : IStreamingIndicator<Quote, SmaResult>
 }
 ```
 
-### Test Scenarios
+### Test scenarios
 
 **Unit Tests** (per indicator, per style):
 
@@ -178,19 +177,19 @@ class SmaStreamHub : IStreamingIndicator<Quote, SmaResult>
 - Duplicate timestamp → throws ArgumentException
 - Out-of-order timestamp → throws ArgumentException
 
-**Streaming Parity Tests** (per indicator, per style):
+**Streaming parity tests** (per indicator, per style):
 
 - Feed Standard test data (502 quotes) to batch and streaming
 - Compare all non-null results element-wise
 - Assert max difference <1e-12
 
-**Edge Tests**:
+**Edge tests**:
 
 - Buffer capacity enforcement (BufferList)
 - Circular wraparound (StreamHub)
 - Large warmup periods (e.g., 200-period SMA)
 
-### Quickstart Example
+### Quickstart example
 
 ```csharp
 // BufferList usage
@@ -213,18 +212,22 @@ foreach (var quote in liveStream)
 }
 ```
 
-### Documentation Updates
+### Documentation updates
 
 - Update `docs/_indicators/Sma.md` (and EMA, RSI, MACD, BollingerBands) with streaming section
 - Add streaming examples to each indicator page
 - Update `README.md` with streaming overview paragraph
-- Add release notes entry for new streaming capabilities
+- Update `src/_common/ObsoleteV3.md` migration guide with streaming capability summary (public release notes remain automated via GitHub Releases)
 
-## Phase 2: Task Planning Approach
+### Quality gates and conformance
+
+- Run public API approval tests (`tests/public-api`) to confirm streaming additions respect existing signatures and conventions
+
+## Phase 2: Task planning approach
 
 *This section describes what the /tasks command will do - DO NOT execute during /plan*
 
-**Task Generation Strategy**:
+**Task generation strategy**:
 
 - Load Phase 1 contracts and data model
 - Generate tasks per indicator per style (5 indicators × 2 styles = 10 implementation groups)
@@ -232,15 +235,15 @@ foreach (var quote in liveStream)
 - Mark [P] for parallel execution across different indicators
 - Sequential within each indicator (tests depend on impl)
 
-**Ordering Strategy**:
+**Ordering strategy**:
 
 - Common infrastructure first (IStreamingIndicator, StreamingState, test helpers)
 - Then per-indicator rollout: SMA → EMA → RSI → MACD → Bollinger Bands
 - Tests before marking implementation complete (TDD)
 
-**Estimated Output**: ~40 tasks (infrastructure + 5 indicators × 2 styles × 3 tasks each)
+**Estimated output**: ~40 tasks (infrastructure + 5 indicators × 2 styles × 3 tasks each)
 
-## Phase 3+: Future Implementation
+## Phase 3+: Future implementation
 
 *These phases are beyond the scope of the /plan command*
 
@@ -248,17 +251,17 @@ foreach (var quote in liveStream)
 **Phase 4**: Implementation (execute tasks.md following constitutional principles)  
 **Phase 5**: Validation (run tests, execute quickstart.md, performance validation)
 
-## Complexity Tracking
+## Complexity tracking
 
 *Fill ONLY if Constitution Check has violations that must be justified*
 
 No violations—section intentionally empty.
 
-## Progress Tracking
+## Progress tracking
 
 *This checklist is updated during execution flow*
 
-**Phase Status**:
+**Phase status**:
 
 - [x] Phase 0: Research complete (/plan command)
 - [x] Phase 1: Design complete (/plan command)
@@ -267,7 +270,7 @@ No violations—section intentionally empty.
 - [ ] Phase 4: Implementation complete
 - [ ] Phase 5: Validation passed
 
-**Gate Status**:
+**Gate status**:
 
 - [x] Initial Constitution Check: PASS
 - [x] Post-Design Constitution Check: PASS
@@ -277,3 +280,6 @@ No violations—section intentionally empty.
 ---
 
 *Based on Constitution v1.1.0 - See `/memory/constitution.md`*
+
+---
+Last updated: October 6, 2025

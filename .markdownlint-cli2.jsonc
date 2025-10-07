@@ -14,7 +14,8 @@
     "**/BenchmarkDotNet.Artifacts/**",
     "**/TestResults/**",
     "**/*playwright*/**",
-    "**/vendor/**"
+    "**/vendor/**",
+    "**/.github/prompts/*.prompt.md"
   ],
   "config": {
     "default": true,
