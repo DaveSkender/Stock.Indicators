@@ -6,53 +6,41 @@
 
 ## Overview
 
-This document defines the JSON schema for regression baseline files. These files store canonical indicator outputs for comparison against current test results to detect unintended behavioral drift.
+This document defines the JSON format for regression baseline files. These files store canonical indicator outputs for comparison against current test results to detect unintended behavioral drift.
 
-## File naming convention
+## File naming and location
 
-- Pattern: `{IndicatorName}.{ScenarioName}.json`
-- Example: `Sma.Standard.json`, `Macd.Standard.json`
-- Location: `tests/indicators/.baselines/`
-- Case sensitivity: Matches indicator class name (e.g., `Sma`, not `SMA`)
+- **Pattern**: `{IndicatorName}.Baseline.json`
+- **Examples**: `Sma.Baseline.json`, `Macd.Baseline.json`
+- **Location**: Colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- **Case sensitivity**: Matches indicator class name (e.g., `Sma`, not `SMA`)
 
 ## JSON schema
 
-### Root structure
+Baseline files contain a JSON array of indicator result objects that can be directly deserialized to the indicator's result type (e.g., `List<SmaResult>`):
 
 ```json
-{
-  "metadata": {
-    "indicatorName": "string",
-    "scenarioName": "string",
-    "generatedAt": "ISO8601 datetime",
-    "libraryVersion": "string",
-    "warmupPeriodCount": number
+[
+  {
+    "timestamp": "2016-01-04T00:00:00",
+    "propertyName1": null,
+    "propertyName2": null
   },
-  "results": [
-    {
-      "date": "ISO8601 date",
-      "propertyName1": number | null,
-      "propertyName2": number | null
-    }
-  ]
-}
+  {
+    "timestamp": "2016-01-05T00:00:00",
+    "propertyName1": 214.52,
+    "propertyName2": 1.23
+  }
+]
 ```
 
-### Metadata fields
+### Result object structure
 
-- **indicatorName** (required): Indicator name matching the class name (e.g., "Sma", "Macd")
-- **scenarioName** (required): Test scenario identifier (e.g., "Standard")
-- **generatedAt** (required): UTC timestamp when baseline was generated (ISO 8601 format)
-- **libraryVersion** (required): Library version string (e.g., "3.0.0")
-- **warmupPeriodCount** (required): Number of periods required for indicator warmup
+Each object in the array represents one date's calculation and maps directly to the indicator's result class:
 
-### Results array
-
-Each result object represents one date's calculation:
-
-- **date** (required): Date in ISO 8601 format (e.g., "2016-01-04")
-- **property fields** (variable): One or more indicator result properties
-  - Property names use camelCase convention (e.g., "sma", "macd", "signal")
+- **timestamp** (required): Date/time in ISO 8601 format
+- **indicator properties** (variable): All properties from the indicator's result class
+  - Property names match C# property names (PascalCase in C#, camelCase in JSON)
   - Values are either `number` (double precision) or `null` (during warmup)
   - Null values MUST be explicitly serialized (not omitted)
 
@@ -61,58 +49,65 @@ Each result object represents one date's calculation:
 ### Single-property indicator (SMA)
 
 ```json
-{
-  "metadata": {
-    "indicatorName": "Sma",
-    "scenarioName": "Standard",
-    "generatedAt": "2025-10-06T12:34:56.789Z",
-    "libraryVersion": "3.0.0",
-    "warmupPeriodCount": 19
+[
+  {
+    "timestamp": "2016-01-04T00:00:00",
+    "sma": null
   },
-  "results": [
-    { "date": "2016-01-04", "sma": null },
-    { "date": "2016-01-05", "sma": null },
-    { "date": "2016-01-06", "sma": null },
-    { "date": "2016-02-01", "sma": 214.52331349206352 },
-    { "date": "2016-02-02", "sma": 215.18015873015874 },
-    { "date": "2016-02-03", "sma": 215.93571428571427 }
-  ]
-}
+  {
+    "timestamp": "2016-01-05T00:00:00",
+    "sma": null
+  },
+  {
+    "timestamp": "2016-02-01T00:00:00",
+    "sma": 214.52331349206352
+  },
+  {
+    "timestamp": "2016-02-02T00:00:00",
+    "sma": 215.18015873015874
+  }
+]
 ```
 
 ### Multi-property indicator (MACD)
 
 ```json
-{
-  "metadata": {
-    "indicatorName": "Macd",
-    "scenarioName": "Standard",
-    "generatedAt": "2025-10-06T12:35:12.456Z",
-    "libraryVersion": "3.0.0",
-    "warmupPeriodCount": 33
+[
+  {
+    "timestamp": "2016-01-04T00:00:00",
+    "macd": null,
+    "signal": null,
+    "histogram": null,
+    "fastEma": null,
+    "slowEma": null
   },
-  "results": [
-    { "date": "2016-01-04", "macd": null, "signal": null, "histogram": null },
-    { "date": "2016-01-05", "macd": null, "signal": null, "histogram": null },
-    { "date": "2016-02-15", "macd": 1.2345, "signal": 0.9876, "histogram": 0.2469 },
-    { "date": "2016-02-16", "macd": 1.4567, "signal": 1.0234, "histogram": 0.4333 }
-  ]
-}
+  {
+    "timestamp": "2016-02-15T00:00:00",
+    "macd": 1.2345,
+    "signal": 0.9876,
+    "histogram": 0.2469,
+    "fastEma": 216.34,
+    "slowEma": 215.10
+  }
+]
 ```
 
 ## Serialization rules
 
+### Direct deserialization
+
+Baseline files are designed to deserialize directly to `List<TResult>` where `TResult` is the indicator's result type:
+
+```csharp
+// Example: Deserializing SMA baseline
+List<SmaResult> baseline = JsonSerializer.Deserialize<List<SmaResult>>(json);
+```
+
 ### Property naming
 
-- Use camelCase for all JSON property names
-- Metadata fields: `indicatorName`, `scenarioName`, `generatedAt`, `libraryVersion`, `warmupPeriodCount`
-- Result properties: Match C# property names converted to camelCase (e.g., `Sma` → `sma`, `Macd` → `macd`)
-
-### Property order
-
-- **Deterministic alphabetical ordering** within each object
-- Metadata object: Properties sorted alphabetically
-- Result objects: `date` property first, then remaining properties alphabetically
+- JSON uses camelCase convention (System.Text.Json default with `PropertyNamingPolicy.CamelCase`)
+- C# result classes use PascalCase
+- Automatic conversion during serialization/deserialization
 
 ### Numeric precision
 
@@ -122,48 +117,47 @@ Each result object represents one date's calculation:
 
 ### Formatting
 
-- WriteIndented = true (2-space indentation)
-- UTF-8 encoding without BOM
-- Unix line endings (LF) preferred
-- Each result object on separate lines for diff-friendly formatting
+- WriteIndented = true (human-readable with proper indentation)
+- UTF-8 encoding
+- ISO 8601 format for timestamps
 
 ## Validation requirements
 
 Valid baseline files must:
 
-1. Parse as valid JSON
-2. Contain all required metadata fields
-3. Have non-empty results array
-4. Include explicit date for each result
-5. Have consistent property names across all results
-6. Use ISO 8601 format for dates and timestamps
-7. Serialize null values explicitly during warmup period
+1. Parse as valid JSON array
+2. Contain at least one result object
+3. Each object must have a `timestamp` property
+4. Property names must match the indicator's result class properties (camelCase in JSON)
+5. Use ISO 8601 format for timestamps
+6. Serialize null values explicitly during warmup period
 
 ## Design rationale
 
-### Why camelCase?
+### Why direct result class mapping?
 
-- Consistency with JavaScript/TypeScript ecosystem
-- Standard JSON convention for REST APIs
-- Improves readability in code review diffs
+- **Simplicity**: No custom wrapper types needed
+- **Consistency**: Uses existing indicator result models
+- **Type safety**: Leverages C# type system for validation
+- **Maintainability**: Changes to result models automatically reflected in baselines
 
-### Why alphabetical property order?
+### Why colocated with tests?
 
-- Deterministic output reduces git diff noise
-- Makes visual inspection easier
-- Simplifies automated validation
+- **Discoverability**: Easy to find baseline alongside test code
+- **Organization**: Follows existing test file patterns
+- **Clarity**: Clear which baseline belongs to which indicator
 
 ### Why explicit nulls?
 
-- Complete representation of indicator behavior during warmup
-- Enables validation that warmup period calculation is correct
-- Prevents confusion between missing values and warmup nulls
+- **Complete representation**: Shows indicator behavior during warmup
+- **Validation**: Enables verification of warmup period calculations
+- **Consistency**: Prevents confusion between missing values and warmup nulls
 
 ### Why full precision?
 
-- Captures floating-point behavior precisely
-- Enables strict comparison mode (tolerance = 0)
-- Documents expected precision for future reference
+- **Accuracy**: Captures floating-point behavior precisely
+- **Strict mode**: Enables zero-tolerance validation when needed
+- **Documentation**: Records expected precision for future reference
 
 ## Usage guidelines
 
@@ -172,21 +166,21 @@ Valid baseline files must:
 - After intentional algorithm changes
 - When upgrading to new .NET version
 - When test data changes
-- During initial baseline creation
+- During initial baseline creation for new indicators
 
 ### Reviewing baseline changes
 
-- Check metadata fields (version, warmup count)
-- Verify numeric changes are expected
-- Confirm property names match indicator properties
+- Verify numeric changes are expected and documented
+- Confirm property names match indicator result properties
 - Validate that null patterns match warmup period
+- Check timestamp alignment with test data
 
 ### Common issues
 
-- **Extra decimal places**: Full precision may show many digits
-- **Date alignment**: Ensure dates match test data exactly
-- **Property case**: Must match camelCase convention
+- **Property name mismatches**: Ensure camelCase matches PascalCase C# properties
 - **Missing nulls**: Warmup nulls must be explicitly present
+- **Timestamp format**: Must use ISO 8601 format
+- **Type mismatches**: All numeric values must be valid doubles or null
 
 ---
 Last updated: October 6, 2025
