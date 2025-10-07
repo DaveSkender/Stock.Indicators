@@ -3,6 +3,12 @@
 **Branch**: `001-develop-steaming-indicators` | **Date**: 2025-10-02 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-develop-steaming-indicators/spec.md`
 
+> **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
+>
+> - `.github/instructions/buffer-indicators.instructions.md` (BufferList pattern)
+> - `.github/instructions/stream-indicators.instructions.md` (StreamHub pattern)
+> - Existing implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs`
+
 ## Summary
 
 Implement two streaming indicator styles (BufferList and StreamHub) enabling incremental calculation of technical indicators from real-time market data feeds. BufferList provides simpler List-backed state management while StreamHub offers optimized span-based buffers for high-frequency scenarios. Both styles maintain state across ticks, validate warmup requirements, and converge to batch-calculated results within floating-point tolerance.
@@ -41,7 +47,6 @@ specs/001-develop-steaming-indicators/
 ├── plan.md              # This file
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
-├── quickstart.md        # Phase 1 output
 └── tasks.md             # Phase 2 output (/tasks command)
 ```
 
@@ -127,44 +132,23 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
 ### API contracts
 
-**IStreamingIndicator Interface**:
+**IMPORTANT**: The actual API patterns are defined in existing implementations and instruction files. The examples below are conceptual placeholders. See actual implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs` for authoritative patterns.
 
-```csharp
-interface IStreamingIndicator<TQuote, TResult>
-{
-    TResult? Add(TQuote quote);
-    void Reset();
-    int WarmupPeriod { get; }
-    bool IsWarmedUp { get; }
-}
-```
+**BufferList Pattern** (actual naming: `{IndicatorName}List`):
 
-**BufferList Pattern** (example for SMA):
+- Inherits from `BufferList<TResult>` base class
+- Implements `IBufferReusable` interface
+- Uses `AddInternal()` for result management
+- Example: `SmaList`, `EmaList`, `RsiList`
 
-```csharp
-class SmaBufferList : IStreamingIndicator<Quote, SmaResult>
-{
-    private readonly int period;
-    private readonly List<decimal> buffer;
-    
-    SmaResult? Add(Quote quote);
-    void Reset();
-}
-```
+**StreamHub Pattern** (actual naming: `{IndicatorName}Hub<TIn>`):
 
-**StreamHub Pattern** (example for SMA):
+- Extends `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
+- Implements indicator-specific interface (e.g., `ISma`)
+- Uses provider pattern for chaining
+- Example: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`
 
-```csharp
-class SmaStreamHub : IStreamingIndicator<Quote, SmaResult>
-{
-    private readonly int period;
-    private readonly decimal[] buffer;
-    private int head, count;
-    
-    SmaResult? Add(Quote quote);
-    void Reset();
-}
-```
+Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete implementation requirements.
 
 ### Test scenarios
 
@@ -189,28 +173,31 @@ class SmaStreamHub : IStreamingIndicator<Quote, SmaResult>
 - Circular wraparound (StreamHub)
 - Large warmup periods (e.g., 200-period SMA)
 
-### Quickstart example
+### Implementation guidelines
 
-```csharp
-// BufferList usage
-var sma = new SmaBufferList(period: 20);
+**IMPORTANT**: Follow the repository's established instruction files for implementation:
 
-foreach (var quote in liveStream)
-{
-    var result = sma.Add(quote);
-    if (result != null)
-        Console.WriteLine($"{result.Date}: {result.Sma:F4}");
-}
+- **Buffer-style indicators**: See `.github/instructions/buffer-indicators.instructions.md`
+  - Defines BufferList pattern, state management, and testing requirements
+  - Includes examples of circular buffer patterns and List-based state
+  - **Real implementation**: `{IndicatorName}List` class inheriting from `BufferList<TResult>`
+  - **Example**: `SmaList`, `EmaList`, `RsiList` (see existing implementations in `src/`)
+  
+- **Stream-style indicators**: See `.github/instructions/stream-indicators.instructions.md`
+  - Defines StreamHub pattern, span-based optimizations, and performance requirements
+  - Includes guidance on memory management and high-frequency scenarios
+  - **Real implementation**: `{IndicatorName}Hub<TIn>` class extending `ChainProvider<TIn, TResult>`
+  - **Example**: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>` (see existing implementations in `src/`)
 
-// StreamHub usage (same API)
-var smaHub = new SmaStreamHub(period: 20);
-foreach (var quote in liveStream)
-{
-    var result = smaHub.Add(quote);
-    if (result != null)
-        Console.WriteLine($"{result.Date}: {result.Sma:F4}");
-}
-```
+- **Series-style indicators**: See `.github/instructions/series-indicators.instructions.md`
+  - Existing batch calculation patterns (unchanged by this feature)
+  - Reference for mathematical correctness and parity validation
+
+- **Source code completion**: See `.github/instructions/source-code-completion.instructions.md`
+  - Pre-commit checklist for code quality, testing, and documentation
+  - Ensures consistency with library standards
+
+**Note**: The actual API patterns in the codebase differ from preliminary planning examples. Always reference the instruction files and existing implementations (`src/**/*.BufferList.cs`, `src/**/*.StreamHub.cs`) as the authoritative source.
 
 ### Documentation updates
 
@@ -249,7 +236,7 @@ foreach (var quote in liveStream)
 
 **Phase 3**: Task execution (/tasks command creates tasks.md)  
 **Phase 4**: Implementation (execute tasks.md following constitutional principles)  
-**Phase 5**: Validation (run tests, execute quickstart.md, performance validation)
+**Phase 5**: Validation (run tests, performance validation, documentation review)
 
 ## Complexity tracking
 

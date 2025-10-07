@@ -2,6 +2,14 @@
 
 **Feature**: 001-develop-steaming-indicators | **Generated**: 2025-10-02
 
+> **IMPORTANT**: This document contains conceptual planning examples that do not match the actual codebase implementation patterns. The real API patterns, class names, and interfaces are defined in:
+>
+> - `.github/instructions/buffer-indicators.instructions.md` (authoritative for BufferList pattern)
+> - `.github/instructions/stream-indicators.instructions.md` (authoritative for StreamHub pattern)
+> - Existing implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs`
+>
+> Always reference the instruction files and actual codebase implementations as the source of truth, not the examples in this planning document.
+
 ## Overview
 
 This document defines entities, interfaces, and state management for streaming technical indicators. All types support incremental updates (O(1) per quote) and maintain parity with batch calculations.
@@ -305,17 +313,19 @@ public sealed class [IndicatorName]StreamHub : IStreamingIndicator<Quote, [Indic
 
 ## Relationships
 
-```text
-IStreamingIndicator<TQuote, TResult>
-    ├── SmaBufferList : IStreamingIndicator<Quote, SmaResult>
-    ├── SmaStreamHub : IStreamingIndicator<Quote, SmaResult>
-    ├── EmaBufferList : IStreamingIndicator<Quote, EmaResult>
-    ├── EmaStreamHub : IStreamingIndicator<Quote, EmaResult>
-    └── ... (RSI, MACD, Bollinger)
+**IMPORTANT**: The actual class names and patterns differ from preliminary planning examples. See existing implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs` for authoritative patterns.
 
-Quote (existing) ──uses──> BufferList/StreamHub implementations
-SmaResult (existing) <──returns── SmaBufferList/SmaStreamHub
-```
+**Actual naming conventions**:
+
+- BufferList style: `{IndicatorName}List` (e.g., `SmaList`, `EmaList`, `RsiList`)
+- StreamHub style: `{IndicatorName}Hub<TIn>` (e.g., `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`)
+
+**Inheritance patterns**:
+
+- BufferList implementations inherit from `BufferList<TResult>` base class
+- StreamHub implementations extend `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
+
+Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete details.
 
 ## Validation matrix
 

@@ -55,35 +55,50 @@
 
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
 
-- [ ] T004 [P] Contract test POST /api/users in tests/contract/test_users_post.py
-- [ ] T005 [P] Contract test GET /api/users/{id} in tests/contract/test_users_get.py
-- [ ] T006 [P] Integration test user registration in tests/integration/test_registration.py
-- [ ] T007 [P] Integration test auth flow in tests/integration/test_auth.py
+**Template Generation**: Iterate over contracts from `contracts/` directory and integration test scenarios from spec/plan:
+
+- [ ] T00X [P] Contract test for {contract} → tests/contract/{contract}_test.{ext}
+  - Example: `Contract test POST /api/users → tests/contract/test_users_post.py`
+- [ ] T00X [P] Integration test for {scenario} → tests/integration/test_{scenario}.{ext}
+  - Example: `Integration test user registration → tests/integration/test_registration.py`
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
 
-- [ ] T008 [P] User model in src/models/user.py
-- [ ] T009 [P] UserService CRUD in src/services/user_service.py
-- [ ] T010 [P] CLI --create-user in src/cli/user_commands.py
-- [ ] T011 POST /api/users endpoint
-- [ ] T012 GET /api/users/{id} endpoint
-- [ ] T013 Input validation
-- [ ] T014 Error handling and logging
+**Template Generation**: Iterate over entities from `data-model.md` and endpoints from `contracts/`:
+
+- [ ] T00X [P] {Entity} model → src/models/{entity}.{ext}
+  - Example: `User model → src/models/user.py`
+- [ ] T00X [P] {Entity}Service CRUD → src/services/{entity}_service.{ext}
+  - Example: `UserService CRUD → src/services/user_service.py`
+- [ ] T00X [P] CLI --{command} → src/cli/{feature}_commands.{ext}
+  - Example: `CLI --create-user → src/cli/user_commands.py`
+- [ ] T00X {Method} {Endpoint} endpoint
+  - Example: `POST /api/users endpoint`
+  - Note: Sequential (no [P]) if endpoints share same file
+- [ ] T00X Input validation
+- [ ] T00X Error handling and logging
 
 ## Phase 3.4: Integration
 
-- [ ] T015 Connect UserService to DB
-- [ ] T016 Auth middleware
-- [ ] T017 Request/response logging
-- [ ] T018 CORS and security headers
+**Template Generation**: Based on technical plan integration requirements:
+
+- [ ] T00X Connect {Entity}Service to DB
+- [ ] T00X {Middleware} middleware
+  - Example: `Auth middleware`
+- [ ] T00X Request/response logging
+- [ ] T00X Security headers and CORS
 
 ## Phase 3.5: Polish
 
-- [ ] T019 [P] Unit tests for validation in tests/unit/test_validation.py
-- [ ] T020 Performance tests (<200ms)
-- [ ] T021 [P] Update docs/api.md
-- [ ] T022 Remove duplication
-- [ ] T023 Run manual-testing.md
+**Template Generation**: Based on plan polish requirements:
+
+- [ ] T00X [P] Unit tests for {component} → tests/unit/test_{component}.{ext}
+  - Example: `Unit tests for validation → tests/unit/test_validation.py`
+- [ ] T00X Performance tests ({threshold})
+  - Example: `Performance tests (<200ms)`
+- [ ] T00X [P] Update docs/{feature_name}.md
+- [ ] T00X Remove duplication
+- [ ] T00X Run manual-testing.md if present
 
 ## Dependencies
 
