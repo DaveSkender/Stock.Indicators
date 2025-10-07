@@ -76,4 +76,4 @@ If critical info missing (e.g., ratification date truly unknown), insert `TODO(<
 Do not create a new template; always operate on the existing `.specify/memory/constitution.md` file.
 
 ---
-Last updated: January 28, 2025
+Last updated: October 6, 2025

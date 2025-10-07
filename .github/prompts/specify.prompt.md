@@ -23,4 +23,4 @@ Given that feature description, do this:
 Note: The script creates and checks out the new branch and initializes the spec file before writing.
 
 ---
-Last updated: January 28, 2025
+Last updated: October 6, 2025

@@ -164,4 +164,4 @@ Behavior rules:
 Context for prioritization: $ARGUMENTS
 
 ---
-Last updated: January 28, 2025
+Last updated: October 6, 2025
