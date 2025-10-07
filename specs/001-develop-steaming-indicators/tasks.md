@@ -209,4 +209,4 @@ Each task should follow these guidelines:
 - **Target coverage**: All 84 series indicators with both BufferList and StreamHub styles
 
 ---
-Last updated: January 27, 2025
+Last updated: October 7, 2025
