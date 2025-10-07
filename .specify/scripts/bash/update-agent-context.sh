@@ -403,6 +403,7 @@ update_existing_agent_file() {
     local tech_entries_added=false
     local changes_entries_added=false
     local existing_changes_count=0
+    local skip_adding_new_change=false
 
     while IFS= read -r line || [[ -n "$line" ]]; do
         # Handle Active Technologies section
@@ -432,23 +433,50 @@ update_existing_agent_file() {
         # Handle Recent Changes section
         if [[ "$line" == "## Recent Changes" ]]; then
             echo "$line" >> "$temp_file"
-            # Add new change entry right after the heading
-            if [[ -n "$new_change_entry" ]]; then
-                echo "$new_change_entry" >> "$temp_file"
-            fi
             in_changes_section=true
-            changes_entries_added=true
             continue
         elif [[ $in_changes_section == true ]] && [[ "$line" =~ ^##[[:space:]] ]]; then
+            # Before closing the section, add new change if not already present
+            if [[ $changes_entries_added == false ]] && [[ -n "$new_change_entry" ]] && [[ $skip_adding_new_change == false ]]; then
+                echo "$new_change_entry" >> "$temp_file"
+                changes_entries_added=true
+            fi
             echo "$line" >> "$temp_file"
             in_changes_section=false
             continue
         elif [[ $in_changes_section == true ]] && [[ "$line" == "- "* ]]; then
+            # Trim whitespace/newlines for comparison
+            local trimmed_line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            local trimmed_new_entry=$(echo "$new_change_entry" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+            
+            # Check if this line matches the new change entry
+            if [[ -n "$new_change_entry" ]] && [[ "$trimmed_line" == "$trimmed_new_entry" ]]; then
+                # This exact entry already exists, mark to skip adding it
+                skip_adding_new_change=true
+                echo "$line" >> "$temp_file"
+                ((existing_changes_count++))
+                continue
+            fi
+            
+            # If we haven't added the new change yet and this is the first existing change, add new change first
+            if [[ $changes_entries_added == false ]] && [[ -n "$new_change_entry" ]] && [[ $skip_adding_new_change == false ]]; then
+                echo "$new_change_entry" >> "$temp_file"
+                changes_entries_added=true
+            fi
+            
             # Keep only first 2 existing changes
             if [[ $existing_changes_count -lt 2 ]]; then
                 echo "$line" >> "$temp_file"
                 ((existing_changes_count++))
             fi
+            continue
+        elif [[ $in_changes_section == true ]] && [[ -z "$line" ]]; then
+            # Before empty line in changes section, add new change if not added yet
+            if [[ $changes_entries_added == false ]] && [[ -n "$new_change_entry" ]] && [[ $skip_adding_new_change == false ]]; then
+                echo "$new_change_entry" >> "$temp_file"
+                changes_entries_added=true
+            fi
+            echo "$line" >> "$temp_file"
             continue
         fi
 
