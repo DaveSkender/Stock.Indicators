@@ -106,16 +106,6 @@
 - Ensure tests precede their corresponding implementation tasks
 - Integration/polish tasks must wait on the implementation work they depend on
 
-## Parallel example
-
-```markdown
-# Example: launch contract/integration tests in parallel when they touch distinct files
-Task: "Contract test {method} {path} → {contract_path}"
-Task: "Contract test {method} {path} → {contract_path}"
-Task: "Integration test {scenario} → {integration_path}"
-Task: "Integration test {scenario} → {integration_path}"
-```
-
 ## Notes
 
 - [P] tasks = different files, no dependencies
