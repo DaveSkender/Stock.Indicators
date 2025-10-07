@@ -1,0 +1,128 @@
+namespace BufferLists;
+
+[TestClass]
+public class Alligator : BufferListTestBase, ITestReusableBufferList
+{
+    private const int jawPeriods = 13;
+    private const int jawOffset = 8;
+    private const int teethPeriods = 8;
+    private const int teethOffset = 5;
+    private const int lipsPeriods = 5;
+    private const int lipsOffset = 3;
+
+    private static readonly IReadOnlyList<IReusable> reusables
+        = Quotes
+            .ToQuotePart(CandlePart.HL2)
+            .ToList();
+
+    private static readonly IReadOnlyList<AlligatorResult> series
+        = Quotes.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+    [TestMethod]
+    public void AddDiscreteValues()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item.Timestamp, item.Value);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItems()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+        foreach (IReusable item in reusables)
+        {
+            sut.Add(item);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public void AddReusableItemsBatch()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { reusables };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotes()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+        foreach (Quote quote in Quotes)
+        {
+            sut.Add(quote);
+        }
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AddQuotesBatch()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) { Quotes };
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void WithQuotesCtor()
+    {
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, Quotes);
+
+        sut.Should().HaveCount(Quotes.Count);
+        sut.Should().BeEquivalentTo(series, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void ClearResetsState()
+    {
+        List<Quote> subset = Quotes.Take(80).ToList();
+        IReadOnlyList<AlligatorResult> expected = subset.ToAlligator(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset);
+
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset, subset);
+
+        sut.Should().HaveCount(subset.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+
+        sut.Clear();
+
+        sut.Should().BeEmpty();
+
+        sut.Add(subset);
+
+        sut.Should().HaveCount(expected.Count);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+
+    [TestMethod]
+    public override void AutoListPruning()
+    {
+        const int maxListSize = 120;
+
+        AlligatorList sut = new(jawPeriods, jawOffset, teethPeriods, teethOffset, lipsPeriods, lipsOffset) {
+            MaxListSize = maxListSize
+        };
+
+        sut.Add(Quotes);
+
+        IReadOnlyList<AlligatorResult> expected
+            = series.Skip(series.Count - maxListSize).ToList();
+
+        sut.Should().HaveCount(maxListSize);
+        sut.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+    }
+}
