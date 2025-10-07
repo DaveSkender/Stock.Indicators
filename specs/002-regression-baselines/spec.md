@@ -49,10 +49,10 @@ This framework establishes "known good" output snapshots that can be regenerated
 ### Regression validation
 
 - **FR11**: Regression test suite in `tests/indicators/` compares current outputs against baselines
-- **FR12**: Numeric comparison uses configurable tolerance (default: 1e-12 for floating-point precision)
+- **FR12**: Numeric comparison uses configurable tolerance (default: 1e-12 for floating-point precision) specified as a parameter to the comparison method
 - **FR13**: Strict mode enforces exact match (tolerance = 0) for critical validations
 - **FR14**: Test failures report file path, property name, date, expected value, actual value, and delta
-- **FR15**: Tests use `Assert.Inconclusive()` when baseline file does not exist (warn instead of fail) with message format: `"Baseline file not found: {indicatorName}.Standard.json"`
+- **FR15**: Tests use `Assert.Inconclusive()` to skip test (not fail) when baseline file does not exist with message format: `"Baseline file not found: {indicatorName}.Standard.json"`
 
 ### CI integration
 
@@ -60,6 +60,18 @@ This framework establishes "known good" output snapshots that can be regenerated
 - **FR17**: CI workflow includes environment variable to enable/disable regression gating
 - **FR18**: CI logs baseline drift summary (count of mismatches, affected indicators)
 - **FR19**: CI artifacts include detailed regression report for post-merge review
+
+### Documentation requirements
+
+- **FR20**: Baseline format specification document (`docs/baseline-format.md`) describes JSON schema, property conventions, and serialization rules
+- **FR21**: Contributor guide (`contributing.md`) includes baseline regeneration procedure (when, why, how)
+- **FR22**: Generator tool documentation (`tools/performance/BaselineGenerator/README.md`) covers CLI usage, troubleshooting, and performance expectations
+- **FR23**: Pull request review checklist updated with baseline drift review guidance
+- **FR24**: CI workflow documentation explains environment variables and regression test execution
+
+### Cross-platform validation
+
+- **FR25**: Regression tests validate deterministic output across net8.0 and net9.0 target frameworks to ensure version migration compatibility
 
 ## Key entities
 

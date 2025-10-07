@@ -186,7 +186,7 @@ This document provides actionable tasks for implementing the regression baseline
 **Dependencies**: T009  
 **Acceptance criteria**:
 
-- Discover all StaticSeries indicators from catalog or namespace
+- Discover all StaticSeries indicators using Catalog enumeration (for consistency with existing test patterns)
 - Generate baseline for each indicator
 - Parallel execution for performance (use Parallel.ForEach)
 - Display progress bar or completion count
@@ -216,6 +216,7 @@ This document provides actionable tasks for implementing the regression baseline
 - Validate results array not empty
 - Validate date sequence is ascending
 - Validate property names match indicator output
+- Validate property order is alphabetical within each result object (deterministic ordering)
 - Option to validate after generation (--validate flag)
 
 ### T014: Create generator tool documentation
@@ -246,24 +247,42 @@ This document provides actionable tasks for implementing the regression baseline
 
 ## Phase 3: Baseline comparer and regression tests (T016-T025)
 
-### T016: Implement baseline comparer core logic
+### T016: Write unit tests for baseline comparer (TDD)
 
-**Description**: Create comparison logic with tolerance support  
-**Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
+**Description**: Write failing unit tests for comparison logic before implementation  
+**Location**: `tests/indicators/Baselines/BaselineComparer.Tests.cs`  
 **Dependencies**: T002  
 **Acceptance criteria**:
 
-- `Compare(expected, actual, tolerance)` method
+- Test identical results → expect IsMatch = true (FAILING initially)
+- Test results within tolerance → expect IsMatch = true (FAILING initially)
+- Test results exceeding tolerance → expect IsMatch = false with mismatches (FAILING initially)
+- Test strict mode with exact match → expect IsMatch = true (FAILING initially)
+- Test strict mode with any difference → expect IsMatch = false (FAILING initially)
+- Test null handling (null == null, null != value) (FAILING initially)
+- Test missing properties → expect mismatch reported (FAILING initially)
+- Test date misalignment → expect missing/extra dates reported (FAILING initially)
+- All tests documented with TDD Red phase intention
+
+### T016a: Implement baseline comparer core logic (TDD Green)
+
+**Description**: Implement comparison logic to make T016 tests pass  
+**Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
+**Dependencies**: T016  
+**Acceptance criteria**:
+
+- `Compare(expected, actual, tolerance)` method implemented
 - Iterate both sequences in parallel (zip by date)
 - Compare each property with tolerance (`Math.Abs(expected - actual) > tolerance`)
 - Handle null values (null == null → match, null != value → mismatch)
 - Return ComparisonResult with IsMatch and Mismatches list
+- All T016 tests now pass (TDD Green phase)
 
 ### T017: Implement mismatch detection and reporting
 
 **Description**: Create detailed mismatch reporting for failed comparisons  
 **Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
-**Dependencies**: T016  
+**Dependencies**: T016a  
 **Acceptance criteria**:
 
 - `MismatchDetail` record with Date, PropertyName, Expected, Actual, Delta
@@ -276,7 +295,7 @@ This document provides actionable tasks for implementing the regression baseline
 
 **Description**: Add zero-tolerance comparison for strict validation  
 **Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
-**Dependencies**: T016  
+**Dependencies**: T016a  
 **Acceptance criteria**:
 
 - `CompareStrict(expected, actual)` method
@@ -284,21 +303,19 @@ This document provides actionable tasks for implementing the regression baseline
 - Same mismatch reporting as standard comparison
 - Clearly documented use case (after intentional algorithm changes)
 
-### T019: Add unit tests for BaselineComparer
+### T019: Refactor and extend comparer tests (TDD Refactor)
 
-**Description**: Comprehensive unit tests for comparison logic  
+**Description**: Refactor comparer tests for maintainability and add edge case coverage  
 **Location**: `tests/indicators/Baselines/BaselineComparer.Tests.cs`  
-**Dependencies**: T016, T017, T018  
+**Dependencies**: T016a, T017, T018  
 **Acceptance criteria**:
 
-- Test identical results → IsMatch = true
-- Test results within tolerance → IsMatch = true
-- Test results exceeding tolerance → IsMatch = false with mismatches
-- Test strict mode with exact match → IsMatch = true
-- Test strict mode with any difference → IsMatch = false
-- Test null handling (null == null, null != value)
-- Test missing properties → mismatch reported
-- Test date misalignment → missing/extra dates reported
+- Refactor test structure for clarity and maintainability
+- Add tests for strict mode (CompareStrict) implementation
+- Add tests for mismatch detection and reporting (T017)
+- Verify all edge cases covered (extreme values, empty sequences, single-element arrays)
+- Document test patterns for future comparer enhancements
+- All tests remain passing after refactor (TDD Refactor phase)
 
 ### T020: Implement regression test suite scaffold
 
@@ -324,7 +341,7 @@ This document provides actionable tasks for implementing the regression baseline
 - Execute indicator with Standard test data
 - Compare current outputs against baseline using BaselineComparer
 - Assert IsMatch = true with custom failure message
-- If baseline missing, call `Assert.Inconclusive("Baseline file not found")`
+- If baseline missing, call `Assert.Inconclusive("Baseline file not found: {indicatorName}.Standard.json")`
 
 ### T022: Implement test failure diagnostics
 
@@ -376,6 +393,19 @@ This document provides actionable tasks for implementing the regression baseline
 - Measure memory usage during tests
 - Document performance characteristics
 
+### T025a: Add cross-platform validation tests
+
+**Description**: Validate deterministic output across .NET target frameworks  
+**Location**: `tests/indicators/RegressionTests.cs`  
+**Dependencies**: T023  
+**Acceptance criteria**:
+
+- Run regression tests against baselines for both net8.0 and net9.0 targets
+- Verify identical outputs (within tolerance) across both frameworks
+- Document any framework-specific floating-point behavior differences
+- Add CI matrix testing for multi-target validation
+- Covers FR25 (version migration validation scenario)
+
 ## Phase 4: CI integration (T026-T030)
 
 ### T026: Update test-indicators workflow
@@ -398,8 +428,9 @@ This document provides actionable tasks for implementing the regression baseline
 **Dependencies**: T020  
 **Acceptance criteria**:
 
-- Check `RUN_REGRESSION_TESTS` environment variable in test initialization
-- Skip all regression tests if variable not set or false
+- Check `RUN_REGRESSION_TESTS` environment variable in test class initialization (ClassInitialize method)
+- Skip entire regression test class if variable not set or false (class-level gating)
+- Log message explaining why tests are skipped
 - Log message explaining why tests are skipped
 - Document environment variable in workflow README
 
@@ -522,10 +553,11 @@ This document provides actionable tasks for implementing the regression baseline
 - **T009 → T010, T011**: Generation logic complete before single/batch modes
 - **T010, T011 → T012**: Basic generation working before error handling
 - **T011 → T015**: Batch generation working before generating initial baselines
-- **T002 → T016**: Models must exist before comparison logic
-- **T016 → T017, T018**: Core comparison logic before mismatch detection and strict mode
-- **T016, T017, T018 → T019**: All comparison logic complete before unit tests
-- **T004, T016 → T020**: Reader and comparer exist before regression test scaffold
+- **T002 → T016**: Models must exist before writing comparer tests (TDD Red)
+- **T016 → T016a**: Tests written before implementing comparer (TDD Red→Green)
+- **T016a → T017, T018**: Core comparison logic implemented before mismatch detection and strict mode
+- **T016a, T017, T018 → T019**: All comparison features complete before test refactoring (TDD Refactor)
+- **T004, T016a → T020**: Reader and comparer exist before regression test scaffold
 - **T020 → T021**: Scaffold complete before per-indicator test methods
 - **T021 → T022**: Test methods exist before failure diagnostics
 - **T021 → T023**: Test method pattern defined before generating all tests
@@ -602,8 +634,9 @@ Command: /tasks run T031 T032 T033 T034 T035
 - Tasks marked with [P] are fully parallelizable (no blocking dependencies)
 - Infrastructure tasks (T001-T005) establish foundation for all other work
 - Generator tool (T006-T015) can proceed independently of comparer (T016-T019)
-- New validation tasks (T003a, T008a) verify quality attributes and edge cases
-- Regression tests (T020-T025) require both generator and comparer complete
+- **TDD workflow enforced**: T016 (write tests) → T016a (implement) → T019 (refactor)
+- New validation tasks (T003a, T008a, T025a) verify quality attributes and edge cases
+- Regression tests (T020-T025, T025a) require both generator and comparer complete
 - CI integration (T026-T030) requires regression tests working locally
 - Documentation (T031-T035) can run in parallel after implementation complete
 
@@ -618,16 +651,20 @@ Command: /tasks run T031 T032 T033 T034 T035
 - [x] Dependencies mapped correctly (no circular dependencies)
 - [x] Parallel tasks avoid file collisions
 - [x] Initial baseline generation task included (T015)
-- [x] Performance validation tasks present (T025)
+- [x] Performance validation tasks present (T025, T025a)
 - [x] Multi-property indicator validation included (T008a)
 - [x] JSON readability validation included (T003a)
+- [x] **TDD workflow enforced (T016→T016a→T019) per constitution**
+- [x] **Cross-platform validation included (T025a) for .NET version migration**
+- [x] **Documentation requirements mapped to FRs (FR20-FR24)**
 
 ---
 
-- **Total tasks**: 37 (added T003a, T008a)
+- **Total tasks**: 39 (added T016a for TDD Red→Green split, T025a for cross-platform validation)
 - **Parallelizable tasks**: 14 (marked with [P] in notes)
-- **Sequential tasks**: 23
+- **Sequential tasks**: 25
+- **TDD tasks**: 3 (T016 Red, T016a Green, T019 Refactor)
 - **Estimated completion**: 6-8 focused development sessions with testing and validation
 
 ---
-Last updated: October 6, 2025
+Last updated: October 7, 2025

@@ -1,6 +1,6 @@
 # Feature specification: streaming indicators framework
 
-**Feature branch**: `001-develop-steaming-indicators`
+**Feature branch**: `001-develop-streaming-indicators`
 **Created**: 2025-10-02
 **Status**: Draft
 **Input**: User description: "develop steaming indicators in two styles (buffering lists and more advanced stream hubs) to enable use of realtime financial market data streams that automatically generate indicator data incrementally."
@@ -21,7 +21,7 @@ As a developer building real-time trading applications, I need indicators that u
 
 - What happens when the first streamed quote has insufficient warmup history? System must validate minimum warmup period and reject or buffer until satisfied.
 - How does the system handle duplicate timestamps? Must reject duplicates with `ArgumentException` and surface the offending timestamp.
-- What happens when memory limits are approached in buffering mode? Must enforce bounded buffer sizes and fail gracefully with clear error messages.
+- What happens when memory limits are approached in buffering mode? BufferList enforces `MaxListSize` property (default 90% of `int.MaxValue` ≈ 1.9B elements). When exceeded, oldest elements are automatically pruned via `AddInternal()` mechanism. StreamHub uses fixed-size circular buffers calculated from indicator parameters (typically `lookbackPeriod × 1.2` for margin), preventing unbounded growth.
 
 ## Requirements
 
@@ -40,7 +40,7 @@ As a developer building real-time trading applications, I need indicators that u
 
 ### Non-functional requirements
 
-- **NFR-001**: Average per-tick update latency <5ms (p95 <10ms) for single indicator instance
+- **NFR-001**: Average per-tick update latency <5ms (p95 <10ms) for single indicator instance, measured on commodity hardware (4-core 3GHz CPU, 16GB RAM) using BenchmarkDotNet with standard .NET 8.0 release configuration. Latency measured as wall-clock time for single `Add(quote)` call after warmup period completion.
 - **NFR-002**: Memory overhead per streaming indicator instance <10KB for typical 200-period window
 - **NFR-003**: Streaming parity tests MUST validate equivalence with batch calculations for all supported indicators
 - **NFR-004**: API design MUST follow existing library conventions (no breaking changes to batch APIs)
@@ -55,6 +55,48 @@ As a developer building real-time trading applications, I need indicators that u
 - **Quote**: Input entity representing OHLCV data with timestamp
 - **Indicator Result**: Output entity with timestamp, indicator value(s), and metadata
 - **Warmup State**: Tracks whether indicator has sufficient history to produce valid results
+
+## Terminology & Definitions
+
+- **BufferList**: List-backed streaming implementation using `List<T>` for state storage. Simpler to implement and debug. Suitable for moderate frequency scenarios (<1k ticks/sec). Naming convention: `{IndicatorName}List`.
+- **StreamHub**: Span-optimized streaming implementation using circular buffers for state storage. Optimized for high-frequency scenarios (>10k ticks/sec). Naming convention: `{IndicatorName}Hub<TIn>`.
+- **Warmup Period**: Minimum number of quotes required before indicator produces valid results. Inherited from Series implementation's `WarmupPeriod` property.
+- **Streaming Parity**: Requirement that streaming and batch (Series) calculations produce identical results within 1e-12 floating-point tolerance when given the same quote sequence.
+- **Buffer Capacity**: Maximum number of elements stored in internal buffers. For BufferList: dynamically managed via `MaxListSize` (default ~1.9B elements). For StreamHub: typically fixed at `lookbackPeriod + margin` for efficient circular buffer operations.
+
+## Implementation Scope & Phasing
+
+### Initial Scope (Phase 1)
+
+The streaming framework targets comprehensive coverage across the library's indicator catalog. Initial implementation focuses on establishing patterns and infrastructure through systematic rollout.
+
+### Target Coverage
+
+- **Total indicators with Series implementations**: ~84
+- **BufferList target**: 55 indicators requiring streaming support
+- **StreamHub target**: 52 indicators requiring streaming support
+- **Total implementation tasks**: 107 (T001-T107)
+
+### Phasing Strategy
+
+Implementation proceeds in alphabetical indicator groups to enable parallel development:
+
+- **Phase 1a (A-D indicators)**: Tasks T001-T016 (BufferList) + T056-T069 (StreamHub)
+- **Phase 1b (E-K indicators)**: Tasks T017-T028 (BufferList) + T070-T081 (StreamHub)
+- **Phase 1c (M-R indicators)**: Tasks T029-T041 (BufferList) + T082-T093 (StreamHub)
+- **Phase 1d (S-Z indicators)**: Tasks T042-T055 (BufferList) + T094-T107 (StreamHub)
+
+Each phase can proceed independently since indicators don't have inter-dependencies (with noted exceptions like ChaikinOsc depending on ADL, which are handled via composition patterns).
+
+### Key Indicators for Validation
+
+The following indicators serve as reference implementations for pattern validation:
+
+- **SMA, EMA, RSI**: Basic calculation patterns (already complete)
+- **MACD, Bollinger Bands**: Multi-series output patterns (already complete)
+- **Alligator**: Offset-based calculations (T001, in PR #1497)
+- **AtrStop**: Nested indicator composition (T003, in PR #1497)
+- **Correlation**: Dual-series input pattern (T012, in PR #1499)
 
 ---
 
