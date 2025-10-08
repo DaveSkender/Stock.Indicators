@@ -14,7 +14,7 @@ As a developer building real-time trading applications, I need indicators that u
 ### Acceptance scenarios
 
 1. **Given** an initialized streaming indicator with historical warmup data, **When** a single new price quote arrives, **Then** the indicator produces one new result value in <5ms average latency
-2. **Given** a buffering-style streaming indicator receiving quotes, **When** 1000 quotes are streamed sequentially, **Then** final indicator values match batch-calculated results within floating-point tolerance (1e-12)
+2. **Given** a buffering-style streaming indicator receiving quotes, **When** 1000 quotes are streamed sequentially, **Then** final indicator values match batch-calculated results exactly (deterministic equality)
 3. **Given** a stream hub managing state across multiple ticks, **When** a quote arrives with a timestamp less than or equal to the most recent processed timestamp, **Then** the system rejects the quote with a descriptive exception (no reordering tolerance in v1)
 
 ### Edge cases
@@ -30,18 +30,18 @@ As a developer building real-time trading applications, I need indicators that u
 - **FR-001**: Library MUST provide two streaming indicator styles: BufferList (simpler, list-backed state) and StreamHub (advanced, optimized state management)
 - **FR-002**: Streaming indicators MUST accept single quote additions incrementally and produce corresponding result values
 - **FR-003**: Streaming indicators MUST maintain internal state (buffers, accumulators, derived values) across calls without recalculating from scratch
-- **FR-004**: Final indicator values MUST converge to batch-calculated results within 1e-12 floating-point tolerance when same quote sequence is provided
+- **FR-004**: Final indicator values MUST be mathematically identical to batch-calculated results when same quote sequence is provided (deterministic equality; no tolerance for drift)
 - **FR-005**: Streaming indicators MUST validate warmup period requirements before producing results
 - **FR-006**: Streaming indicators MUST enforce strictly ascending timestamps by rejecting any duplicate or out-of-order quotes
 - **FR-007**: BufferList style MUST use List-backed storage with O(1) append and bounded size enforcement
 - **FR-008**: StreamHub style MUST optimize for high-frequency scenarios with span-based buffers and minimal allocations
 - **FR-009**: Streaming indicators MUST provide a method to reset state and reinitialize warmup
-- **FR-010**: Library MUST include streaming variants for core indicators: SMA, EMA, RSI, MACD, Bollinger Bands (initial set)
+- **FR-010**: Library MUST include streaming variants for all feasible Series-based indicators. Initial set (SMA, EMA, RSI, MACD, Bollinger Bands) serves as reference implementations for pattern validation; full deployment targets 84 indicators across 107 implementation tasks (55 BufferList + 52 StreamHub).
 
 ### Non-functional requirements
 
 - **NFR-001**: Average per-tick update latency <5ms (p95 <10ms) for single indicator instance, measured on commodity hardware (4-core 3GHz CPU, 16GB RAM) using BenchmarkDotNet with standard .NET 8.0 release configuration. Latency measured as wall-clock time for single `Add(quote)` call after warmup period completion.
-- **NFR-002**: Memory overhead per streaming indicator instance <10KB for typical 200-period window
+- **NFR-002**: Memory overhead per streaming indicator instance <10KB for indicators with lookback periods ≤200 (covers approximately 90% of library indicators based on catalog analysis; larger periods documented per-indicator)
 - **NFR-003**: Streaming parity tests MUST validate equivalence with batch calculations for all supported indicators
 - **NFR-004**: API design MUST follow existing library conventions (no breaking changes to batch APIs)
 - **NFR-005**: Documentation MUST include streaming usage examples, warmup guidance, and performance characteristics
@@ -58,10 +58,10 @@ As a developer building real-time trading applications, I need indicators that u
 
 ## Terminology & Definitions
 
-- **BufferList**: List-backed streaming implementation using `List<T>` for state storage. Simpler to implement and debug. Suitable for moderate frequency scenarios (<1k ticks/sec). Naming convention: `{IndicatorName}List`.
-- **StreamHub**: Span-optimized streaming implementation using circular buffers for state storage. Optimized for high-frequency scenarios (>10k ticks/sec). Naming convention: `{IndicatorName}Hub<TIn>`.
+- **BufferList**: List-backed streaming implementation using `List<T>` for state storage. Simpler to implement and debug. Suitable for moderate frequency scenarios (<1k ticks/sec). Naming convention: `{IndicatorName}List` (e.g., `SmaList`, `EmaList`, `DojiList`).
+- **StreamHub**: Span-optimized streaming implementation using circular buffers for state storage. Optimized for high-frequency scenarios (>10k ticks/sec). Naming convention: `{IndicatorName}Hub<TIn>` (e.g., `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`).
 - **Warmup Period**: Minimum number of quotes required before indicator produces valid results. Inherited from Series implementation's `WarmupPeriod` property.
-- **Streaming Parity**: Requirement that streaming and batch (Series) calculations produce identical results within 1e-12 floating-point tolerance when given the same quote sequence.
+- **Streaming Parity**: Requirement that streaming and batch (Series) calculations produce mathematically identical results when given the same quote sequence. Tested using deterministic equality assertions (`BeEquivalentTo` with `WithStrictOrdering()`), never approximate equality.
 - **Buffer Capacity**: Maximum number of elements stored in internal buffers. For BufferList: dynamically managed via `MaxListSize` (default ~1.9B elements). For StreamHub: typically fixed at `lookbackPeriod + margin` for efficient circular buffer operations.
 
 ## Implementation Scope & Phasing
@@ -75,7 +75,9 @@ The streaming framework targets comprehensive coverage across the library's indi
 - **Total indicators with Series implementations**: ~84
 - **BufferList target**: 55 indicators requiring streaming support
 - **StreamHub target**: 52 indicators requiring streaming support
-- **Total implementation tasks**: 107 (T001-T107)
+- **Implementation tasks**: 107 (T001-T107: 55 BufferList + 52 StreamHub)
+- **Supporting tasks**: 13 (D001-D007 + T108-T109 documentation, Q001-Q004 quality gates)
+- **Total tasks**: 120
 
 ### Phasing Strategy
 
