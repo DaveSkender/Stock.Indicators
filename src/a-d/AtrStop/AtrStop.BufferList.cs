@@ -72,8 +72,8 @@ public class AtrStopList : BufferList<AtrStopResult>, IBufferList, IAtrStop
         _atrList.Add(quote);
         AtrResult atrResult = _atrList[_atrList.Count - 1];
 
-        // Handle warmup periods
-        if (_atrList.Count <= LookbackPeriods)
+        // Handle warmup periods - need LookbackPeriods values for initial ATR
+        if (_atrList.Count < LookbackPeriods + 1)
         {
             _previousClose = (double)quote.Close;
             AddInternal(new AtrStopResult(Timestamp: quote.Timestamp));
