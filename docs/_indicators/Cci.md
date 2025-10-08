@@ -17,7 +17,7 @@ Created by Donald Lambert, the [Commodity Channel Index](https://en.wikipedia.or
 ```csharp
 // C# usage syntax
 IReadOnlyList<CciResult> results =
-  quotes.GetCci(lookbackPeriods);
+  quotes.ToCci(lookbackPeriods);
 ```
 
 ## Parameters
@@ -63,8 +63,8 @@ Results can be further processed on `Cci` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetCci(..)
-    .GetSlope(..);
+    .ToCci(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

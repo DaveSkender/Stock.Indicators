@@ -17,15 +17,15 @@ Created by J. Welles Wilder, True Range and [Average True Range](https://en.wiki
 ```csharp
 // C# usage syntax
 IReadOnlyList<AtrResult> results =
-  quotes.GetAtr(lookbackPeriods);
+  quotes.ToAtr(lookbackPeriods);
 
 // ATR with custom moving average
 IReadOnlyList<SmmaResult> results =
-  quotes.GetTr().GetSmma(lookbackPeriods);
+  quotes.ToTr().ToSmma(lookbackPeriods);
 
 // raw True Range (TR) only
 IReadOnlyList<TrResult> results =
-  quote.GetTr();
+  quote.ToTr();
 ```
 
 ## Parameters
@@ -77,8 +77,8 @@ Results can be further processed on `Atrp` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetAtr(..)
-    .GetSlope(..);
+    .ToAtr(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -95,19 +95,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   atrList.Add(quote);
 }
 
-// based on `List<AtrResult>`
+// based on `ICollection<AtrResult>`
 IReadOnlyList<AtrResult> results = atrList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-AtrHub<Quote> observer = provider.ToAtr(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+AtrHub<Quote> observer = quoteHub.ToAtr(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<AtrResult> results = observer.Results;

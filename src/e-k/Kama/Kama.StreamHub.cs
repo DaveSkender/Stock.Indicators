@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Kama
 {
     /// <summary>
-    /// Creates a KAMA hub from a chain provider.
+    /// Creates a KAMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -16,7 +16,7 @@ public static partial class Kama
     /// <returns>A KAMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are out of their valid range.</exception>
-    public static KamaHub<T> ToKama<T>(
+    public static KamaHub<T> ToKamaHub<T>(
         this IChainProvider<T> chainProvider,
         int erPeriods = 10,
         int fastPeriods = 2,
@@ -26,7 +26,7 @@ public static partial class Kama
 }
 
 /// <summary>
-/// Represents a hub for Kaufman's Adaptive Moving Average (KAMA) calculations.
+/// Streaming hub for Kaufman's Adaptive Moving Average (KAMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class KamaHub<TIn>

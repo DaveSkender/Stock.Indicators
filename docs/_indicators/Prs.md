@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<PrsResult> results =
-  quotesEval.GetPrs(quotesBase);
+  quotesEval.ToPrs(quotesBase);
 ```
 
 ## Parameters
@@ -67,7 +67,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotesEval
     .Use(CandlePart.HL2)
-    .GetPrs(quotesBase, ..);
+    .ToPrs(quotesBase, ..);
 ```
 
 > &#128681; **Warning!** Both `quotesEval` and `quotesBase` arguments must contain the same number of elements and be the results of a chainable indicator or `.Use()` method.
@@ -77,6 +77,6 @@ Results can be further processed on `Beta` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotesEval
-    .GetPrs(quotesBase, ..)
-    .GetSlope(..);
+    .ToPrs(quotesBase, ..)
+    .ToSlope(..);
 ```

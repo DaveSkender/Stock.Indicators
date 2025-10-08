@@ -148,16 +148,11 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
             {
                 _jawBufferSum += offsetValue;
 
-                // First value: SMA
-                if (!_lastJaw.HasValue)
-                {
-                    jaw = _jawBufferSum / JawPeriods;
-                }
-                // Subsequent values: SMMA
-                else
-                {
-                    jaw = ((_lastJaw.Value * (JawPeriods - 1)) + offsetValue) / JawPeriods;
-                }
+                jaw = !_lastJaw.HasValue
+                    // First value: SMA
+                    ? _jawBufferSum / JawPeriods
+                    // Subsequent values: SMMA
+                    : ((_lastJaw.Value * (JawPeriods - 1)) + offsetValue) / JawPeriods;
 
                 _lastJaw = jaw;
             }
@@ -185,14 +180,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
             {
                 _teethBufferSum += offsetValue;
 
-                if (!_lastTeeth.HasValue)
-                {
-                    teeth = _teethBufferSum / TeethPeriods;
-                }
-                else
-                {
-                    teeth = ((_lastTeeth.Value * (TeethPeriods - 1)) + offsetValue) / TeethPeriods;
-                }
+                teeth = !_lastTeeth.HasValue ? _teethBufferSum / TeethPeriods : ((_lastTeeth.Value * (TeethPeriods - 1)) + offsetValue) / TeethPeriods;
 
                 _lastTeeth = teeth;
             }
@@ -219,14 +207,7 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
             {
                 _lipsBufferSum += offsetValue;
 
-                if (!_lastLips.HasValue)
-                {
-                    lips = _lipsBufferSum / LipsPeriods;
-                }
-                else
-                {
-                    lips = ((_lastLips.Value * (LipsPeriods - 1)) + offsetValue) / LipsPeriods;
-                }
+                lips = !_lastLips.HasValue ? _lipsBufferSum / LipsPeriods : ((_lastLips.Value * (LipsPeriods - 1)) + offsetValue) / LipsPeriods;
 
                 _lastLips = lips;
             }

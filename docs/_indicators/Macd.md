@@ -17,7 +17,7 @@ Created by Gerald Appel, [MACD](https://en.wikipedia.org/wiki/MACD) is a simple 
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<MacdResult> results =
-  quotes.GetMacd(fastPeriods, slowPeriods, signalPeriods);
+  quotes.ToMacd(fastPeriods, slowPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -78,7 +78,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetMacd(..);
+    .ToMacd(..);
 ```
 
 Results can be further processed on `Macd` with additional chain-enabled indicators.
@@ -86,6 +86,6 @@ Results can be further processed on `Macd` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetMacd(..)
-    .GetSlope(..);
+    .ToMacd(..)
+    .ToSlope(..);
 ```

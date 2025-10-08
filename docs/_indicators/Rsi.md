@@ -17,7 +17,7 @@ Created by J. Welles Wilder, the [Relative Strength Index](https://en.wikipedia.
 ```csharp
 // C# usage syntax
 IReadOnlyList<RsiResult> results =
-  quotes.GetRsi(lookbackPeriods);
+  quotes.ToRsi(lookbackPeriods);
 ```
 
 ## Parameters
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRsi(..);
+    .ToRsi(..);
 ```
 
 Results can be further processed on `Rsi` with additional chain-enabled indicators.
@@ -74,8 +74,8 @@ Results can be further processed on `Rsi` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRsi(..)
-    .GetSlope(..);
+    .ToRsi(..)
+    .ToSlope(..);
 ```
 
 ## Streaming
@@ -90,19 +90,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   rsiList.Add(quote);
 }
 
-// based on `List<RsiResult>`
+// based on `ICollection<RsiResult>`
 IReadOnlyList<RsiResult> results = rsiList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-RsiHub<Quote> observer = provider.ToRsi(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+RsiHub<Quote> observer = quoteHub.ToRsi(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<RsiResult> results = observer.Results;

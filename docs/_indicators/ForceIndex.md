@@ -17,7 +17,7 @@ Created by Alexander Elder, the [Force Index](https://en.wikipedia.org/wiki/Forc
 ```csharp
 // C# usage syntax
 IReadOnlyList<ForceIndexResult> results =
-  quotes.GetForceIndex(lookbackPeriods);
+  quotes.ToForceIndex(lookbackPeriods);
 ```
 
 ## Parameters
@@ -65,8 +65,8 @@ Results can be further processed on `ForceIndex` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetForceIndex(..)
-    .GetEma(..);
+    .ToForceIndex(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

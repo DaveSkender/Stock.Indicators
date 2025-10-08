@@ -19,7 +19,7 @@ public static partial class StochRsi
     /// <returns>A Stochastic RSI hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when parameters are invalid.</exception>
-    public static StochRsiHub<T> ToStochRsi<T>(
+    public static StochRsiHub<T> ToStochRsiHub<T>(
         this IChainProvider<T> chainProvider,
         int rsiPeriods,
         int stochPeriods,

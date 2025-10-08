@@ -12,24 +12,24 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        TemaHub<Quote> observer = provider
-            .ToTema(lookbackPeriods);
+        TemaHub<Quote> observer = quoteHub
+            .ToTemaHub(lookbackPeriods);
 
         // fetch initial results (early)
         IReadOnlyList<TemaResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 50; i < length; i++)
         {
             // skip one (add later)
@@ -39,20 +39,20 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -64,7 +64,7 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -77,22 +77,22 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        SmaHub<TemaResult> observer = provider
-            .ToTema(temaPeriods)
+        SmaHub<TemaResult> observer = quoteHub
+            .ToTemaHub(temaPeriods)
             .ToSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -109,7 +109,7 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().HaveCount(501);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -127,7 +127,7 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
 
         // setup tema hub (2nd level)
         TemaHub<Quote> temaHub = quoteHub
-            .ToTema(lookbackPeriods: 20);
+            .ToTemaHub(lookbackPeriods: 20);
 
         // setup child hub (3rd level)
         SmaHub<TemaResult> childHub = temaHub
@@ -135,7 +135,7 @@ public class TemaHub : StreamHubTestBase, ITestChainProvider
 
         // note: despite `quoteHub` being parentless,
         // it has default properties; it should not
-        // inherit its own empty provider settings
+        // inherit its own empty quoteHub settings
 
         // assert
         quoteHub.Properties.Settings.Should().Be(0b00000000, "it has default settings, not inherited");

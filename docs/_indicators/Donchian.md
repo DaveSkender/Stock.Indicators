@@ -18,7 +18,7 @@ Created by Richard Donchian, [Donchian Channels](https://en.wikipedia.org/wiki/D
 ```csharp
 // C# usage syntax
 IReadOnlyList<DonchianResult> results =
-  quotes.GetDonchian(lookbackPeriods);
+  quotes.ToDonchian(lookbackPeriods);
 ```
 
 ## Parameters

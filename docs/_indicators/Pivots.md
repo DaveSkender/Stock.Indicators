@@ -17,7 +17,7 @@ Pivots is an extended customizable version of <a href="{{site.baseurl}}/indicato
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotsResult> results =
-  quotes.GetPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
+  quotes.ToPivots(leftSpan, rightSpan, maxTrendPeriods, endType);
 ```
 
 ## Parameters

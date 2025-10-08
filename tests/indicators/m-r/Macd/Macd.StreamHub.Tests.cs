@@ -7,24 +7,24 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     {
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        MacdHub<Quote> observer = provider
-            .ToMacd(12, 26, 9);
+        MacdHub<Quote> observer = quoteHub
+            .ToMacdHub(12, 26, 9);
 
         // emulate quote stream
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // test string output
         observer.ToString().Should().Be("MACD(12,26,9)");
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
     [TestMethod]
     public override void QuoteObserver()
@@ -33,24 +33,24 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        MacdHub<Quote> observer = provider
-            .ToMacd(12, 26, 9);
+        MacdHub<Quote> observer = quoteHub
+            .ToMacdHub(12, 26, 9);
 
         // fetch initial results (early)
         IReadOnlyList<MacdResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -60,20 +60,20 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -84,7 +84,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -99,18 +99,18 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        MacdHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
-            .ToMacd(macdFast, macdSlow, macdSignal);
+        MacdHub<EmaResult> observer = quoteHub
+            .ToEmaHub(emaPeriods)
+            .ToMacdHub(macdFast, macdSlow, macdSignal);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -128,7 +128,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -143,13 +143,13 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup chain provider
+        // setup chain quoteHub
         QuoteHub<Quote> quoteProvider = new();
-        SmaHub<Quote> provider = quoteProvider.ToSma(smaPeriods);
+        SmaHub<Quote> quoteHub = quoteProvider.ToSma(smaPeriods);
 
         // initialize observer
-        MacdHub<SmaResult> observer = provider
-            .ToMacd(macdFast, macdSlow, macdSignal);
+        MacdHub<SmaResult> observer = quoteHub
+            .ToMacdHub(macdFast, macdSlow, macdSignal);
 
         // emulate live quotes
         for (int i = 0; i < length; i++)
@@ -172,7 +172,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
         quoteProvider.EndTransmission();
     }
 
@@ -185,17 +185,17 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        MacdHub<Quote> observer = provider
-            .ToMacd(fastPeriods, slowPeriods, signalPeriods);
+        MacdHub<Quote> observer = quoteHub
+            .ToMacdHub(fastPeriods, slowPeriods, signalPeriods);
 
         // stream first 100 quotes
         for (int i = 0; i < 100; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // get streaming results
@@ -215,7 +215,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamResult.SlowEma.Should().Be(seriesResult.SlowEma);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -223,12 +223,12 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     {
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer with custom parameters
-        MacdHub<Quote> observer = provider
-            .ToMacd(8, 21, 5);
+        MacdHub<Quote> observer = quoteHub
+            .ToMacdHub(8, 21, 5);
 
         // verify parameters
         observer.FastPeriods.Should().Be(8);
@@ -238,7 +238,7 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // process some quotes
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // verify results consistency
@@ -248,6 +248,6 @@ public class MacdHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamResults.Should().BeEquivalentTo(seriesResults);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

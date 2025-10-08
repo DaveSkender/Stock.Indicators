@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Macd
 {
     /// <summary>
-    /// Creates a MACD hub from a chain provider.
+    /// Creates a MACD streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -16,7 +16,7 @@ public static partial class Macd
     /// <returns>A MACD hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when any of the parameters are invalid.</exception>
-    public static MacdHub<T> ToMacd<T>(
+    public static MacdHub<T> ToMacdHub<T>(
         this IChainProvider<T> chainProvider,
         int fastPeriods = 12,
         int slowPeriods = 26,
@@ -26,7 +26,7 @@ public static partial class Macd
 }
 
 /// <summary>
-/// Represents a hub for MACD (Moving Average Convergence Divergence) calculations.
+/// Streaming hub for MACD (Moving Average Convergence Divergence) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class MacdHub<TIn>
