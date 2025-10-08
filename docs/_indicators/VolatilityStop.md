@@ -17,7 +17,7 @@ Created by J. Welles Wilder, [Volatility Stop](https://archive.org/details/newco
 ```csharp
 // C# usage syntax
 IReadOnlyList<VolatilityStopResult> results =
-  quotes.GetVolatilityStop(lookbackPeriods, multiplier);
+  quotes.ToVolatilityStop(lookbackPeriods, multiplier);
 ```
 
 ## Parameters
@@ -75,8 +75,8 @@ Results can be further processed on `Sar` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetVolatilityStop(..)
-    .GetEma(..);
+    .ToVolatilityStop(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

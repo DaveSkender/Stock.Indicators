@@ -5,8 +5,7 @@ namespace PublicApi;
 
 // PUBLIC API (INTERFACES)
 
-[TestClass]
-[TestCategory("Integration")]
+[TestClass, TestCategory("Integration")]
 public class UserInterface
 {
     private static readonly IReadOnlyList<Quote> quotes = Data.GetDefault();
@@ -67,20 +66,20 @@ public class UserInterface
 
         int length = quotes.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observers
-        AdlHub<Quote> adlHub = provider.ToAdl();
-        AlligatorHub<Quote> alligatorHub = provider.ToAlligator();
-        AtrHub<Quote> atrHub = provider.ToAtr();
-        AtrStopHub<Quote> atrStopHub = provider.ToAtrStop();
-        EmaHub<Quote> emaHub = provider.ToEma(20);
-        QuotePartHub<Quote> quotePartHub = provider.ToQuotePart(CandlePart.OHL3);
-        SmaHub<Quote> smaHub = provider.ToSma(20);
-        TrHub<Quote> trHub = provider.ToTr();
+        AdlHub<Quote> adlHub = quoteHub.ToAdlHub();
+        AlligatorHub<Quote> alligatorHub = quoteHub.ToAlligatorHub();
+        AtrHub<Quote> atrHub = quoteHub.ToAtrHub();
+        AtrStopHub<Quote> atrStopHub = quoteHub.ToAtrStopHub();
+        EmaHub<Quote> emaHub = quoteHub.ToEmaHub(20);
+        QuotePartHub<Quote> quotePartHub = quoteHub.ToQuotePartHub(CandlePart.OHL3);
+        SmaHub<Quote> smaHub = quoteHub.ToSma(20);
+        TrHub<Quote> trHub = quoteHub.ToTrHub();
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
@@ -90,20 +89,20 @@ public class UserInterface
             }
 
             Quote q = quotes[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotes[80]);
+        quoteHub.Insert(quotes[80]);
 
         // end all observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // get static equivalents for comparison
         IReadOnlyList<AdlResult> staticAdl = quotes.ToAdl();

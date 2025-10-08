@@ -14,7 +14,7 @@ public static partial class Obv
     /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>An OBV hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the quote provider is null.</exception>
-    public static ObvHub<TIn> ToObv<TIn>(
+    public static ObvHub<TIn> ToObvHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote
     {

@@ -17,7 +17,7 @@ type: candlestick-pattern
 ```csharp
 // C# usage syntax
 IReadOnlyList<CandleResult> results =
-  quotes.GetMarubozu(minBodyPercent);
+  quotes.ToMarubozu(minBodyPercent);
 ```
 
 ## Parameters

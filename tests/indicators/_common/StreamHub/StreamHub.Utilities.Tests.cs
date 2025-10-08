@@ -7,7 +7,7 @@ public class CacheUtilities : TestBase
     public void ClearCacheByTimestamp()
     {
 
-        // setup quote provider
+        // setup quote provider hub
 
         IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
@@ -15,14 +15,14 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         Quote q3 = quotesList[3];
@@ -32,7 +32,7 @@ public class CacheUtilities : TestBase
 
         // assert: cache is empty
         observer.Cache.Should().HaveCount(3);
-        provider.Cache.Should().HaveCount(10);
+        quoteHub.Cache.Should().HaveCount(10);
 
         List<QuotePart> cacheOver
             = observer.Results
@@ -49,7 +49,7 @@ public class CacheUtilities : TestBase
     [TestMethod]
     public void ClearCacheByIndex()
     {
-        // setup quote provider
+        // setup quote provider hub
 
         List<Quote> quotesList = Quotes
             .ToSortedList()
@@ -58,14 +58,14 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         Quote q3 = quotesList[3];
@@ -75,7 +75,7 @@ public class CacheUtilities : TestBase
 
         // assert: cache is empty
         observer.Cache.Should().HaveCount(3);
-        provider.Cache.Should().HaveCount(10);
+        quoteHub.Cache.Should().HaveCount(10);
 
         List<QuotePart> cacheOver
             = observer.Results
@@ -92,7 +92,7 @@ public class CacheUtilities : TestBase
     [TestMethod]
     public void GetIndex()
     {
-        // setup quote provider
+        // setup quote provider hub
 
         IReadOnlyList<Quote> quotesList = Quotes
             .Take(10)
@@ -100,18 +100,18 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // find position of quote
         Quote q = quotesList[4];
 
-        int itemIndexEx = provider.Cache.IndexOf(q, true);
-        int timeIndexEx = provider.Cache.IndexOf(q.Timestamp, true);
+        int itemIndexEx = quoteHub.Cache.IndexOf(q, true);
+        int timeIndexEx = quoteHub.Cache.IndexOf(q.Timestamp, true);
 
         // assert: same index
         itemIndexEx.Should().Be(4);
@@ -121,20 +121,20 @@ public class CacheUtilities : TestBase
         Quote o = Quotes[10];
 
         Assert.ThrowsExactly<ArgumentException>(
-            () => { provider.Cache.IndexOf(o, true); });
+            () => { quoteHub.Cache.IndexOf(o, true); });
 
         Assert.ThrowsExactly<ArgumentException>(
-            () => { provider.Cache.IndexOf(o.Timestamp, true); });
+            () => { quoteHub.Cache.IndexOf(o.Timestamp, true); });
 
         // out of range (no exceptions)
-        int itemIndexNo = provider.Cache.IndexOf(o, false);
-        int timeIndexNo = provider.Cache.IndexOf(o.Timestamp, false);
+        int itemIndexNo = quoteHub.Cache.IndexOf(o, false);
+        int timeIndexNo = quoteHub.Cache.IndexOf(o.Timestamp, false);
 
         itemIndexNo.Should().Be(-1);
         timeIndexNo.Should().Be(-1);
 
-        int timeInsertOut = provider.Cache.IndexGte(o.Timestamp);
-        int timeInsertIn = provider.Cache.IndexGte(quotesList[2].Timestamp);
+        int timeInsertOut = quoteHub.Cache.IndexGte(o.Timestamp);
+        int timeInsertIn = quoteHub.Cache.IndexGte(quotesList[2].Timestamp);
 
         timeInsertOut.Should().Be(-1);
         timeInsertIn.Should().Be(2);
@@ -144,7 +144,7 @@ public class CacheUtilities : TestBase
     public void TryFindIndex()
     {
 
-        // setup quote provider
+        // setup quote provider hub
 
         List<Quote> quotesList = Quotes
             .ToSortedList()
@@ -153,11 +153,11 @@ public class CacheUtilities : TestBase
 
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         Quote q = quotesList[4];
@@ -165,7 +165,7 @@ public class CacheUtilities : TestBase
         // act: find index of quote
 
         // assert: correct index
-        if (provider.Cache.TryFindIndex(q.Timestamp, out int goodIndex))
+        if (quoteHub.Cache.TryFindIndex(q.Timestamp, out int goodIndex))
         {
             goodIndex.Should().Be(4);
         }
@@ -175,7 +175,7 @@ public class CacheUtilities : TestBase
         }
 
         // assert: out of range
-        if (provider.Cache.TryFindIndex(DateTime.MaxValue, out int badIndex))
+        if (quoteHub.Cache.TryFindIndex(DateTime.MaxValue, out int badIndex))
         {
             Assert.Fail("unexpected index found");
         }

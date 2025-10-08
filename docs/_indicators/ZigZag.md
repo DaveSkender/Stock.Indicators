@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<ZigZagResult> results =
-  quotes.GetZigZag(endType, percentChange);
+  quotes.ToZigZag(endType, percentChange);
 ```
 
 ## Parameters
@@ -82,8 +82,8 @@ Results can be further processed on `ZigZag` with additional chain-enabled indic
 ```csharp
 // example
 var results = quotes
-    .GetZigZag(..)
-    .GetSlope(..);
+    .ToZigZag(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

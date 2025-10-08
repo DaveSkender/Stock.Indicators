@@ -18,7 +18,7 @@ Rate of Change (ROC) with Bands, created by Vitali Apirine, is a volatility band
 ```csharp
 // C# usage syntax
 IReadOnlyList<RocWbResult> results =
-  quotes.GetRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
+  quotes.ToRocWb(lookbackPeriods, emaPeriods, stdDevPeriods);
 ```
 
 ## Parameters
@@ -75,7 +75,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetRocWb(..);
+    .ToRocWb(..);
 ```
 
 Results can be further processed on `Roc` with additional chain-enabled indicators.
@@ -83,6 +83,6 @@ Results can be further processed on `Roc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetRocWb(..)
-    .GetEma(..);
+    .ToRocWb(..)
+    .ToEma(..);
 ```

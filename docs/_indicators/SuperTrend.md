@@ -17,7 +17,7 @@ Created by Oliver Seban, the SuperTrend indicator attempts to determine the prim
 ```csharp
 // C# usage syntax
 IReadOnlyList<SuperTrendResult> results =
-  quotes.GetSuperTrend(lookbackPeriods, multiplier);
+  quotes.ToSuperTrend(lookbackPeriods, multiplier);
 ```
 
 ## Parameters

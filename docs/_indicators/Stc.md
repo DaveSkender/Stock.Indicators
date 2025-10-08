@@ -17,7 +17,7 @@ Created by Doug Schaff, the [Schaff Trend Cycle](https://www.investopedia.com/ar
 ```csharp
 // C# usage syntax
 IReadOnlyList<StcResult> results =
-  quotes.GetStc(cyclePeriods, fastPeriods, slowPeriods);
+  quotes.ToStc(cyclePeriods, fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -70,7 +70,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetStc(..);
+    .ToStc(..);
 ```
 
 Results can be further processed on `Stc` with additional chain-enabled indicators.
@@ -78,6 +78,6 @@ Results can be further processed on `Stc` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetStc(..)
-    .GetRsi(..);
+    .ToStc(..)
+    .ToRsi(..);
 ```

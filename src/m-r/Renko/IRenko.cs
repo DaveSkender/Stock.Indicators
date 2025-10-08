@@ -1,7 +1,7 @@
 namespace Skender.Stock.Indicators;
 
 /// <summary>
-/// Represents a hub for generating Renko chart results.
+/// Streaming hub for generating Renko chart results.
 /// </summary>
 public interface IRenko
 {

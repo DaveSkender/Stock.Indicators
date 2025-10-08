@@ -17,7 +17,7 @@ Created by John Bollinger, [Bollinger Bands](https://en.wikipedia.org/wiki/Bolli
 ```csharp
 // C# usage syntax
 IReadOnlyList<BollingerBandsResult> results =
-  quotes.GetBollingerBands(lookbackPeriods, standardDeviations);
+  quotes.ToBollingerBands(lookbackPeriods, standardDeviations);
 ```
 
 ## Parameters
@@ -76,7 +76,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetBollingerBands(..);
+    .ToBollingerBands(..);
 ```
 
 Results can be further processed on `PercentB` with additional chain-enabled indicators.
@@ -84,8 +84,8 @@ Results can be further processed on `PercentB` with additional chain-enabled ind
 ```csharp
 // example
 var results = quotes
-    .GetBollingerBands(..)
-    .GetRsi(..);
+    .ToBollingerBands(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -100,19 +100,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   bbList.Add(quote);
 }
 
-// based on `List<BollingerBandsResult>`
+// based on `ICollection<BollingerBandsResult>`
 IReadOnlyList<BollingerBandsResult> results = bbList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-BollingerBandsHub<Quote> observer = provider.ToBollingerBands(lookbackPeriods, standardDeviations);
+QuoteHub<Quote> quoteHub = new();
+BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBands(lookbackPeriods, standardDeviations);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<BollingerBandsResult> results = observer.Results;

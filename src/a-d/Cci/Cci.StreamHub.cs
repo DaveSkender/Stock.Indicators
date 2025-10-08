@@ -22,7 +22,7 @@ public static partial class Cci
 }
 
 /// <summary>
-/// Represents a hub for Commodity Channel Index (CCI) calculations.
+/// Streaming hub for Commodity Channel Index (CCI) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class CciHub<TIn>

@@ -16,7 +16,7 @@ public static partial class Epma
     /// <returns>An EPMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static EpmaHub<TIn> ToEpma<TIn>(
+    public static EpmaHub<TIn> ToEpmaHub<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
         where TIn : IReusable

@@ -17,7 +17,7 @@ Created by Alan Hull, the [Hull Moving Average](https://alanhull.com/hull-moving
 ```csharp
 // C# usage syntax
 IReadOnlyList<HmaResult> results =
-  quotes.GetHma(lookbackPeriods);
+  quotes.ToHma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetHma(..);
+    .ToHma(..);
 ```
 
 Results can be further processed on `Hma` with additional chain-enabled indicators.
@@ -72,8 +72,8 @@ Results can be further processed on `Hma` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetHma(..)
-    .GetRsi(..);
+    .ToHma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -88,19 +88,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   hmaList.Add(quote);
 }
 
-// based on `List<HmaResult>`
+// based on `ICollection<HmaResult>`
 IReadOnlyList<HmaResult> results = hmaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-HmaHub<Quote> observer = provider.ToHma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+HmaHub<Quote> observer = quoteHub.ToHma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<HmaResult> results = observer.Results;

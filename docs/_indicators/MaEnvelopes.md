@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<MaEnvelopeResult> results =
-  quotes.GetMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
+  quotes.ToMaEnvelopes(lookbackPeriods, percentOffset, movingAverageType);
 ```
 
 ## Parameters
@@ -99,7 +99,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetMaEnvelopes(..);
+    .ToMaEnvelopes(..);
 ```
 
 Results **cannot** be further chained with additional transforms.

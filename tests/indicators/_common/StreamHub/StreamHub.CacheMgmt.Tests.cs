@@ -6,14 +6,14 @@ public class CacheManagement : TestBase
     [TestMethod]
     public void Remove()
     {
-        QuoteHub<Quote> provider = new();
-        SmaHub<Quote> observer = provider.ToSma(20);
-        provider.Add(Quotes.Take(21));
+        QuoteHub<Quote> quoteHub = new();
+        SmaHub<Quote> observer = quoteHub.ToSma(20);
+        quoteHub.Add(Quotes.Take(21));
 
         observer.Results[19].Sma.Should().BeApproximately(214.5250, precision: DoublePrecision);
 
-        provider.Remove(Quotes[14]);
-        provider.EndTransmission();
+        quoteHub.Remove(Quotes[14]);
+        quoteHub.EndTransmission();
 
         observer.Results[19].Sma.Should().BeApproximately(214.5260, precision: DoublePrecision);
     }
@@ -24,10 +24,10 @@ public class CacheManagement : TestBase
         int length = Quotes.Count;
 
         // add base quotes
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         // emulate incremental quotes
         for (int i = 0; i < length; i++)
@@ -39,11 +39,11 @@ public class CacheManagement : TestBase
             }
 
             Quote q = Quotes[i];
-            provider.Add(q);
+            quoteHub.Add(q);
         }
 
         // add late
-        provider.Insert(Quotes[100]);
+        quoteHub.Insert(Quotes[100]);
 
         // assert same as original
         for (int i = 0; i < length; i++)
@@ -57,14 +57,14 @@ public class CacheManagement : TestBase
         }
 
         // close observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public void Overflowing()
     {
         // initialize
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         Quote dup = new(
             Timestamp: DateTime.Now,
@@ -74,31 +74,31 @@ public class CacheManagement : TestBase
             Close: 1.75m,
             Volume: 1000);
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         // overflowing, under threshold
         for (int i = 0; i <= 100; i++)
         {
-            provider.Add(dup);
+            quoteHub.Add(dup);
         }
 
         // assert: no fault, no overflow (yet)
 
-        provider.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
-        provider.IsFaulted.Should().BeFalse();
-        provider.OverflowCount.Should().Be(100);
-        provider.HasObservers.Should().BeTrue();
+        quoteHub.IsFaulted.Should().BeFalse();
+        quoteHub.OverflowCount.Should().Be(100);
+        quoteHub.HasObservers.Should().BeTrue();
 
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public void OverflowedAndReset()
     {
         // initialize
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         Quote dup = new(
             Timestamp: DateTime.Now,
@@ -108,8 +108,8 @@ public class CacheManagement : TestBase
             Close: 1.75m,
             Volume: 1000);
 
-        QuotePartHub<Quote> observer = provider
-            .ToQuotePart(CandlePart.Close);
+        QuotePartHub<Quote> observer = quoteHub
+            .ToQuotePartHub(CandlePart.Close);
 
         // overflowed, over threshold
         Assert.ThrowsExactly<OverflowException>(
@@ -117,36 +117,36 @@ public class CacheManagement : TestBase
 
                 for (int i = 0; i <= 101; i++)
                 {
-                    provider.Add(dup);
+                    quoteHub.Add(dup);
                 }
             });
 
         // assert: faulted
 
-        provider.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
-        provider.IsFaulted.Should().BeTrue();
-        provider.OverflowCount.Should().Be(101);
-        provider.HasObservers.Should().BeTrue();
+        quoteHub.IsFaulted.Should().BeTrue();
+        quoteHub.OverflowCount.Should().Be(101);
+        quoteHub.HasObservers.Should().BeTrue();
 
         // act: reset
 
-        provider.ResetFault();
+        quoteHub.ResetFault();
 
         for (int i = 0; i < 100; i++)
         {
-            provider.Add(dup);
+            quoteHub.Add(dup);
         }
 
         // assert: no fault, no overflow (yet)
 
-        provider.Quotes.Should().HaveCount(1);
+        quoteHub.Quotes.Should().HaveCount(1);
         observer.Results.Should().HaveCount(1);
-        provider.IsFaulted.Should().BeFalse();
-        provider.OverflowCount.Should().Be(100);
-        provider.HasObservers.Should().BeTrue(); // not lost
+        quoteHub.IsFaulted.Should().BeFalse();
+        quoteHub.OverflowCount.Should().Be(100);
+        quoteHub.HasObservers.Should().BeTrue(); // not lost
 
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -155,11 +155,11 @@ public class CacheManagement : TestBase
         int maxCacheSize = 30;
 
         // initialize
-        QuoteHub<Quote> provider = new(maxCacheSize);
-        SmaHub<Quote> observer = provider.ToSma(20);
+        QuoteHub<Quote> quoteHub = new(maxCacheSize);
+        SmaHub<Quote> observer = quoteHub.ToSma(20);
 
         // sets max cache size
-        provider.MaxCacheSize.Should().Be(maxCacheSize);
+        quoteHub.MaxCacheSize.Should().Be(maxCacheSize);
 
         // inherits max cache size
         observer.MaxCacheSize.Should().Be(maxCacheSize);
@@ -171,26 +171,26 @@ public class CacheManagement : TestBase
         int maxCacheSize = 30;
 
         // initialize
-        QuoteHub<Quote> provider = new(maxCacheSize);
-        SmaHub<Quote> observer = provider.ToSma(20);
+        QuoteHub<Quote> quoteHub = new(maxCacheSize);
+        SmaHub<Quote> observer = quoteHub.ToSma(20);
         IReadOnlyList<SmaResult> seriesList = Quotes.ToSma(20);
 
         // add quotes
-        provider.Add(Quotes.Take(maxCacheSize));
+        quoteHub.Add(Quotes.Take(maxCacheSize));
 
         // assert: cache size is full size
-        provider.Quotes.Should().HaveCount(maxCacheSize);
+        quoteHub.Quotes.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // add more quotes to exceed max cache size
-        provider.Add(Quotes.Skip(maxCacheSize).Take(10));
+        quoteHub.Add(Quotes.Skip(maxCacheSize).Take(10));
 
         // assert: cache size is pruned
-        provider.Results.Should().HaveCount(maxCacheSize);
+        quoteHub.Results.Should().HaveCount(maxCacheSize);
         observer.Results.Should().HaveCount(maxCacheSize);
 
         // assert: correct values remain
-        provider.Quotes.Should().BeEquivalentTo(
+        quoteHub.Quotes.Should().BeEquivalentTo(
             Quotes.Skip(10).Take(maxCacheSize));
 
         observer.Results.Should().BeEquivalentTo(
