@@ -70,13 +70,13 @@ tests/indicators/
 │       ├── Sma.Tests.cs
 │       └── Sma.Baseline.json
 ├── RegressionTests.cs                # Regression test suite
-└── BaselineComparer.cs               # Comparison utility with tolerance
+└── BaselineComparer.cs               # Comparison utility
 
 .github/workflows/
 └── test-indicators.yml               # Updated to include regression tests
 ```
 
-**Structure decision** (updated): Baseline files colocated with indicator tests (not separate directory). No custom models or serialization utilities—uses standard System.Text.Json to deserialize directly to `List<TResult>`. Generator tool as standalone console app in `tools/performance/`.
+**Structure decision**: Baseline files colocated with indicator tests (not separate directory). No custom models or serialization utilities—uses standard System.Text.Json to deserialize directly to `List<TResult>`. Generator tool as standalone console app in `tools/performance/`.
 
 ## Phase 0: Research and design decisions
 
@@ -202,12 +202,14 @@ public record MismatchDetail(
 # Generate single indicator baseline  
 dotnet run --project tools/performance/BaselineGenerator -- --indicator Sma
 
-# Generate all baselines
+# Generate all baselines (colocated with tests)
 dotnet run --project tools/performance/BaselineGenerator -- --all
 
 # Specify output directory (defaults to colocated with tests)
 dotnet run --project tools/performance/BaselineGenerator -- --all --output tests/indicators/
 ```
+
+**Output location**: Files are automatically colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
 
 ### Test scenarios
 

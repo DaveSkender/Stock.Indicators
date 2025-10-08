@@ -1,7 +1,7 @@
 # Implementation tasks: static series regression baselines
 
 **Feature**: Static series regression baselines  
-**Updated**: 2025-10-06  
+**Updated**: 2025-10-06 (Simplified approach)  
 **Based on**: [spec.md](./spec.md) and [plan.md](./plan.md)
 
 ## Task overview
@@ -11,92 +11,37 @@ This document provides actionable tasks for implementing the regression baseline
 **Key goals**:
 
 - Create baseline generator tool to capture canonical indicator outputs
-- Generate JSON baseline files for 200+ indicators
+- Generate JSON baseline files for 200+ indicators (colocated with tests)
 - Implement regression test suite with configurable tolerance
 - Integrate regression tests into CI pipeline
 - Document baseline regeneration and review procedures
 
-**Organization**: Tasks grouped by component (infrastructure, generator, comparer, tests, CI, docs)
+**Simplified approach**:
 
-## Phase 1: Infrastructure and baseline format (T001-T005)
+- Baseline files are JSON arrays of result objects (e.g., `List<SmaResult>`)
+- Direct deserialization using standard System.Text.Json
+- Files colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- No custom wrapper models or serialization utilities
+
+**Organization**: Tasks grouped by component (format, generator, comparer, tests, CI, docs)
+
+## Phase 1: Infrastructure and baseline format (T001)
 
 ### T001: Define baseline JSON file format
 
-**Description**: Define JSON schema for baseline files with metadata and results  
+**Description**: Define JSON format for baseline files using direct result class mapping  
 **Location**: `specs/002-regression-baselines/baseline-format.md` (documentation)  
 **Dependencies**: None  
 **Acceptance criteria**:
 
-- JSON schema documented with metadata fields (indicatorName, scenarioName, generatedAt, libraryVersion, warmupPeriodCount)
-- Results array structure defined (date, properties dictionary)
-- Example baseline JSON file provided
-- Property naming convention specified (camelCase)
-- Deterministic serialization rules documented
+- JSON format documented as direct array of result objects (e.g., `List<SmaResult>`)
+- Files colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- Direct deserialization using System.Text.Json with camelCase naming
+- Example baseline files provided for single-property (SMA) and multi-property (MACD) indicators
+- Property naming convention specified (camelCase in JSON, PascalCase in C#)
+- Explicit null serialization during warmup period
 
-### T002: Create baseline file models
-
-**Description**: Implement C# models for baseline file structure  
-**Location**: `tests/indicators/Baselines/Models/BaselineFile.cs`  
-**Dependencies**: T001  
-**Acceptance criteria**:
-
-- `BaselineFile` record with Metadata and Results properties
-- `BaselineMetadata` record with all required fields
-- `BaselineResult` record with Date and Properties dictionary
-- JSON serialization attributes configured for deterministic output
-- Models support round-trip serialization (serialize → deserialize → matches)
-
-### T003: Implement baseline JSON serialization
-
-**Description**: Create JSON serialization utilities for baseline files  
-**Location**: `tests/indicators/Baselines/BaselineWriter.cs`  
-**Dependencies**: T002  
-**Acceptance criteria**:
-
-- System.Text.Json configured with camelCase naming policy
-- WriteIndented = true for human readability
-- Deterministic property order (alphabetical)
-- Null values serialized (not omitted)
-- Writes to file with UTF-8 encoding
-
-### T003a: Validate baseline JSON readability
-
-**Description**: Verify generated JSON meets human-readability standards  
-**Location**: `tests/indicators/Baselines/` (integration test)  
-**Dependencies**: T003, T009  
-**Acceptance criteria**:
-
-- Verify WriteIndented=true produces 2-space indentation (not tabs)
-- Verify each result object appears on separate lines (one per date)
-- Verify line length does not exceed 120 characters for typical indicators
-- Verify diff-friendly structure (metadata at top, results array below)
-- Verify property order is alphabetical within each object
-- Generate sample baseline and perform visual code review validation
-
-### T004: Implement baseline JSON deserialization
-
-**Description**: Create JSON deserialization utilities for loading baseline files  
-**Location**: `tests/indicators/Baselines/BaselineReader.cs`  
-**Dependencies**: T002  
-**Acceptance criteria**:
-
-- Load baseline file from path
-- Deserialize JSON to BaselineFile model
-- Handle missing file gracefully (return null or throw descriptive exception)
-- Validate JSON schema on load (required fields present)
-- Clear error messages for malformed JSON
-
-### T005: Create baseline file directory structure
-
-**Description**: Set up `.baselines/` directory in tests project  
-**Location**: `tests/indicators/.baselines/`  
-**Dependencies**: None  
-**Acceptance criteria**:
-
-- Directory created in `tests/indicators/.baselines/`
-- `.gitignore` updated to NOT ignore baseline files (ensure they are committed)
-- Directory structure documented in contributing.md
-- README.md added to `.baselines/` explaining purpose and format
+**Status**: ✅ Complete
 
 ## Phase 2: Baseline generator tool (T006-T015)
 
@@ -122,7 +67,6 @@ This document provides actionable tasks for implementing the regression baseline
 
 - `--indicator <name>` flag for single indicator generation
 - `--all` flag for batch generation
-- `--output <dir>` flag for custom output directory (default: `tests/indicators/.baselines/`)
 - `--help` displays usage information
 - Invalid arguments display clear error messages
 
@@ -135,36 +79,22 @@ This document provides actionable tasks for implementing the regression baseline
 
 - Load TestData.GetDefault() for Standard scenario
 - Dynamically invoke indicator method (e.g., `quotes.ToSma(20)`)
-- Capture all result objects
-- Extract all result properties via reflection (excluding Date)
+- Capture result list (e.g., `List<SmaResult>`)
 - Handle indicators with multiple result properties (e.g., MACD with Macd, Signal, Histogram)
+- Determine output file path based on indicator location in test directory
 
-### T008a: Validate multi-property indicator handling
+### T009: Implement baseline file writing
 
-**Description**: Test generator with indicators that have multiple result properties  
-**Location**: `tools/performance/BaselineGenerator/` (integration test)  
-**Dependencies**: T008, T009  
+**Description**: Write baseline files using standard JSON serialization  
+**Location**: `tools/performance/BaselineGenerator/Program.cs`  
+**Dependencies**: T008  
 **Acceptance criteria**:
 
-- Execute generator for MACD indicator (has three properties: macd, signal, histogram)
-- Verify baseline JSON contains all three properties for each date
-- Execute generator for Stoch indicator (has two properties: k, d)
-- Verify baseline JSON contains both properties for each date
-- Validate properties dictionary structure matches multi-property pattern
-- Confirm all properties captured even when some are null during warmup
-
-### T009: Implement baseline generation logic
-
-**Description**: Generate BaselineFile from indicator execution results  
-**Location**: `tools/performance/BaselineGenerator/BaselineGenerator.cs`  
-**Dependencies**: T008, T003  
-**Acceptance criteria**:
-
-- Create BaselineMetadata (indicator name, scenario, timestamp, version, warmup count)
-- Create BaselineResult array from indicator outputs
-- Populate properties dictionary for each result
-- Handle null values during warmup period
-- Return BaselineFile ready for serialization
+- Serialize result list directly using `System.Text.Json`
+- Configure JsonSerializerOptions with camelCase naming and WriteIndented=true
+- Write to colocated file path (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- Handle null values explicitly (not omitted)
+- Create parent directories if needed
 
 ### T010: Implement single indicator generation
 
@@ -175,8 +105,8 @@ This document provides actionable tasks for implementing the regression baseline
 
 - Accepts indicator name as argument
 - Generates baseline for specified indicator
-- Writes JSON file to output directory
-- Displays progress message ("Generating baseline for SMA...")
+- Writes JSON file to colocated test directory
+- Displays progress message ("Generating baseline for Sma...")
 - Displays completion message with file path
 
 ### T011: Implement batch generation for all indicators
@@ -209,13 +139,13 @@ This document provides actionable tasks for implementing the regression baseline
 
 **Description**: Validate generated baseline files meet format requirements  
 **Location**: `tools/performance/BaselineGenerator/BaselineValidator.cs`  
-**Dependencies**: T009, T004  
+**Dependencies**: T009  
 **Acceptance criteria**:
 
-- Validate all required metadata fields present
 - Validate results array not empty
-- Validate date sequence is ascending
+- Validate timestamp sequence is ascending
 - Validate property names match indicator output
+- Validate JSON can be deserialized back to result type
 - Validate property order is alphabetical within each result object (deterministic ordering)
 - Option to validate after generation (--validate flag)
 
@@ -235,12 +165,12 @@ This document provides actionable tasks for implementing the regression baseline
 ### T015: Generate initial baseline files for all indicators
 
 **Description**: Run generator tool to create initial baselines  
-**Location**: `tests/indicators/.baselines/`  
+**Location**: Colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)  
 **Dependencies**: T011, T013  
 **Acceptance criteria**:
 
 - Execute `dotnet run --project tools/performance/BaselineGenerator -- --all`
-- Verify 200+ JSON files created in `.baselines/` directory
+- Verify 200+ JSON files created in indicator test directories
 - Validate baseline files with --validate flag
 - Commit baseline files to version control
 - Document commit message ("Add initial regression baselines for all StaticSeries indicators")
@@ -642,7 +572,7 @@ Command: /tasks run T031 T032 T033 T034 T035
 
 ## Validation checklist
 
-- [x] All entities from data-model defined in tasks (BaselineFile, Metadata, Result, Comparer)
+- [x] Baseline format specification complete (direct result class mapping)
 - [x] Generator tool fully specified (CLI, execution, batch processing)
 - [x] Comparison logic comprehensive (tolerance, strict mode, mismatch detection)
 - [x] Regression test suite complete (per-indicator tests, failure diagnostics)
