@@ -139,26 +139,9 @@
 
 ## Website Indicator Documentation Requirements
 
-- [ ] CHK096a - Is requirement specified to add "Streaming" section to indicator doc page (`docs/_indicators/{Name}.md`)? [Completeness, Plan §Documentation Updates]
-- [ ] CHK096b - Are requirements defined for BufferList code example in streaming section (shows `{Name}List` usage with `foreach` simulation)? [Completeness, Plan §Documentation Updates, Instructions §Extension Method]
-- [ ] CHK096c - Are requirements defined for BufferList initialization pattern documentation (constructor with lookback parameters)? [Completeness, Spec §NFR-005]
-- [ ] CHK096d - Are requirements defined for incremental `Add(IQuote quote)` usage example in docs? [Completeness, Instructions §Test Structure Pattern]
-- [ ] CHK096e - Are requirements defined for results access pattern documentation (`IReadOnlyList<{Name}Result> results = {name}List`)? [Completeness, Instructions §Core Structure]
-- [ ] CHK096f - Are requirements defined for streaming section placement (after "Chaining" section, before end of file)? [Consistency, docs/_indicators/Sma.md, docs/_indicators/Ema.md]
-- [ ] CHK096g - Are requirements defined for streaming section introductory text ("Use the buffer-style `List<T>` when you need incremental calculations...")? [Completeness, docs/_indicators/Sma.md]
-- [ ] CHK096h - Are requirements defined for code example comment annotation ("// simulating stream")? [Clarity, docs/_indicators/Sma.md, docs/_indicators/Ema.md]
-- [ ] CHK096i - Are requirements defined for code example comment annotation ("// based on `List<{Name}Result>`")? [Clarity, docs/_indicators/Sma.md, docs/_indicators/Ema.md]
-- [ ] CHK096j - Are requirements specified for documentation consistency checks (streaming examples match actual implementation signatures)? [Consistency, Plan §Documentation Updates]
-- [ ] CHK096k - Are requirements defined for multi-parameter indicator documentation (show all required parameters in code examples)? [Completeness, Instructions §Constructor Pattern]
-- [ ] CHK096l - Are requirements specified for documenting BufferList initialization with quotes constructor (`new {Name}List(params, quotes)`)? [Completeness, Instructions §Constructor Pattern]
-- [ ] CHK096m - Are requirements defined for documenting batch addition pattern (`{name}List.Add(quotes)` or collection initializer syntax)? [Completeness, Instructions §Test Structure Pattern]
-- [ ] CHK096n - Are requirements specified for cross-referencing streaming section with static series usage section? [Completeness, Gap]
-- [ ] CHK096o - Are requirements defined for documenting warmup behavior in streaming context (nulls until sufficient data)? [Completeness, Spec §NFR-005, Instructions §Core Structure]
-- [ ] CHK096p - Are requirements specified for documenting memory characteristics of BufferList (<10KB, bounded growth)? [Completeness, Spec §NFR-002]
-- [ ] CHK096q - Are requirements defined for updating indicator page after implementation (Task T108 traceability)? [Traceability, tasks.md §T108]
-- [ ] CHK096r - Are requirements specified for Jekyll front matter consistency (YAML metadata unchanged)? [Consistency, docs/_indicators/*.md]
-- [ ] CHK096s - Are requirements defined for maintaining existing documentation sections (Parameters, Response, Chaining)? [Completeness, Gap]
-- [ ] CHK096t - Are requirements specified for code block syntax highlighting (```csharp markers)? [Clarity, docs/_indicators/Sma.md]
+- [ ] CHK096a - Are requirements specified for adding "Streaming" section to indicator doc page (`docs/_indicators/{Name}.md`) with BufferList code examples matching reference patterns (Sma.md, Ema.md)? [Completeness, Plan §Documentation Updates, Task T108]
+- [ ] CHK096b - Are requirements defined for updating migration guide (`src/_common/ObsoleteV3.md`) with streaming capability summary and API patterns? [Completeness, Plan §Documentation Updates, Task T109/D007]
+- [ ] CHK096c - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]
 
 ## Implementation Pattern Requirements
 
@@ -194,7 +177,7 @@
 - Add findings or gaps discovered during requirements review inline
 
 ---
-**Checklist Items**: 136
+**Checklist Items**: 119
 **Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Documentation, Website Docs, Patterns, Quality Standards
 
 **Key Requirements**:
