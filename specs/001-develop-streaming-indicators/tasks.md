@@ -46,10 +46,10 @@ The following indicators have series-style implementations but lack BufferList i
 - [x] T009 Implement Chop BufferList in `src/a-d/Chop/Chop.BufferList.cs`
 - [x] T010 Implement Cmf BufferList in `src/a-d/Cmf/Cmf.BufferList.cs`
 - [ ] T011 Implement ConnorsRsi BufferList in `src/a-d/ConnorsRsi/ConnorsRsi.BufferList.cs`
-- [x] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ PR #1499
-- [x] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ PR #1499
-- [x] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ PR #1499
-- [x] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ PR #1499
+- [X] T012 Implement Correlation BufferList in `src/a-d/Correlation/Correlation.BufferList.cs` ✅ PR #1499 ✓ Verified
+- [X] T013 Implement Doji BufferList in `src/a-d/Doji/Doji.BufferList.cs` ✅ PR #1499 ✓ Verified
+- [X] T014 Implement Donchian BufferList in `src/a-d/Donchian/Donchian.BufferList.cs` ✅ PR #1499 ✓ Verified
+- [X] T015 Implement Dpo BufferList in `src/a-d/Dpo/Dpo.BufferList.cs` ✅ PR #1499 ✓ Verified
 - [ ] T016 Implement Dynamic BufferList in `src/a-d/Dynamic/Dynamic.BufferList.cs`
 
 ### BufferList E-K Group (12 indicators)

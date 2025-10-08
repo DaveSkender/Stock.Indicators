@@ -53,6 +53,7 @@
 - [ ] CHK033 - Are auto-pruning test criteria measurable (overflow scenarios with `MaxListSize`)? [Measurability, Instructions §Test Coverage Expectations]
 - [ ] CHK034 - Can "state reset correctness" be objectively verified (equals pre-population state)? [Measurability, Instructions §Test Structure Pattern]
 - [ ] CHK035 - Are test base class requirements specified (inherit from `BufferListTestBase`)? [Completeness, TestBase.cs]
+- [ ] CHK035a - Is it clear that ALL BufferList test classes MUST inherit from `BufferListTestBase` (not `TestBase` directly)? [Clarity, CRITICAL]
 - [ ] CHK036 - Are test interface requirements specified (implement `ITestReusableBufferList` when appropriate)? [Completeness, TestBase.cs]
 - [ ] CHK037 - Are test interface requirements specified (implement `ITestNonStandardBufferListCache` when using non-standard cache)? [Completeness, TestBase.cs]
 - [ ] CHK038 - Are requirements for deterministic equality assertions specified (use `BeEquivalentTo` with `WithStrictOrdering`, NOT approximate equality)? [Clarity, TestBase.cs]
@@ -155,6 +156,8 @@
 - [ ] CHK108 - Are requirements for consistency with library conventions documented? [Completeness, Spec §NFR-004]
 - [ ] CHK109 - Are requirements for aligning with idiomatic reference implementations specified? [Completeness, Gap]
 - [ ] CHK110 - Are requirements for proper test base class inheritance documented (`BufferListTestBase`)? [Completeness, TestBase.cs]
+- [ ] CHK110a - Is it EXPLICITLY stated that test classes MUST inherit from `BufferListTestBase` and NOT from `TestBase` directly? [Clarity, CRITICAL]
+- [ ] CHK110b - Are consequences of incorrect base class inheritance documented (missing abstract method implementations)? [Completeness, CRITICAL]
 - [ ] CHK111 - Are requirements for implementing `ITestReusableBufferList` when supporting IReusable inputs specified? [Completeness, TestBase.cs]
 - [ ] CHK112 - Are requirements for implementing `ITestNonStandardBufferListCache` when using List-based state caches specified? [Completeness, TestBase.cs]
 - [ ] CHK113 - Are requirements for `AutoBufferPruning()` test when using non-standard caches specified? [Completeness, TestBase.cs]
@@ -168,14 +171,15 @@
 - Add findings or gaps discovered during requirements review inline
 
 ---
-**Checklist Items**: 113
+**Checklist Items**: 116
 **Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Documentation, Patterns, Quality Standards
 
 **Key Requirements**:
 
-1. Tests must use deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`) - NO approximate equality
-2. BufferList tests must inherit from `BufferListTestBase` and implement appropriate interfaces:
-   - `ITestReusableBufferList` when indicator supports `IReusable` inputs
-   - `ITestNonStandardBufferListCache` when using List-based state caches (not just Queue)
-3. Implementation must align with idiomatic reference patterns (SMA, EMA, Doji, MAMA examples)
-4. Non-standard caches (List-based state) require proper pruning and `AutoBufferPruning()` test
+1. **CRITICAL**: Test classes MUST inherit from `BufferListTestBase`, NOT `TestBase` directly (CHK110, CHK110a, CHK110b)
+2. Tests must use deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`) - NO approximate equality (CHK105)
+3. BufferList tests must implement appropriate interfaces:
+   - `ITestReusableBufferList` when indicator supports `IReusable` inputs (CHK111)
+   - `ITestNonStandardBufferListCache` when using List-based state caches (not just Queue) (CHK112)
+4. Implementation must align with idiomatic reference patterns (SMA, EMA, Doji, MAMA examples)
+5. Non-standard caches (List-based state) require proper pruning and `AutoBufferPruning()` test (CHK113)
