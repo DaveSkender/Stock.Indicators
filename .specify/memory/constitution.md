@@ -1,13 +1,14 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 → 1.1.0 (MINOR: added new principle consolidating scope & stewardship themes from Discussion #648)
-- Modified principles: (added) Principle 6: Scope & Stewardship
-- Added sections: Principle 6 subsection
+- Version change: 1.1.0 → 1.2.0 (MINOR: added formula sourcing hierarchy, documentation requirements, and reputation criteria to Principle 1)
+- Modified principles: Principle 1: Mathematical Precision (NON‑NEGOTIABLE) - expanded with Formula Sourcing Hierarchy, Documentation Requirements, and Reputation Criteria subsections
+- Added sections: Formula Sourcing Hierarchy, Documentation Requirements, Reputation Criteria
 - Removed sections: None
 - Templates requiring updates:
-	- .specify/templates/plan-template.md (✅ gating bullet added for Scope & Stewardship, version ref already updated earlier)
-	- .specify/templates/spec-template.md (✅ no changes needed)
+	- .specify/templates/plan-template.md (✅ no changes needed - existing gating rules already enforce mathematical precision)
+	- .specify/templates/spec-template.md (✅ no changes needed - specs already require formula sources)
 	- .specify/templates/tasks-template.md (✅ no changes needed)
+	- docs/contributing.md (✅ updated with Formula Sourcing and Validation subsection)
 - Follow-up TODOs: None
 -->
 
@@ -28,6 +29,49 @@ Rules:
 - Streaming and batch paths MUST converge to identical final values (within 1e-12 tolerance where floating point drift unavoidable).
 - Any new indicator requires a written spec (math definition + parameter constraints) before implementation.
 - Breaking mathematical behavior changes require a MAJOR library version bump and release note callout.
+
+**Formula Sourcing Hierarchy:**
+
+When implementing or validating indicator formulas, developers MUST follow this sourcing hierarchy:
+
+1. **Primary Source of Truth**: Manual calculation spreadsheets in `tests/indicators/` directory serve as the project's validated ground truth. All implementations MUST match these reference calculations exactly.
+
+2. **Authoritative Sources** (for initial implementation and documentation):
+   - Original publications by indicator creators (books, white papers, academic papers)
+   - Established technical analysis textbooks by recognized experts
+   - Published specifications from reputable financial institutions or exchanges
+   - Wikipedia entries with proper citations to primary sources
+
+3. **Acceptable Validation Sources**:
+   - Third-party implementations that cite authoritative sources
+   - Community-validated calculators with verifiable methodology (e.g., Quantified Strategies)
+   - Published analysis from recognized quantitative trading firms
+
+4. **Prohibited Sources**:
+   - TradingView and similar charting platforms ([Discussion #801](https://github.com/DaveSkender/Stock.Indicators/discussions/801): "TradingView is usually not a good source of truth")
+   - Uncited online calculators or implementations without verifiable methodology
+   - Sources that do not reference original formulas or established publications
+
+**Documentation Requirements:**
+
+Indicator documentation pages (`docs/_indicators/*.md`) SHOULD include links to authoritative sources:
+
+- Link to the creator's original publication or specification when available
+- Link to reputable secondary sources (e.g., Wikipedia with citations, established textbooks)
+- Creator attribution with time period when known
+
+Examples:
+
+- ConnorsRSI includes links to [the guidebook PDF](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf)
+- Parabolic SAR links to [Wikipedia](https://en.wikipedia.org/wiki/Parabolic_SAR) with proper citations
+
+**Reputation Criteria:**
+
+Indicators added to the library MUST meet reputation criteria ([Discussion #1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
+
+- Created by recognized experts in technical analysis or quantitative finance
+- Published in established books, periodicals, or academic journals
+- Time-tested with documented usage in the financial industry
 
 ### 2. Performance First
 
@@ -170,4 +214,4 @@ Rules:
 
 Rationale: Consolidates long‑standing design tenets (Discussion #648) that were implicit but not yet enforceable as a formal principle.
 
-**Version**: 1.1.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-02
+**Version**: 1.2.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-07

@@ -71,6 +71,7 @@ This repository uses scoped instruction files for specific development areas. Th
 
 | Pattern | File | Description |
 | ------- | ---- | ----------- |
+| `.specify/**,specs/**,.github/prompts/speckit.*` | [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md) | Spec Kit development workflow and artifact editing guidelines |
 | `src/**/*.*Series.cs,tests/**/*.*Series.Tests.cs` | [series-indicators.instructions.md](.github/instructions/series-indicators.instructions.md) | Series-style indicator development and testing guidelines |
 | `src/**/*.StreamHub.cs,tests/**/*.StreamHub.Tests.cs` | [stream-indicators.instructions.md](.github/instructions/stream-indicators.instructions.md) | Stream indicator development guidelines |
 | `src/**/*.BufferList.cs,tests/**/*.BufferList.Tests.cs` | [buffer-indicators.instructions.md](.github/instructions/buffer-indicators.instructions.md) | Buffer indicator development guidelines |
@@ -106,15 +107,23 @@ These scoped files are automatically applied when working with files matching th
 
 ## Spec-driven development integration
 
-This repository relies on <a href="https://github.com/github/spec-kit">GitHub Spec-Kit</a> for structured development. Before adding or changing indicators, consult the relevant spec in `specs/` and use chat commands to align with the active plan:
+This repository uses [Spec Kit](https://github.com/github/spec-kit) for Specification-Driven Development. Before adding or changing indicators, consult the relevant spec in `specs/` and use chat commands to align with the active plan.
 
-- **`/constitution`** — Review or update project governance principles.
-- **`/specify`** — Draft detailed specifications for new or revised indicators.
-- **`/plan`** — Outline the implementation approach.
-- **`/tasks`** — Break work into actionable units.
-- **`/implement`** — Execute the agreed-upon plan and document outcomes.
+**Core workflow commands:**
 
-Refer to <a>Spec-Kit Integration Guide</a> for usage details.
+- **`/speckit.constitution`** — Create or update project governing principles
+- **`/speckit.specify`** — Define what you want to build (requirements and user stories)
+- **`/speckit.clarify`** — Clarify underspecified areas (recommended before planning)
+- **`/speckit.plan`** — Create technical implementation plans with tech stack choices
+- **`/speckit.tasks`** — Generate actionable task lists for implementation
+- **`/speckit.analyze`** — Cross-artifact consistency & coverage analysis (before implementing)
+- **`/speckit.implement`** — Execute all tasks to build the feature according to the plan
+
+**Optional commands:**
+
+- **`/speckit.checklist`** — Generate custom quality checklists for validation
+
+For detailed Spec Kit workflow guidance, see [spec-kit.instructions.md](.github/instructions/spec-kit.instructions.md).
 
 ## Pull request guidelines
 
@@ -132,4 +141,4 @@ Examples:
 - `docs: Update API documentation`
 
 ---
-Last updated: January 27, 2025
+Last updated: October 7, 2025

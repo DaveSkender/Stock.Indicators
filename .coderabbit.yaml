@@ -66,22 +66,41 @@ reviews:
 
   # Files to include/exclude from reviews
   path_filters:
-    - "**/*"
-    - "!**/*.Designer.cs"    # Generated designer files
-    - "!**/bin/**"           # Build output
-    - "!**/obj/**"           # Build intermediate files
-    - "!**/*.g.cs"           # Generated source files
-    - "!**/node_modules/**"  # NPM dependencies
-    - "!**/.vs/**"           # Visual Studio files
-    - "!**/packages/**"      # NuGet packages cache
-    - "!**/*.bak"            # Backup files
-    - "!**/.jekyll-cache/**" # Jekyll cache
-    - "!**/Gemfile.lock"     # Ruby dependencies lock
-    - "!**/*-lock.json"      # NPM/PNPM lock files
-    - "!**/*.xlsx"           # Manual calculation spreadsheets
+    - "**"                  # Include all (base)
+    - "!.specify/"          # Spec Kit (except memory)
+    - ".specify/memory/**"  # (keep memory)
+    - "!.github/prompts/speckit.*"  # Spec Kit command templates
+    - "!node_modules/"      # NPM dependencies
+    - "!*-lock.json"        # NPM/PNPM lock files
+    - "!packages/"          # NuGet packages cache
+    - "!.jekyll-cache/"     # Jekyll cache
+    - "!vendor/"            #  and gem files
+    - "!Gemfile.lock"       # Ruby dependencies lock
+    - "!bin/"               # .NET build output
+    - "!obj/"               # .NET build intermediate files
+    - "!*.g.cs"             # Generated source files
+    - "!*.xlsx"             # Manual calculation spreadsheets
+    - "!*.bak"              # Backup files
 
   # Path-based configuration
   path_instructions:
+
+    # Spec Kit ephemeral planning documents - Allow historical context
+    - path: "specs/**/*.md"
+      instructions: |
+        These are ephemeral planning documents that track feature evolution and decision-making.
+        Unlike production documentation, specs/ files are permitted to:
+        - Include historical context and references to past PRs (e.g., "Updated per PR #1496")
+        - Use past-tense descriptions of changes and iterations
+        - Reference previous tooling or earlier versions of features
+        - Document the evolution of requirements and design decisions
+
+        Focus review on:
+        - Adherance to Spec Kit conventions and `.github\instructions\spec-kit.instructions.md`
+        - Technical accuracy of planned implementations
+        - Consistency with repository architecture, constitution, and pre-existing instructions
+        - Completeness of requirements and success criteria
+        - Alignment between spec, plan, and task artifacts
 
     # Indicator documentation pages must stay aligned with the current API surface
     - path: "docs/_indicators/*.md"

@@ -1,6 +1,6 @@
 # Data model: streaming indicators framework
 
-**Feature**: 001-develop-steaming-indicators | **Generated**: 2025-10-02
+**Feature**: 001-develop-streaming-indicators | **Generated**: 2025-10-02
 
 > **IMPORTANT**: This document contains conceptual planning examples that do not match the actual codebase implementation patterns. The real API patterns, class names, and interfaces are defined in:
 >
