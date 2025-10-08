@@ -65,6 +65,7 @@ Rules for Last updated element:
 
 - Use only for specification, instructional, and developer documentation.
   - Do not include on Markdown files used as website source pages (e.g. Jekyll).
+  - Do not include on Spec Kit files (`.specify/**`, `.github/prompts/speckit.*`).
 - Place it last.
 - Use the current date.
 
