@@ -201,4 +201,3 @@
    - `ITestChainObserver` when indicator supports chainable inputs (CHK110)
 4. Implementation must align with idiomatic reference patterns (EMA, SMA, AtrStop, Alligator examples)
 5. High-frequency processing requires span-based optimizations and bounded buffers for minimal allocations
-

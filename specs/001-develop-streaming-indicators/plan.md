@@ -1,10 +1,11 @@
 # Implementation plan: streaming indicators framework
 
 **Branch**: `001-develop-streaming-indicators` | **Date**: 205. **Parity Testing Strategy**:
-   - Feed identical quote sequences to batch and streaming
-   - Compare final values using deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`)
-   - Never use approximate equality assertions (`BeApproximately`) for mathematically deterministic calculations
-   - Test with Standard test data (502 quotes) for each indicator
+
+- Feed identical quote sequences to batch and streaming
+- Compare final values using deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`)
+- Never use approximate equality assertions (`BeApproximately`) for mathematically deterministic calculations
+- Test with Standard test data (502 quotes) for each indicator
 
 **Output**: No separate research.md needed (decisions documented above)02 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-develop-streaming-indicators/spec.md`
