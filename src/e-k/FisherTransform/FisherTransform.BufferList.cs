@@ -125,7 +125,7 @@ public class FisherTransformList : BufferList<FisherTransformResult>, IBufferReu
 
         for (int i = 0; i < quotes.Count; i++)
         {
-            Add(quotes[i].Timestamp, quotes[i].Value);
+            Add(quotes[i]);
         }
     }
 
