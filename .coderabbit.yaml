@@ -81,6 +81,7 @@ reviews:
     - "!*.g.cs"             # Generated source files
     - "!*.xlsx"             # Manual calculation spreadsheets
     - "!*.bak"              # Backup files
+    - "!*.Baseline.json"    # Regression test data
 
   # Path-based configuration
   path_instructions:

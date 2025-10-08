@@ -1,6 +1,13 @@
 # Implementation plan: streaming indicators framework
 
-**Branch**: `001-develop-streaming-indicators` | **Date**: 2025-10-02 | **Spec**: [spec.md](./spec.md)
+**Branch**: `001-develop-streaming-indicators` | **Date**: 205. **Parity Testing Strategy**:
+
+- Feed identical quote sequences to batch and streaming
+- Compare final values using deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`)
+- Never use approximate equality assertions (`BeApproximately`) for mathematically deterministic calculations
+- Test with Standard test data (502 quotes) for each indicator
+
+**Output**: No separate research.md needed (decisions documented above)02 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-develop-streaming-indicators/spec.md`
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
@@ -11,7 +18,7 @@
 
 ## Summary
 
-Implement two streaming indicator styles (BufferList and StreamHub) enabling incremental calculation of technical indicators from real-time market data feeds. BufferList provides simpler List-backed state management while StreamHub offers optimized span-based buffers for high-frequency scenarios. Both styles maintain state across ticks, validate warmup requirements, and converge to batch-calculated results within floating-point tolerance.
+Implement two streaming indicator styles (BufferList and StreamHub) enabling incremental calculation of technical indicators from real-time market data feeds. BufferList provides simpler List-backed state management while StreamHub offers optimized span-based buffers for high-frequency scenarios. Both styles maintain state across ticks, validate warmup requirements, and produce mathematically identical results to Series (batch) baseline with deterministic equality per Constitution v1.2.2.
 
 ## Technical context
 
@@ -22,14 +29,14 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 - Target platform: Multi-target `net8.0;net9.0`
 - Project type: Single project (library enhancement)
 - Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
-- Constraints: O(1) incremental updates, streaming parity with batch within 1e-12, bounded buffers
+- Constraints: O(1) incremental updates, deterministic mathematical equality with batch calculations, bounded buffers
 - Scale/scope: 107 total tasks across phased rollout (55 BufferList + 52 StreamHub implementations), targeting all feasible Series-based indicators
 
 ## Constitution check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- **Mathematical Precision (NON-NEGOTIABLE)**: Streaming implementations MUST produce mathematically identical results to batch calculations. All warmup periods inherited from validated batch indicators. State updates are deterministic with no silent rounding. Streaming and batch paths converge within 1e-12 tolerance (floating-point drift only). No new mathematical formulas introduced—pure refactoring of calculation timing.
+- **Mathematical Precision (NON-NEGOTIABLE)**: Streaming implementations MUST produce mathematically identical results to batch calculations. All warmup periods inherited from validated batch indicators. State updates are deterministic with no silent rounding. Streaming and batch paths produce bit-for-bit identical results—no tolerance for drift. No new mathematical formulas introduced—pure refactoring of calculation timing.
 
 - **Performance First**: O(1) per-tick incremental updates with no recalculation of historical values. BufferList uses List-based O(1) append with bounded capacity. StreamHub uses span-optimized circular buffers for minimal allocations. Target: <5ms mean latency, <10ms p95 latency, <10KB memory per instance. BenchmarkDotNet validation required before merge. No LINQ in per-tick hot paths.
 
@@ -115,9 +122,11 @@ No external research required—design extends existing indicator patterns.
     - Future enhancement: optional reorder buffer (deferred to v2 once requirements clarified)
 
 5. **Parity Testing Strategy**:
-   - Feed identical quote sequences to batch and streaming
-   - Compare final values element-wise with 1e-12 tolerance
-   - Test with Standard test data (502 quotes) for each indicator
+
+- Feed identical quote sequences to batch and streaming
+- Compare final values using deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`)
+- Never use approximate equality assertions (`BeApproximately`) for mathematically deterministic calculations
+- Test with Standard test data (502 quotes) for each indicator
 
 **Output**: No separate research.md needed (decisions captured above)
 
@@ -134,6 +143,21 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 - **StreamingResult\<T>**: Wrapper containing { DateTime, T Value, StreamingState }
 - **BufferList**: List-backed implementation with `Add()`, `Reset()`, bounded capacity
 - **StreamHub**: Span-optimized implementation with circular buffer, `Add()`, `Reset()`
+
+### Quality gates
+
+Before implementing each indicator:
+
+- Review the corresponding checklist artifact for requirements quality validation
+- **BufferList style**: [checklists/buffer-list.md](checklists/buffer-list.md) — 113 validation items
+- **StreamHub style**: [checklists/stream-hub.md](checklists/stream-hub.md) — 115 validation items
+
+These checklists ensure:
+
+- Deterministic mathematical equality (no approximate equality assertions)
+- Proper test interface implementation (`ITestReusableBufferList`, `ITestNonStandardBufferListCache`)
+- Complete coverage of edge cases, error conditions, and performance expectations
+- Alignment with constitution principles and instruction file patterns
 
 ### API contracts
 

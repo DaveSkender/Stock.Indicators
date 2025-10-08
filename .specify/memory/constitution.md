@@ -1,14 +1,20 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 → 1.1.0 (MINOR: added new principle consolidating scope & stewardship themes from Discussion #648)
-- Modified principles: (added) Principle 6: Scope & Stewardship
-- Added sections: Principle 6 subsection
+- Version change: 1.2.1 → 1.2.2 (PATCH: clarified that all implementation styles must match precisely)
+- Modified principles: Principle 1: Mathematical Precision (NON‑NEGOTIABLE) - expanded streaming/batch parity rule to include all three implementation styles (Series, BufferList, StreamHub)
+- Added sections: None
 - Removed sections: None
 - Templates requiring updates:
-	- .specify/templates/plan-template.md (✅ gating bullet added for Scope & Stewardship, version ref already updated earlier)
+	- .specify/templates/plan-template.md (✅ no changes needed)
 	- .specify/templates/spec-template.md (✅ no changes needed)
 	- .specify/templates/tasks-template.md (✅ no changes needed)
+	- specs/001-develop-streaming-indicators/spec.md (✅ already enforces three-way parity)
+	- specs/001-develop-streaming-indicators/plan.md (✅ already enforces deterministic equality across styles)
+	- specs/001-develop-streaming-indicators/tasks.md (✅ already references deterministic checklists)
+	- specs/001-develop-streaming-indicators/checklists/buffer-list.md (✅ enforces Series baseline parity)
+	- specs/001-develop-streaming-indicators/checklists/stream-hub.md (✅ enforces Series baseline parity)
 - Follow-up TODOs: None
+- Rationale: The previous phrasing "streaming and batch paths" was ambiguous about which implementation served as the baseline. The library has three implementation styles (Series/batch, BufferList/streaming, StreamHub/streaming), and Series is the validated baseline. All streaming implementations (BufferList and StreamHub) must match the Series results precisely—not just match each other. This clarification establishes the Series style as the mathematical source of truth for parity testing.
 -->
 
 # Stock Indicators Project Constitution
@@ -25,9 +31,52 @@ Rules:
 - No silent rounding or implicit unit conversions; use explicit casting when required.
 - Default numeric type is double; decimal ONLY when price-sensitive rounding would materially change output.
 - Results MUST match validated reference data (published examples, academic definitions, or vetted calculators).
-- Streaming and batch paths MUST converge to identical final values (within 1e-12 tolerance where floating point drift unavoidable).
+- All implementation styles (Series/batch, BufferList/streaming, StreamHub/streaming) MUST produce bit-for-bit identical final values for deterministic calculations; Series serves as the validated baseline and streaming implementations must match it precisely.
 - Any new indicator requires a written spec (math definition + parameter constraints) before implementation.
 - Breaking mathematical behavior changes require a MAJOR library version bump and release note callout.
+
+**Formula Sourcing Hierarchy:**
+
+When implementing or validating indicator formulas, developers MUST follow this sourcing hierarchy:
+
+1. **Primary Source of Truth**: Manual calculation spreadsheets in `tests/indicators/` directory serve as the project's validated ground truth. All implementations MUST match these reference calculations exactly.
+
+2. **Authoritative Sources** (for initial implementation and documentation):
+   - Original publications by indicator creators (books, white papers, academic papers)
+   - Established technical analysis textbooks by recognized experts
+   - Published specifications from reputable financial institutions or exchanges
+   - Wikipedia entries with proper citations to primary sources
+
+3. **Acceptable Validation Sources**:
+   - Third-party implementations that cite authoritative sources
+   - Community-validated calculators with verifiable methodology (e.g., Quantified Strategies)
+   - Published analysis from recognized quantitative trading firms
+
+4. **Prohibited Sources**:
+   - TradingView and similar charting platforms ([Discussion #801](https://github.com/DaveSkender/Stock.Indicators/discussions/801): "TradingView is usually not a good source of truth")
+   - Uncited online calculators or implementations without verifiable methodology
+   - Sources that do not reference original formulas or established publications
+
+**Documentation Requirements:**
+
+Indicator documentation pages (`docs/_indicators/*.md`) SHOULD include links to authoritative sources:
+
+- Link to the creator's original publication or specification when available
+- Link to reputable secondary sources (e.g., Wikipedia with citations, established textbooks)
+- Creator attribution with time period when known
+
+Examples:
+
+- ConnorsRSI includes links to [the guidebook PDF](https://alvarezquanttrading.com/wp-content/uploads/2016/05/ConnorsRSIGuidebook.pdf)
+- Parabolic SAR links to [Wikipedia](https://en.wikipedia.org/wiki/Parabolic_SAR) with proper citations
+
+**Reputation Criteria:**
+
+Indicators added to the library MUST meet reputation criteria ([Discussion #1024](https://github.com/DaveSkender/Stock.Indicators/discussions/1024)):
+
+- Created by recognized experts in technical analysis or quantitative finance
+- Published in established books, periodicals, or academic journals
+- Time-tested with documented usage in the financial industry
 
 ### 2. Performance First
 
@@ -170,4 +219,4 @@ Rules:
 
 Rationale: Consolidates long‑standing design tenets (Discussion #648) that were implicit but not yet enforceable as a formal principle.
 
-**Version**: 1.1.0 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-02
+**Version**: 1.2.2 | **Ratified**: 2025-10-02 | **Last Amended**: 2025-10-07
