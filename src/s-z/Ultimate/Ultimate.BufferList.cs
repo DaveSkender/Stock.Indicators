@@ -81,7 +81,6 @@ public class UltimateList : BufferList<UltimateResult>, IUltimate, IBufferList
             _isInitialized = true;
 
             AddInternal(new UltimateResult(timestamp, null));
-            PruneList();
             return;
         }
 
