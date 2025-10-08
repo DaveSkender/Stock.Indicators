@@ -4,7 +4,7 @@ namespace Skender.Stock.Indicators;
 /// Correlation from incremental paired reusable values.
 /// Note: This indicator requires two synchronized series (A and B).
 /// </summary>
-public class CorrelationList : BufferList<CorrResult>
+public class CorrelationList : BufferList<CorrResult>, ICorrelation
 {
     private readonly Queue<double> valueABuffer;
     private readonly Queue<double> valueBBuffer;
