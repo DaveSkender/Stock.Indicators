@@ -1,0 +1,2512 @@
+[
+  {
+    "timestamp": "2017-01-03T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-04T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-05T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-06T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-09T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-10T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-11T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-12T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-13T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-17T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-18T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-19T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-20T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-23T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-24T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-25T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-26T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-27T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-30T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-01-31T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-01T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-02T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-03T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-06T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-07T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-08T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-09T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-10T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-13T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-14T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-15T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-16T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-17T00:00:00",
+    "oscillator": null,
+    "normalized": null
+  },
+  {
+    "timestamp": "2017-02-21T00:00:00",
+    "oscillator": 5.475588235294111,
+    "normalized": 2.454760259703269
+  },
+  {
+    "timestamp": "2017-02-22T00:00:00",
+    "oscillator": 5.774882352941148,
+    "normalized": 2.5880665753652043
+  },
+  {
+    "timestamp": "2017-02-23T00:00:00",
+    "oscillator": 5.86661764705886,
+    "normalized": 2.6286484662867906
+  },
+  {
+    "timestamp": "2017-02-24T00:00:00",
+    "oscillator": 5.889617647058799,
+    "normalized": 2.6403737322060428
+  },
+  {
+    "timestamp": "2017-02-27T00:00:00",
+    "oscillator": 6.049676470588167,
+    "normalized": 2.7038264410771937
+  },
+  {
+    "timestamp": "2017-02-28T00:00:00",
+    "oscillator": 5.851088235294071,
+    "normalized": 2.61887397515624
+  },
+  {
+    "timestamp": "2017-03-01T00:00:00",
+    "oscillator": 6.0976470588234974,
+    "normalized": 2.696642074484122
+  },
+  {
+    "timestamp": "2017-03-02T00:00:00",
+    "oscillator": 6.2519705882352525,
+    "normalized": 2.77009707270221
+  },
+  {
+    "timestamp": "2017-03-03T00:00:00",
+    "oscillator": 6.300617647058772,
+    "normalized": 2.8000878372814135
+  },
+  {
+    "timestamp": "2017-03-06T00:00:00",
+    "oscillator": 6.148264705882326,
+    "normalized": 2.7393190785637134
+  },
+  {
+    "timestamp": "2017-03-07T00:00:00",
+    "oscillator": 5.991264705882344,
+    "normalized": 2.67276262753495
+  },
+  {
+    "timestamp": "2017-03-08T00:00:00",
+    "oscillator": 5.255794117647014,
+    "normalized": 2.347122526581227
+  },
+  {
+    "timestamp": "2017-03-09T00:00:00",
+    "oscillator": 4.516058823529363,
+    "normalized": 2.0212862587129297
+  },
+  {
+    "timestamp": "2017-03-10T00:00:00",
+    "oscillator": 4.055735294117596,
+    "normalized": 1.8090212957994587
+  },
+  {
+    "timestamp": "2017-03-13T00:00:00",
+    "oscillator": 3.7320294117646426,
+    "normalized": 1.6629294471492224
+  },
+  {
+    "timestamp": "2017-03-14T00:00:00",
+    "oscillator": 3.3620294117646665,
+    "normalized": 1.5033556517381745
+  },
+  {
+    "timestamp": "2017-03-15T00:00:00",
+    "oscillator": 3.3570588235293997,
+    "normalized": 1.4907341741732276
+  },
+  {
+    "timestamp": "2017-03-16T00:00:00",
+    "oscillator": 3.507823529411752,
+    "normalized": 1.5557828222875558
+  },
+  {
+    "timestamp": "2017-03-17T00:00:00",
+    "oscillator": 3.4798235294117603,
+    "normalized": 1.5441519067301637
+  },
+  {
+    "timestamp": "2017-03-20T00:00:00",
+    "oscillator": 3.2471470588236,
+    "normalized": 1.4449103630238955
+  },
+  {
+    "timestamp": "2017-03-21T00:00:00",
+    "oscillator": 2.9617647058823877,
+    "normalized": 1.324877971765774
+  },
+  {
+    "timestamp": "2017-03-22T00:00:00",
+    "oscillator": 2.1000000000000227,
+    "normalized": 0.9465002028214823
+  },
+  {
+    "timestamp": "2017-03-23T00:00:00",
+    "oscillator": 1.2797647058823998,
+    "normalized": 0.5752139271781916
+  },
+  {
+    "timestamp": "2017-03-24T00:00:00",
+    "oscillator": 0.44870588235301057,
+    "normalized": 0.20208790611976066
+  },
+  {
+    "timestamp": "2017-03-27T00:00:00",
+    "oscillator": -0.4588529411764739,
+    "normalized": -0.20775267297963637
+  },
+  {
+    "timestamp": "2017-03-28T00:00:00",
+    "oscillator": -0.8469999999999516,
+    "normalized": -0.38069982245991935
+  },
+  {
+    "timestamp": "2017-03-29T00:00:00",
+    "oscillator": -0.7806176470587616,
+    "normalized": -0.34968425518344415
+  },
+  {
+    "timestamp": "2017-03-30T00:00:00",
+    "oscillator": -0.6964999999999577,
+    "normalized": -0.31116670761943294
+  },
+  {
+    "timestamp": "2017-03-31T00:00:00",
+    "oscillator": -0.4632058823528382,
+    "normalized": -0.20676526385574745
+  },
+  {
+    "timestamp": "2017-04-03T00:00:00",
+    "oscillator": -0.1406470588234754,
+    "normalized": -0.06308315975128406
+  },
+  {
+    "timestamp": "2017-04-04T00:00:00",
+    "oscillator": -0.11629411764698716,
+    "normalized": -0.05213930715639766
+  },
+  {
+    "timestamp": "2017-04-05T00:00:00",
+    "oscillator": -0.05902941176464083,
+    "normalized": -0.026364185692112917
+  },
+  {
+    "timestamp": "2017-04-06T00:00:00",
+    "oscillator": -0.23385294117642275,
+    "normalized": -0.1047704760988431
+  },
+  {
+    "timestamp": "2017-04-07T00:00:00",
+    "oscillator": -0.4327352941175491,
+    "normalized": -0.19380401465281996
+  },
+  {
+    "timestamp": "2017-04-10T00:00:00",
+    "oscillator": -0.344352941176453,
+    "normalized": -0.1541039319668179
+  },
+  {
+    "timestamp": "2017-04-11T00:00:00",
+    "oscillator": -0.4722058823528812,
+    "normalized": -0.2124374133313304
+  },
+  {
+    "timestamp": "2017-04-12T00:00:00",
+    "oscillator": -0.7518235294116948,
+    "normalized": -0.3380729497995345
+  },
+  {
+    "timestamp": "2017-04-13T00:00:00",
+    "oscillator": -1.0367058823528907,
+    "normalized": -0.4679120248929819
+  },
+  {
+    "timestamp": "2017-04-17T00:00:00",
+    "oscillator": -1.2807647058822909,
+    "normalized": -0.5775063491747451
+  },
+  {
+    "timestamp": "2017-04-18T00:00:00",
+    "oscillator": -1.558999999999969,
+    "normalized": -0.7027904251002881
+  },
+  {
+    "timestamp": "2017-04-19T00:00:00",
+    "oscillator": -1.4767647058822888,
+    "normalized": -0.6649098180469558
+  },
+  {
+    "timestamp": "2017-04-20T00:00:00",
+    "oscillator": -1.306911764705859,
+    "normalized": -0.5865588459700458
+  },
+  {
+    "timestamp": "2017-04-21T00:00:00",
+    "oscillator": -1.0074117647058642,
+    "normalized": -0.4523220926301474
+  },
+  {
+    "timestamp": "2017-04-24T00:00:00",
+    "oscillator": -0.562970588235288,
+    "normalized": -0.2514159468717792
+  },
+  {
+    "timestamp": "2017-04-25T00:00:00",
+    "oscillator": 0.24932352941175395,
+    "normalized": 0.11022747663988415
+  },
+  {
+    "timestamp": "2017-04-26T00:00:00",
+    "oscillator": 1.0911176470588089,
+    "normalized": 0.4812621943625657
+  },
+  {
+    "timestamp": "2017-04-27T00:00:00",
+    "oscillator": 1.6994411764705148,
+    "normalized": 0.7510678289081694
+  },
+  {
+    "timestamp": "2017-04-28T00:00:00",
+    "oscillator": 2.3424411764705724,
+    "normalized": 1.0354017620927674
+  },
+  {
+    "timestamp": "2017-05-01T00:00:00",
+    "oscillator": 2.7939999999999543,
+    "normalized": 1.2336630166018874
+  },
+  {
+    "timestamp": "2017-05-02T00:00:00",
+    "oscillator": 2.761499999999984,
+    "normalized": 1.2195283518812858
+  },
+  {
+    "timestamp": "2017-05-03T00:00:00",
+    "oscillator": 2.611735294117608,
+    "normalized": 1.1550984251200143
+  },
+  {
+    "timestamp": "2017-05-04T00:00:00",
+    "oscillator": 2.5702941176470517,
+    "normalized": 1.136468559523822
+  },
+  {
+    "timestamp": "2017-05-05T00:00:00",
+    "oscillator": 2.6697941176470295,
+    "normalized": 1.176276211678649
+  },
+  {
+    "timestamp": "2017-05-08T00:00:00",
+    "oscillator": 2.7573529411764355,
+    "normalized": 1.213116408709578
+  },
+  {
+    "timestamp": "2017-05-09T00:00:00",
+    "oscillator": 2.83014705882357,
+    "normalized": 1.2447593335929321
+  },
+  {
+    "timestamp": "2017-05-10T00:00:00",
+    "oscillator": 2.9034705882352796,
+    "normalized": 1.2775704962203946
+  },
+  {
+    "timestamp": "2017-05-11T00:00:00",
+    "oscillator": 2.8754117647058877,
+    "normalized": 1.2687412644586615
+  },
+  {
+    "timestamp": "2017-05-12T00:00:00",
+    "oscillator": 2.7063823529411764,
+    "normalized": 1.1931324573209787
+  },
+  {
+    "timestamp": "2017-05-15T00:00:00",
+    "oscillator": 2.582941176470655,
+    "normalized": 1.1344611632425574
+  },
+  {
+    "timestamp": "2017-05-16T00:00:00",
+    "oscillator": 2.525558823529451,
+    "normalized": 1.1083331827486949
+  },
+  {
+    "timestamp": "2017-05-17T00:00:00",
+    "oscillator": 2.032588235294156,
+    "normalized": 0.9030915871924985
+  },
+  {
+    "timestamp": "2017-05-18T00:00:00",
+    "oscillator": 1.5843235294118188,
+    "normalized": 0.7057434760621046
+  },
+  {
+    "timestamp": "2017-05-19T00:00:00",
+    "oscillator": 1.3602352941177287,
+    "normalized": 0.6018740239458976
+  },
+  {
+    "timestamp": "2017-05-22T00:00:00",
+    "oscillator": 1.1103823529412296,
+    "normalized": 0.48909058403789346
+  },
+  {
+    "timestamp": "2017-05-23T00:00:00",
+    "oscillator": 0.9241176470588357,
+    "normalized": 0.4060092469833644
+  },
+  {
+    "timestamp": "2017-05-24T00:00:00",
+    "oscillator": 1.3963529411765023,
+    "normalized": 0.6123280745380207
+  },
+  {
+    "timestamp": "2017-05-25T00:00:00",
+    "oscillator": 2.1569117647058818,
+    "normalized": 0.9411841710109883
+  },
+  {
+    "timestamp": "2017-05-26T00:00:00",
+    "oscillator": 2.6425588235294413,
+    "normalized": 1.1523706794276176
+  },
+  {
+    "timestamp": "2017-05-30T00:00:00",
+    "oscillator": 2.895647058823556,
+    "normalized": 1.263757281378936
+  },
+  {
+    "timestamp": "2017-05-31T00:00:00",
+    "oscillator": 2.963205882352952,
+    "normalized": 1.294400298068342
+  },
+  {
+    "timestamp": "2017-06-01T00:00:00",
+    "oscillator": 3.1500000000000057,
+    "normalized": 1.36891052105515
+  },
+  {
+    "timestamp": "2017-06-02T00:00:00",
+    "oscillator": 3.28185294117651,
+    "normalized": 1.4191489659365246
+  },
+  {
+    "timestamp": "2017-06-05T00:00:00",
+    "oscillator": 3.4422058823529937,
+    "normalized": 1.4865608094634077
+  },
+  {
+    "timestamp": "2017-06-06T00:00:00",
+    "oscillator": 3.5635588235294335,
+    "normalized": 1.5419986254995386
+  },
+  {
+    "timestamp": "2017-06-07T00:00:00",
+    "oscillator": 3.7048529411765116,
+    "normalized": 1.6043185992190323
+  },
+  {
+    "timestamp": "2017-06-08T00:00:00",
+    "oscillator": 3.6914411764705903,
+    "normalized": 1.5960228183106016
+  },
+  {
+    "timestamp": "2017-06-09T00:00:00",
+    "oscillator": 3.4020294117647154,
+    "normalized": 1.4725487649936007
+  },
+  {
+    "timestamp": "2017-06-12T00:00:00",
+    "oscillator": 2.994088235294157,
+    "normalized": 1.2990663985136053
+  },
+  {
+    "timestamp": "2017-06-13T00:00:00",
+    "oscillator": 2.937529411764757,
+    "normalized": 1.2682811613085323
+  },
+  {
+    "timestamp": "2017-06-14T00:00:00",
+    "oscillator": 2.927999999999969,
+    "normalized": 1.264248704663199
+  },
+  {
+    "timestamp": "2017-06-15T00:00:00",
+    "oscillator": 2.6805588235294238,
+    "normalized": 1.1618988853858494
+  },
+  {
+    "timestamp": "2017-06-16T00:00:00",
+    "oscillator": 2.529294117647055,
+    "normalized": 1.0950747359601052
+  },
+  {
+    "timestamp": "2017-06-19T00:00:00",
+    "oscillator": 2.7997352941176246,
+    "normalized": 1.20286794875196
+  },
+  {
+    "timestamp": "2017-06-20T00:00:00",
+    "oscillator": 2.763529411764722,
+    "normalized": 1.189663751593759
+  },
+  {
+    "timestamp": "2017-06-21T00:00:00",
+    "oscillator": 2.618970588235271,
+    "normalized": 1.1303282642361983
+  },
+  {
+    "timestamp": "2017-06-22T00:00:00",
+    "oscillator": 2.6696764705882288,
+    "normalized": 1.1517900082353167
+  },
+  {
+    "timestamp": "2017-06-23T00:00:00",
+    "oscillator": 2.6748529411764252,
+    "normalized": 1.154496500140889
+  },
+  {
+    "timestamp": "2017-06-26T00:00:00",
+    "oscillator": 2.4502941176469903,
+    "normalized": 1.0544341671602506
+  },
+  {
+    "timestamp": "2017-06-27T00:00:00",
+    "oscillator": 2.0971764705882094,
+    "normalized": 0.9075739351241846
+  },
+  {
+    "timestamp": "2017-06-28T00:00:00",
+    "oscillator": 1.9624705882353055,
+    "normalized": 0.8470791359599894
+  },
+  {
+    "timestamp": "2017-06-29T00:00:00",
+    "oscillator": 1.608000000000004,
+    "normalized": 0.6973264814935294
+  },
+  {
+    "timestamp": "2017-06-30T00:00:00",
+    "oscillator": 1.326882352941169,
+    "normalized": 0.5747064938241377
+  },
+  {
+    "timestamp": "2017-07-03T00:00:00",
+    "oscillator": 1.0393823529412032,
+    "normalized": 0.44896756136636495
+  },
+  {
+    "timestamp": "2017-07-05T00:00:00",
+    "oscillator": 0.9468235294117449,
+    "normalized": 0.40972954947822005
+  },
+  {
+    "timestamp": "2017-07-06T00:00:00",
+    "oscillator": 0.4608529411763982,
+    "normalized": 0.20040133984580183
+  },
+  {
+    "timestamp": "2017-07-07T00:00:00",
+    "oscillator": 0.21305882352942263,
+    "normalized": 0.09255579987811317
+  },
+  {
+    "timestamp": "2017-07-10T00:00:00",
+    "oscillator": 0.09255882352937306,
+    "normalized": 0.04006615307636866
+  },
+  {
+    "timestamp": "2017-07-11T00:00:00",
+    "oscillator": -0.21732352941174327,
+    "normalized": -0.09429989126605193
+  },
+  {
+    "timestamp": "2017-07-12T00:00:00",
+    "oscillator": -0.09264705882353041,
+    "normalized": -0.03986277082956367
+  },
+  {
+    "timestamp": "2017-07-13T00:00:00",
+    "oscillator": 0.3343529411764621,
+    "normalized": 0.1436223974125696
+  },
+  {
+    "timestamp": "2017-07-14T00:00:00",
+    "oscillator": 0.9089411764705915,
+    "normalized": 0.3888684762858695
+  },
+  {
+    "timestamp": "2017-07-17T00:00:00",
+    "oscillator": 1.4014117647058697,
+    "normalized": 0.5983952538294455
+  },
+  {
+    "timestamp": "2017-07-18T00:00:00",
+    "oscillator": 1.9303529411764941,
+    "normalized": 0.8256781475582763
+  },
+  {
+    "timestamp": "2017-07-19T00:00:00",
+    "oscillator": 2.2755000000000223,
+    "normalized": 0.9681330837304384
+  },
+  {
+    "timestamp": "2017-07-20T00:00:00",
+    "oscillator": 2.6501470588235065,
+    "normalized": 1.1255190090985758
+  },
+  {
+    "timestamp": "2017-07-21T00:00:00",
+    "oscillator": 2.805647058823581,
+    "normalized": 1.1934860723258385
+  },
+  {
+    "timestamp": "2017-07-24T00:00:00",
+    "oscillator": 2.8926176470588416,
+    "normalized": 1.2300636362726831
+  },
+  {
+    "timestamp": "2017-07-25T00:00:00",
+    "oscillator": 3.186235294117637,
+    "normalized": 1.3502427350853425
+  },
+  {
+    "timestamp": "2017-07-26T00:00:00",
+    "oscillator": 3.22144117647062,
+    "normalized": 1.3652777760465427
+  },
+  {
+    "timestamp": "2017-07-27T00:00:00",
+    "oscillator": 3.082588235294139,
+    "normalized": 1.3097054512328252
+  },
+  {
+    "timestamp": "2017-07-28T00:00:00",
+    "oscillator": 2.971147058823533,
+    "normalized": 1.263645745379493
+  },
+  {
+    "timestamp": "2017-07-31T00:00:00",
+    "oscillator": 2.8949117647058813,
+    "normalized": 1.2291575087915596
+  },
+  {
+    "timestamp": "2017-08-01T00:00:00",
+    "oscillator": 2.7052647058823425,
+    "normalized": 1.1481716808702087
+  },
+  {
+    "timestamp": "2017-08-02T00:00:00",
+    "oscillator": 2.499558823529412,
+    "normalized": 1.0613837891844637
+  },
+  {
+    "timestamp": "2017-08-03T00:00:00",
+    "oscillator": 2.3863823529411547,
+    "normalized": 1.0133043259978152
+  },
+  {
+    "timestamp": "2017-08-04T00:00:00",
+    "oscillator": 2.392970588235272,
+    "normalized": 1.014486428792298
+  },
+  {
+    "timestamp": "2017-08-07T00:00:00",
+    "oscillator": 2.411441176470589,
+    "normalized": 1.0213426977279554
+  },
+  {
+    "timestamp": "2017-08-08T00:00:00",
+    "oscillator": 2.4374705882353,
+    "normalized": 1.0313406906301514
+  },
+  {
+    "timestamp": "2017-08-09T00:00:00",
+    "oscillator": 2.2770882352941157,
+    "normalized": 0.9680880195965885
+  },
+  {
+    "timestamp": "2017-08-10T00:00:00",
+    "oscillator": 1.8555000000000064,
+    "normalized": 0.7940515673478148
+  },
+  {
+    "timestamp": "2017-08-11T00:00:00",
+    "oscillator": 1.226470588235287,
+    "normalized": 0.5265743246400134
+  },
+  {
+    "timestamp": "2017-08-14T00:00:00",
+    "oscillator": 0.8806470588235129,
+    "normalized": 0.3751904647339438
+  },
+  {
+    "timestamp": "2017-08-15T00:00:00",
+    "oscillator": 0.5159705882352625,
+    "normalized": 0.21945922684499278
+  },
+  {
+    "timestamp": "2017-08-16T00:00:00",
+    "oscillator": 0.46473529411770187,
+    "normalized": 0.197318880848191
+  },
+  {
+    "timestamp": "2017-08-17T00:00:00",
+    "oscillator": 0.3374705882353055,
+    "normalized": 0.14455178113394393
+  },
+  {
+    "timestamp": "2017-08-18T00:00:00",
+    "oscillator": 0.10191176470590335,
+    "normalized": 0.043949269985511505
+  },
+  {
+    "timestamp": "2017-08-21T00:00:00",
+    "oscillator": -0.5871470588234899,
+    "normalized": -0.2539179011929379
+  },
+  {
+    "timestamp": "2017-08-22T00:00:00",
+    "oscillator": -1.0296470588235138,
+    "normalized": -0.44151068085567247
+  },
+  {
+    "timestamp": "2017-08-23T00:00:00",
+    "oscillator": -1.5846764705882208,
+    "normalized": -0.679447957204571
+  },
+  {
+    "timestamp": "2017-08-24T00:00:00",
+    "oscillator": -1.7429705882352664,
+    "normalized": -0.7477511693666816
+  },
+  {
+    "timestamp": "2017-08-25T00:00:00",
+    "oscillator": -1.4751470588234952,
+    "normalized": -0.6314706700727704
+  },
+  {
+    "timestamp": "2017-08-28T00:00:00",
+    "oscillator": -1.150794117647024,
+    "normalized": -0.4933313832241711
+  },
+  {
+    "timestamp": "2017-08-29T00:00:00",
+    "oscillator": -1.2628823529412045,
+    "normalized": -0.5427316829005133
+  },
+  {
+    "timestamp": "2017-08-30T00:00:00",
+    "oscillator": -1.1347941176470329,
+    "normalized": -0.4848407928252047
+  },
+  {
+    "timestamp": "2017-08-31T00:00:00",
+    "oscillator": -0.7174999999999443,
+    "normalized": -0.30476150023359144
+  },
+  {
+    "timestamp": "2017-09-01T00:00:00",
+    "oscillator": -0.21226470588234747,
+    "normalized": -0.08976580292320109
+  },
+  {
+    "timestamp": "2017-09-05T00:00:00",
+    "oscillator": 0.06147058823526663,
+    "normalized": 0.026181650546358
+  },
+  {
+    "timestamp": "2017-09-06T00:00:00",
+    "oscillator": 0.5724117647059188,
+    "normalized": 0.24328959737585804
+  },
+  {
+    "timestamp": "2017-09-07T00:00:00",
+    "oscillator": 0.8354999999999961,
+    "normalized": 0.35499564487688645
+  },
+  {
+    "timestamp": "2017-09-08T00:00:00",
+    "oscillator": 0.7919411764706012,
+    "normalized": 0.33665958572091786
+  },
+  {
+    "timestamp": "2017-09-11T00:00:00",
+    "oscillator": 0.8618823529411941,
+    "normalized": 0.36351006028730243
+  },
+  {
+    "timestamp": "2017-09-12T00:00:00",
+    "oscillator": 1.4692058823529806,
+    "normalized": 0.6169504838972791
+  },
+  {
+    "timestamp": "2017-09-13T00:00:00",
+    "oscillator": 1.9999705882352998,
+    "normalized": 0.8393539348380232
+  },
+  {
+    "timestamp": "2017-09-14T00:00:00",
+    "oscillator": 2.5086176470588555,
+    "normalized": 1.0525594843639647
+  },
+  {
+    "timestamp": "2017-09-15T00:00:00",
+    "oscillator": 3.068323529411771,
+    "normalized": 1.2863200492220306
+  },
+  {
+    "timestamp": "2017-09-18T00:00:00",
+    "oscillator": 3.3920294117647245,
+    "normalized": 1.417657630193808
+  },
+  {
+    "timestamp": "2017-09-19T00:00:00",
+    "oscillator": 3.531852941176453,
+    "normalized": 1.475324439180623
+  },
+  {
+    "timestamp": "2017-09-20T00:00:00",
+    "oscillator": 3.5960882352940757,
+    "normalized": 1.5038214507983423
+  },
+  {
+    "timestamp": "2017-09-21T00:00:00",
+    "oscillator": 3.6535882352941087,
+    "normalized": 1.5276752949047119
+  },
+  {
+    "timestamp": "2017-09-22T00:00:00",
+    "oscillator": 3.639470588235298,
+    "normalized": 1.5233646930791085
+  },
+  {
+    "timestamp": "2017-09-25T00:00:00",
+    "oscillator": 3.402235294117645,
+    "normalized": 1.4269624804939267
+  },
+  {
+    "timestamp": "2017-09-26T00:00:00",
+    "oscillator": 3.2177058823529023,
+    "normalized": 1.3472223590491132
+  },
+  {
+    "timestamp": "2017-09-27T00:00:00",
+    "oscillator": 3.123029411764719,
+    "normalized": 1.3053414469236024
+  },
+  {
+    "timestamp": "2017-09-28T00:00:00",
+    "oscillator": 3.0350588235294254,
+    "normalized": 1.266771911819953
+  },
+  {
+    "timestamp": "2017-09-29T00:00:00",
+    "oscillator": 3.087323529411748,
+    "normalized": 1.2850462141151915
+  },
+  {
+    "timestamp": "2017-10-02T00:00:00",
+    "oscillator": 3.4670882352940566,
+    "normalized": 1.4368967778582025
+  },
+  {
+    "timestamp": "2017-10-03T00:00:00",
+    "oscillator": 3.89814705882344,
+    "normalized": 1.6107380103398372
+  },
+  {
+    "timestamp": "2017-10-04T00:00:00",
+    "oscillator": 4.331058823529361,
+    "normalized": 1.7865193348716581
+  },
+  {
+    "timestamp": "2017-10-05T00:00:00",
+    "oscillator": 4.788764705882301,
+    "normalized": 1.9680124546427897
+  },
+  {
+    "timestamp": "2017-10-06T00:00:00",
+    "oscillator": 5.123588235294108,
+    "normalized": 2.1028044716070293
+  },
+  {
+    "timestamp": "2017-10-09T00:00:00",
+    "oscillator": 5.2142352941176,
+    "normalized": 2.140886162927306
+  },
+  {
+    "timestamp": "2017-10-10T00:00:00",
+    "oscillator": 5.275264705882307,
+    "normalized": 2.163013184854463
+  },
+  {
+    "timestamp": "2017-10-11T00:00:00",
+    "oscillator": 5.278470588235251,
+    "normalized": 2.1629973521155783
+  },
+  {
+    "timestamp": "2017-10-12T00:00:00",
+    "oscillator": 5.104529411764673,
+    "normalized": 2.091377409306432
+  },
+  {
+    "timestamp": "2017-10-13T00:00:00",
+    "oscillator": 4.919823529411758,
+    "normalized": 2.013803863781649
+  },
+  {
+    "timestamp": "2017-10-16T00:00:00",
+    "oscillator": 4.780235294117574,
+    "normalized": 1.9550264995777573
+  },
+  {
+    "timestamp": "2017-10-17T00:00:00",
+    "oscillator": 4.571235294117599,
+    "normalized": 1.8689379345507173
+  },
+  {
+    "timestamp": "2017-10-18T00:00:00",
+    "oscillator": 4.449999999999989,
+    "normalized": 1.8159929808810582
+  },
+  {
+    "timestamp": "2017-10-19T00:00:00",
+    "oscillator": 4.2562941176469735,
+    "normalized": 1.7413141257811944
+  },
+  {
+    "timestamp": "2017-10-20T00:00:00",
+    "oscillator": 4.271352941176474,
+    "normalized": 1.7381240477635247
+  },
+  {
+    "timestamp": "2017-10-23T00:00:00",
+    "oscillator": 4.24632352941174,
+    "normalized": 1.7258671473791822
+  },
+  {
+    "timestamp": "2017-10-24T00:00:00",
+    "oscillator": 4.174647058823496,
+    "normalized": 1.698564564672361
+  },
+  {
+    "timestamp": "2017-10-25T00:00:00",
+    "oscillator": 3.795823529411763,
+    "normalized": 1.552515809898674
+  },
+  {
+    "timestamp": "2017-10-26T00:00:00",
+    "oscillator": 3.6567352941175955,
+    "normalized": 1.4913276077151696
+  },
+  {
+    "timestamp": "2017-10-27T00:00:00",
+    "oscillator": 3.451941176470598,
+    "normalized": 1.4030285026401113
+  },
+  {
+    "timestamp": "2017-10-30T00:00:00",
+    "oscillator": 3.2588235294117283,
+    "normalized": 1.3232726395467285
+  },
+  {
+    "timestamp": "2017-10-31T00:00:00",
+    "oscillator": 3.1422941176470545,
+    "normalized": 1.275359343160929
+  },
+  {
+    "timestamp": "2017-11-01T00:00:00",
+    "oscillator": 3.3850294117646627,
+    "normalized": 1.3705682289111114
+  },
+  {
+    "timestamp": "2017-11-02T00:00:00",
+    "oscillator": 3.3655588235294545,
+    "normalized": 1.3668076526608541
+  },
+  {
+    "timestamp": "2017-11-03T00:00:00",
+    "oscillator": 3.3525294117647206,
+    "normalized": 1.3566128120443988
+  },
+  {
+    "timestamp": "2017-11-06T00:00:00",
+    "oscillator": 3.412176470588264,
+    "normalized": 1.3769602996663763
+  },
+  {
+    "timestamp": "2017-11-07T00:00:00",
+    "oscillator": 3.4597941176470215,
+    "normalized": 1.3955565890111616
+  },
+  {
+    "timestamp": "2017-11-08T00:00:00",
+    "oscillator": 3.3833235294118253,
+    "normalized": 1.3649037959544237
+  },
+  {
+    "timestamp": "2017-11-09T00:00:00",
+    "oscillator": 3.2344117647058965,
+    "normalized": 1.3114695447362987
+  },
+  {
+    "timestamp": "2017-11-10T00:00:00",
+    "oscillator": 2.9674411764706576,
+    "normalized": 1.2011014233265838
+  },
+  {
+    "timestamp": "2017-11-13T00:00:00",
+    "oscillator": 2.5928823529411886,
+    "normalized": 1.0490916036257363
+  },
+  {
+    "timestamp": "2017-11-14T00:00:00",
+    "oscillator": 2.0864117647059004,
+    "normalized": 0.8466205829840531
+  },
+  {
+    "timestamp": "2017-11-15T00:00:00",
+    "oscillator": 1.4732647058823432,
+    "normalized": 0.5995827303511561
+  },
+  {
+    "timestamp": "2017-11-16T00:00:00",
+    "oscillator": 1.4299117647058779,
+    "normalized": 0.5778121649920709
+  },
+  {
+    "timestamp": "2017-11-17T00:00:00",
+    "oscillator": 1.3173529411764946,
+    "normalized": 0.532489719346185
+  },
+  {
+    "timestamp": "2017-11-20T00:00:00",
+    "oscillator": 1.209529411764663,
+    "normalized": 0.48887652551015043
+  },
+  {
+    "timestamp": "2017-11-21T00:00:00",
+    "oscillator": 1.4259411764705874,
+    "normalized": 0.5740503931041012
+  },
+  {
+    "timestamp": "2017-11-22T00:00:00",
+    "oscillator": 1.9170294117647302,
+    "normalized": 0.7698758706711634
+  },
+  {
+    "timestamp": "2017-11-24T00:00:00",
+    "oscillator": 2.1417352941176375,
+    "normalized": 0.8586002101135071
+  },
+  {
+    "timestamp": "2017-11-27T00:00:00",
+    "oscillator": 2.3878823529412045,
+    "normalized": 0.9570670753271361
+  },
+  {
+    "timestamp": "2017-11-28T00:00:00",
+    "oscillator": 2.870176470588234,
+    "normalized": 1.144203181481885
+  },
+  {
+    "timestamp": "2017-11-29T00:00:00",
+    "oscillator": 3.344823529411798,
+    "normalized": 1.327653374644967
+  },
+  {
+    "timestamp": "2017-11-30T00:00:00",
+    "oscillator": 4.017794117647014,
+    "normalized": 1.5830552078987448
+  },
+  {
+    "timestamp": "2017-12-01T00:00:00",
+    "oscillator": 4.31099999999995,
+    "normalized": 1.7103749256099783
+  },
+  {
+    "timestamp": "2017-12-04T00:00:00",
+    "oscillator": 4.991588235294046,
+    "normalized": 1.96248800286772
+  },
+  {
+    "timestamp": "2017-12-05T00:00:00",
+    "oscillator": 5.185470588235262,
+    "normalized": 2.0491071636115
+  },
+  {
+    "timestamp": "2017-12-06T00:00:00",
+    "oscillator": 5.032294117647012,
+    "normalized": 1.99516071668035
+  },
+  {
+    "timestamp": "2017-12-07T00:00:00",
+    "oscillator": 4.563941176470593,
+    "normalized": 1.8062853431236763
+  },
+  {
+    "timestamp": "2017-12-08T00:00:00",
+    "oscillator": 4.662529411764666,
+    "normalized": 1.8377034908321013
+  },
+  {
+    "timestamp": "2017-12-11T00:00:00",
+    "oscillator": 4.498294117646992,
+    "normalized": 1.7652829909924623
+  },
+  {
+    "timestamp": "2017-12-12T00:00:00",
+    "oscillator": 4.731823529411713,
+    "normalized": 1.850645727911967
+  },
+  {
+    "timestamp": "2017-12-13T00:00:00",
+    "oscillator": 5.139058823529325,
+    "normalized": 2.0078762326004904
+  },
+  {
+    "timestamp": "2017-12-14T00:00:00",
+    "oscillator": 5.36544117647054,
+    "normalized": 2.1017455692541827
+  },
+  {
+    "timestamp": "2017-12-15T00:00:00",
+    "oscillator": 5.596735294117593,
+    "normalized": 2.1828566446762196
+  },
+  {
+    "timestamp": "2017-12-18T00:00:00",
+    "oscillator": 5.955970588235232,
+    "normalized": 2.30494217810961
+  },
+  {
+    "timestamp": "2017-12-19T00:00:00",
+    "oscillator": 6.066264705882361,
+    "normalized": 2.35185791221911
+  },
+  {
+    "timestamp": "2017-12-20T00:00:00",
+    "oscillator": 6.093441176470549,
+    "normalized": 2.365007248775684
+  },
+  {
+    "timestamp": "2017-12-21T00:00:00",
+    "oscillator": 6.284441176470494,
+    "normalized": 2.436160400236658
+  },
+  {
+    "timestamp": "2017-12-22T00:00:00",
+    "oscillator": 6.185794117646992,
+    "normalized": 2.403043380396244
+  },
+  {
+    "timestamp": "2017-12-26T00:00:00",
+    "oscillator": 5.6882352941175895,
+    "normalized": 2.2106545777923863
+  },
+  {
+    "timestamp": "2017-12-27T00:00:00",
+    "oscillator": 5.321029411764698,
+    "normalized": 2.066338942862296
+  },
+  {
+    "timestamp": "2017-12-28T00:00:00",
+    "oscillator": 5.0618235294117255,
+    "normalized": 1.9633549364512248
+  },
+  {
+    "timestamp": "2017-12-29T00:00:00",
+    "oscillator": 4.688205882352889,
+    "normalized": 1.8190377070394945
+  },
+  {
+    "timestamp": "2018-01-02T00:00:00",
+    "oscillator": 4.520970588235315,
+    "normalized": 1.7508212331482125
+  },
+  {
+    "timestamp": "2018-01-03T00:00:00",
+    "oscillator": 4.655588235294175,
+    "normalized": 1.7916445007866748
+  },
+  {
+    "timestamp": "2018-01-04T00:00:00",
+    "oscillator": 4.984205882353081,
+    "normalized": 1.9071364986332549
+  },
+  {
+    "timestamp": "2018-01-05T00:00:00",
+    "oscillator": 5.460794117646998,
+    "normalized": 2.078758300556538
+  },
+  {
+    "timestamp": "2018-01-08T00:00:00",
+    "oscillator": 6.134794117647061,
+    "normalized": 2.32863697766068
+  },
+  {
+    "timestamp": "2018-01-09T00:00:00",
+    "oscillator": 6.893676470588304,
+    "normalized": 2.605960069778405
+  },
+  {
+    "timestamp": "2018-01-10T00:00:00",
+    "oscillator": 7.164088235294059,
+    "normalized": 2.717993867248676
+  },
+  {
+    "timestamp": "2018-01-11T00:00:00",
+    "oscillator": 7.4392647058822945,
+    "normalized": 2.8052583830017324
+  },
+  {
+    "timestamp": "2018-01-12T00:00:00",
+    "oscillator": 7.750529411764717,
+    "normalized": 2.904125229228386
+  },
+  {
+    "timestamp": "2018-01-16T00:00:00",
+    "oscillator": 8.094323529411838,
+    "normalized": 3.0216229391562783
+  },
+  {
+    "timestamp": "2018-01-17T00:00:00",
+    "oscillator": 8.284147058823578,
+    "normalized": 3.0883339765969198
+  },
+  {
+    "timestamp": "2018-01-18T00:00:00",
+    "oscillator": 8.829911764705855,
+    "normalized": 3.2828001727691625
+  },
+  {
+    "timestamp": "2018-01-19T00:00:00",
+    "oscillator": 9.168470588235266,
+    "normalized": 3.4025349173292017
+  },
+  {
+    "timestamp": "2018-01-22T00:00:00",
+    "oscillator": 9.490852941176456,
+    "normalized": 3.501836709224779
+  },
+  {
+    "timestamp": "2018-01-23T00:00:00",
+    "oscillator": 9.823617647058882,
+    "normalized": 3.604203715533784
+  },
+  {
+    "timestamp": "2018-01-24T00:00:00",
+    "oscillator": 10.197235294117604,
+    "normalized": 3.7376469510190065
+  },
+  {
+    "timestamp": "2018-01-25T00:00:00",
+    "oscillator": 10.396999999999935,
+    "normalized": 3.8099600571658674
+  },
+  {
+    "timestamp": "2018-01-26T00:00:00",
+    "oscillator": 10.796764705882424,
+    "normalized": 3.929311147623483
+  },
+  {
+    "timestamp": "2018-01-29T00:00:00",
+    "oscillator": 10.92476470588241,
+    "normalized": 3.9735086585736563
+  },
+  {
+    "timestamp": "2018-01-30T00:00:00",
+    "oscillator": 10.367941176470538,
+    "normalized": 3.804120852142045
+  },
+  {
+    "timestamp": "2018-01-31T00:00:00",
+    "oscillator": 9.627705882352984,
+    "normalized": 3.544941228452073
+  },
+  {
+    "timestamp": "2018-02-01T00:00:00",
+    "oscillator": 8.880294117647054,
+    "normalized": 3.271127771488002
+  },
+  {
+    "timestamp": "2018-02-02T00:00:00",
+    "oscillator": 7.098235294117728,
+    "normalized": 2.652802128045493
+  },
+  {
+    "timestamp": "2018-02-05T00:00:00",
+    "oscillator": 3.9101470588234974,
+    "normalized": 1.505987928987636
+  },
+  {
+    "timestamp": "2018-02-06T00:00:00",
+    "oscillator": 0.3500588235294799,
+    "normalized": 0.13756929322073408
+  },
+  {
+    "timestamp": "2018-02-07T00:00:00",
+    "oscillator": -2.0124411764705314,
+    "normalized": -0.7739711849203051
+  },
+  {
+    "timestamp": "2018-02-08T00:00:00",
+    "oscillator": -5.530735294117562,
+    "normalized": -2.1844640457047464
+  },
+  {
+    "timestamp": "2018-02-09T00:00:00",
+    "oscillator": -9.035676470588186,
+    "normalized": -3.632578785313253
+  },
+  {
+    "timestamp": "2018-02-12T00:00:00",
+    "oscillator": -9.946411764705857,
+    "normalized": -3.9068352114010203
+  },
+  {
+    "timestamp": "2018-02-13T00:00:00",
+    "oscillator": -9.734117647058838,
+    "normalized": -3.814384156060596
+  },
+  {
+    "timestamp": "2018-02-14T00:00:00",
+    "oscillator": -10.277676470588261,
+    "normalized": -3.9945107641377646
+  },
+  {
+    "timestamp": "2018-02-15T00:00:00",
+    "oscillator": -8.831823529411793,
+    "normalized": -3.384942808735332
+  },
+  {
+    "timestamp": "2018-02-16T00:00:00",
+    "oscillator": -6.012911764706018,
+    "normalized": -2.280209239554804
+  },
+  {
+    "timestamp": "2018-02-20T00:00:00",
+    "oscillator": -4.647117647058906,
+    "normalized": -1.773336760244569
+  },
+  {
+    "timestamp": "2018-02-21T00:00:00",
+    "oscillator": -3.347823529411812,
+    "normalized": -1.2763824504982317
+  },
+  {
+    "timestamp": "2018-02-22T00:00:00",
+    "oscillator": -2.582647058823568,
+    "normalized": -0.9882325931061331
+  },
+  {
+    "timestamp": "2018-02-23T00:00:00",
+    "oscillator": -2.228823529411841,
+    "normalized": -0.8477354009515777
+  },
+  {
+    "timestamp": "2018-02-26T00:00:00",
+    "oscillator": -1.7918235294118858,
+    "normalized": -0.6725180736059023
+  },
+  {
+    "timestamp": "2018-02-27T00:00:00",
+    "oscillator": -1.0036176470588316,
+    "normalized": -0.37668386175195884
+  },
+  {
+    "timestamp": "2018-02-28T00:00:00",
+    "oscillator": -0.7055882352941012,
+    "normalized": -0.2676230742628869
+  },
+  {
+    "timestamp": "2018-03-01T00:00:00",
+    "oscillator": -0.9288529411765012,
+    "normalized": -0.35773958334514483
+  },
+  {
+    "timestamp": "2018-03-02T00:00:00",
+    "oscillator": -1.8010294117646595,
+    "normalized": -0.6996734438307212
+  },
+  {
+    "timestamp": "2018-03-05T00:00:00",
+    "oscillator": -2.8370588235294463,
+    "normalized": -1.089981682974219
+  },
+  {
+    "timestamp": "2018-03-06T00:00:00",
+    "oscillator": -3.509323529411745,
+    "normalized": -1.3381851053067721
+  },
+  {
+    "timestamp": "2018-03-07T00:00:00",
+    "oscillator": -3.711235294117614,
+    "normalized": -1.4182613142706082
+  },
+  {
+    "timestamp": "2018-03-08T00:00:00",
+    "oscillator": -2.8218529411764735,
+    "normalized": -1.071928942517179
+  },
+  {
+    "timestamp": "2018-03-09T00:00:00",
+    "oscillator": -0.8502647058823527,
+    "normalized": -0.318582451902414
+  },
+  {
+    "timestamp": "2018-03-12T00:00:00",
+    "oscillator": 0.902823529411819,
+    "normalized": 0.33598434349738343
+  },
+  {
+    "timestamp": "2018-03-13T00:00:00",
+    "oscillator": 2.1811176470588975,
+    "normalized": 0.8139713565677331
+  },
+  {
+    "timestamp": "2018-03-14T00:00:00",
+    "oscillator": 3.2732941176469694,
+    "normalized": 1.229845059325194
+  },
+  {
+    "timestamp": "2018-03-15T00:00:00",
+    "oscillator": 3.916764705882258,
+    "normalized": 1.4760192590753158
+  },
+  {
+    "timestamp": "2018-03-16T00:00:00",
+    "oscillator": 3.9448235294117353,
+    "normalized": 1.4847187675386195
+  },
+  {
+    "timestamp": "2018-03-19T00:00:00",
+    "oscillator": 3.0763823529412093,
+    "normalized": 1.1717543099054293
+  },
+  {
+    "timestamp": "2018-03-20T00:00:00",
+    "oscillator": 2.1911176470588316,
+    "normalized": 0.8363682903499624
+  },
+  {
+    "timestamp": "2018-03-21T00:00:00",
+    "oscillator": 1.7718235294117903,
+    "normalized": 0.674312501679019
+  },
+  {
+    "timestamp": "2018-03-22T00:00:00",
+    "oscillator": 0.5810000000000173,
+    "normalized": 0.22578451374721356
+  },
+  {
+    "timestamp": "2018-03-23T00:00:00",
+    "oscillator": -1.564294117647023,
+    "normalized": -0.6187994689954402
+  },
+  {
+    "timestamp": "2018-03-26T00:00:00",
+    "oscillator": -3.149205882352817,
+    "normalized": -1.2410419035498086
+  },
+  {
+    "timestamp": "2018-03-27T00:00:00",
+    "oscillator": -4.710352941176438,
+    "normalized": -1.8535574780822188
+  },
+  {
+    "timestamp": "2018-03-28T00:00:00",
+    "oscillator": -6.625764705882318,
+    "normalized": -2.629219541629062
+  },
+  {
+    "timestamp": "2018-03-29T00:00:00",
+    "oscillator": -7.335205882352938,
+    "normalized": -2.8892413275377886
+  },
+  {
+    "timestamp": "2018-04-02T00:00:00",
+    "oscillator": -7.871558823529341,
+    "normalized": -3.1442216191449335
+  },
+  {
+    "timestamp": "2018-04-03T00:00:00",
+    "oscillator": -8.398852941176443,
+    "normalized": -3.3525678353730015
+  },
+  {
+    "timestamp": "2018-04-04T00:00:00",
+    "oscillator": -8.75035294117643,
+    "normalized": -3.4740165718502585
+  },
+  {
+    "timestamp": "2018-04-05T00:00:00",
+    "oscillator": -7.791294117647027,
+    "normalized": -3.0349976112214043
+  },
+  {
+    "timestamp": "2018-04-06T00:00:00",
+    "oscillator": -7.748147058823491,
+    "normalized": -3.063477407410838
+  },
+  {
+    "timestamp": "2018-04-09T00:00:00",
+    "oscillator": -6.779764705882371,
+    "normalized": -2.6720917157877118
+  },
+  {
+    "timestamp": "2018-04-10T00:00:00",
+    "oscillator": -5.543205882352936,
+    "normalized": -2.1671772157138696
+  },
+  {
+    "timestamp": "2018-04-11T00:00:00",
+    "oscillator": -4.571735294117701,
+    "normalized": -1.787370120461999
+  },
+  {
+    "timestamp": "2018-04-12T00:00:00",
+    "oscillator": -4.345294117647143,
+    "normalized": -1.689165627183091
+  },
+  {
+    "timestamp": "2018-04-13T00:00:00",
+    "oscillator": -3.355323529411862,
+    "normalized": -1.3055733577478064
+  },
+  {
+    "timestamp": "2018-04-16T00:00:00",
+    "oscillator": -2.198500000000081,
+    "normalized": -0.851092658188677
+  },
+  {
+    "timestamp": "2018-04-17T00:00:00",
+    "oscillator": -1.0108529411765517,
+    "normalized": -0.3874410000485049
+  },
+  {
+    "timestamp": "2018-04-18T00:00:00",
+    "oscillator": 0.22197058823519455,
+    "normalized": 0.08483492766489378
+  },
+  {
+    "timestamp": "2018-04-19T00:00:00",
+    "oscillator": 0.7497352941176132,
+    "normalized": 0.28844293319904324
+  },
+  {
+    "timestamp": "2018-04-20T00:00:00",
+    "oscillator": 1.019382352941193,
+    "normalized": 0.39432994968906154
+  },
+  {
+    "timestamp": "2018-04-23T00:00:00",
+    "oscillator": 0.9920294117646904,
+    "normalized": 0.3847834345420904
+  },
+  {
+    "timestamp": "2018-04-24T00:00:00",
+    "oscillator": 0.17594117647053054,
+    "normalized": 0.0687565658957093
+  },
+  {
+    "timestamp": "2018-04-25T00:00:00",
+    "oscillator": -1.1581764705882733,
+    "normalized": -0.4562893610118284
+  },
+  {
+    "timestamp": "2018-04-26T00:00:00",
+    "oscillator": -1.5610588235294358,
+    "normalized": -0.6074395204208085
+  },
+  {
+    "timestamp": "2018-04-27T00:00:00",
+    "oscillator": -1.4664117647058674,
+    "normalized": -0.5692150317156538
+  },
+  {
+    "timestamp": "2018-04-30T00:00:00",
+    "oscillator": -1.221882352941293,
+    "normalized": -0.4747571018150107
+  },
+  {
+    "timestamp": "2018-05-01T00:00:00",
+    "oscillator": -1.034911764705953,
+    "normalized": -0.4059990053965018
+  },
+  {
+    "timestamp": "2018-05-02T00:00:00",
+    "oscillator": -0.3873823529412448,
+    "normalized": -0.15162032640217804
+  },
+  {
+    "timestamp": "2018-05-03T00:00:00",
+    "oscillator": -0.8934999999999889,
+    "normalized": -0.3537493071502054
+  },
+  {
+    "timestamp": "2018-05-04T00:00:00",
+    "oscillator": -1.0594411764705285,
+    "normalized": -0.4150520759517065
+  },
+  {
+    "timestamp": "2018-05-07T00:00:00",
+    "oscillator": -0.7579705882352528,
+    "normalized": -0.2935083305524803
+  },
+  {
+    "timestamp": "2018-05-08T00:00:00",
+    "oscillator": -0.11573529411765549,
+    "normalized": -0.04495447431254826
+  },
+  {
+    "timestamp": "2018-05-09T00:00:00",
+    "oscillator": 0.799911764705854,
+    "normalized": 0.30812055186851584
+  },
+  {
+    "timestamp": "2018-05-10T00:00:00",
+    "oscillator": 2.6061176470587952,
+    "normalized": 0.9933743651834553
+  },
+  {
+    "timestamp": "2018-05-11T00:00:00",
+    "oscillator": 3.918088235294192,
+    "normalized": 1.487674463793975
+  },
+  {
+    "timestamp": "2018-05-14T00:00:00",
+    "oscillator": 4.801882352941163,
+    "normalized": 1.8175179231419998
+  },
+  {
+    "timestamp": "2018-05-15T00:00:00",
+    "oscillator": 5.458941176470546,
+    "normalized": 2.084559876456533
+  },
+  {
+    "timestamp": "2018-05-16T00:00:00",
+    "oscillator": 5.8058823529411825,
+    "normalized": 2.2079376140180575
+  },
+  {
+    "timestamp": "2018-05-17T00:00:00",
+    "oscillator": 5.700911764705893,
+    "normalized": 2.1660410587989487
+  },
+  {
+    "timestamp": "2018-05-18T00:00:00",
+    "oscillator": 5.172117647058883,
+    "normalized": 1.9702179483301463
+  },
+  {
+    "timestamp": "2018-05-21T00:00:00",
+    "oscillator": 4.677647058823595,
+    "normalized": 1.7741208597525582
+  },
+  {
+    "timestamp": "2018-05-22T00:00:00",
+    "oscillator": 4.784558823529551,
+    "normalized": 1.8107896011087332
+  },
+  {
+    "timestamp": "2018-05-23T00:00:00",
+    "oscillator": 4.642823529411771,
+    "normalized": 1.763990702664047
+  },
+  {
+    "timestamp": "2018-05-24T00:00:00",
+    "oscillator": 4.31076470588232,
+    "normalized": 1.638949397719687
+  },
+  {
+    "timestamp": "2018-05-25T00:00:00",
+    "oscillator": 4.174205882352908,
+    "normalized": 1.5857637360304324
+  },
+  {
+    "timestamp": "2018-05-29T00:00:00",
+    "oscillator": 3.4153235294118076,
+    "normalized": 1.3107124877813285
+  },
+  {
+    "timestamp": "2018-05-30T00:00:00",
+    "oscillator": 2.9221470588235547,
+    "normalized": 1.111970416995911
+  },
+  {
+    "timestamp": "2018-05-31T00:00:00",
+    "oscillator": 2.6122352941176814,
+    "normalized": 0.9954785618374609
+  },
+  {
+    "timestamp": "2018-06-01T00:00:00",
+    "oscillator": 2.6228235294117326,
+    "normalized": 0.993042378241607
+  },
+  {
+    "timestamp": "2018-06-04T00:00:00",
+    "oscillator": 2.8910882352941485,
+    "normalized": 1.08830725966277
+  },
+  {
+    "timestamp": "2018-06-05T00:00:00",
+    "oscillator": 3.789705882352962,
+    "normalized": 1.4258807594073903
+  },
+  {
+    "timestamp": "2018-06-06T00:00:00",
+    "oscillator": 4.505911764705957,
+    "normalized": 1.686438896160322
+  },
+  {
+    "timestamp": "2018-06-07T00:00:00",
+    "oscillator": 5.412852941176482,
+    "normalized": 2.0185537995474565
+  },
+  {
+    "timestamp": "2018-06-08T00:00:00",
+    "oscillator": 5.960058823529494,
+    "normalized": 2.2214572852753474
+  },
+  {
+    "timestamp": "2018-06-11T00:00:00",
+    "oscillator": 6.409411764705908,
+    "normalized": 2.377069655165653
+  },
+  {
+    "timestamp": "2018-06-12T00:00:00",
+    "oscillator": 6.7625000000000455,
+    "normalized": 2.5087644451039846
+  },
+  {
+    "timestamp": "2018-06-13T00:00:00",
+    "oscillator": 6.754235294117734,
+    "normalized": 2.50676784965771
+  },
+  {
+    "timestamp": "2018-06-14T00:00:00",
+    "oscillator": 6.654441176470641,
+    "normalized": 2.469226210679471
+  },
+  {
+    "timestamp": "2018-06-15T00:00:00",
+    "oscillator": 6.375441176470588,
+    "normalized": 2.3744659875123233
+  },
+  {
+    "timestamp": "2018-06-18T00:00:00",
+    "oscillator": 5.722147058823566,
+    "normalized": 2.1357670419616177
+  },
+  {
+    "timestamp": "2018-06-19T00:00:00",
+    "oscillator": 4.815323529411785,
+    "normalized": 1.8050807000212865
+  },
+  {
+    "timestamp": "2018-06-20T00:00:00",
+    "oscillator": 4.199617647058858,
+    "normalized": 1.5656486465445814
+  },
+  {
+    "timestamp": "2018-06-21T00:00:00",
+    "oscillator": 3.2679705882353005,
+    "normalized": 1.2241882705507776
+  },
+  {
+    "timestamp": "2018-06-22T00:00:00",
+    "oscillator": 2.6651764705881646,
+    "normalized": 0.9972596709403797
+  },
+  {
+    "timestamp": "2018-06-25T00:00:00",
+    "oscillator": 1.6394117647058692,
+    "normalized": 0.6219906154627219
+  },
+  {
+    "timestamp": "2018-06-26T00:00:00",
+    "oscillator": 0.873294117647049,
+    "normalized": 0.33094365531569236
+  },
+  {
+    "timestamp": "2018-06-27T00:00:00",
+    "oscillator": -0.14802941176458262,
+    "normalized": -0.05612808757449053
+  },
+  {
+    "timestamp": "2018-06-28T00:00:00",
+    "oscillator": -1.0637647058823063,
+    "normalized": -0.4054367626040234
+  },
+  {
+    "timestamp": "2018-06-29T00:00:00",
+    "oscillator": -1.631647058823546,
+    "normalized": -0.6166699644066466
+  },
+  {
+    "timestamp": "2018-07-02T00:00:00",
+    "oscillator": -1.7318235294117699,
+    "normalized": -0.6587886219612636
+  },
+  {
+    "timestamp": "2018-07-03T00:00:00",
+    "oscillator": -1.7856764705882142,
+    "normalized": -0.6766232695192353
+  },
+  {
+    "timestamp": "2018-07-05T00:00:00",
+    "oscillator": -1.7173529411765003,
+    "normalized": -0.6498478605882243
+  },
+  {
+    "timestamp": "2018-07-06T00:00:00",
+    "oscillator": -1.0049117647058097,
+    "normalized": -0.37720497154979526
+  },
+  {
+    "timestamp": "2018-07-09T00:00:00",
+    "oscillator": -0.265882352941162,
+    "normalized": -0.0987382475271695
+  },
+  {
+    "timestamp": "2018-07-10T00:00:00",
+    "oscillator": 1.0671764705882651,
+    "normalized": 0.394432462517839
+  },
+  {
+    "timestamp": "2018-07-11T00:00:00",
+    "oscillator": 2.001029411764705,
+    "normalized": 0.7429656598836761
+  },
+  {
+    "timestamp": "2018-07-12T00:00:00",
+    "oscillator": 3.0374411764705656,
+    "normalized": 1.1227742492405892
+  },
+  {
+    "timestamp": "2018-07-13T00:00:00",
+    "oscillator": 3.7693529411764644,
+    "normalized": 1.3894439210337703
+  },
+  {
+    "timestamp": "2018-07-16T00:00:00",
+    "oscillator": 3.9377058823529296,
+    "normalized": 1.4513677646798606
+  },
+  {
+    "timestamp": "2018-07-17T00:00:00",
+    "oscillator": 3.828117647058832,
+    "normalized": 1.4092613926736977
+  },
+  {
+    "timestamp": "2018-07-18T00:00:00",
+    "oscillator": 4.189323529411695,
+    "normalized": 1.5369434208609356
+  },
+  {
+    "timestamp": "2018-07-19T00:00:00",
+    "oscillator": 4.213205882352895,
+    "normalized": 1.5485742207346989
+  },
+  {
+    "timestamp": "2018-07-20T00:00:00",
+    "oscillator": 4.117617647058864,
+    "normalized": 1.5140526721057745
+  },
+  {
+    "timestamp": "2018-07-23T00:00:00",
+    "oscillator": 4.021941176470591,
+    "normalized": 1.4801513208098596
+  },
+  {
+    "timestamp": "2018-07-24T00:00:00",
+    "oscillator": 4.1702941176470745,
+    "normalized": 1.5246761178879331
+  },
+  {
+    "timestamp": "2018-07-25T00:00:00",
+    "oscillator": 4.376823529411752,
+    "normalized": 1.5932233512592149
+  },
+  {
+    "timestamp": "2018-07-26T00:00:00",
+    "oscillator": 4.84082352941175,
+    "normalized": 1.7573279833778341
+  },
+  {
+    "timestamp": "2018-07-27T00:00:00",
+    "oscillator": 5.08273529411764,
+    "normalized": 1.8549451823355498
+  },
+  {
+    "timestamp": "2018-07-30T00:00:00",
+    "oscillator": 5.150058823529378,
+    "normalized": 1.8900685641255788
+  },
+  {
+    "timestamp": "2018-07-31T00:00:00",
+    "oscillator": 4.9677647058823595,
+    "normalized": 1.818794627522053
+  },
+  {
+    "timestamp": "2018-08-01T00:00:00",
+    "oscillator": 4.531999999999925,
+    "normalized": 1.6596477093785205
+  },
+  {
+    "timestamp": "2018-08-02T00:00:00",
+    "oscillator": 3.9043529411763984,
+    "normalized": 1.431135729771603
+  },
+  {
+    "timestamp": "2018-08-03T00:00:00",
+    "oscillator": 3.8898529411764002,
+    "normalized": 1.4151352218922784
+  },
+  {
+    "timestamp": "2018-08-06T00:00:00",
+    "oscillator": 4.347676470588169,
+    "normalized": 1.5755305202348866
+  },
+  {
+    "timestamp": "2018-08-07T00:00:00",
+    "oscillator": 4.893852941176419,
+    "normalized": 1.7639637901405443
+  },
+  {
+    "timestamp": "2018-08-08T00:00:00",
+    "oscillator": 5.463000000000022,
+    "normalized": 1.9704948780839786
+  },
+  {
+    "timestamp": "2018-08-09T00:00:00",
+    "oscillator": 6.047911764705987,
+    "normalized": 2.181353542661444
+  },
+  {
+    "timestamp": "2018-08-10T00:00:00",
+    "oscillator": 5.859470588235411,
+    "normalized": 2.1300581959159572
+  },
+  {
+    "timestamp": "2018-08-13T00:00:00",
+    "oscillator": 5.3078529411764634,
+    "normalized": 1.9311817140900356
+  },
+  {
+    "timestamp": "2018-08-14T00:00:00",
+    "oscillator": 4.527911764705891,
+    "normalized": 1.6453167749658035
+  },
+  {
+    "timestamp": "2018-08-15T00:00:00",
+    "oscillator": 3.456029411764746,
+    "normalized": 1.264624626951624
+  },
+  {
+    "timestamp": "2018-08-16T00:00:00",
+    "oscillator": 2.812823529411844,
+    "normalized": 1.0189543667494454
+  },
+  {
+    "timestamp": "2018-08-17T00:00:00",
+    "oscillator": 2.7122647058824327,
+    "normalized": 0.9816198425227313
+  },
+  {
+    "timestamp": "2018-08-20T00:00:00",
+    "oscillator": 2.7832647058824023,
+    "normalized": 1.003593086172575
+  },
+  {
+    "timestamp": "2018-08-21T00:00:00",
+    "oscillator": 2.9791764705882997,
+    "normalized": 1.0705102393461254
+  },
+  {
+    "timestamp": "2018-08-22T00:00:00",
+    "oscillator": 3.512382352941188,
+    "normalized": 1.2636059766305787
+  },
+  {
+    "timestamp": "2018-08-23T00:00:00",
+    "oscillator": 3.5572352941176177,
+    "normalized": 1.2796961216359808
+  },
+  {
+    "timestamp": "2018-08-24T00:00:00",
+    "oscillator": 3.7753823529411648,
+    "normalized": 1.354178644861337
+  },
+  {
+    "timestamp": "2018-08-27T00:00:00",
+    "oscillator": 4.201470588235281,
+    "normalized": 1.4952118679105613
+  },
+  {
+    "timestamp": "2018-08-28T00:00:00",
+    "oscillator": 4.500735294117646,
+    "normalized": 1.598300855525718
+  },
+  {
+    "timestamp": "2018-08-29T00:00:00",
+    "oscillator": 5.050558823529457,
+    "normalized": 1.7879983090343952
+  },
+  {
+    "timestamp": "2018-08-30T00:00:00",
+    "oscillator": 5.567705882352982,
+    "normalized": 1.97324421688155
+  },
+  {
+    "timestamp": "2018-08-31T00:00:00",
+    "oscillator": 5.848235294117728,
+    "normalized": 2.075829799495165
+  },
+  {
+    "timestamp": "2018-09-04T00:00:00",
+    "oscillator": 5.598676470588316,
+    "normalized": 1.9913839728923923
+  },
+  {
+    "timestamp": "2018-09-05T00:00:00",
+    "oscillator": 5.143176470588287,
+    "normalized": 1.8337052447904616
+  },
+  {
+    "timestamp": "2018-09-06T00:00:00",
+    "oscillator": 4.412529411764751,
+    "normalized": 1.5760159339112618
+  },
+  {
+    "timestamp": "2018-09-07T00:00:00",
+    "oscillator": 3.6510882352940826,
+    "normalized": 1.306503098994143
+  },
+  {
+    "timestamp": "2018-09-10T00:00:00",
+    "oscillator": 3.093264705882291,
+    "normalized": 1.1040079611265023
+  },
+  {
+    "timestamp": "2018-09-11T00:00:00",
+    "oscillator": 2.673676470588248,
+    "normalized": 0.9548844537815171
+  },
+  {
+    "timestamp": "2018-09-12T00:00:00",
+    "oscillator": 2.5459117647058633,
+    "normalized": 0.9069059630264006
+  },
+  {
+    "timestamp": "2018-09-13T00:00:00",
+    "oscillator": 2.789264705882374,
+    "normalized": 0.9884525066471903
+  },
+  {
+    "timestamp": "2018-09-14T00:00:00",
+    "oscillator": 3.1144411764706206,
+    "normalized": 1.1032381071451012
+  },
+  {
+    "timestamp": "2018-09-17T00:00:00",
+    "oscillator": 3.1343235294118585,
+    "normalized": 1.1129224618868225
+  },
+  {
+    "timestamp": "2018-09-18T00:00:00",
+    "oscillator": 3.313676470588348,
+    "normalized": 1.174084174743865
+  },
+  {
+    "timestamp": "2018-09-19T00:00:00",
+    "oscillator": 3.4604117647058388,
+    "normalized": 1.2231709459733264
+  },
+  {
+    "timestamp": "2018-09-20T00:00:00",
+    "oscillator": 3.5277058823529615,
+    "normalized": 1.2412976591259388
+  },
+  {
+    "timestamp": "2018-09-21T00:00:00",
+    "oscillator": 3.839852941176389,
+    "normalized": 1.3453813605607332
+  },
+  {
+    "timestamp": "2018-09-24T00:00:00",
+    "oscillator": 4.054911764705821,
+    "normalized": 1.4284396958839685
+  },
+  {
+    "timestamp": "2018-09-25T00:00:00",
+    "oscillator": 4.214823529411774,
+    "normalized": 1.4840927920463993
+  },
+  {
+    "timestamp": "2018-09-26T00:00:00",
+    "oscillator": 4.19405882352936,
+    "normalized": 1.4780303155939387
+  },
+  {
+    "timestamp": "2018-09-27T00:00:00",
+    "oscillator": 3.9464411764705574,
+    "normalized": 1.3898856013490728
+  },
+  {
+    "timestamp": "2018-09-28T00:00:00",
+    "oscillator": 3.327176470588199,
+    "normalized": 1.173358890742065
+  },
+  {
+    "timestamp": "2018-10-01T00:00:00",
+    "oscillator": 3.2316176470588402,
+    "normalized": 1.134438294300402
+  },
+  {
+    "timestamp": "2018-10-02T00:00:00",
+    "oscillator": 3.086235294117671,
+    "normalized": 1.0841639450293048
+  },
+  {
+    "timestamp": "2018-10-03T00:00:00",
+    "oscillator": 3.0186764705882183,
+    "normalized": 1.0585533087590624
+  },
+  {
+    "timestamp": "2018-10-04T00:00:00",
+    "oscillator": 2.528176470588221,
+    "normalized": 0.8951673791584388
+  },
+  {
+    "timestamp": "2018-10-05T00:00:00",
+    "oscillator": 1.9198823529411015,
+    "normalized": 0.6826369723696782
+  },
+  {
+    "timestamp": "2018-10-08T00:00:00",
+    "oscillator": 0.8504411764705537,
+    "normalized": 0.3038429326963875
+  },
+  {
+    "timestamp": "2018-10-09T00:00:00",
+    "oscillator": 0.008882352941213867,
+    "normalized": 0.0031628931884819527
+  },
+  {
+    "timestamp": "2018-10-10T00:00:00",
+    "oscillator": -1.846647058823521,
+    "normalized": -0.6702041696421583
+  },
+  {
+    "timestamp": "2018-10-11T00:00:00",
+    "oscillator": -4.444235294117618,
+    "normalized": -1.6585133484289436
+  },
+  {
+    "timestamp": "2018-10-12T00:00:00",
+    "oscillator": -6.7654999999999745,
+    "normalized": -2.523875251809287
+  },
+  {
+    "timestamp": "2018-10-15T00:00:00",
+    "oscillator": -8.595970588235332,
+    "normalized": -3.195825109484276
+  },
+  {
+    "timestamp": "2018-10-16T00:00:00",
+    "oscillator": -10.13349999999997,
+    "normalized": -3.7298709903012566
+  },
+  {
+    "timestamp": "2018-10-17T00:00:00",
+    "oscillator": -10.435323529411733,
+    "normalized": -3.8284930584480072
+  },
+  {
+    "timestamp": "2018-10-18T00:00:00",
+    "oscillator": -9.537617647058823,
+    "normalized": -3.5222755177852223
+  },
+  {
+    "timestamp": "2018-10-19T00:00:00",
+    "oscillator": -8.693735294117687,
+    "normalized": -3.2121689614327313
+  },
+  {
+    "timestamp": "2018-10-22T00:00:00",
+    "oscillator": -8.299117647058836,
+    "normalized": -3.0829962654849123
+  },
+  {
+    "timestamp": "2018-10-23T00:00:00",
+    "oscillator": -9.156088235294135,
+    "normalized": -3.4532381283049407
+  },
+  {
+    "timestamp": "2018-10-24T00:00:00",
+    "oscillator": -10.623558823529493,
+    "normalized": -4.044142838908787
+  },
+  {
+    "timestamp": "2018-10-25T00:00:00",
+    "oscillator": -11.782588235294156,
+    "normalized": -4.488776043008936
+  },
+  {
+    "timestamp": "2018-10-26T00:00:00",
+    "oscillator": -13.289911764705892,
+    "normalized": -5.108164571128835
+  },
+  {
+    "timestamp": "2018-10-29T00:00:00",
+    "oscillator": -14.77594117647061,
+    "normalized": -5.7134896183402395
+  },
+  {
+    "timestamp": "2018-10-30T00:00:00",
+    "oscillator": -15.336970588235204,
+    "normalized": -5.917726044000156
+  },
+  {
+    "timestamp": "2018-10-31T00:00:00",
+    "oscillator": -14.355882352941137,
+    "normalized": -5.415679173434864
+  },
+  {
+    "timestamp": "2018-11-01T00:00:00",
+    "oscillator": -13.269147058823478,
+    "normalized": -4.998831041768908
+  },
+  {
+    "timestamp": "2018-11-02T00:00:00",
+    "oscillator": -11.678411764705857,
+    "normalized": -4.39376653612967
+  },
+  {
+    "timestamp": "2018-11-05T00:00:00",
+    "oscillator": -9.713676470588211,
+    "normalized": -3.6509345525776937
+  },
+  {
+    "timestamp": "2018-11-06T00:00:00",
+    "oscillator": -7.574117647058813,
+    "normalized": -2.830176237597643
+  },
+  {
+    "timestamp": "2018-11-07T00:00:00",
+    "oscillator": -5.7785588235294085,
+    "normalized": -2.1220516409714696
+  },
+  {
+    "timestamp": "2018-11-08T00:00:00",
+    "oscillator": -3.8317647058822786,
+    "normalized": -1.4014464114559473
+  },
+  {
+    "timestamp": "2018-11-09T00:00:00",
+    "oscillator": -2.418205882352993,
+    "normalized": -0.8924421539139715
+  },
+  {
+    "timestamp": "2018-11-12T00:00:00",
+    "oscillator": -1.5502352941176127,
+    "normalized": -0.5783273186911688
+  },
+  {
+    "timestamp": "2018-11-13T00:00:00",
+    "oscillator": -1.2409999999999854,
+    "normalized": -0.4654040877554793
+  },
+  {
+    "timestamp": "2018-11-14T00:00:00",
+    "oscillator": -2.157029411764654,
+    "normalized": -0.814173065757508
+  },
+  {
+    "timestamp": "2018-11-15T00:00:00",
+    "oscillator": -3.5133529411764357,
+    "normalized": -1.332253736486903
+  },
+  {
+    "timestamp": "2018-11-16T00:00:00",
+    "oscillator": -3.891794117647123,
+    "normalized": -1.4611579191466577
+  },
+  {
+    "timestamp": "2018-11-19T00:00:00",
+    "oscillator": -4.069411764705876,
+    "normalized": -1.5405685272405363
+  },
+  {
+    "timestamp": "2018-11-20T00:00:00",
+    "oscillator": -4.89111764705882,
+    "normalized": -1.8910909554047404
+  },
+  {
+    "timestamp": "2018-11-21T00:00:00",
+    "oscillator": -5.283382352941203,
+    "normalized": -2.0350444314541263
+  },
+  {
+    "timestamp": "2018-11-23T00:00:00",
+    "oscillator": -5.822029411764731,
+    "normalized": -2.260675019614705
+  },
+  {
+    "timestamp": "2018-11-26T00:00:00",
+    "oscillator": -6.494088235294157,
+    "normalized": -2.4970059541648206
+  },
+  {
+    "timestamp": "2018-11-27T00:00:00",
+    "oscillator": -6.618470588235311,
+    "normalized": -2.5402408751790713
+  },
+  {
+    "timestamp": "2018-11-28T00:00:00",
+    "oscillator": -5.060500000000047,
+    "normalized": -1.9106320320169323
+  },
+  {
+    "timestamp": "2018-11-29T00:00:00",
+    "oscillator": -3.498117647058905,
+    "normalized": -1.308490179942734
+  },
+  {
+    "timestamp": "2018-11-30T00:00:00",
+    "oscillator": -1.3709411764706374,
+    "normalized": -0.5111828093779177
+  },
+  {
+    "timestamp": "2018-12-03T00:00:00",
+    "oscillator": 0.9557941176470308,
+    "normalized": 0.3511625092391178
+  },
+  {
+    "timestamp": "2018-12-04T00:00:00",
+    "oscillator": 2.5065588235293603,
+    "normalized": 0.9362788127409225
+  },
+  {
+    "timestamp": "2018-12-06T00:00:00",
+    "oscillator": 1.8599117647058847,
+    "normalized": 0.716066745478511
+  },
+  {
+    "timestamp": "2018-12-07T00:00:00",
+    "oscillator": 0.7840294117647204,
+    "normalized": 0.30104032090489957
+  },
+  {
+    "timestamp": "2018-12-10T00:00:00",
+    "oscillator": -1.303264705882384,
+    "normalized": -0.5100241481948828
+  },
+  {
+    "timestamp": "2018-12-11T00:00:00",
+    "oscillator": -3.683911764705954,
+    "normalized": -1.4237890410087168
+  },
+  {
+    "timestamp": "2018-12-12T00:00:00",
+    "oscillator": -4.956176470588218,
+    "normalized": -1.9011033642455768
+  },
+  {
+    "timestamp": "2018-12-13T00:00:00",
+    "oscillator": -4.935941176470521,
+    "normalized": -1.9031969062928555
+  },
+  {
+    "timestamp": "2018-12-14T00:00:00",
+    "oscillator": -5.704705882352869,
+    "normalized": -2.2320627131829047
+  },
+  {
+    "timestamp": "2018-12-17T00:00:00",
+    "oscillator": -6.36744117647055,
+    "normalized": -2.5383966897767745
+  },
+  {
+    "timestamp": "2018-12-18T00:00:00",
+    "oscillator": -7.9627058823528785,
+    "normalized": -3.1926169288933397
+  },
+  {
+    "timestamp": "2018-12-19T00:00:00",
+    "oscillator": -10.140058823529358,
+    "normalized": -4.085438687965092
+  },
+  {
+    "timestamp": "2018-12-20T00:00:00",
+    "oscillator": -12.912470588235351,
+    "normalized": -5.3333074173868695
+  },
+  {
+    "timestamp": "2018-12-21T00:00:00",
+    "oscillator": -15.22976470588236,
+    "normalized": -6.33794490350709
+  },
+  {
+    "timestamp": "2018-12-24T00:00:00",
+    "oscillator": -17.810323529411704,
+    "normalized": -7.6393255251830245
+  },
+  {
+    "timestamp": "2018-12-26T00:00:00",
+    "oscillator": -19.69094117647049,
+    "normalized": -8.360801297781665
+  },
+  {
+    "timestamp": "2018-12-27T00:00:00",
+    "oscillator": -20.672117647058826,
+    "normalized": -8.645804118385122
+  },
+  {
+    "timestamp": "2018-12-28T00:00:00",
+    "oscillator": -19.410294117647027,
+    "normalized": -7.945269798463785
+  },
+  {
+    "timestamp": "2018-12-31T00:00:00",
+    "oscillator": -17.769176470588206,
+    "normalized": -7.27633605806114
+  }
+]

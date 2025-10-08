@@ -4,19 +4,27 @@
 
 ## Overview
 
-Implement a comprehensive regression baseline framework for all StaticSeries indicator `Standard` tests to ensure future changes do not unintentionally alter indicator outputs. The framework generates, stores, and validates canonical output datasets using JSON files for reproducibility and drift detection.
+Implement a comprehensive regression baseline framework for all StaticSeries indicator `Standard` tests to ensure future changes do not unintentionally alter indicator outputs. The framework generates, stores, and validates canonical output datasets using JSON files for reproducibility and detection of unintended behavioral changes.
+
+### Terminology
+
+This specification uses the following terms consistently:
+
+- **Mismatch**: Any comparison difference detected by the baseline comparer. All mismatches are reported with specific values, deltas, and locations.
+- **Drift**: Unacceptable deviation from expected baseline values that requires investigation and correction. Any mismatch constitutes drift and blocks CI merge. Drift must be either fixed (if unintentional) or baselines regenerated (if intentional change).
+- **Baseline**: Known-good canonical output stored as JSON for regression comparison.
 
 ## Background
 
 The Stock Indicators library contains 200+ technical indicators with batch-style (StaticSeries) implementations. Each indicator has a `Standard` test scenario using reference market data. Currently, these tests validate mathematical correctness but lack deterministic regression baselines to detect unintended output changes across versions.
 
-This framework establishes "known good" output snapshots that can be regenerated when algorithm changes are intentional, while catching accidental behavioral drift during refactoring, dependency updates, or platform changes.
+This framework establishes "known good" output snapshots that can be regenerated when algorithm changes are intentional, while catching accidental behavioral changes during refactoring, dependency updates, or platform changes.
 
 ## User scenarios & testing
 
 ### Primary use cases
 
-- **Continuous integration regression detection**: Automatically detect when indicator outputs drift from established baselines during PR validation
+- **Continuous integration regression detection**: Automatically detect when indicator outputs drift (deviate unacceptably) from established baselines during PR validation
 - **Refactoring confidence**: Enable safe code refactoring with immediate feedback if outputs change unexpectedly
 - **Version migration validation**: Verify indicator behavior remains consistent when upgrading .NET versions or dependencies
 - **Algorithm change documentation**: Provide clear before/after comparison when intentionally modifying indicator calculations
@@ -33,41 +41,40 @@ This framework establishes "known good" output snapshots that can be regenerated
 ### Core features
 
 - **FR1**: Generate JSON baseline files containing complete indicator outputs (including warmup nulls) for each StaticSeries indicator's `Standard` test
-- **FR2**: Store baselines in version control under `tests/indicators/.baselines/` with one JSON file per indicator
-- **FR3**: Compare current test outputs against stored baselines using configurable numeric tolerances
-- **FR4**: Report baseline drift with clear diagnostics (which values changed, by how much, at which dates)
-- **FR5**: Support strict mode for zero-tolerance comparison (e.g., after intentional algorithm changes)
+- **FR2**: Store baselines in version control colocated with indicator test files following pattern `tests/indicators/{a-d|e-k|m-r|s-z}/{IndicatorName}/{IndicatorName}.Baseline.json` with one JSON file per indicator (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
+- **FR3**: Compare current test outputs against stored baselines using exact binary equality (zero tolerance)
+- **FR4**: Report comparison mismatches with clear diagnostics (which values changed, by how much, at which dates); any mismatch constitutes drift requiring investigation and correction
 
 ### Baseline generation
 
 - **FR6**: Baseline generator tool (`tools/performance/BaselineGenerator/`) creates JSON files from current test execution
 - **FR7**: Generator captures all result properties for each date; null values during warmup period MUST be serialized explicitly (not omitted) for complete output representation
-- **FR8**: Metadata includes indicator name, test scenario, generation timestamp, and library version
+- **FR8**: JSON files contain direct array of result objects without metadata wrapper (simplified approach); each baseline represents the complete output for one indicator's Standard test scenario
 - **FR9**: JSON format uses consistent serialization (camelCase, minimal whitespace, deterministic property order)
 - **FR10**: Generator supports regenerating single indicator or all indicators in batch
 
 ### Regression validation
 
 - **FR11**: Regression test suite in `tests/indicators/` compares current outputs against baselines
-- **FR12**: Numeric comparison uses configurable tolerance (default: 1e-12 for floating-point precision) specified as a parameter to the comparison method
-- **FR13**: Strict mode enforces exact match (tolerance = 0) for critical validations
-- **FR14**: Test failures report file path, property name, date, expected value, actual value, and delta
-- **FR15**: Tests use `Assert.Inconclusive()` to skip test (not fail) when baseline file does not exist with message format: `"Baseline file not found: {indicatorName}.Standard.json"`
+- **FR12**: Numeric comparison enforces exact binary equality for all indicator outputs (mathematical precision is NON-NEGOTIABLE per Constitution Principle I)
+- **FR13**: Test failures report file path, property name, date, expected value, actual value, and delta for each mismatch
+- **FR14**: Tests use `Assert.Inconclusive()` to skip test (not fail) when baseline file does not exist with message format: `"Baseline file not found: {indicatorName}.Standard.json"`
 
 ### CI integration
 
-- **FR16**: Regression tests run automatically in CI pipeline alongside existing unit tests
-- **FR17**: CI workflow includes environment variable to enable/disable regression gating
-- **FR18**: CI logs baseline drift summary (count of mismatches, affected indicators)
-- **FR19**: CI artifacts include detailed regression report for post-merge review
+- **FR15**: Regression tests run automatically in CI pipeline alongside existing unit tests
+- **FR16**: CI workflow includes environment variable to enable/disable regression gating
+- **FR17**: CI logs summary of detected mismatches (count, affected indicators) with drift classification (any mismatch blocks merge)
+- **FR18**: CI artifacts include detailed mismatch report for post-merge review
 
 ### Documentation requirements
 
-- **FR20**: Baseline format specification document (`docs/baseline-format.md`) describes JSON schema, property conventions, and serialization rules
-- **FR21**: Contributor guide (`contributing.md`) includes baseline regeneration procedure (when, why, how)
-- **FR22**: Generator tool documentation (`tools/performance/BaselineGenerator/README.md`) covers CLI usage, troubleshooting, and performance expectations
-- **FR23**: Pull request review checklist updated with baseline drift review guidance
-- **FR24**: CI workflow documentation explains environment variables and regression test execution
+- **FR19**: Baseline format specification document (`specs/002-regression-baselines/baseline-format.md`) describes JSON schema, property conventions, and serialization rules
+- **FR20**: Contributor guide (`contributing.md`) includes baseline regeneration procedure (when, why, how)
+- **FR21**: Generator tool documentation (`tools/performance/BaselineGenerator/README.md`) covers CLI usage, troubleshooting, and performance expectations
+- **FR22**: Pull request review checklist updated with baseline drift review guidance
+- **FR23**: CI workflow documentation explains environment variables and regression test execution
+- **FR24**: Per-indicator regression test checklist (`checklists/regression-test.md`) validates requirements quality for consistent test implementation across 200+ indicators
 
 ### Cross-platform validation
 
@@ -75,10 +82,9 @@ This framework establishes "known good" output snapshots that can be regenerated
 
 ## Key entities
 
-- **BaselineFile**: JSON file containing complete indicator output for one Standard test (metadata + results array)
-- **BaselineMetadata**: Indicator name, test scenario name, generation timestamp, library version, warmup period count
+- **BaselineFile**: JSON file containing complete indicator output for one Standard test
 - **BaselineResult**: Single result entry with date and properties (dictionary mapping property name to nullable double value)
-- **BaselineComparer**: Logic to compare two result sequences with tolerance and strict mode
+- **BaselineComparer**: Logic to compare two result sequences using exact binary equality
 - **BaselineGenerator tool**: Console application to execute Standard tests and serialize outputs to JSON (located in `tools/performance/BaselineGenerator/`)
 - **RegressionTestSuite**: MSTest test class running baseline comparisons for all indicators
 
@@ -94,7 +100,7 @@ This framework establishes "known good" output snapshots that can be regenerated
 
 ### Phase 2: Regression test suite (High priority)
 
-- Implement `BaselineComparer` with numeric tolerance and strict mode
+- Implement `BaselineComparer` using exact binary equality
 - Create `RegressionTests` test class in `tests/indicators/`
 - Implement per-indicator regression test methods comparing current outputs to baselines
 - Add clear failure diagnostics (expected vs actual with delta)
@@ -125,11 +131,11 @@ This framework establishes "known good" output snapshots that can be regenerated
 
 ## Constraints & assumptions
 
-- Baseline files assume deterministic floating-point behavior across .NET versions (verified via tolerance)
+- Mathematical precision is NON-NEGOTIABLE per Constitution Principle I—exact binary equality required
 - JSON format prioritizes human readability for code review over minimal file size
 - Baseline files are version-controlled (not generated dynamically at test time)
 - Generator tool runs on same test data as existing `Standard` tests (no new test data required)
-- Numeric tolerance accounts for acceptable floating-point precision differences
+- Any platform or .NET version differences indicate bugs requiring investigation
 
 ## Dependencies
 
@@ -140,10 +146,9 @@ This framework establishes "known good" output snapshots that can be regenerated
 
 ## Risks & mitigation
 
-- **Floating-point drift across platforms**: Mitigated by configurable tolerance and strict mode for validating fixes
 - **Baseline file merge conflicts**: Mitigated by one file per indicator and clear regeneration process
-- **False positives from acceptable changes**: Mitigated by tolerance configuration and baseline regeneration workflow
 - **CI performance impact**: Mitigated by parallel test execution and selective regression gating via environment variable
+- **Platform-specific floating-point differences**: If differences exist between net8.0 and net9.0, this indicates a precision bug in the indicator implementation that must be fixed (not tolerated). Mathematical precision is NON-NEGOTIABLE per Constitution Principle I.
 
 ---
 Last updated: October 6, 2025

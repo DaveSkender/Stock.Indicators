@@ -166,7 +166,7 @@ Valid baseline files must:
 ### Why full precision?
 
 - **Accuracy**: Captures floating-point behavior precisely
-- **Strict mode**: Enables zero-tolerance validation when needed
+- **Mathematical precision**: NON-NEGOTIABLE per Constitution Principle I—exact binary equality required
 - **Documentation**: Records expected precision for future reference
 
 ## Usage guidelines
