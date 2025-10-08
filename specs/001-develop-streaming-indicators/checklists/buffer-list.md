@@ -128,45 +128,57 @@
 - [ ] CHK089 - Are performance requirements traceable to benchmark implementations? [Traceability, Instructions §Performance Benchmarking]
 - [ ] CHK090 - Are all specification requirements (FR-001 through FR-010) covered by implementation requirements? [Traceability, Spec §Requirements]
 
-## Documentation Requirements Quality
+## Developer Documentation Requirements (Inline Code)
 
-- [ ] CHK091 - Are XML documentation requirements specified for public members? [Completeness, Instructions §Implementation Requirements]
-- [ ] CHK092 - Are code example requirements defined (usage patterns in docs)? [Completeness, Gap]
-- [ ] CHK093 - Are warmup guidance documentation requirements specified? [Completeness, Spec §NFR-005]
-- [ ] CHK094 - Are performance characteristic documentation requirements defined? [Completeness, Spec §NFR-005]
-- [ ] CHK095 - Are streaming usage example requirements specified for indicator docs? [Completeness, Plan §Documentation Updates]
-- [ ] CHK096 - Are requirements for documenting non-standard cache pruning behavior specified? [Completeness, Instructions §Auto-pruning]
+- [ ] CHK091 - Are XML documentation requirements specified for all public BufferList members (class, constructors, methods, properties)? [Completeness, Instructions §Implementation Requirements]
+- [ ] CHK092 - Are XML documentation requirements specified for the `To{Name}List` extension method? [Completeness, Instructions §Extension Method]
+- [ ] CHK093 - Are requirements defined for documenting warmup period behavior in XML comments? [Completeness, Spec §NFR-005]
+- [ ] CHK094 - Are requirements defined for documenting auto-pruning behavior in XML comments? [Completeness, Instructions §Auto-pruning]
+- [ ] CHK095 - Are requirements defined for documenting buffer management patterns in XML comments? [Completeness, Instructions §Universal Buffer Utilities]
+- [ ] CHK096 - Are requirements for XML documentation consistency with series implementation specified? [Consistency, Gap]
 
-## Website Indicator Documentation Requirements
+## User Documentation Requirements (Technical Reference Website)
 
-- [ ] CHK096a - Are requirements specified for adding "Streaming" section to indicator doc page (`docs/_indicators/{Name}.md`) with BufferList code examples matching reference patterns (Sma.md, Ema.md)? [Completeness, Plan §Documentation Updates, Task T108]
-- [ ] CHK096b - Are requirements defined for updating migration guide (`src/_common/ObsoleteV3.md`) with streaming capability summary and API patterns? [Completeness, Plan §Documentation Updates, Task T109/D007]
-- [ ] CHK096c - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]
+- [ ] CHK097 - Are requirements specified for adding "Streaming" section to indicator page (`docs/_indicators/{Name}.md`) following standardized template? [Completeness, Plan §Documentation Updates, Task T108]
+- [ ] CHK098 - Are requirements defined for BufferList usage examples matching reference patterns (Sma.md, Ema.md guide.md sections)? [Completeness, Plan §Documentation Updates]
+- [ ] CHK099 - Are requirements specified for code examples showing initialization patterns (parameter-only and quotes constructors)? [Completeness, Gap]
+- [ ] CHK100 - Are requirements specified for code examples showing incremental addition pattern (`list.Add(quote)`)? [Completeness, Gap]
+- [ ] CHK101 - Are requirements specified for code examples showing batch addition pattern (collection initializer)? [Completeness, Gap]
+- [ ] CHK102 - Are requirements specified for code examples showing state reset and repopulation pattern? [Completeness, Gap]
+- [ ] CHK103 - Are requirements for website code example accuracy validation specified (examples must compile and produce correct results)? [Quality, Gap]
+
+## Maintainer Documentation Requirements (Migration Guide & Tasks)
+
+- [ ] CHK104 - Are requirements defined for adding `[Obsolete]` attributes with migration paths to avoid breaking changes? [Completeness, Plan §Documentation Updates, Task T109/D007, ObsoleteV3.cs]
+- [ ] CHK105 - Are requirements specified for documenting streaming capability summary in migration guide (`src/_common/ObsoleteV3.md`)? [Completeness, Plan §Documentation Updates, Task T109/D007]
+- [ ] CHK106 - Are requirements specified for documenting API pattern changes ("what changed to what" explanations)? [Completeness, ObsoleteV3.md patterns]
+- [ ] CHK107 - Are requirements specified for providing migration code examples in ObsoleteV3.md? [Completeness, ObsoleteV3.md patterns]
+- [ ] CHK108 - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]
 
 ## Implementation Pattern Requirements
 
-- [ ] CHK097 - Are extension method requirements specified (`To{Name}List` pattern)? [Completeness, Instructions §Extension Method]
-- [ ] CHK098 - Are requirements for avoiding manual buffer management explicitly stated? [Completeness, Instructions §Common Anti-Patterns]
-- [ ] CHK099 - Are requirements for consistent buffer utility usage across all buffers specified? [Completeness, Instructions §Common Anti-Patterns]
-- [ ] CHK100 - Are requirements for efficient sum maintenance (dequeue tracking) specified? [Completeness, Instructions §Common Anti-Patterns]
-- [ ] CHK101 - Are reference implementation requirements documented (SMA, EMA, HMA, ADX, MAMA examples)? [Completeness, Instructions §Reference Examples]
-- [ ] CHK102 - Are requirements for proper non-standard cache pruning patterns specified (separate from Queue-based buffers)? [Completeness, Instructions §Auto-pruning]
+- [ ] CHK109 - Are extension method requirements specified (`To{Name}List` pattern)? [Completeness, Instructions §Extension Method]
+- [ ] CHK110 - Are requirements for avoiding manual buffer management explicitly stated? [Completeness, Instructions §Common Anti-Patterns]
+- [ ] CHK111 - Are requirements for consistent buffer utility usage across all buffers specified? [Completeness, Instructions §Common Anti-Patterns]
+- [ ] CHK112 - Are requirements for efficient sum maintenance (dequeue tracking) specified? [Completeness, Instructions §Common Anti-Patterns]
+- [ ] CHK113 - Are reference implementation requirements documented (SMA, EMA, HMA, ADX, MAMA examples)? [Completeness, Instructions §Reference Examples]
+- [ ] CHK114 - Are requirements for proper non-standard cache pruning patterns specified (separate from Queue-based buffers)? [Completeness, Instructions §Auto-pruning]
 
 ## Quality Standards Requirements
 
-- [ ] CHK103 - Are code quality standard requirements traceable to `.editorconfig` conventions? [Traceability, Instructions §Quality Standards]
-- [ ] CHK104 - Are requirements for strict ordering assertions in tests specified (`WithStrictOrdering()`)? [Completeness, Instructions §Test Pattern Notes]
-- [ ] CHK105 - Are requirements prohibiting approximate equality in deterministic tests specified (NO `BeApproximately`, use exact `BeEquivalentTo`)? [Completeness, TestBase.cs]
-- [ ] CHK106 - Are requirements for public API approval test updates specified? [Completeness, Plan §Quality Gates]
-- [ ] CHK107 - Are requirements for integration with series-style indicators specified? [Completeness, Instructions §Integration with Other Styles]
-- [ ] CHK108 - Are requirements for consistency with library conventions documented? [Completeness, Spec §NFR-004]
-- [ ] CHK109 - Are requirements for aligning with idiomatic reference implementations specified? [Completeness, Gap]
-- [ ] CHK110 - Are requirements for proper test base class inheritance documented (`BufferListTestBase`)? [Completeness, TestBase.cs]
-- [ ] CHK110a - Is it EXPLICITLY stated that test classes MUST inherit from `BufferListTestBase` and NOT from `TestBase` directly? [Clarity, CRITICAL]
-- [ ] CHK110b - Are consequences of incorrect base class inheritance documented (missing abstract method implementations)? [Completeness, CRITICAL]
-- [ ] CHK111 - Are requirements for implementing `ITestReusableBufferList` when supporting IReusable inputs specified? [Completeness, TestBase.cs]
-- [ ] CHK112 - Are requirements for implementing `ITestNonStandardBufferListCache` when using List-based state caches specified? [Completeness, TestBase.cs]
-- [ ] CHK113 - Are requirements for `AutoBufferPruning()` test when using non-standard caches specified? [Completeness, TestBase.cs]
+- [ ] CHK115 - Are code quality standard requirements traceable to `.editorconfig` conventions? [Traceability, Instructions §Quality Standards]
+- [ ] CHK116 - Are requirements for strict ordering assertions in tests specified (`WithStrictOrdering()`)? [Completeness, Instructions §Test Pattern Notes]
+- [ ] CHK117 - Are requirements prohibiting approximate equality in deterministic tests specified (NO `BeApproximately`, use exact `BeEquivalentTo`)? [Completeness, TestBase.cs]
+- [ ] CHK118 - Are requirements for public API approval test updates specified? [Completeness, Plan §Quality Gates]
+- [ ] CHK119 - Are requirements for integration with series-style indicators specified? [Completeness, Instructions §Integration with Other Styles]
+- [ ] CHK120 - Are requirements for consistency with library conventions documented? [Completeness, Spec §NFR-004]
+- [ ] CHK121 - Are requirements for aligning with idiomatic reference implementations specified? [Completeness, Gap]
+- [ ] CHK122 - Are requirements for proper test base class inheritance documented (`BufferListTestBase`)? [Completeness, TestBase.cs]
+- [ ] CHK123 - Is it EXPLICITLY stated that test classes MUST inherit from `BufferListTestBase` and NOT from `TestBase` directly? [Clarity, CRITICAL]
+- [ ] CHK124 - Are consequences of incorrect base class inheritance documented (missing abstract method implementations)? [Completeness, CRITICAL]
+- [ ] CHK125 - Are requirements for implementing `ITestReusableBufferList` when supporting IReusable inputs specified? [Completeness, TestBase.cs]
+- [ ] CHK126 - Are requirements for implementing `ITestNonStandardBufferListCache` when using List-based state caches specified? [Completeness, TestBase.cs]
+- [ ] CHK127 - Are requirements for `AutoBufferPruning()` test when using non-standard caches specified? [Completeness, TestBase.cs]
 
 ## Notes
 
@@ -177,15 +189,15 @@
 - Add findings or gaps discovered during requirements review inline
 
 ---
-**Checklist Items**: 119
-**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Documentation, Website Docs, Patterns, Quality Standards
+**Checklist Items**: 127
+**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Developer Docs (XML), User Docs (Website), Maintainer Docs (Migration), Patterns, Quality Standards
 
 **Key Requirements**:
 
-1. **CRITICAL**: Test classes MUST inherit from `BufferListTestBase`, NOT `TestBase` directly (CHK110, CHK110a, CHK110b)
-2. Tests must use deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`) - NO approximate equality (CHK105)
+1. **CRITICAL**: Test classes MUST inherit from `BufferListTestBase`, NOT `TestBase` directly (CHK122, CHK123, CHK124)
+2. Tests must use deterministic equality (`BeEquivalentTo` with `WithStrictOrdering()`) - NO approximate equality (CHK117)
 3. BufferList tests must implement appropriate interfaces:
-   - `ITestReusableBufferList` when indicator supports `IReusable` inputs (CHK111)
-   - `ITestNonStandardBufferListCache` when using List-based state caches (not just Queue) (CHK112)
+   - `ITestReusableBufferList` when indicator supports `IReusable` inputs (CHK125)
+   - `ITestNonStandardBufferListCache` when using List-based state caches (not just Queue) (CHK126)
 4. Implementation must align with idiomatic reference patterns (SMA, EMA, Doji, MAMA examples)
-5. Non-standard caches (List-based state) require proper pruning and `AutoBufferPruning()` test (CHK113)
+5. Non-standard caches (List-based state) require proper pruning and `AutoBufferPruning()` test (CHK127)

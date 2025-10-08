@@ -60,7 +60,7 @@
 ## Scenario Coverage
 
 - [ ] CHK038 - Are requirements defined for stateful quote-by-quote processing scenario? [Coverage, Instructions §Test Structure Pattern]
-- [ ] CHK039 - Are requirements defined for extension method initialization scenario (`To{Name}StreamHub`)? [Coverage, Instructions §Extension Method]
+- [ ] CHK039 - Are requirements defined for extension method initialization scenario (`To{Name}Hub`)? [Coverage, Instructions §Extension Method]
 - [ ] CHK040 - Are requirements defined for state reset scenario? [Coverage, Instructions §Test Structure Pattern]
 - [ ] CHK041 - Are requirements defined for consistency validation scenario (vs series)? [Coverage, Instructions §Test Structure Pattern]
 - [ ] CHK042 - Are requirements defined for real-time simulation scenario (warmup + live)? [Coverage, Instructions §Test Structure Pattern]
@@ -126,65 +126,77 @@
 - [ ] CHK087 - Are all specification requirements (FR-001 through FR-010) covered by implementation requirements? [Traceability, Spec §Requirements]
 - [ ] CHK088 - Are observer pattern requirements traceable to interface definitions? [Traceability, Instructions §Core Stream Hub Structure]
 
-## Documentation Requirements Quality
+## Developer Documentation Requirements (Inline Code)
 
-- [ ] CHK089 - Are XML documentation requirements specified for public members? [Completeness, Instructions §Extension Method]
-- [ ] CHK090 - Are code example requirements defined (usage patterns in docs)? [Completeness, Gap]
-- [ ] CHK091 - Are warmup guidance documentation requirements specified? [Completeness, Spec §NFR-005]
-- [ ] CHK092 - Are performance characteristic documentation requirements defined? [Completeness, Spec §NFR-005]
-- [ ] CHK093 - Are streaming usage example requirements specified for indicator docs? [Completeness, Plan §Documentation Updates]
-- [ ] CHK094 - Are chaining example requirements documented (composing indicators)? [Completeness, Instructions §Integration Patterns]
+- [ ] CHK089 - Are XML documentation requirements specified for all public StreamHub members (class, constructors, methods, properties)? [Completeness, Instructions §Extension Method]
+- [ ] CHK090 - Are XML documentation requirements specified for the `To{Name}Hub` extension method? [Completeness, Instructions §Extension Method]
+- [ ] CHK091 - Are requirements defined for documenting warmup period behavior in XML comments? [Completeness, Spec §NFR-005]
+- [ ] CHK092 - Are requirements defined for documenting performance characteristics in XML comments? [Completeness, Spec §NFR-005]
+- [ ] CHK093 - Are requirements specified for documenting timestamp validation behavior in XML comments? [Completeness, Spec §FR-006]
+- [ ] CHK094 - Are requirements for XML documentation consistency with series implementation specified? [Consistency, Gap]
 
-## Website Indicator Documentation Requirements
+## User Documentation Requirements (Technical Reference Website)
 
-- [ ] CHK094a - Are requirements specified for adding "Streaming" section to indicator doc page (`docs/_indicators/{Name}.md`) with StreamHub code examples matching reference patterns (Sma.md, Ema.md)? [Completeness, Plan §Documentation Updates, Task T108]
-- [ ] CHK094b - Are requirements defined for updating migration guide (`src/_common/ObsoleteV3.md`) with streaming capability summary and API patterns? [Completeness, Plan §Documentation Updates, Task T109/D007]
-- [ ] CHK094c - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]
+- [ ] CHK095 - Are requirements specified for adding "Streaming" section to indicator page (`docs/_indicators/{Name}.md`) following standardized template? [Completeness, Plan §Documentation Updates, Task T108]
+- [ ] CHK096 - Are requirements defined for StreamHub usage examples matching reference patterns (Sma.md, Ema.md guide.md sections)? [Completeness, Plan §Documentation Updates]
+- [ ] CHK097 - Are requirements specified for code examples showing initialization pattern (`quotes.To{Name}Hub(lookback)`)? [Completeness, Gap]
+- [ ] CHK098 - Are requirements specified for code examples showing quote-by-quote processing pattern? [Completeness, Gap]
+- [ ] CHK099 - Are requirements specified for code examples showing observer pattern usage (when applicable)? [Completeness, Instructions §Integration Patterns]
+- [ ] CHK100 - Are requirements specified for documenting chaining examples on technical reference website? [Completeness, Instructions §Integration Patterns]
+- [ ] CHK101 - Are requirements for website code example accuracy validation specified (examples must compile and produce correct results)? [Quality, Gap]
+
+## Maintainer Documentation Requirements (Migration Guide & Tasks)
+
+- [ ] CHK102 - Are requirements defined for adding `[Obsolete]` attributes with migration paths to avoid breaking changes? [Completeness, Plan §Documentation Updates, Task T109/D007, ObsoleteV3.cs]
+- [ ] CHK103 - Are requirements specified for documenting streaming capability summary in migration guide (`src/_common/ObsoleteV3.md`)? [Completeness, Plan §Documentation Updates, Task T109/D007]
+- [ ] CHK104 - Are requirements specified for documenting API pattern changes ("what changed to what" explanations)? [Completeness, ObsoleteV3.md patterns]
+- [ ] CHK105 - Are requirements specified for providing migration code examples in ObsoleteV3.md? [Completeness, ObsoleteV3.md patterns]
+- [ ] CHK106 - Are requirements specified for updating task progress in `specs/001-develop-streaming-indicators/tasks.md` after implementation completion? [Traceability, tasks.md §T108]
 
 ## Implementation Pattern Requirements
 
-- [ ] CHK095 - Are extension method requirements specified (`To{Name}StreamHub` pattern)? [Completeness, Instructions §Extension Method]
-- [ ] CHK096 - Are requirements for efficient rolling calculations explicitly stated? [Completeness, Instructions §Stream Patterns]
-- [ ] CHK097 - Are requirements for state initialization patterns specified? [Completeness, Instructions §State Initialization Patterns]
-- [ ] CHK098 - Are requirements for graceful degradation (error handling) specified? [Completeness, Instructions §Error Handling]
-- [ ] CHK099 - Are reference implementation requirements documented (EMA, SMA, AtrStop examples)? [Completeness, Instructions §Reference Examples]
-- [ ] CHK100 - Are requirements for indicator chaining patterns specified? [Completeness, Instructions §Integration Patterns]
+- [ ] CHK107 - Are extension method requirements specified (`To{Name}Hub` pattern)? [Completeness, Instructions §Extension Method]
+- [ ] CHK108 - Are requirements for efficient rolling calculations explicitly stated? [Completeness, Instructions §Stream Patterns]
+- [ ] CHK109 - Are requirements for state initialization patterns specified? [Completeness, Instructions §State Initialization Patterns]
+- [ ] CHK110 - Are requirements for graceful degradation (error handling) specified? [Completeness, Instructions §Error Handling]
+- [ ] CHK111 - Are reference implementation requirements documented (EMA, SMA, AtrStop examples)? [Completeness, Instructions §Reference Examples]
+- [ ] CHK112 - Are requirements for indicator chaining patterns specified? [Completeness, Instructions §Integration Patterns]
 
 ## Quality Standards Requirements
 
-- [ ] CHK101 - Are code quality standard requirements traceable to `.editorconfig` conventions? [Traceability, Gap]
-- [ ] CHK102 - Are requirements for equivalence assertions in tests specified (`BeEquivalentTo` or exact `Should().Be()`)? [Completeness, Instructions §Test Structure Pattern]
-- [ ] CHK103 - Are requirements prohibiting approximate equality in deterministic tests specified (NO `BeApproximately`, use exact equality)? [Completeness, TestBase.cs]
-- [ ] CHK104 - Are requirements for public API approval test updates specified? [Completeness, Plan §Quality Gates]
-- [ ] CHK105 - Are requirements for integration with series-style indicators specified? [Completeness, Instructions §Reference Examples]
-- [ ] CHK106 - Are requirements for consistency with library conventions documented? [Completeness, Spec §NFR-004]
-- [ ] CHK107 - Are requirements for aligning with idiomatic reference implementations specified? [Completeness, Gap]
-- [ ] CHK108 - Is it EXPLICITLY stated that test classes MUST inherit from `StreamHubTestBase` and NOT from `TestBase` directly? [Clarity, CRITICAL]
-- [ ] CHK109 - Are consequences of incorrect base class inheritance documented (missing abstract method implementations)? [Completeness, CRITICAL]
-- [ ] CHK110 - Are requirements for implementing appropriate test interfaces specified (`ITestChainObserver`)? [Completeness, TestBase.cs]
+- [ ] CHK113 - Are code quality standard requirements traceable to `.editorconfig` conventions? [Traceability, Gap]
+- [ ] CHK114 - Are requirements for equivalence assertions in tests specified (`BeEquivalentTo` or exact `Should().Be()`)? [Completeness, Instructions §Test Structure Pattern]
+- [ ] CHK115 - Are requirements prohibiting approximate equality in deterministic tests specified (NO `BeApproximately`, use exact equality)? [Completeness, TestBase.cs]
+- [ ] CHK116 - Are requirements for public API approval test updates specified? [Completeness, Plan §Quality Gates]
+- [ ] CHK117 - Are requirements for integration with series-style indicators specified? [Completeness, Instructions §Reference Examples]
+- [ ] CHK118 - Are requirements for consistency with library conventions documented? [Completeness, Spec §NFR-004]
+- [ ] CHK119 - Are requirements for aligning with idiomatic reference implementations specified? [Completeness, Gap]
+- [ ] CHK120 - Is it EXPLICITLY stated that test classes MUST inherit from `StreamHubTestBase` and NOT from `TestBase` directly? [Clarity, CRITICAL]
+- [ ] CHK121 - Are consequences of incorrect base class inheritance documented (missing abstract method implementations)? [Completeness, CRITICAL]
+- [ ] CHK122 - Are requirements for implementing appropriate test interfaces specified (`ITestChainObserver`)? [Completeness, TestBase.cs]
 
 ## Stream Hub I/O Pattern Requirements
 
-- [ ] CHK111 - Are requirements for IQuote → IReusable pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
-- [ ] CHK112 - Are requirements for IQuote → ISeries pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
-- [ ] CHK113 - Are requirements for IReusable → IReusable pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
-- [ ] CHK114 - Are requirements for IQuote → IQuote pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
-- [ ] CHK115 - Are requirements for IQuote → VolumeWeighted pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
-- [ ] CHK116 - Are generic constraint requirements aligned with I/O pattern selection? [Consistency, Instructions §Stream Hub I/O Scenarios]
+- [ ] CHK123 - Are requirements for IQuote → IReusable pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
+- [ ] CHK124 - Are requirements for IQuote → ISeries pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
+- [ ] CHK125 - Are requirements for IReusable → IReusable pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
+- [ ] CHK126 - Are requirements for IQuote → IQuote pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
+- [ ] CHK127 - Are requirements for IQuote → VolumeWeighted pattern clearly defined? [Completeness, Instructions §Stream Hub I/O Scenarios]
+- [ ] CHK128 - Are generic constraint requirements aligned with I/O pattern selection? [Consistency, Instructions §Stream Hub I/O Scenarios]
 
 ## Reference Implementation Requirements
 
-- [ ] CHK117 - Are requirements for studying reference implementations specified (EMA, SMA, AtrStop, Alligator)? [Completeness, Instructions §Reference Examples]
-- [ ] CHK118 - Are requirements for matching idiomatic patterns from reference implementations documented? [Completeness, Gap]
-- [ ] CHK119 - Are requirements for code organization consistency with existing implementations specified? [Completeness, Gap]
+- [ ] CHK129 - Are requirements for studying reference implementations specified (EMA, SMA, AtrStop, Alligator)? [Completeness, Instructions §Reference Examples]
+- [ ] CHK130 - Are requirements for matching idiomatic patterns from reference implementations documented? [Completeness, Gap]
+- [ ] CHK131 - Are requirements for code organization consistency with existing implementations specified? [Completeness, Gap]
 
 ## Real-Time Processing Requirements
 
-- [ ] CHK120 - Are requirements for handling live data streams explicitly defined? [Completeness, Instructions §Test Structure Pattern]
-- [ ] CHK121 - Are requirements for maintaining state across continuous ticks specified? [Completeness, Instructions §State Management]
-- [ ] CHK122 - Are requirements for efficient dequeue operations in rolling windows specified? [Completeness, Instructions §Efficient Rolling Calculations]
-- [ ] CHK123 - Are requirements for head/tail pointer management in circular buffers defined? [Completeness, Instructions §Complex State Management]
-- [ ] CHK124 - Are requirements for minimizing latency in hot paths specified? [Completeness, Instructions §Real-time Considerations]
+- [ ] CHK132 - Are requirements for handling live data streams explicitly defined? [Completeness, Instructions §Test Structure Pattern]
+- [ ] CHK133 - Are requirements for maintaining state across continuous ticks specified? [Completeness, Instructions §State Management]
+- [ ] CHK134 - Are requirements for efficient dequeue operations in rolling windows specified? [Completeness, Instructions §Efficient Rolling Calculations]
+- [ ] CHK135 - Are requirements for head/tail pointer management in circular buffers defined? [Completeness, Instructions §Complex State Management]
+- [ ] CHK136 - Are requirements for minimizing latency in hot paths specified? [Completeness, Instructions §Real-time Considerations]
 
 ## Notes
 
@@ -196,8 +208,8 @@
 - StreamHub emphasizes high-frequency, low-latency scenarios requiring span-based optimizations
 
 ---
-**Checklist Items**: 128
-**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Documentation, Website Docs, Patterns, Quality Standards, I/O Patterns, Reference Implementations, Real-Time Processing
+**Checklist Items**: 136
+**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Developer Docs (XML), User Docs (Website), Maintainer Docs (Migration), Patterns, Quality Standards, I/O Patterns, Reference Implementations, Real-Time Processing
 
 **Key Requirements**:
 
