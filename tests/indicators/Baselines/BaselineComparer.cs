@@ -87,8 +87,7 @@ public static class BaselineComparer
                 }
 
                 // Exact binary equality check (NON-NEGOTIABLE)
-                bool areEqual = expectedValueObj switch
-                {
+                bool areEqual = expectedValueObj switch {
                     double expDbl when actualValueObj is double actDbl => expDbl == actDbl,
                     decimal expDec when actualValueObj is decimal actDec => expDec == actDec,
                     _ => false
@@ -118,8 +117,7 @@ public static class BaselineComparer
 
     private static double? ConvertToNullableDouble(object value)
     {
-        return value switch
-        {
+        return value switch {
             null => null,
             double d => d,
             decimal m => (double)m,

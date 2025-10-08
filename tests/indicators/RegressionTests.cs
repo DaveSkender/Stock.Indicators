@@ -15,8 +15,7 @@ namespace Tests.Indicators;
 [TestClass]
 public class RegressionTests : TestBase
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
+    private static readonly JsonSerializerOptions JsonOptions = new() {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         PropertyNameCaseInsensitive = true
     };
@@ -30,6 +29,8 @@ public class RegressionTests : TestBase
     [ClassInitialize]
     public static void ClassInit(TestContext context)
     {
+        ArgumentNullException.ThrowIfNull(context);
+
         if (!ShouldRunRegressionTests())
         {
             // Note: In MSTest, ClassInitialize cannot directly skip all tests.
@@ -90,6 +91,7 @@ public class RegressionTests : TestBase
         string baselinePath,
         List<MismatchDetail> mismatches)
     {
+#pragma warning disable CA1305 // Test diagnostic output does not require culture-specific formatting
         System.Text.StringBuilder sb = new();
         sb.AppendLine($"Regression test failed for {indicatorName}");
         sb.AppendLine($"Baseline file: {baselinePath}");
@@ -126,6 +128,7 @@ public class RegressionTests : TestBase
         sb.AppendLine($"  dotnet run --project tools/performance/BaselineGenerator -- --indicator {indicatorName}");
 
         return sb.ToString();
+#pragma warning restore CA1305
     }
 
     #endregion
@@ -321,7 +324,7 @@ public class RegressionTests : TestBase
             catch (AssertFailedException ex)
             {
                 // Expected - count mismatch should be reported
-                Assert.IsTrue(ex.Message.Contains("Count mismatch"), "Error message should mention count mismatch");
+                Assert.IsTrue(ex.Message.Contains("Count mismatch", StringComparison.Ordinal), "Error message should mention count mismatch");
             }
         }
         finally
