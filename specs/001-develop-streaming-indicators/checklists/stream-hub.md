@@ -135,6 +135,31 @@
 - [ ] CHK093 - Are streaming usage example requirements specified for indicator docs? [Completeness, Plan §Documentation Updates]
 - [ ] CHK094 - Are chaining example requirements documented (composing indicators)? [Completeness, Instructions §Integration Patterns]
 
+## Website Indicator Documentation Requirements
+
+- [ ] CHK094a - Is requirement specified to add "Streaming" section to indicator doc page (`docs/_indicators/{Name}.md`)? [Completeness, Plan §Documentation Updates]
+- [ ] CHK094b - Are requirements defined for StreamHub code example in streaming section (shows `QuoteHub` subscription pattern)? [Completeness, Plan §Documentation Updates, Instructions §Extension Method]
+- [ ] CHK094c - Are requirements defined for StreamHub initialization pattern documentation (`QuoteHub<Quote> provider = new()`)? [Completeness, Spec §NFR-005]
+- [ ] CHK094d - Are requirements defined for observer creation pattern documentation (`{Name}Hub<Quote> observer = provider.To{Name}(params)`)? [Completeness, Instructions §Extension Method]
+- [ ] CHK094e - Are requirements defined for incremental provider add usage example (`provider.Add(quote)`)? [Completeness, Instructions §Test Structure Pattern]
+- [ ] CHK094f - Are requirements defined for results access pattern documentation (`IReadOnlyList<{Name}Result> results = observer.Results`)? [Completeness, Instructions §Core Stream Hub Structure]
+- [ ] CHK094g - Are requirements defined for streaming section placement (after BufferList example, before end of file)? [Consistency, docs/_indicators/Sma.md, docs/_indicators/Ema.md]
+- [ ] CHK094h - Are requirements defined for StreamHub introductory text ("Subscribe to a `QuoteHub` for advanced streaming scenarios")? [Completeness, docs/_indicators/Sma.md, docs/_indicators/Ema.md]
+- [ ] CHK094i - Are requirements defined for code example comment annotation ("// simulating stream")? [Clarity, docs/_indicators/Sma.md, docs/_indicators/Ema.md]
+- [ ] CHK094j - Are requirements specified for documentation consistency checks (streaming examples match actual implementation signatures)? [Consistency, Plan §Documentation Updates]
+- [ ] CHK094k - Are requirements defined for multi-parameter indicator documentation (show all required parameters in To{Name} call)? [Completeness, Instructions §Extension Method]
+- [ ] CHK094l - Are requirements specified for documenting generic type parameter usage (`QuoteHub<Quote>`, `{Name}Hub<Quote>`)? [Completeness, Instructions §Core Stream Hub Structure]
+- [ ] CHK094m - Are requirements defined for documenting observer pattern relationship (provider → observer → results)? [Completeness, Instructions §Core Stream Hub Structure]
+- [ ] CHK094n - Are requirements specified for cross-referencing BufferList and StreamHub patterns in streaming section? [Completeness, Gap]
+- [ ] CHK094o - Are requirements defined for documenting warmup behavior in streaming context (nulls in observer.Results until sufficient data)? [Completeness, Spec §NFR-005, Instructions §Core Stream Hub Structure]
+- [ ] CHK094p - Are requirements specified for documenting low-latency characteristics of StreamHub (>10k ticks/sec capability)? [Completeness, Spec §NFR-001, Instructions §Performance Benchmarking]
+- [ ] CHK094q - Are requirements defined for updating indicator page after implementation (Task T108 traceability)? [Traceability, tasks.md §T108]
+- [ ] CHK094r - Are requirements specified for Jekyll front matter consistency (YAML metadata unchanged)? [Consistency, docs/_indicators/*.md]
+- [ ] CHK094s - Are requirements defined for maintaining existing documentation sections (Parameters, Response, Chaining)? [Completeness, Gap]
+- [ ] CHK094t - Are requirements specified for code block syntax highlighting (```csharp markers)? [Clarity, docs/_indicators/Sma.md]
+- [ ] CHK094u - Are requirements defined for documenting chaining with StreamHub (EMA of RSI example pattern)? [Completeness, Instructions §Integration Patterns]
+- [ ] CHK094v - Are requirements specified for documenting StreamHub vs BufferList tradeoffs (performance vs simplicity)? [Completeness, Gap]
+
 ## Implementation Pattern Requirements
 
 - [ ] CHK095 - Are extension method requirements specified (`To{Name}StreamHub` pattern)? [Completeness, Instructions §Extension Method]
@@ -190,8 +215,8 @@
 - StreamHub emphasizes high-frequency, low-latency scenarios requiring span-based optimizations
 
 ---
-**Checklist Items**: 125
-**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Documentation, Patterns, Quality Standards, I/O Patterns, Reference Implementations, Real-Time Processing
+**Checklist Items**: 147
+**Coverage**: Completeness, Clarity, Consistency, Acceptance Criteria, Scenarios, Edge Cases, NFRs, Dependencies, Ambiguities, Traceability, Documentation, Website Docs, Patterns, Quality Standards, I/O Patterns, Reference Implementations, Real-Time Processing
 
 **Key Requirements**:
 
