@@ -1,7 +1,7 @@
 # Implementation plan: streaming indicators framework
 
-**Branch**: `001-develop-steaming-indicators` | **Date**: 2025-10-02 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/001-develop-steaming-indicators/spec.md`
+**Branch**: `001-develop-streaming-indicators` | **Date**: 2025-10-02 | **Spec**: [spec.md](./spec.md)
+**Input**: Feature specification from `/specs/001-develop-streaming-indicators/spec.md`
 
 > **IMPORTANT**: This planning document contains conceptual examples that may not match actual codebase patterns. For authoritative implementation guidance, always reference:
 >
@@ -23,18 +23,23 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 - Project type: Single project (library enhancement)
 - Performance goals: <5ms average per-tick latency (p95 <10ms), <10KB memory per instance
 - Constraints: O(1) incremental updates, streaming parity with batch within 1e-12, bounded buffers
-- Scale/scope: Five initial indicators (SMA, EMA, RSI, MACD, Bollinger Bands), extensible pattern for 200+ total
+- Scale/scope: 107 total tasks across phased rollout (55 BufferList + 52 StreamHub implementations), targeting all feasible Series-based indicators
 
 ## Constitution check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- **Precision**: Math defined in existing batch indicators; streaming must replicate exactly. Warmup periods inherited from batch. No rounding ambiguity—deterministic state updates.
-- **Performance**: O(1) per-tick updates (no recalculation). BufferList: List-based O(1) append. StreamHub: span-optimized minimal allocations. Benchmarks required.
-- **Validation**: Enforce warmup period before results. Reject non-ascending timestamps. Bounded buffer sizes prevent runaway memory.
-- **Test-Driven**: Unit tests for state transitions, streaming parity tests (batch equivalence), edge tests (warmup, duplicates, buffer limits).
-- **Documentation**: Add streaming usage section to each indicator doc page. Include warmup, performance notes, examples. Update library README with streaming overview.
-- **Scope & Stewardship**: Pure transformation (quotes → results). No external data, no trading logic, no persistence. Simplicity: two styles only (avoid proliferation).
+- **Mathematical Precision (NON-NEGOTIABLE)**: Streaming implementations MUST produce mathematically identical results to batch calculations. All warmup periods inherited from validated batch indicators. State updates are deterministic with no silent rounding. Streaming and batch paths converge within 1e-12 tolerance (floating-point drift only). No new mathematical formulas introduced—pure refactoring of calculation timing.
+
+- **Performance First**: O(1) per-tick incremental updates with no recalculation of historical values. BufferList uses List-based O(1) append with bounded capacity. StreamHub uses span-optimized circular buffers for minimal allocations. Target: <5ms mean latency, <10ms p95 latency, <10KB memory per instance. BenchmarkDotNet validation required before merge. No LINQ in per-tick hot paths.
+
+- **Comprehensive Validation**: All public streaming APIs guard against null inputs, empty sequences, and insufficient warmup history with clear `ArgumentException` messages. Enforce strictly ascending timestamps; reject duplicates or out-of-order quotes. Bounded buffer sizes prevent unbounded memory growth. Warmup period validated against batch indicator requirements. State isolation ensures no leakage across streaming instances.
+
+- **Test-Driven Quality**: TDD workflow mandatory: write failing tests before implementation. Each indicator requires: unit tests (state transitions, warmup thresholds, reset behavior), streaming parity tests (batch equivalence validation with Standard test data), edge tests (duplicate timestamps, out-of-order quotes, buffer limits). Regression baseline tests added to prevent future drift. Performance benchmarks required for each streaming style.
+
+- **Documentation Excellence**: Update `docs/_indicators/*.md` for each streaming-enabled indicator with new "Streaming Usage" section including examples, warmup guidance, and performance characteristics. Add streaming overview to library `README.md`. Provide XML documentation for all new public streaming APIs. Include code examples demonstrating BufferList and StreamHub patterns. Document timestamp ordering requirements and buffer capacity constraints.
+
+- **Scope & Stewardship**: Streaming remains pure transformation (quotes + parameters → results). Zero external dependencies maintained. No data fetchers, persistence layers, or trading logic. Two streaming styles only (BufferList for simplicity, StreamHub for performance)—avoid style proliferation. Supports all instrument types (equities, forex, crypto) without reinterpretation of published formulas. Community-reviewable implementation following established repository patterns.
 
 **Status**: PASS (no violations)
 
@@ -43,7 +48,7 @@ Implement two streaming indicator styles (BufferList and StreamHub) enabling inc
 ### Documentation (this feature)
 
 ```text
-specs/001-develop-steaming-indicators/
+specs/001-develop-streaming-indicators/
 ├── plan.md              # This file
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output
@@ -132,23 +137,43 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
 
 ### API contracts
 
-**IMPORTANT**: The actual API patterns are defined in existing implementations and instruction files. The examples below are conceptual placeholders. See actual implementations in `src/**/*.BufferList.cs` and `src/**/*.StreamHub.cs` for authoritative patterns.
+**CRITICAL: The examples in this section are CONCEPTUAL ONLY and do NOT match actual implementation patterns.**
+
+For authoritative implementation guidance, see:
+
+- **BufferList**: `.github/instructions/buffer-indicators.instructions.md` + existing implementations in `src/**/*.BufferList.cs`
+- **StreamHub**: `.github/instructions/stream-indicators.instructions.md` + existing implementations in `src/**/*.StreamHub.cs`
+
+#### Actual Implementation Patterns
 
 **BufferList Pattern** (actual naming: `{IndicatorName}List`):
 
-- Inherits from `BufferList<TResult>` base class
-- Implements `IBufferReusable` interface
-- Uses `AddInternal()` for result management
-- Example: `SmaList`, `EmaList`, `RsiList`
+- **Base class**: Inherits from `BufferList<TResult>`
+- **Interfaces**: Implements `IBufferReusable` (for value-based inputs) or `IBufferList` (IQuote-only)
+- **Core method**: Uses `AddInternal(TResult result)` for automatic list management
+- **Constructors**: Provides both parameter-only and `(parameters, IEnumerable<IQuote> quotes)` overloads
+- **Examples**: `SmaList`, `EmaList`, `RsiList`, `AlligatorList`, `AtrStopList`
 
 **StreamHub Pattern** (actual naming: `{IndicatorName}Hub<TIn>`):
 
-- Extends `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>`
-- Implements indicator-specific interface (e.g., `ISma`)
-- Uses provider pattern for chaining
-- Example: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`
+- **Base class**: Extends `StreamHub<TIn, TResult>` (abstract partial class)
+- **Provider pattern**: Uses `ChainProvider<TIn, TResult>` or `QuoteProvider<TIn, TResult>` for chaining
+- **Interfaces**: Implements indicator-specific interface (e.g., `ISma`, `IEma`)
+- **Core method**: Overrides `ToIndicator(TIn item, int? indexHint)` for result generation
+- **Observer pattern**: Supports subscription via `IStreamObservable`/`IStreamObserver`
+- **Examples**: `SmaHub<TIn>`, `EmaHub<TIn>`, `RsiHub<TIn>`, `AlligatorHub<TIn>`
 
-Refer to `.github/instructions/buffer-indicators.instructions.md` and `.github/instructions/stream-indicators.instructions.md` for complete implementation requirements.
+#### Infrastructure Status
+
+The following base classes and utilities already exist in `src/_common/`:
+
+- ✅ `BufferList<TResult>` - Abstract base for list-backed streaming
+- ✅ `BufferUtilities` - Extension methods for buffer management (Update, Prune, etc.)
+- ✅ `StreamHub<TIn, TOut>` - Abstract base for hub-based streaming
+- ✅ `ChainProvider<TIn, TResult>` / `QuoteProvider<TIn, TResult>` - Provider implementations
+- ✅ `IStreamObservable<T>` / `IStreamObserver<T>` - Observer pattern interfaces
+
+**No additional infrastructure tasks required** - all foundational types are production-ready.
 
 ### Test scenarios
 
