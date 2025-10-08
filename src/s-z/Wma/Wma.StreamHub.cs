@@ -16,7 +16,7 @@ public static partial class Wma
     /// <returns>A WMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static WmaHub<TIn> ToWma<TIn>(
+    public static WmaHub<TIn> ToWmaHub<TIn>(
         this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
         where TIn : IReusable

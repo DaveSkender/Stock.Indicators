@@ -10,24 +10,24 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        RsiHub<Quote> observer = provider
-            .ToRsi(14);
+        RsiHub<Quote> observer = quoteHub
+            .ToRsiHub(14);
 
         // fetch initial results (early)
         IReadOnlyList<RsiResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -37,20 +37,20 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -61,7 +61,7 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -74,18 +74,18 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        RsiHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
-            .ToRsi(rsiPeriods);
+        RsiHub<EmaResult> observer = quoteHub
+            .ToEmaHub(emaPeriods)
+            .ToRsiHub(rsiPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -103,7 +103,7 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -116,18 +116,18 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        EmaHub<RsiResult> observer = provider
-            .ToRsi(rsiPeriods)
-            .ToEma(emaPeriods);
+        EmaHub<RsiResult> observer = quoteHub
+            .ToRsiHub(rsiPeriods)
+            .ToEmaHub(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -145,18 +145,18 @@ public class RsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        RsiHub<Quote> observer = provider.ToRsi(14);
+        QuoteHub<Quote> quoteHub = new();
+        RsiHub<Quote> observer = quoteHub.ToRsiHub(14);
 
         observer.ToString().Should().Be("RSI(14)");
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

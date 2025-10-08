@@ -10,24 +10,24 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        EmaHub<Quote> observer = provider
-            .ToEma(5);
+        EmaHub<Quote> observer = quoteHub
+            .ToEmaHub(5);
 
         // fetch initial results (early)
         IReadOnlyList<EmaResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -37,20 +37,20 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -61,7 +61,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -74,18 +74,18 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        EmaHub<SmaResult> observer = provider
+        EmaHub<SmaResult> observer = quoteHub
             .ToSma(smaPeriods)
-            .ToEma(emaPeriods);
+            .ToEmaHub(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -103,7 +103,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -116,15 +116,15 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        SmaHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
+        SmaHub<EmaResult> observer = quoteHub
+            .ToEmaHub(emaPeriods)
             .ToSma(smaPeriods);
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 0; i < length; i++)
         {
             // skip one (add later)
@@ -134,20 +134,20 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -164,7 +164,7 @@ public class EmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

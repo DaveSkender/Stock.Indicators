@@ -11,14 +11,14 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         for (int i = 0; i < LookbackPeriods; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
-        HmaHub<Quote> observer = provider.ToHma(LookbackPeriods);
+        HmaHub<Quote> observer = quoteHub.ToHmaHub(LookbackPeriods);
 
         for (int i = LookbackPeriods; i < length; i++)
         {
@@ -28,17 +28,17 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             }
 
             Quote quote = quotesList[i];
-            provider.Add(quote);
+            quoteHub.Add(quote);
 
             if (i is > 120 and < 126)
             {
-                provider.Add(quote);
+                quoteHub.Add(quote);
             }
         }
 
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         IReadOnlyList<HmaResult> streamList = observer.Results;
@@ -48,7 +48,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -59,15 +59,15 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        HmaHub<SmaResult> observer = provider
+        HmaHub<SmaResult> observer = quoteHub
             .ToSma(smaPeriods)
-            .ToHma(LookbackPeriods);
+            .ToHmaHub(LookbackPeriods);
 
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         IReadOnlyList<HmaResult> streamList = observer.Results;
@@ -79,7 +79,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -90,10 +90,10 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
-        SmaHub<HmaResult> observer = provider
-            .ToHma(LookbackPeriods)
+        SmaHub<HmaResult> observer = quoteHub
+            .ToHmaHub(LookbackPeriods)
             .ToSma(smaPeriods);
 
         for (int i = 0; i < length; i++)
@@ -104,17 +104,17 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             }
 
             Quote quote = quotesList[i];
-            provider.Add(quote);
+            quoteHub.Add(quote);
 
             if (i is > 180 and < 185)
             {
-                provider.Add(quote);
+                quoteHub.Add(quote);
             }
         }
 
-        provider.Insert(quotesList[75]);
+        quoteHub.Insert(quotesList[75]);
 
-        provider.Remove(quotesList[300]);
+        quoteHub.Remove(quotesList[300]);
         quotesList.RemoveAt(300);
 
         IReadOnlyList<SmaResult> streamList = observer.Results;
@@ -126,7 +126,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -136,12 +136,12 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             .Take(200)
             .ToList();
 
-        QuoteHub<Quote> provider = new();
-        HmaHub<Quote> observer = provider.ToHma(LookbackPeriods);
+        QuoteHub<Quote> quoteHub = new();
+        HmaHub<Quote> observer = quoteHub.ToHmaHub(LookbackPeriods);
 
         for (int i = 0; i < quotesList.Count; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         const int targetIndex = 120;
@@ -157,8 +157,8 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
             Close = original.Close + delta
         };
 
-        provider.Remove(original);
-        provider.Insert(mutated);
+        quoteHub.Remove(original);
+        quoteHub.Insert(mutated);
         quotesList[targetIndex] = mutated;
 
         observer.Results.Should().HaveCount(quotesList.Count);
@@ -169,7 +169,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         observer.Results.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -178,19 +178,19 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         int sqrtPeriods = (int)Math.Sqrt(LookbackPeriods);
         int minSamples = LookbackPeriods - 1 + sqrtPeriods - 1;
 
-        QuoteHub<Quote> provider = new();
-        HmaHub<Quote> observer = provider.ToHma(LookbackPeriods);
+        QuoteHub<Quote> quoteHub = new();
+        HmaHub<Quote> observer = quoteHub.ToHmaHub(LookbackPeriods);
 
         for (int i = 0; i < minSamples; i++)
         {
-            provider.Add(Quotes[i]);
+            quoteHub.Add(Quotes[i]);
         }
 
         observer.Results.Should().HaveCount(minSamples);
         observer.Results.Should().OnlyContain(r => !r.Hma.HasValue);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -199,14 +199,14 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         int injectionIndex = LookbackPeriods + 5;
         int totalCount = injectionIndex + (LookbackPeriods * 2);
 
-        QuoteHub<SyntheticQuote> provider = new();
-        HmaHub<SyntheticQuote> observer = provider.ToHma(LookbackPeriods);
+        QuoteHub<SyntheticQuote> quoteHub = new();
+        HmaHub<SyntheticQuote> observer = quoteHub.ToHmaHub(LookbackPeriods);
 
         for (int i = 0; i < totalCount; i++)
         {
             DateTime timestamp = Quotes[i].Timestamp;
             double value = i == injectionIndex ? double.NaN : Quotes[i].Value;
-            provider.Add(new SyntheticQuote(timestamp, value));
+            quoteHub.Add(new SyntheticQuote(timestamp, value));
         }
 
         observer.Results[injectionIndex].Hma.Should().BeNull();
@@ -225,7 +225,7 @@ public class HmaHubTests : StreamHubTestBase, ITestChainObserver, ITestChainProv
         recoveryIndex.Should().NotBeNull();
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

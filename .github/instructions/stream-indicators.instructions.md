@@ -45,72 +45,73 @@ Stream indicators should follow these naming patterns:
 
 ### Core stream hub structure
 
-Stream indicators implement the `IStreamHub<TResult>` interface for stateful processing:
+Stream indicators implement the `IStreamHub<TResult>` interface, most commonly via a `ChainProvider<TIn, {IndicatorName}Result>` base class for stateful processing.  Available base classes align with the I/O scenarios above.  Examples:
+
+- `EmaHub<TIn> : ChainProvider<TIn, EmaResult>, IEma where TIn : IReusable` can consume chainable reusables types.
+- `AdlHub<TIn> : ChainProvider<TIn, AdlResult> where TIn : IQuote` can only consume quote types.
 
 ```csharp
 /// <summary>
-/// Stream hub for {IndicatorName} indicator calculations
+/// Streaming hub for {IndicatorName} calculations
 /// </summary>
-public sealed class {IndicatorName}StreamHub : IStreamHub<{IndicatorName}Result>
+public class {IndicatorName}Hub<TIn>
+    : ChainProvider<TIn, {IndicatorName}Result>, I{IndicatorName}
+    where TIn : IReusable
 {
-    private readonly int _lookbackPeriods;
-    private readonly Queue<double> _values;
-    private double _currentSum;
-    private bool _isInitialized;
+    private readonly string hubName;
 
-    public {IndicatorName}StreamHub(int lookbackPeriods)
+    internal {IndicatorName}Hub(
+        IChainProvider<TIn> provider,
+        int lookbackPeriods) : base(provider)
     {
-        _lookbackPeriods = lookbackPeriods;
-        _values = new Queue<double>(lookbackPeriods);
+        {IndicatorName}.Validate(lookbackPeriods);
+        LookbackPeriods = lookbackPeriods;
+        hubName = $"{IndicatorUiid}({lookbackPeriods})";
+
+        Reinitialize();
     }
 
-    /// <inheritdoc />
-    public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
-    {
-        // Process quote and update internal state
-        // Return calculated result
-    }
+    /// <inheritdoc/>
+    public int LookbackPeriods { get; init; }
 
-    /// <inheritdoc />
-    public void Reset()
-    {
-        _values.Clear();
-        _currentSum = 0;
-        _isInitialized = false;
-    }
+    /* other implementation details */
+
+    /// <inheritdoc/>
+    public override string ToString() => hubName;
 }
 ```
 
 ### Extension method
 
+If the hub supports chainable `IReusable` types:
+
 ```csharp
 /// <summary>
-/// Creates a stream hub for real-time {IndicatorName} calculations
+/// Creates a {IndicatorUiid} streaming hub from a chain provider.
 /// </summary>
-public static {IndicatorName}StreamHub To{IndicatorName}StreamHub<TQuote>(
-    this IReadOnlyList<TQuote> quotes,
+/// { full XML documentation }
+public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
+    this IChainProvider<T> chainProvider,
     int lookbackPeriods = {defaultValue})
-    where TQuote : IQuote
-{
-    // Input validation
-    quotes.ThrowIfNull();
-    
-    if (lookbackPeriods <= 0)
-    {
-        throw new ArgumentOutOfRangeException(nameof(lookbackPeriods));
-    }
-
-    // Initialize and populate stream hub
-    {IndicatorName}StreamHub streamHub = new(lookbackPeriods);
-    
-    foreach (TQuote quote in quotes)
-    {
-        streamHub.Add(quote);
-    }
-    
-    return streamHub;
-}
+    where T : IReusable
+    => new(chainProvider, lookbackPeriods);
 ```
+
+If the hub only supports `IQuote` input types (less common):
+
+```csharp
+/// <summary>
+/// Creates a {IndicatorUiid} streaming hub from a quotes provider.
+/// </summary>
+/// { full XML documentation }
+public static {IndicatorName}Hub<TIn> To{IndicatorName}Hub<TIn>(
+    this IQuoteProvider<TIn> quoteProvider,
+    int lookbackPeriods = {defaultValue})
+    where TIn : IQuote
+    => new(quoteProvider, lookbackPeriods);
+```
+
+In both cases, `{defaultValue}` is only used for parity with Series `quotes.To{IndicatorName}()` extensions and may not always be implemented.
 
 ## Testing requirements
 
@@ -127,99 +128,30 @@ Stream indicator tests must cover:
 
 ### Test structure pattern
 
+Use the `StreamHubTestBase` as the base for all steam hub test classes, and add `ITestChainObserver` and `ITestChainProvider` conditionally if they are of those types.
+
 ```csharp
 [TestClass]
-public class {IndicatorName}StreamHubTests : TestBase
+public class {IndicatorName}Hub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 {
-    [TestMethod]
-    public void Add()
-    {
-        // Test streaming with state maintenance
-        {IndicatorName}StreamHub streamHub = new(lookbackPeriods);
-        List<{IndicatorName}Result> streamResults = new();
-        
-        foreach (Quote quote in quotes)
-        {
-            {IndicatorName}Result result = streamHub.Add(quote);
-            streamResults.Add(result);
-        }
-        
-        // Verify against expected results
-        {IndicatorName}Result lastResult = streamResults.Last();
-        lastResult.{Property}.Should().BeApproximately(expectedValue, precision);
-    }
-
-    [TestMethod]
-    public void Reset()
-    {
-        {IndicatorName}StreamHub streamHub = quotes.To{IndicatorName}StreamHub();
-        streamHub.Reset();
-        
-        // Verify state is completely reset
-        {IndicatorName}Result result = streamHub.Add(quotes.First());
-        result.{Property}.Should().BeNull();
-    }
-
-    [TestMethod]
-    public void ConsistencyWithSeries()
-    {
-        // Compare stream results with series results
-        List<{IndicatorName}Result> streamResults = new();
-        {IndicatorName}StreamHub streamHub = new(lookbackPeriods);
-        
-        foreach (Quote quote in quotes)
-        {
-            streamResults.Add(streamHub.Add(quote));
-        }
-        
-        IReadOnlyList<{IndicatorName}Result> seriesResults = quotes.To{IndicatorName}();
-        
-        streamResults.Should().BeEquivalentTo(seriesResults);
-    }
-
-    [TestMethod]
-    public void RealTimeSimulation()
-    {
-        // Simulate real-time data processing
-        {IndicatorName}StreamHub streamHub = new(lookbackPeriods);
-        
-        // Process initial historical data
-        foreach (Quote quote in quotes.Take(100))
-        {
-            streamHub.Add(quote);
-        }
-        
-        // Process new incoming quotes
-        foreach (Quote quote in quotes.Skip(100).Take(10))
-        {
-            {IndicatorName}Result result = streamHub.Add(quote);
-            
-            // Verify real-time calculations
-            if (result.{Property}.HasValue)
-            {
-                result.{Property}.Should().BeInRange(minExpected, maxExpected);
-            }
-        }
-    }
+    /* See `Ema.StreamHub.Tests.cs as a reference implementation */
 }
 ```
 
 ### Performance benchmarking
 
-Stream indicators must include performance tests in the `tools/performance` project for high-frequency scenarios:
+All stream indicators must include performance tests in the `tools/performance/Perf.Stream.cs` project file:
 
 ```csharp
-// In tools/performance project
-[MethodImpl(MethodImplOptions.NoInlining)]
-public void StreamIndicator{IndicatorName}()
-{
-    {IndicatorName}StreamHub streamHub = new(lookbackPeriods);
-    
-    foreach (Quote quote in quotes)
-    {
-        _ = streamHub.Add(quote);
-    }
-}
+[Benchmark]
+public object {IndicatorName}Hub() => quoteHub.To{IndicatorName}Hub({params}).Results;
+```
+
+Example:
+
+```csharp
+[Benchmark]
+public object EmaHub() => quoteHub.ToEmaHub(14).Results;
 ```
 
 **Performance expectations**:
@@ -250,72 +182,6 @@ public void StreamIndicator{IndicatorName}()
 - Document any multi-threading limitations
 - Use appropriate synchronization when necessary
 
-## Stream patterns
-
-### Efficient rolling calculations
-
-```csharp
-public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
-{
-    double newValue = quote.Close;
-    
-    if (_values.Count >= _lookbackPeriods)
-    {
-        // Remove oldest value from running calculation
-        double oldValue = _values.Dequeue();
-        _currentSum -= oldValue;
-    }
-    
-    // Add new value
-    _values.Enqueue(newValue);
-    _currentSum += newValue;
-    
-    // Calculate result
-    double? calculatedValue = _values.Count >= _lookbackPeriods 
-        ? _currentSum / _lookbackPeriods 
-        : null;
-    
-    return new {IndicatorName}Result
-    {
-        Timestamp = quote.Date,
-        Value = calculatedValue
-    };
-}
-```
-
-### State initialization patterns
-
-```csharp
-private void EnsureInitialized<TQuote>(TQuote quote) where TQuote : IQuote
-{
-    if (!_isInitialized)
-    {
-        // Initialize any required state
-        _previousValue = quote.Close;
-        _isInitialized = true;
-    }
-}
-```
-
-### Complex state management
-
-```csharp
-public sealed class {IndicatorName}StreamHub : IStreamHub<{IndicatorName}Result>
-{
-    private readonly struct StateSnapshot
-    {
-        public double Value { get; init; }
-        public DateTime Timestamp { get; init; }
-        public int Index { get; init; }
-    }
-    
-    private readonly CircularBuffer<StateSnapshot> _history;
-    private int _currentIndex;
-    
-    // Efficient state updates with history tracking
-}
-```
-
 ## Integration patterns
 
 ### Chaining with other indicators
@@ -324,8 +190,8 @@ Stream indicators should support chaining with other stream indicators:
 
 ```csharp
 // Example: EMA of RSI streaming
-var rsiStream = quotes.ToRsiStreamHub(14);
-var emaOfRsiStream = new EmaStreamHub(20);
+var rsiStream = quotes.ToRsiHub(14);
+var emaOfRsiStream = new EmaHub(20);
 
 foreach (var quote in liveQuotes)
 {
@@ -351,33 +217,5 @@ Study these exemplary stream indicators:
 - **ATRSTOP**: `src/a-d/AtrStop/AtrStop.StreamHub.cs`
 - **ALLIGATOR**: `src/a-d/Alligator/Alligator.StreamHub.cs`
 
-## Error handling
-
-### Graceful degradation
-
-Stream indicators should handle problematic data gracefully:
-
-```csharp
-public {IndicatorName}Result Add<TQuote>(TQuote quote) where TQuote : IQuote
-{
-    try
-    {
-        // Validate quote data
-        if (double.IsNaN(quote.Close) || double.IsInfinity(quote.Close))
-        {
-            return new {IndicatorName}Result { Timestamp = quote.Date };
-        }
-        
-        // Normal processing
-        return ProcessQuote(quote);
-    }
-    catch (Exception ex)
-    {
-        // Log error and return null result
-        return new {IndicatorName}Result { Timestamp = quote.Date };
-    }
-}
-```
-
 ---
-Last updated: September 28, 2025
+Last updated: October 8, 2025

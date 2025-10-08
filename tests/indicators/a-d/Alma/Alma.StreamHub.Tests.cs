@@ -10,24 +10,24 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        AlmaHub<Quote> observer = provider
-            .ToAlma(10, 0.85, 6);
+        AlmaHub<Quote> observer = quoteHub
+            .ToAlmaHub(10, 0.85, 6);
 
         // fetch initial results (early)
         IReadOnlyList<AlmaResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -37,20 +37,20 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -61,7 +61,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -74,18 +74,18 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        AlmaHub<SmaResult> observer = provider
+        AlmaHub<SmaResult> observer = quoteHub
             .ToSma(smaPeriods)
-            .ToAlma(almaPeriods, 0.85, 6);
+            .ToAlmaHub(almaPeriods, 0.85, 6);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -103,7 +103,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -116,12 +116,12 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // initialize ALMA observer as provider
-        AlmaHub<Quote> almaObserver = provider
-            .ToAlma(almaPeriods, 0.85, 6);
+        // initialize ALMA observer as quoteHub
+        AlmaHub<Quote> almaObserver = quoteHub
+            .ToAlmaHub(almaPeriods, 0.85, 6);
 
         // initialize SMA observer
         SmaHub<AlmaResult> smaObserver = almaObserver
@@ -130,7 +130,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -149,18 +149,18 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         almaObserver.Unsubscribe();
         smaObserver.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        AlmaHub<Quote> observer = provider.ToAlma(14, 0.85, 6);
+        QuoteHub<Quote> quoteHub = new();
+        AlmaHub<Quote> observer = quoteHub.ToAlmaHub(14, 0.85, 6);
 
         observer.ToString().Should().Be("ALMA(14,0.85,6)");
 
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -179,17 +179,17 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         foreach ((int lookback, double offset, double sigma) in parameters)
         {
-            // setup quote provider
-            QuoteHub<Quote> provider = new();
+            // setup quote provider hub
+            QuoteHub<Quote> quoteHub = new();
 
             // initialize observer
-            AlmaHub<Quote> observer = provider
-                .ToAlma(lookback, offset, sigma);
+            AlmaHub<Quote> observer = quoteHub
+                .ToAlmaHub(lookback, offset, sigma);
 
             // emulate quote stream
             for (int i = 0; i < quotesList.Count; i++)
             {
-                provider.Add(quotesList[i]);
+                quoteHub.Add(quotesList[i]);
             }
 
             // final results
@@ -205,7 +205,7 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
                 $"Results mismatch for parameters: lookback={lookback}, offset={offset}, sigma={sigma}");
 
             observer.Unsubscribe();
-            provider.EndTransmission();
+            quoteHub.EndTransmission();
         }
     }
 
@@ -214,35 +214,35 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     {
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer with sample parameters
-        AlmaHub<Quote> observer = provider.ToAlma(14, 0.85, 6);
+        AlmaHub<Quote> observer = quoteHub.ToAlmaHub(14, 0.85, 6);
 
         // Add ~50 quotes to populate state
         for (int i = 0; i < 50; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // assert observer.Results has 50 entries and the last result has a non-null Alma value
         observer.Results.Should().HaveCount(50);
         observer.Results[^1].Alma.Should().NotBeNull();
 
-        // call observer.Reinitialize() - this resets the subscription and rebuilds from provider
+        // call observer.Reinitialize() - this resets the subscription and rebuilds from quoteHub
         observer.Reinitialize();
 
-        // The observer should still have 50 results since it rebuilds from the provider
+        // The observer should still have 50 results since it rebuilds from the quoteHub
         observer.Results.Should().HaveCount(50);
 
         // Now test with a completely fresh setup after unsubscribing
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
-        // Create a new provider with just one quote
+        // Create a new quoteHub with just one quote
         QuoteHub<Quote> freshProvider = new();
-        AlmaHub<Quote> freshObserver = freshProvider.ToAlma(14, 0.85, 6);
+        AlmaHub<Quote> freshObserver = freshProvider.ToAlmaHub(14, 0.85, 6);
 
         // Add one quote and assert observer.Results has count 1 and that the single result's Alma is null (since lookback period is 14)
         freshProvider.Add(quotesList[0]);
@@ -258,30 +258,30 @@ public class AlmaHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
     [TestMethod]
     public void AlmaHubExceptions()
     {
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
 
         // test constructor validation
-        Action act1 = () => provider.ToAlma(1, 0.85, 6);
+        Action act1 = () => quoteHub.ToAlmaHub(1, 0.85, 6);
         act1.Should().Throw<ArgumentOutOfRangeException>("Lookback periods must be greater than 1");
 
-        Action act2 = () => provider.ToAlma(0, 0.85, 6);
+        Action act2 = () => quoteHub.ToAlmaHub(0, 0.85, 6);
         act2.Should().Throw<ArgumentOutOfRangeException>("Lookback periods must be greater than 1");
 
-        Action act3 = () => provider.ToAlma(-1, 0.85, 6);
+        Action act3 = () => quoteHub.ToAlmaHub(-1, 0.85, 6);
         act3.Should().Throw<ArgumentOutOfRangeException>("Lookback periods must be greater than 1");
 
-        Action act4 = () => provider.ToAlma(10, 1.1, 6);
+        Action act4 = () => quoteHub.ToAlmaHub(10, 1.1, 6);
         act4.Should().Throw<ArgumentOutOfRangeException>("Offset must be between 0 and 1");
 
-        Action act5 = () => provider.ToAlma(10, -0.1, 6);
+        Action act5 = () => quoteHub.ToAlmaHub(10, -0.1, 6);
         act5.Should().Throw<ArgumentOutOfRangeException>("Offset must be between 0 and 1");
 
-        Action act6 = () => provider.ToAlma(10, 0.85, 0);
+        Action act6 = () => quoteHub.ToAlmaHub(10, 0.85, 0);
         act6.Should().Throw<ArgumentOutOfRangeException>("Sigma must be greater than 0");
 
-        Action act7 = () => provider.ToAlma(10, 0.85, -1);
+        Action act7 = () => quoteHub.ToAlmaHub(10, 0.85, -1);
         act7.Should().Throw<ArgumentOutOfRangeException>("Sigma must be greater than 0");
 
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

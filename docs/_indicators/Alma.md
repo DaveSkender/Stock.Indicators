@@ -17,7 +17,7 @@ Created by Arnaud Legoux and Dimitrios Kouzis-Loukas, [ALMA]({{site.github.repos
 ```csharp
 // C# usage syntax
 IReadOnlyList<AlmaResult> results =
-  quotes.GetAlma(lookbackPeriods, offset, sigma);
+  quotes.ToAlma(lookbackPeriods, offset, sigma);
 ```
 
 ## Parameters
@@ -68,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetAlma(..);
+    .ToAlma(..);
 ```
 
 Results can be further processed on `Alma` with additional chain-enabled indicators.
@@ -76,8 +76,8 @@ Results can be further processed on `Alma` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetAlma(..)
-    .GetRsi(..);
+    .ToAlma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -92,19 +92,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   almaList.Add(quote);
 }
 
-// based on `List<AlmaResult>`
+// based on `ICollection<AlmaResult>`
 IReadOnlyList<AlmaResult> results = almaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-AlmaHub<Quote> observer = provider.ToAlma(lookbackPeriods, offset, sigma);
+QuoteHub<Quote> quoteHub = new();
+AlmaHub<Quote> observer = quoteHub.ToAlma(lookbackPeriods, offset, sigma);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<AlmaResult> results = observer.Results;

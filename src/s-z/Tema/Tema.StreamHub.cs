@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Tema
 {
     /// <summary>
-    /// Creates a TEMA hub from a chain provider.
+    /// Creates a TEMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -14,7 +14,7 @@ public static partial class Tema
     /// <returns>A TEMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static TemaHub<T> ToTema<T>(
+    public static TemaHub<T> ToTemaHub<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods = 20)
         where T : IReusable
@@ -22,7 +22,7 @@ public static partial class Tema
 }
 
 /// <summary>
-/// Represents a hub for Triple Exponential Moving Average (TEMA) calculations.
+/// Streaming hub for Triple Exponential Moving Average (TEMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class TemaHub<TIn>

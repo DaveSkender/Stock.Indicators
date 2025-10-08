@@ -13,7 +13,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
     {
         // Test streaming with state maintenance
         QuoteHub<Quote> quoteHub = new();
-        EpmaHub<Quote> epmaHub = quoteHub.ToEpma(lookbackPeriods);
+        EpmaHub<Quote> epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -31,7 +31,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
     public override void CustomToString()
     {
         QuoteHub<Quote> quoteHub = new();
-        EpmaHub<Quote> epmaHub = quoteHub.ToEpma(lookbackPeriods);
+        EpmaHub<Quote> epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
 
         epmaHub.ToString().Should().Be($"EPMA({lookbackPeriods})");
     }
@@ -41,7 +41,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
     {
         // Compare stream results with series results
         QuoteHub<Quote> quoteHub = new();
-        EpmaHub<Quote> epmaHub = quoteHub.ToEpma(lookbackPeriods);
+        EpmaHub<Quote> epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
 
         foreach (Quote quote in Quotes)
         {
@@ -60,7 +60,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
     {
         // Simulate real-time data processing
         QuoteHub<Quote> quoteHub = new();
-        EpmaHub<Quote> epmaHub = quoteHub.ToEpma(lookbackPeriods);
+        EpmaHub<Quote> epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
 
         // Process initial historical data
         foreach (Quote quote in Quotes.Take(100))
@@ -95,7 +95,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
     {
         // Test EPMA chaining with other indicators
         QuoteHub<Quote> quoteHub = new();
-        EpmaHub<Quote> epmaHub = quoteHub.ToEpma(lookbackPeriods);
+        EpmaHub<Quote> epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
         SmaHub<EpmaResult> smaHub = epmaHub.ToSma(10);
 
         foreach (Quote quote in Quotes)
@@ -120,7 +120,7 @@ public class EpmaStreamHubTests : StreamHubTestBase
     {
         // Additional test for streaming functionality
         QuoteHub<Quote> quoteHub = new();
-        EpmaHub<Quote> epmaHub = quoteHub.ToEpma(lookbackPeriods);
+        EpmaHub<Quote> epmaHub = quoteHub.ToEpmaHub(lookbackPeriods);
 
         foreach (Quote quote in Quotes)
         {

@@ -63,17 +63,17 @@ public class AroonList : BufferList<AroonResult>, IBufferList
             int currentIndex = 0;
 
             // Find the indices of highest high and lowest low in the buffer
-            foreach (var item in _buffer)
+            foreach ((DateTime Timestamp, double High, double Low) in _buffer)
             {
-                if (item.High > lastHighPrice)
+                if (High > lastHighPrice)
                 {
-                    lastHighPrice = item.High;
+                    lastHighPrice = High;
                     lastHighIndex = currentIndex;
                 }
 
-                if (item.Low < lastLowPrice)
+                if (Low < lastLowPrice)
                 {
-                    lastLowPrice = item.Low;
+                    lastLowPrice = Low;
                     lastLowIndex = currentIndex;
                 }
 

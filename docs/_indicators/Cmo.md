@@ -17,7 +17,7 @@ Created by Tushar Chande, the [Chande Momentum Oscillator](https://www.investope
 ```csharp
 // C# usage syntax
 IReadOnlyList<CmoResult> results =
-  quotes.GetCmo(lookbackPeriods);
+  quotes.ToCmo(lookbackPeriods);
 ```
 
 ## Parameters
@@ -64,7 +64,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetCmo(..);
+    .ToCmo(..);
 ```
 
 Results can be further processed on `Cmo` with additional chain-enabled indicators.
@@ -72,8 +72,8 @@ Results can be further processed on `Cmo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetCmo(..)
-    .GetEma(..);
+    .ToCmo(..)
+    .ToEma(..);
 ```
 
 ## Streaming
@@ -88,25 +88,25 @@ foreach (IQuote quote in quotes)  // simulating stream
   cmoList.Add(quote);
 }
 
-// based on `List<CmoResult>`
+// based on `ICollection<CmoResult>`
 IReadOnlyList<CmoResult> results = cmoList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-CmoHub<Quote> observer = provider.ToCmo(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+CmoHub<Quote> observer = quoteHub.ToCmo(lookbackPeriods);
 
 // stream quotes into provider
 foreach (Quote quote in quotes)
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 provider.EndTransmission();
 
-// based on `List<CmoResult>`
+// based on `ICollection<CmoResult>`
 IReadOnlyList<CmoResult> results = observer.Results;
 ```
 

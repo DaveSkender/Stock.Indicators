@@ -18,7 +18,7 @@ Created by by Tushar Chande and Stanley Kroll, [Stochastic RSI](https://school.s
 ```csharp
 // C# usage syntax
 IReadOnlyList<StochRsiResult> results =
-  quotes.GetStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+  quotes.ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 ```
 
 ## Parameters
@@ -31,7 +31,7 @@ IReadOnlyList<StochRsiResult> results =
 
 **`smoothPeriods`** _`int`_ - Smoothing periods (`M`) for the Stochastic.  Must be greater than 0.  Default is 1 (Fast variant).
 
-The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.GetStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
+The original Stochastic RSI formula uses a the Fast variant of the Stochastic calculation (`smoothPeriods=1`).  For a standard period of 14, the original formula would be `quotes.ToStochRSI(14,14,3,1)`.  The "3" here is just for the Signal (%D), which is not present in the original formula, but useful for additional smoothing and analysis.
 
 ### Historical quotes requirements
 
@@ -77,7 +77,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetStochRsi(..);
+    .ToStochRsi(..);
 ```
 
 Results can be further processed on `StochRsi` with additional chain-enabled indicators.
@@ -85,6 +85,6 @@ Results can be further processed on `StochRsi` with additional chain-enabled ind
 ```csharp
 // example
 var results = quotes
-    .GetStochRsi(..)
-    .GetSlope(..);
+    .ToStochRsi(..)
+    .ToSlope(..);
 ```

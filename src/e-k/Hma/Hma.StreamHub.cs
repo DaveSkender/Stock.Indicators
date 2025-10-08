@@ -6,7 +6,7 @@ namespace Skender.Stock.Indicators;
 public static partial class Hma
 {
     /// <summary>
-    /// Creates an HMA hub from a chain provider.
+    /// Creates an HMA streaming hub from a chain provider.
     /// </summary>
     /// <typeparam name="T">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
@@ -14,7 +14,7 @@ public static partial class Hma
     /// <returns>An HMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static HmaHub<T> ToHma<T>(
+    public static HmaHub<T> ToHmaHub<T>(
         this IChainProvider<T> chainProvider,
         int lookbackPeriods)
         where T : IReusable
@@ -25,7 +25,7 @@ public static partial class Hma
 }
 
 /// <summary>
-/// Represents a hub for Hull Moving Average (HMA) calculations.
+/// Streaming hub for Hull Moving Average (HMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class HmaHub<TIn>

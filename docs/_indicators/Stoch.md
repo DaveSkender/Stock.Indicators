@@ -17,11 +17,11 @@ Created by George Lane, the [Stochastic Oscillator](https://en.wikipedia.org/wik
 ```csharp
 // C# usage syntax (standard)
 IReadOnlyList<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+  quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
 // advanced customization
 IReadOnlyList<StochResult> results =
-  quotes.GetStoch(lookbackPeriods, signalPeriods, smoothPeriods,
+  quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods,
                   kFactor, dFactor, movingAverageType);
 ```
 
@@ -94,8 +94,8 @@ Results can be further processed on `Oscillator` with additional chain-enabled i
 ```csharp
 // example
 var results = quotes
-    .GetStoch(..)
-    .GetSlope(..);
+    .ToStoch(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.
@@ -112,19 +112,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   stochList.Add(quote);
 }
 
-// based on `List<StochResult>`
+// based on `ICollection<StochResult>`
 IReadOnlyList<StochResult> results = stochList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-StochHub<Quote> observer = provider.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+QuoteHub<Quote> quoteHub = new();
+StochHub<Quote> observer = quoteHub.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<StochResult> results = observer.Results;

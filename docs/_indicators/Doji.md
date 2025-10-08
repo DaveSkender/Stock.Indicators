@@ -17,7 +17,7 @@ type: candlestick-pattern
 ```csharp
 // C# usage syntax
 IReadOnlyList<CandleResult> results =
-  quotes.GetDoji(maxPriceChangePercent);
+  quotes.ToDoji(maxPriceChangePercent);
 ```
 
 ## Parameters

@@ -10,24 +10,24 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        StochRsiHub<Quote> observer = provider
-            .ToStochRsi(14, 14, 3, 1);
+        StochRsiHub<Quote> observer = quoteHub
+            .ToStochRsiHub(14, 14, 3, 1);
 
         // fetch initial results (early)
         IReadOnlyList<StochRsiResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -37,20 +37,20 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -61,7 +61,7 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -77,18 +77,18 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        StochRsiHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
-            .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
+        StochRsiHub<EmaResult> observer = quoteHub
+            .ToEmaHub(emaPeriods)
+            .ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -106,7 +106,7 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -122,18 +122,18 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        EmaHub<StochRsiResult> observer = provider
-            .ToStochRsi(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
-            .ToEma(emaPeriods);
+        EmaHub<StochRsiResult> observer = quoteHub
+            .ToStochRsiHub(rsiPeriods, stochPeriods, signalPeriods, smoothPeriods)
+            .ToEmaHub(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -151,18 +151,18 @@ public class StochRsiHub : StreamHubTestBase, ITestChainObserver, ITestChainProv
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        StochRsiHub<Quote> observer = provider.ToStochRsi(14, 14, 3, 1);
+        QuoteHub<Quote> quoteHub = new();
+        StochRsiHub<Quote> observer = quoteHub.ToStochRsiHub(14, 14, 3, 1);
 
         observer.ToString().Should().Be("STOCH-RSI(14,14,3,1)");
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

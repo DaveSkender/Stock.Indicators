@@ -19,7 +19,7 @@ Created by Patrick G. Mulloy, the [Double exponential moving average](https://en
 ```csharp
 // C# usage syntax
 IReadOnlyList<DemaResult> results =
-  quotes.GetDema(lookbackPeriods);
+  quotes.ToDema(lookbackPeriods);
 ```
 
 ## Parameters
@@ -68,7 +68,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetDema(..);
+    .ToDema(..);
 ```
 
 Results can be further processed on `Dema` with additional chain-enabled indicators.
@@ -76,8 +76,8 @@ Results can be further processed on `Dema` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetDema(..)
-    .GetRsi(..);
+    .ToDema(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -92,19 +92,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   demaList.Add(quote);
 }
 
-// based on `List<DemaResult>`
+// based on `ICollection<DemaResult>`
 IReadOnlyList<DemaResult> results = demaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-DemaHub<Quote> observer = provider.ToDema(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+DemaHub<Quote> observer = quoteHub.ToDema(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<DemaResult> results = observer.Results;

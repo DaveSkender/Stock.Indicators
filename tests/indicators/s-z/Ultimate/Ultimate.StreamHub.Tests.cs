@@ -10,24 +10,24 @@ public class UltimateHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        StreamHub<Quote, UltimateResult> observer = provider
-            .ToUltimate(7, 14, 28);
+        StreamHub<Quote, UltimateResult> observer = quoteHub
+            .ToUltimateHub(7, 14, 28);
 
         // fetch initial results (early)
         IReadOnlyList<UltimateResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -37,20 +37,20 @@ public class UltimateHub : StreamHubTestBase, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -62,7 +62,7 @@ public class UltimateHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -74,12 +74,12 @@ public class UltimateHub : StreamHubTestBase, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        IChainProvider<UltimateResult> ultimateHub = provider
-            .ToUltimate(7, 14, 28);
+        IChainProvider<UltimateResult> ultimateHub = quoteHub
+            .ToUltimateHub(7, 14, 28);
 
         SmaHub<UltimateResult> observer = ultimateHub
             .ToSma(smaPeriods);
@@ -87,11 +87,11 @@ public class UltimateHub : StreamHubTestBase, ITestChainProvider
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // final results
@@ -108,7 +108,7 @@ public class UltimateHub : StreamHubTestBase, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]

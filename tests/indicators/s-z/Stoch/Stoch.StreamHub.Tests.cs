@@ -9,22 +9,22 @@ public class Stoch : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
         int length = Quotes.Count;
 
-        // setup quote provider and observer BEFORE adding data
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> observer = provider.ToStoch(14, 3, 3);
+        // setup quote provider hub and observer BEFORE adding data
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> observer = quoteHub.ToStochHub(14, 3, 3);
 
         // add base quotes (batch)
-        provider.Add(quotesList.Take(200));
+        quoteHub.Add(quotesList.Take(200));
 
         // add incremental quotes
         for (int i = 200; i < length; i++)
         {
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
         }
 
         // close observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // assert results
         observer.Cache.Should().HaveCount(length);
@@ -53,17 +53,17 @@ public class Stoch : StreamHubTestBase
 
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider and observer BEFORE adding data
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> observer = provider.ToStoch(
+        // setup quote provider hub and observer BEFORE adding data
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> observer = quoteHub.ToStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
         // add quotes
-        provider.Add(quotesList);
+        quoteHub.Add(quotesList);
 
         // close observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // verify against static series calculation
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(
@@ -83,18 +83,18 @@ public class Stoch : StreamHubTestBase
 
         List<Quote> quotesList = Quotes.ToList();
 
-        // setup quote provider with incremental updates
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> observer = provider.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        // setup quote provider hub with incremental updates
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> observer = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
         // add quotes one by one
         foreach (Quote quote in quotesList)
         {
-            provider.Add(quote);
+            quoteHub.Add(quote);
         }
 
         // close observations
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // verify consistency
         IReadOnlyList<StochResult> expected = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -111,8 +111,8 @@ public class Stoch : StreamHubTestBase
         const double dFactor = 4;
         const MaType movingAverageType = MaType.SMMA;
 
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> observer = provider.ToStoch(
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> observer = quoteHub.ToStoch(
             lookbackPeriods, signalPeriods, smoothPeriods,
             kFactor, dFactor, movingAverageType);
 
@@ -129,8 +129,8 @@ public class Stoch : StreamHubTestBase
     [TestMethod]
     public void DefaultParameters()
     {
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> observer = provider.ToStoch();
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> observer = quoteHub.ToStochHub();
 
         // verify default properties
         observer.LookbackPeriods.Should().Be(14);
@@ -153,15 +153,15 @@ public class Stoch : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
 
         // streaming calculation
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> streamObserver = provider.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> streamObserver = quoteHub.ToStochHub(lookbackPeriods, signalPeriods, smoothPeriods);
 
         foreach (Quote quote in quotesList)
         {
-            provider.Add(quote);
+            quoteHub.Add(quote);
         }
 
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
 
         // batch calculation
         IReadOnlyList<StochResult> batchResults = Quotes.ToStoch(lookbackPeriods, signalPeriods, smoothPeriods);
@@ -185,11 +185,11 @@ public class Stoch : StreamHubTestBase
     public void BoundaryValues()
     {
         // Test oscillator stays within 0-100 bounds
-        QuoteHub<Quote> provider = new();
-        StochHub<Quote> observer = provider.ToStoch(14, 3, 3);
+        QuoteHub<Quote> quoteHub = new();
+        StochHub<Quote> observer = quoteHub.ToStochHub(14, 3, 3);
 
-        provider.Add(Quotes);
-        provider.EndTransmission();
+        quoteHub.Add(Quotes);
+        quoteHub.EndTransmission();
 
         foreach (StochResult result in observer.Cache)
         {

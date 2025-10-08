@@ -17,7 +17,7 @@ Created by Marc Chaikin, [Chaikin Money Flow](https://en.wikipedia.org/wiki/Chai
 ```csharp
 // C# usage syntax
 IReadOnlyList<CmfResult> results =
-  quotes.GetCmf(lookbackPeriods);
+  quotes.ToCmf(lookbackPeriods);
 ```
 
 ## Parameters
@@ -69,8 +69,8 @@ Results can be further processed on `Cmf` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetCmf(..)
-    .GetSlope(..);
+    .ToCmf(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

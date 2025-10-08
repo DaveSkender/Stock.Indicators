@@ -9,22 +9,22 @@ public class BollingerBandsStreamHub : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 20; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(20, 2);
+        BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBandsHub(20, 2);
 
         // fetch initial results (early)
         IReadOnlyList<BollingerBandsResult> streamList = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 20; i < length; i++)
         {
             // skip one (add later)
@@ -34,20 +34,20 @@ public class BollingerBandsStreamHub : StreamHubTestBase
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -60,15 +60,15 @@ public class BollingerBandsStreamHub : StreamHubTestBase
             options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        provider.Add(Quotes);
-        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(20, 2);
+        QuoteHub<Quote> quoteHub = new();
+        quoteHub.Add(Quotes);
+        BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBandsHub(20, 2);
 
         observer.ToString().Should().Be("BB(20,2)");
     }
@@ -84,18 +84,18 @@ public class BollingerBandsStreamHub : StreamHubTestBase
         List<Quote> quotesList = Quotes.ToList();
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer - chain SMA to Bollinger Bands
-        SmaHub<BollingerBandsResult> observer = provider
-            .ToBollingerBands(lookbackPeriods, standardDeviations)
+        SmaHub<BollingerBandsResult> observer = quoteHub
+            .ToBollingerBandsHub(lookbackPeriods, standardDeviations)
             .ToSma(smaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -113,21 +113,21 @@ public class BollingerBandsStreamHub : StreamHubTestBase
             options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public void PrefilledProviderRebuilds()
     {
-        QuoteHub<Quote> provider = new();
+        QuoteHub<Quote> quoteHub = new();
         List<Quote> quotes = Quotes.Take(25).ToList();
 
         for (int i = 0; i < 5; i++)
         {
-            provider.Add(quotes[i]);
+            quoteHub.Add(quotes[i]);
         }
 
-        BollingerBandsHub<Quote> observer = provider.ToBollingerBands(5, 2);
+        BollingerBandsHub<Quote> observer = quoteHub.ToBollingerBandsHub(5, 2);
 
         IReadOnlyList<BollingerBandsResult> initialResults = observer.Results;
         IReadOnlyList<BollingerBandsResult> expectedInitial = quotes
@@ -141,7 +141,7 @@ public class BollingerBandsStreamHub : StreamHubTestBase
 
         for (int i = 5; i < quotes.Count; i++)
         {
-            provider.Add(quotes[i]);
+            quoteHub.Add(quotes[i]);
         }
 
         observer.Results.Should().BeEquivalentTo(
@@ -149,6 +149,6 @@ public class BollingerBandsStreamHub : StreamHubTestBase
             options => options.WithStrictOrdering());
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 }

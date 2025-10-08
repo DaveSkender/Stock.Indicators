@@ -13,7 +13,7 @@ public static partial class Renko
     /// <param name="brickSize">The size of each Renko brick.</param>
     /// <param name="endType">The price candle end type to use as the brick threshold.</param>
     /// <returns>A Renko hub.</returns>
-    public static RenkoHub<TIn> ToRenko<TIn>(
+    public static RenkoHub<TIn> ToRenkoHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider,
         decimal brickSize,
         EndType endType = EndType.Close)
@@ -22,7 +22,7 @@ public static partial class Renko
 }
 
 /// <summary>
-/// Represents a hub for generating Renko chart results from a stream of quotes.
+/// Streaming hub for generating Renko chart results from a stream of quotes.
 /// </summary>
 /// <typeparam name="TIn">The type of the quote values.</typeparam>
 public class RenkoHub<TIn>
