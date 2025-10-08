@@ -109,16 +109,11 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
     /// <param name="value">The value to add.</param>
     public void Add(DateTime timestamp, double value)
     {
-        // Add to input buffer and maintain maximum size
-        _inputBuffer.Enqueue(value);
+        // Use BufferUtilities extension method for consistent buffer management
         int maxNeeded = Math.Max(
             JawPeriods + JawOffset,
             Math.Max(TeethPeriods + TeethOffset, LipsPeriods + LipsOffset));
-
-        if (_inputBuffer.Count > maxNeeded)
-        {
-            _inputBuffer.Dequeue();
-        }
+        _inputBuffer.Update(maxNeeded, value);
 
         _count++;
 
@@ -133,14 +128,12 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
             // Get the value from JawOffset positions ago
             double offsetValue = _inputBuffer.ElementAt(_inputBuffer.Count - 1 - JawOffset);
 
-            // Add to jaw buffer
-            _jawBuffer.Enqueue(offsetValue);
+            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            double? removed = _jawBuffer.UpdateWithDequeue(JawPeriods, offsetValue);
 
-            // Maintain buffer size
-            if (_jawBuffer.Count > JawPeriods)
+            if (removed.HasValue)
             {
-                double removed = _jawBuffer.Dequeue();
-                _jawBufferSum -= removed;
+                _jawBufferSum -= removed.Value;
             }
 
             // Calculate when we have enough values in the jaw buffer
@@ -173,12 +166,12 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
         {
             double offsetValue = _inputBuffer.ElementAt(_inputBuffer.Count - 1 - TeethOffset);
 
-            _teethBuffer.Enqueue(offsetValue);
+            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            double? removed = _teethBuffer.UpdateWithDequeue(TeethPeriods, offsetValue);
 
-            if (_teethBuffer.Count > TeethPeriods)
+            if (removed.HasValue)
             {
-                double removed = _teethBuffer.Dequeue();
-                _teethBufferSum -= removed;
+                _teethBufferSum -= removed.Value;
             }
 
             if (_teethBuffer.Count == TeethPeriods)
@@ -207,12 +200,12 @@ public class AlligatorList : BufferList<AlligatorResult>, IBufferReusable, IAlli
         {
             double offsetValue = _inputBuffer.ElementAt(_inputBuffer.Count - 1 - LipsOffset);
 
-            _lipsBuffer.Enqueue(offsetValue);
+            // Use BufferUtilities extension method with dequeue tracking for running sum maintenance
+            double? removed = _lipsBuffer.UpdateWithDequeue(LipsPeriods, offsetValue);
 
-            if (_lipsBuffer.Count > LipsPeriods)
+            if (removed.HasValue)
             {
-                double removed = _lipsBuffer.Dequeue();
-                _lipsBufferSum -= removed;
+                _lipsBufferSum -= removed.Value;
             }
 
             if (_lipsBuffer.Count == LipsPeriods)
