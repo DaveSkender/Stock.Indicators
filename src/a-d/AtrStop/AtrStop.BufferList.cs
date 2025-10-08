@@ -180,6 +180,23 @@ public class AtrStopList : BufferList<AtrStopResult>, IBufferList, IAtrStop
         _previousClose = 0;
         _isInitialized = false;
     }
+
+    /// <summary>
+    /// Removes oldest results from both the outer list and the nested ATR list
+    /// when the list exceeds <see cref="BufferList{TResult}.MaxListSize"/>.
+    /// This prevents unbounded growth of the auxiliary ATR cache.
+    /// </summary>
+    protected override void PruneList()
+    {
+        // Synchronize the nested ATR list's MaxListSize with the outer list
+        // Keep enough ATR history to support calculations (LookbackPeriods + 1)
+        // plus room for the current MaxListSize
+        int minAtrSize = LookbackPeriods + 1;
+        _atrList.MaxListSize = Math.Max(minAtrSize, MaxListSize + 1);
+
+        // Call base implementation to prune the outer result list
+        base.PruneList();
+    }
 }
 
 // EXTENSION METHODS
