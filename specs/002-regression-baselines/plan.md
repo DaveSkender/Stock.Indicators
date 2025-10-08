@@ -4,7 +4,7 @@
 
 ## Summary
 
-Implement a deterministic regression baseline framework for all StaticSeries indicator `Standard` tests. The framework generates JSON files containing canonical indicator outputs, validates current test outputs against these baselines using configurable numeric tolerances, and integrates with CI to detect unintended behavioral **drift** (deviations from expected values). Any drift is unacceptable and must be investigated—either corrected if unintentional, or baselines regenerated if the change is deliberate. The solution consists of a baseline generator tool, a baseline comparison utility, a regression test suite, and CI workflow integration.
+Implement a deterministic regression baseline framework for all StaticSeries indicator `Standard` tests. The framework generates JSON files containing canonical indicator outputs, validates current test outputs against these baselines using exact binary equality, and integrates with CI to detect unintended behavioral **drift** (deviations from expected values). Any drift is unacceptable and must be investigated—either corrected if unintentional, or baselines regenerated if the change is deliberate. The solution consists of a baseline generator tool, a baseline comparison utility, a regression test suite, and CI workflow integration.
 
 ## Technical context
 
@@ -14,20 +14,20 @@ Implement a deterministic regression baseline framework for all StaticSeries ind
 - **Testing**: MSTest regression suite in `tests/indicators/`
 - **Target platform**: Multi-target `net8.0;net9.0`
 - **Performance goals**: <5 minutes to validate all baselines, <2 minutes to regenerate all baselines
-- **Constraints**: Deterministic floating-point behavior, version-controlled baselines, configurable tolerances
+- **Constraints**: Deterministic floating-point behavior, version-controlled baselines, exact binary equality
 - **Scale/scope**: 200+ StaticSeries indicators with Standard test scenarios
 
 ## Constitution check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- **Mathematical Precision (NON-NEGOTIABLE)**: Baseline comparisons enforce mathematical correctness by detecting any deviation from validated outputs. JSON serialization preserves full double precision (15-17 significant digits). Configurable tolerance (default 1e-12) accounts for acceptable floating-point differences across platforms and .NET versions. Strict mode (zero tolerance) available for validating intentional algorithm changes. No rounding occurs during serialization or comparison—values stored and compared at maximum precision.
+- **Mathematical Precision (NON-NEGOTIABLE)**: Baseline comparisons enforce mathematical correctness by detecting ANY deviation from validated outputs. JSON serialization preserves full double precision (15-17 significant digits). Comparisons use exact binary equality—no tolerance, no approximation. If platform or .NET version differences exist, they indicate bugs in the indicator implementation that must be fixed (Constitution Principle I is NON-NEGOTIABLE). No rounding occurs during serialization or comparison—values stored and compared at maximum precision.
 
 - **Performance First**: Baseline generation completes in <2 minutes for all 200+ indicators. Regression validation runs in <5 minutes to minimize CI impact. Generator tool uses parallel execution (`Parallel.ForEach`) for batch operations. Baseline files are flat JSON (no nested objects) for fast deserialization. Comparison logic uses O(n) single-pass iteration with early exit on first mismatch in non-verbose mode. No LINQ in per-comparison hot paths—direct iteration for optimal performance.
 
-- **Comprehensive Validation**: Baseline comparer validates null handling, missing properties, date misalignment, and tolerance enforcement with comprehensive unit tests. Generator tool validates test data availability, indicator execution success, and JSON schema conformance. Regression tests detect missing baseline files (skipped with warning) vs. actual drift (hard failure). CI integration validates every commit—baseline drift blocks merge. All edge cases documented: warmup nulls, exact zero values, extreme precision scenarios.
+- **Comprehensive Validation**: Baseline comparer validates null handling, missing properties, and date misalignment with comprehensive unit tests. Generator tool validates test data availability, indicator execution success, and JSON schema conformance. Regression tests detect missing baseline files (skipped with warning) vs. actual drift (hard failure). CI integration validates every commit—baseline drift blocks merge. All edge cases documented: warmup nulls, exact zero values, extreme precision scenarios.
 
-- **Test-Driven Quality**: TDD workflow mandatory: unit tests for BaselineComparer logic (tolerance handling, null comparison, strict mode) written before implementation. Integration tests for BaselineGenerator tool (single indicator, batch mode, file format validation). Regression test suite validates all 200+ indicators against baselines. Performance tests validate generation and comparison speed targets. Each baseline file serves as executable documentation of expected behavior. **Task ordering enforces Red→Green→Refactor**: test tasks precede implementation tasks (T019→T016, test subtasks before T008/T012).
+- **Test-Driven Quality**: TDD workflow mandatory: unit tests for BaselineComparer logic (null comparison, mismatch detection) written before implementation. Integration tests for BaselineGenerator tool (single indicator, batch mode, file format validation). Regression test suite validates all 200+ indicators against baselines. Performance tests validate generation and comparison speed targets. Each baseline file serves as executable documentation of expected behavior. **Task ordering enforces Red→Green→Refactor**: test tasks precede implementation tasks (T019→T016, test subtasks before T008/T012).
 
 - **Documentation Excellence**: Complete baseline file format specification in `docs/baseline-format.md` with JSON schema and examples. Contributor documentation in `contributing.md` covers baseline regeneration procedure (when, why, how). PR review guidance explains interpreting baseline drift failures. CI workflow documentation describes environment variables and failure diagnostics. XML documentation for all public comparison APIs (BaselineComparer, ComparisonResult, MismatchDetail).
 
@@ -92,12 +92,12 @@ No external research required—design extends existing test infrastructure patt
   - camelCase convention matches JSON standards
   - One file per indicator enables parallel baseline generation and clear git history
 
-- **Numeric tolerance strategy**:
-  - Default tolerance 1e-12 accounts for acceptable floating-point precision differences
-  - Strict mode (tolerance = 0) for validating intentional algorithm changes
-  - Configurable per-test to handle indicators with different precision requirements
-  - Comparison uses absolute difference (not relative percentage) for simplicity
-  - **Any mismatch beyond tolerance is drift and must be investigated**
+- **Exact binary equality requirement**:
+  - All comparisons enforce exact binary equality (zero tolerance)
+  - Mathematical precision is NON-NEGOTIABLE per Constitution Principle I
+  - Any platform or .NET version difference indicates a bug requiring investigation
+  - Baseline framework detects ALL changes, no matter how small
+  - If indicator outputs differ, developer must either fix the bug or deliberately regenerate baselines with justification
 
 - **Baseline file location** (updated per PR #1496):
   - Colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
@@ -136,10 +136,10 @@ Prerequisites: research.md complete (decisions documented in Phase 0 above)
   - Location: Colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
   - No metadata wrapper—just arrays of results with timestamp and properties
 - **BaselineComparer**: Comparison utility
-  - `Compare(expected, actual, tolerance)` → ComparisonResult
+  - `Compare(expected, actual)` → ComparisonResult
   - `ComparisonResult`: { IsMatch, Mismatches: List of MismatchDetail }
   - `MismatchDetail`: { Timestamp, PropertyName, Expected, Actual, Delta }
-  - **Terminology**: "Mismatch" = technical comparison difference; "Drift" = unacceptable deviation requiring action
+  - **Terminology**: "Mismatch" = any comparison difference; "Drift" = unacceptable deviation requiring action
 - **BaselineGenerator tool**: Console application (located in `tools/performance/BaselineGenerator/`)
   - Executes indicators with Standard test data
   - Serializes results directly using System.Text.Json
@@ -169,12 +169,6 @@ public class BaselineComparer
 {
     public ComparisonResult Compare<TResult>(
         IEnumerable<TResult> expected,
-        IEnumerable<TResult> actual,
-        double tolerance = 1e-12)
-        where TResult : IReusableResult;
-        
-    public ComparisonResult CompareStrict<TResult>(
-        IEnumerable<TResult> expected,
         IEnumerable<TResult> actual)
         where TResult : IReusableResult;
 }
@@ -193,8 +187,8 @@ public record MismatchDetail(
 
 **Note on Terminology**:
 
-- **"Mismatch"**: Technical term for any comparison difference detected by the comparer (within or beyond tolerance)
-- **"Drift"**: Unacceptable deviation from expected baseline values that requires investigation and correction. Any drift in CI is a blocker—either the code change must be fixed or baselines must be deliberately regenerated.
+- **"Mismatch"**: Any comparison difference detected by the comparer
+- **"Drift"**: Unacceptable deviation from expected baseline values that requires investigation and correction. Any mismatch in CI is drift and blocks merge—either the code change must be fixed or baselines must be deliberately regenerated.
 
 **BaselineGenerator tool CLI**:
 
@@ -216,10 +210,7 @@ dotnet run --project tools/performance/BaselineGenerator -- --all --output tests
 **Unit Tests (BaselineComparer)**:
 
 - Compare identical results → IsMatch = true, Mismatches empty
-- Compare results within tolerance → IsMatch = true
-- Compare results exceeding tolerance → IsMatch = false, Mismatches populated (drift detected)
-- Strict mode with exact match → IsMatch = true
-- Strict mode with any difference → IsMatch = false (drift detected)
+- Compare results with any difference → IsMatch = false, Mismatches populated (drift detected)
 - Handle null values during warmup period → Compare nulls as equal
 - Handle missing properties → Report as mismatch (drift detected)
 - Handle timestamp misalignment → Report missing/extra dates (drift detected)
@@ -238,7 +229,6 @@ dotnet run --project tools/performance/BaselineGenerator -- --all --output tests
 - Load baseline, run indicator, compare outputs → Test passes
 - **Drift introduced** → Test fails immediately with clear diagnostics showing which values changed
 - Missing baseline file → Test skipped with warning (not failure)
-- Strict mode enabled → Zero tolerance enforced (any mismatch = drift)
 - Warmup nulls handled → Nulls compared correctly
 
 **Performance Tests**:
@@ -262,11 +252,10 @@ dotnet run --project tools/performance/BaselineGenerator -- --all --output tests
 
 **Numeric comparison logic**:
 
-- Absolute difference: `Math.Abs(expected - actual) > tolerance` determines mismatch
+- Exact binary equality: `expected != actual` determines mismatch (zero tolerance)
 - Null handling: null == null → match, null != value → mismatch
-- Tolerance applied per-property (not per-result object)
-- Strict mode: tolerance = 0, enforces exact binary equality
-- **Terminology**: Any mismatch beyond tolerance = drift (unacceptable, must be addressed)
+- Mathematical precision is NON-NEGOTIABLE per Constitution Principle I
+- **Terminology**: Mismatch = technical detection of any difference; Drift = unacceptable deviation requiring investigation and correction (all mismatches constitute drift in this framework)
 
 **Generator tool design** (simplified per PR #1496):
 
@@ -281,11 +270,12 @@ dotnet run --project tools/performance/BaselineGenerator -- --all --output tests
 
 - One test method per indicator: `[TestMethod] public void Sma_Standard_RegressionTest()`
 - Test discovery via reflection: Enumerate all indicators from catalog or namespace
-- **Baseline loading**: Deserialize directly to `List<TResult>` using System.Text.Json
-- Test execution: Run indicator with Standard test data
-- Comparison: Use BaselineComparer with default tolerance
+- **Baseline loading**: Deserialize directly to `List<TResult>` using System.Text.Json with `TestData.GetDefault()` as source
+- Test execution: Run indicator with Standard test data (e.g., `quotes.ToSma(20)` with parameters defined per indicator type)
+- Comparison: Use BaselineComparer with exact binary equality
 - **Drift diagnostics**: Assert with custom message listing all mismatches (property, timestamp, expected, actual, delta)
 - Missing baseline handling: `Assert.Inconclusive("Baseline file not found: {indicatorName}.Baseline.json")`
+- **Quality validation**: Each test implementation MUST pass `checklists/regression-test.md` checklist (103 requirement validation items across 10 quality dimensions) before PR approval. Checklist enforces Constitution Principle I alignment, requirement completeness, and consistent implementation patterns.
 
 ### Documentation updates
 
@@ -313,7 +303,7 @@ dotnet run --project tools/performance/BaselineGenerator -- --all --output tests
 - Generate tasks grouped by component:
   1. **Infrastructure tasks**: Baseline file format definition, JSON serialization utilities
   2. **Generator tool tasks**: CLI scaffolding, indicator execution, batch processing
-  3. **Comparer tasks**: Tolerance logic, mismatch detection, strict mode
+  3. **Comparer tasks**: Exact binary equality logic, mismatch detection
   4. **Test suite tasks**: Regression test implementation, baseline loading, failure diagnostics
   5. **CI integration tasks**: Workflow updates, environment variable gating, result publishing
   6. **Documentation tasks**: Contributor guides, format specification, PR review guidance

@@ -1,10 +1,8 @@
 # Implementation tasks: static series regression baselines
 
 **Feature**: Static series regression baselines  
-**Updated**: 2025-10-06 (Simplified approach)  
+**Updated**: 2025-10-07 (Exact binary equality requirement)  
 **Based on**: [spec.md](./spec.md) and [plan.md](./plan.md)
-
-## Task overview
 
 This document provides actionable tasks for implementing the regression baseline framework for all StaticSeries indicator Standard tests.
 
@@ -12,7 +10,7 @@ This document provides actionable tasks for implementing the regression baseline
 
 - Create baseline generator tool to capture canonical indicator outputs
 - Generate JSON baseline files for 200+ indicators (colocated with tests)
-- Implement regression test suite with configurable tolerance
+- Implement regression test suite with exact binary equality comparison
 - Integrate regression tests into CI pipeline
 - Document baseline regeneration and review procedures
 
@@ -22,6 +20,7 @@ This document provides actionable tasks for implementing the regression baseline
 - Direct deserialization using standard System.Text.Json
 - Files colocated with indicator tests (e.g., `tests/indicators/s-z/Sma/Sma.Baseline.json`)
 - No custom wrapper models or serialization utilities
+- Exact binary equality enforced (zero tolerance, NON-NEGOTIABLE per Constitution Principle I)
 
 **Organization**: Tasks grouped by component (format, generator, comparer, tests, CI, docs)
 
@@ -185,10 +184,7 @@ This document provides actionable tasks for implementing the regression baseline
 **Acceptance criteria**:
 
 - Test identical results → expect IsMatch = true (FAILING initially)
-- Test results within tolerance → expect IsMatch = true (FAILING initially)
-- Test results exceeding tolerance → expect IsMatch = false with mismatches (FAILING initially)
-- Test strict mode with exact match → expect IsMatch = true (FAILING initially)
-- Test strict mode with any difference → expect IsMatch = false (FAILING initially)
+- Test results with any difference → expect IsMatch = false with mismatches (FAILING initially)
 - Test null handling (null == null, null != value) (FAILING initially)
 - Test missing properties → expect mismatch reported (FAILING initially)
 - Test date misalignment → expect missing/extra dates reported (FAILING initially)
@@ -201,9 +197,9 @@ This document provides actionable tasks for implementing the regression baseline
 **Dependencies**: T016  
 **Acceptance criteria**:
 
-- `Compare(expected, actual, tolerance)` method implemented
+- `Compare(expected, actual)` method implemented (no tolerance parameter)
 - Iterate both sequences in parallel (zip by date)
-- Compare each property with tolerance (`Math.Abs(expected - actual) > tolerance`)
+- Compare each property with exact binary equality (`expected != actual`)
 - Handle null values (null == null → match, null != value → mismatch)
 - Return ComparisonResult with IsMatch and Mismatches list
 - All T016 tests now pass (TDD Green phase)
@@ -221,33 +217,20 @@ This document provides actionable tasks for implementing the regression baseline
 - Format mismatch details for human readability
 - Support multiple mismatches per comparison
 
-### T018: Implement strict mode comparison
-
-**Description**: Add zero-tolerance comparison for strict validation  
-**Location**: `tests/indicators/Baselines/BaselineComparer.cs`  
-**Dependencies**: T016a  
-**Acceptance criteria**:
-
-- `CompareStrict(expected, actual)` method
-- Uses tolerance = 0 (exact binary equality)
-- Same mismatch reporting as standard comparison
-- Clearly documented use case (after intentional algorithm changes)
-
-### T019: Refactor and extend comparer tests (TDD Refactor)
+### T018: Refactor and extend comparer tests (TDD Refactor)
 
 **Description**: Refactor comparer tests for maintainability and add edge case coverage  
 **Location**: `tests/indicators/Baselines/BaselineComparer.Tests.cs`  
-**Dependencies**: T016a, T017, T018  
+**Dependencies**: T016a, T017  
 **Acceptance criteria**:
 
 - Refactor test structure for clarity and maintainability
-- Add tests for strict mode (CompareStrict) implementation
 - Add tests for mismatch detection and reporting (T017)
 - Verify all edge cases covered (extreme values, empty sequences, single-element arrays)
 - Document test patterns for future comparer enhancements
 - All tests remain passing after refactor (TDD Refactor phase)
 
-### T020: Implement regression test suite scaffold
+### T019: Implement regression test suite scaffold
 
 **Description**: Create MSTest test class for regression tests  
 **Location**: `tests/indicators/RegressionTests.cs`  
@@ -260,11 +243,11 @@ This document provides actionable tasks for implementing the regression baseline
 - Test cleanup disposes resources
 - Parallel test execution enabled (if safe)
 
-### T021: Implement per-indicator regression test method
+### T020: Implement per-indicator regression test method
 
 **Description**: Create test method pattern for each indicator  
 **Location**: `tests/indicators/RegressionTests.cs`  
-**Dependencies**: T020  
+**Dependencies**: T019  
 **Acceptance criteria**:
 
 - Load baseline file for indicator (e.g., `Sma.Standard.json`)
@@ -272,12 +255,13 @@ This document provides actionable tasks for implementing the regression baseline
 - Compare current outputs against baseline using BaselineComparer
 - Assert IsMatch = true with custom failure message
 - If baseline missing, call `Assert.Inconclusive("Baseline file not found: {indicatorName}.Standard.json")`
+- **Checklist validation**: Before implementing each indicator test, apply regression-test.md checklist (103 items) to verify requirements completeness, clarity, and constitutional alignment. Address all applicable items (CHK001-CHK103) before marking task complete.
 
-### T022: Implement test failure diagnostics
+### T021: Implement test failure diagnostics
 
 **Description**: Format clear error messages for regression test failures  
 **Location**: `tests/indicators/RegressionTests.cs`  
-**Dependencies**: T021, T017  
+**Dependencies**: T020, T017  
 **Acceptance criteria**:
 
 - List all mismatches in failure message
@@ -286,23 +270,24 @@ This document provides actionable tasks for implementing the regression baseline
 - Include baseline file path in message
 - Suggest regenerating baseline if intentional change
 
-### T023: Add regression tests for all indicators
+### T022: Add regression tests for all indicators
 
 **Description**: Generate test methods for all StaticSeries indicators  
 **Location**: `tests/indicators/RegressionTests.cs`  
-**Dependencies**: T021  
+**Dependencies**: T020  
 **Acceptance criteria**:
 
 - One test method per indicator (200+ methods)
 - Test discovery via reflection or explicit methods
 - Parallel test execution for performance
 - All tests pass with initial baselines (from T015)
+- **Checklist compliance**: Each of 200+ indicator tests MUST pass regression-test.md checklist validation during PR review. Reviewers verify CHK001-CHK103 applicable items are satisfied. Non-compliant tests block merge.
 
-### T024: Add integration tests for missing baselines
+### T023: Add integration tests for missing baselines
 
 **Description**: Test behavior when baseline file does not exist  
 **Location**: `tests/indicators/RegressionTests.cs`  
-**Dependencies**: T021  
+**Dependencies**: T020  
 **Acceptance criteria**:
 
 - Temporarily rename baseline file to simulate missing
@@ -311,11 +296,11 @@ This document provides actionable tasks for implementing the regression baseline
 - Verify warning message includes missing file path
 - Restore baseline file after test
 
-### T025: Add performance tests for regression suite
+### T024: Add performance tests for regression suite
 
 **Description**: Validate regression test execution time  
 **Location**: `tools/performance/Perf.Regression.cs`  
-**Dependencies**: T023  
+**Dependencies**: T022  
 **Acceptance criteria**:
 
 - Benchmark full regression test suite execution
@@ -323,18 +308,25 @@ This document provides actionable tasks for implementing the regression baseline
 - Measure memory usage during tests
 - Document performance characteristics
 
-### T025a: Add cross-platform validation tests
+### T025: Add cross-platform validation tests
 
 **Description**: Validate deterministic output across .NET target frameworks  
 **Location**: `tests/indicators/RegressionTests.cs`  
-**Dependencies**: T023  
+**Dependencies**: T022  
 **Acceptance criteria**:
 
-- Run regression tests against baselines for both net8.0 and net9.0 targets
-- Verify identical outputs (within tolerance) across both frameworks
-- Document any framework-specific floating-point behavior differences
-- Add CI matrix testing for multi-target validation
-- Covers FR25 (version migration validation scenario)
+- Create dedicated test method `CrossPlatformValidation_AllIndicators` that executes on both net8.0 and net9.0
+- For each indicator:
+  - Execute indicator calculation on current framework
+  - Deserialize baseline file (generated on any framework)
+  - Compare results using exact binary equality
+  - Assert outputs match exactly (zero tolerance)
+- ANY difference between net8.0 and net9.0 indicates a precision bug requiring investigation
+- Add CI workflow matrix strategy to run tests on both net8.0 and net9.0 runtimes
+- Mathematical precision is NON-NEGOTIABLE per Constitution Principle I
+- Test validates FR24 requirement: "Regression tests validate deterministic output across net8.0 and net9.0 target frameworks"
+- Include at least 10 representative indicators covering: simple (SMA), multi-property (MACD), complex calculations (RSI), and high-precision indicators
+- Document investigation procedure if platform differences are detected
 
 ## Phase 4: CI integration (T026-T030)
 
@@ -443,7 +435,7 @@ This document provides actionable tasks for implementing the regression baseline
 - Example baseline files provided
 - Property naming conventions explained
 - Deterministic serialization rules documented
-- Comparison tolerance explained
+- Exact binary equality comparison requirement explained
 
 ### T034: Update PR review checklist
 
@@ -485,17 +477,17 @@ This document provides actionable tasks for implementing the regression baseline
 - **T011 → T015**: Batch generation working before generating initial baselines
 - **T002 → T016**: Models must exist before writing comparer tests (TDD Red)
 - **T016 → T016a**: Tests written before implementing comparer (TDD Red→Green)
-- **T016a → T017, T018**: Core comparison logic implemented before mismatch detection and strict mode
-- **T016a, T017, T018 → T019**: All comparison features complete before test refactoring (TDD Refactor)
-- **T004, T016a → T020**: Reader and comparer exist before regression test scaffold
-- **T020 → T021**: Scaffold complete before per-indicator test methods
-- **T021 → T022**: Test methods exist before failure diagnostics
-- **T021 → T023**: Test method pattern defined before generating all tests
-- **T023 → T024**: Regression tests exist before testing missing baseline behavior
-- **T023 → T025**: Regression tests exist before performance tests
-- **T023 → T026**: Regression tests complete before CI integration
-- **T020 → T027**: Test scaffold exists before environment variable gating
-- **T021, T022 → T028**: Test methods and diagnostics exist before summary logging
+- **T016a → T017, T018**: Core comparison logic implemented before mismatch detection and refactoring
+- **T016a, T017 → T018**: All comparison features complete before test refactoring (TDD Refactor)
+- **T004, T016a → T019**: Reader and comparer exist before regression test scaffold
+- **T019 → T020**: Scaffold complete before per-indicator test methods
+- **T020 → T021**: Test methods exist before failure diagnostics
+- **T020 → T022**: Test method pattern defined before generating all tests
+- **T022 → T023**: Regression tests exist before testing missing baseline behavior
+- **T022 → T024**: Regression tests exist before performance tests
+- **T022 → T026**: Regression tests complete before CI integration
+- **T019 → T027**: Test scaffold exists before environment variable gating
+- **T020, T021 → T028**: Test methods and diagnostics exist before summary logging
 - **T026 → T029**: CI integration exists before result publishing
 - **T011 → T030**: Batch generation exists before regeneration workflow
 - **T014, T030 → T031**: Generator documentation and workflow exist before regeneration procedure
@@ -539,13 +531,20 @@ Task: "Validate multi-property indicator handling"
 Command: /tasks run T008a
 ```
 
-### Comparer implementation (T016-T018 can partially overlap)
+### Comparer implementation (T016-T018 sequential for TDD workflow)
 
 ```markdown
-Task: "Implement baseline comparer core logic"
+Task: "Write unit tests for baseline comparer (TDD Red)"
+Command: /tasks run T016
+
+Task: "Implement baseline comparer core logic (TDD Green)"
+Command: /tasks run T016a
+
 Task: "Implement mismatch detection and reporting"
-Task: "Implement strict mode comparison"
-Command: /tasks run T016 T017 T018
+Command: /tasks run T017
+
+Task: "Refactor and extend comparer tests (TDD Refactor)"
+Command: /tasks run T018
 ```
 
 ### Documentation tasks (T031-T035 can run in parallel)
@@ -563,10 +562,11 @@ Command: /tasks run T031 T032 T033 T034 T035
 
 - Tasks marked with [P] are fully parallelizable (no blocking dependencies)
 - Infrastructure tasks (T001-T005) establish foundation for all other work
-- Generator tool (T006-T015) can proceed independently of comparer (T016-T019)
-- **TDD workflow enforced**: T016 (write tests) → T016a (implement) → T019 (refactor)
-- New validation tasks (T003a, T008a, T025a) verify quality attributes and edge cases
-- Regression tests (T020-T025, T025a) require both generator and comparer complete
+- Generator tool (T006-T015) can proceed independently of comparer (T016-T018)
+- **TDD workflow enforced**: T016 (write tests) → T016a (implement) → T018 (refactor)
+- **Checklist workflow**: Apply regression-test.md template to EACH indicator test implementation (T020, T022). Checklist validates requirements quality (NOT implementation correctness). Use checklist BEFORE coding to identify ambiguities, DURING PR review to verify completeness.
+- New validation tasks (T003a, T008a, T025) verify quality attributes and edge cases
+- Regression tests (T019-T025) require both generator and comparer complete
 - CI integration (T026-T030) requires regression tests working locally
 - Documentation (T031-T035) can run in parallel after implementation complete
 
@@ -574,26 +574,27 @@ Command: /tasks run T031 T032 T033 T034 T035
 
 - [x] Baseline format specification complete (direct result class mapping)
 - [x] Generator tool fully specified (CLI, execution, batch processing)
-- [x] Comparison logic comprehensive (tolerance, strict mode, mismatch detection)
+- [x] Comparison logic comprehensive (exact binary equality, mismatch detection)
 - [x] Regression test suite complete (per-indicator tests, failure diagnostics)
 - [x] CI integration addresses environment gating and result publishing
 - [x] Documentation covers regeneration procedure, format specification, and PR review
 - [x] Dependencies mapped correctly (no circular dependencies)
 - [x] Parallel tasks avoid file collisions
 - [x] Initial baseline generation task included (T015)
-- [x] Performance validation tasks present (T025, T025a)
+- [x] Performance validation tasks present (T024, T025)
 - [x] Multi-property indicator validation included (T008a)
 - [x] JSON readability validation included (T003a)
-- [x] **TDD workflow enforced (T016→T016a→T019) per constitution**
-- [x] **Cross-platform validation included (T025a) for .NET version migration**
-- [x] **Documentation requirements mapped to FRs (FR20-FR24)**
+- [x] **TDD workflow enforced (T016→T016a→T018) per constitution**
+- [x] **Cross-platform validation included (T025) for .NET version migration**
+- [x] **Documentation requirements mapped to FRs (FR19-FR23)**
+- [x] **Exact binary equality enforced (NON-NEGOTIABLE per Constitution Principle I)**
 
 ---
 
-- **Total tasks**: 39 (added T016a for TDD Red→Green split, T025a for cross-platform validation)
+- **Total tasks**: 37 (T017 removed, T018-T025 renumbered to T017-T024, added T016a for TDD split)
 - **Parallelizable tasks**: 14 (marked with [P] in notes)
-- **Sequential tasks**: 25
-- **TDD tasks**: 3 (T016 Red, T016a Green, T019 Refactor)
+- **Sequential tasks**: 23
+- **TDD tasks**: 3 (T016 Red, T016a Green, T018 Refactor)
 - **Estimated completion**: 6-8 focused development sessions with testing and validation
 
 ---
