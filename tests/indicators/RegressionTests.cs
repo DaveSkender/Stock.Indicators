@@ -19,7 +19,7 @@ public class RegressionTests : TestBase
 
     private static bool ShouldRunRegressionTests()
     {
-        string? envVar = Environment.GetEnvironmentVariable("RUN_REGRESSION_TESTS");
+        string envVar = Environment.GetEnvironmentVariable("RUN_REGRESSION_TESTS");
         return !string.IsNullOrEmpty(envVar) && (envVar == "1" || envVar.Equals("true", StringComparison.OrdinalIgnoreCase));
     }
 
@@ -66,7 +66,7 @@ public class RegressionTests : TestBase
 
         // Load and deserialize baseline file
         string json = File.ReadAllText(baselinePath);
-        List<TResult>? expectedResults = JsonSerializer.Deserialize<List<TResult>>(json, JsonOptions);
+        List<TResult> expectedResults = JsonSerializer.Deserialize<List<TResult>>(json, JsonOptions);
 
         Assert.IsNotNull(expectedResults, $"Failed to deserialize baseline file: {baselinePath}");
 
