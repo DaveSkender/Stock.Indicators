@@ -17,7 +17,7 @@ Created by John Ehlers, the [MAMA](https://mesasoftware.com/papers/MAMA.pdf) ind
 ```csharp
 // C# usage syntax
 IReadOnlyList<MamaResult> results =
-  quotes.GetMama(fastLimit, slowLimit);
+  quotes.ToMama(fastLimit, slowLimit);
 ```
 
 ## Parameters
@@ -70,7 +70,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetMama(..);
+    .ToMama(..);
 ```
 
 Results can be further processed on `Mama` with additional chain-enabled indicators.
@@ -78,8 +78,8 @@ Results can be further processed on `Mama` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetMama(..)
-    .GetRsi(..);
+    .ToMama(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -94,19 +94,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   mamaList.Add(quote);
 }
 
-// based on `List<MamaResult>`
+// based on `ICollection<MamaResult>`
 IReadOnlyList<MamaResult> results = mamaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-MamaHub<Quote> observer = provider.ToMama(fastLimit, slowLimit);
+QuoteHub<Quote> quoteHub = new();
+MamaHub<Quote> observer = quoteHub.ToMama(fastLimit, slowLimit);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<MamaResult> results = observer.Results;

@@ -18,7 +18,7 @@ Created by Charles Le Beau, the [Chandelier Exit](https://school.stockcharts.com
 ```csharp
 // C# usage syntax
 IReadOnlyList<ChandelierResult> results =
-  quotes.GetChandelier(lookbackPeriods, multiplier, type);
+  quotes.ToChandelier(lookbackPeriods, multiplier, type);
 ```
 
 ## Parameters
@@ -74,8 +74,8 @@ Results can be further processed on `ChandelierExit` with additional chain-enabl
 ```csharp
 // example
 var results = quotes
-    .GetChandelier(..)
-    .GetEma(..);
+    .ToChandelier(..)
+    .ToEma(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

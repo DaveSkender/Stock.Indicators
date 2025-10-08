@@ -17,7 +17,7 @@ layout: indicator
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<EmaResult> results =
-  quotes.GetEma(lookbackPeriods);
+  quotes.ToEma(lookbackPeriods);
 ```
 
 ## Parameters
@@ -66,7 +66,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetEma(..);
+    .ToEma(..);
 ```
 
 Results can be further processed on `Ema` with additional chain-enabled indicators.
@@ -74,8 +74,8 @@ Results can be further processed on `Ema` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetEma(..)
-    .GetRsi(..);
+    .ToEma(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -90,19 +90,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   emaList.Add(quote);
 }
 
-// based on `List<EmaResult>`
+// based on `ICollection<EmaResult>`
 IReadOnlyList<EmaResult> results = emaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-EmaHub<Quote> observer = provider.ToEma(lookbackPeriods);
+QuoteHub<Quote> quoteHub = new();
+EmaHub<Quote> observer = quoteHub.ToEma(lookbackPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<EmaResult> results = observer.Results;

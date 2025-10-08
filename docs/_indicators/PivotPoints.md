@@ -18,7 +18,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<PivotPointsResult> results =
-  quotes.GetPivotPoints(windowSize, pointType);
+  quotes.ToPivotPoints(windowSize, pointType);
 ```
 
 ## Parameters

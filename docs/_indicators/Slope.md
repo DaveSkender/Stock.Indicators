@@ -18,7 +18,7 @@ layout: indicator
 ```csharp
 // C# usage syntax
 IReadOnlyList<SlopeResult> results =
-  quotes.GetSlope(lookbackPeriods);
+  quotes.ToSlope(lookbackPeriods);
 ```
 
 ## Parameters
@@ -75,8 +75,8 @@ This indicator may be generated from any chain-enabled indicator or method.
 ```csharp
 // example
 var results = quotes
-    .GetEma(..)
-    .GetSlope(..);
+    .ToEma(..)
+    .ToSlope(..);
 ```
 
 Results can be further processed on `Slope` with additional chain-enabled indicators.
@@ -84,6 +84,6 @@ Results can be further processed on `Slope` with additional chain-enabled indica
 ```csharp
 // example
 var results = quotes
-    .GetSlope(..)
-    .GetRsi(..);
+    .ToSlope(..)
+    .ToRsi(..);
 ```

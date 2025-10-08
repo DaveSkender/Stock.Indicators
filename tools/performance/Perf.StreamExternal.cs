@@ -8,7 +8,7 @@ public class StreamExternal
     private static readonly IReadOnlyList<Quote> quotes
         = Data.GetDefault();
 
-    private readonly QuoteHub<Quote> provider = new();
+    private readonly QuoteHub<Quote> quoteHub = new();
 
     /* SETUP/CLEANUP - runs before and after each.
      *
@@ -21,13 +21,13 @@ public class StreamExternal
      * without the overhead of the provider. */
 
     [GlobalSetup]
-    public void Setup() => provider.Add(quotes);
+    public void Setup() => quoteHub.Add(quotes);
 
     [GlobalCleanup]
     public void Cleanup()
     {
-        provider.EndTransmission();
-        provider.Cache.Clear();
+        quoteHub.EndTransmission();
+        quoteHub.Cache.Clear();
     }
 
     // BENCHMARKS
@@ -38,5 +38,5 @@ public class StreamExternal
     public object EmaSeries() => quotes.ToEma(14);
 
     [Benchmark]
-    public object EmaStream() => provider.ToEma(14).Results;
+    public object EmaStream() => quoteHub.ToEmaHub(14).Results;
 }

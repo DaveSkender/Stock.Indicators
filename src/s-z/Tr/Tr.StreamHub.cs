@@ -12,7 +12,7 @@ public static partial class Tr
     /// <typeparam name="TIn">The type of quote.</typeparam>
     /// <param name="quoteProvider">The quote provider.</param>
     /// <returns>A True Range (TR) hub.</returns>
-    public static TrHub<TIn> ToTr<TIn>(
+    public static TrHub<TIn> ToTrHub<TIn>(
         this IQuoteProvider<TIn> quoteProvider)
         where TIn : IQuote
         => new(quoteProvider);

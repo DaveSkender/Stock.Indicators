@@ -17,7 +17,7 @@ Created by Larry Williams, [Fractal](https://www.investopedia.com/terms/f/fracta
 ```csharp
 // C# usage syntax
 IReadOnlyList<FractalResult> results =
-  quotes.GetFractal(windowSpan);
+  quotes.ToFractal(windowSpan);
 ```
 
 ## Parameters

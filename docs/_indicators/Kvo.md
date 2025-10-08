@@ -17,7 +17,7 @@ Created by Stephen Klinger, the [Klinger Volume Oscillator](https://www.investop
 ```csharp
 // C# usage syntax
 IReadOnlyList<KvoResult> results =
-  quotes.GetKvo(shortPeriods, longPeriods, signalPeriods);
+  quotes.ToKvo(shortPeriods, longPeriods, signalPeriods);
 ```
 
 ## Parameters
@@ -71,8 +71,8 @@ Results can be further processed on `Kvo` with additional chain-enabled indicato
 ```csharp
 // example
 var results = quotes
-    .GetKvo(..)
-    .GetSlope(..);
+    .ToKvo(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

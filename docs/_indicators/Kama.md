@@ -17,7 +17,7 @@ Created by Perry Kaufman, [KAMA](https://school.stockcharts.com/doku.php?id=tech
 ```csharp
 // C# usage syntax
 IReadOnlyList<KamaResult> results =
-  quotes.GetKama(erPeriods, fastPeriods, slowPeriods);
+  quotes.ToKama(erPeriods, fastPeriods, slowPeriods);
 ```
 
 ## Parameters
@@ -74,7 +74,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetKama(..);
+    .ToKama(..);
 ```
 
 Results can be further processed on `Kama` with additional chain-enabled indicators.
@@ -82,8 +82,8 @@ Results can be further processed on `Kama` with additional chain-enabled indicat
 ```csharp
 // example
 var results = quotes
-    .GetKama(..)
-    .GetRsi(..);
+    .ToKama(..)
+    .ToRsi(..);
 ```
 
 ## Streaming
@@ -98,19 +98,19 @@ foreach (IQuote quote in quotes)  // simulating stream
   kamaList.Add(quote);
 }
 
-// based on `List<KamaResult>`
+// based on `ICollection<KamaResult>`
 IReadOnlyList<KamaResult> results = kamaList;
 ```
 
 Subscribe to a `QuoteHub` for advanced streaming scenarios:
 
 ```csharp
-QuoteHub<Quote> provider = new();
-KamaHub<Quote> observer = provider.ToKama(erPeriods, fastPeriods, slowPeriods);
+QuoteHub<Quote> quoteHub = new();
+KamaHub<Quote> observer = quoteHub.ToKama(erPeriods, fastPeriods, slowPeriods);
 
 foreach (Quote quote in quotes)  // simulating stream
 {
-  provider.Add(quote);
+  quoteHub.Add(quote);
 }
 
 IReadOnlyList<KamaResult> results = observer.Results;

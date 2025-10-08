@@ -17,7 +17,7 @@ Created by John R. McGinley, the [McGinley Dynamic](https://www.investopedia.com
 ```csharp
 // C# usage syntax (with Close price)
 IReadOnlyList<DynamicResult> results =
-  quotes.GetDynamic(lookbackPeriods, kFactor);
+  quotes.ToDynamic(lookbackPeriods, kFactor);
 ```
 
 ## Parameters
@@ -73,7 +73,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HL2)
-    .GetDynamic(..);
+    .ToDynamic(..);
 ```
 
 Results can be further processed on `Dynamic` with additional chain-enabled indicators.
@@ -81,6 +81,6 @@ Results can be further processed on `Dynamic` with additional chain-enabled indi
 ```csharp
 // example
 var results = quotes
-    .GetDynamic(..)
-    .GetRsi(..);
+    .ToDynamic(..)
+    .ToRsi(..);
 ```

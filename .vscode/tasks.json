@@ -117,7 +117,7 @@
       }
     },
     {
-      "label": "Build: .NET Solution",
+      "label": "Build: .NET Solution (incremental)",
       "detail": "Incremental build of solution (default)",
       "type": "shell",
       "command": "dotnet build -v minimal --nologo",
@@ -137,7 +137,7 @@
       }
     },
     {
-      "label": "Build: .NET Solution (No Incremental)",
+      "label": "Build: .NET Solution (not incremental)",
       "detail": "Full rebuild without incremental compilation",
       "type": "shell",
       "command": "dotnet build -v minimal --nologo --no-incremental",
@@ -155,10 +155,10 @@
       }
     },
     {
-      "label": "Test: .NET Solution",
-      "detail": "Run all unit tests (no restore)",
+      "label": "Test: Unit tests",
+      "detail": "Run unit tests only (excludes integration tests)",
       "type": "shell",
-      "command": "dotnet test --no-restore --nologo",
+      "command": "dotnet test tests/indicators/Tests.Indicators.csproj --no-restore --nologo",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -175,7 +175,41 @@
       }
     },
     {
-      "label": "Test: Run Tests with Coverage",
+      "label": "Test: Integration",
+      "detail": "Run integration tests only (requires external dependencies)",
+      "type": "shell",
+      "command": "dotnet test tests/integration/Tests.Integration.csproj --no-restore --nologo && dotnet test tests/public-api/Tests.PublicApi.csproj --no-restore --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Test: All tests",
+      "detail": "Run all tests including integration tests",
+      "type": "shell",
+      "command": "dotnet test --no-restore --nologo",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Test: Unit tests with Coverage",
       "detail": "Run tests with coverage collection (npm script)",
       "type": "npm",
       "script": "test:coverage",

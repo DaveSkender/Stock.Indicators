@@ -6,23 +6,23 @@ namespace Skender.Stock.Indicators;
 public static partial class Ema
 {
     /// <summary>
-    /// Creates an EMA hub from a chain provider.
+    /// Creates an EMA streaming hub from a chain provider.
     /// </summary>
-    /// <typeparam name="T">The type of the reusable data.</typeparam>
+    /// <typeparam name="TIn">The type of the reusable data.</typeparam>
     /// <param name="chainProvider">The chain provider.</param>
     /// <param name="lookbackPeriods">The number of periods to look back for the calculation.</param>
     /// <returns>An EMA hub.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the chain provider is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the lookback periods are invalid.</exception>
-    public static EmaHub<T> ToEma<T>(
-        this IChainProvider<T> chainProvider,
+    public static EmaHub<TIn> ToEmaHub<TIn>(
+        this IChainProvider<TIn> chainProvider,
         int lookbackPeriods)
-        where T : IReusable
+        where TIn : IReusable
         => new(chainProvider, lookbackPeriods);
 }
 
 /// <summary>
-/// Represents a hub for Exponential Moving Average (EMA) calculations.
+/// Streaming hub for Exponential Moving Average (EMA) calculations.
 /// </summary>
 /// <typeparam name="TIn">The type of the input data.</typeparam>
 public class EmaHub<TIn>

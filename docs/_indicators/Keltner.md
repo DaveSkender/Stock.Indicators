@@ -17,7 +17,7 @@ Created by Chester W. Keltner, [Keltner Channels](https://en.wikipedia.org/wiki/
 ```csharp
 // C# usage syntax
 IReadOnlyList<KeltnerResult> results =
-  quotes.GetKeltner(emaPeriods, multiplier, atrPeriods);
+  quotes.ToKeltner(emaPeriods, multiplier, atrPeriods);
 ```
 
 ## Parameters

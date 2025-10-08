@@ -10,24 +10,24 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
-        // prefill quotes to provider
+        // prefill quotes at provider
         for (int i = 0; i < 25; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // initialize observer
-        RocHub<Quote> observer = provider
-            .ToRoc(20);
+        RocHub<Quote> observer = quoteHub
+            .ToRocHub(20);
 
         // fetch initial results (early)
         IReadOnlyList<RocResult> streamList
             = observer.Results;
 
-        // emulate adding quotes to provider
+        // emulate adding quotes to provider hub
         for (int i = 25; i < length; i++)
         {
             // skip one (add later)
@@ -37,20 +37,20 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
             }
 
             Quote q = quotesList[i];
-            provider.Add(q);
+            quoteHub.Add(q);
 
             // resend duplicate quotes
             if (i is > 100 and < 105)
             {
-                provider.Add(q);
+                quoteHub.Add(q);
             }
         }
 
         // late arrival
-        provider.Insert(quotesList[80]);
+        quoteHub.Insert(quotesList[80]);
 
         // delete
-        provider.Remove(quotesList[400]);
+        quoteHub.Remove(quotesList[400]);
         quotesList.RemoveAt(400);
 
         // time-series, for comparison
@@ -61,7 +61,7 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -74,18 +74,18 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        RocHub<EmaResult> observer = provider
-            .ToEma(emaPeriods)
-            .ToRoc(rocPeriods);
+        RocHub<EmaResult> observer = quoteHub
+            .ToEmaHub(emaPeriods)
+            .ToRocHub(rocPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -103,7 +103,7 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
@@ -116,18 +116,18 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
 
         int length = quotesList.Count;
 
-        // setup quote provider
-        QuoteHub<Quote> provider = new();
+        // setup quote provider hub
+        QuoteHub<Quote> quoteHub = new();
 
         // initialize observer
-        EmaHub<RocResult> observer = provider
-            .ToRoc(rocPeriods)
-            .ToEma(emaPeriods);
+        EmaHub<RocResult> observer = quoteHub
+            .ToRocHub(rocPeriods)
+            .ToEmaHub(emaPeriods);
 
         // emulate quote stream
         for (int i = 0; i < length; i++)
         {
-            provider.Add(quotesList[i]);
+            quoteHub.Add(quotesList[i]);
         }
 
         // final results
@@ -145,71 +145,18 @@ public class RocHub : StreamHubTestBase, ITestChainObserver, ITestChainProvider
         streamList.Should().BeEquivalentTo(seriesList);
 
         observer.Unsubscribe();
-        provider.EndTransmission();
+        quoteHub.EndTransmission();
     }
 
     [TestMethod]
     public override void CustomToString()
     {
-        QuoteHub<Quote> provider = new();
-        RocHub<Quote> observer = provider.ToRoc(20);
+        QuoteHub<Quote> quoteHub = new();
+        RocHub<Quote> observer = quoteHub.ToRocHub(20);
 
         observer.ToString().Should().Be("ROC(20)");
 
         observer.Unsubscribe();
-        provider.EndTransmission();
-    }
-
-    [TestMethod]
-    public void ToRocStreamHubFromQuotes()
-    {
-        // Test basic usage
-        RocHub<Quote> hub = Quotes.ToRocStreamHub(20);
-        IReadOnlyList<RocResult> streamResults = hub.Results;
-
-        // Compare with series results
-        IReadOnlyList<RocResult> seriesResults = Quotes.ToRoc(20);
-
-        // Assert
-        streamResults.Should().HaveCount(Quotes.Count);
-        streamResults.Should().BeEquivalentTo(seriesResults);
-
-        hub.Unsubscribe();
-    }
-
-    [TestMethod]
-    public void ToRocStreamHubDefaultLookback()
-    {
-        // Test with default lookback period
-        RocHub<Quote> hub = Quotes.ToRocStreamHub();
-        IReadOnlyList<RocResult> streamResults = hub.Results;
-
-        // Compare with series results using default
-        IReadOnlyList<RocResult> seriesResults = Quotes.ToRoc(14);
-
-        // Assert
-        streamResults.Should().HaveCount(Quotes.Count);
-        streamResults.Should().BeEquivalentTo(seriesResults);
-
-        hub.Unsubscribe();
-    }
-
-    [TestMethod]
-    public void ToRocStreamHubNullQuotes()
-    {
-        // Test null quotes throws ArgumentNullException
-        IReadOnlyList<Quote> nullQuotes = null;
-        Action act = () => nullQuotes.ToRocStreamHub();
-        act.Should().Throw<ArgumentNullException>();
-    }
-
-    [TestMethod]
-    public void ToRocStreamHubEmptyQuotes()
-    {
-        // Test empty quotes throws ArgumentException
-        IReadOnlyList<Quote> emptyQuotes = new List<Quote>();
-        Action act = () => emptyQuotes.ToRocStreamHub();
-        act.Should().Throw<ArgumentException>()
-            .WithMessage("Quotes list cannot be empty.*");
+        quoteHub.EndTransmission();
     }
 }

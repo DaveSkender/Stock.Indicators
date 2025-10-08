@@ -17,7 +17,7 @@ Created by John Ehlers, the Hilbert Transform Instantaneous Trendline is a 5-per
 ```csharp
 // C# usage syntax
 IReadOnlyList<HtlResult> results =
-  quotes.GetHtTrendline();
+  quotes.ToHtTrendline();
 ```
 
 ## Historical quotes requirements
@@ -67,7 +67,7 @@ This indicator may be generated from any chain-enabled indicator or method.
 // example
 var results = quotes
     .Use(CandlePart.HLC3)
-    .GetHtTrendline(..);
+    .ToHtTrendline(..);
 ```
 
 Results can be further processed on `Trendline` with additional chain-enabled indicators.
@@ -75,6 +75,6 @@ Results can be further processed on `Trendline` with additional chain-enabled in
 ```csharp
 // example
 var results = quotes
-    .GetHtTrendline(..)
-    .GetRsi(..);
+    .ToHtTrendline(..)
+    .ToRsi(..);
 ```

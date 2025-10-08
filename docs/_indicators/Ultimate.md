@@ -17,7 +17,7 @@ Created by Larry Williams, the [Ultimate Oscillator](https://en.wikipedia.org/wi
 ```csharp
 // C# usage syntax
 IReadOnlyList<UltimateResult> results =
-  quotes.GetUltimate(shortPeriods, middlePeriods, longPeriods);
+  quotes.ToUltimate(shortPeriods, middlePeriods, longPeriods);
 ```
 
 ## Parameters
@@ -67,8 +67,8 @@ Results can be further processed on `Ultimate` with additional chain-enabled ind
 ```csharp
 // example
 var results = quotes
-    .GetUltimate(..)
-    .GetSlope(..);
+    .ToUltimate(..)
+    .ToSlope(..);
 ```
 
 This indicator must be generated from `quotes` and **cannot** be generated from results of another chain-enabled indicator or method.

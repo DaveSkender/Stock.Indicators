@@ -44,13 +44,7 @@ namespace Custom.Stock.Indicators;
 public static class CustomIndicator
 {
   // Custom ATR WMA calculation
-  [Series(
-    "ATR_WMA",
-    "ATR Weighted Moving Average",
-    Category.MovingAverage,
-    ChartType.Overlay,
-    legendOverride: "ATR WMA {0}")] // Custom legend format
-  public static IReadOnlyList<AtrWmaResult> GetAtrWma<TQuote>(
+  public static IReadOnlyList<AtrWmaResult> ToAtrWma<TQuote>(
     this IReadOnlyList<TQuote> quotes,
     int lookbackPeriods)
     where TQuote : IQuote
@@ -104,27 +98,6 @@ public static class CustomIndicator
 }
 ```
 
-### Using custom legend template formats
-
-The `legendOverride` parameter in the indicator attribute allows you to customize the legend display in charts and documentation. By default, the indicator legend is automatically generated from the indicator ID and its parameters (e.g., "ATR_WMA(14)").
-
-With `legendOverride`, you can create more user-friendly or descriptive legends:
-
-```csharp
-[Series(
-  "ATR_WMA",
-  "ATR Weighted Moving Average",
-  Category.MovingAverage,
-  ChartType.Overlay,
-  legendOverride: "ATR WMA {0}")] // Will show as "ATR WMA 14" instead of "ATR_WMA(14)"
-```
-
-This is especially useful when:
-
-- You want more readable formatting for display purposes
-- The default parameter-based format isn't descriptive enough
-- You want to use specific terminology in chart legends
-
 ## STEP 3: Use your indicator just like the others
 
 ```csharp
@@ -137,7 +110,7 @@ using Custom.Stock.Indicators; // your custom library
 IReadOnlyList<Quote> quotes = GetQuotesFromFeed("MSFT");
 
 // calculate 10-period ATR WMA
-IReadOnlyList<AtrWmaResult> results = quotes.GetAtrWma(10);
+IReadOnlyList<AtrWmaResult> results = quotes.ToAtrWma(10);
 
 // use results as needed for your use case (example only)
 foreach (AtrWmaResult r in results)

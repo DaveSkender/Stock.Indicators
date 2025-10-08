@@ -17,15 +17,15 @@ Created by Goichi Hosoda (細田悟一, Hosoda Goichi), [Ichimoku Cloud](https:/
 ```csharp
 // C# usage syntax
 IReadOnlyList<IchimokuResult> results =
-  quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods);
 
 // usage with custom offset
 IReadOnlyList<IchimokuResult> results =
-  quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, offsetPeriods);
 
 // usage with different custom offsets
 IReadOnlyList<IchimokuResult> results =
-  quotes.GetIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
+  quotes.ToIchimoku(tenkanPeriods, kijunPeriods, senkouBPeriods, senkouOffset, chikouOffset);
 ```
 
 ## Parameters

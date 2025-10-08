@@ -9,18 +9,18 @@ public class StyleComparison
     private static readonly IReadOnlyList<Quote> quotes
        = Data.GetDefault();
 
-    private readonly QuoteHub<Quote> provider = new();
+    private readonly QuoteHub<Quote> quoteHub = new();
 
     private const int n = 14;
 
     [GlobalSetup]
-    public void Setup() => provider.Add(quotes);
+    public void Setup() => quoteHub.Add(quotes);
 
     [GlobalCleanup]
     public void Cleanup()
     {
-        provider.EndTransmission();
-        provider.Cache.Clear();
+        quoteHub.EndTransmission();
+        quoteHub.Cache.Clear();
     }
 
     [Benchmark]
@@ -33,7 +33,7 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<AdlResult> AdlStream()
-        => provider.ToAdl().Results;
+        => quoteHub.ToAdlHub().Results;
 
     [Benchmark]
     public IReadOnlyList<AdxResult> AdxSeries()
@@ -45,7 +45,7 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<AdxResult> AdxStream()
-        => provider.ToAdx(n).Results;
+        => quoteHub.ToAdxHub(n).Results;
 
     [Benchmark]
     public AlmaList AlmaBuffer()
@@ -57,7 +57,7 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<AlmaResult> AlmaStream()
-        => provider.ToAlma(n, 0.85, 6).Results;
+        => quoteHub.ToAlmaHub(n, 0.85, 6).Results;
 
     [Benchmark]
     public AtrList AtrBuffer()
@@ -69,11 +69,11 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<AtrResult> AtrStream()
-        => provider.ToAtr(n).Results;
+        => quoteHub.ToAtrHub(n).Results;
 
     [Benchmark]
     public IReadOnlyList<EmaResult> EmaStream()
-        => provider.ToEma(n).Results;
+        => quoteHub.ToEmaHub(n).Results;
 
     [Benchmark]
     public HmaList HmaBuffer()
@@ -85,7 +85,7 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<HmaResult> HmaStream()
-        => provider.ToHma(n).Results;
+        => quoteHub.ToHmaHub(n).Results;
 
     [Benchmark]
     public SmaList SmaBuffer()
@@ -97,7 +97,7 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<SmaResult> SmaStream()
-        => provider.ToSma(n).Results;
+        => quoteHub.ToSma(n).Results;
 
     [Benchmark]
     public WmaList WmaBuffer()
@@ -109,7 +109,7 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<WmaResult> WmaStream()
-        => provider.ToWma(n).Results;
+        => quoteHub.ToWmaHub(n).Results;
 
     [Benchmark]
     public TrList TrBuffer()
@@ -121,5 +121,5 @@ public class StyleComparison
 
     [Benchmark]
     public IReadOnlyList<TrResult> TrStream()
-        => provider.ToTr().Results;
+        => quoteHub.ToTrHub().Results;
 }
